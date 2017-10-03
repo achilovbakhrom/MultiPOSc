@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f8f8f8"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/eighty_dp"
+            android:background="#ffffff"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/ten_dp"
+            android:paddingTop="@dimen/ten_dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/five_dp"
+                android:text="Management Item Mode"
+                android:textColor="@color/colorBlue" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tap Product to manage it info"
+                android:textColor="@color/colorTextHint" />
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:layout_marginBottom="@dimen/twenty_five_dp"
+            android:background="@color/colorTextHint" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/ten_dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="@dimen/hundred_forty_five_dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/sixteen_dp"
+                android:gravity="right"
+                android:text="Name"
+                android:textSize="@dimen/sixteen_dp" />
+
+            <com.jim.mpviews.MpEditText
+                android:layout_width="0dp"
+                android:layout_height="@dimen/forty_dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/thirty_dp"
+                android:layout_weight="1"
+                android:hint="Name"
+                android:textColorHint="@color/colorTextHint"
+                android:textSize="@dimen/sixteen_dp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/ten_dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="@dimen/hundred_forty_five_dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:layout_marginRight="@dimen/sixteen_dp"
+                android:gravity="right"
+                android:text="Product"
+                android:textSize="@dimen/sixteen_dp" />
+
+            <com.jim.mpviews.MpEditText
+                android:layout_width="0dp"
+                android:layout_height="@dimen/forty_dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/sixteen_dp"
+                android:layout_weight="1"
+                android:drawableRight="@drawable/barcode"
+                android:drawableTint="@color/colorTextHint"
+                android:hint="Name, SKU or Barcode"
+                android:textColorHint="@color/colorTextHint"
+                android:textSize="@dimen/sixteen_dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/twenty_dp"
+                android:src="@drawable/dots" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/thirty_dp"
+                android:src="@drawable/add_round" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/thirty_dp"
+            android:orientation="horizontal">
+
+            <com.jim.mpviews.MpEditText
+                android:layout_width="0dp"
+                android:layout_height="@dimen/hundred_twenty_dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/hundred_sixty_dp"
+                android:layout_marginRight="@dimen/thirty_dp"
+                android:layout_weight="1"
+                android:gravity="top"
+                android:hint="List of Products"
+                android:textColorHint="@color/colorTextHint"
+                android:textSize="@dimen/sixteen_dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/ten_dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/fifteen_dp"
+                android:layout_marginLeft="@dimen/hundred_sixty_dp"
+                android:text="Included taxes"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/eighteen_dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/five_dp"
+                android:layout_marginLeft="@dimen/hundred_sixty_dp"
+                android:layout_marginRight="@dimen/hundred_dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tax"
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/eighteen_dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="Rate"
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/eighteen_dp" />
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:layout_marginLeft="@dimen/hundred_sixty_dp"
+                android:layout_marginRight="@dimen/eighty_dp"
+                android:background="#e4e4e4" />
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/hundred_twenty_dp"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:layout_marginLeft="@dimen/hundred_sixty_dp"
+                android:layout_marginRight="@dimen/thirty_dp" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:layout_marginLeft="@dimen/hundred_sixty_dp"
+                android:layout_marginRight="@dimen/eighty_dp"
+                android:background="#e4e4e4" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/five_dp"
+                android:layout_marginLeft="@dimen/hundred_sixty_dp"
+                android:layout_marginRight="@dimen/hundred_dp"
+                android:gravity="right"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total: "
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/eighteen_dp" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:gravity="right"
+                    android:text="0.0%"
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/eighteen_dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/thirty_dp"
+        android:gravity="right"
+        android:orientation="horizontal">
+
+        <com.jim.mpviews.MpButton
+            android:layout_width="@dimen/hundred_fifty_dp"
+            android:layout_height="@dimen/fifty_dp"
+            android:layout_marginLeft="@dimen/thirty_dp"
+            android:layout_marginRight="@dimen/fifteen_dp"
+            android:text="Cancel"
+            android:textColor="@color/colorMainText"
+            android:textSize="@dimen/eighteen_dp" />
+
+
+        <com.jim.mpviews.MpButton
+            android:layout_width="@dimen/hundred_fifty_dp"
+            android:layout_height="@dimen/fifty_dp"
+            android:layout_marginRight="@dimen/thirty_dp"
+            android:gravity="center"
+            android:text="Save"
+            android:textColor="@color/colorBlue"
+            android:textSize="@dimen/eighteen_dp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

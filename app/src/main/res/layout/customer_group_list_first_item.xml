@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rlFirstItemBg"
+        android:layout_width="@dimen/ninety_dp"
+        android:layout_height="@dimen/ninety_dp"
+        android:layout_margin="@dimen/five_dp"
+        android:layout_marginLeft="@dimen/four_dp">
+
+        <ImageView
+            android:id="@+id/ivItemBg"
+            android:layout_width="@dimen/ninety_dp"
+            android:layout_height="@dimen/ninety_dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/add_item_bg"
+            android:tint="@color/colorGreyDark" />
+
+        <TextView
+            android:id="@+id/tvFirstItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:textColor="@color/colorGreyDark"
+            android:textSize="@dimen/fourteen_dp" />
+
+    </RelativeLayout>
+
+</LinearLayout>

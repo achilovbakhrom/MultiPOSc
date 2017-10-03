@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:layout_width="@dimen/twenty_dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorBlue" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="@dimen/eighty_dp"
+            android:layout_weight="1"
+            android:background="@color/colorWhite"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/ten_dp"
+            android:paddingTop="@dimen/ten_dp">
+
+            <TextView
+                android:layout_width="@dimen/three_hundred_dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/five_dp"
+                android:gravity="left"
+                android:text="Account"
+                android:textColor="@color/colorBlue" />
+
+            <TextView
+                android:layout_width="@dimen/three_hundred_dp"
+                android:layout_height="wrap_content"
+                android:text="Some details"
+                android:textColor="@color/colorMainText" />
+
+
+        </LinearLayout>
+
+        <com.jim.mpviews.MpCheckbox
+            android:layout_width="@dimen/thirty_dp"
+            android:layout_height="@dimen/thirty_dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="@dimen/thirty_dp" />
+
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/colorTextHint" />
+
+</LinearLayout>

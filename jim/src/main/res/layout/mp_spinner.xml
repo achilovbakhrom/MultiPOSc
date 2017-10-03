@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <LinearLayout
+        android:id="@+id/mpSpinnerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/edit_text_bg"
+        android:orientation="horizontal"
+    >
+
+        <Spinner
+            android:id="@+id/spProductQuantity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:drawSelectorOnTop="true"
+            android:layout_gravity="center"
+            android:paddingBottom="@dimen/four_dp"
+            android:layout_weight="1"
+            android:paddingLeft="@dimen/ten_dp"
+            android:paddingRight="@dimen/ten_dp"
+            android:paddingTop="@dimen/four_dp"
+            android:background="@android:color/transparent"
+            android:spinnerMode="dropdown"
+            android:textSize="@dimen/eighteen_dp"/>
+
+        <ImageView
+            android:id="@+id/mpSpIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:paddingRight="@dimen/ten_dp"
+            android:layout_marginRight="@dimen/ten_dp"
+            android:src="@drawable/triangle"
+            />
+    </LinearLayout>
+</merge>

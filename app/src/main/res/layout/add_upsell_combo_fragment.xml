@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/eighty_dp"
+            android:background="@color/colorWhite"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/ten_dp"
+            android:paddingTop="@dimen/ten_dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/five_dp"
+                android:text="Creating Upsell combos"
+                android:textColor="@color/colorBlue" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tap Product to manage it info"
+                android:textColor="@color/colorMainText" />
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:layout_marginBottom="@dimen/twenty_five_dp"
+            android:background="#ebebeb" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/ten_dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="@dimen/hundred_thirty_dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/sixteen_dp"
+                android:gravity="right"
+                android:text="Combo"
+                android:textColor="@color/colorMainText"
+                android:textSize="@dimen/sixteen_dp" />
+
+            <com.jim.mpviews.MpEditText
+                android:id="@+id/metCombo"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/forty_dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:hint="Name"
+                android:textColorHint="@color/colorTextHint"
+                android:textSize="@dimen/sixteen_dp" />
+
+            <ImageView
+                android:id="@+id/ivChooseImage"
+                android:layout_width="@dimen/thirty_five_dp"
+                android:layout_height="@dimen/thirty_five_dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/twenty_dp"
+                android:layout_marginRight="@dimen/thirty_dp"
+                android:src="@drawable/camera"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/ten_dp"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="@dimen/hundred_thirty_dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/sixteen_dp"
+                android:gravity="right"
+                android:text="Price"
+                android:textColor="@color/colorMainText"
+                android:textSize="@dimen/sixteen_dp" />
+
+            <com.jim.mpviews.MpEditText
+                android:id="@+id/metPrice"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/forty_dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="0"
+                android:hint="Combo price"
+                android:inputType="numberDecimal"
+                android:textColorHint="@color/colorTextHint"
+                android:textSize="@dimen/sixteen_dp" />
+
+            <TextView
+                android:layout_width="@dimen/hundred_dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/sixteen_dp"
+                android:gravity="right"
+                android:text="Currency"
+                android:textColor="@color/colorMainText"
+                android:textSize="@dimen/sixteen_dp" />
+
+            <com.jim.mpviews.MpSpinner
+                android:id="@+id/mpCurrencies"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/forty_dp"
+                android:layout_marginRight="@dimen/thirty_dp"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="@dimen/hundred_thirty_dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:layout_marginRight="@dimen/sixteen_dp"
+                android:gravity="right"
+                android:text="Description"
+                android:textColor="@color/colorMainText"
+                android:textSize="@dimen/sixteen_dp" />
+
+            <com.jim.mpviews.MpEditText
+                android:id="@+id/metDesc"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/hundred_dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/thirty_dp"
+                android:layout_weight="1"
+                android:gravity="top"
+                android:hint="Some notes"
+                android:textColorHint="@color/colorTextHint"
+                android:textSize="@dimen/sixteen_dp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/seventy_dp"
+            android:layout_marginTop="@dimen/twenty_dp"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="@dimen/hundred_thirty_dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/sixteen_dp"
+                android:gravity="right"
+                android:text="Options"
+                android:textColor="@color/colorMainText"
+                android:textSize="@dimen/sixteen_dp" />
+
+            <com.jim.mpviews.MpCheckbox
+                android:id="@+id/cbActive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:text="Active"
+                android:layout_marginLeft="@dimen/sixteen_dp"/>
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/thirty_dp"
+        android:gravity="right"
+        android:orientation="horizontal"
+
+        >
+
+        <com.jim.mpviews.MpButton
+            android:id="@+id/btnCancel"
+            android:layout_width="@dimen/hundred_fifty_dp"
+            android:layout_height="@dimen/fifty_dp"
+            android:layout_marginRight="@dimen/fifteen_dp"
+            android:gravity="center"
+            android:text="Cancel"
+            android:textColor="@color/colorMainText"
+            android:textSize="@dimen/sixteen_dp" />
+
+        <com.jim.mpviews.MpButton
+            android:id="@+id/btnSave"
+            android:layout_width="@dimen/hundred_fifty_dp"
+            android:layout_height="@dimen/fifty_dp"
+            android:layout_marginRight="@dimen/thirty_dp"
+            android:gravity="center"
+            android:text="Save"
+            android:textColor="@color/colorBlue"
+            android:textSize="@dimen/sixteen_dp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

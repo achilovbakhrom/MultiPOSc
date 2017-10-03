@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/twenty_dp"
+    android:layout_marginLeft="@dimen/two_hundred_seventy_dp"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/currency"
+        android:layout_width="@dimen/two_hundred_forty_five_dp"
+        android:layout_height="@dimen/forty_dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="@dimen/nineteen_dp"
+        android:background="@drawable/text_view_bg"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/ten_dp"
+        android:paddingRight="@dimen/ten_dp"
+        android:textColor="@color/colorMainText"
+        tools:text="USD($)" />
+
+    <ImageView
+        android:id="@+id/ivRemove"
+        android:layout_width="@dimen/thirty_dp"
+        android:layout_height="@dimen/thirty_dp"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/remove" />
+</LinearLayout>

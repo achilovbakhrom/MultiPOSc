@@ -1,0 +1,473 @@
+<resources>
+    <string name="app_name">MultiPOS</string>
+    <string name="client_management"><u>Client management</u></string>
+    <string name="dash">...................................................................................................................................................................................................................................................................................................</string>
+    <string name="login_details">Login details</string>
+    <string name="founder_login">Founder login</string>
+    <string name="registration">Registration</string>
+    <string name="login">Login</string>
+    <string name="founder_password">Founder password</string>
+    <string name="system_accounts">System accounts</string>
+    <string name="pos_id">Pos ID</string>
+    <string name="alias">Alias</string>
+    <string name="enter_pos_alias">Enter Pos Alias</string>
+    <string name="address">Address</string>
+    <string name="enter_pos_address">Enter POS Address</string>
+    <string name="password">Password</string>
+    <string name="admin_password">Admin password</string>
+    <string name="repeat">Repeat</string>
+    <string name="repeat_password">Repeat password</string>
+    <string name="revert">Revert</string>
+    <string name="next">Next</string>
+    <string name="phone">Phone</string>
+    <string name="email">Email</string>
+    <string name="item_management">Management Item Mode</string>
+    <string name="pos_details_description">Some details about POS system</string>
+    <string name="account_description">Some details about money</string>
+    <string name="payment_type_description">Some details about payment types</string>
+    <string name="currency_description">Adding and change main currency</string>
+    <string name="units_description">Units which used in system</string>
+    <string name="employers_description">Who will work with this POS</string>
+    <string name="registration_details">Registration details</string>
+    <string name="organization_details">Organization details</string>
+    <string name="organization_name">Organization name</string>
+    <string name="email_with_star">Email*</string>
+    <string name="organization_address">Organization Address</string>
+    <string name="zip_code">Zip code</string>
+    <string name="contacts">Contacts</string>
+    <string name="enter_phone_number">Enter phone number or e-mail</string>
+    <string name="enter_phone">Enter phone number</string>
+    <string name="founder_login_details">Founder Login details</string>
+    <string name="login_with_start">Login*</string>
+    <string name="password_with_star">Password*</string>
+    <string name="confirm_password_with_star">Confirm password*</string>
+    <string name="mandatory_fields">* - mandatory fields</string>
+    <string name="back">Back</string>
+    <string name="access_token">Access token*</string>
+    <string name="confirm">Confirm</string>
+    <string name="enter_code_access_code">Enter code access code</string>
+    <string name="enter_organization_email">Enter organization mail</string>
+    <string name="email_">Email:</string>
+    <string name="address_">Address</string>
+    <string name="zip_code_">Zip Code</string>
+    <string-array name="start_configuration_title">
+        <item>POS details</item>
+        <item>Account</item>
+        <item>Currency</item>
+        <item>Payment type</item>
+        <item>Units</item>
+        <item>Stocks</item>
+    </string-array>
+    <string-array name="start_configuration_description">
+        <item>POS details</item>
+        <item>Account</item>
+        <item>Currency</item>
+        <item>Payment type</item>
+        <item>Units</item>
+        <item>Stocks</item>
+    </string-array>
+    <string-array name="products_menu_title">
+        <item>Products</item>
+        <item>Classes</item>
+        <item>Discounts</item>
+        <item>Service Fee</item>
+    </string-array>
+    <string-array name="products_menu_description">
+        <item>Add and change products</item>
+        <item>Add and change product classes</item>
+        <item>Manage discounts</item>
+        <item>Manage service fees</item>
+    </string-array>
+    <string-array name="customers_menu_title">
+        <item>Customers Add&amp;Edit</item>
+        <item>Customer Groups</item>
+        <item>Debt Clients</item>
+        <item>Credit Clients</item>
+    </string-array>
+    <string-array name="customers_menu_description">
+        <item>Add and edit customers</item>
+        <item>Add customers to the groups</item>
+        <item>Debtors list</item>
+        <item>Creditors list</item>
+    </string-array>
+    <string-array name="employer_menu_title">
+        <item>Schedule List</item>
+        <item>Employer Add&amp;Edit</item>
+        <item>Department Add&amp;Edit</item>
+        <item>Status Add&amp;Edit</item>
+    </string-array>
+    <string-array name="employer_menu_description">
+        <item>Schedule List</item>
+        <item>Employer Add&amp;Edit</item>
+        <item>Department Add&amp;Edit</item>
+        <item>Status Add&amp;Edit</item>
+    </string-array>
+    <string-array name="inventory_menu_title">
+        <item>Inventory</item>
+        <item>Vendors item management</item>
+        <item>Vendors Add&amp;Edit</item>
+    </string-array>
+    <string-array name="inventory_menu_description">
+        <item>Manage inventory</item>
+        <item>Manage vendor items</item>
+        <item>Add and edit vendors</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="auto_apply_configuration">Auto apply configuration</string>
+    <string name="matrix_option">Matrix Option</string>
+    <string name="name">Name</string>
+    <string name="active">Active</string>
+    <string name="actions">Actions</string>
+    <string name="management_item_mode">Management Item Mode</string>
+    <string name="tap_product_to_manage_it_info">Tap Product to manage it info</string>
+    <string name="category">Category</string>
+    <string name="description">Description</string>
+    <string name="some_notes">Some notes</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="product">Product</string>
+    <string name="subcategory">SubCategory</string>
+    <string name="creating_upsell_combos">Creating Upsell combos</string>
+    <string name="add">Add</string>
+    <string name="combo">Combo</string>
+    <string name="sku_barcode">SKU, Barcode</string>
+    <string name="add_customer">Add Customer</string>
+    <string-array name="first_configure_account_type">
+        <item>Standart</item>
+        <item>Non minus</item>
+    </string-array>
+    <string-array name="first_configure_account_circulation">
+        <item>To till</item>
+        <item>Bank Account</item>
+    </string-array>
+    <string-array name="base_currencies_with_abbr">
+        <item>Доллары ($)</item>
+        <item>Рубль (₽)</item>
+        <item>Евро (€)</item>
+        <item>Гривна (₴)</item>
+        <item>Фунт стерлингов (£)</item>
+        <item>Лев (лв)</item>
+        <item>Тенге (₸)</item>
+        <item>Белорусский рубль (BYN)</item>
+        <item>Армянский драм (РА)</item>
+        <item>Шекель (₪)</item>
+        <item>Иена (¥)</item>
+        <item>Вона (₩)</item>
+        <item>Молдавский лей (lei)</item>
+        <item>Лек (L)</item>
+        <item>Алжирский динар (.د.ج)</item>
+        <item>Кванза (Kz)</item>
+        <item>Манат (АР)</item>
+        <item>Бахрейнский динар (.د.ب)</item>
+        <item>Така (৳)</item>
+        <item>Марка (KM)</item>
+        <item>Реал (R$)</item>
+        <item>Юань (¥)</item>
+        <item>Чешская крона (Kč)</item>
+        <item>Датская крона (kr)</item>
+        <item>Египетский фунт (.ج.م)</item>
+        <item>Седи (﷼₵)</item>
+        <item>Форинт (Ft)</item>
+        <item>Индийская рупия (₹)</item>
+        <item>Индонезийская рупия (Rp)</item>
+        <item>Иранский риал (﷼)</item>
+        <item>Иракский динар (.د.ع)</item>
+        <item>Иорданский динар (.د.إ)</item>
+        <item>Кувейтский динар (.د.ك)</item>
+        <item>Филиппинское песо (₱)</item>
+        <item>Злотый (zł)</item>
+        <item>Катарский риал (﷼)</item>
+        <item>Сум (uzs)</item>
+        <item>Саудовский риял (﷼)</item>
+        <item>Швейцарский франк (₣)</item>
+        <item>Сербский динар (din)</item>
+        <item>Бат (฿)</item>
+        <item>Лира (₺)</item>
+    </string-array>
+    <string name="clock_in">Clock in:</string>
+    <string name="clock_out">Clock out:</string>
+    <string name="till_opened_for">Till opened for:</string>
+    <string-array name="base_units_title">
+        <item>Weight</item>
+        <item>Length</item>
+        <item>Area</item>
+        <item>Volume</item>
+    </string-array>
+    <string-array name="base_units_abbr">
+        <item>kg</item>
+        <item>m</item>
+        <item>m2</item>
+        <item>m3</item>
+    </string-array>
+    <string-array name="weigth_title">
+        <item>Gramm</item>
+        <item>Ton</item>
+        <item>Centner</item>
+        <item>Carat</item>
+    </string-array>
+    <string-array name="length_title">
+        <item>Decimetr</item>
+        <item>Centimetr</item>
+        <item>Milimetr</item>
+        <item>Kilometr</item>
+        <item>Inch</item>
+        <item>Fot</item>
+    </string-array>
+    <string-array name="area_title">
+        <item>Are</item>
+        <item>Acre</item>
+        <item>Hectare</item>
+    </string-array>
+    <string-array name="volume_title">
+        <item>Liter</item>
+        <item>Barrel</item>
+        <item>Gallon</item>
+        <item>Milliliter</item>
+    </string-array>
+    <string-array name="weigth_abbr">
+        <item>gr</item>
+        <item>tn</item>
+        <item>st</item>
+        <item>c.</item>
+    </string-array>
+    <string-array name="length_abbr">
+        <item>dm</item>
+        <item>cm</item>
+        <item>mm</item>
+        <item>km</item>
+        <item>inc</item>
+        <item>ft</item>
+    </string-array>
+    <string-array name="area_abbr">
+        <item>a</item>
+        <item>ac</item>
+        <item>ha</item>
+    </string-array>
+    <string-array name="volume_abbr">
+        <item>l</item>
+        <item>brr</item>
+        <item>gl</item>
+        <item>ml</item>
+    </string-array>
+    <string-array name="weight_property">
+        <item>1 gr = 0.01 kg</item>
+        <item>1 tn = 1000 kg</item>
+        <item>1 st = 100 kg</item>
+        <item>1 c. = 0.0023 kg</item>
+    </string-array>
+    <string-array name="length_property">
+        <item>1 dm = 0.1 m</item>
+        <item>1 cm = 100 m</item>
+        <item>1 mm = 0.001 m</item>
+        <item>1 km = 1000 m</item>
+        <item>1 inc = 0.0254 m</item>
+        <item>1 ft = 0.3048 m</item>
+    </string-array>
+    <string-array name="area_property">
+        <item>1 a = 100 m2</item>
+        <item>1 ac = 4046.85 m2</item>
+        <item>1 ha = 10 000 m2</item>
+    </string-array>
+    <string-array name="volume_property">
+        <item>1 l = 0.001 m3</item>
+        <item>1 brr = 0.158 m3</item>
+        <item>1 gl = 0.00378 m3</item>
+        <item>1 ml = 0.000001 m3</item>
+    </string-array>
+    <string-array name="weightRootFactor">
+        <item>0.01</item>
+        <item>1000</item>
+        <item>100</item>
+        <item>0.0023</item>
+    </string-array>
+
+    <string-array name="lengthRootFactor">
+        <item>0.1</item>
+        <item>100</item>
+        <item>1000</item>
+        <item>0.001</item>
+        <item>1000</item>
+        <item>0.0254</item>
+        <item>0.3048</item>
+    </string-array>
+
+    <string-array name="areaRootFactor">
+        <item>100</item>
+        <item>4046.85</item>
+        <item>10000</item>
+    </string-array>
+
+    <string-array name="volumeRootFactor">
+        <item>0.001</item>
+        <item>0.158</item>
+        <item>0.00378</item>
+        <item>0.000001</item>
+    </string-array>
+    <string name="enter_pos_id">Enter POS ID</string>
+    <string name="enter_alias">Enter alias</string>
+    <string name="enter_address">Enter address</string>
+    <string name="enter_password">Enter password</string>
+    <string name="enter_repeat_password">Enter repeat password</string>
+    <string name="enter_account_name">Enter account name</string>
+    <string name="choose_least_one_currency">Please select at least one currency</string>
+    <string name="choose_least_one_system_unit">Please choose at least one system unit</string>
+    <string name="enter_full_name">Enter full name </string>
+    <string name="enter_confirm_password">Enter confirm password</string>
+    <string name="passwords_different">Password and confirmation password are different</string>
+    <string name="create_least_one_account">Create at least one account on the system</string>
+    <string name="create_least_one_employer">Create at least one employer on the system</string>
+    <string name="create_least_one_payment_type">Create at least one payment type on the system</string>
+    <string name="enter_payment_type_name">Enter payment type name</string>
+    <string name="stocks">Stocks</string>
+    <string name="stock_name">Stock name</string>
+    <string name="current_pos_stock">Current POS Stock</string>
+    <string name="enter_the_stock_name">Enter the stock name</string>
+    <string name="create_leaste_one_stock">Create at least one stock on the system</string>
+    <string name="enter_stock_name">Enter stock name</string>
+    <string name="list_of_employers">List of employers</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="password_length">The password must be 6 characters in length</string>
+    <string name="tap_to_category_to_manage_it">Tap to Category to manage it</string>
+    <string name="tap_to_manage_subcategory_items">Tap to manage SubCategory items</string>
+    <string name="choose_category">Choose Category</string>
+    <string name="options">Options</string>
+    <string name="barcode">Barcode</string>
+    <string name="sku">SKU</string>
+    <string name="quantity">Quantity</string>
+    <string name="linked">Linked</string>
+    <string name="none">None</string>
+    <string name="unit">Unit</string>
+    <string name="price">Price</string>
+    <string name="value">Value</string>
+    <string name="cost">Cost</string>
+    <string name="product_class">Class</string>
+    <string name="tax_free">Tax Free</string>
+    <string name="advance">Advance</string>
+    <string name="password_length_not_less_than_12">Password length should not be less than 12 characters</string>
+    <string name="password_length_equals_6">The password must be 6 characters in length</string>
+    <string name="enter_name">Enter name</string>
+    <string name="enter_amount">Enter amount</string>
+    <string name="for_payment_type">For payment type</string>
+    <string name="usage_type">Usage Type</string>
+    <string name="should_not_be_greater_than_999">Should not be greater than 999</string>
+
+    <string-array name="base_currencies">
+        <item>Доллары</item>
+        <item>Рубль</item>
+        <item>Евро</item>
+        <item>Гривна</item>
+        <item>Фунт стерлингов</item>
+        <item>Лев</item>
+        <item>Тенге</item>
+        <item>Белорусский рубль</item>
+        <item>Армянский драм</item>
+        <item>Шекель</item>
+        <item>Иена</item>
+        <item>Вона</item>
+        <item>Молдавский лей</item>
+        <item>Лек</item>
+        <item>Алжирский динар</item>
+        <item>Кванза</item>
+        <item>Манат</item>
+        <item>Бахрейнский динар</item>
+        <item>Така</item>
+        <item>Марка</item>
+        <item>Реал</item>
+        <item>Юань</item>
+        <item>Чешская крона</item>
+        <item>Датская крона</item>
+        <item>Египетский фунт</item>
+        <item>Седи</item>
+        <item>Форинт</item>
+        <item>Индийская рупия</item>
+        <item>Индонезийская рупия</item>
+        <item>Иранский риал</item>
+        <item>Иракский динар</item>
+        <item>Иорданский динар</item>
+        <item>Кувейтский динар</item>
+        <item>Филиппинское песо</item>
+        <item>Злотый</item>
+        <item>Катарский риал</item>
+        <item>Сум</item>
+        <item>Саудовский риял</item>
+        <item>Швейцарский франк</item>
+        <item>Сербский динар</item>
+        <item>Бат</item>
+        <item>Лира</item>
+    </string-array>
+    <string-array name="base_abbrs">
+        <item>$</item>
+        <item>₽</item>
+        <item>€</item>
+        <item>₴</item>
+        <item>£</item>
+        <item>лв</item>
+        <item>₸</item>
+        <item>BYN</item>
+        <item>РА</item>
+        <item>₪</item>
+        <item>¥</item>
+        <item>₩</item>
+        <item>lei</item>
+        <item>L</item>
+        <item>.د.ج </item>
+        <item>Kz</item>
+        <item>АР</item>
+        <item>.د.ب </item>
+        <item>৳</item>
+        <item>KM</item>
+        <item>R$</item>
+        <item>¥</item>
+        <item>Kč</item>
+        <item>kr</item>
+        <item>.ج.م</item>
+        <item>﷼₵</item>
+        <item>Ft</item>
+        <item>₹</item>
+        <item>Rp</item>
+        <item>﷼</item>
+        <item>.د.ع</item>
+        <item>.د.إ</item>
+        <item>.د.ك</item>
+        <item>₱</item>
+        <item>zł</item>
+        <item>﷼</item>
+        <item>uzs</item>
+        <item>﷼</item>
+        <item>₣</item>
+        <item>din</item>
+        <item>฿</item>
+        <item>₺</item>
+    </string-array>
+    <string name="title_activity_product_class">ProductClassActivity</string>
+
+    <string-array name="service_fee_type">
+        <item>Percent</item>
+        <item>Value</item>
+    </string-array>
+    <string-array name="service_fee_app_type">
+        <item>Item</item>
+        <item>Order</item>
+        <item>All</item>
+    </string-array>
+    <string name="error_write_data">An error occurred while writing data.</string>
+    <string name="enter_product_name">Please, enter product name</string>
+    <string name="enter_product_sku">Please, enter product SKU number</string>
+    <string name="enter_product_price">Please, enter product price</string>
+    <string name="enter_product_cost">Please, enter product cost</string>
+    <string name="customer_groups">Customer groups</string>
+    <string name="stock_units">Stock Units</string>
+    <string name="recipe">Recipe</string>
+    <string name="enter_group_name">Enter group name</string>
+    <string name="group_name">Group name</string>
+    <string name="child">Child</string>
+    <string name="parent">Parent</string>
+    <string name="photo_pick">Photo pick</string>
+    <string name="camera">Camera</string>
+    <string name="shot">Shot</string>
+    <string name="invalid">Invalid value</string>
+    <string name="attribute_name">Attribute Name</string>
+    <string name="attribute_type_name">Attribute Type Name</string>
+    <string name="select_customer_groups">Select customer groups</string>
+</resources>

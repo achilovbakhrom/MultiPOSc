@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/seventy_dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="43"
+            android:background="@color/colorBlue"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/thirty_dp"
+            android:text="Matrix Options"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/twenty_dp"
+            android:textStyle="bold" />
+
+        <FrameLayout
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="@color/colorBlueDark" />
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="57"
+            android:background="@color/colorBlueSecond" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="43"
+            android:background="@color/colorBackgroundGrey"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/fifty_five_dp"
+            android:paddingRight="@dimen/fifty_five_dp"
+            android:paddingTop="@dimen/forty_dp">
+
+            <com.jim.mpviews.MpSwitcher
+                android:id="@+id/switcherMatrix"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/twenty_dp"
+                app:text_left="@string/parent"
+                app:text_right="@string/child" />
+
+            <LinearLayout
+                android:id="@+id/llChildSearchView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/fifteen_dp"
+                    android:text="Parent Product"
+                    android:textColor="@color/colorBlue"
+                    android:textSize="@dimen/eighteen_dp" />
+
+                <com.jim.mpviews.MpEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/forty_dp"
+                    android:layout_marginBottom="@dimen/fifteen_dp"
+                    android:drawablePadding="@dimen/twenty_dp"
+                    android:drawableRight="@drawable/barcode"
+                    android:drawableTint="#e1e1e1"
+                    android:hint="Name, SKU or Barcode"
+                    android:textColorHint="@color/colorTextHint"
+                    android:textSize="@dimen/sixteen_dp" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="@color/colorTextHint" />
+
+        <FrameLayout
+            android:id="@+id/flMatrixContainer"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="57" />
+
+    </LinearLayout>
+</LinearLayout>

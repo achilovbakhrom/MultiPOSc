@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorWhite"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/twenty_dp"
+                    android:layout_marginLeft="@dimen/fifty_dp"
+                    android:layout_marginTop="@dimen/sixty_dp"
+                    android:text="1st Attribute set"
+                    android:textColor="@color/colorBlue"
+                    android:textSize="@dimen/eighteen_dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginLeft="@dimen/fifty_dp"
+                    android:orientation="horizontal">
+
+
+                    <com.jim.mpviews.MpSpinner
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/forty_dp"
+                        android:layout_marginRight="@dimen/twenty_dp"
+                        android:layout_weight="1" />
+
+
+                    <ImageView
+                        android:id="@+id/ivAddFirstAttribute"
+                        android:layout_width="@dimen/thirty_dp"
+                        android:layout_height="@dimen/thirty_dp"
+                        android:layout_marginRight="@dimen/thirty_dp"
+                        android:src="@drawable/add_round" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/twenty_dp"
+                    android:layout_marginLeft="@dimen/fifty_dp"
+                    android:layout_marginTop="@dimen/forty_five_dp"
+                    android:text="2nd Attribute set"
+                    android:textColor="@color/colorBlue"
+                    android:textSize="@dimen/eighteen_dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/fifty_dp"
+                    android:orientation="horizontal">
+
+
+                    <com.jim.mpviews.MpSpinner
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/forty_dp"
+                        android:layout_marginRight="@dimen/twenty_dp"
+                        android:layout_weight="1" />
+
+                    <ImageView
+                        android:layout_width="@dimen/thirty_dp"
+                        android:layout_height="@dimen/thirty_dp"
+                        android:layout_marginRight="@dimen/thirty_dp"
+                        android:src="@drawable/add_round" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/thirty_dp"
+                android:gravity="right"
+                android:orientation="horizontal">
+
+                <com.jim.mpviews.MpButton
+                    android:layout_width="@dimen/hundred_fifty_dp"
+                    android:layout_height="@dimen/fifty_dp"
+                    android:layout_marginRight="@dimen/fifteen_dp"
+                    android:text="Cancel"
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/sixteen_dp" />
+
+                <com.jim.mpviews.MpButton
+                    android:layout_width="@dimen/hundred_fifty_dp"
+                    android:layout_height="@dimen/fifty_dp"
+                    android:layout_marginRight="@dimen/thirty_dp"
+                    android:text="Save"
+                    android:textColor="@color/colorBlue"
+                    android:textSize="@dimen/sixteen_dp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/thirty_dp"
+                android:layout_marginLeft="@dimen/sixty_dp"
+                android:text="1 step of 2"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/eighteen_dp" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</LinearLayout>

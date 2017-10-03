@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#30000000"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="@dimen/five_hundred_twenty_dp"
+        android:layout_height="@dimen/three_hundred_fifty_dp"
+        android:background="@drawable/rounded_edit_text_bg"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/forty_five_dp"
+            android:background="@drawable/rounded_blue_bg">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:paddingLeft="@dimen/thirty_dp"
+                android:text="@string/usage_type"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/twenty_dp"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/two_hundred_dp"
+            android:background="@color/colorBackgroundGrey"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/thirty_dp"
+            android:paddingRight="@dimen/thirty_dp"
+            android:paddingTop="@dimen/thirty_dp">
+
+            <RadioGroup
+                android:id="@+id/rgConfig"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:id="@+id/rbHandy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/twenty_five_dp"
+                    android:buttonTint="@color/colorBlue"
+                    android:checked="true"
+                    android:paddingLeft="@dimen/five_dp"
+                    android:text="Handy" />
+
+                <RadioButton
+                    android:id="@+id/rbAutoApply"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/twenty_five_dp"
+                    android:buttonTint="@color/colorBlue"
+                    android:paddingLeft="@dimen/five_dp"
+                    android:text="Auto Apply" />
+
+                <RadioButton
+                    android:id="@+id/rbAll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/colorBlue"
+                    android:paddingLeft="@dimen/five_dp"
+                    android:text="All" />
+
+            </RadioGroup>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:background="@drawable/bottom_rounded_bg"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.jim.mpviews.MpButton
+                android:id="@+id/btnBack"
+                android:layout_width="@dimen/hundred_sixty_dp"
+                android:layout_height="@dimen/sixty_dp"
+                android:gravity="center"
+                android:text="@string/cancel"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="@dimen/eighteen_dp" />
+
+
+            <com.jim.mpviews.MpButton
+                android:id="@+id/btnNext"
+                android:layout_width="@dimen/hundred_sixty_dp"
+                android:layout_height="@dimen/sixty_dp"
+                android:gravity="center"
+                android:text="@string/next"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/eighteen_dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

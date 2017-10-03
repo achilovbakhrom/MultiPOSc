@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/thirty_five_dp"
+        android:layout_marginBottom="@dimen/ten_dp"
+        android:orientation="horizontal">
+
+        <com.jim.mpviews.MpEditText
+            android:layout_width="@dimen/hundred_sixty_five_dp"
+            android:layout_height="@dimen/forty_dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/thirty_dp"
+            android:singleLine="true"
+            android:text="15004(Coca col)"
+            android:textSize="@dimen/eighteen_dp" />
+
+        <com.jim.mpviews.MpEditText
+            android:layout_width="@dimen/hundred_sixty_five_dp"
+            android:layout_height="@dimen/forty_dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/five_dp"
+            android:drawableRight="@drawable/chain"
+            android:hint="Choose"
+            android:textColorHint="@color/colorTextHint"
+            android:textSize="@dimen/eighteen_dp" />
+
+        <com.jim.mpviews.MpEditText
+            android:layout_width="@dimen/hundred_sixty_five_dp"
+            android:layout_height="@dimen/forty_dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/five_dp"
+            android:drawableRight="@drawable/chain"
+            android:hint="Choose"
+            android:textColorHint="@color/colorTextHint"
+            android:textSize="@dimen/eighteen_dp" />
+    </LinearLayout>
+
+</LinearLayout>

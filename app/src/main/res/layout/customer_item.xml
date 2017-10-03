@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/ten_dp"
+        android:layout_marginTop="@dimen/ten_dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvClientId"
+            android:layout_width="@dimen/eighty_dp"
+            android:layout_height="@dimen/forty_dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/thirty_dp"
+            android:background="@drawable/text_view_bg2"
+            android:gravity="center_vertical"
+            android:paddingBottom="@dimen/five_dp"
+            android:paddingLeft="@dimen/ten_dp"
+            android:paddingRight="@dimen/ten_dp"
+            android:paddingTop="@dimen/five_dp"
+            android:hint="02"
+            android:textAlignment="center"
+            android:textSize="@dimen/eighteen_dp" />
+
+        <com.jim.mpviews.MpEditText
+            android:id="@+id/etFullName"
+            android:layout_width="@dimen/two_hundred_eight_dp"
+            android:layout_height="@dimen/forty_dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:background="@drawable/edit_text_bg"
+            android:gravity="center_vertical"
+            android:paddingBottom="@dimen/five_dp"
+            android:paddingLeft="@dimen/ten_dp"
+            android:paddingRight="@dimen/ten_dp"
+            android:paddingTop="@dimen/five_dp"
+            android:textSize="@dimen/eighteen_dp" />
+
+        <com.jim.mpviews.MpEditText
+            android:id="@+id/etPhone"
+            android:layout_width="@dimen/hundred_eighty_dp"
+            android:layout_height="@dimen/forty_dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:background="@drawable/edit_text_bg"
+            android:gravity="center_vertical"
+            android:inputType="phone"
+            android:paddingBottom="@dimen/five_dp"
+            android:paddingLeft="@dimen/ten_dp"
+            android:paddingRight="@dimen/ten_dp"
+            android:paddingTop="@dimen/five_dp"
+            android:textSize="@dimen/eighteen_dp" />
+
+        <com.jim.mpviews.MpEditText
+            android:id="@+id/etAddress"
+            android:layout_width="@dimen/hundred_ninety_dp"
+            android:layout_height="@dimen/forty_dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:background="@drawable/edit_text_bg"
+            android:gravity="center_vertical"
+            android:paddingBottom="@dimen/five_dp"
+            android:paddingLeft="@dimen/ten_dp"
+            android:paddingRight="@dimen/ten_dp"
+            android:paddingTop="@dimen/five_dp"
+            android:textSize="@dimen/sixteen_dp" />
+
+        <LinearLayout
+            android:layout_width="@dimen/hundred_ninety_five_dp"
+            android:layout_height="@dimen/forty_dp"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:background="@drawable/edit_text_bg"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/five_dp"
+            android:paddingLeft="@dimen/ten_dp"
+            android:paddingRight="@dimen/ten_dp"
+            android:paddingTop="@dimen/five_dp">
+
+            <TextView
+                android:id="@+id/tvQrCode"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@color/colorWhite"
+                android:textSize="@dimen/eighteen_dp" />
+
+            <ImageView
+                android:id="@+id/ivRefreshQrCode"
+                android:layout_width="@dimen/forty_five_dp"
+                android:layout_height="@dimen/forty_five_dp"
+                android:layout_gravity="center"
+                android:src="@drawable/refresh"
+                android:tint="@color/colorBlue" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvCustomerGroup"
+            android:layout_width="@dimen/hundred_eighty_five_dp"
+            android:layout_height="@dimen/forty_dp"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:paddingBottom="@dimen/five_dp"
+            android:paddingLeft="@dimen/ten_dp"
+            android:paddingRight="@dimen/ten_dp"
+            android:paddingTop="@dimen/five_dp"
+            android:background="@drawable/edit_text_bg" />
+
+
+        <ImageView
+            android:id="@+id/ivSave"
+            android:layout_width="@dimen/thirty_dp"
+            android:layout_height="@dimen/thirty_dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/fifteen_dp"
+            android:layout_marginRight="@dimen/two_dp"
+            android:padding="@dimen/three_dp"
+            android:src="@drawable/save"
+            android:tint="@color/colorTintGrey" />
+
+        <ImageView
+            android:id="@+id/ivRemove"
+            android:layout_width="@dimen/thirty_dp"
+            android:layout_height="@dimen/thirty_dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/two_dp"
+            android:layout_marginRight="@dimen/five_dp"
+            android:src="@drawable/delete"
+            android:tint="@color/colorTintGrey" />
+    </LinearLayout>
+</LinearLayout>

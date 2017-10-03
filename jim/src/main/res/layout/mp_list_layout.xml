@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.jim.mpviews.MpPayments
+            android:id="@+id/mpFirstPayment"
+            android:layout_width="@dimen/two_hundred_forty_dp"
+            android:layout_height="@dimen/fifty_dp"
+            android:layout_marginBottom="@dimen/ten_dp" />
+
+        <com.jim.mpviews.MpPayments
+            android:id="@+id/mpSecondPayment"
+            android:layout_width="@dimen/two_hundred_forty_dp"
+            android:layout_height="@dimen/fifty_dp"
+            android:layout_marginBottom="@dimen/ten_dp" />
+
+        <com.jim.mpviews.MpPayments
+            android:id="@+id/mpThirdPayment"
+            android:layout_width="@dimen/two_hundred_forty_dp"
+            android:layout_height="@dimen/fifty_dp"
+            android:layout_marginBottom="@dimen/ten_dp" />
+        <com.jim.mpviews.MpPayments
+            android:id="@+id/mpFourPayment"
+            android:layout_width="@dimen/two_hundred_forty_dp"
+            android:layout_height="@dimen/fifty_dp"
+            android:visibility="gone"
+            android:layout_marginBottom="@dimen/ten_dp" />
+        <LinearLayout
+            android:id="@+id/llNextPrev"
+            android:layout_width="@dimen/two_hundred_forty_dp"
+            android:layout_height="@dimen/fifty_dp"
+            android:layout_marginBottom="@dimen/five_dp"
+            android:orientation="horizontal">
+
+
+            <LinearLayout
+                android:id="@+id/mpPrev"
+                android:layout_width="@dimen/hundred_twenty_dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:background="@drawable/left_oval_button_payment_next"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="Prev" />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/mpNext"
+                android:layout_width="@dimen/hundred_twenty_dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:background="@drawable/right_oval_button_payment_next"
+
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="Next" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/mpIndicatorContainer"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/ten_dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+        </LinearLayout>
+    </LinearLayout>
+
+</merge>

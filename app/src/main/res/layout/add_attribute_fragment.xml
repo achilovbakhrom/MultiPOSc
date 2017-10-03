@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/rounded_bg"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/forty_dp"
+    android:paddingRight="@dimen/thirty_dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/ten_dp"
+        android:layout_marginTop="@dimen/twenty_five_dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/forty_dp"
+            android:layout_marginRight="@dimen/thirty_dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:text="@string/name"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/sixteen_dp" />
+
+            <com.jim.mpviews.MpEditText
+                android:id="@+id/etAttributeName"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/forty_dp"
+                android:layout_gravity="center"
+                android:gravity="center_vertical"
+                android:hint="@string/attribute_type_name"
+                android:textColorHint="@color/colorTextHint"
+                android:textSize="@dimen/sixteen_dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/thirty_dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:text="@string/active"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/sixteen_dp" />
+
+            <com.jim.mpviews.MpCheckbox
+                android:id="@+id/chbActive"
+                android:layout_width="@dimen/thirty_dp"
+                android:layout_height="@dimen/thirty_dp"
+                android:layout_marginTop="@dimen/five_dp"
+                app:checked="true" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/fifteen_dp"
+                android:text="@string/actions"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/sixteen_dp" />
+
+            <ImageView
+                android:id="@+id/ivAddAttribute"
+                android:layout_width="@dimen/twenty_five_dp"
+                android:layout_height="@dimen/twenty_five_dp"
+                android:layout_gravity="center"
+                android:src="@drawable/add_round"
+                android:tint="@color/colorBlue" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llFirstContainer"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content" />
+</LinearLayout>

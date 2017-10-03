@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="33" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="67"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/thirty_dp"
+        android:paddingRight="@dimen/thirty_dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/forty_five_dp"
+            android:layout_marginTop="@dimen/forty_five_dp"
+            android:background="@drawable/top_rounded_blue_bg"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingLeft="@dimen/thirty_dp"
+                android:text="Reports"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/twenty_dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="right"
+                android:paddingRight="@dimen/eighty_dp"
+                android:text="Check"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/twenty_dp" />
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/three_hundred_sixty_dp" />
+
+        <com.jim.mpviews.MpButton
+            android:layout_width="@dimen/hundred_eighty_dp"
+            android:layout_height="@dimen/sixty_dp"
+            android:layout_gravity="right"
+            android:layout_marginTop="@dimen/five_dp"
+            android:text="Print"
+            android:textColor="@color/colorBlue"
+            android:textSize="@dimen/eighteen_dp"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
+</LinearLayout>

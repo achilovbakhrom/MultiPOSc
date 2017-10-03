@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/mpSlot"
+        android:layout_width="@dimen/hundred_dp"
+        android:layout_height="@dimen/hundred_dp">
+
+
+        <LinearLayout
+            android:id="@+id/mpAmountBG"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/three_dp"
+            android:gravity="right">
+
+            <TextView
+                android:id="@+id/mpComboAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/ten_dp"
+                android:layout_marginRight="@dimen/four_dp"
+                android:background="@drawable/green_bg"
+                android:gravity="right"
+                android:paddingLeft="@dimen/four_dp"
+                android:paddingRight="@dimen/four_dp"
+                android:text="+ 25 000"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/ten_dp" />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/mpComboName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="left"
+            android:text="String"
+            android:textColor="@color/colorBlue"
+            android:textSize="@dimen/eighteen_dp" />
+
+    </RelativeLayout>
+
+</merge>

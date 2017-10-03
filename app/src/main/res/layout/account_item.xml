@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/ten_dp"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tvAccountName"
+        android:layout_width="@dimen/two_hundred_twenty_dp"
+        android:layout_height="@dimen/forty_dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/thirty_dp"
+        android:layout_marginRight="@dimen/twenty_dp"
+        android:background="@drawable/text_view_bg"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/ten_dp"
+        android:paddingRight="@dimen/ten_dp"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/eighteen_dp"
+        tools:text="Ravnaq bank" />
+
+    <TextView
+        android:id="@+id/tvType"
+        android:layout_width="@dimen/hundred_fifty_five_dp"
+        android:layout_height="@dimen/forty_dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="@dimen/twenty_dp"
+        android:background="@drawable/text_view_bg"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/ten_dp"
+        android:paddingRight="@dimen/ten_dp"
+        android:textColor="@color/colorMainText"
+        android:textSize="@dimen/eighteen_dp"
+        tools:text="Non minus" />
+
+    <TextView
+        android:id="@+id/tvCirculation"
+        android:layout_width="@dimen/hundred_fifty_five_dp"
+        android:layout_height="@dimen/forty_dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="@dimen/ten_dp"
+        android:background="@drawable/text_view_bg"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/ten_dp"
+        android:paddingRight="@dimen/ten_dp"
+        android:textColor="@color/colorMainText"
+        android:textSize="@dimen/eighteen_dp"
+        tools:text="Bank Account" />
+
+    <ImageView
+        android:id="@+id/ivRemove"
+        android:layout_width="@dimen/thirty_dp"
+        android:layout_height="@dimen/thirty_dp"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/remove" />
+</LinearLayout>

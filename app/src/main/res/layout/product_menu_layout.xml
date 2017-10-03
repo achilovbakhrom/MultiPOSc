@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.jim.mpviews.MpToolbar
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/eighty_dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBackground"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/llProductMenu"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="43"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvMenu"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/six_hundred_twelve_dp"
+                android:background="@color/colorBackground"
+                android:overScrollMode="never" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right|bottom"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/ten_dp"
+                android:paddingRight="@dimen/thirty_dp">
+
+                <com.jim.mpviews.MpButton
+                    android:id="@+id/btnBackToMain"
+                    android:layout_width="@dimen/hundred_sixty_dp"
+                    android:layout_height="@dimen/sixty_dp"
+                    android:text="@string/back"
+                    android:textColor="@color/colorSecondaryText"
+                    android:textSize="@dimen/eighteen_dp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="57"
+            android:background="@color/colorBackgroundGrey"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="25px"
+                android:layout_height="match_parent"
+                android:background="@drawable/left_fade" />
+
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

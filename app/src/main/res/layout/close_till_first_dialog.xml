@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#30000000"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="@dimen/thousand_hundred_seventy_dp"
+        android:layout_height="@dimen/six_hundred_sixty_dp"
+        android:background="@drawable/rounded_edit_text_bg"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/seventy_dp"
+            android:background="@drawable/rounded_blue_bg">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/thirty_dp"
+                android:text="Close Till"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/twenty_dp" />
+
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/four_hundred_ninety_five_dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="33"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/thirty_dp">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/thirty_dp"
+                    android:text="Emp Name"
+                    android:textColor="@color/colorBlue"
+                    android:textSize="@dimen/eighteen_dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/ten_dp"
+                    android:layout_marginLeft="@dimen/thirty_dp"
+                    android:text="July 01, 2017 14:58"
+                    android:textColor="@color/colorSecondaryText"
+                    android:textSize="@dimen/eighteen_dp" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/colorTextHint" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#f9f9f9"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/fifty_dp"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingLeft="@dimen/thirty_dp">
+
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="left"
+                            android:text="Reconcile Open Orders"
+                            android:textColor="@color/colorBlue"
+                            android:textSize="@dimen/eighteen_dp" />
+
+
+                        <com.jim.mpviews.MpCheckbox
+                            android:layout_width="@dimen/thirty_dp"
+                            android:layout_height="@dimen/thirty_dp"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="@dimen/thirty_dp" />
+
+
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/colorTextHint" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/fifty_dp"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingLeft="@dimen/thirty_dp">
+
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="left"
+                            android:text="Close the amount"
+                            android:textColor="@color/colorBlue"
+                            android:textSize="@dimen/eighteen_dp" />
+
+
+                        <com.jim.mpviews.MpCheckbox
+                            android:layout_width="@dimen/thirty_dp"
+                            android:layout_height="@dimen/thirty_dp"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="@dimen/thirty_dp" />
+
+
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/colorTextHint" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/fifty_dp"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingLeft="@dimen/thirty_dp">
+
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="left"
+                            android:text="To Next"
+                            android:textColor="@color/colorBlue"
+                            android:textSize="@dimen/eighteen_dp" />
+
+
+                        <com.jim.mpviews.MpCheckbox
+                            android:layout_width="@dimen/thirty_dp"
+                            android:layout_height="@dimen/thirty_dp"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="@dimen/thirty_dp" />
+
+
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/colorTextHint" />
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:background="@color/colorTextHint" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="67"
+                android:orientation="vertical">
+
+                <com.jim.mpviews.MpTripleSwitcher
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/fifty_dp"
+                    android:layout_marginBottom="@dimen/thirty_dp"
+                    android:layout_marginLeft="@dimen/ten_dp"
+                    android:layout_marginTop="@dimen/fifteen_dp"
+                    app:center_text="To Employer"
+                    app:left_text="Zero in Till"
+                    app:right_text="Hold in Till" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/ten_dp"
+                    android:layout_marginLeft="@dimen/thirty_dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/hundred_dp"
+                        android:text="Reopen Till with this start values"
+                        android:textColor="@color/colorBlue"
+                        android:textSize="@dimen/eighteen_dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Employer confirm password"
+                        android:textColor="@color/colorBlue"
+                        android:textSize="@dimen/eighteen_dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/thirty_dp"
+                    android:layout_marginLeft="@dimen/thirty_dp"
+                    android:orientation="horizontal">
+
+                    <com.jim.mpviews.MpSpinner
+                        android:layout_width="@dimen/three_hundred_dp"
+                        android:layout_height="@dimen/fifty_dp"
+                        android:layout_marginRight="@dimen/fifty_dp"
+                        app:sp_bg="@drawable/num_pad_bg_two" />
+
+                    <EditText
+                        android:layout_width="@dimen/three_hundred_dp"
+                        android:layout_height="@dimen/fifty_five_dp"
+                        android:background="@drawable/num_pad_bg_two"
+                        android:inputType="numberPassword" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/thirty_dp"
+                    android:background="@color/colorBlue"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/five_dp"
+                    android:paddingLeft="@dimen/thirty_dp"
+                    android:paddingTop="@dimen/five_dp">
+
+                    <TextView
+                        android:layout_width="@dimen/two_hundred_seventy_dp"
+                        android:layout_height="wrap_content"
+                        android:text="Account"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/eighteen_dp" />
+
+                    <TextView
+                        android:layout_width="@dimen/three_hundred_twenty_dp"
+                        android:layout_height="wrap_content"
+                        android:text="Total closed"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/eighteen_dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Description"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/eighteen_dp" />
+
+                </LinearLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/colorTextHint" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="right"
+            android:orientation="horizontal"
+            android:paddingRight="@dimen/thirty_dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:paddingLeft="@dimen/thirty_dp"
+                android:text="1 step of 3 steps for closing till"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="@dimen/eighteen_dp" />
+
+            <com.jim.mpviews.MpButton
+                android:layout_width="@dimen/hundred_eighty_dp"
+                android:layout_height="@dimen/sixty_dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Revert"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="@dimen/eighteen_dp" />
+
+
+            <com.jim.mpviews.MpButton
+                android:layout_width="@dimen/hundred_eighty_dp"
+                android:layout_height="@dimen/sixty_dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Next"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/eighteen_dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

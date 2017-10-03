@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00000000"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="@dimen/four_hundred_dp"
+        android:layout_height="@dimen/five_hundred_fifty_dp"
+        android:background="@drawable/rounded_edit_text_bg"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/seventy_dp"
+            android:background="@drawable/rounded_blue_bg">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:paddingLeft="@dimen/thirty_dp"
+                android:text="Groups"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/twenty_dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvAdd"
+                android:layout_width="@dimen/eighty_dp"
+                android:layout_height="@dimen/forty_dp"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/thirty_dp"
+                android:background="@drawable/blue_btn_bg"
+                android:gravity="center"
+                android:padding="@dimen/ten_dp"
+                android:text="+ Add"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/sixteen_dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/four_hundred_dp"
+            android:background="@color/colorBackgroundGrey"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/ten_dp">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvCustomerGroups"
+                android:padding="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:background="@drawable/bottom_rounded_bg"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.jim.mpviews.MpButton
+                android:id="@+id/btnCancel"
+                android:layout_width="@dimen/hundred_sixty_dp"
+                android:layout_height="@dimen/fifty_five_dp"
+                android:gravity="center"
+                android:text="Cancel"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="@dimen/eighteen_dp" />
+
+
+            <com.jim.mpviews.MpButton
+                android:id="@+id/btnSave"
+                android:layout_width="@dimen/hundred_sixty_dp"
+                android:layout_height="@dimen/fifty_five_dp"
+                android:gravity="center"
+                android:text="Save"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/eighteen_dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

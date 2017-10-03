@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:clickable="true"
+    android:focusable="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/thirty_dp"
+        android:paddingRight="@dimen/thirty_dp"
+        android:gravity="right">
+
+        <com.jim.mpviews.MpButton
+            android:id="@+id/btnBackTo"
+            android:layout_width="@dimen/hundred_sixty_dp"
+            android:layout_height="@dimen/sixty_dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="@dimen/fifteen_dp"
+            android:text="@string/back"
+            android:textColor="@color/colorMainText"
+            android:textSize="@dimen/sixteen_dp" />
+
+
+        <com.jim.mpviews.MpButton
+            android:id="@+id/btnSaveOptions"
+            android:layout_width="@dimen/hundred_sixty_dp"
+            android:layout_height="@dimen/sixty_dp"
+            android:layout_alignParentBottom="true"
+            android:layout_toEndOf="@id/btnBackTo"
+            android:text="@string/save"
+            android:textStyle="bold"
+            android:textColor="@color/colorBlue"
+            android:textSize="@dimen/sixteen_dp" />
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="@dimen/twenty_five_dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/thirty_dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:layout_marginRight="@dimen/sixteen_dp"
+                android:gravity="right"
+                android:text="@string/description"
+                android:textColor="@color/colorMainText"
+                android:textSize="@dimen/sixteen_dp" />
+
+            <EditText
+                android:id="@+id/etProductDescription"
+                android:layout_width="@dimen/four_hundred_sixty_dp"
+                android:layout_height="@dimen/hundred_dp"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:layout_marginRight="@dimen/thirty_dp"
+                android:background="@drawable/edit_text_bg"
+                android:gravity="left"
+                android:hint="@string/some_notes"
+                android:inputType="textMultiLine|textCapSentences"
+                android:isScrollContainer="true"
+                android:maxLength="2000"
+                android:maxLines="10"
+                android:paddingBottom="@dimen/five_dp"
+                android:paddingLeft="@dimen/ten_dp"
+                android:paddingRight="@dimen/ten_dp"
+                android:paddingTop="@dimen/five_dp"
+                android:singleLine="false"
+                android:textColorHint="@color/colorTextHint"
+                android:textSize="@dimen/sixteen_dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="right"
+                    android:text="@string/stock_units"
+                    android:textSize="@dimen/sixteen_dp" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/two_hundred_thirty_dp"
+                    android:gravity="right"
+                    android:text="@string/active"
+                    android:textSize="@dimen/sixteen_dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:orientation="horizontal">
+
+                <com.jim.mpviews.MpEditText
+                    android:id="@+id/etSubUnitName"
+                    android:layout_width="@dimen/hundred_twenty_five_dp"
+                    android:layout_height="@dimen/forty_dp"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/fifteen_dp"
+                    android:gravity="center_vertical|left"
+                    android:hint="@string/name"
+                    android:textColorHint="@color/colorTextHint"
+                    android:textSize="@dimen/sixteen_dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/fifteen_dp"
+                    android:gravity="right"
+                    android:text="="
+                    android:textSize="@dimen/eighteen_dp" />
+
+                <com.jim.mpviews.MpEditText
+                    android:id="@+id/etMainUnitQty"
+                    android:layout_width="@dimen/hundred_dp"
+                    android:layout_height="@dimen/forty_dp"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/ten_dp"
+                    android:gravity="center_vertical|center"
+                    android:hint="@string/quantity"
+                    android:inputType="numberDecimal"
+                    android:textColorHint="@color/colorTextHint"
+                    android:textSize="@dimen/sixteen_dp" />
+
+                <TextView
+                    android:id="@+id/tvMainUnit"
+                    android:layout_width="@dimen/thirty_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/ten_dp"
+                    android:gravity="left"
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/sixteen_dp" />
+
+                <com.jim.mpviews.MpCheckbox
+                    android:id="@+id/chbActive"
+                    android:layout_width="@dimen/thirty_dp"
+                    android:layout_height="@dimen/thirty_dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="@dimen/twenty_dp"
+                    app:checked="true"
+                    app:text="Active"
+                    app:without_text="true" />
+
+                <ImageView
+                    android:id="@+id/ivAddSubUnit"
+                    android:layout_width="@dimen/twenty_five_dp"
+                    android:layout_height="@dimen/twenty_five_dp"
+                    android:layout_gravity="center"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/add_round" />
+
+            </LinearLayout>
+
+            <com.jim.mpviews.RecyclerViewWithMaxHeight
+                android:id="@+id/rvSubUnits"
+                android:overScrollMode="never"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/ten_dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/sixteen_dp"
+                    android:gravity="right"
+                    android:text="Recipe"
+                    android:textSize="@dimen/sixteen_dp" />
+
+
+                <com.jim.mpviews.MpCheckbox
+                    android:id="@+id/chbHasRecipe"
+                    android:layout_width="@dimen/thirty_dp"
+                    android:layout_height="@dimen/thirty_dp"
+                    app:checked="false"
+                    app:text="Active"
+                    app:without_text="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:orientation="horizontal">
+
+                <com.jim.mpviews.MpSpinner
+                    android:id="@+id/spIngredients"
+                    android:layout_width="@dimen/two_hundred_dp"
+                    android:layout_height="@dimen/forty_dp"
+                    android:layout_marginRight="@dimen/twenty_dp" />
+
+                <com.jim.mpviews.MpEditText
+                    android:id="@+id/etIngredientsQty"
+                    android:layout_width="@dimen/hundred_twenty_five_dp"
+                    android:layout_height="@dimen/forty_dp"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/twenty_dp"
+                    android:hint="@string/quantity"
+                    android:inputType="numberDecimal"
+                    android:textColorHint="@color/colorTextHint"
+                    android:textSize="@dimen/sixteen_dp" />
+
+                <com.jim.mpviews.MpSpinner
+                    android:id="@+id/spIngredientsUnit"
+                    android:layout_width="@dimen/hundred_dp"
+                    android:layout_height="@dimen/forty_dp"
+                    android:layout_marginRight="@dimen/twenty_dp" />
+
+
+                <ImageView
+                    android:id="@+id/ivAddIngredients"
+                    android:layout_width="@dimen/twenty_five_dp"
+                    android:layout_height="@dimen/twenty_five_dp"
+                    android:layout_gravity="center"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/add_round" />
+
+            </LinearLayout>
+
+            <com.jim.mpviews.RecyclerViewWithMaxHeight
+                android:id="@+id/rvIngredients"
+                android:overScrollMode="never"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/ten_dp" />
+
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBackgroundGrey"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/twenty_dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/thirty_dp"
+                    android:gravity="left"
+                    android:text="Check System units"
+                    android:textColor="@color/colorBlue"
+                    android:textSize="@dimen/eighteen_dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/thirty_dp"
+                android:layout_marginTop="@dimen/twenty_dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/fifteen_dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:paddingLeft="@dimen/ten_dp"
+                            android:text="Weight (kg)"
+                            android:textColor="@color/colorBlue"
+                            android:textSize="@dimen/eighteen_dp" />
+
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/colorTextHint" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/colorWhite" />
+
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rvWeightUnits"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/fifteen_dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:paddingLeft="@dimen/ten_dp"
+                            android:text="Length (m)"
+                            android:textColor="@color/colorBlue"
+                            android:textSize="@dimen/eighteen_dp" />
+
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/colorTextHint" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/colorWhite" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rvLengthUnits"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/fifteen_dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:paddingLeft="@dimen/ten_dp"
+                            android:text="Area (m2)"
+                            android:textColor="@color/colorBlue"
+                            android:textSize="@dimen/eighteen_dp" />
+
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/colorTextHint" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/colorWhite" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rvAreaUnits"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/fifteen_dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:paddingLeft="@dimen/ten_dp"
+                            android:text="Volume (m3)"
+                            android:textColor="@color/colorBlue"
+                            android:textSize="@dimen/eighteen_dp" />
+
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/colorTextHint" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/colorWhite" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rvVolumeUnits"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:gravity="right"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/twenty_dp"
+            android:paddingRight="@dimen/twenty_dp">
+
+            <com.jim.mpviews.MpButton
+                android:id="@+id/btnRevert"
+                android:layout_width="@dimen/hundred_sixty_dp"
+                android:layout_height="@dimen/fifty_five_dp"
+                android:layout_marginRight="@dimen/fifteen_dp"
+                android:text="@string/back"
+                android:textColor="@color/colorMainText"
+                android:textSize="@dimen/eighteen_dp" />
+
+            <com.jim.mpviews.MpButton
+                android:id="@+id/btnNext"
+                android:layout_width="@dimen/hundred_sixty_dp"
+                android:layout_height="@dimen/fifty_five_dp"
+                android:layout_marginRight="@dimen/fifteen_dp"
+                android:text="Next"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/eighteen_dp" />
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

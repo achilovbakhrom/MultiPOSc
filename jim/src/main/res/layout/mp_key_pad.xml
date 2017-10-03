@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/mpKeyPadBg"
+        android:layout_width="@dimen/sixty_dp"
+        android:layout_height="@dimen/eighty_five_dp">
+
+
+        <TextView
+            android:id="@+id/mpSecondarySymbol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:paddingRight="@dimen/ten_dp"
+            android:paddingTop="@dimen/four_dp"
+            android:textColor="@color/colorSecondaryText"
+            android:textSize="@dimen/eighteen_dp" />
+
+        <TextView
+            android:id="@+id/mpMainSymbol"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:textColor="@color/colorBlue"
+            android:textSize="@dimen/thirty_four_dp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+</merge>

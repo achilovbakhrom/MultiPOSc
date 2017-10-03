@@ -1,0 +1,54 @@
+package com.jim.multipos.utils;
+
+import android.app.Dialog;
+import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.view.View;
+import android.view.Window;
+import android.widget.TextView;
+
+import com.jim.mpviews.MpButton;
+import com.jim.multipos.R;
+
+/**
+ * Created by DEV on 01.08.2017.
+ */
+
+public class WarningDialog extends Dialog {
+    private MpButton btnWarningOK;
+    private TextView tvWarningText;
+    public WarningDialog(@NonNull Context context) {
+        super(context);
+        init();
+    }
+
+    public WarningDialog(@NonNull Context context, int themeResId) {
+        super(context, themeResId);
+        init();
+    }
+
+    protected WarningDialog(@NonNull Context context, boolean cancelable, @Nullable OnCancelListener cancelListener) {
+        super(context, cancelable, cancelListener);
+        init();
+    }
+
+    public void init(){
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(R.layout.warning_dialog);
+        getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        btnWarningOK = (MpButton) findViewById(R.id.btnWarningOK);
+        tvWarningText = (TextView) findViewById(R.id.tvWarningText);
+
+    }
+
+    public void setWarningText(String warningText){
+        tvWarningText.setText(warningText);
+    }
+
+    public void  setOnOKClickListener(View.OnClickListener listener) {
+        btnWarningOK.setOnClickListener(listener);
+    }
+}

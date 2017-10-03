@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/ten_dp"
+        android:orientation="horizontal">
+
+
+        <com.jim.mpviews.MpEditText
+            android:layout_width="0dp"
+            android:layout_height="@dimen/forty_dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/sixty_dp"
+            android:layout_marginRight="@dimen/fifteen_dp"
+            android:layout_weight="2"
+            android:drawableRight="@drawable/barcode"
+            android:drawableTint="@color/colorTextHint"
+            android:gravity="center_vertical"
+            android:hint="SKU, Barcode"
+            android:textColorHint="@color/colorTextHint"
+            android:textSize="@dimen/sixteen_dp" />
+
+        <com.jim.mpviews.MpSpinner
+            android:layout_width="0dp"
+            android:layout_height="@dimen/forty_dp"
+            android:layout_marginRight="@dimen/fifteen_dp"
+            android:layout_weight="1" />
+
+        <com.jim.mpviews.MpSpinner
+            android:layout_width="0dp"
+            android:layout_height="@dimen/forty_dp"
+            android:layout_marginRight="@dimen/fifteen_dp"
+            android:layout_weight="1" />
+
+
+        <com.jim.mpviews.MpSpinner
+            android:layout_width="0dp"
+            android:layout_height="@dimen/forty_dp"
+            android:layout_marginRight="@dimen/fifteen_dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:layout_width="@dimen/thirty_five_dp"
+            android:layout_height="@dimen/thirty_five_dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="@dimen/thirty_dp"
+            android:paddingRight="@dimen/ten_dp"
+            android:src="@drawable/remove"
+            android:tint="@color/colorBlue" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/mpMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/mpLeftSide"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="43"
+            android:background="@drawable/toolbar_left_side">
+
+            <ImageView
+                android:layout_width="@dimen/hundred_thirty_dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/twenty_dp"
+                android:paddingTop="@dimen/ten_dp"
+                android:src="@drawable/posmen" />
+
+            <ImageView
+                android:id="@+id/mpSettings"
+                android:layout_width="@dimen/seventy_dp"
+                android:layout_height="@dimen/forty_five_dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/thirty_dp"
+                android:layout_marginRight="@dimen/eighteen_dp"
+                android:layout_toLeftOf="@+id/mpHorRoller"
+                android:src="@drawable/settings_blue" />
+
+            <com.jim.mpviews.MpHorizontalScroller
+                android:id="@+id/mpHorRoller"
+                android:layout_width="@dimen/two_hundred_thirty_five_dp"
+                android:layout_height="@dimen/forty_five_dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/twenty_dp" />
+
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/mpRightSide"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="57"
+            android:background="@drawable/toolbar_right_side">
+
+            <LinearLayout
+                android:id="@+id/mpMainMenu"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/mpProfile"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="2"
+                    android:orientation="horizontal">
+
+
+
+                    <LinearLayout
+                        android:id="@+id/llEmployer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/twenty_dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/mpEmpName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Somebody"
+                            android:textSize="@dimen/sixteen_dp"
+
+                            android:textColor="@color/colorWhite" />
+
+                        <TextView
+                            android:id="@+id/mpEmpRole"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Some role"
+                            android:textSize="@dimen/ten_dp"
+                            android:textColor="@color/colorWhite" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <FrameLayout
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:background="#20000000" />
+
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:id="@+id/mpProducts"
+
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+                    <FrameLayout
+                        android:id="@+id/productLine"
+                        android:layout_width="1px"
+                        android:layout_height="match_parent"
+                        android:background="#20ffffff" />
+                    <ImageView
+                        android:id="@+id/productPressed"
+                        android:layout_width="match_parent"
+                        android:visibility="gone"
+                        android:layout_height="match_parent"
+                        android:src="#0a000000"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_centerInParent="true"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="@dimen/twenty_five_dp"
+                            android:layout_height="@dimen/twenty_five_dp"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="@dimen/two_dp"
+                            android:src="@drawable/market"
+                            android:tint="@color/colorWhite" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="Product"
+                            android:textSize="@dimen/fourteen_dp"
+                            android:textColor="@color/colorWhite" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <FrameLayout
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:background="#20000000" />
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:id="@+id/mpReports"
+
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+                <FrameLayout
+                    android:id="@+id/reportLine"
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:background="#20ffffff" />
+                    <ImageView
+                        android:id="@+id/reportPressed"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+                        android:src="#0a000000"
+                        android:visibility="gone" />
+                    <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="@dimen/twenty_five_dp"
+                        android:layout_height="@dimen/twenty_five_dp"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="@dimen/two_dp"
+                        android:src="@drawable/reports"
+                        android:tint="@color/colorWhite" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="Reports"
+                        android:textSize="@dimen/fourteen_dp"
+                        android:textColor="@color/colorWhite" />
+
+                </LinearLayout>
+                </RelativeLayout>
+                <FrameLayout
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:background="#20000000" />
+
+
+
+
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/mpCustomers"
+                    android:layout_weight="1">
+                <FrameLayout
+                    android:id="@+id/customerLine"
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:background="#20ffffff" />
+                    <ImageView
+                        android:id="@+id/customerPressed"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="gone"
+
+                        android:src="#0a000000"/>
+                    <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="@dimen/twenty_five_dp"
+                        android:layout_height="@dimen/twenty_five_dp"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="@dimen/two_dp"
+                        android:src="@drawable/customer_group"
+                        android:tint="@color/colorWhite" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="Customers"
+                        android:textSize="@dimen/fourteen_dp"
+
+                        android:textColor="@color/colorWhite" />
+
+                </LinearLayout>
+                </RelativeLayout>
+                <FrameLayout
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:background="#20000000" />
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/mpInventory"
+                    android:layout_weight="1">
+                <FrameLayout
+                    android:id="@+id/inventoryLine"
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:background="#20ffffff" />
+                <ImageView
+                    android:id="@+id/inventoryPressed"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
+
+                    android:src="#0a000000"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="@dimen/twenty_five_dp"
+                        android:layout_height="@dimen/twenty_five_dp"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="@dimen/two_dp"
+                        android:src="@drawable/inventory"
+                        android:tint="@color/colorWhite" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="Inventory"
+                        android:textSize="@dimen/fourteen_dp"
+
+                        android:textColor="@color/colorWhite" />
+
+                </LinearLayout>
+
+                </RelativeLayout>
+                <FrameLayout
+                    android:id="@+id/blackLine"
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:background="#20000000"
+                    android:visibility="gone" />
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
+                    android:id="@+id/mpInfo"
+                    android:layout_weight="1">
+                <FrameLayout
+                    android:id="@+id/whiteLine"
+
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:background="#20ffffff" />
+                <ImageView
+                    android:id="@+id/infoPressed"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="visible"
+
+                    android:src="#0a000000"/>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <ImageView
+                        android:layout_width="@dimen/twenty_five_dp"
+                        android:layout_height="@dimen/twenty_five_dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/info" />
+                </LinearLayout>
+                </RelativeLayout>
+                <FrameLayout
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:background="#20000000" />
+
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/mpSearch"
+                    android:layout_weight="1">
+                <FrameLayout
+                    android:id="@+id/searchLine"
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:background="#20ffffff" />
+                <ImageView
+                    android:id="@+id/searchPressed"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
+                    android:src="#0a000000"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="@dimen/twenty_five_dp"
+                        android:layout_height="@dimen/twenty_five_dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/search_2" />
+                </LinearLayout>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <com.jim.mpviews.MpSearchView
+                android:id="@+id/mpSearchView"
+                android:layout_width="@dimen/two_hundred_thirty_dp"
+                android:layout_height="@dimen/forty_dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/thirty_dp"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+
+</merge>

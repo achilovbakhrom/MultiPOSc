@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/mpPayment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/ten_dp"
+        android:paddingLeft="@dimen/twenty_dp"
+        android:paddingRight="@dimen/twenty_dp"
+        android:paddingTop="@dimen/ten_dp">
+
+        <TextView
+            android:id="@+id/mpType"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:layout_gravity="center"
+            android:paddingLeft="@dimen/ten_dp"
+            android:paddingRight="@dimen/ten_dp"
+            android:paddingTop="@dimen/four_dp"
+            android:textColor="@color/colorMainText"
+            android:textSize="@dimen/eighteen_dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/mpPercent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:paddingLeft="@dimen/ten_dp"
+            android:layout_gravity="center"
+            android:paddingRight="@dimen/ten_dp"
+            android:paddingTop="@dimen/four_dp"
+            android:textColor="@color/colorSecondaryText"
+            android:textSize="@dimen/eighteen_dp" />
+    </LinearLayout>
+
+</merge>

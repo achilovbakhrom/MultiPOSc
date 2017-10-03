@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/ten_dp"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tvFullName"
+        android:layout_width="@dimen/three_hundred_fifty_dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="@dimen/ten_dp"
+        android:background="@drawable/text_view_bg"
+        android:gravity="center_vertical"
+        android:height="@dimen/forty_dp"
+        android:paddingLeft="@dimen/ten_dp"
+        android:paddingRight="@dimen/ten_dp"
+        android:textColor="@color/colorMainText"
+        tools:text="John Smith" />
+
+    <ImageView
+        android:id="@+id/ivRemove"
+        android:layout_width="@dimen/thirty_dp"
+        android:layout_height="@dimen/thirty_dp"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/remove" />
+</LinearLayout>

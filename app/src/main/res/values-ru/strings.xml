@@ -1,0 +1,151 @@
+<resources>
+    <string name="app_name">MultiPOS</string>
+    <string name="client_management"><u>Управление клиентами</u></string>
+    <string name="dash">...................................................................................................................................................................................................................................................................................................</string>
+    <string name="login_details">Детали авторизации</string>
+    <string name="founder_login">Логин владельца</string>
+    <string name="registration">Регистрация</string>
+    <string name="login">Логин</string>
+    <string name="founder_password">Пароль владельца</string>
+    <string name="system_accounts">Системные аккаунты</string>
+    <string name="pos_id">ПОС ИД</string>
+    <string name="alias">Псевдоним</string>
+    <string name="enter_pos_alias">Введите псевдоним ПОС</string>
+    <string name="address">Адрес</string>
+    <string name="enter_pos_address">Введите адрес ПОС</string>
+    <string name="password">Пароль</string>
+    <string name="admin_password">Пароль администратора</string>
+    <string name="repeat">Повторить</string>
+    <string name="repeat_password">Повторите пароль</string>
+    <string name="revert">Назад</string>
+    <string name="next">Вперед</string>
+    <string name="phone">Телефон</string>
+    <string name="email">Почта</string>
+    <string name="registration_details">Детали регистрации</string>
+    <string name="organization_details">Реквизиты организации</string>
+    <string name="organization_name">Название Организации</string>
+    <string name="email_with_star">Э-почта*</string>
+    <string name="organization_address">Адресс Организации</string>
+    <string name="zip_code">Почтовый индекс</string>
+    <string name="contacts">Контакты</string>
+    <string name="enter_phone_number">Введите номер телефона или почту</string>
+    <string name="founder_login_details">Детали регистрации владелца</string>
+    <string name="login_with_start">Логин*</string>
+    <string name="password_with_star">Пароль*</string>
+    <string name="confirm_password_with_star">Подтверждение пароля*</string>
+    <string name="mandatory_fields">* - поля для обязательного заполнения</string>
+    <string name="back">Назад</string>
+    <string name="access_token">Код доступа*</string>
+    <string name="confirm">Подтвердить</string>
+    <string name="enter_code_access_code">Введите код доступа</string>
+    <string name="enter_organization_email">Введите электронный почтовый адрес организации</string>
+    <string name="email_">Электронная почта:</string>
+    <string name="address_">Адрес:</string>
+    <string name="zip_code_">Почтовоый индекс:</string>
+    <string name="auto_apply_configuration">Auto apply configuration</string>
+    <string name="matrix_option">Matrix Option</string>
+    <string name="name">Name</string>
+    <string name="active">Active</string>
+    <string name="actions">Actions</string>
+    <string name="item_management">Management Item Mode</string>
+    <string name="tap_product_to_manage_it_info">Tap Product to manage it info</string>
+    <string name="category">Category</string>
+    <string name="description">Description</string>
+    <string name="some_notes">Some notes</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="product">Product</string>
+    <string name="subcategory">SubCategory</string>
+    <string name="creating_upsell_combos">Creating Upsell combos</string>
+    <string name="add">Add</string>
+    <string name="combo">Combo</string>
+    <string name="sku_barcode">SKU, Barcode</string>
+    <string name="add_customer">Add Customer</string>
+    <string name="clock_in">Clock in:</string>
+    <string name="clock_out">Clock out:</string>
+    <string name="options">Options</string>
+    <string name="barcode">Barcode</string>
+    <string name="sku">SKU</string>
+    <string name="quantity">Quantity</string>
+    <string name="linked">Linked</string>
+    <string name="none">None</string>
+    <string name="unit">Unit</string>
+    <string name="price">Price</string>
+    <string name="value">Value</string>
+    <string name="cost">Cost</string>
+    <string name="product_class">Class</string>
+    <string name="tax_free">Tax Free</string>
+    <string name="advance">Advance</string>
+    <string name="enter_product_name">Please, enter product name</string>
+    <string name="enter_product_sku">Please, enter product SKU number</string>
+    <string name="enter_product_price">Please, enter product price</string>
+    <string name="enter_product_cost">Please, enter product cost</string>
+    <string name="stock_units">Stock Units</string>
+    <string name="recipe">Recipe</string>
+    <string name="child">Child</string>
+    <string name="parent">Parent</string>
+    <string name="attribute_name">Attribute Name</string>
+    <string-array name="start_configuration_title">
+        <item namte="pos_details">POS подробности</item>
+        <item name="account">Аккаунт</item>
+        <item name="currency">Валюта</item>
+        <item name="payment_type">Типы оплаты</item>
+        <item name="units">Единицы</item>
+        <item name="stocks">Stocks</item>
+    </string-array>
+    <string-array name="start_configuration_desctiption">
+        <item name="pos_details_description">Некторые подробности о POS системе</item>
+        <item name="account_description">Некторые подробности о деньгах</item>
+        <item name="payment_type_description">Некторые подробности о типе оплаты</item>
+        <item name="currency_description">Добавление и изменение основной валюты</item>
+        <item name="units_description">Единицы, используемые в системе</item>
+        <item name="employers_description">Кто будет работать с этим POS</item>
+        <item name="stocks_description">Stocks</item>
+    </string-array>
+    <string-array name="products_menu_title">
+        <item>Products</item>
+        <item>Classes</item>
+        <item>Discounts</item>
+        <item>Service Fee</item>
+    </string-array>
+    <string-array name="products_menu_description">
+        <item>Add and change products</item>
+        <item>Add and change product classes</item>
+        <item>Manage discounts</item>
+        <item>Manage service fees</item>
+    </string-array>
+    <string-array name="customers_menu_title">
+        <item>Customers Add&amp;Edit</item>
+        <item>Customer Groups</item>
+        <item>Debt Clients</item>
+        <item>Credit Clients</item>
+    </string-array>
+    <string-array name="customers_menu_description">
+        <item>Add and edit customers</item>
+        <item>Add customers to the groups</item>
+        <item>Debtors list</item>
+        <item>Creditors list</item>
+    </string-array>
+    <string-array name="employer_menu_title">
+        <item>Schedule List</item>
+        <item>Employer Add&amp;Edit</item>
+        <item>Department Add&amp;Edit</item>
+        <item>Status Add&amp;Edit</item>
+    </string-array>
+    <string-array name="employer_menu_description">
+        <item>Schedule List</item>
+        <item>Employer Add&amp;Edit</item>
+        <item>Department Add&amp;Edit</item>
+        <item>Status Add&amp;Edit</item>
+    </string-array>
+    <string-array name="inventory_menu_title">
+        <item>Inventory</item>
+        <item>Vendors item management</item>
+        <item>Vendors Add&amp;Edit</item>
+    </string-array>
+    <string-array name="inventory_menu_description">
+        <item>Manage inventory</item>
+        <item>Manage vendor items</item>
+        <item>Add and edit vendors</item>
+    </string-array>
+</resources>

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/seventy_dp"
+            android:background="#fdfdfd"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="@dimen/two_hundred_fifty_dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="left"
+                android:paddingLeft="@dimen/thirty_dp"
+                android:text="Employee"
+                android:textColor="@color/colorMainText"
+                android:textSize="@dimen/eighteen_dp" />
+
+            <FrameLayout
+                android:layout_width="2px"
+                android:layout_height="match_parent"
+                android:background="@color/colorGrey" />
+
+            <TextView
+                android:layout_width="@dimen/hundred_twenty_dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Monday"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/eighteen_dp" />
+
+            <FrameLayout
+                android:layout_width="2px"
+                android:layout_height="match_parent"
+                android:background="@color/colorGrey" />
+
+            <TextView
+                android:layout_width="@dimen/hundred_twenty_dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Tuesday"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/eighteen_dp" />
+
+            <FrameLayout
+                android:layout_width="2px"
+                android:layout_height="match_parent"
+                android:background="@color/colorGrey" />
+
+            <TextView
+                android:layout_width="@dimen/hundred_twenty_dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Wednesday"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/eighteen_dp" />
+
+            <FrameLayout
+                android:layout_width="2px"
+                android:layout_height="match_parent"
+                android:background="@color/colorGrey" />
+
+            <TextView
+                android:layout_width="@dimen/hundred_twenty_dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Thursday"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/eighteen_dp" />
+
+            <FrameLayout
+                android:layout_width="2px"
+                android:layout_height="match_parent"
+                android:background="@color/colorGrey" />
+
+            <TextView
+                android:layout_width="@dimen/hundred_twenty_dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Friday"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/eighteen_dp" />
+
+            <FrameLayout
+                android:layout_width="2px"
+                android:layout_height="match_parent"
+                android:background="@color/colorGrey" />
+
+            <TextView
+                android:layout_width="@dimen/hundred_twenty_dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Saturday"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/eighteen_dp" />
+
+            <FrameLayout
+                android:layout_width="2px"
+                android:layout_height="match_parent"
+                android:background="@color/colorGrey" />
+
+            <TextView
+                android:layout_width="@dimen/hundred_twenty_dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Sunday"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/eighteen_dp" />
+
+            <FrameLayout
+                android:layout_width="2px"
+                android:layout_height="match_parent"
+                android:background="@color/colorGrey" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Actions"
+                android:textColor="@color/colorMainText"
+                android:textSize="@dimen/eighteen_dp" />
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="3px"
+            android:background="@color/colorGrey" />
+
+    </LinearLayout>
+
+</LinearLayout>

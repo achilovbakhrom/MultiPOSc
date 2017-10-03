@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/eighty_dp"
+            android:background="@color/colorWhite"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/ten_dp"
+            android:paddingTop="@dimen/ten_dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/five_dp"
+                android:text="Customer Groups"
+                android:textColor="@color/colorBlue" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tap product to manage it info"
+                android:textColor="@color/colorTextHint" />
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginBottom="@dimen/twenty_five_dp"
+            android:background="@color/colorTextHint" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/ten_dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="@dimen/hundred_forty_five_dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/sixteen_dp"
+                android:gravity="right"
+                android:text="Group Name"
+                android:textColor="@color/colorMainText"
+                android:textSize="@dimen/sixteen_dp" />
+
+            <EditText
+                android:id="@+id/etGroupName"
+                android:layout_width="370dp"
+                android:layout_height="@dimen/forty_dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/thirty_dp"
+                android:background="@drawable/edit_text_bg"
+                android:gravity="center_vertical"
+                android:hint="@string/group_name"
+                android:paddingBottom="@dimen/five_dp"
+                android:paddingLeft="@dimen/ten_dp"
+                android:paddingRight="@dimen/ten_dp"
+                android:paddingTop="@dimen/five_dp"
+                android:textColorHint="@color/colorTextHint"
+                android:textSize="@dimen/sixteen_dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/ten_dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="@dimen/hundred_forty_five_dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/sixteen_dp"
+                android:gravity="right"
+                android:text="Discounts"
+                android:textColor="@color/colorMainText"
+                android:textSize="@dimen/sixteen_dp" />
+
+            <com.jim.mpviews.MpSpinner
+                android:id="@+id/spDiscounts"
+                android:layout_width="195dp"
+                android:layout_height="@dimen/forty_dp"
+                android:layout_marginRight="@dimen/twenty_dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/sixteen_dp"
+                android:enabled="false"
+                android:gravity="right"
+                android:text="Auto apply"
+                android:textColor="@color/colorMainText"
+                android:textSize="@dimen/sixteen_dp" />
+
+            <com.jim.mpviews.MpCheckbox
+                android:id="@+id/chbDiscountsAutoApply"
+                android:layout_width="@dimen/thirty_dp"
+                android:layout_height="@dimen/thirty_dp"
+                android:layout_marginRight="@dimen/thirty_dp"
+                android:layout_marginTop="@dimen/two_dp"
+                android:gravity="center"
+                app:checked="true"
+                app:enabled="false"
+                app:without_text="true" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/ten_dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="@dimen/hundred_forty_five_dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/sixteen_dp"
+                android:gravity="right"
+                android:text="Service Fee"
+                android:textColor="@color/colorMainText"
+                android:textSize="@dimen/sixteen_dp" />
+
+            <com.jim.mpviews.MpSpinner
+                android:id="@+id/spServiceFee"
+                android:layout_width="195dp"
+                android:layout_height="@dimen/forty_dp"
+                android:layout_marginRight="@dimen/twenty_dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/sixteen_dp"
+                android:enabled="false"
+                android:gravity="right"
+                android:text="Auto apply"
+                android:textColor="@color/colorMainText"
+                android:textSize="@dimen/sixteen_dp" />
+
+            <com.jim.mpviews.MpCheckbox
+                android:id="@+id/chbServiceFeeAutoApply"
+                android:layout_width="@dimen/thirty_dp"
+                android:layout_height="@dimen/thirty_dp"
+                android:layout_marginRight="@dimen/thirty_dp"
+                android:layout_marginTop="@dimen/two_dp"
+                android:gravity="center"
+                app:checked="true"
+                app:enabled="false"
+                app:without_text="true" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/ten_dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="@dimen/hundred_forty_five_dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/sixteen_dp"
+                android:gravity="right"
+                android:text="Options"
+                android:textColor="@color/colorMainText"
+                android:textSize="@dimen/sixteen_dp" />
+
+
+            <com.jim.mpviews.MpCheckbox
+                android:id="@+id/chbTaxFree"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:checked="false"
+                app:text="Tax Free" />
+
+            <com.jim.mpviews.MpCheckbox
+                android:id="@+id/chbActive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:checked="true"
+                app:text="Active" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="@dimen/hundred_dp"
+            android:gravity="right"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/thirty_dp"
+
+            >
+
+            <com.jim.mpviews.MpButton
+                android:id="@+id/btnCancel"
+                android:layout_width="@dimen/hundred_sixty_dp"
+                android:layout_height="@dimen/fifty_five_dp"
+                android:layout_alignParentBottom="true"
+                android:gravity="center"
+                android:text="Cancel"
+                android:textSize="@dimen/eighteen_dp"
+                android:textColor="@color/colorSecondaryText" />
+
+
+            <com.jim.mpviews.MpButton
+                android:id="@+id/btnMembers"
+                android:layout_width="@dimen/hundred_sixty_dp"
+                android:layout_height="@dimen/fifty_five_dp"
+                android:layout_alignParentBottom="true"
+                android:layout_toEndOf="@id/btnCancel"
+                android:gravity="center"
+                android:text="Members"
+                android:textSize="@dimen/eighteen_dp"
+                android:textColor="@color/colorBlue"
+                android:textStyle="bold" />
+
+            <com.jim.mpviews.MpButton
+                android:id="@+id/btnSave"
+                android:layout_width="@dimen/hundred_sixty_dp"
+                android:layout_height="@dimen/fifty_five_dp"
+                android:layout_alignParentBottom="true"
+                android:layout_toEndOf="@id/btnMembers"
+                android:gravity="center"
+                android:text="Save"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/eighteen_dp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

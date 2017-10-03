@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#419fd9</color>
+    <color name="colorBlue">#419fd9</color>
+    <color name="colorBlueDark">#3a90c6</color>
+    <color name="colorBlueSecond">#51afe6</color>
+    <color name="colorBlueThird">#d1eafa</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorBackgroundGrey">#f1f1f1</color>
+    <color name="colorBackground">#f8f8f8</color>
+    <color name="colorGreyLight">#fdfdfd</color>
+    <color name="colorGreyLightSecond">#f4f4f4</color>
+    <color name="colorGrey">#ebebeb</color>
+    <color name="colorGreyDark">#cccccc</color>
+    <color name="colorSecondaryText">#898989</color>
+    <color name="colorTextHint">#e1e1e1</color>
+    <color name="colorMainText">#414141</color>
+    <color name="colorTintGrey">#929395</color>
+    <color name="colorRed">#ff5e52</color>
+    <color name="colorDarkRed">#c84a4d</color>
+    <color name="colorGreen">#7fe275</color>
+    <color name="colorOrange">#f0b321</color>
+    <color name="colorDarkGreen">#15a53a</color>
+    <color name="colorDirtyOrange">#d99941</color>
+    <color name="colorLightBlue">#daeefc</color>
+    <color name="pressedWhite">#f8f8f8</color>
+    <color name="colorBlack">#000000</color>
+    <color name="separatorColor">#ededed</color>
+</resources>

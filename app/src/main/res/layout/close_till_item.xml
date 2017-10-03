@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:paddingTop="@dimen/ten_dp">
+
+    <TextView
+        android:layout_width="@dimen/hundred_forty_five_dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/thirty_dp"
+        android:text="Cash"
+        android:textColor="@color/colorMainText"
+        android:textSize="@dimen/eighteen_dp" />
+
+    <com.jim.mpviews.MpEditText
+        android:layout_width="@dimen/two_hundred_forty_five_dp"
+        android:layout_height="@dimen/forty_dp"
+        android:layout_marginRight="@dimen/thirty_dp"
+        android:gravity="right"
+        android:paddingRight="@dimen/ten_dp"
+        android:text="0,00"
+        android:textColor="@color/colorMainText"
+        android:textSize="@dimen/eighteen_dp" />
+
+    <TextView
+        android:layout_width="@dimen/hundred_dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorMainText"
+        android:textSize="@dimen/eighteen_dp" />
+
+    <com.jim.mpviews.MpEditText
+        android:layout_width="@dimen/two_hundred_forty_five_dp"
+        android:layout_height="@dimen/forty_dp"
+        android:layout_marginRight="@dimen/thirty_dp"
+        android:gravity="right"
+        android:paddingRight="@dimen/ten_dp"
+        android:textColor="@color/colorMainText"
+        android:textSize="@dimen/eighteen_dp" />
+
+</LinearLayout>

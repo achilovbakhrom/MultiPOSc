@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/toolbar_sp"
+        android:gravity="center_horizontal">
+
+        <ImageView
+            android:layout_width="@dimen/hundred_fifty_dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/forty_dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/multi_pos" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.jim.mpviews.MpButton
+            android:id="@+id/btnLoginAdmin"
+            android:layout_width="@dimen/hundred_seventy_dp"
+            android:layout_height="@dimen/seventy_dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/fifty_dp"
+            android:layout_marginLeft="@dimen/fifty_dp"
+            android:text="Login Admin"
+            android:textColor="@color/colorBlue"
+            android:textSize="@dimen/eighteen_dp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="@dimen/three_hundred_twenty_dp"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/twenty_five_dp">
+
+            <com.jim.mpviews.MpSpinnerWithPhoto
+                android:id="@+id/spEmployers"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sixty_dp"
+                android:layout_marginBottom="@dimen/fifteen_dp"
+                />
+
+
+            <TextView
+                android:id="@+id/tvEmployerPassword"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sixty_dp"
+                android:layout_marginBottom="@dimen/twenty_dp"
+                android:background="@drawable/edit_text_bg"
+                android:gravity="center|center_vertical"
+                android:maxLength="6"
+                android:letterSpacing="0.3"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/forty_dp"
+                android:paddingLeft="@dimen/ten_dp"
+                android:paddingRight="@dimen/ten_dp" />
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/five_dp"
+                android:orientation="horizontal">
+
+                <com.jim.mpviews.MpNumPad
+                    android:id="@+id/btnSeven"
+                    android:layout_width="@dimen/hundred_dp"
+                    android:layout_height="@dimen/hundred_dp"
+                    android:layout_marginRight="@dimen/ten_dp"
+                    app:value="7" />
+
+                <com.jim.mpviews.MpNumPad
+                    android:id="@+id/btnEight"
+                    android:layout_width="@dimen/hundred_dp"
+                    android:layout_height="@dimen/hundred_dp"
+                    android:layout_marginRight="@dimen/ten_dp"
+                    app:value="8" />
+
+                <com.jim.mpviews.MpNumPad
+                    android:id="@+id/btnNine"
+                    android:layout_width="@dimen/hundred_dp"
+                    android:layout_height="@dimen/hundred_dp"
+                    app:value="9" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:orientation="horizontal">
+
+                <com.jim.mpviews.MpNumPad
+                    android:id="@+id/btnFour"
+                    android:layout_width="@dimen/hundred_dp"
+                    android:layout_height="@dimen/hundred_dp"
+                    android:layout_marginRight="@dimen/ten_dp"
+                    app:value="4" />
+
+                <com.jim.mpviews.MpNumPad
+                    android:id="@+id/btnFive"
+                    android:layout_width="@dimen/hundred_dp"
+                    android:layout_height="@dimen/hundred_dp"
+                    android:layout_marginRight="@dimen/ten_dp"
+                    app:value="5" />
+
+                <com.jim.mpviews.MpNumPad
+                    android:id="@+id/btnSix"
+                    android:layout_width="@dimen/hundred_dp"
+                    android:layout_height="@dimen/hundred_dp"
+                    app:value="6" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/seven_dp"
+                android:orientation="horizontal">
+
+                <com.jim.mpviews.MpNumPad
+                    android:id="@+id/btnOne"
+                    android:layout_width="@dimen/hundred_dp"
+                    android:layout_height="@dimen/hundred_dp"
+                    android:layout_marginRight="@dimen/ten_dp"
+                    app:value="1" />
+
+                <com.jim.mpviews.MpNumPad
+                    android:id="@+id/btnTwo"
+                    android:layout_width="@dimen/hundred_dp"
+                    android:layout_height="@dimen/hundred_dp"
+                    android:layout_marginRight="@dimen/ten_dp"
+                    app:value="2" />
+
+                <com.jim.mpviews.MpNumPad
+                    android:id="@+id/btnThree"
+                    android:layout_width="@dimen/hundred_dp"
+                    android:layout_height="@dimen/hundred_dp"
+                    android:gravity="center"
+                    app:value="3" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.jim.mpviews.MpNumPad
+                    android:id="@+id/btnClear"
+                    android:layout_width="@dimen/hundred_dp"
+                    android:layout_height="@dimen/hundred_dp"
+                    android:layout_marginRight="@dimen/ten_dp"
+                    app:value="C" />
+
+                <com.jim.mpviews.MpNumPad
+                    android:id="@+id/btnZero"
+                    android:layout_width="@dimen/hundred_dp"
+                    android:layout_height="@dimen/hundred_dp"
+                    android:layout_marginRight="@dimen/ten_dp"
+                    app:value="0" />
+
+                <com.jim.mpviews.MpNumPad
+                    android:id="@+id/btnLogin"
+                    android:layout_width="@dimen/hundred_dp"
+                    android:layout_height="@dimen/hundred_dp"
+                    app:mode="1"
+                    app:value="Login" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="@dimen/two_hundred_eighty_dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="@dimen/fifty_dp"
+            android:layout_marginRight="@dimen/fifty_dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/clock_in"
+                    android:textColor="@color/colorSecondaryText"
+                    android:textSize="@dimen/eighteen_dp" />
+
+                <TextView
+                    android:id="@+id/tvClockIn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:textColor="@color/colorSecondaryText"
+                    android:textSize="@dimen/eighteen_dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/clock_out"
+                    android:textColor="@color/colorSecondaryText"
+                    android:textSize="@dimen/eighteen_dp" />
+
+                <TextView
+                    android:id="@+id/tvClockOut"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:textColor="@color/colorSecondaryText"
+                    android:textSize="@dimen/eighteen_dp" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/till_opened_for"
+                    android:textColor="@color/colorSecondaryText"
+                    android:textSize="@dimen/eighteen_dp" />
+
+                <TextView
+                    android:id="@+id/tvTillOpenedEmp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:textColor="@color/colorSecondaryText"
+                    android:textSize="@dimen/eighteen_dp" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</LinearLayout>

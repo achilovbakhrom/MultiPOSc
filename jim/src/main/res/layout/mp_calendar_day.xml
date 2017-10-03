@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:id="@+id/mpDayBg"
+        android:layout_width="@dimen/hundred_four_dp"
+        android:layout_height="@dimen/ninety_five_dp"
+        android:background="@color/colorWhite"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/four_dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/mpDay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:paddingLeft="@dimen/fifteen_dp"
+                android:paddingTop="@dimen/four_dp"
+                android:text="XX"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/twenty_four_dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/mpDiff"
+                android:layout_width="@dimen/forty_nine_dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:gravity="right"
+                android:includeFontPadding="false"
+                android:paddingRight="@dimen/four_dp"
+                android:paddingTop="@dimen/four_dp"
+                android:text=" -0.5h"
+                android:textColor="@color/colorDarkRedSecond"
+                android:textSize="@dimen/ten_dp" />
+
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/mpStartTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:paddingLeft="@dimen/fifteen_dp"
+            android:text="8:00"
+            android:textColor="@color/colorSecondaryText"
+            android:textSize="@dimen/eighteen_dp" />
+
+        <TextView
+            android:id="@+id/mpEndTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:paddingLeft="@dimen/fifteen_dp"
+            android:text="19:59"
+            android:textColor="@color/colorSecondaryText"
+            android:textSize="@dimen/eighteen_dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_alignParentBottom="true"
+                android:background="@color/colorTextHint" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="1px"
+        android:layout_height="match_parent"
+        android:background="@color/colorTextHint" />
+
+</LinearLayout>

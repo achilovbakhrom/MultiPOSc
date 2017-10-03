@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <FrameLayout
+        android:layout_width="1px"
+        android:layout_height="match_parent"
+        android:background="@color/colorTextHint" />
+
+    <LinearLayout
+        android:layout_width="@dimen/three_hundred_sixty_dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.jim.mpviews.MpSearchView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/twenty_dp"
+            android:layout_marginLeft="@dimen/thirty_dp"
+            android:layout_marginRight="@dimen/thirty_dp"
+            android:layout_marginTop="@dimen/twenty_five_dp"
+            app:barcode_visibility="false" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/colorTextHint" />
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/fifty_dp"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="@dimen/hundred_ten_dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/thirty_dp"
+                android:text="Order#"
+                android:textColor="@color/colorMainText"
+                android:textSize="@dimen/eighteen_dp" />
+
+            <TextView
+                android:layout_width="@dimen/hundred_twenty_five_dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Employer"
+                android:textColor="@color/colorMainText"
+                android:textSize="@dimen/eighteen_dp" />
+
+            <TextView
+                android:layout_width="@dimen/hundred_eighty_dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Taken Date"
+                android:textColor="@color/colorMainText"
+                android:textSize="@dimen/eighteen_dp" />
+
+            <TextView
+                android:layout_width="@dimen/hundred_eighty_dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="End Date"
+                android:textColor="@color/colorMainText"
+                android:textSize="@dimen/eighteen_dp" />
+
+            <TextView
+                android:layout_width="@dimen/hundred_seventy_dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Total"
+                android:textColor="@color/colorMainText"
+                android:textSize="@dimen/eighteen_dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Due"
+                android:textColor="@color/colorMainText"
+                android:textSize="@dimen/eighteen_dp" />
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="3px"
+            android:background="@color/colorTextHint" />
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/four_hundred_dp" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/colorTextHint" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/thirty_dp"
+            android:paddingRight="@dimen/thirty_dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="@dimen/two_hundred_twenty_five_dp"
+                android:layout_marginRight="@dimen/ten_dp"
+                android:layout_weight="1"
+                android:background="@drawable/edit_text_bg"
+                android:orientation="vertical"
+                android:padding="@dimen/fifteen_dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/five_dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Order number: "
+                        android:textColor="@color/colorMainText" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="068995"
+                        android:textColor="@color/colorMainText" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/five_dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Employer:"
+                        android:textColor="@color/colorMainText" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="Andrew"
+                        android:textColor="@color/colorMainText" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/five_dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Taken date:"
+                        android:textColor="@color/colorMainText" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="24/12/2017  14:36"
+                        android:textColor="@color/colorMainText" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/five_dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="End date:"
+                        android:textColor="@color/colorMainText" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="24/12/2017  14:36"
+                        android:textColor="@color/colorMainText" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/five_dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Late date:"
+                        android:textColor="@color/colorMainText" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="1 month"
+                        android:textColor="@color/colorMainText" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/five_dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Payment type:"
+                        android:textColor="@color/colorMainText" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="Can participle"
+                        android:textColor="@color/colorMainText" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/five_dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tax:"
+                        android:textColor="@color/colorMainText" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="20%"
+                        android:textColor="@color/colorMainText" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/five_dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Status"
+                        android:textColor="@color/colorMainText" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="closed"
+                        android:textColor="@color/colorGreenLight" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="@dimen/two_hundred_twenty_five_dp"
+                android:layout_marginRight="@dimen/ten_dp"
+                android:layout_weight="1"
+                android:background="@drawable/edit_text_bg"
+                android:orientation="vertical"
+                android:padding="@dimen/fifteen_dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/five_dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="Order sum:"
+                        android:textColor="@color/colorMainText" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="10 008,00 uzs"
+                        android:textColor="@color/colorMainText" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/five_dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tax:"
+                        android:textColor="@color/colorMainText" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="11 692,00 uzs"
+                        android:textColor="@color/colorMainText" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/five_dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total Debt:"
+                        android:textColor="@color/colorMainText" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="250,84 uzs"
+                        android:textColor="@color/colorMainText" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/five_dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Payment: "
+                        android:textColor="@color/colorMainText" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="1 000 uzs"
+                        android:textColor="@color/colorMainText" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/five_dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Due:"
+                        android:textColor="@color/colorMainText" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="1 050,84 uzs"
+                        android:textColor="@color/colorRed" />
+
+                </LinearLayout>
+
+                <com.jim.mpviews.MpButton
+                    android:layout_width="@dimen/hundred_eighty_dp"
+                    android:layout_height="@dimen/sixty_dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/five_dp"
+                    android:layout_marginTop="@dimen/fifteen_dp"
+                    android:text="History"
+                    android:textColor="@color/colorBlue"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="@dimen/two_hundred_seventy_five_dp"
+                android:layout_height="@dimen/two_hundred_twenty_five_dp"
+                android:layout_gravity="center"
+                android:background="@drawable/big_btn"
+                android:gravity="center"
+                android:text="PAY"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/fifty_dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

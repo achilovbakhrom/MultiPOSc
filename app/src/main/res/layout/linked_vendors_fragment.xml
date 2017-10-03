@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/fifteen_dp"
+            android:layout_marginLeft="@dimen/thirty_dp"
+            android:layout_marginTop="@dimen/thirty_dp"
+            android:text="Vendor name"
+            android:textColor="@color/colorMainText"
+            android:textSize="@dimen/eighteen_dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/five_dp"
+            android:layout_marginLeft="@dimen/thirty_dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Contact name:"
+                android:textColor="@color/colorMainText"
+                android:textSize="@dimen/eighteen_dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/five_dp"
+                android:layout_marginRight="@dimen/thirty_dp"
+                android:layout_weight="1"
+                android:text="Tap Product to manage it info"
+                android:textColor="@color/colorMainText"
+                android:textSize="@dimen/eighteen_dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/fifteen_dp"
+            android:layout_marginLeft="@dimen/thirty_dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Address:"
+                android:textColor="@color/colorMainText"
+                android:textSize="@dimen/eighteen_dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/five_dp"
+                android:layout_marginRight="@dimen/thirty_dp"
+                android:layout_weight="1"
+                android:text="Tap Product to manage it info"
+                android:textColor="@color/colorMainText"
+                android:textSize="@dimen/eighteen_dp" />
+        </LinearLayout>
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/colorTextHint" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/fifteen_dp"
+            android:layout_marginLeft="@dimen/thirty_dp"
+            android:layout_marginTop="@dimen/fifteen_dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="in Vendor system:"
+                android:textColor="@color/colorMainText"
+                android:textSize="@dimen/eighteen_dp" />
+
+            <com.jim.mpviews.MpEditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/five_dp"
+                android:layout_marginRight="@dimen/thirty_dp"
+                android:layout_weight="1"
+                android:background="@drawable/blue_stroke"
+                android:drawableRight="@drawable/chain"
+                android:drawableTint="@color/colorBlue"
+                android:hint="Choose Vendor"
+                android:paddingBottom="@dimen/five_dp"
+                android:paddingLeft="@dimen/ten_dp"
+                android:paddingRight="@dimen/ten_dp"
+                android:paddingTop="@dimen/five_dp"
+                android:textColor="@color/colorMainText"
+                android:textColorHint="@color/colorTextHint" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/thirty_five_dp"
+            android:layout_marginBottom="@dimen/five_dp"
+            android:background="@color/colorBlue"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="@dimen/hundred_sixty_five_dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/thirty_dp"
+                android:text="Products"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/eighteen_dp" />
+
+            <TextView
+                android:layout_width="@dimen/hundred_sixty_five_dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/five_dp"
+                android:text="In Vendors sys"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/eighteen_dp" />
+
+            <TextView
+                android:layout_width="@dimen/hundred_sixty_five_dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/five_dp"
+                android:text="Vendor Product"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/eighteen_dp" />
+        </LinearLayout>
+
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorBackgroundGrey" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/thirty_dp"
+        android:gravity="right"
+        android:orientation="horizontal">
+
+        <com.jim.mpviews.MpButton
+            android:layout_width="@dimen/hundred_fifty_dp"
+            android:layout_height="@dimen/fifty_dp"
+            android:layout_marginRight="@dimen/fifteen_dp"
+            android:text="Cancel"
+            android:textColor="@color/colorSecondaryText" />
+
+        <com.jim.mpviews.MpButton
+            android:layout_width="@dimen/hundred_fifty_dp"
+            android:layout_height="@dimen/fifty_dp"
+            android:layout_marginRight="@dimen/thirty_dp"
+            android:text="Save"
+            android:textColor="@color/colorBlue"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>

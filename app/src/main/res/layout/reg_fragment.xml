@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/diagonal_lines"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ninety_dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/forty_dp"
+            android:padding="@dimen/three_dp"
+            android:layout_marginLeft="@dimen/thirty_dp"
+            android:layout_marginTop="@dimen/twenty_seven_dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/pos"
+            android:scaleType="centerInside"/>
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/thirty_five_dp"
+        android:background="@color/colorBlue"
+        android:orientation="vertical">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/five_dp"
+            android:background="@drawable/shadow_black"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/thirty_dp"
+            android:gravity="center"
+            android:text="@string/registration_details"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/eighteen_dp"
+            android:textStyle="italic" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/thirty_dp"
+                    android:layout_marginRight="@dimen/thirty_dp"
+                    android:layout_marginTop="@dimen/thirty_five_dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/organization_details"
+                        android:textColor="@color/colorBlue"
+                        android:textSize="@dimen/eighteen_dp" />
+
+                </LinearLayout>
+
+                <com.jim.mpviews.MpEditText
+                    android:id="@+id/etOrgName"
+                    android:textSize="@dimen/eighteen_dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/forty_dp"
+                    android:layout_marginLeft="@dimen/thirty_dp"
+                    android:layout_marginRight="@dimen/thirty_dp"
+                    android:layout_marginTop="@dimen/fifteen_dp"
+                    android:hint="@string/organization_name" />
+
+                <com.jim.mpviews.MpEditText
+                    android:id="@+id/etOrgEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/forty_dp"
+                    android:layout_marginLeft="@dimen/thirty_dp"
+                    android:textSize="@dimen/eighteen_dp"
+                    android:layout_marginRight="@dimen/thirty_dp"
+                    android:layout_marginTop="@dimen/fifteen_dp"
+                    android:hint="@string/email_with_star"
+                    android:minLines="8"
+                    android:inputType="textEmailAddress" />
+
+                <com.jim.mpviews.MpEditText
+                    android:id="@+id/etOrgAddress"
+                    android:layout_width="match_parent"
+                    android:textSize="@dimen/eighteen_dp"
+                    android:layout_height="@dimen/forty_dp"
+                    android:layout_marginLeft="@dimen/thirty_dp"
+                    android:layout_marginRight="@dimen/thirty_dp"
+                    android:layout_marginTop="@dimen/fifteen_dp"
+                    android:hint="@string/organization_address" />
+
+                <com.jim.mpviews.MpEditText
+                    android:id="@+id/etOrgZipCode"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/forty_dp"
+                    android:layout_marginLeft="@dimen/thirty_dp"
+                    android:textSize="@dimen/eighteen_dp"
+                    android:layout_marginRight="@dimen/thirty_dp"
+                    android:layout_marginTop="@dimen/fifteen_dp"
+                    android:hint="@string/zip_code" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/thirty_dp"
+                    android:layout_marginRight="@dimen/thirty_dp"
+                    android:layout_marginTop="@dimen/fifteen_dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/contacts"
+                        android:textColor="@color/colorBlue"
+                        android:textSize="@dimen/eighteen_dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/forty_dp"
+                    android:layout_marginLeft="@dimen/thirty_dp"
+                    android:layout_marginRight="@dimen/thirty_dp"
+                    android:layout_marginTop="@dimen/fifteen_dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <com.jim.mpviews.MpSpinner
+                        android:id="@+id/spContacts"
+                        android:layout_width="@dimen/hundred_forty_dp"
+                        android:layout_height="wrap_content" />
+
+
+                    <com.jim.mpviews.MpEditText
+                        android:id="@+id/etContacts"
+                        android:textSize="@dimen/eighteen_dp"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/forty_dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/fifteen_dp"
+                        android:layout_marginRight="@dimen/fifteen_dp"
+                        android:layout_weight="1"
+                        android:hint="@string/enter_phone_number" />
+
+                    <ImageView
+                        android:id="@+id/ivAddContact"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/add_round"
+                        android:adjustViewBounds="true"
+                        android:paddingLeft="@dimen/sixteen_dp"
+                        android:paddingRight="@dimen/sixteen_dp"
+                        />
+                </LinearLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvContacts"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/forty_five_dp"
+                    android:paddingLeft="@dimen/thirty_dp"
+                    android:paddingRight="@dimen/thirty_dp"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/thirty_dp"
+                    android:layout_marginRight="@dimen/thirty_dp"
+                    android:layout_marginTop="@dimen/thirty_five_dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/founder_login_details"
+                        android:textColor="@color/colorBlue"
+                        android:textSize="@dimen/eighteen_dp" />
+
+                    <ImageView
+                        android:layout_width="@dimen/thirty_dp"
+                        android:layout_height="@dimen/thirty_dp"
+                        android:tint="@color/colorTintGrey" />
+                </LinearLayout>
+
+                <com.jim.mpviews.MpEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/forty_dp"
+                    android:layout_marginLeft="@dimen/thirty_dp"
+                    android:layout_marginRight="@dimen/thirty_dp"
+                    android:layout_marginTop="@dimen/fifteen_dp"
+                    android:textSize="@dimen/eighteen_dp"
+                    android:hint="@string/login_with_start" />
+
+                <com.jim.mpviews.MpEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/forty_dp"
+                    android:layout_marginLeft="@dimen/thirty_dp"
+                    android:layout_marginRight="@dimen/thirty_dp"
+                    android:textSize="@dimen/eighteen_dp"
+                    android:layout_marginTop="@dimen/fifteen_dp"
+                    android:fontFamily="roboto"
+                    android:hint="@string/password_with_star"
+                    android:inputType="textPassword" />
+
+                <com.jim.mpviews.MpEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/forty_dp"
+                    android:layout_marginLeft="@dimen/thirty_dp"
+                    android:textSize="@dimen/eighteen_dp"
+                    android:layout_marginRight="@dimen/thirty_dp"
+                    android:layout_marginTop="@dimen/fifteen_dp"
+                    android:fontFamily="roboto"
+                    android:hint="@string/confirm_password_with_star"
+                    android:inputType="textPassword" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/thirty_dp"
+                    android:layout_marginRight="@dimen/thirty_dp"
+                    android:layout_marginTop="@dimen/fifteen_dp"
+                    android:paddingBottom="@dimen/five_dp"
+                    android:paddingLeft="@dimen/ten_dp"
+                    android:paddingRight="@dimen/ten_dp"
+                    android:paddingTop="@dimen/five_dp"
+                    android:text="@string/mandatory_fields"
+                    android:textColor="@color/colorSecondaryText" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="@dimen/forty_five_dp"
+            android:layout_marginRight="@dimen/thirty_dp"
+            android:layout_marginTop="@dimen/thirty_dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.jim.mpviews.MpButton
+                android:id="@+id/btnBack"
+                android:layout_width="@dimen/hundred_eighty_dp"
+                android:layout_height="@dimen/seventy_dp"
+                android:layout_marginRight="@dimen/fifteen_dp"
+                android:gravity="center"
+                android:paddingBottom="@dimen/five_dp"
+                android:paddingLeft="@dimen/ten_dp"
+                android:paddingRight="@dimen/ten_dp"
+                android:paddingTop="@dimen/five_dp"
+                android:text="@string/back"
+                android:textColor="@color/colorMainText"
+                android:textSize="@dimen/eighteen_dp" />
+
+            <com.jim.mpviews.MpButton
+                android:id="@+id/btnRegistrationSecond"
+                android:layout_width="@dimen/hundred_eighty_dp"
+                android:layout_height="@dimen/seventy_dp"
+                android:gravity="center"
+                android:paddingBottom="@dimen/five_dp"
+                android:paddingLeft="@dimen/ten_dp"
+                android:paddingRight="@dimen/ten_dp"
+                android:paddingTop="@dimen/five_dp"
+                android:text="@string/registration"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/eighteen_dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

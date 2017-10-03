@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="43">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/eighty_dp"
+                android:background="@color/colorWhite"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/ten_dp"
+                android:paddingTop="@dimen/ten_dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/five_dp"
+                    android:text="Management Item Mode"
+                    android:textColor="#419fd9" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tap Product to manage it info"
+                    android:textColor="@color/colorTextHint" />
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_marginBottom="@dimen/twenty_five_dp"
+                android:background="@color/colorTextHint" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="@dimen/hundred_forty_five_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/sixteen_dp"
+                    android:gravity="right"
+                    android:text="Name"
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/sixteen_dp" />
+
+                <com.jim.mpviews.MpEditText
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/forty_dp"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/thirty_dp"
+                    android:layout_weight="1"
+                    android:hint="Name"
+                    android:textColorHint="@color/colorTextHint"
+                    android:textSize="@dimen/sixteen_dp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="@dimen/hundred_forty_five_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/sixteen_dp"
+                    android:gravity="right"
+                    android:text="Current rate"
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/sixteen_dp" />
+
+
+                <com.jim.mpviews.MpEditText
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/forty_dp"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/thirty_dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:hint="Percentage"
+                    android:textColorHint="@color/colorTextHint"
+                    android:textSize="@dimen/sixteen_dp" />
+
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="@dimen/eighty_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/sixteen_dp"
+                    android:gravity="right"
+                    android:text="Rounding"
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/sixteen_dp" />
+
+                <com.jim.mpviews.MpSpinner
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/forty_dp"
+                    android:layout_marginRight="@dimen/thirty_dp"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="@dimen/hundred_forty_five_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/sixteen_dp"
+                    android:gravity="right"
+                    android:text="From date"
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/sixteen_dp" />
+
+                <com.jim.mpviews.MpEditText
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/forty_dp"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/thirty_dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:hint="dd/mm/yyyy"
+                    android:textColorHint="@color/colorTextHint"
+                    android:textSize="@dimen/sixteen_dp" />
+
+                <TextView
+                    android:layout_width="@dimen/eighty_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/sixteen_dp"
+                    android:gravity="right"
+                    android:text="To date"
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/sixteen_dp" />
+
+                <com.jim.mpviews.MpEditText
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/forty_dp"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/thirty_dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:hint="dd/mm/yyyy"
+                    android:textColorHint="@color/colorTextHint"
+                    android:textSize="@dimen/sixteen_dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:gravity="right"
+            android:orientation="horizontal">
+
+            <com.jim.mpviews.MpButton
+                android:layout_width="@dimen/hundred_fifty_dp"
+                android:layout_height="@dimen/fifty_dp"
+                android:layout_marginBottom="@dimen/thirty_dp"
+                android:layout_marginLeft="@dimen/thirty_dp"
+                android:layout_marginRight="@dimen/fifteen_dp"
+                android:text="Cancel"
+                android:textColor="@color/colorMainText"
+                android:textSize="@dimen/sixteen_dp" />
+
+
+            <com.jim.mpviews.MpButton
+                android:layout_width="@dimen/hundred_fifty_dp"
+                android:layout_height="@dimen/fifty_dp"
+                android:layout_marginBottom="@dimen/thirty_dp"
+                android:layout_marginRight="@dimen/thirty_dp"
+                android:text="Save"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/sixteen_dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

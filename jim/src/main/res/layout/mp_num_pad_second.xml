@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/mpNumPadBg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:background="@drawable/num_pad_blue"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingRight="@dimen/ten_dp">
+
+        <TextView
+            android:id="@+id/mpValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="right"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/sixteen_dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/mpCurr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="right"
+            android:textColor="#b8d3e8"
+            android:textSize="@dimen/sixteen_dp" />
+
+    </LinearLayout>
+</merge>

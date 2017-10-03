@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00ffffff"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="@dimen/four_hundred_sixty_dp"
+        android:layout_height="@dimen/two_hundred_sixty_dp"
+        android:background="@drawable/rounded_edit_text_bg"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/seventy_dp"
+            android:background="@drawable/rounded_blue_bg">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:paddingLeft="@dimen/thirty_dp"
+                android:text="Warning"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/twenty_dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/tvWarningText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/twenty_dp"
+            android:layout_marginLeft="@dimen/thirty_dp"
+            android:layout_marginRight="@dimen/thirty_dp"
+            android:layout_marginTop="@dimen/thirty_dp"
+            android:gravity="center"
+            android:paddingBottom="@dimen/five_dp"
+            android:paddingLeft="@dimen/ten_dp"
+            android:paddingRight="@dimen/ten_dp"
+            android:paddingTop="@dimen/five_dp"
+            android:text="Connection Failed!!!"
+            android:textColor="@color/colorMainText"
+            android:textSize="@dimen/twenty_four_dp" />
+
+
+        <com.jim.mpviews.MpButton
+            android:id="@+id/btnWarningOK"
+            android:layout_width="@dimen/hundred_eighty_dp"
+            android:layout_height="@dimen/seventy_dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="OK"
+            android:textColor="@color/colorBlue"
+            android:textSize="@dimen/eighteen_dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="MpEditText">
+        <attr name="showText" format="boolean" />
+        <attr name="gravity" format="enum">
+            <enum name="left" value="0" />
+            <enum name="right" value="1" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="MpCheckbox">
+        <attr name="text" format="string" />
+        <attr name="checked" format="boolean" />
+        <attr name="without_text" format="boolean" />
+        <attr name="enabled" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="MpButtonWithIcon">
+        <attr name="btn_text" format="string" />
+        <attr name="src" format="reference" />
+        <attr name="tint_color" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="MpToolbar">
+        <attr name="view_mode" format="integer"/>
+    </declare-styleable>
+
+    <declare-styleable name="MpSearchView">
+        <attr name="barcode_visibility" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="MpSpinner">
+        <attr name="sp_bg" format="reference" />
+        <attr name="img_color" format="reference" />
+        <attr name="text_color" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="MpSwitcher">
+        <attr name="text_right" format="string" />
+        <attr name="text_left" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="MpTripleSwitcher">
+        <attr name="right_text" format="string" />
+        <attr name="left_text" format="string" />
+        <attr name="center_text" format="string" />
+    </declare-styleable>
+
+
+    <declare-styleable name="MpPayments">
+        <attr name="type" format="string" />
+        <attr name="percent" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="MpComboSlot">
+        <attr name="combo_name" format="string" />
+    </declare-styleable>
+    <declare-styleable name="MpKeyPad">
+        <attr name="letter" format="string" />
+        <attr name="symbol" format="string" />
+        <attr name="letter_color" format="color" />
+        <attr name="has_extra" format="boolean" />
+        <attr name="background" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="MpNumPad">
+        <attr name="mode" format="integer" />
+        <attr name="value" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="MpLightButton">
+        <attr name="image_content" format="reference" />
+        <attr name="text_content" format="string" />
+        <attr name="btn_mode" format="integer" />
+    </declare-styleable>
+    <declare-styleable name="MpNumPadSecond">
+        <attr name="values" format="string" />
+        <attr name="currency" format="string" />
+    </declare-styleable>
+</resources>

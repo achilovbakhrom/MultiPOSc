@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBackgroundGrey"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:layout_marginTop="@dimen/twenty_five_dp"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="@dimen/hundred_forty_five_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/sixteen_dp"
+                    android:gravity="right"
+                    android:text="Barcode"
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/sixteen_dp" />
+
+                <com.jim.mpviews.MpEditText
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/forty_dp"
+                    android:layout_weight="1"
+                    android:drawableRight="@drawable/barcode"
+                    android:drawableTint="@color/colorTextHint"
+                    android:hint="Number"
+                    android:textColorHint="@color/colorTextHint"
+                    android:textSize="@dimen/sixteen_dp" />
+
+                <TextView
+                    android:layout_width="@dimen/hundred_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/sixteen_dp"
+                    android:gravity="right"
+                    android:text="Password"
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/sixteen_dp" />
+
+                <com.jim.mpviews.MpEditText
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/forty_dp"
+                    android:layout_marginRight="@dimen/thirty_dp"
+                    android:layout_weight="1"
+                    android:textColorHint="@color/colorTextHint"
+                    android:textSize="@dimen/sixteen_dp" />
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:background="@color/colorTextHint" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="@dimen/hundred_forty_five_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/sixteen_dp"
+                    android:gravity="right"
+                    android:text="Maximum \n off"
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/sixteen_dp" />
+
+                <com.jim.mpviews.MpEditText
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/forty_dp"
+                    android:layout_weight="1"
+                    android:hint="Amount"
+                    android:textColorHint="@color/colorTextHint"
+                    android:textSize="@dimen/sixteen_dp" />
+
+                <TextView
+                    android:layout_width="@dimen/hundred_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/sixteen_dp"
+                    android:gravity="right"
+                    android:text="Minimum \n off"
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/sixteen_dp" />
+
+                <com.jim.mpviews.MpEditText
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/forty_dp"
+                    android:layout_marginRight="@dimen/thirty_dp"
+                    android:layout_weight="1"
+                    android:hint="Amount"
+                    android:textColorHint="@color/colorTextHint"
+                    android:textSize="@dimen/sixteen_dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="@dimen/hundred_forty_five_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/sixteen_dp"
+                    android:gravity="right"
+                    android:text="Currency"
+                    android:textSize="@dimen/sixteen_dp" />
+
+
+                <com.jim.mpviews.MpSpinner
+                    android:layout_width="@dimen/two_hundred_ten_dp"
+                    android:layout_height="@dimen/forty_dp"
+                    android:layout_marginRight="@dimen/thirty_dp" />
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:background="@color/colorTextHint" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Number of Products Required to Earn Discount"
+                    android:textSize="@dimen/sixteen_dp" />
+
+                <com.jim.mpviews.MpEditText
+                    android:layout_width="@dimen/two_hundred_twelve_dp"
+                    android:layout_height="@dimen/forty_dp"
+                    android:layout_marginRight="@dimen/thirty_dp"
+                    android:hint="Amount"
+                    android:textColorHint="@color/colorTextHint"
+                    android:textSize="@dimen/sixteen_dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/ten_dp"
+                android:orientation="horizontal"
+                android:padding="@dimen/five_dp">
+
+                <com.jim.mpviews.MpCheckbox
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/thirty_dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/seventy_dp"
+                    android:layout_marginRight="@dimen/twenty_dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/eighty_dp"
+                    android:text="Apply to All Products \n Required to \n Earn Discount"
+                    android:textColor="@color/colorMainText" />
+
+                <com.jim.mpviews.MpCheckbox
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/thirty_dp"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/twenty_dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Apply to Qualifying \n Products/Class/ \n Group" />
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:layout_marginTop="@dimen/thirty_dp"
+                android:background="@color/colorTextHint" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/seventy_dp"
+                android:layout_marginRight="@dimen/ten_dp"
+                android:orientation="horizontal"
+                android:padding="@dimen/five_dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/twenty_dp"
+                    android:text="Effective Dates/Times"
+                    android:textColor="@color/colorBlue" />
+
+
+                <com.jim.mpviews.MpCheckbox
+                    app:checked="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/thirty_dp"
+                    android:layout_gravity="center" />
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+        <FrameLayout
+            android:layout_width="25px"
+            android:layout_height="match_parent"
+            android:background="@drawable/left_fade" />
+    </RelativeLayout>
+
+</LinearLayout>

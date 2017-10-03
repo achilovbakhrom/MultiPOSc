@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/mpBackGround"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/seventy_five_dp"
+        android:background="@drawable/num_pad_bg"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/mpCurrencies"
+            android:layout_width="@dimen/forty_dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/sixteen_dp"
+            android:paddingTop="@dimen/ten_dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/mpMainCurrency"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/twelve_dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/mpSecondaryCurrency"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/twelve_dp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/mpOtherCurrencies"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/arrow_down"
+                android:paddingLeft="@dimen/five_dp"
+                android:paddingRight="@dimen/five_dp"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:orientation="vertical"
+            android:paddingRight="@dimen/fifteen_dp">
+
+            <TextView
+                android:id="@+id/mpType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:textSize="@dimen/twelve_dp" />
+
+            <TextView
+                android:id="@+id/mpPaymentValue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="right"
+                android:textSize="@dimen/twenty_five_dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</merge>

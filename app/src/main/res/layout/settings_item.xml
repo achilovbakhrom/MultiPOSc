@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:animateLayoutChanges="false"
+    android:background="@color/colorBackgroundGrey"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:id="@+id/strip"
+            android:layout_width="@dimen/twenty_dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorBlue"
+            android:visibility="invisible" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="@dimen/eighty_dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/ten_dp"
+            android:paddingTop="@dimen/ten_dp">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="@dimen/three_hundred_dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/five_dp"
+                android:gravity="left"
+                android:text="Account"
+                android:textColor="@color/colorBlue" />
+
+            <TextView
+                android:id="@+id/tvDescription"
+                android:layout_width="@dimen/three_hundred_dp"
+                android:layout_height="wrap_content"
+                android:text="Some details"
+                android:textColor="@color/colorMainText" />
+
+        </LinearLayout>
+
+        <com.jim.mpviews.MpCheckbox
+            android:id="@+id/chbDone"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/thirty_dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="@dimen/thirty_dp"
+            app:enabled="false"
+            app:without_text="true" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/colorTextHint" />
+</LinearLayout>

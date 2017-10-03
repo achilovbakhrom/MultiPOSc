@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBackgroundGrey"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/forty_dp"
+                android:background="@color/colorWhite"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:ellipsize="end"
+                    android:maxWidth="@dimen/hundred_dp"
+                    android:maxLines="1"
+                    android:layout_marginLeft="@dimen/fifteen_dp"
+                    android:paddingBottom="@dimen/five_dp"
+                    android:paddingLeft="@dimen/ten_dp"
+                    android:paddingRight="@dimen/ten_dp"
+                    android:paddingTop="@dimen/five_dp"
+                    android:textColor="@color/colorBlue"
+                    android:textSize="@dimen/sixteen_dp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/ivArrowFirst"
+                    android:layout_width="@dimen/ten_dp"
+                    android:layout_height="@dimen/ten_dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/pather" />
+
+                <TextView
+                    android:id="@+id/tvSubCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingBottom="@dimen/five_dp"
+                    android:ellipsize="end"
+                    android:maxWidth="@dimen/hundred_dp"
+                    android:maxLines="1"
+                    android:paddingLeft="@dimen/ten_dp"
+                    android:paddingRight="@dimen/ten_dp"
+                    android:paddingTop="@dimen/five_dp"
+                    android:textColor="@color/colorBlue"
+                    android:textSize="@dimen/sixteen_dp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/ivArrow"
+                    android:layout_width="@dimen/ten_dp"
+                    android:layout_height="@dimen/ten_dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/pather" />
+
+                <TextView
+                    android:id="@+id/tvProduct"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingBottom="@dimen/five_dp"
+                    android:paddingLeft="@dimen/ten_dp"
+                    android:maxLines="1"
+                    android:paddingRight="@dimen/ten_dp"
+                    android:paddingTop="@dimen/five_dp"
+                    android:textColor="@color/colorBlue"
+                    android:textSize="@dimen/sixteen_dp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="10px"
+                android:background="@drawable/top_fade" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvCategory"
+                    android:layout_width="@dimen/hundred_dp"
+                    android:overScrollMode="never"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/ten_dp"
+                    android:layout_marginRight="@dimen/fifteen_dp" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvSubCategory"
+                    android:layout_width="@dimen/hundred_dp"
+                    android:overScrollMode="never"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="@dimen/fifteen_dp" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvProduct"
+                    android:overScrollMode="never"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="25px"
+            android:layout_height="match_parent"
+            android:background="@drawable/left_fade" />
+    </RelativeLayout>
+
+</LinearLayout>

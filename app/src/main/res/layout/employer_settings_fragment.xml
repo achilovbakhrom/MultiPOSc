@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBackgroundGrey"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/twenty_dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="@dimen/two_hundred_seventy_five_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/sixteen_dp"
+                    android:gravity="right"
+                    android:text="Employers which use this system"
+                    android:textColor="@color/colorBlue"
+                    android:textSize="@dimen/eighteen_dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/twenty_dp"
+                        android:layout_marginTop="@dimen/twenty_dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="@dimen/hundred_dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="@dimen/sixteen_dp"
+                            android:gravity="right"
+                            android:text="Full name"
+                            android:textSize="@dimen/eighteen_dp" />
+
+                        <com.jim.mpviews.MpEditText
+                            android:id="@+id/etFullName"
+                            android:layout_width="@dimen/three_hundred_fifty_dp"
+                            android:layout_height="@dimen/forty_dp"
+                            android:layout_gravity="center"
+                            android:gravity="left|center_vertical"
+                            android:hint="Name"
+                            android:textSize="@dimen/eighteen_dp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/ten_dp"
+                        android:orientation="horizontal">
+
+
+                        <TextView
+                            android:layout_width="@dimen/hundred_dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="@dimen/sixteen_dp"
+                            android:gravity="right"
+                            android:text="Password"
+                            android:textSize="@dimen/eighteen_dp" />
+
+                        <com.jim.mpviews.MpEditText
+                            android:id="@+id/etPassword"
+                            android:layout_width="@dimen/hundred_thirty_dp"
+                            android:layout_height="@dimen/forty_dp"
+                            android:layout_gravity="center"
+                            android:fontFamily="roboto"
+                            android:hint="@string/password"
+                            android:inputType="numberPassword"
+                            android:textColorHint="@color/colorTextHint"
+                            android:textSize="@dimen/eighteen_dp" />
+
+                        <TextView
+                            android:layout_width="@dimen/sixty_five_dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="@dimen/twenty_dp"
+                            android:layout_marginRight="@dimen/twenty_dp"
+                            android:gravity="right"
+                            android:text="Confirm"
+                            android:textSize="@dimen/eighteen_dp" />
+
+                        <com.jim.mpviews.MpEditText
+                            android:id="@+id/etConfirm"
+                            android:layout_width="@dimen/two_hundred_dp"
+                            android:layout_height="@dimen/forty_dp"
+                            android:layout_gravity="center"
+                            android:fontFamily="roboto"
+                            android:hint="@string/confirm_password"
+                            android:inputType="numberPassword"
+                            android:textColorHint="@color/colorTextHint"
+                            android:textSize="@dimen/eighteen_dp" />
+
+                        <ImageView
+                            android:id="@+id/ivAdd"
+                            android:layout_width="@dimen/thirty_dp"
+                            android:layout_height="@dimen/thirty_dp"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="@dimen/sixteen_dp"
+                            android:layout_marginRight="@dimen/thirty_dp"
+                            android:src="@drawable/add_round" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="@dimen/thirty_dp"
+                android:layout_marginRight="@dimen/thirty_dp"
+                android:background="@color/colorTextHint" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="@dimen/thirty_dp"
+                android:layout_marginRight="@dimen/thirty_dp"
+                android:background="@color/colorWhite" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="@dimen/hundred_fifty_five_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/sixteen_dp"
+                    android:gravity="right"
+                    android:text="@string/list_of_employers"
+                    android:textColor="@color/colorBlue"
+                    android:textSize="@dimen/eighteen_dp" />
+
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvEmployers"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginLeft="@dimen/twenty_dp"
+                android:layout_weight="1"
+                tools:listitem="@layout/employer_item" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:gravity="right"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/twenty_dp"
+                android:paddingRight="@dimen/twenty_dp">
+
+                <com.jim.mpviews.MpButton
+                    android:id="@+id/btnRevert"
+                    android:layout_width="@dimen/hundred_sixty_dp"
+                    android:layout_height="@dimen/fifty_five_dp"
+                    android:layout_marginRight="@dimen/fifteen_dp"
+                    android:text="@string/back"
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/eighteen_dp" />
+
+                <com.jim.mpviews.MpButton
+                    android:id="@+id/btnNext"
+                    android:layout_width="@dimen/hundred_sixty_dp"
+                    android:layout_height="@dimen/fifty_five_dp"
+                    android:layout_marginRight="@dimen/fifteen_dp"
+                    android:text="Next"
+                    android:textColor="@color/colorBlue"
+                    android:textSize="@dimen/eighteen_dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

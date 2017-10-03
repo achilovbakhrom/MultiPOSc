@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:background="@drawable/diagonal_lines"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/ninety_dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/forty_dp"
+                android:padding="@dimen/three_dp"
+                android:layout_marginLeft="@dimen/thirty_dp"
+                android:layout_marginTop="@dimen/twenty_seven_dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/pos"
+                android:scaleType="centerInside"/>
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/thirty_five_dp"
+            android:background="@color/colorBlue"
+            android:orientation="vertical">
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/five_dp"
+                android:background="@drawable/shadow_black"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/thirty_dp"
+                android:gravity="center"
+                android:text="@string/login_details"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/eighteen_dp"
+                android:textStyle="italic" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="35">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+
+                    <com.jim.mpviews.MpEditText
+                        android:id="@+id/etFounderLogin"
+                        android:layout_width="@dimen/three_hundred_fifty_dp"
+                        android:layout_height="@dimen/fifty_dp"
+                        android:textSize="@dimen/eighteen_dp"
+                        android:layout_marginLeft="@dimen/thirty_dp"
+                        android:layout_marginRight="@dimen/thirty_dp"
+                        android:layout_marginTop="@dimen/forty_dp"
+                        android:hint="@string/founder_login" />
+
+                    <com.jim.mpviews.MpEditText
+                        android:id="@+id/etFounderPassword"
+                        android:layout_width="@dimen/three_hundred_fifty_dp"
+                        android:layout_height="@dimen/fifty_dp"
+                        android:layout_marginLeft="@dimen/thirty_dp"
+                        android:textSize="@dimen/eighteen_dp"
+                        android:inputType="textPassword"
+                        android:layout_marginRight="@dimen/thirty_dp"
+                        android:layout_marginTop="@dimen/fifteen_dp"
+                        android:fontFamily="roboto"
+                        android:hint="@string/founder_password" />
+
+                    <TextView
+                        android:layout_width="@dimen/three_hundred_fifty_dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/thirty_dp"
+                        android:layout_marginRight="@dimen/thirty_dp"
+                        android:layout_marginTop="@dimen/fifteen_dp"
+                        android:paddingBottom="@dimen/five_dp"
+                        android:paddingLeft="@dimen/ten_dp"
+                        android:textSize="@dimen/sixteen_dp"
+                        android:paddingRight="@dimen/ten_dp"
+                        android:paddingTop="@dimen/five_dp"
+                        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc a Lorem ipsum dolor sit amet"
+                        android:textColor="#c7c7c7" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/forty_five_dp"
+                    android:layout_marginLeft="@dimen/thirty_dp"
+
+                    >
+
+                    <com.jim.mpviews.MpButton
+                        android:id="@+id/btnRegistration"
+                        android:layout_width="@dimen/hundred_eighty_dp"
+                        android:layout_height="@dimen/seventy_dp"
+                        android:gravity="center"
+                        android:paddingBottom="@dimen/five_dp"
+                        android:paddingLeft="@dimen/ten_dp"
+                        android:paddingRight="@dimen/ten_dp"
+                        android:paddingTop="@dimen/five_dp"
+                        android:text="@string/registration"
+                        android:textColor="@color/colorBlue"
+                        android:textSize="@dimen/eighteen_dp"
+                        android:textStyle="bold" />
+
+                    <com.jim.mpviews.MpButton
+                        android:id="@+id/btnLogin"
+                        android:layout_width="@dimen/hundred_eighty_dp"
+                        android:layout_height="@dimen/seventy_dp"
+                        android:layout_marginRight="@dimen/fifteen_dp"
+                        android:gravity="center"
+                        android:paddingBottom="@dimen/five_dp"
+                        android:paddingLeft="@dimen/ten_dp"
+                        android:paddingRight="@dimen/ten_dp"
+                        android:paddingTop="@dimen/five_dp"
+                        android:text="@string/login"
+                        android:textColor="@color/colorBlue"
+                        android:textSize="@dimen/eighteen_dp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="65"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/seven_hundred_seventy_five_dp"
+                    android:layout_height="@dimen/four_hundred_eighty_five_dp"
+                    android:layout_marginRight="@dimen/twenty_dp"
+                    android:layout_marginTop="@dimen/thirty_five_dp"
+                    android:src="@drawable/posmen_note"
+                    android:layout_gravity="center"
+                    android:scaleType="fitXY"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/thirty_dp"
+                    android:layout_marginTop="@dimen/forty_dp"
+                    android:paddingLeft="@dimen/thirty_dp"
+                    android:paddingRight="@dimen/fifty_dp"
+                    android:textAlignment="center"
+                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc a Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc a "
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/eighteen_dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
