@@ -1,6 +1,7 @@
 package com.jim.multipos.data.network.signing;
 
 import com.google.gson.annotations.SerializedName;
+import com.jim.multipos.data.db.model.Contact;
 
 import org.parceler.Parcel;
 
@@ -18,9 +19,9 @@ import lombok.Setter;
 public class RegistrationObject implements Serializable {
     @Getter @Setter
     @SerializedName("organization_name")
-    private String organizationName;
+    String organizationName;
     @Getter @Setter
     @SerializedName("e_mail")
-    private String eMail;
-    private List<Contact> contactList;
+    String eMail;
+    List<Contact> contactList;
 }
