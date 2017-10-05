@@ -11,19 +11,19 @@ public class RegistrationConfirmPresenterImpl {
 
     public RegistrationConfirmPresenterImpl() {}
 
+/*
+    @Override
+    public void confirm() {
+        view.onConfirm();
+    }
 
-//    @Override
-//    public void confirm() {
-//        view.onConfirm();
-//    }
-//
-//    @Override
-//    public void checkAccessToken() {
-//
-//    }
-//
-//    @Override
-//    public void back() {
-//        view.onBack();
-//    }
+    @Override
+    public void checkAccessToken() {
+
+    }
+
+    @Override
+    public void back() {
+        view.onBack();
+    }*/
 }

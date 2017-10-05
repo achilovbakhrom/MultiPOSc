@@ -1,9 +1,13 @@
 package com.jim.multipos.config.common;
 
+import android.content.Context;
+
 import com.jim.multipos.MultiPosApp;
 
 import javax.inject.Singleton;
 
+import dagger.Binds;
+import dagger.BindsInstance;
 import dagger.Component;
 import dagger.android.AndroidInjector;
 

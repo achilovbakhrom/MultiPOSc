@@ -19,9 +19,9 @@ import lombok.Setter;
 public class RegistrationObject implements Serializable {
     @Getter @Setter
     @SerializedName("organization_name")
-    private String organizationName;
+    String organizationName;
     @Getter @Setter
     @SerializedName("e_mail")
-    private String eMail;
-    private List<Contact> contactList;
+    String eMail;
+    List<Contact> contactList;
 }
