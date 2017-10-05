@@ -40,4 +40,9 @@ public class BasePresenterImpl<T extends BaseView> implements Presenter {
     public void onDestroy() {
 
     }
+
+    @Override
+    public void onCreateView(Bundle bundle) {
+
+    }
 }

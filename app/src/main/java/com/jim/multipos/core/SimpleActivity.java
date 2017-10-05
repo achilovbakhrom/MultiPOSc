@@ -37,11 +37,11 @@ public abstract class SimpleActivity extends BaseActivity {
 
     protected abstract int getToolbar();
 
-    protected final void addFragment(Fragment fragment) {
+    public final void addFragment(Fragment fragment) {
         addFragment(R.id.flMain, fragment);
     }
 
-    protected final void replaceFragment(Fragment fragment) {
+    public final void replaceFragment(Fragment fragment) {
         replaceFragment(R.id.flMain, fragment);
     }
 

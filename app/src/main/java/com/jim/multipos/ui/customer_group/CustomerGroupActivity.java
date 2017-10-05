@@ -61,9 +61,9 @@ public class CustomerGroupActivity extends BaseActivity implements HasComponent<
         return component;
     }
 
-    @Override
+//    @Override
     protected void setupComponent(BaseAppComponent baseAppComponent) {
-        component = baseAppComponent.plus(new CustomerGroupActivityModule(this));
+//        component = baseAppComponent.plus(new CustomerGroupActivityModule(this));
         component.inject(this);
     }
 

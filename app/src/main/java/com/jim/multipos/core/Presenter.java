@@ -12,4 +12,5 @@ public interface Presenter {
     void onPause();
     void onSaveInstanceState(Bundle bundle);
     void onDestroy();
+    void onCreateView(Bundle bundle);
 }

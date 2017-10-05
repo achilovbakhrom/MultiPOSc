@@ -13,6 +13,7 @@ import java.util.UUID;
 
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
+import org.greenrobot.greendao.annotation.Transient;
 
 
 /**
@@ -20,80 +21,21 @@ import org.greenrobot.greendao.DaoException;
  */
 @Entity(nameInDb = "CONTACTS", active = true)
 public class Contact implements Serializable{
-    @Id
+    @Transient
+    public static final int PHONE = 0, E_MAIL = 1;
+    @Id(autoincrement = true)
     @Property
     @SerializedName("id")
-    private String id;
+    private Long id;
     @Property
-    @SerializedName("contact_type")
-    private String contactType;
+    @SerializedName("type")
+    private int type;
     @Property
-    @SerializedName("contact_value")
-    private String contactValue;
+    @SerializedName("name")
+    private String name;
     @Property
     @SerializedName("organization_id")
     private String organizationId;
-    /**
-     * Used to resolve relations
-     */
-    @Generated(hash = 2040040024)
-    private transient DaoSession daoSession;
-    /**
-     * Used for active entity operations.
-     */
-    @Generated(hash = 2046468181)
-    private transient ContactDao myDao;
-
-    @Keep
-    public Contact() {
-        id = UUID.randomUUID().toString();
-    }
-
-    @Generated(hash = 85381444)
-    public Contact(String id, String contactType, String contactValue,
-            String organizationId) {
-        this.id = id;
-        this.contactType = contactType;
-        this.contactValue = contactValue;
-        this.organizationId = organizationId;
-    }
-
-    public String getContactType() {
-        return contactType;
-    }
-
-    public void setContactType(String contactType) {
-        this.contactType = contactType;
-    }
-
-    public String getContactValue() {
-        return contactValue;
-    }
-
-    public void setContactValue(String contactValue) {
-        this.contactValue = contactValue;
-    }
-
-    public String getId() {
-        return this.id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
-     * Entity must attached to an entity context.
-     */
-    @Generated(hash = 128553479)
-    public void delete() {
-        if (myDao == null) {
-            throw new DaoException("Entity is detached from DAO context");
-        }
-        myDao.delete(this);
-    }
-
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
      * Entity must attached to an entity context.
@@ -105,7 +47,6 @@ public class Contact implements Serializable{
         }
         myDao.refresh(this);
     }
-
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
      * Entity must attached to an entity context.
@@ -117,19 +58,61 @@ public class Contact implements Serializable{
         }
         myDao.update(this);
     }
-
-    public String getOrganizationId() {
-        return this.organizationId;
+    /**
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
+     * Entity must attached to an entity context.
+     */
+    @Generated(hash = 128553479)
+    public void delete() {
+        if (myDao == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        myDao.delete(this);
     }
-
-    public void setOrganizationId(String organizationId) {
-        this.organizationId = organizationId;
-    }
-
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 2088270543)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getContactDao() : null;
+    }
+    /** Used for active entity operations. */
+    @Generated(hash = 2046468181)
+    private transient ContactDao myDao;
+    /** Used to resolve relations */
+    @Generated(hash = 2040040024)
+    private transient DaoSession daoSession;
+    public String getOrganizationId() {
+        return this.organizationId;
+    }
+    public void setOrganizationId(String organizationId) {
+        this.organizationId = organizationId;
+    }
+    public String getName() {
+        return this.name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public int getType() {
+        return this.type;
+    }
+    public void setType(int type) {
+        this.type = type;
+    }
+    public Long getId() {
+        return this.id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
+    @Generated(hash = 1319990308)
+    public Contact(Long id, int type, String name, String organizationId) {
+        this.id = id;
+        this.type = type;
+        this.name = name;
+        this.organizationId = organizationId;
+    }
+    @Generated(hash = 672515148)
+    public Contact() {
     }
 }

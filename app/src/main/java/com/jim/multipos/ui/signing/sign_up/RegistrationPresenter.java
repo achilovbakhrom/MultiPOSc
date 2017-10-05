@@ -1,6 +1,8 @@
 package com.jim.multipos.ui.signing.sign_up;
 
 
+import android.os.Bundle;
+
 import com.jim.multipos.core.BaseFragmentPresenter;
 import com.jim.multipos.core.Presenter;
 
@@ -9,7 +11,6 @@ import com.jim.multipos.core.Presenter;
  */
 
 public interface RegistrationPresenter extends Presenter {
-    void init();
-    void addContact();
+    void addContact(int type, String data);
     void register();
 }

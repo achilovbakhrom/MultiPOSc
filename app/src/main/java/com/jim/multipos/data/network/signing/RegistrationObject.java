@@ -1,6 +1,7 @@
 package com.jim.multipos.data.network.signing;
 
 import com.google.gson.annotations.SerializedName;
+import com.jim.multipos.data.db.model.Contact;
 
 import org.parceler.Parcel;
 
