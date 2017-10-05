@@ -293,7 +293,7 @@
                 android:textSize="@dimen/eighteen_dp" />
 
             <com.jim.mpviews.MpButton
-                android:id="@+id/btnRegistrationSecond"
+                android:id="@+id/btnRegistration"
                 android:layout_width="@dimen/hundred_eighty_dp"
                 android:layout_height="@dimen/seventy_dp"
                 android:gravity="center"

@@ -3,22 +3,18 @@ package com.jim.multipos.ui.customer_group.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.mpviews.MpButton;
 import com.jim.mpviews.MpCheckbox;
-import com.jim.mpviews.MpEditText;
 import com.jim.mpviews.MpSpinner;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.db.model.ServiceFee;
-import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
 import com.jim.multipos.ui.customer_group.CustomerGroupActivity;
 import com.jim.multipos.ui.customer_group.adapters.ServiceFeeSpinnerAdapter;
@@ -32,7 +28,6 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import io.reactivex.functions.Consumer;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -82,7 +77,7 @@ public class AddCustomerGroupFragment extends BaseFragment implements AddCustome
             String groupName = etGroupName.getText().toString();
             boolean isTaxFree = chbTaxFree.isCheckboxChecked();
             boolean isActive = chbActive.isCheckboxChecked();
-            int serviceFeePosition = spServiceFee.selectedItem();
+            int serviceFeePosition = spServiceFee.selectedItemPosition();
 
             presenter.addCustomerGroup(groupName, 1, serviceFeePosition, isTaxFree, isActive);
         });

@@ -263,10 +263,14 @@ public class MpSpinner extends RelativeLayout {
         spinner.post(() -> spinner.setSelection(position));
     }
 
-    public int selectedItem() {
+    public int selectedItemPosition() {
         int selected = spinner.getSelectedItemPosition();
         return selected;
     }
+    public Object getSelectedItem() {
+        return spinner.getSelectedItem();
+    }
+
 
     public void setSpinnerEnabled(boolean enabled) {
         spinner.setEnabled(enabled);
@@ -349,7 +353,7 @@ public class MpSpinner extends RelativeLayout {
 //        mpSpinner1.setOnItemSelectedListener(new MpSpinner.setOnItemClickListener() {
 //            @Override
 //            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//                Log.d(Test.TAG, "onItemClick: "+mpSpinner1.selectedItem());
+//                Log.d(Test.TAG, "onItemClick: "+mpSpinner1.selectedItemPosition());
 //            }
 //        });
 

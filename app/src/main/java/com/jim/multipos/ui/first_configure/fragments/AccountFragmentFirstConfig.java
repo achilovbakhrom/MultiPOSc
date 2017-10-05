@@ -92,8 +92,8 @@ public class AccountFragmentFirstConfig extends BaseFragmentFirstConfig implemen
 
         RxView.clicks(ivAdd).subscribe(aVoid -> {
             String name = etAccountName.getText().toString();
-            int type = spType.selectedItem();
-            int circulation = spCirculation.selectedItem();
+            int type = spType.selectedItemPosition();
+            int circulation = spCirculation.selectedItemPosition();
 
             presenter.addAccount(name, type, circulation);
         });

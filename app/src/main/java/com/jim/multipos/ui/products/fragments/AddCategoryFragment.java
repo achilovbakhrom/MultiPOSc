@@ -25,7 +25,8 @@ import com.jim.multipos.ui.products.di.ProductsComponent;
 import com.jim.multipos.ui.products.presenters.CategoryPresenter;
 
 import com.jim.multipos.utils.CommonUtils;
-import com.jim.multipos.utils.GlideApp;
+
+//import com.jim.multipos.utils.GlideApp;
 import com.jim.multipos.utils.OpenPickPhotoUtils;
 import com.jim.multipos.utils.PhotoPickDialog;
 import com.jim.multipos.utils.RxBus;
@@ -114,7 +115,7 @@ public class AddCategoryFragment extends BaseFragment implements CategoryView {
             @Override
             public void onCameraShot(Uri uri) {
                 photoSelected = uri;
-                GlideApp.with(AddCategoryFragment.this).load(uri).diskCacheStrategy(DiskCacheStrategy.RESOURCE).thumbnail(0.2f).centerCrop().transform(new RoundedCorners(20)).into(ivLoadImage);
+//                GlideApp.with(AddCategoryFragment.this).load(uri).diskCacheStrategy(DiskCacheStrategy.RESOURCE).thumbnail(0.2f).centerCrop().transform(new RoundedCorners(20)).into(ivLoadImage);
 
             }
 
@@ -149,7 +150,7 @@ public class AddCategoryFragment extends BaseFragment implements CategoryView {
         if (OpenPickPhotoUtils.RESULT_PICK_IMAGE == requestCode && RESULT_OK == resultCode && data.getData() != null) {
             Uri imageUri = data.getData();
             photoSelected = imageUri;
-            GlideApp.with(AddCategoryFragment.this).load(imageUri).diskCacheStrategy(DiskCacheStrategy.RESOURCE).thumbnail(0.2f).centerCrop().transform(new RoundedCorners(20)).into(ivLoadImage);
+//            GlideApp.with(AddCategoryFragment.this).load(imageUri).diskCacheStrategy(DiskCacheStrategy.RESOURCE).thumbnail(0.2f).centerCrop().transform(new RoundedCorners(20)).into(ivLoadImage);
         }
     }
 
@@ -165,7 +166,7 @@ public class AddCategoryFragment extends BaseFragment implements CategoryView {
         chbActive.setChecked(active);
         if(!photoPath.equals("")) {
             photoSelected = Uri.fromFile(new File(photoPath));
-            GlideApp.with(AddCategoryFragment.this).load(photoSelected).diskCacheStrategy(DiskCacheStrategy.RESOURCE).thumbnail(0.2f).centerCrop().transform(new RoundedCorners(20)).into(ivLoadImage);
+//            GlideApp.with(AddCategoryFragment.this).load(photoSelected).diskCacheStrategy(DiskCacheStrategy.RESOURCE).thumbnail(0.2f).centerCrop().transform(new RoundedCorners(20)).into(ivLoadImage);
         }
         else {
             photoSelected = null;

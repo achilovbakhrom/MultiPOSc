@@ -23,8 +23,8 @@ import com.jim.multipos.ui.product_class.di.ProductClassComponent;
 import com.jim.multipos.ui.product_class.di.ProductClassModule;
 import com.jim.multipos.ui.products.di.ProductsComponent;
 import com.jim.multipos.ui.products.di.ProductsModule;
-import com.jim.multipos.ui.registration.di.LoginActivityComponent;
-import com.jim.multipos.ui.registration.di.LoginActivityModule;
+import com.jim.multipos.ui.signing.di.LoginActivityComponent;
+import com.jim.multipos.ui.signing.di.LoginActivityModule;
 import com.jim.multipos.ui.service_fee.di.ServiceFeeActivityComponent;
 import com.jim.multipos.ui.service_fee.di.ServiceFeeActivityModule;
 
@@ -36,32 +36,32 @@ import dagger.Component;
  * Created by DEV on 27.07.2017.
  */
 @Singleton
-@Component(modules = {BaseAppModule.class, MultiPosApiModule.class})
+@Component(modules = {BaseAppModule.class }) //, MultiPosApiModule.class})
 public interface BaseAppComponent {
-    FirstConfigureActivityComponent plus(FirstConfigureActivityModule firstConfigureActivityModule);
-
-    ServiceFeeActivityComponent plus(ServiceFeeActivityModule serviceFeeActivityModule);
-
-    CustomersEditActivityComponent plus(CustomersEditActivityModule customersEditActivityModule);
-
-    CustomerGroupActivityComponent plus(CustomerGroupActivityModule customerGroupActivityModule);
-
-    LoginActivityComponent plus(LoginActivityModule loginActivityModule);
-
-    LoginPageComponent plus(LoginPageModule loginPageModule);
-
-    MainPosPageActivityComponent plus(MainPosPageActivityModule mainPosPageFragmentModule);
-
-    ProductMenuComponent plus(ProductMenuModule productMenuModule);
-
-    CustomersMenuComponent plus(CustomersMenuModule customersMenuModule);
-
-    InventoryMenuComponent plus(InventoryMenuModule inventoryMenuModule);
-
-    EmployerMenuComponent plus(EmployerMenuModule employerMenuModule);
-
-    ProductsComponent plus(ProductsModule productsModule);
-
-    ProductClassComponent plus(ProductClassModule productClassModule);
+//    FirstConfigureActivityComponent plus(FirstConfigureActivityModule firstConfigureActivityModule);
+//
+//    ServiceFeeActivityComponent plus(ServiceFeeActivityModule serviceFeeActivityModule);
+//
+//    CustomersEditActivityComponent plus(CustomersEditActivityModule customersEditActivityModule);
+//
+//    CustomerGroupActivityComponent plus(CustomerGroupActivityModule customerGroupActivityModule);
+//
+//    LoginActivityComponent plus(LoginActivityModule loginActivityModule);
+//
+//    LoginPageComponent plus(LoginPageModule loginPageModule);
+//
+//    MainPosPageActivityComponent plus(MainPosPageActivityModule mainPosPageFragmentModule);
+//
+//    ProductMenuComponent plus(ProductMenuModule productMenuModule);
+//
+//    CustomersMenuComponent plus(CustomersMenuModule customersMenuModule);
+//
+//    InventoryMenuComponent plus(InventoryMenuModule inventoryMenuModule);
+//
+//    EmployerMenuComponent plus(EmployerMenuModule employerMenuModule);
+//
+//    ProductsComponent plus(ProductsModule productsModule);
+//
+//    ProductClassComponent plus(ProductClassModule productClassModule);
 
 }

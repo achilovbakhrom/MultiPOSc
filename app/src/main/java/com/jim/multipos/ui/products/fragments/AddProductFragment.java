@@ -117,8 +117,8 @@ public class AddProductFragment extends BaseFragment implements ProductsView {
             etProductCost.setError(getString(R.string.enter_product_cost));
         else {
             presenter.saveProduct(etProductName.getText().toString(), etBarcode.getText().toString(), etSKU.getText().toString(),
-                    etProductPrice.getText().toString(), etProductCost.getText().toString(), currencyList.get(spPriceCurrency.selectedItem()), currencyList.get(spCostCurrency.selectedItem()), unitList.get(spUnit.selectedItem()),
-                    null, classList.get(spProductClass.selectedItem()), chbActive.isCheckboxChecked(), chbTax.isCheckboxChecked(), chbHasRecipe.isCheckboxChecked());
+                    etProductPrice.getText().toString(), etProductCost.getText().toString(), currencyList.get(spPriceCurrency.selectedItemPosition()), currencyList.get(spCostCurrency.selectedItemPosition()), unitList.get(spUnit.selectedItemPosition()),
+                    null, classList.get(spProductClass.selectedItemPosition()), chbActive.isCheckboxChecked(), chbTax.isCheckboxChecked(), chbHasRecipe.isCheckboxChecked());
         }
     }
 
@@ -144,8 +144,8 @@ public class AddProductFragment extends BaseFragment implements ProductsView {
             etProductCost.setError(getString(R.string.enter_product_cost));
         else {
             presenter.onAdvance(etProductName.getText().toString(), etBarcode.getText().toString(), etSKU.getText().toString(),
-                    etProductPrice.getText().toString(), etProductCost.getText().toString(), currencyList.get(spPriceCurrency.selectedItem()), currencyList.get(spCostCurrency.selectedItem()), unitList.get(spUnit.selectedItem()),
-                    null, classList.get(spProductClass.selectedItem()), chbActive.isCheckboxChecked(), chbTax.isCheckboxChecked(), chbHasRecipe.isCheckboxChecked());
+                    etProductPrice.getText().toString(), etProductCost.getText().toString(), currencyList.get(spPriceCurrency.selectedItemPosition()), currencyList.get(spCostCurrency.selectedItemPosition()), unitList.get(spUnit.selectedItemPosition()),
+                    null, classList.get(spProductClass.selectedItemPosition()), chbActive.isCheckboxChecked(), chbTax.isCheckboxChecked(), chbHasRecipe.isCheckboxChecked());
         }
     }
 

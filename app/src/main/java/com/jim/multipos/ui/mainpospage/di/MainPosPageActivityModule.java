@@ -4,7 +4,6 @@ import com.jim.multipos.ui.ActivityScope;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivity;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivityImpl;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivityPresenter;
-import com.jim.multipos.ui.registration.LoginActivity;
 import com.jim.multipos.utils.managers.PosFragmentManager;
 
 import dagger.Module;

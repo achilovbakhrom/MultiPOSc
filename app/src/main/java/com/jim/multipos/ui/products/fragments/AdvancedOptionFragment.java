@@ -29,7 +29,6 @@ import com.jim.multipos.ui.products.adapters.SubUnitsAdapter;
 import com.jim.multipos.ui.products.adapters.UnitSpinnerAdapter;
 import com.jim.multipos.ui.products.di.ProductsComponent;
 import com.jim.multipos.ui.products.presenters.AdvancedOptionPresenter;
-import com.jim.multipos.utils.CommonUtils;
 import com.jim.multipos.utils.managers.PosFragmentManager;
 
 import java.util.List;
@@ -40,8 +39,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-
-import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
 /**
  * Created by DEV on 31.08.2017.
@@ -108,7 +105,7 @@ public class AdvancedOptionFragment extends BaseFragment implements AdvancedOpti
         });
         RxView.clicks(ivAddIngredients).subscribe(o -> {
             if (!etIngredientsQty.getText().toString().isEmpty())
-                presenter.setIngredients(productList.get(spIngredients.selectedItem()), etIngredientsQty.getText().toString(), unitList.get(spIngredientsUnit.selectedItem()));
+                presenter.setIngredients(productList.get(spIngredients.selectedItemPosition()), etIngredientsQty.getText().toString(), unitList.get(spIngredientsUnit.selectedItemPosition()));
         });
         return view;
     }

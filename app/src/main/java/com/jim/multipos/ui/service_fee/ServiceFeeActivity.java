@@ -81,9 +81,9 @@ public class ServiceFeeActivity extends BaseActivity implements HasComponent<Ser
         RxView.clicks(ivAdd).subscribe(aVoid -> {
             String name = etName.getText().toString();
             String amount = etAmount.getText().toString();
-            int type = spType.selectedItem();
-            int currency = spCurrency.selectedItem();
-            int appType = spAppType.selectedItem();
+            int type = spType.selectedItemPosition();
+            int currency = spCurrency.selectedItemPosition();
+            int appType = spAppType.selectedItemPosition();
             boolean isTaxed = chbTaxed.isCheckboxChecked();
             boolean isActive = chbActive.isCheckboxChecked();
 
@@ -228,9 +228,9 @@ public class ServiceFeeActivity extends BaseActivity implements HasComponent<Ser
     private void addItem(int paymentTypePosition) {
         String name = etName.getText().toString();
         String amount = etAmount.getText().toString();
-        int type = spType.selectedItem();
-        int currency = spCurrency.selectedItem();
-        int appType = spAppType.selectedItem();
+        int type = spType.selectedItemPosition();
+        int currency = spCurrency.selectedItemPosition();
+        int appType = spAppType.selectedItemPosition();
         boolean isTaxed = chbTaxed.isCheckboxChecked();
         boolean isActive = chbActive.isCheckboxChecked();
 

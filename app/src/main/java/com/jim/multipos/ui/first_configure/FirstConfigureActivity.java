@@ -20,7 +20,7 @@ import com.jim.multipos.ui.first_configure.fragments.PaymentTypeFragmentFirstCon
 import com.jim.multipos.ui.first_configure.fragments.PosDetailsFragmentFirstConfig;
 import com.jim.multipos.ui.first_configure.fragments.StockFragmentFirstConfig;
 import com.jim.multipos.ui.first_configure.fragments.UnitsFragmentFirstConfig;
-import com.jim.multipos.ui.registration.LoginActivity;
+import com.jim.multipos.ui.signing.SignActivity;
 import com.jim.multipos.utils.managers.PosFragmentManager;
 
 import java.util.ArrayList;
@@ -133,7 +133,7 @@ public class FirstConfigureActivity extends BaseActivity implements HasComponent
                 leftSideFragment.showCheckBoxIndicator(nextPosition, false);
             } else {
                preferencesHelper.setFirestConfigured(true);
-               Intent intent = new Intent(FirstConfigureActivity.this, LoginActivity.class);
+               Intent intent = new Intent(FirstConfigureActivity.this, SignActivity.class);
                startActivity(intent);
                 return;
             }

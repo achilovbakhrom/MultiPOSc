@@ -94,8 +94,8 @@ public class PaymentTypeFragmentFirstConfig extends BaseFragmentFirstConfig impl
 
         RxView.clicks(ivAdd).subscribe(aVoid -> {
             String paymentTypeName = etPaymentTypeName.getText().toString();
-            int accountPosition = spAccount.selectedItem();
-            int currencyPosition = spCurrency.selectedItem();
+            int accountPosition = spAccount.selectedItemPosition();
+            int currencyPosition = spCurrency.selectedItemPosition();
 
             presenter.addData(paymentTypeName, accountPosition, currencyPosition);
         });

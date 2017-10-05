@@ -1,15 +1,10 @@
 package com.jim.multipos.ui.product_class.fragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.mpviews.MpButton;
@@ -18,11 +13,9 @@ import com.jim.mpviews.MpSpinner;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.db.model.ProductClass;
-import com.jim.multipos.data.db.model.intosystem.NameId;
 import com.jim.multipos.data.db.model.intosystem.NameIdProdClass;
 import com.jim.multipos.ui.product_class.di.ProductClassComponent;
 import com.jim.multipos.ui.product_class.presenters.AddProductClassPresenter;
-import com.jim.multipos.ui.products.di.ProductsComponent;
 import com.jim.multipos.utils.RxBus;
 
 import java.util.ArrayList;
@@ -60,7 +53,7 @@ public class AddProductClassFragment extends BaseFragment implements AddProductC
         cbActive.setChecked(true);
         RxView.clicks(btnSave).subscribe(aVoid -> {
             String className = etClassName.getText().toString();
-            int pos = spParent.selectedItem();
+            int pos = spParent.selectedItemPosition();
             boolean active = cbActive.isCheckboxChecked();
             if(className.isEmpty()||className.length()<4){
                     etClassName.setError("Input Name");

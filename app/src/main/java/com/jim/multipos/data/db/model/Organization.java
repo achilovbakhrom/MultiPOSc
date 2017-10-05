@@ -1,10 +1,14 @@
 package com.jim.multipos.data.db.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.JoinProperty;
 import org.greenrobot.greendao.annotation.Keep;
 import org.greenrobot.greendao.annotation.ToMany;
+
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 import org.greenrobot.greendao.annotation.Generated;
@@ -15,14 +19,20 @@ import org.greenrobot.greendao.DaoException;
  * Created by DEV on 26.08.2017.
  */
 @Entity(active = true, nameInDb = "ORGANIZATION")
-public class Organization {
+public class Organization implements Serializable {
     @Id
+    @SerializedName("id")
     private String id;
+    @SerializedName("name")
     private String name;
+    @SerializedName("address")
     private String address;
+    @SerializedName("zip_code")
     private String zipCode;
+    @SerializedName("e_mail")
     private String email;
     @ToMany(joinProperties = {@JoinProperty(name = "id", referencedName = "organizationId")})
+    @SerializedName("contacts")
     private List<Contact> contacts;
     /**
      * Used to resolve relations

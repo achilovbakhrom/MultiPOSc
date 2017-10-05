@@ -51,7 +51,7 @@ public class AutoApplyConfigure extends Dialog {
         spParent.setAdapter(adapter);
 
         btnSave.setOnClickListener(v -> {
-            int position = spParent.selectedItem();
+            int position = spParent.selectedItemPosition();
 
             onClickCallback.saveAutoApplyDialog(position);
             dismiss();
