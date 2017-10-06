@@ -16,7 +16,6 @@ import com.jim.mpviews.utils.VibrateManager;
 public class MpItem extends android.support.v7.widget.AppCompatTextView {
 
     private boolean isPressed = false;
-    private VibrateManager VibrateManager;
 
     public MpItem(Context context) {
         super(context);
@@ -34,7 +33,6 @@ public class MpItem extends android.support.v7.widget.AppCompatTextView {
     }
 
     public void init(Context context, AttributeSet attrs) {
-        VibrateManager = new VibrateManager(getContext());
         setBackgroundResource(R.drawable.item_bg);
         setPadding((int) Utils.convertDpToPixel(10), (int) Utils.convertDpToPixel(10), (int) Utils.convertDpToPixel(10), (int) Utils.convertDpToPixel(10));
         setGravity(Gravity.CENTER);

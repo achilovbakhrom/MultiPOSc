@@ -7,6 +7,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.jim.multipos.config.scope.PerActivity;
+import com.jim.multipos.utils.RxBusLocal;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import javax.inject.Named;
 
@@ -32,5 +34,17 @@ public abstract class BaseActivityModule {
     @PerActivity
     static FragmentManager activityFragmentManager(AppCompatActivity activity) {
         return activity.getSupportFragmentManager();
+    }
+
+    @Provides
+    @PerActivity
+    static RxBusLocal provideRxBusLocal() {
+        return new RxBusLocal();
+    }
+
+    @Provides
+    @PerActivity
+    public RxPermissions provideRxPermissions(AppCompatActivity activity){
+        return new RxPermissions(activity);
     }
 }

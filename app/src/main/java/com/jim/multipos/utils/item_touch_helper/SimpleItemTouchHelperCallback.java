@@ -4,7 +4,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
-import com.jim.multipos.ui.products.adapters.ProductsListAdapter;
+import com.jim.multipos.ui.product.adapter.ProductsListAdapter;
 
 
 /**

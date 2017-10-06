@@ -67,5 +67,6 @@
         <activity android:name=".ui.customer_group.CustomerGroupActivity">
 
         </activity>
+        <activity android:name=".ui.product.ProductsActivity" />
     </application>
 </manifest>

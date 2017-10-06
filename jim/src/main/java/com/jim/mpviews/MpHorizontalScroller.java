@@ -27,7 +27,6 @@ public class MpHorizontalScroller extends LinearLayout {
 
     private TextView mpCenterText, mpCounter;
     private ImageView mpCenter;
-    private VibrateManager VibrateManager;
     private List<String> arrayList;
     int counter = 0;
     private ImageView mpLeftArrow, mpRightArrow;
@@ -54,7 +53,6 @@ public class MpHorizontalScroller extends LinearLayout {
     }
 
     public void init(Context context) {
-        VibrateManager = new VibrateManager(getContext());
         LayoutInflater.from(context).inflate(R.layout.mp_horizontal_scroller, this);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         setLayoutParams(layoutParams);
@@ -73,7 +71,7 @@ public class MpHorizontalScroller extends LinearLayout {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         if (!pressed) {
-                            VibrateManager.startVibrate();
+                            VibrateManager.startVibrate(context, 50);
                             pressed = true;
                         }
                         mpLeftArrow.setImageResource(R.drawable.oreder_navigator_left_pressed);
@@ -92,7 +90,7 @@ public class MpHorizontalScroller extends LinearLayout {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         if (!pressed) {
-                            VibrateManager.startVibrate();
+                            VibrateManager.startVibrate(context, 50);
                             pressed = true;
                         }
                         mpRightArrow.setImageResource(R.drawable.oreder_navigator_right_pressed);
@@ -111,7 +109,7 @@ public class MpHorizontalScroller extends LinearLayout {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         if (!pressed) {
-                            VibrateManager.startVibrate();
+                            VibrateManager.startVibrate(context, 50);
                             pressed = true;
                         }
                         mpCenter.setImageResource(R.drawable.oreder_navigator_center_pressed);

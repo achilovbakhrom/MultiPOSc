@@ -26,7 +26,6 @@ public class MpCounter extends RelativeLayout {
     private float x1, x2, y1, y2, constX, constY;
     int counter = 0, max_value = 0;
     List<String> arrayList;
-    private VibrateManager VibrateManager;
 
     public MpCounter(Context context) {
         super(context);
@@ -52,7 +51,6 @@ public class MpCounter extends RelativeLayout {
 
     public void init(Context context) {
         this.context = context;
-        VibrateManager = new VibrateManager(getContext());
         LayoutInflater.from(context).inflate(R.layout.mp_counter, this);
         LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         setLayoutParams(layoutParams);
@@ -103,7 +101,7 @@ public class MpCounter extends RelativeLayout {
                             if (!arrayList.isEmpty())
                                 mpCounter.setText(arrayList.get(counter));
                             else mpCounter.setText("" + counter);
-                            VibrateManager.startVibrate();
+                            VibrateManager.startVibrate(context, 50);
                             return true;
 
                         } else if (x1 > x2) {
@@ -116,7 +114,7 @@ public class MpCounter extends RelativeLayout {
                             if (!arrayList.isEmpty())
                                 mpCounter.setText(arrayList.get(counter));
                             else mpCounter.setText("" + counter);
-                            VibrateManager.startVibrate();
+                            VibrateManager.startVibrate(context, 50);
                             return true;
                         }
                     } else {
@@ -141,7 +139,7 @@ public class MpCounter extends RelativeLayout {
                         if (!arrayList.isEmpty())
                             mpCounter.setText(arrayList.get(counter));
                         else mpCounter.setText("" + counter);
-                        VibrateManager.startVibrate();
+                        VibrateManager.startVibrate(context, 50);
                     }
                     if (constX < getWidth() / 2) {
                         if (counter > 0) {
@@ -152,7 +150,7 @@ public class MpCounter extends RelativeLayout {
                         if (!arrayList.isEmpty())
                             mpCounter.setText(arrayList.get(counter));
                         else mpCounter.setText("" + counter);
-                        VibrateManager.startVibrate();
+                        VibrateManager.startVibrate(context, 50);
                     }
                 }
                 break;

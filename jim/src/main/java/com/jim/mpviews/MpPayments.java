@@ -26,7 +26,6 @@ public class MpPayments extends RelativeLayout {
     private TextView mpType, mpPercent;
     private LinearLayout mpPayment;
     private boolean isPressed = false;
-    private VibrateManager VibrateManager;
     private OnTouchCustom touchCustom;
 
     public interface OnTouchCustom{
@@ -58,7 +57,6 @@ public class MpPayments extends RelativeLayout {
     }
 
     public void init(Context context, AttributeSet attrs) {
-        VibrateManager = new VibrateManager(getContext());
         LayoutInflater.from(context).inflate(R.layout.mp_payments, this);
         LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         setLayoutParams(layoutParams);
@@ -74,7 +72,7 @@ public class MpPayments extends RelativeLayout {
         setOnTouchListener((view, motionEvent) -> {
             switch (motionEvent.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    VibrateManager.startVibrate();
+                    VibrateManager.startVibrate(context, 50);
                     mpPayment.setBackgroundResource(R.drawable.rounded_blue_btn);
                     mpType.setTextColor(getResources().getColor(R.color.colorWhite));
                     mpPercent.setTextColor(getResources().getColor(R.color.colorWhite));

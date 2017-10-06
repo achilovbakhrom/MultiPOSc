@@ -27,11 +27,7 @@ import com.jim.mpviews.utils.VibrateManager;
 
 public class MpButtonWithIcon extends RelativeLayout {
 
-    private ImageView mpBtnIcon;
-    private TextView mpBtnText;
-
     private boolean isPressed = false;
-    private VibrateManager VibrateManager;
 
     public MpButtonWithIcon(Context context) {
         super(context);
@@ -55,18 +51,16 @@ public class MpButtonWithIcon extends RelativeLayout {
     }
 
     public void init(Context context, AttributeSet attrs) {
-        VibrateManager = new VibrateManager(getContext());
         LayoutInflater.from(context).inflate(R.layout.mp_btn_with_icon, this);
         LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         setLayoutParams(layoutParams);
         TypedArray attributeArray = context.obtainStyledAttributes(attrs, R.styleable.MpButtonWithIcon);
 
-        mpBtnIcon = (ImageView) findViewById(R.id.mpBtnIcon);
-        mpBtnText = (TextView) findViewById(R.id.mpBtnText);
         String text = attributeArray.getString(R.styleable.MpButtonWithIcon_btn_text);
-        mpBtnText.setText(text);
-        mpBtnIcon.setImageTintList(ColorStateList.valueOf(attributeArray.getColor(R.styleable.MpButtonWithIcon_tint_color, getResources().getColor(R.color.colorBlue))));
-        mpBtnIcon.setImageResource(attributeArray.getResourceId(R.styleable.MpButtonWithIcon_src, 0));
+        ((TextView) findViewById(R.id.mpBtnText)).setText(text);
+        ((ImageView)findViewById(R.id.mpBtnIcon)).setImageTintList(ColorStateList.valueOf(attributeArray.getColor(R.styleable.MpButtonWithIcon_tint_color, getResources().getColor(R.color.colorBlue))));
+        ((ImageView) findViewById(R.id.mpBtnIcon)).setImageResource(attributeArray.getResourceId(R.styleable.MpButtonWithIcon_src, 0));
+
         setBackgroundResource(R.drawable.button_bg);
         setPadding((int) Utils.convertDpToPixel(10), (int) Utils.convertDpToPixel(10), (int) Utils.convertDpToPixel(10), (int) Utils.convertDpToPixel(10));
         setGravity(Gravity.CENTER);
@@ -75,7 +69,7 @@ public class MpButtonWithIcon extends RelativeLayout {
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        VibrateManager.startVibrate();
+                        VibrateManager.startVibrate(context, 50);
                         if (!isPressed) {
                             setBackgroundResource(R.drawable.pressed_btn);
                             isPressed = true;

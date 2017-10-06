@@ -54,9 +54,8 @@ public class PosFragmentManager {
         fragmentManager.popBackStack();
     }
 
-    public Fragment findFragmentbyTag(Fragment fragment, String tag) {
-        fragment = fragmentManager.findFragmentByTag(tag);
-        return fragment;
+    public Fragment findFragmentByTag(String tag) {
+        return fragmentManager.findFragmentByTag(tag);
     }
 
     public Fragment getCurrentFragment() {

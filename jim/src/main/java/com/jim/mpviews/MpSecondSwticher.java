@@ -25,7 +25,6 @@ public class MpSecondSwticher extends LinearLayout {
     private TextView mpLeftText, mpRightText;
     private boolean right = false;
     private boolean left = false;
-    private VibrateManager VibrateManager;
 
     public MpSecondSwticher(Context context) {
         super(context);
@@ -56,7 +55,6 @@ public class MpSecondSwticher extends LinearLayout {
         mpLeftText = (TextView) findViewById(R.id.mpLeftText);
         mpRightText = (TextView) findViewById(R.id.mpRightText);
         TypedArray attributeArray = context.obtainStyledAttributes(attrs, R.styleable.MpSwitcher);
-        VibrateManager = new VibrateManager(getContext());
 
         mpLeftBtn.setBackgroundResource(R.drawable.left_side_pressed);
         mpRightBtn.setBackgroundResource(R.drawable.right_side);
@@ -66,7 +64,7 @@ public class MpSecondSwticher extends LinearLayout {
         mpLeftBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                VibrateManager.startVibrate();
+                VibrateManager.startVibrate(context, 50);
                 mpLeftBtn.setBackgroundResource(R.drawable.left_side_pressed);
                 mpRightBtn.setBackgroundResource(R.drawable.right_side);
                 right = false;
@@ -77,7 +75,7 @@ public class MpSecondSwticher extends LinearLayout {
         mpRightBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                VibrateManager.startVibrate();
+                VibrateManager.startVibrate(context, 50);
                 mpLeftBtn.setBackgroundResource(R.drawable.left_side);
                 mpRightBtn.setBackgroundResource(R.drawable.right_side_pressed);
                 right = true;

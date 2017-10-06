@@ -157,7 +157,7 @@
                     android:textSize="@dimen/sixteen_dp" />
 
                 <com.jim.mpviews.MpCheckbox
-                    android:id="@+id/chbActive"
+                    android:id="@+id/chbSubUnitActive"
                     android:layout_width="@dimen/thirty_dp"
                     android:layout_height="@dimen/thirty_dp"
                     android:layout_gravity="center_vertical"

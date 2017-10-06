@@ -38,7 +38,6 @@ public class MpToolbar extends RelativeLayout {
     private TextView mpEmpName, mpEmpRole;
     private MpHorizontalScroller mpHorizontalScroller;
     private MpSearchView mpSearchView;
-    private VibrateManager VibrateManager;
 
     public MpToolbar(Context context) {
         super(context);
@@ -61,7 +60,6 @@ public class MpToolbar extends RelativeLayout {
     }
 
     public void init(Context context, AttributeSet attributeSet) {
-        VibrateManager = new VibrateManager(context, 50);
         LayoutInflater.from(context).inflate(R.layout.mp_toolbar, this);
         LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         setLayoutParams(layoutParams);
@@ -84,7 +82,7 @@ public class MpToolbar extends RelativeLayout {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         if (!pressed) {
-                            VibrateManager.startVibrate();
+                            VibrateManager.startVibrate(context, 50);
                             pressed = true;
                         }
                         mpSettings.setImageResource(R.drawable.settings_blue_press);
@@ -103,7 +101,7 @@ public class MpToolbar extends RelativeLayout {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         if (!pressed) {
-                            VibrateManager.startVibrate();
+                            VibrateManager.startVibrate(context, 50);
                             pressed = true;
                         }
                         findViewById(R.id.productLine).setVisibility(GONE);
@@ -126,7 +124,7 @@ public class MpToolbar extends RelativeLayout {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         if (!pressed) {
-                            VibrateManager.startVibrate();
+                            VibrateManager.startVibrate(context, 50);
                             pressed = true;
                         }
                         findViewById(R.id.inventoryLine).setVisibility(GONE);
@@ -148,7 +146,7 @@ public class MpToolbar extends RelativeLayout {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         if (!pressed) {
-                            VibrateManager.startVibrate();
+                            VibrateManager.startVibrate(context, 50);
                             pressed = true;
                         }
                         findViewById(R.id.customerLine).setVisibility(GONE);
@@ -169,7 +167,7 @@ public class MpToolbar extends RelativeLayout {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         if (!pressed) {
-                            VibrateManager.startVibrate();
+                            VibrateManager.startVibrate(context, 50);
                             pressed = true;
                         }
                         findViewById(R.id.reportLine).setVisibility(GONE);
@@ -190,7 +188,7 @@ public class MpToolbar extends RelativeLayout {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         if (!pressed) {
-                            VibrateManager.startVibrate();
+                            VibrateManager.startVibrate(context, 50);
                             pressed = true;
                         }
                         findViewById(R.id.whiteLine).setVisibility(GONE);
@@ -211,7 +209,7 @@ public class MpToolbar extends RelativeLayout {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         if (!pressed) {
-                            VibrateManager.startVibrate();
+                            VibrateManager.startVibrate(context, 50);
                             pressed = true;
                         }
                         findViewById(R.id.searchLine).setVisibility(GONE);

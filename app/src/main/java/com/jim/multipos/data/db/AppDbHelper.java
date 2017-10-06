@@ -16,7 +16,6 @@
 package com.jim.multipos.data.db;
 
 import android.database.Cursor;
-import android.util.Log;
 
 import com.jim.multipos.data.db.model.DaoMaster;
 import com.jim.multipos.data.db.model.DaoSession;
@@ -27,7 +26,6 @@ import com.jim.multipos.data.db.model.Account;
 
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
-import com.jim.multipos.data.db.model.customer.CustomerGroupDao;
 import com.jim.multipos.data.db.model.customer.JoinCustomerGroupsWithCustomers;
 import com.jim.multipos.data.db.model.intosystem.CategoryPosition;
 import com.jim.multipos.data.db.model.intosystem.ProductPosition;
@@ -61,7 +59,6 @@ import org.greenrobot.greendao.query.Query;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -259,17 +256,6 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Observable<List<SubCategory>> getAllSubCategories() {
         return Observable.fromCallable(() -> mDaoSession.getSubCategoryDao().loadAll());
-    }
-
-    @Override
-    public Observable<SubCategory> getSubCategoryByName(SubCategory subCategory) {
-        return Observable.fromCallable(() -> {
-            Query<SubCategory> subCategoryQuery = mDaoSession.getSubCategoryDao().queryBuilder()
-                    .where(SubCategoryDao.Properties.Name.eq(subCategory.getName())).build();
-            if (!subCategoryQuery.list().isEmpty()) {
-                return subCategoryQuery.list().get(0);
-            } else return subCategory;
-        });
     }
 
     @Override
@@ -776,32 +762,28 @@ public class AppDbHelper implements DbHelper {
     }
 
 
-
     @Override
-    public Observable<Category> getCategoryByName(Category category) {
+    public Observable<Boolean> getCategoryByName(Category category) {
         return Observable.fromCallable(() -> {
             Query<Category> categoryQuery = mDaoSession.getCategoryDao().queryBuilder()
                     .where(CategoryDao.Properties.Name.eq(category.getName())).build();
-            if (!categoryQuery.list().isEmpty()) {
-                if (!categoryQuery.list().get(0).getDescription().equals(category.getDescription()) || categoryQuery.list().get(0).isActive() != category.isActive()) {
-                    return category;
-                } else return categoryQuery.list().get(0);
-            } else return category;
+            Category temp = categoryQuery.list().get(0);
+            if (categoryQuery.list().isEmpty()) {
+                return true;
+            } else if (!temp.getDescription().equals(category.getDescription())
+                    || temp.getActive() != category.getActive()
+                    || !temp.getPhotoPath().equals(category.getPhotoPath())) {
+                return true;
+            } else return false;
         });
     }
 
     @Override
-    public Observable<Category> getMatchCategory(Category category, String temp) {
+    public Observable<Boolean> getMatchCategory(Category category) {
         return Observable.fromCallable(() -> {
             Query<Category> categoryQuery = mDaoSession.getCategoryDao().queryBuilder()
                     .where(CategoryDao.Properties.Name.eq(category.getName())).build();
-
-            if (!categoryQuery.list().isEmpty()) {
-                if (categoryQuery.list().get(0).getName().equals(temp)) {
-                    return category;
-                }
-                return categoryQuery.list().get(0);
-            } else return category;
+            return categoryQuery.list().isEmpty();
         });
     }
 

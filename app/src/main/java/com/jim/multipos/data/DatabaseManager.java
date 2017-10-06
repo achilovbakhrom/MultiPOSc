@@ -189,13 +189,13 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, S
     }
 
     @Override
-    public Observable<Category> getCategoryByName(Category category) {
+    public Observable<Boolean> getCategoryByName(Category category) {
         return dbHelper.getCategoryByName(category);
     }
 
     @Override
-    public Observable<Category> getMatchCategories(Category category, String temp) {
-        return dbHelper.getMatchCategory(category, temp);
+    public Observable<Boolean> getMatchCategory(Category category) {
+        return dbHelper.getMatchCategory(category);
     }
 
     @Override
@@ -217,11 +217,6 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, S
     @Override
     public Observable<List<SubCategory>> getAllSubCategories() {
         return dbHelper.getAllSubCategories();
-    }
-
-    @Override
-    public Observable<SubCategory> getSubCategoryByName(SubCategory subCategory) {
-        return dbHelper.getSubCategoryByName(subCategory);
     }
 
     @Override

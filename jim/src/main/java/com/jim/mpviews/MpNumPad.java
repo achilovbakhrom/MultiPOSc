@@ -27,7 +27,6 @@ public class MpNumPad extends FrameLayout {
 
     private TextView textView;
     private LinearLayout layout;
-    private VibrateManager VibrateManager;
     private int mode;
     private final int NUMBER_MODE = 0;
     private final int ACTION_MODE = 1;
@@ -50,7 +49,6 @@ public class MpNumPad extends FrameLayout {
     boolean pressed = false;
 
     public void init(Context context, AttributeSet attributeSet) {
-        VibrateManager = new VibrateManager(getContext(), 50);
         LayoutInflater.from(context).inflate(R.layout.mp_num_pad, this);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         setLayoutParams(layoutParams);
@@ -78,7 +76,7 @@ public class MpNumPad extends FrameLayout {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         if (!pressed) {
-                            VibrateManager.startVibrate();
+                            VibrateManager.startVibrate(context, 50);
                             pressed = true;
                         }
                         if (mode == NUMBER_MODE) {

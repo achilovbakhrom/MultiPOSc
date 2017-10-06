@@ -57,8 +57,8 @@ public interface DbHelper {
     Observable<Boolean> insertContacts(List<Contact> contact);
     Observable<List<Contact>> getAllContacts();
     DaoSession getDaoSession();
-    Observable<Category> getCategoryByName(Category category);
-    Observable<Category> getMatchCategory(Category category, String temp);
+    Observable<Boolean> getCategoryByName(Category category);
+    Observable<Boolean> getMatchCategory(Category category);
     Observable<Long> insertCategory(Category category);
     Observable<Boolean> insertCategories(List<Category> categories);
     Observable<List<Category>> getAllCategories();
@@ -71,7 +71,6 @@ public interface DbHelper {
     Observable<Long> insertSubCategory(SubCategory subCategory);
     Observable<Boolean> insertSubCategories(List<SubCategory> subCategories);
     Observable<List<SubCategory>> getAllSubCategories();
-    Observable<SubCategory> getSubCategoryByName(SubCategory subCategory);
     Observable<Long> insertOrReplaceSubCategory(SubCategory subCategory);
     Observable<Boolean> insertCategoryPositions(List<CategoryPosition> positionList);
     Observable<List<Category>> getAllCategoryPositions();

@@ -28,7 +28,6 @@ public class MpSwitcher extends LinearLayout {
     private TextView mpLeftText, mpRightText;
     private boolean right = false;
     private boolean left = false;
-    private VibrateManager VibrateManager;
 
     public MpSwitcher(Context context) {
         super(context);
@@ -61,7 +60,6 @@ public class MpSwitcher extends LinearLayout {
         mpLeftText = (TextView) findViewById(R.id.mpLeftText);
         mpRightText = (TextView) findViewById(R.id.mpRightText);
         TypedArray attributeArray = context.obtainStyledAttributes(attrs, R.styleable.MpSwitcher);
-        VibrateManager = new VibrateManager(getContext());
 
         mpLeftBtn.setBackgroundResource(R.drawable.matrix_left_pressed_bg);
         mpLeftImage.setImageResource(R.drawable.ellipse);
@@ -76,7 +74,7 @@ public class MpSwitcher extends LinearLayout {
                 switch (motionEvent.getAction())
                 {
                     case MotionEvent.ACTION_DOWN:
-                        VibrateManager.startVibrate();
+                        VibrateManager.startVibrate(context, 50);
                         mpLeftBtn.setBackgroundResource(R.drawable.matrix_left_pressed_bg);
                         mpLeftImage.setImageResource(R.drawable.ellipse);
                         mpRightBtn.setBackgroundResource(R.drawable.matrix_right_bg);
@@ -95,7 +93,7 @@ public class MpSwitcher extends LinearLayout {
                 switch (motionEvent.getAction())
                 {
                     case MotionEvent.ACTION_DOWN:
-                        VibrateManager.startVibrate();
+                        VibrateManager.startVibrate(context, 50);
                         mpLeftBtn.setBackgroundResource(R.drawable.matrix_left_bg);
                         mpLeftImage.setImageResource(R.drawable.ellipse_not_active);
                         mpRightBtn.setBackgroundResource(R.drawable.matrix_right_pressed_bg);

@@ -29,7 +29,6 @@ public class MpComboSlot extends RelativeLayout {
     private RelativeLayout mpSlot;
 
     private boolean isPressed = false;
-    private VibrateManager VibrateManager;
 
     public MpComboSlot(Context context) {
         super(context);
@@ -53,7 +52,6 @@ public class MpComboSlot extends RelativeLayout {
     }
 
     public void init(Context context, AttributeSet attrs) {
-        VibrateManager = new VibrateManager(getContext());
         LayoutInflater.from(context).inflate(R.layout.mp_combo_slot, this);
         LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         setLayoutParams(layoutParams);
@@ -71,7 +69,7 @@ public class MpComboSlot extends RelativeLayout {
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        VibrateManager.startVibrate();
+                        VibrateManager.startVibrate(context, 50);
                         if (!isPressed) {
                             mpSlot.setBackgroundResource(R.drawable.item_pressed_bg);
                             LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);

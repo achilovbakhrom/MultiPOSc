@@ -8,19 +8,8 @@ import android.os.Vibrator;
  */
 
 public class VibrateManager {
-    private Context context;
-    private int time = 50;
 
-    public VibrateManager(Context context) {
-        this.context = context;
-    }
-
-    public VibrateManager(Context context, int time) {
-        this.context = context;
-        this.time = time;
-    }
-
-    public void startVibrate() {
+    static public void startVibrate(Context context, int time) {
         Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
         vibrator.vibrate(time);
     }
