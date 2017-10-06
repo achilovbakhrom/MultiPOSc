@@ -1,7 +1,10 @@
 package com.jim.multipos.utils;
 
 
+import java.util.List;
+
 import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.PublishSubject;
 
 /**
@@ -23,6 +26,12 @@ public class RxBusLocal {
     }
 
     public boolean hasObservers() {
+
         return bus.hasObservers();
+    }
+    public static void removeListners(List<Disposable> disposables){
+        if (disposables != null && !disposables.isEmpty())
+            for (Disposable disposable : disposables)
+                disposable.dispose();
     }
 }

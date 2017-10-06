@@ -1,10 +1,6 @@
 package com.jim.multipos.ui.product_class.fragments;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.jakewharton.rxbinding2.view.RxView;
@@ -14,23 +10,28 @@ import com.jim.mpviews.MpSpinner;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.db.model.ProductClass;
-import com.jim.multipos.data.db.model.intosystem.NameIdProdClass;
-import com.jim.multipos.ui.product_class.di.ProductClassComponent;
+import com.jim.multipos.ui.product_class.ProductClassActivity;
 import com.jim.multipos.ui.product_class.presenters.AddProductClassPresenter;
 import com.jim.multipos.utils.RxBus;
+import com.jim.multipos.utils.RxBusLocal;
+import com.jim.multipos.utils.rxevents.ProductClassEvent;
 
 import java.util.ArrayList;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
+import io.reactivex.disposables.Disposable;
 
-public class AddProductClassFragment extends Fragment { //BaseFragment implements AddProductClassView  {
-    @Inject
-    RxBus rxBus;
+public class AddProductClassFragment extends BaseFragment implements AddProductClassView  {
+
+    public static final String CLICK_PRODUCT_CLASS = "click_prog";
+    public static final String ADD_PRODUCT_CLASS = "add_prog";
+
     @Inject
     AddProductClassPresenter presenter;
+    @Inject
+    RxBusLocal rxBusLocal;
     @BindView(R.id.etClassName)
     EditText etClassName;
     @BindView(R.id.spParent)
@@ -41,70 +42,94 @@ public class AddProductClassFragment extends Fragment { //BaseFragment implement
     MpButton btnCancel;
     @BindView(R.id.btnSave)
     MpButton btnSave;
-    private ArrayList<NameIdProdClass> productClasses;
+
+
+
+
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.product_class_fragment, container, false);
-//        this.getComponent(ProductClassComponent.class).inject(this);
-        productClasses = new ArrayList<>();
-        ButterKnife.bind(this, view);
-//        presenter.init(this);
+    protected int getLayout() {
+        return R.layout.product_class_fragment;
+    }
+
+    @Override
+    protected void init(Bundle savedInstanceState) {
+        presenter.onCreateView(savedInstanceState);
         cbActive.setChecked(true);
         RxView.clicks(btnSave).subscribe(aVoid -> {
             String className = etClassName.getText().toString();
             int pos = spParent.selectedItemPosition();
             boolean active = cbActive.isCheckboxChecked();
-            if(className.isEmpty()||className.length()<4){
-                    etClassName.setError("Input Name");
-                    return; }
-            String id = null;
-            if(pos>0)
-                id =  productClasses.get(pos-1).getId();
-            presenter.onSaveButtonPress(className, id,active);
+            presenter.onSaveButtonPress(className, pos,active);
         });
         RxView.clicks(btnCancel).subscribe(aVoid -> {
             getActivity().finish();
         });
-
-        return view;
     }
+
+    ArrayList<Disposable> subscriptions;
+    @Override
+    protected void rxConnections() {
+        subscriptions = new ArrayList<>();
+        subscriptions.add(
+                rxBusLocal.toObservable().subscribe(o -> {
+                    if(o instanceof ProductClassEvent){
+                        ProductClassEvent productClassEvent = (ProductClassEvent) o;
+                        if(productClassEvent.getEventType().equals(CLICK_PRODUCT_CLASS)){
+                            presenter.onClickProductClass(productClassEvent.getProductClass());
+                        }else if(productClassEvent.getEventType().equals(ADD_PRODUCT_CLASS)){
+                            presenter.addProductClass();
+                        }
+                    }}));
+
+    }
+
 
     @Override
     public void onDestroy() {
+        RxBus.removeListners(subscriptions);
         presenter.onDestroyView();
         super.onDestroy();
     }
 
+    @Override
     public void fillView(ProductClass productClass) {
         etClassName.setText(productClass.getName());
         cbActive.setChecked(productClass.getActive());
     }
 
+    @Override
     public void onAddNew() {
         etClassName.setText("");
         spParent.setSelection(0);
         cbActive.setChecked(true);
     }
 
-    public void setParentSpinnerItems(ArrayList<NameIdProdClass> productClasses) {
-        this.productClasses = productClasses;
-        ArrayList<String> strings = new ArrayList<>();
-        for(NameIdProdClass nameIdProdClass:productClasses)
-            strings.add(nameIdProdClass.getName());
-        strings.add(0,getString(R.string.none));
-        spParent.setItems(strings);
+    @Override
+    public void setParentSpinnerItems(ArrayList<String> productClasses) {
+        spParent.setItems(productClasses);
         spParent.setAdapter();
     }
 
-    public void setParentSpinnerPosition(String parent) {
-        for (int i = 0; i < productClasses.size(); i++) {
-            if(parent.equals(productClasses.get(i).getId())){
-                spParent.setSelection(i+1);
-                return;
-            }
-        }
+    @Override
+    public void setParentSpinnerPosition(int position) {
+
         spParent.setSelection(0);
     }
+
+    @Override
+    public void classNameShort() {
+        etClassName.setError(getString(R.string.class_name_should_be_longer));
+    }
+
+    @Override
+    public void classNameEmpty() {
+        etClassName.setError(getString(R.string.class_name_empty));
+
+    }
+
+
+
+
+
 }

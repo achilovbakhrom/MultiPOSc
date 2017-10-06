@@ -470,4 +470,6 @@
     <string name="attribute_name">Attribute Name</string>
     <string name="attribute_type_name">Attribute Type Name</string>
     <string name="select_customer_groups">Select customer groups</string>
+    <string name="class_name_should_be_longer">Class name should be longer 3 letter</string>
+    <string name="class_name_empty">Class name can not be empty</string>
 </resources>

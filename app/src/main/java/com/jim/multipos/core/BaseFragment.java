@@ -51,13 +51,14 @@ public abstract class BaseFragment extends Fragment implements HasSupportFragmen
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(getLayout(), container, false);
         unbinder = ButterKnife.bind(this, view);
+        rxConnections();
         init(savedInstanceState);
         return view;
     }
 
     protected abstract int getLayout();
     protected abstract void init(Bundle savedInstanceState);
-
+    protected abstract void rxConnections();
     @Override
     public void onAttach(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

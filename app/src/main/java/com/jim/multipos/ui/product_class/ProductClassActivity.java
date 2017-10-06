@@ -8,8 +8,10 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
+import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseActivity;
+import com.jim.multipos.core.DoubleSideActivity;
 import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.di.BaseAppComponent;
 import com.jim.multipos.ui.HasComponent;
@@ -25,27 +27,26 @@ import com.jim.multipos.utils.rxevents.Unsibscribe;
 
 import javax.inject.Inject;
 
-public class ProductClassActivity extends BaseActivity implements HasComponent<ProductClassComponent> , ProductClassView {
-    ProductClassComponent productClassComponent;
-    @Inject
-    PosFragmentManager posFragmentManager;
+public class ProductClassActivity extends DoubleSideActivity implements ProductClassView {
+
     @Inject
     RxBus rxBus;
-    @Inject
-    RxBusLocal rxBusLocal;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.products_layout);
-        posFragmentManager.displayFragmentWithoutBackStack(new AddProductClassFragment(),R.id.flLeftContainer);
-        posFragmentManager.displayFragmentWithoutBackStack(new ProductClassListFragment(),R.id.flRightContainer);
+        addFragmentToLeft(new AddProductClassFragment());
+        addFragmentToRight(new ProductClassListFragment());
 
     }
 
-    protected void setupComponent(BaseAppComponent baseAppComponent) {
-//        productClassComponent = baseAppComponent.plus(new ProductClassModule(this));
-        productClassComponent.inject(this);
+    @Override
+    protected int getToolbarMode() {
+        return MpToolbar.DEFAULT_TYPE;
     }
+
+
 
     @Override
     protected void onDestroy() {
@@ -53,8 +54,5 @@ public class ProductClassActivity extends BaseActivity implements HasComponent<P
         super.onDestroy();
     }
 
-    @Override
-    public ProductClassComponent getComponent() {
-        return productClassComponent;
-    }
+
 }

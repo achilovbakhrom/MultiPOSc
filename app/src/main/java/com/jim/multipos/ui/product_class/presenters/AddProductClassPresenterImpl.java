@@ -1,7 +1,12 @@
 package com.jim.multipos.ui.product_class.presenters;
 
+import android.app.Activity;
+import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
 
+import com.jim.multipos.R;
+import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.core.RxForPresenter;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.ProductClass;
@@ -20,6 +25,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
@@ -28,7 +35,7 @@ import io.reactivex.schedulers.Schedulers;
  * Created by developer on 29.08.2017.
  */
 
-public class AddProductClassPresenterImp extends AddProductClassConnector implements AddProductClassPresenter {
+public class AddProductClassPresenterImpl extends BasePresenterImpl<AddProductClassView> implements AddProductClassPresenter {
 
 
     private AddProductClassView view;
@@ -38,26 +45,31 @@ public class AddProductClassPresenterImp extends AddProductClassConnector implem
     private ProductClass productClass;
     private ArrayList<String> parentSpinner;
     List<ProductClass> productClasses;
-    public AddProductClassPresenterImp(RxBus rxBus, DatabaseManager databaseManager, RxBusLocal rxBusLocal){
+
+    @Inject
+    public AddProductClassPresenterImpl(RxBus rxBus, DatabaseManager databaseManager, RxBusLocal rxBusLocal, AddProductClassView view){
+        super(view);
         this.rxBus = rxBus;
         this.databaseManager = databaseManager;
         this.rxBusLocal = rxBusLocal;
-    }
-    @Override
-    public void init(AddProductClassView view) {
         this.view = view;
-        initConnectors(rxBus,rxBusLocal);
+
+    }
+
+    @Override
+    public void onCreateView(Bundle bundle) {
         databaseManager
                 .getAllProductClass()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(productClasses -> {
-                     this.productClasses = productClasses;
+                    this.productClasses = productClasses;
                     makeDataForParentSpinner();
                 });
         if(productClass!=null)
             view.fillView(productClass);
     }
+
 
     @Override
     public void onClickProductClass(ProductClass productClass) {
@@ -83,7 +95,15 @@ public class AddProductClassPresenterImp extends AddProductClassConnector implem
     }
 
     @Override
-    public void onSaveButtonPress(String className, String parentId, boolean active) {
+    public void onSaveButtonPress(String className, int position, boolean active) {
+        if(className.isEmpty())
+            view.classNameEmpty();
+        if(className.length()<4)
+            view.classNameShort();
+        String parentId = "";
+        if(position!=0){
+            parentId = productClasses.get(position-1).getId();
+        }
         if(productClass==null){
             productClass = new ProductClass();
             productClass.setName(className);
@@ -131,9 +151,9 @@ public class AddProductClassPresenterImp extends AddProductClassConnector implem
         for (int i = 0; i < productClasses.size(); i++) {
             if(productClass!=null)
                 if(productClass.getParentId()!=null)
-                if(productClass.getParentId().equals(productClasses.get(i).getId())){
-                    parent = productClasses.get(i).getId();
-                }
+                    if(productClass.getParentId().equals(productClasses.get(i).getId())){
+                        parent = productClasses.get(i).getId();
+                    }
             if(productClass!=null) {
                 if (!productClass.getId().equals(productClasses.get(i).getId()))
                     classesList.add(new NameIdProdClass(productClasses.get(i).getName(), productClasses.get(i).getId()));
@@ -141,7 +161,22 @@ public class AddProductClassPresenterImp extends AddProductClassConnector implem
             else    classesList.add(new NameIdProdClass(productClasses.get(i).getName(), productClasses.get(i).getId()));
 
         }
-            view.setParentSpinnerItems(classesList);
-            view.setParentSpinnerPosition(parent);
+
+        ArrayList<String> strings = new ArrayList<>();
+        for(ProductClass nameIdProdClass:productClasses)
+            strings.add(nameIdProdClass.getName());
+        //TODO none get from string
+        strings.add(0,"none");
+        view.setParentSpinnerItems(strings);
+
+        for (int i = 0; i < productClasses.size(); i++) {
+            if(parent.equals(productClasses.get(i).getId())){
+                view.setParentSpinnerPosition(i+1);
+                return;
+            }
+        }
+        view.setParentSpinnerPosition(0);
     }
+
+
 }
