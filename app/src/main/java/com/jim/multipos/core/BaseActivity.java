@@ -12,11 +12,12 @@ import android.view.WindowManager;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+
 import dagger.android.AndroidInjection;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
+
 import dagger.android.support.HasSupportFragmentInjector;
-import lombok.Getter;
 
 /**
  * Created by user on 26.07.17.
@@ -27,8 +28,6 @@ public abstract class BaseActivity extends AppCompatActivity implements HasSuppo
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentInjector;
 
-
-    @Getter
     @Inject
     @Named(BaseActivityModule.ACTIVITY_FRAGMENT_MANAGER)
     protected FragmentManager activityFragmentManager;

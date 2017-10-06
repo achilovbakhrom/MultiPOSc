@@ -1,11 +1,8 @@
 package com.jim.multipos.ui.products.fragments;
 
-import android.content.Context;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +14,7 @@ import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.mpviews.MpCheckbox;
 import com.jim.mpviews.MpEditText;
 import com.jim.multipos.R;
-import com.jim.multipos.core.BaseFragment;
-import com.jim.multipos.data.db.model.matrix.Attribute;
 import com.jim.multipos.data.db.model.matrix.AttributeType;
-import com.jim.multipos.ui.products.di.ProductsComponent;
 import com.jim.multipos.ui.products.presenters.AddMatrixAttributePresenter;
 
 import java.util.ArrayList;
@@ -37,7 +31,7 @@ import butterknife.Unbinder;
  * Created by DEV on 19.09.2017.
  */
 
-public class AddMatrixAttributesFragment extends BaseFragment implements AddMatrixAttributeView {
+public class AddMatrixAttributesFragment extends Fragment { //BaseFragment implements AddMatrixAttributeView {
     private Unbinder unbinder;
     @BindView(R.id.ivAddAttribute)
     ImageView ivAddAttribute;
@@ -58,13 +52,13 @@ public class AddMatrixAttributesFragment extends BaseFragment implements AddMatr
         View rootView = inflater.inflate(R.layout.add_attribute_fragment, container,
                 false);
         setRetainInstance(true);
-        this.getComponent(ProductsComponent.class).inject(this);
+//        this.getComponent(ProductsComponent.class).inject(this);
         this.layoutInflater = inflater;
         unbinder = ButterKnife.bind(this, rootView);
         viewList = new ArrayList<>();
         viewAttrList = new ArrayList<>();
         insertPoint = (ViewGroup) rootView.findViewById(R.id.llFirstContainer);
-        presenter.init(this);
+//        presenter.init(this);
         if (viewList.size() > 0) {
             for (int i = 0; i < viewList.size(); i++) {
                 View attrView = viewList.get(i);
@@ -125,7 +119,6 @@ public class AddMatrixAttributesFragment extends BaseFragment implements AddMatr
         }
     }
 
-    @Override
     public void setAttributeTypes(List<AttributeType> attributeTypes) {
         if (attributeTypes.size() > 0) {
             viewList.clear();
@@ -140,7 +133,6 @@ public class AddMatrixAttributesFragment extends BaseFragment implements AddMatr
         }
     }
 
-    @Override
     public void clearFields() {
         etAttributeName.setText("");
     }

@@ -34,7 +34,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AccountFragmentFirstConfig extends BaseFragmentFirstConfig implements AccountFragmentView, SystemAccountsAdapter.OnClick {
+public class AccountFragmentFirstConfig extends Fragment { // BaseFragmentFirstConfig implements AccountFragmentView, SystemAccountsAdapter.OnClick {
     @BindView(R.id.etAccountName)
     EditText etAccountName;
     @BindView(R.id.spType)
@@ -67,8 +67,8 @@ public class AccountFragmentFirstConfig extends BaseFragmentFirstConfig implemen
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.account_fragment, container, false);
 
-        this.getComponent(FirstConfigureActivityComponent.class).inject(this);
-        presenter.init(this);
+//        this.getComponent(FirstConfigureActivityComponent.class).inject(this);
+//        presenter.init(this);
 
         ButterKnife.bind(this, view);
 
@@ -105,13 +105,11 @@ public class AccountFragmentFirstConfig extends BaseFragmentFirstConfig implemen
         return view;
     }
 
-    @Override
     public void showAddedAccount() {
         adapter.notifyItemInserted(0);
         rvSystemAccounts.scrollToPosition(0);
     }
 
-    @Override
     public void clearViews() {
         etAccountName.setText("");
     }
@@ -127,10 +125,9 @@ public class AccountFragmentFirstConfig extends BaseFragmentFirstConfig implemen
     public void onDestroyView() {
         super.onDestroyView();
 
-        hideKeyboard();
+//        hideKeyboard();
     }
 
-    @Override
     public HashMap<String, String> getData() {
         HashMap<String, String> datas = new HashMap<>();
 
@@ -141,56 +138,46 @@ public class AccountFragmentFirstConfig extends BaseFragmentFirstConfig implemen
     }
 
 
-    @Override
     public boolean checkData() {
         return presenter.isCompleteData();
     }
 
-    @Override
     public void showAccountNameError(String error) {
         etAccountName.setError(error);
     }
 
-    @Override
     public void showAccountType(String[] accountType) {
         spType.setItems(accountType);
         spType.setAdapter();
     }
 
-    @Override
     public void showAccountCirculation(String[] accountCirculation) {
         spCirculation.setItems(accountCirculation);
         spCirculation.setAdapter();
     }
 
-    @Override
     public void showAdapter(List<Account> accounts, String[] accountType, String[] accountCirculation) {
-        adapter = new SystemAccountsAdapter(accounts, accountType, accountCirculation, this);
+//        adapter = new SystemAccountsAdapter(accounts, accountType, accountCirculation, this);
         rvSystemAccounts.setLayoutManager(new LinearLayoutManager(getContext()));
         rvSystemAccounts.setAdapter(adapter);
     }
 
-    @Override
     public void openNextFragment() {
         activity.openNextFragment();
     }
 
-    @Override
     public void showAccountEmptyError(String error) {
         Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
     public void removeAccount(int position) {
         presenter.removeAccount(position);
     }
 
-    @Override
     public void accountRemoved(int position) {
         adapter.notifyDataSetChanged();
     }
 
-    @Override
     public void saveData() {
         presenter.saveData();
     }

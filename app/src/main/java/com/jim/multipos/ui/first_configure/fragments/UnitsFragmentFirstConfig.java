@@ -32,7 +32,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class UnitsFragmentFirstConfig extends BaseFragmentFirstConfig implements UnitsFragmentsView, UnitAdapter.OnClick {
+public class UnitsFragmentFirstConfig extends Fragment { //BaseFragmentFirstConfig implements UnitsFragmentsView, UnitAdapter.OnClick {
     @BindView(R.id.btnNext)
     MpButton btnNext;
     @BindView(R.id.btnRevert)
@@ -65,8 +65,8 @@ public class UnitsFragmentFirstConfig extends BaseFragmentFirstConfig implements
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.units_settings, container, false);
 
-        this.getComponent(FirstConfigureActivityComponent.class).inject(this);
-        presenter.init(this);
+//        this.getComponent(FirstConfigureActivityComponent.class).inject(this);
+//        presenter.init(this);
 
         ButterKnife.bind(this, view);
 
@@ -92,60 +92,50 @@ public class UnitsFragmentFirstConfig extends BaseFragmentFirstConfig implements
         return view;
     }
 
-    @Override
     public boolean checkData() {
         return presenter.isCompleteData();
     }
 
-    @Override
     public HashMap<String, String> getData() {
         return null;
     }
 
-    @Override
     public void openNextFragment() {
         activity.openNextFragment();
     }
 
-    @Override
     public void showUnitError(String error) {
         Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
     public void showWeightRV(List<Unit> units, String[] weightProperty) {
-        weightAdapter = new UnitAdapter(units, weightProperty,(int) Constants.WEIGHT,this);
+//        weightAdapter = new UnitAdapter(units, weightProperty,(int) Constants.WEIGHT,this);
         rvWeightUnits.setLayoutManager(new LinearLayoutManager(getContext()));
         rvWeightUnits.setAdapter(weightAdapter);
     }
 
-    @Override
     public void showLengthRV(List<Unit> units, String[] lengthProperty) {
-        lengthAdapter = new UnitAdapter(units, lengthProperty, (int) Constants.LENGTH, this);
+//        lengthAdapter = new UnitAdapter(units, lengthProperty, (int) Constants.LENGTH, this);
         rvLengthUnits.setLayoutManager(new LinearLayoutManager(getContext()));
         rvLengthUnits.setAdapter(lengthAdapter);
     }
 
-    @Override
     public void showAreaRV(List<Unit> units, String[] areaProperty) {
-        areaAdapter = new UnitAdapter(units, areaProperty, (int) Constants.AREA, this);
+//        areaAdapter = new UnitAdapter(units, areaProperty, (int) Constants.AREA, this);
         rvAreaUnits.setLayoutManager(new LinearLayoutManager(getContext()));
         rvAreaUnits.setAdapter(areaAdapter);
     }
 
-    @Override
     public void showVolumeRV(List<Unit> units, String[] volumeProperty) {
-        volumeAdapter = new UnitAdapter(units, volumeProperty, (int) Constants.VOLUME, this);
+//        volumeAdapter = new UnitAdapter(units, volumeProperty, (int) Constants.VOLUME, this);
         rvVolumeUnits.setLayoutManager(new LinearLayoutManager(getContext()));
         rvVolumeUnits.setAdapter(volumeAdapter);
     }
 
-    @Override
     public void add(int position, int whichAdapter) {
         presenter.addUnit(position, whichAdapter);
     }
 
-    @Override
     public void remove(int position, int whichAdapter) {
         presenter.removeUnit(position, whichAdapter);
     }
@@ -154,15 +144,13 @@ public class UnitsFragmentFirstConfig extends BaseFragmentFirstConfig implements
     public void onDestroyView() {
         super.onDestroyView();
 
-        hideKeyboard();
+//        hideKeyboard();
     }
 
-    @Override
     public void unitAdded(int position, int whichAdapter) {
        itemChanged(position, whichAdapter);
     }
 
-    @Override
     public void unitRemoved(int position, int whichAdapter) {
         itemChanged(position, whichAdapter);
     }
@@ -179,7 +167,6 @@ public class UnitsFragmentFirstConfig extends BaseFragmentFirstConfig implements
         }
     }
 
-    @Override
     public void saveData() {
         presenter.saveData();
     }

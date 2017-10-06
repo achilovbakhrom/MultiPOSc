@@ -53,9 +53,8 @@ public class EmployerMenuActivity extends BaseActivity implements HasComponent<E
         presenter.setRecyclerViewItems(title, description);
     }
 
-    @Override
     protected void setupComponent(BaseAppComponent baseAppComponent) {
-        employerMenuComponent = baseAppComponent.plus(new EmployerMenuModule(this));
+//        employerMenuComponent = baseAppComponent.plus(new EmployerMenuModule(this));
         employerMenuComponent.inject(this);
     }
 

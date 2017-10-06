@@ -1,6 +1,7 @@
 package com.jim.multipos.ui.product_class.fragments;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -31,7 +32,7 @@ import butterknife.ButterKnife;
  * Created by developer on 29.08.2017.
  */
 
-public class ProductClassListFragment extends BaseFragment implements ProductClassListView{
+public class ProductClassListFragment extends Fragment { //BaseFragment implements ProductClassListView{
     @Inject
     RxBus rxBus;
     @Inject
@@ -47,22 +48,20 @@ public class ProductClassListFragment extends BaseFragment implements ProductCla
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.product_class_list, container, false);
-        this.getComponent(ProductClassComponent.class).inject(this);
+//        this.getComponent(ProductClassComponent.class).inject(this);
         ButterKnife.bind(this, view);
         rvClasses.setLayoutManager(new GridLayoutManager(getContext(), 6));
         rvClasses.setItemAnimator(null);
-        presenter.init(this);
+//        presenter.init(this);
 
         return view;
     }
 
-    @Override
     public void reshreshView() {
         classListAdapter.setToDefault();
         classListAdapter.notifyDataSetChanged();
     }
 
-    @Override
     public void setItemsRecyclerView(List<ProductClass> rvItemsList) {
         classListAdapter = new ProductsClassListAdapter(rvItemsList, new ProductsClassListAdapter.onItemClickListner() {
             @Override

@@ -2,6 +2,7 @@ package com.jim.multipos.ui.products.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,7 +22,7 @@ import butterknife.Unbinder;
  * Created by DEV on 19.09.2017.
  */
 
-public class MatrixFragment extends BaseFragment implements AttributeAddClickListener {
+public class MatrixFragment extends Fragment { //BaseFragment implements AttributeAddClickListener {
     @BindView(R.id.switcherMatrix)
     MpSwitcher switcherMatrix;
     @BindView(R.id.llChildSearchView)
@@ -60,7 +61,6 @@ public class MatrixFragment extends BaseFragment implements AttributeAddClickLis
         unbinder.unbind();
     }
 
-    @Override
     public void onAttributeAddClick() {
         getChildFragmentManager().beginTransaction().add(R.id.flMatrixContainer, new AddMatrixAttributesFragment()).commit();
     }

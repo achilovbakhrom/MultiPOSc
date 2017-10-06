@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +46,7 @@ import static android.app.Activity.RESULT_OK;
  * Created by DEV on 18.08.2017.
  */
 
-public class AddSubCategoryFragment extends BaseFragment implements SubCategoryView {
+public class AddSubCategoryFragment extends Fragment { // BaseFragment implements SubCategoryView {
     @BindView(R.id.etSubCategoryName)
     MpEditText etSubCategoryName;
     @BindView(R.id.etSubCategoryDescription)
@@ -84,8 +85,8 @@ public class AddSubCategoryFragment extends BaseFragment implements SubCategoryV
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.add_sub_category_fragment, container, false);
         unbinder = ButterKnife.bind(this, view);
-        this.getComponent(ProductsComponent.class).inject(this);
-        presenter.init(this);
+//        this.getComponent(ProductsComponent.class).inject(this);
+//        presenter.init(this);
         presenter.checkData();
         tvChooseCategory.setText(categoryName);
         return view;
@@ -145,12 +146,10 @@ public class AddSubCategoryFragment extends BaseFragment implements SubCategoryV
         });
     }
 
-    @Override
     public void backToMain() {
         getActivity().finish();
     }
 
-    @Override
     public void setFields(String name, String description, boolean active, String photoPath) {
         etSubCategoryName.setText(name);
         etSubCategoryDescription.setText(description);
@@ -173,18 +172,15 @@ public class AddSubCategoryFragment extends BaseFragment implements SubCategoryV
         presenter.onDestroy();
     }
 
-    @Override
     public void setData() {
         presenter.checkData();
     }
 
-    @Override
     public void setError() {
         etSubCategoryName.setError("Such name already exists");
     }
 
 
-    @Override
     public void clearFields() {
         etSubCategoryName.setText("");
         etSubCategoryDescription.setText("");
@@ -192,7 +188,6 @@ public class AddSubCategoryFragment extends BaseFragment implements SubCategoryV
         ivLoadImage.setImageResource(R.drawable.camera);
     }
 
-    @Override
     public void setParentCategoryName(String parentCategoryName) {
         tvChooseCategory.setText(parentCategoryName);
         categoryName = parentCategoryName;

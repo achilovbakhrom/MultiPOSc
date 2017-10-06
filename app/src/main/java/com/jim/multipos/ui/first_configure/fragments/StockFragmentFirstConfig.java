@@ -36,7 +36,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class StockFragmentFirstConfig extends BaseFragmentFirstConfig implements StockFragmentView, StockAdapter.OnClick {
+public class StockFragmentFirstConfig extends Fragment { //} BaseFragmentFirstConfig implements StockFragmentView, StockAdapter.OnClick {
     @Inject
     StockFragmentPresenter presenter;
     @Inject
@@ -68,8 +68,8 @@ public class StockFragmentFirstConfig extends BaseFragmentFirstConfig implements
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.stock_fragment, container, false);
 
-        this.getComponent(FirstConfigureActivityComponent.class).inject(this);
-        presenter.init(this);
+//        this.getComponent(FirstConfigureActivityComponent.class).inject(this);
+//        presenter.init(this);
         ButterKnife.bind(this, view);
         presenter.setData();
 
@@ -101,40 +101,33 @@ public class StockFragmentFirstConfig extends BaseFragmentFirstConfig implements
     public void onDestroyView() {
         super.onDestroyView();
 
-        hideKeyboard();
+//        hideKeyboard();
     }
 
-    @Override
     public boolean checkData() {
         return presenter.isCompleteData();
     }
 
-    @Override
     public HashMap<String, String> getData() {
         return null;
     }
 
-    @Override
     public void showStockNameError(String error) {
         etStockName.setError(error);
     }
 
-    @Override
     public void showAddressError(String error) {
         etAddress.setError(error);
     }
 
-    @Override
     public void showStockListError(String error) {
         Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
     public void openNextFragment() {
         activity.openNextFragment();
     }
 
-    @Override
     public void stockAdded() {
         adapter.notifyItemInserted(0);
         spStockName.notifyDataSetChanged();
@@ -142,36 +135,30 @@ public class StockFragmentFirstConfig extends BaseFragmentFirstConfig implements
         etStockName.requestFocus();
     }
 
-    @Override
     public void showRecyclerView(List<Stock> stocks) {
-        adapter = new StockAdapter(stocks, this);
+//        adapter = new StockAdapter(stocks, this);
         rvStocks.setLayoutManager(new LinearLayoutManager(getContext()));
         rvStocks.setAdapter(adapter);
     }
 
-    @Override
     public void remove(int position) {
         presenter.removeStock(position);
     }
 
-    @Override
     public void stockRemoved(int position) {
         adapter.notifyDataSetChanged();
         spStockName.setAdapter();
     }
 
-    @Override
     public void clearViews() {
         etAddress.setText("");
         etStockName.setText("");
     }
 
-    @Override
     public void showSpinner(List<Stock> stocks) {
         spStockName.setAdapter(new StockSpinnerAdapter(getContext(), R.layout.item_spinner, stocks));
     }
 
-    @Override
     public void saveData() {
         presenter.saveData();
     }

@@ -28,7 +28,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FirstConfigureLeftSideFragment extends BaseFragment implements FirstConfigureLeftSideFragmentView, SettingsAdapter.OnClick {
+public class FirstConfigureLeftSideFragment extends Fragment { //BaseFragment implements FirstConfigureLeftSideFragmentView, SettingsAdapter.OnClick {
     /*@Inject
     PosFragmentManager posFragmentManager;*/
     @Inject
@@ -56,9 +56,9 @@ public class FirstConfigureLeftSideFragment extends BaseFragment implements Firs
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.start_configuration_fragment, container, false);
 
-        this.getComponent(FirstConfigureActivityComponent.class).inject(this);
-
-        presenter.init(this);
+//        this.getComponent(FirstConfigureActivityComponent.class).inject(this);
+//
+//        presenter.init(this);
         ButterKnife.bind(this, view);
         presenter.setAdapterData();
 
@@ -74,15 +74,13 @@ public class FirstConfigureLeftSideFragment extends BaseFragment implements Firs
         settingsAdapter.changeCheckBoxIndicator(position, checked);
     }
 
-    @Override
     public void showRecyclerView(List<TitleDescription> titleDescriptionList) {
-        settingsAdapter = new SettingsAdapter(getContext(), this);
+//        settingsAdapter = new SettingsAdapter(getContext(), this);
         settingsAdapter.setData(titleDescriptionList, this);
         rvSettings.setLayoutManager(new LinearLayoutManager(getContext()));
         rvSettings.setAdapter(settingsAdapter);
     }
 
-    @Override
     public void itemClick(int position) {
         activity.checkCurrentAndChangePositonFragment(position);
     }

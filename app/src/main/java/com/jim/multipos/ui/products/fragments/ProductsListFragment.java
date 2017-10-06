@@ -1,6 +1,7 @@
 package com.jim.multipos.ui.products.fragments;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -37,7 +38,7 @@ import butterknife.Unbinder;
  * Created by DEV on 10.08.2017.
  */
 
-public class ProductsListFragment extends BaseFragment implements ProductListView, OnStartDragListener {
+public class ProductsListFragment extends Fragment { //BaseFragment implements ProductListView, OnStartDragListener {
 
     @BindView(R.id.tvCategory)
     TextView tvCategory;
@@ -75,19 +76,18 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.choose_product_fragment, container, false);
-        this.getComponent(ProductsComponent.class).inject(this);
+//        this.getComponent(ProductsComponent.class).inject(this);
         unbinder = ButterKnife.bind(this, view);
-        presenter.init(this);
+//        presenter.init(this);
         presenter.setCategoryRecyclerView();
         presenter.setViewsVisibility(CATEGORY);
         categoryMode();
         return view;
     }
 
-    @Override
     public void setCategoryRecyclerViewItems(List<Category> categories) {
         rvCategory.setLayoutManager(new LinearLayoutManager(getContext()));
-        categoryAdapter = new ProductsListAdapter(categories, presenter, CATEGORY, this);
+//        categoryAdapter = new ProductsListAdapter(categories, presenter, CATEGORY, this);
         rvCategory.setAdapter(categoryAdapter);
         rvCategory.setItemAnimator(null);
         categoryAdapter.setPosition(preferencesHelper.getLastPositionCategory());
@@ -96,10 +96,9 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
         touchHelper.attachToRecyclerView(rvCategory);
     }
 
-    @Override
     public void setSubCategoryRecyclerView(List<SubCategory> subCategories) {
         rvSubCategory.setLayoutManager(new LinearLayoutManager(getContext()));
-        subCategoryAdapter = new ProductsListAdapter(subCategories, presenter, SUBCATEGORY, this);
+//        subCategoryAdapter = new ProductsListAdapter(subCategories, presenter, SUBCATEGORY, this);
         rvSubCategory.setAdapter(subCategoryAdapter);
         rvSubCategory.setItemAnimator(null);
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(subCategoryAdapter);
@@ -107,10 +106,9 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
         touchHelper.attachToRecyclerView(rvSubCategory);
     }
 
-    @Override
     public void setProductRecyclerView(List<Product> products) {
         rvProduct.setLayoutManager(new GridLayoutManager(getContext(), 4));
-        productsAdapter = new ProductsListAdapter(products, presenter, PRODUCT, this);
+//        productsAdapter = new ProductsListAdapter(products, presenter, PRODUCT, this);
         rvProduct.setAdapter(productsAdapter);
         rvSubCategory.setItemAnimator(null);
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(productsAdapter);
@@ -118,34 +116,28 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
         touchHelper.attachToRecyclerView(rvProduct);
     }
 
-    @Override
     public void updateCategoryItems() {
         categoryAdapter.notifyDataSetChangedWithZeroButton();
     }
 
-    @Override
     public void updateProductItems() {
         productsAdapter.notifyDataSetChangedWithZeroButton();
     }
 
-    @Override
     public void updateSubCategoryItems() {
         subCategoryAdapter.notifyDataSetChangedWithZeroButton();
     }
 
-    @Override
     public void setCategoryName(String name) {
         tvCategory.setText(name);
         categoryMode();
     }
 
-    @Override
     public void setSubCategoryName(String name) {
         tvSubCategory.setText(name);
         subCategoryMode();
     }
 
-    @Override
     public void setViewsVisibility(int mode) {
         switch (mode) {
             case CATEGORY:
@@ -163,23 +155,19 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
         }
     }
 
-    @Override
     public void setProductName(String name) {
         tvProduct.setText(name);
         productMode();
     }
 
-    @Override
     public void openCategory() {
         activity.openCategory();
     }
 
-    @Override
     public void openSubCategory() {
         activity.openSubCategory();
     }
 
-    @Override
     public void openProduct() {
         activity.openProduct();
     }
@@ -190,12 +178,10 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
         unbinder.unbind();
     }
 
-    @Override
     public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
         touchHelper.startDrag(viewHolder);
     }
 
-    @Override
     public void categoryMode() {
         tvCategory.setVisibility(View.VISIBLE);
         ivArrowFirst.setVisibility(View.VISIBLE);
@@ -204,7 +190,6 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
         tvProduct.setVisibility(View.GONE);
     }
 
-    @Override
     public void subCategoryMode() {
         tvCategory.setVisibility(View.VISIBLE);
         ivArrowFirst.setVisibility(View.VISIBLE);
@@ -213,7 +198,6 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
         tvProduct.setVisibility(View.GONE);
     }
 
-    @Override
     public void productMode() {
         tvCategory.setVisibility(View.VISIBLE);
         ivArrowFirst.setVisibility(View.VISIBLE);
@@ -222,7 +206,6 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
         tvProduct.setVisibility(View.VISIBLE);
     }
 
-    @Override
     public void allInvisible() {
         tvCategory.setVisibility(View.GONE);
         ivArrowFirst.setVisibility(View.GONE);

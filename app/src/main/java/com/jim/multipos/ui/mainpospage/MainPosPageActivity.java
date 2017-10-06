@@ -85,9 +85,8 @@ public class MainPosPageActivity extends BaseActivity implements MainPosPageActi
 //        });
     }
 
-    @Override
     protected void setupComponent(BaseAppComponent baseAppComponent) {
-        mainPosPageFragmentComponent = baseAppComponent.plus(new MainPosPageActivityModule(this));
+//        mainPosPageFragmentComponent = baseAppComponent.plus(new MainPosPageActivityModule(this));
         mainPosPageFragmentComponent.inject(this);
     }
 

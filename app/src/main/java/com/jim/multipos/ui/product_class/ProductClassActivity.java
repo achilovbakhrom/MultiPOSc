@@ -42,9 +42,8 @@ public class ProductClassActivity extends BaseActivity implements HasComponent<P
 
     }
 
-    @Override
     protected void setupComponent(BaseAppComponent baseAppComponent) {
-        productClassComponent = baseAppComponent.plus(new ProductClassModule(this));
+//        productClassComponent = baseAppComponent.plus(new ProductClassModule(this));
         productClassComponent.inject(this);
     }
 

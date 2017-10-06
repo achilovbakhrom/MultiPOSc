@@ -134,9 +134,8 @@ public class CustomersEditActivity extends BaseActivity implements HasComponent<
         super.onDestroy();
     }
 
-    @Override
     protected void setupComponent(BaseAppComponent baseAppComponent) {
-        component = baseAppComponent.plus(new CustomersEditActivityModule(this));
+//        component = baseAppComponent.plus(new CustomersEditActivityModule(this));
         component.inject(this);
     }
 

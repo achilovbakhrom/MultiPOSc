@@ -3,6 +3,7 @@ package com.jim.multipos.ui.mainpospage.fragments;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -19,7 +20,7 @@ import com.jim.multipos.ui.mainpospage.di.MainPosPageActivityComponent;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class OrderListFragment extends BaseFragment {
+public class OrderListFragment extends Fragment {//BaseFragment {
 
     @BindView(R.id.llPay)
     LinearLayout llPay;
@@ -47,7 +48,7 @@ public class OrderListFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_order_list, container, false);
-        this.getComponent(MainPosPageActivityComponent.class).inject(this);
+//        this.getComponent(MainPosPageActivityComponent.class).inject(this);
 
         ButterKnife.bind(this, view);
         setClickEffects();

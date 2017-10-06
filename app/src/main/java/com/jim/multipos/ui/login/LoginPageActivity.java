@@ -131,9 +131,8 @@ public class LoginPageActivity extends BaseActivity implements HasComponent<Logi
     }
 
 
-    @Override
     protected void setupComponent(BaseAppComponent baseAppComponent) {
-        loginPageComponent = baseAppComponent.plus(new LoginPageModule(this));
+//        loginPageComponent = baseAppComponent.plus(new LoginPageModule(this));
         loginPageComponent.inject(this);
     }
 

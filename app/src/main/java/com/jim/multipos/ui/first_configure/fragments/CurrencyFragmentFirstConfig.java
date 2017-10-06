@@ -33,7 +33,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CurrencyFragmentFirstConfig extends BaseFragmentFirstConfig implements CurrencyFragmentView, CurrencyAdapter.OnClick {
+public class CurrencyFragmentFirstConfig extends Fragment { //} BaseFragmentFirstConfig implements CurrencyFragmentView, CurrencyAdapter.OnClick {
     @Inject
     CurrencyFragmentPresenter presenter;
     @Inject
@@ -63,8 +63,8 @@ public class CurrencyFragmentFirstConfig extends BaseFragmentFirstConfig impleme
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.currency_fragment, container, false);
 
-        this.getComponent(FirstConfigureActivityComponent.class).inject(this);
-        presenter.init(this);
+//        this.getComponent(FirstConfigureActivityComponent.class).inject(this);
+//        presenter.init(this);
 
         ButterKnife.bind(this, view);
 
@@ -96,45 +96,38 @@ public class CurrencyFragmentFirstConfig extends BaseFragmentFirstConfig impleme
     }
 
 
-    @Override
     public HashMap<String, String> getData() {
         return null;
     }
 
 
-    @Override
     public boolean checkData() {
         return presenter.isCompleteData();
     }
 
-    @Override
     public void onClick(int position) {
         presenter.removeSelectedCurrency(position);
     }
 
-    @Override
     public void showMainCurrencies(List<Currency> currencies, int position) {
         CurrencySpinnerAdapter adapter = new CurrencySpinnerAdapter(getContext(), android.R.layout.simple_spinner_item, currencies);
         spSystemCurrency.setAdapter(adapter);
         spSystemCurrency.setSelection(position);
     }
 
-    @Override
     public void showOtherCurrencies(List<Currency> currencies) {
         CurrencySpinnerAdapter adapter = new CurrencySpinnerAdapter(getContext(), android.R.layout.simple_spinner_item, currencies);
         spOtherCurrencies.setAdapter(adapter);
     }
 
-    @Override
     public void updateView() {
         spOtherCurrencies.notifyDataSetChanged();
         adapter.notifyDataSetChanged();
         rvCurrencies.scrollToPosition(0);
     }
 
-    @Override
     public void showRecyclerView(List<Currency> currencies) {
-        adapter = new CurrencyAdapter(currencies, this);
+//        adapter = new CurrencyAdapter(currencies, this);
         rvCurrencies.setLayoutManager(new LinearLayoutManager(getContext()));
         rvCurrencies.setAdapter(adapter);
     }
@@ -143,10 +136,9 @@ public class CurrencyFragmentFirstConfig extends BaseFragmentFirstConfig impleme
     public void onDestroyView() {
         super.onDestroyView();
 
-        hideKeyboard();
+//        hideKeyboard();
     }
 
-    @Override
     public void saveData() {
         presenter.saveData();
     }

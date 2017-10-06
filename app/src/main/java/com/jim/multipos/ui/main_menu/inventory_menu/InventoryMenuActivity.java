@@ -52,9 +52,8 @@ public class InventoryMenuActivity extends BaseActivity implements HasComponent<
         presenter.setRecyclerViewItems(title, description);
     }
 
-    @Override
     protected void setupComponent(BaseAppComponent baseAppComponent) {
-        inventoryMenuComponent = baseAppComponent.plus(new InventoryMenuModule(this));
+//        inventoryMenuComponent = baseAppComponent.plus(new InventoryMenuModule(this));
         inventoryMenuComponent.inject(this);
     }
 

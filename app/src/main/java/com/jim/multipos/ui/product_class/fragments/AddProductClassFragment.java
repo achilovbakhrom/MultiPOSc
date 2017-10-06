@@ -1,6 +1,7 @@
 package com.jim.multipos.ui.product_class.fragments;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +26,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AddProductClassFragment extends BaseFragment implements AddProductClassView  {
+public class AddProductClassFragment extends Fragment { //BaseFragment implements AddProductClassView  {
     @Inject
     RxBus rxBus;
     @Inject
@@ -46,10 +47,10 @@ public class AddProductClassFragment extends BaseFragment implements AddProductC
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.product_class_fragment, container, false);
-        this.getComponent(ProductClassComponent.class).inject(this);
+//        this.getComponent(ProductClassComponent.class).inject(this);
         productClasses = new ArrayList<>();
         ButterKnife.bind(this, view);
-        presenter.init(this);
+//        presenter.init(this);
         cbActive.setChecked(true);
         RxView.clicks(btnSave).subscribe(aVoid -> {
             String className = etClassName.getText().toString();
@@ -76,20 +77,17 @@ public class AddProductClassFragment extends BaseFragment implements AddProductC
         super.onDestroy();
     }
 
-    @Override
     public void fillView(ProductClass productClass) {
         etClassName.setText(productClass.getName());
         cbActive.setChecked(productClass.getActive());
     }
 
-    @Override
     public void onAddNew() {
         etClassName.setText("");
         spParent.setSelection(0);
         cbActive.setChecked(true);
     }
 
-    @Override
     public void setParentSpinnerItems(ArrayList<NameIdProdClass> productClasses) {
         this.productClasses = productClasses;
         ArrayList<String> strings = new ArrayList<>();
@@ -100,7 +98,6 @@ public class AddProductClassFragment extends BaseFragment implements AddProductC
         spParent.setAdapter();
     }
 
-    @Override
     public void setParentSpinnerPosition(String parent) {
         for (int i = 0; i < productClasses.size(); i++) {
             if(parent.equals(productClasses.get(i).getId())){

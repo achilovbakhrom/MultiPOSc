@@ -52,12 +52,12 @@ public class FirstConfigureActivity extends BaseActivity implements HasComponent
         titleDescriptions = new ArrayList<>();
         firstConfigureFragments = new ArrayList<>();
 
-        firstConfigureFragments.add(new PosDetailsFragmentFirstConfig());
-        firstConfigureFragments.add(new AccountFragmentFirstConfig());
-        firstConfigureFragments.add(new CurrencyFragmentFirstConfig());
-        firstConfigureFragments.add(new PaymentTypeFragmentFirstConfig());
-        firstConfigureFragments.add(new UnitsFragmentFirstConfig());
-        firstConfigureFragments.add(new StockFragmentFirstConfig());
+//        firstConfigureFragments.add(new PosDetailsFragmentFirstConfig());
+//        firstConfigureFragments.add(new AccountFragmentFirstConfig());
+//        firstConfigureFragments.add(new CurrencyFragmentFirstConfig());
+//        firstConfigureFragments.add(new PaymentTypeFragmentFirstConfig());
+//        firstConfigureFragments.add(new UnitsFragmentFirstConfig());
+//        firstConfigureFragments.add(new StockFragmentFirstConfig());
         String title[] = getResources().getStringArray(R.array.start_configuration_title);
         String description[] = getResources().getStringArray(R.array.start_configuration_description);
 
@@ -73,9 +73,8 @@ public class FirstConfigureActivity extends BaseActivity implements HasComponent
         posFragmentManager.replaceFragment(firstConfigureFragments.get(0), R.id.rightContainer);
     }
 
-    @Override
     protected void setupComponent(BaseAppComponent baseAppComponent) {
-        firstConfigureComponent = baseAppComponent.plus(new FirstConfigureActivityModule(this));
+//        firstConfigureComponent = baseAppComponent.plus(new FirstConfigureActivityModule(this));
         firstConfigureComponent.inject(this);
     }
 

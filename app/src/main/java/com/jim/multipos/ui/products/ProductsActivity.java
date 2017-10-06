@@ -1,7 +1,9 @@
 package com.jim.multipos.ui.products;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
 
 import com.jim.multipos.R;
@@ -28,35 +30,34 @@ import static com.jim.multipos.utils.BundleConstants.SUBCATEGORY_EDIT;
  * Created by DEV on 09.08.2017.
  */
 
-public class ProductsActivity extends BaseActivity implements HasComponent<ProductsComponent>, ProductsActivityView {
+public class ProductsActivity extends AppCompatActivity { //BaseActivity implements HasComponent<ProductsComponent>, ProductsActivityView {
 
     @Inject
     PosFragmentManager posFragmentManager;
     private ProductsComponent productsComponent;
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.products_layout);
-        posFragmentManager.replaceFragmentWithTag(new AddCategoryFragment(), R.id.flLeftContainer, CATEGORY_EDIT);
-        posFragmentManager.displayFragmentWithoutBackStack(new ProductsListFragment(), R.id.flRightContainer);
-    }
+//    @Override
+//    protected void onCreate(@Nullable Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+//                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        setContentView(R.layout.products_layout);
+//        posFragmentManager.replaceFragmentWithTag(new AddCategoryFragment(), R.id.flLeftContainer, CATEGORY_EDIT);
+//        posFragmentManager.displayFragmentWithoutBackStack(new ProductsListFragment(), R.id.flRightContainer);
+//    }
 
-    @Override
+//    @Override
     public ProductsComponent getComponent() {
         return productsComponent;
     }
 
-    @Override
     protected void setupComponent(BaseAppComponent baseAppComponent) {
-        productsComponent = baseAppComponent.plus(new ProductsModule(this));
+//        productsComponent = baseAppComponent.plus(new ProductsModule(this));
         productsComponent.inject(this);
     }
 
 
-    @Override
+//    @Override
     public void openCategory() {
         AddCategoryFragment fragment = (AddCategoryFragment) posFragmentManager.findFragmentbyTag(new AddCategoryFragment(), CATEGORY_EDIT);
         if (fragment != null && fragment.isVisible()) {
@@ -69,7 +70,7 @@ public class ProductsActivity extends BaseActivity implements HasComponent<Produ
         }
     }
 
-    @Override
+//    @Override
     public void openSubCategory() {
         AddSubCategoryFragment fragment = (AddSubCategoryFragment) posFragmentManager.findFragmentbyTag(new AddSubCategoryFragment(), SUBCATEGORY_EDIT);
         if (fragment != null && fragment.isVisible()) {
@@ -83,7 +84,7 @@ public class ProductsActivity extends BaseActivity implements HasComponent<Produ
 
 
     }
-    @Override
+//    @Override
     public void openProduct() {
         AddProductFragment fragment = (AddProductFragment) posFragmentManager.findFragmentbyTag(new AddProductFragment(), PRODUCT_EDIT);
         if (fragment != null && fragment.isVisible()) {
@@ -96,18 +97,18 @@ public class ProductsActivity extends BaseActivity implements HasComponent<Produ
         }
     }
 
-    @Override
+//    @Override
     public void openList() {
         posFragmentManager.displayFragmentWithoutBackStack(new ProductsListFragment(), R.id.flRightContainer);
     }
 
-    @Override
+//    @Override
     public void openAdvancedOptions() {
         posFragmentManager.popBackStack();
         posFragmentManager.displayFragment(new AdvancedOptionFragment(), R.id.flRightContainer);
     }
 
-    @Override
+//    @Override
     public void openGlobalVendors() {
         posFragmentManager.displayFragment(new GlobalVendorsFragment(), R.id.flRightContainer);
     }

@@ -177,6 +177,7 @@ public class MpSpinner extends RelativeLayout {
 
 
     public void setAdapter() {
+
         if (adapter == null) {
             adapter = new MpSpinnerAdapter(context, R.layout.mp_spinner_adapter);
             spinner.setAdapter(adapter);

@@ -99,9 +99,8 @@ public class ServiceFeeActivity extends BaseActivity implements HasComponent<Ser
         });
     }
 
-    @Override
     protected void setupComponent(BaseAppComponent baseAppComponent) {
-        serviceFeeComponent = baseAppComponent.plus(new ServiceFeeActivityModule(this));
+//        serviceFeeComponent = baseAppComponent.plus(new ServiceFeeActivityModule(this));
         serviceFeeComponent.inject(this);
     }
 

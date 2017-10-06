@@ -1,5 +1,6 @@
 package com.jim.multipos.ui.first_configure.fragments;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +22,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class PosDetailsFragmentFirstConfig extends BaseFragmentFirstConfig implements PosDetailsFragmentView {
+public class PosDetailsFragmentFirstConfig extends Fragment { //BaseFragmentFirstConfig implements PosDetailsFragmentView {
     @Inject
     PosFragmentPresenter presenter;
     @Inject
@@ -56,8 +57,8 @@ public class PosDetailsFragmentFirstConfig extends BaseFragmentFirstConfig imple
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.pos_details_fragment, container, false);
-        this.getComponent(FirstConfigureActivityComponent.class).inject(this);
-        presenter.init(this);
+//        this.getComponent(FirstConfigureActivityComponent.class).inject(this);
+//        presenter.init(this);
         ButterKnife.bind(this, view);
 
 
@@ -109,45 +110,37 @@ public class PosDetailsFragmentFirstConfig extends BaseFragmentFirstConfig imple
     public void onDestroyView() {
         super.onDestroyView();
 
-        hideKeyboard();
+//        hideKeyboard();
     }
 
-    @Override
     public void showPosIdError(String error) {
         etPosId.setError(error);
     }
 
-    @Override
     public void showAliasError(String error) {
         etAlias.setError(error);
     }
 
-    @Override
     public void showAddressError(String error) {
         etAddress.setError(error);
     }
 
-    @Override
     public void showPasswordError(String error) {
         etPassword.setError(error);
     }
 
-    @Override
     public boolean checkData() {
         return presenter.isCompleteData(getData());
     }
 
-    @Override
     public void showRepeatPasswordError(String error) {
         etRepeatPassword.setError(error);
     }
 
-    @Override
     public void openNextFragment() {
         activity.openNextFragment();
     }
 
-    @Override
     public HashMap<String, String> getData() {
         getDataFromView();
 
@@ -170,12 +163,10 @@ public class PosDetailsFragmentFirstConfig extends BaseFragmentFirstConfig imple
         repeatPassword = etRepeatPassword.getText().toString();
     }
 
-    @Override
     public void saveData() {
         presenter.saveData();
     }
 
-    @Override
     public void clearViews() {
         etPosId.setText("");
         etAlias.setText("");

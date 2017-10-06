@@ -37,7 +37,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PaymentTypeFragmentFirstConfig extends BaseFragmentFirstConfig implements PaymentTypeFragmentView, SystemPaymentTypesAdapter.OnClick {
+public class PaymentTypeFragmentFirstConfig extends Fragment { //BaseFragmentFirstConfig implements PaymentTypeFragmentView, SystemPaymentTypesAdapter.OnClick {
     @BindView(R.id.etPaymentTypeName)
     EditText etPaymentTypeName;
     @BindView(R.id.btnNext)
@@ -71,8 +71,8 @@ public class PaymentTypeFragmentFirstConfig extends BaseFragmentFirstConfig impl
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.payment_type_fragment, container, false);
 
-        this.getComponent(FirstConfigureActivityComponent.class).inject(this);
-        presenter.init(this);
+//        this.getComponent(FirstConfigureActivityComponent.class).inject(this);
+//        presenter.init(this);
 
         ButterKnife.bind(this, view);
 
@@ -118,10 +118,9 @@ public class PaymentTypeFragmentFirstConfig extends BaseFragmentFirstConfig impl
     public void onDestroyView() {
         super.onDestroyView();
 
-        hideKeyboard();
+//        hideKeyboard();
     }
 
-    @Override
     public HashMap<String, String> getData() {
         HashMap<String, String> datas = new HashMap<>();
 
@@ -132,7 +131,6 @@ public class PaymentTypeFragmentFirstConfig extends BaseFragmentFirstConfig impl
         return datas;
     }
 
-    @Override
     public boolean checkData() {
         if (presenter != null) {
             return presenter.isCompleteData();
@@ -141,72 +139,59 @@ public class PaymentTypeFragmentFirstConfig extends BaseFragmentFirstConfig impl
         return false;
     }
 
-    @Override
     public void showCurrencies(List<Currency> currencies) {
         CurrencySpinnerAdapter adapter = new CurrencySpinnerAdapter(getContext(), R.layout.item_spinner, currencies);
         spCurrency.setAdapter(adapter);
     }
 
-    @Override
     public void showAccount(List<Account> accounts) {
         spAccount.setAdapter(new AccountSpinnerAdapter(getContext(), R.layout.item_spinner, accounts));
     }
 
-    @Override
     public void clearViews() {
         etPaymentTypeName.setText("");
     }
 
-    @Override
     public void showRecyclerView(List<PaymentType> systemPaymentTypes) {
-        adapter = new SystemPaymentTypesAdapter(systemPaymentTypes, this);
+//        adapter = new SystemPaymentTypesAdapter(systemPaymentTypes, this);
         rvSystemPaymentType.setLayoutManager(new LinearLayoutManager(getContext()));
         rvSystemPaymentType.setAdapter(adapter);
     }
 
-    @Override
     public void showPaymentTypeListEmpty(String error) {
         Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
     public void showAccountError(String error) {
         Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
     public void showPaymentTypeNameError(String error) {
         etPaymentTypeName.setError(error);
     }
 
-    @Override
     public void paymentTypeAdded() {
         adapter.notifyItemInserted(0);
         rvSystemPaymentType.scrollToPosition(0);
     }
 
-    @Override
     public void openNextFragment() {
         activity.openNextFragment();
     }
 
-    @Override
     public void updateRecyclerView() {
         /*adapter.notifyDataSetChanged();
         rvSystemPaymentType.scrollToPosition(0);*/
     }
 
-    @Override
     public void removeItem(int position) {
         presenter.removeItem(position);
     }
 
-    @Override
     public void saveData() {
         presenter.saveData();
     }
 
-    @Override
     public void paymentTypeRemoved() {
         adapter.notifyDataSetChanged();
     }

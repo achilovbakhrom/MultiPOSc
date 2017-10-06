@@ -1,5 +1,7 @@
 package com.jim.multipos.ui.signing.sign_in;
 
+import com.jim.multipos.ui.signing.sign_in.view.LoginDetailsFragmentView;
+
 import javax.inject.Inject;
 
 /**

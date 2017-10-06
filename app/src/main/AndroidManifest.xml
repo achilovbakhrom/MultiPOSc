@@ -19,9 +19,9 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".ui.signing.SignActivity"
-            android:windowSoftInputMode="stateHidden" />
+        <!--<activity-->
+            <!--android:name=".ui.signing.SignActivity"-->
+            <!--android:windowSoftInputMode="stateHidden" />-->
         <activity
             android:name=".ui.first_configure.FirstConfigureActivity"
             android:windowSoftInputMode="stateHidden">
@@ -47,7 +47,7 @@
             android:name=".ui.main_menu.employer_menu.EmployerMenuActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".ui.products.ProductsActivity"
+            android:name=".ui.signing.SignActivity"
             android:windowSoftInputMode="stateHidden" >
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />

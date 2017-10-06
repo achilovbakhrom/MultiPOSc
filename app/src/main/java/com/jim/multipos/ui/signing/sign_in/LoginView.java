@@ -1,6 +1,6 @@
 package com.jim.multipos.ui.signing.sign_in;
 
-import com.jim.multipos.ui.signing.sign_up.RegistrationConfirmFragment;
+import com.jim.multipos.ui.signing.sign_up.view.RegistrationConfirmFragment;
 
 /**
  * Created by DEV on 01.08.2017.

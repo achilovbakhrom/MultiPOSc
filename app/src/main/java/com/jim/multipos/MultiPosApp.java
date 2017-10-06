@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 
+import com.jim.multipos.config.common.DaggerAppComponent;
 import com.jim.multipos.di.BaseAppComponent;
-import com.jim.multipos.di.BaseAppModule;
 
 
 import javax.inject.Inject;
@@ -21,26 +21,11 @@ import dagger.android.HasActivityInjector;
 
 public class MultiPosApp extends Application implements HasActivityInjector{
 
-//    private BaseAppComponent appComponent;
-    private Context context;
-
-    public static MultiPosApp get(Context context) {
-        return (MultiPosApp) context.getApplicationContext();
-    }
-
     @Override
     public void onCreate() {
         super.onCreate();
-
-//        buildComponent();
+        DaggerAppComponent.builder().application(this).build().inject(this);
     }
-
-//    public void buildComponent() {
-//        appComponent = DaggerBaseAppComponent.builder()
-//                .baseAppModule(new BaseAppModule(this))
-//                .build();
-//
-//    }
 
     public BaseAppComponent getBaseAppComponent() {
         return null;

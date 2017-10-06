@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +50,7 @@ import static android.app.Activity.RESULT_OK;
  * Created by DEV on 09.08.2017.
  */
 
-public class AddCategoryFragment extends BaseFragment implements CategoryView {
+public class AddCategoryFragment extends Fragment { //BaseFragment implements CategoryView {
 
     @BindView(R.id.etCategoryName)
     MpEditText etCategoryName;
@@ -84,8 +85,8 @@ public class AddCategoryFragment extends BaseFragment implements CategoryView {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.add_category_fragment, container, false);
         unbinder = ButterKnife.bind(this, view);
-        this.getComponent(ProductsComponent.class).inject(this);
-        presenter.init(this);
+//        this.getComponent(ProductsComponent.class).inject(this);
+//        presenter.init(this);
         presenter.checkData();
         return view;
     }
@@ -154,12 +155,10 @@ public class AddCategoryFragment extends BaseFragment implements CategoryView {
         }
     }
 
-    @Override
     public void backToMain() {
         getActivity().finish();
     }
 
-    @Override
     public void setFields(String name, String description, boolean active, String photoPath) {
         etCategoryName.setText(name);
         etCategoryDescription.setText(description);
@@ -174,7 +173,6 @@ public class AddCategoryFragment extends BaseFragment implements CategoryView {
         }
     }
 
-    @Override
     public void clearFields() {
         etCategoryName.setText("");
         etCategoryDescription.setText("");
@@ -190,12 +188,10 @@ public class AddCategoryFragment extends BaseFragment implements CategoryView {
         presenter.onDestroy();
     }
 
-    @Override
     public void setData() {
         presenter.checkData();
     }
 
-    @Override
     public void setError() {
         etCategoryName.setError("Such name already exists");
     }

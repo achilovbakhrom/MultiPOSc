@@ -1,23 +1,25 @@
 package com.jim.multipos.config.common;
 
-import android.content.Context;
+import android.app.Application;
 
 import com.jim.multipos.MultiPosApp;
 
 import javax.inject.Singleton;
 
-import dagger.Binds;
 import dagger.BindsInstance;
 import dagger.Component;
-import dagger.android.AndroidInjector;
 
 /**
  * Created by bakhrom on 10/3/17.
  */
 @Singleton
-@Component(modules = AppModule.class)
+@Component(modules = {AppModule.class, BaseAppModule.class})
 public interface AppComponent {
     @Component.Builder
-    abstract class Builder extends AndroidInjector.Builder<MultiPosApp> {
+    interface Builder  {
+        @BindsInstance
+        Builder application(Application application);
+        AppComponent build();
     }
+    void inject(MultiPosApp app);
 }

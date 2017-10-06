@@ -1,27 +1,12 @@
 package com.jim.multipos.ui.signing;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.WindowManager;
 
-import com.jim.multipos.R;
-import com.jim.multipos.core.BaseActivity;
 import com.jim.multipos.core.SimpleActivity;
-import com.jim.multipos.data.network.MultiPosApiService;
-import com.jim.multipos.data.network.oauth2.GetOauthTokenUseCase;
-import com.jim.multipos.ui.HasComponent;
-import com.jim.multipos.di.BaseAppComponent;
-import com.jim.multipos.ui.first_configure.FirstConfigureActivity;
-import com.jim.multipos.ui.signing.di.LoginActivityComponent;
-import com.jim.multipos.ui.signing.sign_in.LoginDetailsFragment;
-import com.jim.multipos.ui.signing.sign_in.LoginPresenter;
-import com.jim.multipos.ui.signing.sign_in.LoginView;
-import com.jim.multipos.utils.managers.PosFragmentManager;
-import com.jim.multipos.ui.signing.sign_up.RegistrationConfirmFragment;
-import com.jim.multipos.ui.signing.sign_up.RegistrationFragment;
-
-import javax.inject.Inject;
+import com.jim.multipos.ui.signing.sign_in.view.LoginDetailsFragment;
+import com.jim.multipos.ui.signing.sign_up.view.RegistrationConfirmFragment;
+import com.jim.multipos.ui.signing.sign_up.view.SignUpFragment;
 
 /**
  * Created by DEV on 25.07.2017.
@@ -32,7 +17,7 @@ public class SignActivity extends SimpleActivity implements SignView {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        openSignIn();
+        openSignUp();
     }
 
     @Override
@@ -42,7 +27,7 @@ public class SignActivity extends SimpleActivity implements SignView {
 
     @Override
     public void openSignUp() {
-        replaceFragment(new RegistrationFragment());
+        replaceFragment(new SignUpFragment());
     }
 
     @Override
@@ -68,7 +53,7 @@ public class SignActivity extends SimpleActivity implements SignView {
 //
 //    @Override
 //    public void openRegistration() {
-//        posFragmentManager.displayFragment(new RegistrationFragment(), R.id.loginFragment);
+//        posFragmentManager.displayFragment(new SignUpFragment(), R.id.loginFragment);
 //    }
 //
 //    @Override

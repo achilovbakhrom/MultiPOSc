@@ -28,7 +28,7 @@ import butterknife.Unbinder;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CustomerGroupListFragment extends BaseFragment implements CustomerGroupListFragmentView, CustomerGroupListAdapter.OnItemClickListener {
+public class CustomerGroupListFragment extends Fragment {//BaseFragment implements CustomerGroupListFragmentView, CustomerGroupListAdapter.OnItemClickListener {
     @Inject
     CustomerGroupListFragmentPresenter presenter;
     @BindView(R.id.rvCustomerGroups)
@@ -45,8 +45,8 @@ public class CustomerGroupListFragment extends BaseFragment implements CustomerG
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.customer_group_list, container, false);
 
-        getComponent(CustomerGroupActivityComponent.class).inject(this);
-        presenter.init(this);
+//        getComponent(CustomerGroupActivityComponent.class).inject(this);
+//        presenter.init(this);
         unbinder = ButterKnife.bind(this, view);
 
         presenter.getCustomerGroups();
@@ -61,19 +61,19 @@ public class CustomerGroupListFragment extends BaseFragment implements CustomerG
         super.onDestroyView();
     }
 
-    @Override
+
     public void showCustomerGroups(List<CustomerGroup> customerGroups, int selectedPosition) {
         rvCustomerGroups.setItemAnimator(null);
         rvCustomerGroups.setLayoutManager(new GridLayoutManager(getContext(), 6));
-        rvCustomerGroups.setAdapter(new CustomerGroupListAdapter(customerGroups, this, selectedPosition));
+//        rvCustomerGroups.setAdapter(new CustomerGroupListAdapter(customerGroups, this, selectedPosition));
     }
 
-    @Override
+
     public void onAddButtonPressed() {
         presenter.addItemClicked();
     }
 
-    @Override
+
     public void onItemPressed(int t) {
         presenter.itemClicked(t);
     }

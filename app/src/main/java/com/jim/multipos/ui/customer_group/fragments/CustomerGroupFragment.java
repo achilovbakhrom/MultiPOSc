@@ -33,7 +33,7 @@ import butterknife.Unbinder;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CustomerGroupFragment extends BaseFragment implements CustomerGroupFragmentView, CustomerGroupMembersAdapter.OnItemClickListener {
+public class CustomerGroupFragment extends Fragment { //BaseFragment implements CustomerGroupFragmentView, CustomerGroupMembersAdapter.OnItemClickListener {
     @Inject
     RxBusLocal rxBusLocal;
     @Inject
@@ -51,8 +51,8 @@ public class CustomerGroupFragment extends BaseFragment implements CustomerGroup
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.customer_group_fragment, container, false);
 
-        getComponent(CustomerGroupActivityComponent.class).inject(this);
-        presenter.init(this);
+//        getComponent(CustomerGroupActivityComponent.class).inject(this);
+//        presenter.init(this);
         unbinder = ButterKnife.bind(this, view);
 
         rxBusLocal.send(new CustomerGroupEvent(null, CustomerGroupConnector.CUSTOMER_GROUP_OPENED));
@@ -66,13 +66,11 @@ public class CustomerGroupFragment extends BaseFragment implements CustomerGroup
         super.onDestroyView();
     }
 
-    @Override
     public void showCustomers(CustomerGroup customerGroup, List<Customer> customers) {
         rvCustomerGroups.setLayoutManager(new LinearLayoutManager(getContext()));
-        rvCustomerGroups.setAdapter(new CustomerGroupMembersAdapter(this, customerGroup, customers));
+//        rvCustomerGroups.setAdapter(new CustomerGroupMembersAdapter(this, customerGroup, customers));
     }
 
-    @Override
     public void itemClicked(int position, boolean checked) {
         presenter.itemChecked(position, checked);
     }

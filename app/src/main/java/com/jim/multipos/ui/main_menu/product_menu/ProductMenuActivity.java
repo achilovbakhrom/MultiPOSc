@@ -57,9 +57,8 @@ public class ProductMenuActivity extends BaseActivity implements ProductMenuView
         presenter.setRecyclerViewItems(title, description);
     }
 
-    @Override
     protected void setupComponent(BaseAppComponent baseAppComponent) {
-        productMenuComponent = baseAppComponent.plus(new ProductMenuModule(this));
+//        productMenuComponent = baseAppComponent.plus(new ProductMenuModule(this));
         productMenuComponent.inject(this);
     }
 

@@ -174,8 +174,7 @@
                         android:src="@drawable/add_round"
                         android:adjustViewBounds="true"
                         android:paddingLeft="@dimen/sixteen_dp"
-                        android:paddingRight="@dimen/sixteen_dp"
-                        />
+                        android:paddingRight="@dimen/sixteen_dp" />
                 </LinearLayout>
 
                 <android.support.v7.widget.RecyclerView

@@ -32,7 +32,7 @@ import butterknife.Unbinder;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AddCustomerGroupFragment extends BaseFragment implements AddCustomerGroupFragmentView {
+public class AddCustomerGroupFragment extends Fragment {//extends BaseFragment implements AddCustomerGroupFragmentView {
     @Inject
     AddCustomerGroupFragmentPresenter presenter;
     @BindView(R.id.etGroupName)
@@ -67,8 +67,8 @@ public class AddCustomerGroupFragment extends BaseFragment implements AddCustome
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.add_customer_group_fragment, container, false);
 
-        getComponent(CustomerGroupActivityComponent.class).inject(this);
-        presenter.init(this);
+//        getComponent(CustomerGroupActivityComponent.class).inject(this);
+//        presenter.init(this);
         unbinder = ButterKnife.bind(this, view);
 
         presenter.getServiceFees();
@@ -93,7 +93,6 @@ public class AddCustomerGroupFragment extends BaseFragment implements AddCustome
         return view;
     }
 
-    @Override
     public void showServiceFees(List<ServiceFee> serviceFees) {
         spServiceFee.setAdapter(new ServiceFeeSpinnerAdapter(this.getContext(), R.layout.item_spinner, serviceFees));
     }
@@ -105,12 +104,10 @@ public class AddCustomerGroupFragment extends BaseFragment implements AddCustome
         super.onDestroyView();
     }
 
-    @Override
     public void showGroupNameError(String message) {
         etGroupName.setError(message);
     }
 
-    @Override
     public void showCustomerGroup(CustomerGroup customerGroup) {
         //TODO edit -> ADD AUTO APPLY
         etGroupName.setText(customerGroup.getName());
@@ -118,17 +115,14 @@ public class AddCustomerGroupFragment extends BaseFragment implements AddCustome
         chbActive.setChecked(customerGroup.getIsActive());
     }
 
-    @Override
     public void clearViews() {
         etGroupName.setText("");
     }
 
-    @Override
     public void requestFocus() {
         etGroupName.requestFocus();
     }
 
-    @Override
     public void showMembers() {
         ((CustomerGroupActivity) getActivity()).openCustomerGroupsFragment();
     }

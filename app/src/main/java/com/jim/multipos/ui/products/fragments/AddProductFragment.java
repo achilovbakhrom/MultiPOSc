@@ -41,7 +41,7 @@ import butterknife.Unbinder;
  * Created by DEV on 26.08.2017.
  */
 
-public class AddProductFragment extends BaseFragment implements ProductsView {
+public class AddProductFragment extends Fragment { //BaseFragment implements ProductsView {
 
     @Inject
     ProductsPresenter presenter;
@@ -96,8 +96,8 @@ public class AddProductFragment extends BaseFragment implements ProductsView {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.add_product_fragment, container, false);
         unbinder = ButterKnife.bind(this, view);
-        this.getComponent(ProductsComponent.class).inject(this);
-        presenter.init(this);
+//        this.getComponent(ProductsComponent.class).inject(this);
+//        presenter.init(this);
         presenter.checkData();
         chbHasRecipe.getCheckBox().setOnCheckedChangeListener((compoundButton, b) -> {
             presenter.onHasRecipeChange(chbHasRecipe.isCheckboxChecked());
@@ -124,7 +124,7 @@ public class AddProductFragment extends BaseFragment implements ProductsView {
 
     @OnClick(R.id.btnCancel)
     public void onCancel() {
-        activity.finish();
+//        activity.finish();
     }
 
     @OnClick(R.id.tvLinked)
@@ -164,30 +164,26 @@ public class AddProductFragment extends BaseFragment implements ProductsView {
         ft.addToBackStack(null);
         // Create and show the dialog.
         MatrixDialogFragment matrixDialogFragment = new MatrixDialogFragment();
-        this.getComponent(ProductsComponent.class).inject(matrixDialogFragment);
+//        this.getComponent(ProductsComponent.class).inject(matrixDialogFragment);
         matrixDialogFragment.show(ft, "dialog");
     }
 
-    @Override
     public void setProductImage(int resId) {
 
     }
 
-    @Override
     public void setUnitItems(List<Unit> unitItems) {
         unitList = unitItems;
         UnitSpinnerAdapter adapter = new UnitSpinnerAdapter(getContext(), android.R.layout.simple_spinner_item, unitItems);
         spUnit.setAdapter(adapter);
     }
 
-    @Override
     public void setClassItems(List<ProductClass> classItems) {
         classList = classItems;
         ProductClassSpinnerAdapter adapter = new ProductClassSpinnerAdapter(getContext(), android.R.layout.simple_spinner_item, classItems);
         spProductClass.setAdapter(adapter);
     }
 
-    @Override
     public void setCurrencyItems(List<Currency> currencyItems) {
         currencyList = currencyItems;
         CurrencySpinnerAdapter adapter = new CurrencySpinnerAdapter(getContext(), android.R.layout.simple_spinner_item, currencyItems);
@@ -196,7 +192,6 @@ public class AddProductFragment extends BaseFragment implements ProductsView {
     }
 
 
-    @Override
     public void clearFields() {
         etProductName.setText("");
         etBarcode.setText("");
@@ -206,12 +201,10 @@ public class AddProductFragment extends BaseFragment implements ProductsView {
         tvLinked.setText("");
     }
 
-    @Override
     public void setData() {
         presenter.checkData();
     }
 
-    @Override
     public void setFields(String name, String barcode, String sku, String price, String cost, int unit, int priceCurrency, int costCurrency, String vendor, int productClass, boolean taxed, boolean active, boolean recipe) {
         etProductName.setText(name);
         etSKU.setText(sku);
@@ -228,12 +221,10 @@ public class AddProductFragment extends BaseFragment implements ProductsView {
     }
 
 
-    @Override
     public void openAdvanceOptions() {
         activity.openAdvancedOptions();
     }
 
-    @Override
     public void setRecipeState(boolean state) {
         chbHasRecipe.setChecked(state);
     }

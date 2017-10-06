@@ -2,6 +2,7 @@ package com.jim.multipos.ui.products.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -43,7 +44,7 @@ import butterknife.Unbinder;
 /**
  * Created by DEV on 31.08.2017.
  */
-public class AdvancedOptionFragment extends BaseFragment implements AdvancedOptionView {
+public class AdvancedOptionFragment extends Fragment { //BaseFragment implements AdvancedOptionView {
     private Unbinder unbinder;
     @Inject
     ProductsActivity activity;
@@ -92,9 +93,9 @@ public class AdvancedOptionFragment extends BaseFragment implements AdvancedOpti
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.product_advance_options, container, false);
         unbinder = ButterKnife.bind(this, view);
-        this.getComponent(ProductsComponent.class).inject(this);
+//        this.getComponent(ProductsComponent.class).inject(this);
         layoutManager = new LinearLayoutManager(getContext());
-        presenter.init(this);
+//        presenter.init(this);
         checkRecipe();
         RxView.clicks(btnSaveOptions).subscribe(o ->
                 presenter.saveOptions(chbHasRecipe.isCheckboxChecked())
@@ -129,21 +130,18 @@ public class AdvancedOptionFragment extends BaseFragment implements AdvancedOpti
         else etSubUnitName.setError("Please, enter sub unit name");
     }
 
-    @Override
     public void setSubUnitsRecyclerView(List<Unit> subUnitsLists) {
         subUnitsAdapter = new SubUnitsAdapter(subUnitsLists, presenter);
         rvSubUnits.setLayoutManager(layoutManager);
         rvSubUnits.setAdapter(subUnitsAdapter);
     }
 
-    @Override
     public void setIngredientsRecyclerView(List<Recipe> recipe) {
         rvIngredients.setLayoutManager(new LinearLayoutManager(getContext()));
         ingredientsAdapter = new IngredientsAdapter(recipe, presenter);
         rvIngredients.setAdapter(ingredientsAdapter);
     }
 
-    @Override
     public void setSpinnerUnits(List<Unit> list) {
         unitList = list;
         UnitSpinnerAdapter adapter = new UnitSpinnerAdapter(getContext(), android.R.layout.simple_spinner_item, unitList);
@@ -151,37 +149,30 @@ public class AdvancedOptionFragment extends BaseFragment implements AdvancedOpti
     }
 
 
-    @Override
     public void updateSubUnits() {
         subUnitsAdapter.notifyDataSetChanged();
     }
 
-    @Override
     public void updateIngredients() {
         ingredientsAdapter.notifyDataSetChanged();
     }
 
-    @Override
     public void setMainUnit(Unit mainUnit) {
         tvMainUnit.setText(mainUnit.getAbbr());
     }
 
-    @Override
     public void setRecipeStatus(boolean hasRecipe) {
         chbHasRecipe.setChecked(hasRecipe);
     }
 
-    @Override
     public void popBackStack() {
         posFragmentManager.popBackStack();
     }
 
-    @Override
     public void setRecipeState(boolean state) {
         chbHasRecipe.setChecked(state);
     }
 
-    @Override
     public void setIngredientSpinner(List<Product> productsList) {
         productList = productsList;
         ProductsSpinnerAdapter adapter = new ProductsSpinnerAdapter(getContext(), android.R.layout.simple_spinner_item, productsList);

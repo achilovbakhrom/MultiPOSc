@@ -51,13 +51,13 @@ public class ProductsModule {
     @ActivityScope
     @Provides
     public PosFragmentManager getPosFragmentManager(ProductsActivity activity) {
-        return new PosFragmentManager(activity);
+        return null; //new PosFragmentManager(activity);
     }
 
     @ActivityScope
     @Provides
     public RxPermissions provideRxPermissions(ProductsActivity activity){
-        return new RxPermissions(activity);
+        return null; //new RxPermissions(activity);
     }
 
     @ActivityScope

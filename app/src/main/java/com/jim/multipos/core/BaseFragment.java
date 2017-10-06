@@ -56,7 +56,6 @@ public abstract class BaseFragment extends Fragment implements HasSupportFragmen
     }
 
     protected abstract int getLayout();
-
     protected abstract void init(Bundle savedInstanceState);
 
     @Override

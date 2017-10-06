@@ -54,9 +54,8 @@ public class CustomersMenuActivity extends BaseActivity implements CustomersMenu
         presenter.setRecyclerViewItems(title, description);
     }
 
-    @Override
     protected void setupComponent(BaseAppComponent baseAppComponent) {
-        customersMenuComponent = baseAppComponent.plus(new CustomersMenuModule(this));
+//        customersMenuComponent = baseAppComponent.plus(new CustomersMenuModule(this));
         customersMenuComponent.inject(this);
     }
 
