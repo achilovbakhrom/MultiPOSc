@@ -14,8 +14,6 @@ import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.mpviews.MpItem;
 import com.jim.multipos.R;
 import com.jim.multipos.data.db.model.intosystem.NameId;
-import com.jim.multipos.data.db.model.intosystem.NamePhotoPathId;
-import com.jim.multipos.ui.product_class.presenters.ProductClassListPresenter;
 
 import java.util.List;
 

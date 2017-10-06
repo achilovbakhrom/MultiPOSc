@@ -2,38 +2,34 @@ package com.jim.multipos.ui.product_class.presenters;
 
 import android.os.Bundle;
 
+import com.jim.multipos.config.scope.PerFragment;
 import com.jim.multipos.core.BasePresenterImpl;
-import com.jim.multipos.core.RxForPresenter;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.ProductClass;
-import com.jim.multipos.data.db.model.employee.Schedule;
-import com.jim.multipos.data.db.model.intosystem.NamePhotoPathId;
-import com.jim.multipos.ui.product_class.ProductClassActivity;
-import com.jim.multipos.ui.product_class.ProductClassView;
 import com.jim.multipos.ui.product_class.fragments.AddProductClassFragment;
-import com.jim.multipos.ui.product_class.fragments.AddProductClassView;
 import com.jim.multipos.ui.product_class.fragments.ProductClassListView;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.RxBusLocal;
-import com.jim.multipos.utils.rxevents.GlobalEventsConstants;
 import com.jim.multipos.utils.rxevents.ProductClassEvent;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by developer on 29.08.2017.
  */
-
+@PerFragment
 public class ProductClassListPresenterImpl  extends BasePresenterImpl<ProductClassListView> implements ProductClassListPresenter {
     private ProductClassListView view;
     private DatabaseManager databaseManager;
     private RxBusLocal rxBusLocal;
     private List<ProductClass> productClasses;
+
+    @Inject
     public ProductClassListPresenterImpl(DatabaseManager databaseManager,RxBusLocal rxBusLocal, RxBus rxBus, ProductClassListView productClassListView){
         super(productClassListView);
         this.databaseManager = databaseManager;

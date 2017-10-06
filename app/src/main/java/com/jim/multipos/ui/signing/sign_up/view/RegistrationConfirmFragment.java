@@ -81,6 +81,11 @@ public class RegistrationConfirmFragment extends BaseFragment { //implements Reg
 
     }
 
+    @Override
+    protected void rxConnections() {
+
+    }
+
     @OnClick(R.id.btnBack)
     public void back() {
         presenter.back();

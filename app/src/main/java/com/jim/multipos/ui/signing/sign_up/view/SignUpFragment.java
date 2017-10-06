@@ -73,6 +73,11 @@ public class SignUpFragment extends BaseFragment implements SignUpView {
     }
 
     @Override
+    protected void rxConnections() {
+
+    }
+
+    @Override
     protected int getLayout() {
         return R.layout.reg_fragment;
     }

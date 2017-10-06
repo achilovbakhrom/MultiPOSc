@@ -10,7 +10,6 @@ import com.jim.mpviews.MpSpinner;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.db.model.ProductClass;
-import com.jim.multipos.ui.product_class.ProductClassActivity;
 import com.jim.multipos.ui.product_class.presenters.AddProductClassPresenter;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.RxBusLocal;

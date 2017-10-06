@@ -4,6 +4,8 @@ import android.app.Application;
 
 import com.jim.multipos.MultiPosApp;
 import com.jim.multipos.config.scope.PerActivity;
+import com.jim.multipos.ui.product_class.ProductClassActivity;
+import com.jim.multipos.ui.product_class.di.ProductClassModule;
 import com.jim.multipos.ui.signing.SignActivity;
 import com.jim.multipos.ui.signing.di.SignActivityModule;
 
@@ -23,4 +25,7 @@ abstract class AppModule {
     @PerActivity
     @ContributesAndroidInjector(modules = SignActivityModule.class)
     abstract SignActivity provideSignActivity();
+    @PerActivity
+    @ContributesAndroidInjector(modules = ProductClassModule.class)
+    abstract ProductClassActivity provideProductClassActivity();
 }

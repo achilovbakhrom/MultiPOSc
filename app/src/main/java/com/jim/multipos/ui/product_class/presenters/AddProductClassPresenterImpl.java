@@ -1,40 +1,31 @@
 package com.jim.multipos.ui.product_class.presenters;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 
-import com.jim.multipos.R;
+import com.jim.multipos.config.scope.PerFragment;
 import com.jim.multipos.core.BasePresenterImpl;
-import com.jim.multipos.core.RxForPresenter;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.ProductClass;
-import com.jim.multipos.data.db.model.employee.Schedule;
 import com.jim.multipos.data.db.model.intosystem.NameIdProdClass;
-import com.jim.multipos.ui.product_class.ProductClassActivity;
 import com.jim.multipos.ui.product_class.fragments.AddProductClassView;
-import com.jim.multipos.ui.service_fee.Constants;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.RxBusLocal;
 import com.jim.multipos.utils.rxevents.GlobalEventsConstants;
 import com.jim.multipos.utils.rxevents.ProductClassEvent;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by developer on 29.08.2017.
  */
-
+@PerFragment
 public class AddProductClassPresenterImpl extends BasePresenterImpl<AddProductClassView> implements AddProductClassPresenter {
 
 

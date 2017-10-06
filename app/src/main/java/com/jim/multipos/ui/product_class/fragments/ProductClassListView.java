@@ -2,7 +2,6 @@ package com.jim.multipos.ui.product_class.fragments;
 
 import com.jim.multipos.core.BaseView;
 import com.jim.multipos.data.db.model.ProductClass;
-import com.jim.multipos.data.db.model.intosystem.NamePhotoPathId;
 
 import java.util.List;
 

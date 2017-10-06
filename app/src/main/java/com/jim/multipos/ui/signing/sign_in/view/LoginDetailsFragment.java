@@ -63,6 +63,11 @@ public class LoginDetailsFragment extends BaseFragment { //implements LoginDetai
 
     }
 
+    @Override
+    protected void rxConnections() {
+
+    }
+
     @OnClick(R.id.btnLogin)
     public void login() {
         presenter.loginFounder();
