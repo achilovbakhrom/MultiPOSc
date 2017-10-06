@@ -44,7 +44,7 @@ public abstract class BaseActivityModule {
 
     @Provides
     @PerActivity
-    public RxPermissions provideRxPermissions(AppCompatActivity activity){
+    static public RxPermissions provideRxPermissions(AppCompatActivity activity){
         return new RxPermissions(activity);
     }
 }

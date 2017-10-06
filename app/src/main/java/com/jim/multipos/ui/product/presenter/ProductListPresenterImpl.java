@@ -1,6 +1,7 @@
 package com.jim.multipos.ui.product.presenter;
 
 
+import com.jim.multipos.config.scope.PerFragment;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.intosystem.CategoryPosition;
 import com.jim.multipos.data.db.model.intosystem.ProductPosition;
@@ -21,6 +22,8 @@ import com.jim.multipos.utils.rxevents.SubCategoryEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -29,7 +32,7 @@ import static com.jim.multipos.utils.rxevents.GlobalEventsConstants.CLICK;
 /**
  * Created by DEV on 17.08.2017.
  */
-
+@PerFragment
 public class ProductListPresenterImpl extends ProductListConnector implements ProductListPresenter {
     private ProductListView view;
     private DatabaseManager databaseManager;
@@ -40,7 +43,7 @@ public class ProductListPresenterImpl extends ProductListConnector implements Pr
     private PreferencesHelper preferencesHelper;
     private RxBusLocal rxBusLocal;
     private int productPosition;
-
+    @Inject
     public ProductListPresenterImpl(DatabaseManager databaseManager, RxBus rxBus, RxBusLocal rxBusLocal, PreferencesHelper preferencesHelper) {
         this.databaseManager = databaseManager;
         this.rxBus = rxBus;

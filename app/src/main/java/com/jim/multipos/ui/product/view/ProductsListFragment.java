@@ -71,7 +71,6 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.choose_product_fragment, container, false);
-        this.getComponent(ProductsComponent.class).inject(this);
         unbinder = ButterKnife.bind(this, view);
         presenter.init(this);
         presenter.setViewsVisibility(CATEGORY);
@@ -85,6 +84,11 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
 
     @Override
     protected void init(Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    protected void rxConnections() {
 
     }
 

@@ -1,6 +1,7 @@
 package com.jim.multipos.ui.product.presenter;
 
 
+import com.jim.multipos.config.scope.PerFragment;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.ProductClass;
@@ -21,13 +22,15 @@ import com.jim.multipos.utils.rxevents.ProductEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import static com.jim.multipos.utils.rxevents.GlobalEventsConstants.ADD;
 import static com.jim.multipos.utils.rxevents.GlobalEventsConstants.UPDATE;
 
 /**
  * Created by DEV on 18.08.2017.
  */
-
+@PerFragment
 public class ProductsPresenterImpl extends BasePresenterImpl<ProductsView> implements ProductsPresenter {
     private ProductsView view;
     private DatabaseManager databaseManager;
@@ -46,7 +49,7 @@ public class ProductsPresenterImpl extends BasePresenterImpl<ProductsView> imple
     private List<Currency> currencies;
     private boolean isVisible = false;
 
-
+    @Inject
     public ProductsPresenterImpl(ProductsView view, DatabaseManager databaseManager, RxBus rxBus, RxBusLocal rxBusLocal) {
         super(view);
         this.databaseManager = databaseManager;

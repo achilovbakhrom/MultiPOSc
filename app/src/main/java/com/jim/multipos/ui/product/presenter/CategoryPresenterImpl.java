@@ -1,6 +1,7 @@
 package com.jim.multipos.ui.product.presenter;
 
 
+import com.jim.multipos.config.scope.PerFragment;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.products.Category;
@@ -12,7 +13,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 /**
  * Created by DEV on 10.08.2017.
  */
-
+@PerFragment
 public class CategoryPresenterImpl extends BasePresenterImpl<CategoryView> implements CategoryPresenter {
     private Category category;
     private CategoryOperations categoryOperations;

@@ -61,7 +61,6 @@ public class AdvancedOptionFragment extends BaseFragment implements AdvancedOpti
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.product_advance_options, container, false);
         unbinder = ButterKnife.bind(this, view);
-        this.getComponent(ProductsComponent.class).inject(this);
         layoutManager = new LinearLayoutManager(getContext());
         presenter.init(this);
         RxView.clicks(btnSaveOptions).subscribe(o ->
@@ -77,6 +76,11 @@ public class AdvancedOptionFragment extends BaseFragment implements AdvancedOpti
 
     @Override
     protected void init(Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    protected void rxConnections() {
 
     }
 

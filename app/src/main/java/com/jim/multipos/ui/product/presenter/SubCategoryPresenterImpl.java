@@ -1,6 +1,7 @@
 package com.jim.multipos.ui.product.presenter;
 
 
+import com.jim.multipos.config.scope.PerFragment;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.products.Category;
@@ -19,7 +20,7 @@ import static com.jim.multipos.utils.rxevents.GlobalEventsConstants.UPDATE;
 /**
  * Created by DEV on 18.08.2017.
  */
-
+@PerFragment
 public class SubCategoryPresenterImpl extends BasePresenterImpl<SubCategoryView> implements SubCategoryPresenter {
     private Category category;
     private SubCategory subCategory;

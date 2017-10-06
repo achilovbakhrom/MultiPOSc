@@ -9,6 +9,7 @@ import com.jim.multipos.ui.product.ProductsActivity;
 import com.jim.multipos.ui.product.view.AddCategoryFragment;
 import com.jim.multipos.ui.product.view.AddCategoryFragmentModule;
 import com.jim.multipos.ui.product.view.AddProductFragment;
+import com.jim.multipos.ui.product.view.AddProductFragmentModule;
 import com.jim.multipos.ui.product.view.AddSubCategoryFragment;
 import com.jim.multipos.ui.product.view.AddSubCategoryFragmentModule;
 
@@ -34,6 +35,6 @@ public abstract class ProductsModule {
     abstract AddSubCategoryFragment provideAddSubCategoryFragmentInjector();
 
     @PerFragment
-    @ContributesAndroidInjector(modules = AddProductFragment.class)
+    @ContributesAndroidInjector(modules = AddProductFragmentModule.class)
     abstract AddProductFragment provideAddProductFragmentInjector();
 }

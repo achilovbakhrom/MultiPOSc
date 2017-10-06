@@ -1,5 +1,6 @@
 package com.jim.multipos.ui.product.presenter;
 
+import com.jim.multipos.config.scope.PerFragment;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.unit.SubUnitsList;
@@ -14,10 +15,12 @@ import com.jim.multipos.utils.rxevents.ProductEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 /**
  * Created by DEV on 06.09.2017.
  */
-
+@PerFragment
 public class AdvancedOptionsPresenterImpl extends AdvancedOptionConnector implements AdvancedOptionPresenter {
     private AdvancedOptionView view;
     private DatabaseManager databaseManager;
@@ -28,7 +31,7 @@ public class AdvancedOptionsPresenterImpl extends AdvancedOptionConnector implem
     private Product product;
     public final static String FRAGMENT_OPENED = "advanced_options";
     private boolean isVisible = false;
-
+    @Inject
     public AdvancedOptionsPresenterImpl(DatabaseManager databaseManager, RxBus rxBus, RxBusLocal rxBusLocal) {
         this.databaseManager = databaseManager;
         this.rxBus = rxBus;
