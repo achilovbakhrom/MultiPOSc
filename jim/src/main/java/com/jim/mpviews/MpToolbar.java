@@ -28,6 +28,12 @@ import static com.jim.mpviews.utils.Constants.SEARCH_MODE;
  */
 
 public class MpToolbar extends RelativeLayout {
+    public static final int MAIN_PAGE_TYPE = 1;
+    public static final int WITH_SEARCH_TYPE = 2;
+    public static final int DEFAULT_TYPE = 3;
+    public static final int WITH_CALENDAR_TYPE = 4;
+    public static final int WITH_SEARCH_CALENDAR_TYPE = 5;
+    public static final int GONE_TYPE = 0;
 
     private int mode;
     boolean pressed = false;
@@ -273,7 +279,7 @@ public class MpToolbar extends RelativeLayout {
 
     private void setVisibility() {
         switch (mode) {
-            case DEFAULT_MODE: {
+            case DEFAULT_TYPE: {
                 mpRightSide.setVisibility(GONE);
                 mpMainMenu.setVisibility(GONE);
                 mpSettings.setVisibility(GONE);
@@ -284,7 +290,7 @@ public class MpToolbar extends RelativeLayout {
                 findViewById(R.id.blackLine).setVisibility(GONE);
                 break;
             }
-            case MAIN_MODE: {
+            case MAIN_PAGE_TYPE: {
                 mpRightSide.setVisibility(VISIBLE);
                 mpMainMenu.setVisibility(VISIBLE);
                 mpSettings.setVisibility(VISIBLE);
@@ -295,7 +301,7 @@ public class MpToolbar extends RelativeLayout {
                 findViewById(R.id.blackLine).setVisibility(GONE);
                 break;
             }
-            case SEARCH_MODE: {
+            case WITH_SEARCH_TYPE: {
                 mpRightSide.setVisibility(VISIBLE);
                 mpMainMenu.setVisibility(GONE);
                 mpSettings.setVisibility(GONE);
@@ -306,17 +312,7 @@ public class MpToolbar extends RelativeLayout {
                 findViewById(R.id.blackLine).setVisibility(GONE);
                 break;
             }
-            case ADMIN_MODE: {
-                mpRightSide.setVisibility(VISIBLE);
-                mpMainMenu.setVisibility(VISIBLE);
-                mpSettings.setVisibility(VISIBLE);
-                mpHorizontalScroller.setVisibility(VISIBLE);
-                mpSearchView.setVisibility(GONE);
-                llEmployer.setVisibility(GONE);
-                findViewById(R.id.mpInfo).setVisibility(VISIBLE);
-                findViewById(R.id.blackLine).setVisibility(VISIBLE);
-                break;
-            }
+
         }
     }
 

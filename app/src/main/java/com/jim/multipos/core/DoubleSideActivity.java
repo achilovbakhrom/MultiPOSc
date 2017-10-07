@@ -67,8 +67,21 @@ public abstract class DoubleSideActivity extends BaseActivity{
                     remove(fragment).commit();
     }
 
+    protected final Fragment getCurrentFragmentLeft(){
+        return  activityFragmentManager.findFragmentById(R.id.flLeftContainer);
+
+    }
 
 
+    protected final Fragment getCurrentFragmentRight(){
+        return  activityFragmentManager.findFragmentById(R.id.flRightContainer);
+
+    }
+
+    protected final Fragment getCurrentFragmentFull(){
+        return  activityFragmentManager.findFragmentById(R.id.flFullContainer);
+
+    }
     protected final void popBackStack() {
         activityFragmentManager.popBackStack();
     }

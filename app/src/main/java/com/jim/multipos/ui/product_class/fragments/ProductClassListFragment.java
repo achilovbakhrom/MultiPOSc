@@ -48,6 +48,7 @@ public class ProductClassListFragment extends BaseFragment implements ProductCla
 
     @Override
     protected void init(Bundle savedInstanceState) {
+        presenter.onCreateView(savedInstanceState);
         rvClasses.setLayoutManager(new GridLayoutManager(getContext(), 6));
         rvClasses.setItemAnimator(null);
     }
