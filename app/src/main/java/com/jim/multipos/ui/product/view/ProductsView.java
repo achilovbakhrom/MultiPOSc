@@ -17,6 +17,6 @@ public interface ProductsView extends BaseView {
     void setCurrencyItems(List<Currency> currencyItems);
     void clearFields();
     void setData();
-    void setFields(String name, String barcode, String sku, String price, String cost, int unit, int priceCurrency, int costCurrency, String vendor, int productClass, boolean taxed, boolean active, String photoPath);
+    void setFields(String name, String barcode, String sku, String price, String cost, int unit, int priceCurrency, int costCurrency, String vendor, int productClass, boolean active, String photoPath);
     void openAdvanceOptions();
 }

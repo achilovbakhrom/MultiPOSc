@@ -16,6 +16,5 @@ public interface ProductOperations {
     Observable<Boolean> addProduct(List<Product> productList);
     Observable<Long> replaceProduct(Product product);
     Observable<List<Product>> getAllProducts();
-    Observable<List<Product>> getAllIngredients();
 
 }

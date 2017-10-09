@@ -1,14 +1,8 @@
 package com.jim.multipos.ui.product.view;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.jim.mpviews.MpButton;
 import com.jim.mpviews.MpCheckbox;
 import com.jim.mpviews.MpEditText;
 import com.jim.mpviews.MpSpinner;
@@ -24,9 +18,6 @@ import com.jim.multipos.ui.product.adapter.UnitSpinnerAdapter;
 import com.jim.multipos.ui.product.presenter.ProductsPresenter;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.RxBusLocal;
-import com.jim.multipos.utils.rxevents.MessageEvent;
-import com.jim.multipos.utils.rxevents.ProductEvent;
-import com.jim.multipos.utils.rxevents.SubCategoryEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,9 +25,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 import io.reactivex.disposables.Disposable;
 
 
@@ -220,7 +209,7 @@ public class AddProductFragment extends BaseFragment implements ProductsView {
     }
 
     @Override
-    public void setFields(String name, String barcode, String sku, String price, String cost, int unit, int priceCurrency, int costCurrency, String vendor, int productClass, boolean taxed, boolean active, String photoPath) {
+    public void setFields(String name, String barcode, String sku, String price, String cost, int unit, int priceCurrency, int costCurrency, String vendor, int productClass, boolean active, String photoPath) {
         etProductName.setText(name);
         etSKU.setText(sku);
         etProductPrice.setText(price);

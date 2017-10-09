@@ -80,18 +80,14 @@ public class ProductsPresenterImpl extends BasePresenterImpl<ProductsView> imple
             product.setCostCurrency(costCurrency);
             product.setCostCurrencyId(costCurrency.getId());
             product.setActive(isActive);
-            product.isNewVersion(true);
             product.setSubCategoryId(subCategory.getId());
             productOperations.addProduct(product).subscribe(aLong -> {
                 view.clearFields();
             });}
             else {
             Product newProduct = new Product();
-            product.setNewVersionId(newProduct.getId());
-            product.isNewVersion(false);
-            product.setActive(false);
-            productOperations.replaceProduct(product);
-
+//            product.setActive(false);
+//            productOperations.replaceProduct(product);
             newProduct.setName(name);
             newProduct.setBarcode(barcode);
             newProduct.setSku(sku);
@@ -108,16 +104,10 @@ public class ProductsPresenterImpl extends BasePresenterImpl<ProductsView> imple
             newProduct.setCostCurrency(costCurrency);
             newProduct.setCostCurrencyId(costCurrency.getId());
             newProduct.setActive(isActive);
-            newProduct.isNewVersion(true);
             newProduct.setSubCategoryId(subCategory.getId());
-            if (newProduct.getRecipe()) {
-                view.openAdvanceOptions();
-            } else {
                 productOperations.addProduct(newProduct).subscribe(aLong -> {
 //                    rxBus.send(new ProductEvent(newProduct, UPDATE));
                 });
-            }
-
         }
     }
 
@@ -175,7 +165,7 @@ public class ProductsPresenterImpl extends BasePresenterImpl<ProductsView> imple
                 }
             }
             view.setFields(product.getName(), product.getBarcode(), product.getSku(), String.valueOf(product.getPrice()), String.valueOf(product.getCost()),
-                    unitPosition, priceCurrencyPosition, costCurrencyPosition, null, classPosition, product.getTaxed(), product.getActive(), product.getPhotoPath());
+                    unitPosition, priceCurrencyPosition, costCurrencyPosition, null, classPosition, product.getActive(), product.getPhotoPath());
         } else view.clearFields();
     }
 

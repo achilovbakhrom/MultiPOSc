@@ -475,11 +475,6 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, S
     }
 
     @Override
-    public Observable<List<Product>> getAllIngredients() {
-        return dbHelper.getAllIngredients();
-    }
-
-    @Override
     public Observable<Long> addSubUnitList(SubUnitsList subUnitsList) {
         return dbHelper.insertSubUnits(subUnitsList);
     }

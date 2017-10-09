@@ -213,15 +213,6 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
-    public Observable<List<Product>> getAllIngredients() {
-        return Observable.fromCallable(() -> {
-            Query<Product> productQuery = mDaoSession.getProductDao().queryBuilder().
-                    where(ProductDao.Properties.IsRecipe.eq(false)).build();
-            return productQuery.list();
-        });
-    }
-
-    @Override
     public Observable<Long> insertOrReplaceProduct(Product product) {
         return Observable.fromCallable(() -> mDaoSession.getProductDao().insertOrReplace(product));
     }
