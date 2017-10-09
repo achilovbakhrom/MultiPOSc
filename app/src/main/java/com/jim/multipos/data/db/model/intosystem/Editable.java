@@ -5,9 +5,16 @@ package com.jim.multipos.data.db.model.intosystem;
  */
 
 public interface Editable extends Activatable{
-    String getNewVersionId();
-    void setNewVersionId(String newVersionId);
-    boolean isNewVersion();
-    void isNewVersion(boolean isNewVersion);
-
+    String getId();
+    void setId(String id);
+    boolean isActive();
+    void setActive(boolean active);
+    boolean isDeleted();
+    void setDeleted(boolean deleted);
+    boolean isNotModifyted();
+    void setNotModifyted(boolean notModifyted);
+    String getRootId();
+    void setRootId(String rootId);
+    Long getCreatedDate();
+    void setCreatedDate(long createdDate);
 }

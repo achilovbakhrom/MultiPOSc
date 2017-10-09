@@ -586,15 +586,21 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public Single<List<ProductClass>> getAllProductClass() {
-        return Single.create(singleSubscriber -> {
+        Observable<List<ProductClass>> objectObservable = Observable.create(singleSubscriber -> {
             try {
                 List<ProductClass> productClasses = mDaoSession.getProductClassDao().loadAll();
-                Collections.sort(productClasses, (productClass, t1) -> t1.getActive().compareTo(productClass.getActive()));
-                singleSubscriber.onSuccess(productClasses);
+                singleSubscriber.onNext(productClasses);
+                singleSubscriber.onComplete();
             } catch (Exception o) {
                 singleSubscriber.onError(o);
             }
         });
+        return objectObservable.flatMap(Observable::fromIterable)
+                .filter(productClass -> productClass.isNotModifyted())
+                .filter(productClass -> productClass.isDeleted())
+                .sorted((productClass, t1) -> t1.getCreatedDate().compareTo(productClass.getCreatedDate()))
+                .sorted((productClass, t1) -> t1.getActive().compareTo(productClass.getActive()))
+                .toList();
     }
 
     @Override

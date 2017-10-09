@@ -84,14 +84,14 @@ public class AddProductClassPresenterImpl extends BasePresenterImpl<AddProductCl
     public void onDestroyView() {
         view = null;
     }
-
+    String parentId= null;
     @Override
     public void onSaveButtonPress(String className, int position, boolean active) {
         if(className.isEmpty())
             view.classNameEmpty();
         if(className.length()<4)
             view.classNameShort();
-        String parentId = "";
+        parentId = null;
         if(position!=0){
             parentId = productClasses.get(position-1).getId();
         }
@@ -100,6 +100,10 @@ public class AddProductClassPresenterImpl extends BasePresenterImpl<AddProductCl
             productClass.setName(className);
             productClass.setParentId(parentId);
             productClass.setActive(active);
+            productClass.setCreatedDate(System.currentTimeMillis());
+            productClass.setDeleted(false);
+            productClass.setNotModifyted(true);
+            productClass.setRootId(null);
             databaseManager.insertProductClass(productClass).subscribe(aLong -> {
                 productClasses.add(productClass);
                 Collections.sort(productClasses,(productClass, t1) -> t1.getActive().compareTo(productClass.getActive()));
@@ -110,22 +114,33 @@ public class AddProductClassPresenterImpl extends BasePresenterImpl<AddProductCl
             });
 
         }else {
-
-            productClass.setName(className);
-            productClass.setParentId(parentId);
-            productClass.setActive(active);
+            productClass.setNotModifyted(false);
+            productClass.setDeleted(false);
             databaseManager.insertProductClass(productClass).subscribe(aLong -> {
-                for (int i = 0; i < productClasses.size(); i++) {
-                    if(productClasses.get(i).getId().equals(productClass.getId())){
-                        productClasses.remove(i);
-                        productClasses.add(productClass);
+                ProductClass productClassNew = new ProductClass();
+                if(productClass.getRootId()==null)
+                productClassNew.setRootId(productClass.getId());
+                else productClassNew.setRootId(productClass.getRootId());
+                productClassNew.setName(className);
+                productClassNew.setParentId(parentId);
+                productClassNew.setActive(active);
+                productClassNew.setDeleted(false);
+                productClassNew.setCreatedDate(System.currentTimeMillis());
+
+                databaseManager.insertProductClass(productClass).subscribe(aLong1 -> {
+                    for (int i = 0; i < productClasses.size(); i++) {
+                        if(productClasses.get(i).getId().equals(productClass.getId())){
+                            productClasses.remove(i);
+                            productClasses.add(productClass);
+                        }
                     }
-                }
-                Collections.sort(productClasses,(productClass, t1) -> t1.getActive().compareTo(productClass.getActive()));
-                rxBus.send(new ProductClassEvent(productClass, GlobalEventsConstants.UPDATE));
-                productClass = null;
-                makeDataForParentSpinner();
-                view.onAddNew();
+                    Collections.sort(productClasses,(productClass, t1) -> t1.getActive().compareTo(productClass.getActive()));
+                    rxBus.send(new ProductClassEvent(productClass, GlobalEventsConstants.UPDATE));
+                    productClass = null;
+                    makeDataForParentSpinner();
+                    view.onAddNew();
+                });
+
             });
 
         }
