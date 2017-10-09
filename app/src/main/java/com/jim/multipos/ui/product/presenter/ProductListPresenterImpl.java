@@ -2,6 +2,7 @@ package com.jim.multipos.ui.product.presenter;
 
 
 import com.jim.multipos.config.scope.PerFragment;
+import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.intosystem.CategoryPosition;
 import com.jim.multipos.data.db.model.intosystem.ProductPosition;
@@ -33,20 +34,21 @@ import static com.jim.multipos.utils.rxevents.GlobalEventsConstants.CLICK;
  * Created by DEV on 17.08.2017.
  */
 @PerFragment
-public class ProductListPresenterImpl extends ProductListConnector implements ProductListPresenter {
-    private ProductListView view;
+public class ProductListPresenterImpl extends BasePresenterImpl<ProductListView> implements ProductListPresenter {
     private DatabaseManager databaseManager;
-    private RxBus rxBus;
     private List<Category> categoryList, tempCatList;
     private List<SubCategory> subCategoryList, tempSubCatList;
     private List<Product> productList, tempProductsList;
     private PreferencesHelper preferencesHelper;
     private RxBusLocal rxBusLocal;
     private int productPosition;
+    private final static String PARENT = "parent";
+    private final static String CLICK = "click";
+
     @Inject
-    public ProductListPresenterImpl(DatabaseManager databaseManager, RxBus rxBus, RxBusLocal rxBusLocal, PreferencesHelper preferencesHelper) {
+    public ProductListPresenterImpl(ProductListView view,DatabaseManager databaseManager, RxBus rxBus, RxBusLocal rxBusLocal, PreferencesHelper preferencesHelper) {
+        super(view);
         this.databaseManager = databaseManager;
-        this.rxBus = rxBus;
         this.rxBusLocal = rxBusLocal;
         this.preferencesHelper = preferencesHelper;
         categoryList = new ArrayList<>();
@@ -55,7 +57,7 @@ public class ProductListPresenterImpl extends ProductListConnector implements Pr
         tempSubCatList = new ArrayList<>();
         tempCatList = new ArrayList<>();
         tempProductsList = new ArrayList<>();
-        initConnectors(rxBus, rxBusLocal);
+        setCategoryRecyclerView();
     }
 
     @Override
@@ -125,14 +127,6 @@ public class ProductListPresenterImpl extends ProductListConnector implements Pr
     }
 
     @Override
-    public void init(ProductListView view) {
-        this.view = view;
-        setCategoryRecyclerView();
-        this.view.categoryMode();
-        setRxListners();
-    }
-
-    @Override
     public void setCategoryRecyclerView() {
         databaseManager.getAllCategoryPositions().subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(categories -> {
             categoryList = categories;
@@ -159,7 +153,7 @@ public class ProductListPresenterImpl extends ProductListConnector implements Pr
 
     @Override
     public void setProductRecyclerView() {
-        int selectedPos = preferencesHelper.getLastPositionSubCategory() -1;
+        int selectedPos = preferencesHelper.getLastPositionSubCategory();
         if (selectedPos > -1 && subCategoryList.get(selectedPos) != null) {
             databaseManager.getAllProductPositions(subCategoryList.get(selectedPos)).subscribeOn(AndroidSchedulers.mainThread()).subscribe(products -> {
                 if (products != null)
@@ -249,21 +243,22 @@ public class ProductListPresenterImpl extends ProductListConnector implements Pr
     }
 
     @Override
-    protected void productFragmentOpened() {
-        rxBusLocal.send(new SubCategoryEvent(subCategoryList.get(preferencesHelper.getLastPositionSubCategory()), "parent"));
+    public void productFragmentOpened() {
+
+        view.sendSubCategoryEvent(subCategoryList.get(preferencesHelper.getLastPositionSubCategory()), PARENT);
         if (productPosition != -1) {
-            rxBusLocal.send(new ProductEvent(productList.get(productPosition), CLICK));
+            view.sendProductEvent(productList.get(productPosition), CLICK);
         } else {
-            rxBusLocal.send(new ProductEvent(null, CLICK));
+            view.sendProductEvent(null, CLICK);
         }
     }
 
     @Override
-    protected void subCatFragmentOpened() {
-        rxBusLocal.send(new CategoryEvent(categoryList.get(preferencesHelper.getLastPositionCategory()), "parent"));
+    public void subCatFragmentOpened() {
+        view.sendCategoryEvent(categoryList.get(preferencesHelper.getLastPositionCategory()), PARENT);
         if (preferencesHelper.getLastPositionSubCategory() != -1){
-            rxBusLocal.send(new SubCategoryEvent(subCategoryList.get(preferencesHelper.getLastPositionSubCategory()), CLICK));
-        } else rxBusLocal.send(new SubCategoryEvent(null, CLICK));
+            view.sendSubCategoryEvent(subCategoryList.get(preferencesHelper.getLastPositionSubCategory()), CLICK);
+        } else   view.sendSubCategoryEvent(null, CLICK);
     }
 
     @Override
@@ -274,11 +269,5 @@ public class ProductListPresenterImpl extends ProductListConnector implements Pr
             productList.addAll(CommonUtils.getAllNewVersionPlusId(products, ""));
              view.updateProductItems();
         });
-    }
-
-
-    @Override
-    public void onDestroyView() {
-        this.view = null;
     }
 }

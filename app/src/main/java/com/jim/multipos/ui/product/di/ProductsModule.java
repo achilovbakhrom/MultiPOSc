@@ -12,6 +12,8 @@ import com.jim.multipos.ui.product.view.AddProductFragment;
 import com.jim.multipos.ui.product.view.AddProductFragmentModule;
 import com.jim.multipos.ui.product.view.AddSubCategoryFragment;
 import com.jim.multipos.ui.product.view.AddSubCategoryFragmentModule;
+import com.jim.multipos.ui.product.view.ProductListFragmentModule;
+import com.jim.multipos.ui.product.view.ProductsListFragment;
 
 import dagger.Binds;
 import dagger.Module;
@@ -37,4 +39,8 @@ public abstract class ProductsModule {
     @PerFragment
     @ContributesAndroidInjector(modules = AddProductFragmentModule.class)
     abstract AddProductFragment provideAddProductFragmentInjector();
+
+    @PerFragment
+    @ContributesAndroidInjector(modules = ProductListFragmentModule.class)
+    abstract ProductsListFragment provideProductsListFragmentInjector();
 }

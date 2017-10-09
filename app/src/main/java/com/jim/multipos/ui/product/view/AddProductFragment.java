@@ -22,7 +22,13 @@ import com.jim.multipos.ui.product.ProductsActivity;
 import com.jim.multipos.ui.product.adapter.ProductClassSpinnerAdapter;
 import com.jim.multipos.ui.product.adapter.UnitSpinnerAdapter;
 import com.jim.multipos.ui.product.presenter.ProductsPresenter;
+import com.jim.multipos.utils.RxBus;
+import com.jim.multipos.utils.RxBusLocal;
+import com.jim.multipos.utils.rxevents.MessageEvent;
+import com.jim.multipos.utils.rxevents.ProductEvent;
+import com.jim.multipos.utils.rxevents.SubCategoryEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -31,6 +37,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import io.reactivex.disposables.Disposable;
 
 
 /**
@@ -43,6 +50,10 @@ public class AddProductFragment extends BaseFragment implements ProductsView {
     ProductsPresenter presenter;
     @Inject
     ProductsActivity activity;
+    @Inject
+    RxBus rxBus;
+    @Inject
+    RxBusLocal rxBusLocal;
     @BindView(R.id.etProductName)
     MpEditText etProductName;
     @BindView(R.id.tvLinked)
@@ -69,6 +80,18 @@ public class AddProductFragment extends BaseFragment implements ProductsView {
     private List<Unit> unitList;
     private List<Currency> currencyList;
     private List<ProductClass> classList;
+    ArrayList<Disposable> subscriptions;
+
+    private final static String ADVANCE = "advanced_options";
+    private final static String UNIT_ADDED = "unit_added";
+    private final static String UNIT_REMOVED = "unit_removed";
+    private final static String CURRENCY = "currency_added";
+    private final static String PRODUCT_CLASS = "product_class_added";
+    private static final String CLICK = "click";
+    private final static String PRODUCT_OPENED = "product";
+    private final static String OPEN_ADVANCE = "open_advance";
+    private static final String ADD = "added";
+    private static final String UPDATE = "update";
 
     @Override
     protected int getLayout() {
@@ -82,24 +105,60 @@ public class AddProductFragment extends BaseFragment implements ProductsView {
 
     @Override
     protected void rxConnections() {
+//        subscriptions = new ArrayList<>();
+//        subscriptions.add(
+//                rxBusLocal.toObservable().subscribe(o -> {
+//                    if (o instanceof MessageEvent) {
+//                        MessageEvent event = (MessageEvent) o;
+//                        if (event.getCategory().equals(ADVANCE)) {
+//                            advancedOptionsOpened();
+//                        }
+//                        if (event.getCategory().equals("product")) {
+//                            isVisible();
+//                        }
+//                        if (event.getCategory().equals(UNIT_ADDED) || event.getCategory().equals(UNIT_REMOVED)) {
+//                            getUnits();
+//                        }
+//                    }
+//                    if (o instanceof ProductEvent) {
+//                        ProductEvent event = (ProductEvent) o;
+//                        if (event.getEventType().equals(CLICK)) {
+//                            setProduct(event.getProduct());
+//                        }
+//                        if (event.getEventType().equals(ADVANCE)) {
+//                            saveProduct(event.getProduct());
+//                        }
+//                    }
+//                    if (o instanceof SubCategoryEvent) {
+//                        SubCategoryEvent event = (SubCategoryEvent) o;
+//                        if (event.getEventType().equals("parent")) {
+//                            setParentSubCategory(event.getSubCategory());
+//                        }
+//                    }
+//                }));
+//        subscriptions.add(
+//                rxBus.toObservable().subscribe(o -> {
+//                    if (o instanceof MessageEvent) {
+//                        MessageEvent event = (MessageEvent) o;
+//                        if (event.getCategory().equals(UNIT_ADDED)) {
+//                            getUnits();
+//                        }
+//                        if (event.getCategory().equals(CURRENCY)) {
+//                            getCurrencies();
+//                        }
+//                        if (event.getCategory().equals(PRODUCT_CLASS)) {
+//                            getProductClass();
+//                        }
+//                    }
+//                }));
 
     }
 
     @OnClick(R.id.btnSave)
     public void onSave() {
-//        if (etProductName.getText().toString().isEmpty())
-//            etProductName.setError(getString(R.string.enter_product_name));
-//        else if (etSKU.getText().toString().isEmpty())
-//            etSKU.setError(getString(R.string.enter_product_sku));
-//        else if (etProductPrice.getText().toString().isEmpty())
-//            etProductPrice.setError(getString(R.string.enter_product_price));
-//        else if (etProductCost.getText().toString().isEmpty())
-//            etProductCost.setError(getString(R.string.enter_product_cost));
-//        else {
 //            presenter.saveProduct(etProductName.getText().toString(), etBarcode.getText().toString(), etSKU.getText().toString(),
-//                    etProductPrice.getText().toString(), etProductCost.getText().toString(), currencyList.get(spPriceCurrency.selectedItemPosition()), currencyList.get(spCostCurrency.selectedItemPosition()), unitList.get(spUnit.selectedItemPosition()),
-//                    null, classList.get(spProductClass.selectedItemPosition()), chbActive.isCheckboxChecked(), chbTax.isCheckboxChecked(), );
-//        }
+//                    etProductPrice.getText().toString(), etProductCost.getText().toString(),spPriceCurrency.getSelectedItem(), spCostCurrency.getSelectedItem(), spUnit.getSelectedItem(),
+//                    null, spProductClass.getSelectedItem(), chbActive.isCheckboxChecked());
     }
 
     @OnClick(R.id.btnCancel)
@@ -114,19 +173,7 @@ public class AddProductFragment extends BaseFragment implements ProductsView {
 
     @OnClick(R.id.btnAdvance)
     public void onAdvance() {
-//        if (etProductName.getText().toString().isEmpty())
-//            etProductName.setError(getString(R.string.enter_product_name));
-//        else if (etSKU.getText().toString().isEmpty())
-//            etSKU.setError(getString(R.string.enter_product_sku));
-//        else if (etProductPrice.getText().toString().isEmpty())
-//            etProductPrice.setError(getString(R.string.enter_product_price));
-//        else if (etProductCost.getText().toString().isEmpty())
-//            etProductCost.setError(getString(R.string.enter_product_cost));
-//        else {
-//            presenter.onAdvance(etProductName.getText().toString(), etBarcode.getText().toString(), etSKU.getText().toString(),
-//                    etProductPrice.getText().toString(), etProductCost.getText().toString(), currencyList.get(spPriceCurrency.selectedItemPosition()), currencyList.get(spCostCurrency.selectedItemPosition()), unitList.get(spUnit.selectedItemPosition()),
-//                    null, classList.get(spProductClass.selectedItemPosition()), chbActive.isCheckboxChecked(), chbTax.isCheckboxChecked(), chbHasRecipe.isCheckboxChecked());
-//        }
+
     }
 
     @OnClick(R.id.ivChooseImage)

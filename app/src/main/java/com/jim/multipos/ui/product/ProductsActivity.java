@@ -6,18 +6,20 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
 import com.jim.multipos.R;
-import com.jim.multipos.core.BaseActivity;
+import com.jim.multipos.core.DoubleSideActivity;
 import com.jim.multipos.ui.product.view.AddCategoryFragment;
 import com.jim.multipos.ui.product.view.AddProductFragment;
 import com.jim.multipos.ui.product.view.AddSubCategoryFragment;
 import com.jim.multipos.ui.product.view.AdvancedOptionFragment;
 import com.jim.multipos.ui.product.view.ProductsListFragment;
 
+import static com.jim.mpviews.MpToolbar.DEFAULT_TYPE;
+
 /**
  * Created by DEV on 09.08.2017.
  */
 
-public class ProductsActivity extends BaseActivity implements ProductsActivityView {
+public class ProductsActivity extends DoubleSideActivity implements ProductsActivityView {
 
     public static final String SUBCATEGORY_EDIT = "the_subcategory_is_edited";
     public static final String CATEGORY_EDIT = "the_category_is_edited";
@@ -26,11 +28,18 @@ public class ProductsActivity extends BaseActivity implements ProductsActivityVi
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.products_layout);
+        openList();
+    }
+
+    @Override
+    protected int getToolbarMode() {
+        return DEFAULT_TYPE;
+    }
+
+    public void openList(){
         replaceFragmentWithTag(new AddCategoryFragment(), R.id.flLeftContainer, CATEGORY_EDIT);
         addFragment(R.id.flRightContainer, new ProductsListFragment());
     }
-
 
     @Override
     public void openCategory() {
@@ -75,7 +84,7 @@ public class ProductsActivity extends BaseActivity implements ProductsActivityVi
     @Override
     public void openAdvancedOptions() {
         activityFragmentManager.popBackStack();
-        addFragment(R.id.flRightContainer, new AdvancedOptionFragment());
+        addFragmentToTopRight(new AdvancedOptionFragment());
     }
 
     protected final void replaceFragmentWithTag(Fragment fragment, @IdRes int resId, String tag){

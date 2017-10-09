@@ -37,41 +37,28 @@ public class ProductsPresenterImpl extends BasePresenterImpl<ProductsView> imple
     private ProductOperations productOperations;
     private CurrencyOperations currencyOperations;
     private UnitOperations unitOperations;
-    private RxBusLocal rxBusLocal;
-    private RxBus rxBus;
-    private Product product, productNew;
+    private Product product;
     private SubCategory subCategory;
     private final static String PRODUCT_OPENED = "product";
     private final static String OPEN_ADVANCE = "open_advance";
-    private final static String BOOLEAN_STATE = "recipe";
+    private static final String ADD = "added";
+    private static final String UPDATE = "update";
     private List<Unit> units;
     private List<ProductClass> productClasses;
     private List<Currency> currencies;
     private boolean isVisible = false;
 
     @Inject
-    public ProductsPresenterImpl(ProductsView view, DatabaseManager databaseManager, RxBus rxBus, RxBusLocal rxBusLocal) {
+    public ProductsPresenterImpl(ProductsView view, DatabaseManager databaseManager) {
         super(view);
         this.databaseManager = databaseManager;
-        this.rxBus = rxBus;
         productOperations = databaseManager.getProductOperations();
         currencyOperations = databaseManager.getCurrencyOperations();
         unitOperations = databaseManager.getUnitOperations();
-        this.rxBusLocal = rxBusLocal;
         currencies = new ArrayList<>();
         units = new ArrayList<>();
         productClasses = new ArrayList<>();
-        getCurrencies();
-        getProductClass();
-        getUnits();
     }
-
-//    @Override
-//    public void init(ProductsView view) {
-//        this.view = view;
-//        initConnectors(rxBus, rxBusLocal);
-//        rxBusLocal.send(new MessageEvent(PRODUCT_OPENED));
-//    }
 
     @Override
     public void saveProduct(String name, String barcode, String sku, String price, String cost, Currency priceCurrency, Currency costCurrency, Unit unit, Vendor vendor, ProductClass productClass, boolean isActive, String photoPath) {
@@ -84,8 +71,8 @@ public class ProductsPresenterImpl extends BasePresenterImpl<ProductsView> imple
             product.setCost(Double.parseDouble(cost));
             product.setMainUnit(unit);
             product.setMainUnitId(unit.getId());
-//            product.setVendor(vendor);
-//            product.setVendorId(vendor.getId());
+            product.setVendor(vendor);
+            product.setVendorId(vendor.getId());
             product.setProductClass(productClass);
             product.setClassId(productClass.getId());
             product.setPriceCurrencyId(priceCurrency.getId());
@@ -95,16 +82,10 @@ public class ProductsPresenterImpl extends BasePresenterImpl<ProductsView> imple
             product.setActive(isActive);
             product.isNewVersion(true);
             product.setSubCategoryId(subCategory.getId());
-            if (product.getRecipe()) {
-                productNew = product;
-                view.openAdvanceOptions();
-            } else {
-                productOperations.addProduct(product).subscribe(aLong -> {
-                    rxBus.send(new ProductEvent(product, ADD));
-                    view.clearFields();
-                });
-            }
-        } else {
+            productOperations.addProduct(product).subscribe(aLong -> {
+                view.clearFields();
+            });}
+            else {
             Product newProduct = new Product();
             product.setNewVersionId(newProduct.getId());
             product.isNewVersion(false);
@@ -118,8 +99,8 @@ public class ProductsPresenterImpl extends BasePresenterImpl<ProductsView> imple
             newProduct.setCost(Double.parseDouble(cost));
             newProduct.setMainUnit(unit);
             newProduct.setMainUnitId(unit.getId());
-//            newProduct.setVendor(vendor);
-//            newProduct.setVendorId(vendor.getId());
+            newProduct.setVendor(vendor);
+            newProduct.setVendorId(vendor.getId());
             newProduct.setClassId(productClass.getId());
             newProduct.setProductClass(productClass);
             newProduct.setPriceCurrencyId(priceCurrency.getId());
@@ -133,7 +114,7 @@ public class ProductsPresenterImpl extends BasePresenterImpl<ProductsView> imple
                 view.openAdvanceOptions();
             } else {
                 productOperations.addProduct(newProduct).subscribe(aLong -> {
-                    rxBus.send(new ProductEvent(newProduct, UPDATE));
+//                    rxBus.send(new ProductEvent(newProduct, UPDATE));
                 });
             }
 
@@ -167,6 +148,9 @@ public class ProductsPresenterImpl extends BasePresenterImpl<ProductsView> imple
 
     @Override
     public void checkData() {
+        getCurrencies();
+        getProductClass();
+        getUnits();
         if (this.product != null) {
             int priceCurrencyPosition = 0;
             int costCurrencyPosition = 0;
@@ -203,54 +187,13 @@ public class ProductsPresenterImpl extends BasePresenterImpl<ProductsView> imple
 
     @Override
     public void onAdvance(String name, String barcode, String sku, String price, String cost, Currency priceCurrency, Currency costCurrency, Unit unit, Vendor vendor, ProductClass productClass, boolean isActive, String photoPath) {
-        if (this.product == null) {
-            Product product = new Product();
-            product.setName(name);
-            product.setBarcode(barcode);
-            product.setSku(sku);
-            product.setPrice(Double.parseDouble(price));
-            product.setCost(Double.parseDouble(cost));
-            product.setMainUnit(unit);
-            product.setMainUnitId(unit.getId());
-//            product.setVendor(vendor);
-//            product.setVendorId(vendor.getId());
-            product.setProductClass(productClass);
-            product.setClassId(productClass.getId());
-            product.setPriceCurrencyId(priceCurrency.getId());
-            product.setPriceCurrency(priceCurrency);
-            product.setCostCurrency(costCurrency);
-            product.setCostCurrencyId(costCurrency.getId());
-            product.setActive(isActive);
-            product.setSubCategoryId(subCategory.getId());
-            productOperations.addProduct(product).subscribe(aLong -> {
-                rxBus.send(new ProductEvent(product, ADD));
-                this.product = product;
-            });
-        } else {
-            product.setName(name);
-            product.setBarcode(barcode);
-            product.setSku(sku);
-            product.setPrice(Double.parseDouble(price));
-            product.setCost(Double.parseDouble(cost));
-            product.setMainUnit(unit);
-            product.setMainUnitId(unit.getId());
-//            product.setVendor(vendor);
-//            product.setVendorId(vendor.getId());
-            product.setClassId(productClass.getId());
-            product.setProductClass(productClass);
-            product.setPriceCurrencyId(priceCurrency.getId());
-            product.setPriceCurrency(priceCurrency);
-            product.setCostCurrency(costCurrency);
-            product.setCostCurrencyId(costCurrency.getId());
-            product.setActive(isActive);
-            product.setSubCategoryId(subCategory.getId());
-            productOperations.replaceProduct(product).subscribe(aLong -> {
-                rxBus.send(new ProductEvent(product, UPDATE));
-            });
-        }
-        view.openAdvanceOptions();
+
     }
 
+    @Override
+    public void saveProduct(String name, String barcode, String sku, String price, String cost, Currency priceCurrency, Currency costCurrency, Unit unit, Vendor vendor, ProductClass productClass, boolean checkboxChecked) {
+
+    }
 
 //    @Override
 //    void advancedOptionsOpened() {

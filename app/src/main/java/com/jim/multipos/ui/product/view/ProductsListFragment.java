@@ -20,9 +20,16 @@ import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.ui.product.ProductsActivity;
 import com.jim.multipos.ui.product.adapter.ProductsListAdapter;
 import com.jim.multipos.ui.product.presenter.ProductListPresenter;
+import com.jim.multipos.utils.RxBus;
+import com.jim.multipos.utils.RxBusLocal;
 import com.jim.multipos.utils.item_touch_helper.OnStartDragListener;
 import com.jim.multipos.utils.item_touch_helper.SimpleItemTouchHelperCallback;
+import com.jim.multipos.utils.rxevents.CategoryEvent;
+import com.jim.multipos.utils.rxevents.MessageEvent;
+import com.jim.multipos.utils.rxevents.ProductEvent;
+import com.jim.multipos.utils.rxevents.SubCategoryEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -30,6 +37,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by DEV on 10.08.2017.
@@ -59,37 +67,83 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
     ProductListPresenter presenter;
     @Inject
     ProductsActivity activity;
+    @Inject
+    RxBus rxBus;
+    @Inject
+    RxBusLocal rxBusLocal;
     private ProductsListAdapter categoryAdapter;
     private ProductsListAdapter subCategoryAdapter, productsAdapter;
     private ItemTouchHelper touchHelper;
-    private Unbinder unbinder;
     private static final int CATEGORY = 0;
     private static final int SUBCATEGORY = 1;
     private static final int PRODUCT = 2;
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.choose_product_fragment, container, false);
-        unbinder = ButterKnife.bind(this, view);
-        presenter.init(this);
-        presenter.setViewsVisibility(CATEGORY);
-        return view;
-    }
+    private final static String ADD = "added";
+    private final static String UPDATE = "update";
+    private final static String SUBCAT_OPENED = "subcategory";
+    private final static String PRODUCT_OPENED = "product";
+    private final static String PARENT = "parent";
+    private final static String CLICK = "click";
+    ArrayList<Disposable> subscriptions;
 
     @Override
     protected int getLayout() {
-        return 0;
+        return R.layout.choose_product_fragment;
     }
 
     @Override
     protected void init(Bundle savedInstanceState) {
-
+        presenter.setViewsVisibility(CATEGORY);
+        categoryMode();
     }
 
     @Override
     protected void rxConnections() {
-
+        subscriptions = new ArrayList<>();
+        subscriptions.add(
+                rxBus.toObservable().subscribe(o -> {
+                    if (o instanceof CategoryEvent) {
+                        CategoryEvent event = (CategoryEvent) o;
+                        if (event.getEventType().equals(ADD)) {
+                            presenter.refreshCategoryList();
+                        }
+                        if (event.getEventType().equals(UPDATE)) {
+                            presenter.refreshCategoryList();
+                        }
+                    }
+                    if (o instanceof SubCategoryEvent) {
+                        SubCategoryEvent event = (SubCategoryEvent) o;
+                        if (event.getEventType().equals(ADD)) {
+                            presenter.refreshSubCategoryList();
+                        }
+                        if (event.getEventType().equals(UPDATE)) {
+                            presenter.refreshSubCategoryList();
+                        }
+                    }
+                    if (o instanceof ProductEvent) {
+                        ProductEvent event = (ProductEvent) o;
+                        if (event.getEventType().equals(ADD)) {
+                            presenter.refreshProductList();
+                        }
+                        if (event.getEventType().equals(UPDATE)) {
+                            presenter.refreshProductList();
+                        }
+                    }
+                }));
+        subscriptions.add(
+                rxBusLocal.toObservable().subscribe(o -> {
+                    if (o instanceof MessageEvent) {
+                        MessageEvent event = (MessageEvent) o;
+                        if (event.getCategory().equals(SUBCAT_OPENED)) {
+                            presenter.subCatFragmentOpened();
+                        }
+                    }
+                    if (o instanceof MessageEvent) {
+                        MessageEvent event = (MessageEvent) o;
+                        if (event.getCategory().equals(PRODUCT_OPENED)) {
+                            presenter.productFragmentOpened();
+                        }
+                    }
+                }));
     }
 
     @Override
@@ -195,7 +249,6 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
     }
 
     @Override
@@ -240,8 +293,23 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
     }
 
     @Override
+    public void sendSubCategoryEvent(SubCategory subCategory, String event) {
+        rxBusLocal.send(new SubCategoryEvent(subCategory, event));
+    }
+
+    @Override
+    public void sendProductEvent(Product product, String event) {
+        rxBusLocal.send(new ProductEvent(product, event));
+    }
+
+    @Override
+    public void sendCategoryEvent(Category category, String event) {
+        rxBusLocal.send(new CategoryEvent(category, event));
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
-        presenter.onDestroyView();
+        RxBus.removeListners(subscriptions);
     }
 }

@@ -20,4 +20,6 @@ public interface ProductsPresenter extends Presenter {
     void checkData();
     void onDestroy();
     void onAdvance(String name, String barcode, String sku, String price, String cost, Currency priceCurrency, Currency costCurrency, Unit unit, Vendor vendor, ProductClass productClass, boolean isActive, String photoPath);
+
+    void saveProduct(String name, String barcode, String sku, String price, String cost, Currency priceCurrency, Currency costCurrency, Unit unit, Vendor vendor, ProductClass productClass, boolean checkboxChecked);
 }

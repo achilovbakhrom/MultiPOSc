@@ -54,11 +54,7 @@
         <activity
             android:name=".ui.product_class.ProductClassActivity"
             android:windowSoftInputMode="stateHidden">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity android:name=".ui.customers_edit.CustomersEditActivity">
@@ -67,6 +63,12 @@
         <activity android:name=".ui.customer_group.CustomerGroupActivity">
 
         </activity>
-        <activity android:name=".ui.product.ProductsActivity" />
+        <activity android:name=".ui.product.ProductsActivity" >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
     </application>
 </manifest>
