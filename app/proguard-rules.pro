@@ -32,3 +32,12 @@
 -keep interface org.parceler.Parcel
 -keep @org.parceler.Parcel class * { *; }
 -keep class **$$Parcelable { *; }
+
+-keepattributes *Annotation*
+-keep class eu.inmite.android.lib.validations.form.annotations.** { *; }
+-keep class * implements eu.inmite.android.lib.validations.form.iface.ICondition
+-keep class * implements eu.inmite.android.lib.validations.form.iface.IValidator
+-keep class * implements eu.inmite.android.lib.validations.form.iface.IFieldAdapter
+-keepclassmembers class ** {
+	@eu.inmite.android.lib.validations.form.annotations.** *;
+}

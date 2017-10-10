@@ -4,6 +4,8 @@ import android.app.Application;
 
 import com.jim.multipos.MultiPosApp;
 import com.jim.multipos.config.scope.PerActivity;
+import com.jim.multipos.ui.first_configure.FirstConfigureActivity;
+import com.jim.multipos.ui.first_configure.di.FirstConfigureActivityModule;
 import com.jim.multipos.ui.product.ProductsActivity;
 import com.jim.multipos.ui.product.di.ProductsModule;
 import com.jim.multipos.ui.product_class.ProductClassActivity;
@@ -34,4 +36,8 @@ abstract class AppModule {
     @PerActivity
     @ContributesAndroidInjector(modules = ProductClassModule.class)
     abstract ProductClassActivity provideProductClassActivity();
+
+    @PerActivity
+    @ContributesAndroidInjector(modules = FirstConfigureActivityModule.class)
+    abstract FirstConfigureActivity provideFirstConfigureActivity();
 }

@@ -10,7 +10,7 @@
     <string name="system_accounts">System accounts</string>
     <string name="pos_id">Pos ID</string>
     <string name="alias">Alias</string>
-    <string name="enter_pos_alias">Enter Pos Alias</string>
+    <string name="enter_pos_alias">Enter POS Alias</string>
     <string name="address">Address</string>
     <string name="enter_pos_address">Enter POS Address</string>
     <string name="password">Password</string>
@@ -56,7 +56,6 @@
         <item>Currency</item>
         <item>Payment type</item>
         <item>Units</item>
-        <item>Stocks</item>
     </string-array>
     <string-array name="start_configuration_description">
         <item>POS details</item>
@@ -64,7 +63,6 @@
         <item>Currency</item>
         <item>Payment type</item>
         <item>Units</item>
-        <item>Stocks</item>
     </string-array>
     <string-array name="products_menu_title">
         <item>Products</item>
@@ -345,6 +343,8 @@
     <string name="tax_free">Tax Free</string>
     <string name="advance">Advance</string>
     <string name="password_length_not_less_than_12">Password length should not be less than 12 characters</string>
+    <string name="password_length_not_less_than_6">Password length should not be less than 6 characters</string>
+    <string name="password_should_note_be_more_than_6">The password should not be more than 6 characters</string>
     <string name="password_length_equals_6">The password must be 6 characters in length</string>
     <string name="enter_name">Enter name</string>
     <string name="enter_amount">Enter amount</string>

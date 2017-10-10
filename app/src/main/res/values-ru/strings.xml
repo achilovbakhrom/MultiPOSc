@@ -91,7 +91,6 @@
         <item name="currency">Валюта</item>
         <item name="payment_type">Типы оплаты</item>
         <item name="units">Единицы</item>
-        <item name="stocks">Stocks</item>
     </string-array>
     <string-array name="start_configuration_desctiption">
         <item name="pos_details_description">Некторые подробности о POS системе</item>

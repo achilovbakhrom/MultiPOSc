@@ -12,8 +12,6 @@ import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.mpviews.MpCheckbox;
 import com.jim.multipos.R;
 import com.jim.multipos.data.db.model.unit.Unit;
-import com.jim.multipos.ui.first_configure.Constants;
-import com.jim.multipos.ui.first_configure.presenters.UnitsFragmentPresenter;
 
 import java.util.List;
 import java.util.zip.Inflater;
