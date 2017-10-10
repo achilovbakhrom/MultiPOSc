@@ -8,7 +8,6 @@ import com.jim.multipos.data.db.model.products.SubCategory;
  */
 
 public interface SubCategoryView extends BaseView {
-    void backToMain();
     void setFields(String name, String description, boolean active, String photoPath);
     void clearFields();
     void setParentCategoryName(String parentCategory);

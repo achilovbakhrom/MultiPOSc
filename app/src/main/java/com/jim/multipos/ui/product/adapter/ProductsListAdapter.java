@@ -51,7 +51,10 @@ public class ProductsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     public void notifyDataSetChangedWithZeroButton() {
-        list.add(0, null);
+        if (!this.list.isEmpty()) {
+            if (this.list.get(0) != null)
+                this.list.add(0, null);
+        } else this.list.add(null);
         notifyDataSetChanged();
     }
 
@@ -153,15 +156,15 @@ public class ProductsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
         switch (listType) {
             case 0:
-                presenter.setCategoryItems(selectedPosition);
+//                presenter.setCategoryItems(selectedPosition);
                 presenter.onListCategoryPositionChanged();
                 break;
             case 1:
-                presenter.setSubCategoryItems(selectedPosition);
+//                presenter.setSubCategoryItems(selectedPosition);
                 presenter.onListSubCategoryPositionChanged();
                 break;
             case 2:
-                presenter.setProductItems(selectedPosition);
+//                presenter.setProductItems(selectedPosition);
                 presenter.onListProductPositionChanged();
                 break;
         }

@@ -18,6 +18,7 @@ import com.jim.multipos.data.db.model.products.SubCategory;
 import com.jim.multipos.ui.product.presenter.SubCategoryPresenter;
 import com.jim.multipos.utils.CommonUtils;
 //import com.jim.multipos.utils.GlideApp;
+import com.jim.multipos.utils.GlideApp;
 import com.jim.multipos.utils.OpenPickPhotoUtils;
 import com.jim.multipos.utils.PhotoPickDialog;
 import com.jim.multipos.utils.RxBus;
@@ -78,10 +79,8 @@ public class AddSubCategoryFragment extends BaseFragment implements SubCategoryV
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        presenter.checkData();
         tvChooseCategory.setText(categoryName);
-        rxBusLocal.send(new MessageEvent(FRAGMENT_OPENED));
-        presenter.isVisible(isVisible());
+        rxBus.send(new MessageEvent(FRAGMENT_OPENED));
     }
 
     @Override
@@ -106,7 +105,7 @@ public class AddSubCategoryFragment extends BaseFragment implements SubCategoryV
 
     @OnClick(R.id.btnSubCategoryCancel)
     public void onBack() {
-        presenter.back();
+        getActivity().finish();
     }
 
     @OnClick(R.id.btnSubCategorySave)
@@ -123,7 +122,7 @@ public class AddSubCategoryFragment extends BaseFragment implements SubCategoryV
             @Override
             public void onCameraShot(Uri uri) {
                 photoSelected = uri;
-//                GlideApp.with(AddSubCategoryFragment.this).load(uri).diskCacheStrategy(DiskCacheStrategy.RESOURCE).thumbnail(0.2f).centerCrop().transform(new RoundedCorners(20)).into(ivLoadImage);
+                GlideApp.with(AddSubCategoryFragment.this).load(uri).diskCacheStrategy(DiskCacheStrategy.RESOURCE).thumbnail(0.2f).centerCrop().transform(new RoundedCorners(20)).into(ivLoadImage);
             }
 
             @Override
@@ -152,18 +151,13 @@ public class AddSubCategoryFragment extends BaseFragment implements SubCategoryV
     }
 
     @Override
-    public void backToMain() {
-        getActivity().finish();
-    }
-
-    @Override
     public void setFields(String name, String description, boolean active, String photoPath) {
         etSubCategoryName.setText(name);
         etSubCategoryDescription.setText(description);
         chbActive.setChecked(active);
         if (!photoPath.equals("")) {
             photoSelected = Uri.fromFile(new File(photoPath));
-//            GlideApp.with(AddSubCategoryFragment.this).load(photoSelected).diskCacheStrategy(DiskCacheStrategy.RESOURCE).thumbnail(0.2f).centerCrop().transform(new RoundedCorners(20)).into(ivLoadImage);
+            GlideApp.with(AddSubCategoryFragment.this).load(photoSelected).diskCacheStrategy(DiskCacheStrategy.RESOURCE).thumbnail(0.2f).centerCrop().transform(new RoundedCorners(20)).into(ivLoadImage);
         } else {
             photoSelected = null;
             ivLoadImage.setImageResource(R.drawable.camera);
@@ -175,7 +169,6 @@ public class AddSubCategoryFragment extends BaseFragment implements SubCategoryV
     public void onDestroyView() {
         super.onDestroyView();
         RxBus.removeListners(subscriptions);
-        presenter.onDestroy();
     }
 
     @Override
@@ -221,7 +214,7 @@ public class AddSubCategoryFragment extends BaseFragment implements SubCategoryV
         if (OpenPickPhotoUtils.RESULT_PICK_IMAGE == requestCode && RESULT_OK == resultCode && data.getData() != null) {
             Uri imageUri = data.getData();
             photoSelected = imageUri;
-//            GlideApp.with(AddSubCategoryFragment.this).load(imageUri).diskCacheStrategy(DiskCacheStrategy.RESOURCE).thumbnail(0.2f).centerCrop().transform(new RoundedCorners(20)).into(ivLoadImage);
+            GlideApp.with(AddSubCategoryFragment.this).load(imageUri).diskCacheStrategy(DiskCacheStrategy.RESOURCE).thumbnail(0.2f).centerCrop().transform(new RoundedCorners(20)).into(ivLoadImage);
         }
     }
 }

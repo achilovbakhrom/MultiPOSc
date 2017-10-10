@@ -27,4 +27,5 @@ public interface ProductListPresenter extends Presenter{
     void refreshProductList();
     void subCatFragmentOpened();
     void productFragmentOpened();
+    void categoryFragmentOpened();
 }

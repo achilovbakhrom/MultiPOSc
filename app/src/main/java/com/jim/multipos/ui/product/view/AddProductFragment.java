@@ -99,13 +99,13 @@ public class AddProductFragment extends BaseFragment implements ProductsView {
 //                rxBusLocal.toObservable().subscribe(o -> {
 //                    if (o instanceof MessageEvent) {
 //                        MessageEvent event = (MessageEvent) o;
-//                        if (event.getCategory().equals(ADVANCE)) {
+//                        if (event.getMessage().equals(ADVANCE)) {
 //                            advancedOptionsOpened();
 //                        }
-//                        if (event.getCategory().equals("product")) {
+//                        if (event.getMessage().equals("product")) {
 //                            isVisible();
 //                        }
-//                        if (event.getCategory().equals(UNIT_ADDED) || event.getCategory().equals(UNIT_REMOVED)) {
+//                        if (event.getMessage().equals(UNIT_ADDED) || event.getMessage().equals(UNIT_REMOVED)) {
 //                            getUnits();
 //                        }
 //                    }
@@ -129,13 +129,13 @@ public class AddProductFragment extends BaseFragment implements ProductsView {
 //                rxBus.toObservable().subscribe(o -> {
 //                    if (o instanceof MessageEvent) {
 //                        MessageEvent event = (MessageEvent) o;
-//                        if (event.getCategory().equals(UNIT_ADDED)) {
+//                        if (event.getMessage().equals(UNIT_ADDED)) {
 //                            getUnits();
 //                        }
-//                        if (event.getCategory().equals(CURRENCY)) {
+//                        if (event.getMessage().equals(CURRENCY)) {
 //                            getCurrencies();
 //                        }
-//                        if (event.getCategory().equals(PRODUCT_CLASS)) {
+//                        if (event.getMessage().equals(PRODUCT_CLASS)) {
 //                            getProductClass();
 //                        }
 //                    }

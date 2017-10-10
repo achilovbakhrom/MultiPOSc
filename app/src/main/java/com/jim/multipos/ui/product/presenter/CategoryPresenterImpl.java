@@ -1,6 +1,8 @@
 package com.jim.multipos.ui.product.presenter;
 
 
+import android.os.Bundle;
+
 import com.jim.multipos.config.scope.PerFragment;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
@@ -17,14 +19,23 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 public class CategoryPresenterImpl extends BasePresenterImpl<CategoryView> implements CategoryPresenter {
     private Category category;
     private CategoryOperations categoryOperations;
-    private boolean isVisible = false;
     private static final String ADD = "added";
     private static final String UPDATE = "update";
 
     @Inject
-    public CategoryPresenterImpl(CategoryView view, DatabaseManager databaseManager) {
+    CategoryPresenterImpl(CategoryView view, DatabaseManager databaseManager) {
         super(view);
         categoryOperations = databaseManager.getCategoryOperations();
+    }
+
+    @Override
+    public void onCreateView(Bundle bundle) {
+        super.onCreateView(bundle);
+        if (this.category != null) {
+            view.setFields(category.getName(), category.getDescription(), category.isActive(), category.getPhotoPath());
+        } else {
+            view.clearFields();
+        }
     }
 
     @Override
@@ -35,7 +46,7 @@ public class CategoryPresenterImpl extends BasePresenterImpl<CategoryView> imple
         } else if (name.length() < 3){
             view.setError("Category name should be longer than 3 letters");
         } else if (this.category == null) {
-            Category category = new Category();
+            category = new Category();
             category.setName(name);
             category.setDescription(description);
             category.setActive(checked);
@@ -48,12 +59,18 @@ public class CategoryPresenterImpl extends BasePresenterImpl<CategoryView> imple
                 } else view.setError("Such name already exits");
             });
         } else {
-            category.setName(name);
-            category.setDescription(description);
-            category.setActive(checked);
-            category.setPhotoPath(photoPath);
-            categoryOperations.getCategoryByName(category).subscribeOn(AndroidSchedulers.mainThread()).subscribe(aBoolean -> {
+            Category categoryNew = new Category();
+            categoryNew.setId(category.getId());
+            categoryNew.setName(name);
+            categoryNew.setDescription(description);
+            categoryNew.setActive(checked);
+            categoryNew.setPhotoPath(photoPath);
+            categoryOperations.getCategoryByName(categoryNew).subscribeOn(AndroidSchedulers.mainThread()).subscribe(aBoolean -> {
                 if (aBoolean) {
+                    category.setName(name);
+                    category.setDescription(description);
+                    category.setActive(checked);
+                    category.setPhotoPath(photoPath);
                     categoryOperations.replaceCategory(category).subscribe(aLong -> {
                         view.sendEvent(category, UPDATE);
                         category = null;
@@ -75,23 +92,11 @@ public class CategoryPresenterImpl extends BasePresenterImpl<CategoryView> imple
         }
     }
 
-
-    @Override
-    public void isVisible(boolean visible) {
-        isVisible = visible;
-    }
-
     @Override
     public void clickedCategory(Category category) {
         this.category = category;
-        if (isVisible && category == null) {
+        if (category == null) {
             view.clearFields();
-        }
+        } else checkData();
     }
-
-    @Override
-    public void onDestroy() {
-        isVisible = false;
-    }
-
 }

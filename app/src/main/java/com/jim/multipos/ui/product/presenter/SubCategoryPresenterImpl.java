@@ -1,6 +1,8 @@
 package com.jim.multipos.ui.product.presenter;
 
 
+import android.os.Bundle;
+
 import com.jim.multipos.config.scope.PerFragment;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
@@ -25,14 +27,24 @@ public class SubCategoryPresenterImpl extends BasePresenterImpl<SubCategoryView>
     private Category category;
     private SubCategory subCategory;
     private SubCategoryOperations subCategoryOperations;
-    private boolean isVisible = false;
     private static final String ADD = "added";
     private static final String UPDATE = "update";
 
     @Inject
-    public SubCategoryPresenterImpl(SubCategoryView view,DatabaseManager databaseManager) {
+    SubCategoryPresenterImpl(SubCategoryView view,DatabaseManager databaseManager) {
         super(view);
         subCategoryOperations = databaseManager.getSubCategoryOperations();
+    }
+
+    @Override
+    public void onCreateView(Bundle bundle) {
+        super.onCreateView(bundle);
+        if (this.subCategory != null) {
+            view.setFields(this.subCategory.getName(),
+                    this.subCategory.getDescription(),
+                    this.subCategory.getActive(),
+                    this.subCategory.getPhotoPath());
+        } else view.clearFields();
     }
 
     @Override
@@ -65,11 +77,6 @@ public class SubCategoryPresenterImpl extends BasePresenterImpl<SubCategoryView>
     }
 
     @Override
-    public void back() {
-        view.backToMain();
-    }
-
-    @Override
     public void checkData() {
         if (this.subCategory != null) {
             view.setFields(this.subCategory.getName(),
@@ -77,16 +84,6 @@ public class SubCategoryPresenterImpl extends BasePresenterImpl<SubCategoryView>
                     this.subCategory.getActive(),
                     this.subCategory.getPhotoPath());
         } else view.clearFields();
-    }
-
-    @Override
-    public void onDestroy() {
-        isVisible = false;
-    }
-
-    @Override
-    public void isVisible(boolean visible) {
-        isVisible = visible;
     }
 
     @Override
@@ -98,8 +95,8 @@ public class SubCategoryPresenterImpl extends BasePresenterImpl<SubCategoryView>
     @Override
     public void clickedSubCategory(SubCategory subCategory) {
         this.subCategory = subCategory;
-        if (isVisible && subCategory == null) {
+        if (subCategory == null) {
             view.clearFields();
-        }
+        } else checkData();
     }
 }

@@ -764,14 +764,14 @@ public class AppDbHelper implements DbHelper {
         return Observable.fromCallable(() -> {
             Query<Category> categoryQuery = mDaoSession.getCategoryDao().queryBuilder()
                     .where(CategoryDao.Properties.Name.eq(category.getName())).build();
-            Category temp = categoryQuery.list().get(0);
             if (categoryQuery.list().isEmpty()) {
                 return true;
-            } else if (!temp.getDescription().equals(category.getDescription())
-                    || temp.getActive() != category.getActive()
-                    || !temp.getPhotoPath().equals(category.getPhotoPath())) {
-                return true;
-            } else return false;
+            } else if (!categoryQuery.list().get(0).getId().equals(category.getId())){
+                return false;
+            } else
+                return !categoryQuery.list().get(0).getDescription().equals(category.getDescription())
+                        || categoryQuery.list().get(0).getActive() != category.getActive()
+                        || !categoryQuery.list().get(0).getPhotoPath().equals(category.getPhotoPath());
         });
     }
 
@@ -931,7 +931,7 @@ public class AppDbHelper implements DbHelper {
                     customerGroup.setDiscountId(cursor.getString(cursor.getColumnIndex("DISCOUNT_ID")));
 
                     int iActive = cursor.getInt(cursor.getColumnIndex("IS_ACTIVE"));
-                    boolean isActive = iActive == 0 ? false : true;
+                    boolean isActive = iActive != 0;
                     customerGroup.setIsActive(isActive);
 
                     customerGroups.add(customerGroup);

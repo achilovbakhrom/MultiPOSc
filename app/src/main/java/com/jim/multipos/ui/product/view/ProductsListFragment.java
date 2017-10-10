@@ -4,10 +4,9 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -35,8 +34,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import io.reactivex.disposables.Disposable;
 
 /**
@@ -81,6 +78,7 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
     private final static String UPDATE = "update";
     private final static String SUBCAT_OPENED = "subcategory";
     private final static String PRODUCT_OPENED = "product";
+    private final static String CATEGORY_OPENED = "category";
     private final static String PARENT = "parent";
     private final static String CLICK = "click";
     ArrayList<Disposable> subscriptions;
@@ -128,18 +126,25 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
                             presenter.refreshProductList();
                         }
                     }
-                }));
-        subscriptions.add(
-                rxBusLocal.toObservable().subscribe(o -> {
                     if (o instanceof MessageEvent) {
                         MessageEvent event = (MessageEvent) o;
-                        if (event.getCategory().equals(SUBCAT_OPENED)) {
-                            presenter.subCatFragmentOpened();
+                        if (event.getMessage().equals(CATEGORY_OPENED)) {
+                            presenter.categoryFragmentOpened();
                         }
                     }
                     if (o instanceof MessageEvent) {
                         MessageEvent event = (MessageEvent) o;
-                        if (event.getCategory().equals(PRODUCT_OPENED)) {
+                        if (event.getMessage().equals(SUBCAT_OPENED)) {
+                            presenter.subCatFragmentOpened();
+                        }
+                    }
+                }));
+        subscriptions.add(
+                rxBusLocal.toObservable().subscribe(o -> {
+
+                    if (o instanceof MessageEvent) {
+                        MessageEvent event = (MessageEvent) o;
+                        if (event.getMessage().equals(PRODUCT_OPENED)) {
                             presenter.productFragmentOpened();
                         }
                     }
@@ -151,7 +156,7 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
         rvCategory.setLayoutManager(new LinearLayoutManager(getContext()));
         categoryAdapter = new ProductsListAdapter(categories, presenter, CATEGORY, this);
         rvCategory.setAdapter(categoryAdapter);
-        rvCategory.setItemAnimator(null);
+        ((SimpleItemAnimator) rvCategory.getItemAnimator()).setSupportsChangeAnimations(false);
         categoryAdapter.setPosition(preferencesHelper.getLastPositionCategory());
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(categoryAdapter);
         touchHelper = new ItemTouchHelper(callback);
@@ -163,7 +168,7 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
         rvSubCategory.setLayoutManager(new LinearLayoutManager(getContext()));
         subCategoryAdapter = new ProductsListAdapter(subCategories, presenter, SUBCATEGORY, this);
         rvSubCategory.setAdapter(subCategoryAdapter);
-        rvSubCategory.setItemAnimator(null);
+        ((SimpleItemAnimator) rvSubCategory.getItemAnimator()).setSupportsChangeAnimations(false);
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(subCategoryAdapter);
         touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(rvSubCategory);
@@ -174,7 +179,7 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
         rvProduct.setLayoutManager(new GridLayoutManager(getContext(), 4));
         productsAdapter = new ProductsListAdapter(products, presenter, PRODUCT, this);
         rvProduct.setAdapter(productsAdapter);
-        rvSubCategory.setItemAnimator(null);
+        ((SimpleItemAnimator) rvProduct.getItemAnimator()).setSupportsChangeAnimations(false);
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(productsAdapter);
         touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(rvProduct);

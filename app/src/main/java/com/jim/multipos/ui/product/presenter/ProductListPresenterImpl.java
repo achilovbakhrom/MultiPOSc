@@ -1,6 +1,8 @@
 package com.jim.multipos.ui.product.presenter;
 
 
+import android.os.Bundle;
+
 import com.jim.multipos.config.scope.PerFragment;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
@@ -46,7 +48,7 @@ public class ProductListPresenterImpl extends BasePresenterImpl<ProductListView>
     private final static String CLICK = "click";
 
     @Inject
-    public ProductListPresenterImpl(ProductListView view,DatabaseManager databaseManager, RxBus rxBus, RxBusLocal rxBusLocal, PreferencesHelper preferencesHelper) {
+    public ProductListPresenterImpl(ProductListView view,DatabaseManager databaseManager, RxBusLocal rxBusLocal, PreferencesHelper preferencesHelper) {
         super(view);
         this.databaseManager = databaseManager;
         this.rxBusLocal = rxBusLocal;
@@ -153,7 +155,7 @@ public class ProductListPresenterImpl extends BasePresenterImpl<ProductListView>
 
     @Override
     public void setProductRecyclerView() {
-        int selectedPos = preferencesHelper.getLastPositionSubCategory();
+        int selectedPos = preferencesHelper.getLastPositionSubCategory() - 1;
         if (selectedPos > -1 && subCategoryList.get(selectedPos) != null) {
             databaseManager.getAllProductPositions(subCategoryList.get(selectedPos)).subscribeOn(AndroidSchedulers.mainThread()).subscribe(products -> {
                 if (products != null)
@@ -184,14 +186,13 @@ public class ProductListPresenterImpl extends BasePresenterImpl<ProductListView>
     public void setCategoryItems(int selectedPosition) {
         if (selectedPosition != -1) {
             preferencesHelper.setLastPositionCategory(selectedPosition);
-            rxBusLocal.send(new CategoryEvent(categoryList.get(selectedPosition), CLICK));
+            view.sendCategoryEvent(categoryList.get(selectedPosition), CLICK);
             view.setCategoryName(categoryList.get(selectedPosition).getName());
             refreshSubCategoryList();
         } else {
-
             preferencesHelper.setLastPositionCategory(selectedPosition);
             view.allInvisible();
-            rxBusLocal.send(new CategoryEvent(null, CLICK));
+            view.sendCategoryEvent(null, CLICK);
         }
     }
 
@@ -199,13 +200,13 @@ public class ProductListPresenterImpl extends BasePresenterImpl<ProductListView>
     public void setSubCategoryItems(int selectedPosition) {
         if (selectedPosition != -1) {
             preferencesHelper.setLastPositionSubCategory(selectedPosition);
-            rxBusLocal.send(new SubCategoryEvent(subCategoryList.get(selectedPosition), CLICK));
+            view.sendSubCategoryEvent(subCategoryList.get(selectedPosition), CLICK);
             view.setSubCategoryName(subCategoryList.get(selectedPosition).getName());
             refreshProductList();
         } else {
             preferencesHelper.setLastPositionSubCategory(selectedPosition);
             view.categoryMode();
-            rxBusLocal.send(new SubCategoryEvent(null, CLICK));
+            view.sendSubCategoryEvent(null, CLICK);
         }
     }
 
@@ -214,11 +215,11 @@ public class ProductListPresenterImpl extends BasePresenterImpl<ProductListView>
         if (selectedPosition != -1) {
             productPosition = selectedPosition;
             preferencesHelper.setLastPositionProduct(selectedPosition);
-            rxBusLocal.send(new ProductEvent(productList.get(selectedPosition), CLICK));
+            view.sendProductEvent(productList.get(productPosition), CLICK);
             view.setProductName(productList.get(selectedPosition).getName());
         } else {
             productPosition = selectedPosition;
-            rxBusLocal.send(new ProductEvent(null, CLICK));
+            view.sendProductEvent(null, CLICK);
             view.subCategoryMode();
         }
     }
@@ -244,13 +245,19 @@ public class ProductListPresenterImpl extends BasePresenterImpl<ProductListView>
 
     @Override
     public void productFragmentOpened() {
-
         view.sendSubCategoryEvent(subCategoryList.get(preferencesHelper.getLastPositionSubCategory()), PARENT);
         if (productPosition != -1) {
             view.sendProductEvent(productList.get(productPosition), CLICK);
         } else {
             view.sendProductEvent(null, CLICK);
         }
+    }
+
+    @Override
+    public void categoryFragmentOpened() {
+        if (preferencesHelper.getLastPositionCategory() != -1){
+            view.sendCategoryEvent(categoryList.get(preferencesHelper.getLastPositionCategory()), CLICK);
+        } else   view.sendCategoryEvent(null, CLICK);
     }
 
     @Override

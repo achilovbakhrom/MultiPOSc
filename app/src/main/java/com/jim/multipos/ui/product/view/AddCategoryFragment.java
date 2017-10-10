@@ -4,9 +4,12 @@ import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.jim.mpviews.MpCheckbox;
 import com.jim.mpviews.MpEditText;
 import com.jim.multipos.R;
@@ -17,6 +20,7 @@ import com.jim.multipos.ui.product.presenter.CategoryPresenter;
 import com.jim.multipos.utils.CommonUtils;
 
 //import com.jim.multipos.utils.GlideApp;
+import com.jim.multipos.utils.GlideApp;
 import com.jim.multipos.utils.OpenPickPhotoUtils;
 import com.jim.multipos.utils.PhotoPickDialog;
 import com.jim.multipos.utils.RxBus;
@@ -73,9 +77,8 @@ public class AddCategoryFragment extends BaseFragment implements CategoryView {
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        presenter.checkData();
-        presenter.isVisible(isVisible());
-        rxBusLocal.send(new MessageEvent(FRAGMENT_OPENED));
+        rxBus.send(new MessageEvent(FRAGMENT_OPENED));
+        etCategoryName.setOnClickListener(view -> etCategoryName.setError(null));
     }
 
     @Override
@@ -112,7 +115,7 @@ public class AddCategoryFragment extends BaseFragment implements CategoryView {
             @Override
             public void onCameraShot(Uri uri) {
                 photoSelected = uri;
-//                GlideApp.with(AddCategoryFragment.this).load(uri).diskCacheStrategy(DiskCacheStrategy.RESOURCE).thumbnail(0.2f).centerCrop().transform(new RoundedCorners(20)).into(ivLoadImage);
+                GlideApp.with(AddCategoryFragment.this).load(uri).diskCacheStrategy(DiskCacheStrategy.RESOURCE).thumbnail(0.2f).centerCrop().transform(new RoundedCorners(20)).into(ivLoadImage);
 
             }
 
@@ -147,7 +150,7 @@ public class AddCategoryFragment extends BaseFragment implements CategoryView {
         if (OpenPickPhotoUtils.RESULT_PICK_IMAGE == requestCode && RESULT_OK == resultCode && data.getData() != null) {
             Uri imageUri = data.getData();
             photoSelected = imageUri;
-//            GlideApp.with(AddCategoryFragment.this).load(imageUri).diskCacheStrategy(DiskCacheStrategy.RESOURCE).thumbnail(0.2f).centerCrop().transform(new RoundedCorners(20)).into(ivLoadImage);
+            GlideApp.with(AddCategoryFragment.this).load(imageUri).diskCacheStrategy(DiskCacheStrategy.RESOURCE).thumbnail(0.2f).centerCrop().transform(new RoundedCorners(20)).into(ivLoadImage);
         }
     }
 
@@ -158,7 +161,7 @@ public class AddCategoryFragment extends BaseFragment implements CategoryView {
         chbActive.setChecked(active);
         if (!photoPath.equals("")) {
             photoSelected = Uri.fromFile(new File(photoPath));
-//            GlideApp.with(AddCategoryFragment.this).load(photoSelected).diskCacheStrategy(DiskCacheStrategy.RESOURCE).thumbnail(0.2f).centerCrop().transform(new RoundedCorners(20)).into(ivLoadImage);
+            GlideApp.with(AddCategoryFragment.this).load(photoSelected).diskCacheStrategy(DiskCacheStrategy.RESOURCE).thumbnail(0.2f).centerCrop().transform(new RoundedCorners(20)).into(ivLoadImage);
         } else {
             photoSelected = null;
             ivLoadImage.setImageResource(R.drawable.camera);
@@ -171,7 +174,6 @@ public class AddCategoryFragment extends BaseFragment implements CategoryView {
         etCategoryDescription.setText("");
         photoSelected = null;
         ivLoadImage.setImageResource(R.drawable.camera);
-
     }
 
     @Override
@@ -193,13 +195,12 @@ public class AddCategoryFragment extends BaseFragment implements CategoryView {
 
     @Override
     public void sendEvent(Category category, String event) {
-        switch (event) {
-            case ADD:
-                rxBus.send(new CategoryEvent(category, ADD));
-                break;
-            case UPDATE:
-                rxBus.send(new CategoryEvent(category, UPDATE));
-                break;
+        if (event.equals(ADD)) {
+            rxBus.send(new CategoryEvent(category, ADD));
+        } else if (event.equals(UPDATE)) {
+            rxBus.send(new CategoryEvent(category, UPDATE));
+        } else if (event.equals("re:")){
+            rxBus.send(new MessageEvent("re"));
         }
     }
 

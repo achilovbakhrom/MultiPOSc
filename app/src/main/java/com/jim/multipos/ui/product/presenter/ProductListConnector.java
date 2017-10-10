@@ -69,13 +69,13 @@ public abstract class ProductListConnector extends RxForPresenter {
                 rxBusLocal.toObservable().subscribe(o -> {
                     if (o instanceof MessageEvent) {
                         MessageEvent event = (MessageEvent) o;
-                        if (event.getCategory().equals(SUBCAT_OPENED)) {
+                        if (event.getMessage().equals(SUBCAT_OPENED)) {
                             subCatFragmentOpened();
                         }
                     }
                     if (o instanceof MessageEvent) {
                         MessageEvent event = (MessageEvent) o;
-                        if (event.getCategory().equals(PRODUCT_OPENED)) {
+                        if (event.getMessage().equals(PRODUCT_OPENED)) {
                             productFragmentOpened();
                         }
                     }
