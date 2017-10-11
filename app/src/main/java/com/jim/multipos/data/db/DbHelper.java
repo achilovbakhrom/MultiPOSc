@@ -57,12 +57,13 @@ public interface DbHelper {
     Observable<Boolean> insertContacts(List<Contact> contact);
     Observable<List<Contact>> getAllContacts();
     DaoSession getDaoSession();
-    Observable<Boolean> getCategoryByName(Category category);
+    Observable<Integer> getCategoryByName(Category category);
     Observable<Boolean> getMatchCategory(Category category);
     Observable<Long> insertCategory(Category category);
     Observable<Boolean> insertCategories(List<Category> categories);
     Observable<List<Category>> getAllCategories();
     Observable<Long> insertOrReplaceCategory(Category category);
+    Observable<Long> insertOrReplaceCategoryByPosition(Category category);
     Observable<Long> insertProduct(Product product);
     Observable<Boolean> insertProducts(List<Product> products);
     Observable<List<Product>> getAllProducts();

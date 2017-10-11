@@ -15,11 +15,12 @@ import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.ToMany;
 
+import com.jim.multipos.data.db.model.intosystem.Editable;
 import com.jim.multipos.data.db.model.intosystem.NamePhotoPathId;
 import com.jim.multipos.data.db.model.DaoSession;
 
 @Entity(nameInDb = "CATEGORY", active = true)
-public class Category implements NamePhotoPathId {
+public class Category implements NamePhotoPathId, Editable {
     @Id
     private String id;
     @Property
@@ -30,6 +31,10 @@ public class Category implements NamePhotoPathId {
     private String description;
     @Property
     private boolean active;
+    private boolean isDeleted;
+    private boolean isNotModified;
+    private String rootId;
+    private long createdDate;
     @ToMany(joinProperties = {
             @JoinProperty(
                     name = "id", referencedName = "categoryId"
@@ -62,14 +67,19 @@ public class Category implements NamePhotoPathId {
         this.id = UUID.randomUUID().toString();
     }
 
-    @Generated(hash = 1604348298)
+    @Generated(hash = 1442124998)
     public Category(String id, String name, String photoPath, String description,
-            boolean active) {
+            boolean active, boolean isDeleted, boolean isNotModified, String rootId,
+            long createdDate) {
         this.id = id;
         this.name = name;
         this.photoPath = photoPath;
         this.description = description;
         this.active = active;
+        this.isDeleted = isDeleted;
+        this.isNotModified = isNotModified;
+        this.rootId = rootId;
+        this.createdDate = createdDate;
     }
 
     @Keep
@@ -187,6 +197,46 @@ public class Category implements NamePhotoPathId {
         this.active = active;
     }
 
+    @Override
+    public boolean isDeleted() {
+        return this.isDeleted;
+    }
+
+    @Override
+    public void setDeleted(boolean deleted) {
+        this.isDeleted = deleted;
+    }
+
+    @Override
+    public boolean isNotModifyted() {
+        return this.isNotModified;
+    }
+
+    @Override
+    public void setNotModifyted(boolean notModifyted) {
+        this.isNotModified = notModifyted;
+    }
+
+    @Override
+    public String getRootId() {
+        return this.rootId;
+    }
+
+    @Override
+    public void setRootId(String rootId) {
+        this.rootId = rootId;
+    }
+
+    @Override
+    public Long getCreatedDate() {
+        return this.createdDate;
+    }
+
+    @Override
+    public void setCreatedDate(long createdDate) {
+        this.createdDate = createdDate;
+    }
+
     public boolean getActive() {
         return this.active;
     }
@@ -196,5 +246,21 @@ public class Category implements NamePhotoPathId {
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getCategoryDao() : null;
+    }
+
+    public boolean getIsNotModified() {
+        return this.isNotModified;
+    }
+
+    public void setIsNotModified(boolean isNotModified) {
+        this.isNotModified = isNotModified;
+    }
+
+    public boolean getIsDeleted() {
+        return this.isDeleted;
+    }
+
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 }

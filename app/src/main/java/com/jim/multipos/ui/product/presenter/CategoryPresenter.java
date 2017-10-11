@@ -11,4 +11,6 @@ public interface CategoryPresenter extends Presenter {
     void saveCategory(String name, String description, boolean checked, String photoPath);
     void checkData();
     void clickedCategory(Category category);
+    void acceptChanges();
+    void notAcceptChanges();
 }

@@ -13,7 +13,8 @@ public interface CategoryOperations {
     Observable<Long> addCategory(Category category);
     Observable<Boolean> addCategory(List<Category> categoryList);
     Observable<Long> replaceCategory(Category category);
+    Observable<Long> replaceCategoryByPosition(Category category);
     Observable<List<Category>> getAllCategories();
-    Observable<Boolean> getCategoryByName(Category category);
+    Observable<Integer> getCategoryByName(Category category);
     Observable<Boolean> getMatchCategory(Category category);
 }

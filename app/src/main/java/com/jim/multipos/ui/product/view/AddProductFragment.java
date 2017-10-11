@@ -89,7 +89,6 @@ public class AddProductFragment extends BaseFragment implements ProductsView {
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        presenter.checkData();
     }
 
     @Override
@@ -231,6 +230,5 @@ public class AddProductFragment extends BaseFragment implements ProductsView {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        presenter.onDestroy();
     }
 }

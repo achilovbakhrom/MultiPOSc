@@ -39,12 +39,7 @@ public class SubCategoryPresenterImpl extends BasePresenterImpl<SubCategoryView>
     @Override
     public void onCreateView(Bundle bundle) {
         super.onCreateView(bundle);
-        if (this.subCategory != null) {
-            view.setFields(this.subCategory.getName(),
-                    this.subCategory.getDescription(),
-                    this.subCategory.getActive(),
-                    this.subCategory.getPhotoPath());
-        } else view.clearFields();
+        checkData();
     }
 
     @Override

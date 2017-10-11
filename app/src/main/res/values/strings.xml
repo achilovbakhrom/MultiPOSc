@@ -472,4 +472,8 @@
     <string name="select_customer_groups">Select customer groups</string>
     <string name="class_name_should_be_longer">Class name should be longer 3 letter</string>
     <string name="class_name_empty">Class name can not be empty</string>
+    <string name="name_validation">Please, enter the name</string>
+    <string name="category_length_validation">Category name should be longer than 3 letters</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

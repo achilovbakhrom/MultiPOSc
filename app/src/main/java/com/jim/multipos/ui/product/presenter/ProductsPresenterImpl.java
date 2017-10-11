@@ -1,6 +1,8 @@
 package com.jim.multipos.ui.product.presenter;
 
 
+import android.os.Bundle;
+
 import com.jim.multipos.config.scope.PerFragment;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
@@ -46,7 +48,6 @@ public class ProductsPresenterImpl extends BasePresenterImpl<ProductsView> imple
     private List<Unit> units;
     private List<ProductClass> productClasses;
     private List<Currency> currencies;
-    private boolean isVisible = false;
 
     @Inject
     public ProductsPresenterImpl(ProductsView view, DatabaseManager databaseManager) {
@@ -58,6 +59,12 @@ public class ProductsPresenterImpl extends BasePresenterImpl<ProductsView> imple
         currencies = new ArrayList<>();
         units = new ArrayList<>();
         productClasses = new ArrayList<>();
+    }
+
+    @Override
+    public void onCreateView(Bundle bundle) {
+        super.onCreateView(bundle);
+        checkData();
     }
 
     @Override
@@ -172,7 +179,6 @@ public class ProductsPresenterImpl extends BasePresenterImpl<ProductsView> imple
     @Override
     public void onDestroy() {
         this.view = null;
-        isVisible = false;
     }
 
     @Override
@@ -203,11 +209,6 @@ public class ProductsPresenterImpl extends BasePresenterImpl<ProductsView> imple
 //        } else {
 //            this.product = product;
 //        }
-//    }
-//
-//    @Override
-//    protected void isVisible() {
-//        isVisible = true;
 //    }
 //
 //    @Override

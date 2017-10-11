@@ -28,6 +28,7 @@ import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
 import com.jim.multipos.data.db.model.customer.JoinCustomerGroupsWithCustomers;
 import com.jim.multipos.data.db.model.intosystem.CategoryPosition;
+import com.jim.multipos.data.db.model.intosystem.CategoryPositionDao;
 import com.jim.multipos.data.db.model.intosystem.ProductPosition;
 import com.jim.multipos.data.db.model.intosystem.ProductPositionDao;
 import com.jim.multipos.data.db.model.intosystem.SubCategoryPosition;
@@ -43,10 +44,8 @@ import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.Contact;
 import com.jim.multipos.data.db.model.products.CategoryDao;
 import com.jim.multipos.data.db.model.products.Product;
-import com.jim.multipos.data.db.model.products.ProductDao;
 import com.jim.multipos.data.db.model.products.Recipe;
 import com.jim.multipos.data.db.model.products.SubCategory;
-import com.jim.multipos.data.db.model.products.SubCategoryDao;
 import com.jim.multipos.data.db.model.stock.Stock;
 import com.jim.multipos.data.db.model.unit.SubUnitsList;
 import com.jim.multipos.data.db.model.unit.Unit;
@@ -179,6 +178,26 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Observable<Long> insertOrReplaceCategory(Category category) {
         return Observable.fromCallable(() -> mDaoSession.getCategoryDao().insertOrReplace(category));
+    }
+
+    @Override
+    public Observable<Long> insertOrReplaceCategoryByPosition(Category category) {
+        return Observable.create(subscriber -> {
+            String rootId;
+            if (category.getRootId() == null) {
+                rootId = category.getId();
+            } else rootId = category.getRootId();
+            Query<CategoryPosition> categoryPositionQuery = mDaoSession.getCategoryPositionDao().queryBuilder()
+                    .where(CategoryPositionDao.Properties.ParentId.eq(rootId)).build();
+            if (!categoryPositionQuery.list().isEmpty()) {
+                CategoryPosition categoryPosition = categoryPositionQuery.list().get(0);
+                categoryPosition.setParentId(category.getId());
+                mDaoSession.getCategoryPositionDao().insertOrReplace(categoryPosition);
+            }
+            long insert = mDaoSession.getCategoryDao().insertOrReplace(category);
+            subscriber.onNext(insert);
+            subscriber.onComplete();
+        });
     }
 
     @Override
@@ -760,18 +779,15 @@ public class AppDbHelper implements DbHelper {
 
 
     @Override
-    public Observable<Boolean> getCategoryByName(Category category) {
+    public Observable<Integer> getCategoryByName(Category category) {
         return Observable.fromCallable(() -> {
             Query<Category> categoryQuery = mDaoSession.getCategoryDao().queryBuilder()
-                    .where(CategoryDao.Properties.Name.eq(category.getName())).build();
+                    .where(CategoryDao.Properties.Name.eq(category.getName()), CategoryDao.Properties.IsDeleted.eq(false)).build();
             if (categoryQuery.list().isEmpty()) {
-                return true;
-            } else if (!categoryQuery.list().get(0).getId().equals(category.getId())){
-                return false;
-            } else
-                return !categoryQuery.list().get(0).getDescription().equals(category.getDescription())
-                        || categoryQuery.list().get(0).getActive() != category.getActive()
-                        || !categoryQuery.list().get(0).getPhotoPath().equals(category.getPhotoPath());
+                return 0;
+            } else if (categoryQuery.list().get(0).getId().equals(category.getId())) {
+                return 1;
+            } else return 2;
         });
     }
 
@@ -779,7 +795,7 @@ public class AppDbHelper implements DbHelper {
     public Observable<Boolean> getMatchCategory(Category category) {
         return Observable.fromCallable(() -> {
             Query<Category> categoryQuery = mDaoSession.getCategoryDao().queryBuilder()
-                    .where(CategoryDao.Properties.Name.eq(category.getName())).build();
+                    .where(CategoryDao.Properties.Name.eq(category.getName()), CategoryDao.Properties.IsDeleted.eq(false)).build();
             return categoryQuery.list().isEmpty();
         });
     }

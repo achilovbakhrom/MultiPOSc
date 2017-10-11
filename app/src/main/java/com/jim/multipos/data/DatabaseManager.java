@@ -184,12 +184,17 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, S
     }
 
     @Override
+    public Observable<Long> replaceCategoryByPosition(Category category) {
+        return dbHelper.insertOrReplaceCategoryByPosition(category);
+    }
+
+    @Override
     public Observable<List<Category>> getAllCategories() {
         return dbHelper.getAllCategories();
     }
 
     @Override
-    public Observable<Boolean> getCategoryByName(Category category) {
+    public Observable<Integer> getCategoryByName(Category category) {
         return dbHelper.getCategoryByName(category);
     }
 

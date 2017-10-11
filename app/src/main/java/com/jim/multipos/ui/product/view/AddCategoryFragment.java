@@ -1,10 +1,11 @@
 package com.jim.multipos.ui.product.view;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
+import android.support.v7.app.AlertDialog;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -15,11 +16,11 @@ import com.jim.mpviews.MpEditText;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.db.model.products.Category;
+import com.jim.multipos.ui.product.ProductsActivity;
 import com.jim.multipos.ui.product.presenter.CategoryPresenter;
 
 import com.jim.multipos.utils.CommonUtils;
 
-//import com.jim.multipos.utils.GlideApp;
 import com.jim.multipos.utils.GlideApp;
 import com.jim.multipos.utils.OpenPickPhotoUtils;
 import com.jim.multipos.utils.PhotoPickDialog;
@@ -36,6 +37,10 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import eu.inmite.android.lib.validations.form.FormValidator;
+import eu.inmite.android.lib.validations.form.annotations.MinLength;
+import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
+import eu.inmite.android.lib.validations.form.callback.SimpleErrorPopupCallback;
 import io.reactivex.disposables.Disposable;
 
 import static android.app.Activity.RESULT_OK;
@@ -47,6 +52,8 @@ import static android.app.Activity.RESULT_OK;
 
 public class AddCategoryFragment extends BaseFragment implements CategoryView {
 
+    @NotEmpty(messageId = R.string.name_validation, order = 1)
+    @MinLength(messageId = R.string.category_length_validation, order = 2, value = 4)
     @BindView(R.id.etCategoryName)
     MpEditText etCategoryName;
     @BindView(R.id.etCategoryDescription)
@@ -75,6 +82,12 @@ public class AddCategoryFragment extends BaseFragment implements CategoryView {
         return R.layout.add_category_fragment;
     }
 
+
+    @Override
+    protected boolean isValid() {
+        return FormValidator.validate(this, new SimpleErrorPopupCallback(getContext()));
+    }
+
     @Override
     protected void init(Bundle savedInstanceState) {
         rxBus.send(new MessageEvent(FRAGMENT_OPENED));
@@ -90,6 +103,7 @@ public class AddCategoryFragment extends BaseFragment implements CategoryView {
                         CategoryEvent event = (CategoryEvent) o;
                         if (event.getEventType().equals(CLICK)) {
                             presenter.clickedCategory(event.getCategory());
+                            etCategoryName.setError(null);
                         }
                     }
                 }));
@@ -102,10 +116,11 @@ public class AddCategoryFragment extends BaseFragment implements CategoryView {
 
     @OnClick(R.id.btnCategorySave)
     public void onSave() {
-        presenter.saveCategory(etCategoryName.getText().toString(),
-                etCategoryDescription.getText().toString(),
-                chbActive.isCheckboxChecked(),
-                (photoSelected != null) ? CommonUtils.getRealPathFromURI(getContext(), photoSelected) : "");
+        if (isValid())
+            presenter.saveCategory(etCategoryName.getText().toString(),
+                    etCategoryDescription.getText().toString(),
+                    chbActive.isCheckboxChecked(),
+                    (photoSelected != null) ? CommonUtils.getRealPathFromURI(getContext(), photoSelected) : "");
 
     }
 
@@ -180,7 +195,6 @@ public class AddCategoryFragment extends BaseFragment implements CategoryView {
     public void onDestroyView() {
         super.onDestroyView();
         RxBus.removeListners(subscriptions);
-        presenter.onDestroy();
     }
 
     @Override
@@ -199,9 +213,25 @@ public class AddCategoryFragment extends BaseFragment implements CategoryView {
             rxBus.send(new CategoryEvent(category, ADD));
         } else if (event.equals(UPDATE)) {
             rxBus.send(new CategoryEvent(category, UPDATE));
-        } else if (event.equals("re:")){
-            rxBus.send(new MessageEvent("re"));
+//            ((ProductsActivity) getActivity()).openCategory();
         }
+    }
+
+    @Override
+    public void confirmChanges() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Warning");
+        builder.setMessage("Do you really want to accept changes?");
+        builder.setPositiveButton(R.string.yes, (dialogInterface, i) -> {
+            presenter.acceptChanges();
+            dialogInterface.dismiss();
+        });
+        builder.setNegativeButton(R.string.no, (dialogInterface, i) -> {
+            presenter.notAcceptChanges();
+            dialogInterface.dismiss();
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
 }

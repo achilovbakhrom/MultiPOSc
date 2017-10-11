@@ -85,6 +85,10 @@
     <string name="child">Child</string>
     <string name="parent">Parent</string>
     <string name="attribute_name">Attribute Name</string>
+    <string name="name_validation">Please, enter the name</string>
+    <string name="category_length_validation">Category name should be longer than 3 letters</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
     <string-array name="start_configuration_title">
         <item namte="pos_details">POS подробности</item>
         <item name="account">Аккаунт</item>
