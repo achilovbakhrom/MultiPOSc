@@ -5,7 +5,7 @@ package com.jim.multipos.utils.rxevents;
  */
 
 public class SubCategoryEvent {
-    private SubCategory subCategory;
+    /*private SubCategory subCategory;
     private String eventType;
 
     public SubCategoryEvent(SubCategory subCategory, String eventType) {
@@ -27,5 +27,5 @@ public class SubCategoryEvent {
 
     public void setEventType(String eventType) {
         this.eventType = eventType;
-    }
+    }*/
 }

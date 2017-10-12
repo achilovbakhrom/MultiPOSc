@@ -25,7 +25,106 @@ import io.reactivex.schedulers.Schedulers;
  */
 @PerFragment
 public class ProductListPresenterImpl extends BasePresenterImpl<ProductListView> implements ProductListPresenter {
-    private DatabaseManager databaseManager;
+    public ProductListPresenterImpl(ProductListView productListView) {
+        super(productListView);
+    }
+
+    @Override
+
+    public void setCategoryRecyclerView() {
+
+    }
+
+    @Override
+    public void setSubCategoryRecyclerView() {
+
+    }
+
+    @Override
+    public void setProductRecyclerView() {
+
+    }
+
+    @Override
+    public void openCategory() {
+
+    }
+
+    @Override
+    public void openSubCategory() {
+
+    }
+
+    @Override
+    public void openProduct() {
+
+    }
+
+    @Override
+    public void setCategoryItems(int selectedPosition) {
+
+    }
+
+    @Override
+    public void setSubCategoryItems(int selectedPosition) {
+
+    }
+
+    @Override
+    public void setProductItems(int selectedPosition) {
+
+    }
+
+    @Override
+    public void onListCategoryPositionChanged() {
+
+    }
+
+    @Override
+    public void onListSubCategoryPositionChanged() {
+
+    }
+
+    @Override
+    public void onListProductPositionChanged() {
+
+    }
+
+    @Override
+    public void setViewsVisibility(int mode) {
+
+    }
+
+    @Override
+    public void refreshCategoryList() {
+
+    }
+
+    @Override
+    public void refreshSubCategoryList() {
+
+    }
+
+    @Override
+    public void refreshProductList() {
+
+    }
+
+    @Override
+    public void subCatFragmentOpened() {
+
+    }
+
+    @Override
+    public void productFragmentOpened() {
+
+    }
+
+    @Override
+    public void categoryFragmentOpened() {
+
+    }
+    /*private DatabaseManager databaseManager;
     private List<Category> categoryList, tempCatList;
     private List<SubCategory> subCategoryList, tempSubCatList;
     private List<Product> productList, tempProductsList;
@@ -264,5 +363,5 @@ public class ProductListPresenterImpl extends BasePresenterImpl<ProductListView>
             productList.addAll(CommonUtils.getAllNewVersionPlusId(products, ""));
              view.updateProductItems();
         });
-    }
+    }*/
 }

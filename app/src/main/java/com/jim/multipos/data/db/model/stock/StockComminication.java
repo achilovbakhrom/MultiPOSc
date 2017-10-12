@@ -7,8 +7,10 @@ import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.ToOne;
 
 import java.util.UUID;
+
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
+
 import com.jim.multipos.data.db.model.PointOfSaleDao;
 import com.jim.multipos.data.db.model.DaoSession;
 
@@ -20,7 +22,7 @@ public class StockComminication {
     @Id
     private Long id;
     private String type;
-    private String stockId;
+    private Long stockId;
     @ToOne(joinProperty = "stockId")
     private Stock stock;
     private Long posId;
@@ -99,10 +101,10 @@ public class StockComminication {
         }
     }
     /** To-one relationship, resolved on first access. */
-    @Generated(hash = 207524696)
+    @Generated(hash = 1815663589)
     public Stock getStock() {
-        String __key = this.stockId;
-        if (stock__resolvedKey == null || stock__resolvedKey != __key) {
+        Long __key = this.stockId;
+        if (stock__resolvedKey == null || !stock__resolvedKey.equals(__key)) {
             final DaoSession daoSession = this.daoSession;
             if (daoSession == null) {
                 throw new DaoException("Entity is detached from DAO context");
@@ -116,8 +118,8 @@ public class StockComminication {
         }
         return stock;
     }
-    @Generated(hash = 1894000447)
-    private transient String stock__resolvedKey;
+    @Generated(hash = 1574703934)
+    private transient Long stock__resolvedKey;
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 1867718117)
     public void __setDaoSession(DaoSession daoSession) {
@@ -136,10 +138,10 @@ public class StockComminication {
     public void setPosId(Long posId) {
         this.posId = posId;
     }
-    public String getStockId() {
+    public Long getStockId() {
         return this.stockId;
     }
-    public void setStockId(String stockId) {
+    public void setStockId(Long stockId) {
         this.stockId = stockId;
     }
     public String getType() {
@@ -154,8 +156,8 @@ public class StockComminication {
     public void setId(Long id) {
         this.id = id;
     }
-    @Generated(hash = 1188475627)
-    public StockComminication(Long id, String type, String stockId, Long posId) {
+    @Generated(hash = 2108589090)
+    public StockComminication(Long id, String type, Long stockId, Long posId) {
         this.id = id;
         this.type = type;
         this.stockId = stockId;
@@ -164,5 +166,4 @@ public class StockComminication {
     @Generated(hash = 1411809505)
     public StockComminication() {
     }
-
 }

@@ -48,12 +48,12 @@ public abstract class ProductListConnector extends RxForPresenter {
                     }
                     if (o instanceof SubCategoryEvent) {
                         SubCategoryEvent event = (SubCategoryEvent) o;
-                        if (event.getEventType().equals(ADD)) {
+                        /*if (event.getEventType().equals(ADD)) {
                             refreshSubCategoryList();
                         }
                         if (event.getEventType().equals(UPDATE)) {
                             refreshSubCategoryList();
-                        }
+                        }*/
                     }
                     if (o instanceof ProductEvent) {
                         ProductEvent event = (ProductEvent) o;
