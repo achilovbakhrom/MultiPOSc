@@ -1,14 +1,11 @@
 package com.jim.multipos.utils.rxevents;
 
-import com.jim.multipos.data.db.model.products.Category;
-import com.jim.multipos.data.db.model.products.SubCategory;
-
 /**
  * Created by DEV on 08.09.2017.
  */
 
 public class SubCategoryEvent {
-    private SubCategory subCategory;
+    /*private SubCategory subCategory;
     private String eventType;
 
     public SubCategoryEvent(SubCategory subCategory, String eventType) {
@@ -30,5 +27,5 @@ public class SubCategoryEvent {
 
     public void setEventType(String eventType) {
         this.eventType = eventType;
-    }
+    }*/
 }

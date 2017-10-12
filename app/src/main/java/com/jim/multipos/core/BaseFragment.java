@@ -99,7 +99,7 @@ public abstract class BaseFragment extends Fragment implements HasSupportFragmen
 
         FormValidator.stopLiveValidation(this);
     }
-    protected boolean isValid() {
+    public boolean isValid() {
         return FormValidator.validate(this, new MultipleCallback());
     }
 }

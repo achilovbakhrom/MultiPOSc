@@ -10,24 +10,16 @@ import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.Vendor;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.products.Product;
-import com.jim.multipos.data.db.model.products.SubCategory;
 import com.jim.multipos.data.db.model.unit.Unit;
 import com.jim.multipos.data.operations.CurrencyOperations;
 import com.jim.multipos.data.operations.ProductOperations;
 import com.jim.multipos.data.operations.UnitOperations;
 import com.jim.multipos.ui.product.view.ProductsView;
-import com.jim.multipos.utils.RxBus;
-import com.jim.multipos.utils.RxBusLocal;
-import com.jim.multipos.utils.rxevents.MessageEvent;
-import com.jim.multipos.utils.rxevents.ProductEvent;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
-
-import static com.jim.multipos.utils.rxevents.GlobalEventsConstants.ADD;
-import static com.jim.multipos.utils.rxevents.GlobalEventsConstants.UPDATE;
 
 /**
  * Created by DEV on 18.08.2017.
@@ -40,7 +32,7 @@ public class ProductsPresenterImpl extends BasePresenterImpl<ProductsView> imple
     private CurrencyOperations currencyOperations;
     private UnitOperations unitOperations;
     private Product product;
-    private SubCategory subCategory;
+    //private SubCategory subCategory;
     private final static String PRODUCT_OPENED = "product";
     private final static String OPEN_ADVANCE = "open_advance";
     private static final String ADD = "added";
@@ -87,7 +79,7 @@ public class ProductsPresenterImpl extends BasePresenterImpl<ProductsView> imple
             product.setCostCurrency(costCurrency);
             product.setCostCurrencyId(costCurrency.getId());
             product.setActive(isActive);
-            product.setSubCategoryId(subCategory.getId());
+            //product.setSubCategoryId(subCategory.getId());
             productOperations.addProduct(product).subscribe(aLong -> {
                 view.clearFields();
             });}
@@ -111,10 +103,10 @@ public class ProductsPresenterImpl extends BasePresenterImpl<ProductsView> imple
             newProduct.setCostCurrency(costCurrency);
             newProduct.setCostCurrencyId(costCurrency.getId());
             newProduct.setActive(isActive);
-            newProduct.setSubCategoryId(subCategory.getId());
+            /*newProduct.setSubCategoryId(subCategory.getId());
                 productOperations.addProduct(newProduct).subscribe(aLong -> {
 //                    rxBus.send(new ProductEvent(newProduct, UPDATE));
-                });
+                });*/
         }
     }
 
@@ -171,8 +163,8 @@ public class ProductsPresenterImpl extends BasePresenterImpl<ProductsView> imple
                     classPosition = i;
                 }
             }
-            view.setFields(product.getName(), product.getBarcode(), product.getSku(), String.valueOf(product.getPrice()), String.valueOf(product.getCost()),
-                    unitPosition, priceCurrencyPosition, costCurrencyPosition, null, classPosition, product.getActive(), product.getPhotoPath());
+            /*view.setFields(product.getName(), product.getBarcode(), product.getSku(), String.valueOf(product.getPrice()), String.valueOf(product.getCost()),
+                    unitPosition, priceCurrencyPosition, costCurrencyPosition, null, classPosition, product.getActive(), product.getPhotoPath());*/
         } else view.clearFields();
     }
 

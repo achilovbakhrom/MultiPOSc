@@ -17,105 +17,62 @@ import com.jim.multipos.data.db.model.currency.CurrencyDao;
  */
 @Entity(nameInDb = "PAYMENT_TYPE", active = true)
 public class PaymentType {
-    @Id
-    private String id;
+    @Id(autoincrement = true)
+    private Long id;
     private String name;
-    private String currencyId;
+    private Long currencyId;
     @ToOne(joinProperty = "currencyId")
     private Currency currency;
-    private String accountId;
+    private Long accountId;
     @ToOne(joinProperty = "accountId")
     private Account account;
-    /** Used to resolve relations */
-    @Generated(hash = 2040040024)
-    private transient DaoSession daoSession;
-    /** Used for active entity operations. */
-    @Generated(hash = 1468171215)
-    private transient PaymentTypeDao myDao;
-    @Generated(hash = 1170963677)
-    private transient String currency__resolvedKey;
-    @Generated(hash = 1221310859)
-    private transient String account__resolvedKey;
-
-    public PaymentType() {
-        id = UUID.randomUUID().toString();
-    }
-
-    @Generated(hash = 1263844480)
-    public PaymentType(String id, String name, String currencyId,
-            String accountId) {
-        this.id = id;
-        this.name = name;
-        this.currencyId = currencyId;
-        this.accountId = accountId;
-    }
-
-    public String getId() {
-        return this.id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getCurrencyId() {
-        return this.currencyId;
-    }
-
-    public void setCurrencyId(String currencyId) {
-        this.currencyId = currencyId;
-    }
-
-    public String getAccountId() {
-        return this.accountId;
-    }
-
-    public void setAccountId(String accountId) {
-        this.accountId = accountId;
-    }
-
-    /** To-one relationship, resolved on first access. */
-    @Generated(hash = 376477166)
-    public Currency getCurrency() {
-        String __key = this.currencyId;
-        if (currency__resolvedKey == null || currency__resolvedKey != __key) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            CurrencyDao targetDao = daoSession.getCurrencyDao();
-            Currency currencyNew = targetDao.load(__key);
-            synchronized (this) {
-                currency = currencyNew;
-                currency__resolvedKey = __key;
-            }
+    /**
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
+     * Entity must attached to an entity context.
+     */
+    @Generated(hash = 1942392019)
+    public void refresh() {
+        if (myDao == null) {
+            throw new DaoException("Entity is detached from DAO context");
         }
-        return currency;
+        myDao.refresh(this);
     }
-
+    /**
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
+     * Entity must attached to an entity context.
+     */
+    @Generated(hash = 713229351)
+    public void update() {
+        if (myDao == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        myDao.update(this);
+    }
+    /**
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
+     * Entity must attached to an entity context.
+     */
+    @Generated(hash = 128553479)
+    public void delete() {
+        if (myDao == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        myDao.delete(this);
+    }
     /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 1889019422)
-    public void setCurrency(Currency currency) {
+    @Generated(hash = 1910176546)
+    public void setAccount(Account account) {
         synchronized (this) {
-            this.currency = currency;
-            currencyId = currency == null ? null : currency.getId();
-            currency__resolvedKey = currencyId;
+            this.account = account;
+            accountId = account == null ? null : account.getId();
+            account__resolvedKey = accountId;
         }
     }
-
     /** To-one relationship, resolved on first access. */
-    @Generated(hash = 1230349477)
+    @Generated(hash = 531730087)
     public Account getAccount() {
-        String __key = this.accountId;
-        if (account__resolvedKey == null || account__resolvedKey != __key) {
+        Long __key = this.accountId;
+        if (account__resolvedKey == null || !account__resolvedKey.equals(__key)) {
             final DaoSession daoSession = this.daoSession;
             if (daoSession == null) {
                 throw new DaoException("Entity is detached from DAO context");
@@ -129,57 +86,81 @@ public class PaymentType {
         }
         return account;
     }
-
+    @Generated(hash = 1501133588)
+    private transient Long account__resolvedKey;
     /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 1910176546)
-    public void setAccount(Account account) {
+    @Generated(hash = 1889019422)
+    public void setCurrency(Currency currency) {
         synchronized (this) {
-            this.account = account;
-            accountId = account == null ? null : account.getId();
-            account__resolvedKey = accountId;
+            this.currency = currency;
+            currencyId = currency == null ? null : currency.getId();
+            currency__resolvedKey = currencyId;
         }
     }
-
-    /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
-     * Entity must attached to an entity context.
-     */
-    @Generated(hash = 128553479)
-    public void delete() {
-        if (myDao == null) {
-            throw new DaoException("Entity is detached from DAO context");
+    /** To-one relationship, resolved on first access. */
+    @Generated(hash = 434384135)
+    public Currency getCurrency() {
+        Long __key = this.currencyId;
+        if (currency__resolvedKey == null || !currency__resolvedKey.equals(__key)) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            CurrencyDao targetDao = daoSession.getCurrencyDao();
+            Currency currencyNew = targetDao.load(__key);
+            synchronized (this) {
+                currency = currencyNew;
+                currency__resolvedKey = __key;
+            }
         }
-        myDao.delete(this);
+        return currency;
     }
-
-    /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
-     * Entity must attached to an entity context.
-     */
-    @Generated(hash = 1942392019)
-    public void refresh() {
-        if (myDao == null) {
-            throw new DaoException("Entity is detached from DAO context");
-        }
-        myDao.refresh(this);
-    }
-
-    /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
-     * Entity must attached to an entity context.
-     */
-    @Generated(hash = 713229351)
-    public void update() {
-        if (myDao == null) {
-            throw new DaoException("Entity is detached from DAO context");
-        }
-        myDao.update(this);
-    }
-
+    @Generated(hash = 1489923924)
+    private transient Long currency__resolvedKey;
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 289857265)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getPaymentTypeDao() : null;
+    }
+    /** Used for active entity operations. */
+    @Generated(hash = 1468171215)
+    private transient PaymentTypeDao myDao;
+    /** Used to resolve relations */
+    @Generated(hash = 2040040024)
+    private transient DaoSession daoSession;
+    public Long getAccountId() {
+        return this.accountId;
+    }
+    public void setAccountId(Long accountId) {
+        this.accountId = accountId;
+    }
+    public Long getCurrencyId() {
+        return this.currencyId;
+    }
+    public void setCurrencyId(Long currencyId) {
+        this.currencyId = currencyId;
+    }
+    public String getName() {
+        return this.name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public Long getId() {
+        return this.id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
+    @Generated(hash = 1964465360)
+    public PaymentType(Long id, String name, Long currencyId, Long accountId) {
+        this.id = id;
+        this.name = name;
+        this.currencyId = currencyId;
+        this.accountId = accountId;
+    }
+    @Generated(hash = 479868900)
+    public PaymentType() {
     }
 }

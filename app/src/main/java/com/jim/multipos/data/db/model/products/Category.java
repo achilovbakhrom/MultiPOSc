@@ -20,154 +20,26 @@ import com.jim.multipos.data.db.model.intosystem.NamePhotoPathId;
 import com.jim.multipos.data.db.model.DaoSession;
 
 @Entity(nameInDb = "CATEGORY", active = true)
-public class Category implements NamePhotoPathId, Editable {
-    @Id
-    private String id;
-    @Property
+public class Category {
+    public static final Long WITHOUT_PARENT = -1L;
+    @Id(autoincrement = true)
+    private Long id;
     private String name;
-    @Property
-    private String photoPath;
-    @Property
     private String description;
-    @Property
-    private boolean active;
-    private boolean isDeleted;
-    private boolean isNotModified;
-    private String rootId;
-    private long createdDate;
+    private Boolean isActive = true;
+    private Boolean isDeleted = false;
+    private Boolean isModified = false;
+    private Long createdDate;
+    private Integer position;
+    private Long parentId = WITHOUT_PARENT;
     @ToMany(joinProperties = {
             @JoinProperty(
-                    name = "id", referencedName = "categoryId"
+                    name = "id", referencedName = "parentId"
             )
     })
-    @NotNull
-    private List<SubCategory> subCategories;
-    /**
-     * Used to resolve relations
-     */
-    @Generated(hash = 2040040024)
-    private transient DaoSession daoSession;
-    /**
-     * Used for active entity operations.
-     */
-    @Generated(hash = 40161530)
-    private transient CategoryDao myDao;
-
-    @Keep
-    public Category() {
-        id = UUID.randomUUID().toString();
-    }
-
-    @Keep
-    public Category(String name, String photoPath, String description, boolean active) {
-        this.name = name;
-        this.photoPath = photoPath;
-        this.description = description;
-        this.active = active;
-        this.id = UUID.randomUUID().toString();
-    }
-
-    @Generated(hash = 1442124998)
-    public Category(String id, String name, String photoPath, String description,
-            boolean active, boolean isDeleted, boolean isNotModified, String rootId,
-            long createdDate) {
-        this.id = id;
-        this.name = name;
-        this.photoPath = photoPath;
-        this.description = description;
-        this.active = active;
-        this.isDeleted = isDeleted;
-        this.isNotModified = isNotModified;
-        this.rootId = rootId;
-        this.createdDate = createdDate;
-    }
-
-    @Keep
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Keep
-    @Override
-    public String getPhotoPath() {
-        return photoPath;
-    }
-
-    @Keep
-    @Override
-    public String getId() {
-        return id;
-    }
-
-    @Keep
-    @Override
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setPhotoPath(String photoPath) {
-        this.photoPath = photoPath;
-    }
-
-    public String getDescription() {
-        return this.description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    /**
-     * To-many relationship, resolved on first access (and after reset).
-     * Changes to to-many relations are not persisted, make changes to the target entity.
-     */
-    @Generated(hash = 239672464)
-    public List<SubCategory> getSubCategories() {
-        if (subCategories == null) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            SubCategoryDao targetDao = daoSession.getSubCategoryDao();
-            List<SubCategory> subCategoriesNew = targetDao
-                    ._queryCategory_SubCategories(id);
-            synchronized (this) {
-                if (subCategories == null) {
-                    subCategories = subCategoriesNew;
-                }
-            }
-        }
-        return subCategories;
-    }
-
-    /**
-     * Resets a to-many relationship, making the next get call to query for a fresh result.
-     */
-    @Generated(hash = 832942771)
-    public synchronized void resetSubCategories() {
-        subCategories = null;
-    }
-
-    /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
-     * Entity must attached to an entity context.
-     */
-    @Generated(hash = 128553479)
-    public void delete() {
-        if (myDao == null) {
-            throw new DaoException("Entity is detached from DAO context");
-        }
-        myDao.delete(this);
-    }
+    private List<Category> subCategories;
+    @ToMany(joinProperties = {@JoinProperty(name = "id", referencedName = "parentId")})
+    private List<Product> products;
 
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
@@ -193,74 +65,187 @@ public class Category implements NamePhotoPathId, Editable {
         myDao.update(this);
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+    /**
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
+     * Entity must attached to an entity context.
+     */
+    @Generated(hash = 128553479)
+    public void delete() {
+        if (myDao == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        myDao.delete(this);
     }
 
-    @Override
-    public boolean isDeleted() {
-        return this.isDeleted;
+    /**
+     * Resets a to-many relationship, making the next get call to query for a fresh result.
+     */
+    @Generated(hash = 513498032)
+    public synchronized void resetProducts() {
+        products = null;
     }
 
-    @Override
-    public void setDeleted(boolean deleted) {
-        this.isDeleted = deleted;
+    /**
+     * To-many relationship, resolved on first access (and after reset).
+     * Changes to to-many relations are not persisted, make changes to the target entity.
+     */
+    @Generated(hash = 1201024546)
+    public List<Product> getProducts() {
+        if (products == null) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            ProductDao targetDao = daoSession.getProductDao();
+            List<Product> productsNew = targetDao._queryCategory_Products(id);
+            synchronized (this) {
+                if (products == null) {
+                    products = productsNew;
+                }
+            }
+        }
+        return products;
     }
 
-    @Override
-    public boolean isNotModifyted() {
-        return this.isNotModified;
+    /**
+     * Resets a to-many relationship, making the next get call to query for a fresh result.
+     */
+    @Generated(hash = 832942771)
+    public synchronized void resetSubCategories() {
+        subCategories = null;
     }
 
-    @Override
-    public void setNotModifyted(boolean notModifyted) {
-        this.isNotModified = notModifyted;
+    /**
+     * To-many relationship, resolved on first access (and after reset).
+     * Changes to to-many relations are not persisted, make changes to the target entity.
+     */
+    @Generated(hash = 1926233482)
+    public List<Category> getSubCategories() {
+        if (subCategories == null) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            CategoryDao targetDao = daoSession.getCategoryDao();
+            List<Category> subCategoriesNew = targetDao._queryCategory_SubCategories(id);
+            synchronized (this) {
+                if (subCategories == null) {
+                    subCategories = subCategoriesNew;
+                }
+            }
+        }
+        return subCategories;
     }
 
-    @Override
-    public String getRootId() {
-        return this.rootId;
-    }
-
-    @Override
-    public void setRootId(String rootId) {
-        this.rootId = rootId;
-    }
-
-    @Override
-    public Long getCreatedDate() {
-        return this.createdDate;
-    }
-
-    @Override
-    public void setCreatedDate(long createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public boolean getActive() {
-        return this.active;
-    }
-
-    /** called by internal mechanisms, do not call yourself. */
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
     @Generated(hash = 503476761)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getCategoryDao() : null;
     }
 
-    public boolean getIsNotModified() {
-        return this.isNotModified;
+    /**
+     * Used for active entity operations.
+     */
+    @Generated(hash = 40161530)
+    private transient CategoryDao myDao;
+    /**
+     * Used to resolve relations
+     */
+    @Generated(hash = 2040040024)
+    private transient DaoSession daoSession;
+
+    public Long getParentId() {
+        return this.parentId;
     }
 
-    public void setIsNotModified(boolean isNotModified) {
-        this.isNotModified = isNotModified;
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
     }
 
-    public boolean getIsDeleted() {
+    public Integer getPosition() {
+        return this.position;
+    }
+
+    public void setPosition(Integer position) {
+        this.position = position;
+    }
+
+    public Long getCreatedDate() {
+        return this.createdDate;
+    }
+
+    public void setCreatedDate(Long createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public Boolean getIsModified() {
+        return this.isModified;
+    }
+
+    public void setIsModified(Boolean isModified) {
+        this.isModified = isModified;
+    }
+
+    public Boolean getIsDeleted() {
         return this.isDeleted;
     }
 
-    public void setIsDeleted(boolean isDeleted) {
+    public void setIsDeleted(Boolean isDeleted) {
         this.isDeleted = isDeleted;
     }
+
+    public Boolean getIsActive() {
+        return this.isActive;
+    }
+
+    public void setIsActive(Boolean isActive) {
+        this.isActive = isActive;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Generated(hash = 10094700)
+    public Category(Long id, String name, String description, Boolean isActive,
+                    Boolean isDeleted, Boolean isModified, Long createdDate,
+                    Integer position, Long parentId) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.isActive = isActive;
+        this.isDeleted = isDeleted;
+        this.isModified = isModified;
+        this.createdDate = createdDate;
+        this.position = position;
+        this.parentId = parentId;
+    }
+
+    @Generated(hash = 1150634039)
+    public Category() {
+    }
+
 }

@@ -35,7 +35,7 @@ public class Contact implements Serializable{
     private String name;
     @Property
     @SerializedName("organization_id")
-    private String organizationId;
+    private Long organizationId;
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
      * Entity must attached to an entity context.
@@ -81,10 +81,10 @@ public class Contact implements Serializable{
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
-    public String getOrganizationId() {
+    public Long getOrganizationId() {
         return this.organizationId;
     }
-    public void setOrganizationId(String organizationId) {
+    public void setOrganizationId(Long organizationId) {
         this.organizationId = organizationId;
     }
     public String getName() {
@@ -105,8 +105,8 @@ public class Contact implements Serializable{
     public void setId(Long id) {
         this.id = id;
     }
-    @Generated(hash = 1319990308)
-    public Contact(Long id, int type, String name, String organizationId) {
+    @Generated(hash = 2008005792)
+    public Contact(Long id, int type, String name, Long organizationId) {
         this.id = id;
         this.type = type;
         this.name = name;

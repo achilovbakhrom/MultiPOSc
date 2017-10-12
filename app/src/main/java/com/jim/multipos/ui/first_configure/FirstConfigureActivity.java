@@ -2,9 +2,11 @@ package com.jim.multipos.ui.first_configure;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.core.DoubleSideActivity;
+import com.jim.multipos.data.db.model.Account;
+import com.jim.multipos.data.db.model.PaymentType;
+import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.ui.first_configure.fragments.AccountFragment;
 import com.jim.multipos.ui.first_configure.fragments.CurrencyFragment;
 import com.jim.multipos.ui.first_configure.fragments.LeftSideFragment;
@@ -12,16 +14,12 @@ import com.jim.multipos.ui.first_configure.fragments.PaymentTypeFragment;
 import com.jim.multipos.ui.first_configure.fragments.PosDetailsFragment;
 import com.jim.multipos.ui.first_configure.fragments.UnitsFragment;
 import com.jim.multipos.utils.RxBusLocal;
-import com.jim.multipos.utils.rxevents.FirstConfigureActivityEvent;
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.List;
 import javax.inject.Inject;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
+import lombok.Getter;
 import static com.jim.multipos.ui.first_configure.Constants.ACCOUNT_FRAGMENT_ID;
-import static com.jim.multipos.ui.first_configure.Constants.LEFT_SIDE_FRAGMENT_OPENED;
-import static com.jim.multipos.ui.first_configure.Constants.OPEN_NEXT_FROM_POS_DETAILS;
 import static com.jim.multipos.ui.first_configure.Constants.PAYMENT_TYPE_FRAGMENT_ID;
 import static com.jim.multipos.ui.first_configure.Constants.POS_DETAIL_FRAGMENT_ID;
 import static com.jim.multipos.ui.first_configure.Constants.SINGLE_CURRENCY_FRAGMENT_ID;
@@ -33,7 +31,8 @@ import static com.jim.multipos.ui.first_configure.Constants.UNITS_FRAGMENT_ID;
 
 public class FirstConfigureActivity extends DoubleSideActivity implements FirstConfigureView {
     @Inject
-    FirstConfigurePresenter presenter;
+    @Getter
+    protected FirstConfigurePresenter presenter;
     @Inject
     RxBusLocal rxBusLocal;
     private ArrayList<Disposable> subscriptions = new ArrayList<>();
@@ -42,9 +41,8 @@ public class FirstConfigureActivity extends DoubleSideActivity implements FirstC
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        rxConnections();
         addFragmentToRight(new PosDetailsFragment());
-        presenter.getLeftSideFragmentData();
+        addFragmentToLeft(new LeftSideFragment());
     }
 
     @Override
@@ -53,66 +51,40 @@ public class FirstConfigureActivity extends DoubleSideActivity implements FirstC
         super.onDestroy();
     }
 
-    private void rxConnections() {
-        subscriptions = new ArrayList<>();
-        subscriptions.add(rxBusLocal.toObservable().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
-            if (o instanceof FirstConfigureActivityEvent) {
-                FirstConfigureActivityEvent event = (FirstConfigureActivityEvent) o;
-                if (event.getEventType().equals(OPEN_NEXT_FROM_POS_DETAILS)) {
-                    openNextFragment();
-                } else if (event.getEventType().equals(LEFT_SIDE_FRAGMENT_OPENED)) {
-                    int position = (int) event.getObject();
-                    replaceFragment(position);
-                }
-            }
-        }));
-    }
-
     @Override
     protected int getToolbarMode() {
         return MpToolbar.DEFAULT_TYPE;
     }
 
     @Override
-    public void showPosDetailsErrors(Map<String, String> errors) {
-        PosDetailsFragment posDetailsFragment = getPostDetailsFragment();
-        posDetailsFragment.showErrors(errors);
-    }
-
-    @Override
-    public void replaceFragment(int position, boolean isNextButton) {
-        switch (position) {
-            case POS_DETAIL_FRAGMENT_ID:
-                replaceFragmentToRight(new PosDetailsFragment());
-                break;
-            case ACCOUNT_FRAGMENT_ID:
-                replaceFragmentToRight(new AccountFragment());
-                break;
-            case SINGLE_CURRENCY_FRAGMENT_ID:
-                break;
-            case PAYMENT_TYPE_FRAGMENT_ID:
-                break;
-            case UNITS_FRAGMENT_ID:
-                break;
-        }
-    }
-
-    @Override
     public void replaceFragment(int position) {
         switch (position) {
             case POS_DETAIL_FRAGMENT_ID:
-                replaceFragmentToRight(new PosDetailsFragment());
+                addFragmentToRight(new PosDetailsFragment());
                 break;
             case ACCOUNT_FRAGMENT_ID:
-                replaceFragmentToRight(new AccountFragment());
+                addFragmentToRight(new AccountFragment());
                 break;
             case SINGLE_CURRENCY_FRAGMENT_ID:
+                addFragmentToRight(new CurrencyFragment());
                 break;
             case PAYMENT_TYPE_FRAGMENT_ID:
+                addFragmentToRight(new PaymentTypeFragment());
                 break;
             case UNITS_FRAGMENT_ID:
+                addFragmentToRight(new UnitsFragment());
                 break;
         }
+    }
+
+    @Override
+    public void openPrevFragment() {
+        popFragmentFromRight();
+    }
+
+    @Override
+    public void updateLeftSideFragment(int position) {
+        ((LeftSideFragment) getCurrentFragmentLeft()).updateAdapter(position);
     }
 
     @Override
@@ -120,31 +92,73 @@ public class FirstConfigureActivity extends DoubleSideActivity implements FirstC
         finish();
     }
 
-    private PosDetailsFragment getPostDetailsFragment() {
-        return (PosDetailsFragment) getCurrentFragmentRight();
-    }
-
-    private void openNextFragment() {
-        Map<String, String> data = null;
-        Fragment fragment = getCurrentFragmentRight();
-
-        if (fragment instanceof PosDetailsFragment) {
-            data = ((PosDetailsFragment) fragment).getData();
-            presenter.checkPosDetailsFragmentData(data);
-        } else if (fragment instanceof  AccountFragment) {
-
-        } else if (fragment instanceof CurrencyFragment) {
-
-        } else if (fragment instanceof PaymentTypeFragment) {
-
-        } else if (fragment instanceof UnitsFragment) {
-
+    @Override
+    public void addAccountItem(Account account) {
+        if (getCurrentFragmentRight() instanceof  AccountFragment) {
+            ((AccountFragment) getCurrentFragmentRight()).updateAccountList(account);
         }
     }
 
     @Override
-    public void showLeftSideFragment(boolean[] isCompletedFragments) {
-        LeftSideFragment fragment = LeftSideFragment.newInstance(isCompletedFragments);
-        addFragmentToLeft(fragment);
+    public void addPaymentTypeItem(PaymentType paymentType) {
+        if (getCurrentFragmentRight() instanceof  PaymentTypeFragment) {
+            ((PaymentTypeFragment) getCurrentFragmentRight()).addPaymentTypeItem(paymentType);
+        }
+    }
+
+    @Override
+    public void removeAccountItem(Account account) {
+        if (getCurrentFragmentRight() instanceof  AccountFragment) {
+            ((AccountFragment) getCurrentFragmentRight()).removeAccountItem(account);
+        }
+    }
+
+    @Override
+    public void removePaymentTypeItem(PaymentType paymentType) {
+        if (getCurrentFragmentRight() instanceof  PaymentTypeFragment) {
+            ((PaymentTypeFragment) getCurrentFragmentRight()).removePaymentTypeItem(paymentType);
+        }
+    }
+
+    @Override
+    public void setCurrencySpinnerData(List<Currency> currencies, int position) {
+         if (getCurrentFragmentRight() instanceof CurrencyFragment) {
+             ((CurrencyFragment) getCurrentFragmentRight()).setCurrencySpinnerData(currencies, position);
+         }
+    }
+
+    @Override
+    public void showPaymentTypeCurrencyToast() {
+        if (getCurrentFragmentRight() instanceof PaymentTypeFragment) {
+            ((PaymentTypeFragment) getCurrentFragmentRight()).showCurrencyToast();
+        }
+    }
+
+    @Override
+    public void showPaymentTypeAccountToast() {
+        if (getCurrentFragmentRight() instanceof PaymentTypeFragment) {
+            ((PaymentTypeFragment) getCurrentFragmentRight()).showAccountToast();
+        }
+    }
+
+    @Override
+    public void showPaymentTypeToast() {
+        if (getCurrentFragmentRight() instanceof PaymentTypeFragment) {
+            ((PaymentTypeFragment) getCurrentFragmentRight()).showPaymentTypeToast();
+        }
+    }
+
+    @Override
+    public void setPaymentTypeCurrency(Currency currency) {
+        if (getCurrentFragmentRight() instanceof PaymentTypeFragment) {
+            ((PaymentTypeFragment) getCurrentFragmentRight()).setCurrency(currency);
+        }
+    }
+
+    @Override
+    public void setPaymentTypeAccount(List<Account> accounts) {
+        if (getCurrentFragmentRight() instanceof PaymentTypeFragment) {
+            ((PaymentTypeFragment) getCurrentFragmentRight()).setAccount(accounts);
+        }
     }
 }

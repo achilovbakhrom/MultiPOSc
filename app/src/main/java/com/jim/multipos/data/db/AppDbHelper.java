@@ -17,35 +17,21 @@ package com.jim.multipos.data.db;
 
 import android.database.Cursor;
 
+import com.jim.multipos.data.db.model.Account;
+import com.jim.multipos.data.db.model.AccountDao;
+import com.jim.multipos.data.db.model.Contact;
 import com.jim.multipos.data.db.model.DaoMaster;
 import com.jim.multipos.data.db.model.DaoSession;
+import com.jim.multipos.data.db.model.PaymentType;
 import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.ServiceFee;
-import com.jim.multipos.data.db.model.Account;
-
-
+import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
 import com.jim.multipos.data.db.model.customer.JoinCustomerGroupsWithCustomers;
-import com.jim.multipos.data.db.model.intosystem.CategoryPosition;
-import com.jim.multipos.data.db.model.intosystem.CategoryPositionDao;
-import com.jim.multipos.data.db.model.intosystem.ProductPosition;
-import com.jim.multipos.data.db.model.intosystem.ProductPositionDao;
-import com.jim.multipos.data.db.model.intosystem.SubCategoryPosition;
-import com.jim.multipos.data.db.model.intosystem.SubCategoryPositionDao;
-import com.jim.multipos.data.db.model.matrix.Attribute;
-import com.jim.multipos.data.db.model.matrix.AttributeType;
-import com.jim.multipos.data.db.model.matrix.AttributeTypeDao;
-import com.jim.multipos.data.db.model.matrix.ChildAttribute;
-import com.jim.multipos.data.db.model.matrix.ParentAttribute;
 import com.jim.multipos.data.db.model.products.Category;
-import com.jim.multipos.data.db.model.PaymentType;
-import com.jim.multipos.data.db.model.currency.Currency;
-import com.jim.multipos.data.db.model.Contact;
 import com.jim.multipos.data.db.model.products.CategoryDao;
 import com.jim.multipos.data.db.model.products.Product;
-import com.jim.multipos.data.db.model.products.Recipe;
-import com.jim.multipos.data.db.model.products.SubCategory;
 import com.jim.multipos.data.db.model.stock.Stock;
 import com.jim.multipos.data.db.model.unit.SubUnitsList;
 import com.jim.multipos.data.db.model.unit.Unit;
@@ -72,7 +58,6 @@ import io.reactivex.Single;
 
 @Singleton
 public class AppDbHelper implements DbHelper {
-
     private final DaoSession mDaoSession;
 
     @Inject
@@ -151,11 +136,11 @@ public class AppDbHelper implements DbHelper {
             cursor.moveToFirst();
             int max = cursor.getInt(0);
             long insert = mDaoSession.getCategoryDao().insert(category);
-            CategoryPosition categoryPosition = new CategoryPosition();
+            /*CategoryPosition categoryPosition = new CategoryPosition();
             categoryPosition.setParentId(category.getId());
             categoryPosition.setCategory(category);
             categoryPosition.setPosition(max + 1);
-            mDaoSession.getCategoryPositionDao().insert(categoryPosition);
+            mDaoSession.getCategoryPositionDao().insert(categoryPosition);*/
             subscriber.onNext(insert);
             subscriber.onComplete();
         });
@@ -184,7 +169,7 @@ public class AppDbHelper implements DbHelper {
     public Observable<Long> insertOrReplaceCategoryByPosition(Category category) {
         return Observable.create(subscriber -> {
             String rootId;
-            if (category.getRootId() == null) {
+            /*if (category.getRootId() == null) {
                 rootId = category.getId();
             } else rootId = category.getRootId();
             Query<CategoryPosition> categoryPositionQuery = mDaoSession.getCategoryPositionDao().queryBuilder()
@@ -193,7 +178,7 @@ public class AppDbHelper implements DbHelper {
                 CategoryPosition categoryPosition = categoryPositionQuery.list().get(0);
                 categoryPosition.setParentId(category.getId());
                 mDaoSession.getCategoryPositionDao().insertOrReplace(categoryPosition);
-            }
+            }*/
             long insert = mDaoSession.getCategoryDao().insertOrReplace(category);
             subscriber.onNext(insert);
             subscriber.onComplete();
@@ -207,12 +192,12 @@ public class AppDbHelper implements DbHelper {
             cursor.moveToFirst();
             int max = cursor.getInt(0);
             long insert = mDaoSession.getProductDao().insertOrReplace(product);
-            ProductPosition productPosition = new ProductPosition();
+            /*ProductPosition productPosition = new ProductPosition();
             productPosition.setProduct(product);
             productPosition.setProductId(product.getId());
             productPosition.setSubCategoryId(product.getSubCategoryId());
             productPosition.setPosition(max + 1);
-            mDaoSession.getProductPositionDao().insert(productPosition);
+            mDaoSession.getProductPositionDao().insert(productPosition);*/
             subscriber.onNext(insert);
             subscriber.onComplete();
         });
@@ -236,7 +221,7 @@ public class AppDbHelper implements DbHelper {
         return Observable.fromCallable(() -> mDaoSession.getProductDao().insertOrReplace(product));
     }
 
-    @Override
+    /*@Override
     public Observable<Long> insertSubCategory(SubCategory subCategory) {
         return Observable.create(subscriber -> {
             Cursor cursor = mDaoSession.getDatabase().rawQuery("SELECT MAX(position) FROM SUB_CAT_POSITION", null);
@@ -281,9 +266,9 @@ public class AppDbHelper implements DbHelper {
             mDaoSession.getCategoryPositionDao().insertOrReplaceInTx(positionList);
             return true;
         });
-    }
+    }*/
 
-    @Override
+    /*@Override
     public Observable<List<Category>> getAllCategoryPositions() {
         return Observable.create(subscriber -> {
             List<CategoryPosition> categoryPositions = mDaoSession.getCategoryPositionDao().loadAll();
@@ -340,7 +325,7 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Observable<Long> insertOrReplaceCategoryPosition(CategoryPosition position) {
         return Observable.fromCallable(() -> mDaoSession.getCategoryPositionDao().insertOrReplace(position));
-    }
+    }*/
 
     @Override
     public DaoSession getDaoSession() {
@@ -348,8 +333,12 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
-    public Observable<Long> insertAccount(Account account) {
-        return Observable.fromCallable(() -> mDaoSession.getAccountDao().insertOrReplace(account));
+    public Observable<Account> insertAccount(Account account) {
+        return Observable.fromCallable(() -> {
+            mDaoSession.getAccountDao().insertOrReplace(account);
+
+            return account;
+        });
     }
 
     @Override
@@ -362,8 +351,15 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public Observable<List<Account>> getAllAccounts() {
-        return Observable.fromCallable(() -> mDaoSession.getAccountDao().loadAll());
+        return Observable.fromCallable(() -> {
+                    List<Account> accounts = mDaoSession.getAccountDao().loadAll();
+                    Collections.reverse(accounts);
+
+                    return accounts;
+                }
+        );
     }
+
 
     @Override
     public Observable<Boolean> deleteAccount(Account account) {
@@ -515,7 +511,12 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public Observable<List<PaymentType>> getAllPaymentTypes() {
-        return Observable.fromCallable(() -> mDaoSession.getPaymentTypeDao().loadAll());
+        return Observable.fromCallable(() -> {
+            List<PaymentType> paymentTypes = mDaoSession.getPaymentTypeDao().loadAll();
+            Collections.reverse(paymentTypes);
+
+            return paymentTypes;
+        });
     }
 
     @Override
@@ -559,7 +560,7 @@ public class AppDbHelper implements DbHelper {
         });
     }
 
-    @Override
+    /*@Override
     public Observable<Boolean> insertSubCategoryPositions(List<SubCategoryPosition> positionList, Category category) {
         return Observable.fromCallable(() ->
         {
@@ -591,7 +592,7 @@ public class AppDbHelper implements DbHelper {
             subscriber.onNext(subCategoryList);
             subscriber.onComplete();
         });
-    }
+    }*/
 
 
     @Override
@@ -643,7 +644,7 @@ public class AppDbHelper implements DbHelper {
         });
     }
 
-    @Override
+    /*@Override
     public Observable<Long> insertOrReplaceRecipe(Recipe recipe) {
         return Observable.fromCallable(() -> mDaoSession.getRecipeDao().insertOrReplace(recipe));
     }
@@ -775,6 +776,16 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Observable<List<ParentAttribute>> getAllParentAttributes() {
         return Observable.fromCallable(() -> mDaoSession.getParentAttributeDao().loadAll());
+    }*/
+
+    @Override
+    public Boolean isAccountNameExists(String name) {
+        return !mDaoSession.getAccountDao()
+                .queryBuilder()
+                .where(AccountDao.Properties.Name.eq(name))
+                .build()
+                .list()
+                .isEmpty();
     }
 
 
@@ -814,7 +825,7 @@ public class AppDbHelper implements DbHelper {
         return Observable.fromCallable(() -> mDaoSession.getServiceFeeDao().insertOrReplace(serviceFee));
     }
 
-    @Override
+    /*@Override
     public Observable<List<ServiceFee>> getAllServiceFees() {
         return Observable.fromCallable(() -> {
             List<ServiceFee> serviceFees = mDaoSession.getServiceFeeDao().loadAll();
@@ -822,7 +833,7 @@ public class AppDbHelper implements DbHelper {
 
             return serviceFees;
         });
-    }
+    }*/
 
     @Override
     public Observable<Boolean> deleteAllServiceFees() {
@@ -926,7 +937,7 @@ public class AppDbHelper implements DbHelper {
         });
     }
 
-    @Override
+    /*@Override
     public Observable<List<CustomerGroup>> getCustomerGroups(Customer customer) {
         return Observable.fromCallable(() -> {
             //String s = "SELECT a.* FROM CUSTOMER_GROUP a JOIN JoinCustomerGroupsWithCustomersOperations b ON a.ID = b.CUSTOMER_GROUP_ID WHERE b.CUSTOMER_ID = ?";
@@ -957,5 +968,16 @@ public class AppDbHelper implements DbHelper {
             }
             return customerGroups;
         });
+    }*/
+
+    //TODO FIX
+    @Override
+    public Observable<List<ServiceFee>> getAllServiceFees() {
+        return null;
+    }
+
+    @Override
+    public Observable<List<CustomerGroup>> getCustomerGroups(Customer customer) {
+        return null;
     }
 }

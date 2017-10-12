@@ -7,5 +7,5 @@ package com.jim.multipos.data.db.model.intosystem;
 public interface Activatable {
     boolean isActive();
     void setActive(boolean isActive);
-    String getId();
+    Long getId();
 }

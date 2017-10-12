@@ -9,10 +9,10 @@ public class Constants {
     public static final long LENGTH = 1;
     public static final long AREA = 2;
     public static final long VOLUME = 3;
-    public static final String CIRCULATION_TO_TILL = "TO_TILL";
+    /*public static final String CIRCULATION_TO_TILL = "TO_TILL";
     public static final String CIRCULATION_BANK_ACCOUNT = "BANK_ACCOUNT";
     public static final String TYPE_STANDART = "STANDART";
-    public static final String TYPE_NON_MINUS = "NON_MINUS";
+    public static final String TYPE_NON_MINUS = "NON_MINUS";*/
 
     //NEW CONSTANTS
     public static final String OPEN_NEXT_FROM_POS_DETAILS = "open_next_from_pos_details";

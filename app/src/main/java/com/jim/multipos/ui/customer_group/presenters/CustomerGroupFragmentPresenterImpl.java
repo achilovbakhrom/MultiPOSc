@@ -61,12 +61,13 @@ public class CustomerGroupFragmentPresenterImpl extends CustomerGroupConnector i
             if (customerGroup.getName() == null) {
                 reverseList.remove(customers.get(position));
             } else {
-                String customerGroupId = customerGroup.getId();
+                //TODO IT AFTER ENTITY FIX
+                /*String customerGroupId = customerGroup.getId();
                 String customerId = customers.get(position).getId();
 
                 joinCustomerGroupWithCustomerOperations.removeJoinCustomerGroupWithCustomer(customerGroupId, customerId).subscribe(aBoolean -> {
                     customerGroup.getCustomers().remove(customers.get(position));
-                });
+                });*/
             }
         }
     }

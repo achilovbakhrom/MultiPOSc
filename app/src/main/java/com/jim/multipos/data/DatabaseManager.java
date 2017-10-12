@@ -9,20 +9,11 @@ import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
 import com.jim.multipos.data.db.model.customer.JoinCustomerGroupsWithCustomers;
-import com.jim.multipos.data.db.model.intosystem.CategoryPosition;
 import com.jim.multipos.data.db.model.Account;
 import com.jim.multipos.data.db.model.PaymentType;
 import com.jim.multipos.data.db.model.currency.Currency;
-import com.jim.multipos.data.db.model.intosystem.ProductPosition;
-import com.jim.multipos.data.db.model.intosystem.SubCategoryPosition;
-import com.jim.multipos.data.db.model.matrix.Attribute;
-import com.jim.multipos.data.db.model.matrix.AttributeType;
-import com.jim.multipos.data.db.model.matrix.ChildAttribute;
-import com.jim.multipos.data.db.model.matrix.ParentAttribute;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.Product;
-import com.jim.multipos.data.db.model.products.Recipe;
-import com.jim.multipos.data.db.model.products.SubCategory;
 import com.jim.multipos.data.db.model.stock.Stock;
 import com.jim.multipos.data.db.model.unit.SubUnitsList;
 import com.jim.multipos.data.db.model.unit.Unit;
@@ -41,9 +32,7 @@ import io.reactivex.Single;
  * Created by Developer on 5/13/17.
  */
 
-public class DatabaseManager implements ContactOperations, CategoryOperations, SubCategoryOperations, ProductOperations, PositionOperations, AccountOperations, CurrencyOperations, StockOperations, UnitCategoryOperations, UnitOperations, PaymentTypeOperations, ServiceFeeOperations, ProductClassOperations, CustomerOperations, CustomerGroupOperations, SubUnitOperations, JoinCustomerGroupWithCustomerOperations, RecipeOperations, MatrixOptions {
-
-
+public class DatabaseManager implements ContactOperations, CategoryOperations, ProductOperations, AccountOperations, CurrencyOperations, StockOperations, UnitCategoryOperations, UnitOperations, PaymentTypeOperations, ServiceFeeOperations, ProductClassOperations, CustomerOperations, CustomerGroupOperations, SubUnitOperations, JoinCustomerGroupWithCustomerOperations {
     private Context context;
     private PreferencesHelper preferencesHelper;
     private DbHelper dbHelper;
@@ -71,14 +60,6 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, S
     }
 
     public CategoryOperations getCategoryOperations() {
-        return this;
-    }
-
-    public SubCategoryOperations getSubCategoryOperations() {
-        return this;
-    }
-
-    public PositionOperations getPositionOperations() {
         return this;
     }
 
@@ -204,63 +185,7 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, S
     }
 
     @Override
-    public Observable<Long> addSubCategory(SubCategory subCategory) {
-        return dbHelper.insertSubCategory(subCategory);
-    }
-
-
-    @Override
-    public Observable<Boolean> addSubCategory(List<SubCategory> subCategoryList) {
-        return dbHelper.insertSubCategories(subCategoryList);
-    }
-
-    @Override
-    public Observable<Long> replaceSubCategory(SubCategory subCategory) {
-        return dbHelper.insertOrReplaceSubCategory(subCategory);
-    }
-
-    @Override
-    public Observable<List<SubCategory>> getAllSubCategories() {
-        return dbHelper.getAllSubCategories();
-    }
-
-    @Override
-    public Observable<Boolean> addCategoryPositions(List<CategoryPosition> positionList) {
-        return dbHelper.insertCategoryPositions(positionList);
-    }
-
-    @Override
-    public Observable<List<Category>> getAllCategoryPositions() {
-        return dbHelper.getAllCategoryPositions();
-    }
-
-    @Override
-    public Observable<Long> replaceCategoryPosition(CategoryPosition position) {
-        return dbHelper.insertOrReplaceCategoryPosition(position);
-    }
-
-    @Override
-    public Observable<Boolean> addSubCategoryPositions(List<SubCategoryPosition> positionList, Category category) {
-        return dbHelper.insertSubCategoryPositions(positionList, category);
-    }
-
-    @Override
-    public Observable<List<SubCategory>> getAllSubCategoryPositions(Category category) {
-        return dbHelper.getAllSubCategoryPositions(category);
-    }
-
-    @Override
-    public Observable<Boolean> addProductPositions(List<ProductPosition> positionList, SubCategory subCategory) {
-        return dbHelper.insertProductPositions(positionList, subCategory);
-    }
-
-    @Override
-    public Observable<List<Product>> getAllProductPositions(SubCategory subCategory) {
-        return dbHelper.getAllProductPositions(subCategory);
-    }
-
-    @Override
-    public Observable<Long> addAccount(Account account) {
+    public Observable<Account> addAccount(Account account) {
         return dbHelper.insertAccount(account);
     }
 
@@ -282,6 +207,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, S
     @Override
     public Observable<Boolean> removeAllAccounts() {
         return dbHelper.deleteAllAccounts();
+    }
+
+    @Override
+    public Boolean isAccountNameExists(String name) {
+        return dbHelper.isAccountNameExists(name);
     }
 
     @Override
@@ -522,105 +452,5 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, S
     @Override
     public Observable<List<CustomerGroup>> getCustomerGroups(Customer customer) {
         return dbHelper.getCustomerGroups(customer);
-    }
-
-    @Override
-    public Observable<Long> addRecipe(Recipe recipe) {
-        return dbHelper.insertOrReplaceRecipe(recipe);
-    }
-
-    @Override
-    public Observable<List<Recipe>> getAllRecipes() {
-        return dbHelper.getAllRecipe();
-    }
-
-    @Override
-    public Observable<Boolean> deleteRecipes(Recipe recipe) {
-        return dbHelper.deleteRecipe(recipe);
-    }
-
-    @Override
-    public Observable<Long> addAttribute(Attribute attribute) {
-        return dbHelper.insertAttribute(attribute);
-    }
-
-    @Override
-    public Observable<Boolean> addAttributes(List<Attribute> attributes) {
-        return dbHelper.insertAttributes(attributes);
-    }
-
-    @Override
-    public Observable<List<Attribute>> getAllAttributes() {
-        return dbHelper.getAllAttributes();
-    }
-
-    @Override
-    public Observable<Boolean> removeAttribute(Attribute attribute) {
-        return dbHelper.deleteAttribute(attribute);
-    }
-
-    @Override
-    public Observable<Long> addAttributeType(AttributeType attributeType) {
-        return dbHelper.insertAttributeType(attributeType);
-    }
-
-    @Override
-    public Observable<Boolean> addAttributeTypes(List<AttributeType> attributeTypes) {
-        return dbHelper.insertAttributeTypes(attributeTypes);
-    }
-
-    @Override
-    public Observable<List<AttributeType>> getAllAttributeTypes() {
-        return dbHelper.getAllAttributeTypes();
-    }
-
-    @Override
-    public Observable<Boolean> removeAttributeTypes(AttributeType attributeType) {
-        return dbHelper.deleteAttributeType(attributeType);
-    }
-
-    @Override
-    public Observable<Boolean> removeAttributeTypesByName(String name) {
-        return dbHelper.deleteAttributeTypeByName(name);
-    }
-
-    @Override
-    public Observable<Long> addChildAttribute(ChildAttribute childAttribute) {
-        return dbHelper.insertChildAttribute(childAttribute);
-    }
-
-    @Override
-    public Observable<Boolean> addChildAttributes(List<ChildAttribute> childAttributes) {
-        return dbHelper.insertChildAttributes(childAttributes);
-    }
-
-    @Override
-    public Observable<List<ChildAttribute>> getAllChildAttributes() {
-        return dbHelper.getAllChildAttributes();
-    }
-
-    @Override
-    public Observable<Boolean> removeChildAttribute(ChildAttribute childAttribute) {
-        return dbHelper.deleteChildAttribute(childAttribute);
-    }
-
-    @Override
-    public Observable<Long> addParentAttribute(ParentAttribute parentAttribute) {
-        return dbHelper.insertParentAttribute(parentAttribute);
-    }
-
-    @Override
-    public Observable<Boolean> addParentAttributes(List<ParentAttribute> parentAttributes) {
-        return dbHelper.insertParentAttributes(parentAttributes);
-    }
-
-    @Override
-    public Observable<List<ParentAttribute>> getAllParentAttributes() {
-        return dbHelper.getAllParentAttributes();
-    }
-
-    @Override
-    public Observable<Boolean> removeParentAttribute(ParentAttribute parentAttribute) {
-        return dbHelper.deleteParentAttribute(parentAttribute);
     }
 }

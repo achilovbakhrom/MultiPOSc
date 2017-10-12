@@ -1,6 +1,7 @@
 package com.jim.multipos.ui.first_configure.adapters;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,13 +26,13 @@ public class SystemAccountsAdapter extends RecyclerView.Adapter<SystemAccountsAd
     private List<Account> accounts;
     private String[] accountTypes;
     private String[] circulations;
-    private OnClick onClickCallback;
+    private OnClickListener onClickListener;
 
-    public SystemAccountsAdapter(List<Account> accounts, String[] accountTypes, String[] circulations, OnClick onClickCallback) {
+    public SystemAccountsAdapter(List<Account> accounts, String[] accountTypes, String[] circulations, OnClickListener onClickListener) {
         this.accounts = accounts;
         this.accountTypes = accountTypes;
         this.circulations = circulations;
-        this.onClickCallback = onClickCallback;
+        this.onClickListener = onClickListener;
     }
 
     @Override
@@ -53,7 +54,7 @@ public class SystemAccountsAdapter extends RecyclerView.Adapter<SystemAccountsAd
     private String getAccountType(Account account) {
         String type;
 
-        if (account.getType().equals(Constants.TYPE_STANDART)) {
+        if (account.getType() == 0) {
             type = accountTypes[0];
         } else {
             type = accountTypes[1];
@@ -65,7 +66,7 @@ public class SystemAccountsAdapter extends RecyclerView.Adapter<SystemAccountsAd
     private String getCirculation(Account account) {
         String circulation;
 
-        if (account.getCirculation().equals(Constants.CIRCULATION_TO_TILL)) {
+        if (account.getCirculation() == 0) {
             circulation = circulations[0];
         } else {
             circulation = circulations[1];
@@ -74,13 +75,23 @@ public class SystemAccountsAdapter extends RecyclerView.Adapter<SystemAccountsAd
         return circulation;
     }
 
+    public void addItem(Account account) {
+        accounts.add(0, account);
+        notifyDataSetChanged();
+    }
+
+    public void removeItem(Account account) {
+        accounts.remove(account);
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return accounts.size();
     }
 
-    public interface OnClick {
-        void removeAccount(int position);
+    public interface OnClickListener {
+        void removeAccount(Account account);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -98,7 +109,7 @@ public class SystemAccountsAdapter extends RecyclerView.Adapter<SystemAccountsAd
             ButterKnife.bind(this, itemView);
 
             RxView.clicks(ivRemove).subscribe(aVoid -> {
-                onClickCallback.removeAccount(getAdapterPosition());
+                onClickListener.removeAccount(accounts.get(getAdapterPosition()));
             });
         }
     }

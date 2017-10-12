@@ -7,24 +7,35 @@ import com.jim.multipos.config.scope.PerFragment;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.products.Category;
-import com.jim.multipos.data.db.model.products.SubCategory;
-import com.jim.multipos.data.operations.SubCategoryOperations;
 import com.jim.multipos.ui.product.view.SubCategoryView;
-import com.jim.multipos.utils.RxBus;
-import com.jim.multipos.utils.RxBusLocal;
-import com.jim.multipos.utils.rxevents.SubCategoryEvent;
 
 import javax.inject.Inject;
-
-import static com.jim.multipos.utils.rxevents.GlobalEventsConstants.ADD;
-import static com.jim.multipos.utils.rxevents.GlobalEventsConstants.UPDATE;
 
 /**
  * Created by DEV on 18.08.2017.
  */
 @PerFragment
 public class SubCategoryPresenterImpl extends BasePresenterImpl<SubCategoryView> implements SubCategoryPresenter {
-    private Category category;
+    public SubCategoryPresenterImpl(SubCategoryView subCategoryView) {
+        super(subCategoryView);
+    }
+
+    @Override
+
+    public void save(String name, String description, boolean checkboxChecked, String photoPath) {
+
+    }
+
+    @Override
+    public void checkData() {
+
+    }
+
+    @Override
+    public void setParentCategory(Category category) {
+
+    }
+    /*private Category category;
     private SubCategory subCategory;
     private SubCategoryOperations subCategoryOperations;
     private static final String ADD = "added";
@@ -93,5 +104,5 @@ public class SubCategoryPresenterImpl extends BasePresenterImpl<SubCategoryView>
         if (subCategory == null) {
             view.clearFields();
         } else checkData();
-    }
+    }*/
 }

@@ -100,8 +100,9 @@
                     android:layout_height="@dimen/forty_dp"
                     android:layout_marginRight="@dimen/twenty_dp" />
 
-                <com.jim.mpviews.MpSpinner
-                    android:id="@+id/spCurrency"
+                <TextView
+                    android:id="@+id/tvCurrency"
+                    android:background="@drawable/text_view_bg"
                     android:layout_width="@dimen/hundred_fifty_dp"
                     android:layout_height="@dimen/forty_dp"
                     android:layout_marginRight="@dimen/twenty_dp" />

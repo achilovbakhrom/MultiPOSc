@@ -12,42 +12,23 @@ import com.jim.multipos.data.db.model.intosystem.Activatable;
  * Created by DEV on 17.08.2017.
  */
 @Entity(nameInDb = "CURRENCY", active = true)
-public class Currency implements Activatable {
-    @Id
-    private String id;
+public class Currency {
+    @Id(autoincrement = true)
+    private Long id;
     private String name;
     private String abbr;
     private boolean isMain;
     private boolean active;
-    /**
-     * Used to resolve relations
-     */
+    /** Used for active entity operations. */
+    @Generated(hash = 1033120508)
+    private transient CurrencyDao myDao;
+    /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
 
-    @Override
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    /**
-     * Used for active entity operations.
-     */
-
-    @Generated(hash = 1033120508)
-    private transient CurrencyDao myDao;
-
-    public Currency() {
-        id = UUID.randomUUID().toString();
-        active = true;
-    }
-
-    @Generated(hash = 1212774227)
-    public Currency(String id, String name, String abbr, boolean isMain, boolean active) {
+    @Generated(hash = 1923982902)
+    public Currency(Long id, String name, String abbr, boolean isMain,
+            boolean active) {
         this.id = id;
         this.name = name;
         this.abbr = abbr;
@@ -55,12 +36,12 @@ public class Currency implements Activatable {
         this.active = active;
     }
 
-    public String getId() {
-        return id;
+    @Generated(hash = 1387171739)
+    public Currency() {
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public String getName() {
@@ -95,16 +76,8 @@ public class Currency implements Activatable {
         this.isMain = isMain;
     }
 
-    /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
-     * Entity must attached to an entity context.
-     */
-    @Generated(hash = 128553479)
-    public void delete() {
-        if (myDao == null) {
-            throw new DaoException("Entity is detached from DAO context");
-        }
-        myDao.delete(this);
+    public boolean getActive() {
+        return this.active;
     }
 
     /**
@@ -131,6 +104,18 @@ public class Currency implements Activatable {
         myDao.update(this);
     }
 
+    /**
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
+     * Entity must attached to an entity context.
+     */
+    @Generated(hash = 128553479)
+    public void delete() {
+        if (myDao == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        myDao.delete(this);
+    }
+
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 869658167)
     public void __setDaoSession(DaoSession daoSession) {
@@ -138,7 +123,11 @@ public class Currency implements Activatable {
         myDao = daoSession != null ? daoSession.getCurrencyDao() : null;
     }
 
-    public boolean getActive() {
-        return this.active;
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

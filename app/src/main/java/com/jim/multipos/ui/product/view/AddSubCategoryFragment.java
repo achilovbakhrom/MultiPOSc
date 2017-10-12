@@ -14,7 +14,6 @@ import com.jim.mpviews.MpCheckbox;
 import com.jim.mpviews.MpEditText;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
-import com.jim.multipos.data.db.model.products.SubCategory;
 import com.jim.multipos.ui.product.presenter.SubCategoryPresenter;
 import com.jim.multipos.utils.CommonUtils;
 //import com.jim.multipos.utils.GlideApp;
@@ -35,7 +34,6 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 import io.reactivex.disposables.Disposable;
 
 import static android.app.Activity.RESULT_OK;
@@ -45,7 +43,46 @@ import static android.app.Activity.RESULT_OK;
  */
 
 public class AddSubCategoryFragment extends BaseFragment implements SubCategoryView {
-    @BindView(R.id.etSubCategoryName)
+    @Override
+    public void setFields(String name, String description, boolean active, String photoPath) {
+
+    }
+
+    @Override
+    public void clearFields() {
+
+    }
+
+    @Override
+    public void setParentCategoryName(String parentCategory) {
+
+    }
+
+    @Override
+    public void setData() {
+
+    }
+
+    @Override
+    public void setError(String error) {
+
+    }
+
+    @Override
+    protected int getLayout() {
+        return 0;
+    }
+
+    @Override
+    protected void init(Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    protected void rxConnections() {
+
+    }
+/*@BindView(R.id.etSubCategoryName)
     MpEditText etSubCategoryName;
     @BindView(R.id.etSubCategoryDescription)
     EditText etSubCategoryDescription;
@@ -216,5 +253,5 @@ public class AddSubCategoryFragment extends BaseFragment implements SubCategoryV
             photoSelected = imageUri;
             GlideApp.with(AddSubCategoryFragment.this).load(imageUri).diskCacheStrategy(DiskCacheStrategy.RESOURCE).thumbnail(0.2f).centerCrop().transform(new RoundedCorners(20)).into(ivLoadImage);
         }
-    }
+    }*/
 }

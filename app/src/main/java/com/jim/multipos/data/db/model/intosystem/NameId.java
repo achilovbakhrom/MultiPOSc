@@ -6,5 +6,5 @@ package com.jim.multipos.data.db.model.intosystem;
 
 public interface NameId extends Activatable {
     String getName();
-    String getId();
+    Long getId();
 }

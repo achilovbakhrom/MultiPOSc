@@ -12,44 +12,37 @@ import java.util.UUID;
 
 @Entity(nameInDb = "JOIN_CUSTOMER_GROUPS_WITH_CUSTOMERS")
 public class JoinCustomerGroupsWithCustomers {
-    @Id
-    private String id;
-    private String customerId;
-    private String customerGroupId;
-
-    @Generated(hash = 461838062)
-    public JoinCustomerGroupsWithCustomers(String id, String customerId,
-            String customerGroupId) {
-        this.id = id;
-        this.customerId = customerId;
-        this.customerGroupId = customerGroupId;
-    }
-
-    public JoinCustomerGroupsWithCustomers() {
-        id = UUID.randomUUID().toString();
-    }
-
-    public String getId() {
-        return this.id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getCustomerId() {
-        return this.customerId;
-    }
-
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
-    }
-
-    public String getCustomerGroupId() {
+    @Id(autoincrement = true)
+    private Long id;
+    private Long customerId;
+    private Long customerGroupId;
+    public Long getCustomerGroupId() {
         return this.customerGroupId;
     }
-
-    public void setCustomerGroupId(String customerGroupId) {
+    public void setCustomerGroupId(Long customerGroupId) {
         this.customerGroupId = customerGroupId;
     }
+    public Long getCustomerId() {
+        return this.customerId;
+    }
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
+    }
+    public Long getId() {
+        return this.id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
+    @Generated(hash = 601694094)
+    public JoinCustomerGroupsWithCustomers(Long id, Long customerId,
+            Long customerGroupId) {
+        this.id = id;
+        this.customerId = customerId;
+        this.customerGroupId = customerGroupId;
+    }
+    @Generated(hash = 1309216389)
+    public JoinCustomerGroupsWithCustomers() {
+    }
+
 }
