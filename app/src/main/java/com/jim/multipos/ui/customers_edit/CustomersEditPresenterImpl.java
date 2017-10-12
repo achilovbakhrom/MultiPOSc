@@ -140,7 +140,8 @@ public class CustomersEditPresenterImpl extends CustomersEditConnector implement
 
             CustomerGroup customerGroup = new CustomerGroup();
             customerGroup.setName("All");
-            customerGroup.setId("-1");
+            //TODO IT AFTER ENTITY FIX
+            //customerGroup.setId("-1");
             spinnerCustomerGroups.add(0, customerGroup);
 
             view.showCustomerGroups(spinnerCustomerGroups);
@@ -303,7 +304,8 @@ public class CustomersEditPresenterImpl extends CustomersEditConnector implement
         List<JoinCustomerGroupsWithCustomers> joinCustomerGroupsWithCustomersList = new ArrayList<>();
         List<CustomerGroup> tempCustomerGroups = new ArrayList<>();
 
-        joinCustomerGroupWithCustomerOperations.removeJoinCustomerGroupWithCustomer(customers.get(position).getId()).subscribe(aBoolean -> {
+        //TODO IT AFTER ENTITY FIX
+        /*joinCustomerGroupWithCustomerOperations.removeJoinCustomerGroupWithCustomer(customers.get(position).getId()).subscribe(aBoolean -> {
             for (CustomerGroup cg : selectedItems) {
                 for (CustomerGroup cg1 : this.customerGroups) {
                     if (cg1.getId().equals(cg.getId()))
@@ -324,7 +326,7 @@ public class CustomersEditPresenterImpl extends CustomersEditConnector implement
             customerGroups.clear();
             customerGroups.addAll(tempCustomerGroups);
             view.updateRecyclerView();
-        });
+        });*/
     }
 
     private void sortCustomers() {

@@ -83,10 +83,10 @@ public class AddCategoryFragment extends BaseFragment implements CategoryView {
     }
 
 
-    @Override
+    /*@Override
     protected boolean isValid() {
         return FormValidator.validate(this, new SimpleErrorPopupCallback(getContext()));
-    }
+    }*/
 
     @Override
     protected void init(Bundle savedInstanceState) {

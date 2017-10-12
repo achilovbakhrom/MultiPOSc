@@ -27,7 +27,36 @@ import io.reactivex.schedulers.Schedulers;
  */
 @PerFragment
 public class AddProductClassPresenterImpl extends BasePresenterImpl<AddProductClassView> implements AddProductClassPresenter {
+    @Inject
+    public AddProductClassPresenterImpl(AddProductClassView addProductClassView) {
+        super(addProductClassView);
+    }
 
+    @Override
+    public void onDestroyView() {
+
+    }
+
+    @Override
+    public void onSaveButtonPress(String className, int spinnerPos, boolean active) {
+
+    }
+
+    @Override
+    public void onCancelButtonPresed() {
+
+    }
+
+    @Override
+    public void onClickProductClass(ProductClass productClass) {
+
+    }
+
+    @Override
+    public void addProductClass() {
+
+    }
+/*
 
     private AddProductClassView view;
     private RxBus rxBus;
@@ -182,7 +211,7 @@ public class AddProductClassPresenterImpl extends BasePresenterImpl<AddProductCl
             }
         }
         view.setParentSpinnerPosition(0);
-    }
+    }*/
 
 
 }

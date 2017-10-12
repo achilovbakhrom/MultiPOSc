@@ -40,8 +40,116 @@ import io.reactivex.disposables.Disposable;
  */
 
 public class ProductsListFragment extends BaseFragment implements ProductListView, OnStartDragListener {
+    @Override
+    public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
 
-    @BindView(R.id.tvCategory)
+    }
+
+    @Override
+    public void setCategoryRecyclerViewItems(List<Category> categories) {
+
+    }
+
+    @Override
+    public void setProductRecyclerView(List<Product> products) {
+
+    }
+
+    @Override
+    public void updateCategoryItems() {
+
+    }
+
+    @Override
+    public void updateProductItems() {
+
+    }
+
+    @Override
+    public void updateSubCategoryItems() {
+
+    }
+
+    @Override
+    public void openCategory() {
+
+    }
+
+    @Override
+    public void openSubCategory() {
+
+    }
+
+    @Override
+    public void openProduct() {
+
+    }
+
+    @Override
+    public void setProductName(String name) {
+
+    }
+
+    @Override
+    public void setCategoryName(String name) {
+
+    }
+
+    @Override
+    public void setSubCategoryName(String name) {
+
+    }
+
+    @Override
+    public void setViewsVisibility(int mode) {
+
+    }
+
+    @Override
+    public void categoryMode() {
+
+    }
+
+    @Override
+    public void subCategoryMode() {
+
+    }
+
+    @Override
+    public void productMode() {
+
+    }
+
+    @Override
+    public void allInvisible() {
+
+    }
+
+    @Override
+    public void sendProductEvent(Product product, String click) {
+
+    }
+
+    @Override
+    public void sendCategoryEvent(Category category, String event) {
+
+    }
+
+    @Override
+    protected int getLayout() {
+        return 0;
+    }
+
+    @Override
+    protected void init(Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    protected void rxConnections() {
+
+    }
+/* @BindView(R.id.tvCategory)
     TextView tvCategory;
     @BindView(R.id.tvSubCategory)
     TextView tvSubCategory;
@@ -315,5 +423,5 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
     public void onDestroy() {
         super.onDestroy();
         RxBus.removeListners(subscriptions);
-    }
+    }*/
 }

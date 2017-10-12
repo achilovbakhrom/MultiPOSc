@@ -16,7 +16,26 @@ import javax.inject.Inject;
  */
 @PerFragment
 public class SubCategoryPresenterImpl extends BasePresenterImpl<SubCategoryView> implements SubCategoryPresenter {
-    private Category category;
+    public SubCategoryPresenterImpl(SubCategoryView subCategoryView) {
+        super(subCategoryView);
+    }
+
+    @Override
+
+    public void save(String name, String description, boolean checkboxChecked, String photoPath) {
+
+    }
+
+    @Override
+    public void checkData() {
+
+    }
+
+    @Override
+    public void setParentCategory(Category category) {
+
+    }
+    /*private Category category;
     private SubCategory subCategory;
     private SubCategoryOperations subCategoryOperations;
     private static final String ADD = "added";
@@ -85,5 +104,5 @@ public class SubCategoryPresenterImpl extends BasePresenterImpl<SubCategoryView>
         if (subCategory == null) {
             view.clearFields();
         } else checkData();
-    }
+    }*/
 }

@@ -19,7 +19,37 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
  */
 @PerFragment
 public class CategoryPresenterImpl extends BasePresenterImpl<CategoryView> implements CategoryPresenter {
-    private Category category, categoryNew, temp;
+
+
+    @Override
+    public void saveCategory(String name, String description, boolean checked, String photoPath) {
+
+    }
+
+    @Override
+    public void checkData() {
+
+    }
+
+    @Override
+    public void clickedCategory(Category category) {
+
+    }
+
+    @Override
+    public void acceptChanges() {
+
+    }
+
+    @Override
+    public void notAcceptChanges() {
+
+    }
+    @Inject
+    CategoryPresenterImpl(CategoryView view, DatabaseManager databaseManager) {
+        super(view);
+    }
+/*    private Category category, categoryNew, temp;
     private CategoryOperations categoryOperations;
     private static final String ADD = "added";
     private static final String UPDATE = "update";
@@ -127,5 +157,5 @@ public class CategoryPresenterImpl extends BasePresenterImpl<CategoryView> imple
     @Override
     public void notAcceptChanges() {
         view.setFields(category.getName(), category.getDescription(), category.isActive(), category.getPhotoPath());
-    }
+    }*/
 }
