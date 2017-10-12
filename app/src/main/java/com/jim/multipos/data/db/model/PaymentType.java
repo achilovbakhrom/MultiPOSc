@@ -17,7 +17,7 @@ import com.jim.multipos.data.db.model.currency.CurrencyDao;
  */
 @Entity(nameInDb = "PAYMENT_TYPE", active = true)
 public class PaymentType {
-    @Id
+    @Id(autoincrement = true)
     private Long id;
     private String name;
     private Long currencyId;

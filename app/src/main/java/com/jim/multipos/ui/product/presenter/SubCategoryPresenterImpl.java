@@ -7,17 +7,9 @@ import com.jim.multipos.config.scope.PerFragment;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.products.Category;
-import com.jim.multipos.data.db.model.products.SubCategory;
-import com.jim.multipos.data.operations.SubCategoryOperations;
 import com.jim.multipos.ui.product.view.SubCategoryView;
-import com.jim.multipos.utils.RxBus;
-import com.jim.multipos.utils.RxBusLocal;
-import com.jim.multipos.utils.rxevents.SubCategoryEvent;
 
 import javax.inject.Inject;
-
-import static com.jim.multipos.utils.rxevents.GlobalEventsConstants.ADD;
-import static com.jim.multipos.utils.rxevents.GlobalEventsConstants.UPDATE;
 
 /**
  * Created by DEV on 18.08.2017.

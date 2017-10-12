@@ -2,7 +2,6 @@ package com.jim.multipos.ui.product.presenter;
 
 import com.jim.multipos.core.Presenter;
 import com.jim.multipos.data.db.model.products.Category;
-import com.jim.multipos.data.db.model.products.SubCategory;
 
 /**
  * Created by DEV on 18.08.2017.

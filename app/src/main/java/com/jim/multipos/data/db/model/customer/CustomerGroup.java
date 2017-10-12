@@ -21,7 +21,7 @@ import com.jim.multipos.data.db.model.DiscountDao;
 
 @Entity(nameInDb = "CUSTOMER_GROUP", active = true)
 public class CustomerGroup {
-    @Id
+    @Id(autoincrement = true)
     private Long id;
     private String name;
     private boolean isActive;

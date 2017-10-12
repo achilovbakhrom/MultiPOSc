@@ -11,23 +11,28 @@ import org.greenrobot.greendao.annotation.JoinProperty;
 import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.ToMany;
 
+import com.jim.multipos.data.db.model.intosystem.Editable;
 import com.jim.multipos.data.db.model.products.Product;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 import com.jim.multipos.data.db.model.products.ProductDao;
 
 @Entity(nameInDb = "VENDOR", active = true)
-public class Vendor {
-    @Id
-    private String id;
+public class Vendor implements Editable{
+    @Id(autoincrement = true)
+    private Long id;
     private String name;
     private String contactName;
     private String email;
     private String phoneNumber;
     private String address;
-    private double taxRate;
-    private boolean isActive;
-    private String globalId;
+    private Double taxRate;
+    private Boolean isActive;
+    private Boolean isDeleted;
+    private Boolean isNotModified;
+    private Long globalId;
+    private Long rootId;
+    private Long createdDate;
     @ToMany(joinProperties = {@JoinProperty(name = "id", referencedName = "vendorId")})
     private List<Product> products;
     /** Used for active entity operations. */
@@ -37,14 +42,10 @@ public class Vendor {
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
 
-    public Vendor() {
-        id = UUID.randomUUID().toString();
-    }
-
-    @Generated(hash = 2022987098)
-    public Vendor(String id, String name, String contactName, String email,
-            String phoneNumber, String address, double taxRate, boolean isActive,
-            String globalId) {
+    @Generated(hash = 1150672768)
+    public Vendor(Long id, String name, String contactName, String email, String phoneNumber,
+            String address, Double taxRate, Boolean isActive, Boolean isDeleted,
+            Boolean isNotModified, Long globalId, Long rootId, Long createdDate) {
         this.id = id;
         this.name = name;
         this.contactName = contactName;
@@ -53,15 +54,73 @@ public class Vendor {
         this.address = address;
         this.taxRate = taxRate;
         this.isActive = isActive;
+        this.isDeleted = isDeleted;
+        this.isNotModified = isNotModified;
         this.globalId = globalId;
+        this.rootId = rootId;
+        this.createdDate = createdDate;
     }
 
-    public String getId() {
+    @Generated(hash = 530746692)
+    public Vendor() {
+    }
+
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    @Override
+    public boolean isActive() {
+        return this.isActive;
+    }
+
+    @Override
+    public void setActive(boolean active) {
+        this.isActive = active;
+    }
+
+    @Override
+    public boolean isDeleted() {
+        return this.isDeleted;
+    }
+
+    @Override
+    public void setDeleted(boolean deleted) {
+        this.isDeleted = deleted;
+    }
+
+    @Override
+    public boolean isNotModifyted() {
+        return this.isNotModified;
+    }
+
+    @Override
+    public void setNotModifyted(boolean notModifyted) {
+        this.isNotModified = notModifyted;
+    }
+
+    @Override
+    public Long getRootId() {
+        return this.rootId;
+    }
+
+    @Override
+    public void setRootId(Long rootId) {
+        this.rootId = rootId;
+    }
+
+    @Override
+    public Long getCreatedDate() {
+        return this.createdDate;
+    }
+
+    @Override
+    public void setCreatedDate(long createdDate) {
+        this.createdDate = createdDate;
     }
 
     public String getName() {
@@ -120,11 +179,11 @@ public class Vendor {
         this.isActive = isActive;
     }
 
-    public String getGlobalId() {
+    public Long getGlobalId() {
         return this.globalId;
     }
 
-    public void setGlobalId(String globalId) {
+    public void setGlobalId(Long globalId) {
         this.globalId = globalId;
     }
 
@@ -164,13 +223,6 @@ public class Vendor {
         myDao.delete(this);
     }
 
-    /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 1079169342)
-    public void __setDaoSession(DaoSession daoSession) {
-        this.daoSession = daoSession;
-        myDao = daoSession != null ? daoSession.getVendorDao() : null;
-    }
-
     /** Resets a to-many relationship, making the next get call to query for a fresh result. */
     @Generated(hash = 513498032)
     public synchronized void resetProducts() {
@@ -198,4 +250,40 @@ public class Vendor {
         }
         return products;
     }
-}
+
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 1079169342)
+    public void __setDaoSession(DaoSession daoSession) {
+        this.daoSession = daoSession;
+        myDao = daoSession != null ? daoSession.getVendorDao() : null;
+    }
+
+    public void setCreatedDate(Long createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public Boolean getIsNotModified() {
+        return this.isNotModified;
+    }
+
+    public void setIsNotModified(Boolean isNotModified) {
+        this.isNotModified = isNotModified;
+    }
+
+    public Boolean getIsDeleted() {
+        return this.isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+    public void setIsActive(Boolean isActive) {
+        this.isActive = isActive;
+    }
+
+    public void setTaxRate(Double taxRate) {
+        this.taxRate = taxRate;
+    }
+
+ }

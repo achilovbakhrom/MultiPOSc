@@ -1,6 +1,5 @@
 package com.jim.multipos.data.db.model.currency;
 
-import com.jim.multipos.data.db.model.employee.Employee;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
@@ -9,7 +8,6 @@ import org.greenrobot.greendao.annotation.ToOne;
 import java.util.UUID;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
-import com.jim.multipos.data.db.model.employee.EmployeeDao;
 import com.jim.multipos.data.db.model.DaoSession;
 
 /**
@@ -17,7 +15,7 @@ import com.jim.multipos.data.db.model.DaoSession;
  */
 @Entity(nameInDb = "CURRENCY_RATE", active = true)
 public class CurrencyRate {
-    @Id
+    @Id(autoincrement = true)
     private Long id;
     private String date;
     private Long firstCurrencyID;
@@ -26,9 +24,6 @@ public class CurrencyRate {
     private Long secondCurrencyID;
     @ToOne(joinProperty = "secondCurrencyID")
     private Currency secondCurrency;
-    private Long employerId;
-    @ToOne(joinProperty = "employerId")
-    private Employee employee;
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
      * Entity must attached to an entity context.
@@ -62,35 +57,6 @@ public class CurrencyRate {
         }
         myDao.delete(this);
     }
-    /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 1901998477)
-    public void setEmployee(Employee employee) {
-        synchronized (this) {
-            this.employee = employee;
-            employerId = employee == null ? null : employee.getId();
-            employee__resolvedKey = employerId;
-        }
-    }
-    /** To-one relationship, resolved on first access. */
-    @Generated(hash = 717308856)
-    public Employee getEmployee() {
-        Long __key = this.employerId;
-        if (employee__resolvedKey == null || !employee__resolvedKey.equals(__key)) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            EmployeeDao targetDao = daoSession.getEmployeeDao();
-            Employee employeeNew = targetDao.load(__key);
-            synchronized (this) {
-                employee = employeeNew;
-                employee__resolvedKey = __key;
-            }
-        }
-        return employee;
-    }
-    @Generated(hash = 584425655)
-    private transient Long employee__resolvedKey;
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 8125419)
     public void setSecondCurrency(Currency secondCurrency) {
@@ -164,12 +130,6 @@ public class CurrencyRate {
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
-    public Long getEmployerId() {
-        return this.employerId;
-    }
-    public void setEmployerId(Long employerId) {
-        this.employerId = employerId;
-    }
     public Long getSecondCurrencyID() {
         return this.secondCurrencyID;
     }
@@ -194,14 +154,13 @@ public class CurrencyRate {
     public void setId(Long id) {
         this.id = id;
     }
-    @Generated(hash = 1408650997)
+    @Generated(hash = 1293979143)
     public CurrencyRate(Long id, String date, Long firstCurrencyID,
-            Long secondCurrencyID, Long employerId) {
+            Long secondCurrencyID) {
         this.id = id;
         this.date = date;
         this.firstCurrencyID = firstCurrencyID;
         this.secondCurrencyID = secondCurrencyID;
-        this.employerId = employerId;
     }
     @Generated(hash = 989774535)
     public CurrencyRate() {

@@ -33,9 +33,9 @@ import com.jim.multipos.data.db.model.DaoSession;
  * Created by DEV on 26.08.2017.
  */
 @Entity(nameInDb = "PRODUCT", active = true)
-public class Product implements NamePhotoPathId, Editable {
-    @Id
-    private String id;
+public class Product implements Editable {
+    @Id(autoincrement = true)
+    private Long id;
     private String name;
     private double price;
     private double cost;
@@ -52,10 +52,10 @@ public class Product implements NamePhotoPathId, Editable {
     private Long costCurrencyId;
     @ToOne(joinProperty = "costCurrencyId")
     private Currency costCurrency;
-    private String classId;
+    private Long classId;
     @ToOne(joinProperty = "classId")
     private ProductClass productClass;
-    private String mainUnitId;
+    private Long mainUnitId;
     @ToOne(joinProperty = "mainUnitId")
     private Unit mainUnit;
     @ToMany
@@ -63,13 +63,125 @@ public class Product implements NamePhotoPathId, Editable {
             sourceProperty = "productId",
             targetProperty = "unitId")
     private List<Unit> subUnits;
-    private String subCategoryId;
+    private Long subCategoryId;
     @Property
-    private String vendorId;
+    private Long vendorId;
     @ToOne(joinProperty = "vendorId")
     private Vendor vendor;
     private String description;
-    private String rootId;
+    private Long rootId;
+    private Long parentId;
+    @Generated(hash = 1022035388)
+    private transient Long vendor__resolvedKey;
+    @Generated(hash = 1037669877)
+    private transient Long mainUnit__resolvedKey;
+    @Generated(hash = 1979699144)
+    private transient Long productClass__resolvedKey;
+    @Generated(hash = 2076466863)
+    private transient Long costCurrency__resolvedKey;
+    @Generated(hash = 348405744)
+    private transient Long priceCurrency__resolvedKey;
+    /** Used for active entity operations. */
+    @Generated(hash = 694336451)
+    private transient ProductDao myDao;
+    /** Used to resolve relations */
+    @Generated(hash = 2040040024)
+    private transient DaoSession daoSession;
+
+    @Generated(hash = 92181527)
+    public Product(Long id, String name, double price, double cost,
+            long createdDate, String barcode, String sku, String photoPath,
+            boolean isActive, boolean isNotModifyted, boolean isDeleted,
+            Long priceCurrencyId, Long costCurrencyId, Long classId,
+            Long mainUnitId, Long subCategoryId, Long vendorId, String description,
+            Long rootId, Long parentId) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.cost = cost;
+        this.createdDate = createdDate;
+        this.barcode = barcode;
+        this.sku = sku;
+        this.photoPath = photoPath;
+        this.isActive = isActive;
+        this.isNotModifyted = isNotModifyted;
+        this.isDeleted = isDeleted;
+        this.priceCurrencyId = priceCurrencyId;
+        this.costCurrencyId = costCurrencyId;
+        this.classId = classId;
+        this.mainUnitId = mainUnitId;
+        this.subCategoryId = subCategoryId;
+        this.vendorId = vendorId;
+        this.description = description;
+        this.rootId = rootId;
+        this.parentId = parentId;
+    }
+
+    @Generated(hash = 1890278724)
+    public Product() {
+    }
+
+    @Override
+    public void setId(Long id) {
+
+    }
+
+    @Override
+    public boolean isActive() {
+        return false;
+    }
+
+    @Override
+    public void setActive(boolean active) {
+
+    }
+
+    @Override
+    public boolean isDeleted() {
+        return false;
+    }
+
+    @Override
+    public void setDeleted(boolean deleted) {
+
+    }
+
+    @Override
+    public boolean isNotModifyted() {
+        return false;
+    }
+
+    @Override
+    public void setNotModifyted(boolean notModifyted) {
+
+    }
+
+    @Override
+    public Long getRootId() {
+        return this.rootId;
+    }
+
+    @Override
+    public void setRootId(Long rootId) {
+
+        this.rootId = rootId;
+    }
+
+    @Override
+    public Long getCreatedDate() {
+        return this.createdDate;
+    }
+
+    @Override
+    public void setCreatedDate(long createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    @Override
+    public Long getId() {
+        return null;
+    }
+
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
      * Entity must attached to an entity context.
@@ -81,6 +193,7 @@ public class Product implements NamePhotoPathId, Editable {
         }
         myDao.refresh(this);
     }
+
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
      * Entity must attached to an entity context.
@@ -92,6 +205,7 @@ public class Product implements NamePhotoPathId, Editable {
         }
         myDao.update(this);
     }
+
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
      * Entity must attached to an entity context.
@@ -103,11 +217,13 @@ public class Product implements NamePhotoPathId, Editable {
         }
         myDao.delete(this);
     }
+
     /** Resets a to-many relationship, making the next get call to query for a fresh result. */
     @Generated(hash = 622239219)
     public synchronized void resetSubUnits() {
         subUnits = null;
     }
+
     /**
      * To-many relationship, resolved on first access (and after reset).
      * Changes to to-many relations are not persisted, make changes to the target entity.
@@ -129,6 +245,7 @@ public class Product implements NamePhotoPathId, Editable {
         }
         return subUnits;
     }
+
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 332557200)
     public void setVendor(Vendor vendor) {
@@ -138,11 +255,12 @@ public class Product implements NamePhotoPathId, Editable {
             vendor__resolvedKey = vendorId;
         }
     }
+
     /** To-one relationship, resolved on first access. */
-    @Generated(hash = 2069317337)
+    @Generated(hash = 1192552702)
     public Vendor getVendor() {
-        String __key = this.vendorId;
-        if (vendor__resolvedKey == null || vendor__resolvedKey != __key) {
+        Long __key = this.vendorId;
+        if (vendor__resolvedKey == null || !vendor__resolvedKey.equals(__key)) {
             final DaoSession daoSession = this.daoSession;
             if (daoSession == null) {
                 throw new DaoException("Entity is detached from DAO context");
@@ -156,8 +274,7 @@ public class Product implements NamePhotoPathId, Editable {
         }
         return vendor;
     }
-    @Generated(hash = 224193883)
-    private transient String vendor__resolvedKey;
+
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 1689706463)
     public void setMainUnit(Unit mainUnit) {
@@ -167,11 +284,12 @@ public class Product implements NamePhotoPathId, Editable {
             mainUnit__resolvedKey = mainUnitId;
         }
     }
+
     /** To-one relationship, resolved on first access. */
-    @Generated(hash = 603098074)
+    @Generated(hash = 63527950)
     public Unit getMainUnit() {
-        String __key = this.mainUnitId;
-        if (mainUnit__resolvedKey == null || mainUnit__resolvedKey != __key) {
+        Long __key = this.mainUnitId;
+        if (mainUnit__resolvedKey == null || !mainUnit__resolvedKey.equals(__key)) {
             final DaoSession daoSession = this.daoSession;
             if (daoSession == null) {
                 throw new DaoException("Entity is detached from DAO context");
@@ -185,8 +303,7 @@ public class Product implements NamePhotoPathId, Editable {
         }
         return mainUnit;
     }
-    @Generated(hash = 1502344423)
-    private transient String mainUnit__resolvedKey;
+
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 587064025)
     public void setProductClass(ProductClass productClass) {
@@ -196,11 +313,13 @@ public class Product implements NamePhotoPathId, Editable {
             productClass__resolvedKey = classId;
         }
     }
+
     /** To-one relationship, resolved on first access. */
-    @Generated(hash = 768610995)
+    @Generated(hash = 977787601)
     public ProductClass getProductClass() {
-        String __key = this.classId;
-        if (productClass__resolvedKey == null || productClass__resolvedKey != __key) {
+        Long __key = this.classId;
+        if (productClass__resolvedKey == null
+                || !productClass__resolvedKey.equals(__key)) {
             final DaoSession daoSession = this.daoSession;
             if (daoSession == null) {
                 throw new DaoException("Entity is detached from DAO context");
@@ -214,8 +333,7 @@ public class Product implements NamePhotoPathId, Editable {
         }
         return productClass;
     }
-    @Generated(hash = 1476600865)
-    private transient String productClass__resolvedKey;
+
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 1963206481)
     public void setCostCurrency(Currency costCurrency) {
@@ -225,6 +343,7 @@ public class Product implements NamePhotoPathId, Editable {
             costCurrency__resolvedKey = costCurrencyId;
         }
     }
+
     /** To-one relationship, resolved on first access. */
     @Generated(hash = 741901330)
     public Currency getCostCurrency() {
@@ -244,8 +363,7 @@ public class Product implements NamePhotoPathId, Editable {
         }
         return costCurrency;
     }
-    @Generated(hash = 2076466863)
-    private transient Long costCurrency__resolvedKey;
+
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 2052200050)
     public void setPriceCurrency(Currency priceCurrency) {
@@ -255,6 +373,7 @@ public class Product implements NamePhotoPathId, Editable {
             priceCurrency__resolvedKey = priceCurrencyId;
         }
     }
+
     /** To-one relationship, resolved on first access. */
     @Generated(hash = 1063663284)
     public Currency getPriceCurrency() {
@@ -274,162 +393,148 @@ public class Product implements NamePhotoPathId, Editable {
         }
         return priceCurrency;
     }
-    @Generated(hash = 348405744)
-    private transient Long priceCurrency__resolvedKey;
+
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 1171535257)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getProductDao() : null;
     }
-    /** Used for active entity operations. */
-    @Generated(hash = 694336451)
-    private transient ProductDao myDao;
-    /** Used to resolve relations */
-    @Generated(hash = 2040040024)
-    private transient DaoSession daoSession;
-    public String getRootId() {
-        return this.rootId;
+
+    public Long getParentId() {
+        return this.parentId;
     }
-    public void setRootId(String rootId) {
-        this.rootId = rootId;
+
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
     }
+
     public String getDescription() {
         return this.description;
     }
+
     public void setDescription(String description) {
         this.description = description;
     }
-    public String getVendorId() {
+
+    public Long getVendorId() {
         return this.vendorId;
     }
-    public void setVendorId(String vendorId) {
+
+    public void setVendorId(Long vendorId) {
         this.vendorId = vendorId;
     }
-    public String getSubCategoryId() {
+
+    public Long getSubCategoryId() {
         return this.subCategoryId;
     }
-    public void setSubCategoryId(String subCategoryId) {
+
+    public void setSubCategoryId(Long subCategoryId) {
         this.subCategoryId = subCategoryId;
     }
-    public String getMainUnitId() {
+
+    public Long getMainUnitId() {
         return this.mainUnitId;
     }
-    public void setMainUnitId(String mainUnitId) {
+
+    public void setMainUnitId(Long mainUnitId) {
         this.mainUnitId = mainUnitId;
     }
-    public String getClassId() {
+
+    public Long getClassId() {
         return this.classId;
     }
-    public void setClassId(String classId) {
+
+    public void setClassId(Long classId) {
         this.classId = classId;
     }
+
     public Long getCostCurrencyId() {
         return this.costCurrencyId;
     }
+
     public void setCostCurrencyId(Long costCurrencyId) {
         this.costCurrencyId = costCurrencyId;
     }
+
     public Long getPriceCurrencyId() {
         return this.priceCurrencyId;
     }
+
     public void setPriceCurrencyId(Long priceCurrencyId) {
         this.priceCurrencyId = priceCurrencyId;
     }
+
     public boolean getIsDeleted() {
         return this.isDeleted;
     }
+
     public void setIsDeleted(boolean isDeleted) {
         this.isDeleted = isDeleted;
     }
+
     public boolean getIsNotModifyted() {
         return this.isNotModifyted;
     }
+
     public void setIsNotModifyted(boolean isNotModifyted) {
         this.isNotModifyted = isNotModifyted;
     }
+
     public boolean getIsActive() {
         return this.isActive;
     }
+
     public void setIsActive(boolean isActive) {
         this.isActive = isActive;
     }
+
     public String getPhotoPath() {
         return this.photoPath;
     }
+
     public void setPhotoPath(String photoPath) {
         this.photoPath = photoPath;
     }
+
     public String getSku() {
         return this.sku;
     }
+
     public void setSku(String sku) {
         this.sku = sku;
     }
+
     public String getBarcode() {
         return this.barcode;
     }
+
     public void setBarcode(String barcode) {
         this.barcode = barcode;
     }
-    public long getCreatedDate() {
-        return this.createdDate;
-    }
-    public void setCreatedDate(long createdDate) {
-        this.createdDate = createdDate;
-    }
+
     public double getCost() {
         return this.cost;
     }
+
     public void setCost(double cost) {
         this.cost = cost;
     }
+
     public double getPrice() {
         return this.price;
     }
+
     public void setPrice(double price) {
         this.price = price;
     }
+
     public String getName() {
         return this.name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
-    public String getId() {
-        return this.id;
-    }
-    public void setId(String id) {
-        this.id = id;
-    }
-    @Generated(hash = 2001319342)
-    public Product(String id, String name, double price, double cost,
-            long createdDate, String barcode, String sku, String photoPath,
-            boolean isActive, boolean isNotModifyted, boolean isDeleted,
-            Long priceCurrencyId, Long costCurrencyId, String classId,
-            String mainUnitId, String subCategoryId, String vendorId,
-            String description, String rootId) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.cost = cost;
-        this.createdDate = createdDate;
-        this.barcode = barcode;
-        this.sku = sku;
-        this.photoPath = photoPath;
-        this.isActive = isActive;
-        this.isNotModifyted = isNotModifyted;
-        this.isDeleted = isDeleted;
-        this.priceCurrencyId = priceCurrencyId;
-        this.costCurrencyId = costCurrencyId;
-        this.classId = classId;
-        this.mainUnitId = mainUnitId;
-        this.subCategoryId = subCategoryId;
-        this.vendorId = vendorId;
-        this.description = description;
-        this.rootId = rootId;
-    }
-    @Generated(hash = 1890278724)
-    public Product() {
-    }
+
 }

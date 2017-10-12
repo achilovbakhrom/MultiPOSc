@@ -32,7 +32,7 @@ import static com.jim.multipos.utils.BundleConstants.ORG_NAME;
  * Created by DEV on 26.07.2017.
  */
 
-public class RegistrationConfirmFragment extends BaseFragment { //implements RegistrationConfirmFragmentView {
+public class RegistrationConfirmFragment extends BaseFragment implements RegistrationConfirmView {
     @Inject
     PosFragmentManager posFragmentManager;
     @Inject
@@ -53,14 +53,14 @@ public class RegistrationConfirmFragment extends BaseFragment { //implements Reg
     TextView tvOrgAddress;
     @BindView(R.id.tvOrgZipCode)
     TextView tvOrgZipCode;
-    private Unbinder unbinder;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.reg_second_page_fragment, container, false);
-        unbinder = ButterKnife.bind(this, rootView);
-//        this.getComponent(LoginActivityComponent.class).inject(this);
-//        presenter.init(this);
+    protected int getLayout() {
+        return R.layout.reg_second_page_fragment;
+    }
+
+    @Override
+    protected void init(Bundle savedInstanceState) {
         if (getArguments() != null) {
             tvOrgName.setText(getArguments().getString(ORG_NAME));
             tvOrgName.setPaintFlags(tvOrgName.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -68,17 +68,6 @@ public class RegistrationConfirmFragment extends BaseFragment { //implements Reg
             tvOrgEmail.setText(getArguments().getString(ORG_EMAIL));
             tvOrgZipCode.setText(getArguments().getString(ORG_CODE));
         }
-        return rootView;
-    }
-
-    @Override
-    protected int getLayout() {
-        return 0;
-    }
-
-    @Override
-    protected void init(Bundle savedInstanceState) {
-
     }
 
     @Override
@@ -88,23 +77,20 @@ public class RegistrationConfirmFragment extends BaseFragment { //implements Reg
 
     @OnClick(R.id.btnBack)
     public void back() {
-        presenter.back();
 
     }
 
     @OnClick(R.id.btnConfirm)
     public void confirm() {
-        presenter.confirm();
     }
 
     @OnClick(R.id.ivEditDetails)
     public void edit() {
-        presenter.back();
     }
 
 
     public void onConfirm() {
-//        activity.openFirstConfigure();
+
     }
 
 
@@ -114,12 +100,6 @@ public class RegistrationConfirmFragment extends BaseFragment { //implements Reg
 
 
     public void onBack() {
-//        activity.popFromBackStack();
-    }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
     }
 }

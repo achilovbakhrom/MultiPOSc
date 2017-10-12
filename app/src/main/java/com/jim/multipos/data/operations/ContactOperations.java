@@ -1,7 +1,6 @@
 package com.jim.multipos.data.operations;
 
 import com.jim.multipos.data.db.model.Contact;
-import com.jim.multipos.data.db.model.employee.Employee;
 
 import java.util.ArrayList;
 import java.util.List;

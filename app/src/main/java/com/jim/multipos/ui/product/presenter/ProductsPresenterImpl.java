@@ -10,24 +10,16 @@ import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.Vendor;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.products.Product;
-import com.jim.multipos.data.db.model.products.SubCategory;
 import com.jim.multipos.data.db.model.unit.Unit;
 import com.jim.multipos.data.operations.CurrencyOperations;
 import com.jim.multipos.data.operations.ProductOperations;
 import com.jim.multipos.data.operations.UnitOperations;
 import com.jim.multipos.ui.product.view.ProductsView;
-import com.jim.multipos.utils.RxBus;
-import com.jim.multipos.utils.RxBusLocal;
-import com.jim.multipos.utils.rxevents.MessageEvent;
-import com.jim.multipos.utils.rxevents.ProductEvent;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
-
-import static com.jim.multipos.utils.rxevents.GlobalEventsConstants.ADD;
-import static com.jim.multipos.utils.rxevents.GlobalEventsConstants.UPDATE;
 
 /**
  * Created by DEV on 18.08.2017.

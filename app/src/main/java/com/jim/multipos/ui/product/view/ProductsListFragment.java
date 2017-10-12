@@ -14,7 +14,6 @@ import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.Product;
-import com.jim.multipos.data.db.model.products.SubCategory;
 import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.ui.product.ProductsActivity;
 import com.jim.multipos.ui.product.adapter.ProductsListAdapter;

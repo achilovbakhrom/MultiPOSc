@@ -8,6 +8,6 @@ package com.jim.multipos.data.db.model.intosystem;
 public interface NamePhotoPathId {
     String getName();
     String getPhotoPath();
-    String getId();
+    Long getId();
     boolean isActive();
 }

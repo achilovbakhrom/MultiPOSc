@@ -8,7 +8,4 @@ import com.jim.multipos.core.Presenter;
  */
 
 public interface RegistrationConfirmPresenter extends Presenter {
-    void confirm();
-    void checkAccessToken();
-    void back();
 }

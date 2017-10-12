@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Entity(nameInDb = "CUSTOMER", active = true)
 public class Customer {
-    @Id
+    @Id(autoincrement = true)
     private Long id;
     private Long clientId;
     private String name;

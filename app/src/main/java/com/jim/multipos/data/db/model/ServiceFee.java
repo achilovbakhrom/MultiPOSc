@@ -18,7 +18,7 @@ import com.jim.multipos.data.db.model.currency.CurrencyDao;
 
 @Entity(nameInDb = "SERVICE_FEE", active = true)
 public class ServiceFee {
-    @Id
+    @Id(autoincrement = true)
     private Long id;
     private String name;
     private double amount;

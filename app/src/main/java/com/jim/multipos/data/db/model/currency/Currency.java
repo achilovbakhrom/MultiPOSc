@@ -13,7 +13,7 @@ import com.jim.multipos.data.db.model.intosystem.Activatable;
  */
 @Entity(nameInDb = "CURRENCY", active = true)
 public class Currency {
-    @Id
+    @Id(autoincrement = true)
     private Long id;
     private String name;
     private String abbr;

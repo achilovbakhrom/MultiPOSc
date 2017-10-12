@@ -14,7 +14,6 @@ import com.jim.mpviews.MpCheckbox;
 import com.jim.mpviews.MpEditText;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
-import com.jim.multipos.data.db.model.products.SubCategory;
 import com.jim.multipos.ui.product.presenter.SubCategoryPresenter;
 import com.jim.multipos.utils.CommonUtils;
 //import com.jim.multipos.utils.GlideApp;
@@ -35,7 +34,6 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 import io.reactivex.disposables.Disposable;
 
 import static android.app.Activity.RESULT_OK;

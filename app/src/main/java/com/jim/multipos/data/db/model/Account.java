@@ -12,7 +12,7 @@ import org.greenrobot.greendao.DaoException;
  */
 @Entity(nameInDb = "ACCOUNTS", active = true)
 public class Account {
-    @Id
+    @Id(autoincrement = true)
     private Long id;
     private String name;
     private int type;

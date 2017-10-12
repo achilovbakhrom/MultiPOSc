@@ -1,25 +1,15 @@
 package com.jim.multipos.ui.product.presenter;
 
 
-import android.os.Bundle;
-
 import com.jim.multipos.config.scope.PerFragment;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
-import com.jim.multipos.data.db.model.intosystem.CategoryPosition;
-import com.jim.multipos.data.db.model.intosystem.ProductPosition;
-import com.jim.multipos.data.db.model.intosystem.SubCategoryPosition;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.Product;
-import com.jim.multipos.data.db.model.products.SubCategory;
 import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.utils.CommonUtils;
 import com.jim.multipos.utils.RxBusLocal;
 import com.jim.multipos.ui.product.view.ProductListView;
-import com.jim.multipos.utils.RxBus;
-import com.jim.multipos.utils.rxevents.CategoryEvent;
-import com.jim.multipos.utils.rxevents.ProductEvent;
-import com.jim.multipos.utils.rxevents.SubCategoryEvent;
 
 
 import java.util.ArrayList;
@@ -29,8 +19,6 @@ import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-
-import static com.jim.multipos.utils.rxevents.GlobalEventsConstants.CLICK;
 
 /**
  * Created by DEV on 17.08.2017.

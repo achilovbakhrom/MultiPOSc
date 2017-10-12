@@ -20,9 +20,9 @@ import org.greenrobot.greendao.DaoException;
  */
 @Entity(active = true, nameInDb = "ORGANIZATION")
 public class Organization implements Serializable {
-    @Id
+    @Id(autoincrement = true)
     @SerializedName("id")
-    private String id;
+    private Long id;
     @SerializedName("name")
     private String name;
     @SerializedName("address")
@@ -35,79 +35,43 @@ public class Organization implements Serializable {
     @SerializedName("contacts")
     private List<Contact> contacts;
     /**
-     * Used to resolve relations
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
+     * Entity must attached to an entity context.
      */
-    @Generated(hash = 2040040024)
-    private transient DaoSession daoSession;
+    @Generated(hash = 1942392019)
+    public void refresh() {
+        if (myDao == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        myDao.refresh(this);
+    }
     /**
-     * Used for active entity operations.
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
+     * Entity must attached to an entity context.
      */
-    @Generated(hash = 49964946)
-    private transient OrganizationDao myDao;
-
-    @Keep
-    public Organization(String name, String address, String zipcode,
-                        String email) {
-        this.id = UUID.randomUUID().toString();
-        this.name = name;
-        this.address = address;
-        this.zipCode = zipcode;
-        this.email = email;
+    @Generated(hash = 713229351)
+    public void update() {
+        if (myDao == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        myDao.update(this);
     }
-    @Keep
-    public Organization() {
-        id = UUID.randomUUID().toString();
+    /**
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
+     * Entity must attached to an entity context.
+     */
+    @Generated(hash = 128553479)
+    public void delete() {
+        if (myDao == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        myDao.delete(this);
     }
-    @Generated(hash = 1944604910)
-    public Organization(String id, String name, String address, String zipCode,
-            String email) {
-        this.id = id;
-        this.name = name;
-        this.address = address;
-        this.zipCode = zipCode;
-        this.email = email;
+    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    @Generated(hash = 1818154294)
+    public synchronized void resetContacts() {
+        contacts = null;
     }
-
-    public String getId() {
-        return this.id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAddress() {
-        return this.address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getZipCode() {
-        return this.zipCode;
-    }
-
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
-    }
-
-    public String getEmail() {
-        return this.email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     /**
      * To-many relationship, resolved on first access (and after reset).
      * Changes to to-many relations are not persisted, make changes to the target entity.
@@ -122,62 +86,64 @@ public class Organization implements Serializable {
             ContactDao targetDao = daoSession.getContactDao();
             List<Contact> contactsNew = targetDao._queryOrganization_Contacts(id);
             synchronized (this) {
-                if (contacts == null) {
+                if(contacts == null) {
                     contacts = contactsNew;
                 }
             }
         }
         return contacts;
     }
-
-    /**
-     * Resets a to-many relationship, making the next get call to query for a fresh result.
-     */
-    @Generated(hash = 1818154294)
-    public synchronized void resetContacts() {
-        contacts = null;
-    }
-
-    /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
-     * Entity must attached to an entity context.
-     */
-    @Generated(hash = 128553479)
-    public void delete() {
-        if (myDao == null) {
-            throw new DaoException("Entity is detached from DAO context");
-        }
-        myDao.delete(this);
-    }
-
-    /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
-     * Entity must attached to an entity context.
-     */
-    @Generated(hash = 1942392019)
-    public void refresh() {
-        if (myDao == null) {
-            throw new DaoException("Entity is detached from DAO context");
-        }
-        myDao.refresh(this);
-    }
-
-    /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
-     * Entity must attached to an entity context.
-     */
-    @Generated(hash = 713229351)
-    public void update() {
-        if (myDao == null) {
-            throw new DaoException("Entity is detached from DAO context");
-        }
-        myDao.update(this);
-    }
-
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 1328120336)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getOrganizationDao() : null;
+    }
+    /** Used for active entity operations. */
+    @Generated(hash = 49964946)
+    private transient OrganizationDao myDao;
+    /** Used to resolve relations */
+    @Generated(hash = 2040040024)
+    private transient DaoSession daoSession;
+    public String getEmail() {
+        return this.email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    public String getZipCode() {
+        return this.zipCode;
+    }
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
+    public String getAddress() {
+        return this.address;
+    }
+    public void setAddress(String address) {
+        this.address = address;
+    }
+    public String getName() {
+        return this.name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public Long getId() {
+        return this.id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
+    @Generated(hash = 1769081081)
+    public Organization(Long id, String name, String address, String zipCode, String email) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.zipCode = zipCode;
+        this.email = email;
+    }
+    @Generated(hash = 27039612)
+    public Organization() {
     }
 }
