@@ -16,7 +16,6 @@ import android.widget.RelativeLayout;
  */
 
 public class MpSearchView extends RelativeLayout {
-    private ImageView mpBarcodeImage, mpSearchImage;
     private EditText mpSearchEditText;
     private boolean visibility_status = true;
 
@@ -46,8 +45,7 @@ public class MpSearchView extends RelativeLayout {
         setLayoutParams(layoutParams);
         setBackgroundResource(R.drawable.edit_text_bg);
         TypedArray attributeArray = context.obtainStyledAttributes(attributeSet, R.styleable.MpSearchView);
-        mpBarcodeImage = (ImageView) findViewById(R.id.mpBarcodeImage);
-        mpSearchImage = (ImageView) findViewById(R.id.mpSearchImage);
+        ImageView mpBarcodeImage = (ImageView) findViewById(R.id.mpBarcodeImage);
         mpSearchEditText = (EditText) findViewById(R.id.mpSearchEditText);
         mpSearchEditText.setLines(1);
         mpSearchEditText.setMaxLines(1);

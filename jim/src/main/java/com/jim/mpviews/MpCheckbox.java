@@ -3,11 +3,10 @@ package com.jim.mpviews;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
+import android.os.Parcelable;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -16,16 +15,11 @@ import android.widget.CheckBox;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.jim.mpviews.utils.StateSaver;
-
 /**
  * Created by Пользователь on 23.05.2017.
  */
 
 public class MpCheckbox extends RelativeLayout {
-
-    private CheckBox checkBox;
-    private TextView textView;
 
     public MpCheckbox(Context context) {
         super(context);
@@ -48,40 +42,42 @@ public class MpCheckbox extends RelativeLayout {
         init(context, attrs);
     }
 
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+        super.onRestoreInstanceState(state);
+    }
 
     public void init(final Context context, AttributeSet attrs) {
         LayoutInflater.from(context).inflate(R.layout.mp_checkbox, this);
         LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         setLayoutParams(layoutParams);
         TypedArray attributeArray = context.obtainStyledAttributes(attrs, R.styleable.MpCheckbox);
-        checkBox = (CheckBox) findViewById(R.id.mpCheckbox);
-        textView = (TextView) findViewById(R.id.tvCheckbox);
         boolean state = attributeArray.getBoolean(R.styleable.MpCheckbox_checked, false);
 
         String text = attributeArray.getString(R.styleable.MpCheckbox_text);
         setText(text);
 
         if (state) {
-            checkBox.setBackgroundResource(R.drawable.checked);
-            checkBox.setChecked(true);
+            findViewById(R.id.mpCheckbox).setBackgroundResource(R.drawable.checked);
+            ((CheckBox) findViewById(R.id.mpCheckbox)).setChecked(true);
         } else {
-            checkBox.setBackgroundResource(R.drawable.unchecked);
-            checkBox.setChecked(false);
+            findViewById(R.id.mpCheckbox).setBackgroundResource(R.drawable.unchecked);
+            ((CheckBox) findViewById(R.id.mpCheckbox)).setChecked(false);
         }
 
-        checkBox.setButtonDrawable(null);
+        ((CheckBox) findViewById(R.id.mpCheckbox)).setButtonDrawable(null);
 
         setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (checkBox.isEnabled())
-                    if (checkBox.isChecked()) {
-                        checkBox.setBackgroundResource(R.drawable.unchecked);
-                        checkBox.setChecked(false);
+                if (findViewById(R.id.mpCheckbox).isEnabled())
+                    if (((CheckBox) findViewById(R.id.mpCheckbox)).isChecked()) {
+                        findViewById(R.id.mpCheckbox).setBackgroundResource(R.drawable.unchecked);
+                        ((CheckBox) findViewById(R.id.mpCheckbox)).setChecked(false);
                         animateCheckbox();
                     } else {
-                        checkBox.setBackgroundResource(R.drawable.checked);
-                        checkBox.setChecked(true);
+                        findViewById(R.id.mpCheckbox).setBackgroundResource(R.drawable.checked);
+                        ((CheckBox) findViewById(R.id.mpCheckbox)).setChecked(true);
                         animateCheckbox();
                     }
             }
@@ -97,38 +93,38 @@ public class MpCheckbox extends RelativeLayout {
                 Animation.RELATIVE_TO_SELF, 0.5f);
         anim.setFillAfter(true);
         anim.setDuration(200);
-        checkBox.startAnimation(anim);
+        findViewById(R.id.mpCheckbox).startAnimation(anim);
     }
 
     public void setText(String text) {
-        textView.setText(text);
+        ((TextView)findViewById(R.id.tvCheckbox)).setText(text);
     }
 
     public void setChecked(Boolean state) {
         if (state) {
             animateCheckbox();
-            checkBox.setBackgroundResource(R.drawable.checked);
-            checkBox.setChecked(true);
+            findViewById(R.id.mpCheckbox).setBackgroundResource(R.drawable.checked);
+            ((CheckBox)findViewById(R.id.mpCheckbox)).setChecked(true);
         } else {
             animateCheckbox();
-            checkBox.setBackgroundResource(R.drawable.unchecked);
-            checkBox.setChecked(false);
+            findViewById(R.id.mpCheckbox).setBackgroundResource(R.drawable.unchecked);
+            ((CheckBox)findViewById(R.id.mpCheckbox)).setChecked(false);
         }
     }
 
     public boolean isCheckboxChecked() {
-        return checkBox.isChecked();
+        return ((CheckBox)findViewById(R.id.mpCheckbox)).isChecked();
     }
 
     public void setCheckBoxEnabled(boolean state) {
-        checkBox.setEnabled(state);
+        findViewById(R.id.mpCheckbox).setEnabled(state);
     }
 
     public void setCheckBoxClickable(boolean clickable) {
-        checkBox.setClickable(clickable);
+        findViewById(R.id.mpCheckbox).setClickable(clickable);
     }
 
     public CheckBox getCheckBox() {
-        return checkBox;
+        return ((CheckBox)findViewById(R.id.mpCheckbox));
     }
 }

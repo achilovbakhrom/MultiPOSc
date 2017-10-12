@@ -81,18 +81,16 @@ public class OrderListFragment extends Fragment {//BaseFragment {
         return view;
     }
     boolean pressed = false;
-    private VibrateManager VibrateManager;
 
     public void setClickEffects(){
         pressed = false;
-        VibrateManager = new VibrateManager(getContext());
 
         llPay.setOnTouchListener((view, motionEvent) -> {
             switch (motionEvent.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     view.performClick();
                     if (!pressed) {
-                        VibrateManager.startVibrate();
+                        VibrateManager.startVibrate(getContext(), 50);
                         pressed = true;
                     }
                     llPay.setBackgroundResource(R.drawable.light_gradient_revice);
@@ -111,7 +109,8 @@ public class OrderListFragment extends Fragment {//BaseFragment {
                 case MotionEvent.ACTION_DOWN:
                     view.performClick();
                     if (!pressed) {
-                        VibrateManager.startVibrate();
+                        VibrateManager.startVibrate(getContext(), 50);
+
                         pressed = true;
                     }
                     llDiscount.setBackgroundColor(ContextCompat.getColor(activity, R.color.pressedWhite));
@@ -130,7 +129,8 @@ public class OrderListFragment extends Fragment {//BaseFragment {
                 case MotionEvent.ACTION_DOWN:
                     view.performClick();
                     if (!pressed) {
-                        VibrateManager.startVibrate();
+                        VibrateManager.startVibrate(getContext(), 50);
+
                         pressed = true;
                     }
                     llServiceFee.setBackgroundColor(ContextCompat.getColor(activity, R.color.pressedWhite));
@@ -149,7 +149,8 @@ public class OrderListFragment extends Fragment {//BaseFragment {
                 case MotionEvent.ACTION_DOWN:
                     view.performClick();
                     if (!pressed) {
-                        VibrateManager.startVibrate();
+                        VibrateManager.startVibrate(getContext(), 50);
+
                         pressed = true;
                     }
                     llPrintCheck.setBackgroundColor(ContextCompat.getColor(activity, R.color.pressedWhite));

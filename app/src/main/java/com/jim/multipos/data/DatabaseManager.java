@@ -184,18 +184,23 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, S
     }
 
     @Override
+    public Observable<Long> replaceCategoryByPosition(Category category) {
+        return dbHelper.insertOrReplaceCategoryByPosition(category);
+    }
+
+    @Override
     public Observable<List<Category>> getAllCategories() {
         return dbHelper.getAllCategories();
     }
 
     @Override
-    public Observable<Category> getCategoryByName(Category category) {
+    public Observable<Integer> getCategoryByName(Category category) {
         return dbHelper.getCategoryByName(category);
     }
 
     @Override
-    public Observable<Category> getMatchCategories(Category category, String temp) {
-        return dbHelper.getMatchCategory(category, temp);
+    public Observable<Boolean> getMatchCategory(Category category) {
+        return dbHelper.getMatchCategory(category);
     }
 
     @Override
@@ -217,11 +222,6 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, S
     @Override
     public Observable<List<SubCategory>> getAllSubCategories() {
         return dbHelper.getAllSubCategories();
-    }
-
-    @Override
-    public Observable<SubCategory> getSubCategoryByName(SubCategory subCategory) {
-        return dbHelper.getSubCategoryByName(subCategory);
     }
 
     @Override
@@ -477,11 +477,6 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, S
     @Override
     public Observable<List<Product>> getAllProducts() {
         return dbHelper.getAllProducts();
-    }
-
-    @Override
-    public Observable<List<Product>> getAllIngredients() {
-        return dbHelper.getAllIngredients();
     }
 
     @Override

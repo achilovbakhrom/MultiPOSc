@@ -1,97 +1,63 @@
 package com.jim.multipos.ui.first_configure.di;
 
-import com.jim.multipos.data.DatabaseManager;
+import android.support.v7.app.AppCompatActivity;
+import com.jim.multipos.config.scope.PerActivity;
+import com.jim.multipos.config.scope.PerFragment;
+import com.jim.multipos.core.BaseActivityModule;
 import com.jim.multipos.ui.first_configure.FirstConfigureActivity;
-import com.jim.multipos.ui.ActivityScope;
 import com.jim.multipos.ui.first_configure.FirstConfigurePresenter;
 import com.jim.multipos.ui.first_configure.FirstConfigurePresenterImpl;
-import com.jim.multipos.ui.first_configure.presenters.AccountFragmentPresenter;
-import com.jim.multipos.ui.first_configure.presenters.AccountFragmentPresenterImpl;
-import com.jim.multipos.ui.first_configure.presenters.CurrencyFragmentPresenter;
-import com.jim.multipos.ui.first_configure.presenters.CurrencyFragmentPresenterImpl;
-import com.jim.multipos.ui.first_configure.presenters.FirstConfigureLeftSidePresenter;
-import com.jim.multipos.ui.first_configure.presenters.FirstConfigureLeftSidePresenterImpl;
-import com.jim.multipos.ui.first_configure.presenters.PaymentTypeFragmentPresenter;
-import com.jim.multipos.ui.first_configure.presenters.PaymentTypeFragmentPresenterImpl;
-import com.jim.multipos.ui.first_configure.presenters.PosFragmentPresenter;
-import com.jim.multipos.ui.first_configure.presenters.PosFragmentPresenterImpl;
-import com.jim.multipos.ui.first_configure.presenters.StockFragmentPresenter;
-import com.jim.multipos.ui.first_configure.presenters.StockFragmentPresenterImpl;
-import com.jim.multipos.ui.first_configure.presenters.UnitsFragmentPresenter;
-import com.jim.multipos.ui.first_configure.presenters.UnitsFragmentPresenterImpl;
-import com.jim.multipos.utils.managers.PosFragmentManager;
+import com.jim.multipos.ui.first_configure.FirstConfigureView;
+import com.jim.multipos.ui.first_configure.fragments.AccountFragment;
+import com.jim.multipos.ui.first_configure.fragments.CurrencyFragment;
+import com.jim.multipos.ui.first_configure.fragments.LeftSideFragment;
+import com.jim.multipos.ui.first_configure.fragments.PaymentTypeFragment;
+import com.jim.multipos.ui.first_configure.fragments.PosDetailsFragment;
+import com.jim.multipos.ui.first_configure.fragments.UnitsFragment;
 
+import dagger.Binds;
 import dagger.Module;
-import dagger.Provides;
+import dagger.android.ContributesAndroidInjector;
 
 /**
- * Created by user on 31.07.17.
+ * Created by user on 07.10.17.
  */
-@Module
-public class FirstConfigureActivityModule {
-    private FirstConfigureActivity activity;
 
-    public FirstConfigureActivityModule(FirstConfigureActivity activity) {
-        this.activity = activity;
-    }
+@Module(includes = BaseActivityModule.class)
+public abstract class FirstConfigureActivityModule {
+    @Binds
+    @PerActivity
+    abstract AppCompatActivity provideFirstConfigureActivity(FirstConfigureActivity firstConfigureActivity);
 
-    @Provides
-    @ActivityScope
-    public FirstConfigureActivity getActivity(){
-        return activity;
-    }
+    @Binds
+    @PerActivity
+    abstract FirstConfigureView provideFirstConfigureView(FirstConfigureActivity activity);
 
-    @Provides
-    @ActivityScope
-    public PosFragmentManager getFragmentManager(FirstConfigureActivity activity) {
-        return new PosFragmentManager(activity);
-    }
+    @Binds
+    @PerActivity
+    abstract FirstConfigurePresenter provideFirstConfigurePresenter(FirstConfigurePresenterImpl presenter);
 
-    @Provides
-    @ActivityScope
-    public FirstConfigurePresenter getFirstConfigurePresenter() {
-        return new FirstConfigurePresenterImpl();
-    }
+    @PerFragment
+    @ContributesAndroidInjector
+    abstract PosDetailsFragment providePosDetailsFragment();
 
-    @Provides
-    @ActivityScope
-    public FirstConfigureLeftSidePresenter getFirstConfigureLeftSidePresenter(FirstConfigureActivity activity) {
-        return new FirstConfigureLeftSidePresenterImpl(activity);
-    }
+    @PerFragment
+    @ContributesAndroidInjector
+    abstract AccountFragment provideAccountFragment();
 
-    @Provides
-    @ActivityScope
-    public PosFragmentPresenter getPosFragmentPresenter(FirstConfigureActivity activity) {
-        return new PosFragmentPresenterImpl(activity);
-    }
+    @PerFragment
+    @ContributesAndroidInjector
+    abstract CurrencyFragment provideCurrencyFragment();
 
-    @Provides
-    @ActivityScope
-    public AccountFragmentPresenter getAccountFragmentPresenter(FirstConfigureActivity activity, PaymentTypeFragmentPresenter paymentTypeFragmentPresenter, DatabaseManager databaseManager) {
-        return new AccountFragmentPresenterImpl(activity, paymentTypeFragmentPresenter, databaseManager.getAccountOperations());
-    }
+    @PerFragment
+    @ContributesAndroidInjector
+    abstract PaymentTypeFragment providePaymentTypeFragment();
 
-    @Provides
-    @ActivityScope
-        public PaymentTypeFragmentPresenter getPaymentTypeFragmentPresenter(FirstConfigureActivity activity, DatabaseManager databaseManager) {
-        return new PaymentTypeFragmentPresenterImpl(activity, databaseManager.getPaymentTypeOperations(), databaseManager.getAccountOperations(), databaseManager.getCurrencyOperations());
-    }
+    @PerFragment
+    @ContributesAndroidInjector
+    abstract UnitsFragment provideUnitsFragment();
 
-    @Provides
-    @ActivityScope
-    public CurrencyFragmentPresenter getCurrencyFragmentPresenter(FirstConfigureActivity activity, PaymentTypeFragmentPresenter paymentTypeFragmentPresenter, DatabaseManager databaseManager) {
-        return new CurrencyFragmentPresenterImpl(activity, paymentTypeFragmentPresenter, databaseManager.getCurrencyOperations());
-    }
-
-    @Provides
-    @ActivityScope
-    public UnitsFragmentPresenter getUnitsFragmentPresenter(FirstConfigureActivity activity, DatabaseManager databaseManager) {
-        return new UnitsFragmentPresenterImpl(activity, databaseManager.getUnitCategoryOperations(), databaseManager.getUnitOperations());
-    }
-
-    @Provides
-    @ActivityScope
-    public StockFragmentPresenter getStockFragmentPresenter(FirstConfigureActivity activity, DatabaseManager databaseManager) {
-        return new StockFragmentPresenterImpl(activity, databaseManager.getStockOperations());
-    }
+    @PerFragment
+    @ContributesAndroidInjector
+    abstract LeftSideFragment provideLeftSideFragment();
 }

@@ -89,4 +89,6 @@ dependencies {
     //parceler
     compile 'org.parceler:parceler-api:1.1.9'
     annotationProcessor 'org.parceler:parceler:1.1.9'
+    //validator
+    compile 'eu.inmite.android.lib:android-validation-komensky:0.9.4@aar'
 }

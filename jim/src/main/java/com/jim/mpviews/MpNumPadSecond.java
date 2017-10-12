@@ -26,7 +26,6 @@ public class MpNumPadSecond extends FrameLayout {
     private TextView mpValue, mpCurr;
     private LinearLayout mpNumPadbg;
     private boolean pressed = false;
-    private VibrateManager VibrateManager;
 
     public MpNumPadSecond(Context context) {
         super(context);
@@ -44,7 +43,6 @@ public class MpNumPadSecond extends FrameLayout {
     }
 
     public void init(Context context, AttributeSet attributeSet) {
-        VibrateManager = new VibrateManager(getContext(), 50);
         LayoutInflater.from(context).inflate(R.layout.mp_num_pad_second, this);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         setLayoutParams(layoutParams);
@@ -61,7 +59,7 @@ public class MpNumPadSecond extends FrameLayout {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         if (!pressed) {
-                            VibrateManager.startVibrate();
+                            VibrateManager.startVibrate(context, 50);
                             pressed = true;
                         }
                         mpNumPadbg.setBackgroundResource(R.drawable.num_pad_blue_pressed);

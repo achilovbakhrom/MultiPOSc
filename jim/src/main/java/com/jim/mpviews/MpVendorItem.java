@@ -27,7 +27,6 @@ public class MpVendorItem extends RelativeLayout {
     private TextView mpVendor, mpItem, mpName;
     private LinearLayout llVendor;
     private boolean isPressed = false;
-    private VibrateManager VibrateManager;
 
     public MpVendorItem(Context context) {
         super(context);
@@ -51,7 +50,6 @@ public class MpVendorItem extends RelativeLayout {
     }
 
     public void init(Context context) {
-        VibrateManager = new VibrateManager(getContext());
         LayoutInflater.from(context).inflate(R.layout.mp_vendor_item, this);
         LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         setLayoutParams(layoutParams);
@@ -65,7 +63,7 @@ public class MpVendorItem extends RelativeLayout {
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        VibrateManager.startVibrate();
+                        VibrateManager.startVibrate(context, 50);
                         if (!isPressed) {
                             llVendor.setBackgroundResource(R.drawable.pressed_vendor_item);
                             isPressed = true;

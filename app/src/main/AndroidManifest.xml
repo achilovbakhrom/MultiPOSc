@@ -49,11 +49,6 @@
         <activity
             android:name=".ui.signing.SignActivity"
             android:windowSoftInputMode="stateHidden" >
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
         </activity>
         <activity
             android:name=".ui.product_class.ProductClassActivity"
@@ -66,6 +61,13 @@
         </activity>
         <activity android:name=".ui.customer_group.CustomerGroupActivity">
 
+        </activity>
+        <activity android:name=".ui.product.ProductsActivity" >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
         </activity>
     </application>
 </manifest>

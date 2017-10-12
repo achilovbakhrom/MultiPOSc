@@ -19,7 +19,6 @@ import com.jim.mpviews.utils.VibrateManager;
 public class MpButtonLong extends android.support.v7.widget.AppCompatTextView {
 
     private boolean pressed = false;
-    private VibrateManager VibrateManager;
 
     public MpButtonLong(Context context) {
         super(context);
@@ -37,7 +36,6 @@ public class MpButtonLong extends android.support.v7.widget.AppCompatTextView {
     }
 
     public void init(Context context, AttributeSet attrs) {
-        VibrateManager = new VibrateManager(getContext());
         setBackgroundResource(R.drawable.long_mp_button);
         setPadding((int) Utils.convertDpToPixel(10), (int) Utils.convertDpToPixel(10), (int) Utils.convertDpToPixel(10), (int) Utils.convertDpToPixel(10));
         setGravity(Gravity.CENTER);
@@ -48,7 +46,7 @@ public class MpButtonLong extends android.support.v7.widget.AppCompatTextView {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         if(!pressed){
-                            VibrateManager.startVibrate();
+                            VibrateManager.startVibrate(context, 50);
                             pressed= true;
                         }
                         setBackgroundResource(R.drawable.long_mp_button_pressed);

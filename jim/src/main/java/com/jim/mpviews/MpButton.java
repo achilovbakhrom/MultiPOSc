@@ -20,7 +20,6 @@ import static com.jim.mpviews.utils.Utils.convertDpToPixel;
 
 public class MpButton extends android.support.v7.widget.AppCompatTextView {
     boolean pressed = false;
-    private VibrateManager VibrateManager;
 
     public MpButton(Context context) {
         super(context);
@@ -38,7 +37,6 @@ public class MpButton extends android.support.v7.widget.AppCompatTextView {
     }
 
     public void init(Context context, AttributeSet attrs) {
-        VibrateManager = new VibrateManager(getContext());
         setBackgroundResource(R.drawable.button_bg);
         setPadding((int) Utils.convertDpToPixel(10), (int) Utils.convertDpToPixel(10), (int) Utils.convertDpToPixel(10), (int) Utils.convertDpToPixel(10));
         setGravity(Gravity.CENTER);
@@ -49,7 +47,7 @@ public class MpButton extends android.support.v7.widget.AppCompatTextView {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         if (!pressed) {
-                            VibrateManager.startVibrate();
+                            VibrateManager.startVibrate(context, 50);
                             pressed = true;
                         }
                         setBackgroundResource(R.drawable.pressed_btn);

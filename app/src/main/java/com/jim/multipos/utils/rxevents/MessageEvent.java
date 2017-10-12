@@ -5,17 +5,17 @@ package com.jim.multipos.utils.rxevents;
  */
 
 public class MessageEvent {
-    private String category;
+    private String message;
 
-    public MessageEvent(String category) {
-        this.category = category;
+    public MessageEvent(String message) {
+        this.message = message;
     }
 
-    public String getCategory() {
-        return category;
+    public String getMessage() {
+        return message;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

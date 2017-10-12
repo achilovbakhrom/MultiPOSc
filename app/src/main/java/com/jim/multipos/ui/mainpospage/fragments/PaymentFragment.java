@@ -27,7 +27,6 @@ import static com.jim.mpviews.utils.Constants.PAYMENT_MODE;
 public class PaymentFragment extends Fragment {
     MpList mpList;
     TextView tvPay;
-    VibrateManager VibrateManager;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -35,12 +34,11 @@ public class PaymentFragment extends Fragment {
         View view = inflater.inflate(R.layout.main_page_payment_fragment, container, false);
         mpList = (MpList) view.findViewById(R.id.mpLPaymentList);
         tvPay = (TextView) view.findViewById(R.id.tvPay);
-        VibrateManager = new VibrateManager(getContext());
 
         tvPay.setOnTouchListener((vieww, motionEvent) -> {
             switch (motionEvent.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    VibrateManager.startVibrate();
+                    VibrateManager.startVibrate(getContext(),50);
                     tvPay.setBackgroundResource(R.drawable.big_btn_pressed);
                     break;
                 case MotionEvent.ACTION_UP:

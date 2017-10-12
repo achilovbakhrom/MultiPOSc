@@ -34,7 +34,6 @@ public class MpKeyBoard extends FrameLayout implements View.OnClickListener, Vie
     private TextView mpText, mpName, mpSKU, mpBarcode, mpLang;
     private LinearLayout mpCaseRU, mpSpaceBar, mpCase, mpSearch;
     private ImageView mpShift, mpShiftRU;
-    private VibrateManager VibrateManager;
     int ids[] = {R.id.mpOne, R.id.mpTwo, R.id.mpThree, R.id.mpFour, R.id.mpFive, R.id.mpSix, R.id.mpSeven, R.id.mpEight, R.id.mpNine, R.id.mpZero,
             R.id.mpQ, R.id.mpW, R.id.mpE, R.id.mpR, R.id.mpT, R.id.mpY, R.id.mpU, R.id.mpI, R.id.mpO, R.id.mpP, R.id.mpA, R.id.mpS, R.id.mpD, R.id.mpF, R.id.mpG, R.id.mpH, R.id.mpJ, R.id.mpK, R.id.mpL, R.id.mpZ, R.id.mpX, R.id.mpC, R.id.mpV, R.id.mpB, R.id.mpN, R.id.mpM};
     char keyValues[] = {'1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
@@ -47,6 +46,7 @@ public class MpKeyBoard extends FrameLayout implements View.OnClickListener, Vie
 
     private boolean isPressed = false;
     private RelativeLayout mpDot;
+    private Context context;
 
     public MpKeyBoard(Context context) {
         super(context);
@@ -71,7 +71,7 @@ public class MpKeyBoard extends FrameLayout implements View.OnClickListener, Vie
     }
 
     public void init(Context context) {
-        VibrateManager = new VibrateManager(getContext(), 10);
+        this.context = context;
         LayoutInflater.from(context).inflate(R.layout.mp_keyboard, this);
         LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         setLayoutParams(layoutParams);
@@ -105,7 +105,7 @@ public class MpKeyBoard extends FrameLayout implements View.OnClickListener, Vie
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        VibrateManager.startVibrate();
+                        VibrateManager.startVibrate(context, 10);
                         if (!isPressed) {
                             mpCase.setBackgroundResource(R.drawable.key_pad_blue);
                             isPressed = true;
@@ -134,7 +134,7 @@ public class MpKeyBoard extends FrameLayout implements View.OnClickListener, Vie
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        VibrateManager.startVibrate();
+                        VibrateManager.startVibrate(context, 10);
                         if (!isPressed) {
                             mpCaseRU.setBackgroundResource(R.drawable.key_pad_blue);
                             isPressed = true;
@@ -163,7 +163,7 @@ public class MpKeyBoard extends FrameLayout implements View.OnClickListener, Vie
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        VibrateManager.startVibrate();
+                        VibrateManager.startVibrate(context, 10);
                         mpSpaceBar.setBackgroundResource(R.drawable.space_bar_pressed);
                         String text = mpText.getText().toString();
                         text = text + " ";
@@ -201,7 +201,7 @@ public class MpKeyBoard extends FrameLayout implements View.OnClickListener, Vie
             }
 
             if (view.getId() == R.id.mpBackspace) {
-                VibrateManager.startVibrate();
+                VibrateManager.startVibrate(context, 10);
                 String text = mpText.getText().toString();
                 if (!text.isEmpty())
                     mpText.setText(text.substring(0, text.length() - 1));
@@ -222,7 +222,7 @@ public class MpKeyBoard extends FrameLayout implements View.OnClickListener, Vie
             }
 
             if (view.getId() == R.id.mpBackspaceRU) {
-                VibrateManager.startVibrate();
+                VibrateManager.startVibrate(context, 10);
                 String text = mpText.getText().toString();
                 if (!text.isEmpty())
                     mpText.setText(text.substring(0, text.length() - 1));
@@ -233,7 +233,7 @@ public class MpKeyBoard extends FrameLayout implements View.OnClickListener, Vie
             mpText.setText("");
 
         if (view.getId() == R.id.mpDot) {
-            VibrateManager.startVibrate();
+            VibrateManager.startVibrate(context, 10);
             String text = mpText.getText().toString();
             mpText.setText(text + ".");
         }

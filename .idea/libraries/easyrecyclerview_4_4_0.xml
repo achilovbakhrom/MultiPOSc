@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="easyrecyclerview-4.4.0">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/easyrecyclerview-4.4.0.aar/a55b77abee6e53a614ed92f63681cec4/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/easyrecyclerview-4.4.0.aar/a55b77abee6e53a614ed92f63681cec4/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/easyrecyclerview-4.4.0.aar/bcd21d0d2f55a9abe1fa6ffae17b4317/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/easyrecyclerview-4.4.0.aar/bcd21d0d2f55a9abe1fa6ffae17b4317/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

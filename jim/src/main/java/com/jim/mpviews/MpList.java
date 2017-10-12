@@ -29,8 +29,8 @@ import java.util.List;
  */
 
 public class MpList extends FrameLayout {
+    private Context context;
     private OnPaymentChangeListner onPaymentClickListner;
-    private VibrateManager VibrateManager;
     public interface OnPaymentChangeListner{
         void paymentSelected(int position);
     }
@@ -88,7 +88,7 @@ public class MpList extends FrameLayout {
         mpPrev.setOnTouchListener((view, motionEvent) -> {
             switch (motionEvent.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    VibrateManager.startVibrate();
+                    VibrateManager.startVibrate(context, 50);
                     mpPrev.setBackgroundResource(R.drawable.left_oval_button_payment_next_pressed);
                     break;
                 case MotionEvent.ACTION_UP:
@@ -100,7 +100,7 @@ public class MpList extends FrameLayout {
         mpNext.setOnTouchListener((view, motionEvent) -> {
             switch (motionEvent.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    VibrateManager.startVibrate();
+                    VibrateManager.startVibrate(context, 50);
                     mpNext.setBackgroundResource(R.drawable.right_oval_button_payment_next_pressed);
                     break;
                 case MotionEvent.ACTION_UP:
@@ -150,12 +150,12 @@ public class MpList extends FrameLayout {
         mpFirstPayment.setChecked(true);
     }
     public void init(Context context) {
+        this.context = context;
         LayoutInflater.from(context).inflate(R.layout.mp_list_layout, this);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         setLayoutParams(layoutParams);
         paymentTypes = new ArrayList<>();
         paymentTypes = new ArrayList<>();
-        VibrateManager = new VibrateManager(context);
         mpFirstPayment = (MpPayments) findViewById(R.id.mpFirstPayment);
         mpSecondPayment = (MpPayments) findViewById(R.id.mpSecondPayment);
         mpThirdPayment = (MpPayments) findViewById(R.id.mpThirdPayment);

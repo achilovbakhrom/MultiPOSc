@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.jim.multipos.ui.HasComponent;
+import com.jim.multipos.ui.first_configure.validators.MultipleCallback;
 
 import javax.inject.Inject;
 
@@ -22,6 +23,8 @@ import dagger.android.HasActivityInjector;
 import dagger.android.HasFragmentInjector;
 import dagger.android.support.AndroidSupportInjection;
 import dagger.android.support.HasSupportFragmentInjector;
+import eu.inmite.android.lib.validations.form.FormValidator;
+import eu.inmite.android.lib.validations.form.callback.SimpleErrorPopupCallback;
 
 
 /**
@@ -51,13 +54,14 @@ public abstract class BaseFragment extends Fragment implements HasSupportFragmen
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(getLayout(), container, false);
         unbinder = ButterKnife.bind(this, view);
+        rxConnections();
         init(savedInstanceState);
         return view;
     }
 
     protected abstract int getLayout();
     protected abstract void init(Bundle savedInstanceState);
-
+    protected abstract void rxConnections();
     @Override
     public void onAttach(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -82,4 +86,20 @@ public abstract class BaseFragment extends Fragment implements HasSupportFragmen
         unbinder.unbind();
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        FormValidator.startLiveValidation(this, new MultipleCallback());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        FormValidator.stopLiveValidation(this);
+    }
+    protected boolean isValid() {
+        return FormValidator.validate(this, new MultipleCallback());
+    }
 }

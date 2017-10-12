@@ -39,12 +39,13 @@ public class Product implements NamePhotoPathId, Editable {
     private String name;
     private double price;
     private double cost;
+    private long createdDate;
     private String barcode;
     private String sku;
     private String photoPath;
     private boolean isActive;
-    private boolean isRecipe;
-    private boolean isTaxed;
+    private boolean isNotModifyted;
+    private boolean isDeleted;
     private String priceCurrencyId;
     @ToOne(joinProperty = "priceCurrencyId")
     private Currency priceCurrency;
@@ -68,14 +69,7 @@ public class Product implements NamePhotoPathId, Editable {
     @ToOne(joinProperty = "vendorId")
     private Vendor vendor;
     private String description;
-    private String newVersionId;
-    private boolean isNewVersion;
-    @ToMany(joinProperties = {
-            @JoinProperty(
-                    name = "id", referencedName = "recipeId"
-            )
-    })
-    private List<Recipe> ingredients;
+    private String rootId;
     /**
      * Used to resolve relations
      */
@@ -102,17 +96,20 @@ public class Product implements NamePhotoPathId, Editable {
         id = UUID.randomUUID().toString();
     }
 
-    public Product(String name, double price, double cost, String barcode, String sku, String photoPath, boolean isActive, boolean hasRecipe,
-                   String priceCurrencyId, String costCurrencyId, String classId, String mainUnitId, String subCategoryId, String vendorId, String description) {
+    public Product(String name, double price, double cost, long createdDate, String barcode, String sku, String photoPath, boolean isActive,
+                   boolean isNotModifyted, boolean isDeleted, String priceCurrencyId, String costCurrencyId, String classId, String mainUnitId, String subCategoryId,
+                   String vendorId, String description, String rootId) {
         this.id = UUID.randomUUID().toString();
         this.name = name;
         this.price = price;
         this.cost = cost;
+        this.createdDate = createdDate;
         this.barcode = barcode;
         this.sku = sku;
         this.photoPath = photoPath;
         this.isActive = isActive;
-        this.isRecipe = hasRecipe;
+        this.isNotModifyted = isNotModifyted;
+        this.isDeleted = isDeleted;
         this.priceCurrencyId = priceCurrencyId;
         this.costCurrencyId = costCurrencyId;
         this.classId = classId;
@@ -120,22 +117,24 @@ public class Product implements NamePhotoPathId, Editable {
         this.subCategoryId = subCategoryId;
         this.vendorId = vendorId;
         this.description = description;
+        this.rootId = rootId;
     }
 
-    @Generated(hash = 1977935556)
-    public Product(String id, String name, double price, double cost, String barcode, String sku, String photoPath, boolean isActive, boolean isRecipe,
-            boolean isTaxed, String priceCurrencyId, String costCurrencyId, String classId, String mainUnitId, String subCategoryId, String vendorId,
-            String description, String newVersionId, boolean isNewVersion) {
+    @Generated(hash = 440662194)
+    public Product(String id, String name, double price, double cost, long createdDate, String barcode, String sku, String photoPath, boolean isActive,
+            boolean isNotModifyted, boolean isDeleted, String priceCurrencyId, String costCurrencyId, String classId, String mainUnitId, String subCategoryId,
+            String vendorId, String description, String rootId) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.cost = cost;
+        this.createdDate = createdDate;
         this.barcode = barcode;
         this.sku = sku;
         this.photoPath = photoPath;
         this.isActive = isActive;
-        this.isRecipe = isRecipe;
-        this.isTaxed = isTaxed;
+        this.isNotModifyted = isNotModifyted;
+        this.isDeleted = isDeleted;
         this.priceCurrencyId = priceCurrencyId;
         this.costCurrencyId = costCurrencyId;
         this.classId = classId;
@@ -143,29 +142,9 @@ public class Product implements NamePhotoPathId, Editable {
         this.subCategoryId = subCategoryId;
         this.vendorId = vendorId;
         this.description = description;
-        this.newVersionId = newVersionId;
-        this.isNewVersion = isNewVersion;
+        this.rootId = rootId;
     }
 
-    @Override
-    public String getNewVersionId() {
-        return newVersionId;
-    }
-
-    @Override
-    public void setNewVersionId(String newVersionId) {
-        this.newVersionId = newVersionId;
-    }
-
-    @Override
-    public boolean isNewVersion() {
-        return isNewVersion;
-    }
-
-    @Override
-    public void isNewVersion(boolean isNewVersion) {
-        this.isNewVersion = isNewVersion;
-    }
 
     @Override
     public String getId() {
@@ -239,13 +218,46 @@ public class Product implements NamePhotoPathId, Editable {
         this.isActive = isActive;
     }
 
-    public boolean getRecipe() {
-        return this.isRecipe;
+    @Override
+    public boolean isDeleted() {
+        return this.isDeleted;
     }
 
-    public void setRecipe(boolean recipe) {
-        this.isRecipe = recipe;
+    @Override
+    public void setDeleted(boolean deleted) {
+        this.isDeleted = deleted;
     }
+
+    @Override
+    public boolean isNotModifyted() {
+        return this.isNotModifyted;
+    }
+
+    @Override
+    public void setNotModifyted(boolean notModifyted) {
+        this.isNotModifyted = notModifyted;
+    }
+
+    @Override
+    public String getRootId() {
+        return this.rootId;
+    }
+
+    @Override
+    public void setRootId(String rootId) {
+        this.rootId = rootId;
+    }
+
+    @Override
+    public Long getCreatedDate() {
+        return this.createdDate;
+    }
+
+    @Override
+    public void setCreatedDate(long createdDate) {
+        this.createdDate = createdDate;
+    }
+
 
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
@@ -497,22 +509,6 @@ public class Product implements NamePhotoPathId, Editable {
         }
     }
 
-    public boolean getTaxed() {
-        return this.isTaxed;
-    }
-
-    public void setTaxed(boolean isTaxed) {
-        this.isTaxed = isTaxed;
-    }
-
-    public boolean getIsTaxed() {
-        return this.isTaxed;
-    }
-
-    public void setIsTaxed(boolean isTaxed) {
-        this.isTaxed = isTaxed;
-    }
-
     /**
      * called by internal mechanisms, do not call yourself.
      */
@@ -560,40 +556,20 @@ public class Product implements NamePhotoPathId, Editable {
         this.description = description;
     }
 
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
-    @Generated(hash = 183837919)
-    public synchronized void resetIngredients() {
-        ingredients = null;
+    public boolean getIsDeleted() {
+        return this.isDeleted;
     }
 
-    /**
-     * To-many relationship, resolved on first access (and after reset).
-     * Changes to to-many relations are not persisted, make changes to the target entity.
-     */
-    @Generated(hash = 99871902)
-    public List<Recipe> getIngredients() {
-        if (ingredients == null) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            RecipeDao targetDao = daoSession.getRecipeDao();
-            List<Recipe> ingredientsNew = targetDao._queryProduct_Ingredients(id);
-            synchronized (this) {
-                if(ingredients == null) {
-                    ingredients = ingredientsNew;
-                }
-            }
-        }
-        return ingredients;
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
-    public boolean getIsRecipe() {
-        return this.isRecipe;
+    public boolean getIsNotModifyted() {
+        return this.isNotModifyted;
     }
 
-    public void setIsRecipe(boolean isRecipe) {
-        this.isRecipe = isRecipe;
+    public void setIsNotModifyted(boolean isNotModifyted) {
+        this.isNotModifyted = isNotModifyted;
     }
 
     public boolean getIsActive() {
@@ -603,13 +579,4 @@ public class Product implements NamePhotoPathId, Editable {
     public void setIsActive(boolean isActive) {
         this.isActive = isActive;
     }
-
-    public boolean getIsNewVersion() {
-        return this.isNewVersion;
-    }
-
-    public void setIsNewVersion(boolean isNewVersion) {
-        this.isNewVersion = isNewVersion;
-    }
-
 }

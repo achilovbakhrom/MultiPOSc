@@ -23,7 +23,6 @@ public class MpKeyPad extends FrameLayout {
 
     private TextView mpLetter, mpSymbol;
     private RelativeLayout mpKeyPadBg;
-    private VibrateManager VibrateManager;
 
     public MpKeyPad(@NonNull Context context) {
         super(context);
@@ -48,7 +47,6 @@ public class MpKeyPad extends FrameLayout {
 
 
     public void init(Context context, AttributeSet attrs) {
-        VibrateManager = new VibrateManager(getContext(), 50);
         LayoutInflater.from(context).inflate(R.layout.mp_key_pad, this);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         setLayoutParams(layoutParams);
@@ -73,8 +71,8 @@ public class MpKeyPad extends FrameLayout {
         setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                VibrateManager.startVibrate();
-                switch (motionEvent.getAction()) {
+                VibrateManager.startVibrate(context, 50);
+                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         mpKeyPadBg.setBackgroundResource(R.drawable.key_pad_btn_pressed);
                         return false;

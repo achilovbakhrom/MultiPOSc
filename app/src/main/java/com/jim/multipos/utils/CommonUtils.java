@@ -60,21 +60,21 @@ public class CommonUtils {
     }
     public static <T extends Editable>  List<T> getAllNewVersionPlusId(List<T> entityList, String id){
         List<T> modifyList = new ArrayList<>();
-        for (T entity: entityList){
-            if(entity.isNewVersion()||entity.getId().equals(id)){
-                modifyList.add(entity);
-            }
-        }
+//        for (T entity: entityList){
+//            if(entity.isNewVersion()||entity.getId().equals(id)){
+//                modifyList.add(entity);
+//            }
+//        }
         return modifyList;
     }
 
     public static  <T extends Editable>  List<T>  getAllActiveNewVersionPlusId(List<T> entityList, String id){
         List<T> modifyList = new ArrayList<>();
-        for (T entity: entityList){
-            if((entity.isNewVersion()&&entity.isActive())||entity.getId().equals(id)){
-                modifyList.add(entity);
-            }
-        }
+//        for (T entity: entityList){
+//            if((entity.isNewVersion()&&entity.isActive())||entity.getId().equals(id)){
+//                modifyList.add(entity);
+//            }
+//        }
         return modifyList;
     }
 

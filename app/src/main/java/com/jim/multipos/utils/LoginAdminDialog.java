@@ -29,7 +29,7 @@ public class LoginAdminDialog extends Dialog {
     private MpButton btnLogin;
     private MpEditText etAdminPassword;
     private Context context;
-    @Inject
+
     public LoginAdminDialog(@NonNull Context context) {
         super(context);
         this.context = context;

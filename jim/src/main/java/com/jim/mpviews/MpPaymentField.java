@@ -39,8 +39,7 @@ public class MpPaymentField extends FrameLayout {
     private int max_length = 0;
     private int counter = 0;
     private boolean isPressed = false;
-    private VibrateManager vibrateManager;
-
+    private Context context;
 
     public MpPaymentField(@NonNull Context context) {
         super(context);
@@ -63,6 +62,7 @@ public class MpPaymentField extends FrameLayout {
     }
 
     public void init(Context context) {
+        this.context = context;
         LayoutInflater.from(context).inflate(R.layout.mp_payment_field, this);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         setLayoutParams(layoutParams);
@@ -74,7 +74,6 @@ public class MpPaymentField extends FrameLayout {
         mpType = (TextView) findViewById(R.id.mpType);
         mpOtherCurr = (ImageView) findViewById(R.id.mpOtherCurrencies);
         otherCurrencies = new ArrayList<>();
-        vibrateManager = new VibrateManager(context);
         setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -132,7 +131,7 @@ public class MpPaymentField extends FrameLayout {
                 counter++;
             }
             mpSecondCurr.setText(otherCurrencies.get(counter));
-            vibrateManager.startVibrate();
+            VibrateManager.startVibrate(context, 50);
         });
     }
 

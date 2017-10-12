@@ -16,7 +16,6 @@
 package com.jim.multipos.data.db;
 
 import android.database.Cursor;
-import android.util.Log;
 
 import com.jim.multipos.data.db.model.DaoMaster;
 import com.jim.multipos.data.db.model.DaoSession;
@@ -27,9 +26,9 @@ import com.jim.multipos.data.db.model.Account;
 
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
-import com.jim.multipos.data.db.model.customer.CustomerGroupDao;
 import com.jim.multipos.data.db.model.customer.JoinCustomerGroupsWithCustomers;
 import com.jim.multipos.data.db.model.intosystem.CategoryPosition;
+import com.jim.multipos.data.db.model.intosystem.CategoryPositionDao;
 import com.jim.multipos.data.db.model.intosystem.ProductPosition;
 import com.jim.multipos.data.db.model.intosystem.ProductPositionDao;
 import com.jim.multipos.data.db.model.intosystem.SubCategoryPosition;
@@ -45,10 +44,8 @@ import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.Contact;
 import com.jim.multipos.data.db.model.products.CategoryDao;
 import com.jim.multipos.data.db.model.products.Product;
-import com.jim.multipos.data.db.model.products.ProductDao;
 import com.jim.multipos.data.db.model.products.Recipe;
 import com.jim.multipos.data.db.model.products.SubCategory;
-import com.jim.multipos.data.db.model.products.SubCategoryDao;
 import com.jim.multipos.data.db.model.stock.Stock;
 import com.jim.multipos.data.db.model.unit.SubUnitsList;
 import com.jim.multipos.data.db.model.unit.Unit;
@@ -61,7 +58,6 @@ import org.greenrobot.greendao.query.Query;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -185,6 +181,26 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
+    public Observable<Long> insertOrReplaceCategoryByPosition(Category category) {
+        return Observable.create(subscriber -> {
+            String rootId;
+            if (category.getRootId() == null) {
+                rootId = category.getId();
+            } else rootId = category.getRootId();
+            Query<CategoryPosition> categoryPositionQuery = mDaoSession.getCategoryPositionDao().queryBuilder()
+                    .where(CategoryPositionDao.Properties.ParentId.eq(rootId)).build();
+            if (!categoryPositionQuery.list().isEmpty()) {
+                CategoryPosition categoryPosition = categoryPositionQuery.list().get(0);
+                categoryPosition.setParentId(category.getId());
+                mDaoSession.getCategoryPositionDao().insertOrReplace(categoryPosition);
+            }
+            long insert = mDaoSession.getCategoryDao().insertOrReplace(category);
+            subscriber.onNext(insert);
+            subscriber.onComplete();
+        });
+    }
+
+    @Override
     public Observable<Long> insertProduct(Product product) {
         return Observable.create(subscriber -> {
             Cursor cursor = mDaoSession.getDatabase().rawQuery("SELECT MAX(position) FROM PRODUCT_POSITION", null);
@@ -213,15 +229,6 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Observable<List<Product>> getAllProducts() {
         return Observable.fromCallable(() -> mDaoSession.getProductDao().loadAll());
-    }
-
-    @Override
-    public Observable<List<Product>> getAllIngredients() {
-        return Observable.fromCallable(() -> {
-            Query<Product> productQuery = mDaoSession.getProductDao().queryBuilder().
-                    where(ProductDao.Properties.IsRecipe.eq(false)).build();
-            return productQuery.list();
-        });
     }
 
     @Override
@@ -259,17 +266,6 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Observable<List<SubCategory>> getAllSubCategories() {
         return Observable.fromCallable(() -> mDaoSession.getSubCategoryDao().loadAll());
-    }
-
-    @Override
-    public Observable<SubCategory> getSubCategoryByName(SubCategory subCategory) {
-        return Observable.fromCallable(() -> {
-            Query<SubCategory> subCategoryQuery = mDaoSession.getSubCategoryDao().queryBuilder()
-                    .where(SubCategoryDao.Properties.Name.eq(subCategory.getName())).build();
-            if (!subCategoryQuery.list().isEmpty()) {
-                return subCategoryQuery.list().get(0);
-            } else return subCategory;
-        });
     }
 
     @Override
@@ -600,15 +596,21 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public Single<List<ProductClass>> getAllProductClass() {
-        return Single.create(singleSubscriber -> {
+        Observable<List<ProductClass>> objectObservable = Observable.create(singleSubscriber -> {
             try {
                 List<ProductClass> productClasses = mDaoSession.getProductClassDao().loadAll();
-                Collections.sort(productClasses, (productClass, t1) -> t1.getActive().compareTo(productClass.getActive()));
-                singleSubscriber.onSuccess(productClasses);
+                singleSubscriber.onNext(productClasses);
+                singleSubscriber.onComplete();
             } catch (Exception o) {
                 singleSubscriber.onError(o);
             }
         });
+        return objectObservable.flatMap(Observable::fromIterable)
+                .filter(productClass -> productClass.isNotModifyted())
+                .filter(productClass -> productClass.isDeleted())
+                .sorted((productClass, t1) -> t1.getCreatedDate().compareTo(productClass.getCreatedDate()))
+                .sorted((productClass, t1) -> t1.getActive().compareTo(productClass.getActive()))
+                .toList();
     }
 
     @Override
@@ -776,32 +778,25 @@ public class AppDbHelper implements DbHelper {
     }
 
 
-
     @Override
-    public Observable<Category> getCategoryByName(Category category) {
+    public Observable<Integer> getCategoryByName(Category category) {
         return Observable.fromCallable(() -> {
             Query<Category> categoryQuery = mDaoSession.getCategoryDao().queryBuilder()
-                    .where(CategoryDao.Properties.Name.eq(category.getName())).build();
-            if (!categoryQuery.list().isEmpty()) {
-                if (!categoryQuery.list().get(0).getDescription().equals(category.getDescription()) || categoryQuery.list().get(0).isActive() != category.isActive()) {
-                    return category;
-                } else return categoryQuery.list().get(0);
-            } else return category;
+                    .where(CategoryDao.Properties.Name.eq(category.getName()), CategoryDao.Properties.IsDeleted.eq(false)).build();
+            if (categoryQuery.list().isEmpty()) {
+                return 0;
+            } else if (categoryQuery.list().get(0).getId().equals(category.getId())) {
+                return 1;
+            } else return 2;
         });
     }
 
     @Override
-    public Observable<Category> getMatchCategory(Category category, String temp) {
+    public Observable<Boolean> getMatchCategory(Category category) {
         return Observable.fromCallable(() -> {
             Query<Category> categoryQuery = mDaoSession.getCategoryDao().queryBuilder()
-                    .where(CategoryDao.Properties.Name.eq(category.getName())).build();
-
-            if (!categoryQuery.list().isEmpty()) {
-                if (categoryQuery.list().get(0).getName().equals(temp)) {
-                    return category;
-                }
-                return categoryQuery.list().get(0);
-            } else return category;
+                    .where(CategoryDao.Properties.Name.eq(category.getName()), CategoryDao.Properties.IsDeleted.eq(false)).build();
+            return categoryQuery.list().isEmpty();
         });
     }
 
@@ -952,7 +947,7 @@ public class AppDbHelper implements DbHelper {
                     customerGroup.setDiscountId(cursor.getString(cursor.getColumnIndex("DISCOUNT_ID")));
 
                     int iActive = cursor.getInt(cursor.getColumnIndex("IS_ACTIVE"));
-                    boolean isActive = iActive == 0 ? false : true;
+                    boolean isActive = iActive != 0;
                     customerGroup.setIsActive(isActive);
 
                     customerGroups.add(customerGroup);

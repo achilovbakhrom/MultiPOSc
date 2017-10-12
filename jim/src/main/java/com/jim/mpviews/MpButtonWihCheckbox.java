@@ -22,7 +22,6 @@ import com.jim.mpviews.utils.VibrateManager;
 public class MpButtonWihCheckbox extends android.support.v7.widget.AppCompatTextView {
 
     private boolean state = false;
-    private VibrateManager VibrateManager;
 
     public MpButtonWihCheckbox(Context context) {
         super(context);
@@ -40,7 +39,6 @@ public class MpButtonWihCheckbox extends android.support.v7.widget.AppCompatText
     }
 
     public void init(Context context, AttributeSet attrs) {
-        VibrateManager = new VibrateManager(getContext());
         setBackgroundResource(R.drawable.unchecked_btn);
         setPadding((int) Utils.convertDpToPixel(10), (int) Utils.convertDpToPixel(10), (int) Utils.convertDpToPixel(10), (int) Utils.convertDpToPixel(10));
         setGravity(Gravity.CENTER);
@@ -49,7 +47,7 @@ public class MpButtonWihCheckbox extends android.support.v7.widget.AppCompatText
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        VibrateManager.startVibrate();
+                        VibrateManager.startVibrate(context, 50);
                         if (!state) {
                             setBackgroundResource(R.drawable.checked_btn);
                             state = true;

@@ -15,10 +15,9 @@ import com.jim.multipos.data.db.model.intosystem.TitleDescription;
 import com.jim.multipos.ui.HasComponent;
 import com.jim.multipos.ui.main_menu.MenuListAdapter;
 import com.jim.multipos.ui.main_menu.product_menu.di.ProductMenuComponent;
-import com.jim.multipos.ui.main_menu.product_menu.di.ProductMenuModule;
 import com.jim.multipos.ui.main_menu.product_menu.presenters.ProductMenuPresenter;
 import com.jim.multipos.ui.product_class.ProductClassActivity;
-import com.jim.multipos.ui.products.ProductsActivity;
+import com.jim.multipos.ui.product.ProductsActivity;
 import com.jim.multipos.ui.service_fee.ServiceFeeActivity;
 
 import java.util.ArrayList;

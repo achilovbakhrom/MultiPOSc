@@ -27,7 +27,6 @@ public class MpEmpItem extends RelativeLayout {
     private ImageView mpPhoto;
     private LinearLayout mpEmpBackground;
     private boolean isPressed = false;
-    private VibrateManager VibrateManager;
 
     public MpEmpItem(Context context) {
         super(context);
@@ -51,7 +50,6 @@ public class MpEmpItem extends RelativeLayout {
     }
 
     public void init(Context context) {
-        VibrateManager = new VibrateManager(getContext());
         LayoutInflater.from(context).inflate(R.layout.mp_emp_item, this);
         LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         setLayoutParams(layoutParams);
@@ -66,7 +64,7 @@ public class MpEmpItem extends RelativeLayout {
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        VibrateManager.startVibrate();
+                        VibrateManager.startVibrate(context, 50);
                         if (!isPressed) {
                             mpEmpBackground.setBackgroundResource(R.drawable.pressed_vendor_item);
                             isPressed = true;

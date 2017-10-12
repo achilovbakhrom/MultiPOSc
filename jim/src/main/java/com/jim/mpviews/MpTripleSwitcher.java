@@ -28,7 +28,6 @@ public class MpTripleSwitcher extends LinearLayout {
     private boolean right = false;
     private boolean center = false;
     private boolean left = false;
-    private VibrateManager VibrateManager;
 
     public MpTripleSwitcher(Context context) {
         super(context);
@@ -64,8 +63,6 @@ public class MpTripleSwitcher extends LinearLayout {
         mpRightText = (TextView) findViewById(R.id.mpRightText);
         mpCenterText = (TextView) findViewById(R.id.mpCenterText);
         TypedArray attributeArray = context.obtainStyledAttributes(attrs, R.styleable.MpTripleSwitcher);
-        VibrateManager = new VibrateManager(getContext());
-
         mpLeftBtn.setBackgroundResource(R.drawable.matrix_left_pressed_bg);
         mpLeftImage.setImageResource(R.drawable.ellipse);
         mpRightBtn.setBackgroundResource(R.drawable.matrix_right_bg);
@@ -79,7 +76,7 @@ public class MpTripleSwitcher extends LinearLayout {
         mpLeftBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                VibrateManager.startVibrate();
+                VibrateManager.startVibrate(context, 50);
                 mpLeftBtn.setBackgroundResource(R.drawable.matrix_left_pressed_bg);
                 mpLeftImage.setImageResource(R.drawable.ellipse);
                 mpRightBtn.setBackgroundResource(R.drawable.matrix_right_bg);
@@ -95,7 +92,7 @@ public class MpTripleSwitcher extends LinearLayout {
         mpRightBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                VibrateManager.startVibrate();
+                VibrateManager.startVibrate(context, 50);
                 mpLeftBtn.setBackgroundResource(R.drawable.matrix_left_bg);
                 mpLeftImage.setImageResource(R.drawable.ellipse_not_active);
                 mpRightBtn.setBackgroundResource(R.drawable.matrix_right_pressed_bg);
@@ -111,7 +108,7 @@ public class MpTripleSwitcher extends LinearLayout {
         mpCenterBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                VibrateManager.startVibrate();
+                VibrateManager.startVibrate(context, 50);
                 mpLeftBtn.setBackgroundResource(R.drawable.matrix_left_bg);
                 mpLeftImage.setImageResource(R.drawable.ellipse_not_active);
                 mpRightBtn.setBackgroundResource(R.drawable.matrix_right_bg);

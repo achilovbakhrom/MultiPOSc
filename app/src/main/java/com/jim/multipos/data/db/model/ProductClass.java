@@ -9,6 +9,7 @@ import org.greenrobot.greendao.annotation.ToOne;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 
+import com.jim.multipos.data.db.model.intosystem.Editable;
 import com.jim.multipos.data.db.model.intosystem.NameId;
 
 import java.util.UUID;
@@ -19,7 +20,7 @@ import java.util.UUID;
  * Created by developer on 29.08.2017.
  */
 @Entity(nameInDb = "PRODUCT_CLASS", active = true)
-public class ProductClass implements NameId {
+public class ProductClass implements NameId,Editable {
     @Id
     private String id;
     @Property
@@ -28,6 +29,10 @@ public class ProductClass implements NameId {
     private boolean active;
     @Property
     private String parentId;
+    private boolean deleted;
+    private boolean notModifyted;
+    String rootId;
+    long createdDate;
     @ToOne(joinProperty = "id")
     @NotNull
     private ProductClass productClass;
@@ -37,12 +42,17 @@ public class ProductClass implements NameId {
     /** Used for active entity operations. */
     @Generated(hash = 358612705)
     private transient ProductClassDao myDao;
-    @Generated(hash = 1998971270)
-    public ProductClass(String id, String name, boolean active, String parentId) {
+    @Generated(hash = 2037836123)
+    public ProductClass(String id, String name, boolean active, String parentId,
+            boolean deleted, boolean notModifyted, String rootId, long createdDate) {
         this.id = id;
         this.name = name;
         this.active = active;
         this.parentId = parentId;
+        this.deleted = deleted;
+        this.notModifyted = notModifyted;
+        this.rootId = rootId;
+        this.createdDate = createdDate;
     }
     @Keep
     public ProductClass() {
@@ -74,6 +84,47 @@ public class ProductClass implements NameId {
     public void setActive(boolean active) {
         this.active = active;
     }
+
+    @Override
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    @Override
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    @Override
+    public boolean isNotModifyted() {
+        return notModifyted;
+    }
+
+    @Override
+    public void setNotModifyted(boolean notModifyted) {
+        this.notModifyted = notModifyted;
+    }
+
+    @Override
+    public String getRootId() {
+        return rootId;
+    }
+
+    @Override
+    public void setRootId(String rootId) {
+        this.rootId = rootId;
+    }
+
+    @Override
+    public Long getCreatedDate() {
+        return createdDate;
+    }
+
+    @Override
+    public void setCreatedDate(long createdDate) {
+        this.createdDate = createdDate;
+    }
+
     public String getParentId() {
         return this.parentId;
     }
@@ -148,5 +199,11 @@ public class ProductClass implements NameId {
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getProductClassDao() : null;
+    }
+    public boolean getNotModifyted() {
+        return this.notModifyted;
+    }
+    public boolean getDeleted() {
+        return this.deleted;
     }
 }

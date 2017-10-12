@@ -23,7 +23,6 @@ import com.jim.mpviews.utils.VibrateManager;
 public class MpLightButton extends FrameLayout {
 
     private boolean isPressed = false;
-    private VibrateManager VibrateManager;
     private TextView mpLightBtnText;
     private RelativeLayout relativeLayout;
     private ImageView mpLightBtnImage;
@@ -49,7 +48,6 @@ public class MpLightButton extends FrameLayout {
     boolean pressed;
 
     public void init(Context context, AttributeSet attrs) {
-        VibrateManager = new VibrateManager(getContext());
         LayoutInflater.from(context).inflate(R.layout.mp_light_button, this);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         setLayoutParams(layoutParams);
@@ -77,7 +75,7 @@ public class MpLightButton extends FrameLayout {
                 case MotionEvent.ACTION_DOWN:
                     view.performClick();
                     if (!pressed) {
-                        VibrateManager.startVibrate();
+                        VibrateManager.startVibrate(context, 50);
                         pressed = true;
                     }
                     relativeLayout.setBackgroundResource(R.drawable.light_button_pressed);
