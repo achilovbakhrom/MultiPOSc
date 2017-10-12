@@ -6,16 +6,20 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
+import com.jim.multipos.core.ClickableBaseAdapter;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.ui.product.ProductsActivity;
+import com.jim.multipos.ui.product.adapter.CategoryAdapter;
 import com.jim.multipos.ui.product.adapter.ProductsListAdapter;
 import com.jim.multipos.ui.product.presenter.ProductListPresenter;
 import com.jim.multipos.utils.RxBus;
@@ -40,116 +44,8 @@ import io.reactivex.disposables.Disposable;
  */
 
 public class ProductsListFragment extends BaseFragment implements ProductListView, OnStartDragListener {
-    @Override
-    public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
 
-    }
-
-    @Override
-    public void setCategoryRecyclerViewItems(List<Category> categories) {
-
-    }
-
-    @Override
-    public void setProductRecyclerView(List<Product> products) {
-
-    }
-
-    @Override
-    public void updateCategoryItems() {
-
-    }
-
-    @Override
-    public void updateProductItems() {
-
-    }
-
-    @Override
-    public void updateSubCategoryItems() {
-
-    }
-
-    @Override
-    public void openCategory() {
-
-    }
-
-    @Override
-    public void openSubCategory() {
-
-    }
-
-    @Override
-    public void openProduct() {
-
-    }
-
-    @Override
-    public void setProductName(String name) {
-
-    }
-
-    @Override
-    public void setCategoryName(String name) {
-
-    }
-
-    @Override
-    public void setSubCategoryName(String name) {
-
-    }
-
-    @Override
-    public void setViewsVisibility(int mode) {
-
-    }
-
-    @Override
-    public void categoryMode() {
-
-    }
-
-    @Override
-    public void subCategoryMode() {
-
-    }
-
-    @Override
-    public void productMode() {
-
-    }
-
-    @Override
-    public void allInvisible() {
-
-    }
-
-    @Override
-    public void sendProductEvent(Product product, String click) {
-
-    }
-
-    @Override
-    public void sendCategoryEvent(Category category, String event) {
-
-    }
-
-    @Override
-    protected int getLayout() {
-        return 0;
-    }
-
-    @Override
-    protected void init(Bundle savedInstanceState) {
-
-    }
-
-    @Override
-    protected void rxConnections() {
-
-    }
-/* @BindView(R.id.tvCategory)
+     @BindView(R.id.tvCategory)
     TextView tvCategory;
     @BindView(R.id.tvSubCategory)
     TextView tvSubCategory;
@@ -197,6 +93,8 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
 
     @Override
     protected void init(Bundle savedInstanceState) {
+        Log.d("sss", "sss: ");
+
         presenter.setViewsVisibility(CATEGORY);
         categoryMode();
     }
@@ -215,15 +113,15 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
                             presenter.refreshCategoryList();
                         }
                     }
-                    if (o instanceof SubCategoryEvent) {
-                        SubCategoryEvent event = (SubCategoryEvent) o;
-                        if (event.getEventType().equals(ADD)) {
-                            presenter.refreshSubCategoryList();
-                        }
-                        if (event.getEventType().equals(UPDATE)) {
-                            presenter.refreshSubCategoryList();
-                        }
-                    }
+//                    if (o instanceof SubCategoryEvent) {
+//                        SubCategoryEvent event = (SubCategoryEvent) o;
+//                        if (event.getEventType().equals(ADD)) {
+//                            presenter.refreshSubCategoryList();
+//                        }
+//                        if (event.getEventType().equals(UPDATE)) {
+//                            presenter.refreshSubCategoryList();
+//                        }
+//                    }
                     if (o instanceof ProductEvent) {
                         ProductEvent event = (ProductEvent) o;
                         if (event.getEventType().equals(ADD)) {
@@ -261,40 +159,51 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
     @Override
     public void setCategoryRecyclerViewItems(List<Category> categories) {
         rvCategory.setLayoutManager(new LinearLayoutManager(getContext()));
-        categoryAdapter = new ProductsListAdapter(categories, presenter, CATEGORY, this);
+        CategoryAdapter categoryAdapter = new CategoryAdapter(categories);
         rvCategory.setAdapter(categoryAdapter);
-        ((SimpleItemAnimator) rvCategory.getItemAnimator()).setSupportsChangeAnimations(false);
-        categoryAdapter.setPosition(preferencesHelper.getLastPositionCategory());
-        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(categoryAdapter);
-        touchHelper = new ItemTouchHelper(callback);
-        touchHelper.attachToRecyclerView(rvCategory);
+        categoryAdapter.setOnItemClickListener(new ClickableBaseAdapter.OnItemClickListener<Category>() {
+            @Override
+            public void onItemClicked(int position) {
+                Toast.makeText(getContext(), position + "", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onItemCLicked(Category item) {
+
+            }
+        });
+//        ((SimpleItemAnimator) rvCategory.getItemAnimator()).setSupportsChangeAnimations(false);
+//        categoryAdapter.setPosition(preferencesHelper.getLastPositionCategory());
+//        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(categoryAdapter);
+//        touchHelper = new ItemTouchHelper(callback);
+//        touchHelper.attachToRecyclerView(rvCategory);
     }
 
-    @Override
-    public void setSubCategoryRecyclerView(List<SubCategory> subCategories) {
-        rvSubCategory.setLayoutManager(new LinearLayoutManager(getContext()));
-        subCategoryAdapter = new ProductsListAdapter(subCategories, presenter, SUBCATEGORY, this);
-        rvSubCategory.setAdapter(subCategoryAdapter);
-        ((SimpleItemAnimator) rvSubCategory.getItemAnimator()).setSupportsChangeAnimations(false);
-        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(subCategoryAdapter);
-        touchHelper = new ItemTouchHelper(callback);
-        touchHelper.attachToRecyclerView(rvSubCategory);
-    }
-
+//    @Override
+//    public void setSubCategoryRecyclerView(List<SubCategory> subCategories) {
+//        rvSubCategory.setLayoutManager(new LinearLayoutManager(getContext()));
+//        subCategoryAdapter = new ProductsListAdapter(subCategories, presenter, SUBCATEGORY, this);
+//        rvSubCategory.setAdapter(subCategoryAdapter);
+//        ((SimpleItemAnimator) rvSubCategory.getItemAnimator()).setSupportsChangeAnimations(false);
+//        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(subCategoryAdapter);
+//        touchHelper = new ItemTouchHelper(callback);
+//        touchHelper.attachToRecyclerView(rvSubCategory);
+//    }
+//
     @Override
     public void setProductRecyclerView(List<Product> products) {
-        rvProduct.setLayoutManager(new GridLayoutManager(getContext(), 4));
-        productsAdapter = new ProductsListAdapter(products, presenter, PRODUCT, this);
-        rvProduct.setAdapter(productsAdapter);
-        ((SimpleItemAnimator) rvProduct.getItemAnimator()).setSupportsChangeAnimations(false);
-        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(productsAdapter);
-        touchHelper = new ItemTouchHelper(callback);
-        touchHelper.attachToRecyclerView(rvProduct);
+//        rvProduct.setLayoutManager(new GridLayoutManager(getContext(), 4));
+//        productsAdapter = new ProductsListAdapter(products, presenter, PRODUCT, this);
+//        rvProduct.setAdapter(productsAdapter);
+//        ((SimpleItemAnimator) rvProduct.getItemAnimator()).setSupportsChangeAnimations(false);
+//        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(productsAdapter);
+//        touchHelper = new ItemTouchHelper(callback);
+//        touchHelper.attachToRecyclerView(rvProduct);
     }
 
     @Override
     public void updateCategoryItems() {
-        categoryAdapter.notifyDataSetChangedWithZeroButton();
+        categoryAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -404,10 +313,10 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
         tvProduct.setVisibility(View.GONE);
     }
 
-    @Override
-    public void sendSubCategoryEvent(SubCategory subCategory, String event) {
-        rxBusLocal.send(new SubCategoryEvent(subCategory, event));
-    }
+//    @Override
+//    public void sendSubCategoryEvent(SubCategory subCategory, String event) {
+//        rxBusLocal.send(new SubCategoryEvent(subCategory, event));
+//    }
 
     @Override
     public void sendProductEvent(Product product, String event) {
@@ -423,5 +332,5 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
     public void onDestroy() {
         super.onDestroy();
         RxBus.removeListners(subscriptions);
-    }*/
+    }
 }

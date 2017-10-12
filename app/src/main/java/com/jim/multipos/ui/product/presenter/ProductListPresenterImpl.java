@@ -25,108 +25,9 @@ import io.reactivex.schedulers.Schedulers;
  */
 @PerFragment
 public class ProductListPresenterImpl extends BasePresenterImpl<ProductListView> implements ProductListPresenter {
-    public ProductListPresenterImpl(ProductListView productListView) {
-        super(productListView);
-    }
-
-    @Override
-
-    public void setCategoryRecyclerView() {
-
-    }
-
-    @Override
-    public void setSubCategoryRecyclerView() {
-
-    }
-
-    @Override
-    public void setProductRecyclerView() {
-
-    }
-
-    @Override
-    public void openCategory() {
-
-    }
-
-    @Override
-    public void openSubCategory() {
-
-    }
-
-    @Override
-    public void openProduct() {
-
-    }
-
-    @Override
-    public void setCategoryItems(int selectedPosition) {
-
-    }
-
-    @Override
-    public void setSubCategoryItems(int selectedPosition) {
-
-    }
-
-    @Override
-    public void setProductItems(int selectedPosition) {
-
-    }
-
-    @Override
-    public void onListCategoryPositionChanged() {
-
-    }
-
-    @Override
-    public void onListSubCategoryPositionChanged() {
-
-    }
-
-    @Override
-    public void onListProductPositionChanged() {
-
-    }
-
-    @Override
-    public void setViewsVisibility(int mode) {
-
-    }
-
-    @Override
-    public void refreshCategoryList() {
-
-    }
-
-    @Override
-    public void refreshSubCategoryList() {
-
-    }
-
-    @Override
-    public void refreshProductList() {
-
-    }
-
-    @Override
-    public void subCatFragmentOpened() {
-
-    }
-
-    @Override
-    public void productFragmentOpened() {
-
-    }
-
-    @Override
-    public void categoryFragmentOpened() {
-
-    }
-    /*private DatabaseManager databaseManager;
+   private DatabaseManager databaseManager;
     private List<Category> categoryList, tempCatList;
-    private List<SubCategory> subCategoryList, tempSubCatList;
+//    private List<SubCategory> subCategoryList, tempSubCatList;
     private List<Product> productList, tempProductsList;
     private PreferencesHelper preferencesHelper;
     private RxBusLocal rxBusLocal;
@@ -141,9 +42,9 @@ public class ProductListPresenterImpl extends BasePresenterImpl<ProductListView>
         this.rxBusLocal = rxBusLocal;
         this.preferencesHelper = preferencesHelper;
         categoryList = new ArrayList<>();
-        subCategoryList = new ArrayList<>();
+//        subCategoryList = new ArrayList<>();
         productList = new ArrayList<>();
-        tempSubCatList = new ArrayList<>();
+//        tempSubCatList = new ArrayList<>();
         tempCatList = new ArrayList<>();
         tempProductsList = new ArrayList<>();
         setCategoryRecyclerView();
@@ -151,63 +52,63 @@ public class ProductListPresenterImpl extends BasePresenterImpl<ProductListView>
 
     @Override
     public void onListCategoryPositionChanged() {
-        List<CategoryPosition> categoryPositions = new ArrayList<>();
-        tempCatList.addAll(categoryList);
-        for (int i = tempCatList.size() - 1; i >= 0; i--) {
-            if (tempCatList.get(i) == null) {
-                tempCatList.remove(i);
-            }
-        }
-        for (int i = 0; i < tempCatList.size(); i++) {
-            CategoryPosition categoryPosition = new CategoryPosition();
-            categoryPosition.setCategory(tempCatList.get(i));
-            categoryPosition.setPosition(i);
-            categoryPositions.add(categoryPosition);
-        }
-        databaseManager.addCategoryPositions(categoryPositions).subscribe();
-        tempCatList.clear();
+//        List<CategoryPosition> categoryPositions = new ArrayList<>();
+//        tempCatList.addAll(categoryList);
+//        for (int i = tempCatList.size() - 1; i >= 0; i--) {
+//            if (tempCatList.get(i) == null) {
+//                tempCatList.remove(i);
+//            }
+//        }
+//        for (int i = 0; i < tempCatList.size(); i++) {
+//            CategoryPosition categoryPosition = new CategoryPosition();
+//            categoryPosition.setCategory(tempCatList.get(i));
+//            categoryPosition.setPosition(i);
+//            categoryPositions.add(categoryPosition);
+//        }
+//        databaseManager.addCategoryPositions(categoryPositions).subscribe();
+//        tempCatList.clear();
     }
 
     @Override
     public void onListSubCategoryPositionChanged() {
-        int selectedPos = preferencesHelper.getLastPositionCategory();
-        List<SubCategoryPosition> subCategoryPositions = new ArrayList<>();
-        tempSubCatList.addAll(subCategoryList);
-        for (int i = tempSubCatList.size() - 1; i >= 0; i--) {
-            if (tempSubCatList.get(i) == null)
-                tempSubCatList.remove(i);
-        }
-        for (int i = 0; i < tempSubCatList.size(); i++) {
-            SubCategoryPosition subCategoryPosition = new SubCategoryPosition();
-            subCategoryPosition.setSubCategory(tempSubCatList.get(i));
-            subCategoryPosition.setSubCategoryId(tempSubCatList.get(i).getId());
-            subCategoryPosition.setPosition(i);
-            subCategoryPosition.setCategoryId(categoryList.get(selectedPos).getId());
-            subCategoryPositions.add(subCategoryPosition);
-        }
-        databaseManager.addSubCategoryPositions(subCategoryPositions, categoryList.get(selectedPos)).subscribe();
-        tempSubCatList.clear();
+//        int selectedPos = preferencesHelper.getLastPositionCategory();
+//        List<SubCategoryPosition> subCategoryPositions = new ArrayList<>();
+//        tempSubCatList.addAll(subCategoryList);
+//        for (int i = tempSubCatList.size() - 1; i >= 0; i--) {
+//            if (tempSubCatList.get(i) == null)
+//                tempSubCatList.remove(i);
+//        }
+//        for (int i = 0; i < tempSubCatList.size(); i++) {
+//            SubCategoryPosition subCategoryPosition = new SubCategoryPosition();
+//            subCategoryPosition.setSubCategory(tempSubCatList.get(i));
+//            subCategoryPosition.setSubCategoryId(tempSubCatList.get(i).getId());
+//            subCategoryPosition.setPosition(i);
+//            subCategoryPosition.setCategoryId(categoryList.get(selectedPos).getId());
+//            subCategoryPositions.add(subCategoryPosition);
+//        }
+//        databaseManager.addSubCategoryPositions(subCategoryPositions, categoryList.get(selectedPos)).subscribe();
+//        tempSubCatList.clear();
     }
 
     @Override
     public void onListProductPositionChanged() {
-        int selectedPos = preferencesHelper.getLastPositionSubCategory();
-        List<ProductPosition> productPositions = new ArrayList<>();
-        tempProductsList.addAll(productList);
-        for (int i = tempProductsList.size() - 1; i >= 0; i--) {
-            if (tempProductsList.get(i) == null)
-                tempProductsList.remove(i);
-        }
-        for (int i = 0; i < tempProductsList.size(); i++) {
-            ProductPosition productPosition = new ProductPosition();
-            productPosition.setProduct(tempProductsList.get(i));
-            productPosition.setProductId(tempProductsList.get(i).getId());
-            productPosition.setPosition(i);
-            productPosition.setSubCategoryId(subCategoryList.get(selectedPos).getId());
-            productPositions.add(productPosition);
-        }
-        databaseManager.addProductPositions(productPositions, subCategoryList.get(selectedPos)).subscribe();
-        tempProductsList.clear();
+//        int selectedPos = preferencesHelper.getLastPositionSubCategory();
+//        List<ProductPosition> productPositions = new ArrayList<>();
+//        tempProductsList.addAll(productList);
+//        for (int i = tempProductsList.size() - 1; i >= 0; i--) {
+//            if (tempProductsList.get(i) == null)
+//                tempProductsList.remove(i);
+//        }
+//        for (int i = 0; i < tempProductsList.size(); i++) {
+//            ProductPosition productPosition = new ProductPosition();
+//            productPosition.setProduct(tempProductsList.get(i));
+//            productPosition.setProductId(tempProductsList.get(i).getId());
+//            productPosition.setPosition(i);
+//            productPosition.setSubCategoryId(subCategoryList.get(selectedPos).getId());
+//            productPositions.add(productPosition);
+//        }
+//        databaseManager.addProductPositions(productPositions, subCategoryList.get(selectedPos)).subscribe();
+//        tempProductsList.clear();
     }
 
     @Override
@@ -217,7 +118,7 @@ public class ProductListPresenterImpl extends BasePresenterImpl<ProductListView>
 
     @Override
     public void setCategoryRecyclerView() {
-        databaseManager.getAllCategoryPositions().subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(categories -> {
+        databaseManager.getAllCategories().subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(categories -> {
             categoryList = categories;
             view.setCategoryRecyclerViewItems(categoryList);
             setSubCategoryRecyclerView();
@@ -226,32 +127,32 @@ public class ProductListPresenterImpl extends BasePresenterImpl<ProductListView>
 
     @Override
     public void setSubCategoryRecyclerView() {
-        int selectedPos = preferencesHelper.getLastPositionCategory();
-        if (selectedPos > 0) {
-            databaseManager.getAllSubCategoryPositions(categoryList.get(selectedPos)).subscribeOn(AndroidSchedulers.mainThread()).subscribe(subCategories -> {
-                if (subCategories != null)
-                    subCategoryList = subCategories;
-                view.setSubCategoryRecyclerView(subCategoryList);
-                setProductRecyclerView();
-            });
-        } else {
-            view.setSubCategoryRecyclerView(subCategoryList);
-            setProductRecyclerView();
-        }
+//        int selectedPos = preferencesHelper.getLastPositionCategory();
+//        if (selectedPos > 0) {
+//            databaseManager.getAllSubCategoryPositions(categoryList.get(selectedPos)).subscribeOn(AndroidSchedulers.mainThread()).subscribe(subCategories -> {
+//                if (subCategories != null)
+//                    subCategoryList = subCategories;
+//                view.setSubCategoryRecyclerView(subCategoryList);
+//                setProductRecyclerView();
+//            });
+//        } else {
+//            view.setSubCategoryRecyclerView(subCategoryList);
+//            setProductRecyclerView();
+//        }
     }
 
     @Override
     public void setProductRecyclerView() {
-        int selectedPos = preferencesHelper.getLastPositionSubCategory() - 1;
-        if (selectedPos > -1 && subCategoryList.get(selectedPos) != null) {
-            databaseManager.getAllProductPositions(subCategoryList.get(selectedPos)).subscribeOn(AndroidSchedulers.mainThread()).subscribe(products -> {
-                if (products != null)
-                    productList = CommonUtils.getAllNewVersionPlusId(products, "");
-                view.setProductRecyclerView(productList);
-            });
-        } else {
-            view.setProductRecyclerView(productList);
-        }
+//        int selectedPos = preferencesHelper.getLastPositionSubCategory() - 1;
+//        if (selectedPos > -1 && subCategoryList.get(selectedPos) != null) {
+//            databaseManager.getAllProductPositions(subCategoryList.get(selectedPos)).subscribeOn(AndroidSchedulers.mainThread()).subscribe(products -> {
+//                if (products != null)
+//                    productList = CommonUtils.getAllNewVersionPlusId(products, "");
+//                view.setProductRecyclerView(productList);
+//            });
+//        } else {
+//            view.setProductRecyclerView(productList);
+//        }
     }
 
     @Override
@@ -285,16 +186,16 @@ public class ProductListPresenterImpl extends BasePresenterImpl<ProductListView>
 
     @Override
     public void setSubCategoryItems(int selectedPosition) {
-        if (selectedPosition != -1) {
-            preferencesHelper.setLastPositionSubCategory(selectedPosition);
-            view.sendSubCategoryEvent(subCategoryList.get(selectedPosition), CLICK);
-            view.setSubCategoryName(subCategoryList.get(selectedPosition).getName());
-            refreshProductList();
-        } else {
-            preferencesHelper.setLastPositionSubCategory(selectedPosition);
-            view.categoryMode();
-            view.sendSubCategoryEvent(null, CLICK);
-        }
+//        if (selectedPosition != -1) {
+//            preferencesHelper.setLastPositionSubCategory(selectedPosition);
+//            view.sendSubCategoryEvent(subCategoryList.get(selectedPosition), CLICK);
+//            view.setSubCategoryName(subCategoryList.get(selectedPosition).getName());
+//            refreshProductList();
+//        } else {
+//            preferencesHelper.setLastPositionSubCategory(selectedPosition);
+//            view.categoryMode();
+//            view.sendSubCategoryEvent(null, CLICK);
+//        }
     }
 
     @Override
@@ -313,7 +214,7 @@ public class ProductListPresenterImpl extends BasePresenterImpl<ProductListView>
 
     @Override
     public void refreshCategoryList() {
-        databaseManager.getAllCategoryPositions().subscribeOn(AndroidSchedulers.mainThread()).subscribe(categories -> {
+        databaseManager.getAllCategories().subscribeOn(AndroidSchedulers.mainThread()).subscribe(categories -> {
             categoryList.clear();
             categoryList.addAll(categories);
             view.updateCategoryItems();
@@ -322,22 +223,22 @@ public class ProductListPresenterImpl extends BasePresenterImpl<ProductListView>
 
     @Override
     public void refreshSubCategoryList() {
-        int selectedPos = preferencesHelper.getLastPositionCategory();
-        databaseManager.getAllSubCategoryPositions(categoryList.get(selectedPos)).subscribeOn(AndroidSchedulers.mainThread()).subscribe(subCategories -> {
-            subCategoryList.clear();
-            subCategoryList.addAll(subCategories);
-            view.updateSubCategoryItems();
-        });
+//        int selectedPos = preferencesHelper.getLastPositionCategory();
+//        databaseManager.getAllSubCategoryPositions(categoryList.get(selectedPos)).subscribeOn(AndroidSchedulers.mainThread()).subscribe(subCategories -> {
+//            subCategoryList.clear();
+//            subCategoryList.addAll(subCategories);
+//            view.updateSubCategoryItems();
+//        });
     }
 
     @Override
     public void productFragmentOpened() {
-        view.sendSubCategoryEvent(subCategoryList.get(preferencesHelper.getLastPositionSubCategory()), PARENT);
-        if (productPosition != -1) {
-            view.sendProductEvent(productList.get(productPosition), CLICK);
-        } else {
-            view.sendProductEvent(null, CLICK);
-        }
+//        view.sendSubCategoryEvent(subCategoryList.get(preferencesHelper.getLastPositionSubCategory()), PARENT);
+//        if (productPosition != -1) {
+//            view.sendProductEvent(productList.get(productPosition), CLICK);
+//        } else {
+//            view.sendProductEvent(null, CLICK);
+//        }
     }
 
     @Override
@@ -349,19 +250,19 @@ public class ProductListPresenterImpl extends BasePresenterImpl<ProductListView>
 
     @Override
     public void subCatFragmentOpened() {
-        view.sendCategoryEvent(categoryList.get(preferencesHelper.getLastPositionCategory()), PARENT);
-        if (preferencesHelper.getLastPositionSubCategory() != -1){
-            view.sendSubCategoryEvent(subCategoryList.get(preferencesHelper.getLastPositionSubCategory()), CLICK);
-        } else   view.sendSubCategoryEvent(null, CLICK);
+//        view.sendCategoryEvent(categoryList.get(preferencesHelper.getLastPositionCategory()), PARENT);
+//        if (preferencesHelper.getLastPositionSubCategory() != -1){
+//            view.sendSubCategoryEvent(subCategoryList.get(preferencesHelper.getLastPositionSubCategory()), CLICK);
+//        } else   view.sendSubCategoryEvent(null, CLICK);
     }
 
     @Override
     public void refreshProductList() {
-        int selectedPos = preferencesHelper.getLastPositionSubCategory();
-        databaseManager.getAllProductPositions(subCategoryList.get(selectedPos)).subscribeOn(AndroidSchedulers.mainThread()).subscribe(products -> {
-            productList.clear();
-            productList.addAll(CommonUtils.getAllNewVersionPlusId(products, ""));
-             view.updateProductItems();
-        });
-    }*/
+//        int selectedPos = preferencesHelper.getLastPositionSubCategory();
+//        databaseManager.getAllProductPositions(subCategoryList.get(selectedPos)).subscribeOn(AndroidSchedulers.mainThread()).subscribe(products -> {
+//            productList.clear();
+//            productList.addAll(CommonUtils.getAllNewVersionPlusId(products, ""));
+//             view.updateProductItems();
+//        });
+    }
 }

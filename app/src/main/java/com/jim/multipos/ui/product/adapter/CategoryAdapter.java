@@ -1,10 +1,121 @@
 package com.jim.multipos.ui.product.adapter;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.jim.mpviews.MpItem;
+import com.jim.multipos.R;
+import com.jim.multipos.core.BaseViewHolder;
 import com.jim.multipos.core.ClickableBaseAdapter;
+import com.jim.multipos.data.db.model.products.Category;
+
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by Sirojiddin on 12.10.2017.
  */
 
-public class CategoryAdapter extends ClickableBaseAdapter {
+public class CategoryAdapter extends ClickableBaseAdapter<Category, BaseViewHolder> {
+
+    private final int ADD_ITEM = 0;
+    private final int DYNAMIC_ITEMS = 1;
+
+    public CategoryAdapter(List items) {
+        super(items);
+        if (!this.items.isEmpty()) {
+            if (this.items.get(0) != null)
+                this.items.add(0, null);
+        } else this.items.add(null);
+    }
+
+    @Override
+    public void onBindViewHolder(BaseViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
+        if (holder instanceof CategoryFirstViewHolder){
+            CategoryFirstViewHolder firstViewHolder = (CategoryFirstViewHolder) holder;
+            if (position == selectedPosition) {
+                firstViewHolder.tvFirstItem.setTextColor(Color.parseColor("#419fd9"));
+                firstViewHolder.ivItemBg.setImageTintList(ColorStateList.valueOf(Color.parseColor("#419fd9")));
+            } else {
+                firstViewHolder.tvFirstItem.setTextColor(Color.parseColor("#cccccc"));
+                firstViewHolder.ivItemBg.setImageTintList(ColorStateList.valueOf(Color.parseColor("#cccccc")));
+            }
+
+            firstViewHolder.tvFirstItem.setText("Add \n Category");
+        } else if (holder instanceof CategoryViewHolder){
+            CategoryViewHolder categoryViewHolder = (CategoryViewHolder) holder;
+            categoryViewHolder.mpItem.setText(items.get(position).getName());
+            if (position == selectedPosition) {
+                categoryViewHolder.mpItem.setBackgroundResource(R.drawable.item_pressed_bg);
+            } else {
+                categoryViewHolder.mpItem.setBackgroundResource(R.drawable.item_bg);
+            }
+            if (items.get(position).getIsActive())
+                categoryViewHolder.mpItem.setAlpha(1f);
+            else
+                categoryViewHolder.mpItem.setAlpha(0.5f);
+        }
+    }
+
+    @Override
+    public BaseViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        View view;
+        if (viewType == ADD_ITEM) {
+            view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.product_list_first_item, viewGroup, false);
+            return new CategoryFirstViewHolder(view);
+        } else {
+            view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.product_list_item, viewGroup, false);
+            return new CategoryViewHolder(view);
+        }
+    }
+
+    @Override
+    public int getItemCount() {
+        return items.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (items.get(position) == null) {
+            return ADD_ITEM;
+        } else return DYNAMIC_ITEMS;
+    }
+
+    @Override
+    protected void onItemClicked(BaseViewHolder holder, int position) {
+
+    }
+
+
+    public class CategoryViewHolder extends BaseViewHolder {
+        @BindView(R.id.mpListItem)
+        MpItem mpItem;
+        public CategoryViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
+
+    public class CategoryFirstViewHolder extends BaseViewHolder {
+        @BindView(R.id.rlFirstItemBg)
+        RelativeLayout rlFirstItem;
+        @BindView(R.id.tvFirstItem)
+        TextView tvFirstItem;
+        @BindView(R.id.ivItemBg)
+        ImageView ivItemBg;
+        public CategoryFirstViewHolder(View itemView) {
+            super(itemView);
+
+        }
+    }
 }

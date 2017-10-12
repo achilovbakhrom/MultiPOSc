@@ -37,15 +37,15 @@ public class Product implements Editable {
     @Id(autoincrement = true)
     private Long id;
     private String name;
-    private double price;
-    private double cost;
-    private long createdDate;
+    private Double price;
+    private Double cost;
+    private Long createdDate;
     private String barcode;
     private String sku;
     private String photoPath;
-    private boolean isActive;
-    private boolean isNotModifyted;
-    private boolean isDeleted;
+    private Boolean isActive;
+    private Boolean isNotModified;
+    private Boolean isDeleted;
     private Long priceCurrencyId;
     @ToOne(joinProperty = "priceCurrencyId")
     private Currency priceCurrency;
@@ -88,13 +88,15 @@ public class Product implements Editable {
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
 
-    @Generated(hash = 92181527)
-    public Product(Long id, String name, double price, double cost,
-            long createdDate, String barcode, String sku, String photoPath,
-            boolean isActive, boolean isNotModifyted, boolean isDeleted,
-            Long priceCurrencyId, Long costCurrencyId, Long classId,
-            Long mainUnitId, Long subCategoryId, Long vendorId, String description,
-            Long rootId, Long parentId) {
+    @Generated(hash = 1890278724)
+    public Product() {
+    }
+
+    @Generated(hash = 2040294256)
+    public Product(Long id, String name, Double price, Double cost, Long createdDate, String barcode,
+            String sku, String photoPath, Boolean isActive, Boolean isNotModified, Boolean isDeleted,
+            Long priceCurrencyId, Long costCurrencyId, Long classId, Long mainUnitId,
+            Long subCategoryId, Long vendorId, String description, Long rootId, Long parentId) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -104,7 +106,7 @@ public class Product implements Editable {
         this.sku = sku;
         this.photoPath = photoPath;
         this.isActive = isActive;
-        this.isNotModifyted = isNotModifyted;
+        this.isNotModified = isNotModified;
         this.isDeleted = isDeleted;
         this.priceCurrencyId = priceCurrencyId;
         this.costCurrencyId = costCurrencyId;
@@ -115,10 +117,6 @@ public class Product implements Editable {
         this.description = description;
         this.rootId = rootId;
         this.parentId = parentId;
-    }
-
-    @Generated(hash = 1890278724)
-    public Product() {
     }
 
     @Override
@@ -474,11 +472,11 @@ public class Product implements Editable {
     }
 
     public boolean getIsNotModifyted() {
-        return this.isNotModifyted;
+        return this.isNotModified;
     }
 
     public void setIsNotModifyted(boolean isNotModifyted) {
-        this.isNotModifyted = isNotModifyted;
+        this.isNotModified = isNotModifyted;
     }
 
     public boolean getIsActive() {
@@ -535,6 +533,34 @@ public class Product implements Editable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+    public Boolean getIsNotModified() {
+        return this.isNotModified;
+    }
+
+    public void setIsNotModified(Boolean isNotModified) {
+        this.isNotModified = isNotModified;
+    }
+
+    public void setIsActive(Boolean isActive) {
+        this.isActive = isActive;
+    }
+
+    public void setCreatedDate(Long createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public void setCost(Double cost) {
+        this.cost = cost;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
 }
