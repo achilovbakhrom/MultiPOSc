@@ -6,14 +6,16 @@ import org.greenrobot.greendao.annotation.Property;
 import org.greenrobot.greendao.annotation.ToOne;
 
 import java.util.UUID;
+
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
+
 import com.jim.multipos.data.db.model.DaoSession;
 
 @Entity(nameInDb = "EMPLOYEE", active = true)
 public class Employee {
     @Id
-    private String id;
+    private Long id;
     @Property
     private String name;
     @Property
@@ -29,18 +31,14 @@ public class Employee {
     private PositionEmployee position;
     @Property
     private long password;
-    /** Used to resolve relations */
-    @Generated(hash = 2040040024)
-    private transient DaoSession daoSession;
+    @Generated(hash = 1473771710)
+    private transient String position__resolvedKey;
     /** Used for active entity operations. */
     @Generated(hash = 694547204)
     private transient EmployeeDao myDao;
-    @Generated(hash = 1473771710)
-    private transient String position__resolvedKey;
-
-    public Employee() {
-        id = UUID.randomUUID().toString();
-    }
+    /** Used to resolve relations */
+    @Generated(hash = 2040040024)
+    private transient DaoSession daoSession;
 
     public Employee(String name, String phone, String startDate, String photoID, PositionEmployee position, long password, String photoPath) {
         this.name = name;
@@ -52,9 +50,8 @@ public class Employee {
         this.photoPath = photoPath;
     }
 
-    @Generated(hash = 812416363)
-    public Employee(String id, String name, String phone, String startDate, String photoID, String photoPath, String positionId,
-            long password) {
+    @Generated(hash = 727892612)
+    public Employee(Long id, String name, String phone, String startDate, String photoID, String photoPath, String positionId, long password) {
         this.id = id;
         this.name = name;
         this.phone = phone;
@@ -65,12 +62,8 @@ public class Employee {
         this.password = password;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    @Generated(hash = 202356944)
+    public Employee() {
     }
 
     public String getPhotoPath() {
@@ -129,47 +122,6 @@ public class Employee {
         this.positionId = positionId;
     }
 
-    /** To-one relationship, resolved on first access. */
-    @Generated(hash = 1262660520)
-    public PositionEmployee getPosition() {
-        String __key = this.positionId;
-        if (position__resolvedKey == null || position__resolvedKey != __key) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            PositionEmployeeDao targetDao = daoSession.getPositionEmployeeDao();
-            PositionEmployee positionNew = targetDao.load(__key);
-            synchronized (this) {
-                position = positionNew;
-                position__resolvedKey = __key;
-            }
-        }
-        return position;
-    }
-
-    /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 408472671)
-    public void setPosition(PositionEmployee position) {
-        synchronized (this) {
-            this.position = position;
-            positionId = position == null ? null : position.getId();
-            position__resolvedKey = positionId;
-        }
-    }
-
-    /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
-     * Entity must attached to an entity context.
-     */
-    @Generated(hash = 128553479)
-    public void delete() {
-        if (myDao == null) {
-            throw new DaoException("Entity is detached from DAO context");
-        }
-        myDao.delete(this);
-    }
-
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
      * Entity must attached to an entity context.
@@ -194,10 +146,59 @@ public class Employee {
         myDao.update(this);
     }
 
+    /**
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
+     * Entity must attached to an entity context.
+     */
+    @Generated(hash = 128553479)
+    public void delete() {
+        if (myDao == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        myDao.delete(this);
+    }
+
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 408472671)
+    public void setPosition(PositionEmployee position) {
+        synchronized (this) {
+            this.position = position;
+            positionId = position == null ? null : position.getId();
+            position__resolvedKey = positionId;
+        }
+    }
+
+    /** To-one relationship, resolved on first access. */
+    @Generated(hash = 1262660520)
+    public PositionEmployee getPosition() {
+        String __key = this.positionId;
+        if (position__resolvedKey == null || position__resolvedKey != __key) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            PositionEmployeeDao targetDao = daoSession.getPositionEmployeeDao();
+            PositionEmployee positionNew = targetDao.load(__key);
+            synchronized (this) {
+                position = positionNew;
+                position__resolvedKey = __key;
+            }
+        }
+        return position;
+    }
+
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 671679171)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getEmployeeDao() : null;
+    }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

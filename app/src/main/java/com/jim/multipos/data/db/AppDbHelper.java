@@ -17,6 +17,7 @@ package com.jim.multipos.data.db;
 
 import android.database.Cursor;
 
+import com.jim.multipos.data.db.model.AccountDao;
 import com.jim.multipos.data.db.model.DaoMaster;
 import com.jim.multipos.data.db.model.DaoSession;
 import com.jim.multipos.data.db.model.ProductClass;
@@ -348,8 +349,12 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
-    public Observable<Long> insertAccount(Account account) {
-        return Observable.fromCallable(() -> mDaoSession.getAccountDao().insertOrReplace(account));
+    public Observable<Account> insertAccount(Account account) {
+        return Observable.fromCallable(() -> {
+            mDaoSession.getAccountDao().insertOrReplace(account);
+
+            return account;
+        });
     }
 
     @Override
@@ -362,8 +367,15 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public Observable<List<Account>> getAllAccounts() {
-        return Observable.fromCallable(() -> mDaoSession.getAccountDao().loadAll());
+        return Observable.fromCallable(() -> {
+                    List<Account> accounts = mDaoSession.getAccountDao().loadAll();
+                    Collections.reverse(accounts);
+
+                    return accounts;
+                }
+        );
     }
+
 
     @Override
     public Observable<Boolean> deleteAccount(Account account) {
@@ -515,7 +527,12 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public Observable<List<PaymentType>> getAllPaymentTypes() {
-        return Observable.fromCallable(() -> mDaoSession.getPaymentTypeDao().loadAll());
+        return Observable.fromCallable(() -> {
+            List<PaymentType> paymentTypes = mDaoSession.getPaymentTypeDao().loadAll();
+            Collections.reverse(paymentTypes);
+
+            return paymentTypes;
+        });
     }
 
     @Override
@@ -775,6 +792,16 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Observable<List<ParentAttribute>> getAllParentAttributes() {
         return Observable.fromCallable(() -> mDaoSession.getParentAttributeDao().loadAll());
+    }
+
+    @Override
+    public Boolean isAccountNameExists(String name) {
+        return !mDaoSession.getAccountDao()
+                .queryBuilder()
+                .where(AccountDao.Properties.Name.eq(name))
+                .build()
+                .list()
+                .isEmpty();
     }
 
 

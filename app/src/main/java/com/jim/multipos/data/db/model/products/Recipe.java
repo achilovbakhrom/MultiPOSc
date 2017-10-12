@@ -28,27 +28,9 @@ public class Recipe {
     @ToOne(joinProperty = "ingredientId")
     private Product ingredient;
     private float factorRoot;
-    private String unitId;
+    private Long unitId;
     @ToOne(joinProperty = "unitId")
     private Unit ingredientUnit;
-    @Generated(hash = 634718215)
-    private transient String ingredientUnit__resolvedKey;
-    @Generated(hash = 1618559533)
-    private transient String ingredient__resolvedKey;
-    /** Used for active entity operations. */
-    @Generated(hash = 1947830398)
-    private transient RecipeDao myDao;
-    /** Used to resolve relations */
-    @Generated(hash = 2040040024)
-    private transient DaoSession daoSession;
-
-
-    @Keep
-    public Recipe() {
-        id = UUID.randomUUID().toString();
-    }
-
-
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
      * Entity must attached to an entity context.
@@ -60,8 +42,6 @@ public class Recipe {
         }
         myDao.refresh(this);
     }
-
-
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
      * Entity must attached to an entity context.
@@ -73,8 +53,6 @@ public class Recipe {
         }
         myDao.update(this);
     }
-
-
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
      * Entity must attached to an entity context.
@@ -86,8 +64,6 @@ public class Recipe {
         }
         myDao.delete(this);
     }
-
-
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 110911862)
     public void setIngredientUnit(Unit ingredientUnit) {
@@ -97,14 +73,12 @@ public class Recipe {
             ingredientUnit__resolvedKey = unitId;
         }
     }
-
-
     /** To-one relationship, resolved on first access. */
-    @Generated(hash = 680742690)
+    @Generated(hash = 53594265)
     public Unit getIngredientUnit() {
-        String __key = this.unitId;
+        Long __key = this.unitId;
         if (ingredientUnit__resolvedKey == null
-                || ingredientUnit__resolvedKey != __key) {
+                || !ingredientUnit__resolvedKey.equals(__key)) {
             final DaoSession daoSession = this.daoSession;
             if (daoSession == null) {
                 throw new DaoException("Entity is detached from DAO context");
@@ -118,8 +92,8 @@ public class Recipe {
         }
         return ingredientUnit;
     }
-
-
+    @Generated(hash = 156676045)
+    private transient Long ingredientUnit__resolvedKey;
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 724540630)
     public void setIngredient(Product ingredient) {
@@ -129,8 +103,6 @@ public class Recipe {
             ingredient__resolvedKey = ingredientId;
         }
     }
-
-
     /** To-one relationship, resolved on first access. */
     @Generated(hash = 1106644384)
     public Product getIngredient() {
@@ -149,74 +121,60 @@ public class Recipe {
         }
         return ingredient;
     }
-
-
+    @Generated(hash = 1618559533)
+    private transient String ingredient__resolvedKey;
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 1484851246)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getRecipeDao() : null;
     }
-
-
-    public String getUnitId() {
+    /** Used for active entity operations. */
+    @Generated(hash = 1947830398)
+    private transient RecipeDao myDao;
+    /** Used to resolve relations */
+    @Generated(hash = 2040040024)
+    private transient DaoSession daoSession;
+    public Long getUnitId() {
         return this.unitId;
     }
-
-
-    public void setUnitId(String unitId) {
+    public void setUnitId(Long unitId) {
         this.unitId = unitId;
     }
-
-
     public float getFactorRoot() {
         return this.factorRoot;
     }
-
-
     public void setFactorRoot(float factorRoot) {
         this.factorRoot = factorRoot;
     }
-
-
     public String getIngredientId() {
         return this.ingredientId;
     }
-
-
     public void setIngredientId(String ingredientId) {
         this.ingredientId = ingredientId;
     }
-
-
     public String getRecipeId() {
         return this.recipeId;
     }
-
-
     public void setRecipeId(String recipeId) {
         this.recipeId = recipeId;
     }
-
-
     public String getId() {
         return this.id;
     }
-
-
     public void setId(String id) {
         this.id = id;
     }
-
-
-    @Generated(hash = 2019123484)
+    @Generated(hash = 1536872545)
     public Recipe(String id, String recipeId, String ingredientId,
-            float factorRoot, String unitId) {
+            float factorRoot, Long unitId) {
         this.id = id;
         this.recipeId = recipeId;
         this.ingredientId = ingredientId;
         this.factorRoot = factorRoot;
         this.unitId = unitId;
     }
-
+    @Generated(hash = 829032493)
+    public Recipe() {
+    }
 }

@@ -16,7 +16,7 @@ import java.util.UUID;
 @Entity(active = true, nameInDb = "LIST_OF_UNITS")
 public class SubUnitsList {
     @Id
-    private String id;
+    private Long id;
     private String productId;
     private String unitId;
     /** Used for active entity operations. */
@@ -26,9 +26,31 @@ public class SubUnitsList {
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
 
-    @Keep
+    @Generated(hash = 475424136)
+    public SubUnitsList(Long id, String productId, String unitId) {
+        this.id = id;
+        this.productId = productId;
+        this.unitId = unitId;
+    }
+
+    @Generated(hash = 1904010677)
     public SubUnitsList() {
-        id = UUID.randomUUID().toString();
+    }
+
+    public String getUnitId() {
+        return this.unitId;
+    }
+
+    public void setUnitId(String unitId) {
+        this.unitId = unitId;
+    }
+
+    public String getProductId() {
+        return this.productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 
     /**
@@ -74,34 +96,11 @@ public class SubUnitsList {
         myDao = daoSession != null ? daoSession.getSubUnitsListDao() : null;
     }
 
-    public String getUnitId() {
-        return this.unitId;
-    }
-
-    public void setUnitId(String unitId) {
-        this.unitId = unitId;
-    }
-
-    public String getProductId() {
-        return this.productId;
-    }
-
-    public void setProductId(String productId) {
-        this.productId = productId;
-    }
-
-    public String getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
-    }
-
-    @Generated(hash = 940055731)
-    public SubUnitsList(String id, String productId, String unitId) {
-        this.id = id;
-        this.productId = productId;
-        this.unitId = unitId;
     }
 }

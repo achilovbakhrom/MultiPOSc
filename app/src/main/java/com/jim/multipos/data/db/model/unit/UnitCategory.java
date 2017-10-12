@@ -13,12 +13,12 @@ public class UnitCategory {
     @Id
     private Long id;
     private String name;
-    /** Used to resolve relations */
-    @Generated(hash = 2040040024)
-    private transient DaoSession daoSession;
     /** Used for active entity operations. */
     @Generated(hash = 787361558)
     private transient UnitCategoryDao myDao;
+    /** Used to resolve relations */
+    @Generated(hash = 2040040024)
+    private transient DaoSession daoSession;
     @Generated(hash = 1537850773)
     public UnitCategory(Long id, String name) {
         this.id = id;
@@ -38,17 +38,6 @@ public class UnitCategory {
     }
     public void setName(String name) {
         this.name = name;
-    }
-    /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
-     * Entity must attached to an entity context.
-     */
-    @Generated(hash = 128553479)
-    public void delete() {
-        if (myDao == null) {
-            throw new DaoException("Entity is detached from DAO context");
-        }
-        myDao.delete(this);
     }
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
@@ -71,6 +60,17 @@ public class UnitCategory {
             throw new DaoException("Entity is detached from DAO context");
         }
         myDao.update(this);
+    }
+    /**
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
+     * Entity must attached to an entity context.
+     */
+    @Generated(hash = 128553479)
+    public void delete() {
+        if (myDao == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        myDao.delete(this);
     }
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 1867336421)

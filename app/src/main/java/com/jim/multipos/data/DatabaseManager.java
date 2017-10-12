@@ -42,8 +42,6 @@ import io.reactivex.Single;
  */
 
 public class DatabaseManager implements ContactOperations, CategoryOperations, SubCategoryOperations, ProductOperations, PositionOperations, AccountOperations, CurrencyOperations, StockOperations, UnitCategoryOperations, UnitOperations, PaymentTypeOperations, ServiceFeeOperations, ProductClassOperations, CustomerOperations, CustomerGroupOperations, SubUnitOperations, JoinCustomerGroupWithCustomerOperations, RecipeOperations, MatrixOptions {
-
-
     private Context context;
     private PreferencesHelper preferencesHelper;
     private DbHelper dbHelper;
@@ -260,7 +258,7 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, S
     }
 
     @Override
-    public Observable<Long> addAccount(Account account) {
+    public Observable<Account> addAccount(Account account) {
         return dbHelper.insertAccount(account);
     }
 
@@ -282,6 +280,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, S
     @Override
     public Observable<Boolean> removeAllAccounts() {
         return dbHelper.deleteAllAccounts();
+    }
+
+    @Override
+    public Boolean isAccountNameExists(String name) {
+        return dbHelper.isAccountNameExists(name);
     }
 
     @Override

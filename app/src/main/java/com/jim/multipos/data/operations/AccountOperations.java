@@ -11,9 +11,10 @@ import io.reactivex.Observable;
  */
 
 public interface AccountOperations {
-    Observable<Long> addAccount(Account account);
+    Observable<Account> addAccount(Account account);
     Observable<Boolean> addAccounts(List<Account> accounts);
     Observable<List<Account>> getAllAccounts();
     Observable<Boolean> removeAccount(Account account);
     Observable<Boolean> removeAllAccounts();
+    Boolean isAccountNameExists(String name);
 }

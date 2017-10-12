@@ -77,7 +77,7 @@ public interface DbHelper {
     Observable<Boolean> insertProductPositions(List<ProductPosition> positionList, SubCategory subCategory);
     Observable<List<Product>> getAllProductPositions(SubCategory subCategory);
     Observable<Long> insertOrReplaceCategoryPosition(CategoryPosition position);
-    Observable<Long> insertAccount(Account account);
+    Observable<Account> insertAccount(Account account);
     Observable<Boolean> insertAccounts(List<Account> accounts);
     Observable<List<Account>> getAllAccounts();
     Observable<Boolean> deleteAccount(Account account);
@@ -155,5 +155,5 @@ public interface DbHelper {
     Observable<Boolean> insertParentAttributes(List<ParentAttribute> parentAttributes);
     Observable<Boolean> deleteParentAttribute(ParentAttribute parentAttribute);
     Observable<List<ParentAttribute>> getAllParentAttributes();
-
+    Boolean isAccountNameExists(String name);
 }

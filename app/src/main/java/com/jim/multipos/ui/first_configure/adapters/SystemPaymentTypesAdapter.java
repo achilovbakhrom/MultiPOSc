@@ -21,20 +21,20 @@ import butterknife.ButterKnife;
  */
 
 public class SystemPaymentTypesAdapter extends RecyclerView.Adapter<SystemPaymentTypesAdapter.ViewHolder> {
-    public interface OnClick {
-        void removeItem(int position);
+    public interface OnClickListener {
+        void removeItem(PaymentType paymentType);
     }
 
     private List<PaymentType> systemPaymentTypes;
-    private OnClick onClickCallback;
+    private OnClickListener onClickListener;
 
     public SystemPaymentTypesAdapter(List<PaymentType> systemPaymentTypes) {
         this.systemPaymentTypes = systemPaymentTypes;
     }
 
-    public SystemPaymentTypesAdapter(List<PaymentType> systemPaymentTypes, OnClick onClick) {
+    public SystemPaymentTypesAdapter(List<PaymentType> systemPaymentTypes, OnClickListener onClickListener) {
         this.systemPaymentTypes = systemPaymentTypes;
-        this.onClickCallback = onClick;
+        this.onClickListener = onClickListener;
     }
 
     @Override
@@ -58,6 +58,16 @@ public class SystemPaymentTypesAdapter extends RecyclerView.Adapter<SystemPaymen
         return systemPaymentTypes.size();
     }
 
+    public void addPaymentTypeItem(PaymentType paymentType) {
+        systemPaymentTypes.add(0, paymentType);
+        notifyDataSetChanged();
+    }
+
+    public void removePaymentTypeItem(PaymentType paymentType) {
+        systemPaymentTypes.remove(paymentType);
+        notifyDataSetChanged();
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tvPaymentTypeName)
         TextView tvPaymentTypeName;
@@ -74,7 +84,7 @@ public class SystemPaymentTypesAdapter extends RecyclerView.Adapter<SystemPaymen
             ButterKnife.bind(this, itemView);
 
             RxView.clicks(btnRemove).subscribe(aVoid -> {
-                onClickCallback.removeItem(getAdapterPosition());
+                onClickListener.removeItem(systemPaymentTypes.get(getAdapterPosition()));
             });
         }
     }
