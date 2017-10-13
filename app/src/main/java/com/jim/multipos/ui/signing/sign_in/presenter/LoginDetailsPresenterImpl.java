@@ -23,11 +23,11 @@ public class LoginDetailsPresenterImpl implements LoginDetailsPresenter {
 
     @Override
     public void registerFounder() {
-        view.onRegistration();
+//        view.onRegistration();
     }
 
     @Override
     public void loginFounder() {
-        view.onLogin();
+//        view.onLogin();
     }
 }
