@@ -168,11 +168,11 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
             }
 
             @Override
-            public void onItemCLicked(Category item) {
+            public void onItemClicked(Category item) {
 
             }
         });
-//        ((SimpleItemAnimator) rvCategory.getItemAnimator()).setSupportsChangeAnimations(false);
+        ((SimpleItemAnimator) rvCategory.getItemAnimator()).setSupportsChangeAnimations(false);
 //        categoryAdapter.setPosition(preferencesHelper.getLastPositionCategory());
 //        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(categoryAdapter);
 //        touchHelper = new ItemTouchHelper(callback);

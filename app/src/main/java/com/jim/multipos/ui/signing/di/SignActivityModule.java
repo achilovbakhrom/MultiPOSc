@@ -7,6 +7,8 @@ import com.jim.multipos.config.scope.PerActivity;
 import com.jim.multipos.config.scope.PerFragment;
 import com.jim.multipos.core.BaseActivityModule;
 import com.jim.multipos.ui.signing.SignActivity;
+import com.jim.multipos.ui.signing.sign_in.view.LoginDetailsFragment;
+import com.jim.multipos.ui.signing.sign_in.view.LoginDetailsFragmentModule;
 import com.jim.multipos.ui.signing.sign_up.view.RegistrationConfirmFragment;
 import com.jim.multipos.ui.signing.sign_up.view.RegistrationConfirmFragmentModule;
 import com.jim.multipos.ui.signing.sign_up.view.SignUpFragment;
@@ -33,5 +35,9 @@ public abstract class SignActivityModule {
     @PerFragment
     @ContributesAndroidInjector(modules = RegistrationConfirmFragmentModule.class)
     abstract RegistrationConfirmFragment provideRegistrationConfirmFragmentInjector();
+
+    @PerFragment
+    @ContributesAndroidInjector(modules = LoginDetailsFragmentModule.class)
+    abstract LoginDetailsFragment provideDetailsFragmentInjector();
 
 }
