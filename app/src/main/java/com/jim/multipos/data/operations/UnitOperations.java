@@ -13,8 +13,12 @@ import io.reactivex.Observable;
 
 public interface UnitOperations {
     Observable<Long> addUnit(Unit unit);
+
     Observable<Boolean> addUnits(List<Unit> units);
+    Observable<List<Unit>> getUnits(Long rootId);
     Observable<List<Unit>> getAllStaticUnits();
+
     Observable<Boolean> removeAllUnits();
+
     Observable<Boolean> removeUnit(Unit unit);
 }

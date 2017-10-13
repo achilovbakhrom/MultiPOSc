@@ -96,4 +96,102 @@ public abstract class FirstConfigureActivityModule {
     static String[] provideCurrencyAbbr(Context context) {
         return context.getResources().getStringArray(R.array.base_abbrs);
     }
+
+    @PerActivity
+    @Provides
+    @Named(value = "base_units_title")
+    static String[] provideBaseUnitsTitle(Context context) {
+        return context.getResources().getStringArray(R.array.base_units_title);
+    }
+
+    @PerActivity
+    @Provides
+    @Named(value = "base_units_abbr")
+    static String[] provideBaseUnitsAbbr(Context context) {
+        return context.getResources().getStringArray(R.array.base_units_abbr);
+    }
+
+    @PerActivity
+    @Provides
+    @Named(value = "weight_units_title")
+    static String[] provideWeightUnitsTitle(Context context) {
+        return context.getResources().getStringArray(R.array.weigth_title);
+    }
+
+    @PerActivity
+    @Provides
+    @Named(value = "length_units_title")
+    static String[] provideLengthUnitsTitle(Context context) {
+        return context.getResources().getStringArray(R.array.length_title);
+    }
+
+    @PerActivity
+    @Provides
+    @Named(value = "area_units_title")
+    static String[] provideAreaUnitsTitle(Context context) {
+        return context.getResources().getStringArray(R.array.area_title);
+    }
+
+    @PerActivity
+    @Provides
+    @Named(value = "volume_units_title")
+    static String[] provideVolumeUnitsTitle(Context context) {
+        return context.getResources().getStringArray(R.array.volume_title);
+    }
+
+    @PerActivity
+    @Provides
+    @Named(value = "weight_units_abbr")
+    static String[] provideWeightUnitsAbbr(Context context) {
+        return context.getResources().getStringArray(R.array.weigth_abbr);
+    }
+
+    @PerActivity
+    @Provides
+    @Named(value = "length_units_abbr")
+    static String[] provideLengthUnitsAbbr(Context context) {
+        return context.getResources().getStringArray(R.array.length_abbr);
+    }
+
+    @PerActivity
+    @Provides
+    @Named(value = "area_units_abbr")
+    static String[] provideAreaUnitsAbbr(Context context) {
+        return context.getResources().getStringArray(R.array.area_abbr);
+    }
+
+    @PerActivity
+    @Provides
+    @Named(value = "volume_units_abbr")
+    static String[] provideVolumeUnitsAbbr(Context context) {
+        return context.getResources().getStringArray(R.array.volume_abbr);
+    }
+
+    @PerActivity
+    @Provides
+    @Named(value = "weight_units_root_factor")
+    static String[] provideWeightUnitsRootFactor(Context context) {
+        return context.getResources().getStringArray(R.array.weightRootFactor);
+    }
+
+    @PerActivity
+    @Provides
+    @Named(value = "length_units_root_factor")
+    static String[] provideLengthUnitsRootFactor(Context context) {
+        return context.getResources().getStringArray(R.array.lengthRootFactor);
+    }
+
+    @PerActivity
+    @Provides
+    @Named(value = "area_units_root_factor")
+    static String[] provideAreaUnitsRootFactor(Context context) {
+        return context.getResources().getStringArray(R.array.areaRootFactor);
+    }
+
+    @PerActivity
+    @Provides
+    @Named(value = "volume_units_root_factor")
+    static String[] provideVolumeUnitsRootFactor(Context context) {
+        return context.getResources().getStringArray(R.array.volumeRootFactor);
+    }
 }

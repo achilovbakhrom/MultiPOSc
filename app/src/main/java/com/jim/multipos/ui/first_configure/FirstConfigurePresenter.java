@@ -34,4 +34,5 @@ public interface FirstConfigurePresenter extends Presenter {
     boolean isNextButton();
     void setupPaymentTypeCurrency();
     void setupPaymentTypeAccount();
+    void setupUnits(RecyclerView rvWeight, RecyclerView rvLength, RecyclerView rvArea, RecyclerView rvVolume);
 }

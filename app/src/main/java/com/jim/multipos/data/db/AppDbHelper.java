@@ -44,6 +44,7 @@ import org.greenrobot.greendao.query.Query;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -531,6 +532,11 @@ public class AppDbHelper implements DbHelper {
 
             return true;
         });
+    }
+
+    @Override
+    public Observable<List<Unit>> getUnits(Long rootId) {
+        return Observable.fromCallable(() -> mDaoSession.getUnitDao().queryBuilder().where(UnitDao.Properties.RootId.eq(rootId)).list());
     }
 
     @Override
