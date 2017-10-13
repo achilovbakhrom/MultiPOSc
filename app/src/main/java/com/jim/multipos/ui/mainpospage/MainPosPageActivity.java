@@ -6,49 +6,33 @@ import android.view.WindowManager;
 
 import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.R;
-import com.jim.multipos.core.BaseActivity;
-import com.jim.multipos.data.DatabaseManager;
-import com.jim.multipos.di.BaseAppComponent;
-import com.jim.multipos.ui.HasComponent;
+import com.jim.multipos.core.DoubleSideActivity;
 import com.jim.multipos.ui.main_menu.customers_menu.CustomersMenuActivity;
-import com.jim.multipos.ui.main_menu.employer_menu.EmployerMenuActivity;
 import com.jim.multipos.ui.main_menu.inventory_menu.InventoryMenuActivity;
-import com.jim.multipos.ui.mainpospage.di.MainPosPageActivityModule;
-import com.jim.multipos.ui.mainpospage.di.MainPosPageActivityComponent;
-import com.jim.multipos.ui.mainpospage.fragments.OrderListFragment;
-import com.jim.multipos.ui.mainpospage.fragments.PaymentFragment;
-import com.jim.multipos.ui.mainpospage.fragments.ProductInfoFragment;
-import com.jim.multipos.ui.mainpospage.fragments.RectangleProductChoiserFragment;
 import com.jim.multipos.ui.main_menu.product_menu.ProductMenuActivity;
-import com.jim.multipos.utils.managers.PosFragmentManager;
-
-import javax.inject.Inject;
+import com.jim.multipos.ui.mainpospage.fragments.OrderListFragment;
+import com.jim.multipos.ui.mainpospage.fragments.RectangleProductChoiserFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainPosPageActivity extends BaseActivity implements MainPosPageActivityView, HasComponent<MainPosPageActivityComponent> {
+public class MainPosPageActivity extends DoubleSideActivity implements MainPosPageActivityView {
     @BindView(R.id.toolbar)
     MpToolbar toolbar;
 
-    @Inject
-    DatabaseManager databaseManager;
-    @Inject
-    PosFragmentManager posFragmentManager;
 
-    MainPosPageActivityComponent mainPosPageFragmentComponent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_main_pos_page);
         ButterKnife.bind(this);
 
-        posFragmentManager.displayFragmentWithoutBackStack(new OrderListFragment(), R.id.leftSingleContainer);
+        addFragmentToLeft(new OrderListFragment());
 //        posFragmentManager.displayFragmentWithoutBackStack(new PaymentFragment(), R.id.rightLowContainer);
-        posFragmentManager.displayFragmentWithoutBackStack(new RectangleProductChoiserFragment(), R.id.rightLowContainer);
+        addFragmentToRight(new RectangleProductChoiserFragment());
 
         toolbar.setOnClickListener(view -> {
         });
@@ -85,13 +69,9 @@ public class MainPosPageActivity extends BaseActivity implements MainPosPageActi
 //        });
     }
 
-    protected void setupComponent(BaseAppComponent baseAppComponent) {
-//        mainPosPageFragmentComponent = baseAppComponent.plus(new MainPosPageActivityModule(this));
-        mainPosPageFragmentComponent.inject(this);
+    @Override
+    protected int getToolbarMode() {
+        return MpToolbar.MAIN_PAGE_TYPE;
     }
 
-    @Override
-    public MainPosPageActivityComponent getComponent() {
-        return mainPosPageFragmentComponent;
-    }
 }

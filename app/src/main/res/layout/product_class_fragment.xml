@@ -24,13 +24,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/five_dp"
-                android:text="Management Item Mode"
+                android:text="@string/title_product_class_fragment"
                 android:textColor="@color/colorBlue" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tap Product to manage it info"
+                android:text="@string/tap_product_class_for_editing_and_save"
                 android:textColor="#8a8a8a" />
 
         </LinearLayout>

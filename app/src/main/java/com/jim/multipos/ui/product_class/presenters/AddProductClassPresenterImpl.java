@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -25,38 +26,12 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class AddProductClassPresenterImpl extends BasePresenterImpl<AddProductClassView> implements AddProductClassPresenter {
-    @Inject
-    public AddProductClassPresenterImpl(AddProductClassView addProductClassView) {
-        super(addProductClassView);
-    }
 
-    @Override
-    public void onDestroyView() {
 
-    }
 
-    @Override
-    public void onSaveButtonPress(String className, int spinnerPos, boolean active) {
-
-    }
-
-    @Override
-    public void onCancelButtonPresed() {
-
-    }
-
-    @Override
-    public void onClickProductClass(ProductClass productClass) {
-
-    }
-
-    @Override
-    public void addProductClass() {
-
-    }
-/*
 
     private AddProductClassView view;
+    private String none;
     private RxBus rxBus;
     private DatabaseManager databaseManager;
     private RxBusLocal rxBusLocal;
@@ -64,13 +39,14 @@ public class AddProductClassPresenterImpl extends BasePresenterImpl<AddProductCl
     List<ProductClass> productClasses;
     ArrayList<ProductClass> classesList;
     @Inject
-    public AddProductClassPresenterImpl(RxBus rxBus, DatabaseManager databaseManager, RxBusLocal rxBusLocal, AddProductClassView view){
+    public AddProductClassPresenterImpl(RxBus rxBus, DatabaseManager databaseManager, RxBusLocal rxBusLocal, AddProductClassView view, @Named("none") String none){
         super(view);
         this.rxBus = rxBus;
         this.databaseManager = databaseManager;
         this.rxBusLocal = rxBusLocal;
         this.view = view;
 
+        this.none = none;
     }
 
     @Override
@@ -110,16 +86,14 @@ public class AddProductClassPresenterImpl extends BasePresenterImpl<AddProductCl
             productClass.setDeleted(true);
             productClass.setParentId(null);
             databaseManager.insertProductClass(productClass).subscribe((aLong, throwable) -> {
-                for(int i = productClasses.size()-1;0<=productClasses.size();i--){
+                for(int i = productClasses.size()-1;0<=i;i--){
                     if(productClasses.get(i).getId().equals(productClass.getId())){
                         productClasses.remove(i);
-                        continue;
-                    }
-                    if(productClasses.get(i).getParentId()!=null)
-                        if(productClasses.get(i).getParentId().equals(productClass.getId())){
-                            productClasses.get(i).setParentId("");
+                    } else
+                    if(productClasses.get(i).getParentId()!=null && productClasses.get(i).getParentId().equals(productClass.getId())){
+                            productClasses.get(i).setParentId(null);
                             databaseManager.insertProductClass(productClasses.get(i)).subscribe();
-                        }
+                    }
 
                 }
                 rxBus.send(new ProductClassEvent(productClass, GlobalEventsConstants.DELETE));
@@ -138,15 +112,8 @@ public class AddProductClassPresenterImpl extends BasePresenterImpl<AddProductCl
 
     @Override
     public void onSaveButtonPress(String className, int position, boolean active) {
-        if(className.isEmpty()) {
-            view.classNameEmpty();
-            return;
-        }
-        if(className.length()<4) {
-            view.classNameShort();
-            return;
-        }
-        String parentId = "";
+
+        Long parentId = null;
         if(position!=0){
             parentId = classesList.get(position-1).getId();
         }
@@ -196,11 +163,10 @@ public class AddProductClassPresenterImpl extends BasePresenterImpl<AddProductCl
     }
 
     private void makeDataForParentSpinner(){
-        String parent = null;
+        Long parent = null;
         classesList = new ArrayList<>();
         for (int i = 0; i < productClasses.size(); i++) {
-            if(productClass!=null) {
-                if (productClass.getParentId() != null)
+            if(productClass!=null && productClass.getParentId() != null) {
                     if (productClass.getParentId().equals(productClasses.get(i).getId())) {
                         parent = productClasses.get(i).getId();
                     }
@@ -215,7 +181,7 @@ public class AddProductClassPresenterImpl extends BasePresenterImpl<AddProductCl
         for(ProductClass nameIdProdClass:classesList)
             strings.add(nameIdProdClass.getName());
         //TODO none get from string
-        strings.add(0,"none");
+        strings.add(0,none);
         view.setParentSpinnerItems(strings);
         if(parent!=null)
         for (int i = 0; i < classesList.size(); i++) {
@@ -225,7 +191,7 @@ public class AddProductClassPresenterImpl extends BasePresenterImpl<AddProductCl
         }
         else
         view.setParentSpinnerPosition(0);
-    }*/
+    }
 
 
 }

@@ -14,8 +14,6 @@ import android.widget.LinearLayout;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.mpviews.utils.VibrateManager;
 import com.jim.multipos.R;
-import com.jim.multipos.core.BaseFragment;
-import com.jim.multipos.ui.mainpospage.di.MainPosPageActivityComponent;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

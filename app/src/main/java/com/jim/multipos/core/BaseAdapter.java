@@ -35,4 +35,9 @@ public abstract class BaseAdapter<T, E extends BaseViewHolder> extends RecyclerV
         items.remove(position);
         notifyDataSetChanged();
     }
+
+    @Override
+    public int getItemCount() {
+        return items.size();
+    }
 }

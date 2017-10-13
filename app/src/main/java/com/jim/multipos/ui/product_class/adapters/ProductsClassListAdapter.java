@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -13,6 +14,8 @@ import android.widget.TextView;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.mpviews.MpItem;
 import com.jim.multipos.R;
+import com.jim.multipos.core.BaseViewHolder;
+import com.jim.multipos.core.ClickableBaseAdapter;
 import com.jim.multipos.data.db.model.intosystem.NameId;
 
 import java.util.List;
@@ -24,38 +27,29 @@ import butterknife.ButterKnife;
  * Created by DEV on 17.08.2017.
  */
 
-public class ProductsClassListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
-    private List<NameId> list;
-    private int selectedPosition = 0;
-    private ProductsClassListAdapter.onItemClickListner onItemClickListner;
+public class ProductsClassListAdapter extends ClickableBaseAdapter<NameId, BaseViewHolder> {
     private static final int ADD_ITEM = 0;
     private static final int DYNAMIC_ITEMS = 1;
-    public interface onItemClickListner{
-        void onAddButtonPressed();
-        void onItemPressed(int t);
+
+    public ProductsClassListAdapter(List<NameId> items) {
+        super(items);
+        if (!this.items.isEmpty()) {
+            for (int i = items.size() - 1; i >= 0; i--) {
+                if (items.get(i) == null)
+                    items.remove(i);
+            }
+            items.add(0, null);
+        } else this.items.add(null);
     }
-    public void setToDefault(){
+
+
+
+    public void setToDefault() {
         selectedPosition = 0;
     }
-    public ProductsClassListAdapter(List<? extends NameId> list,onItemClickListner onItemClickListner) {
-        this.list = (List<NameId>) list;
-
-        this.onItemClickListner = onItemClickListner;
-
-        if (!this.list.isEmpty()) {
-            for (int i = list.size()-1; i >=0; i--) {
-                if(list.get(i)==null)
-                    list.remove(i);
-            }
-            list.add(0,null);
-        } else this.list.add(null);
-
-    }
-
-
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
         if (viewType == ADD_ITEM) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_list_first_item, parent, false);
@@ -67,16 +61,17 @@ public class ProductsClassListAdapter extends RecyclerView.Adapter<RecyclerView.
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(BaseViewHolder holder, int position) {
+        super.onBindViewHolder(holder,position);
         if (holder instanceof ProductListViewHolder) {
             ProductListViewHolder productViewHolder = (ProductListViewHolder) holder;
-            productViewHolder.mpItem.setText(list.get(position).getName());
+            productViewHolder.mpItem.setText(items.get(position).getName());
             if (position == selectedPosition) {
                 productViewHolder.mpItem.setBackgroundResource(R.drawable.item_pressed_bg);
             } else {
                 productViewHolder.mpItem.setBackgroundResource(R.drawable.item_bg);
             }
-            if(list.get(position).isActive())
+            if (items.get(position).isActive())
                 productViewHolder.mainView.setAlpha(1f);
             else
                 productViewHolder.mainView.setAlpha(0.5f);
@@ -91,55 +86,49 @@ public class ProductsClassListAdapter extends RecyclerView.Adapter<RecyclerView.
                 itemViewHolder.tvFirstItem.setTextColor(Color.parseColor("#cccccc"));
                 itemViewHolder.ivItemBg.setImageTintList(ColorStateList.valueOf(Color.parseColor("#cccccc")));
             }
-                    itemViewHolder.tvFirstItem.setText("+Add\n Class");
+            itemViewHolder.tvFirstItem.setText("+Add\n Class");
 
         }
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (list.get(position) == null) {
+        if (items.get(position) == null) {
             return ADD_ITEM;
         } else return DYNAMIC_ITEMS;
     }
 
     @Override
-    public int getItemCount() {
-        return list.size();
+    protected void onItemClicked(BaseViewHolder holder, int position) {
+        if (selectedPosition != position) {
+            int prevPosition = selectedPosition;
+            selectedPosition = position;
+            notifyItemChanged(prevPosition);
+            notifyItemChanged(selectedPosition);
+        }
     }
+
 
     public void setPosition(int position) {
         this.selectedPosition = position;
     }
 
 
-
-
-
-
-    public class ProductListViewHolder extends RecyclerView.ViewHolder {
+    public class ProductListViewHolder extends BaseViewHolder {
         @BindView(R.id.mpListItem)
         MpItem mpItem;
         View mainView;
+
         public ProductListViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            mainView =itemView;
-            RxView.clicks(mpItem).subscribe(aVoid -> {
-                if(selectedPosition!=getAdapterPosition()) {
-                    int prevPosition = selectedPosition;
-                    selectedPosition = getAdapterPosition();
-                    notifyItemChanged(prevPosition);
-                    notifyItemChanged(selectedPosition);
-                    onItemClickListner.onItemPressed(selectedPosition);
-                }
-            });
+            mainView = itemView;
 
         }
 
     }
 
-    public class FirstItemViewHolder extends RecyclerView.ViewHolder {
+    public class FirstItemViewHolder extends BaseViewHolder {
 
         @BindView(R.id.rlFirstItemBg)
         RelativeLayout rlFirstItem;
@@ -147,21 +136,11 @@ public class ProductsClassListAdapter extends RecyclerView.Adapter<RecyclerView.
         TextView tvFirstItem;
         @BindView(R.id.ivItemBg)
         ImageView ivItemBg;
-        View mainView;
 
         public FirstItemViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            mainView = itemView;
-            RxView.clicks(rlFirstItem).subscribe(aVoid -> {
-                if(selectedPosition!=getAdapterPosition()) {
-                    int prevPosition = selectedPosition;
-                    selectedPosition = getAdapterPosition();
-                    notifyItemChanged(prevPosition);
-                    notifyItemChanged(selectedPosition);
-                    onItemClickListner.onAddButtonPressed();
-                }
-            });
+
         }
     }
 

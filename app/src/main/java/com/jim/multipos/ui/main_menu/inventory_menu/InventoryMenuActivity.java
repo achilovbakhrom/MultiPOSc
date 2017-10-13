@@ -7,14 +7,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.WindowManager;
 
 import com.jim.mpviews.MpButton;
+import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseActivity;
 import com.jim.multipos.data.db.model.intosystem.TitleDescription;
 import com.jim.multipos.di.BaseAppComponent;
 import com.jim.multipos.ui.HasComponent;
 import com.jim.multipos.ui.main_menu.MenuListAdapter;
-import com.jim.multipos.ui.main_menu.inventory_menu.di.InventoryMenuComponent;
-import com.jim.multipos.ui.main_menu.inventory_menu.di.InventoryMenuModule;
 import com.jim.multipos.ui.main_menu.inventory_menu.presenters.InventoryMenuPresenter;
 
 import java.util.ArrayList;
@@ -29,14 +28,15 @@ import butterknife.OnClick;
  * Created by DEV on 09.08.2017.
  */
 
-public class InventoryMenuActivity extends BaseActivity implements HasComponent<InventoryMenuComponent>, InventoryMenuView {
+public class InventoryMenuActivity extends BaseActivity implements  InventoryMenuView {
     @BindView(R.id.rvMenu)
     RecyclerView rvMenu;
     @BindView(R.id.btnBackToMain)
     MpButton btnBackToMain;
+    @BindView(R.id.mpToolBar)
+    MpToolbar mpToolbar;
     @Inject
     InventoryMenuPresenter presenter;
-    private InventoryMenuComponent inventoryMenuComponent;
     final int INVENTORY_MENU = 2;
 
     @Override
@@ -46,21 +46,12 @@ public class InventoryMenuActivity extends BaseActivity implements HasComponent<
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.product_menu_layout);
         ButterKnife.bind(this);
+        mpToolbar.setMode(MpToolbar.DEFAULT_TYPE);
         String title[] = getResources().getStringArray(R.array.inventory_menu_title);
         String description[] = getResources().getStringArray(R.array.inventory_menu_description);
-        presenter.init(this);
         presenter.setRecyclerViewItems(title, description);
     }
 
-    protected void setupComponent(BaseAppComponent baseAppComponent) {
-//        inventoryMenuComponent = baseAppComponent.plus(new InventoryMenuModule(this));
-        inventoryMenuComponent.inject(this);
-    }
-
-    @Override
-    public InventoryMenuComponent getComponent() {
-        return inventoryMenuComponent;
-    }
 
     @OnClick(R.id.btnBackToMain)
     public void onBack() {

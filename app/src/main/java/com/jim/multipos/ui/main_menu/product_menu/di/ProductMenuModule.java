@@ -1,34 +1,38 @@
 package com.jim.multipos.ui.main_menu.product_menu.di;
 
-import com.jim.multipos.ui.ActivityScope;
+import android.support.v7.app.AppCompatActivity;
+
+import com.jim.multipos.config.scope.PerActivity;
+import com.jim.multipos.config.scope.PerFragment;
+import com.jim.multipos.core.BaseActivityModule;
+import com.jim.multipos.ui.main_menu.inventory_menu.InventoryMenuActivity;
+import com.jim.multipos.ui.main_menu.inventory_menu.presenters.InventoryMenuPresenter;
+import com.jim.multipos.ui.main_menu.inventory_menu.presenters.InventoryMenuPresenterImpl;
 import com.jim.multipos.ui.main_menu.product_menu.ProductMenuActivity;
+import com.jim.multipos.ui.main_menu.product_menu.ProductMenuView;
 import com.jim.multipos.ui.main_menu.product_menu.presenters.ProductMenuPresenter;
 import com.jim.multipos.ui.main_menu.product_menu.presenters.ProductMenuPresenterImpl;
 
+import dagger.Binds;
 import dagger.Module;
-import dagger.Provides;
 
 /**
- * Created by DEV on 08.08.2017.
+ * Created by bakhrom on 10/6/17.
  */
-@Module
-public class ProductMenuModule {
-    private ProductMenuActivity activity;
 
-    public ProductMenuModule(ProductMenuActivity activity) {
-        this.activity = activity;
-    }
+@Module(includes = BaseActivityModule.class)
+public abstract class ProductMenuModule {
 
-    @Provides
-    @ActivityScope
-    public ProductMenuActivity getActivity() {
-        return activity;
-    }
+    @Binds
+    @PerActivity
+    abstract AppCompatActivity provideProductMenuActivity(ProductMenuActivity productMenuActivity);
 
+    @Binds
+    @PerActivity
+    abstract ProductMenuPresenter provideProductMenuPresenter(ProductMenuPresenterImpl productMenuPresenter);
 
-    @Provides
-    @ActivityScope
-    public ProductMenuPresenter getMenuProductPresenter() {
-        return new ProductMenuPresenterImpl();
-    }
+    @Binds
+    @PerActivity
+    abstract ProductMenuView provideProductMenuViewView(ProductMenuActivity productMenuActivity);
+
 }

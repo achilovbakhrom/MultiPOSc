@@ -22,12 +22,11 @@ public abstract class ClickableBaseAdapter<T, E extends BaseViewHolder> extends 
     @Override
     public void onBindViewHolder(E holder, int position) {
         holder.view.setOnClickListener(view -> {
-            Log.d("click", "asd");
             if (onItemClickListener != null) {
                 onItemClickListener.onItemClicked(items.get(position));
                 onItemClickListener.onItemClicked(position);
-                selectedPosition = position;
                 onItemClicked(holder, position);
+                selectedPosition = position;
             }
         });
     }

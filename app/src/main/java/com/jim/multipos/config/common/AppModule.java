@@ -6,6 +6,14 @@ import com.jim.multipos.MultiPosApp;
 import com.jim.multipos.config.scope.PerActivity;
 import com.jim.multipos.ui.first_configure.FirstConfigureActivity;
 import com.jim.multipos.ui.first_configure.di.FirstConfigureActivityModule;
+import com.jim.multipos.ui.main_menu.customers_menu.CustomersMenuActivity;
+import com.jim.multipos.ui.main_menu.customers_menu.di.CostomersMenuModule;
+import com.jim.multipos.ui.main_menu.inventory_menu.InventoryMenuActivity;
+import com.jim.multipos.ui.main_menu.inventory_menu.di.InventoryMenuModule;
+import com.jim.multipos.ui.main_menu.product_menu.ProductMenuActivity;
+import com.jim.multipos.ui.main_menu.product_menu.di.ProductMenuModule;
+import com.jim.multipos.ui.mainpospage.MainPosPageActivity;
+import com.jim.multipos.ui.mainpospage.di.MainPageMenuModule;
 import com.jim.multipos.ui.product.ProductsActivity;
 import com.jim.multipos.ui.product.di.ProductsModule;
 import com.jim.multipos.ui.product_class.ProductClassActivity;
@@ -40,4 +48,21 @@ abstract class AppModule {
     @PerActivity
     @ContributesAndroidInjector(modules = FirstConfigureActivityModule.class)
     abstract FirstConfigureActivity provideFirstConfigureActivity();
+
+    @PerActivity
+    @ContributesAndroidInjector(modules = CostomersMenuModule.class)
+    abstract CustomersMenuActivity provideCustomersMenuActivity();
+
+    @PerActivity
+    @ContributesAndroidInjector(modules = InventoryMenuModule.class)
+    abstract InventoryMenuActivity provideInventoryMenuActivity();
+
+    @PerActivity
+    @ContributesAndroidInjector(modules = ProductMenuModule.class)
+    abstract ProductMenuActivity provideProductMenuActivity();
+
+    @PerActivity
+    @ContributesAndroidInjector(modules = MainPageMenuModule.class)
+    abstract MainPosPageActivity provideMainPosPageActivity();
+
 }

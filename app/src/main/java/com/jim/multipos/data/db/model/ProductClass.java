@@ -64,67 +64,67 @@ public class ProductClass implements NameId,Editable {
 
     @Override
     public void setId(Long id) {
-
+        this.id = id;
     }
 
     @Override
     public boolean isActive() {
-        return false;
+        return active;
     }
 
     @Override
     public void setActive(boolean isActive) {
-
+        this.active = isActive;
     }
 
     @Override
     public boolean isDeleted() {
-        return false;
+        return deleted;
     }
 
     @Override
     public void setDeleted(boolean deleted) {
-
+        this.deleted = deleted;
     }
 
     @Override
     public boolean isNotModifyted() {
-        return false;
+        return notModifyted;
     }
 
     @Override
     public void setNotModifyted(boolean notModifyted) {
-
+        this.notModifyted = notModifyted;
     }
 
     @Override
     public Long getRootId() {
-        return null;
+        return rootId;
     }
 
     @Override
     public void setRootId(Long rootId) {
-
+        this.rootId = rootId;
     }
 
     @Override
     public Long getCreatedDate() {
-        return null;
+        return createdDate;
     }
 
     @Override
     public void setCreatedDate(long createdDate) {
-
+        this.createdDate = createdDate;
     }
 
     @Override
     public String getName() {
-        return null;
+        return name;
     }
 
     @Override
     public Long getId() {
-        return null;
+        return id;
     }
 
     /**

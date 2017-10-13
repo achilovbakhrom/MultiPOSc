@@ -20,8 +20,11 @@ import com.jim.multipos.utils.rxevents.ProductClassEvent;
 import java.util.ArrayList;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import butterknife.BindView;
+import eu.inmite.android.lib.validations.form.annotations.MinLength;
+import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 import io.reactivex.disposables.Disposable;
 
 public class AddProductClassFragment extends BaseFragment implements AddProductClassView  {
@@ -33,6 +36,7 @@ public class AddProductClassFragment extends BaseFragment implements AddProductC
     AddProductClassPresenter presenter;
     @Inject
     RxBusLocal rxBusLocal;
+    @MinLength(value = 4,messageId = R.string.class_name_should_be_longer)
     @BindView(R.id.etClassName)
     EditText etClassName;
     @BindView(R.id.spParent)
@@ -49,6 +53,7 @@ public class AddProductClassFragment extends BaseFragment implements AddProductC
 
 
 
+
     @Override
     protected int getLayout() {
         return R.layout.product_class_fragment;
@@ -60,10 +65,12 @@ public class AddProductClassFragment extends BaseFragment implements AddProductC
         cbActive.setChecked(true);
         btnDelete.setVisibility(View.GONE);
         RxView.clicks(btnSave).subscribe(aVoid -> {
-            String className = etClassName.getText().toString();
-            int pos = spParent.selectedItemPosition();
-            boolean active = cbActive.isCheckboxChecked();
-            presenter.onSaveButtonPress(className, pos,active);
+            if(isValid()) {
+                String className = etClassName.getText().toString();
+                int pos = spParent.selectedItemPosition();
+                boolean active = cbActive.isCheckboxChecked();
+                presenter.onSaveButtonPress(className, pos, active);
+            }
         });
         RxView.clicks(btnCancel).subscribe(aVoid -> {
             getActivity().finish();
@@ -134,16 +141,7 @@ public class AddProductClassFragment extends BaseFragment implements AddProductC
         spParent.setSelection(position);
     }
 
-    @Override
-    public void classNameShort() {
-        etClassName.setError(getString(R.string.class_name_should_be_longer));
-    }
 
-    @Override
-    public void classNameEmpty() {
-        etClassName.setError(getString(R.string.class_name_empty));
-
-    }
 
 
 

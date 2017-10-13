@@ -335,7 +335,7 @@
     <string name="sku">SKU</string>
     <string name="quantity">Quantity</string>
     <string name="linked">Linked</string>
-    <string name="none">None</string>
+    <string name="none">none</string>
     <string name="unit">Unit</string>
     <string name="price">Price</string>
     <string name="value">Value</string>
@@ -481,6 +481,8 @@
     <string name="what_do_you_want">What do you want?</string>
     <string name="sure">Sure</string>
     <string name="do_you_want_delete">Do you want delete?</string>
+    <string name="title_product_class_fragment">Managing Product Class</string>
+    <string name="tap_product_class_for_editing_and_save">Tap product class for editing and save</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>
