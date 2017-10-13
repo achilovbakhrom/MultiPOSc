@@ -11,7 +11,6 @@ import android.widget.Toast;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.mpviews.MpButton;
 import com.jim.mpviews.MpSpinner;
-import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.db.model.Account;
@@ -89,6 +88,40 @@ public class PaymentTypeFragment extends BaseFragment {
     @Override
     protected void rxConnections() {
 
+    }
+
+    @Override
+    public boolean isValid() {
+        boolean result = super.isValid();
+        boolean isAccountsEmpty = true;
+        boolean isPaymentTypeNameExists = false;
+
+        if (((FirstConfigureActivity) getActivity()).getPresenter().isPaymentTypeNameExists(etPaymentTypeName.getText().toString())) {
+            etPaymentTypeName.setError(getString(R.string.payment_type_name_exists));
+            isPaymentTypeNameExists = true;
+        }
+
+        if (spAccount.getAdapter().isEmpty()) {
+            showAccountToast();
+
+            isAccountsEmpty = false;
+        }
+
+        if (tvCurrency.getText().toString().isEmpty()) {
+            showCurrencyToast();
+
+            return false;
+        }
+
+        if (isPaymentTypeNameExists) {
+            return false;
+        }
+
+        if (!isAccountsEmpty) {
+            return false;
+        }
+
+        return result;
     }
 
     public void showCurrencyToast() {

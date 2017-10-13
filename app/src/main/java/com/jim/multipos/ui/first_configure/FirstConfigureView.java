@@ -5,7 +5,6 @@ import com.jim.multipos.data.db.model.Account;
 import com.jim.multipos.data.db.model.PaymentType;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.unit.Unit;
-import com.jim.multipos.ui.first_configure.adapters.UnitAdapter;
 
 import java.util.List;
 
@@ -37,6 +36,8 @@ public interface FirstConfigureView extends BaseView {
     void showPaymentTypeAccountToast();
 
     void showPaymentTypeToast();
+
+    void showAccountToast();
 
     void setPaymentTypeCurrency(Currency currency);
 

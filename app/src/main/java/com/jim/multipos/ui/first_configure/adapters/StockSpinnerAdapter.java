@@ -10,7 +10,6 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.jim.multipos.R;
-import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.stock.Stock;
 
 import java.util.List;

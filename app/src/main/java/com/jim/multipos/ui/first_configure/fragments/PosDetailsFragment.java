@@ -4,16 +4,21 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
+
 import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.mpviews.MpButton;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.ui.first_configure.FirstConfigureActivity;
 import com.jim.multipos.utils.RxBusLocal;
+
 import javax.inject.Inject;
+
 import butterknife.BindView;
 import eu.inmite.android.lib.validations.form.annotations.MaxLength;
 import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
+
+import static com.jim.multipos.ui.first_configure.Constants.POS_DETAIL_FRAGMENT_ID;
 
 /**
  * Created by user on 07.10.17.
@@ -97,8 +102,11 @@ public class PosDetailsFragment extends BaseFragment {
 
         RxView.clicks(btnNext).subscribe(aVoid -> {
             if (isValid()) {
+                ((FirstConfigureActivity) getActivity()).getPresenter().setCompletedFragments(true, POS_DETAIL_FRAGMENT_ID);
                 ((FirstConfigureActivity) getActivity()).getPresenter().savePosDetailsData(etPosId.getText().toString(), etAddress.getText().toString(), etAddress.getText().toString(), etPassword.getText().toString());
                 ((FirstConfigureActivity) getActivity()).getPresenter().openNextFragment();
+            } else {
+                ((FirstConfigureActivity) getActivity()).getPresenter().setCompletedFragments(false, POS_DETAIL_FRAGMENT_ID);
             }
         });
 

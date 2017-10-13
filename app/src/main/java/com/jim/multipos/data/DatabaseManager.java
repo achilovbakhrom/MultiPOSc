@@ -265,8 +265,13 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
-    public Observable<List<Unit>> getUnits(Long rootId) {
-        return dbHelper.getUnits(rootId);
+    public Observable<List<Unit>> getUnits(Long rootId, String name) {
+        return dbHelper.getUnits(rootId, name);
+    }
+
+    @Override
+    public Observable<Unit> updateUnit(Unit unit) {
+        return dbHelper.updateUnit(unit);
     }
 
     @Override
@@ -332,6 +337,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Observable<List<PaymentType>> getAllPaymentTypes() {
         return dbHelper.getAllPaymentTypes();
+    }
+
+    @Override
+    public Boolean isPaymentTypeNameExists(String name) {
+        return dbHelper.isPaymentTypeNameExists(name);
     }
 
     @Override

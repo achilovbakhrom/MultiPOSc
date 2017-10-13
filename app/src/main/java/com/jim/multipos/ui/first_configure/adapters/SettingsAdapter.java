@@ -2,15 +2,16 @@ package com.jim.multipos.ui.first_configure.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+
 import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.mpviews.MpCheckbox;
 import com.jim.multipos.R;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -20,7 +21,7 @@ import butterknife.ButterKnife;
 
 public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.ViewHolder> {
     public interface OnClickListener {
-        void onClick(int position);
+        void onClick(int position, int nextPosition);
     }
 
     private Context context;
@@ -73,13 +74,6 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.ViewHo
         return titles.length;
     }
 
-    /*public void updateAdapter(int position, boolean isChecked, int nextPosition ) {
-        isCompletedFragments[position] = isChecked;
-        current = nextPosition;
-        notifyItemChanged(nextPosition);
-        notifyItemChanged(position);
-    }*/
-
     public void updateAdapter(int position) {
         notifyItemChanged(current);
         notifyItemChanged(position);
@@ -105,7 +99,7 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.ViewHo
             ButterKnife.bind(this, itemView);
 
             RxView.clicks(itemView).subscribe(o -> {
-                onClickListener.onClick(getAdapterPosition());
+                onClickListener.onClick(current, getAdapterPosition());
             });
         }
     }

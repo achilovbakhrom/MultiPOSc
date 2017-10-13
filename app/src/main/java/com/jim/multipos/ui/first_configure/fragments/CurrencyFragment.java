@@ -2,6 +2,7 @@ package com.jim.multipos.ui.first_configure.fragments;
 
 import android.os.Bundle;
 
+import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.mpviews.MpButton;
 import com.jim.mpviews.MpSpinner;
 import com.jim.multipos.R;
@@ -13,6 +14,8 @@ import com.jim.multipos.ui.first_configure.adapters.CurrencySpinnerAdapter;
 import java.util.List;
 
 import butterknife.BindView;
+
+import static com.jim.multipos.ui.first_configure.Constants.CURRENCY_FRAGMENT_ID;
 
 /**
  * Created by user on 10.10.17.
@@ -37,6 +40,15 @@ public class CurrencyFragment extends BaseFragment {
 
         spCurrency.setOnItemSelectedListener((adapterView, view, i, l) -> {
             ((FirstConfigureActivity) getActivity()).getPresenter().changeCurrency(((Currency) spCurrency.getAdapter().getItem(i)));
+        });
+
+        RxView.clicks(btnNext).subscribe(aVoid -> {
+            ((FirstConfigureActivity) getActivity()).getPresenter().setCompletedFragments(true, CURRENCY_FRAGMENT_ID);
+            ((FirstConfigureActivity) getActivity()).getPresenter().openNextFragment();
+        });
+
+        RxView.clicks(btnRevert).subscribe(aVoid -> {
+            ((FirstConfigureActivity) getActivity()).getPresenter().openPrevFragment();
         });
     }
 

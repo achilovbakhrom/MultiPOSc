@@ -1,7 +1,6 @@
 package com.jim.multipos.ui.first_configure.adapters;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,6 @@ import android.widget.TextView;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.multipos.R;
 import com.jim.multipos.data.db.model.Account;
-import com.jim.multipos.ui.first_configure.Constants;
 
 import java.util.List;
 

@@ -82,12 +82,14 @@ public interface DbHelper {
     Observable<Boolean> deletePaymentType(PaymentType paymentType);
     Observable<Boolean> deleteAllPaymentTypes();
     Observable<List<PaymentType>> getAllPaymentTypes();
+    Boolean isPaymentTypeNameExists(String name);
     Observable<Long> insertUnit(Unit unit);
     Observable<Boolean> insertUnits(List<Unit> units);
     Observable<Boolean> deleteUnit(Unit unit);
     Observable<Boolean> deleteAllUnits();
     Observable<List<Unit>> getAllStaticUnits();
-    Observable<List<Unit>> getUnits(Long rootId);
+    Observable<List<Unit>> getUnits(Long rootId, String name);
+    Observable<Unit> updateUnit(Unit unit);
     Observable<Boolean> insertServiceFees(List<ServiceFee> serviceFees);
     Observable<Long> insertServiceFee(ServiceFee serviceFee);
     Observable<List<ServiceFee>> getAllServiceFees();

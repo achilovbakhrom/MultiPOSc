@@ -2,6 +2,7 @@ package com.jim.multipos.ui.first_configure;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+
 import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.core.DoubleSideActivity;
 import com.jim.multipos.data.db.model.Account;
@@ -15,15 +16,19 @@ import com.jim.multipos.ui.first_configure.fragments.PaymentTypeFragment;
 import com.jim.multipos.ui.first_configure.fragments.PosDetailsFragment;
 import com.jim.multipos.ui.first_configure.fragments.UnitsFragment;
 import com.jim.multipos.utils.RxBusLocal;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.inject.Inject;
+
 import io.reactivex.disposables.Disposable;
 import lombok.Getter;
+
 import static com.jim.multipos.ui.first_configure.Constants.ACCOUNT_FRAGMENT_ID;
+import static com.jim.multipos.ui.first_configure.Constants.CURRENCY_FRAGMENT_ID;
 import static com.jim.multipos.ui.first_configure.Constants.PAYMENT_TYPE_FRAGMENT_ID;
 import static com.jim.multipos.ui.first_configure.Constants.POS_DETAIL_FRAGMENT_ID;
-import static com.jim.multipos.ui.first_configure.Constants.SINGLE_CURRENCY_FRAGMENT_ID;
 import static com.jim.multipos.ui.first_configure.Constants.UNITS_FRAGMENT_ID;
 
 /**
@@ -66,7 +71,7 @@ public class FirstConfigureActivity extends DoubleSideActivity implements FirstC
             case ACCOUNT_FRAGMENT_ID:
                 addFragmentToRight(new AccountFragment());
                 break;
-            case SINGLE_CURRENCY_FRAGMENT_ID:
+            case CURRENCY_FRAGMENT_ID:
                 addFragmentToRight(new CurrencyFragment());
                 break;
             case PAYMENT_TYPE_FRAGMENT_ID:
@@ -95,37 +100,37 @@ public class FirstConfigureActivity extends DoubleSideActivity implements FirstC
 
     @Override
     public void addAccountItem(Account account) {
-        if (getCurrentFragmentRight() instanceof  AccountFragment) {
+        if (getCurrentFragmentRight() instanceof AccountFragment) {
             ((AccountFragment) getCurrentFragmentRight()).updateAccountList(account);
         }
     }
 
     @Override
     public void addPaymentTypeItem(PaymentType paymentType) {
-        if (getCurrentFragmentRight() instanceof  PaymentTypeFragment) {
+        if (getCurrentFragmentRight() instanceof PaymentTypeFragment) {
             ((PaymentTypeFragment) getCurrentFragmentRight()).addPaymentTypeItem(paymentType);
         }
     }
 
     @Override
     public void removeAccountItem(Account account) {
-        if (getCurrentFragmentRight() instanceof  AccountFragment) {
+        if (getCurrentFragmentRight() instanceof AccountFragment) {
             ((AccountFragment) getCurrentFragmentRight()).removeAccountItem(account);
         }
     }
 
     @Override
     public void removePaymentTypeItem(PaymentType paymentType) {
-        if (getCurrentFragmentRight() instanceof  PaymentTypeFragment) {
+        if (getCurrentFragmentRight() instanceof PaymentTypeFragment) {
             ((PaymentTypeFragment) getCurrentFragmentRight()).removePaymentTypeItem(paymentType);
         }
     }
 
     @Override
     public void setCurrencySpinnerData(List<Currency> currencies, int position) {
-         if (getCurrentFragmentRight() instanceof CurrencyFragment) {
-             ((CurrencyFragment) getCurrentFragmentRight()).setCurrencySpinnerData(currencies, position);
-         }
+        if (getCurrentFragmentRight() instanceof CurrencyFragment) {
+            ((CurrencyFragment) getCurrentFragmentRight()).setCurrencySpinnerData(currencies, position);
+        }
     }
 
     @Override
@@ -146,6 +151,13 @@ public class FirstConfigureActivity extends DoubleSideActivity implements FirstC
     public void showPaymentTypeToast() {
         if (getCurrentFragmentRight() instanceof PaymentTypeFragment) {
             ((PaymentTypeFragment) getCurrentFragmentRight()).showPaymentTypeToast();
+        }
+    }
+
+    @Override
+    public void showAccountToast() {
+        if (getCurrentFragmentRight() instanceof AccountFragment) {
+            ((AccountFragment) getCurrentFragmentRight()).showAccountToast();
         }
     }
 

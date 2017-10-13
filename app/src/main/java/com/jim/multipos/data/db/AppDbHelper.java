@@ -16,6 +16,7 @@
 package com.jim.multipos.data.db;
 
 import android.database.Cursor;
+import android.util.Log;
 
 import com.jim.multipos.data.db.model.Account;
 import com.jim.multipos.data.db.model.AccountDao;
@@ -23,6 +24,7 @@ import com.jim.multipos.data.db.model.Contact;
 import com.jim.multipos.data.db.model.DaoMaster;
 import com.jim.multipos.data.db.model.DaoSession;
 import com.jim.multipos.data.db.model.PaymentType;
+import com.jim.multipos.data.db.model.PaymentTypeDao;
 import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.currency.Currency;
@@ -521,8 +523,22 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
+    public Boolean isPaymentTypeNameExists(String name) {
+        return !mDaoSession.getPaymentTypeDao().queryBuilder().where(PaymentTypeDao.Properties.Name.eq(name)).build().list().isEmpty();
+    }
+
+    @Override
     public Observable<Long> insertUnit(Unit unit) {
         return Observable.fromCallable(() -> mDaoSession.getUnitDao().insertOrReplace(unit));
+    }
+
+    @Override
+    public Observable<Unit> updateUnit(Unit unit) {
+        return Observable.fromCallable(() -> {
+            mDaoSession.getUnitDao().insertOrReplace(unit);
+
+            return unit;
+        });
     }
 
     @Override
@@ -535,8 +551,8 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
-    public Observable<List<Unit>> getUnits(Long rootId) {
-        return Observable.fromCallable(() -> mDaoSession.getUnitDao().queryBuilder().where(UnitDao.Properties.RootId.eq(rootId)).list());
+    public Observable<List<Unit>> getUnits(Long rootId, String name) {
+        return Observable.fromCallable(() -> mDaoSession.getUnitDao().queryBuilder().where(UnitDao.Properties.RootId.eq(rootId), UnitDao.Properties.Name.notEq(name)).list());
     }
 
     @Override

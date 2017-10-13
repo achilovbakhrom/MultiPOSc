@@ -1,12 +1,9 @@
 package com.jim.multipos.ui.first_configure;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.widget.EditText;
 
-import com.jim.mpviews.MpSpinner;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Account;
@@ -15,25 +12,24 @@ import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.unit.Unit;
 import com.jim.multipos.data.db.model.unit.UnitCategory;
 import com.jim.multipos.data.prefs.PreferencesHelper;
-import com.jim.multipos.ui.first_configure.adapters.CurrencySpinnerAdapter;
 import com.jim.multipos.ui.first_configure.adapters.SystemAccountsAdapter;
 import com.jim.multipos.ui.first_configure.adapters.SystemPaymentTypesAdapter;
 import com.jim.multipos.ui.first_configure.adapters.UnitAdapter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import io.reactivex.functions.Consumer;
 import lombok.Getter;
 
 import static com.jim.multipos.ui.first_configure.Constants.ACCOUNT_FRAGMENT_ID;
+import static com.jim.multipos.ui.first_configure.Constants.CURRENCY_FRAGMENT_ID;
 import static com.jim.multipos.ui.first_configure.Constants.PAYMENT_TYPE_FRAGMENT_ID;
 import static com.jim.multipos.ui.first_configure.Constants.POS_DETAIL_FRAGMENT_ID;
+import static com.jim.multipos.ui.first_configure.Constants.UNITS_FRAGMENT_ID;
 
 /**
  * Created by user on 07.10.17.
@@ -155,14 +151,61 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
         }
 
         if (nextPosition != -1) {
-            openNextFragment(nextPosition);
+            view.replaceFragment(nextPosition);
+            view.updateLeftSideFragment(nextPosition);
         }
     }
 
     @Override
-    public void openNextFragment(int position) {
-        view.replaceFragment(position);
-        view.updateLeftSideFragment(position);
+    public void openNextFragment(int position, int nextPosition) {
+        switch (position) {
+            case POS_DETAIL_FRAGMENT_ID:
+                if (preferences.getPosDetailPosId() == null || preferences.getPosDetailPosId().isEmpty()) {
+                    completedFragments[POS_DETAIL_FRAGMENT_ID] = false;
+                } else {
+                    completedFragments[POS_DETAIL_FRAGMENT_ID] = true;
+                }
+
+                view.replaceFragment(nextPosition);
+                view.updateLeftSideFragment(nextPosition);
+                break;
+            case ACCOUNT_FRAGMENT_ID:
+                databaseManager.getAccountOperations().getAllAccounts().subscribe(accounts -> {
+                    if (accounts.isEmpty()) {
+                        completedFragments[ACCOUNT_FRAGMENT_ID] = false;
+                    } else {
+                        completedFragments[ACCOUNT_FRAGMENT_ID] = true;
+                    }
+
+                    view.replaceFragment(nextPosition);
+                    view.updateLeftSideFragment(nextPosition);
+                });
+                break;
+            case CURRENCY_FRAGMENT_ID:
+                completedFragments[CURRENCY_FRAGMENT_ID] = true;
+
+                view.replaceFragment(nextPosition);
+                view.updateLeftSideFragment(nextPosition);
+                break;
+            case PAYMENT_TYPE_FRAGMENT_ID:
+                databaseManager.getPaymentTypeOperations().getAllPaymentTypes().subscribe(paymentTypes -> {
+                    if (paymentTypes.isEmpty()) {
+                        completedFragments[PAYMENT_TYPE_FRAGMENT_ID] = false;
+                    } else {
+                        completedFragments[PAYMENT_TYPE_FRAGMENT_ID] = true;
+                    }
+
+                    view.replaceFragment(nextPosition);
+                    view.updateLeftSideFragment(nextPosition);
+                });
+                break;
+            case UNITS_FRAGMENT_ID:
+                completedFragments[UNITS_FRAGMENT_ID] = true;
+
+                view.replaceFragment(nextPosition);
+                view.updateLeftSideFragment(nextPosition);
+                break;
+        }
     }
 
     @Override
@@ -284,11 +327,19 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
     }
 
     @Override
+    public Boolean isPaymentTypeNameExists(String name) {
+        return databaseManager.getPaymentTypeOperations().isPaymentTypeNameExists(name);
+    }
+
+    @Override
     public void checkAccountData() {
         databaseManager.getAccountOperations().getAllAccounts().subscribe(accounts -> {
             if (accounts.size() > 0) {
                 completedFragments[ACCOUNT_FRAGMENT_ID] = true;
                 openNextFragment();
+            } else {
+                view.showAccountToast();
+                completedFragments[ACCOUNT_FRAGMENT_ID] = false;
             }
         });
     }
@@ -298,6 +349,7 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
         databaseManager.getPaymentTypeOperations().getAllPaymentTypes().subscribe(paymentTypes -> {
             if (paymentTypes.isEmpty()) {
                 view.showPaymentTypeToast();
+                completedFragments[PAYMENT_TYPE_FRAGMENT_ID] = false;
             } else {
                 completedFragments[PAYMENT_TYPE_FRAGMENT_ID] = true;
                 openNextFragment();
@@ -307,8 +359,6 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
 
     @Override
     public void savePosDetailsData(String posId, String alias, String address, String password) {
-        completedFragments[POS_DETAIL_FRAGMENT_ID] = true;
-
         preferences.setPosDetailPosId(posId);
         preferences.setPosDetailAlias(alias);
         preferences.setPosDetailAddress(address);
@@ -331,9 +381,9 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
         databaseManager.getAccountOperations().getAllAccounts().subscribe(accounts -> {
             if (accounts.isEmpty()) {
                 view.showPaymentTypeAccountToast();
-            } else {
-                view.setPaymentTypeAccount(accounts);
             }
+
+            view.setPaymentTypeAccount(accounts);
         });
     }
 
@@ -345,56 +395,71 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
                     databaseManager.getUnitCategoryOperations().getAllUnitCategories().subscribe(categories1 -> {
                         if (!categories1.isEmpty()) {
                             databaseManager.getUnitOperations().addUnits(createUnits(categories1)).subscribe(aBoolean1 -> {
-                                databaseManager.getUnitOperations().getUnits(categories1.get(0).getId()).subscribe(units -> {
-                                    Log.d("myLogs", Arrays.toString(units.toArray()));
+                                databaseManager.getUnitOperations().getUnits(categories1.get(0).getId(), categories1.get(0).getName()).subscribe(units -> {
                                     rvWeight.setAdapter(new UnitAdapter(units, new UnitAdapter.OnClickListener() {
                                         @Override
                                         public void addUnitItem(Unit item) {
-                                            view.addWeightUnit(item);
+                                            databaseManager.getUnitOperations().updateUnit(item).subscribe(aLong -> {
+                                                view.addWeightUnit(item);
+                                            });
                                         }
 
                                         @Override
                                         public void removeUnitItem(Unit item) {
-                                            view.removeWeightUnit(item);
+                                            databaseManager.getUnitOperations().updateUnit(item).subscribe(unit -> {
+                                                view.removeWeightUnit(item);
+                                            });
                                         }
                                     }));
                                 });
-                                databaseManager.getUnitOperations().getUnits(categories1.get(1).getId()).subscribe(units -> {
+                                databaseManager.getUnitOperations().getUnits(categories1.get(1).getId(), categories1.get(1).getName()).subscribe(units -> {
                                     rvLength.setAdapter(new UnitAdapter(units, new UnitAdapter.OnClickListener() {
                                         @Override
                                         public void addUnitItem(Unit item) {
-                                            view.addLengthUnit(item);
+                                            databaseManager.getUnitOperations().updateUnit(item).subscribe(aLong -> {
+                                                view.addLengthUnit(item);
+                                            });
                                         }
 
                                         @Override
                                         public void removeUnitItem(Unit item) {
-                                            view.removeLengthUnit(item);
+                                            databaseManager.getUnitOperations().updateUnit(item).subscribe(aLong -> {
+                                                view.removeLengthUnit(item);
+                                            });
                                         }
                                     }));
                                 });
-                                databaseManager.getUnitOperations().getUnits(categories1.get(2).getId()).subscribe(units -> {
+                                databaseManager.getUnitOperations().getUnits(categories1.get(2).getId(), categories1.get(2).getName()).subscribe(units -> {
                                     rvArea.setAdapter(new UnitAdapter(units, new UnitAdapter.OnClickListener() {
                                         @Override
                                         public void addUnitItem(Unit item) {
-                                            view.addAreaUnit(item);
+                                            databaseManager.getUnitOperations().updateUnit(item).subscribe(aLong -> {
+                                                view.addAreaUnit(item);
+                                            });
                                         }
 
                                         @Override
                                         public void removeUnitItem(Unit item) {
-                                            view.removeAreaUnit(item);
+                                            databaseManager.getUnitOperations().updateUnit(item).subscribe(aLong -> {
+                                                view.removeAreaUnit(item);
+                                            });
                                         }
                                     }));
                                 });
-                                databaseManager.getUnitOperations().getUnits(categories1.get(3).getId()).subscribe(units -> {
+                                databaseManager.getUnitOperations().getUnits(categories1.get(3).getId(), categories1.get(3).getName()).subscribe(units -> {
                                     rvVolume.setAdapter(new UnitAdapter(units, new UnitAdapter.OnClickListener() {
                                         @Override
                                         public void addUnitItem(Unit item) {
-                                            view.addVolumeUnit(item);
+                                            databaseManager.getUnitOperations().updateUnit(item).subscribe(aLong -> {
+                                                view.addVolumeUnit(item);
+                                            });
                                         }
 
                                         @Override
                                         public void removeUnitItem(Unit item) {
-                                            view.removeVolumeUnit(item);
+                                            databaseManager.getUnitOperations().updateUnit(item).subscribe(aLong -> {
+                                                view.removeVolumeUnit(item);
+                                            });
                                         }
                                     }));
                                 });
@@ -405,55 +470,71 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
             } else {
                 databaseManager.getUnitCategoryOperations().getAllUnitCategories().subscribe(categories1 -> {
                     if (!categories1.isEmpty()) {
-                        databaseManager.getUnitOperations().getUnits(categories1.get(0).getId()).subscribe(units -> {
+                        databaseManager.getUnitOperations().getUnits(categories1.get(0).getId(), categories1.get(0).getName()).subscribe(units -> {
                             rvWeight.setAdapter(new UnitAdapter(units, new UnitAdapter.OnClickListener() {
                                 @Override
                                 public void addUnitItem(Unit item) {
-                                    view.addWeightUnit(item);
+                                    databaseManager.getUnitOperations().updateUnit(item).subscribe(aLong -> {
+                                        view.addWeightUnit(item);
+                                    });
                                 }
 
                                 @Override
                                 public void removeUnitItem(Unit item) {
-                                    view.removeWeightUnit(item);
+                                    databaseManager.getUnitOperations().updateUnit(item).subscribe(aLong -> {
+                                        view.removeWeightUnit(item);
+                                    });
                                 }
                             }));
                         });
-                        databaseManager.getUnitOperations().getUnits(categories1.get(1).getId()).subscribe(units -> {
+                        databaseManager.getUnitOperations().getUnits(categories1.get(1).getId(), categories1.get(1).getName()).subscribe(units -> {
                             rvLength.setAdapter(new UnitAdapter(units, new UnitAdapter.OnClickListener() {
                                 @Override
                                 public void addUnitItem(Unit item) {
-                                    view.addLengthUnit(item);
+                                    databaseManager.getUnitOperations().updateUnit(item).subscribe(aLong -> {
+                                        view.addLengthUnit(item);
+                                    });
                                 }
 
                                 @Override
                                 public void removeUnitItem(Unit item) {
-                                    view.removeLengthUnit(item);
+                                    databaseManager.getUnitOperations().updateUnit(item).subscribe(aLong -> {
+                                        view.removeLengthUnit(item);
+                                    });
                                 }
                             }));
                         });
-                        databaseManager.getUnitOperations().getUnits(categories1.get(2).getId()).subscribe(units -> {
+                        databaseManager.getUnitOperations().getUnits(categories1.get(2).getId(), categories1.get(2).getName()).subscribe(units -> {
                             rvArea.setAdapter(new UnitAdapter(units, new UnitAdapter.OnClickListener() {
                                 @Override
                                 public void addUnitItem(Unit item) {
-                                    view.addAreaUnit(item);
+                                    databaseManager.getUnitOperations().updateUnit(item).subscribe(aLong -> {
+                                        view.addAreaUnit(item);
+                                    });
                                 }
 
                                 @Override
                                 public void removeUnitItem(Unit item) {
-                                    view.removeAreaUnit(item);
+                                    databaseManager.getUnitOperations().updateUnit(item).subscribe(aLong -> {
+                                        view.removeAreaUnit(item);
+                                    });
                                 }
                             }));
                         });
-                        databaseManager.getUnitOperations().getUnits(categories1.get(3).getId()).subscribe(units -> {
+                        databaseManager.getUnitOperations().getUnits(categories1.get(3).getId(), categories1.get(3).getName()).subscribe(units -> {
                             rvVolume.setAdapter(new UnitAdapter(units, new UnitAdapter.OnClickListener() {
                                 @Override
                                 public void addUnitItem(Unit item) {
-                                    view.addVolumeUnit(item);
+                                    databaseManager.getUnitOperations().updateUnit(item).subscribe(aLong -> {
+                                        view.addVolumeUnit(item);
+                                    });
                                 }
 
                                 @Override
                                 public void removeUnitItem(Unit item) {
-                                    view.removeVolumeUnit(item);
+                                    databaseManager.getUnitOperations().updateUnit(item).subscribe(aLong -> {
+                                        view.removeVolumeUnit(item);
+                                    });
                                 }
                             }));
                         });
@@ -524,6 +605,23 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
             units.add(unit);
         }
 
+        for (int i = 0; i < unitCategories.size(); i++) {
+            Unit unit = new Unit();
+            unit.setName(unitCategories.get(i).getName());
+            unit.setAbbr(unitCategories.get(i).getAbbr());
+            unit.setFactorRoot(1);
+            unit.setUnitCategory(unitCategories.get(i));
+            unit.setIsActive(true);
+            unit.setIsStaticUnit(true);
+
+            units.add(unit);
+        }
+
         return units;
+    }
+
+    @Override
+    public void setCompletedFragments(boolean isCompleted, int position) {
+        completedFragments[position] = isCompleted;
     }
 }
