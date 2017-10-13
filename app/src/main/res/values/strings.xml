@@ -46,6 +46,7 @@
     <string name="access_token">Access token*</string>
     <string name="confirm">Confirm</string>
     <string name="enter_code_access_code">Enter code access code</string>
+    <string name="enter_zip_code">Enter zip code</string>
     <string name="enter_organization_email">Enter organization mail</string>
     <string name="email_">Email:</string>
     <string name="address_">Address</string>

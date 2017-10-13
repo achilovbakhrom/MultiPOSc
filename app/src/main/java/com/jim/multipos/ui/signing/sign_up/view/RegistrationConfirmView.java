@@ -7,7 +7,4 @@ import com.jim.multipos.core.BaseView;
  */
 
 public interface RegistrationConfirmView extends BaseView {
-    void onConfirm();
-    void checkToken();
-    void onBack();
 }
