@@ -1,6 +1,11 @@
 package com.jim.multipos.ui.product_class.fragments;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -13,6 +18,7 @@ import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.rxevents.GlobalEventsConstants;
 import com.jim.multipos.utils.rxevents.ProductClassEvent;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,6 +70,8 @@ public class ProductClassListFragment extends BaseFragment implements ProductCla
                             presenter.onAddProductClass(productClassEvent.getProductClass());
                         }else if(productClassEvent.getEventType().equals(GlobalEventsConstants.UPDATE)) {
                             presenter.onUpdateProductClass(productClassEvent.getProductClass());
+                        }else if(productClassEvent.getEventType().equals(GlobalEventsConstants.DELETE)) {
+                            presenter.onDeleteProductClass(productClassEvent.getProductClass());
                         }
                     }}));
 
@@ -94,6 +102,8 @@ public class ProductClassListFragment extends BaseFragment implements ProductCla
             public void onItemPressed(int t) {
                 presenter.pressedItem(t);
             }
+
+
         });
         rvClasses.setAdapter(classListAdapter);
     }

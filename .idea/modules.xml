@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/MultiPOS.iml" filepath="$PROJECT_DIR$/MultiPOS.iml" />
+      <module fileurl="file://C:\WORKNOW\MultiPOS\MultiPOSc.iml" filepath="C:\WORKNOW\MultiPOS\MultiPOSc.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/jim/jim.iml" filepath="$PROJECT_DIR$/jim/jim.iml" />
       <module fileurl="file://$PROJECT_DIR$/mylibrary/mylibrary.iml" filepath="$PROJECT_DIR$/mylibrary/mylibrary.iml" />

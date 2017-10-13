@@ -12,4 +12,5 @@ public interface ProductClassListPresenter extends Presenter {
     void pressedItem(int pos);
     void onAddProductClass(ProductClass productClass);
     void onUpdateProductClass(ProductClass productClass);
+    void onDeleteProductClass(ProductClass productClass);
 }

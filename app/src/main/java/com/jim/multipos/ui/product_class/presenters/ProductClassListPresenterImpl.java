@@ -12,6 +12,7 @@ import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.RxBusLocal;
 import com.jim.multipos.utils.rxevents.ProductClassEvent;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -52,24 +53,40 @@ public class ProductClassListPresenterImpl  extends BasePresenterImpl<ProductCla
 
     @Override
     public void onAddProductClass(ProductClass productClass) {
-        databaseManager.getAllProductClass().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(productClasses1 -> {
-            productClasses.clear();
-            productClasses.addAll(productClasses1);
-            productClasses.add(0,null);
-            view.reshreshView();
-        });
+        productClasses.remove(0);
+        productClasses.add(0,productClass);
+        Collections.sort(productClasses,(productClass1, t1) -> t1.getActive().compareTo(productClass1.getActive()));
+        productClasses.add(0,null);
+        view.reshreshView();
+
     }
 
     @Override
     public void onUpdateProductClass(ProductClass productClass) {
-        databaseManager.getAllProductClass().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(productClasses1 -> {
-            productClasses.clear();
-            productClasses.addAll(productClasses1);
-            productClasses.add(0,null);
-            view.reshreshView();
-        });
+        productClasses.remove(0);
+        for (int i = 0;i<productClasses.size();i++){
+            if(productClasses.get(i).getId().equals(productClass.getId())){
+                productClasses.set(i,productClass);
+            }
+        }
+        Collections.sort(productClasses,(productClass1, t1) -> t1.getCreatedDate().compareTo(productClass1.getCreatedDate()));
+        Collections.sort(productClasses,(productClass1, t1) -> t1.getActive().compareTo(productClass1.getActive()));
+        productClasses.add(0,null);
+        view.reshreshView();
     }
 
+    @Override
+    public void onDeleteProductClass(ProductClass productClass) {
+        productClasses.remove(0);
+        for (int i = 0;i<productClasses.size();i++){
+            if(productClasses.get(i).getId().equals(productClass.getId())){
+                productClasses.remove(i);
+                break;
+            }
+        }
+        productClasses.add(0,null);
+        view.reshreshView();
+    }
 
 
     @Override

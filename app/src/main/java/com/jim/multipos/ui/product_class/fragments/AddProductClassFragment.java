@@ -1,6 +1,8 @@
 package com.jim.multipos.ui.product_class.fragments;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 
 import com.jakewharton.rxbinding2.view.RxView;
@@ -41,7 +43,8 @@ public class AddProductClassFragment extends BaseFragment implements AddProductC
     MpButton btnCancel;
     @BindView(R.id.btnSave)
     MpButton btnSave;
-
+    @BindView(R.id.btnDelete)
+    MpButton btnDelete;
 
 
 
@@ -55,6 +58,7 @@ public class AddProductClassFragment extends BaseFragment implements AddProductC
     protected void init(Bundle savedInstanceState) {
         presenter.onCreateView(savedInstanceState);
         cbActive.setChecked(true);
+        btnDelete.setVisibility(View.GONE);
         RxView.clicks(btnSave).subscribe(aVoid -> {
             String className = etClassName.getText().toString();
             int pos = spParent.selectedItemPosition();
@@ -63,6 +67,15 @@ public class AddProductClassFragment extends BaseFragment implements AddProductC
         });
         RxView.clicks(btnCancel).subscribe(aVoid -> {
             getActivity().finish();
+        });
+        RxView.clicks(btnDelete).subscribe(o -> {
+            final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getActivity());
+            builder.setMessage(R.string.do_you_want_delete)
+                    .setPositiveButton(R.string.sure, (DialogInterface.OnClickListener) (dialog, id) -> {
+                        presenter.deleteProductClass();
+                        dialog.cancel();
+                    }).setNegativeButton(R.string.cancel, (dialog, id) -> dialog.cancel());
+            builder.create().show();
         });
     }
 
@@ -76,8 +89,10 @@ public class AddProductClassFragment extends BaseFragment implements AddProductC
                         ProductClassEvent productClassEvent = (ProductClassEvent) o;
                         if(productClassEvent.getEventType().equals(CLICK_PRODUCT_CLASS)){
                             presenter.onClickProductClass(productClassEvent.getProductClass());
+                            btnDelete.setVisibility(View.VISIBLE);
                         }else if(productClassEvent.getEventType().equals(ADD_PRODUCT_CLASS)){
                             presenter.addProductClass();
+                            btnDelete.setVisibility(View.GONE);
                         }
                     }}));
 
@@ -95,6 +110,8 @@ public class AddProductClassFragment extends BaseFragment implements AddProductC
     public void fillView(ProductClass productClass) {
         etClassName.setText(productClass.getName());
         cbActive.setChecked(productClass.getActive());
+        btnDelete.setVisibility(View.VISIBLE);
+
     }
 
     @Override
@@ -102,6 +119,7 @@ public class AddProductClassFragment extends BaseFragment implements AddProductC
         etClassName.setText("");
         spParent.setSelection(0);
         cbActive.setChecked(true);
+        btnDelete.setVisibility(View.GONE);
     }
 
     @Override
@@ -113,7 +131,7 @@ public class AddProductClassFragment extends BaseFragment implements AddProductC
     @Override
     public void setParentSpinnerPosition(int position) {
 
-        spParent.setSelection(0);
+        spParent.setSelection(position);
     }
 
     @Override

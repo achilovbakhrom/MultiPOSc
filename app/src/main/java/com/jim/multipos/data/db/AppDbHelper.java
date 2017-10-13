@@ -608,7 +608,7 @@ public class AppDbHelper implements DbHelper {
         });
         return objectObservable.flatMap(Observable::fromIterable)
                 .filter(productClass -> productClass.isNotModifyted())
-                .filter(productClass -> productClass.isDeleted())
+                .filter(productClass -> !productClass.isDeleted())
                 .sorted((productClass, t1) -> t1.getCreatedDate().compareTo(productClass.getCreatedDate()))
                 .sorted((productClass, t1) -> t1.getActive().compareTo(productClass.getActive()))
                 .toList();

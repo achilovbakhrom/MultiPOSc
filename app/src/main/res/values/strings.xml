@@ -478,4 +478,10 @@
     <string name="category_length_validation">Category name should be longer than 3 letters</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="what_do_you_want">What do you want?</string>
+    <string name="sure">Sure</string>
+    <string name="do_you_want_delete">Do you want delete?</string>
+    <string-array name="on_item_long_click">
+        <item>Delete</item>
+    </string-array>
 </resources>

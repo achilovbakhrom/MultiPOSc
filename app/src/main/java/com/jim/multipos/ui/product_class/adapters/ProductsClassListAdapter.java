@@ -126,12 +126,15 @@ public class ProductsClassListAdapter extends RecyclerView.Adapter<RecyclerView.
             ButterKnife.bind(this, itemView);
             mainView =itemView;
             RxView.clicks(mpItem).subscribe(aVoid -> {
-                int prevPosition = selectedPosition;
-                selectedPosition = getAdapterPosition();
-                notifyItemChanged(prevPosition);
-                notifyItemChanged(selectedPosition);
-                onItemClickListner.onItemPressed(selectedPosition);
+                if(selectedPosition!=getAdapterPosition()) {
+                    int prevPosition = selectedPosition;
+                    selectedPosition = getAdapterPosition();
+                    notifyItemChanged(prevPosition);
+                    notifyItemChanged(selectedPosition);
+                    onItemClickListner.onItemPressed(selectedPosition);
+                }
             });
+
         }
 
     }
@@ -149,14 +152,15 @@ public class ProductsClassListAdapter extends RecyclerView.Adapter<RecyclerView.
         public FirstItemViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            mainView =itemView;
+            mainView = itemView;
             RxView.clicks(rlFirstItem).subscribe(aVoid -> {
-                int prevPosition = selectedPosition;
-                selectedPosition = getAdapterPosition();
-                notifyItemChanged(prevPosition);
-                notifyItemChanged(selectedPosition);
-                onItemClickListner.onAddButtonPressed();
-
+                if(selectedPosition!=getAdapterPosition()) {
+                    int prevPosition = selectedPosition;
+                    selectedPosition = getAdapterPosition();
+                    notifyItemChanged(prevPosition);
+                    notifyItemChanged(selectedPosition);
+                    onItemClickListner.onAddButtonPressed();
+                }
             });
         }
     }
