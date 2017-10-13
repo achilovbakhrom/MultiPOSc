@@ -1,74 +1,92 @@
 package com.jim.multipos.ui.first_configure.adapters;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.mpviews.MpCheckbox;
 import com.jim.multipos.R;
 import com.jim.multipos.data.db.model.unit.Unit;
+import com.jim.multipos.data.db.model.unit.UnitCategory;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by user on 08.08.17.
+ * Created by user on 12.10.17.
  */
 
 public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.ViewHolder> {
-    private String[] unitsProperties;
-    private int whichAdapter;
-    private OnClick onClickCallback;
-    private List<Unit> units;
+    public interface OnClickListener {
+        void addUnitItem(Unit item);
 
-    public UnitAdapter(List<Unit> units, String[] unitsProperties, int whichAdapter, OnClick onClickCallback) {
+        void removeUnitItem(Unit item);
+    }
+
+    private List<Unit> units;
+    private OnClickListener onClickListener;
+
+    public UnitAdapter(List<Unit> units, OnClickListener onClickListener) {
         this.units = units;
-        this.unitsProperties = unitsProperties;
-        this.whichAdapter = whichAdapter;
-        this.onClickCallback = onClickCallback;
+        this.onClickListener = onClickListener;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int i) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.unit_item, parent, false);
 
-        return new ViewHolder(view);
+        return new UnitAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        StringBuilder str = new StringBuilder();
-        Unit unit = units.get(position);
+    public void onBindViewHolder(ViewHolder viewHolder, int position) {
+        /*StringBuilder title = new StringBuilder();
+        StringBuilder description = new StringBuilder();
 
-        str.append(unit.getName());
-        str.append(" (");
-        str.append(unit.getAbbr());
-        str.append(")");
+        //Unit unit = units.get(position);
+        //UnitCategory unitCategory = unit.getUnitCategory();
 
-        holder.tvUnit.setText(str.toString());
-        holder.tvUnitProperty.setText(unitsProperties[position]);
+        title.append(units.get(position).getName());
+        title.append(" (");
+        title.append(units.get(position).getAbbr());
+        title.append(")");
 
-        if (unit.getIsActive()) {
-            holder.chbUnit.setChecked(true);
-        }
+        description.append("1 ");
+        description.append(units.get(position).getName());
+        description.append(" = ");
+        description.append(units.get(position).getFactorRoot());
+        description.append(" ");
+        description.append(units.get(position).getUnitCategory().getName());*/
+
+        viewHolder.tvUnit.setText(String.format("%s (%s)", units.get(position).getName(), units.get(position).getAbbr()));
+        viewHolder.tvUnitProperty.setText(String.format("1 %s = %f %s", units.get(position).getAbbr(),
+                units.get(position).getFactorRoot(),
+                units.get(position).getUnitCategory().getAbbr()));
+        viewHolder.chbUnit.setChecked(units.get(position).getIsActive());
+    }
+
+    public void addUnitItem(Unit unit) {
+        //units.add(unit);
+        units.set(units.indexOf(unit), unit);
+        notifyDataSetChanged();
+    }
+
+    public void removeUnitItem(Unit unit) {
+        //units.remove(unit);
+        units.set(units.indexOf(unit), unit);
+        notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
         return units.size();
-    }
-
-    public interface OnClick {
-        void add(int position, int whichAdapter);
-        void remove(int position, int whichAdapter);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -95,9 +113,11 @@ public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.ViewHolder> {
 
         private void clickHandler() {
             if (chbUnit.isCheckboxChecked()) {
-                onClickCallback.remove(getAdapterPosition(), whichAdapter);
+                units.get(getAdapterPosition()).setIsActive(false);
+                onClickListener.removeUnitItem(units.get(getAdapterPosition()));
             } else {
-                onClickCallback.add(getAdapterPosition(), whichAdapter);
+                units.get(getAdapterPosition()).setIsActive(true);
+                onClickListener.addUnitItem(units.get(getAdapterPosition()));
             }
         }
     }

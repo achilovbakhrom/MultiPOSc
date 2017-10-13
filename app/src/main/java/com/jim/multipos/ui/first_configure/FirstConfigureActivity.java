@@ -7,6 +7,7 @@ import com.jim.multipos.core.DoubleSideActivity;
 import com.jim.multipos.data.db.model.Account;
 import com.jim.multipos.data.db.model.PaymentType;
 import com.jim.multipos.data.db.model.currency.Currency;
+import com.jim.multipos.data.db.model.unit.Unit;
 import com.jim.multipos.ui.first_configure.fragments.AccountFragment;
 import com.jim.multipos.ui.first_configure.fragments.CurrencyFragment;
 import com.jim.multipos.ui.first_configure.fragments.LeftSideFragment;
@@ -159,6 +160,62 @@ public class FirstConfigureActivity extends DoubleSideActivity implements FirstC
     public void setPaymentTypeAccount(List<Account> accounts) {
         if (getCurrentFragmentRight() instanceof PaymentTypeFragment) {
             ((PaymentTypeFragment) getCurrentFragmentRight()).setAccount(accounts);
+        }
+    }
+
+    @Override
+    public void addWeightUnit(Unit unit) {
+        if (getCurrentFragmentRight() instanceof UnitsFragment) {
+            ((UnitsFragment) getCurrentFragmentRight()).addWeightUnit(unit);
+        }
+    }
+
+    @Override
+    public void removeWeightUnit(Unit unit) {
+        if (getCurrentFragmentRight() instanceof UnitsFragment) {
+            ((UnitsFragment) getCurrentFragmentRight()).removeWeightUnit(unit);
+        }
+    }
+
+    @Override
+    public void addLengthUnit(Unit unit) {
+        if (getCurrentFragmentRight() instanceof UnitsFragment) {
+            ((UnitsFragment) getCurrentFragmentRight()).addLengthUnit(unit);
+        }
+    }
+
+    @Override
+    public void removeLengthUnit(Unit unit) {
+        if (getCurrentFragmentRight() instanceof UnitsFragment) {
+            ((UnitsFragment) getCurrentFragmentRight()).removeLengthUnit(unit);
+        }
+    }
+
+    @Override
+    public void addAreaUnit(Unit unit) {
+        if (getCurrentFragmentRight() instanceof UnitsFragment) {
+            ((UnitsFragment) getCurrentFragmentRight()).addAreaUnit(unit);
+        }
+    }
+
+    @Override
+    public void removeAreaUnit(Unit unit) {
+        if (getCurrentFragmentRight() instanceof UnitsFragment) {
+            ((UnitsFragment) getCurrentFragmentRight()).removeAreaUnit(unit);
+        }
+    }
+
+    @Override
+    public void addVolumeUnit(Unit unit) {
+        if (getCurrentFragmentRight() instanceof UnitsFragment) {
+            ((UnitsFragment) getCurrentFragmentRight()).addVolumeUnit(unit);
+        }
+    }
+
+    @Override
+    public void removeVolumeUnit(Unit unit) {
+        if (getCurrentFragmentRight() instanceof UnitsFragment) {
+            ((UnitsFragment) getCurrentFragmentRight()).removeVolumeUnit(unit);
         }
     }
 }

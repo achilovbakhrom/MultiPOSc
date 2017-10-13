@@ -87,6 +87,7 @@ public interface DbHelper {
     Observable<Boolean> deleteUnit(Unit unit);
     Observable<Boolean> deleteAllUnits();
     Observable<List<Unit>> getAllStaticUnits();
+    Observable<List<Unit>> getUnits(Long rootId);
     Observable<Boolean> insertServiceFees(List<ServiceFee> serviceFees);
     Observable<Long> insertServiceFee(ServiceFee serviceFee);
     Observable<List<ServiceFee>> getAllServiceFees();

@@ -265,6 +265,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
+    public Observable<List<Unit>> getUnits(Long rootId) {
+        return dbHelper.getUnits(rootId);
+    }
+
+    @Override
     public Observable<List<Unit>> getAllStaticUnits() {
         return dbHelper.getAllStaticUnits();
     }
