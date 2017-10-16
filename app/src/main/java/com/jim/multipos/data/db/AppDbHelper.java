@@ -16,6 +16,7 @@
 package com.jim.multipos.data.db;
 
 import android.database.Cursor;
+import android.util.Log;
 
 import com.jim.multipos.data.db.model.Account;
 import com.jim.multipos.data.db.model.AccountDao;
@@ -23,6 +24,7 @@ import com.jim.multipos.data.db.model.Contact;
 import com.jim.multipos.data.db.model.DaoMaster;
 import com.jim.multipos.data.db.model.DaoSession;
 import com.jim.multipos.data.db.model.PaymentType;
+import com.jim.multipos.data.db.model.PaymentTypeDao;
 import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.currency.Currency;
@@ -44,12 +46,15 @@ import org.greenrobot.greendao.query.Query;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import io.reactivex.Observable;
 import io.reactivex.Single;
+
+import static com.jim.multipos.data.db.model.products.Category.WITHOUT_PARENT;
 
 
 /**
@@ -131,18 +136,14 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public Observable<Long> insertCategory(Category category) {
-        return Observable.create(subscriber -> {
-            Cursor cursor = mDaoSession.getDatabase().rawQuery("SELECT MAX(position) FROM POSITION", null);
-            cursor.moveToFirst();
-            int max = cursor.getInt(0);
-            long insert = mDaoSession.getCategoryDao().insert(category);
-            /*CategoryPosition categoryPosition = new CategoryPosition();
-            categoryPosition.setParentId(category.getId());
-            categoryPosition.setCategory(category);
-            categoryPosition.setPosition(max + 1);
-            mDaoSession.getCategoryPositionDao().insert(categoryPosition);*/
-            subscriber.onNext(insert);
-            subscriber.onComplete();
+        return Observable.fromCallable(() -> {
+            List<Category> categories = mDaoSession.getCategoryDao().queryBuilder()
+                    .where(CategoryDao.Properties.ParentId.eq(WITHOUT_PARENT), CategoryDao.Properties.IsDeleted.eq(false))
+                    .build().list();
+            if (categories.isEmpty()) {
+                category.setPosition(1d);
+            } else category.setPosition((double) categories.size() + 1d);
+            return mDaoSession.getCategoryDao().insert(category);
         });
     }
 
@@ -157,7 +158,10 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public Observable<List<Category>> getAllCategories() {
-        return Observable.fromCallable(() -> mDaoSession.getCategoryDao().loadAll());
+        return Observable.fromCallable(() -> mDaoSession.getCategoryDao().queryBuilder()
+                .where(CategoryDao.Properties.ParentId.eq(WITHOUT_PARENT), CategoryDao.Properties.IsDeleted.eq(false))
+                .orderAsc(CategoryDao.Properties.Position)
+                .build().list());
     }
 
     @Override
@@ -166,41 +170,8 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
-    public Observable<Long> insertOrReplaceCategoryByPosition(Category category) {
-        return Observable.create(subscriber -> {
-            String rootId;
-            /*if (category.getRootId() == null) {
-                rootId = category.getId();
-            } else rootId = category.getRootId();
-            Query<CategoryPosition> categoryPositionQuery = mDaoSession.getCategoryPositionDao().queryBuilder()
-                    .where(CategoryPositionDao.Properties.ParentId.eq(rootId)).build();
-            if (!categoryPositionQuery.list().isEmpty()) {
-                CategoryPosition categoryPosition = categoryPositionQuery.list().get(0);
-                categoryPosition.setParentId(category.getId());
-                mDaoSession.getCategoryPositionDao().insertOrReplace(categoryPosition);
-            }*/
-            long insert = mDaoSession.getCategoryDao().insertOrReplace(category);
-            subscriber.onNext(insert);
-            subscriber.onComplete();
-        });
-    }
-
-    @Override
     public Observable<Long> insertProduct(Product product) {
-        return Observable.create(subscriber -> {
-            Cursor cursor = mDaoSession.getDatabase().rawQuery("SELECT MAX(position) FROM PRODUCT_POSITION", null);
-            cursor.moveToFirst();
-            int max = cursor.getInt(0);
-            long insert = mDaoSession.getProductDao().insertOrReplace(product);
-            /*ProductPosition productPosition = new ProductPosition();
-            productPosition.setProduct(product);
-            productPosition.setProductId(product.getId());
-            productPosition.setSubCategoryId(product.getSubCategoryId());
-            productPosition.setPosition(max + 1);
-            mDaoSession.getProductPositionDao().insert(productPosition);*/
-            subscriber.onNext(insert);
-            subscriber.onComplete();
-        });
+        return Observable.create(subscriber -> mDaoSession.getProductDao().insertOrReplace(product));
     }
 
     @Override
@@ -520,8 +491,22 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
+    public Boolean isPaymentTypeNameExists(String name) {
+        return !mDaoSession.getPaymentTypeDao().queryBuilder().where(PaymentTypeDao.Properties.Name.eq(name)).build().list().isEmpty();
+    }
+
+    @Override
     public Observable<Long> insertUnit(Unit unit) {
         return Observable.fromCallable(() -> mDaoSession.getUnitDao().insertOrReplace(unit));
+    }
+
+    @Override
+    public Observable<Unit> updateUnit(Unit unit) {
+        return Observable.fromCallable(() -> {
+            mDaoSession.getUnitDao().insertOrReplace(unit);
+
+            return unit;
+        });
     }
 
     @Override
@@ -531,6 +516,11 @@ public class AppDbHelper implements DbHelper {
 
             return true;
         });
+    }
+
+    @Override
+    public Observable<List<Unit>> getUnits(Long rootId, String name) {
+        return Observable.fromCallable(() -> mDaoSession.getUnitDao().queryBuilder().where(UnitDao.Properties.RootId.eq(rootId), UnitDao.Properties.Name.notEq(name)).list());
     }
 
     @Override
@@ -608,7 +598,7 @@ public class AppDbHelper implements DbHelper {
         });
         return objectObservable.flatMap(Observable::fromIterable)
                 .filter(productClass -> productClass.isNotModifyted())
-                .filter(productClass -> productClass.isDeleted())
+                .filter(productClass -> !productClass.isDeleted())
                 .sorted((productClass, t1) -> t1.getCreatedDate().compareTo(productClass.getCreatedDate()))
                 .sorted((productClass, t1) -> t1.getActive().compareTo(productClass.getActive()))
                 .toList();
@@ -644,139 +634,6 @@ public class AppDbHelper implements DbHelper {
         });
     }
 
-    /*@Override
-    public Observable<Long> insertOrReplaceRecipe(Recipe recipe) {
-        return Observable.fromCallable(() -> mDaoSession.getRecipeDao().insertOrReplace(recipe));
-    }
-
-    @Override
-    public Observable<List<Recipe>> getAllRecipe() {
-        return Observable.fromCallable(() -> mDaoSession.getRecipeDao().loadAll());
-    }
-
-    @Override
-    public Observable<Boolean> deleteRecipe(Recipe recipe) {
-        return Observable.fromCallable(() -> {
-            mDaoSession.getRecipeDao().delete(recipe);
-            return true;
-        });
-    }
-
-    @Override
-    public Observable<Long> insertAttribute(Attribute attribute) {
-        return Observable.fromCallable(() -> mDaoSession.getAttributeDao().insertOrReplace(attribute));
-    }
-
-    @Override
-    public Observable<Boolean> insertAttributes(List<Attribute> attributes) {
-        return Observable.fromCallable(() -> {
-            mDaoSession.getAttributeDao().insertOrReplaceInTx(attributes);
-
-            return true;
-        });
-    }
-
-    @Override
-    public Observable<Boolean> deleteAttribute(Attribute attribute) {
-        return Observable.fromCallable(() -> {
-            mDaoSession.getAttributeDao().delete(attribute);
-            return true;
-        });
-    }
-
-    @Override
-    public Observable<List<Attribute>> getAllAttributes() {
-        return Observable.fromCallable(() -> mDaoSession.getAttributeDao().loadAll());
-    }
-
-    @Override
-    public Observable<Long> insertAttributeType(AttributeType attributeType) {
-        return Observable.fromCallable(() -> mDaoSession.getAttributeTypeDao().insertOrReplace(attributeType));
-    }
-
-    @Override
-    public Observable<Boolean> insertAttributeTypes(List<AttributeType> attributeTypes) {
-        return Observable.fromCallable(() -> {
-            mDaoSession.getAttributeTypeDao().insertOrReplaceInTx(attributeTypes);
-            return true;
-        });
-    }
-
-    @Override
-    public Observable<Boolean> deleteAttributeType(AttributeType attributeType) {
-        return Observable.fromCallable(() -> {
-            mDaoSession.getAttributeTypeDao().delete(attributeType);
-            return true;
-        });
-    }
-
-    @Override
-    public Observable<Boolean> deleteAttributeTypeByName(String name) {
-        return Observable.fromCallable(() -> {
-            DeleteQuery<AttributeType> deleteQuery = mDaoSession.getAttributeTypeDao().queryBuilder().
-                    where(AttributeTypeDao.Properties.Name.eq(name)).buildDelete();
-            deleteQuery.executeDeleteWithoutDetachingEntities();
-            mDaoSession.clear();
-            return true;
-        });
-    }
-
-    @Override
-    public Observable<List<AttributeType>> getAllAttributeTypes() {
-        return Observable.fromCallable(() -> mDaoSession.getAttributeTypeDao().loadAll());
-    }
-
-    @Override
-    public Observable<Long> insertChildAttribute(ChildAttribute childAttribute) {
-        return Observable.fromCallable(() -> mDaoSession.getChildAttributeDao().insertOrReplace(childAttribute));
-    }
-
-    @Override
-    public Observable<Boolean> insertChildAttributes(List<ChildAttribute> childAttributes) {
-        return Observable.fromCallable(() -> {
-            mDaoSession.getChildAttributeDao().insertOrReplaceInTx(childAttributes);
-            return true;
-        });
-    }
-
-    @Override
-    public Observable<Boolean> deleteChildAttribute(ChildAttribute childAttribute) {
-        return Observable.fromCallable(() -> {
-            mDaoSession.getChildAttributeDao().delete(childAttribute);
-            return true;
-        });
-    }
-
-    @Override
-    public Observable<List<ChildAttribute>> getAllChildAttributes() {
-        return Observable.fromCallable(() -> mDaoSession.getChildAttributeDao().loadAll());
-    }
-
-    @Override
-    public Observable<Long> insertParentAttribute(ParentAttribute parentAttribute) {
-        return Observable.fromCallable(() -> mDaoSession.getParentAttributeDao().insertOrReplace(parentAttribute));
-    }
-
-    @Override
-    public Observable<Boolean> insertParentAttributes(List<ParentAttribute> parentAttributes) {
-        return Observable.fromCallable(() -> {
-            mDaoSession.getParentAttributeDao().insertOrReplaceInTx(parentAttributes);
-            return true;
-        });
-    }
-
-    @Override
-    public Observable<Boolean> deleteParentAttribute(ParentAttribute parentAttribute) {
-        return Observable.fromCallable(() -> {
-            mDaoSession.getParentAttributeDao().delete(parentAttribute);
-            return true;
-        });
-    }
-
-    @Override
-    public Observable<List<ParentAttribute>> getAllParentAttributes() {
-        return Observable.fromCallable(() -> mDaoSession.getParentAttributeDao().loadAll());
-    }*/
 
     @Override
     public Boolean isAccountNameExists(String name) {
@@ -793,7 +650,8 @@ public class AppDbHelper implements DbHelper {
     public Observable<Integer> getCategoryByName(Category category) {
         return Observable.fromCallable(() -> {
             Query<Category> categoryQuery = mDaoSession.getCategoryDao().queryBuilder()
-                    .where(CategoryDao.Properties.Name.eq(category.getName()), CategoryDao.Properties.IsDeleted.eq(false)).build();
+                    .where(CategoryDao.Properties.Name.eq(category.getName()), CategoryDao.Properties.IsDeleted.eq(false), CategoryDao.Properties.ParentId.eq(WITHOUT_PARENT))
+                    .build();
             if (categoryQuery.list().isEmpty()) {
                 return 0;
             } else if (categoryQuery.list().get(0).getId().equals(category.getId())) {
@@ -803,12 +661,12 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
-    public Observable<Boolean> getMatchCategory(Category category) {
-        return Observable.fromCallable(() -> {
-            Query<Category> categoryQuery = mDaoSession.getCategoryDao().queryBuilder()
-                    .where(CategoryDao.Properties.Name.eq(category.getName()), CategoryDao.Properties.IsDeleted.eq(false)).build();
-            return categoryQuery.list().isEmpty();
-        });
+    public Observable<Boolean> isCategoryNameExists(String name) {
+        return Observable.fromCallable(() -> mDaoSession.getCategoryDao().queryBuilder()
+                .where(CategoryDao.Properties.Name.eq(name), CategoryDao.Properties.IsDeleted.eq(false), CategoryDao.Properties.ParentId.eq(WITHOUT_PARENT))
+                .build()
+                .list()
+                .isEmpty());
     }
 
     @Override

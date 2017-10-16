@@ -1,18 +1,26 @@
 package com.jim.multipos.ui.product_class.fragments;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
+import com.jim.multipos.core.ClickableBaseAdapter;
 import com.jim.multipos.data.db.model.ProductClass;
+import com.jim.multipos.data.db.model.intosystem.NameId;
 import com.jim.multipos.ui.product_class.adapters.ProductsClassListAdapter;
 import com.jim.multipos.ui.product_class.presenters.ProductClassListPresenter;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.rxevents.GlobalEventsConstants;
 import com.jim.multipos.utils.rxevents.ProductClassEvent;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,6 +72,8 @@ public class ProductClassListFragment extends BaseFragment implements ProductCla
                             presenter.onAddProductClass(productClassEvent.getProductClass());
                         }else if(productClassEvent.getEventType().equals(GlobalEventsConstants.UPDATE)) {
                             presenter.onUpdateProductClass(productClassEvent.getProductClass());
+                        }else if(productClassEvent.getEventType().equals(GlobalEventsConstants.DELETE)) {
+                            presenter.onDeleteProductClass(productClassEvent.getProductClass());
                         }
                     }}));
 
@@ -84,15 +94,21 @@ public class ProductClassListFragment extends BaseFragment implements ProductCla
 
     @Override
     public void setItemsRecyclerView(List<ProductClass> rvItemsList) {
-        classListAdapter = new ProductsClassListAdapter(rvItemsList, new ProductsClassListAdapter.onItemClickListner() {
+        classListAdapter = new ProductsClassListAdapter((List<NameId>)(List<?>)rvItemsList);
+        classListAdapter.setOnItemClickListener(new ClickableBaseAdapter.OnItemClickListener<NameId>() {
             @Override
-            public void onAddButtonPressed() {
-                presenter.pressedAddButton();
+            public void onItemClicked(int position) {
+                if(position == 0){
+                    presenter.pressedAddButton();
+                }
+                else {
+                    presenter.pressedItem(position);
+                }
             }
 
             @Override
-            public void onItemPressed(int t) {
-                presenter.pressedItem(t);
+            public void onItemClicked(NameId item) {
+
             }
         });
         rvClasses.setAdapter(classListAdapter);

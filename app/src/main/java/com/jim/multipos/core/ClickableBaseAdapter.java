@@ -1,9 +1,6 @@
 package com.jim.multipos.core;
 
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
 
 import java.util.List;
 
@@ -25,12 +22,11 @@ public abstract class ClickableBaseAdapter<T, E extends BaseViewHolder> extends 
     @Override
     public void onBindViewHolder(E holder, int position) {
         holder.view.setOnClickListener(view -> {
-            Log.d("click", "asd");
             if (onItemClickListener != null) {
-                onItemClickListener.onItemCLicked(items.get(position));
+                onItemClickListener.onItemClicked(items.get(position));
                 onItemClickListener.onItemClicked(position);
-                selectedPosition = position;
                 onItemClicked(holder, position);
+                selectedPosition = position;
             }
         });
     }
@@ -43,7 +39,7 @@ public abstract class ClickableBaseAdapter<T, E extends BaseViewHolder> extends 
     public interface OnItemClickListener<T> {
         void onItemClicked(int position);
 
-        void onItemCLicked(T item);
+        void onItemClicked(T item);
     }
 
     protected abstract void onItemClicked(E holder, int position);

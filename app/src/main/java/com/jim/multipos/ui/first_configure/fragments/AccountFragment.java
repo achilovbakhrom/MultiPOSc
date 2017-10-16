@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.mpviews.MpButton;
@@ -13,16 +14,15 @@ import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.db.model.Account;
 import com.jim.multipos.ui.first_configure.FirstConfigureActivity;
-import com.jim.multipos.ui.first_configure.FirstConfigurePresenterImpl;
 import com.jim.multipos.ui.first_configure.adapters.SystemAccountsAdapter;
 import com.jim.multipos.utils.RxBusLocal;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
+
+import static com.jim.multipos.ui.first_configure.Constants.ACCOUNT_FRAGMENT_ID;
 
 /**
  * Created by user on 07.10.17.
@@ -74,7 +74,7 @@ public class AccountFragment extends BaseFragment {
         });
 
         RxView.clicks(btnRevert).subscribe(aVoid -> {
-            ((FirstConfigureActivity) getActivity()).getPresenter().openPrevFragment();
+            ((FirstConfigureActivity) getActivity()).getPresenter().openPrevFragment(ACCOUNT_FRAGMENT_ID);
         });
 
         ((FirstConfigureActivity) getActivity()).getPresenter().fillAccountsRV(rvSystemAccounts);
@@ -104,7 +104,11 @@ public class AccountFragment extends BaseFragment {
         ((SystemAccountsAdapter) rvSystemAccounts.getAdapter()).addItem(account);
     }
 
-    public  void removeAccountItem(Account account) {
+    public void removeAccountItem(Account account) {
         ((SystemAccountsAdapter) rvSystemAccounts.getAdapter()).removeItem(account);
+    }
+
+    public void showAccountToast() {
+        Toast.makeText(getContext(), R.string.create_least_one_account, Toast.LENGTH_LONG).show();
     }
 }

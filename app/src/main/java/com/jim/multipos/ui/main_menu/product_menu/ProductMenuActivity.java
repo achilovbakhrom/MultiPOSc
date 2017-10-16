@@ -8,13 +8,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.WindowManager;
 
 import com.jim.mpviews.MpButton;
+import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseActivity;
 import com.jim.multipos.di.BaseAppComponent;
 import com.jim.multipos.data.db.model.intosystem.TitleDescription;
 import com.jim.multipos.ui.HasComponent;
 import com.jim.multipos.ui.main_menu.MenuListAdapter;
-import com.jim.multipos.ui.main_menu.product_menu.di.ProductMenuComponent;
 import com.jim.multipos.ui.main_menu.product_menu.presenters.ProductMenuPresenter;
 import com.jim.multipos.ui.product_class.ProductClassActivity;
 import com.jim.multipos.ui.product.ProductsActivity;
@@ -32,15 +32,16 @@ import butterknife.OnClick;
  * Created by DEV on 08.08.2017.
  */
 
-public class ProductMenuActivity extends BaseActivity implements ProductMenuView, HasComponent<ProductMenuComponent> {
+public class ProductMenuActivity extends BaseActivity implements ProductMenuView {
 
     @BindView(R.id.rvMenu)
     RecyclerView rvProductMenu;
     @BindView(R.id.btnBackToMain)
     MpButton btnBackToMain;
+    @BindView(R.id.mpToolBar)
+    MpToolbar mpToolbar;
     @Inject
     ProductMenuPresenter presenter;
-    private ProductMenuComponent productMenuComponent;
     final int PRODUCTS_MENU = 0;
 
     @Override
@@ -50,21 +51,12 @@ public class ProductMenuActivity extends BaseActivity implements ProductMenuView
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.product_menu_layout);
         ButterKnife.bind(this);
+        mpToolbar.setMode(MpToolbar.DEFAULT_TYPE);
         String title[] = getResources().getStringArray(R.array.products_menu_title);
         String description[] = getResources().getStringArray(R.array.products_menu_description);
-        presenter.init(this);
         presenter.setRecyclerViewItems(title, description);
     }
 
-    protected void setupComponent(BaseAppComponent baseAppComponent) {
-//        productMenuComponent = baseAppComponent.plus(new ProductMenuModule(this));
-        productMenuComponent.inject(this);
-    }
-
-    @Override
-    public ProductMenuComponent getComponent() {
-        return productMenuComponent;
-    }
 
     @OnClick(R.id.btnBackToMain)
     public void onBack() {

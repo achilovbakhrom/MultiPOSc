@@ -68,7 +68,7 @@
     <string name="sku">SKU</string>
     <string name="quantity">Quantity</string>
     <string name="linked">Linked</string>
-    <string name="none">None</string>
+    <string name="none">none</string>
     <string name="unit">Unit</string>
     <string name="price">Price</string>
     <string name="value">Value</string>

@@ -11,7 +11,6 @@ import android.widget.Toast;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.mpviews.MpButton;
 import com.jim.mpviews.MpSpinner;
-import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.db.model.Account;
@@ -25,6 +24,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
+
+import static com.jim.multipos.ui.first_configure.Constants.PAYMENT_TYPE_FRAGMENT_ID;
 
 /**
  * Created by user on 10.10.17.
@@ -82,7 +83,7 @@ public class PaymentTypeFragment extends BaseFragment {
         });
 
         RxView.clicks(btnRevert).subscribe(aVoid -> {
-            ((FirstConfigureActivity) getActivity()).openPrevFragment();
+            ((FirstConfigureActivity) getActivity()).getPresenter().openPrevFragment(PAYMENT_TYPE_FRAGMENT_ID);
         });
     }
 
@@ -91,16 +92,50 @@ public class PaymentTypeFragment extends BaseFragment {
 
     }
 
+    @Override
+    public boolean isValid() {
+        boolean result = super.isValid();
+        boolean isAccountsEmpty = true;
+        boolean isPaymentTypeNameExists = false;
+
+        if (((FirstConfigureActivity) getActivity()).getPresenter().isPaymentTypeNameExists(etPaymentTypeName.getText().toString())) {
+            etPaymentTypeName.setError(getString(R.string.payment_type_name_exists));
+            isPaymentTypeNameExists = true;
+        }
+
+        if (spAccount.getAdapter().isEmpty()) {
+            showAccountToast();
+
+            isAccountsEmpty = false;
+        }
+
+        if (tvCurrency.getText().toString().isEmpty()) {
+            showCurrencyToast();
+
+            return false;
+        }
+
+        if (isPaymentTypeNameExists) {
+            return false;
+        }
+
+        if (!isAccountsEmpty) {
+            return false;
+        }
+
+        return result;
+    }
+
     public void showCurrencyToast() {
-        Toast.makeText(getContext(), R.string.choose_least_one_currency, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), R.string.choose_least_one_currency, Toast.LENGTH_LONG).show();
     }
 
     public void showAccountToast() {
-        Toast.makeText(getContext(), R.string.create_least_one_account, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), R.string.create_least_one_account, Toast.LENGTH_LONG).show();
     }
 
     public void showPaymentTypeToast() {
-        Toast.makeText(getContext(), R.string.create_least_one_payment_type, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), R.string.create_least_one_payment_type, Toast.LENGTH_LONG).show();
     }
 
     public void setCurrency(Currency currency) {

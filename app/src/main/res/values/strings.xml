@@ -46,6 +46,7 @@
     <string name="access_token">Access token*</string>
     <string name="confirm">Confirm</string>
     <string name="enter_code_access_code">Enter code access code</string>
+    <string name="enter_zip_code">Enter zip code</string>
     <string name="enter_organization_email">Enter organization mail</string>
     <string name="email_">Email:</string>
     <string name="address_">Address</string>
@@ -334,7 +335,7 @@
     <string name="sku">SKU</string>
     <string name="quantity">Quantity</string>
     <string name="linked">Linked</string>
-    <string name="none">None</string>
+    <string name="none">none</string>
     <string name="unit">Unit</string>
     <string name="price">Price</string>
     <string name="value">Value</string>
@@ -473,8 +474,17 @@
     <string name="class_name_should_be_longer">Class name should be longer 3 letter</string>
     <string name="class_name_empty">Class name can not be empty</string>
     <string name="account_name_exists">Account name exists!</string>
+    <string name="payment_type_name_exists">Payment type name exists!</string>
     <string name="name_validation">Please, enter the name</string>
     <string name="category_length_validation">Category name should be longer than 3 letters</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="what_do_you_want">What do you want?</string>
+    <string name="sure">Sure</string>
+    <string name="do_you_want_delete">Do you want delete?</string>
+    <string name="title_product_class_fragment">Managing Product Class</string>
+    <string name="tap_product_class_for_editing_and_save">Tap product class for editing and save</string>
+    <string-array name="on_item_long_click">
+        <item>Delete</item>
+    </string-array>
 </resources>

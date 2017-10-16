@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.core.ClickableBaseAdapter;
+import com.jim.multipos.core.ItemMoveListener;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.prefs.PreferencesHelper;
@@ -43,9 +44,9 @@ import io.reactivex.disposables.Disposable;
  * Created by DEV on 10.08.2017.
  */
 
-public class ProductsListFragment extends BaseFragment implements ProductListView, OnStartDragListener {
+public class ProductsListFragment extends BaseFragment implements ProductListView {
 
-     @BindView(R.id.tvCategory)
+    @BindView(R.id.tvCategory)
     TextView tvCategory;
     @BindView(R.id.tvSubCategory)
     TextView tvSubCategory;
@@ -71,8 +72,8 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
     RxBus rxBus;
     @Inject
     RxBusLocal rxBusLocal;
-    private ProductsListAdapter categoryAdapter;
-    private ProductsListAdapter subCategoryAdapter, productsAdapter;
+    private ProductsListAdapter productsAdapter;
+    private CategoryAdapter categoryAdapter, subCategoryAdapter;
     private ItemTouchHelper touchHelper;
     private static final int CATEGORY = 0;
     private static final int SUBCATEGORY = 1;
@@ -93,9 +94,8 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        Log.d("sss", "sss: ");
-
         presenter.setViewsVisibility(CATEGORY);
+        presenter.setCategoryRecyclerView();
         categoryMode();
     }
 
@@ -159,37 +159,65 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
     @Override
     public void setCategoryRecyclerViewItems(List<Category> categories) {
         rvCategory.setLayoutManager(new LinearLayoutManager(getContext()));
-        CategoryAdapter categoryAdapter = new CategoryAdapter(categories);
+        categoryAdapter = new CategoryAdapter(categories);
         rvCategory.setAdapter(categoryAdapter);
         categoryAdapter.setOnItemClickListener(new ClickableBaseAdapter.OnItemClickListener<Category>() {
             @Override
             public void onItemClicked(int position) {
-                Toast.makeText(getContext(), position + "", Toast.LENGTH_SHORT).show();
+                presenter.setCategoryItems(position);
+                openCategory();
+//                preferencesHelper.setLastPositionCategory(position);
             }
 
             @Override
-            public void onItemCLicked(Category item) {
+            public void onItemClicked(Category item) {
+                if (item != null){
+                    presenter.setSubCategoryRecyclerView(item.getSubCategories());
+                }
+            }
+        });
+        categoryAdapter.setMoveListener(new ItemMoveListener() {
+            @Override
+            public void onItemMove(int fromPosition, int toPosition) {
 
             }
         });
-//        ((SimpleItemAnimator) rvCategory.getItemAnimator()).setSupportsChangeAnimations(false);
-//        categoryAdapter.setPosition(preferencesHelper.getLastPositionCategory());
-//        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(categoryAdapter);
-//        touchHelper = new ItemTouchHelper(callback);
-//        touchHelper.attachToRecyclerView(rvCategory);
+        ((SimpleItemAnimator) rvCategory.getItemAnimator()).setSupportsChangeAnimations(false);
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(categoryAdapter);
+        touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(rvCategory);
+        categoryAdapter.setPosition(preferencesHelper.getLastPositionCategory());
     }
 
-//    @Override
-//    public void setSubCategoryRecyclerView(List<SubCategory> subCategories) {
-//        rvSubCategory.setLayoutManager(new LinearLayoutManager(getContext()));
-//        subCategoryAdapter = new ProductsListAdapter(subCategories, presenter, SUBCATEGORY, this);
-//        rvSubCategory.setAdapter(subCategoryAdapter);
-//        ((SimpleItemAnimator) rvSubCategory.getItemAnimator()).setSupportsChangeAnimations(false);
-//        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(subCategoryAdapter);
-//        touchHelper = new ItemTouchHelper(callback);
-//        touchHelper.attachToRecyclerView(rvSubCategory);
-//    }
-//
+    @Override
+    public void setSubCategoryRecyclerView(List<Category> subCategories) {
+        rvSubCategory.setLayoutManager(new LinearLayoutManager(getContext()));
+        subCategoryAdapter = new CategoryAdapter(subCategories);
+        rvSubCategory.setAdapter(subCategoryAdapter);
+        subCategoryAdapter.setOnItemClickListener(new ClickableBaseAdapter.OnItemClickListener<Category>() {
+            @Override
+            public void onItemClicked(int position) {
+//                presenter.setSubCategoryItems(position);
+                openSubCategory();
+//                preferencesHelper.setLastPositionCategory(position);
+            }
+
+            @Override
+            public void onItemClicked(Category item) {
+            }
+        });
+        subCategoryAdapter.setMoveListener(new ItemMoveListener() {
+            @Override
+            public void onItemMove(int fromPosition, int toPosition) {
+
+            }
+        });
+        ((SimpleItemAnimator) rvSubCategory.getItemAnimator()).setSupportsChangeAnimations(false);
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(subCategoryAdapter);
+        touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(rvSubCategory);
+    }
+
     @Override
     public void setProductRecyclerView(List<Product> products) {
 //        rvProduct.setLayoutManager(new GridLayoutManager(getContext(), 4));
@@ -203,7 +231,7 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
 
     @Override
     public void updateCategoryItems() {
-        categoryAdapter.notifyDataSetChanged();
+        categoryAdapter.notifyDataSetChangedWithFirstItem();
     }
 
     @Override
@@ -213,7 +241,7 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
 
     @Override
     public void updateSubCategoryItems() {
-        subCategoryAdapter.notifyDataSetChangedWithZeroButton();
+        subCategoryAdapter.notifyDataSetChangedWithFirstItem();
     }
 
     @Override
@@ -270,11 +298,6 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-    }
-
-    @Override
-    public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
-        touchHelper.startDrag(viewHolder);
     }
 
     @Override

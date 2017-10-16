@@ -49,12 +49,11 @@ public interface DbHelper {
     Observable<List<Contact>> getAllContacts();
     DaoSession getDaoSession();
     Observable<Integer> getCategoryByName(Category category);
-    Observable<Boolean> getMatchCategory(Category category);
+    Observable<Boolean> isCategoryNameExists(String name);
     Observable<Long> insertCategory(Category category);
     Observable<Boolean> insertCategories(List<Category> categories);
     Observable<List<Category>> getAllCategories();
     Observable<Long> insertOrReplaceCategory(Category category);
-    Observable<Long> insertOrReplaceCategoryByPosition(Category category);
     Observable<Long> insertProduct(Product product);
     Observable<Boolean> insertProducts(List<Product> products);
     Observable<List<Product>> getAllProducts();
@@ -82,11 +81,14 @@ public interface DbHelper {
     Observable<Boolean> deletePaymentType(PaymentType paymentType);
     Observable<Boolean> deleteAllPaymentTypes();
     Observable<List<PaymentType>> getAllPaymentTypes();
+    Boolean isPaymentTypeNameExists(String name);
     Observable<Long> insertUnit(Unit unit);
     Observable<Boolean> insertUnits(List<Unit> units);
     Observable<Boolean> deleteUnit(Unit unit);
     Observable<Boolean> deleteAllUnits();
     Observable<List<Unit>> getAllStaticUnits();
+    Observable<List<Unit>> getUnits(Long rootId, String name);
+    Observable<Unit> updateUnit(Unit unit);
     Observable<Boolean> insertServiceFees(List<ServiceFee> serviceFees);
     Observable<Long> insertServiceFee(ServiceFee serviceFee);
     Observable<List<ServiceFee>> getAllServiceFees();

@@ -14,6 +14,5 @@ public interface AddProductClassView extends BaseView {
     void onAddNew();
     void setParentSpinnerItems(ArrayList<String> parentSpinnerItems);
     void setParentSpinnerPosition(int position);
-    void classNameShort();
-    void classNameEmpty();
+
 }

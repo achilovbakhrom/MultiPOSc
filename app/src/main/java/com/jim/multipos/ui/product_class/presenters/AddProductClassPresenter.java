@@ -13,4 +13,5 @@ public interface AddProductClassPresenter extends Presenter {
      void onCancelButtonPresed();
      void onClickProductClass(ProductClass productClass);
      void addProductClass();
+     void deleteProductClass();
 }

@@ -165,11 +165,6 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
-    public Observable<Long> replaceCategoryByPosition(Category category) {
-        return dbHelper.insertOrReplaceCategoryByPosition(category);
-    }
-
-    @Override
     public Observable<List<Category>> getAllCategories() {
         return dbHelper.getAllCategories();
     }
@@ -180,8 +175,8 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
-    public Observable<Boolean> getMatchCategory(Category category) {
-        return dbHelper.getMatchCategory(category);
+    public Observable<Boolean> isCategoryNameExists(String name) {
+            return dbHelper.isCategoryNameExists(name);
     }
 
     @Override
@@ -265,6 +260,16 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
+    public Observable<List<Unit>> getUnits(Long rootId, String name) {
+        return dbHelper.getUnits(rootId, name);
+    }
+
+    @Override
+    public Observable<Unit> updateUnit(Unit unit) {
+        return dbHelper.updateUnit(unit);
+    }
+
+    @Override
     public Observable<List<Unit>> getAllStaticUnits() {
         return dbHelper.getAllStaticUnits();
     }
@@ -327,6 +332,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Observable<List<PaymentType>> getAllPaymentTypes() {
         return dbHelper.getAllPaymentTypes();
+    }
+
+    @Override
+    public Boolean isPaymentTypeNameExists(String name) {
+        return dbHelper.isPaymentTypeNameExists(name);
     }
 
     @Override

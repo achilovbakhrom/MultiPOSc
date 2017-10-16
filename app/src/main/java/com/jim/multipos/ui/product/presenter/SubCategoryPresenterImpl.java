@@ -7,6 +7,7 @@ import com.jim.multipos.config.scope.PerFragment;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.products.Category;
+import com.jim.multipos.data.operations.CategoryOperations;
 import com.jim.multipos.ui.product.view.SubCategoryView;
 
 import javax.inject.Inject;
@@ -16,35 +17,16 @@ import javax.inject.Inject;
  */
 @PerFragment
 public class SubCategoryPresenterImpl extends BasePresenterImpl<SubCategoryView> implements SubCategoryPresenter {
-    public SubCategoryPresenterImpl(SubCategoryView subCategoryView) {
-        super(subCategoryView);
-    }
-
-    @Override
-
-    public void save(String name, String description, boolean checkboxChecked, String photoPath) {
-
-    }
-
-    @Override
-    public void checkData() {
-
-    }
-
-    @Override
-    public void setParentCategory(Category category) {
-
-    }
-    /*private Category category;
-    private SubCategory subCategory;
-    private SubCategoryOperations subCategoryOperations;
+    private Category parent;
+    private Category subCategory;
+    private CategoryOperations subCategoryOperations;
     private static final String ADD = "added";
     private static final String UPDATE = "update";
 
     @Inject
-    SubCategoryPresenterImpl(SubCategoryView view,DatabaseManager databaseManager) {
+    SubCategoryPresenterImpl(SubCategoryView view, DatabaseManager databaseManager) {
         super(view);
-        subCategoryOperations = databaseManager.getSubCategoryOperations();
+        subCategoryOperations = databaseManager.getCategoryOperations();
     }
 
     @Override
@@ -54,28 +36,25 @@ public class SubCategoryPresenterImpl extends BasePresenterImpl<SubCategoryView>
     }
 
     @Override
-    public void save(String name, String description, boolean checkboxChecked, String photoPath) {
-        if (name.isEmpty())
-        {
+    public void save(String name, String description, boolean checkboxChecked) {
+        if (name.isEmpty()) {
             view.setError("Please, enter the name");
-        } else if (name.length() < 3){
+        } else if (name.length() < 3) {
             view.setError("Subcategory name should be longer than 3 letters");
         } else if (this.subCategory == null) {
-            SubCategory subCategory = new SubCategory();
+            Category subCategory = new Category();
             subCategory.setName(name);
             subCategory.setDescription(description);
-            subCategory.setCategoryId(category.getId());
-            subCategory.setActive(checkboxChecked);
-            subCategory.setPhotoPath(photoPath);
+            subCategory.setParentId(parent.getId());
+            subCategory.setIsActive(checkboxChecked);
             view.clearFields();
-            subCategoryOperations.addSubCategory(subCategory).subscribe(aLong -> view.sendEvent(subCategory, ADD));
+            subCategoryOperations.addCategory(subCategory).subscribe(aLong -> view.sendEvent(subCategory, ADD));
         } else {
             subCategory.setName(name);
             subCategory.setDescription(description);
-            subCategory.setCategoryId(category.getId());
-            subCategory.setActive(checkboxChecked);
-            subCategory.setPhotoPath(photoPath);
-            subCategoryOperations.replaceSubCategory(subCategory).subscribe(aLong -> {
+            subCategory.setParentId(parent.getId());
+            subCategory.setIsActive(checkboxChecked);
+            subCategoryOperations.replaceCategory(subCategory).subscribe(aLong -> {
                 view.sendEvent(subCategory, UPDATE);
                 subCategory = null;
             });
@@ -87,22 +66,21 @@ public class SubCategoryPresenterImpl extends BasePresenterImpl<SubCategoryView>
         if (this.subCategory != null) {
             view.setFields(this.subCategory.getName(),
                     this.subCategory.getDescription(),
-                    this.subCategory.getActive(),
-                    this.subCategory.getPhotoPath());
+                    this.subCategory.getIsActive());
         } else view.clearFields();
     }
 
     @Override
     public void setParentCategory(Category category) {
-        this.category = category;
+        this.parent = category;
         view.setParentCategoryName(category.getName());
     }
 
     @Override
-    public void clickedSubCategory(SubCategory subCategory) {
+    public void clickedSubCategory(Category subCategory) {
         this.subCategory = subCategory;
         if (subCategory == null) {
             view.clearFields();
         } else checkData();
-    }*/
+    }
 }

@@ -22,11 +22,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
+import eu.inmite.android.lib.validations.form.annotations.RegExp;
 
 import static com.jim.multipos.utils.BundleConstants.ORG_ADDRESS;
 import static com.jim.multipos.utils.BundleConstants.ORG_CODE;
 import static com.jim.multipos.utils.BundleConstants.ORG_EMAIL;
 import static com.jim.multipos.utils.BundleConstants.ORG_NAME;
+import static eu.inmite.android.lib.validations.form.annotations.RegExp.EMAIL;
 
 /**
  * Created by DEV on 26.07.2017.
@@ -45,12 +48,17 @@ public class RegistrationConfirmFragment extends BaseFragment implements Registr
     MpButton btnConfirm;
     @BindView(R.id.ivEditDetails)
     ImageView ivEditDetails;
+    @NotEmpty(messageId = R.string.enter_name)
     @BindView(R.id.tvOrgName)
     TextView tvOrgName;
+    @NotEmpty(messageId = R.string.enter_organization_email)
+    @RegExp(value = EMAIL, messageId = R.string.invalid)
     @BindView(R.id.tvOrgEmail)
     TextView tvOrgEmail;
+    @NotEmpty(messageId = R.string.enter_address)
     @BindView(R.id.tvOrgAddress)
     TextView tvOrgAddress;
+    @NotEmpty(messageId = R.string.enter_zip_code)
     @BindView(R.id.tvOrgZipCode)
     TextView tvOrgZipCode;
 
@@ -61,13 +69,13 @@ public class RegistrationConfirmFragment extends BaseFragment implements Registr
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        if (getArguments() != null) {
-            tvOrgName.setText(getArguments().getString(ORG_NAME));
-            tvOrgName.setPaintFlags(tvOrgName.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-            tvOrgAddress.setText(getArguments().getString(ORG_ADDRESS));
-            tvOrgEmail.setText(getArguments().getString(ORG_EMAIL));
-            tvOrgZipCode.setText(getArguments().getString(ORG_CODE));
-        }
+//        if (getArguments() != null) {
+//            tvOrgName.setText(getArguments().getString(ORG_NAME));
+//            tvOrgName.setPaintFlags(tvOrgName.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+//            tvOrgAddress.setText(getArguments().getString(ORG_ADDRESS));
+//            tvOrgEmail.setText(getArguments().getString(ORG_EMAIL));
+//            tvOrgZipCode.setText(getArguments().getString(ORG_CODE));
+//        }
     }
 
     @Override
@@ -76,30 +84,15 @@ public class RegistrationConfirmFragment extends BaseFragment implements Registr
     }
 
     @OnClick(R.id.btnBack)
-    public void back() {
+    public void onBack() {
 
     }
 
     @OnClick(R.id.btnConfirm)
-    public void confirm() {
+    public void onConfirm() {
     }
 
     @OnClick(R.id.ivEditDetails)
-    public void edit() {
-    }
-
-
-    public void onConfirm() {
-
-    }
-
-
-    public void checkToken() {
-
-    }
-
-
-    public void onBack() {
-
+    public void onEdit() {
     }
 }

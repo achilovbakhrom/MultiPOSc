@@ -1,9 +1,7 @@
 package com.jim.multipos.ui.main_menu;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -14,7 +12,6 @@ import android.widget.TextView;
 import com.jim.multipos.R;
 import com.jim.multipos.data.db.model.intosystem.TitleDescription;
 import com.jim.multipos.ui.main_menu.customers_menu.presenters.CustomersMenuPresenter;
-import com.jim.multipos.ui.main_menu.employer_menu.presenters.EmployerMenuPresenter;
 import com.jim.multipos.ui.main_menu.inventory_menu.presenters.InventoryMenuPresenter;
 import com.jim.multipos.ui.main_menu.product_menu.presenters.ProductMenuPresenter;
 
@@ -36,7 +33,6 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
     private ProductMenuPresenter productMenuPresenter;
     private CustomersMenuPresenter customersMenuPresenter;
     private InventoryMenuPresenter inventoryMenuPresenter;
-    private EmployerMenuPresenter employerMenuPresenter;
     private int menu = -1;
 
     public MenuListAdapter(Context context, ArrayList<TitleDescription> list, ProductMenuPresenter presenter, int menu) {
@@ -60,12 +56,7 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
         this.menu = menu;
     }
 
-    public MenuListAdapter(Context context, ArrayList<TitleDescription> list, EmployerMenuPresenter presenter, int menu) {
-        this.context = context;
-        this.descriptions = list;
-        this.employerMenuPresenter = presenter;
-        this.menu = menu;
-    }
+
 
     @Override
     public MenuListAdapter.MenuViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -109,9 +100,7 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
                 case 2:
                     inventoryMenuPresenter.setItemPosition(getAdapterPosition());
                     break;
-                case 3:
-                    employerMenuPresenter.setItemPosition(getAdapterPosition());
-                    break;
+
             }
         }
 

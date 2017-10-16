@@ -6,14 +6,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.jim.mpviews.MPosSpinner;
 import com.jim.mpviews.MpCheckbox;
 import com.jim.mpviews.MpEditText;
 import com.jim.multipos.R;
@@ -61,8 +58,6 @@ public class AddCategoryFragment extends BaseFragment implements CategoryView {
     MpEditText etCategoryName;
     @BindView(R.id.etCategoryDescription)
     EditText etCategoryDescription;
-    @BindView(R.id.ivLoadImage)
-    ImageView ivLoadImage;
     @BindView(R.id.chbActive)
     MpCheckbox chbActive;
     @Inject
@@ -73,8 +68,6 @@ public class AddCategoryFragment extends BaseFragment implements CategoryView {
     RxBusLocal rxBusLocal;
     @Inject
     RxBus rxBus;
-    
-    private Uri photoSelected;
     private static final String CLICK = "click";
     private final static String FRAGMENT_OPENED = "category";
     private static final String ADD = "added";
@@ -87,10 +80,10 @@ public class AddCategoryFragment extends BaseFragment implements CategoryView {
     }
 
 
-    /*@Override
-    protected boolean isValid() {
+   @Override
+   public boolean isValid() {
         return FormValidator.validate(this, new SimpleErrorPopupCallback(getContext()));
-    }*/
+    }
 
     @Override
     protected void init(Bundle savedInstanceState) {
@@ -123,76 +116,21 @@ public class AddCategoryFragment extends BaseFragment implements CategoryView {
         if (isValid())
             presenter.saveCategory(etCategoryName.getText().toString(),
                     etCategoryDescription.getText().toString(),
-                    chbActive.isCheckboxChecked(),
-                    (photoSelected != null) ? CommonUtils.getRealPathFromURI(getContext(), photoSelected) : "");
+                    chbActive.isCheckboxChecked());
 
-    }
-
-    @OnClick(R.id.ivLoadImage)
-    public void onLoadImage() {
-        PhotoPickDialog photoPickDialog = new PhotoPickDialog(getActivity(), new PhotoPickDialog.OnButtonsClickListner() {
-            @Override
-            public void onCameraShot(Uri uri) {
-                photoSelected = uri;
-                GlideApp.with(AddCategoryFragment.this).load(uri).diskCacheStrategy(DiskCacheStrategy.RESOURCE).thumbnail(0.2f).centerCrop().transform(new RoundedCorners(20)).into(ivLoadImage);
-
-            }
-
-            @Override
-            public void onGallery() {
-                rxPermissions.request(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(aBoolean -> {
-                    if (aBoolean) {
-                        OpenPickPhotoUtils.startPhotoPick(AddCategoryFragment.this);
-                    }
-                });
-            }
-
-            @Override
-            public void onRemove() {
-                photoSelected = null;
-                ivLoadImage.setImageResource(R.drawable.camera);
-            }
-        });
-
-        rxPermissions.request(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(aBoolean -> {
-            if (aBoolean) {
-                if (photoSelected != null)
-                    photoPickDialog.showDialog(photoSelected);
-                else photoPickDialog.showDialog();
-            }
-        });
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (OpenPickPhotoUtils.RESULT_PICK_IMAGE == requestCode && RESULT_OK == resultCode && data.getData() != null) {
-            Uri imageUri = data.getData();
-            photoSelected = imageUri;
-            GlideApp.with(AddCategoryFragment.this).load(imageUri).diskCacheStrategy(DiskCacheStrategy.RESOURCE).thumbnail(0.2f).centerCrop().transform(new RoundedCorners(20)).into(ivLoadImage);
-        }
-    }
-
-    @Override
-    public void setFields(String name, String description, boolean active, String photoPath) {
+    public void setFields(String name, String description, boolean active) {
         etCategoryName.setText(name);
         etCategoryDescription.setText(description);
         chbActive.setChecked(active);
-        if (!photoPath.equals("")) {
-            photoSelected = Uri.fromFile(new File(photoPath));
-            GlideApp.with(AddCategoryFragment.this).load(photoSelected).diskCacheStrategy(DiskCacheStrategy.RESOURCE).thumbnail(0.2f).centerCrop().transform(new RoundedCorners(20)).into(ivLoadImage);
-        } else {
-            photoSelected = null;
-            ivLoadImage.setImageResource(R.drawable.camera);
-        }
     }
 
     @Override
     public void clearFields() {
         etCategoryName.setText("");
         etCategoryDescription.setText("");
-        photoSelected = null;
-        ivLoadImage.setImageResource(R.drawable.camera);
     }
 
     @Override

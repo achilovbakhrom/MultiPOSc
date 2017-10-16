@@ -24,13 +24,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/five_dp"
-                android:text="Management Item Mode"
+                android:text="@string/title_product_class_fragment"
                 android:textColor="@color/colorBlue" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tap Product to manage it info"
+                android:text="@string/tap_product_class_for_editing_and_save"
                 android:textColor="#8a8a8a" />
 
         </LinearLayout>
@@ -137,19 +137,27 @@
         <com.jim.mpviews.MpButton
             android:id="@+id/btnCancel"
 
-            android:layout_width="@dimen/hundred_sixty_dp"
-            android:layout_height="@dimen/fifty_dp"
-            android:layout_marginLeft="@dimen/thirty_dp"
+            android:layout_width="@dimen/hundred_forty_dp"
+            android:layout_height="@dimen/fifty_five_dp"
+            android:layout_marginLeft="@dimen/fifteen_dp"
             android:layout_marginRight="@dimen/fifteen_dp"
             android:text="Cancel"
             android:textColor="@color/colorMainText"
             android:textSize="@dimen/sixteen_dp" />
 
+        <com.jim.mpviews.MpButton
+            android:id="@+id/btnDelete"
 
+            android:layout_width="@dimen/hundred_forty_dp"
+            android:layout_height="@dimen/fifty_five_dp"
+            android:layout_marginRight="@dimen/fifteen_dp"
+            android:text="Delete"
+            android:textColor="@color/colorMainText"
+            android:textSize="@dimen/sixteen_dp" />
         <com.jim.mpviews.MpButton
             android:id="@+id/btnSave"
-            android:layout_width="@dimen/hundred_sixty_dp"
-            android:layout_height="@dimen/fifty_dp"
+            android:layout_width="@dimen/hundred_forty_dp"
+            android:layout_height="@dimen/fifty_five_dp"
             android:layout_marginRight="@dimen/thirty_dp"
             android:gravity="center"
             android:text="Save"

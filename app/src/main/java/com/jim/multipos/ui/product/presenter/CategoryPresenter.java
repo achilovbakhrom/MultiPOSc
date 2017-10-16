@@ -8,7 +8,7 @@ import com.jim.multipos.data.db.model.products.Category;
  */
 
 public interface CategoryPresenter extends Presenter {
-    void saveCategory(String name, String description, boolean checked, String photoPath);
+    void saveCategory(String name, String description, boolean checked);
     void checkData();
     void clickedCategory(Category category);
     void acceptChanges();

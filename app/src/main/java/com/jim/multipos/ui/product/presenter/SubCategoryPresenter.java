@@ -8,8 +8,8 @@ import com.jim.multipos.data.db.model.products.Category;
  */
 
 public interface SubCategoryPresenter extends Presenter{
-    void save(String name, String description, boolean checkboxChecked, String photoPath);
+    void save(String name, String description, boolean checkboxChecked);
     void checkData();
-    //void clickedSubCategory(SubCategory subCategory);
+    void clickedSubCategory(Category subCategory);
     void setParentCategory(Category category);
 }

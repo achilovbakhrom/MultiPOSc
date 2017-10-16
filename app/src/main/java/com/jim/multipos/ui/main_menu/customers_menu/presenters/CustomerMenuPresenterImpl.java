@@ -1,19 +1,25 @@
 package com.jim.multipos.ui.main_menu.customers_menu.presenters;
 
+import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.db.model.intosystem.TitleDescription;
 import com.jim.multipos.ui.main_menu.customers_menu.CustomersMenuView;
+import com.jim.multipos.ui.product_class.fragments.AddProductClassView;
 
 import java.util.ArrayList;
+
+import javax.inject.Inject;
 
 /**
  * Created by DEV on 08.08.2017.
  */
 
-public class CustomerMenuPresenterImpl implements CustomersMenuPresenter {
+public class CustomerMenuPresenterImpl extends BasePresenterImpl<CustomersMenuView> implements CustomersMenuPresenter {
     private ArrayList<TitleDescription> titleDescriptions;
     private CustomersMenuView view;
-
-    public CustomerMenuPresenterImpl() {
+    @Inject
+    public CustomerMenuPresenterImpl(CustomersMenuView customersMenuView) {
+        super(customersMenuView);
+        view = customersMenuView;
         titleDescriptions = new ArrayList<>();
     }
 
@@ -30,9 +36,5 @@ public class CustomerMenuPresenterImpl implements CustomersMenuPresenter {
         view.openActivity(position);
     }
 
-    @Override
-    public void init(CustomersMenuView view) {
 
-        this.view = view;
-    }
 }

@@ -1,37 +1,38 @@
 package com.jim.multipos.ui.main_menu.inventory_menu.di;
 
-import com.jim.multipos.ui.ActivityScope;
+import android.support.v7.app.AppCompatActivity;
+
+import com.jim.multipos.config.scope.PerActivity;
+import com.jim.multipos.config.scope.PerFragment;
+import com.jim.multipos.core.BaseActivityModule;
 import com.jim.multipos.ui.main_menu.customers_menu.CustomersMenuActivity;
+import com.jim.multipos.ui.main_menu.customers_menu.CustomersMenuView;
 import com.jim.multipos.ui.main_menu.customers_menu.presenters.CustomerMenuPresenterImpl;
 import com.jim.multipos.ui.main_menu.customers_menu.presenters.CustomersMenuPresenter;
 import com.jim.multipos.ui.main_menu.inventory_menu.InventoryMenuActivity;
+import com.jim.multipos.ui.main_menu.inventory_menu.InventoryMenuView;
 import com.jim.multipos.ui.main_menu.inventory_menu.presenters.InventoryMenuPresenter;
 import com.jim.multipos.ui.main_menu.inventory_menu.presenters.InventoryMenuPresenterImpl;
 
+import dagger.Binds;
 import dagger.Module;
-import dagger.Provides;
 
 /**
- * Created by DEV on 08.08.2017.
+ * Created by bakhrom on 10/6/17.
  */
-@Module
-public class InventoryMenuModule {
-    private InventoryMenuActivity activity;
 
-    public InventoryMenuModule(InventoryMenuActivity activity) {
-        this.activity = activity;
-    }
+@Module(includes = BaseActivityModule.class)
+public abstract class InventoryMenuModule {
+    @Binds
+    @PerActivity
+    abstract AppCompatActivity provideInventoryMenuActivity(InventoryMenuActivity inventoryMenuActivity);
 
-    @Provides
-    @ActivityScope
-    public InventoryMenuActivity getActivity() {
-        return activity;
-    }
+    @Binds
+    @PerActivity
+    abstract InventoryMenuPresenter provideInventoryMenuPresenter(InventoryMenuPresenterImpl inventoryMenuPresenter);
 
+    @Binds
+    @PerActivity
+    abstract InventoryMenuView provideInventoryMenuActivityView(InventoryMenuActivity inventoryMenuActivity);
 
-    @Provides
-    @ActivityScope
-    public InventoryMenuPresenter getMenuInventoryPresenter() {
-        return new InventoryMenuPresenterImpl();
-    }
 }

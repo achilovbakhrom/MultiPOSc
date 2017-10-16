@@ -1,11 +1,9 @@
 package com.jim.multipos.ui.first_configure.adapters;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jakewharton.rxbinding2.view.RxView;
@@ -14,61 +12,56 @@ import com.jim.multipos.R;
 import com.jim.multipos.data.db.model.unit.Unit;
 
 import java.util.List;
-import java.util.zip.Inflater;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by user on 08.08.17.
+ * Created by user on 12.10.17.
  */
 
 public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.ViewHolder> {
-    private String[] unitsProperties;
-    private int whichAdapter;
-    private OnClick onClickCallback;
-    private List<Unit> units;
+    public interface OnClickListener {
+        void addUnitItem(Unit item);
 
-    public UnitAdapter(List<Unit> units, String[] unitsProperties, int whichAdapter, OnClick onClickCallback) {
+        void removeUnitItem(Unit item);
+    }
+
+    private List<Unit> units;
+    private OnClickListener onClickListener;
+
+    public UnitAdapter(List<Unit> units, OnClickListener onClickListener) {
         this.units = units;
-        this.unitsProperties = unitsProperties;
-        this.whichAdapter = whichAdapter;
-        this.onClickCallback = onClickCallback;
+        this.onClickListener = onClickListener;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int i) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.unit_item, parent, false);
 
-        return new ViewHolder(view);
+        return new UnitAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        StringBuilder str = new StringBuilder();
-        Unit unit = units.get(position);
+    public void onBindViewHolder(ViewHolder viewHolder, int position) {
+        viewHolder.tvUnit.setText(String.format("%s (%s)", units.get(position).getName(), units.get(position).getAbbr()));
+        viewHolder.tvUnitProperty.setText(String.format("1 %s = %f %s", units.get(position).getAbbr(),
+                units.get(position).getFactorRoot(),
+                units.get(position).getUnitCategory().getAbbr()));
+        viewHolder.chbUnit.setChecked(units.get(position).getIsActive());
+    }
 
-        str.append(unit.getName());
-        str.append(" (");
-        str.append(unit.getAbbr());
-        str.append(")");
+    public void addUnitItem(Unit unit) {
+        units.set(units.indexOf(unit), unit);
+    }
 
-        holder.tvUnit.setText(str.toString());
-        holder.tvUnitProperty.setText(unitsProperties[position]);
-
-        if (unit.getIsActive()) {
-            holder.chbUnit.setChecked(true);
-        }
+    public void removeUnitItem(Unit unit) {
+        units.set(units.indexOf(unit), unit);
     }
 
     @Override
     public int getItemCount() {
         return units.size();
-    }
-
-    public interface OnClick {
-        void add(int position, int whichAdapter);
-        void remove(int position, int whichAdapter);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -95,9 +88,13 @@ public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.ViewHolder> {
 
         private void clickHandler() {
             if (chbUnit.isCheckboxChecked()) {
-                onClickCallback.remove(getAdapterPosition(), whichAdapter);
+                units.get(getAdapterPosition()).setIsActive(false);
+                chbUnit.setChecked(false);
+                onClickListener.removeUnitItem(units.get(getAdapterPosition()));
             } else {
-                onClickCallback.add(getAdapterPosition(), whichAdapter);
+                units.get(getAdapterPosition()).setIsActive(true);
+                chbUnit.setChecked(true);
+                onClickListener.addUnitItem(units.get(getAdapterPosition()));
             }
         }
     }
