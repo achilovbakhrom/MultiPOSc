@@ -64,7 +64,7 @@ public class UnitsFragment extends BaseFragment {
         });
 
         RxView.clicks(btnRevert).subscribe(aVoid -> {
-            ((FirstConfigureActivity) getActivity()).getPresenter().openPrevFragment();
+            ((FirstConfigureActivity) getActivity()).getPresenter().openPrevFragment(UNITS_FRAGMENT_ID);
         });
     }
 

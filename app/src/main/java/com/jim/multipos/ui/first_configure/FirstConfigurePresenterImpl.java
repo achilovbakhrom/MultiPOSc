@@ -209,7 +209,41 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
     }
 
     @Override
-    public void openPrevFragment() {
+    public void openPrevFragment(int position) {
+        switch (position) {
+            case POS_DETAIL_FRAGMENT_ID:
+                if (preferences.getPosDetailPosId() == null || preferences.getPosDetailPosId().isEmpty()) {
+                    completedFragments[POS_DETAIL_FRAGMENT_ID] = false;
+                } else {
+                    completedFragments[POS_DETAIL_FRAGMENT_ID] = true;
+                }
+                break;
+            case ACCOUNT_FRAGMENT_ID:
+                databaseManager.getAccountOperations().getAllAccounts().subscribe(accounts -> {
+                    if (accounts.isEmpty()) {
+                        completedFragments[ACCOUNT_FRAGMENT_ID] = false;
+                    } else {
+                        completedFragments[ACCOUNT_FRAGMENT_ID] = true;
+                    }
+                });
+                break;
+            case CURRENCY_FRAGMENT_ID:
+                completedFragments[CURRENCY_FRAGMENT_ID] = true;
+                break;
+            case PAYMENT_TYPE_FRAGMENT_ID:
+                databaseManager.getPaymentTypeOperations().getAllPaymentTypes().subscribe(paymentTypes -> {
+                    if (paymentTypes.isEmpty()) {
+                        completedFragments[PAYMENT_TYPE_FRAGMENT_ID] = false;
+                    } else {
+                        completedFragments[PAYMENT_TYPE_FRAGMENT_ID] = true;
+                    }
+                });
+                break;
+            case UNITS_FRAGMENT_ID:
+                completedFragments[UNITS_FRAGMENT_ID] = true;
+                break;
+        }
+
         view.openPrevFragment();
     }
 

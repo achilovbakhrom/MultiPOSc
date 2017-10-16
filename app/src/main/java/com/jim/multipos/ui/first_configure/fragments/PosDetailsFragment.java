@@ -111,7 +111,7 @@ public class PosDetailsFragment extends BaseFragment {
         });
 
         RxView.clicks(btnRevert).subscribe(aVoid -> {
-            ((FirstConfigureActivity) getActivity()).getPresenter().openPrevFragment();
+            ((FirstConfigureActivity) getActivity()).getPresenter().openPrevFragment(POS_DETAIL_FRAGMENT_ID);
         });
     }
 

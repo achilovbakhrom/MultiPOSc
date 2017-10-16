@@ -16,7 +16,7 @@ public interface FirstConfigurePresenter extends Presenter {
 
     void openNextFragment(int position, int nextPosition);
 
-    void openPrevFragment();
+    void openPrevFragment(int position);
 
     void fillPosDetailsData(EditText etPosId, EditText etAlias, EditText etAddress, EditText etPassword, EditText etRepeatPassword);
 

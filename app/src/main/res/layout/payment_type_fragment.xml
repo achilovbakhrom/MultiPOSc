@@ -102,10 +102,16 @@
 
                 <TextView
                     android:id="@+id/tvCurrency"
-                    android:background="@drawable/text_view_bg"
                     android:layout_width="@dimen/hundred_fifty_dp"
                     android:layout_height="@dimen/forty_dp"
-                    android:layout_marginRight="@dimen/twenty_dp" />
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="@dimen/twenty_dp"
+                    android:background="@drawable/text_view_bg"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/ten_dp"
+                    android:paddingRight="@dimen/ten_dp"
+                    android:textColor="@color/colorMainText"
+                    tools:text="tvCurrency" />
 
                 <ImageView
                     android:id="@+id/ivAdd"

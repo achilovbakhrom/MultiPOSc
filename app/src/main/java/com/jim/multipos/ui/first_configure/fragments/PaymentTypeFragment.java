@@ -25,6 +25,8 @@ import java.util.List;
 import butterknife.BindView;
 import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 
+import static com.jim.multipos.ui.first_configure.Constants.PAYMENT_TYPE_FRAGMENT_ID;
+
 /**
  * Created by user on 10.10.17.
  */
@@ -81,7 +83,7 @@ public class PaymentTypeFragment extends BaseFragment {
         });
 
         RxView.clicks(btnRevert).subscribe(aVoid -> {
-            ((FirstConfigureActivity) getActivity()).openPrevFragment();
+            ((FirstConfigureActivity) getActivity()).getPresenter().openPrevFragment(PAYMENT_TYPE_FRAGMENT_ID);
         });
     }
 
@@ -125,15 +127,15 @@ public class PaymentTypeFragment extends BaseFragment {
     }
 
     public void showCurrencyToast() {
-        Toast.makeText(getContext(), R.string.choose_least_one_currency, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), R.string.choose_least_one_currency, Toast.LENGTH_LONG).show();
     }
 
     public void showAccountToast() {
-        Toast.makeText(getContext(), R.string.create_least_one_account, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), R.string.create_least_one_account, Toast.LENGTH_LONG).show();
     }
 
     public void showPaymentTypeToast() {
-        Toast.makeText(getContext(), R.string.create_least_one_payment_type, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), R.string.create_least_one_payment_type, Toast.LENGTH_LONG).show();
     }
 
     public void setCurrency(Currency currency) {

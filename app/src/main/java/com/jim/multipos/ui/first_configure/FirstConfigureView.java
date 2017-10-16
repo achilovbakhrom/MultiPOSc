@@ -1,5 +1,7 @@
 package com.jim.multipos.ui.first_configure;
 
+import android.support.v4.app.Fragment;
+
 import com.jim.multipos.core.BaseView;
 import com.jim.multipos.data.db.model.Account;
 import com.jim.multipos.data.db.model.PaymentType;
@@ -58,4 +60,8 @@ public interface FirstConfigureView extends BaseView {
     void addVolumeUnit(Unit unit);
 
     void removeVolumeUnit(Unit unit);
+
+    /*boolean hasFragment(int position);
+
+    Fragment getFragment(int position);*/
 }

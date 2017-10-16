@@ -2,6 +2,8 @@ package com.jim.multipos.ui.first_configure;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.util.Log;
 
 import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.core.DoubleSideActivity;
@@ -19,6 +21,7 @@ import com.jim.multipos.utils.RxBusLocal;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -64,28 +67,64 @@ public class FirstConfigureActivity extends DoubleSideActivity implements FirstC
 
     @Override
     public void replaceFragment(int position) {
+        Log.d("myLogs", "Fragment position is " + position);
+
         switch (position) {
             case POS_DETAIL_FRAGMENT_ID:
-                addFragmentToRight(new PosDetailsFragment());
-                break;
+                if (getFragmentByTag(PosDetailsFragment.class.getName()) != null) {
+                    Log.d("myLogs", PosDetailsFragment.class.getName() + " is not null");
+                    showFragment(getFragmentByTag(PosDetailsFragment.class.getName()));
+                } else {
+                    Log.d("myLogs", PosDetailsFragment.class.getName() + " is null");
+                    addFragmentWithTagToRight(new PosDetailsFragment(), PosDetailsFragment.class.getName());
+                }
             case ACCOUNT_FRAGMENT_ID:
-                addFragmentToRight(new AccountFragment());
-                break;
+                if (getFragmentByTag(AccountFragment.class.getName()) != null) {
+                    Log.d("myLogs", AccountFragment.class.getName() + " is not null");
+                    showFragment(getFragmentByTag(AccountFragment.class.getName()));
+                } else {
+                    Log.d("myLogs", AccountFragment.class.getName() + " is null");
+                    addFragmentWithTagToRight(new AccountFragment(), AccountFragment.class.getName());
+                }
             case CURRENCY_FRAGMENT_ID:
-                addFragmentToRight(new CurrencyFragment());
+                if (getFragmentByTag(CurrencyFragment.class.getName()) != null) {
+                    Log.d("myLogs", CurrencyFragment.class.getName() + " is not null");
+                    showFragment(getFragmentByTag(CurrencyFragment.class.getName()));
+                } else {
+                    Log.d("myLogs", CurrencyFragment.class.getName() + " is null");
+                    addFragmentWithTagToRight(new CurrencyFragment(), CurrencyFragment.class.getName());
+                }
                 break;
             case PAYMENT_TYPE_FRAGMENT_ID:
-                addFragmentToRight(new PaymentTypeFragment());
+                if (getFragmentByTag(PaymentTypeFragment.class.getName()) != null) {
+                    Log.d("myLogs", PaymentTypeFragment.class.getName() + " is not null");
+                    showFragment(getFragmentByTag(PaymentTypeFragment.class.getName()));
+                } else {
+                    Log.d("myLogs", PaymentTypeFragment.class.getName() + " is null");
+                    addFragmentWithTagToRight(new PaymentTypeFragment(), PaymentTypeFragment.class.getName());
+                }
                 break;
             case UNITS_FRAGMENT_ID:
-                addFragmentToRight(new UnitsFragment());
+                if (getFragmentByTag(UnitsFragment.class.getName()) != null) {
+                    Log.d("myLogs", UnitsFragment.class.getName() + " is not null");
+                    showFragment(getFragmentByTag(UnitsFragment.class.getName()));
+                } else {
+                    Log.d("myLogs", UnitsFragment.class.getName() + " is null");
+                    addFragmentWithTagToRight(new UnitsFragment(), UnitsFragment.class.getName());
+                }
                 break;
         }
     }
 
     @Override
     public void openPrevFragment() {
-        popFragmentFromRight();
+        if (getFragmentCount() == 2) {
+            closeActivity();
+        } else {
+            super.onBackPressed();
+
+            updateLeftSideFragment(getCurrentFragmentPosition());
+        }
     }
 
     @Override
@@ -230,4 +269,94 @@ public class FirstConfigureActivity extends DoubleSideActivity implements FirstC
             ((UnitsFragment) getCurrentFragmentRight()).removeVolumeUnit(unit);
         }
     }
+
+    private int getCurrentFragmentPosition() {
+        int position = -1;
+
+        if (getCurrentFragmentRight() instanceof PosDetailsFragment) {
+            position = POS_DETAIL_FRAGMENT_ID;
+        } else if (getCurrentFragmentRight() instanceof AccountFragment) {
+            position = ACCOUNT_FRAGMENT_ID;
+        } else if (getCurrentFragmentRight() instanceof CurrencyFragment) {
+            position = CURRENCY_FRAGMENT_ID;
+        } else if (getCurrentFragmentRight() instanceof PaymentTypeFragment) {
+            position = PAYMENT_TYPE_FRAGMENT_ID;
+        } else if (getCurrentFragmentRight() instanceof UnitsFragment) {
+            position = UNITS_FRAGMENT_ID;
+        }
+
+        return position;
+    }
+
+    private void showFragment(Fragment fragment) {
+        Log.d("myLogs", fragment.getClass().getName() + " is show");
+        Log.d("myLogs", getCurrentFragmentRight().getClass().getName() + " is hide");
+        activityFragmentManager.beginTransaction().hide(getCurrentFragmentRight()).show(fragment).commit();
+    }
+
+    /*@Override
+    public boolean hasFragment(int position) {
+        boolean hasFragment = false;
+
+        for (Fragment fragment : activityFragmentManager.getFragments()) {
+            switch (position) {
+                case POS_DETAIL_FRAGMENT_ID:
+                    if (fragment instanceof PosDetailsFragment)
+                        hasFragment = true;
+                    break;
+                case ACCOUNT_FRAGMENT_ID:
+                    if (fragment instanceof AccountFragment)
+                        hasFragment = true;
+                    break;
+                case CURRENCY_FRAGMENT_ID:
+                    if (fragment instanceof CurrencyFragment)
+                        hasFragment = true;
+                    break;
+                case PAYMENT_TYPE_FRAGMENT_ID:
+                    if (fragment instanceof PaymentTypeFragment)
+                        hasFragment = true;
+                    break;
+                case UNITS_FRAGMENT_ID:
+                    if (fragment instanceof UnitsFragment)
+                        hasFragment = true;
+                    break;
+            }
+        }
+
+        return hasFragment;
+    }
+
+
+
+    @Override
+    public Fragment getFragment(int position) {
+        Fragment result = null;
+
+        for (Fragment fragment : activityFragmentManager.getFragments()) {
+            switch (position) {
+                case POS_DETAIL_FRAGMENT_ID:
+                    if (fragment instanceof PosDetailsFragment)
+                        result = fragment;
+                    break;
+                case ACCOUNT_FRAGMENT_ID:
+                    if (fragment instanceof AccountFragment)
+                        result = fragment;
+                    break;
+                case CURRENCY_FRAGMENT_ID:
+                    if (fragment instanceof CurrencyFragment)
+                        result = fragment;
+                    break;
+                case PAYMENT_TYPE_FRAGMENT_ID:
+                    if (fragment instanceof PaymentTypeFragment)
+                        result = fragment;
+                    break;
+                case UNITS_FRAGMENT_ID:
+                    if (fragment instanceof UnitsFragment)
+                        result = fragment;
+                    break;
+            }
+        }
+
+        return result;
+    }*/
 }

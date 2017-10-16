@@ -48,7 +48,7 @@ public class CurrencyFragment extends BaseFragment {
         });
 
         RxView.clicks(btnRevert).subscribe(aVoid -> {
-            ((FirstConfigureActivity) getActivity()).getPresenter().openPrevFragment();
+            ((FirstConfigureActivity) getActivity()).getPresenter().openPrevFragment(CURRENCY_FRAGMENT_ID);
         });
     }
 
