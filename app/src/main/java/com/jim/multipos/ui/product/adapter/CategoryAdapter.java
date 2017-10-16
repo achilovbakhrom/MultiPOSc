@@ -15,18 +15,22 @@ import com.jim.mpviews.MpItem;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseViewHolder;
 import com.jim.multipos.core.ClickableBaseAdapter;
+import com.jim.multipos.core.MovableBaseAdapter;
 import com.jim.multipos.data.db.model.products.Category;
 
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.jim.multipos.utils.CategoryUtils.isSubcategory;
+
 /**
  * Created by Sirojiddin on 12.10.2017.
  */
 
-public class CategoryAdapter extends ClickableBaseAdapter<Category, BaseViewHolder> {
+public class CategoryAdapter extends MovableBaseAdapter<Category, BaseViewHolder> {
 
     private final int ADD_ITEM = 0;
     private final int DYNAMIC_ITEMS = 1;
@@ -39,10 +43,18 @@ public class CategoryAdapter extends ClickableBaseAdapter<Category, BaseViewHold
         } else this.items.add(null);
     }
 
+    public void notifyDataSetChangedWithFirstItem() {
+        if (!this.items.isEmpty()) {
+            if (this.items.get(0) != null)
+                this.items.add(0, null);
+        } else this.items.add(null);
+        notifyDataSetChanged();
+    }
+
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
-        if (holder instanceof CategoryFirstViewHolder){
+        if (holder instanceof CategoryFirstViewHolder) {
             CategoryFirstViewHolder firstViewHolder = (CategoryFirstViewHolder) holder;
             if (position == selectedPosition) {
                 firstViewHolder.tvFirstItem.setTextColor(Color.parseColor("#419fd9"));
@@ -51,9 +63,11 @@ public class CategoryAdapter extends ClickableBaseAdapter<Category, BaseViewHold
                 firstViewHolder.tvFirstItem.setTextColor(Color.parseColor("#cccccc"));
                 firstViewHolder.ivItemBg.setImageTintList(ColorStateList.valueOf(Color.parseColor("#cccccc")));
             }
-
+//            if (isSubcategory(items.get(position))) {
+//                firstViewHolder.tvFirstItem.setText("Add \n SubCategory");
+//            } else firstViewHolder.tvFirstItem.setText("Add \n Category");
             firstViewHolder.tvFirstItem.setText("Add \n Category");
-        } else if (holder instanceof CategoryViewHolder){
+        } else if (holder instanceof CategoryViewHolder) {
             CategoryViewHolder categoryViewHolder = (CategoryViewHolder) holder;
             categoryViewHolder.mpItem.setText(items.get(position).getName());
             if (position == selectedPosition) {
@@ -93,14 +107,36 @@ public class CategoryAdapter extends ClickableBaseAdapter<Category, BaseViewHold
     }
 
     @Override
-    protected void onItemClicked(BaseViewHolder holder, int position) {
-
+    public void onItemMove(int fromPosition, int toPosition) {
+        super.onItemMove(fromPosition, toPosition);
+        Collections.swap(items, fromPosition, toPosition);
+        notifyItemMoved(fromPosition, toPosition);
+        if (fromPosition == selectedPosition) {
+            selectedPosition = toPosition;
+            notifyItemChanged(fromPosition);
+            notifyItemChanged(selectedPosition);
+        } else if (toPosition == selectedPosition) {
+            selectedPosition = fromPosition;
+            notifyItemChanged(toPosition);
+            notifyItemChanged(selectedPosition);
+        }
     }
 
+    @Override
+    protected void onItemClicked(BaseViewHolder holder, int position) {
+        int prevPosition = selectedPosition;
+        notifyItemChanged(prevPosition);
+        notifyItemChanged(position);
+    }
+
+    public void setPosition(int position) {
+        this.selectedPosition = position;
+    }
 
     public class CategoryViewHolder extends BaseViewHolder {
         @BindView(R.id.mpListItem)
         MpItem mpItem;
+
         public CategoryViewHolder(View itemView) {
             super(itemView);
         }
@@ -113,9 +149,9 @@ public class CategoryAdapter extends ClickableBaseAdapter<Category, BaseViewHold
         TextView tvFirstItem;
         @BindView(R.id.ivItemBg)
         ImageView ivItemBg;
+
         public CategoryFirstViewHolder(View itemView) {
             super(itemView);
-
         }
     }
 }

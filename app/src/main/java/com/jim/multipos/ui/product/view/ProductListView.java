@@ -13,6 +13,7 @@ import java.util.List;
 public interface ProductListView extends BaseView {
     void setCategoryRecyclerViewItems(List<Category> categories);
     void setProductRecyclerView(List<Product> products);
+    void setSubCategoryRecyclerView(List<Category> subCategories);
     void updateCategoryItems();
     void updateProductItems();
     void updateSubCategoryItems();

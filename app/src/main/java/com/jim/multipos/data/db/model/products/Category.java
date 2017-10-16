@@ -1,23 +1,16 @@
 package com.jim.multipos.data.db.model.products;
 
 
+import com.jim.multipos.data.db.model.DaoSession;
+
+import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.JoinProperty;
-import org.greenrobot.greendao.annotation.Keep;
-import org.greenrobot.greendao.annotation.NotNull;
-import org.greenrobot.greendao.annotation.Property;
-
-import java.util.List;
-import java.util.UUID;
-
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.ToMany;
 
-import com.jim.multipos.data.db.model.intosystem.Editable;
-import com.jim.multipos.data.db.model.intosystem.NamePhotoPathId;
-import com.jim.multipos.data.db.model.DaoSession;
+import java.util.List;
 
 @Entity(nameInDb = "CATEGORY", active = true)
 public class Category {
@@ -28,9 +21,10 @@ public class Category {
     private String description;
     private Boolean isActive = true;
     private Boolean isDeleted = false;
-    private Boolean isModified = false;
+    private Boolean isNotModified = true;
     private Long createdDate;
-    private Integer position;
+    private Double position;
+    private Long rootId;
     private Long parentId = WITHOUT_PARENT;
     @ToMany(joinProperties = {
             @JoinProperty(
@@ -165,11 +159,11 @@ public class Category {
         this.parentId = parentId;
     }
 
-    public Integer getPosition() {
+    public Double getPosition() {
         return this.position;
     }
 
-    public void setPosition(Integer position) {
+    public void setPosition(Double position) {
         this.position = position;
     }
 
@@ -181,12 +175,12 @@ public class Category {
         this.createdDate = createdDate;
     }
 
-    public Boolean getIsModified() {
-        return this.isModified;
+    public Boolean getIsNotModified() {
+        return this.isNotModified;
     }
 
-    public void setIsModified(Boolean isModified) {
-        this.isModified = isModified;
+    public void setIsNotModified(Boolean isNotModified) {
+        this.isNotModified = isNotModified;
     }
 
     public Boolean getIsDeleted() {
@@ -229,23 +223,32 @@ public class Category {
         this.id = id;
     }
 
-    @Generated(hash = 10094700)
+    public Long getRootId() {
+        return this.rootId;
+    }
+
+    public void setRootId(Long rootId) {
+        this.rootId = rootId;
+    }
+
+    @Generated(hash = 1150634039)
+    public Category() {
+    }
+
+    @Generated(hash = 18413500)
     public Category(Long id, String name, String description, Boolean isActive,
-                    Boolean isDeleted, Boolean isModified, Long createdDate,
-                    Integer position, Long parentId) {
+            Boolean isDeleted, Boolean isNotModified, Long createdDate, Double position,
+            Long rootId, Long parentId) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.isActive = isActive;
         this.isDeleted = isDeleted;
-        this.isModified = isModified;
+        this.isNotModified = isNotModified;
         this.createdDate = createdDate;
         this.position = position;
+        this.rootId = rootId;
         this.parentId = parentId;
-    }
-
-    @Generated(hash = 1150634039)
-    public Category() {
     }
 
 }

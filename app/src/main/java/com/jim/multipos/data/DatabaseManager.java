@@ -165,11 +165,6 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
-    public Observable<Long> replaceCategoryByPosition(Category category) {
-        return dbHelper.insertOrReplaceCategoryByPosition(category);
-    }
-
-    @Override
     public Observable<List<Category>> getAllCategories() {
         return dbHelper.getAllCategories();
     }
@@ -180,8 +175,8 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
-    public Observable<Boolean> getMatchCategory(Category category) {
-        return dbHelper.getMatchCategory(category);
+    public Observable<Boolean> isCategoryNameExists(String name) {
+            return dbHelper.isCategoryNameExists(name);
     }
 
     @Override

@@ -1,23 +1,25 @@
 package com.jim.multipos.utils.rxevents;
 
+import com.jim.multipos.data.db.model.products.Category;
+
 /**
  * Created by DEV on 08.09.2017.
  */
 
 public class SubCategoryEvent {
-    /*private SubCategory subCategory;
+    private Category subCategory;
     private String eventType;
 
-    public SubCategoryEvent(SubCategory subCategory, String eventType) {
+    public SubCategoryEvent(Category subCategory, String eventType) {
         this.subCategory = subCategory;
         this.eventType = eventType;
     }
 
-    public SubCategory getSubCategory() {
+    public Category getSubCategory() {
         return subCategory;
     }
 
-    public void setSubCategory(SubCategory subCategory) {
+    public void setSubCategory(Category subCategory) {
         this.subCategory = subCategory;
     }
 
@@ -27,5 +29,5 @@ public class SubCategoryEvent {
 
     public void setEventType(String eventType) {
         this.eventType = eventType;
-    }*/
+    }
 }

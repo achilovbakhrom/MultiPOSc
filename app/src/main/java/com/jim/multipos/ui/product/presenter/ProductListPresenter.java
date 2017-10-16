@@ -1,8 +1,9 @@
 package com.jim.multipos.ui.product.presenter;
 
-import com.jim.multipos.core.BaseFragmentPresenter;
 import com.jim.multipos.core.Presenter;
-import com.jim.multipos.ui.product.view.ProductListView;
+import com.jim.multipos.data.db.model.products.Category;
+
+import java.util.List;
 
 /**
  * Created by DEV on 17.08.2017.
@@ -10,22 +11,19 @@ import com.jim.multipos.ui.product.view.ProductListView;
 
 public interface ProductListPresenter extends Presenter{
     void setCategoryRecyclerView();
-    void setSubCategoryRecyclerView();
+    void setSubCategoryRecyclerView(List<Category> subCategories);
     void setProductRecyclerView();
     void openCategory();
     void openSubCategory();
     void openProduct();
-    void setCategoryItems(int selectedPosition);
+    void productFragmentOpened();
+    void categoryFragmentOpened();    void setCategoryItems(int selectedPosition);
     void setSubCategoryItems(int selectedPosition);
     void setProductItems(int selectedPosition);
-    void onListCategoryPositionChanged();
-    void onListSubCategoryPositionChanged();
-    void onListProductPositionChanged();
     void setViewsVisibility(int mode);
     void refreshCategoryList();
     void refreshSubCategoryList();
     void refreshProductList();
     void subCatFragmentOpened();
-    void productFragmentOpened();
-    void categoryFragmentOpened();
+
 }

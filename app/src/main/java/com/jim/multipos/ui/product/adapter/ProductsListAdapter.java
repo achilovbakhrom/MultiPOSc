@@ -17,7 +17,7 @@ import com.jim.mpviews.MpItem;
 import com.jim.multipos.R;
 import com.jim.multipos.data.db.model.intosystem.NamePhotoPathId;
 import com.jim.multipos.ui.product.presenter.ProductListPresenter;
-import com.jim.multipos.utils.item_touch_helper.ItemTouchHelperAdapter;
+import com.jim.multipos.core.ItemMoveListener;
 import com.jim.multipos.utils.item_touch_helper.OnStartDragListener;
 
 import java.util.Collections;
@@ -30,7 +30,7 @@ import butterknife.ButterKnife;
  * Created by DEV on 17.08.2017.
  */
 
-public class ProductsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements ItemTouchHelperAdapter {
+public class ProductsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements ItemMoveListener {
     private List<NamePhotoPathId> list;
     private int listType = -1;
     private int selectedPosition = -1;
@@ -142,7 +142,7 @@ public class ProductsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     @Override
-    public boolean onItemMove(int fromPosition, int toPosition) {
+    public void onItemMove(int fromPosition, int toPosition) {
         Collections.swap(list, fromPosition, toPosition);
         notifyItemMoved(fromPosition, toPosition);
         if (fromPosition == selectedPosition) {
@@ -157,25 +157,15 @@ public class ProductsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         switch (listType) {
             case 0:
 //                presenter.setCategoryItems(selectedPosition);
-                presenter.onListCategoryPositionChanged();
                 break;
             case 1:
 //                presenter.setSubCategoryItems(selectedPosition);
-                presenter.onListSubCategoryPositionChanged();
                 break;
             case 2:
 //                presenter.setProductItems(selectedPosition);
-                presenter.onListProductPositionChanged();
                 break;
         }
-        return true;
     }
-
-    @Override
-    public void onItemMoved() {
-
-    }
-
 
     public class ProductListViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.mpListItem)

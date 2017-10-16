@@ -8,10 +8,10 @@ import com.jim.multipos.data.db.model.products.Category;
  */
 
 public interface CategoryView extends BaseView {
-    void setFields(String name, String description, boolean active, String photoPath);
+    void setFields(String name, String description, boolean active);
     void clearFields();
     void setData();
     void setError(String error);
-    void sendEvent(Category category, String add);
+    void sendEvent(Category category, String event);
     void confirmChanges();
 }
