@@ -6,11 +6,14 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.jim.mpviews.MPosSpinner;
 import com.jim.mpviews.MpCheckbox;
 import com.jim.mpviews.MpEditText;
 import com.jim.multipos.R;
@@ -70,6 +73,7 @@ public class AddCategoryFragment extends BaseFragment implements CategoryView {
     RxBusLocal rxBusLocal;
     @Inject
     RxBus rxBus;
+    
     private Uri photoSelected;
     private static final String CLICK = "click";
     private final static String FRAGMENT_OPENED = "category";

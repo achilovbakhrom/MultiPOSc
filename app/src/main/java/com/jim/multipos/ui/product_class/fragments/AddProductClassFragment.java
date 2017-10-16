@@ -1,9 +1,11 @@
 package com.jim.multipos.ui.product_class.fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.EditText;
 
 import com.jakewharton.rxbinding2.view.RxView;
+import com.jim.mpviews.MPosSpinner;
 import com.jim.mpviews.MpButton;
 import com.jim.mpviews.MpCheckbox;
 import com.jim.mpviews.MpSpinner;

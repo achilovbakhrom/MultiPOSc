@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Point;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Display;
 import android.view.WindowManager;
 
@@ -12,10 +13,9 @@ import android.view.WindowManager;
  */
 
 public class Utils {
-    public static float convertPixelsToDp(float px){
-        DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
-        float dp = px / (metrics.densityDpi / 160f);
-        return Math.round(dp);
+    public static float px2dp(float px){
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        return (int) TypedValue.applyDimension( TypedValue.COMPLEX_UNIT_DIP, px, displaymetrics);
     }
 
     public static float convertDpToPixel(float dp){
