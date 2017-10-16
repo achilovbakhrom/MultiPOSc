@@ -18,7 +18,7 @@ import com.jim.multipos.R;
  */
 
 public class WarningDialog extends Dialog {
-    private MpButton btnWarningOK;
+    private MpButton btnWarningYES, btnWarningNO;
     private TextView tvWarningText;
     public WarningDialog(@NonNull Context context) {
         super(context);
@@ -39,7 +39,8 @@ public class WarningDialog extends Dialog {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.warning_dialog);
         getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        btnWarningOK = (MpButton) findViewById(R.id.btnWarningOK);
+        btnWarningYES = (MpButton) findViewById(R.id.btnWarningYES);
+        btnWarningNO = (MpButton) findViewById(R.id.btnWarningNO);
         tvWarningText = (TextView) findViewById(R.id.tvWarningText);
 
     }
@@ -48,7 +49,11 @@ public class WarningDialog extends Dialog {
         tvWarningText.setText(warningText);
     }
 
-    public void  setOnOKClickListener(View.OnClickListener listener) {
-        btnWarningOK.setOnClickListener(listener);
+    public void  setOnYesClickListener(View.OnClickListener listener) {
+        btnWarningYES.setOnClickListener(listener);
+    }
+
+    public void  setOnNoClickListener(View.OnClickListener listener) {
+        btnWarningNO.setOnClickListener(listener);
     }
 }
