@@ -25,11 +25,7 @@
         <activity
             android:name=".ui.first_configure.FirstConfigureActivity"
             android:windowSoftInputMode="stateHidden">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".ui.test.UiLayoutsTestActivity" />
         <activity
@@ -65,6 +61,12 @@
         <activity android:name=".ui.customer_group.CustomerGroupActivity">
 
         </activity>
-        <activity android:name=".ui.product.ProductsActivity"></activity>
+        <activity android:name=".ui.product.ProductsActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 </manifest>

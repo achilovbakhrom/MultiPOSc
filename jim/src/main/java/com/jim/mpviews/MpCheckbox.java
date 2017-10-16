@@ -74,11 +74,9 @@ public class MpCheckbox extends RelativeLayout {
                     if (((CheckBox) findViewById(R.id.mpCheckbox)).isChecked()) {
                         findViewById(R.id.mpCheckbox).setBackgroundResource(R.drawable.unchecked);
                         ((CheckBox) findViewById(R.id.mpCheckbox)).setChecked(false);
-                        animateCheckbox();
                     } else {
                         findViewById(R.id.mpCheckbox).setBackgroundResource(R.drawable.checked);
                         ((CheckBox) findViewById(R.id.mpCheckbox)).setChecked(true);
-                        animateCheckbox();
                     }
             }
         });
@@ -102,11 +100,9 @@ public class MpCheckbox extends RelativeLayout {
 
     public void setChecked(Boolean state) {
         if (state) {
-            animateCheckbox();
             findViewById(R.id.mpCheckbox).setBackgroundResource(R.drawable.checked);
             ((CheckBox)findViewById(R.id.mpCheckbox)).setChecked(true);
         } else {
-            animateCheckbox();
             findViewById(R.id.mpCheckbox).setBackgroundResource(R.drawable.unchecked);
             ((CheckBox)findViewById(R.id.mpCheckbox)).setChecked(false);
         }

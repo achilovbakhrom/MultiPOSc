@@ -39,14 +39,14 @@ public class CategoryPresenterImpl extends BasePresenterImpl<CategoryView> imple
     }
 
     @Override
-    public void saveCategory(String name, String description, boolean checked) {
+    public void saveCategory(String name, String description, boolean active) {
         if (this.category == null) {
             category = new Category();
             category.setName(name);
             category.setCreatedDate(System.currentTimeMillis());
             category.setRootId(null);
             category.setDescription(description);
-            category.setIsActive(checked);
+            category.setIsActive(active);
             view.clearFields();
             categoryOperations.isCategoryNameExists(category.getName()).subscribeOn(AndroidSchedulers.mainThread()).subscribe(aBoolean -> {
                 if (aBoolean) {
@@ -58,9 +58,9 @@ public class CategoryPresenterImpl extends BasePresenterImpl<CategoryView> imple
         } else {
             temp = new Category();
             temp.setId(category.getId());
-            temp.setName(category.getName());
-            temp.setIsActive(category.getIsActive());
-            temp.setDescription(category.getDescription());
+            temp.setName(name);
+            temp.setIsActive(active);
+            temp.setDescription(description);
             temp.setPosition(category.getPosition());
             categoryOperations.getCategoryByName(temp).subscribeOn(AndroidSchedulers.mainThread()).subscribe(integer -> {
                 if (integer < 2) {
