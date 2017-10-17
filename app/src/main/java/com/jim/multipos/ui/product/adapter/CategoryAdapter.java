@@ -119,6 +119,9 @@ public class CategoryAdapter extends MovableBaseAdapter<Category, BaseViewHolder
             selectedPosition = fromPosition;
             notifyItemChanged(toPosition);
             notifyItemChanged(selectedPosition);
+        } else {
+            notifyItemChanged(fromPosition);
+            notifyItemChanged(toPosition);
         }
     }
 

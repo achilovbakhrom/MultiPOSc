@@ -47,18 +47,40 @@
             android:paddingTop="@dimen/five_dp"
             android:text="Connection Failed!!!"
             android:textColor="@color/colorMainText"
-            android:textSize="@dimen/twenty_four_dp" />
+            android:textSize="@dimen/eighteen_dp" />
 
 
-        <com.jim.mpviews.MpButton
-            android:id="@+id/btnWarningOK"
-            android:layout_width="@dimen/hundred_eighty_dp"
-            android:layout_height="@dimen/seventy_dp"
-            android:layout_gravity="center"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="OK"
-            android:textColor="@color/colorBlue"
-            android:textSize="@dimen/eighteen_dp"
-            android:textStyle="bold" />
+            android:orientation="horizontal">
+
+            <com.jim.mpviews.MpButton
+                android:id="@+id/btnWarningNO"
+                android:layout_width="@dimen/hundred_eighty_dp"
+                android:layout_height="@dimen/seventy_dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/no"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/eighteen_dp"
+                android:textStyle="bold" />
+
+            <com.jim.mpviews.MpButton
+                android:id="@+id/btnWarningYES"
+                android:layout_width="@dimen/hundred_eighty_dp"
+                android:layout_height="@dimen/seventy_dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/yes"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/eighteen_dp"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+
+
     </LinearLayout>
 </LinearLayout>
