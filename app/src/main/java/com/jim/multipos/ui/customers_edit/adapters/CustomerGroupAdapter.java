@@ -2,7 +2,6 @@ package com.jim.multipos.ui.customers_edit.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +17,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.Observer;
-import io.reactivex.functions.Consumer;
 
 /**
  * Created by user on 13.09.17.
@@ -92,7 +89,7 @@ public class CustomerGroupAdapter extends RecyclerView.Adapter<CustomerGroupAdap
         private void clickHandler() {
             CustomerGroup customerGroup = customerGroups.get(getAdapterPosition());
 
-            if (chbCustomerGroup.isCheckboxChecked()) {
+            if (chbCustomerGroup.isChecked()) {
                 chbCustomerGroup.setChecked(false);
                 currentSelectedItems.remove(customerGroup);
             } else {

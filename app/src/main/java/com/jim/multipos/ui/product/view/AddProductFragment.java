@@ -146,7 +146,7 @@ public class AddProductFragment extends BaseFragment implements ProductsView {
     public void onSave() {
 //            presenter.saveProduct(etProductName.getText().toString(), etBarcode.getText().toString(), etSKU.getText().toString(),
 //                    etProductPrice.getText().toString(), etProductCost.getText().toString(),spPriceCurrency.getSelectedItem(), spCostCurrency.getSelectedItem(), spUnit.getSelectedItem(),
-//                    null, spProductClass.getSelectedItem(), chbActive.isCheckboxChecked());
+//                    null, spProductClass.getSelectedItem(), chbActive.isChecked());
     }
 
     @OnClick(R.id.btnCancel)

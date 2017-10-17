@@ -81,13 +81,13 @@ public class CustomerGroupMembersAdapter extends RecyclerView.Adapter<CustomerGr
             ButterKnife.bind(this, itemView);
 
             RxView.clicks(chbMember).subscribe(o -> {
-                if (chbMember.isCheckboxChecked()) {
+                if (chbMember.isChecked()) {
                     chbMember.setChecked(false);
                 } else {
                     chbMember.setChecked(true);
                 }
 
-                callback.itemClicked(getAdapterPosition(), chbMember.isCheckboxChecked());
+                callback.itemClicked(getAdapterPosition(), chbMember.isChecked());
             });
         }
     }

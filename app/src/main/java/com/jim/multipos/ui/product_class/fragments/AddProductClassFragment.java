@@ -20,11 +20,9 @@ import com.jim.multipos.utils.rxevents.ProductClassEvent;
 import java.util.ArrayList;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import butterknife.BindView;
 import eu.inmite.android.lib.validations.form.annotations.MinLength;
-import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 import io.reactivex.disposables.Disposable;
 
 public class AddProductClassFragment extends BaseFragment implements AddProductClassView  {
@@ -68,7 +66,7 @@ public class AddProductClassFragment extends BaseFragment implements AddProductC
             if(isValid()) {
                 String className = etClassName.getText().toString();
                 int pos = spParent.selectedItemPosition();
-                boolean active = cbActive.isCheckboxChecked();
+                boolean active = cbActive.isChecked();
                 presenter.onSaveButtonPress(className, pos, active);
             }
         });

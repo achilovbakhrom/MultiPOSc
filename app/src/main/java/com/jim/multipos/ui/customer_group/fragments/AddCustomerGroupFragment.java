@@ -13,12 +13,10 @@ import com.jim.mpviews.MpButton;
 import com.jim.mpviews.MpCheckbox;
 import com.jim.mpviews.MpSpinner;
 import com.jim.multipos.R;
-import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
 import com.jim.multipos.ui.customer_group.CustomerGroupActivity;
 import com.jim.multipos.ui.customer_group.adapters.ServiceFeeSpinnerAdapter;
-import com.jim.multipos.ui.customer_group.di.CustomerGroupActivityComponent;
 import com.jim.multipos.ui.customer_group.presenters.AddCustomerGroupFragmentPresenter;
 
 import java.util.List;
@@ -75,8 +73,8 @@ public class AddCustomerGroupFragment extends Fragment {//extends BaseFragment i
 
         RxView.clicks(btnSave).subscribe(o -> {
             String groupName = etGroupName.getText().toString();
-            boolean isTaxFree = chbTaxFree.isCheckboxChecked();
-            boolean isActive = chbActive.isCheckboxChecked();
+            boolean isTaxFree = chbTaxFree.isChecked();
+            boolean isActive = chbActive.isChecked();
             int serviceFeePosition = spServiceFee.selectedItemPosition();
 
             presenter.addCustomerGroup(groupName, 1, serviceFeePosition, isTaxFree, isActive);

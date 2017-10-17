@@ -3,7 +3,6 @@ package com.jim.multipos.ui.product.view;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jim.mpviews.MpCheckbox;
@@ -94,7 +93,7 @@ public class AddSubCategoryFragment extends BaseFragment implements SubCategoryV
     public void onSave() {
         presenter.save(etSubCategoryName.getText().toString(),
                 etSubCategoryDescription.getText().toString(),
-                chbActive.isCheckboxChecked());
+                chbActive.isChecked());
     }
 
     @Override

@@ -1,36 +1,22 @@
 package com.jim.multipos.ui.product.view;
 
-import android.Manifest;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.widget.EditText;
-import android.widget.ImageView;
 
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.jim.mpviews.MpCheckbox;
 import com.jim.mpviews.MpEditText;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.db.model.products.Category;
-import com.jim.multipos.ui.product.ProductsActivity;
 import com.jim.multipos.ui.product.presenter.CategoryPresenter;
 
-import com.jim.multipos.utils.CommonUtils;
-
-import com.jim.multipos.utils.GlideApp;
-import com.jim.multipos.utils.OpenPickPhotoUtils;
-import com.jim.multipos.utils.PhotoPickDialog;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.RxBusLocal;
 import com.jim.multipos.utils.rxevents.CategoryEvent;
 import com.jim.multipos.utils.rxevents.MessageEvent;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import javax.inject.Inject;
@@ -42,8 +28,6 @@ import eu.inmite.android.lib.validations.form.annotations.MinLength;
 import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 import eu.inmite.android.lib.validations.form.callback.SimpleErrorPopupCallback;
 import io.reactivex.disposables.Disposable;
-
-import static android.app.Activity.RESULT_OK;
 
 
 /**
@@ -116,7 +100,7 @@ public class AddCategoryFragment extends BaseFragment implements CategoryView {
         if (isValid())
             presenter.saveCategory(etCategoryName.getText().toString(),
                     etCategoryDescription.getText().toString(),
-                    chbActive.isCheckboxChecked());
+                    chbActive.isChecked());
 
     }
 

@@ -98,7 +98,7 @@ public class AdvancedOptionFragment extends BaseFragment implements AdvancedOpti
 
     @OnClick(R.id.ivAddSubUnit)
     public void addSubUnit() {
-        presenter.setSubUnits(etSubUnitName.getText().toString(), etMainUnitQty.getText().toString(), chbSubUnitActive.isCheckboxChecked());
+        presenter.setSubUnits(etSubUnitName.getText().toString(), etMainUnitQty.getText().toString(), chbSubUnitActive.isChecked());
     }
 
     @Override

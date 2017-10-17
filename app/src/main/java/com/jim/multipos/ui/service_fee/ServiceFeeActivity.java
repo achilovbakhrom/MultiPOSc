@@ -21,7 +21,6 @@ import com.jim.multipos.ui.HasComponent;
 import com.jim.multipos.ui.first_configure.adapters.CurrencySpinnerAdapter;
 import com.jim.multipos.ui.service_fee.adapters.ServiceFeeAdapter;
 import com.jim.multipos.ui.service_fee.di.ServiceFeeActivityComponent;
-import com.jim.multipos.ui.service_fee.di.ServiceFeeActivityModule;
 import com.jim.multipos.ui.service_fee.dialogs.AutoApplyConfigure;
 import com.jim.multipos.ui.service_fee.dialogs.UsageTypeDialog;
 import com.jim.multipos.utils.RxBus;
@@ -84,8 +83,8 @@ public class ServiceFeeActivity extends BaseActivity implements HasComponent<Ser
             int type = spType.selectedItemPosition();
             int currency = spCurrency.selectedItemPosition();
             int appType = spAppType.selectedItemPosition();
-            boolean isTaxed = chbTaxed.isCheckboxChecked();
-            boolean isActive = chbActive.isCheckboxChecked();
+            boolean isTaxed = chbTaxed.isChecked();
+            boolean isActive = chbActive.isChecked();
 
             presenter.openUsageTypeDialog(name, amount, type, currency, appType, isTaxed, isActive);
         });
@@ -230,8 +229,8 @@ public class ServiceFeeActivity extends BaseActivity implements HasComponent<Ser
         int type = spType.selectedItemPosition();
         int currency = spCurrency.selectedItemPosition();
         int appType = spAppType.selectedItemPosition();
-        boolean isTaxed = chbTaxed.isCheckboxChecked();
-        boolean isActive = chbActive.isCheckboxChecked();
+        boolean isTaxed = chbTaxed.isChecked();
+        boolean isActive = chbActive.isChecked();
 
         if (paymentTypePosition != -1)
             presenter.addItem(name, amount, type, currency, appType, isTaxed, isActive, paymentTypePosition);

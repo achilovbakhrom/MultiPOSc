@@ -108,11 +108,11 @@ public class MpCheckbox extends RelativeLayout {
         }
     }
 
-    public boolean isCheckboxChecked() {
+    public boolean isChecked() {
         return ((CheckBox)findViewById(R.id.mpCheckbox)).isChecked();
     }
 
-    public void setCheckBoxEnabled(boolean state) {
+    public void setEnabled(boolean state) {
         findViewById(R.id.mpCheckbox).setEnabled(state);
     }
 

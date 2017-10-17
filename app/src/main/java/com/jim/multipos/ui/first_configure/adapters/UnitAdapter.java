@@ -87,7 +87,7 @@ public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.ViewHolder> {
         }
 
         private void clickHandler() {
-            if (chbUnit.isCheckboxChecked()) {
+            if (chbUnit.isChecked()) {
                 units.get(getAdapterPosition()).setIsActive(false);
                 chbUnit.setChecked(false);
                 onClickListener.removeUnitItem(units.get(getAdapterPosition()));

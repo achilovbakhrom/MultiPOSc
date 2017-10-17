@@ -1,11 +1,9 @@
 package com.jim.multipos.ui.service_fee.adapters;
 
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jim.mpviews.MpCheckbox;
@@ -129,7 +127,7 @@ public class ServiceFeeAdapter extends RecyclerView.Adapter<ServiceFeeAdapter.Vi
             ButterKnife.bind(this, itemView);
 
             RxView.clicks(chbTaxed).subscribe(aVoid -> {
-               if (chbTaxed.isCheckboxChecked()) {
+               if (chbTaxed.isChecked()) {
                    chbTaxed.setChecked(false);
                    onClickCallback.setCheckedTaxed(false, getAdapterPosition());
                } else {
@@ -139,7 +137,7 @@ public class ServiceFeeAdapter extends RecyclerView.Adapter<ServiceFeeAdapter.Vi
             });
 
             RxView.clicks(chbActive).subscribe(aVoid -> {
-                if (chbActive.isCheckboxChecked()) {
+                if (chbActive.isChecked()) {
                     chbActive.setChecked(false);
                     onClickCallback.setCheckedActive(false, getAdapterPosition());
                 } else {

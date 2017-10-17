@@ -49,7 +49,7 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.chbDone.setCheckBoxClickable(false);
-        holder.chbDone.setCheckBoxEnabled(false);
+        holder.chbDone.setEnabled(false);
         holder.tvTitle.setText(titles[position]);
         holder.tvDescription.setText(descriptions[position]);
 
