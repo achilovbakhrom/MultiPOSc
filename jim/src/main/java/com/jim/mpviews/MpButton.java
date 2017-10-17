@@ -117,9 +117,6 @@ public class MpButton extends android.support.v7.widget.AppCompatTextView {
                 return new SavedState[size];
             }
         };
-
     }
-
-
 }
 

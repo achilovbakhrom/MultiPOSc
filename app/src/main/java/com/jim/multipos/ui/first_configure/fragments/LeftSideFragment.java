@@ -3,6 +3,7 @@ package com.jim.multipos.ui.first_configure.fragments;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
@@ -45,6 +46,7 @@ public class LeftSideFragment extends BaseFragment implements SettingsAdapter.On
         String[] descriptions = getStringArray(R.array.start_configuration_description);
 
         adapter = new SettingsAdapter(getContext(), this, titles, descriptions, isCompletedFragments);
+        ((SimpleItemAnimator) rvSettings.getItemAnimator()).setSupportsChangeAnimations(false);
         rvSettings.setLayoutManager(new LinearLayoutManager(getContext()));
         rvSettings.setAdapter(adapter);
     }

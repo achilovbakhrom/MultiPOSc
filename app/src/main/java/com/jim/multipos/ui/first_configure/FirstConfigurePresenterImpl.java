@@ -40,7 +40,7 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
     PreferencesHelper preferences;
     private FirstConfigureView view;
     @Getter
-    private boolean[] completedFragments = null;
+    private int[] completedFragments = null;
     private final DatabaseManager databaseManager;
     @Getter
     private final String[] types;
@@ -89,7 +89,7 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
         super(view);
         this.databaseManager = databaseManager;
         this.view = view;
-        this.completedFragments = new boolean[5];
+        this.completedFragments = new int[5];
         this.types = types;
         this.circulations = circulations;
         this.currencyName = currencyName;

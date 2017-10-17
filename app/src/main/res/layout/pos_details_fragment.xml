@@ -56,7 +56,7 @@
 
                 <com.jim.mpviews.MpEditText
                     android:id="@+id/etPosId"
-                    android:layout_width="@dimen/hundred_sixty_five_dp"
+                    android:layout_width="@dimen/four_hundred_fifty_dp"
                     android:layout_height="@dimen/forty_dp"
                     android:layout_gravity="center"
                     android:layout_marginRight="@dimen/twenty_dp"
@@ -117,7 +117,7 @@
 
                 <com.jim.mpviews.MpEditText
                     android:id="@+id/etAddress"
-                    android:layout_width="@dimen/four_hundred_five_dp"
+                    android:layout_width="@dimen/four_hundred_fifty_dp"
                     android:layout_height="@dimen/forty_dp"
                     android:layout_gravity="center"
                     android:layout_marginRight="@dimen/twenty_dp"
@@ -148,7 +148,7 @@
 
                 <com.jim.mpviews.MpEditText
                     android:id="@+id/etPassword"
-                    android:layout_width="@dimen/four_hundred_five_dp"
+                    android:layout_width="@dimen/four_hundred_fifty_dp"
                     android:layout_height="@dimen/forty_dp"
                     android:layout_gravity="center"
                     android:layout_marginRight="@dimen/twenty_dp"
@@ -181,7 +181,7 @@
 
                 <com.jim.mpviews.MpEditText
                     android:id="@+id/etRepeatPassword"
-                    android:layout_width="@dimen/four_hundred_five_dp"
+                    android:layout_width="@dimen/four_hundred_fifty_dp"
                     android:layout_height="@dimen/forty_dp"
                     android:layout_gravity="center"
                     android:layout_marginRight="@dimen/twenty_dp"

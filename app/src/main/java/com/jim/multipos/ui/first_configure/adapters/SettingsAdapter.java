@@ -1,6 +1,8 @@
 package com.jim.multipos.ui.first_configure.adapters;
 
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +11,9 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.jakewharton.rxbinding2.view.RxView;
+import com.jim.mpviews.MpButton;
 import com.jim.mpviews.MpCheckbox;
+import com.jim.mpviews.MpCompletedStateView;
 import com.jim.multipos.R;
 
 import butterknife.BindView;
@@ -29,9 +33,9 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.ViewHo
     private String[] titles;
     private String[] descriptions;
     private int current = 0;
-    private boolean[] isCompletedFragments;
+    private int[] isCompletedFragments;
 
-    public SettingsAdapter(Context context, OnClickListener onClickListener, String[] titles, String[] descriptions, boolean[] isCompletedFragments) {
+    public SettingsAdapter(Context context, OnClickListener onClickListener, String[] titles, String[] descriptions, int[] isCompletedFragments) {
         this.context = context;
         this.onClickListener = onClickListener;
         this.titles = titles;
@@ -48,8 +52,8 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.chbDone.setCheckBoxClickable(false);
-        holder.chbDone.setEnabled(false);
+        /*holder.chbDone.setCheckBoxClickable(false);
+        holder.chbDone.setEnabled(false);*/
         holder.tvTitle.setText(titles[position]);
         holder.tvDescription.setText(descriptions[position]);
 
@@ -62,10 +66,22 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.ViewHo
             holder.itemView.setBackgroundColor(getColor(R.color.colorBackgroundGrey));
         }
 
-        if (isCompletedFragments[position]) {
+        /*if (isCompletedFragments[position]) {
             holder.chbDone.setChecked(true);
         } else {
             holder.chbDone.setChecked(false);
+        }*/
+
+        switch (isCompletedFragments[position]) {
+            case MpCompletedStateView.EMPTY_STATE:
+                holder.completedStateView.setState(MpCompletedStateView.EMPTY_STATE);
+                break;
+            case MpCompletedStateView.COMPLETED_STATE:
+                holder.completedStateView.setState(MpCompletedStateView.COMPLETED_STATE);
+                break;
+            case MpCompletedStateView.WARNING_STATE:
+                holder.completedStateView.setState(MpCompletedStateView.WARNING_STATE);
+                break;
         }
     }
 
@@ -91,12 +107,14 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.ViewHo
         TextView tvDescription;
         @BindView(R.id.strip)
         FrameLayout flStrip;
-        @BindView(R.id.chbDone)
-        MpCheckbox chbDone;
+        @BindView(R.id.completedStateView)
+        MpCompletedStateView completedStateView;
 
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+
+            completedStateView.setImageResource(R.drawable.);
 
             RxView.clicks(itemView).subscribe(o -> {
                 onClickListener.onClick(current, getAdapterPosition());

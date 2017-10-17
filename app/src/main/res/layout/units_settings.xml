@@ -30,7 +30,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/thirty_dp"
+                    android:layout_marginLeft="@dimen/thirty_eight_dp"
                     android:gravity="left"
                     android:text="Check System units"
                     android:textColor="@color/colorBlue"

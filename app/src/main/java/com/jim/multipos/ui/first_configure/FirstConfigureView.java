@@ -60,8 +60,4 @@ public interface FirstConfigureView extends BaseView {
     void addVolumeUnit(Unit unit);
 
     void removeVolumeUnit(Unit unit);
-
-    /*boolean hasFragment(int position);
-
-    Fragment getFragment(int position);*/
 }

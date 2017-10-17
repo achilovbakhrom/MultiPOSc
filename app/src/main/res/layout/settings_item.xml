@@ -46,8 +46,8 @@
 
         </LinearLayout>
 
-        <com.jim.mpviews.MpCheckbox
-            android:id="@+id/chbDone"
+        <com.jim.mpviews.MpCompletedStateView
+            android:id="@+id/completedStateView"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/thirty_dp"
             android:layout_gravity="center"

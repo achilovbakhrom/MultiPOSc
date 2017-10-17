@@ -56,9 +56,7 @@
                 <TextView
                     android:layout_width="@dimen/two_hundred_fifty_dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginRight="@dimen/sixteen_dp"
-                    android:gravity="right"
+                    android:layout_marginLeft="@dimen/thirty_dp"
                     android:text="System currency"
                     android:textColor="@color/colorBlue"
                     android:textSize="@dimen/eighteen_dp" />
@@ -76,8 +74,8 @@
                     android:layout_width="@dimen/two_hundred_fifty_dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/thirty_dp"
                     android:layout_marginRight="@dimen/twenty_dp"
-                    android:gravity="right"
                     android:text="Choose system currency"
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/eighteen_dp" />
