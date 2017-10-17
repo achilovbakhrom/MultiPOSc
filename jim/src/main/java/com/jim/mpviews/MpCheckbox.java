@@ -72,7 +72,6 @@ public class MpCheckbox extends LinearLayout {
         Parcelable superState = super.onSaveInstanceState();
         SavedState ss = new SavedState(superState);
         //end
-
         ss.text = this.text;
         ss.checked = this.checked;
         ss.type = this.type;
