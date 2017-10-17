@@ -3,4 +3,6 @@
     <item type="id" name="icon_button"/>
     <item type="id" name="spinner" />
     <item type="id" name="spinner_arrow" />
+    <item type="id" name="chb_iv" />
+    <item type="id" name="chb_tv" />
 </resources>

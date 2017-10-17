@@ -115,9 +115,7 @@
                 android:layout_marginRight="@dimen/thirty_dp"
                 android:layout_marginTop="@dimen/two_dp"
                 android:gravity="center"
-                app:checked="true"
-                app:enabled="false"
-                app:without_text="true" />
+                app:checked="true" />
 
 
         </LinearLayout>
@@ -162,9 +160,7 @@
                 android:layout_marginRight="@dimen/thirty_dp"
                 android:layout_marginTop="@dimen/two_dp"
                 android:gravity="center"
-                app:checked="true"
-                app:enabled="false"
-                app:without_text="true" />
+                app:checked="true" />
 
 
         </LinearLayout>

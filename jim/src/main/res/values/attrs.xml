@@ -11,8 +11,7 @@
     <declare-styleable name="MpCheckbox">
         <attr name="text" format="string" />
         <attr name="checked" format="boolean" />
-        <attr name="without_text" format="boolean" />
-        <attr name="enabled" format="boolean" />
+        <attr name="chb_type" format="integer" />
     </declare-styleable>
 
     <declare-styleable name="MpButtonWithIcon">
