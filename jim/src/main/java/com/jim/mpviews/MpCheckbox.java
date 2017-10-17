@@ -3,7 +3,9 @@ package com.jim.mpviews;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
+import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -52,6 +54,64 @@ public class MpCheckbox extends LinearLayout {
     @Override
     protected void onRestoreInstanceState(Parcelable state) {
         super.onRestoreInstanceState(state);
+        if(!(state instanceof MpSpinner.SavedState)) {
+            super.onRestoreInstanceState(state);
+            return;
+        }
+
+        SavedState ss = (SavedState)state;
+        super.onRestoreInstanceState(ss.getSuperState());
+        this.text = ss.text;
+        this.checked = ss.checked;
+        this.type = ss.type;
+    }
+
+    @Nullable
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        Parcelable superState = super.onSaveInstanceState();
+        SavedState ss = new SavedState(superState);
+        //end
+        ss.text = this.text;
+        ss.checked = this.checked;
+        ss.type = this.type;
+        return super.onSaveInstanceState();
+    }
+
+    static class SavedState extends BaseSavedState {
+        int type = NO_TEXT;
+        boolean checked;
+        String text;
+
+        SavedState(Parcelable superState) {
+            super(superState);
+        }
+
+        private SavedState(Parcel in) {
+            super(in);
+            this.text = in.readString();
+            this.checked = in.readInt() != 0;
+            this.type = in.readInt();
+        }
+
+        @Override
+        public void writeToParcel(Parcel out, int flags) {
+            super.writeToParcel(out, flags);
+            out.writeString(text);
+            out.writeInt(checked ? 1 : 0);
+            out.writeInt(type);
+        }
+
+        //required field that makes Parcelables from a Parcel
+        public static final Parcelable.Creator<SavedState> CREATOR =
+                new Parcelable.Creator<SavedState>() {
+                    public SavedState createFromParcel(Parcel in) {
+                        return new SavedState(in);
+                    }
+                    public SavedState[] newArray(int size) {
+                        return new SavedState[size];
+                    }
+                };
     }
 
     public void init(final Context context, AttributeSet attrs) {
