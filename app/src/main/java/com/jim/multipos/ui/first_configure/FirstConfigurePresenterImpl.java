@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.widget.EditText;
 
+import com.jim.mpviews.MpCompletedStateView;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Account;
@@ -114,14 +115,14 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
     public void onCreateView(Bundle bundle) {
         super.onCreateView(bundle);
         if (bundle != null) {
-            completedFragments = bundle.getBooleanArray(COMPLETED_FRAGMENTS_KEY);
+            completedFragments = bundle.getIntArray(COMPLETED_FRAGMENTS_KEY);
         }
     }
 
     @Override
     public void onSaveInstanceState(@Nullable Bundle bundle) {
         super.onSaveInstanceState(bundle);
-        bundle.putBooleanArray(COMPLETED_FRAGMENTS_KEY, completedFragments);
+        bundle.putIntArray(COMPLETED_FRAGMENTS_KEY, completedFragments);
     }
 
     @Override
@@ -132,14 +133,14 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
         int notCompletedCount = 0;
 
         for (int i = 0; i < completedFragments.length; i++) {
-            if (!completedFragments[i]) {
+            if (completedFragments[i] == MpCompletedStateView.EMPTY_STATE || completedFragments[i] == MpCompletedStateView.WARNING_STATE) {
                 nextPosition = i;
                 break;
             }
         }
 
         for (int i = 0; i < completedFragments.length; i++) {
-            if (!completedFragments[i]) {
+            if (completedFragments[i] == MpCompletedStateView.EMPTY_STATE || completedFragments[i] == MpCompletedStateView.WARNING_STATE) {
                 notCompletedCount++;
             }
         }
@@ -161,9 +162,9 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
         switch (position) {
             case POS_DETAIL_FRAGMENT_ID:
                 if (preferences.getPosDetailPosId() == null || preferences.getPosDetailPosId().isEmpty()) {
-                    completedFragments[POS_DETAIL_FRAGMENT_ID] = false;
+                    completedFragments[POS_DETAIL_FRAGMENT_ID] = MpCompletedStateView.WARNING_STATE;
                 } else {
-                    completedFragments[POS_DETAIL_FRAGMENT_ID] = true;
+                    completedFragments[POS_DETAIL_FRAGMENT_ID] = MpCompletedStateView.COMPLETED_STATE;
                 }
 
                 view.replaceFragment(nextPosition);
@@ -172,9 +173,9 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
             case ACCOUNT_FRAGMENT_ID:
                 databaseManager.getAccountOperations().getAllAccounts().subscribe(accounts -> {
                     if (accounts.isEmpty()) {
-                        completedFragments[ACCOUNT_FRAGMENT_ID] = false;
+                        completedFragments[ACCOUNT_FRAGMENT_ID] = MpCompletedStateView.WARNING_STATE;
                     } else {
-                        completedFragments[ACCOUNT_FRAGMENT_ID] = true;
+                        completedFragments[ACCOUNT_FRAGMENT_ID] = MpCompletedStateView.COMPLETED_STATE;
                     }
 
                     view.replaceFragment(nextPosition);
@@ -182,7 +183,7 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
                 });
                 break;
             case CURRENCY_FRAGMENT_ID:
-                completedFragments[CURRENCY_FRAGMENT_ID] = true;
+                completedFragments[CURRENCY_FRAGMENT_ID] = MpCompletedStateView.COMPLETED_STATE;
 
                 view.replaceFragment(nextPosition);
                 view.updateLeftSideFragment(nextPosition);
@@ -190,9 +191,9 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
             case PAYMENT_TYPE_FRAGMENT_ID:
                 databaseManager.getPaymentTypeOperations().getAllPaymentTypes().subscribe(paymentTypes -> {
                     if (paymentTypes.isEmpty()) {
-                        completedFragments[PAYMENT_TYPE_FRAGMENT_ID] = false;
+                        completedFragments[PAYMENT_TYPE_FRAGMENT_ID] = MpCompletedStateView.WARNING_STATE;
                     } else {
-                        completedFragments[PAYMENT_TYPE_FRAGMENT_ID] = true;
+                        completedFragments[PAYMENT_TYPE_FRAGMENT_ID] = MpCompletedStateView.COMPLETED_STATE;
                     }
 
                     view.replaceFragment(nextPosition);
@@ -200,7 +201,7 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
                 });
                 break;
             case UNITS_FRAGMENT_ID:
-                completedFragments[UNITS_FRAGMENT_ID] = true;
+                completedFragments[UNITS_FRAGMENT_ID] = MpCompletedStateView.COMPLETED_STATE;
 
                 view.replaceFragment(nextPosition);
                 view.updateLeftSideFragment(nextPosition);
@@ -213,34 +214,34 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
         switch (position) {
             case POS_DETAIL_FRAGMENT_ID:
                 if (preferences.getPosDetailPosId() == null || preferences.getPosDetailPosId().isEmpty()) {
-                    completedFragments[POS_DETAIL_FRAGMENT_ID] = false;
+                    completedFragments[POS_DETAIL_FRAGMENT_ID] = MpCompletedStateView.WARNING_STATE;
                 } else {
-                    completedFragments[POS_DETAIL_FRAGMENT_ID] = true;
+                    completedFragments[POS_DETAIL_FRAGMENT_ID] = MpCompletedStateView.COMPLETED_STATE;
                 }
                 break;
             case ACCOUNT_FRAGMENT_ID:
                 databaseManager.getAccountOperations().getAllAccounts().subscribe(accounts -> {
                     if (accounts.isEmpty()) {
-                        completedFragments[ACCOUNT_FRAGMENT_ID] = false;
+                        completedFragments[ACCOUNT_FRAGMENT_ID] = MpCompletedStateView.WARNING_STATE;;
                     } else {
-                        completedFragments[ACCOUNT_FRAGMENT_ID] = true;
+                        completedFragments[ACCOUNT_FRAGMENT_ID] = MpCompletedStateView.COMPLETED_STATE;;
                     }
                 });
                 break;
             case CURRENCY_FRAGMENT_ID:
-                completedFragments[CURRENCY_FRAGMENT_ID] = true;
+                completedFragments[CURRENCY_FRAGMENT_ID] = MpCompletedStateView.COMPLETED_STATE;
                 break;
             case PAYMENT_TYPE_FRAGMENT_ID:
                 databaseManager.getPaymentTypeOperations().getAllPaymentTypes().subscribe(paymentTypes -> {
                     if (paymentTypes.isEmpty()) {
-                        completedFragments[PAYMENT_TYPE_FRAGMENT_ID] = false;
+                        completedFragments[PAYMENT_TYPE_FRAGMENT_ID] = MpCompletedStateView.WARNING_STATE;
                     } else {
-                        completedFragments[PAYMENT_TYPE_FRAGMENT_ID] = true;
+                        completedFragments[PAYMENT_TYPE_FRAGMENT_ID] = MpCompletedStateView.COMPLETED_STATE;
                     }
                 });
                 break;
             case UNITS_FRAGMENT_ID:
-                completedFragments[UNITS_FRAGMENT_ID] = true;
+                completedFragments[UNITS_FRAGMENT_ID] = MpCompletedStateView.COMPLETED_STATE;
                 break;
         }
 
@@ -251,8 +252,9 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
     public boolean isNextButton() {
         if (completedFragments == null) return false;
         int i = 0;
-        for (boolean isCompleted : completedFragments) {
-            if (!isCompleted) i++;
+        for (int isCompleted : completedFragments) {
+            if (isCompleted == MpCompletedStateView.EMPTY_STATE || isCompleted == MpCompletedStateView.WARNING_STATE)
+                i++;
             if (i > 1) return true;
         }
         return false;
@@ -369,11 +371,11 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
     public void checkAccountData() {
         databaseManager.getAccountOperations().getAllAccounts().subscribe(accounts -> {
             if (accounts.size() > 0) {
-                completedFragments[ACCOUNT_FRAGMENT_ID] = true;
+                completedFragments[ACCOUNT_FRAGMENT_ID] = MpCompletedStateView.COMPLETED_STATE;
                 openNextFragment();
             } else {
                 view.showAccountToast();
-                completedFragments[ACCOUNT_FRAGMENT_ID] = false;
+                completedFragments[ACCOUNT_FRAGMENT_ID] = MpCompletedStateView.WARNING_STATE;
             }
         });
     }
@@ -383,9 +385,9 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
         databaseManager.getPaymentTypeOperations().getAllPaymentTypes().subscribe(paymentTypes -> {
             if (paymentTypes.isEmpty()) {
                 view.showPaymentTypeToast();
-                completedFragments[PAYMENT_TYPE_FRAGMENT_ID] = false;
+                completedFragments[PAYMENT_TYPE_FRAGMENT_ID] = MpCompletedStateView.WARNING_STATE;
             } else {
-                completedFragments[PAYMENT_TYPE_FRAGMENT_ID] = true;
+                completedFragments[PAYMENT_TYPE_FRAGMENT_ID] = MpCompletedStateView.COMPLETED_STATE;
                 openNextFragment();
             }
         });
@@ -655,7 +657,7 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
     }
 
     @Override
-    public void setCompletedFragments(boolean isCompleted, int position) {
-        completedFragments[position] = isCompleted;
+    public void setCompletedFragments(int state, int position) {
+        completedFragments[position] = state;
     }
 }

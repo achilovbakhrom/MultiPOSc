@@ -54,7 +54,7 @@ public interface FirstConfigurePresenter extends Presenter {
 
     void setupUnits(RecyclerView rvWeight, RecyclerView rvLength, RecyclerView rvArea, RecyclerView rvVolume);
 
-    void setCompletedFragments(boolean isCompleted, int position);
+    void setCompletedFragments(int state, int position);
 
-    boolean[] getCompletedFragments();
+    int[] getCompletedFragments();
 }

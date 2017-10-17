@@ -110,9 +110,10 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.ViewHo
 
         public ViewHolder(View itemView) {
             super(itemView);
+
             ButterKnife.bind(this, itemView);
 
-            completedStateView.setImageResource(R.drawable.);
+            completedStateView.setState(MpCompletedStateView.EMPTY_STATE);
 
             RxView.clicks(itemView).subscribe(o -> {
                 onClickListener.onClick(current, getAdapterPosition());

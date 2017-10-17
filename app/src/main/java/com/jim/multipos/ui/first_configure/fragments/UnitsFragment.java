@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.mpviews.MpButton;
+import com.jim.mpviews.MpCompletedStateView;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.db.model.unit.Unit;
@@ -56,10 +57,10 @@ public class UnitsFragment extends BaseFragment {
 
         RxView.clicks(btnNext).subscribe(aVoid -> {
             if (isValid()) {
-                ((FirstConfigureActivity) getActivity()).getPresenter().setCompletedFragments(true, UNITS_FRAGMENT_ID);
+                ((FirstConfigureActivity) getActivity()).getPresenter().setCompletedFragments(MpCompletedStateView.COMPLETED_STATE, UNITS_FRAGMENT_ID);
                 ((FirstConfigureActivity) getActivity()).getPresenter().openNextFragment();
             } else {
-                ((FirstConfigureActivity) getActivity()).getPresenter().setCompletedFragments(false, UNITS_FRAGMENT_ID);
+                ((FirstConfigureActivity) getActivity()).getPresenter().setCompletedFragments(MpCompletedStateView.WARNING_STATE, UNITS_FRAGMENT_ID);
             }
         });
 

@@ -41,7 +41,7 @@ public class LeftSideFragment extends BaseFragment implements SettingsAdapter.On
 
     }
 
-    private void initRecyclerView(boolean[] isCompletedFragments) {
+    private void initRecyclerView(int[] isCompletedFragments) {
         String[] titles = getStringArray(R.array.start_configuration_title);
         String[] descriptions = getStringArray(R.array.start_configuration_description);
 

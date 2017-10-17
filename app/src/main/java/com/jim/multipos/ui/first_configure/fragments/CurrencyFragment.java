@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.mpviews.MpButton;
+import com.jim.mpviews.MpCompletedStateView;
 import com.jim.mpviews.MpSpinner;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
@@ -43,7 +44,7 @@ public class CurrencyFragment extends BaseFragment {
         });
 
         RxView.clicks(btnNext).subscribe(aVoid -> {
-            ((FirstConfigureActivity) getActivity()).getPresenter().setCompletedFragments(true, CURRENCY_FRAGMENT_ID);
+            ((FirstConfigureActivity) getActivity()).getPresenter().setCompletedFragments(MpCompletedStateView.COMPLETED_STATE, CURRENCY_FRAGMENT_ID);
             ((FirstConfigureActivity) getActivity()).getPresenter().openNextFragment();
         });
 

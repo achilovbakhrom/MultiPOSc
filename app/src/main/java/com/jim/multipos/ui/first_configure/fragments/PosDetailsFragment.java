@@ -7,6 +7,7 @@ import android.widget.EditText;
 
 import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.mpviews.MpButton;
+import com.jim.mpviews.MpCompletedStateView;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.ui.first_configure.FirstConfigureActivity;
@@ -102,11 +103,11 @@ public class PosDetailsFragment extends BaseFragment {
 
         RxView.clicks(btnNext).subscribe(aVoid -> {
             if (isValid()) {
-                ((FirstConfigureActivity) getActivity()).getPresenter().setCompletedFragments(true, POS_DETAIL_FRAGMENT_ID);
+                ((FirstConfigureActivity) getActivity()).getPresenter().setCompletedFragments(MpCompletedStateView.COMPLETED_STATE, POS_DETAIL_FRAGMENT_ID);
                 ((FirstConfigureActivity) getActivity()).getPresenter().savePosDetailsData(etPosId.getText().toString(), etAddress.getText().toString(), etAddress.getText().toString(), etPassword.getText().toString());
                 ((FirstConfigureActivity) getActivity()).getPresenter().openNextFragment();
             } else {
-                ((FirstConfigureActivity) getActivity()).getPresenter().setCompletedFragments(false, POS_DETAIL_FRAGMENT_ID);
+                ((FirstConfigureActivity) getActivity()).getPresenter().setCompletedFragments(MpCompletedStateView.WARNING_STATE, POS_DETAIL_FRAGMENT_ID);
             }
         });
 
