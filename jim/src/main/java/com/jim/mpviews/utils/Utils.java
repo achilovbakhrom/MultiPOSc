@@ -13,11 +13,6 @@ import android.view.WindowManager;
  */
 
 public class Utils {
-    public static float px2dp(float px){
-        DisplayMetrics displaymetrics = new DisplayMetrics();
-        return (int) TypedValue.applyDimension( TypedValue.COMPLEX_UNIT_DIP, px, displaymetrics);
-    }
-
     public static float convertDpToPixel(float dp){
         DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
         float px = dp * (metrics.densityDpi / 160f);

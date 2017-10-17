@@ -56,8 +56,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginRight="@dimen/twenty_dp"
             app:checked="true"
-            app:text="Active"
-            app:without_text="true" />
+            app:text="Active" />
 
         <ImageView
             android:id="@+id/ivRemove"

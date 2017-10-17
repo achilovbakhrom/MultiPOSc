@@ -142,9 +142,7 @@
             <com.jim.mpviews.MpCheckbox
                 android:id="@+id/chbTaxed"
                 android:layout_width="@dimen/thirty_dp"
-                android:layout_height="@dimen/thirty_dp"
-                app:enabled="false"
-                app:without_text="true" />
+                android:layout_height="@dimen/thirty_dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -159,9 +157,7 @@
                 android:id="@+id/chbActive"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/thirty_dp"
-                android:layout_gravity="center"
-                app:enabled="false"
-                app:without_text="true" />
+                android:layout_gravity="center" />
         </LinearLayout>
 
         <!--<LinearLayout

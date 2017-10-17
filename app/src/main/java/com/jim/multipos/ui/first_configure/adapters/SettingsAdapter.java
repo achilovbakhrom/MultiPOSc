@@ -1,8 +1,6 @@
 package com.jim.multipos.ui.first_configure.adapters;
 
 import android.content.Context;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
