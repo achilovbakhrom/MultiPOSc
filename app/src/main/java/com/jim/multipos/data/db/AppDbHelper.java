@@ -15,9 +15,6 @@
 
 package com.jim.multipos.data.db;
 
-import android.database.Cursor;
-import android.util.Log;
-
 import com.jim.multipos.data.db.model.Account;
 import com.jim.multipos.data.db.model.AccountDao;
 import com.jim.multipos.data.db.model.Contact;
@@ -40,13 +37,12 @@ import com.jim.multipos.data.db.model.unit.Unit;
 import com.jim.multipos.data.db.model.unit.UnitCategory;
 import com.jim.multipos.data.db.model.unit.UnitDao;
 
-import org.greenrobot.greendao.query.DeleteQuery;
+import org.apache.commons.collections4.sequence.DeleteCommand;
 import org.greenrobot.greendao.query.Query;
+import org.greenrobot.greendao.query.QueryBuilder;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -335,8 +331,12 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Observable<Boolean> deleteAccount(Account account) {
         return Observable.fromCallable(() -> {
+            mDaoSession
+                    .queryBuilder(PaymentType.class)
+                    .where(PaymentTypeDao.Properties.AccountId.eq(account.getId()))
+                    .buildDelete()
+                    .executeDeleteWithoutDetachingEntities();
             mDaoSession.getAccountDao().delete(account);
-
             return true;
         });
     }
@@ -430,6 +430,11 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
+    public List<Currency> getCurrencies() {
+        return mDaoSession.getCurrencyDao().loadAll();
+    }
+
+    @Override
     public Observable<Long> insertUnitCategory(UnitCategory category) {
         return Observable.fromCallable(() -> mDaoSession.getUnitCategoryDao().insertOrReplace(category));
     }
@@ -463,6 +468,21 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
+    public Observable<Boolean> isPaymentTypeExists(String name) {
+        return Observable.fromCallable(() -> !mDaoSession.getPaymentTypeDao()
+                .queryBuilder()
+                .where(PaymentTypeDao.Properties.Name.eq(name))
+                .build()
+                .list()
+                .isEmpty());
+    }
+
+    @Override
+    public List<PaymentType> getPaymentTypes() {
+        return mDaoSession.getPaymentTypeDao().loadAll();
+    }
+
+    @Override
     public Observable<Boolean> deleteAllPaymentTypes() {
         return Observable.fromCallable(() -> {
             mDaoSession.getPaymentTypeDao().deleteAll();
@@ -488,11 +508,6 @@ public class AppDbHelper implements DbHelper {
 
             return paymentTypes;
         });
-    }
-
-    @Override
-    public Boolean isPaymentTypeNameExists(String name) {
-        return !mDaoSession.getPaymentTypeDao().queryBuilder().where(PaymentTypeDao.Properties.Name.eq(name)).build().list().isEmpty();
     }
 
     @Override
@@ -536,7 +551,6 @@ public class AppDbHelper implements DbHelper {
     public Observable<Boolean> deleteAllUnits() {
         return Observable.fromCallable(() -> {
             mDaoSession.getUnitDao().deleteAll();
-
             return true;
         });
     }
@@ -636,13 +650,13 @@ public class AppDbHelper implements DbHelper {
 
 
     @Override
-    public Boolean isAccountNameExists(String name) {
-        return !mDaoSession.getAccountDao()
+    public Observable<Boolean> isAccountNameExists(String name) {
+        return Observable.fromCallable(() -> !mDaoSession.getAccountDao()
                 .queryBuilder()
                 .where(AccountDao.Properties.Name.eq(name))
                 .build()
                 .list()
-                .isEmpty();
+                .isEmpty());
     }
 
 
@@ -793,6 +807,11 @@ public class AppDbHelper implements DbHelper {
 
             return customerGroups;
         });
+    }
+
+    @Override
+    public List<Account> getAccounts() {
+        return mDaoSession.getAccountDao().loadAll();
     }
 
     /*@Override

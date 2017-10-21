@@ -75,13 +75,13 @@ public abstract class DoubleSideActivity extends BaseActivity{
                     remove(fragment).commit();
     }
 
-    protected final Fragment getCurrentFragmentLeft(){
+    public final Fragment getCurrentFragmentLeft(){
         return  activityFragmentManager.findFragmentById(R.id.flLeftContainer);
 
     }
 
 
-    protected final Fragment getCurrentFragmentRight(){
+    public final Fragment getCurrentFragmentRight(){
         return  activityFragmentManager.findFragmentById(R.id.flRightContainer);
 
     }

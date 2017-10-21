@@ -199,7 +199,7 @@
         <item>m2</item>
         <item>m3</item>
     </string-array>
-    <string-array name="weigth_title">
+    <string-array name="weight_title">
         <item>Gramm</item>
         <item>Ton</item>
         <item>Centner</item>
@@ -484,7 +484,28 @@
     <string name="do_you_want_delete">Do you want delete?</string>
     <string name="title_product_class_fragment">Managing Product Class</string>
     <string name="tap_product_class_for_editing_and_save">Tap product class for editing and save</string>
+    <string name="finish">Finish</string>
+    <string name="deleting_account">Deleting an account!</string>
+    <string name="deleting_account_message">Do you really want to delete the account?</string>
+    <string name="warning_account_add"> - добавьте хотябы один аккаунт</string>
+    <string name="warning_payment_type_add">- добавьте хотябы один тип оплаты</string>
+    <string name="warning_currency_selection">Не выбрана денежная единица</string>
+    <string name="warning_deleting_payment_type">Deleting payment type</string>
+    <string name="warning_deleting_payment_type_message">Do you want to delete payment type?</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>
+    <string-array name="first_configure_items">
+        <item>POS Details</item>
+        <item>Account</item>
+        <item>Currency</item>
+        <item>Payment type</item>
+    </string-array>
+    <string-array name="first_configure_items_description">
+        <item>POS Details</item>
+        <item>Account</item>
+        <item>Currency</item>
+        <item>Payment type</item>
+    </string-array>
+
 </resources>

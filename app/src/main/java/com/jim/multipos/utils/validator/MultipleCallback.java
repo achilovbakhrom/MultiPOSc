@@ -1,4 +1,4 @@
-package com.jim.multipos.ui.first_configure.validators;
+package com.jim.multipos.utils.validator;
 
 import android.view.View;
 import android.widget.TextView;

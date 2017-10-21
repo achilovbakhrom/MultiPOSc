@@ -1,31 +1,21 @@
-package com.jim.multipos.ui.first_configure.di;
+package com.jim.multipos.ui.first_configure_last.di;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 
-import com.jim.multipos.MultiPosApp;
 import com.jim.multipos.R;
 import com.jim.multipos.config.scope.PerActivity;
-import com.jim.multipos.config.scope.PerFragment;
 import com.jim.multipos.core.BaseActivityModule;
-import com.jim.multipos.ui.first_configure.FirstConfigureActivity;
-import com.jim.multipos.ui.first_configure.FirstConfigurePresenter;
-import com.jim.multipos.ui.first_configure.FirstConfigurePresenterImpl;
-import com.jim.multipos.ui.first_configure.FirstConfigureView;
-import com.jim.multipos.ui.first_configure.fragments.AccountFragment;
-import com.jim.multipos.ui.first_configure.fragments.CurrencyFragment;
-import com.jim.multipos.ui.first_configure.fragments.LeftSideFragment;
-import com.jim.multipos.ui.first_configure.fragments.PaymentTypeFragment;
-import com.jim.multipos.ui.first_configure.fragments.PosDetailsFragment;
-import com.jim.multipos.ui.first_configure.fragments.UnitsFragment;
+import com.jim.multipos.ui.first_configure_last.FirstConfigureActivity;
+import com.jim.multipos.ui.first_configure_last.FirstConfigureView;
+import com.jim.multipos.ui.first_configure_last.FirstConfigurePresenter;
+import com.jim.multipos.ui.first_configure_last.FirstConfigurePresenterImpl;
 
 import javax.inject.Named;
-import javax.inject.Qualifier;
 
 import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
-import dagger.android.ContributesAndroidInjector;
 
 /**
  * Created by user on 07.10.17.
@@ -44,30 +34,6 @@ public abstract class FirstConfigureActivityModule {
     @Binds
     @PerActivity
     abstract FirstConfigurePresenter provideFirstConfigurePresenter(FirstConfigurePresenterImpl presenter);
-
-    @PerFragment
-    @ContributesAndroidInjector
-    abstract PosDetailsFragment providePosDetailsFragment();
-
-    @PerFragment
-    @ContributesAndroidInjector
-    abstract AccountFragment provideAccountFragment();
-
-    @PerFragment
-    @ContributesAndroidInjector
-    abstract CurrencyFragment provideCurrencyFragment();
-
-    @PerFragment
-    @ContributesAndroidInjector
-    abstract PaymentTypeFragment providePaymentTypeFragment();
-
-    @PerFragment
-    @ContributesAndroidInjector
-    abstract UnitsFragment provideUnitsFragment();
-
-    @PerFragment
-    @ContributesAndroidInjector
-    abstract LeftSideFragment provideLeftSideFragment();
 
     @PerActivity
     @Provides
@@ -115,7 +81,7 @@ public abstract class FirstConfigureActivityModule {
     @Provides
     @Named(value = "weight_units_title")
     static String[] provideWeightUnitsTitle(Context context) {
-        return context.getResources().getStringArray(R.array.weigth_title);
+        return context.getResources().getStringArray(R.array.weight_title);
     }
 
     @PerActivity
@@ -194,4 +160,19 @@ public abstract class FirstConfigureActivityModule {
     static String[] provideVolumeUnitsRootFactor(Context context) {
         return context.getResources().getStringArray(R.array.volumeRootFactor);
     }
+
+    @PerActivity
+    @Provides
+    @Named(value = "first_configure_items")
+    static String[] provideFirstConfigureItems(Context context) {
+        return context.getResources().getStringArray(R.array.first_configure_items);
+    }
+
+    @PerActivity
+    @Provides
+    @Named(value = "first_configure_items_description")
+    static String[] provideFirstConfigureItemsDescription(Context context) {
+        return context.getResources().getStringArray(R.array.first_configure_items_description);
+    }
+
 }

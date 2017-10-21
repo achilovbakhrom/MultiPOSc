@@ -1,0 +1,193 @@
+package com.jim.multipos.ui.first_configure_last.fragment;
+
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
+import android.widget.LinearLayout;
+
+import com.jim.mpviews.MpButton;
+import com.jim.mpviews.MpCompletedStateView;
+import com.jim.mpviews.MpEditText;
+import com.jim.multipos.R;
+import com.jim.multipos.core.BaseFragment;
+import com.jim.multipos.ui.first_configure_last.CompletionMode;
+import com.jim.multipos.ui.first_configure_last.ChangeableContent;
+import com.jim.multipos.ui.first_configure_last.FirstConfigureActivity;
+import com.jim.multipos.ui.first_configure_last.FirstConfigurePresenter;
+import com.jim.multipos.utils.UIUtils;
+
+import butterknife.BindView;
+import butterknife.OnClick;
+import eu.inmite.android.lib.validations.form.annotations.MaxLength;
+import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
+
+/**
+ * Created by Achilov Bakhrom on 10/18/17.
+ */
+
+public class POSDetailsFragment extends BaseFragment implements ChangeableContent {
+
+    private final String MODE_KEY = "POS_DETAILS_MODE_KEY";
+
+    @NotEmpty(messageId = R.string.enter_pos_id)
+    @BindView(R.id.etPosId)
+    MpEditText posId;
+    @NotEmpty(messageId = R.string.enter_alias)
+    @BindView(R.id.etAlias)
+    MpEditText alias;
+    @NotEmpty(messageId = R.string.enter_address)
+    @BindView(R.id.etAddress)
+    MpEditText address;
+    @MaxLength(value = 6, messageId = R.string.password_length_not_less_than_6)
+    @BindView(R.id.etPassword)
+    MpEditText password;
+    @MaxLength(value = 6, messageId = R.string.password_length_not_less_than_6)
+    @BindView(R.id.etConfirmPassword)
+    MpEditText confirmPassword;
+    @BindView(R.id.btnNext)
+    MpButton next;
+    CompletionMode mode = CompletionMode.NEXT;
+
+    @Override
+    protected int getLayout() {
+        return R.layout.pos_details_fragment;
+    }
+
+    /**
+     * For decision, will the fragment use the dagger 2
+     * in the content
+     * @return true - dagger included, false - dagger will be not used
+     */
+    @Override
+    protected boolean isAndroidInjectionEnabled() {
+        return false;
+    }
+
+    @Override
+    protected void init(Bundle savedInstanceState) {
+        if (getArguments() != null) {
+            setMode((CompletionMode) getArguments().getSerializable(MODE_KEY));
+        }
+        fillPOSDetailsData();
+        password.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                password.setError(null);
+                if (s.length() != 0 && !confirmPassword.getText().toString().isEmpty()) {
+                    if (!password.getText().toString().equals(confirmPassword.getText().toString())) {
+                        confirmPassword.setError(getString(R.string.passwords_different));
+                    }
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+        confirmPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                password.setError(null);
+                if (!password.getText().toString().equals(confirmPassword.getText().toString())) {
+                    confirmPassword.setError(getString(R.string.passwords_different));
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+    }
+
+    private void fillPOSDetailsData() {
+        FirstConfigurePresenter presenter = ((FirstConfigureActivity) getContext()).getPresenter();
+        if (presenter.getPOSId() != null) {
+            posId.setText(presenter.getPOSId());
+        }
+        if (presenter.getPOSAlias() != null) {
+            alias.setText(presenter.getPOSAlias());
+        }
+        if (presenter.getPOSAddress() != null) {
+            address.setText(presenter.getPOSAddress());
+        }
+        if (presenter.getPassword() != null) {
+            password.setText(presenter.getPassword());
+            confirmPassword.setText(presenter.getPassword());
+        }
+    }
+
+    @OnClick(value = {R.id.btnRevert, R.id.btnNext})
+    public void buttonClick(View view) {
+        switch (view.getId()) {
+            case R.id.btnRevert:
+                getActivity().finish();
+                break;
+            case R.id.btnNext:
+                if (isValid()) {
+                    if (mode == CompletionMode.NEXT) {
+                        FirstConfigureActivity activity = (FirstConfigureActivity) getContext();
+                        activity.getPresenter().savePOSDetials(posId.getText().toString(),
+                                alias.getText().toString(),
+                                address.getText().toString(),
+                                password.getText().toString());
+                        activity.getPresenter().setCompletedForFragment(getClass().getName(), true);
+                        activity.getPresenter().openAccount();
+                        activity.changeState(FirstConfigurePresenter.POS_DETAILS_POSITION,
+                                MpCompletedStateView.COMPLETED_STATE);
+                    }
+                    else {
+                        getActivity().finish();
+                    }
+                } else {
+                    ((FirstConfigureActivity) getContext())
+                            .changeState(FirstConfigurePresenter.POS_DETAILS_POSITION, MpCompletedStateView.WARNING_STATE);
+                }
+                break;
+        }
+    }
+
+    @Override
+    public boolean isValid() {
+        boolean temp = super.isValid();
+        if (temp) {
+            return password.getText().toString().equals(confirmPassword.getText().toString());
+        }
+        return temp;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(MODE_KEY, mode);
+    }
+
+    /**
+     * setter for type of next button, which allowed
+     * two type: NEXT and FINISH
+     * @param mode - for the button, which type of CompletionMode
+     */
+    @Override
+    public void setMode(CompletionMode mode) {
+        this.mode = mode;
+        switch (mode) {
+            case NEXT:
+                next.setText(R.string.next);
+                break;
+            case FINISH:
+                next.setText(R.string.finish);
+                break;
+        }
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden) {
+            ((FirstConfigureActivity) getContext()).getPresenter().checkPOSDetailsCorrection(posId.getText().toString(),
+                    alias.getText().toString(), address.getText().toString(),
+                    (password.getText().toString().equals(confirmPassword.getText().toString()) && password.getText().toString().length() <= 6),
+                    password.getText().toString());
+        }
+    }
+}

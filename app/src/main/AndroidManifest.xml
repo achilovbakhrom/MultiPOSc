@@ -23,7 +23,7 @@
         <!--android:name=".ui.signing.SignActivity"-->
         <!--android:windowSoftInputMode="stateHidden" />-->
         <activity
-            android:name=".ui.first_configure.FirstConfigureActivity"
+            android:name=".ui.first_configure_last.FirstConfigureActivity"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

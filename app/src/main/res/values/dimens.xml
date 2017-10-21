@@ -150,4 +150,5 @@
     <dimen name="six_hundred_thirteen_dp">613dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="thousand_ninety_dp">1090dp</dimen>
+    <dimen name="fourty_dp">40dp</dimen>
 </resources>

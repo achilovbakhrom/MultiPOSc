@@ -16,5 +16,6 @@ public interface AccountOperations {
     Observable<List<Account>> getAllAccounts();
     Observable<Boolean> removeAccount(Account account);
     Observable<Boolean> removeAllAccounts();
-    Boolean isAccountNameExists(String name);
+    Observable<Boolean> isAccountNameExists(String name);
+    List<Account> getAccounts();
 }

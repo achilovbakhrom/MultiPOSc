@@ -1,6 +1,6 @@
 package com.jim.multipos.core;
 
-import android.util.Log;
+import com.jim.multipos.utils.UIUtils;
 
 import java.util.List;
 

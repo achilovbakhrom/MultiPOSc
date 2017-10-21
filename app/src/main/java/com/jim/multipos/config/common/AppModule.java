@@ -4,8 +4,9 @@ import android.app.Application;
 
 import com.jim.multipos.MultiPosApp;
 import com.jim.multipos.config.scope.PerActivity;
-import com.jim.multipos.ui.first_configure.FirstConfigureActivity;
-import com.jim.multipos.ui.first_configure.di.FirstConfigureActivityModule;
+import com.jim.multipos.ui.first_configure_last.FirstConfigureActivity;
+
+import com.jim.multipos.ui.first_configure_last.di.FirstConfigureActivityModule;
 import com.jim.multipos.ui.main_menu.customers_menu.CustomersMenuActivity;
 import com.jim.multipos.ui.main_menu.customers_menu.di.CostomersMenuModule;
 import com.jim.multipos.ui.main_menu.inventory_menu.InventoryMenuActivity;
@@ -22,7 +23,6 @@ import com.jim.multipos.ui.signing.SignActivity;
 import com.jim.multipos.ui.signing.di.SignActivityModule;
 
 import dagger.Module;
-import dagger.android.AndroidInjectionModule;
 import dagger.android.ContributesAndroidInjector;
 import dagger.android.support.AndroidSupportInjectionModule;
 

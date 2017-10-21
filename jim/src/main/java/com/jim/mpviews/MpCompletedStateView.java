@@ -17,7 +17,7 @@ public class MpCompletedStateView extends AppCompatImageView {
     public static final int COMPLETED_STATE = 1;
     public static final int WARNING_STATE = 2;
 
-    private int state;
+    private int state = EMPTY_STATE;
 
     public MpCompletedStateView(Context context) {
         super(context);
@@ -43,7 +43,6 @@ public class MpCompletedStateView extends AppCompatImageView {
                 setImageResource(R.drawable.warning_checkbox);
                 break;
         }
-
         this.state = state;
     }
 
@@ -51,11 +50,8 @@ public class MpCompletedStateView extends AppCompatImageView {
     @Override
     protected Parcelable onSaveInstanceState() {
         Parcelable superState = super.onSaveInstanceState();
-
         MpCompletedStateView.SavedState savedState = new MpCompletedStateView.SavedState(superState);
-
         savedState.state = this.state;
-
         return savedState;
     }
 
@@ -67,8 +63,6 @@ public class MpCompletedStateView extends AppCompatImageView {
         }
         MpCompletedStateView.SavedState savedState = (MpCompletedStateView.SavedState) state;
         super.onRestoreInstanceState(savedState.getSuperState());
-        //end
-
         this.state = savedState.state;
     }
 

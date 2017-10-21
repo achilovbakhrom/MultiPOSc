@@ -19,48 +19,51 @@ import butterknife.BindView;
  * Created by user on 10.10.17.
  */
 
-public class LeftSideFragment extends BaseFragment implements SettingsAdapter.OnClickListener {
-    @Inject
-    RxBusLocal rxBusLocal;
-    @BindView(R.id.rvSettings)
-    RecyclerView rvSettings;
-    private SettingsAdapter adapter;
-
-    @Override
-    protected int getLayout() {
-        return R.layout.start_configuration_fragment;
-    }
-
-    @Override
-    protected void init(Bundle savedInstanceState) {
-        initRecyclerView(((FirstConfigureActivity) getActivity()).getPresenter().getCompletedFragments());
-    }
-
-    @Override
-    protected void rxConnections() {
-
-    }
-
-    private void initRecyclerView(int[] isCompletedFragments) {
-        String[] titles = getStringArray(R.array.start_configuration_title);
-        String[] descriptions = getStringArray(R.array.start_configuration_description);
-
-        adapter = new SettingsAdapter(getContext(), this, titles, descriptions, isCompletedFragments);
-        ((SimpleItemAnimator) rvSettings.getItemAnimator()).setSupportsChangeAnimations(false);
-        rvSettings.setLayoutManager(new LinearLayoutManager(getContext()));
-        rvSettings.setAdapter(adapter);
-    }
-
-    private String[] getStringArray(int resId) {
-        return getResources().getStringArray(resId);
-    }
-
-    public void updateAdapter(int position) {
-        adapter.updateAdapter(position);
-    }
-
-    @Override
-    public void onClick(int position, int nextPosition) {
-        ((FirstConfigureActivity) getActivity()).getPresenter().openNextFragment(position, nextPosition);
-    }
+public class LeftSideFragment {
+//    extends BaseFragment implements SettingsAdapter.OnClickListener {
+//
+//    @Inject
+//    RxBusLocal rxBusLocal;
+//    @BindView(R.id.rvSettings)
+//    RecyclerView rvSettings;
+//    private SettingsAdapter adapter;
+//
+//    @Override
+//    protected int getLayout() {
+//        return R.layout.start_configuration_fragment;
+//    }
+//
+//    @Override
+//    protected void init(Bundle savedInstanceState) {
+//
+//        initRecyclerView(((FirstConfigureActivity) getActivity()).getPresenter().getCompletedFragments());
+//
+//    }
+//
+//    @Override
+//    protected void rxConnections() {
+//
+//    }
+//
+//    private void initRecyclerView(int[] isCompletedFragments) {
+//        String[] titles = getStringArray(R.array.start_configuration_title);
+//        String[] descriptions = getStringArray(R.array.start_configuration_description);
+//        adapter = new SettingsAdapter(getContext(), this, titles, descriptions, isCompletedFragments);
+//        ((SimpleItemAnimator) rvSettings.getItemAnimator()).setSupportsChangeAnimations(false);
+//        rvSettings.setLayoutManager(new LinearLayoutManager(getContext()));
+//        rvSettings.setAdapter(adapter);
+//    }
+//
+//    private String[] getStringArray(int resId) {
+//        return getResources().getStringArray(resId);
+//    }
+//
+//    public void updateAdapter(int position) {
+//        adapter.updateAdapter(position);
+//    }
+//
+//    @Override
+//    public void onClick(int position, int nextPosition) {
+//        ((FirstConfigureActivity) getActivity()).getPresenter().openNextFragment(position, nextPosition);
+//    }
 }

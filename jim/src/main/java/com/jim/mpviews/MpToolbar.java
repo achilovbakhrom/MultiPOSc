@@ -35,6 +35,14 @@ public class MpToolbar extends RelativeLayout {
     public static final int WITH_SEARCH_CALENDAR_TYPE = 5;
     public static final int GONE_TYPE = 0;
 
+    public static final int DEFAULT_MODE = 10;
+    public static final int MAIN_MODE = 11;
+    public static final int SEARCH_MODE = 12;
+    public static final int ADMIN_MODE = 13;
+    public static final int PAYMENT_MODE = 14;
+    public static final int BALANCE_MODE = 15;
+
+
     private int mode;
     boolean pressed = false;
     private LinearLayout mpMainMenu, llEmployer;

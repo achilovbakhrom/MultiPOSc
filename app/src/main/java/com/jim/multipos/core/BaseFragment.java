@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.jim.multipos.ui.HasComponent;
-import com.jim.multipos.ui.first_configure.validators.MultipleCallback;
+import com.jim.multipos.utils.validator.MultipleCallback;
 
 import javax.inject.Inject;
 
@@ -19,12 +19,9 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
-import dagger.android.HasActivityInjector;
-import dagger.android.HasFragmentInjector;
 import dagger.android.support.AndroidSupportInjection;
 import dagger.android.support.HasSupportFragmentInjector;
 import eu.inmite.android.lib.validations.form.FormValidator;
-import eu.inmite.android.lib.validations.form.callback.SimpleErrorPopupCallback;
 
 
 /**
@@ -41,12 +38,18 @@ public abstract class BaseFragment extends Fragment implements HasSupportFragmen
     @SuppressWarnings("deprecation")
     @Override
     public void onAttach(Activity activity) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            // Perform injection here before M, L (API 22) and below because onAttach(Context)
-            // is not yet available at L.
-            AndroidSupportInjection.inject(this);
+        if (isAndroidInjectionEnabled()) {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                // Perform injection here before M, L (API 22) and below because onAttach(Context)
+                // is not yet available at L.
+                AndroidSupportInjection.inject(this);
+            }
         }
         super.onAttach(activity);
+    }
+
+    protected boolean isAndroidInjectionEnabled() {
+        return true;
     }
 
     @Nullable
@@ -61,12 +64,14 @@ public abstract class BaseFragment extends Fragment implements HasSupportFragmen
 
     protected abstract int getLayout();
     protected abstract void init(Bundle savedInstanceState);
-    protected abstract void rxConnections();
+    protected void rxConnections(){}
     @Override
     public void onAttach(Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            // Perform injection here for M (API 23) due to deprecation of onAttach(Activity).
-            AndroidSupportInjection.inject(this);
+        if (isAndroidInjectionEnabled()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                // Perform injection here for M (API 23) due to deprecation of onAttach(Activity).
+                AndroidSupportInjection.inject(this);
+            }
         }
         super.onAttach(context);
     }

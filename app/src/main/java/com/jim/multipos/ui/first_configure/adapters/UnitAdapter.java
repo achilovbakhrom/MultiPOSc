@@ -45,9 +45,9 @@ public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         viewHolder.tvUnit.setText(String.format("%s (%s)", units.get(position).getName(), units.get(position).getAbbr()));
-        viewHolder.tvUnitProperty.setText(String.format("1 %s = %f %s", units.get(position).getAbbr(),
-                units.get(position).getFactorRoot(),
-                units.get(position).getUnitCategory().getAbbr()));
+//        viewHolder.tvUnitProperty.setText(String.format("1 %s = %f %s", units.get(position).getAbbr(),
+//                units.get(position).getFactorRoot(),
+//                units.get(position).getUnitCategory().getAbbr()));
         viewHolder.chbUnit.setChecked(units.get(position).getIsActive());
     }
 
@@ -65,9 +65,9 @@ public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.ViewHolder> {
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.tvUnit)
+//        @BindView(R.id.tvUnit)
         TextView tvUnit;
-        @BindView(R.id.tvUnitProperty)
+//        @BindView(R.id.tvUnitProperty)
         TextView tvUnitProperty;
         @BindView(R.id.chbUnit)
         MpCheckbox chbUnit;

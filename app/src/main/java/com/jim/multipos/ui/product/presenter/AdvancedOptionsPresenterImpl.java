@@ -66,7 +66,7 @@ public class AdvancedOptionsPresenterImpl extends AdvancedOptionConnector implem
             subUnit.setIsStaticUnit(false);
             subUnit.setIsActive(active);
             subUnit.setFactorRoot(Float.parseFloat(qty));
-            subUnit.setUnitCategory(product.getMainUnit().getUnitCategory());
+//            subUnit.setUnitCategory(product.getMainUnit().getUnitCategory());
             subUnit.setSubUnitAbbr(product.getMainUnit().getAbbr());
             if (product != null) {
                 unitOperations.addUnit(subUnit).subscribe(aLong -> {

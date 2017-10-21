@@ -16,5 +16,6 @@ public interface PaymentTypeOperations {
     Observable<Boolean> removePaymentType(PaymentType paymentType);
     Observable<Boolean> removeAllPaymentTypes();
     Observable<List<PaymentType>> getAllPaymentTypes();
-    Boolean isPaymentTypeNameExists(String name);
+    Observable <Boolean> isPaymentTypeNameExists(String name);
+    List<PaymentType> getPaymentTypes();
 }

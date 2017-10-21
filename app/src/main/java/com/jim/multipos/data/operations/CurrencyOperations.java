@@ -15,4 +15,5 @@ public interface CurrencyOperations {
     Observable<Boolean> removeCurrency(Currency currency);
     Observable<Boolean> removeAllCurrencies();
     Observable<List<Currency>> getAllCurrencies();
+    List<Currency> getCurrencies();
 }

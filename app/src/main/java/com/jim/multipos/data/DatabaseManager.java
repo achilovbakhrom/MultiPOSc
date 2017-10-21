@@ -180,6 +180,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
+    public List<Account> getAccounts() {
+        return dbHelper.getAccounts();
+    }
+
+    @Override
     public Observable<Account> addAccount(Account account) {
         return dbHelper.insertAccount(account);
     }
@@ -194,6 +199,8 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
         return dbHelper.getAllAccounts();
     }
 
+
+
     @Override
     public Observable<Boolean> removeAccount(Account account) {
         return dbHelper.deleteAccount(account);
@@ -205,7 +212,7 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
-    public Boolean isAccountNameExists(String name) {
+    public Observable<Boolean> isAccountNameExists(String name) {
         return dbHelper.isAccountNameExists(name);
     }
 
@@ -290,6 +297,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
+    public List<Currency> getCurrencies() {
+        return dbHelper.getCurrencies();
+    }
+
+    @Override
     public Observable<Boolean> removeCurrency(Currency currency) {
         return dbHelper.deleteCurrency(currency);
     }
@@ -315,6 +327,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
+    public List<PaymentType> getPaymentTypes() {
+        return null;
+    }
+
+    @Override
     public Observable<Boolean> addPaymentTypes(List<PaymentType> paymentTypes) {
         return dbHelper.insertPaymentTypes(paymentTypes);
     }
@@ -335,8 +352,8 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
-    public Boolean isPaymentTypeNameExists(String name) {
-        return dbHelper.isPaymentTypeNameExists(name);
+    public Observable<Boolean> isPaymentTypeNameExists(String name) {
+        return dbHelper.isPaymentTypeExists(name);
     }
 
     @Override

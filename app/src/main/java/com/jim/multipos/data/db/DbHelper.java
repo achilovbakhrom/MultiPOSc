@@ -44,6 +44,7 @@ import io.reactivex.Single;
  */
 
 public interface DbHelper {
+    List<Account> getAccounts();
     Observable<Long> insertContact(Contact contact);
     Observable<Boolean> insertContacts(List<Contact> contact);
     Observable<List<Contact>> getAllContacts();
@@ -81,7 +82,6 @@ public interface DbHelper {
     Observable<Boolean> deletePaymentType(PaymentType paymentType);
     Observable<Boolean> deleteAllPaymentTypes();
     Observable<List<PaymentType>> getAllPaymentTypes();
-    Boolean isPaymentTypeNameExists(String name);
     Observable<Long> insertUnit(Unit unit);
     Observable<Boolean> insertUnits(List<Unit> units);
     Observable<Boolean> deleteUnit(Unit unit);
@@ -115,7 +115,9 @@ public interface DbHelper {
     Observable<Boolean> deleteAllJoinCustomerGroupWithCustomer();
     Observable<List<JoinCustomerGroupsWithCustomers>> getAllJoinCustomerGroupsWithCustomers();
     Observable<List<CustomerGroup>> getCustomerGroups(Customer customer);
-
+    List<Currency> getCurrencies();
     Observable<Boolean> deleteSubUnits(SubUnitsList subUnitsList);
-    Boolean isAccountNameExists(String name);
+    Observable<Boolean> isAccountNameExists(String name);
+    Observable<Boolean> isPaymentTypeExists(String name);
+    List<PaymentType> getPaymentTypes();
 }

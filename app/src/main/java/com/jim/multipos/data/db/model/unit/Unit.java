@@ -23,91 +23,7 @@ public class Unit {
     private boolean isStaticUnit;
     private String subUnitAbbr;
     private Long rootId;
-    @ToOne(joinProperty = "rootId")
-    private UnitCategory unitCategory;
-    @Generated(hash = 269968744)
-    private transient Long unitCategory__resolvedKey;
-    /** Used for active entity operations. */
-    @Generated(hash = 1283912641)
-    private transient UnitDao myDao;
-    /** Used to resolve relations */
-    @Generated(hash = 2040040024)
-    private transient DaoSession daoSession;
-
-    @Generated(hash = 1608836025)
-    public Unit(Long id, String name, String abbr, float factorRoot,
-            boolean isActive, boolean isStaticUnit, String subUnitAbbr, Long rootId) {
-        this.id = id;
-        this.name = name;
-        this.abbr = abbr;
-        this.factorRoot = factorRoot;
-        this.isActive = isActive;
-        this.isStaticUnit = isStaticUnit;
-        this.subUnitAbbr = subUnitAbbr;
-        this.rootId = rootId;
-    }
-
-    @Generated(hash = 1236212320)
-    public Unit() {
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public float getFactorRoot() {
-        return this.factorRoot;
-    }
-
-    public void setFactorRoot(float factorRoot) {
-        this.factorRoot = factorRoot;
-    }
-
-    public boolean getIsActive() {
-        return this.isActive;
-    }
-
-    public void setIsActive(boolean isActive) {
-        this.isActive = isActive;
-    }
-
-    public Boolean getIsStaticUnit() {
-        return this.isStaticUnit;
-    }
-
-    public void setIsStaticUnit(boolean isStaticUnit) {
-        this.isStaticUnit = isStaticUnit;
-    }
-
-    public Long getRootId() {
-        return this.rootId;
-    }
-
-    public void setRootId(Long rootId) {
-        this.rootId = rootId;
-    }
-
-    public String getAbbr() {
-        return this.abbr;
-    }
-
-    public void setAbbr(String abbr) {
-        this.abbr = abbr;
-    }
-
-
-    public String getSubUnitAbbr() {
-        return this.subUnitAbbr;
-    }
-
-    public void setSubUnitAbbr(String subUnitAbbr) {
-        this.subUnitAbbr = subUnitAbbr;
-    }
-
+    private Long unitCategoryId;
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
      * Entity must attached to an entity context.
@@ -119,7 +35,6 @@ public class Unit {
         }
         myDao.refresh(this);
     }
-
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
      * Entity must attached to an entity context.
@@ -131,7 +46,6 @@ public class Unit {
         }
         myDao.update(this);
     }
-
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
      * Entity must attached to an entity context.
@@ -143,49 +57,88 @@ public class Unit {
         }
         myDao.delete(this);
     }
-
-    /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 112824339)
-    public void setUnitCategory(UnitCategory unitCategory) {
-        synchronized (this) {
-            this.unitCategory = unitCategory;
-            rootId = unitCategory == null ? null : unitCategory.getId();
-            unitCategory__resolvedKey = rootId;
-        }
-    }
-
-    /** To-one relationship, resolved on first access. */
-    @Generated(hash = 1383996926)
-    public UnitCategory getUnitCategory() {
-        Long __key = this.rootId;
-        if (unitCategory__resolvedKey == null
-                || !unitCategory__resolvedKey.equals(__key)) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            UnitCategoryDao targetDao = daoSession.getUnitCategoryDao();
-            UnitCategory unitCategoryNew = targetDao.load(__key);
-            synchronized (this) {
-                unitCategory = unitCategoryNew;
-                unitCategory__resolvedKey = __key;
-            }
-        }
-        return unitCategory;
-    }
-
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 342985017)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getUnitDao() : null;
     }
-
+    /** Used for active entity operations. */
+    @Generated(hash = 1283912641)
+    private transient UnitDao myDao;
+    /** Used to resolve relations */
+    @Generated(hash = 2040040024)
+    private transient DaoSession daoSession;
+    public Long getUnitCategoryId() {
+        return this.unitCategoryId;
+    }
+    public void setUnitCategoryId(Long unitCategoryId) {
+        this.unitCategoryId = unitCategoryId;
+    }
+    public Long getRootId() {
+        return this.rootId;
+    }
+    public void setRootId(Long rootId) {
+        this.rootId = rootId;
+    }
+    public String getSubUnitAbbr() {
+        return this.subUnitAbbr;
+    }
+    public void setSubUnitAbbr(String subUnitAbbr) {
+        this.subUnitAbbr = subUnitAbbr;
+    }
+    public boolean getIsStaticUnit() {
+        return this.isStaticUnit;
+    }
+    public void setIsStaticUnit(boolean isStaticUnit) {
+        this.isStaticUnit = isStaticUnit;
+    }
+    public boolean getIsActive() {
+        return this.isActive;
+    }
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+    public float getFactorRoot() {
+        return this.factorRoot;
+    }
+    public void setFactorRoot(float factorRoot) {
+        this.factorRoot = factorRoot;
+    }
+    public String getAbbr() {
+        return this.abbr;
+    }
+    public void setAbbr(String abbr) {
+        this.abbr = abbr;
+    }
+    public String getName() {
+        return this.name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
     public Long getId() {
         return this.id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
+    @Generated(hash = 849017146)
+    public Unit(Long id, String name, String abbr, float factorRoot,
+            boolean isActive, boolean isStaticUnit, String subUnitAbbr,
+            Long rootId, Long unitCategoryId) {
+        this.id = id;
+        this.name = name;
+        this.abbr = abbr;
+        this.factorRoot = factorRoot;
+        this.isActive = isActive;
+        this.isStaticUnit = isStaticUnit;
+        this.subUnitAbbr = subUnitAbbr;
+        this.rootId = rootId;
+        this.unitCategoryId = unitCategoryId;
+    }
+    @Generated(hash = 1236212320)
+    public Unit() {
+    }
+
 }
