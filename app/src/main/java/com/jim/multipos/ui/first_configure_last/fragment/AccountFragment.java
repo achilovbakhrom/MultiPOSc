@@ -126,8 +126,8 @@ public class AccountFragment extends BaseFragment implements ChangeableContent {
                     } else {
                         accountName.setError(getString(R.string.account_name_exists));
                     }
-
                 }
+                accountName.setText("");
                 break;
             case R.id.btnRevert:
                 ((FirstConfigureActivity) getContext()).getPresenter().openPOSDetails();

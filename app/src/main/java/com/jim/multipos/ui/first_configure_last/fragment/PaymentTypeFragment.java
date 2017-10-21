@@ -18,7 +18,6 @@ import com.jim.multipos.ui.first_configure_last.ChangeableContent;
 import com.jim.multipos.ui.first_configure_last.CompletionMode;
 import com.jim.multipos.ui.first_configure_last.FirstConfigureActivity;
 import com.jim.multipos.ui.first_configure_last.FirstConfigurePresenter;
-import com.jim.multipos.ui.first_configure_last.ItemRemoveListener;
 import com.jim.multipos.ui.first_configure_last.adapter.PaymentTypeAdapter;
 import com.jim.multipos.utils.UIUtils;
 
@@ -138,6 +137,7 @@ public class PaymentTypeFragment extends BaseFragment implements ChangeableConte
                     } else {
                         paymentTypeName.setError(getString(R.string.payment_type_name_exists));
                     }
+                    paymentTypeName.setText("");
                 }
                 break;
             case R.id.btnRevert:
