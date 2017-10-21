@@ -1,21 +1,18 @@
 package com.jim.multipos.ui.product.view;
 
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.core.ClickableBaseAdapter;
-import com.jim.multipos.core.ItemMoveListener;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.prefs.PreferencesHelper;
@@ -25,7 +22,6 @@ import com.jim.multipos.ui.product.adapter.ProductsListAdapter;
 import com.jim.multipos.ui.product.presenter.ProductListPresenter;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.RxBusLocal;
-import com.jim.multipos.utils.item_touch_helper.OnStartDragListener;
 import com.jim.multipos.utils.item_touch_helper.SimpleItemTouchHelperCallback;
 import com.jim.multipos.utils.rxevents.CategoryEvent;
 import com.jim.multipos.utils.rxevents.MessageEvent;
@@ -62,6 +58,8 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
     RecyclerView rvSubCategory;
     @BindView(R.id.rvProduct)
     RecyclerView rvProduct;
+    @BindView(R.id.switchShowActive)
+    Switch switchShowActive;
     @Inject
     PreferencesHelper preferencesHelper;
     @Inject
@@ -80,11 +78,10 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
     private static final int PRODUCT = 2;
     private final static String ADD = "added";
     private final static String UPDATE = "update";
+    private static final String DELETE = "delete";
     private final static String SUBCAT_OPENED = "subcategory";
     private final static String PRODUCT_OPENED = "product";
     private final static String CATEGORY_OPENED = "category";
-    private final static String PARENT = "parent";
-    private final static String CLICK = "click";
     ArrayList<Disposable> subscriptions;
 
     @Override
@@ -97,6 +94,7 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
         presenter.setViewsVisibility(CATEGORY);
         presenter.setCategoryRecyclerView();
         categoryMode();
+        switchShowActive.setOnCheckedChangeListener((compoundButton, state) -> presenter.setActiveElements(state));
     }
 
     @Override
@@ -111,17 +109,30 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
                         }
                         if (event.getEventType().equals(UPDATE)) {
                             presenter.refreshCategoryList();
+                            presenter.checkIsActive(event.getCategory());
+                        }
+                        if (event.getEventType().equals(DELETE)) {
+                            presenter.setCategoryItems(0);
+                            categoryAdapter.setPosition(0);
+                            presenter.refreshCategoryList();
+                            presenter.refreshSubCategoryList();
                         }
                     }
-//                    if (o instanceof SubCategoryEvent) {
-//                        SubCategoryEvent event = (SubCategoryEvent) o;
-//                        if (event.getEventType().equals(ADD)) {
-//                            presenter.refreshSubCategoryList();
-//                        }
-//                        if (event.getEventType().equals(UPDATE)) {
-//                            presenter.refreshSubCategoryList();
-//                        }
-//                    }
+                    if (o instanceof SubCategoryEvent) {
+                        SubCategoryEvent event = (SubCategoryEvent) o;
+                        if (event.getEventType().equals(ADD)) {
+                            presenter.refreshSubCategoryList();
+                        }
+                        if (event.getEventType().equals(UPDATE)) {
+                            presenter.refreshSubCategoryList();
+                            presenter.checkIsActive(event.getSubCategory());
+                        }
+                        if (event.getEventType().equals(DELETE)) {
+                            presenter.setSubCategoryItems(0);
+                            subCategoryAdapter.setPosition(0);
+                            presenter.refreshSubCategoryList();
+                        }
+                    }
                     if (o instanceof ProductEvent) {
                         ProductEvent event = (ProductEvent) o;
                         if (event.getEventType().equals(ADD)) {
@@ -159,29 +170,25 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
     @Override
     public void setCategoryRecyclerViewItems(List<Category> categories) {
         rvCategory.setLayoutManager(new LinearLayoutManager(getContext()));
-        categoryAdapter = new CategoryAdapter(categories);
+        categoryAdapter = new CategoryAdapter(categories, CATEGORY);
         rvCategory.setAdapter(categoryAdapter);
+        presenter.setSubCategoryRecyclerView();
+        presenter.setCategoryItems(preferencesHelper.getLastPositionCategory());
         categoryAdapter.setOnItemClickListener(new ClickableBaseAdapter.OnItemClickListener<Category>() {
             @Override
             public void onItemClicked(int position) {
                 presenter.setCategoryItems(position);
                 openCategory();
-//                preferencesHelper.setLastPositionCategory(position);
             }
 
             @Override
             public void onItemClicked(Category item) {
-                if (item != null){
-                    presenter.setSubCategoryRecyclerView(item.getSubCategories());
+                if (item != null) {
+                    subCategoryAdapter.setPosition(preferencesHelper.getLastPositionSubCategory(String.valueOf(item.getId())));
                 }
             }
         });
-        categoryAdapter.setMoveListener(new ItemMoveListener() {
-            @Override
-            public void onItemMove(int fromPosition, int toPosition) {
-
-            }
-        });
+        categoryAdapter.setMoveListener((fromPosition, toPosition) -> presenter.setCategoryPositions(fromPosition, toPosition));
         ((SimpleItemAnimator) rvCategory.getItemAnimator()).setSupportsChangeAnimations(false);
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(categoryAdapter);
         touchHelper = new ItemTouchHelper(callback);
@@ -192,26 +199,22 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
     @Override
     public void setSubCategoryRecyclerView(List<Category> subCategories) {
         rvSubCategory.setLayoutManager(new LinearLayoutManager(getContext()));
-        subCategoryAdapter = new CategoryAdapter(subCategories);
+        subCategoryAdapter = new CategoryAdapter(subCategories, SUBCATEGORY);
         rvSubCategory.setAdapter(subCategoryAdapter);
+        if (subCategories.size() > 1)
+            subCategoryAdapter.setPosition(preferencesHelper.getLastPositionSubCategory(String.valueOf(subCategories.get(1).getParentId())));
         subCategoryAdapter.setOnItemClickListener(new ClickableBaseAdapter.OnItemClickListener<Category>() {
             @Override
             public void onItemClicked(int position) {
-//                presenter.setSubCategoryItems(position);
                 openSubCategory();
-//                preferencesHelper.setLastPositionCategory(position);
+                presenter.setSubCategoryItems(position);
             }
 
             @Override
             public void onItemClicked(Category item) {
             }
         });
-        subCategoryAdapter.setMoveListener(new ItemMoveListener() {
-            @Override
-            public void onItemMove(int fromPosition, int toPosition) {
-
-            }
-        });
+        subCategoryAdapter.setMoveListener((fromPosition, toPosition) -> presenter.setSubCategoryPositions(fromPosition, toPosition));
         ((SimpleItemAnimator) rvSubCategory.getItemAnimator()).setSupportsChangeAnimations(false);
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(subCategoryAdapter);
         touchHelper = new ItemTouchHelper(callback);
@@ -336,10 +339,20 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
         tvProduct.setVisibility(View.GONE);
     }
 
-//    @Override
-//    public void sendSubCategoryEvent(SubCategory subCategory, String event) {
-//        rxBusLocal.send(new SubCategoryEvent(subCategory, event));
-//    }
+    @Override
+    public void sendSubCategoryEvent(Category subCategory, String event) {
+        rxBusLocal.send(new SubCategoryEvent(subCategory, event));
+    }
+
+    @Override
+    public void setCategoryAdapterPosition(int position) {
+        categoryAdapter.setPosition(position);
+    }
+
+    @Override
+    public void setSubCategoryAdapterPosition(int position) {
+        subCategoryAdapter.setPosition(position);
+    }
 
     @Override
     public void sendProductEvent(Product product, String event) {

@@ -28,6 +28,9 @@ public interface ProductListView extends BaseView {
     void subCategoryMode();
     void productMode();
     void allInvisible();
-    void sendProductEvent(Product product, String click);
+    void sendProductEvent(Product product, String event);
     void sendCategoryEvent(Category category, String event);
+    void sendSubCategoryEvent(Category subCategory, String event);
+    void setCategoryAdapterPosition(int position);
+    void setSubCategoryAdapterPosition(int position);
 }

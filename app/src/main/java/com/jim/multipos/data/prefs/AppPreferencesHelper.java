@@ -82,13 +82,13 @@ public class AppPreferencesHelper implements PreferencesHelper {
     }
 
     @Override
-    public int getLastPositionSubCategory() {
-        return mPrefs.getInt(LAST_SUBCATEGORY, 0);
+    public int getLastPositionSubCategory(String key) {
+        return mPrefs.getInt(LAST_SUBCATEGORY + key, 0);
     }
 
     @Override
-    public void setLastPositionSubCategory(int position) {
-        mPrefs.edit().putInt(LAST_SUBCATEGORY, position).apply();
+    public void setLastPositionSubCategory(String key, int position) {
+        mPrefs.edit().putInt(LAST_SUBCATEGORY + key, position).apply();
     }
 
     @Override

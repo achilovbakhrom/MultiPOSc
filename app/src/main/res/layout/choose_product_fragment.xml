@@ -26,10 +26,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:ellipsize="end"
-                    android:maxWidth="@dimen/hundred_dp"
-                    android:maxLines="1"
                     android:layout_marginLeft="@dimen/fifteen_dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:maxWidth="@dimen/hundred_dp"
                     android:paddingBottom="@dimen/five_dp"
                     android:paddingLeft="@dimen/ten_dp"
                     android:paddingRight="@dimen/ten_dp"
@@ -50,10 +50,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:paddingBottom="@dimen/five_dp"
                     android:ellipsize="end"
-                    android:maxWidth="@dimen/hundred_dp"
                     android:maxLines="1"
+                    android:maxWidth="@dimen/hundred_dp"
+                    android:paddingBottom="@dimen/five_dp"
                     android:paddingLeft="@dimen/ten_dp"
                     android:paddingRight="@dimen/ten_dp"
                     android:paddingTop="@dimen/five_dp"
@@ -73,14 +73,42 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:maxLines="1"
                     android:paddingBottom="@dimen/five_dp"
                     android:paddingLeft="@dimen/ten_dp"
-                    android:maxLines="1"
                     android:paddingRight="@dimen/ten_dp"
                     android:paddingTop="@dimen/five_dp"
                     android:textColor="@color/colorBlue"
                     android:textSize="@dimen/sixteen_dp"
                     android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="right"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:paddingBottom="@dimen/five_dp"
+                        android:paddingLeft="@dimen/ten_dp"
+                        android:paddingRight="@dimen/ten_dp"
+                        android:paddingTop="@dimen/five_dp"
+                        android:textColor="@color/colorBlue"
+                        android:text="Show non-active"
+                        android:textSize="@dimen/sixteen_dp"
+                        android:textStyle="bold" />
+
+                    <Switch
+                        android:id="@+id/switchShowActive"
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="@dimen/fifteen_dp"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -97,24 +125,24 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rvCategory"
                     android:layout_width="@dimen/hundred_dp"
-                    android:overScrollMode="never"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/ten_dp"
-                    android:layout_marginRight="@dimen/fifteen_dp" />
+                    android:layout_marginRight="@dimen/fifteen_dp"
+                    android:overScrollMode="never" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rvSubCategory"
                     android:layout_width="@dimen/hundred_dp"
-                    android:overScrollMode="never"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="@dimen/fifteen_dp" />
+                    android:layout_marginRight="@dimen/fifteen_dp"
+                    android:overScrollMode="never" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rvProduct"
-                    android:overScrollMode="never"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:overScrollMode="never" />
 
 
             </LinearLayout>

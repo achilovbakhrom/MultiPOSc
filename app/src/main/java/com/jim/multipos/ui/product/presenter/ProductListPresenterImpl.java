@@ -7,7 +7,6 @@ import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.prefs.PreferencesHelper;
-import com.jim.multipos.utils.RxBusLocal;
 import com.jim.multipos.ui.product.view.ProductListView;
 
 
@@ -19,20 +18,23 @@ import javax.inject.Inject;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
+import static com.jim.multipos.utils.CategoryUtils.isSubcategory;
+
 /**
  * Created by DEV on 17.08.2017.
  */
 @PerFragment
 public class ProductListPresenterImpl extends BasePresenterImpl<ProductListView> implements ProductListPresenter {
-   private DatabaseManager databaseManager;
+    private DatabaseManager databaseManager;
     private List<Category> categoryList, subCategoryList;
     private List<Product> productList;
     private PreferencesHelper preferencesHelper;
+    private Category currentCategory;
     private final static String PARENT = "parent";
     private final static String CLICK = "click";
 
     @Inject
-    public ProductListPresenterImpl(ProductListView view,DatabaseManager databaseManager, PreferencesHelper preferencesHelper) {
+    public ProductListPresenterImpl(ProductListView view, DatabaseManager databaseManager, PreferencesHelper preferencesHelper) {
         super(view);
         this.databaseManager = databaseManager;
         this.preferencesHelper = preferencesHelper;
@@ -55,11 +57,17 @@ public class ProductListPresenterImpl extends BasePresenterImpl<ProductListView>
     }
 
     @Override
-    public void setSubCategoryRecyclerView(List<Category> subCategories) {
-        subCategoryList = subCategories;
-        view.setSubCategoryRecyclerView(subCategoryList);
-        view.subCategoryMode();
-        view.setViewsVisibility(1);
+    public void setSubCategoryRecyclerView() {
+        currentCategory = categoryList.get(preferencesHelper.getLastPositionCategory());
+        if (currentCategory != null)
+            databaseManager.getSubCategories(currentCategory).subscribe(subCategories -> {
+                subCategoryList = subCategories;
+                view.subCategoryMode();
+                view.setViewsVisibility(1);
+                view.setSubCategoryRecyclerView(subCategoryList);
+            });
+        else view.setSubCategoryRecyclerView(subCategoryList);
+
     }
 
     @Override
@@ -95,43 +103,48 @@ public class ProductListPresenterImpl extends BasePresenterImpl<ProductListView>
     public void setCategoryItems(int selectedPosition) {
         if (selectedPosition != 0) {
             preferencesHelper.setLastPositionCategory(selectedPosition);
-            view.sendCategoryEvent(categoryList.get(selectedPosition), CLICK);
-            view.setCategoryName(categoryList.get(selectedPosition).getName());
-//            refreshSubCategoryList();
+            currentCategory = categoryList.get(selectedPosition);
+            view.sendCategoryEvent(currentCategory, CLICK);
+            view.setCategoryName(currentCategory.getName());
+            view.setViewsVisibility(1);
+            refreshSubCategoryList();
         } else {
             preferencesHelper.setLastPositionCategory(selectedPosition);
             view.allInvisible();
+            view.setViewsVisibility(0);
             view.sendCategoryEvent(null, CLICK);
         }
     }
 
     @Override
     public void setSubCategoryItems(int selectedPosition) {
-//        if (selectedPosition != -1) {
-//            preferencesHelper.setLastPositionSubCategory(selectedPosition);
-//            view.sendSubCategoryEvent(subCategoryList.get(selectedPosition), CLICK);
-//            view.setSubCategoryName(subCategoryList.get(selectedPosition).getName());
+        if (selectedPosition != 0) {
+            preferencesHelper.setLastPositionSubCategory(String.valueOf(currentCategory.getId()), selectedPosition);
+            view.sendSubCategoryEvent(subCategoryList.get(selectedPosition), CLICK);
+            view.setSubCategoryName(subCategoryList.get(selectedPosition).getName());
+            view.setViewsVisibility(2);
 //            refreshProductList();
-//        } else {
-//            preferencesHelper.setLastPositionSubCategory(selectedPosition);
-//            view.categoryMode();
-//            view.sendSubCategoryEvent(null, CLICK);
-//        }
+        } else {
+            preferencesHelper.setLastPositionSubCategory(String.valueOf(currentCategory.getId()), selectedPosition);
+            view.categoryMode();
+            view.setViewsVisibility(1);
+            view.sendSubCategoryEvent(null, CLICK);
+        }
     }
 
     @Override
     public void setProductItems(int selectedPosition) {
-        int productPosition;
-        if (selectedPosition != -1) {
-            productPosition = selectedPosition;
-            preferencesHelper.setLastPositionProduct(selectedPosition);
-            view.sendProductEvent(productList.get(productPosition), CLICK);
-            view.setProductName(productList.get(selectedPosition).getName());
-        } else {
-            productPosition = selectedPosition;
-            view.sendProductEvent(null, CLICK);
-            view.subCategoryMode();
-        }
+//        int productPosition;
+//        if (selectedPosition != -1) {
+//            productPosition = selectedPosition;
+//            preferencesHelper.setLastPositionProduct(selectedPosition);
+//            view.sendProductEvent(productList.get(productPosition), CLICK);
+//            view.setProductName(productList.get(selectedPosition).getName());
+//        } else {
+//            productPosition = selectedPosition;
+//            view.sendProductEvent(null, CLICK);
+//            view.subCategoryMode();
+//        }
     }
 
     @Override
@@ -145,12 +158,13 @@ public class ProductListPresenterImpl extends BasePresenterImpl<ProductListView>
 
     @Override
     public void refreshSubCategoryList() {
-//        int selectedPos = preferencesHelper.getLastPositionCategory();
-//        databaseManager.getAllSubCategoryPositions(categoryList.get(selectedPos)).subscribeOn(AndroidSchedulers.mainThread()).subscribe(subCategories -> {
-//            subCategoryList.clear();
-//            subCategoryList.addAll(subCategories);
-//            view.updateSubCategoryItems();
-//        });
+//        currentCategory.resetSubCategories();
+//        currentCategory = categoryList.get(preferencesHelper.getLastPositionCategory());
+        databaseManager.getSubCategories(currentCategory).subscribe(subCategories -> {
+            subCategoryList.clear();
+            subCategoryList.addAll(subCategories);
+            view.updateSubCategoryItems();
+        });
     }
 
     @Override
@@ -165,17 +179,98 @@ public class ProductListPresenterImpl extends BasePresenterImpl<ProductListView>
 
     @Override
     public void categoryFragmentOpened() {
-        if (preferencesHelper.getLastPositionCategory() != -1){
+        if (preferencesHelper.getLastPositionCategory() != 0) {
             view.sendCategoryEvent(categoryList.get(preferencesHelper.getLastPositionCategory()), CLICK);
-        } else   view.sendCategoryEvent(null, CLICK);
+        } else view.sendCategoryEvent(null, CLICK);
     }
 
     @Override
     public void subCatFragmentOpened() {
-//        view.sendCategoryEvent(categoryList.get(preferencesHelper.getLastPositionCategory()), PARENT);
-//        if (preferencesHelper.getLastPositionSubCategory() != -1){
-//            view.sendSubCategoryEvent(subCategoryList.get(preferencesHelper.getLastPositionSubCategory()), CLICK);
-//        } else   view.sendSubCategoryEvent(null, CLICK);
+        view.sendCategoryEvent(categoryList.get(preferencesHelper.getLastPositionCategory()), PARENT);
+        if (preferencesHelper.getLastPositionSubCategory(String.valueOf(currentCategory.getId())) != 0) {
+            view.sendSubCategoryEvent(subCategoryList.get(preferencesHelper.getLastPositionSubCategory(String.valueOf(currentCategory.getId()))), CLICK);
+        } else view.sendSubCategoryEvent(null, CLICK);
+    }
+
+    @Override
+    public void setCategoryPositions(int fromPosition, int toPosition) {
+        double positionFirst = categoryList.get(toPosition).getPosition();
+        Category category = categoryList.get(fromPosition);
+        if (fromPosition > toPosition) {
+            if (toPosition == 1) {
+                double positionNew = 0 + positionFirst / 2;
+                category.setPosition(positionNew);
+                databaseManager.replaceCategory(category).subscribe();
+            } else {
+                double positionSecond = categoryList.get(toPosition + 1).getPosition();
+                double positionNew = positionFirst + (positionSecond - positionFirst) / 2;
+                category.setPosition(positionNew);
+                databaseManager.replaceCategory(category).subscribe();
+            }
+        } else {
+            if (toPosition == categoryList.size() - 1) {
+                category.setPosition(positionFirst + 1d);
+                databaseManager.replaceCategory(category).subscribe();
+            } else {
+                double positionSecond = categoryList.get(toPosition + 1).getPosition();
+                double positionNew = positionFirst + (positionSecond - positionFirst) / 2;
+                category.setPosition(positionNew);
+                databaseManager.replaceCategory(category).subscribe();
+            }
+        }
+        int selectedPosition = preferencesHelper.getLastPositionCategory();
+        if (fromPosition == selectedPosition) {
+            preferencesHelper.setLastPositionCategory(toPosition);
+        } else if (toPosition == selectedPosition) {
+            preferencesHelper.setLastPositionCategory(fromPosition);
+        }
+
+    }
+
+    @Override
+    public void setSubCategoryPositions(int fromPosition, int toPosition) {
+        double positionFirst = subCategoryList.get(toPosition).getPosition();
+        Category category = subCategoryList.get(fromPosition);
+        if (fromPosition > toPosition) {
+            double positionSecond = subCategoryList.get(toPosition + 1).getPosition();
+            double positionNew = positionFirst - (positionSecond - positionFirst) / 2;
+            category.setPosition(positionNew);
+            databaseManager.replaceCategory(category).subscribe();
+        } else {
+            if (toPosition == subCategoryList.size() - 1) {
+                category.setPosition(positionFirst + 1d);
+                databaseManager.replaceCategory(category).subscribe();
+            } else {
+                double positionSecond = subCategoryList.get(toPosition + 1).getPosition();
+                double positionNew = positionFirst + (positionSecond - positionFirst) / 2;
+                category.setPosition(positionNew);
+                databaseManager.replaceCategory(category).subscribe();
+            }
+        }
+        int selectedPosition = preferencesHelper.getLastPositionSubCategory(String.valueOf(currentCategory.getId()));
+        if (fromPosition == selectedPosition) {
+            preferencesHelper.setLastPositionSubCategory(String.valueOf(currentCategory.getId()), toPosition);
+        } else if (toPosition == selectedPosition) {
+            preferencesHelper.setLastPositionSubCategory(String.valueOf(currentCategory.getId()), fromPosition);
+        }
+    }
+
+    @Override
+    public void setActiveElements(boolean state) {
+        if (state) {
+
+        } else {
+
+        }
+    }
+
+    @Override
+    public void checkIsActive(Category category) {
+        if (!category.getIsActive()) {
+            if (isSubcategory(category))
+                view.setSubCategoryAdapterPosition(subCategoryList.size() - 1);
+            else view.setCategoryAdapterPosition(categoryList.size() - 1);
+        }
     }
 
     @Override

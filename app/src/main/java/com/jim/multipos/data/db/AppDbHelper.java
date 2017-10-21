@@ -15,6 +15,8 @@
 
 package com.jim.multipos.data.db;
 
+import android.database.Cursor;
+
 import com.jim.multipos.data.db.model.Account;
 import com.jim.multipos.data.db.model.AccountDao;
 import com.jim.multipos.data.db.model.Contact;
@@ -51,6 +53,7 @@ import io.reactivex.Observable;
 import io.reactivex.Single;
 
 import static com.jim.multipos.data.db.model.products.Category.WITHOUT_PARENT;
+import static com.jim.multipos.utils.CategoryUtils.isSubcategory;
 
 
 /**
@@ -138,8 +141,57 @@ public class AppDbHelper implements DbHelper {
                     .build().list();
             if (categories.isEmpty()) {
                 category.setPosition(1d);
-            } else category.setPosition((double) categories.size() + 1d);
+            } else {
+                if (!category.getIsActive()) {
+                    Cursor cursor = mDaoSession.getDatabase().rawQuery("SELECT MAX(POSITION) FROM CATEGORY WHERE IS_DELETED == " + 0, null);
+                    cursor.moveToFirst();
+                    int max = cursor.getInt(0);
+                    category.setPosition((double) max + 1d);
+                } else {
+                    Cursor cursor = mDaoSession.getDatabase().rawQuery("SELECT MAX(POSITION) FROM CATEGORY WHERE IS_DELETED == " + 0 + " AND IS_ACTIVE == " + 1, null);
+                    cursor.moveToFirst();
+                    int max = cursor.getInt(0);
+                    Cursor cursor1 = mDaoSession.getDatabase().rawQuery("SELECT MIN(POSITION) FROM CATEGORY WHERE IS_DELETED == " + 0 + " AND IS_ACTIVE == " + 0, null);
+                    cursor1.moveToFirst();
+                    int min = cursor1.getInt(0);
+                    if (min == 0) {
+                        category.setPosition((double) (max + 1));
+                    } else
+                        category.setPosition((double) (max + (min - max) / 2));
+                }
+            }
             return mDaoSession.getCategoryDao().insert(category);
+        });
+    }
+
+    @Override
+    public Observable<Long> insertSubCategory(Category subcategory) {
+        return Observable.fromCallable(() -> {
+            List<Category> categories = mDaoSession.getCategoryDao().queryBuilder()
+                    .where(CategoryDao.Properties.ParentId.eq(subcategory.getParentId()), CategoryDao.Properties.IsDeleted.eq(false))
+                    .build().list();
+            if (categories.isEmpty()) {
+                subcategory.setPosition(1d);
+            } else {
+                if (!subcategory.getIsActive()) {
+                    Cursor cursor = mDaoSession.getDatabase().rawQuery("SELECT MAX(POSITION) FROM CATEGORY WHERE IS_DELETED == " + 0 + " AND PARENT_ID == " + subcategory.getParentId(), null);
+                    cursor.moveToFirst();
+                    int max = cursor.getInt(0);
+                    subcategory.setPosition((double) max + 1d);
+                } else {
+                    Cursor cursor = mDaoSession.getDatabase().rawQuery("SELECT MAX(POSITION) FROM CATEGORY WHERE IS_DELETED == " + 0 + " AND PARENT_ID == " + subcategory.getParentId() + " AND IS_ACTIVE == " + 1, null);
+                    cursor.moveToFirst();
+                    int max = cursor.getInt(0);
+                    Cursor cursor1 = mDaoSession.getDatabase().rawQuery("SELECT MIN(POSITION) FROM CATEGORY WHERE IS_DELETED == " + 0 + " AND PARENT_ID == " + subcategory.getParentId() + " AND IS_ACTIVE == " + 0, null);
+                    cursor1.moveToFirst();
+                    int min = cursor1.getInt(0);
+                    if (min == 0) {
+                        subcategory.setPosition((double) (max + 1));
+                    } else
+                        subcategory.setPosition((double) (max + (min - max) / 2));
+                }
+            }
+            return mDaoSession.getCategoryDao().insert(subcategory);
         });
     }
 
@@ -161,8 +213,33 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
+    public Observable<List<Category>> getSubCategories(Category category) {
+        return Observable.fromCallable(() -> mDaoSession.getCategoryDao().queryBuilder()
+                .where(CategoryDao.Properties.ParentId.eq(category.getId()), CategoryDao.Properties.IsDeleted.eq(false))
+                .orderAsc(CategoryDao.Properties.Position)
+                .build().list());
+    }
+
+    @Override
     public Observable<Long> insertOrReplaceCategory(Category category) {
-        return Observable.fromCallable(() -> mDaoSession.getCategoryDao().insertOrReplace(category));
+        return Observable.fromCallable(() -> {
+            if (isSubcategory(category)) {
+                if (!category.getIsActive()) {
+                    Cursor cursor = mDaoSession.getDatabase().rawQuery("SELECT MAX(POSITION) FROM CATEGORY WHERE PARENT_ID == " + category.getParentId() + " AND IS_DELETED == " + 0, null);
+                    cursor.moveToFirst();
+                    int max = cursor.getInt(0);
+                    category.setPosition((double) max + 1d);
+                }
+            } else {
+                if (!category.getIsActive()) {
+                    Cursor cursor = mDaoSession.getDatabase().rawQuery("SELECT MAX(POSITION) FROM CATEGORY WHERE IS_DELETED == " + 0, null);
+                    cursor.moveToFirst();
+                    int max = cursor.getInt(0);
+                    category.setPosition((double) max + 1d);
+                }
+            }
+            return mDaoSession.getCategoryDao().insertOrReplace(category);
+        });
     }
 
     @Override
@@ -187,112 +264,6 @@ public class AppDbHelper implements DbHelper {
     public Observable<Long> insertOrReplaceProduct(Product product) {
         return Observable.fromCallable(() -> mDaoSession.getProductDao().insertOrReplace(product));
     }
-
-    /*@Override
-    public Observable<Long> insertSubCategory(SubCategory subCategory) {
-        return Observable.create(subscriber -> {
-            Cursor cursor = mDaoSession.getDatabase().rawQuery("SELECT MAX(position) FROM SUB_CAT_POSITION", null);
-            cursor.moveToFirst();
-            int max = cursor.getInt(0);
-            long insert = mDaoSession.getSubCategoryDao().insert(subCategory);
-            SubCategoryPosition subCategoryPosition = new SubCategoryPosition();
-            subCategoryPosition.setSubCategory(subCategory);
-            subCategoryPosition.setSubCategoryId(subCategory.getId());
-            subCategoryPosition.setCategoryId(subCategory.getCategoryId());
-            subCategoryPosition.setPosition(max + 1);
-            mDaoSession.getSubCategoryPositionDao().insert(subCategoryPosition);
-            subscriber.onNext(insert);
-            subscriber.onComplete();
-        });
-    }
-
-    @Override
-    public Observable<Boolean> insertSubCategories(List<SubCategory> subCategories) {
-        return Observable.fromCallable(() ->
-        {
-            mDaoSession.getSubCategoryDao().insertOrReplaceInTx(subCategories);
-            return true;
-        });
-    }
-
-    @Override
-    public Observable<List<SubCategory>> getAllSubCategories() {
-        return Observable.fromCallable(() -> mDaoSession.getSubCategoryDao().loadAll());
-    }
-
-    @Override
-    public Observable<Long> insertOrReplaceSubCategory(SubCategory subCategory) {
-        return Observable.fromCallable(() -> mDaoSession.getSubCategoryDao().insertOrReplace(subCategory));
-    }
-
-    @Override
-    public Observable<Boolean> insertCategoryPositions(List<CategoryPosition> positionList) {
-        return Observable.fromCallable(() ->
-        {
-            mDaoSession.getCategoryPositionDao().deleteAll();
-            mDaoSession.getCategoryPositionDao().insertOrReplaceInTx(positionList);
-            return true;
-        });
-    }*/
-
-    /*@Override
-    public Observable<List<Category>> getAllCategoryPositions() {
-        return Observable.create(subscriber -> {
-            List<CategoryPosition> categoryPositions = mDaoSession.getCategoryPositionDao().loadAll();
-            if (categoryPositions.size() == 0) {
-                subscriber.onNext(mDaoSession.getCategoryDao().loadAll());
-                subscriber.onComplete();
-                return;
-            }
-            Collections.sort(categoryPositions, (categoryPosition, t1) -> categoryPosition.getPosition().compareTo(t1.getPosition()));
-            List<Category> categoryList = new ArrayList<>();
-            for (CategoryPosition categoryPosition : categoryPositions) {
-                categoryList.add(categoryPosition.getCategory());
-            }
-            subscriber.onNext(categoryList);
-            subscriber.onComplete();
-        });
-    }
-
-    @Override
-    public Observable<Boolean> insertProductPositions(List<ProductPosition> positionList, SubCategory subCategory) {
-        return Observable.fromCallable(() ->
-        {
-            DeleteQuery<ProductPosition> deleteQuery = mDaoSession.getProductPositionDao().queryBuilder().
-                    where(ProductPositionDao.Properties.SubCategoryId.eq(subCategory.getId())).buildDelete();
-            deleteQuery.executeDeleteWithoutDetachingEntities();
-            mDaoSession.clear();
-            mDaoSession.getProductPositionDao().insertOrReplaceInTx(positionList);
-            return true;
-        });
-    }
-
-    @Override
-    public Observable<List<Product>> getAllProductPositions(SubCategory subCategory) {
-        return Observable.create(subscriber -> {
-            Query<ProductPosition> productPositionQuery = mDaoSession.getProductPositionDao().queryBuilder()
-                    .where(ProductPositionDao.Properties.SubCategoryId.eq(subCategory.getId())).build();
-            List<ProductPosition> productPositions = productPositionQuery.list();
-            if (productPositions.size() == 0) {
-                subscriber.onNext(subCategory.getProducts());
-                subscriber.onComplete();
-                return;
-            }
-            Collections.sort(productPositions, (productPosition, t1) -> productPosition.getPosition().compareTo(t1.getPosition()));
-            List<Product> productList = new ArrayList<>();
-            for (ProductPosition productPosition : productPositions) {
-                productList.add(productPosition.getProduct());
-            }
-            subscriber.onNext(productList);
-            subscriber.onComplete();
-        });
-    }
-
-
-    @Override
-    public Observable<Long> insertOrReplaceCategoryPosition(CategoryPosition position) {
-        return Observable.fromCallable(() -> mDaoSession.getCategoryPositionDao().insertOrReplace(position));
-    }*/
 
     @Override
     public DaoSession getDaoSession() {
@@ -564,41 +535,6 @@ public class AppDbHelper implements DbHelper {
         });
     }
 
-    /*@Override
-    public Observable<Boolean> insertSubCategoryPositions(List<SubCategoryPosition> positionList, Category category) {
-        return Observable.fromCallable(() ->
-        {
-            DeleteQuery<SubCategoryPosition> deleteQuery = mDaoSession.getSubCategoryPositionDao().queryBuilder().
-                    where(SubCategoryPositionDao.Properties.CategoryId.eq(category.getId())).buildDelete();
-            deleteQuery.executeDeleteWithoutDetachingEntities();
-            mDaoSession.clear();
-            mDaoSession.getSubCategoryPositionDao().insertOrReplaceInTx(positionList);
-            return true;
-        });
-    }
-
-    @Override
-    public Observable<List<SubCategory>> getAllSubCategoryPositions(Category category) {
-        return Observable.create(subscriber -> {
-            Query<SubCategoryPosition> subCategoryPositionQuery = mDaoSession.getSubCategoryPositionDao().queryBuilder()
-                    .where(SubCategoryPositionDao.Properties.CategoryId.eq(category.getId())).build();
-            List<SubCategoryPosition> subCategoryPositions = subCategoryPositionQuery.list();
-            if (subCategoryPositions.size() == 0) {
-                subscriber.onNext(category.getSubCategories());
-                subscriber.onComplete();
-                return;
-            }
-            Collections.sort(subCategoryPositions, (subCategoryPosition, t1) -> subCategoryPosition.getPosition().compareTo(t1.getPosition()));
-            List<SubCategory> subCategoryList = new ArrayList<>();
-            for (SubCategoryPosition subCategoryPosition : subCategoryPositions) {
-                subCategoryList.add(subCategoryPosition.getSubCategory());
-            }
-            subscriber.onNext(subCategoryList);
-            subscriber.onComplete();
-        });
-    }*/
-
-
     @Override
     public Single<List<ProductClass>> getAllProductClass() {
         Observable<List<ProductClass>> objectObservable = Observable.create(singleSubscriber -> {
@@ -678,6 +614,29 @@ public class AppDbHelper implements DbHelper {
     public Observable<Boolean> isCategoryNameExists(String name) {
         return Observable.fromCallable(() -> mDaoSession.getCategoryDao().queryBuilder()
                 .where(CategoryDao.Properties.Name.eq(name), CategoryDao.Properties.IsDeleted.eq(false), CategoryDao.Properties.ParentId.eq(WITHOUT_PARENT))
+                .build()
+                .list()
+                .isEmpty());
+    }
+
+    @Override
+    public Observable<Integer> getSubCategoryByName(Category category) {
+        return Observable.fromCallable(() -> {
+            Query<Category> subCategoryQuery = mDaoSession.getCategoryDao().queryBuilder()
+                    .where(CategoryDao.Properties.Name.eq(category.getName()), CategoryDao.Properties.IsDeleted.eq(false), CategoryDao.Properties.ParentId.eq(category.getParentId()))
+                    .build();
+            if (subCategoryQuery.list().isEmpty()) {
+                return 0;
+            } else if (subCategoryQuery.list().get(0).getId().equals(category.getId())) {
+                return 1;
+            } else return 2;
+        });
+    }
+
+    @Override
+    public Observable<Boolean> isSubCategoryNameExists(Category parent) {
+        return Observable.fromCallable(() -> mDaoSession.getCategoryDao().queryBuilder()
+                .where(CategoryDao.Properties.Name.eq(parent.getName()), CategoryDao.Properties.IsDeleted.eq(false), CategoryDao.Properties.ParentId.eq(parent.getParentId()))
                 .build()
                 .list()
                 .isEmpty());

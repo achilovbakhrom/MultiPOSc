@@ -12,4 +12,8 @@ public interface SubCategoryPresenter extends Presenter{
     void checkData();
     void clickedSubCategory(Category subCategory);
     void setParentCategory(Category category);
+    void acceptChanges();
+    void notAcceptChanges();
+    void checkDeleteOptions();
+    void deleteSubCategory();
 }

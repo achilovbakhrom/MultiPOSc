@@ -18,7 +18,7 @@ public class Category {
     @Id(autoincrement = true)
     private Long id;
     private String name;
-    private String description;
+    private String description = "";
     private Boolean isActive = true;
     private Boolean isDeleted = false;
     private Boolean isNotModified = true;

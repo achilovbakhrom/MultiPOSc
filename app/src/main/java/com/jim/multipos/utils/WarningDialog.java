@@ -1,5 +1,6 @@
 package com.jim.multipos.utils;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
@@ -8,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.Window;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jim.mpviews.MpButton;
@@ -42,6 +44,8 @@ public class WarningDialog extends Dialog {
         btnWarningYES = (MpButton) findViewById(R.id.btnWarningYES);
         btnWarningNO = (MpButton) findViewById(R.id.btnWarningNO);
         tvWarningText = (TextView) findViewById(R.id.tvWarningText);
+        btnWarningNO.setVisibility(View.VISIBLE);
+        btnWarningYES.setText(getContext().getResources().getString(R.string.yes));
 
     }
 
@@ -55,5 +59,15 @@ public class WarningDialog extends Dialog {
 
     public void  setOnNoClickListener(View.OnClickListener listener) {
         btnWarningNO.setOnClickListener(listener);
+    }
+
+    public void onlyText(boolean state){
+        if (state){
+            btnWarningNO.setVisibility(View.GONE);
+            btnWarningYES.setText(getContext().getResources().getString(R.string.ok));
+        } else {
+            btnWarningNO.setVisibility(View.VISIBLE);
+            btnWarningYES.setText(getContext().getResources().getString(R.string.yes));
+        }
     }
 }

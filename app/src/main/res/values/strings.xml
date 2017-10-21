@@ -492,6 +492,11 @@
     <string name="warning_currency_selection">Не выбрана денежная единица</string>
     <string name="warning_deleting_payment_type">Deleting payment type</string>
     <string name="warning_deleting_payment_type_message">Do you want to delete payment type?</string>
+    <string name="subcategory_length_validation">Subcategory name should be longer than 3 letters</string>
+    <string name="warning">Warning</string>
+    <string name="want_accept_changes">Do you really want to accept changes?</string>
+    <string name="delete">Delete</string>
+    <string name="ok">OK</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>

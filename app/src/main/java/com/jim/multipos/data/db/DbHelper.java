@@ -51,9 +51,13 @@ public interface DbHelper {
     DaoSession getDaoSession();
     Observable<Integer> getCategoryByName(Category category);
     Observable<Boolean> isCategoryNameExists(String name);
+    Observable<Integer> getSubCategoryByName(Category category);
+    Observable<Boolean> isSubCategoryNameExists(Category parent);
     Observable<Long> insertCategory(Category category);
+    Observable<Long> insertSubCategory(Category subcategory);
     Observable<Boolean> insertCategories(List<Category> categories);
     Observable<List<Category>> getAllCategories();
+    Observable<List<Category>> getSubCategories(Category category);
     Observable<Long> insertOrReplaceCategory(Category category);
     Observable<Long> insertProduct(Product product);
     Observable<Boolean> insertProducts(List<Product> products);

@@ -29,8 +29,8 @@ public interface PreferencesHelper {
     String getAccessToken();
     int getLastPositionCategory();
     void setLastPositionCategory(int position);
-    int getLastPositionSubCategory();
-    void setLastPositionSubCategory(int position);
+    int getLastPositionSubCategory(String key);
+    void setLastPositionSubCategory(String key, int position);
     int getLastPositionProduct();
     void setLastPositionProduct(int position);
     void setAccessToken(String accessToken);

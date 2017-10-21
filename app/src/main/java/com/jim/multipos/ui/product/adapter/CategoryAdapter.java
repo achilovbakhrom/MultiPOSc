@@ -34,9 +34,11 @@ public class CategoryAdapter extends MovableBaseAdapter<Category, BaseViewHolder
 
     private final int ADD_ITEM = 0;
     private final int DYNAMIC_ITEMS = 1;
+    private int mode;
 
-    public CategoryAdapter(List items) {
+    public CategoryAdapter(List items, int mode) {
         super(items);
+        this.mode = mode;
         if (!this.items.isEmpty()) {
             if (this.items.get(0) != null)
                 this.items.add(0, null);
@@ -59,14 +61,22 @@ public class CategoryAdapter extends MovableBaseAdapter<Category, BaseViewHolder
             if (position == selectedPosition) {
                 firstViewHolder.tvFirstItem.setTextColor(Color.parseColor("#419fd9"));
                 firstViewHolder.ivItemBg.setImageTintList(ColorStateList.valueOf(Color.parseColor("#419fd9")));
+                firstViewHolder.ivAddPlus.setImageTintList(ColorStateList.valueOf(Color.parseColor("#419fd9")));
             } else {
-                firstViewHolder.tvFirstItem.setTextColor(Color.parseColor("#cccccc"));
-                firstViewHolder.ivItemBg.setImageTintList(ColorStateList.valueOf(Color.parseColor("#cccccc")));
+                firstViewHolder.tvFirstItem.setTextColor(Color.parseColor("#8e8e8e"));
+                firstViewHolder.ivItemBg.setImageTintList(ColorStateList.valueOf(Color.parseColor("#8e8e8e")));
+                firstViewHolder.ivAddPlus.setImageTintList(ColorStateList.valueOf(Color.parseColor("#8e8e8e")));
             }
-//            if (isSubcategory(items.get(position))) {
-//                firstViewHolder.tvFirstItem.setText("Add \n SubCategory");
-//            } else firstViewHolder.tvFirstItem.setText("Add \n Category");
-            firstViewHolder.tvFirstItem.setText("Add \n Category");
+            switch (mode){
+                case 0:
+                    firstViewHolder.tvFirstItem.setText("Category");
+                    break;
+                case 1:
+                    firstViewHolder.tvFirstItem.setText("Subcategory");
+                    break;
+                case 2:
+                    break;
+            }
         } else if (holder instanceof CategoryViewHolder) {
             CategoryViewHolder categoryViewHolder = (CategoryViewHolder) holder;
             categoryViewHolder.mpItem.setText(items.get(position).getName());
@@ -152,6 +162,8 @@ public class CategoryAdapter extends MovableBaseAdapter<Category, BaseViewHolder
         TextView tvFirstItem;
         @BindView(R.id.ivItemBg)
         ImageView ivItemBg;
+        @BindView(R.id.ivAddPlus)
+        ImageView ivAddPlus;
 
         public CategoryFirstViewHolder(View itemView) {
             super(itemView);

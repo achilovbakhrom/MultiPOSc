@@ -13,4 +13,6 @@ public interface CategoryPresenter extends Presenter {
     void clickedCategory(Category category);
     void acceptChanges();
     void notAcceptChanges();
+    void checkDeleteOptions();
+    void deleteCategory();
 }

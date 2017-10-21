@@ -45,6 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/twenty_five_dp"
+            android:layout_marginRight="@dimen/thirty_dp"
             android:orientation="horizontal">
 
             <TextView
@@ -69,16 +70,6 @@
                 android:maxLines="1"
                 android:textColorHint="@color/colorTextHint"
                 android:textSize="@dimen/sixteen_dp" />
-
-            <ImageView
-                android:id="@+id/ivLoadSubCategoryImage"
-                android:layout_width="@dimen/thirty_five_dp"
-                android:layout_height="@dimen/thirty_five_dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/sixteen_dp"
-                android:layout_marginRight="@dimen/thirty_dp"
-                android:adjustViewBounds="true"
-                android:src="@drawable/camera" />
 
         </LinearLayout>
 
@@ -172,6 +163,7 @@
                 android:id="@+id/chbActive"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                app:chb_type="3"
                 app:checked="true"
                 app:text="Active" />
         </LinearLayout>
@@ -183,7 +175,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="@dimen/thirty_dp"
-        android:layout_marginRight="@dimen/thirty_dp"
+        android:layout_marginRight="@dimen/fifteen_dp"
         android:gravity="right"
         android:orientation="horizontal"
 
@@ -193,10 +185,20 @@
             android:id="@+id/btnSubCategoryCancel"
             android:layout_width="@dimen/hundred_sixty_dp"
             android:layout_height="@dimen/sixty_dp"
-            android:layout_marginRight="@dimen/fifteen_dp"
+            android:layout_marginRight="@dimen/ten_dp"
             android:text="@string/cancel"
-            android:textColor="@color/colorMainText"
+            android:textColor="@color/colorSecondaryText"
             android:textSize="@dimen/eighteen_dp" />
+
+        <com.jim.mpviews.MpButton
+            android:id="@+id/btnSubCategoryDelete"
+            android:layout_width="@dimen/hundred_sixty_dp"
+            android:layout_height="@dimen/sixty_dp"
+            android:layout_marginRight="@dimen/ten_dp"
+            android:text="@string/delete"
+            android:textColor="@color/colorSecondaryText"
+            android:textSize="@dimen/eighteen_dp"
+            android:visibility="gone" />
 
         <com.jim.mpviews.MpButton
             android:id="@+id/btnSubCategorySave"

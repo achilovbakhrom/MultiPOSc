@@ -14,4 +14,6 @@ public interface CategoryView extends BaseView {
     void setError(String error);
     void sendEvent(Category category, String event);
     void confirmChanges();
+    void showWarningDialog(int type);
+    void confirmDeleting();
 }

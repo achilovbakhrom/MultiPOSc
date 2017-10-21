@@ -14,4 +14,7 @@ public interface SubCategoryView extends BaseView {
     void setData();
     void setError(String error);
     void sendEvent(Category subCategory, String event);
+    void confirmChanges();
+    void showWarningDialog(int message);
+    void confirmDeleting();
 }

@@ -89,6 +89,11 @@
     <string name="category_length_validation">Category name should be longer than 3 letters</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="subcategory_length_validation">Subcategory name should be longer than 3 letters</string>
+    <string name="warning">Warning</string>
+    <string name="want_accept_changes">Do you really want to accept changes?</string>
+    <string name="delete">Delete</string>
+    <string name="ok">OK</string>
     <string-array name="start_configuration_title">
         <item namte="pos_details">POS подробности</item>
         <item name="account">Аккаунт</item>

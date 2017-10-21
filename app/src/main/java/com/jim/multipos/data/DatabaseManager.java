@@ -155,6 +155,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
+    public Observable<Long> addSubCategory(Category subcategory) {
+        return dbHelper.insertSubCategory(subcategory);
+    }
+
+    @Override
     public Observable<Boolean> addCategory(List<Category> categoryList) {
         return dbHelper.insertCategories(categoryList);
     }
@@ -170,6 +175,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
+    public Observable<List<Category>> getSubCategories(Category category) {
+        return dbHelper.getSubCategories(category);
+    }
+
+    @Override
     public Observable<Integer> getCategoryByName(Category category) {
         return dbHelper.getCategoryByName(category);
     }
@@ -182,6 +192,16 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public List<Account> getAccounts() {
         return dbHelper.getAccounts();
+    }
+
+    @Override
+    public Observable<Integer> getSubCategoryByName(Category category) {
+        return dbHelper.getSubCategoryByName(category);
+    }
+
+    @Override
+    public Observable<Boolean> isSubCategoryNameExists(Category parent) {
+        return dbHelper.isSubCategoryNameExists(parent);
     }
 
     @Override
