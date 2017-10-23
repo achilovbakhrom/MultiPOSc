@@ -26,7 +26,7 @@ public class ProductClass implements NameId,Editable {
     @Property
     private String name;
     @Property
-    private Boolean active;
+    private boolean active;
     @Property
     private Long parentId;
     private boolean deleted;
@@ -45,9 +45,9 @@ public class ProductClass implements NameId,Editable {
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
 
-    @Generated(hash = 101617438)
-    public ProductClass(Long id, String name, Boolean active, Long parentId,
-            boolean deleted, boolean notModifyted, Long rootId, Long createdDate) {
+    @Generated(hash = 2082892377)
+    public ProductClass(Long id, String name, boolean active, Long parentId, boolean deleted,
+            boolean notModifyted, Long rootId, Long createdDate) {
         this.id = id;
         this.name = name;
         this.active = active;

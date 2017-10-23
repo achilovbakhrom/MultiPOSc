@@ -1,6 +1,6 @@
 package com.jim.multipos.core;
 
-import com.jim.multipos.utils.UIUtils;
+import android.util.Log;
 
 import java.util.List;
 
@@ -22,11 +22,12 @@ public abstract class ClickableBaseAdapter<T, E extends BaseViewHolder> extends 
     @Override
     public void onBindViewHolder(E holder, int position) {
         holder.view.setOnClickListener(view -> {
-            if (onItemClickListener != null) {
-                onItemClickListener.onItemClicked(items.get(position));
-                onItemClickListener.onItemClicked(position);
-                onItemClicked(holder, position);
-                selectedPosition = position;
+            if(selectedPosition!=position)
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClicked(items.get(position));
+                    onItemClickListener.onItemClicked(position);
+                    onItemClicked(holder, position);
+                    selectedPosition = position;
             }
         });
     }

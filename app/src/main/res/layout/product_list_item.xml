@@ -8,8 +8,11 @@
         android:id="@+id/mpListItem"
         android:layout_margin="@dimen/two_dp"
         android:layout_width="@dimen/hundred_dp"
+        android:layout_height="@dimen/hundred_dp"
+        android:maxLines="4"
+        android:textSize="@dimen/fourteen_dp"
+        android:text="asdqwdqw dqwdq wdqwdqwdsasdsdsadsadsa"
         android:ellipsize="end"
-        android:maxLines="1"
-        android:layout_height="@dimen/hundred_dp" />
+        />
 
 </LinearLayout>

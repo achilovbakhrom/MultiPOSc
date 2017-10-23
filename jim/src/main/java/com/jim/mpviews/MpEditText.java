@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.text.InputType;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -51,9 +52,11 @@ public class MpEditText extends android.support.v7.widget.AppCompatEditText {
             setBackgroundResource(R.drawable.edit_text_bg);
         }
         Resources r = getResources();
-        int topPadding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, r.getDisplayMetrics());
-        int sidePadding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, r.getDisplayMetrics());
-        setPadding(sidePadding, topPadding, sidePadding, topPadding);
+        if(getPaddingTop()==0 && getPaddingBottom()==0 && getPaddingRight()==0 && getPaddingLeft()==0) {
+            int topPadding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, r.getDisplayMetrics());
+            int sidePadding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, r.getDisplayMetrics());
+            setPadding(sidePadding, topPadding, sidePadding, topPadding);
+        }
         setHintTextColor(ContextCompat.getColor(context, R.color.colorTextHint));
         setTextColor(ContextCompat.getColor(context, R.color.colorMainText));
     }

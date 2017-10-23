@@ -123,8 +123,7 @@
     <string name="category">Category</string>
     <string name="description">Description</string>
     <string name="some_notes">Some notes</string>
-    <string name="cancel">Cancel</string>
-    <string name="save">Save</string>
+
     <string name="product">Product</string>
     <string name="subcategory">SubCategory</string>
     <string name="creating_upsell_combos">Creating Upsell combos</string>
@@ -482,8 +481,11 @@
     <string name="what_do_you_want">What do you want?</string>
     <string name="sure">Sure</string>
     <string name="do_you_want_delete">Do you want delete?</string>
+    <string name="do_you_want_delete_item">Do you want delete the item</string>
     <string name="title_product_class_fragment">Managing Product Class</string>
     <string name="tap_product_class_for_editing_and_save">Tap product class for editing and save</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
     <string name="finish">Finish</string>
     <string name="deleting_account">Deleting an account!</string>
     <string name="deleting_account_message">Do you really want to delete the account?</string>

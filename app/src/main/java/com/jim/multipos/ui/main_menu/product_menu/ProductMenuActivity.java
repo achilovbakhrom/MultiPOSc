@@ -14,10 +14,13 @@ import com.jim.multipos.core.BaseActivity;
 import com.jim.multipos.di.BaseAppComponent;
 import com.jim.multipos.data.db.model.intosystem.TitleDescription;
 import com.jim.multipos.ui.HasComponent;
+import com.jim.multipos.ui.discount.DiscountAddingActivity;
 import com.jim.multipos.ui.main_menu.MenuListAdapter;
 import com.jim.multipos.ui.main_menu.product_menu.presenters.ProductMenuPresenter;
 import com.jim.multipos.ui.product_class.ProductClassActivity;
 import com.jim.multipos.ui.product.ProductsActivity;
+import com.jim.multipos.ui.product_class_new.ProductsClassActivity;
+import com.jim.multipos.ui.product_class_new.fragments.ProductsClassFragment;
 import com.jim.multipos.ui.service_fee.ServiceFeeActivity;
 
 import java.util.ArrayList;
@@ -80,11 +83,12 @@ public class ProductMenuActivity extends BaseActivity implements ProductMenuView
                 startActivity(intent);
                 break;
             case 1:
-                Intent intentProdActivity = new Intent(this, ProductClassActivity.class);
+                Intent intentProdActivity = new Intent(this, ProductsClassActivity.class);
                 startActivity(intentProdActivity);
                 break;
             case 2:
-
+                Intent intentDiscount = new Intent(this, DiscountAddingActivity.class);
+                startActivity(intentDiscount);
                 break;
             case 3:
                 Intent serviceFee = new Intent(this, ServiceFeeActivity.class);

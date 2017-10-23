@@ -4,6 +4,8 @@ import android.app.Application;
 
 import com.jim.multipos.MultiPosApp;
 import com.jim.multipos.config.scope.PerActivity;
+import com.jim.multipos.ui.discount.DiscountAddingActivity;
+import com.jim.multipos.ui.discount.di.DiscountAddingModule;
 import com.jim.multipos.ui.first_configure_last.FirstConfigureActivity;
 
 import com.jim.multipos.ui.first_configure_last.di.FirstConfigureActivityModule;
@@ -19,6 +21,8 @@ import com.jim.multipos.ui.product.ProductsActivity;
 import com.jim.multipos.ui.product.di.ProductsModule;
 import com.jim.multipos.ui.product_class.ProductClassActivity;
 import com.jim.multipos.ui.product_class.di.ProductClassModule;
+import com.jim.multipos.ui.product_class_new.ProductsClassActivity;
+import com.jim.multipos.ui.product_class_new.di.ProductsClassModule;
 import com.jim.multipos.ui.signing.SignActivity;
 import com.jim.multipos.ui.signing.di.SignActivityModule;
 
@@ -65,4 +69,11 @@ abstract class AppModule {
     @ContributesAndroidInjector(modules = MainPageMenuModule.class)
     abstract MainPosPageActivity provideMainPosPageActivity();
 
+    @PerActivity
+    @ContributesAndroidInjector(modules = ProductsClassModule.class)
+    abstract ProductsClassActivity provideProductsClassActivity();
+
+    @PerActivity
+    @ContributesAndroidInjector(modules = DiscountAddingModule.class)
+    abstract DiscountAddingActivity provideDiscountAddingActivity();
 }

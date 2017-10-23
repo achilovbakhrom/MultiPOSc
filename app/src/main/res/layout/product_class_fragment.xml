@@ -66,6 +66,7 @@
                 android:layout_marginRight="@dimen/thirty_dp"
                 android:layout_weight="1"
                 android:hint="Name"
+                android:inputType="textCapWords"
                 android:textColorHint="@color/colorTextHint"
                 android:textSize="@dimen/sixteen_dp" />
 

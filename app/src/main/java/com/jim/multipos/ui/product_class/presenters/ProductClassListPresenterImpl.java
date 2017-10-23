@@ -43,9 +43,9 @@ public class ProductClassListPresenterImpl  extends BasePresenterImpl<ProductCla
     public void onCreateView(Bundle bundle) {
         super.onCreateView(bundle);
         databaseManager.getAllProductClass().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(productClasses1 -> {
-            productClasses = productClasses1;
-            productClasses.add(0,null);
-            view.setItemsRecyclerView(productClasses);
+            this.productClasses = productClasses1;
+            this.productClasses.add(0,null);
+            view.setItemsRecyclerView(this.productClasses);
         });
     }
 

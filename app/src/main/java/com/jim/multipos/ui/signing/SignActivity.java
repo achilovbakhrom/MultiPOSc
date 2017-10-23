@@ -3,6 +3,7 @@ package com.jim.multipos.ui.signing;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.core.SimpleActivity;
 import com.jim.multipos.ui.signing.sign_in.view.LoginDetailsFragment;
 import com.jim.multipos.ui.signing.sign_up.view.RegistrationConfirmFragment;
@@ -23,6 +24,11 @@ public class SignActivity extends SimpleActivity implements SignView {
     @Override
     protected int getToolbar() {
         return WITHOUT_TOOLBAR;
+    }
+
+    @Override
+    protected int getToolbarMode() {
+        return MpToolbar.DEFAULT_TYPE;
     }
 
     @Override

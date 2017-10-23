@@ -3,11 +3,10 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <LinearLayout
+    <com.jim.mpviews.MpToolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:orientation="horizontal"
-        android:id="@+id/llToolbar"/>
+        android:layout_height="@dimen/eighty_dp" />
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

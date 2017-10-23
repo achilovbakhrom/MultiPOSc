@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="@dimen/ten_dp"
+        >
+        <com.jim.mpviews.MpEditText
+            android:id="@+id/etName"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="@dimen/forty_five_dp"
+            android:layout_marginRight="@dimen/sixty_dp"
+            android:layout_marginLeft="@dimen/twenty_five_dp"
+            android:paddingRight="@dimen/ten_dp"
+            android:paddingLeft="@dimen/twenty_dp"
+            android:text="Salad"
+            android:inputType="textNoSuggestions"
+            android:hint="Class Name"
+            android:textSize="@dimen/sixteen_dp"
+            />
+
+        <com.jim.mpviews.MpCheckbox
+            android:id="@+id/chbActive"
+            android:layout_width="@dimen/thirty_dp"
+            android:layout_height="@dimen/thirty_dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            app:checked="true"
+            android:textSize="@dimen/sixteen_dp"
+            android:layout_marginRight="@dimen/sixty_dp"/>
+        <RelativeLayout
+            android:layout_width="@dimen/hundred_forty_five_dp"
+            android:layout_height="@dimen/forty_dp"
+            android:layout_marginRight="@dimen/twenty_five_dp"
+            >
+            <com.jim.mpviews.MpMiniActionButton
+                android:id="@+id/btnSave"
+                android:layout_width="@dimen/sixty_five_dp"
+                android:layout_height="@dimen/forty_dp"
+                android:layout_gravity="center_vertical"
+                android:textColor="#51afe6"
+                android:paddingTop="@dimen/twelve_dp"
+                android:paddingBottom="@dimen/twelve_dp"
+                android:src="@drawable/save_mini"
+                android:textSize="@dimen/sixteen_dp" />
+            <com.jim.mpviews.MpMiniActionButton
+                android:id="@+id/btnDelete"
+                android:layout_width="@dimen/sixty_five_dp"
+                android:layout_height="@dimen/forty_dp"
+                android:layout_gravity="center_vertical"
+                android:textColor="#51afe6"
+                android:layout_alignParentRight="true"
+                android:paddingTop="@dimen/twelve_dp"
+                android:paddingBottom="@dimen/twelve_dp"
+                android:src="@drawable/trash_mini"
+                android:textSize="@dimen/sixteen_dp" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="@dimen/ten_dp"
+        >
+        <ImageView
+            android:layout_width="@dimen/sixteen_dp"
+            android:layout_height="match_parent"
+            android:scaleType="centerInside"
+            android:layout_marginLeft="@dimen/seventy_dp"
+            android:src="@drawable/add_sub_product_class"
+            />
+        <com.jim.mpviews.MpEditText
+            android:id="@+id/etName"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="@dimen/forty_five_dp"
+            android:layout_marginRight="@dimen/sixty_dp"
+            android:layout_marginLeft="@dimen/sixteen_dp"
+            android:paddingRight="@dimen/ten_dp"
+            android:paddingLeft="@dimen/twenty_dp"
+            android:hint="Class Name"
+            android:inputType="textCapWords|textNoSuggestions"
+            android:textSize="@dimen/sixteen_dp"
+            />
+
+        <com.jim.mpviews.MpCheckbox
+            android:id="@+id/chbActive"
+            android:layout_width="@dimen/thirty_dp"
+            android:layout_height="@dimen/thirty_dp"
+            app:checked="true"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="@dimen/sixteen_dp"
+            android:layout_marginRight="@dimen/sixty_dp"/>
+        <com.jim.mpviews.MpActionButton
+            android:id="@+id/btnAdd"
+            android:layout_width="@dimen/hundred_forty_five_dp"
+            android:layout_height="@dimen/forty_dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="@dimen/twenty_five_dp"
+            android:textColor="#23d730"
+            android:text="+Add"
+            android:textSize="@dimen/sixteen_dp" />
+    </LinearLayout>
+
+
+
+</LinearLayout>

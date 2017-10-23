@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.R;
 
 import butterknife.BindView;
@@ -19,9 +20,10 @@ import butterknife.ButterKnife;
 public abstract class SimpleActivity extends BaseActivity {
 
     protected static final int WITHOUT_TOOLBAR = -1;
+    protected static final int WITH_TOOLBAR = 1;
 
-    @BindView(R.id.llToolbar)
-    LinearLayout toolbar;
+    @BindView(R.id.toolbar)
+    MpToolbar toolbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,11 +33,14 @@ public abstract class SimpleActivity extends BaseActivity {
         if (getToolbar() == WITHOUT_TOOLBAR) {
             toolbar.setVisibility(View.GONE);
         } else {
-            LayoutInflater.from(this).inflate(getToolbar(), toolbar, true);
+            toolbar.setMode(getToolbarMode());
+
         }
     }
 
     protected abstract int getToolbar();
+    protected abstract int getToolbarMode();
+
 
     public final void addFragment(Fragment fragment) {
         addFragment(R.id.flMain, fragment);

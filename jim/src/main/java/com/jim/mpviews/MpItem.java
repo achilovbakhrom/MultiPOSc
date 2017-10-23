@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.Gravity;
 
+import com.jim.mpviews.utils.EllipsizingTextView;
 import com.jim.mpviews.utils.Utils;
 import com.jim.mpviews.utils.VibrateManager;
 
@@ -13,28 +14,29 @@ import com.jim.mpviews.utils.VibrateManager;
  * Created by Пользователь on 24.05.2017.
  */
 
-public class MpItem extends android.support.v7.widget.AppCompatTextView {
+public class MpItem extends EllipsizingTextView {
 
     private boolean isPressed = false;
 
     public MpItem(Context context) {
         super(context);
-        init(context, null);
+        init();
     }
 
     public MpItem(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context, attrs);
+        init();
     }
 
     public MpItem(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context, attrs);
+        init();
     }
 
-    public void init(Context context, AttributeSet attrs) {
+    public void init() {
         setBackgroundResource(R.drawable.item_bg);
         setPadding((int) Utils.convertDpToPixel(10), (int) Utils.convertDpToPixel(10), (int) Utils.convertDpToPixel(10), (int) Utils.convertDpToPixel(10));
+        setMaxLines(4);
         setGravity(Gravity.CENTER);
     }
 
@@ -49,7 +51,7 @@ public class MpItem extends android.support.v7.widget.AppCompatTextView {
         }
     }
 
-    public boolean isPressed(){
+    public boolean isPressed() {
         return isPressed;
     }
 
@@ -59,7 +61,7 @@ public class MpItem extends android.support.v7.widget.AppCompatTextView {
             super.onRestoreInstanceState(state);
             return;
         }
-        SavedState savedState = (SavedState)state;
+        SavedState savedState = (SavedState) state;
         super.onRestoreInstanceState(savedState.getSuperState());
 
         this.isPressed = savedState.boolValue;
@@ -69,14 +71,13 @@ public class MpItem extends android.support.v7.widget.AppCompatTextView {
     @Override
     public Parcelable onSaveInstanceState() {
         Parcelable superState = super.onSaveInstanceState();
-
         SavedState savedState = new SavedState(superState);
         savedState.boolValue = this.isPressed;
 
         return savedState;
     }
 
-    static class SavedState extends BaseSavedState{
+    static class SavedState extends BaseSavedState {
         boolean boolValue;
 
         public SavedState(Parcelable source) {

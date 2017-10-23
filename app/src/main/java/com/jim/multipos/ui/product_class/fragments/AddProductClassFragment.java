@@ -1,8 +1,10 @@
 package com.jim.multipos.ui.product_class.fragments;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.jakewharton.rxbinding2.view.RxView;
@@ -116,12 +118,15 @@ public class AddProductClassFragment extends BaseFragment implements AddProductC
         etClassName.setText(productClass.getName());
         cbActive.setChecked(productClass.getActive());
         btnDelete.setVisibility(View.VISIBLE);
-
+        InputMethodManager imm = (InputMethodManager)getActivity().getSystemService( Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(etClassName.getWindowToken(), 0);
     }
 
     @Override
     public void onAddNew() {
         etClassName.setText("");
+        InputMethodManager keyboard=(InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        keyboard.showSoftInput(etClassName,0);
         spParent.setSelection(0);
         cbActive.setChecked(true);
         btnDelete.setVisibility(View.GONE);
