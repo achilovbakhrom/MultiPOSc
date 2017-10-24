@@ -6,6 +6,7 @@ import com.jim.multipos.data.db.DbHelper;
 import com.jim.multipos.data.db.model.DaoSession;
 import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.ServiceFee;
+import com.jim.multipos.data.db.model.Vendor;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
 import com.jim.multipos.data.db.model.customer.JoinCustomerGroupsWithCustomers;
@@ -32,7 +33,8 @@ import io.reactivex.Single;
  * Created by Developer on 5/13/17.
  */
 
-public class DatabaseManager implements ContactOperations, CategoryOperations, ProductOperations, AccountOperations, CurrencyOperations, StockOperations, UnitCategoryOperations, UnitOperations, PaymentTypeOperations, ServiceFeeOperations, ProductClassOperations, CustomerOperations, CustomerGroupOperations, SubUnitOperations, JoinCustomerGroupWithCustomerOperations {
+public class DatabaseManager implements ContactOperations, CategoryOperations, ProductOperations, AccountOperations, CurrencyOperations, StockOperations, UnitCategoryOperations, UnitOperations, PaymentTypeOperations, ServiceFeeOperations, ProductClassOperations, CustomerOperations, CustomerGroupOperations, SubUnitOperations, JoinCustomerGroupWithCustomerOperations,
+                                        VendorOperations {
     private Context context;
     private PreferencesHelper preferencesHelper;
     private DbHelper dbHelper;
@@ -499,5 +501,41 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Observable<List<CustomerGroup>> getCustomerGroups(Customer customer) {
         return dbHelper.getCustomerGroups(customer);
+    }
+
+    @Override
+    public Observable<Long> addVendor(Vendor vendor) {
+        return dbHelper.addVendor(vendor);
+    }
+
+    @Override
+    public Observable<Boolean> addVendors(List<Vendor> vendors) {
+        return dbHelper.addVendors(vendors);
+    }
+
+    @Override
+    public Observable<Boolean> isVendorNameExist(String name) {
+        return dbHelper.isVendorNameExist(name);
+    }
+
+    @Override
+    public Observable<Boolean> updateContacts(Long vendorId, List<Contact> contacts) {
+        return dbHelper.updateContacts(vendorId, contacts);
+    }
+
+
+    @Override
+    public Observable<Boolean> deleteVendor(Long vendorId) {
+        return dbHelper.deleteVendor(vendorId);
+    }
+
+    @Override
+    public Observable<Vendor> getVendorById(Long vendorId) {
+        return dbHelper.getVendorById(vendorId);
+    }
+
+    @Override
+    public Observable<List<Vendor>> getVendors() {
+        return dbHelper.getVendors();
     }
 }

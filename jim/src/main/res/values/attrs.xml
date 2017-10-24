@@ -76,4 +76,16 @@
         <attr name="values" format="string" />
         <attr name="currency" format="string" />
     </declare-styleable>
+
+    <declare-styleable name="MPAddItemView">
+        <attr name="add_item_active" format="boolean" />
+        <attr name="add_item_text" format="string" />
+        <attr name="add_item_image" format="integer" />
+        <attr name="add_item_text_size" format="dimension" />
+    </declare-styleable>
+    <declare-styleable name="MPListItemView">
+        <attr name="list_item_active" format="boolean" />
+        <attr name="list_item_text" format="string" />
+        <attr name="list_item_text_size" format="dimension" />
+    </declare-styleable>
 </resources>

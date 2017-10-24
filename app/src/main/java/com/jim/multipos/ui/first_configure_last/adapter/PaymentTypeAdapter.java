@@ -10,7 +10,7 @@ import com.jim.multipos.R;
 import com.jim.multipos.core.BaseAdapter;
 import com.jim.multipos.core.BaseViewHolder;
 import com.jim.multipos.data.db.model.PaymentType;
-import com.jim.multipos.ui.first_configure_last.ItemRemoveListener;
+import com.jim.multipos.core.ItemRemoveListener;
 
 import java.util.List;
 

@@ -20,12 +20,15 @@ import android.database.Cursor;
 import com.jim.multipos.data.db.model.Account;
 import com.jim.multipos.data.db.model.AccountDao;
 import com.jim.multipos.data.db.model.Contact;
+import com.jim.multipos.data.db.model.ContactDao;
 import com.jim.multipos.data.db.model.DaoMaster;
 import com.jim.multipos.data.db.model.DaoSession;
 import com.jim.multipos.data.db.model.PaymentType;
 import com.jim.multipos.data.db.model.PaymentTypeDao;
 import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.ServiceFee;
+import com.jim.multipos.data.db.model.Vendor;
+import com.jim.multipos.data.db.model.VendorDao;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
@@ -550,6 +553,7 @@ public class AppDbHelper implements DbHelper {
                 .filter(productClass -> productClass.isNotModifyted())
                 .filter(productClass -> !productClass.isDeleted())
                 .sorted((productClass, t1) -> t1.getCreatedDate().compareTo(productClass.getCreatedDate()))
+                .sorted((productClass, t1) -> t1.getActive().compareTo(productClass.getActive()))
                 .toList();
     }
 
@@ -814,5 +818,53 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Observable<List<CustomerGroup>> getCustomerGroups(Customer customer) {
         return null;
+    }
+
+    //Vendor operations
+    @Override
+    public Observable<Long> addVendor(Vendor vendor) {
+        return Observable.fromCallable(() -> mDaoSession.getVendorDao().insertOrReplace(vendor));
+    }
+
+    @Override
+    public Observable<Boolean> addVendors(List<Vendor> vendors) {
+        return Observable.fromCallable(() -> {
+            mDaoSession.getVendorDao().insertOrReplaceInTx(vendors);
+            return true;
+        });
+    }
+
+    @Override
+    public Observable<Boolean> isVendorNameExist(String name) {
+        return Observable.fromCallable(() -> !mDaoSession.getVendorDao().queryBuilder().where(VendorDao.Properties.Name.eq(name)).list().isEmpty());
+    }
+
+    @Override
+    public Observable<Boolean> updateContacts(Long vendorId, List<Contact> contacts) {
+        return Observable.fromCallable(() -> {
+            mDaoSession.getContactDao().queryBuilder().where(ContactDao.Properties.VendorId.eq(vendorId)).buildDelete().executeDeleteWithoutDetachingEntities();
+            mDaoSession.getContactDao().insertOrReplaceInTx(contacts);
+            return true;
+        });
+    }
+
+    @Override
+    public Observable<Boolean> deleteVendor(Long vendorId) {
+        return Observable.fromCallable(() -> {
+            Vendor vendor = mDaoSession.getVendorDao().load(vendorId);
+            if (vendor == null || vendor.getIsActive()) return false;
+            mDaoSession.getVendorDao().delete(vendor);
+            return true;
+        });
+    }
+
+    @Override
+    public Observable<Vendor> getVendorById(Long vendorId) {
+        return Observable.fromCallable(() -> mDaoSession.getVendorDao().load(vendorId));
+    }
+
+    @Override
+    public Observable<List<Vendor>> getVendors() {
+        return Observable.fromCallable(() -> mDaoSession.getVendorDao().loadAll());
     }
 }

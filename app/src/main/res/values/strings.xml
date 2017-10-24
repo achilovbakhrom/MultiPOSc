@@ -494,6 +494,20 @@
     <string name="warning_currency_selection">Не выбрана денежная единица</string>
     <string name="warning_deleting_payment_type">Deleting payment type</string>
     <string name="warning_deleting_payment_type_message">Do you want to delete payment type?</string>
+    <string name="warning_ventor_name">Vendor name must be entered!</string>
+    <string name="update">Update</string>
+    <string name="add_vendor_text">Add Vendor</string>
+    <string name="warning_contact_is_empty">Введите данные для контакта</string>
+    <string name="warning_deleting_vendor">Do you want to delete the vendor?</string>
+    <string name="deleting_vendor_title">Deleting vendor</string>
+    <string name="warning_vendor_name_exist">Such Vendor name is exist</string>
+    <string name="vendor_data_upate_title">Update Vendor data</string>
+    <string name="vendor_data_update_message">Do you want to update the Vendor data?</string>
+    <string name="cancel_adding_title">Cancel adding</string>
+    <string name="cancel_adding_message">Do you want to cancel data?</string>
+    <string name="warning_contact_deletion_title">Contact deletion</string>
+    <string name="vendors">Vendors</string>
+    <string name="warning_deletion_of_active_elements">Item is active. You can\'t delete active elements!!!</string>
     <string name="subcategory_length_validation">Subcategory name should be longer than 3 letters</string>
     <string name="warning">Warning</string>
     <string name="want_accept_changes">Do you really want to accept changes?</string>
@@ -514,5 +528,8 @@
         <item>Currency</item>
         <item>Payment type</item>
     </string-array>
-
+    <string-array name="contact_types">
+        <item>PHONE</item>
+        <item>EMAIL</item>
+    </string-array>
 </resources>

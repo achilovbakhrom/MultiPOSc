@@ -105,7 +105,7 @@ public class MPosSpinner extends FrameLayout {
 
     public void setAdapter(String[] items) {
         ((AppCompatSpinner)findViewById(R.id.spinner))
-                .setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, items));
+                .setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, items));
     }
 
     public void setArrowTint(int color) {
@@ -118,5 +118,9 @@ public class MPosSpinner extends FrameLayout {
 
     public int getSelectedPosition() {
         return ((AppCompatSpinner)findViewById(R.id.spinner)).getSelectedItemPosition();
+    }
+
+    public void setSelection(int position) {
+        ((AppCompatSpinner) findViewById(R.id.spinner)).setSelection(position);
     }
 }

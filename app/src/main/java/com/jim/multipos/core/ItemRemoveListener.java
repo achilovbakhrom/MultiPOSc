@@ -1,4 +1,4 @@
-package com.jim.multipos.ui.first_configure_last;
+package com.jim.multipos.core;
 
 /**
  * Created by bakhrom on 10/19/17.

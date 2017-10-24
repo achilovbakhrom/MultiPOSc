@@ -1,19 +1,17 @@
 package com.jim.multipos.data.db.model;
 
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Id;
-
-import java.util.List;
-import java.util.UUID;
-
-import org.greenrobot.greendao.annotation.JoinProperty;
-import org.greenrobot.greendao.annotation.NotNull;
-import org.greenrobot.greendao.annotation.ToMany;
-
 import com.jim.multipos.data.db.model.intosystem.Editable;
 import com.jim.multipos.data.db.model.products.Product;
+
+import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.JoinProperty;
+import org.greenrobot.greendao.annotation.ToMany;
+import org.greenrobot.greendao.annotation.Keep;
+
+import java.util.List;
 import org.greenrobot.greendao.DaoException;
 import com.jim.multipos.data.db.model.products.ProductDao;
 
@@ -23,10 +21,7 @@ public class Vendor implements Editable{
     private Long id;
     private String name;
     private String contactName;
-    private String email;
-    private String phoneNumber;
     private String address;
-    private Double taxRate;
     private Boolean isActive;
     private Boolean isDeleted;
     private Boolean isNotModified;
@@ -35,6 +30,8 @@ public class Vendor implements Editable{
     private Long createdDate;
     @ToMany(joinProperties = {@JoinProperty(name = "id", referencedName = "vendorId")})
     private List<Product> products;
+    @ToMany(joinProperties = {@JoinProperty(name = "id", referencedName = "vendorId")})
+    private List<Contact> contacts;
     /** Used for active entity operations. */
     @Generated(hash = 957720129)
     private transient VendorDao myDao;
@@ -42,17 +39,14 @@ public class Vendor implements Editable{
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
 
-    @Generated(hash = 1150672768)
-    public Vendor(Long id, String name, String contactName, String email, String phoneNumber,
-            String address, Double taxRate, Boolean isActive, Boolean isDeleted,
-            Boolean isNotModified, Long globalId, Long rootId, Long createdDate) {
+    @Generated(hash = 1808206024)
+    public Vendor(Long id, String name, String contactName, String address, Boolean isActive,
+            Boolean isDeleted, Boolean isNotModified, Long globalId, Long rootId,
+            Long createdDate) {
         this.id = id;
         this.name = name;
         this.contactName = contactName;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
         this.address = address;
-        this.taxRate = taxRate;
         this.isActive = isActive;
         this.isDeleted = isDeleted;
         this.isNotModified = isNotModified;
@@ -65,126 +59,76 @@ public class Vendor implements Editable{
     public Vendor() {
     }
 
-    public Long getId() {
-        return this.id;
-    }
-
+    @Override
+    @Keep
     public void setId(Long id) {
         this.id = id;
     }
 
     @Override
+    @Keep
     public boolean isActive() {
         return this.isActive;
     }
 
     @Override
+    @Keep
     public void setActive(boolean active) {
         this.isActive = active;
     }
 
     @Override
+    @Keep
+    public Long getId() {
+        return id;
+    }
+
+    @Override
+    @Keep
     public boolean isDeleted() {
         return this.isDeleted;
     }
 
     @Override
+    @Keep
     public void setDeleted(boolean deleted) {
         this.isDeleted = deleted;
     }
 
     @Override
+    @Keep
     public boolean isNotModifyted() {
         return this.isNotModified;
     }
 
     @Override
+    @Keep
     public void setNotModifyted(boolean notModifyted) {
         this.isNotModified = notModifyted;
     }
 
     @Override
+    @Keep
     public Long getRootId() {
         return this.rootId;
     }
 
     @Override
+    @Keep
     public void setRootId(Long rootId) {
         this.rootId = rootId;
     }
 
     @Override
+    @Keep
     public Long getCreatedDate() {
         return this.createdDate;
     }
 
     @Override
+    @Keep
     public void setCreatedDate(long createdDate) {
         this.createdDate = createdDate;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getContactName() {
-        return this.contactName;
-    }
-
-    public void setContactName(String contactName) {
-        this.contactName = contactName;
-    }
-
-    public String getEmail() {
-        return this.email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhoneNumber() {
-        return this.phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getAddress() {
-        return this.address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public double getTaxRate() {
-        return this.taxRate;
-    }
-
-    public void setTaxRate(double taxRate) {
-        this.taxRate = taxRate;
-    }
-
-    public boolean getIsActive() {
-        return this.isActive;
-    }
-
-    public void setIsActive(boolean isActive) {
-        this.isActive = isActive;
-    }
-
-    public Long getGlobalId() {
-        return this.globalId;
-    }
-
-    public void setGlobalId(Long globalId) {
-        this.globalId = globalId;
     }
 
     /**
@@ -221,6 +165,34 @@ public class Vendor implements Editable{
             throw new DaoException("Entity is detached from DAO context");
         }
         myDao.delete(this);
+    }
+
+    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    @Generated(hash = 1818154294)
+    public synchronized void resetContacts() {
+        contacts = null;
+    }
+
+    /**
+     * To-many relationship, resolved on first access (and after reset).
+     * Changes to to-many relations are not persisted, make changes to the target entity.
+     */
+    @Generated(hash = 934241905)
+    public List<Contact> getContacts() {
+        if (contacts == null) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            ContactDao targetDao = daoSession.getContactDao();
+            List<Contact> contactsNew = targetDao._queryVendor_Contacts(id);
+            synchronized (this) {
+                if(contacts == null) {
+                    contacts = contactsNew;
+                }
+            }
+        }
+        return contacts;
     }
 
     /** Resets a to-many relationship, making the next get call to query for a fresh result. */
@@ -262,6 +234,14 @@ public class Vendor implements Editable{
         this.createdDate = createdDate;
     }
 
+    public Long getGlobalId() {
+        return this.globalId;
+    }
+
+    public void setGlobalId(Long globalId) {
+        this.globalId = globalId;
+    }
+
     public Boolean getIsNotModified() {
         return this.isNotModified;
     }
@@ -278,12 +258,35 @@ public class Vendor implements Editable{
         this.isDeleted = isDeleted;
     }
 
+    public Boolean getIsActive() {
+        return this.isActive;
+    }
+
     public void setIsActive(Boolean isActive) {
         this.isActive = isActive;
     }
 
-    public void setTaxRate(Double taxRate) {
-        this.taxRate = taxRate;
+    public String getAddress() {
+        return this.address;
     }
 
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getContactName() {
+        return this.contactName;
+    }
+
+    public void setContactName(String contactName) {
+        this.contactName = contactName;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
  }

@@ -20,6 +20,7 @@ import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.Account;
 
+import com.jim.multipos.data.db.model.Vendor;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
 import com.jim.multipos.data.db.model.customer.JoinCustomerGroupsWithCustomers;
@@ -124,4 +125,13 @@ public interface DbHelper {
     Observable<Boolean> isAccountNameExists(String name);
     Observable<Boolean> isPaymentTypeExists(String name);
     List<PaymentType> getPaymentTypes();
+
+    //Vendor operations
+    Observable<Long> addVendor(Vendor vendor);
+    Observable<Boolean> addVendors(List<Vendor> vendors);
+    Observable<Boolean> isVendorNameExist(String name);
+    Observable<Boolean> updateContacts(Long vendorId, List<Contact> contacts);
+    Observable<Boolean> deleteVendor(Long vendorId);
+    Observable<Vendor> getVendorById(Long vendorId);
+    Observable<List<Vendor>> getVendors();
 }

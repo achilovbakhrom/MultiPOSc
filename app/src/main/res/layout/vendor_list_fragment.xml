@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackgroundGrey"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/vendors"
+        android:textSize="@dimen/sixteen_dp"
+        android:paddingLeft="@dimen/twenty_dp"
+        android:paddingTop="@dimen/ten_dp"
+        android:paddingBottom="@dimen/ten_dp"
+        android:textColor="@color/colorBlue"
+        android:background="@color/colorWhite"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/fifteen_dp"
+        android:layout_marginRight="@dimen/fifteen_dp"
+        android:id="@+id/rvVendors"
+        />
+</LinearLayout>

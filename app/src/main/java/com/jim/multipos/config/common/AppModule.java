@@ -25,6 +25,8 @@ import com.jim.multipos.ui.product_class_new.ProductsClassActivity;
 import com.jim.multipos.ui.product_class_new.di.ProductsClassModule;
 import com.jim.multipos.ui.signing.SignActivity;
 import com.jim.multipos.ui.signing.di.SignActivityModule;
+import com.jim.multipos.ui.vendor.add_edit.VendorAddEditActivity;
+import com.jim.multipos.ui.vendor.add_edit.di.VendorAddEditActivityModule;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -69,6 +71,9 @@ abstract class AppModule {
     @ContributesAndroidInjector(modules = MainPageMenuModule.class)
     abstract MainPosPageActivity provideMainPosPageActivity();
 
+    @PerActivity
+    @ContributesAndroidInjector(modules = VendorAddEditActivityModule.class)
+    abstract VendorAddEditActivity provideVendorAddEditActivity();
     @PerActivity
     @ContributesAndroidInjector(modules = ProductsClassModule.class)
     abstract ProductsClassActivity provideProductsClassActivity();

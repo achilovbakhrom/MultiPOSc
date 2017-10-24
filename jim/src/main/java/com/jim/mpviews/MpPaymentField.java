@@ -211,15 +211,4 @@ public class MpPaymentField extends FrameLayout {
             }
         };
     }
-//    Example:
-//    mpPaymentField = (MpPaymentField) view.findViewById(R.id.change);
-//    List<String> cStrings = new ArrayList<>();
-//        cStrings.add("uzs");
-//        cStrings.add("eur");
-//        cStrings.add("rub");
-//        mpPaymentField.setMainCurrency("usd");
-//        mpPaymentField.setOtherCurrencies(cStrings);
-//        mpPaymentField.setMode(PAYMENT_MODE);
-//        mpPaymentField.setValue("25 000");
-//        mpPaymentField.setOtherCurrenciesClickListener();
 }

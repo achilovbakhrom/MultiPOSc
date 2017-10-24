@@ -5,4 +5,7 @@
     <item type="id" name="spinner_arrow" />
     <item type="id" name="chb_iv" />
     <item type="id" name="chb_tv" />
+    <item type="id" name="add_item_plus" />
+    <item type="id" name="add_item_text" />
+    <item type="id" name="list_item_text" />
 </resources>

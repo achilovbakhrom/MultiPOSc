@@ -4,325 +4,242 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="@dimen/eighty_dp"
+        android:background="@color/colorWhite"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/ten_dp"
+        android:paddingTop="@dimen/ten_dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/five_dp"
+            android:text="Management Item Mode"
+            android:textColor="@color/colorBlue" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tap Product to manage it info"
+            android:textColor="@color/colorSecondaryText" />
+
+    </LinearLayout>
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="2px"
+        android:background="#8a8a8a" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/twenty_five_dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/eighty_dp"
-                android:background="@color/colorWhite"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:paddingBottom="@dimen/ten_dp"
-                android:paddingTop="@dimen/ten_dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/five_dp"
-                    android:text="Management Item Mode"
-                    android:textColor="@color/colorBlue" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Tap Product to manage it info"
-                    android:textColor="@color/colorSecondaryText" />
-
-            </LinearLayout>
-
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="2px"
-                android:layout_marginBottom="@dimen/twenty_five_dp"
-                android:background="#8a8a8a" />
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            android:layout_marginBottom="@dimen/ten_dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="@dimen/hundred_forty_five_dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/ten_dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="@dimen/hundred_forty_five_dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginRight="@dimen/sixteen_dp"
-                    android:gravity="right"
-                    android:text="Vendor name"
-                    android:textColor="@color/colorMainText"
-                    android:textSize="@dimen/sixteen_dp" />
-
-                <com.jim.mpviews.MpEditText
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/forty_dp"
-                    android:layout_gravity="center"
-                    android:layout_marginRight="@dimen/thirty_dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:hint="Name"
-                    android:textColorHint="@color/colorTextHint"
-                    android:textSize="@dimen/sixteen_dp" />
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/ten_dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="@dimen/hundred_forty_five_dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginRight="@dimen/sixteen_dp"
-                    android:gravity="right"
-                    android:text="Contact name"
-                    android:textColor="@color/colorMainText"
-                    android:textSize="@dimen/sixteen_dp" />
-
-                <com.jim.mpviews.MpEditText
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/forty_dp"
-                    android:layout_gravity="center"
-                    android:layout_marginRight="@dimen/thirty_dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:hint="Name"
-                    android:textSize="@dimen/sixteen_dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/ten_dp"
-                android:orientation="horizontal">
-
-
-                <TextView
-                    android:layout_width="@dimen/hundred_forty_five_dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginRight="@dimen/sixteen_dp"
-                    android:gravity="right"
-                    android:text="Tel:"
-                    android:textColor="@color/colorMainText"
-                    android:textSize="@dimen/sixteen_dp" />
-
-                <com.jim.mpviews.MpEditText
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/forty_dp"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:hint="Number"
-                    android:textColorHint="@color/colorTextHint"
-                    android:textSize="@dimen/sixteen_dp" />
-
-                <TextView
-                    android:layout_width="@dimen/hundred_dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginRight="@dimen/sixteen_dp"
-                    android:gravity="right"
-                    android:text="Email:"
-                    android:textColor="@color/colorMainText"
-                    android:textSize="@dimen/sixteen_dp" />
-
-                <com.jim.mpviews.MpEditText
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/forty_dp"
-                    android:layout_gravity="center"
-                    android:layout_marginRight="@dimen/thirty_dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:hint="email"
-                    android:textColorHint="@color/colorTextHint"
-                    android:textSize="@dimen/sixteen_dp" />
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/ten_dp"
-                android:orientation="horizontal">
-
-
-                <TextView
-                    android:layout_width="@dimen/hundred_forty_five_dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginRight="@dimen/sixteen_dp"
-                    android:gravity="right"
-                    android:text="Address"
-                    android:textColor="@color/colorMainText"
-                    android:textSize="@dimen/sixteen_dp" />
-
-                <com.jim.mpviews.MpEditText
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/forty_dp"
-                    android:layout_gravity="center"
-                    android:layout_marginRight="@dimen/thirty_dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:hint="Place"
-                    android:textColorHint="@color/colorTextHint"
-                    android:textSize="@dimen/sixteen_dp" />
-
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/ten_dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="@dimen/hundred_forty_five_dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginRight="@dimen/sixteen_dp"
-                    android:gravity="right"
-                    android:text="Tax Rate"
-                    android:textColor="@color/colorMainText"
-                    android:textSize="@dimen/sixteen_dp" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/forty_dp"
-                    android:layout_marginRight="@dimen/thirty_dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <com.jim.mpviews.MpEditText
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:text="0.0"
-                        android:textSize="@dimen/sixteen_dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="@dimen/ten_dp"
-                        android:layout_marginRight="@dimen/ten_dp"
-                        android:text="%" />
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/sixteen_dp"
+                android:gravity="right"
+                android:text="Vendor name"
+                android:textColor="@color/colorMainText"
+                android:textSize="@dimen/sixteen_dp" />
+            <com.jim.mpviews.MpEditText
+                android:layout_width="0dp"
                 android:layout_height="@dimen/forty_dp"
-                android:layout_marginBottom="@dimen/ten_dp"
+                android:layout_gravity="center"
                 android:layout_marginRight="@dimen/thirty_dp"
-                android:layout_marginTop="@dimen/fifteen_dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="@dimen/hundred_forty_five_dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginRight="@dimen/sixteen_dp"
-                    android:gravity="right"
-                    android:text="Contact"
-                    android:textColor="@color/colorMainText"
-                    android:textSize="@dimen/sixteen_dp" />
-
-                <com.jim.mpviews.MpSpinner
-                    android:layout_width="@dimen/hundred_dp"
-                    android:layout_height="wrap_content" />
-
-                <com.jim.mpviews.MpEditText
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="@dimen/fifteen_dp"
-                    android:layout_marginRight="@dimen/fifteen_dp"
-                    android:layout_weight="1"
-                    android:hint="enter phone number" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/add_round" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/ten_dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="@dimen/hundred_forty_five_dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginRight="@dimen/sixteen_dp"
-                    android:gravity="right"
-                    android:text="Options"
-                    android:textColor="@color/colorMainText"
-                    android:textSize="@dimen/sixteen_dp" />
-
-
-                <com.jim.mpviews.MpCheckbox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:checked="true"
-                    app:text="Active" />
-            </LinearLayout>
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:hint="Name"
+                android:textColorHint="@color/colorTextHint"
+                android:textSize="@dimen/sixteen_dp"
+                android:id="@+id/etVendorName"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="@dimen/forty_five_dp"
-            android:gravity="right"
+            android:layout_marginBottom="@dimen/ten_dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="@dimen/hundred_forty_five_dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="@dimen/sixteen_dp"
+                android:gravity="right"
+                android:text="Contact name"
+                android:textColor="@color/colorMainText"
+                android:textSize="@dimen/sixteen_dp" />
+            <com.jim.mpviews.MpEditText
+                android:layout_width="0dp"
+                android:layout_height="@dimen/forty_dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/thirty_dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:hint="Name"
+                android:textSize="@dimen/sixteen_dp"
+                android:id="@+id/etContactName"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/ten_dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="@dimen/hundred_forty_five_dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/sixteen_dp"
+                android:gravity="right"
+                android:text="Address"
+                android:textColor="@color/colorMainText"
+                android:textSize="@dimen/sixteen_dp" />
+            <com.jim.mpviews.MpEditText
+                android:layout_width="0dp"
+                android:layout_height="@dimen/forty_dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/thirty_dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:hint="Place"
+                android:textColorHint="@color/colorTextHint"
+                android:textSize="@dimen/sixteen_dp"
+                android:id="@+id/etAddress"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="@dimen/hundred_forty_five_dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/sixteen_dp"
+                android:gravity="right"
+                android:text="Options"
+                android:textColor="@color/colorMainText"
+                android:textSize="@dimen/sixteen_dp" />
+            <com.jim.mpviews.MpCheckbox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:checked="true"
+                app:chb_type="3"
+                app:text="Active"
+                android:id="@+id/chbActive"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/eight_dp"
+            android:layout_marginRight="@dimen/twenty_dp"
+            android:layout_marginTop="@dimen/fifteen_dp"
+            android:gravity="center"
             android:orientation="horizontal"
+            android:layout_marginLeft="@dimen/twenty_dp">
 
-            >
-
-            <com.jim.mpviews.MpButton
-                android:layout_width="@dimen/hundred_sixty_dp"
-                android:layout_height="@dimen/fifty_dp"
-                android:layout_marginBottom="@dimen/twenty_dp"
-                android:layout_marginLeft="@dimen/thirty_dp"
-                android:layout_marginRight="@dimen/fifteen_dp"
-                android:text="Cancel"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/sixteen_dp"
+                android:gravity="right"
+                android:text="Contact"
                 android:textColor="@color/colorMainText"
                 android:textSize="@dimen/sixteen_dp" />
 
+            <com.jim.mpviews.MPosSpinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/spContactType"/>
 
-            <com.jim.mpviews.MpButton
-                android:layout_width="@dimen/hundred_sixty_dp"
-                android:layout_height="@dimen/fifty_dp"
-                android:layout_marginBottom="@dimen/twenty_dp"
-                android:layout_marginRight="@dimen/thirty_dp"
-                android:text="Save"
-                android:textColor="@color/colorBlue"
-                android:textSize="@dimen/sixteen_dp"
-                android:textStyle="bold" />
+            <com.jim.mpviews.MpEditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/fifteen_dp"
+                android:layout_marginRight="@dimen/fifteen_dp"
+                android:layout_weight="1"
+                android:hint="enter phone number"
+                android:id="@+id/etContactData"/>
 
+            <ImageView
+                android:layout_width="@dimen/thirty_five_dp"
+                android:layout_height="@dimen/thirty_five_dp"
+                android:src="@drawable/add_round"
+                android:id="@+id/ivAdd"/>
         </LinearLayout>
-    </RelativeLayout>
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rvContacts"
+            android:layout_marginLeft="@dimen/twenty_dp"
+            android:layout_marginRight="@dimen/twenty_dp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/thirty_dp"
+        android:gravity="right"
+        android:orientation="horizontal" >
+        <com.jim.mpviews.MpButton
+            android:layout_width="@dimen/hundred_sixty_dp"
+            android:layout_height="@dimen/fifty_dp"
+            android:layout_marginLeft="@dimen/thirty_dp"
+            android:layout_marginRight="@dimen/fifteen_dp"
+            android:text="Cancel"
+            android:textColor="@color/colorMainText"
+            android:textSize="@dimen/sixteen_dp"
+            android:id="@+id/btnCancel"/>
+        <com.jim.mpviews.MpButton
+            android:layout_width="@dimen/hundred_sixty_dp"
+            android:layout_height="@dimen/fifty_dp"
+            android:layout_marginLeft="@dimen/thirty_dp"
+            android:layout_marginRight="@dimen/fifteen_dp"
+            android:text="Delete"
+            android:textColor="@color/colorMainText"
+            android:textSize="@dimen/sixteen_dp"
+            android:visibility="gone"
+            android:id="@+id/btnDelete"/>
+        <com.jim.mpviews.MpButton
+            android:layout_width="@dimen/hundred_sixty_dp"
+            android:layout_height="@dimen/fifty_dp"
+            android:layout_marginLeft="@dimen/thirty_dp"
+            android:layout_marginRight="@dimen/fifteen_dp"
+            android:text="Products"
+            android:textColor="@color/colorBlue"
+            android:textSize="@dimen/sixteen_dp"
+            android:visibility="gone"
+            android:id="@+id/btnProducts"/>
+        <com.jim.mpviews.MpButton
+            android:layout_width="@dimen/hundred_sixty_dp"
+            android:layout_height="@dimen/fifty_dp"
+            android:layout_marginRight="@dimen/thirty_dp"
+            android:text="Save"
+            android:textColor="@color/colorBlue"
+            android:textSize="@dimen/sixteen_dp"
+            android:textStyle="bold"
+            android:id="@+id/btnSave" />
+    </LinearLayout>
+
 </LinearLayout>
