@@ -119,7 +119,7 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public Observable<Long> insertContact(Contact contact) {
-        return Observable.fromCallable(() -> mDaoSession.getContactDao().insert(contact));
+        return Observable.fromCallable(() -> mDaoSession.getContactDao().insertOrReplace(contact));
     }
 
     @Override
@@ -866,5 +866,13 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Observable<List<Vendor>> getVendors() {
         return Observable.fromCallable(() -> mDaoSession.getVendorDao().loadAll());
+    }
+
+    @Override
+    public Observable<Boolean> removeAllContacts(Long vendorId) {
+        return Observable.fromCallable(() -> {
+            mDaoSession.getContactDao().queryBuilder().where(ContactDao.Properties.VendorId.eq(vendorId)).buildDelete().executeDeleteWithoutDetachingEntities();
+            return true;
+        });
     }
 }

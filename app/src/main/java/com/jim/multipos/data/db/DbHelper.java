@@ -134,4 +134,5 @@ public interface DbHelper {
     Observable<Boolean> deleteVendor(Long vendorId);
     Observable<Vendor> getVendorById(Long vendorId);
     Observable<List<Vendor>> getVendors();
+    Observable<Boolean> removeAllContacts(Long vendorId);
 }

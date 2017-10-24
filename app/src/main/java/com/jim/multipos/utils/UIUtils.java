@@ -30,9 +30,26 @@ public class UIUtils {
         alert.show();
     }
 
+    public static void showAlert(Context context, String buttonText, String title, String message, SingleButtonAlertListener listener) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(buttonText, (dialog, which) -> {
+                    if (listener != null) {
+                        listener.onButtonClicked();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
     public interface AlertListener {
         void onPositiveButtonClicked();
         void onNegativeButtonClicked();
+    }
+
+    public interface SingleButtonAlertListener {
+        void onButtonClicked();
     }
 
     public static void closeKeyboard(View view, Context context) {

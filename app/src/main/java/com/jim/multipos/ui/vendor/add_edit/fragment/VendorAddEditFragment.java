@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ImageView;
@@ -78,6 +79,8 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
     @Getter
     private boolean isChangeDetected = false;
 
+    private boolean isFirst = true;
+
     @Override
     protected int getLayout() {
         return R.layout.add_vendor_fragment;
@@ -92,6 +95,17 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
         ContactAdapter adapter = new ContactAdapter(new ArrayList<>());
         adapter.setListener(this);
         contacts.setAdapter(adapter);
+        contactType.setItemSelectionListener((view, position) -> {
+            if (isFirst) {
+                isFirst = false;
+                return;
+            }
+            contactData.setText("");
+            if (position == 0)
+                contactData.setInputType(InputType.TYPE_CLASS_PHONE);
+            else
+                contactData.setInputType(InputType.TYPE_CLASS_TEXT);
+        });
         vendorName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -125,7 +139,6 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
         active.setCheckedChangeListener(isChecked -> {
             isChangeDetected = true;
         });
-        contactType.setItemSelectionListener((view, position) -> isChangeDetected = true);
         contactData.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -156,6 +169,7 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
                             new UIUtils.AlertListener() {
                                 @Override
                                 public void onPositiveButtonClicked() {
+                                    isChangeDetected = false;
                                     presenter.addVendor(vendorName.getText().toString(),
                                             vendorContact.getText().toString(),
                                             address.getText().toString(),
@@ -170,6 +184,7 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
                         vendorName.setError(getString(R.string.warning_vendor_name_exist));
                         return;
                     }
+                    isChangeDetected = false;
                     presenter.addVendor(vendorName.getText().toString(),
                             vendorContact.getText().toString(),
                             address.getText().toString(),
@@ -179,18 +194,24 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
                 break;
 
             case  R.id.btnDelete:
-                UIUtils.showAlert(getContext(), getString(R.string.yes), getString(R.string.no),
-                        getString(R.string.deleting_vendor_title), getString(R.string.warning_deleting_vendor),
-                        new UIUtils.AlertListener() {
-                            @Override
-                            public void onPositiveButtonClicked() {
-                                presenter.removeVendor();
-                                presenter.setMode(AddingMode.ADD, null);
-                            }
+                if (((VendorAddEditActivity) getContext()).getPresenter().getVendor() != null &&
+                        ((VendorAddEditActivity) getContext()).getPresenter().getVendor().isActive()) {
+                    ((VendorAddEditActivity) getContext()).showCantDeleteActiveItemMessage();
+                } else {
+                    UIUtils.showAlert(getContext(), getString(R.string.yes), getString(R.string.no),
+                            getString(R.string.deleting_vendor_title), getString(R.string.warning_deleting_vendor),
+                            new UIUtils.AlertListener() {
+                                @Override
+                                public void onPositiveButtonClicked() {
+                                    isChangeDetected = false;
+                                    presenter.removeVendor();
+                                    presenter.setMode(AddingMode.ADD, null);
+                                }
+                                @Override
+                                public void onNegativeButtonClicked() {}
+                            });
+                }
 
-                            @Override
-                            public void onNegativeButtonClicked() {}
-                        });
                 break;
 
             case R.id.btnProducts:
@@ -198,26 +219,22 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
                 break;
 
             case R.id.btnCancel:
-                if (presenter.getMode() == AddingMode.ADD) {
-                    if (!vendorName.getText().toString().isEmpty() ||
-                            !vendorContact.getText().toString().isEmpty() ||
-                            !address.getText().toString().isEmpty() ||
-                            (presenter.getContacts() != null && !presenter.getContacts().isEmpty())) {
-                        UIUtils.showAlert(getContext(), getString(R.string.yes), getString(R.string.no),
-                                getString(R.string.cancel_adding_title), getString(R.string.cancel_adding_message),
-                                new UIUtils.AlertListener() {
-                                    @Override
-                                    public void onPositiveButtonClicked() {
-                                        vendorName.setText("");
-                                        vendorContact.setText("");
-                                        address.setText("");
-                                        clearContactsList();
-                                    }
-                                    @Override
-                                    public void onNegativeButtonClicked() {}
-                                });
-                    }
-                } else {
+                if (isChangeDetected) {
+                    UIUtils.showAlert(getContext(), getString(R.string.yes),
+                            getString(R.string.no), getString(R.string.discard_changes),
+                            getString(R.string.warning_discard_changes), new UIUtils.AlertListener() {
+                                @Override
+                                public void onPositiveButtonClicked() {
+                                    setMode(AddingMode.ADD, null);
+                                }
+
+                                @Override
+                                public void onNegativeButtonClicked() {
+
+                                }
+                            });
+                }
+                else {
                     getActivity().finish();
                 }
                 break;
@@ -226,6 +243,7 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
                     contactData.setError(getString(R.string.warning_contact_is_empty));
                     return;
                 }
+                isChangeDetected = true;
                 presenter.addContact(contactType.getSelectedPosition(), contactData.getText().toString());
                 break;
         }
@@ -277,7 +295,10 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
                     products.setVisibility(View.VISIBLE);
                     delete.setVisibility(View.VISIBLE);
                     save.setText(R.string.update);
-                    ((ContactAdapter) contacts.getAdapter()).addItems(vendor.getContacts());
+                    if (vendor.getContacts() != null && !vendor.getContacts().isEmpty())
+                        ((ContactAdapter) contacts.getAdapter()).setItems(vendor.getContacts());
+                    else
+                        ((ContactAdapter) contacts.getAdapter()).removeAllItems();
                 }
                 break;
         }

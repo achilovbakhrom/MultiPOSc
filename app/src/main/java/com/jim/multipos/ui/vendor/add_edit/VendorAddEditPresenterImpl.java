@@ -8,6 +8,8 @@ import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Contact;
 import com.jim.multipos.data.db.model.Vendor;
 import com.jim.multipos.ui.vendor.AddingMode;
+import com.jim.multipos.ui.vendor.add_edit.fragment.VendorAddEditFragment;
+import com.jim.multipos.utils.UIUtils;
 
 import org.apache.commons.collections4.list.PredicatedList;
 
@@ -25,7 +27,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Created by bakhrom on 10/21/17.
+ * Created by Achilov Bakhrom on 10/21/17.
  */
 
 public class VendorAddEditPresenterImpl extends BasePresenterImpl<VendorAddEditView> implements VendorAddEditPresenter{
@@ -73,11 +75,16 @@ public class VendorAddEditPresenterImpl extends BasePresenterImpl<VendorAddEditV
                 break;
             case EDIT:
                 vendor = databaseManager.getVendorById(vendorId).blockingSingle();
+                databaseManager.removeAllContacts(vendor.getId()).blockingSingle();
                 vendor.setName(name);
                 vendor.setContactName(contactName);
                 vendor.setAddress(address);
                 vendor.setActive(isActive);
                 databaseManager.addVendor(vendor).subscribe(id -> {
+                    for (Contact contact : contacts) {
+                        contact.setVendorId(id);
+                        databaseManager.addContact(contact).subscribe(contactId -> Log.d("sss", "addVendor: " + contactId));
+                    }
                     databaseManager.updateContacts(id, contacts);
                 });
                 break;
@@ -132,15 +139,55 @@ public class VendorAddEditPresenterImpl extends BasePresenterImpl<VendorAddEditV
     @Override
     public void setMode(AddingMode mode, Long vendorId) {
         if (mode == AddingMode.ADD) {
-            this.vendorId = -1L;
-            contacts = new ArrayList<>();
-            view.prepareAddMode();
+            if (view.isChangeDetected()) {
+
+                view.showAddEditChangeMessage(new UIUtils.AlertListener() {
+                    @Override
+                    public void onPositiveButtonClicked() {
+                        VendorAddEditPresenterImpl.this.vendorId = -1L;
+                        contacts = new ArrayList<>();
+                        view.prepareAddMode();
+                    }
+
+                    @Override
+                    public void onNegativeButtonClicked() {
+                        view.discardChanges();
+                    }
+                });
+            } else {
+                this.vendorId = -1L;
+                contacts = new ArrayList<>();
+                view.prepareAddMode();
+                view.changeSelectedPosition();
+            }
         } else {
-            this.vendorId = vendorId;
-            Vendor vendor = databaseManager.getVendorById(vendorId).blockingSingle();
-            if (vendor != null) {
-                contacts = vendor.getContacts();
-                view.prepareEditMode(vendor);
+            if (view.isChangeDetected()) {
+                view.showAddEditChangeMessage(new UIUtils.AlertListener() {
+                      @Override
+                      public void onPositiveButtonClicked() {
+                          VendorAddEditPresenterImpl.this.vendorId = vendorId;
+                          Vendor vendor = databaseManager.getVendorById(vendorId).blockingSingle();
+                          if (vendor != null) {
+                              contacts = vendor.getContacts();
+                              vendor.resetContacts();
+                              view.prepareEditMode(vendor);
+                          }
+                      }
+
+                      @Override
+                      public void onNegativeButtonClicked() {
+                          view.discardChanges();
+                      }
+                });
+            } else  {
+                this.vendorId = vendorId;
+                Vendor vendor = databaseManager.getVendorById(vendorId).blockingSingle();
+                if (vendor != null) {
+                    contacts = vendor.getContacts();
+                    vendor.resetContacts();
+                    view.prepareEditMode(vendor);
+                }
+                view.changeSelectedPosition();
             }
         }
         this.mode = mode;
@@ -159,11 +206,17 @@ public class VendorAddEditPresenterImpl extends BasePresenterImpl<VendorAddEditV
 
     @Override
     public void removeContact(Contact contact) {
-        if (mode == AddingMode.ADD) {
-            if (contacts != null && !contacts.isEmpty()) {
-                contacts.remove(contact);
-            }
+        if (contacts != null && !contacts.isEmpty()) {
+            contacts.remove(contact);
         }
         view.removeContact(contact);
+    }
+
+    @Override
+    public Vendor getVendor() {
+        if (vendorId == -1L)
+            return null;
+        else
+            return databaseManager.getVendorById(vendorId).blockingSingle();
     }
 }

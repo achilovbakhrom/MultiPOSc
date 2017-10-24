@@ -2,9 +2,7 @@ package com.jim.multipos.ui.vendor.add_edit.fragment;
 
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
@@ -18,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import lombok.Getter;
 
 /**
  * Created by bakhrom on 10/21/17.
@@ -25,8 +24,13 @@ import butterknife.BindView;
 
 public class VendorsListFragment extends BaseFragment implements ClickableBaseAdapter.OnItemClickListener<Vendor> {
 
+    public static final String SELECTED_POSITION = "SELECTED_POSITION";
+
     @BindView(R.id.rvVendors)
     RecyclerView vendors;
+
+    @Getter
+    private int selectedPosition = -1;
 
     @Override
     protected int getLayout() {
@@ -35,6 +39,9 @@ public class VendorsListFragment extends BaseFragment implements ClickableBaseAd
 
     @Override
     protected void init(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            selectedPosition = savedInstanceState.getInt(SELECTED_POSITION, -1);
+        }
         fillVendorList();
     }
 
@@ -57,6 +64,13 @@ public class VendorsListFragment extends BaseFragment implements ClickableBaseAd
         }
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(SELECTED_POSITION, selectedPosition);
+
+    }
+
     public void updateVendorsList() {
         fillVendorList();
     }
@@ -73,16 +87,25 @@ public class VendorsListFragment extends BaseFragment implements ClickableBaseAd
 
     @Override
     public void onItemClicked(Vendor item) {
-        if (item == null) {
-            ((VendorAddEditActivity) getContext()).getPresenter().setMode(AddingMode.ADD, null);
-        }
-        else {
-            ((VendorAddEditActivity) getContext()).getPresenter().setMode(AddingMode.EDIT, item.getId());
-        }
+        if (item == null) { ((VendorAddEditActivity) getContext()).getPresenter().setMode(AddingMode.ADD, null); }
+        else { ((VendorAddEditActivity) getContext()).getPresenter().setMode(AddingMode.EDIT, item.getId()); }
     }
 
     public void setAddMode() {
         if (vendors != null && vendors.getAdapter() != null)
             ((VendorsListAdapter) vendors.getAdapter()).select(0);
+    }
+
+    public void setSelection(int position) {
+        if (vendors != null && vendors.getAdapter() != null)
+            ((VendorsListAdapter) vendors.getAdapter()).select(position);
+    }
+
+    public void discardChanges() {
+        setSelection(selectedPosition);
+    }
+
+    public void changeSelectedPosition() {
+        selectedPosition = ((VendorsListAdapter) vendors.getAdapter()).getSelectedPosition();
     }
 }

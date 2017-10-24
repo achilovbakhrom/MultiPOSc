@@ -2,6 +2,7 @@ package com.jim.mpviews;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -28,20 +29,20 @@ import com.jim.mpviews.utils.Utils;
 public class MpEditText extends android.support.v7.widget.AppCompatEditText {
     public MpEditText(Context context) {
         super(context);
-        init(context);
+        init(context, null);
     }
 
     public MpEditText(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        init(context);
+        init(context, attrs);
     }
 
     public MpEditText(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context);
+        init(context, attrs);
     }
 
-    private void init(Context context) {
+    private void init(Context context, AttributeSet attrs) {
         setLines(1);
         setMaxLines(1);
         setSingleLine();
@@ -51,11 +52,22 @@ public class MpEditText extends android.support.v7.widget.AppCompatEditText {
         } else {
             setBackgroundResource(R.drawable.edit_text_bg);
         }
+        //check attributes you need, for example all paddings
+        int [] attributes = new int [] {android.R.attr.paddingLeft, android.R.attr.paddingTop, android.R.attr.paddingBottom, android.R.attr.paddingRight};
+
+        //then obtain typed array
+        TypedArray arr = context.obtainStyledAttributes(attrs, attributes);
+
+        //You can check if attribute exists (in this examle checking paddingRight)
+//        int paddingRight = arr.hasValue(3) ? arr.getDimensionPixelOffset(3, -1) : 10;
+
         Resources r = getResources();
-        if(getPaddingTop()==0 && getPaddingBottom()==0 && getPaddingRight()==0 && getPaddingLeft()==0) {
+        if(!arr.hasValue(0) && !arr.hasValue(1) && !arr.hasValue(2) && !arr.hasValue(3)) {
             int topPadding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, r.getDisplayMetrics());
             int sidePadding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, r.getDisplayMetrics());
             setPadding(sidePadding, topPadding, sidePadding, topPadding);
+        } else {
+            setPadding(arr.getDimensionPixelOffset(0, -1), arr.getDimensionPixelOffset(1, -1), arr.getDimensionPixelOffset(3, -1), arr.getDimensionPixelOffset(2, -1));
         }
         setHintTextColor(ContextCompat.getColor(context, R.color.colorTextHint));
         setTextColor(ContextCompat.getColor(context, R.color.colorMainText));

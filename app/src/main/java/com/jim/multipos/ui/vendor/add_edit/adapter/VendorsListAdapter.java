@@ -83,8 +83,11 @@ public class VendorsListAdapter extends ClickableBaseAdapter<Vendor, BaseViewHol
     }
 
     public void select(int pos) {
-        selectedPosition = 0;
+        selectedPosition = pos;
         notifyDataSetChanged();
     }
 
+    public int getSelectedPosition() {
+        return selectedPosition;
+    }
 }

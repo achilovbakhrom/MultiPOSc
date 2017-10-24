@@ -37,8 +37,8 @@
 
     <ImageView
         android:id="@+id/ivRemoveContact"
-        android:layout_width="@dimen/thirty_five_dp"
-        android:layout_height="@dimen/thirty_five_dp"
+        android:layout_width="@dimen/twenty_five_dp"
+        android:layout_height="@dimen/twenty_five_dp"
         android:layout_gravity="center"
         android:adjustViewBounds="true"
         android:src="@drawable/remove" />

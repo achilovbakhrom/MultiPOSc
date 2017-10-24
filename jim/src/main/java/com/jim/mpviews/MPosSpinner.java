@@ -53,6 +53,7 @@ public class MPosSpinner extends FrameLayout {
         lp.bottomMargin = Utils.dpToPx(2);
         lp.leftMargin = Utils.dpToPx(4);
         lp.rightMargin = Utils.dpToPx(4);
+        lp.gravity = Gravity.CENTER_VERTICAL;
         spinner.setLayoutParams(lp);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

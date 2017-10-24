@@ -14,6 +14,7 @@ import io.reactivex.Observable;
  */
 
 public interface VendorAddEditPresenter extends Presenter {
+
     void addVendor(String name, String contactName, String address, boolean isActive);
     Boolean isVendorNameExists(String name);
     AddingMode getMode();
@@ -24,4 +25,6 @@ public interface VendorAddEditPresenter extends Presenter {
     void removeVendor();
     List<Contact> getContacts();
     void removeContact(Contact contact);
+    Vendor getVendor();
+
 }

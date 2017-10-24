@@ -2,6 +2,7 @@ package com.jim.multipos.ui.vendor.add_edit;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.View;
 
 import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.R;
@@ -11,6 +12,7 @@ import com.jim.multipos.data.db.model.Vendor;
 import com.jim.multipos.ui.vendor.AddingMode;
 import com.jim.multipos.ui.vendor.add_edit.fragment.VendorAddEditFragment;
 import com.jim.multipos.ui.vendor.add_edit.fragment.VendorsListFragment;
+import com.jim.multipos.utils.UIUtils;
 import com.jim.multipos.utils.WarningDialog;
 
 import javax.inject.Inject;
@@ -92,14 +94,37 @@ public class VendorAddEditActivity extends DoubleSideActivity implements VendorA
 
     @Override
     public void showCantDeleteActiveItemMessage() {
-        WarningDialog dialog = new WarningDialog(this);
-        dialog.setWarningText(getString(R.string.warning_deletion_of_active_elements));
-
+        UIUtils.showAlert(this,
+                getString(R.string.ok),
+                getString(R.string.cannot_delete_active_item),
+                getString(R.string.warning_cannot_delete_element), null);
     }
 
     @Override
-    public void showAddEditChangeMessage() {
-        WarningDialog dialog = new WarningDialog(this);
-        dialog.setWarningText("sss");
+    public void showAddEditChangeMessage(UIUtils.AlertListener listener) {
+        UIUtils.showAlert(this, getString(R.string.yes), getString(R.string.no),
+                getString(R.string.discard_changes), getString(R.string.warning_discard_changes), listener);
+    }
+
+    @Override
+    public boolean isChangeDetected() {
+        if (getCurrentFragmentLeft() != null)
+            return ((VendorAddEditFragment) getCurrentFragmentLeft()).isChangeDetected();
+        else
+            return false;
+    }
+
+    @Override
+    public void discardChanges() {
+        if (getCurrentFragmentRight() != null) {
+            ((VendorsListFragment) getCurrentFragmentRight()).discardChanges();
+        }
+    }
+
+    @Override
+    public void changeSelectedPosition() {
+        if (getCurrentFragmentRight() != null) {
+            ((VendorsListFragment) getCurrentFragmentRight()).changeSelectedPosition();
+        }
     }
 }

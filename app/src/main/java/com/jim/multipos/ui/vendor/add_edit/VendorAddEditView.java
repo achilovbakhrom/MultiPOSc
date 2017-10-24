@@ -1,8 +1,12 @@
 package com.jim.multipos.ui.vendor.add_edit;
 
+import android.view.View;
+
 import com.jim.multipos.core.BaseView;
 import com.jim.multipos.data.db.model.Contact;
 import com.jim.multipos.data.db.model.Vendor;
+import com.jim.multipos.ui.first_configure.adapters.UnitAdapter;
+import com.jim.multipos.utils.UIUtils;
 
 /**
  * Created by bakhrom on 10/21/17.
@@ -17,5 +21,8 @@ public interface VendorAddEditView extends BaseView{
     void addContactToAddEditView(Contact contact);
     void removeContact(Contact contact);
     void showCantDeleteActiveItemMessage();
-    void showAddEditChangeMessage();
+    void showAddEditChangeMessage(UIUtils.AlertListener listener);
+    boolean isChangeDetected();
+    void discardChanges();
+    void changeSelectedPosition();
 }

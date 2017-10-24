@@ -513,6 +513,10 @@
     <string name="want_accept_changes">Do you really want to accept changes?</string>
     <string name="delete">Delete</string>
     <string name="ok">OK</string>
+    <string name="warning_discard_changes">Change is detected. Do you want to discard all changes?</string>
+    <string name="discard_changes">Discard changes</string>
+    <string name="cannot_delete_active_item">Cannot delete active element!</string>
+    <string name="warning_cannot_delete_element">You cannot to delete active element!!!</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>

@@ -538,4 +538,9 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     public Observable<List<Vendor>> getVendors() {
         return dbHelper.getVendors();
     }
+
+    @Override
+    public Observable<Boolean> removeAllContacts(Long vendorId) {
+        return dbHelper.removeAllContacts(vendorId);
+    }
 }
