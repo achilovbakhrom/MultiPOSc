@@ -11,6 +11,7 @@ import com.jim.multipos.data.db.model.Vendor;
 import com.jim.multipos.ui.vendor.AddingMode;
 import com.jim.multipos.ui.vendor.add_edit.VendorAddEditActivity;
 import com.jim.multipos.ui.vendor.add_edit.adapter.VendorsListAdapter;
+import com.jim.multipos.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +53,6 @@ public class VendorsListFragment extends BaseFragment implements ClickableBaseAd
             items.add(0, null);
             VendorsListAdapter adapter = new VendorsListAdapter(items);
             adapter.setOnItemClickListener(this);
-
             vendors.setLayoutManager(new GridLayoutManager(getContext(), 6));
             vendors.setAdapter(adapter);
         }
@@ -82,6 +82,7 @@ public class VendorsListFragment extends BaseFragment implements ClickableBaseAd
 
     @Override
     public void onItemClicked(int position) {
+        UIUtils.closeKeyboard(vendors, getContext());
         //TODO nothing
     }
 

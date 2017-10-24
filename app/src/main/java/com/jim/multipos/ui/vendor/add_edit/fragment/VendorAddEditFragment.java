@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -79,8 +80,6 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
     @Getter
     private boolean isChangeDetected = false;
 
-    private boolean isFirst = true;
-
     @Override
     protected int getLayout() {
         return R.layout.add_vendor_fragment;
@@ -96,10 +95,6 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
         adapter.setListener(this);
         contacts.setAdapter(adapter);
         contactType.setItemSelectionListener((view, position) -> {
-            if (isFirst) {
-                isFirst = false;
-                return;
-            }
             contactData.setText("");
             if (position == 0)
                 contactData.setInputType(InputType.TYPE_CLASS_PHONE);
@@ -111,7 +106,7 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                isChangeDetected = true;
+                detectChange(true);
             }
             @Override
             public void afterTextChanged(Editable s) {}
@@ -121,34 +116,48 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                isChangeDetected = true;
+                detectChange(true);
             }
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+
+            }
         });
         address.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                isChangeDetected = true;
+                detectChange(true);
             }
             @Override
             public void afterTextChanged(Editable s) {}
         });
         active.setCheckedChangeListener(isChecked -> {
-            isChangeDetected = true;
+            detectChange(true);
         });
         contactData.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                isChangeDetected = true;
+                detectChange(true);
             }
             @Override
             public void afterTextChanged(Editable s) {}
         });
+    }
+
+    private void detectChange(boolean def) {
+        if (vendorName.getText().toString().isEmpty() &&
+                vendorContact.getText().toString().isEmpty() &&
+                address.getText().toString().isEmpty() &&
+                ((VendorAddEditActivity) getContext()).getPresenter().getContacts().isEmpty() &&
+                ((VendorAddEditActivity) getContext()).getPresenter().getMode() == AddingMode.ADD) {
+            isChangeDetected = false;
+        } else {
+            isChangeDetected = def;
+        }
     }
 
     @Override
@@ -159,9 +168,9 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
 
     @OnClick(value = {R.id.btnSave, R.id.btnDelete, R.id.btnProducts, R.id.btnCancel, R.id.ivAdd})
     public void buttonClicked(View view) {
+        UIUtils.closeKeyboard(view, getContext());
         VendorAddEditPresenter presenter = ((VendorAddEditActivity) getContext()).getPresenter();
         switch (view.getId()) {
-
             case R.id.btnSave:
                 if (presenter.getMode() == AddingMode.EDIT) {
                     UIUtils.showAlert(getContext(), getString(R.string.yes), getString(R.string.no),
@@ -169,7 +178,7 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
                             new UIUtils.AlertListener() {
                                 @Override
                                 public void onPositiveButtonClicked() {
-                                    isChangeDetected = false;
+                                    detectChange(false);
                                     presenter.addVendor(vendorName.getText().toString(),
                                             vendorContact.getText().toString(),
                                             address.getText().toString(),
@@ -184,7 +193,7 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
                         vendorName.setError(getString(R.string.warning_vendor_name_exist));
                         return;
                     }
-                    isChangeDetected = false;
+                    detectChange(false);
                     presenter.addVendor(vendorName.getText().toString(),
                             vendorContact.getText().toString(),
                             address.getText().toString(),
@@ -203,7 +212,7 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
                             new UIUtils.AlertListener() {
                                 @Override
                                 public void onPositiveButtonClicked() {
-                                    isChangeDetected = false;
+                                    detectChange(false);
                                     presenter.removeVendor();
                                     presenter.setMode(AddingMode.ADD, null);
                                 }
@@ -243,7 +252,7 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
                     contactData.setError(getString(R.string.warning_contact_is_empty));
                     return;
                 }
-                isChangeDetected = true;
+                detectChange(true);
                 presenter.addContact(contactType.getSelectedPosition(), contactData.getText().toString());
                 break;
         }
@@ -302,7 +311,7 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
                 }
                 break;
         }
-        isChangeDetected = false;
+        detectChange(false);
     }
 
     public void removeContact(Contact contact) {

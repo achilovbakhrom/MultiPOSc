@@ -140,13 +140,13 @@ public class VendorAddEditPresenterImpl extends BasePresenterImpl<VendorAddEditV
     public void setMode(AddingMode mode, Long vendorId) {
         if (mode == AddingMode.ADD) {
             if (view.isChangeDetected()) {
-
                 view.showAddEditChangeMessage(new UIUtils.AlertListener() {
                     @Override
                     public void onPositiveButtonClicked() {
                         VendorAddEditPresenterImpl.this.vendorId = -1L;
                         contacts = new ArrayList<>();
                         view.prepareAddMode();
+                        VendorAddEditPresenterImpl.this.mode = mode;
                     }
 
                     @Override
@@ -159,6 +159,7 @@ public class VendorAddEditPresenterImpl extends BasePresenterImpl<VendorAddEditV
                 contacts = new ArrayList<>();
                 view.prepareAddMode();
                 view.changeSelectedPosition();
+                this.mode = mode;
             }
         } else {
             if (view.isChangeDetected()) {
@@ -171,6 +172,7 @@ public class VendorAddEditPresenterImpl extends BasePresenterImpl<VendorAddEditV
                               contacts = vendor.getContacts();
                               vendor.resetContacts();
                               view.prepareEditMode(vendor);
+                              VendorAddEditPresenterImpl.this.mode = mode;
                           }
                       }
 
@@ -188,9 +190,10 @@ public class VendorAddEditPresenterImpl extends BasePresenterImpl<VendorAddEditV
                     view.prepareEditMode(vendor);
                 }
                 view.changeSelectedPosition();
+                this.mode = mode;
             }
         }
-        this.mode = mode;
+
     }
 
     @Override
