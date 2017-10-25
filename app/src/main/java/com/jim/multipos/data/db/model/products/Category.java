@@ -2,6 +2,7 @@ package com.jim.multipos.data.db.model.products;
 
 
 import com.jim.multipos.data.db.model.DaoSession;
+import com.jim.multipos.data.db.model.intosystem.Editable;
 
 import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
@@ -13,7 +14,7 @@ import org.greenrobot.greendao.annotation.ToMany;
 import java.util.List;
 
 @Entity(nameInDb = "CATEGORY", active = true)
-public class Category {
+public class Category implements Editable{
     public static final Long WITHOUT_PARENT = -1L;
     @Id(autoincrement = true)
     private Long id;
@@ -171,6 +172,11 @@ public class Category {
         return this.createdDate;
     }
 
+    @Override
+    public void setCreatedDate(long createdDate) {
+
+    }
+
     public void setCreatedDate(Long createdDate) {
         this.createdDate = createdDate;
     }
@@ -221,6 +227,36 @@ public class Category {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @Override
+    public boolean isActive() {
+        return this.isActive;
+    }
+
+    @Override
+    public void setActive(boolean active) {
+        this.isActive = active;
+    }
+
+    @Override
+    public boolean isDeleted() {
+        return this.isDeleted;
+    }
+
+    @Override
+    public void setDeleted(boolean deleted) {
+        this.isDeleted = deleted;
+    }
+
+    @Override
+    public boolean isNotModifyted() {
+        return this.isNotModified;
+    }
+
+    @Override
+    public void setNotModifyted(boolean notModifyted) {
+        this.isNotModified = notModifyted;
     }
 
     public Long getRootId() {

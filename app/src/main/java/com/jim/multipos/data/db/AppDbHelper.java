@@ -42,9 +42,7 @@ import com.jim.multipos.data.db.model.unit.Unit;
 import com.jim.multipos.data.db.model.unit.UnitCategory;
 import com.jim.multipos.data.db.model.unit.UnitDao;
 
-import org.apache.commons.collections4.sequence.DeleteCommand;
 import org.greenrobot.greendao.query.Query;
-import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.util.Collections;
 import java.util.List;
@@ -140,28 +138,14 @@ public class AppDbHelper implements DbHelper {
     public Observable<Long> insertCategory(Category category) {
         return Observable.fromCallable(() -> {
             List<Category> categories = mDaoSession.getCategoryDao().queryBuilder()
-                    .where(CategoryDao.Properties.ParentId.eq(WITHOUT_PARENT), CategoryDao.Properties.IsDeleted.eq(false))
+                    .where(CategoryDao.Properties.ParentId.eq(WITHOUT_PARENT),
+                            CategoryDao.Properties.IsDeleted.eq(false),
+                            CategoryDao.Properties.IsNotModified.eq(true))
                     .build().list();
             if (categories.isEmpty()) {
                 category.setPosition(1d);
             } else {
-                if (!category.getIsActive()) {
-                    Cursor cursor = mDaoSession.getDatabase().rawQuery("SELECT MAX(POSITION) FROM CATEGORY WHERE IS_DELETED == " + 0, null);
-                    cursor.moveToFirst();
-                    int max = cursor.getInt(0);
-                    category.setPosition((double) max + 1d);
-                } else {
-                    Cursor cursor = mDaoSession.getDatabase().rawQuery("SELECT MAX(POSITION) FROM CATEGORY WHERE IS_DELETED == " + 0 + " AND IS_ACTIVE == " + 1, null);
-                    cursor.moveToFirst();
-                    int max = cursor.getInt(0);
-                    Cursor cursor1 = mDaoSession.getDatabase().rawQuery("SELECT MIN(POSITION) FROM CATEGORY WHERE IS_DELETED == " + 0 + " AND IS_ACTIVE == " + 0, null);
-                    cursor1.moveToFirst();
-                    int min = cursor1.getInt(0);
-                    if (min == 0) {
-                        category.setPosition((double) (max + 1));
-                    } else
-                        category.setPosition((double) (max + (min - max) / 2));
-                }
+                category.setPosition((double) (categories.size() + 1));
             }
             return mDaoSession.getCategoryDao().insert(category);
         });
@@ -171,28 +155,14 @@ public class AppDbHelper implements DbHelper {
     public Observable<Long> insertSubCategory(Category subcategory) {
         return Observable.fromCallable(() -> {
             List<Category> categories = mDaoSession.getCategoryDao().queryBuilder()
-                    .where(CategoryDao.Properties.ParentId.eq(subcategory.getParentId()), CategoryDao.Properties.IsDeleted.eq(false))
+                    .where(CategoryDao.Properties.ParentId.eq(subcategory.getParentId()),
+                            CategoryDao.Properties.IsDeleted.eq(false),
+                            CategoryDao.Properties.IsNotModified.eq(true))
                     .build().list();
             if (categories.isEmpty()) {
                 subcategory.setPosition(1d);
             } else {
-                if (!subcategory.getIsActive()) {
-                    Cursor cursor = mDaoSession.getDatabase().rawQuery("SELECT MAX(POSITION) FROM CATEGORY WHERE IS_DELETED == " + 0 + " AND PARENT_ID == " + subcategory.getParentId(), null);
-                    cursor.moveToFirst();
-                    int max = cursor.getInt(0);
-                    subcategory.setPosition((double) max + 1d);
-                } else {
-                    Cursor cursor = mDaoSession.getDatabase().rawQuery("SELECT MAX(POSITION) FROM CATEGORY WHERE IS_DELETED == " + 0 + " AND PARENT_ID == " + subcategory.getParentId() + " AND IS_ACTIVE == " + 1, null);
-                    cursor.moveToFirst();
-                    int max = cursor.getInt(0);
-                    Cursor cursor1 = mDaoSession.getDatabase().rawQuery("SELECT MIN(POSITION) FROM CATEGORY WHERE IS_DELETED == " + 0 + " AND PARENT_ID == " + subcategory.getParentId() + " AND IS_ACTIVE == " + 0, null);
-                    cursor1.moveToFirst();
-                    int min = cursor1.getInt(0);
-                    if (min == 0) {
-                        subcategory.setPosition((double) (max + 1));
-                    } else
-                        subcategory.setPosition((double) (max + (min - max) / 2));
-                }
+                subcategory.setPosition((double) (categories.size() + 1));
             }
             return mDaoSession.getCategoryDao().insert(subcategory);
         });
@@ -225,24 +195,7 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public Observable<Long> insertOrReplaceCategory(Category category) {
-        return Observable.fromCallable(() -> {
-            if (isSubcategory(category)) {
-                if (!category.getIsActive()) {
-                    Cursor cursor = mDaoSession.getDatabase().rawQuery("SELECT MAX(POSITION) FROM CATEGORY WHERE PARENT_ID == " + category.getParentId() + " AND IS_DELETED == " + 0, null);
-                    cursor.moveToFirst();
-                    int max = cursor.getInt(0);
-                    category.setPosition((double) max + 1d);
-                }
-            } else {
-                if (!category.getIsActive()) {
-                    Cursor cursor = mDaoSession.getDatabase().rawQuery("SELECT MAX(POSITION) FROM CATEGORY WHERE IS_DELETED == " + 0, null);
-                    cursor.moveToFirst();
-                    int max = cursor.getInt(0);
-                    category.setPosition((double) max + 1d);
-                }
-            }
-            return mDaoSession.getCategoryDao().insertOrReplace(category);
-        });
+        return Observable.fromCallable(() -> mDaoSession.getCategoryDao().insertOrReplace(category));
     }
 
     @Override

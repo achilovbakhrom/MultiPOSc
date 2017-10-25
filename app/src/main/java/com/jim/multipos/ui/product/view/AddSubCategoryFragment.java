@@ -31,6 +31,8 @@ import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 import eu.inmite.android.lib.validations.form.callback.SimpleErrorPopupCallback;
 import io.reactivex.disposables.Disposable;
 
+import static com.jim.multipos.utils.UIUtils.closeKeyboard;
+
 /**
  * Created by DEV on 18.08.2017.
  */
@@ -76,6 +78,7 @@ public class AddSubCategoryFragment extends BaseFragment implements SubCategoryV
         tvChooseCategory.setText(categoryName);
         rxBus.send(new MessageEvent(FRAGMENT_OPENED));
         etSubCategoryName.setOnClickListener(view -> etSubCategoryName.setError(null));
+        closeKeyboard(btnSubCategorySave, getContext());
     }
 
     @Override
@@ -95,6 +98,7 @@ public class AddSubCategoryFragment extends BaseFragment implements SubCategoryV
                                 btnSubCategorySave.setText(getResources().getString(R.string.add));
                                 btnSubCategoryDelete.setVisibility(View.GONE);
                             }
+                            closeKeyboard(btnSubCategorySave, getContext());
                         }
                     }
                     if (o instanceof CategoryEvent) {
@@ -207,6 +211,11 @@ public class AddSubCategoryFragment extends BaseFragment implements SubCategoryV
         dialog.show();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        closeKeyboard(btnSubCategorySave, getContext());
+    }
 
     @Override
     public void clearFields() {

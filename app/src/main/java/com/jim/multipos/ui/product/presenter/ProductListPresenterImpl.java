@@ -4,6 +4,7 @@ package com.jim.multipos.ui.product.presenter;
 import com.jim.multipos.config.scope.PerFragment;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
+import com.jim.multipos.data.db.model.intosystem.Activatable;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.prefs.PreferencesHelper;
@@ -11,6 +12,7 @@ import com.jim.multipos.ui.product.view.ProductListView;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -32,6 +34,7 @@ public class ProductListPresenterImpl extends BasePresenterImpl<ProductListView>
     private Category currentCategory;
     private final static String PARENT = "parent";
     private final static String CLICK = "click";
+    private boolean showNonActive = false;
 
     @Inject
     public ProductListPresenterImpl(ProductListView view, DatabaseManager databaseManager, PreferencesHelper preferencesHelper) {
@@ -59,14 +62,14 @@ public class ProductListPresenterImpl extends BasePresenterImpl<ProductListView>
     @Override
     public void setSubCategoryRecyclerView() {
         currentCategory = categoryList.get(preferencesHelper.getLastPositionCategory());
-        if (currentCategory != null)
+        if (currentCategory != null) {
             databaseManager.getSubCategories(currentCategory).subscribe(subCategories -> {
                 subCategoryList = subCategories;
                 view.subCategoryMode();
                 view.setViewsVisibility(1);
                 view.setSubCategoryRecyclerView(subCategoryList);
             });
-        else view.setSubCategoryRecyclerView(subCategoryList);
+        } else view.setSubCategoryRecyclerView(subCategoryList);
 
     }
 
@@ -149,7 +152,7 @@ public class ProductListPresenterImpl extends BasePresenterImpl<ProductListView>
 
     @Override
     public void refreshCategoryList() {
-        databaseManager.getAllCategories().subscribeOn(AndroidSchedulers.mainThread()).subscribe(categories -> {
+        databaseManager.getAllCategories().subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(categories -> {
             categoryList.clear();
             categoryList.addAll(categories);
             view.updateCategoryItems();
@@ -158,13 +161,12 @@ public class ProductListPresenterImpl extends BasePresenterImpl<ProductListView>
 
     @Override
     public void refreshSubCategoryList() {
-//        currentCategory.resetSubCategories();
-//        currentCategory = categoryList.get(preferencesHelper.getLastPositionCategory());
-        databaseManager.getSubCategories(currentCategory).subscribe(subCategories -> {
-            subCategoryList.clear();
-            subCategoryList.addAll(subCategories);
-            view.updateSubCategoryItems();
-        });
+        if (currentCategory != null)
+            databaseManager.getSubCategories(currentCategory).subscribe(subCategories -> {
+                subCategoryList.clear();
+                subCategoryList.addAll(subCategories);
+                view.updateSubCategoryItems();
+            });
     }
 
     @Override
@@ -257,20 +259,53 @@ public class ProductListPresenterImpl extends BasePresenterImpl<ProductListView>
 
     @Override
     public void setActiveElements(boolean state) {
-        if (state) {
-
-        } else {
-
-        }
+        this.showNonActive = state;
+        preferencesHelper.setActiveItemVisibility(state);
     }
 
     @Override
     public void checkIsActive(Category category) {
-        if (!category.getIsActive()) {
-            if (isSubcategory(category))
-                view.setSubCategoryAdapterPosition(subCategoryList.size() - 1);
-            else view.setCategoryAdapterPosition(categoryList.size() - 1);
-        }
+//        if (!category.getIsActive()) {
+//            if (showNonActive) {
+//                if (isSubcategory(category))
+//                    view.setSubCategoryAdapterPosition(subCategoryList.size() - 1);
+//                else view.setCategoryAdapterPosition(categoryList.size() - 1);
+//            } else {
+//                if (isSubcategory(category)) {
+//                    view.setSubCategoryAdapterPosition(0);
+//                    setSubCategoryItems(0);
+//                    openSubCategory();
+//                } else {
+//                    view.setCategoryAdapterPosition(0);
+//                    setCategoryItems(0);
+//                    openCategory();
+//                }
+//            }
+//        } else {
+//            if (showNonActive) {
+//                if (isSubcategory(category)) {
+//                    if (currentCategory != null) {
+//                        databaseManager.getActiveSubcategories(currentCategory).subscribe(subcategories -> {
+//                            if (preferencesHelper.getLastPositionSubCategory(String.valueOf(currentCategory.getId())) > subcategories.size()) {
+//                                view.setSubCategoryAdapterPosition(subcategories.size());
+//                                openSubCategory();
+//                                setSubCategoryItems(preferencesHelper.getLastPositionSubCategory(String.valueOf(currentCategory.getId())));
+//                                preferencesHelper.setLastPositionSubCategory(String.valueOf(currentCategory.getId()), subcategories.size());
+//                            }
+//                        });
+//                    }
+//                } else {
+//                    databaseManager.getActiveCategories().subscribeOn(AndroidSchedulers.mainThread()).subscribe(categories -> {
+//                        if (preferencesHelper.getLastPositionCategory() > categories.size()) {
+//                            view.setCategoryAdapterPosition(categories.size());
+//                            openCategory();
+//                            setCategoryItems(preferencesHelper.getLastPositionCategory());
+//                            preferencesHelper.setLastPositionCategory(categories.size());
+//                        }
+//                    });
+//                }
+//            }
+//        }
     }
 
     @Override

@@ -53,12 +53,12 @@ public class SubCategoryPresenterImpl extends BasePresenterImpl<SubCategoryView>
             subCategory.setParentId(parent.getId());
             subCategory.setIsActive(isActive);
             subCategory.setCreatedDate(System.currentTimeMillis());
-            view.clearFields();
             subCategoryOperations.isSubCategoryNameExists(subCategory).subscribe(aBoolean -> {
                 if (aBoolean) {
                     subCategoryOperations.addSubCategory(subCategory).subscribe(aLong ->
                             view.sendEvent(subCategory, ADD));
                     subCategory = null;
+                    view.clearFields();
                 } else {
                     subCategory = null;
                     view.setError("Such name already exits");

@@ -5,6 +5,7 @@ import com.jim.multipos.data.db.model.products.Category;
 import java.util.List;
 
 import io.reactivex.Observable;
+
 /**
  * Created by DEV on 16.08.2017.
  */

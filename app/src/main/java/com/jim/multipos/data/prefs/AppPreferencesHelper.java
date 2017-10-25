@@ -38,6 +38,7 @@ public class AppPreferencesHelper implements PreferencesHelper {
     private static final String POS_DETAIL_ADDRESS = "POS_DETAIL_ADDRESS";
     private static final String POS_DETAIL_PASSWORD = "POS_DETAIL_PASSWORD";
     private static final String FIRST_CONFIGURED = "FIRST_CONFIGURED";
+    private static final String ACTIVE_ITEM_VISIBILITY = "ACTIVE_ITEM_VISIBILITY";
 
     private final SharedPreferences mPrefs;
 
@@ -154,5 +155,15 @@ public class AppPreferencesHelper implements PreferencesHelper {
     @Override
     public void setFirestConfigured(boolean isChecked) {
          mPrefs.edit().putBoolean(FIRST_CONFIGURED,isChecked).apply();
+    }
+
+    @Override
+    public void setActiveItemVisibility(boolean isActive) {
+        mPrefs.edit().putBoolean(ACTIVE_ITEM_VISIBILITY, isActive).apply();
+    }
+
+    @Override
+    public boolean getActiveItemVisibility() {
+        return mPrefs.getBoolean(ACTIVE_ITEM_VISIBILITY, false);
     }
 }

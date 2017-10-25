@@ -30,6 +30,8 @@ import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 import eu.inmite.android.lib.validations.form.callback.SimpleErrorPopupCallback;
 import io.reactivex.disposables.Disposable;
 
+import static com.jim.multipos.utils.UIUtils.closeKeyboard;
+
 
 /**
  * Created by DEV on 09.08.2017.
@@ -58,9 +60,9 @@ public class AddCategoryFragment extends BaseFragment implements CategoryView {
     private static final String CLICK = "click";
     private final static String FRAGMENT_OPENED = "category";
     private final static String DELETE = "delete";
-    private static final int HAVE_CHILD = 1;
-    private static final int IS_ACTIVE = 2;
-    private static final int NOT_UPDATED = 3;
+    private static final int HAVE_CHILD = 100;
+    private static final int IS_ACTIVE = 101;
+    private static final int NOT_UPDATED = 102;
     ArrayList<Disposable> subscriptions;
     private WarningDialog dialog;
 
@@ -73,6 +75,7 @@ public class AddCategoryFragment extends BaseFragment implements CategoryView {
     protected void init(Bundle savedInstanceState) {
         rxBus.send(new MessageEvent(FRAGMENT_OPENED));
         etCategoryName.setOnClickListener(view -> etCategoryName.setError(null));
+        closeKeyboard(btnCategorySave, getContext());
     }
 
     @Override
@@ -92,6 +95,7 @@ public class AddCategoryFragment extends BaseFragment implements CategoryView {
                                 btnCategoryDelete.setVisibility(View.GONE);
                                 btnCategorySave.setText(getResources().getString(R.string.add));
                             }
+                            closeKeyboard(btnCategorySave, getContext());
                         }
                     }
                 }));
@@ -168,7 +172,7 @@ public class AddCategoryFragment extends BaseFragment implements CategoryView {
 
     @Override
     public void showWarningDialog(int type) {
-        switch (type){
+        switch (type) {
             case HAVE_CHILD:
                 dialog = new WarningDialog(getContext());
                 dialog.onlyText(true);
@@ -205,4 +209,9 @@ public class AddCategoryFragment extends BaseFragment implements CategoryView {
         dialog.show();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        closeKeyboard(btnCategorySave, getContext());
+    }
 }

@@ -44,4 +44,6 @@ public interface PreferencesHelper {
     String getPosDetailPassword();
     boolean isFirstConfigured();
     void setFirestConfigured(boolean isChecked);
+    void setActiveItemVisibility(boolean isActive);
+    boolean getActiveItemVisibility();
 }

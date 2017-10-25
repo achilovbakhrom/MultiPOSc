@@ -36,6 +36,8 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import io.reactivex.disposables.Disposable;
 
+import static com.jim.multipos.utils.UIUtils.closeKeyboard;
+
 /**
  * Created by DEV on 10.08.2017.
  */
@@ -91,10 +93,16 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
 
     @Override
     protected void init(Bundle savedInstanceState) {
+        presenter.setActiveElements(preferencesHelper.getActiveItemVisibility());
+        switchShowActive.setChecked(preferencesHelper.getActiveItemVisibility());
         presenter.setViewsVisibility(CATEGORY);
         presenter.setCategoryRecyclerView();
         categoryMode();
-        switchShowActive.setOnCheckedChangeListener((compoundButton, state) -> presenter.setActiveElements(state));
+//        switchShowActive.setOnCheckedChangeListener((compoundButton, state) -> {
+//            presenter.setActiveElements(state);
+//            presenter.refreshCategoryList();
+//            presenter.refreshSubCategoryList();
+//        });
     }
 
     @Override
@@ -109,7 +117,7 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
                         }
                         if (event.getEventType().equals(UPDATE)) {
                             presenter.refreshCategoryList();
-                            presenter.checkIsActive(event.getCategory());
+//                            presenter.checkIsActive(event.getCategory());
                         }
                         if (event.getEventType().equals(DELETE)) {
                             presenter.setCategoryItems(0);
@@ -125,7 +133,7 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
                         }
                         if (event.getEventType().equals(UPDATE)) {
                             presenter.refreshSubCategoryList();
-                            presenter.checkIsActive(event.getSubCategory());
+//                            presenter.checkIsActive(event.getSubCategory());
                         }
                         if (event.getEventType().equals(DELETE)) {
                             presenter.setSubCategoryItems(0);
@@ -182,9 +190,9 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
             }
 
             @Override
-            public void onItemClicked(Category item) {
-                if (item != null) {
-                    subCategoryAdapter.setPosition(preferencesHelper.getLastPositionSubCategory(String.valueOf(item.getId())));
+            public void onItemClicked(Category category) {
+                if (category != null) {
+                    subCategoryAdapter.setPosition(preferencesHelper.getLastPositionSubCategory(String.valueOf(category.getId())));
                 }
             }
         });
@@ -211,7 +219,7 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
             }
 
             @Override
-            public void onItemClicked(Category item) {
+            public void onItemClicked(Category subcategory) {
             }
         });
         subCategoryAdapter.setMoveListener((fromPosition, toPosition) -> presenter.setSubCategoryPositions(fromPosition, toPosition));
@@ -342,6 +350,7 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
     @Override
     public void sendSubCategoryEvent(Category subCategory, String event) {
         rxBusLocal.send(new SubCategoryEvent(subCategory, event));
+        closeKeyboard(tvCategory, getContext());
     }
 
     @Override
@@ -362,6 +371,7 @@ public class ProductsListFragment extends BaseFragment implements ProductListVie
     @Override
     public void sendCategoryEvent(Category category, String event) {
         rxBusLocal.send(new CategoryEvent(category, event));
+        closeKeyboard(tvCategory, getContext());
     }
 
     @Override

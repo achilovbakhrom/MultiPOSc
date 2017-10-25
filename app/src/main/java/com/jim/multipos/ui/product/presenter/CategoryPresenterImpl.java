@@ -8,7 +8,6 @@ import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.operations.CategoryOperations;
-import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.ui.product.view.CategoryView;
 
 import java.util.List;
@@ -25,23 +24,21 @@ public class CategoryPresenterImpl extends BasePresenterImpl<CategoryView> imple
 
     private Category category, categoryNew, temp;
     private CategoryOperations categoryOperations;
-    private PreferencesHelper preferencesHelper;
     private static final String ADD = "added";
     private static final String UPDATE = "update";
     private static final String DELETE = "delete";
     private static final int NOT_EXISTS = 0;
     private static final int UPDATED = 1;
     private static final int IS_EXISTS = 2;
-    private static final int HAVE_CHILD = 1;
-    private static final int IS_ACTIVE = 2;
-    private static final int NOT_UPDATED = 3;
+    private static final int HAVE_CHILD = 100;
+    private static final int IS_ACTIVE = 101;
+    private static final int NOT_UPDATED = 102;
     private int updateMode;
 
     @Inject
-    CategoryPresenterImpl(CategoryView view, DatabaseManager databaseManager, PreferencesHelper preferencesHelper) {
+    CategoryPresenterImpl(CategoryView view, DatabaseManager databaseManager) {
         super(view);
         categoryOperations = databaseManager.getCategoryOperations();
-        this.preferencesHelper = preferencesHelper;
     }
 
     @Override
@@ -59,12 +56,13 @@ public class CategoryPresenterImpl extends BasePresenterImpl<CategoryView> imple
             category.setRootId(null);
             category.setDescription(description);
             category.setIsActive(active);
-            categoryOperations.isCategoryNameExists(category.getName()).subscribeOn(AndroidSchedulers.mainThread()).subscribe(aBoolean -> {
+            categoryOperations.isCategoryNameExists(category.getName()).subscribeOn(AndroidSchedulers.mainThread()).subscribe((Boolean aBoolean) -> {
                 if (aBoolean) {
-                    categoryOperations.addCategory(category).subscribe(aLong ->
-                            view.sendEvent(category, ADD));
-                    view.clearFields();
-                    category = null;
+                    categoryOperations.addCategory(category).subscribe(aLong -> {
+                        view.sendEvent(category, ADD);
+                        view.clearFields();
+                        category = null;
+                    });
                 } else {
                     category = null;
                     view.setError("Such name already exists");
@@ -139,9 +137,7 @@ public class CategoryPresenterImpl extends BasePresenterImpl<CategoryView> imple
                 category.setIsActive(temp.getIsActive());
                 category.setPosition(temp.getPosition());
                 category.setIsNotModified(false);
-                categoryOperations.replaceCategory(category).subscribe(aLong -> {
-                    view.sendEvent(category, UPDATE);
-                });
+                categoryOperations.replaceCategory(category).subscribe(aLong -> view.sendEvent(category, UPDATE));
                 break;
         }
     }
