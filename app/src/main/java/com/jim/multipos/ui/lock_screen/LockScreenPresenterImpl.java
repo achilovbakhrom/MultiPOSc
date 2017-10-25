@@ -10,8 +10,8 @@ import javax.inject.Inject;
 
 public class LockScreenPresenterImpl extends BasePresenterImpl<LockScreenView> implements LockScreenPresenter {
 
-    private final int EMPTY = 0;
-    private final int WRONG_PASS = 1;
+    private static final int EMPTY = 0;
+    private static final int WRONG_PASS = 1;
 
     @Inject
     public LockScreenPresenterImpl(LockScreenView view) {
@@ -21,10 +21,10 @@ public class LockScreenPresenterImpl extends BasePresenterImpl<LockScreenView> i
     @Override
     public void checkPassword(String password) {
         String pass = "123456";
-        if (password.isEmpty()) {
+        if (password.isEmpty())
             view.setError(EMPTY);
-        } else if (pass.equals(password)) {
+        else if (pass.equals(password))
             view.successCheck();
-        } else view.setError(WRONG_PASS);
+        else view.setError(WRONG_PASS);
     }
 }

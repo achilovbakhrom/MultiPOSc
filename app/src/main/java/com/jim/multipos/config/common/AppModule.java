@@ -9,6 +9,8 @@ import com.jim.multipos.ui.discount.di.DiscountAddingModule;
 import com.jim.multipos.ui.first_configure_last.FirstConfigureActivity;
 
 import com.jim.multipos.ui.first_configure_last.di.FirstConfigureActivityModule;
+import com.jim.multipos.ui.lock_screen.LockScreenActivity;
+import com.jim.multipos.ui.lock_screen.di.LockScreenActivityModule;
 import com.jim.multipos.ui.main_menu.customers_menu.CustomersMenuActivity;
 import com.jim.multipos.ui.main_menu.customers_menu.di.CostomersMenuModule;
 import com.jim.multipos.ui.main_menu.inventory_menu.InventoryMenuActivity;
@@ -47,6 +49,7 @@ abstract class AppModule {
     @PerActivity
     @ContributesAndroidInjector(modules = ProductsModule.class)
     abstract ProductsActivity provideProductsActivity();
+
     @PerActivity
     @ContributesAndroidInjector(modules = ProductClassModule.class)
     abstract ProductClassActivity provideProductClassActivity();
@@ -71,6 +74,9 @@ abstract class AppModule {
     @ContributesAndroidInjector(modules = MainPageMenuModule.class)
     abstract MainPosPageActivity provideMainPosPageActivity();
 
+    @PerActivity
+    @ContributesAndroidInjector(modules = LockScreenActivityModule.class)
+    abstract LockScreenActivity provideLockScreenActivity();
     @PerActivity
     @ContributesAndroidInjector(modules = VendorAddEditActivityModule.class)
     abstract VendorAddEditActivity provideVendorAddEditActivity();

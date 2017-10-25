@@ -44,8 +44,8 @@ public class LockScreenActivity extends BaseActivity implements LockScreenView {
     private Timer timer;
     private String star = "*";
     private String password = "";
-    private final int EMPTY = 0;
-    private final int WRONG_PASS = 1;
+    private final static int EMPTY = 0;
+    private final static int WRONG_PASS = 1;
     private WarningDialog dialog;
     @Inject
     PreferencesHelper preferencesHelper;
@@ -104,6 +104,7 @@ public class LockScreenActivity extends BaseActivity implements LockScreenView {
     public void successCheck() {
         Intent intent = new Intent(this, MainPosPageActivity.class);
         startActivity(intent);
+        clear();
     }
 
     @Override
