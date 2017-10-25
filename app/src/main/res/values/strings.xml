@@ -480,8 +480,8 @@
     <string name="no">No</string>
     <string name="what_do_you_want">What do you want?</string>
     <string name="sure">Sure</string>
-    <string name="do_you_want_delete">Do you want delete?</string>
     <string name="do_you_want_delete_item">Do you want delete the item</string>
+    <string name="do_you_want_delete">Do you really want to delete?</string>
     <string name="title_product_class_fragment">Managing Product Class</string>
     <string name="tap_product_class_for_editing_and_save">Tap product class for editing and save</string>
     <string name="save">Save</string>
@@ -517,6 +517,7 @@
     <string name="discard_changes">Discard changes</string>
     <string name="cannot_delete_active_item">Cannot delete active element!</string>
     <string name="warning_cannot_delete_element">You cannot to delete active element!!!</string>
+    <string name="enter_pass">Please, enter password</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>

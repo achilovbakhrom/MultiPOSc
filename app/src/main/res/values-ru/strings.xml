@@ -94,6 +94,7 @@
     <string name="want_accept_changes">Do you really want to accept changes?</string>
     <string name="delete">Delete</string>
     <string name="ok">OK</string>
+    <string name="enter_pass">Please, enter password</string>
     <string-array name="start_configuration_title">
         <item namte="pos_details">POS подробности</item>
         <item name="account">Аккаунт</item>

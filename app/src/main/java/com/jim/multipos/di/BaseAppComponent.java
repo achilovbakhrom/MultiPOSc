@@ -22,7 +22,7 @@ public interface BaseAppComponent {
 //
 //    LoginActivityComponent plus(SignActivityModule loginActivityModule);
 //
-//    LoginPageComponent plus(LoginPageModule loginPageModule);
+//    LoginPageComponent plus(LockScreenActivityModule loginPageModule);
 //
 //    MainPosPageActivityComponent plus(MainPosPageActivityModule mainPosPageFragmentModule);
 //

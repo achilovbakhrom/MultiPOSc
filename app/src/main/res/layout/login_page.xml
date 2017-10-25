@@ -25,32 +25,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.jim.mpviews.MpButton
-            android:id="@+id/btnLoginAdmin"
-            android:layout_width="@dimen/hundred_seventy_dp"
-            android:layout_height="@dimen/seventy_dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="@dimen/fifty_dp"
-            android:layout_marginLeft="@dimen/fifty_dp"
-            android:text="Login Admin"
-            android:textColor="@color/colorBlue"
-            android:textSize="@dimen/eighteen_dp"
-            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="@dimen/three_hundred_twenty_dp"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:orientation="vertical"
-            android:paddingTop="@dimen/twenty_five_dp">
-
-            <com.jim.mpviews.MpSpinnerWithPhoto
-                android:id="@+id/spEmployers"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/sixty_dp"
-                android:layout_marginBottom="@dimen/fifteen_dp"
-                />
-
+            android:paddingTop="@dimen/fifty_dp">
 
             <TextView
                 android:id="@+id/tvEmployerPassword"
@@ -59,14 +40,12 @@
                 android:layout_marginBottom="@dimen/twenty_dp"
                 android:background="@drawable/edit_text_bg"
                 android:gravity="center|center_vertical"
-                android:maxLength="6"
                 android:letterSpacing="0.3"
-                android:textColor="@color/colorBlue"
-                android:textSize="@dimen/forty_dp"
+                android:maxLength="6"
                 android:paddingLeft="@dimen/ten_dp"
-                android:paddingRight="@dimen/ten_dp" />
-
-
+                android:paddingRight="@dimen/ten_dp"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/forty_dp" />
 
 
             <LinearLayout
@@ -183,82 +162,6 @@
             </LinearLayout>
 
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="@dimen/two_hundred_eighty_dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="@dimen/fifty_dp"
-            android:layout_marginRight="@dimen/fifty_dp"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/clock_in"
-                    android:textColor="@color/colorSecondaryText"
-                    android:textSize="@dimen/eighteen_dp" />
-
-                <TextView
-                    android:id="@+id/tvClockIn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:textColor="@color/colorSecondaryText"
-                    android:textSize="@dimen/eighteen_dp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/clock_out"
-                    android:textColor="@color/colorSecondaryText"
-                    android:textSize="@dimen/eighteen_dp" />
-
-                <TextView
-                    android:id="@+id/tvClockOut"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:textColor="@color/colorSecondaryText"
-                    android:textSize="@dimen/eighteen_dp" />
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/till_opened_for"
-                    android:textColor="@color/colorSecondaryText"
-                    android:textSize="@dimen/eighteen_dp" />
-
-                <TextView
-                    android:id="@+id/tvTillOpenedEmp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:textColor="@color/colorSecondaryText"
-                    android:textSize="@dimen/eighteen_dp" />
-
-            </LinearLayout>
-        </LinearLayout>
-
 
     </RelativeLayout>
 </LinearLayout>
