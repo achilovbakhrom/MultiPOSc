@@ -1,14 +1,14 @@
 package com.jim.multipos.ui.customer_group.connector;
 
-import android.util.Log;
-
 import com.jim.multipos.core.RxForPresenter;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
 import com.jim.multipos.ui.customer_group.CustomerGroupActivity;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.RxBusLocal;
 import com.jim.multipos.utils.rxevents.CustomerGroupEvent;
+
 import java.util.ArrayList;
+
 import io.reactivex.disposables.Disposable;
 
 /**

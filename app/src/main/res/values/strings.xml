@@ -128,7 +128,9 @@
     <string name="subcategory">SubCategory</string>
     <string name="creating_upsell_combos">Creating Upsell combos</string>
     <string name="add">Add</string>
+    <string name="edit">Edit</string>
     <string name="combo">Combo</string>
+    <string name="view">View</string>
     <string name="sku_barcode">SKU, Barcode</string>
     <string name="add_customer">Add Customer</string>
     <string-array name="first_configure_account_type">
@@ -152,8 +154,15 @@
         <item>Шекель (₪)</item>
         <item>Иена (¥)</item>
         <item>Вона (₩)</item>
+        <item>Молдавский лей (lei)</item>
         <item>Лек (L)</item>
+        <item>Алжирский динар (.د.ج)</item>
+        <item>Кванза (Kz)</item>
         <item>Манат (АР)</item>
+        <item>Бахрейнский динар (.د.ب)</item>
+        <item>Така (৳)</item>
+        <item>Марка (KM)</item>
+        <item>Реал (R$)</item>
         <item>Юань (¥)</item>
         <item>Узбекский сум (uzs)</item>
         <item>Швейцарский франк (₣)</item>
@@ -328,7 +337,7 @@
     <string name="should_not_be_greater_than_999">Should not be greater than 999</string>
 
     <string-array name="base_currencies">
-        <item>Доллары США</item>
+        <item>Доллары</item>
         <item>Рубль</item>
         <item>Евро</item>
         <item>Гривна</item>
@@ -340,11 +349,21 @@
         <item>Шекель</item>
         <item>Иена</item>
         <item>Вона</item>
+        <item>Молдавский лей</item>
         <item>Лек</item>
+        <item>Алжирский динар</item>
+        <item>Кванза</item>
         <item>Манат</item>
+        <item>Бахрейнский динар</item>
+        <item>Така</item>
+        <item>Марка</item>
+        <item>Реал</item>
         <item>Юань</item>
         <item>Узбекский сум</item>
         <item>Швейцарский франк</item>
+        <item>Сербский динар</item>
+        <item>Бат</item>
+        <item>Лира</item>
     </string-array>
     <string-array name="base_abbrs">
         <item>$</item>
@@ -398,7 +417,9 @@
     <string name="class_name_should_be_longer">Class name should be longer 3 letter</string>
     <string name="class_name_empty">Class name can not be empty</string>
     <string name="account_name_exists">Account name exists!</string>
+    <string name="customer_name_exists">Customer name exists!</string>
     <string name="payment_type_name_exists">Payment type name exists!</string>
+    <string name="customer_group_name_exists">Customer group name exists!</string>
     <string name="name_validation">Please, enter the name</string>
     <string name="category_length_validation">Category name should be longer than 3 letters</string>
     <string name="yes">Yes</string>
@@ -409,11 +430,13 @@
     <string name="do_you_want_delete">Do you really want to delete?</string>
     <string name="title_product_class_fragment">Managing Product Class</string>
     <string name="tap_product_class_for_editing_and_save">Tap product class for editing and save</string>
+    <string name="not_selected">Not selected</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
     <string name="finish">Finish</string>
     <string name="deleting_account">Deleting an account!</string>
     <string name="deleting_account_message">Do you really want to delete the account?</string>
+    <string name="deleting_customer_message">Do you really want to delete %s?</string>
     <string name="warning_account_add"> - добавьте хотябы один аккаунт</string>
     <string name="warning_payment_type_add">- добавьте хотябы один тип оплаты</string>
     <string name="warning_currency_selection">Не выбрана денежная единица</string>
@@ -438,11 +461,15 @@
     <string name="want_accept_changes">Do you really want to accept changes?</string>
     <string name="delete">Delete</string>
     <string name="ok">OK</string>
+    <string name="id">ID</string>
     <string name="warning_discard_changes">Change is detected. Do you want to discard all changes?</string>
     <string name="discard_changes">Discard changes</string>
     <string name="cannot_delete_active_item">Cannot delete active element!</string>
     <string name="warning_cannot_delete_element">You cannot to delete active element!!!</string>
     <string name="enter_pass">Please, enter password</string>
+    <string name="can_not_remove_customer_group">We can not remove the customer group because it has customers.</string>
+    <string name="do_you_want_to_save_the_change">Do you want to save the change?</string>
+    <string name="you_can_only_delete_inactive_customer_groups">You can only delete inactive customer groups.</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>

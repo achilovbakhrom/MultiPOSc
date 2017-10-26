@@ -73,7 +73,7 @@ public class CustomerGroupDialog extends Dialog {
         ButterKnife.bind(this);
 
         rvCustomerGroups.setLayoutManager(new LinearLayoutManager(context));
-        adapter = new CustomerGroupAdapter(context, customerGroups, selectedCustomerGroups);
+        adapter = new CustomerGroupAdapter(customerGroups, selectedCustomerGroups);
         rvCustomerGroups.setAdapter(adapter);
 
         RxView.clicks(btnCancel).subscribe(o -> {

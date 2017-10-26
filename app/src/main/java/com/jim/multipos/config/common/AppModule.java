@@ -4,6 +4,10 @@ import android.app.Application;
 
 import com.jim.multipos.MultiPosApp;
 import com.jim.multipos.config.scope.PerActivity;
+import com.jim.multipos.ui.customer_group.CustomerGroupActivity;
+import com.jim.multipos.ui.customer_group.di.CustomerGroupActivityModule;
+import com.jim.multipos.ui.customers_edit.CustomersEditActivity;
+import com.jim.multipos.ui.customers_edit.di.CustomersEditActivityModule;
 import com.jim.multipos.ui.discount.DiscountAddingActivity;
 import com.jim.multipos.ui.discount.di.DiscountAddingModule;
 import com.jim.multipos.ui.first_configure_last.FirstConfigureActivity;
@@ -23,6 +27,8 @@ import com.jim.multipos.ui.product.ProductsActivity;
 import com.jim.multipos.ui.product.di.ProductsModule;
 import com.jim.multipos.ui.product_class.ProductClassActivity;
 import com.jim.multipos.ui.product_class.di.ProductClassModule;
+import com.jim.multipos.ui.service_fee.ServiceFeeActivity;
+import com.jim.multipos.ui.service_fee.di.ServiceFeeActivityModule;
 import com.jim.multipos.ui.product_class_new.ProductsClassActivity;
 import com.jim.multipos.ui.product_class_new.di.ProductsClassModule;
 import com.jim.multipos.ui.signing.SignActivity;
@@ -74,6 +80,17 @@ abstract class AppModule {
     @ContributesAndroidInjector(modules = MainPageMenuModule.class)
     abstract MainPosPageActivity provideMainPosPageActivity();
 
+    @PerActivity
+    @ContributesAndroidInjector(modules = CustomersEditActivityModule.class)
+    abstract CustomersEditActivity provideCustomersEditActivity();
+
+    @PerActivity
+    @ContributesAndroidInjector(modules = CustomerGroupActivityModule.class)
+    abstract CustomerGroupActivity provideCustomerGroupActivity();
+
+    @PerActivity
+    @ContributesAndroidInjector(modules = ServiceFeeActivityModule.class)
+    abstract ServiceFeeActivity provideServiceFeeActivity();
     @PerActivity
     @ContributesAndroidInjector(modules = LockScreenActivityModule.class)
     abstract LockScreenActivity provideLockScreenActivity();

@@ -1,15 +1,8 @@
 package com.jim.multipos.ui.customer_group.presenters;
 
-import android.content.Context;
-import android.util.Log;
-
-import com.jim.multipos.R;
-import com.jim.multipos.data.db.model.ServiceFee;
-import com.jim.multipos.data.db.model.customer.Customer;
+import com.jim.multipos.core.BasePresenterImpl;
+import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
-import com.jim.multipos.data.operations.CustomerGroupOperations;
-import com.jim.multipos.data.operations.ServiceFeeOperations;
-import com.jim.multipos.ui.customer_group.connector.AddCustomerGroupConnector;
 import com.jim.multipos.ui.customer_group.connector.CustomerGroupConnector;
 import com.jim.multipos.ui.customer_group.connector.CustomerGroupListConnector;
 import com.jim.multipos.ui.customer_group.fragments.AddCustomerGroupFragmentView;
@@ -18,39 +11,33 @@ import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.RxBusLocal;
 import com.jim.multipos.utils.rxevents.CustomerGroupEvent;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.inject.Inject;
+import javax.inject.Named;
 
-import io.reactivex.functions.Consumer;
+import static com.jim.multipos.ui.customer_group.fragments.CustomerGroupListFragment.CUSTOMER_GROUP_DELETE;
+import static com.jim.multipos.ui.customer_group.fragments.CustomerGroupListFragment.CUSTOMER_GROUP_NAME;
 
 /**
  * Created by user on 06.09.17.
  */
 
-public class AddCustomerGroupFragmentPresenterImpl extends AddCustomerGroupConnector implements AddCustomerGroupFragmentPresenter {
+public class AddCustomerGroupFragmentPresenterImpl extends BasePresenterImpl<AddCustomerGroupFragmentView> implements AddCustomerGroupFragmentPresenter {
+    @Inject
+    RxBusLocal rxBusLocal;
+    @Inject
+    RxBus rxBus;
     private AddCustomerGroupFragmentView view;
-    private Context context;
-    private CustomerGroupOperations customerGroupOperations;
-    private ServiceFeeOperations serviceFeeOperations;
-    private List<ServiceFee> serviceFees;
     private CustomerGroup currentCustomerGroup;
-    private RxBusLocal rxBusLocal;
-    private RxBus rxBus;
+    private DatabaseManager databaseManager;
+    private String enterGroupName;
 
-    public AddCustomerGroupFragmentPresenterImpl(Context context, CustomerGroupOperations customerGroupOperations, ServiceFeeOperations serviceFeeOperations, RxBus rxBus, RxBusLocal rxBusLocal) {
-        this.context = context;
-        this.customerGroupOperations = customerGroupOperations;
-        this.serviceFeeOperations = serviceFeeOperations;
-        this.rxBusLocal = rxBusLocal;
-        this.rxBus = rxBus;
-    }
-
-    @Override
-    public void init(AddCustomerGroupFragmentView view) {
+    @Inject
+    public AddCustomerGroupFragmentPresenterImpl(AddCustomerGroupFragmentView view, DatabaseManager databaseManager,
+                                                 @Named(value = "enter_group_name") String enterGroupName) {
+        super(view);
         this.view = view;
-        initConnectors(rxBus, rxBusLocal);
+        this.databaseManager = databaseManager;
+        this.enterGroupName = enterGroupName;
     }
 
     @Override
@@ -65,29 +52,31 @@ public class AddCustomerGroupFragmentPresenterImpl extends AddCustomerGroupConne
     }
 
     @Override
-    public void addCustomerGroup(String groupName, int discountPosition, int serviceFeePosition, boolean isTaxFree, boolean isActive) {
-        boolean hasError = checkData(groupName);
-        CustomerGroup customerGroup;
+    public void addCustomerGroup(String groupName, boolean isActive) {
+        databaseManager.getCustomerGroupOperations().isCustomerGroupExists(groupName).subscribe(isCustomerGroupExists -> {
 
-        if (!hasError) {
-            if (currentCustomerGroup != null) {
-                customerGroup = currentCustomerGroup;
+            if (!isCustomerGroupExists || (currentCustomerGroup != null && currentCustomerGroup.getName().equals(groupName))) {
+                CustomerGroup customerGroup;
+
+                if (currentCustomerGroup != null) {
+                    customerGroup = currentCustomerGroup;
+                } else {
+                    customerGroup = new CustomerGroup();
+                }
+
+                customerGroup.setName(groupName);
+                customerGroup.setIsActive(isActive);
+
+                databaseManager.getCustomerGroupOperations().addCustomerGroup(customerGroup).subscribe(aLong -> {
+                    view.clearViews();
+                    rxBusLocal.send(new CustomerGroupEvent(customerGroup, CustomerGroupListConnector.CUSTOMER_GROUP_ADDED));
+                    rxBus.send(new CustomerGroupEvent(customerGroup, CustomersEditConnector.CUSTOMER_GROUP_ADDED));
+                    currentCustomerGroup = null;
+                });
             } else {
-                customerGroup = new CustomerGroup();
+                view.showGroupNameExistError();
             }
-
-            customerGroup.setName(groupName);
-            customerGroup.setServiceFee(serviceFees.get(serviceFeePosition));
-            customerGroup.setIsTaxFree(isTaxFree);
-            customerGroup.setIsActive(isActive);
-
-            customerGroupOperations.addCustomerGroup(customerGroup).subscribe(aLong -> {
-                view.clearViews();
-                rxBusLocal.send(new CustomerGroupEvent(customerGroup, CustomerGroupListConnector.CUSTOMER_GROUP_ADDED));
-                rxBus.send(new CustomerGroupEvent(customerGroup, CustomersEditConnector.CUSTOMER_GROUP_ADDED));
-                currentCustomerGroup = null;
-            });
-        }
+        });
     }
 
     @Override
@@ -103,26 +92,34 @@ public class AddCustomerGroupFragmentPresenterImpl extends AddCustomerGroupConne
     }
 
     @Override
-    public void getServiceFees() {
-        serviceFeeOperations.getAllServiceFees().subscribe(serviceFees -> {
-            this.serviceFees = serviceFees;
-        });
-
-        view.showServiceFees(this.serviceFees);
+    public void deleteCustomerGroup() {
+        if (currentCustomerGroup != null && !currentCustomerGroup.getIsActive()) {
+            rxBusLocal.send(new CustomerGroupEvent(currentCustomerGroup, CUSTOMER_GROUP_DELETE));
+        } else {
+            view.showCustomerGroupWarningDialog();
+        }
     }
 
-    private boolean checkData(String groupName) {
+    @Override
+    public void getCustomerGroupName(String name) {
+        CustomerGroup customerGroup = new CustomerGroup();
+        customerGroup.setName(name);
+        rxBusLocal.send(new CustomerGroupEvent(customerGroup, CUSTOMER_GROUP_NAME));
+    }
+
+    @Override
+    public void customerGroupDeleted() {
+        currentCustomerGroup = null;
+        view.clearViews();
+    }
+/*private boolean checkData(String groupName) {
         boolean hasError = false;
 
         if (groupName.isEmpty()) {
             hasError = true;
-            view.showGroupNameError(getString(R.string.enter_group_name));
+            view.showGroupNameError(enterGroupName);
         }
 
         return hasError;
-    }
-
-    private String getString(int resId) {
-        return context.getString(resId);
-    }
+    }*/
 }

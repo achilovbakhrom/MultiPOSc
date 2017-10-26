@@ -14,23 +14,23 @@
 
         <TextView
             android:id="@+id/tvClientId"
-            android:layout_width="@dimen/eighty_dp"
+            android:layout_width="@dimen/sixty_dp"
             android:layout_height="@dimen/forty_dp"
             android:layout_gravity="center"
             android:layout_marginLeft="@dimen/thirty_dp"
             android:background="@drawable/text_view_bg2"
             android:gravity="center_vertical"
+            android:hint="02"
             android:paddingBottom="@dimen/five_dp"
             android:paddingLeft="@dimen/ten_dp"
             android:paddingRight="@dimen/ten_dp"
             android:paddingTop="@dimen/five_dp"
-            android:hint="02"
             android:textAlignment="center"
             android:textSize="@dimen/eighteen_dp" />
 
         <com.jim.mpviews.MpEditText
             android:id="@+id/etFullName"
-            android:layout_width="@dimen/two_hundred_eight_dp"
+            android:layout_width="@dimen/hundred_ninety_five_dp"
             android:layout_height="@dimen/forty_dp"
             android:layout_gravity="center"
             android:layout_marginLeft="@dimen/ten_dp"
@@ -44,7 +44,7 @@
 
         <com.jim.mpviews.MpEditText
             android:id="@+id/etPhone"
-            android:layout_width="@dimen/hundred_eighty_dp"
+            android:layout_width="@dimen/hundred_seventy_dp"
             android:layout_height="@dimen/forty_dp"
             android:layout_gravity="center"
             android:layout_marginLeft="@dimen/ten_dp"
@@ -69,7 +69,7 @@
             android:paddingLeft="@dimen/ten_dp"
             android:paddingRight="@dimen/ten_dp"
             android:paddingTop="@dimen/five_dp"
-            android:textSize="@dimen/sixteen_dp" />
+            android:textSize="@dimen/eighteen_dp" />
 
         <LinearLayout
             android:layout_width="@dimen/hundred_ninety_five_dp"
@@ -89,6 +89,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:background="@color/colorWhite"
+                android:textColor="@android:color/black"
                 android:textSize="@dimen/eighteen_dp" />
 
             <ImageView
@@ -105,32 +106,39 @@
             android:layout_width="@dimen/hundred_eighty_five_dp"
             android:layout_height="@dimen/forty_dp"
             android:layout_marginLeft="@dimen/ten_dp"
+            android:background="@drawable/edit_text_bg"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="1"
             android:paddingBottom="@dimen/five_dp"
             android:paddingLeft="@dimen/ten_dp"
             android:paddingRight="@dimen/ten_dp"
             android:paddingTop="@dimen/five_dp"
-            android:background="@drawable/edit_text_bg" />
+            android:singleLine="true" />
 
-
-        <ImageView
-            android:id="@+id/ivSave"
-            android:layout_width="@dimen/thirty_dp"
-            android:layout_height="@dimen/thirty_dp"
-            android:layout_gravity="center"
+        <com.jim.mpviews.MpMiniActionButton
+            android:id="@+id/btnSave"
+            android:layout_width="@dimen/sixty_five_dp"
+            android:layout_height="@dimen/forty_dp"
+            android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/fifteen_dp"
             android:layout_marginRight="@dimen/two_dp"
-            android:padding="@dimen/three_dp"
-            android:src="@drawable/save"
-            android:tint="@color/colorTintGrey" />
+            android:paddingBottom="@dimen/twelve_dp"
+            android:paddingTop="@dimen/twelve_dp"
+            android:src="@drawable/save_mini"
+            android:textSize="@dimen/sixteen_dp" />
 
-        <ImageView
-            android:id="@+id/ivRemove"
-            android:layout_width="@dimen/thirty_dp"
-            android:layout_height="@dimen/thirty_dp"
-            android:layout_gravity="center"
+        <com.jim.mpviews.MpMiniActionButton
+            android:id="@+id/btnRemove"
+            android:layout_width="@dimen/sixty_five_dp"
+            android:layout_height="@dimen/forty_dp"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/two_dp"
             android:layout_marginRight="@dimen/five_dp"
-            android:src="@drawable/delete"
-            android:tint="@color/colorTintGrey" />
+            android:paddingBottom="@dimen/twelve_dp"
+            android:paddingTop="@dimen/twelve_dp"
+            android:src="@drawable/trash_mini"
+            android:textSize="@dimen/sixteen_dp" />
     </LinearLayout>
 </LinearLayout>

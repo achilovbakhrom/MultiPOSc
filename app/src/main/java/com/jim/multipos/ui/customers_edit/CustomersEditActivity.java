@@ -3,35 +3,24 @@ package com.jim.multipos.ui.customers_edit;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jakewharton.rxbinding2.view.RxView;
+import com.jim.mpviews.MPosSpinner;
 import com.jim.mpviews.MpButton;
-import com.jim.mpviews.MpEditText;
-import com.jim.mpviews.MpSpinner;
+import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseActivity;
-import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
-import com.jim.multipos.di.BaseAppComponent;
-import com.jim.multipos.ui.HasComponent;
 import com.jim.multipos.ui.customers_edit.adapters.CustomerAdapter;
 import com.jim.multipos.ui.customers_edit.adapters.CustomerGroupSpinnerAdapter;
-import com.jim.multipos.ui.customers_edit.connector.CustomersEditConnector;
-import com.jim.multipos.ui.customers_edit.di.CustomersEditActivityComponent;
-import com.jim.multipos.ui.customers_edit.di.CustomersEditActivityModule;
 import com.jim.multipos.ui.customers_edit.dialogs.CustomerGroupDialog;
 import com.jim.multipos.ui.customers_edit.entity.CustomersWithCustomerGroups;
 import com.jim.multipos.utils.RxBus;
-import com.jim.multipos.utils.RxBusLocal;
+import com.jim.multipos.utils.UIUtils;
 import com.jim.multipos.utils.rxevents.CustomerGroupEvent;
-import com.jim.multipos.utils.rxevents.Unsibscribe;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -39,44 +28,43 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import io.reactivex.functions.Consumer;
+import io.reactivex.disposables.Disposable;
 
-public class CustomersEditActivity extends BaseActivity implements HasComponent<CustomersEditActivityComponent>, CustomersEditView, CustomerAdapter.OnClick, CustomerGroupDialog.OnClickListener {
+public class CustomersEditActivity extends BaseActivity implements CustomersEditView, CustomerAdapter.OnClickListener, CustomerGroupDialog.OnClickListener {
+    public static final String CUSTOMER_GROUP_ADDED = "customer_groups_added";
+
     @Inject
     RxBus rxBus;
     @Inject
-    RxBusLocal rxBusLocal;
-    @Inject
     CustomersEditPresenter presenter;
     @BindView(R.id.spCustomerGroup)
-    MpSpinner spCustomerGroup;
-    @BindView(R.id.tvId)
-    TextView tvId;
-    @BindView(R.id.etFullName)
-    MpEditText etFullName;
-    @BindView(R.id.etPhone)
-    MpEditText etPhone;
-    @BindView(R.id.etAddress)
-    MpEditText etAddress;
-    @BindView(R.id.tvQrCode)
-    TextView tvQrCode;
-    @BindView(R.id.ivRefreshQrCode)
-    ImageView ivRefreshQrCode;
-    @BindView(R.id.tvCustomerGroup)
-    TextView tvCustomerGroup;
-    @BindView(R.id.ivAdd)
-    ImageView ivAdd;
+    MPosSpinner spCustomerGroup;
+    @BindView(R.id.toolbar)
+    MpToolbar toolbar;
     @BindView(R.id.rvCustomers)
     RecyclerView rvCustomers;
-    @BindView(R.id.btnSave)
-    MpButton btnSave;
-    @BindView(R.id.btnCancel)
-    MpButton btnCancel;
-    private CustomersEditActivityComponent component;
+    @BindView(R.id.btnBack)
+    MpButton btnBack;
+    @BindView(R.id.tvFullName)
+    TextView tvFullName;
+    @BindView(R.id.tvPhone)
+    TextView tvPhone;
+    @BindView(R.id.tvAddress)
+    TextView tvAddress;
+    @BindView(R.id.tvClientId)
+    TextView tvClientId;
+    @BindView(R.id.tvQrCode)
+    TextView tvQrCode;
     private Unbinder unbinder;
     private CustomerAdapter adapter;
     private CustomerGroupDialog rvItemCustomerGroupDialog;
     private CustomerGroupDialog customerGroupDialog;
+    private ArrayList<Disposable> subscriptions;
+    private boolean isFullNameClicked = false;
+    private boolean isPhoneClicked = false;
+    private boolean isAddressClicked = false;
+    private boolean isIdClicked = false;
+    private boolean isQrCodeClicked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,39 +73,76 @@ public class CustomersEditActivity extends BaseActivity implements HasComponent<
 
         unbinder = ButterKnife.bind(this);
 
+        toolbar.setMode(MpToolbar.DEFAULT_TYPE);
+
         presenter.getCustomerGroups();
         presenter.getCustomers();
-        presenter.getClientId();
-        presenter.getQrCode();
+        /*presenter.getClientId();
+        presenter.getQrCode();*/
+        rxConnections();
 
-        RxView.clicks(ivAdd).subscribe(aVoid -> {
-            String clientId = tvId.getText().toString();
-            String fullName = etFullName.getText().toString();
-            String phone = etPhone.getText().toString();
-            String address = etAddress.getText().toString();
-            String qrCode = tvQrCode.getText().toString();
-
-            presenter.addCustomer(clientId, fullName, phone, address, qrCode);
+        RxView.clicks(btnBack).subscribe(aVoid -> {
+            presenter.back();
         });
 
-        RxView.clicks(ivRefreshQrCode).subscribe(aVoid -> {
-            presenter.getQrCode();
+        spCustomerGroup.setItemSelectionListener((view, position) -> {
+            UIUtils.closeKeyboard(tvFullName, getBaseContext());
+            presenter.filterCustomerGroups(position);
         });
 
-        RxView.clicks(btnSave).subscribe(aVoid -> {
-            presenter.save();
+        RxView.clicks(tvFullName).subscribe(o -> {
+            UIUtils.closeKeyboard(tvFullName, getBaseContext());
+            if (isFullNameClicked) {
+                isFullNameClicked = false;
+                presenter.sortByIdDesc();
+            } else {
+                isFullNameClicked = true;
+                presenter.sortByName();
+            }
         });
 
-        RxView.clicks(btnCancel).subscribe(aVoid -> {
-            presenter.cancel();
+        RxView.clicks(tvPhone).subscribe(o -> {
+            UIUtils.closeKeyboard(tvFullName, getBaseContext());
+            if (isPhoneClicked) {
+                isPhoneClicked = false;
+                presenter.sortByIdDesc();
+            } else {
+                isPhoneClicked = true;
+                presenter.sortByPhone();
+            }
         });
 
-        RxView.clicks(tvCustomerGroup).subscribe(o -> {
-            presenter.getDialogData();
+        RxView.clicks(tvAddress).subscribe(o -> {
+            UIUtils.closeKeyboard(tvFullName, getBaseContext());
+            if (isAddressClicked) {
+                isAddressClicked = false;
+                presenter.sortByIdDesc();
+            } else {
+                isAddressClicked = true;
+                presenter.sortByAddress();
+            }
         });
 
-        spCustomerGroup.setOnItemSelectedListener((adapterView, view, i, l) -> {
-            presenter.filterCustomerGroups(i);
+        RxView.clicks(tvClientId).subscribe(o -> {
+            UIUtils.closeKeyboard(tvFullName, getBaseContext());
+            if (isIdClicked) {
+                isIdClicked = false;
+                presenter.sortByIdDesc();
+            } else {
+                isIdClicked = true;
+                presenter.sortByClientId();
+            }
+        });
+
+        RxView.clicks(tvQrCode).subscribe(o -> {
+            UIUtils.closeKeyboard(tvFullName, getBaseContext());
+            if (isQrCodeClicked) {
+                isQrCodeClicked = false;
+                presenter.sortByIdDesc();
+            } else {
+                isQrCodeClicked = true;
+                presenter.sortByQrCode();
+            }
         });
     }
 
@@ -128,28 +153,23 @@ public class CustomersEditActivity extends BaseActivity implements HasComponent<
 
     @Override
     protected void onDestroy() {
-        rxBus.send(new Unsibscribe(CustomersEditActivity.class.getName()));
+        RxBus.removeListners(subscriptions);
         unbinder.unbind();
 
         super.onDestroy();
     }
 
-    protected void setupComponent(BaseAppComponent baseAppComponent) {
-//        component = baseAppComponent.plus(new CustomersEditActivityModule(this));
-        component.inject(this);
+    @Override
+    public void showCustomerCustomerGroupsDialog() {
+        presenter.getCustomerCustomerGroups();
     }
 
     @Override
-    public CustomersEditActivityComponent getComponent() {
-        return component;
+    public void refreshCustomerItemQrCode() {
+        presenter.refreshQrCode();
     }
+/*@Override
 
-    @Override
-    public void clearViews() {
-        etFullName.setText("");
-        etPhone.setText("");
-        etAddress.setText("");
-    }
 
     @Override
     public void requestFocus() {
@@ -179,11 +199,19 @@ public class CustomersEditActivity extends BaseActivity implements HasComponent<
     @Override
     public void showAddressError(String error) {
         etAddress.setError(error);
-    }
+    }*/
+
+    /*@Override
+    public void showCustomersWithCustomerGroups(List<CustomersWithCustomerGroups> customersWithCustomerGroups, String clientId, String qrCode) {
+        adapter = new CustomerAdapter(this, customersWithCustomerGroups, clientId, qrCode, this);
+
+        rvCustomers.setLayoutManager(new LinearLayoutManager(this));
+        rvCustomers.setAdapter(adapter);
+    }*/
 
     @Override
-    public void showCustomersWithCustomerGroups(List<CustomersWithCustomerGroups> customersWithCustomerGroups) {
-        adapter = new CustomerAdapter(this, customersWithCustomerGroups, this);
+    public void showCustomersWithCustomerGroups(List<CustomerGroup> customerTypeSelectedCustomerGroups, List<CustomersWithCustomerGroups> customersWithCustomerGroups, String clientId, String qrCode) {
+        adapter = new CustomerAdapter(this, customerTypeSelectedCustomerGroups, customersWithCustomerGroups, clientId, qrCode, this);
 
         rvCustomers.setLayoutManager(new LinearLayoutManager(this));
         rvCustomers.setAdapter(adapter);
@@ -191,7 +219,22 @@ public class CustomersEditActivity extends BaseActivity implements HasComponent<
 
     @Override
     public void showCustomerGroups(List<CustomerGroup> customerGroups) {
-        spCustomerGroup.setAdapter(new CustomerGroupSpinnerAdapter(this, R.layout.item_spinner, customerGroups));
+        spCustomerGroup.setAdapter(new CustomerGroupSpinnerAdapter(customerGroups));
+    }
+
+    @Override
+    public void updateRecyclerView(List<CustomersWithCustomerGroups> customersWithCustomerGroups) {
+        ((CustomerAdapter) rvCustomers.getAdapter()).setCustomersList(customersWithCustomerGroups);
+    }
+
+    @Override
+    public void updateClientId() {
+        presenter.showClientId();
+    }
+
+    @Override
+    public void showClientId(String clientId) {
+        ((CustomerAdapter) rvCustomers.getAdapter()).updateClientId(clientId);
     }
 
     @Override
@@ -215,6 +258,11 @@ public class CustomersEditActivity extends BaseActivity implements HasComponent<
     }
 
     @Override
+    public void updateCustomerTypeQrCode(String qrCode) {
+        ((CustomerAdapter) rvCustomers.getAdapter()).refreshCustomerTypeQrCode(qrCode);
+    }
+
+    @Override
     public void save() {
         finish();
     }
@@ -230,9 +278,14 @@ public class CustomersEditActivity extends BaseActivity implements HasComponent<
     }
 
     @Override
+    public void addCustomer(String clientId, String fullName, String phone, String address, String qrCode, List<CustomerGroup> selectedGroups) {
+        presenter.addCustomer(clientId, fullName, phone, address, qrCode, selectedGroups);
+    }
+
+/*@Override
     public void showSelectedCustomerGroups(String selectedCustomerGroups) {
         tvCustomerGroup.setText(selectedCustomerGroups);
-    }
+    }*/
 
     @Override
     public void showCustomerGroupDialog(List<CustomerGroup> customerGroups, List<CustomerGroup> selectedCustomerGroups) {
@@ -249,15 +302,42 @@ public class CustomersEditActivity extends BaseActivity implements HasComponent<
     }
 
     @Override
+    public void showRVItemCustomerGroupDialog(List<CustomerGroup> customerGroups, List<CustomerGroup> selectedCustomerGroups) {
+        rvItemCustomerGroupDialog = new CustomerGroupDialog(this, customerGroups, selectedCustomerGroups, selectedItems -> {
+            presenter.updateCustomerCustomerGroup(selectedItems);
+        });
+
+        rvItemCustomerGroupDialog.show();
+    }
+
+    @Override
     public void updateCustomerGroupDialog() {
         if (customerGroupDialog != null && customerGroupDialog.isShowing()) {
             customerGroupDialog.dismiss();
-            presenter.getDialogData();
+            presenter.showCustomerGroupDialog();
         }
 
         if (rvItemCustomerGroupDialog != null && rvItemCustomerGroupDialog.isShowing()) {
             rvItemCustomerGroupDialog.dismiss();
             presenter.getCustomerCustomerGroups(-1);
         }
+    }
+
+    private void rxConnections() {
+        subscriptions = new ArrayList<>();
+        subscriptions.add(rxBus.toObservable().subscribe(o -> {
+            if (o instanceof CustomerGroupEvent) {
+                CustomerGroupEvent customerGroupEvent = (CustomerGroupEvent) o;
+
+                if (customerGroupEvent.getEventType().equals(CUSTOMER_GROUP_ADDED)) {
+                    presenter.showCustomerGroups();
+                }
+            }
+        }));
+    }
+
+    @Override
+    public boolean isCustomerExists(String name) {
+        return presenter.isCustomerExists(name);
     }
 }

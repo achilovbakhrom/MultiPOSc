@@ -88,7 +88,7 @@
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/eighteen_dp" />
 
-                <com.jim.mpviews.MpSpinner
+                <com.jim.mpviews.MPosSpinner
                     android:id="@+id/spParent"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/forty_dp"

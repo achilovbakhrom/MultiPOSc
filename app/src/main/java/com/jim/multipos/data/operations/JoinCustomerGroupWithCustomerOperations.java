@@ -15,8 +15,8 @@ import io.reactivex.internal.operators.observable.ObservableSerialized;
 public interface JoinCustomerGroupWithCustomerOperations {
     Observable<Long> addJoinCustomerGroupWithCustomer(JoinCustomerGroupsWithCustomers joinCustomerGroupWithCustomer);
     Observable<Boolean> addJoinCustomerGroupWithCustomers(List<JoinCustomerGroupsWithCustomers> joinCustomerGroupsWithCustomers);
-    Observable<Boolean> removeJoinCustomerGroupWithCustomer(String customerGroupId, String customerId);
-    Observable<Boolean> removeJoinCustomerGroupWithCustomer(String customerId);
+    Observable<Boolean> removeJoinCustomerGroupWithCustomer(Long customerGroupId, Long customerId);
+    Observable<Boolean> removeJoinCustomerGroupWithCustomer(Long customerId);
     Observable<Boolean> removeAllJoinCustomerGroupWithCustomer();
     Observable<List<JoinCustomerGroupsWithCustomers>> getAllJoinCustomerGroupsWithCustomers();
 }

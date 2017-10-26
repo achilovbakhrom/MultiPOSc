@@ -19,12 +19,14 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <!--<activity-->
-        <!--android:name=".ui.signing.SignActivity"-->
-        <!--android:windowSoftInputMode="stateHidden" />-->
+
+        <!-- <activity -->
+        <!-- android:name=".ui.signing.SignActivity" -->
+        <!-- android:windowSoftInputMode="stateHidden" /> -->
         <activity
             android:name=".ui.first_configure_last.FirstConfigureActivity"
             android:windowSoftInputMode="stateHidden">
+
         </activity>
         <activity android:name=".ui.vendor.add_edit.VendorAddEditActivity"
             android:windowSoftInputMode="stateHidden">
@@ -46,7 +48,6 @@
         <activity
             android:name=".ui.main_menu.product_menu.ProductMenuActivity"
             android:windowSoftInputMode="stateHidden">
-
         </activity>
         <activity
             android:name=".ui.main_menu.customers_menu.CustomersMenuActivity"
@@ -54,17 +55,26 @@
         <activity
             android:name=".ui.main_menu.inventory_menu.InventoryMenuActivity"
             android:windowSoftInputMode="stateHidden" />
-
         <activity
             android:name=".ui.signing.SignActivity"
             android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name=".ui.product_class.ProductClassActivity"
-            android:windowSoftInputMode="stateHidden"></activity>
-        <activity android:name=".ui.customers_edit.CustomersEditActivity"></activity>
-        <activity android:name=".ui.customer_group.CustomerGroupActivity"></activity>
+            android:windowSoftInputMode="stateHidden">
+        </activity>
+        <activity android:name=".ui.customers_edit.CustomersEditActivity">
+
+        </activity>
+        <activity android:name=".ui.customer_group.CustomerGroupActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".ui.product.ProductsActivity"></activity>
-        <activity android:name=".ui.product_class_new.ProductsClassActivity"></activity>
+        <activity android:name=".ui.product_class_new.ProductsClassActivity">
+        </activity>
         <activity android:name=".ui.discount.DiscountAddingActivity"></activity>
     </application>
 

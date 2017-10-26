@@ -1,16 +1,12 @@
 package com.jim.multipos.ui.customers_edit.adapters;
 
-import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.jim.multipos.R;
-import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
 
 import java.util.List;
@@ -19,15 +15,11 @@ import java.util.List;
  * Created by user on 13.09.17.
  */
 
-public class CustomerGroupSpinnerAdapter extends ArrayAdapter {
+public class CustomerGroupSpinnerAdapter extends BaseAdapter {
     private List<CustomerGroup> customerGroups;
-    private LayoutInflater inflater;
 
-    public CustomerGroupSpinnerAdapter(@NonNull Context context, int resource, @NonNull List objects) {
-        super(context, resource, objects);
-
-        customerGroups = objects;
-        inflater = LayoutInflater.from(context);
+    public CustomerGroupSpinnerAdapter(List<CustomerGroup> customerGroups) {
+        this.customerGroups = customerGroups;
     }
 
     @Override
@@ -35,19 +27,19 @@ public class CustomerGroupSpinnerAdapter extends ArrayAdapter {
         return customerGroups.size();
     }
 
-    @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        return getViewItem(position, convertView, parent);
+    public Object getItem(int position) {
+        return customerGroups.get(position);
     }
 
     @Override
-    public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        return getViewItem(position, convertView, parent);
+    public long getItemId(int position) {
+        return position;
     }
 
-    private View getViewItem(int position, View convertView, ViewGroup parent) {
-        View view = inflater.inflate(R.layout.item_spinner, parent, false);
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_spinner, parent, false);
 
         TextView tv = (TextView) view.findViewById(R.id.tvItemText);
         tv.setText(customerGroups.get(position).getName());

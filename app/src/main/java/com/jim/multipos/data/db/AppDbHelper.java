@@ -31,7 +31,9 @@ import com.jim.multipos.data.db.model.Vendor;
 import com.jim.multipos.data.db.model.VendorDao;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.customer.Customer;
+import com.jim.multipos.data.db.model.customer.CustomerDao;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
+import com.jim.multipos.data.db.model.customer.CustomerGroupDao;
 import com.jim.multipos.data.db.model.customer.JoinCustomerGroupsWithCustomers;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.CategoryDao;
@@ -44,8 +46,10 @@ import com.jim.multipos.data.db.model.unit.UnitDao;
 
 import org.greenrobot.greendao.query.Query;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -84,18 +88,18 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
-    public Observable<Boolean> deleteJoinCustomerGroupWithCustomer(String customerGroupId, String customerId) {
+    public Observable<Boolean> deleteJoinCustomerGroupWithCustomer(Long customerGroupId, Long customerId) {
         return Observable.fromCallable(() -> {
-            mDaoSession.getDatabase().execSQL("DELETE FROM JOIN_CUSTOMER_GROUPS_WITH_CUSTOMERS WHERE CUSTOMER_ID=? AND CUSTOMER_GROUP_ID=?", new String[]{customerId, customerGroupId});
+            mDaoSession.getDatabase().execSQL("DELETE FROM JOIN_CUSTOMER_GROUPS_WITH_CUSTOMERS WHERE CUSTOMER_ID=? AND CUSTOMER_GROUP_ID=?", new String[]{String.valueOf(customerId), String.valueOf(customerGroupId)});
 
             return true;
         });
     }
 
     @Override
-    public Observable<Boolean> deleteJoinCustomerGroupWithCustomer(String customerId) {
+    public Observable<Boolean> deleteJoinCustomerGroupWithCustomer(Long customerId) {
         return Observable.fromCallable(() -> {
-            mDaoSession.getDatabase().execSQL("DELETE FROM JOIN_CUSTOMER_GROUPS_WITH_CUSTOMERS WHERE CUSTOMER_ID=?", new String[]{customerId});
+            mDaoSession.getDatabase().execSQL("DELETE FROM JOIN_CUSTOMER_GROUPS_WITH_CUSTOMERS WHERE CUSTOMER_ID=?", new String[]{String.valueOf(customerId)});
 
             return true;
         });
@@ -612,15 +616,25 @@ public class AppDbHelper implements DbHelper {
         return Observable.fromCallable(() -> mDaoSession.getServiceFeeDao().insertOrReplace(serviceFee));
     }
 
-    /*@Override
+    @Override
     public Observable<List<ServiceFee>> getAllServiceFees() {
         return Observable.fromCallable(() -> {
             List<ServiceFee> serviceFees = mDaoSession.getServiceFeeDao().loadAll();
-            Collections.sort(serviceFees, (o1, o2) -> o2.getIsActive().compareTo(o1.getIsActive()));
+            Collections.sort(serviceFees, (o1, o2) -> {
+                if (o1.getIsActive() && o2.getIsActive()) {
+                    return 0;
+                }
+
+                if (o1.getIsActive()) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            });
 
             return serviceFees;
         });
-    }*/
+    }
 
     @Override
     public Observable<Boolean> deleteAllServiceFees() {
@@ -638,6 +652,11 @@ public class AppDbHelper implements DbHelper {
 
             return true;
         });
+    }
+
+    @Override
+    public Observable<Boolean> isCustomerExists(String name) {
+        return Observable.fromCallable(() -> !mDaoSession.getCustomerDao().queryBuilder().where(CustomerDao.Properties.Name.eq(name)).build().list().isEmpty());
     }
 
     @Override
@@ -725,17 +744,21 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
+    public Observable<Boolean> isCustomerGroupExists(String name) {
+        return Observable.fromCallable(() -> !mDaoSession.getCustomerGroupDao().queryBuilder().where(CustomerGroupDao.Properties.Name.eq(name)).build().list().isEmpty());
+    }
+
+    @Override
     public List<Account> getAccounts() {
         return mDaoSession.getAccountDao().loadAll();
     }
 
-    /*@Override
+    @Override
     public Observable<List<CustomerGroup>> getCustomerGroups(Customer customer) {
         return Observable.fromCallable(() -> {
-            //String s = "SELECT a.* FROM CUSTOMER_GROUP a JOIN JoinCustomerGroupsWithCustomersOperations b ON a.ID = b.CUSTOMER_GROUP_ID WHERE b.CUSTOMER_ID = ?";
-            String query = "SELECT * FROM CUSTOMER_GROUP JOIN (SELECT * FROM JOIN_CUSTOMER_GROUPS_WITH_CUSTOMERS WHERE CUSTOMER_ID = ?) AS TEMP ON (CUSTOMER_GROUP.ID = TEMP.CUSTOMER_GROUP_ID)";
+            String query = "SELECT * FROM CUSTOMER_GROUP JOIN (SELECT * FROM JOIN_CUSTOMER_GROUPS_WITH_CUSTOMERS WHERE CUSTOMER_ID = ?) AS TEMP ON (CUSTOMER_GROUP._ID = TEMP.CUSTOMER_GROUP_ID)";
 
-            Cursor cursor = mDaoSession.getDatabase().rawQuery(query, new String[]{customer.getId()});
+            Cursor cursor = mDaoSession.getDatabase().rawQuery(query, new String[]{String.valueOf(customer.getId())});
 
             List<CustomerGroup> customerGroups = new ArrayList<>();
 
@@ -744,10 +767,10 @@ public class AppDbHelper implements DbHelper {
 
                 while (!cursor.isAfterLast()) {
                     CustomerGroup customerGroup = new CustomerGroup();
-                    customerGroup.setId(cursor.getString(cursor.getColumnIndex("CUSTOMER_GROUP_ID")));
+                    customerGroup.setId(Long.parseLong(cursor.getString(cursor.getColumnIndex("CUSTOMER_GROUP_ID"))));
                     customerGroup.setName(cursor.getString(cursor.getColumnIndex("NAME")));
-                    customerGroup.setServiceFeeId(cursor.getString(cursor.getColumnIndex("SERVICE_FEE_ID")));
-                    customerGroup.setDiscountId(cursor.getString(cursor.getColumnIndex("DISCOUNT_ID")));
+                    //customerGroup.setServiceFeeId(Long.parseLong(cursor.getString(cursor.getColumnIndex("SERVICE_FEE_ID"))));
+                    //customerGroup.setDiscountId(Long.parseLong(cursor.getString(cursor.getColumnIndex("DISCOUNT_ID"))));
 
                     int iActive = cursor.getInt(cursor.getColumnIndex("IS_ACTIVE"));
                     boolean isActive = iActive != 0;
@@ -760,17 +783,6 @@ public class AppDbHelper implements DbHelper {
             }
             return customerGroups;
         });
-    }*/
-
-    //TODO FIX
-    @Override
-    public Observable<List<ServiceFee>> getAllServiceFees() {
-        return null;
-    }
-
-    @Override
-    public Observable<List<CustomerGroup>> getCustomerGroups(Customer customer) {
-        return null;
     }
 
     //Vendor operations

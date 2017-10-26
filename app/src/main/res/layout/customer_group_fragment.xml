@@ -33,7 +33,7 @@
                     android:paddingTop="@dimen/five_dp"
                     android:text="Customers group"
                     android:textColor="#419fd9"
-                    android:textSize="@dimen/eighteen_dp"
+                    android:textSize="@dimen/sixteen_dp"
                     android:textStyle="bold" />
 
             </LinearLayout>

@@ -112,12 +112,12 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
-    public Observable<Boolean> removeJoinCustomerGroupWithCustomer(String customerGroupId, String customerId) {
+    public Observable<Boolean> removeJoinCustomerGroupWithCustomer(Long customerGroupId, Long customerId) {
         return dbHelper.deleteJoinCustomerGroupWithCustomer(customerGroupId, customerId);
     }
 
     @Override
-    public Observable<Boolean> removeJoinCustomerGroupWithCustomer(String customerId) {
+    public Observable<Boolean> removeJoinCustomerGroupWithCustomer(Long customerId) {
         return dbHelper.deleteJoinCustomerGroupWithCustomer(customerId);
     }
 
@@ -429,6 +429,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
+    public Observable<Boolean> isCustomerExists(String name) {
+        return dbHelper.isCustomerExists(name);
+    }
+
+    @Override
     public Single<List<ProductClass>> getAllProductClass() {
         return dbHelper.getAllProductClass();
     }
@@ -501,6 +506,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Observable<List<CustomerGroup>> getCustomerGroups(Customer customer) {
         return dbHelper.getCustomerGroups(customer);
+    }
+
+    @Override
+    public Observable<Boolean> isCustomerGroupExists(String name) {
+        return dbHelper.isCustomerGroupExists(name);
     }
 
     @Override

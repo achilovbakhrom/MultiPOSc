@@ -1,7 +1,6 @@
 package com.jim.multipos.ui.customers_edit.adapters;
 
-import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,27 +9,25 @@ import android.widget.TextView;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.mpviews.MpCheckbox;
 import com.jim.multipos.R;
+import com.jim.multipos.core.BaseAdapter;
+import com.jim.multipos.core.BaseViewHolder;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by user on 13.09.17.
  */
 
-public class CustomerGroupAdapter extends RecyclerView.Adapter<CustomerGroupAdapter.ViewHolder> {
-    private Context context;
-    private List<CustomerGroup> customerGroups;
+public class CustomerGroupAdapter extends BaseAdapter<CustomerGroup, CustomerGroupAdapter.ViewHolder> {
     private List<CustomerGroup> selectedCustomerGroups;
     private List<CustomerGroup> currentSelectedItems;
 
-    public CustomerGroupAdapter(Context context, List<CustomerGroup> customerGroups, List<CustomerGroup> selectedCustomerGroups) {
-        this.context = context;
-        this.customerGroups = customerGroups;
+    public CustomerGroupAdapter(List<CustomerGroup> customerGroups, List<CustomerGroup> selectedCustomerGroups) {
+        super(customerGroups);
         this.selectedCustomerGroups = selectedCustomerGroups;
         currentSelectedItems = new ArrayList<>();
         currentSelectedItems.addAll(selectedCustomerGroups);
@@ -38,7 +35,7 @@ public class CustomerGroupAdapter extends RecyclerView.Adapter<CustomerGroupAdap
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.customer_group_dialog_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.customer_group_dialog_item, parent, false);
 
         return new ViewHolder(view);
     }
@@ -47,26 +44,21 @@ public class CustomerGroupAdapter extends RecyclerView.Adapter<CustomerGroupAdap
     public void onBindViewHolder(ViewHolder holder, int position) {
         if (!selectedCustomerGroups.isEmpty()) {
             for (CustomerGroup cg : selectedCustomerGroups) {
-                if (customerGroups.get(position).getId().equals(cg.getId())) {
+                if (getItem(position).getId().equals(cg.getId())) {
                     holder.chbCustomerGroup.setChecked(true);
                     break;
                 }
             }
         }
 
-        holder.tvCustomerGroupName.setText(customerGroups.get(position).getName());
-    }
-
-    @Override
-    public int getItemCount() {
-        return customerGroups.size();
+        holder.tvCustomerGroupName.setText(getItem(position).getName());
     }
 
     public List<CustomerGroup> getSelectedItems() {
         return currentSelectedItems;
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends BaseViewHolder {
         @BindView(R.id.chbCustomerGroup)
         MpCheckbox chbCustomerGroup;
         @BindView(R.id.tvCustomerGroupName)
@@ -74,8 +66,6 @@ public class CustomerGroupAdapter extends RecyclerView.Adapter<CustomerGroupAdap
 
         public ViewHolder(View itemView) {
             super(itemView);
-
-            ButterKnife.bind(this, itemView);
 
             RxView.clicks(itemView).subscribe(o -> {
                 clickHandler();
@@ -87,11 +77,15 @@ public class CustomerGroupAdapter extends RecyclerView.Adapter<CustomerGroupAdap
         }
 
         private void clickHandler() {
-            CustomerGroup customerGroup = customerGroups.get(getAdapterPosition());
+            CustomerGroup customerGroup = getItem(getAdapterPosition());
 
             if (chbCustomerGroup.isChecked()) {
                 chbCustomerGroup.setChecked(false);
-                currentSelectedItems.remove(customerGroup);
+                for (int i = 0; i < currentSelectedItems.size(); i++) {
+                    if (currentSelectedItems.get(i).getId() == customerGroup.getId()) {
+                        currentSelectedItems.remove(i);
+                    }
+                }
             } else {
                 chbCustomerGroup.setChecked(true);
                 currentSelectedItems.add(customerGroup);

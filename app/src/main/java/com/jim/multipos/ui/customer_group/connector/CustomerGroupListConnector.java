@@ -8,7 +8,6 @@ import com.jim.multipos.utils.rxevents.CustomerGroupEvent;
 import java.util.ArrayList;
 
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 
 /**
  * Created by user on 08.09.17.

@@ -28,7 +28,8 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -46,6 +47,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="@dimen/thirty_two_dp"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <TextView
@@ -63,10 +65,10 @@
                         android:textSize="@dimen/twenty_dp"
                         android:textStyle="bold" />
 
-                    <com.jim.mpviews.MpSpinner
+                    <com.jim.mpviews.MPosSpinner
                         android:id="@+id/spCustomerGroup"
-                        android:layout_width="185dp"
-                        android:layout_height="@dimen/twenty_eight_dp"
+                        android:layout_width="@dimen/hundred_eighty_five_dp"
+                        android:layout_height="@dimen/thirty_five_dp"
                         android:layout_gravity="center"
                         android:layout_marginBottom="@dimen/three_dp"
                         app:img_color="@drawable/arrow_down_white" />
@@ -81,15 +83,17 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="@dimen/eighty_dp"
+                    android:id="@+id/tvClientId"
+                    android:layout_width="@dimen/sixty_dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/thirty_dp"
-                    android:text="ID client"
+                    android:layout_marginLeft="@dimen/thirty_eight_dp"
+                    android:text="@string/id"
                     android:textColor="@color/colorBlue"
                     android:textSize="@dimen/eighteen_dp" />
 
                 <TextView
-                    android:layout_width="@dimen/two_hundred_eight_dp"
+                    android:id="@+id/tvFullName"
+                    android:layout_width="@dimen/hundred_ninety_five_dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/ten_dp"
                     android:text="Full name"
@@ -97,7 +101,8 @@
                     android:textSize="@dimen/eighteen_dp" />
 
                 <TextView
-                    android:layout_width="@dimen/hundred_eighty_dp"
+                    android:id="@+id/tvPhone"
+                    android:layout_width="@dimen/hundred_seventy_dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/ten_dp"
                     android:text="Phone"
@@ -105,6 +110,7 @@
                     android:textSize="@dimen/eighteen_dp" />
 
                 <TextView
+                    android:id="@+id/tvAddress"
                     android:layout_width="@dimen/hundred_ninety_dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/ten_dp"
@@ -113,6 +119,7 @@
                     android:textSize="@dimen/eighteen_dp" />
 
                 <TextView
+                    android:id="@+id/tvQrCode"
                     android:layout_width="@dimen/hundred_ninety_five_dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/ten_dp"
@@ -144,140 +151,11 @@
             android:layout_height="1px"
             android:background="@color/separatorColor" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/five_dp"
-            android:layout_marginTop="@dimen/ten_dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tvId"
-                android:layout_width="@dimen/eighty_dp"
-                android:layout_height="@dimen/forty_dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/thirty_dp"
-                android:background="@drawable/text_view_bg2"
-                android:gravity="center_vertical"
-                android:hint="02"
-                android:paddingBottom="@dimen/five_dp"
-                android:paddingLeft="@dimen/ten_dp"
-                android:paddingRight="@dimen/ten_dp"
-                android:paddingTop="@dimen/five_dp"
-                android:textAlignment="center"
-                android:textColorHint="@color/colorTextHint"
-                android:textSize="@dimen/eighteen_dp" />
-
-            <com.jim.mpviews.MpEditText
-                android:id="@+id/etFullName"
-                android:layout_width="@dimen/two_hundred_eight_dp"
-                android:layout_height="@dimen/forty_dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/ten_dp"
-                android:gravity="center_vertical"
-                android:hint="Name"
-                android:paddingBottom="@dimen/five_dp"
-                android:paddingLeft="@dimen/ten_dp"
-                android:paddingRight="@dimen/ten_dp"
-                android:paddingTop="@dimen/five_dp"
-                android:textColorHint="@color/colorTextHint"
-                android:textSize="@dimen/eighteen_dp" />
-
-            <com.jim.mpviews.MpEditText
-                android:id="@+id/etPhone"
-                android:layout_width="@dimen/hundred_eighty_dp"
-                android:layout_height="@dimen/forty_dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/ten_dp"
-                android:gravity="center_vertical"
-                android:hint="Number"
-                android:inputType="phone"
-                android:paddingBottom="@dimen/five_dp"
-                android:paddingLeft="@dimen/ten_dp"
-                android:paddingRight="@dimen/ten_dp"
-                android:paddingTop="@dimen/five_dp"
-                android:textColorHint="@color/colorTextHint"
-                android:textSize="@dimen/eighteen_dp" />
-
-            <com.jim.mpviews.MpEditText
-                android:id="@+id/etAddress"
-                android:layout_width="@dimen/hundred_ninety_dp"
-                android:layout_height="@dimen/forty_dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/ten_dp"
-                android:gravity="center_vertical"
-                android:hint="Short"
-                android:paddingBottom="@dimen/five_dp"
-                android:paddingLeft="@dimen/ten_dp"
-                android:paddingRight="@dimen/ten_dp"
-                android:paddingTop="@dimen/five_dp"
-                android:textColorHint="@color/colorTextHint"
-                android:textSize="@dimen/sixteen_dp" />
-
-            <LinearLayout
-                android:layout_width="@dimen/hundred_ninety_five_dp"
-                android:layout_height="@dimen/forty_dp"
-                android:layout_marginLeft="@dimen/ten_dp"
-                android:background="@drawable/edit_text_bg"
-                android:orientation="horizontal"
-                android:paddingBottom="@dimen/five_dp"
-                android:paddingLeft="@dimen/ten_dp"
-                android:paddingRight="@dimen/ten_dp"
-                android:paddingTop="@dimen/five_dp">
-
-                <TextView
-                    android:id="@+id/tvQrCode"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:background="@color/colorWhite"
-                    android:textSize="@dimen/eighteen_dp" />
-
-                <ImageView
-                    android:id="@+id/ivRefreshQrCode"
-                    android:layout_width="@dimen/forty_five_dp"
-                    android:layout_height="@dimen/forty_five_dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/refresh"
-                    android:tint="@color/colorBlue" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/tvCustomerGroup"
-                android:layout_width="@dimen/hundred_eighty_five_dp"
-                android:layout_height="@dimen/forty_dp"
-                android:layout_marginLeft="@dimen/ten_dp"
-                android:background="@drawable/edit_text_bg"
-                android:paddingBottom="@dimen/five_dp"
-                android:paddingLeft="@dimen/ten_dp"
-                android:paddingRight="@dimen/ten_dp"
-                android:paddingTop="@dimen/five_dp" />
-
-            <ImageView
-                android:id="@+id/ivAdd"
-                android:layout_width="@dimen/thirty_dp"
-                android:layout_height="@dimen/thirty_dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/thirty_dp"
-                android:layout_marginRight="@dimen/thirty_dp"
-                android:src="@drawable/add_round"/>
-
-        </LinearLayout>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_marginBottom="@dimen/four_dp"
-            android:layout_marginLeft="@dimen/sixteen_dp"
-            android:layout_marginRight="@dimen/sixteen_dp"
-            android:layout_marginTop="@dimen/four_dp"
-            android:background="@color/separatorColor" />
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvCustomers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:overScrollMode="never"
             tools:listitem="@layout/customer_item" />
     </LinearLayout>
 
@@ -291,17 +169,10 @@
         android:layout_marginRight="@dimen/fifteen_dp">
 
         <com.jim.mpviews.MpButton
-            android:id="@+id/btnCancel"
+            android:id="@+id/btnBack"
             android:layout_width="@dimen/hundred_sixty_dp"
             android:layout_height="@dimen/fifty_five_dp"
-            android:text="@string/cancel"
-            android:textSize="@dimen/eighteen_dp" />
-
-        <com.jim.mpviews.MpButton
-            android:id="@+id/btnSave"
-            android:layout_width="@dimen/hundred_sixty_dp"
-            android:layout_height="@dimen/fifty_five_dp"
-            android:text="@string/save"
+            android:text="@string/back"
             android:textColor="@color/colorBlue"
             android:textSize="@dimen/eighteen_dp" />
     </LinearLayout>

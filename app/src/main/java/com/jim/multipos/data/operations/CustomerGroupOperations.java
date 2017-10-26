@@ -16,4 +16,5 @@ public interface CustomerGroupOperations {
     Observable<Boolean> removeCustomerGroup(CustomerGroup customerGroup);
     Observable<Boolean> removeAllCustomerGroups();
     Observable<List<CustomerGroup>> getAllCustomerGroups();
+    Observable<Boolean> isCustomerGroupExists(String name);
 }

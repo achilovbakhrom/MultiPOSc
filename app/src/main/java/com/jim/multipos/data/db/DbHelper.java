@@ -99,6 +99,7 @@ public interface DbHelper {
     Observable<List<ServiceFee>> getAllServiceFees();
     Observable<Boolean> deleteAllServiceFees();
     Observable<Boolean> deleteServiceFee(ServiceFee serviceFee);
+    Observable<Boolean> isCustomerExists(String name);
     Observable<Long> insertCustomer(Customer customer);
     Observable<Boolean> insertCustomers(List<Customer> customers);
     Observable<Boolean> deleteCustomer(Customer customer);
@@ -108,6 +109,7 @@ public interface DbHelper {
     Observable<Boolean> insertCustomerGroups(List<CustomerGroup> customerGroups);
     Observable<Boolean> deleteCustomerGroup(CustomerGroup customerGroup);
     Observable<Boolean> deleteAllCustomerGroups();
+    Observable<Boolean> isCustomerGroupExists(String name);
     Observable<List<CustomerGroup>> getAllCustomerGroups();
     Single<List<ProductClass>> getAllProductClass();
     Single<Long> insertProductClass(ProductClass productClass);
@@ -115,8 +117,8 @@ public interface DbHelper {
     Observable<Long> insertSubUnits(SubUnitsList subUnitsList);
     Observable<Long> insertJoinCustomerGroupWithCustomer(JoinCustomerGroupsWithCustomers joinCustomerGroupWithCustomer);
     Observable<Boolean> insertJoinCustomerGroupWithCustomers(List<JoinCustomerGroupsWithCustomers> joinCustomerGroupsWithCustomers);
-    Observable<Boolean> deleteJoinCustomerGroupWithCustomer(String customerGroupId, String customerId);
-    Observable<Boolean> deleteJoinCustomerGroupWithCustomer(String customerId);
+    Observable<Boolean> deleteJoinCustomerGroupWithCustomer(Long customerGroupId, Long customerId);
+    Observable<Boolean> deleteJoinCustomerGroupWithCustomer(Long customerId);
     Observable<Boolean> deleteAllJoinCustomerGroupWithCustomer();
     Observable<List<JoinCustomerGroupsWithCustomers>> getAllJoinCustomerGroupsWithCustomers();
     Observable<List<CustomerGroup>> getCustomerGroups(Customer customer);

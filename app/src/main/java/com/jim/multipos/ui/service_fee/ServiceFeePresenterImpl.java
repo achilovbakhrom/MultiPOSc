@@ -3,7 +3,9 @@ package com.jim.multipos.ui.service_fee;
 import android.content.Context;
 
 import com.jim.multipos.R;
+import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.core.RxForPresenter;
+import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.PaymentType;
 import com.jim.multipos.data.db.model.currency.Currency;
@@ -18,6 +20,9 @@ import com.jim.multipos.utils.rxevents.ServiceFeeEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
@@ -26,35 +31,44 @@ import io.reactivex.schedulers.Schedulers;
  * Created by user on 28.08.17.
  */
 
-public class ServiceFeePresenterImpl extends RxForPresenter implements ServiceFeePresenter {
-    private Context context;
+public class ServiceFeePresenterImpl extends BasePresenterImpl<ServiceFeeView> implements ServiceFeePresenter {
+    @Inject
+    RxBus rxBus;
     private ServiceFeeView view;
     private List<ServiceFee> serviceFeeList;
     private List<Currency> currencies;
     private List<PaymentType> paymentTypes;
-    private String[] types;
-    private String[] appTypes;
-    private ServiceFeeOperations serviceFeeOperations;
-    private CurrencyOperations currencyOperations;
-    private PaymentTypeOperations paymentTypeOperations;
-    private RxBus rxBus;
+    private DatabaseManager databaseManager;
+    private String enterName;
+    private String enterAmount;
+    private String shouldNotBeGreaterThan999;
+    private String[] serviceFeeType;
+    private String[] serviceFeeAppType;
 
-    public ServiceFeePresenterImpl(RxBus rxBus, Context context, ServiceFeeView serviceFeeView, ServiceFeeOperations serviceFeeOperations, CurrencyOperations currencyOperations, PaymentTypeOperations paymentTypeOperations) {
-        this.context = context;
-        this.view = serviceFeeView;
-        this.serviceFeeOperations = serviceFeeOperations;
-        this.currencyOperations = currencyOperations;
-        this.paymentTypeOperations = paymentTypeOperations;
-        this.rxBus = rxBus;
+    @Inject
+    public ServiceFeePresenterImpl(ServiceFeeView view, DatabaseManager databaseManager,
+                                   @Named(value = "enter_name") String enterName,
+                                   @Named(value = "enter_amount") String enterAmount,
+                                   @Named(value = "should_not_be_greater_than_999") String shouldNotBeGreaterThan999,
+                                   @Named(value = "service_fee_type") String[] serviceFeeType,
+                                   @Named(value = "service_fee_app_type") String[] serviceFeeAppType) {
+        super(view);
+        this.view = view;
+        this.databaseManager = databaseManager;
 
-        serviceFeeOperations.getAllServiceFees().subscribe(serviceFees ->
+        databaseManager.getServiceFeeOperations().getAllServiceFees().subscribe(serviceFees ->
                         serviceFeeList = serviceFees
                 , throwable -> serviceFeeList = new ArrayList<>());
 
-        setRxListners();
+        this.enterName = enterName;
+        this.enterAmount = enterAmount;
+        this.shouldNotBeGreaterThan999 = shouldNotBeGreaterThan999;
+        this.serviceFeeType = serviceFeeType;
+        this.serviceFeeAppType = serviceFeeAppType;
+        //setRxListners();
     }
 
-    @Override
+    /*@Override
     public void setRxListners() {
         ArrayList<Disposable> subscriptions = new ArrayList<>();
 
@@ -85,16 +99,15 @@ public class ServiceFeePresenterImpl extends RxForPresenter implements ServiceFe
     public void initConnectors(RxBus rxBus, RxBusLocal rxBusLocal) {
 
     }
-
+*/
     @Override
     public void getSpTypes() {
-        types = getStringArray(R.array.service_fee_type);
-        view.showSpType(types);
+        view.showSpType(serviceFeeType);
     }
 
     @Override
     public void getCurrencies() {
-        currencyOperations.getAllCurrencies().subscribe(currencies -> {
+        databaseManager.getCurrencyOperations().getAllCurrencies().subscribe(currencies -> {
             this.currencies = currencies;
             view.showSpCurrency(currencies);
         });
@@ -102,13 +115,12 @@ public class ServiceFeePresenterImpl extends RxForPresenter implements ServiceFe
 
     @Override
     public void getAppTypes() {
-        appTypes = getStringArray(R.array.service_fee_app_type);
-        view.showAppType(appTypes);
+        view.showAppType(serviceFeeAppType);
     }
 
     @Override
     public void getPaymentType() {
-        paymentTypeOperations.getAllPaymentTypes().subscribe(paymentTypes -> {
+        databaseManager.getPaymentTypeOperations().getAllPaymentTypes().subscribe(paymentTypes -> {
             this.paymentTypes = paymentTypes;
             view.openAutoApplyDialog(paymentTypes);
         });
@@ -116,7 +128,7 @@ public class ServiceFeePresenterImpl extends RxForPresenter implements ServiceFe
 
     @Override
     public void getServiceFeeData() {
-        view.showRVServiceData(serviceFeeList, currencies, types, appTypes);
+        view.showRVServiceData(serviceFeeList, currencies, serviceFeeType, serviceFeeAppType);
     }
 
     private boolean checkData(String name, String amount) {
@@ -124,19 +136,19 @@ public class ServiceFeePresenterImpl extends RxForPresenter implements ServiceFe
 
         if (name.isEmpty()) {
             hasError = true;
-            view.showNameError(getString(R.string.enter_name));
+            view.showNameError(enterName);
         }
 
         if (amount.isEmpty()) {
             hasError = true;
-            view.showAmountError(getString(R.string.enter_amount));
+            view.showAmountError(enterAmount);
         }
 
         String[] str = amount.split("\\.");
 
         if (str[0].length() > 3) {
             hasError = true;
-            view.showAmountError(getString(R.string.should_not_be_greater_than_999));
+            view.showAmountError(shouldNotBeGreaterThan999);
         }
 
         return hasError;
@@ -162,7 +174,7 @@ public class ServiceFeePresenterImpl extends RxForPresenter implements ServiceFe
                 serviceFee.setCurrency(currencies.get(currency));
             }
 
-            serviceFeeOperations.addServiceFee(serviceFee).subscribe(aLong -> {
+            databaseManager.getServiceFeeOperations().addServiceFee(serviceFee).subscribe(aLong -> {
                 rxBus.send(new ServiceFeeEvent(serviceFee, GlobalEventsConstants.ADD));
                 serviceFeeList.add(0, serviceFee);
 
@@ -175,7 +187,7 @@ public class ServiceFeePresenterImpl extends RxForPresenter implements ServiceFe
     private void updateItem(int position) {
         ServiceFee serviceFee = serviceFeeList.get(position);
 
-        serviceFeeOperations.addServiceFee(serviceFee).subscribe(aLong -> {
+        databaseManager.getServiceFeeOperations().addServiceFee(serviceFee).subscribe(aLong -> {
             rxBus.send(new ServiceFeeEvent(serviceFee, GlobalEventsConstants.UPDATE));
         });
     }
@@ -245,13 +257,5 @@ public class ServiceFeePresenterImpl extends RxForPresenter implements ServiceFe
         if (!hasError) {
             view.openUsageTypeDialog();
         }
-    }
-
-    private String[] getStringArray(int resId) {
-        return context.getResources().getStringArray(resId);
-    }
-
-    private String getString(int resId) {
-        return context.getString(resId);
     }
 }

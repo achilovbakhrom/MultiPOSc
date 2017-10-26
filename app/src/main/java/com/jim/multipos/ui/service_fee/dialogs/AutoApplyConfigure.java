@@ -7,11 +7,13 @@ import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.view.Window;
 
+import com.jim.mpviews.MPosSpinner;
 import com.jim.mpviews.MpButton;
 import com.jim.mpviews.MpSpinner;
 import com.jim.multipos.R;
 import com.jim.multipos.data.db.model.PaymentType;
 import com.jim.multipos.ui.service_fee.adapters.PaymentTypeSpinnerAdapter;
+import com.jim.multipos.ui.service_fee.adapters.PaymentTypeSpinnerAdapterOld;
 
 import java.util.List;
 
@@ -25,7 +27,7 @@ public class AutoApplyConfigure extends Dialog {
         void saveAutoApplyDialog(int position);
     }
 
-    private MpSpinner spParent;
+    private MPosSpinner spParent;
     private MpButton btnBack;
     private MpButton btnSave;
     private List<PaymentType> paymentTypes;
@@ -43,17 +45,16 @@ public class AutoApplyConfigure extends Dialog {
         setContentView(R.layout.auto_apply_dialog_fragment);
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        spParent = (MpSpinner) findViewById(R.id.spParent);
+        spParent = (MPosSpinner) findViewById(R.id.spParent);
         btnBack = (MpButton) findViewById(R.id.btnBack);
         btnSave = (MpButton) findViewById(R.id.btnSave);
 
-        PaymentTypeSpinnerAdapter adapter = new PaymentTypeSpinnerAdapter(getContext(), R.layout.item_spinner, paymentTypes);
+        //PaymentTypeSpinnerAdapter adapter = new PaymentTypeSpinnerAdapter(getContext(), R.layout.item_spinner, paymentTypes);
+        PaymentTypeSpinnerAdapter adapter = new PaymentTypeSpinnerAdapter(paymentTypes);
         spParent.setAdapter(adapter);
 
         btnSave.setOnClickListener(v -> {
-            int position = spParent.selectedItemPosition();
-
-            onClickCallback.saveAutoApplyDialog(position);
+            onClickCallback.saveAutoApplyDialog(spParent.getSelectedPosition());
             dismiss();
         });
 

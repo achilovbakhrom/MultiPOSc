@@ -7,24 +7,20 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 
 import com.jakewharton.rxbinding2.view.RxView;
+import com.jim.mpviews.MPosSpinner;
 import com.jim.mpviews.MpButton;
 import com.jim.mpviews.MpCheckbox;
 import com.jim.mpviews.MpEditText;
-import com.jim.mpviews.MpSpinner;
+import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseActivity;
-import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.PaymentType;
+import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.currency.Currency;
-import com.jim.multipos.di.BaseAppComponent;
-import com.jim.multipos.ui.HasComponent;
 import com.jim.multipos.ui.first_configure.adapters.CurrencySpinnerAdapter;
 import com.jim.multipos.ui.service_fee.adapters.ServiceFeeAdapter;
-import com.jim.multipos.ui.service_fee.di.ServiceFeeActivityComponent;
 import com.jim.multipos.ui.service_fee.dialogs.AutoApplyConfigure;
 import com.jim.multipos.ui.service_fee.dialogs.UsageTypeDialog;
-import com.jim.multipos.utils.RxBus;
-import com.jim.multipos.utils.rxevents.Unsibscribe;
 
 import java.util.List;
 
@@ -34,21 +30,21 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class ServiceFeeActivity extends BaseActivity implements HasComponent<ServiceFeeActivityComponent>, ServiceFeeView, ServiceFeeAdapter.OnClick, UsageTypeDialog.OnClickDialog, AutoApplyConfigure.OnClickDialog {
+public class ServiceFeeActivity extends BaseActivity implements ServiceFeeView, ServiceFeeAdapter.OnClick, UsageTypeDialog.OnClickDialog, AutoApplyConfigure.OnClickDialog {
     @Inject
     ServiceFeePresenter presenter;
-    @Inject
-    RxBus rxBus;
+    @BindView(R.id.toolbar)
+    MpToolbar toolbar;
     @BindView(R.id.etName)
     MpEditText etName;
     @BindView(R.id.etAmount)
     MpEditText etAmount;
     @BindView(R.id.spType)
-    MpSpinner spType;
+    MPosSpinner spType;
     @BindView(R.id.spCurrency)
-    MpSpinner spCurrency;
+    MPosSpinner spCurrency;
     @BindView(R.id.spAppType)
-    MpSpinner spAppType;
+    MPosSpinner spAppType;
     @BindView(R.id.chbTaxed)
     MpCheckbox chbTaxed;
     @BindView(R.id.chbActive)
@@ -60,7 +56,6 @@ public class ServiceFeeActivity extends BaseActivity implements HasComponent<Ser
     @BindView(R.id.btnSave)
     MpButton btnSave;
     Unbinder unbinder;
-    ServiceFeeActivityComponent serviceFeeComponent;
     private ServiceFeeAdapter serviceFeeAdapter;
 
     @Override
@@ -70,48 +65,39 @@ public class ServiceFeeActivity extends BaseActivity implements HasComponent<Ser
 
         unbinder = ButterKnife.bind(this);
 
+        toolbar.setMode(MpToolbar.DEFAULT_TYPE);
+
         presenter.getSpTypes();
         presenter.getCurrencies();
         presenter.getAppTypes();
         presenter.getServiceFeeData();
 
-        spCurrency.setSpinnerEnabled(false);
+        spCurrency.setEnabled(false);
 
         RxView.clicks(ivAdd).subscribe(aVoid -> {
-            String name = etName.getText().toString();
-            String amount = etAmount.getText().toString();
-            int type = spType.selectedItemPosition();
-            int currency = spCurrency.selectedItemPosition();
-            int appType = spAppType.selectedItemPosition();
-            boolean isTaxed = chbTaxed.isChecked();
-            boolean isActive = chbActive.isChecked();
-
-            presenter.openUsageTypeDialog(name, amount, type, currency, appType, isTaxed, isActive);
+            presenter.openUsageTypeDialog(etName.getText().toString(),
+                    etAmount.getText().toString(),
+                    spType.getSelectedPosition(),
+                    spCurrency.getSelectedPosition(),
+                    spAppType.getSelectedPosition(),
+                    chbTaxed.isChecked(),
+                    chbActive.isChecked());
         });
 
         RxView.clicks(btnSave).subscribe(aVoid -> {
             presenter.saveData();
         });
 
-        spType.setOnItemSelectedListener((adapterView, view, i, l) -> {
-            presenter.changeType(i);
+        spType.setItemSelectionListener((view, position) -> {
+            presenter.changeType(position);
         });
-    }
-
-    protected void setupComponent(BaseAppComponent baseAppComponent) {
-//        serviceFeeComponent = baseAppComponent.plus(new ServiceFeeActivityModule(this));
-        serviceFeeComponent.inject(this);
-    }
-
-    @Override
-    public ServiceFeeActivityComponent getComponent() {
-        return serviceFeeComponent;
     }
 
     @Override
     public void showSpType(String[] types) {
-        spType.setItems(types);
-        spType.setAdapter();
+        /*spType.setItems(types);
+        spType.setAdapter()*/;
+        spType.setAdapter(types);
     }
 
     @Override
@@ -122,8 +108,9 @@ public class ServiceFeeActivity extends BaseActivity implements HasComponent<Ser
 
     @Override
     public void showAppType(String[] appTypes) {
-        spAppType.setItems(appTypes);
-        spAppType.setAdapter();
+        /*spAppType.setItems(appTypes);
+        spAppType.setAdapter();*/
+        spAppType.setAdapter(appTypes);
     }
 
     @Override
@@ -167,8 +154,9 @@ public class ServiceFeeActivity extends BaseActivity implements HasComponent<Ser
 
     @Override
     public void enableCurrency(boolean enable) {
-        spCurrency.setSpinnerEnabled(enable);
-        spCurrency.notifyDataSetChanged();
+        /*spCurrency.setSpinnerEnabled(enable);
+        spCurrency.notifyDataSetChanged();*/
+        spCurrency.setEnabled(enable);
     }
 
     @Override
@@ -212,7 +200,7 @@ public class ServiceFeeActivity extends BaseActivity implements HasComponent<Ser
 
     @Override
     protected void onDestroy() {
-        rxBus.send(new Unsibscribe(ServiceFeeActivity.class.getName()));
+        //rxBus.send(new Unsibscribe(ServiceFeeActivity.class.getName()));
         unbinder.unbind();
 
         super.onDestroy();
@@ -224,17 +212,23 @@ public class ServiceFeeActivity extends BaseActivity implements HasComponent<Ser
     }
 
     private void addItem(int paymentTypePosition) {
-        String name = etName.getText().toString();
-        String amount = etAmount.getText().toString();
-        int type = spType.selectedItemPosition();
-        int currency = spCurrency.selectedItemPosition();
-        int appType = spAppType.selectedItemPosition();
-        boolean isTaxed = chbTaxed.isChecked();
-        boolean isActive = chbActive.isChecked();
-
         if (paymentTypePosition != -1)
-            presenter.addItem(name, amount, type, currency, appType, isTaxed, isActive, paymentTypePosition);
+            presenter.addItem(etName.getText().toString(),
+                    etAmount.getText().toString(),
+                    spType.getSelectedPosition(),
+                    spCurrency.getSelectedPosition(),
+                    spAppType.getSelectedPosition(),
+                    chbTaxed.isChecked(),
+                    chbActive.isChecked(),
+                    paymentTypePosition);
         else
-            presenter.addItem(name, amount, type, currency, appType, isTaxed, isActive, -1);
+            presenter.addItem(etName.getText().toString(),
+                    etAmount.getText().toString(),
+                    spType.getSelectedPosition(),
+                    spCurrency.getSelectedPosition(),
+                    spAppType.getSelectedPosition(),
+                    chbTaxed.isChecked(),
+                    chbActive.isChecked(),
+                    -1);
     }
 }
