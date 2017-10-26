@@ -140,7 +140,7 @@
         <item>Bank Account</item>
     </string-array>
     <string-array name="base_currencies_with_abbr">
-        <item>Доллары ($)</item>
+        <item>Доллары США ($)</item>
         <item>Рубль (₽)</item>
         <item>Евро (€)</item>
         <item>Гривна (₴)</item>
@@ -152,36 +152,11 @@
         <item>Шекель (₪)</item>
         <item>Иена (¥)</item>
         <item>Вона (₩)</item>
-        <item>Молдавский лей (lei)</item>
         <item>Лек (L)</item>
-        <item>Алжирский динар (.د.ج)</item>
-        <item>Кванза (Kz)</item>
         <item>Манат (АР)</item>
-        <item>Бахрейнский динар (.د.ب)</item>
-        <item>Така (৳)</item>
-        <item>Марка (KM)</item>
-        <item>Реал (R$)</item>
         <item>Юань (¥)</item>
-        <item>Чешская крона (Kč)</item>
-        <item>Датская крона (kr)</item>
-        <item>Египетский фунт (.ج.م)</item>
-        <item>Седи (﷼₵)</item>
-        <item>Форинт (Ft)</item>
-        <item>Индийская рупия (₹)</item>
-        <item>Индонезийская рупия (Rp)</item>
-        <item>Иранский риал (﷼)</item>
-        <item>Иракский динар (.د.ع)</item>
-        <item>Иорданский динар (.د.إ)</item>
-        <item>Кувейтский динар (.د.ك)</item>
-        <item>Филиппинское песо (₱)</item>
-        <item>Злотый (zł)</item>
-        <item>Катарский риал (﷼)</item>
-        <item>Сум (uzs)</item>
-        <item>Саудовский риял (﷼)</item>
+        <item>Узбекский сум (uzs)</item>
         <item>Швейцарский франк (₣)</item>
-        <item>Сербский динар (din)</item>
-        <item>Бат (฿)</item>
-        <item>Лира (₺)</item>
     </string-array>
     <string name="clock_in">Clock in:</string>
     <string name="clock_out">Clock out:</string>
@@ -353,7 +328,7 @@
     <string name="should_not_be_greater_than_999">Should not be greater than 999</string>
 
     <string-array name="base_currencies">
-        <item>Доллары</item>
+        <item>Доллары США</item>
         <item>Рубль</item>
         <item>Евро</item>
         <item>Гривна</item>
@@ -365,36 +340,11 @@
         <item>Шекель</item>
         <item>Иена</item>
         <item>Вона</item>
-        <item>Молдавский лей</item>
         <item>Лек</item>
-        <item>Алжирский динар</item>
-        <item>Кванза</item>
         <item>Манат</item>
-        <item>Бахрейнский динар</item>
-        <item>Така</item>
-        <item>Марка</item>
-        <item>Реал</item>
         <item>Юань</item>
-        <item>Чешская крона</item>
-        <item>Датская крона</item>
-        <item>Египетский фунт</item>
-        <item>Седи</item>
-        <item>Форинт</item>
-        <item>Индийская рупия</item>
-        <item>Индонезийская рупия</item>
-        <item>Иранский риал</item>
-        <item>Иракский динар</item>
-        <item>Иорданский динар</item>
-        <item>Кувейтский динар</item>
-        <item>Филиппинское песо</item>
-        <item>Злотый</item>
-        <item>Катарский риал</item>
-        <item>Сум</item>
-        <item>Саудовский риял</item>
+        <item>Узбекский сум</item>
         <item>Швейцарский франк</item>
-        <item>Сербский динар</item>
-        <item>Бат</item>
-        <item>Лира</item>
     </string-array>
     <string-array name="base_abbrs">
         <item>$</item>
@@ -409,36 +359,11 @@
         <item>₪</item>
         <item>¥</item>
         <item>₩</item>
-        <item>lei</item>
         <item>L</item>
-        <item>.د.ج </item>
-        <item>Kz</item>
         <item>АР</item>
-        <item>.د.ب </item>
-        <item>৳</item>
-        <item>KM</item>
-        <item>R$</item>
         <item>¥</item>
-        <item>Kč</item>
-        <item>kr</item>
-        <item>.ج.م</item>
-        <item>﷼₵</item>
-        <item>Ft</item>
-        <item>₹</item>
-        <item>Rp</item>
-        <item>﷼</item>
-        <item>.د.ع</item>
-        <item>.د.إ</item>
-        <item>.د.ك</item>
-        <item>₱</item>
-        <item>zł</item>
-        <item>﷼</item>
         <item>uzs</item>
-        <item>﷼</item>
         <item>₣</item>
-        <item>din</item>
-        <item>฿</item>
-        <item>₺</item>
     </string-array>
     <string name="title_activity_product_class">ProductClassActivity</string>
 

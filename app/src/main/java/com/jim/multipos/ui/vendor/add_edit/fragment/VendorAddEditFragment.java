@@ -1,5 +1,6 @@
 package com.jim.multipos.ui.vendor.add_edit.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -7,7 +8,9 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 
 import com.jim.mpviews.MPosSpinner;
@@ -252,8 +255,16 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
                     contactData.setError(getString(R.string.warning_contact_is_empty));
                     return;
                 }
+                if (contactType.getSelectedPosition() == 1) {
+                    if (!Patterns.EMAIL_ADDRESS.matcher(contactData.getText().toString()).matches()) {
+                        contactData.setError("Email address is not valid!!!");
+                        return;
+                    }
+                }
                 detectChange(true);
                 presenter.addContact(contactType.getSelectedPosition(), contactData.getText().toString());
+                contactType.setSelection(0);
+                contactData.setText("");
                 break;
         }
 
@@ -282,6 +293,9 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
         switch (mode) {
             case ADD:
                 vendorName.setText("");
+                vendorName.requestFocus();
+                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(vendorName, InputMethodManager.SHOW_IMPLICIT);
                 vendorContact.setText("");
                 address.setText("");
                 contactType.setSelection(0);
@@ -295,10 +309,14 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
             case EDIT:
                 if (vendor != null) {
                     vendorName.setText(vendor.getName());
+                    vendorName.setError(null);
                     vendorContact.setText(vendor.getContactName());
+                    vendorContact.setError(null);
                     address.setText(vendor.getAddress());
+                    address.setError(null);
                     contactType.setSelection(0);
                     contactData.setText("");
+                    contactData.setError(null);
                     active.setChecked(true);
                     active.setChecked(vendor.getIsActive());
                     products.setVisibility(View.VISIBLE);

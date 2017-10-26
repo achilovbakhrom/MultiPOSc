@@ -3,6 +3,7 @@ package com.jim.multipos.ui.first_configure_last.fragment;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -48,6 +49,7 @@ public class POSDetailsFragment extends BaseFragment implements ChangeableConten
     @BindView(R.id.btnNext)
     MpButton next;
     CompletionMode mode = CompletionMode.NEXT;
+    private boolean isConfirmationPasswordChanged = false;
 
     @Override
     protected int getLayout() {
@@ -70,33 +72,31 @@ public class POSDetailsFragment extends BaseFragment implements ChangeableConten
             setMode((CompletionMode) getArguments().getSerializable(MODE_KEY));
         }
         fillPOSDetailsData();
-        password.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                password.setError(null);
-                if (s.length() != 0 && !confirmPassword.getText().toString().isEmpty()) {
-                    if (!password.getText().toString().equals(confirmPassword.getText().toString())) {
-                        confirmPassword.setError(getString(R.string.passwords_different));
-                    }
+        password.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                if (isConfirmationPasswordChanged && !password.getText().toString().equals(confirmPassword.getText().toString())) {
+                    confirmPassword.setError(getString(R.string.passwords_different));
                 }
             }
-            @Override
-            public void afterTextChanged(Editable s) {}
         });
+
         confirmPassword.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                password.setError(null);
+                if (!isConfirmationPasswordChanged)
+                    isConfirmationPasswordChanged = true;
+            }
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+        confirmPassword.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
                 if (!password.getText().toString().equals(confirmPassword.getText().toString())) {
                     confirmPassword.setError(getString(R.string.passwords_different));
                 }
             }
-            @Override
-            public void afterTextChanged(Editable s) {}
         });
     }
 
@@ -150,10 +150,11 @@ public class POSDetailsFragment extends BaseFragment implements ChangeableConten
     @Override
     public boolean isValid() {
         boolean temp = super.isValid();
-        if (temp) {
-            return password.getText().toString().equals(confirmPassword.getText().toString());
+        boolean passwordCorrect = password.getText().toString().equals(confirmPassword.getText().toString());
+        if (!passwordCorrect) {
+            confirmPassword.setError(getString(R.string.passwords_different));
         }
-        return temp;
+        return passwordCorrect && temp;
     }
 
     @Override

@@ -131,7 +131,7 @@
                 android:fontFamily="roboto"
                 android:gravity="left|center_vertical"
                 android:hint="@string/admin_password"
-                android:inputType="textPassword"
+                android:inputType="number"
                 android:textColor="@color/colorMainText"
                 android:textSize="@dimen/eighteen_dp" />
 
@@ -162,7 +162,7 @@
                 android:fontFamily="roboto"
                 android:gravity="left|center_vertical"
                 android:hint="@string/repeat_password"
-                android:inputType="textPassword"
+                android:inputType="number"
                 android:textColor="@color/colorMainText"
                 android:textSize="@dimen/eighteen_dp" />
         </LinearLayout>
