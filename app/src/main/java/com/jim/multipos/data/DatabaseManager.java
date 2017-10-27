@@ -177,6 +177,16 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
+    public Single<List<Category>> getAllActiveCategories() {
+        return dbHelper.getAllActiveCategories();
+    }
+
+    @Override
+    public Single<List<Category>> getAllActiveSubCategories(Category parent) {
+        return dbHelper.getAllActiveSubCategories(parent);
+    }
+
+    @Override
     public Observable<List<Category>> getSubCategories(Category category) {
         return dbHelper.getSubCategories(category);
     }

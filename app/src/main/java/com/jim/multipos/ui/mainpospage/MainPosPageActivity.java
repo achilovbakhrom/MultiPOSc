@@ -3,15 +3,14 @@ package com.jim.multipos.ui.mainpospage;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.WindowManager;
-
 import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.R;
 import com.jim.multipos.core.DoubleSideActivity;
 import com.jim.multipos.ui.main_menu.customers_menu.CustomersMenuActivity;
 import com.jim.multipos.ui.main_menu.inventory_menu.InventoryMenuActivity;
 import com.jim.multipos.ui.main_menu.product_menu.ProductMenuActivity;
-import com.jim.multipos.ui.mainpospage.fragments.OrderListFragment;
-import com.jim.multipos.ui.mainpospage.fragments.RectangleProductChoiserFragment;
+import com.jim.multipos.ui.mainpospage.view.OrderListFragment;
+import com.jim.multipos.ui.mainpospage.view.ProductPickerFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,7 +31,7 @@ public class MainPosPageActivity extends DoubleSideActivity implements MainPosPa
 
         addFragmentToLeft(new OrderListFragment());
 //        posFragmentManager.displayFragmentWithoutBackStack(new PaymentFragment(), R.id.rightLowContainer);
-        addFragmentToRight(new RectangleProductChoiserFragment());
+        addFragmentToRight(new ProductPickerFragment());
 
         toolbar.setOnClickListener(view -> {
         });
@@ -73,5 +72,4 @@ public class MainPosPageActivity extends DoubleSideActivity implements MainPosPa
     protected int getToolbarMode() {
         return MpToolbar.MAIN_PAGE_TYPE;
     }
-
 }

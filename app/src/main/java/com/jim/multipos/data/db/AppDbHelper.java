@@ -190,6 +190,48 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
+    public Single<List<Category>> getAllActiveCategories() {
+        Observable<List<Category>> objectObservable = Observable.create(singleSubscriber -> {
+            try {
+                List<Category> categories = mDaoSession.getCategoryDao().loadAll();
+                singleSubscriber.onNext(categories);
+                singleSubscriber.onComplete();
+            } catch (Exception o) {
+                singleSubscriber.onError(o);
+            }
+        });
+        return objectObservable.flatMap(Observable::fromIterable)
+                .filter(Category::isNotModifyted)
+                .filter(category -> !category.isDeleted())
+                .filter(Category::getIsActive)
+                .filter(category -> category.getParentId().equals(WITHOUT_PARENT))
+                .sorted((category, t1) -> t1.getCreatedDate().compareTo(category.getCreatedDate()))
+                .sorted((category, t1) -> t1.getPosition().compareTo(category.getPosition()))
+                .toList();
+    }
+
+    @Override
+    public Single<List<Category>> getAllActiveSubCategories(Category parent) {
+        Observable<List<Category>> objectObservable = Observable.create(singleSubscriber -> {
+            try {
+                List<Category> categories = mDaoSession.getCategoryDao().loadAll();
+                singleSubscriber.onNext(categories);
+                singleSubscriber.onComplete();
+            } catch (Exception o) {
+                singleSubscriber.onError(o);
+            }
+        });
+        return objectObservable.flatMap(Observable::fromIterable)
+                .filter(Category::isNotModifyted)
+                .filter(category -> !category.isDeleted())
+                .filter(Category::getIsActive)
+                .filter(category -> category.getParentId().equals(parent.getId()))
+                .sorted((category, t1) -> t1.getCreatedDate().compareTo(category.getCreatedDate()))
+                .sorted((category, t1) -> t1.getPosition().compareTo(category.getPosition()))
+                .toList();
+    }
+
+    @Override
     public Observable<List<Category>> getSubCategories(Category category) {
         return Observable.fromCallable(() -> mDaoSession.getCategoryDao().queryBuilder()
                 .where(CategoryDao.Properties.ParentId.eq(category.getId()), CategoryDao.Properties.IsDeleted.eq(false))

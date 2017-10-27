@@ -1,4 +1,4 @@
-package com.jim.multipos.ui.mainpospage.fragments;
+package com.jim.multipos.ui.mainpospage.view;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.jim.mpviews.MpPaymentField;
 import com.jim.mpviews.MpList;
 import com.jim.mpviews.model.PaymentTypeWithService;
 import com.jim.mpviews.utils.VibrateManager;
@@ -17,8 +16,6 @@ import com.jim.multipos.R;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.jim.mpviews.utils.Constants.PAYMENT_MODE;
 
 /**
  * Created by developer on 22.08.2017.

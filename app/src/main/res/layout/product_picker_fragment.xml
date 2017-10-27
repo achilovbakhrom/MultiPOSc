@@ -37,8 +37,9 @@
                     android:textStyle="bold" />
 
                 <ImageView
+                    android:id="@+id/ivArrowCategory"
                     android:layout_width="@dimen/ten_dp"
-                    android:layout_height="@dimen/ten_dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:src="@drawable/pather" />
 
@@ -57,6 +58,7 @@
                     android:textStyle="bold" />
 
                 <ImageView
+                    android:id="@+id/ivArrowSubCategory"
                     android:layout_width="@dimen/ten_dp"
                     android:layout_height="@dimen/ten_dp"
                     android:layout_gravity="center"
@@ -80,28 +82,27 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="right|center_vertical"
-                    android:orientation="horizontal"
-                    >
+                    android:orientation="horizontal">
 
                     <ImageView
+                        android:id="@+id/ivFolderView"
                         android:layout_width="wrap_content"
-                        android:adjustViewBounds="true"
                         android:layout_height="@dimen/eighteen_dp"
                         android:layout_gravity="center_vertical"
+                        android:layout_marginRight="@dimen/twenty_dp"
+                        android:adjustViewBounds="true"
                         android:src="@drawable/group"
-                        android:layout_marginRight="@dimen/twenty_dp"
-                        android:tint="@color/colorBlue"
-                        />
+                        android:tint="@color/colorBlue" />
 
                     <ImageView
+                        android:id="@+id/ivSquareView"
                         android:layout_width="wrap_content"
-                        android:adjustViewBounds="true"
                         android:layout_height="@dimen/eighteen_dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginRight="@dimen/twenty_dp"
+                        android:adjustViewBounds="true"
                         android:src="@drawable/dots"
-                        android:tint="@color/colorTintGrey"
-                        />
+                        android:tint="@color/colorTintGrey" />
 
                 </LinearLayout>
 
@@ -112,34 +113,11 @@
                 android:layout_height="10px"
                 android:background="@drawable/top_fade" />
 
-            <LinearLayout
+            <FrameLayout
+                android:id="@+id/flProductListContainer"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:layout_height="match_parent" />
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rvCategory"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/twenty_dp"
-                    android:layout_marginRight="@dimen/twenty_dp"
-                    android:layout_weight="1" />
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rvSubCategory"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/twenty_dp"
-                    android:layout_weight="1" />
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rvProduct"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="4" />
-
-
-            </LinearLayout>
         </LinearLayout>
 
         <FrameLayout

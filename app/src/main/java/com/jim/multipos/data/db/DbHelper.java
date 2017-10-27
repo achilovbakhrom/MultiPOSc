@@ -41,7 +41,7 @@ import io.reactivex.Observable;
 import io.reactivex.Single;
 
 /**
- * Created by janisharali on 08/12/16.
+ * Created by developer on 08/12/16.
  */
 
 public interface DbHelper {
@@ -58,6 +58,8 @@ public interface DbHelper {
     Observable<Long> insertSubCategory(Category subcategory);
     Observable<Boolean> insertCategories(List<Category> categories);
     Observable<List<Category>> getAllCategories();
+    Single<List<Category>> getAllActiveCategories();
+    Single<List<Category>> getAllActiveSubCategories(Category parent);
     Observable<List<Category>> getSubCategories(Category category);
     Observable<Long> insertOrReplaceCategory(Category category);
     Observable<Long> insertProduct(Product product);

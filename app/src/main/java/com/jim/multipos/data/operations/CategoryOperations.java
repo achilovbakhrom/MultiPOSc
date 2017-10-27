@@ -5,6 +5,7 @@ import com.jim.multipos.data.db.model.products.Category;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
 
 /**
  * Created by DEV on 16.08.2017.
@@ -16,6 +17,8 @@ public interface CategoryOperations {
     Observable<Boolean> addCategory(List<Category> categoryList);
     Observable<Long> replaceCategory(Category category);
     Observable<List<Category>> getAllCategories();
+    Single<List<Category>> getAllActiveCategories();
+    Single<List<Category>> getAllActiveSubCategories(Category parent);
     Observable<List<Category>> getSubCategories(Category category);
     Observable<Integer> getCategoryByName(Category category);
     Observable<Boolean> isCategoryNameExists(String name);

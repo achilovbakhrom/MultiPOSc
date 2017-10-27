@@ -1,4 +1,4 @@
-package com.jim.multipos.ui.mainpospage.fragments;
+package com.jim.multipos.ui.mainpospage.view;
 
 import android.app.Activity;
 import android.os.Bundle;

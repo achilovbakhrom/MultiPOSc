@@ -37,7 +37,7 @@
                 android:id="@+id/tvEmployerPassword"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/sixty_dp"
-                android:layout_marginBottom="@dimen/twenty_dp"
+                android:layout_marginBottom="@dimen/forty_dp"
                 android:background="@drawable/edit_text_bg"
                 android:gravity="center|center_vertical"
                 android:letterSpacing="0.3"

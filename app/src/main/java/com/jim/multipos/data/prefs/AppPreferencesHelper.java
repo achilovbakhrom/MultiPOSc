@@ -39,6 +39,7 @@ public class AppPreferencesHelper implements PreferencesHelper {
     private static final String POS_DETAIL_PASSWORD = "POS_DETAIL_PASSWORD";
     private static final String FIRST_CONFIGURED = "FIRST_CONFIGURED";
     private static final String ACTIVE_ITEM_VISIBILITY = "ACTIVE_ITEM_VISIBILITY";
+    private static final String PRODUCT_LIST_VIEW_TYPE = "PRODUCT_LIST_VIEW_TYPE";
 
     private final SharedPreferences mPrefs;
 
@@ -155,6 +156,16 @@ public class AppPreferencesHelper implements PreferencesHelper {
     @Override
     public void setFirestConfigured(boolean isChecked) {
          mPrefs.edit().putBoolean(FIRST_CONFIGURED,isChecked).apply();
+    }
+
+    @Override
+    public void setProductListViewType(int type) {
+        mPrefs.edit().putInt(PRODUCT_LIST_VIEW_TYPE, type).apply();
+    }
+
+    @Override
+    public int getProductListViewType() {
+        return mPrefs.getInt(PRODUCT_LIST_VIEW_TYPE, 0);
     }
 
     @Override

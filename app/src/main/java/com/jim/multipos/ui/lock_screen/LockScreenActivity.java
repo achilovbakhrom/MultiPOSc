@@ -53,7 +53,7 @@ public class LockScreenActivity extends BaseActivity implements LockScreenView {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_page);
+        setContentView(R.layout.lock_screen_page);
         ButterKnife.bind(this);
         final long DELAY = 150;
         for (int i = 0; i < numPad.size(); i++) {
