@@ -58,7 +58,7 @@ public class ProductSquareViewFragment extends BaseFragment implements ProductSq
 
             @Override
             public void onItemClicked(Category item) {
-                presenter.getClickedCategory(item);
+                presenter.setClickedCategory(item);
             }
         });
     }
@@ -68,6 +68,17 @@ public class ProductSquareViewFragment extends BaseFragment implements ProductSq
         rvSubcategory.setLayoutManager(new LinearLayoutManager(getContext()));
         SquareViewCategoryAdapter subcategoryAdapter = new SquareViewCategoryAdapter(subCategories);
         rvSubcategory.setAdapter(subcategoryAdapter);
+        subcategoryAdapter.setOnItemClickListener(new ClickableBaseAdapter.OnItemClickListener<Category>() {
+            @Override
+            public void onItemClicked(int position) {
+
+            }
+
+            @Override
+            public void onItemClicked(Category item) {
+                presenter.setClickedSubCategory(item);
+            }
+        });
     }
 
     @Override

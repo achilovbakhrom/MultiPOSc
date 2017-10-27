@@ -10,5 +10,6 @@ import com.jim.multipos.data.db.model.products.Category;
 public interface ProductSquareViewPresenter extends Presenter {
     void setCategoryRecyclerView();
     void setSubCategoryRecyclerView();
-    void getClickedCategory(Category category);
+    void setClickedCategory(Category category);
+    void setClickedSubCategory(Category subcategory);
 }

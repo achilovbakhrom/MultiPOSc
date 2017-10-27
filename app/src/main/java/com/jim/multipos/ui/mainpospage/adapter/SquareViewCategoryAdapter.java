@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.jim.mpviews.MPListItemView;
 import com.jim.mpviews.MpItem;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseViewHolder;
@@ -28,6 +29,7 @@ public class SquareViewCategoryAdapter extends ClickableBaseAdapter<Category, Sq
     @Override
     public void onBindViewHolder(SquareCategoryViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
+        holder.mpSquareItem.setTextSize(14);
         holder.mpSquareItem.setText(items.get(position).getName());
         if (position == selectedPosition) {
             holder.mpSquareItem.setActivated(true);
@@ -59,7 +61,7 @@ public class SquareViewCategoryAdapter extends ClickableBaseAdapter<Category, Sq
 
     public class SquareCategoryViewHolder extends BaseViewHolder {
         @BindView(R.id.mpSquareItem)
-        MpItem mpSquareItem;
+        MPListItemView mpSquareItem;
         @BindView(R.id.ivNextItem)
         ImageView ivNextItem;
 

@@ -8,11 +8,7 @@
         android:id="@+id/mpSquareItem"
         android:layout_width="@dimen/hundred_dp"
         android:layout_height="@dimen/hundred_dp"
-        android:layout_marginBottom="@dimen/five_dp"
-        android:layout_marginLeft="@dimen/five_dp"
-        android:layout_marginRight="@dimen/five_dp"
-        android:layout_marginTop="@dimen/ten_dp"
-        app:list_item_active="true" />
+        android:layout_margin="@dimen/two_dp" />
 
     <ImageView
         android:id="@+id/ivNextItem"

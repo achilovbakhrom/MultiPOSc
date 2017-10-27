@@ -1,5 +1,6 @@
 package com.jim.multipos.ui.mainpospage.view;
 
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -82,12 +83,12 @@ public class ProductPickerFragment extends BaseFragment implements ProductPicker
     private void changeViewTypeIcon(int viewType) {
         switch (viewType) {
             case SQUARE_VIEW:
-                ivSquareView.setBackgroundColor(getResources().getColor(R.color.colorBlue));
-                ivFolderView.setBackgroundColor(getResources().getColor(R.color.colorTintGrey));
+                ivSquareView.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorBlue)));
+                ivFolderView.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorTintGrey)));
                 break;
             case FOLDER_VIEW:
-                ivSquareView.setBackgroundColor(getResources().getColor(R.color.colorTintGrey));
-                ivFolderView.setBackgroundColor(getResources().getColor(R.color.colorBlue));
+                ivSquareView.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorTintGrey)));
+                ivFolderView.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorBlue)));
                 break;
         }
     }
