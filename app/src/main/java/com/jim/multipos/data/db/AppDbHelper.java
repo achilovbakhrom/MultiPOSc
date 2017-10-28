@@ -151,7 +151,7 @@ public class AppDbHelper implements DbHelper {
             } else {
                 category.setPosition((double) (categories.size() + 1));
             }
-            return mDaoSession.getCategoryDao().insert(category);
+            return mDaoSession.getCategoryDao().insertOrReplace(category);
         });
     }
 
@@ -168,7 +168,7 @@ public class AppDbHelper implements DbHelper {
             } else {
                 subcategory.setPosition((double) (categories.size() + 1));
             }
-            return mDaoSession.getCategoryDao().insert(subcategory);
+            return mDaoSession.getCategoryDao().insertOrReplace(subcategory);
         });
     }
 
@@ -614,8 +614,13 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public Observable<Boolean> isCategoryNameExists(String name) {
-        return Observable.fromCallable(() -> mDaoSession.getCategoryDao().queryBuilder()
-                .where(CategoryDao.Properties.Name.eq(name), CategoryDao.Properties.IsDeleted.eq(false), CategoryDao.Properties.ParentId.eq(WITHOUT_PARENT))
+        return Observable.fromCallable(() -> !mDaoSession.getCategoryDao().queryBuilder()
+                .where(
+                        CategoryDao.Properties.ParentId.eq(Category.WITHOUT_PARENT),
+                        CategoryDao.Properties.Name.eq(name),
+                        CategoryDao.Properties.IsDeleted.eq(false),
+                        CategoryDao.Properties.ParentId.eq(WITHOUT_PARENT)
+                )
                 .build()
                 .list()
                 .isEmpty());
@@ -636,12 +641,24 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
-    public Observable<Boolean> isSubCategoryNameExists(Category parent) {
-        return Observable.fromCallable(() -> mDaoSession.getCategoryDao().queryBuilder()
-                .where(CategoryDao.Properties.Name.eq(parent.getName()), CategoryDao.Properties.IsDeleted.eq(false), CategoryDao.Properties.ParentId.eq(parent.getParentId()))
-                .build()
-                .list()
-                .isEmpty());
+    public Observable<Boolean> isSubCategoryNameExists(String parentName, String name) {
+        return Observable.fromCallable(() -> {
+            List<Category> categories = mDaoSession.getCategoryDao().queryBuilder()
+                    .where(CategoryDao.Properties.Name.eq(parentName), CategoryDao.Properties.IsDeleted.eq(false))
+                    .build()
+                    .list();
+            Long parentId = -1L;
+            if (!categories.isEmpty()) {
+                parentId = categories.get(0).getId();
+            }
+            if (parentId == -1L) {
+                return false;
+            }
+            return !mDaoSession.getCategoryDao().queryBuilder()
+                    .where(CategoryDao.Properties.Id.eq(parentId), CategoryDao.Properties.Name.eq(name))
+                    .list()
+                    .isEmpty();
+        });
     }
 
     @Override
@@ -879,6 +896,24 @@ public class AppDbHelper implements DbHelper {
     public Observable<Boolean> removeAllContacts(Long vendorId) {
         return Observable.fromCallable(() -> {
             mDaoSession.getContactDao().queryBuilder().where(ContactDao.Properties.VendorId.eq(vendorId)).buildDelete().executeDeleteWithoutDetachingEntities();
+            return true;
+        });
+    }
+
+    //Category
+    @Override
+    public Observable<Category> getCategoryById(Long id) {
+        return Observable.fromCallable(() -> mDaoSession.getCategoryDao().load(id));
+    }
+
+    @Override
+    public Observable<Boolean> removeCategory(Category category) {
+        return Observable.fromCallable(() -> {
+//            if (category.getParentId().equals(Category.WITHOUT_PARENT)) {
+//
+//            }
+
+            mDaoSession.getCategoryDao().delete(category);
             return true;
         });
     }

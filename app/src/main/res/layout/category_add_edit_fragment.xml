@@ -56,7 +56,8 @@
                 android:gravity="right"
                 android:text="@string/subcategory"
                 android:textColor="@color/colorMainText"
-                android:textSize="@dimen/sixteen_dp" />
+                android:textSize="@dimen/sixteen_dp"
+                android:id="@+id/tvName"/>
 
             <com.jim.mpviews.MpEditText
                 android:id="@+id/etSubCategoryName"
@@ -78,7 +79,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/twenty_five_dp"
             android:orientation="horizontal"
-            android:paddingRight="@dimen/thirty_dp">
+            android:paddingRight="@dimen/thirty_dp"
+            android:id="@+id/llCategoryChoose">
 
             <TextView
                 android:layout_width="@dimen/hundred_forty_five_dp"

@@ -1,7 +1,5 @@
 package com.jim.multipos.core;
 
-import android.util.Log;
-
 import java.util.List;
 
 import lombok.Setter;
@@ -24,10 +22,10 @@ public abstract class ClickableBaseAdapter<T, E extends BaseViewHolder> extends 
         holder.view.setOnClickListener(view -> {
             if(selectedPosition!=position)
                 if (onItemClickListener != null) {
-                    selectedPosition = position;
                     onItemClickListener.onItemClicked(items.get(position));
                     onItemClickListener.onItemClicked(position);
                     onItemClicked(holder, position);
+                    selectedPosition = position;
             }
         });
     }
@@ -43,4 +41,28 @@ public abstract class ClickableBaseAdapter<T, E extends BaseViewHolder> extends 
     }
 
     protected abstract void onItemClicked(E holder, int position);
+
+    @Override
+    public void addItems(List<T> items) {
+        super.addItems(items);
+    }
+
+    @Override
+    public void setItems(List<T> items) {
+        super.setItems(items);
+        if (!items.isEmpty() && items.size() <= selectedPosition) {
+            selectedPosition = items.size() - 1;
+        } else if (items.isEmpty()) {
+            selectedPosition = -1;
+        }
+    }
+
+    public void setSelectedPosition(int position) {
+        this.selectedPosition = position;
+        notifyItemChanged(selectedPosition);
+        if (onItemClickListener != null) {
+            onItemClickListener.onItemClicked(items.get(position));
+            onItemClickListener.onItemClicked(position);
+        }
+    }
 }

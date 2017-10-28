@@ -3,24 +3,39 @@ package com.jim.multipos.data;
 import android.content.Context;
 
 import com.jim.multipos.data.db.DbHelper;
+import com.jim.multipos.data.db.model.Account;
+import com.jim.multipos.data.db.model.Contact;
 import com.jim.multipos.data.db.model.DaoSession;
+import com.jim.multipos.data.db.model.PaymentType;
 import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.Vendor;
+import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
 import com.jim.multipos.data.db.model.customer.JoinCustomerGroupsWithCustomers;
-import com.jim.multipos.data.db.model.Account;
-import com.jim.multipos.data.db.model.PaymentType;
-import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.stock.Stock;
 import com.jim.multipos.data.db.model.unit.SubUnitsList;
 import com.jim.multipos.data.db.model.unit.Unit;
 import com.jim.multipos.data.db.model.unit.UnitCategory;
-import com.jim.multipos.data.operations.*;
-import com.jim.multipos.data.db.model.Contact;
+import com.jim.multipos.data.operations.AccountOperations;
+import com.jim.multipos.data.operations.CategoryOperations;
+import com.jim.multipos.data.operations.ContactOperations;
+import com.jim.multipos.data.operations.CurrencyOperations;
+import com.jim.multipos.data.operations.CustomerGroupOperations;
+import com.jim.multipos.data.operations.CustomerOperations;
+import com.jim.multipos.data.operations.JoinCustomerGroupWithCustomerOperations;
+import com.jim.multipos.data.operations.PaymentTypeOperations;
+import com.jim.multipos.data.operations.ProductClassOperations;
+import com.jim.multipos.data.operations.ProductOperations;
+import com.jim.multipos.data.operations.ServiceFeeOperations;
+import com.jim.multipos.data.operations.StockOperations;
+import com.jim.multipos.data.operations.SubUnitOperations;
+import com.jim.multipos.data.operations.UnitCategoryOperations;
+import com.jim.multipos.data.operations.UnitOperations;
+import com.jim.multipos.data.operations.VendorOperations;
 import com.jim.multipos.data.prefs.PreferencesHelper;
 
 import java.util.ArrayList;
@@ -212,8 +227,8 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
-    public Observable<Boolean> isSubCategoryNameExists(Category parent) {
-        return dbHelper.isSubCategoryNameExists(parent);
+    public Observable<Boolean> isSubCategoryNameExists(String parentName, String name) {
+        return dbHelper.isSubCategoryNameExists(parentName, name);
     }
 
     @Override
@@ -563,4 +578,15 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     public Observable<Boolean> removeAllContacts(Long vendorId) {
         return dbHelper.removeAllContacts(vendorId);
     }
+
+    @Override
+    public Observable<Category> getCategoryById(Long id) {
+        return dbHelper.getCategoryById(id);
+    }
+
+    @Override
+    public Observable<Boolean> removeCategory(Category category) {
+        return dbHelper.removeCategory(category);
+    }
 }
+

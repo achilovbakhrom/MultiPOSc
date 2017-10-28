@@ -25,10 +25,8 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import eu.inmite.android.lib.validations.form.FormValidator;
 import eu.inmite.android.lib.validations.form.annotations.MinLength;
 import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
-import eu.inmite.android.lib.validations.form.callback.SimpleErrorPopupCallback;
 import io.reactivex.disposables.Disposable;
 
 import static com.jim.multipos.utils.UIUtils.closeKeyboard;
@@ -70,7 +68,7 @@ public class AddSubCategoryFragment extends BaseFragment implements SubCategoryV
 
     @Override
     protected int getLayout() {
-        return R.layout.add_sub_category_fragment;
+        return R.layout.category_add_edit_fragment;
     }
 
     @Override

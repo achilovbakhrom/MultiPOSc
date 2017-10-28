@@ -141,32 +141,6 @@
         <item>To till</item>
         <item>Bank Account</item>
     </string-array>
-    <string-array name="base_currencies_with_abbr">
-        <item>Доллары США ($)</item>
-        <item>Рубль (₽)</item>
-        <item>Евро (€)</item>
-        <item>Гривна (₴)</item>
-        <item>Фунт стерлингов (£)</item>
-        <item>Лев (лв)</item>
-        <item>Тенге (₸)</item>
-        <item>Белорусский рубль (BYN)</item>
-        <item>Армянский драм (РА)</item>
-        <item>Шекель (₪)</item>
-        <item>Иена (¥)</item>
-        <item>Вона (₩)</item>
-        <item>Молдавский лей (lei)</item>
-        <item>Лек (L)</item>
-        <item>Алжирский динар (.د.ج)</item>
-        <item>Кванза (Kz)</item>
-        <item>Манат (АР)</item>
-        <item>Бахрейнский динар (.د.ب)</item>
-        <item>Така (৳)</item>
-        <item>Марка (KM)</item>
-        <item>Реал (R$)</item>
-        <item>Юань (¥)</item>
-        <item>Узбекский сум (uzs)</item>
-        <item>Швейцарский франк (₣)</item>
-    </string-array>
     <string name="clock_in">Clock in:</string>
     <string name="clock_out">Clock out:</string>
     <string name="till_opened_for">Till opened for:</string>
@@ -336,34 +310,47 @@
     <string name="usage_type">Usage Type</string>
     <string name="should_not_be_greater_than_999">Should not be greater than 999</string>
 
+    <string-array name="base_currencies_with_abbr">
+        <item>Доллары США ($)</item>
+        <item>Российский рубль (₽)</item>
+        <item>Евро (€)</item>
+        <item>Украинская гривна (₴)</item>
+        <item>Фунт стерлингов (£)</item>
+        <item>Тенге (₸)</item>
+        <item>Белорусский рубль (BYN)</item>
+        <item>Армянский драм (АРМ)</item>
+        <item>Китайская Юань (CNY)</item>
+        <item>Туркменский Манат (АР)</item>
+        <item>Армянский драм (AMD)</item>
+        <item>Сомони (TJS)</item>
+        <item>Киргизский сом (Сом)</item>
+        <item>Туркменский манат (TMT)</item>
+        <item>Азербайджанский манат (AZN)</item>
+        <item>Грузинский лари (GEL)</item>
+        <item>Молдавский лей (LEI)</item>
+        <item>Узбекский сум (UZS)</item>
+    </string-array>
+
     <string-array name="base_currencies">
-        <item>Доллары</item>
-        <item>Рубль</item>
+        <item>Доллары США</item>
+        <item>Российский рубль</item>
         <item>Евро</item>
-        <item>Гривна</item>
+        <item>Украинская гривна</item>
         <item>Фунт стерлингов</item>
-        <item>Лев</item>
         <item>Тенге</item>
         <item>Белорусский рубль</item>
         <item>Армянский драм</item>
-        <item>Шекель</item>
-        <item>Иена</item>
-        <item>Вона</item>
+        <item>Китайская Юань</item>
+        <item>Туркменский Манат</item>
+        <item>Армянский драм</item>
+        <item>Сомони</item>
+        <item>Киргизский сом</item>
+        <item>Туркменский манат</item>
+        <item>Азербайджанский манат</item>
+        <item>Грузинский лари</item>
         <item>Молдавский лей</item>
-        <item>Лек</item>
-        <item>Алжирский динар</item>
-        <item>Кванза</item>
-        <item>Манат</item>
-        <item>Бахрейнский динар</item>
-        <item>Така</item>
-        <item>Марка</item>
-        <item>Реал</item>
-        <item>Юань</item>
         <item>Узбекский сум</item>
         <item>Швейцарский франк</item>
-        <item>Сербский динар</item>
-        <item>Бат</item>
-        <item>Лира</item>
     </string-array>
     <string-array name="base_abbrs">
         <item>$</item>
@@ -374,15 +361,17 @@
         <item>лв</item>
         <item>₸</item>
         <item>BYN</item>
-        <item>РА</item>
-        <item>₪</item>
-        <item>¥</item>
-        <item>₩</item>
-        <item>L</item>
+        <item>АРМ</item>
+        <item>CNY</item>
         <item>АР</item>
-        <item>¥</item>
-        <item>uzs</item>
-        <item>₣</item>
+        <item>AMD</item>
+        <item>TJS</item>
+        <item>Сом</item>
+        <item>TMT</item>
+        <item>AZN</item>
+        <item>GEL</item>
+        <item>LEI</item>
+        <item>UZS</item>
     </string-array>
     <string name="title_activity_product_class">ProductClassActivity</string>
 
@@ -470,6 +459,11 @@
     <string name="can_not_remove_customer_group">We can not remove the customer group because it has customers.</string>
     <string name="do_you_want_to_save_the_change">Do you want to save the change?</string>
     <string name="you_can_only_delete_inactive_customer_groups">You can only delete inactive customer groups.</string>
+    <string name="add_category">Add Category</string>
+    <string name="warning_such_category_name_exists">Such category name exists</string>
+    <string name="warning_such_category_name_exists_message">Such category name exists</string>
+    <string name="warning_subcategory_name_exists">Such subcategory name exists</string>
+    <string name="warning_such_subcategory_name_exists_title">Such subcategory name exists</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>

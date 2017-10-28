@@ -34,7 +34,7 @@ public interface BaseAppComponent {
 //
 //    EmployerMenuComponent plus(EmployerMenuModule employerMenuModule);
 //
-//    ProductsComponent plus(ProductsModule productsModule);
+//    ProductsComponent plus(ProductModule productsModule);
 //
 //    ProductClassComponent plus(ProductClassModule productClassModule);
 

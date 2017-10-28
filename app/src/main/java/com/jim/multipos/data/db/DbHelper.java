@@ -53,7 +53,7 @@ public interface DbHelper {
     Observable<Integer> getCategoryByName(Category category);
     Observable<Boolean> isCategoryNameExists(String name);
     Observable<Integer> getSubCategoryByName(Category category);
-    Observable<Boolean> isSubCategoryNameExists(Category parent);
+    Observable<Boolean> isSubCategoryNameExists(String parentName, String name);
     Observable<Long> insertCategory(Category category);
     Observable<Long> insertSubCategory(Category subcategory);
     Observable<Boolean> insertCategories(List<Category> categories);
@@ -139,4 +139,8 @@ public interface DbHelper {
     Observable<Vendor> getVendorById(Long vendorId);
     Observable<List<Vendor>> getVendors();
     Observable<Boolean> removeAllContacts(Long vendorId);
+
+    //Category
+    Observable<Category> getCategoryById(Long id);
+    Observable<Boolean> removeCategory(Category category);
 }

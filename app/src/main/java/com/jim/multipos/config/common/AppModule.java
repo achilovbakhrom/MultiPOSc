@@ -31,6 +31,8 @@ import com.jim.multipos.ui.service_fee.ServiceFeeActivity;
 import com.jim.multipos.ui.service_fee.di.ServiceFeeActivityModule;
 import com.jim.multipos.ui.product_class_new.ProductsClassActivity;
 import com.jim.multipos.ui.product_class_new.di.ProductsClassModule;
+import com.jim.multipos.ui.product_last.ProductActivity;
+import com.jim.multipos.ui.product_last.di.ProductModule;
 import com.jim.multipos.ui.signing.SignActivity;
 import com.jim.multipos.ui.signing.di.SignActivityModule;
 import com.jim.multipos.ui.vendor.add_edit.VendorAddEditActivity;
@@ -104,4 +106,8 @@ abstract class AppModule {
     @PerActivity
     @ContributesAndroidInjector(modules = DiscountAddingModule.class)
     abstract DiscountAddingActivity provideDiscountAddingActivity();
+
+    @PerActivity
+    @ContributesAndroidInjector(modules = ProductModule.class)
+    abstract ProductActivity provideProductActivity();
 }

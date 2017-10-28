@@ -32,12 +32,15 @@
             android:windowSoftInputMode="stateHidden">
 
         </activity>
-        <activity android:name=".ui.test.UiLayoutsTestActivity" />
         <activity
             android:name=".ui.mainpospage.MainPosPageActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ui.lock_screen.LockScreenActivity"
+            android:windowSoftInputMode="stateHidden">
+        </activity>
+        <activity
+            android:name=".ui.product_last.ProductActivity"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

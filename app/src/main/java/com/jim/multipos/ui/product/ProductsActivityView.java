@@ -9,4 +9,7 @@ public interface ProductsActivityView {
     void openSubCategory();
     void openProduct();
     void openAdvancedOptions();
+
+
+
 }
