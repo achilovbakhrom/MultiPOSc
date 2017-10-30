@@ -43,9 +43,10 @@ public class Product implements Editable {
     private String barcode;
     private String sku;
     private String photoPath;
-    private Boolean isActive;
-    private Boolean isNotModified;
-    private Boolean isDeleted;
+    private Boolean isActive = true;
+    private Boolean isNotModified = true;
+    private Boolean isDeleted = false;
+    private Double position;
     private Long priceCurrencyId;
     @ToOne(joinProperty = "priceCurrencyId")
     private Currency priceCurrency;
@@ -63,7 +64,6 @@ public class Product implements Editable {
             sourceProperty = "productId",
             targetProperty = "unitId")
     private List<Unit> subUnits;
-    private Long subCategoryId;
     @Property
     private Long vendorId;
     @ToOne(joinProperty = "vendorId")
@@ -92,11 +92,11 @@ public class Product implements Editable {
     public Product() {
     }
 
-    @Generated(hash = 2040294256)
+    @Generated(hash = 2134143750)
     public Product(Long id, String name, Double price, Double cost, Long createdDate, String barcode,
             String sku, String photoPath, Boolean isActive, Boolean isNotModified, Boolean isDeleted,
-            Long priceCurrencyId, Long costCurrencyId, Long classId, Long mainUnitId,
-            Long subCategoryId, Long vendorId, String description, Long rootId, Long parentId) {
+            Double position, Long priceCurrencyId, Long costCurrencyId, Long classId, Long mainUnitId,
+            Long vendorId, String description, Long rootId, Long parentId) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -108,11 +108,11 @@ public class Product implements Editable {
         this.isActive = isActive;
         this.isNotModified = isNotModified;
         this.isDeleted = isDeleted;
+        this.position = position;
         this.priceCurrencyId = priceCurrencyId;
         this.costCurrencyId = costCurrencyId;
         this.classId = classId;
         this.mainUnitId = mainUnitId;
-        this.subCategoryId = subCategoryId;
         this.vendorId = vendorId;
         this.description = description;
         this.rootId = rootId;
@@ -121,37 +121,37 @@ public class Product implements Editable {
 
     @Override
     public void setId(Long id) {
-
+        this.id = id;
     }
 
     @Override
     public boolean isActive() {
-        return false;
+        return this.isActive;
     }
 
     @Override
     public void setActive(boolean active) {
-
+        this.isActive = active;
     }
 
     @Override
     public boolean isDeleted() {
-        return false;
+        return this.isDeleted;
     }
 
     @Override
     public void setDeleted(boolean deleted) {
-
+        this.isDeleted = deleted;
     }
 
     @Override
     public boolean isNotModifyted() {
-        return false;
+        return this.isNotModified;
     }
 
     @Override
     public void setNotModifyted(boolean notModifyted) {
-
+        this.isNotModified = notModifyted;
     }
 
     @Override
@@ -161,7 +161,6 @@ public class Product implements Editable {
 
     @Override
     public void setRootId(Long rootId) {
-
         this.rootId = rootId;
     }
 
@@ -177,7 +176,7 @@ public class Product implements Editable {
 
     @Override
     public Long getId() {
-        return null;
+        return this.id;
     }
 
     /**
@@ -423,14 +422,6 @@ public class Product implements Editable {
         this.vendorId = vendorId;
     }
 
-    public Long getSubCategoryId() {
-        return this.subCategoryId;
-    }
-
-    public void setSubCategoryId(Long subCategoryId) {
-        this.subCategoryId = subCategoryId;
-    }
-
     public Long getMainUnitId() {
         return this.mainUnitId;
     }
@@ -515,16 +506,8 @@ public class Product implements Editable {
         return this.cost;
     }
 
-    public void setCost(double cost) {
-        this.cost = cost;
-    }
-
     public double getPrice() {
         return this.price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
     }
 
     public String getName() {
@@ -561,6 +544,14 @@ public class Product implements Editable {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public Double getPosition() {
+        return this.position;
+    }
+
+    public void setPosition(Double position) {
+        this.position = position;
     }
 
 }

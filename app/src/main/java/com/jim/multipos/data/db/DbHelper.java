@@ -66,6 +66,7 @@ public interface DbHelper {
     Observable<Long> insertProduct(Product product);
     Observable<Boolean> insertProducts(List<Product> products);
     Observable<List<Product>> getAllProducts();
+    Single<List<Product>> getAllActiveProducts(Category parent);
     Observable<Long> insertOrReplaceProduct(Product product);
     Observable<Account> insertAccount(Account account);
     Observable<Boolean> insertAccounts(List<Account> accounts);

@@ -39,6 +39,7 @@ import com.jim.multipos.data.db.model.customer.JoinCustomerGroupsWithCustomers;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.CategoryDao;
 import com.jim.multipos.data.db.model.products.Product;
+import com.jim.multipos.data.db.model.products.ProductDao;
 import com.jim.multipos.data.db.model.stock.Stock;
 import com.jim.multipos.data.db.model.unit.SubUnitsList;
 import com.jim.multipos.data.db.model.unit.Unit;
@@ -207,7 +208,7 @@ public class AppDbHelper implements DbHelper {
                 .filter(Category::getIsActive)
                 .filter(category -> category.getParentId().equals(WITHOUT_PARENT))
                 .sorted((category, t1) -> t1.getCreatedDate().compareTo(category.getCreatedDate()))
-                .sorted((category, t1) -> t1.getPosition().compareTo(category.getPosition()))
+                .sorted((category, t1) -> category.getPosition().compareTo(t1.getPosition()))
                 .toList();
     }
 
@@ -228,7 +229,7 @@ public class AppDbHelper implements DbHelper {
                 .filter(Category::getIsActive)
                 .filter(category -> category.getParentId().equals(parent.getId()))
                 .sorted((category, t1) -> t1.getCreatedDate().compareTo(category.getCreatedDate()))
-                .sorted((category, t1) -> t1.getPosition().compareTo(category.getPosition()))
+                .sorted((category, t1) -> category.getPosition().compareTo(t1.getPosition()))
                 .toList();
     }
 
@@ -247,7 +248,19 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public Observable<Long> insertProduct(Product product) {
-        return Observable.create(subscriber -> mDaoSession.getProductDao().insertOrReplace(product));
+        return Observable.fromCallable(() -> {
+            List<Product> products = mDaoSession.getProductDao().queryBuilder()
+                    .where(ProductDao.Properties.ParentId.eq(product.getParentId()),
+                            ProductDao.Properties.IsDeleted.eq(false),
+                            ProductDao.Properties.IsNotModified.eq(true))
+                    .build().list();
+            if (products.isEmpty()) {
+                product.setPosition(1d);
+            } else {
+                product.setPosition((double) (products.size() + 1));
+            }
+            return mDaoSession.getProductDao().insertOrReplace(product);
+        });
     }
 
     @Override
@@ -261,6 +274,27 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Observable<List<Product>> getAllProducts() {
         return Observable.fromCallable(() -> mDaoSession.getProductDao().loadAll());
+    }
+
+    @Override
+    public Single<List<Product>> getAllActiveProducts(Category parent) {
+        Observable<List<Product>> objectObservable = Observable.create(singleSubscriber -> {
+            try {
+                List<Product> products = mDaoSession.getProductDao().loadAll();
+                singleSubscriber.onNext(products);
+                singleSubscriber.onComplete();
+            } catch (Exception o) {
+                singleSubscriber.onError(o);
+            }
+        });
+        return objectObservable.flatMap(Observable::fromIterable)
+                .filter(Product::isNotModifyted)
+                .filter(product -> !product.isDeleted())
+                .filter(Product::getIsActive)
+                .filter(product -> product.getParentId().equals(parent.getId()))
+                .sorted((product, t1) -> t1.getCreatedDate().compareTo(product.getCreatedDate()))
+                .sorted((product, t1) -> product.getPosition().compareTo(t1.getPosition()))
+                .toList();
     }
 
     @Override

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.jim.mpviews.MpListItem xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mpSquareItem"
+    android:layout_width="@dimen/hundred_dp"
+    android:layout_height="@dimen/hundred_dp"
+    android:layout_margin="@dimen/two_dp" />

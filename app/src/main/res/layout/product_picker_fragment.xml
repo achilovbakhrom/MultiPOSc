@@ -27,11 +27,14 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/fifteen_dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@string/category"
+                    android:maxWidth="@dimen/hundred_fifty_dp"
                     android:paddingBottom="@dimen/five_dp"
                     android:paddingLeft="@dimen/ten_dp"
                     android:paddingRight="@dimen/ten_dp"
                     android:paddingTop="@dimen/five_dp"
-                    android:text="@string/category"
                     android:textColor="@color/colorBlue"
                     android:textSize="@dimen/sixteen_dp"
                     android:textStyle="bold" />
@@ -48,35 +51,39 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:paddingBottom="@dimen/five_dp"
-                    android:paddingLeft="@dimen/ten_dp"
-                    android:paddingRight="@dimen/ten_dp"
-                    android:paddingTop="@dimen/five_dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
                     android:text="@string/subcategory"
-                    android:textColor="@color/colorBlue"
-                    android:textSize="@dimen/sixteen_dp"
-                    android:textStyle="bold" />
-
-                <ImageView
-                    android:id="@+id/ivArrowSubCategory"
-                    android:layout_width="@dimen/ten_dp"
-                    android:layout_height="@dimen/ten_dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/pather" />
-
-                <TextView
-                    android:id="@+id/tvProduct"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:maxWidth="@dimen/hundred_fifty_dp"
                     android:paddingBottom="@dimen/five_dp"
                     android:paddingLeft="@dimen/ten_dp"
                     android:paddingRight="@dimen/ten_dp"
                     android:paddingTop="@dimen/five_dp"
-                    android:text="@string/product"
                     android:textColor="@color/colorBlue"
                     android:textSize="@dimen/sixteen_dp"
                     android:textStyle="bold" />
+
+                <!--<ImageView-->
+                    <!--android:id="@+id/ivArrowSubCategory"-->
+                    <!--android:layout_width="@dimen/ten_dp"-->
+                    <!--android:layout_height="@dimen/ten_dp"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:src="@drawable/pather" />-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/tvProduct"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:maxLines="1"-->
+                    <!--android:text="@string/product"-->
+                    <!--android:paddingBottom="@dimen/five_dp"-->
+                    <!--android:paddingLeft="@dimen/ten_dp"-->
+                    <!--android:paddingRight="@dimen/ten_dp"-->
+                    <!--android:paddingTop="@dimen/five_dp"-->
+                    <!--android:textColor="@color/colorBlue"-->
+                    <!--android:textSize="@dimen/sixteen_dp"-->
+                    <!--android:textStyle="bold" />-->
 
                 <LinearLayout
                     android:layout_width="match_parent"

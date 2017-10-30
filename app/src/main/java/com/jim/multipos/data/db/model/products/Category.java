@@ -174,7 +174,7 @@ public class Category implements Editable{
 
     @Override
     public void setCreatedDate(long createdDate) {
-
+        this.createdDate = createdDate;
     }
 
     public void setCreatedDate(Long createdDate) {

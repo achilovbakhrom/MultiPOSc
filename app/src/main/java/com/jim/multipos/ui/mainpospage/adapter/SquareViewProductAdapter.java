@@ -6,11 +6,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.jim.mpviews.MPListItemView;
-import com.jim.mpviews.MpItem;
+import com.jim.mpviews.MpListItem;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseViewHolder;
 import com.jim.multipos.core.ClickableBaseAdapter;
 import com.jim.multipos.data.db.model.products.Category;
+import com.jim.multipos.data.db.model.products.Product;
 
 import java.util.List;
 
@@ -20,9 +21,9 @@ import butterknife.BindView;
  * Created by Sirojiddin on 12.10.2017.
  */
 
-public class SquareViewCategoryAdapter extends ClickableBaseAdapter<Category, SquareViewCategoryAdapter.SquareCategoryViewHolder> {
+public class SquareViewProductAdapter extends ClickableBaseAdapter<Product, SquareViewProductAdapter.SquareCategoryViewHolder> {
 
-    public SquareViewCategoryAdapter(List items) {
+    public SquareViewProductAdapter(List items) {
         super(items);
     }
 
@@ -31,27 +32,16 @@ public class SquareViewCategoryAdapter extends ClickableBaseAdapter<Category, Sq
         super.onBindViewHolder(holder, position);
         holder.mpSquareItem.setTextSize(14);
         holder.mpSquareItem.setText(items.get(position).getName());
-        if (position == selectedPosition) {
-            holder.mpSquareItem.setActivate(true);
-            holder.ivNextItem.setVisibility(View.VISIBLE);
-        } else {
-            holder.mpSquareItem.setActivate(false);
-            holder.ivNextItem.setVisibility(View.INVISIBLE);
-        }
     }
 
     @Override
-    public void setItems(List<Category> items) {
+    public void setItems(List<Product> items) {
         super.setItems(items);
-    }
-
-    public void setSelected(int position){
-        this.selectedPosition = position;
     }
 
     @Override
     public SquareCategoryViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.square_view_item, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.square_view_product_item, viewGroup, false);
         return new SquareCategoryViewHolder(view);
     }
 
@@ -65,13 +55,9 @@ public class SquareViewCategoryAdapter extends ClickableBaseAdapter<Category, Sq
         notifyDataSetChanged();
     }
 
-
     public class SquareCategoryViewHolder extends BaseViewHolder {
         @BindView(R.id.mpSquareItem)
-        MPListItemView mpSquareItem;
-        @BindView(R.id.ivNextItem)
-        ImageView ivNextItem;
-
+        MpListItem mpSquareItem;
         public SquareCategoryViewHolder(View itemView) {
             super(itemView);
         }
