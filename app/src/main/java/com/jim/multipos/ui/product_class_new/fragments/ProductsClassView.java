@@ -10,4 +10,10 @@ import java.util.List;
 
 public interface ProductsClassView extends BaseView {
     void refreshList(List<Object> objects);
+    void notifyItemChanged(int pos);
+    void notifyItemAddRange(int from,int to);
+    void notifyItemAdd(int pos);
+    void notifyItemRemove(int pos);
+    void notifyItemRemoveRange(int from,int to);
+
 }

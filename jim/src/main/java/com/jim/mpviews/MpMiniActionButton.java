@@ -39,4 +39,5 @@ public class MpMiniActionButton extends android.support.v7.widget.AppCompatImage
         setColorFilter(null);
         setEnabled(true);
     }
+
 }

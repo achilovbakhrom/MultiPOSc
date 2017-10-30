@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.Spinner;
 
 import com.jim.mpviews.utils.Utils;
 
@@ -23,7 +24,9 @@ import com.jim.mpviews.utils.Utils;
 public class MPosSpinner extends FrameLayout {
 
     private ItemSelectionListener listener;
-
+    private int pos;
+    private boolean firstListner = false;
+    private boolean fake = false;
     public MPosSpinner(@NonNull Context context) {
         super(context);
         init(context);
@@ -48,7 +51,7 @@ public class MPosSpinner extends FrameLayout {
         setBackgroundResource(R.drawable.edit_text_bg);
         AppCompatSpinner spinner = new AppCompatSpinner(context);
         spinner.setId(R.id.spinner);
-        LayoutParams lp = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        LayoutParams lp = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         lp.topMargin = Utils.dpToPx(2);
         lp.bottomMargin = Utils.dpToPx(2);
         lp.leftMargin = Utils.dpToPx(4);
@@ -58,9 +61,16 @@ public class MPosSpinner extends FrameLayout {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(firstListner&&pos!=i){
+                    pos = -1;
                 if (listener != null) {
                     listener.onItemSelected(view, i);
                 }
+                }
+                else {
+                    firstListner = true;
+                }
+
             }
 
             @Override
@@ -82,11 +92,16 @@ public class MPosSpinner extends FrameLayout {
     public void setItemSelectionListener(ItemSelectionListener listener) {
         this.listener = listener;
     }
-
+    public void setItemSelectionListenerWithPos(ItemSelectionListener listener, int pos) {
+        this.listener = listener;
+        this.pos = pos;
+    }
     public void setArrowResource(int id) {
         ((ImageView) findViewById(R.id.spinner_arrow)).setImageResource(id);
     }
-
+    public void setOnClickListner(AdapterView.OnItemSelectedListener onClickListner){
+        ((Spinner)findViewById(R.id.spinner)).setOnItemSelectedListener(onClickListner);
+    }
     public void setAdapter(String[] items, String defaultItemName) {
         String[] temp = new String[items.length + 1];
         int size = items.length + 1;
@@ -123,5 +138,12 @@ public class MPosSpinner extends FrameLayout {
 
     public void setSelection(int position) {
         ((AppCompatSpinner) findViewById(R.id.spinner)).setSelection(position);
+    }
+    public void setSelectedPosition(int position){
+        ((AppCompatSpinner)findViewById(R.id.spinner)).setSelection(position,false);
+        fake = true;
+    }
+    public void setSelectedPosition(int position,boolean b){
+        ((AppCompatSpinner)findViewById(R.id.spinner)).setSelection(position,b);
     }
 }

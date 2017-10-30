@@ -12,6 +12,7 @@
         android:layout_marginBottom="@dimen/ten_dp"
         >
         <ImageView
+            android:id="@+id/ivArrow"
             android:layout_width="@dimen/sixteen_dp"
             android:layout_height="match_parent"
             android:scaleType="centerInside"

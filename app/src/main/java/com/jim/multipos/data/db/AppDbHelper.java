@@ -23,6 +23,7 @@ import com.jim.multipos.data.db.model.Contact;
 import com.jim.multipos.data.db.model.ContactDao;
 import com.jim.multipos.data.db.model.DaoMaster;
 import com.jim.multipos.data.db.model.DaoSession;
+import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.PaymentType;
 import com.jim.multipos.data.db.model.PaymentTypeDao;
 import com.jim.multipos.data.db.model.ProductClass;
@@ -453,6 +454,36 @@ public class AppDbHelper implements DbHelper {
     @Override
     public List<PaymentType> getPaymentTypes() {
         return mDaoSession.getPaymentTypeDao().loadAll();
+    }
+
+    @Override
+    public Single<List<Discount>> getAllDiscounts() {
+        Observable<List<Discount>> objectObservable = Observable.create(singleSubscriber -> {
+            try {
+                List<Discount> discounts = mDaoSession.getDiscountDao().loadAll();
+                singleSubscriber.onNext(discounts);
+                singleSubscriber.onComplete();
+            } catch (Exception o) {
+                singleSubscriber.onError(o);
+            }
+        });
+        return objectObservable.flatMap(Observable::fromIterable)
+                .filter(discounts -> discounts.isNotModifyted())
+                .filter(discounts -> !discounts.isDeleted())
+                .sorted((discounts, t1) -> t1.getCreatedDate().compareTo(discounts.getCreatedDate()))
+                .toList();
+    }
+
+    @Override
+    public Single<Long> insertDiscount(Discount discount) {
+        return Single.create(singleSubscriber -> {
+            try {
+                long result = mDaoSession.getDiscountDao().insertOrReplace(discount);
+                singleSubscriber.onSuccess(result);
+            } catch (Exception o) {
+                singleSubscriber.onError(o);
+            }
+        });
     }
 
     @Override

@@ -1,29 +1,158 @@
 package com.jim.multipos.data.db.model;
 
+import com.jim.multipos.data.db.model.intosystem.Editable;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 
 @Entity(nameInDb = "DISCOUNT", active = true)
-public class Discount {
+public class Discount implements Editable {
     @Id(autoincrement = true)
     private Long id;
-    private String name;
-    private String amountType;
+    private String discription;
     private double amount;
-    private String applyType;
-    private long barcode;
-    private double maxAmount;
-    private double minAmount;
-    private boolean isTaxed;
-    private boolean isActive;
-    private boolean isWholesale;
-    private boolean hasDiscountCode;
-    private String startDate;
-    private String endDate;
-    private long requireNimber;
-    private String qualificationType;
+    private String amountType;
+    private String usedType;
+    private boolean active;
+    private boolean delete;
+    private boolean notModifyted;
+    private Long rootId;
+    private Long createdDate;
+    /** Used for active entity operations. */
+    @Generated(hash = 1583145616)
+    private transient DiscountDao myDao;
+    /** Used to resolve relations */
+    @Generated(hash = 2040040024)
+    private transient DaoSession daoSession;
+
+
+    @Generated(hash = 923781430)
+    public Discount(Long id, String discription, double amount, String amountType,
+            String usedType, boolean active, boolean delete, boolean notModifyted,
+            Long rootId, Long createdDate) {
+        this.id = id;
+        this.discription = discription;
+        this.amount = amount;
+        this.amountType = amountType;
+        this.usedType = usedType;
+        this.active = active;
+        this.delete = delete;
+        this.notModifyted = notModifyted;
+        this.rootId = rootId;
+        this.createdDate = createdDate;
+    }
+
+    @Generated(hash = 1777606421)
+    public Discount() {
+    }
+
+
+    public String getDiscription() {
+        return discription;
+    }
+
+    public void setDiscription(String discription) {
+        this.discription = discription;
+    }
+
+    public Double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+    public String getAmountType() {
+        return amountType;
+    }
+
+    public void setAmountType(String amountType) {
+        this.amountType = amountType;
+    }
+
+    public String getUsedType() {
+        return usedType;
+    }
+
+    public void setUsedType(String usedType) {
+        this.usedType = usedType;
+    }
+
+    public boolean isDelete() {
+        return delete;
+    }
+
+    public void setDelete(boolean delete) {
+        this.delete = delete;
+    }
+
+    public void setCreatedDate(Long createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    @Override
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Override
+    public boolean isActive() {
+        return active;
+    }
+
+    @Override
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    @Override
+    public boolean isDeleted() {
+        return delete;
+    }
+
+    @Override
+    public void setDeleted(boolean deleted) {
+        this.delete = deleted;
+    }
+
+    @Override
+    public boolean isNotModifyted() {
+        return notModifyted;
+    }
+
+    @Override
+    public void setNotModifyted(boolean notModifyted) {
+        this.notModifyted  =notModifyted;
+    }
+
+    @Override
+    public Long getRootId() {
+        return rootId;
+    }
+
+    @Override
+    public void setRootId(Long rootId) {
+        this.rootId = rootId;
+    }
+
+    @Override
+    public Long getCreatedDate() {
+        return createdDate;
+    }
+
+    @Override
+    public void setCreatedDate(long createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    @Override
+    public Long getId() {
+        return id;
+    }
+
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
      * Entity must attached to an entity context.
@@ -35,6 +164,7 @@ public class Discount {
         }
         myDao.refresh(this);
     }
+
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
      * Entity must attached to an entity context.
@@ -46,6 +176,7 @@ public class Discount {
         }
         myDao.update(this);
     }
+
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
      * Entity must attached to an entity context.
@@ -57,138 +188,36 @@ public class Discount {
         }
         myDao.delete(this);
     }
+
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 915725086)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getDiscountDao() : null;
     }
-    /** Used for active entity operations. */
-    @Generated(hash = 1583145616)
-    private transient DiscountDao myDao;
-    /** Used to resolve relations */
-    @Generated(hash = 2040040024)
-    private transient DaoSession daoSession;
-    public String getQualificationType() {
-        return this.qualificationType;
+
+    public boolean getNotModifyted() {
+        return this.notModifyted;
     }
-    public void setQualificationType(String qualificationType) {
-        this.qualificationType = qualificationType;
+
+    public boolean getDelete() {
+        return this.delete;
     }
-    public long getRequireNimber() {
-        return this.requireNimber;
+
+    public Boolean getActive() {
+        return this.active;
     }
-    public void setRequireNimber(long requireNimber) {
-        this.requireNimber = requireNimber;
-    }
-    public String getEndDate() {
-        return this.endDate;
-    }
-    public void setEndDate(String endDate) {
-        this.endDate = endDate;
-    }
-    public String getStartDate() {
-        return this.startDate;
-    }
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
-    }
-    public boolean getHasDiscountCode() {
-        return this.hasDiscountCode;
-    }
-    public void setHasDiscountCode(boolean hasDiscountCode) {
-        this.hasDiscountCode = hasDiscountCode;
-    }
-    public boolean getIsWholesale() {
-        return this.isWholesale;
-    }
-    public void setIsWholesale(boolean isWholesale) {
-        this.isWholesale = isWholesale;
-    }
-    public boolean getIsActive() {
-        return this.isActive;
-    }
-    public void setIsActive(boolean isActive) {
-        this.isActive = isActive;
-    }
-    public boolean getIsTaxed() {
-        return this.isTaxed;
-    }
-    public void setIsTaxed(boolean isTaxed) {
-        this.isTaxed = isTaxed;
-    }
-    public double getMinAmount() {
-        return this.minAmount;
-    }
-    public void setMinAmount(double minAmount) {
-        this.minAmount = minAmount;
-    }
-    public double getMaxAmount() {
-        return this.maxAmount;
-    }
-    public void setMaxAmount(double maxAmount) {
-        this.maxAmount = maxAmount;
-    }
-    public long getBarcode() {
-        return this.barcode;
-    }
-    public void setBarcode(long barcode) {
-        this.barcode = barcode;
-    }
-    public String getApplyType() {
-        return this.applyType;
-    }
-    public void setApplyType(String applyType) {
-        this.applyType = applyType;
-    }
-    public double getAmount() {
-        return this.amount;
-    }
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
-    public String getAmountType() {
-        return this.amountType;
-    }
-    public void setAmountType(String amountType) {
-        this.amountType = amountType;
-    }
-    public String getName() {
-        return this.name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-    public Long getId() {
-        return this.id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
-    @Generated(hash = 1218280432)
-    public Discount(Long id, String name, String amountType, double amount,
-            String applyType, long barcode, double maxAmount, double minAmount,
-            boolean isTaxed, boolean isActive, boolean isWholesale,
-            boolean hasDiscountCode, String startDate, String endDate,
-            long requireNimber, String qualificationType) {
-        this.id = id;
-        this.name = name;
-        this.amountType = amountType;
-        this.amount = amount;
-        this.applyType = applyType;
-        this.barcode = barcode;
-        this.maxAmount = maxAmount;
-        this.minAmount = minAmount;
-        this.isTaxed = isTaxed;
-        this.isActive = isActive;
-        this.isWholesale = isWholesale;
-        this.hasDiscountCode = hasDiscountCode;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.requireNimber = requireNimber;
-        this.qualificationType = qualificationType;
-    }
-    @Generated(hash = 1777606421)
-    public Discount() {
+    public Discount copy(){
+        Discount discount = new Discount();
+        discount.setId(id);
+        discount.setAmount(amount);
+        discount.setDiscription(discription);
+        discount.setAmountType(amountType);
+        discount.setUsedType(usedType);
+        discount.setActive(active);
+        discount.setNotModifyted(notModifyted);
+        discount.setRootId(rootId);
+        discount.setCreatedDate(createdDate);
+        return discount;
     }
 }

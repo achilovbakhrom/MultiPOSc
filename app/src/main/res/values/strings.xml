@@ -405,6 +405,8 @@
     <string name="select_customer_groups">Select customer groups</string>
     <string name="class_name_should_be_longer">Class name should be longer 3 letter</string>
     <string name="class_name_empty">Class name can not be empty</string>
+    <string name="discount_discription_empty">Discount reason can not be empty</string>
+    <string name="discount_amount_empty">Discount amount can not be empty</string>
     <string name="account_name_exists">Account name exists!</string>
     <string name="customer_name_exists">Customer name exists!</string>
     <string name="payment_type_name_exists">Payment type name exists!</string>
@@ -464,6 +466,10 @@
     <string name="warning_such_category_name_exists_message">Such category name exists</string>
     <string name="warning_subcategory_name_exists">Such subcategory name exists</string>
     <string name="warning_such_subcategory_name_exists_title">Such subcategory name exists</string>
+    <string name="percent_can_not_be_more_hunder">Percent can not be a more than 100</string>
+    <string name="product_class_name_unique">Product class name should be unique</string>
+    <string name="change_to_not_delete_when_not_active">First full you should change status item to \"not active\"</string>
+    <string name="zero_discont">Discount can\'t be with zero value</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>
@@ -483,4 +489,21 @@
         <item>PHONE</item>
         <item>EMAIL</item>
     </string-array>
+    <string-array name="discount_amount_types">
+        <item>Percent</item>
+        <item>Value</item>
+    </string-array>
+    <string-array name="discount_amount_types_abr">
+        <item>percent</item>
+        <item>value</item>
+    </string-array>
+    <string-array name="discount_used_types">
+        <item>Item</item>
+        <item>Order</item>
+    </string-array>
+    <string-array name="discount_used_types_abr">
+        <item>item</item>
+        <item>order</item>
+    </string-array>
+
 </resources>

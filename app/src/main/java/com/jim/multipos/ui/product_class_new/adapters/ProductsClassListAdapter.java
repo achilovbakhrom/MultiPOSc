@@ -7,6 +7,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.jim.mpviews.MpActionButton;
 import com.jim.mpviews.MpCheckbox;
@@ -55,6 +56,7 @@ public class ProductsClassListAdapter extends RecyclerView.Adapter<RecyclerView.
         void onAddSubPressed(String name, boolean active, ProductClass parent);
         void onSave(String name, boolean active,ProductClass productClass);
         void onDelete(ProductClass productClass);
+        boolean nameIsUnique(String checkName,ProductClass currentProductClass);
     }
 
 
@@ -89,12 +91,23 @@ public class ProductsClassListAdapter extends RecyclerView.Adapter<RecyclerView.
             holder.etName.setText(productClass.getName());
             holder.chbActive.setChecked(productClass.getActive());
             holder.btnSave.disable();
+            if(!productClass.getActive()){
+                holder.etName.setAlpha(0.5f);
+            }else holder.etName.setAlpha(1f);
         }else if(holder1 instanceof ItemSubClassViewHolder){
             ItemSubClassViewHolder holder = (ItemSubClassViewHolder) holder1;
             ProductClass subProductClass = (ProductClass) items.get(position);
             holder.etName.setText(subProductClass.getName());
             holder.chbActive.setChecked(subProductClass.getActive());
             holder.btnSave.disable();
+            if(!subProductClass.getActive()){
+                holder.etName.setAlpha(0.5f);
+                holder.ivArrow.setAlpha(0.5f);
+            }else{
+                holder.etName.setAlpha(1f);
+                holder.ivArrow.setAlpha(1f);
+
+            }
         }else if(holder1 instanceof AddSubClassViewHolder){
             ((AddSubClassViewHolder) holder1).etName.setText("");
             ((AddSubClassViewHolder) holder1).chbActive.setChecked(true);
@@ -138,11 +151,14 @@ public class ProductsClassListAdapter extends RecyclerView.Adapter<RecyclerView.
             ButterKnife.bind(this, itemView);
             btnAdd.setOnClickListener(view -> {
                 if(FormValidator.validate(context,this, new MultipleCallback())){
-                    onProductClassCallback.onAddPressed(etName.getText().toString(),chbActive.isChecked());
-                    etName.setText("");
-                    chbActive.setChecked(true);
-                    UIUtils.closeKeyboard(etName,context);
-
+                    if(onProductClassCallback.nameIsUnique(etName.getText().toString(),null)) {
+                        onProductClassCallback.onAddPressed(etName.getText().toString(), chbActive.isChecked());
+                        etName.setText("");
+                        chbActive.setChecked(true);
+                        UIUtils.closeKeyboard(etName, context);
+                    }else {
+                        etName.setError(context.getString(R.string.product_class_name_unique));
+                    }
                 }
             });
         }
@@ -159,10 +175,11 @@ public class ProductsClassListAdapter extends RecyclerView.Adapter<RecyclerView.
         MpMiniActionButton btnSave;
         @BindView(R.id.btnDelete)
         MpMiniActionButton btnDelete;
-
+        View mainview;
         public ItemClassViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            mainview = itemView;
             chbActive.setCheckedChangeListener(isChecked -> {
                 btnSave.enable();
             });
@@ -184,12 +201,25 @@ public class ProductsClassListAdapter extends RecyclerView.Adapter<RecyclerView.
             });
             btnSave.setOnClickListener(view -> {
                 if(FormValidator.validate(context,this, new MultipleCallback())) {
-                    onProductClassCallback.onSave(etName.getText().toString(),chbActive.isChecked(),(ProductClass) items.get(getAdapterPosition()));
+                    if(onProductClassCallback.nameIsUnique(etName.getText().toString(),(ProductClass) items.get(getAdapterPosition()))) {
+                        onProductClassCallback.onSave(etName.getText().toString(), chbActive.isChecked(), (ProductClass) items.get(getAdapterPosition()));
+                    }else {
+                        etName.setError(context.getString(R.string.product_class_name_unique));
+                    }
                 }
             });
             btnDelete.setOnClickListener(view -> {
+                ProductClass productClass = (ProductClass) items.get(getAdapterPosition());
+                if(productClass.getActive()){
+                    WarningDialog warningDialog = new WarningDialog(context);
+                    warningDialog.onlyText(true);
+                    warningDialog.setWarningText("First full you should change status item to\n\"not active\"");
+                    warningDialog.setOnYesClickListener(view1 -> warningDialog.dismiss());
+                    warningDialog.show();
+                    return;
+                }
                 WarningDialog warningDialog = new WarningDialog(context);
-                warningDialog.setWarningText(context.getString(R.string.do_you_want_delete_item)+" "+((ProductClass) items.get(getAdapterPosition())).getName()+"?");
+                warningDialog.setWarningText(context.getString(R.string.do_you_want_delete_item)+" "+ productClass.getName()+"?");
                 warningDialog.setOnNoClickListener(view1 -> {
                     warningDialog.dismiss();
                 });
@@ -213,9 +243,13 @@ public class ProductsClassListAdapter extends RecyclerView.Adapter<RecyclerView.
         MpMiniActionButton btnSave;
         @BindView(R.id.btnDelete)
         MpMiniActionButton btnDelete;
+        @BindView(R.id.ivArrow)
+        ImageView ivArrow;
+        View mainview;
         public ItemSubClassViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            mainview = itemView;
             chbActive.setCheckedChangeListener(isChecked -> {
                 btnSave.enable();
             });
@@ -237,13 +271,26 @@ public class ProductsClassListAdapter extends RecyclerView.Adapter<RecyclerView.
             });
             btnSave.setOnClickListener(view -> {
                 if(FormValidator.validate(context,this, new MultipleCallback())) {
-                    onProductClassCallback.onSave(etName.getText().toString(),chbActive.isChecked(),(ProductClass) items.get(getAdapterPosition()));
-                    UIUtils.closeKeyboard(etName,context);
+                    if(onProductClassCallback.nameIsUnique(etName.getText().toString(),(ProductClass) items.get(getAdapterPosition()))){
+                        onProductClassCallback.onSave(etName.getText().toString(),chbActive.isChecked(),(ProductClass) items.get(getAdapterPosition()));
+                        UIUtils.closeKeyboard(etName,context);
+                    }else {
+                        etName.setError(context.getString(R.string.product_class_name_unique));
+                    }
                 }
             });
             btnDelete.setOnClickListener(view -> {
+                ProductClass productClass = (ProductClass) items.get(getAdapterPosition());
+                if(productClass.getActive()){
+                    WarningDialog warningDialog = new WarningDialog(context);
+                    warningDialog.onlyText(true);
+                    warningDialog.setWarningText(context.getString(R.string.change_to_not_delete_when_not_active));
+                    warningDialog.setOnYesClickListener(view1 -> warningDialog.dismiss());
+                    warningDialog.show();
+                    return;
+                }
                 WarningDialog warningDialog = new WarningDialog(context);
-                warningDialog.setWarningText(context.getString(R.string.do_you_want_delete_item)+" "+((ProductClass) items.get(getAdapterPosition())).getName()+"?");
+                warningDialog.setWarningText(context.getString(R.string.do_you_want_delete_item)+" "+productClass.getName()+"?");
                 warningDialog.setOnNoClickListener(view1 -> {
                     warningDialog.dismiss();
                 });
@@ -275,10 +322,15 @@ public class ProductsClassListAdapter extends RecyclerView.Adapter<RecyclerView.
                         if(items.get(i) instanceof ProductClass){
                             if(((ProductClass) items.get(i)).getParentId() == null){
                                 ProductClass productClass = (ProductClass) items.get(i);
+                                if(onProductClassCallback.nameIsUnique(etName.getText().toString(),null)){
                                 onProductClassCallback.onAddSubPressed(etName.getText().toString(),chbActive.isChecked(),productClass);
-
                                 etName.setText("");
                                 chbActive.setChecked(true);
+                                }else {
+                                    etName.setError(context.getString(R.string.product_class_name_unique));
+                                }
+//                                UIUtils.closeKeyboard(etName,context);
+
                                 break;
                             }
                         }
