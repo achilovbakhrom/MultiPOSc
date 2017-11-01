@@ -12,6 +12,7 @@ public abstract class ClickableBaseAdapter<T, E extends BaseViewHolder> extends 
     @Setter
     private OnItemClickListener<T> onItemClickListener;
     protected int selectedPosition = -1;
+    protected boolean enableDoubleClick = true;
 
     public ClickableBaseAdapter(List<T> items) {
         super(items);
@@ -20,7 +21,7 @@ public abstract class ClickableBaseAdapter<T, E extends BaseViewHolder> extends 
     @Override
     public void onBindViewHolder(E holder, int position) {
         holder.view.setOnClickListener(view -> {
-            if(selectedPosition!=position)
+            if(selectedPosition == position || isDoubleClickEnabled())
                 if (onItemClickListener != null) {
                     onItemClickListener.onItemClicked(items.get(position));
                     onItemClickListener.onItemClicked(position);
@@ -41,6 +42,14 @@ public abstract class ClickableBaseAdapter<T, E extends BaseViewHolder> extends 
     }
 
     protected abstract void onItemClicked(E holder, int position);
+
+    protected void setDoubleClickEnabled(boolean state){
+        this.enableDoubleClick = state;
+    }
+
+    protected boolean isDoubleClickEnabled(){
+        return enableDoubleClick;
+    }
 
     @Override
     public void addItems(List<T> items) {

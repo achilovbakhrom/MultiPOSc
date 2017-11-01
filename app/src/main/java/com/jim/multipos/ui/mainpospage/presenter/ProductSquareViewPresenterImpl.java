@@ -94,16 +94,12 @@ public class ProductSquareViewPresenterImpl extends BasePresenterImpl<ProductSqu
     @Override
     public void setClickedCategory(Category category) {
         this.parentCategory = category;
-//        if (parentCategory.getId().equals(parentSubCategory.getParentId())){
-//            view.setProductsVisibility(true);
-//        } else view.setProductsVisibility(false);
         refreshSubCategories();
     }
 
     @Override
     public void setClickedSubCategory(Category subcategory) {
         this.parentSubCategory = subcategory;
-//        view.setProductsVisibility(true);
         refreshProducts();
     }
 
@@ -135,21 +131,22 @@ public class ProductSquareViewPresenterImpl extends BasePresenterImpl<ProductSqu
             view.refreshSubCategories(subcategoryList);
         });
         view.setSelectedSubCategory(preferencesHelper.getLastPositionSubCategory(String.valueOf(parentCategory.getId())));
-        if (!subcategoryList.isEmpty()){
+        if (!subcategoryList.isEmpty()) {
             view.sendEvent(subcategoryList.get(preferencesHelper.getLastPositionSubCategory(String.valueOf(parentCategory.getId()))), SUBCATEGORY_TITLE);
+            setSelectedSubCategory(preferencesHelper.getLastPositionSubCategory(String.valueOf(parentCategory.getId())));
         } else view.sendEvent(null, SUBCATEGORY_TITLE);
         refreshProducts();
     }
 
     @Override
     public void refreshProducts() {
-        if (!subcategoryList.isEmpty())
+        if (!subcategoryList.isEmpty()) {
             productOperations.getAllActiveProducts(parentSubCategory).subscribe(products -> {
                 productList.clear();
                 productList.addAll(products);
                 view.refreshProducts(productList);
             });
-        else productList.clear();
+        } else productList.clear();
 
     }
 }

@@ -13,6 +13,8 @@ import com.jim.multipos.ui.mainpospage.MainPosPageActivity;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivityImpl;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivityPresenter;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivityView;
+import com.jim.multipos.ui.mainpospage.view.ProductFolderFragmentModule;
+import com.jim.multipos.ui.mainpospage.view.ProductFolderViewFragment;
 import com.jim.multipos.ui.mainpospage.view.ProductPickerFragment;
 import com.jim.multipos.ui.mainpospage.view.ProductPickerFragmentModule;
 import com.jim.multipos.ui.mainpospage.view.ProductSquareFragmentModule;
@@ -48,5 +50,9 @@ public abstract class MainPageMenuModule {
     @PerFragment
     @ContributesAndroidInjector(modules = ProductSquareFragmentModule.class)
     abstract ProductSquareViewFragment provideProductSquareViewFragmentInjector();
+
+    @PerFragment
+    @ContributesAndroidInjector(modules = ProductFolderFragmentModule.class)
+    abstract ProductFolderViewFragment provideProductFolderViewFragmentInjector();
 
 }
