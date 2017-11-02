@@ -11,7 +11,9 @@ import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.ui.product_class_new.adapters.ProductsClassListAdapter;
+import com.jim.multipos.ui.product_class_new.model.ProductsClassAdapterDetials;
 import com.jim.multipos.ui.product_class_new.presenters.ProductsClassPresenter;
+import com.jim.multipos.utils.WarningDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +79,7 @@ public class ProductsClassFragment  extends BaseFragment implements ProductsClas
         ((SimpleItemAnimator) rvClasses.getItemAnimator()).setSupportsChangeAnimations(false);
 
         btnCancel.setOnClickListener(view -> {
-            getActivity().finish();
+            presenter.onCloseAction();
         });
     }
 
@@ -85,10 +87,8 @@ public class ProductsClassFragment  extends BaseFragment implements ProductsClas
     protected void rxConnections() {
 
     }
-    List<Object> objects;
     @Override
-    public void refreshList(List<Object> objects) {
-        this.objects = objects;
+    public void refreshList(List<ProductsClassAdapterDetials> objects) {
         rvClasses.setItemViewCacheSize(objects.size());
         productsClassListAdapter.setData(objects);
         productsClassListAdapter.notifyDataSetChanged();
@@ -96,13 +96,11 @@ public class ProductsClassFragment  extends BaseFragment implements ProductsClas
 
     @Override
     public void notifyItemChanged(int pos) {
-        rvClasses.setItemViewCacheSize(objects.size());
         productsClassListAdapter.notifyItemChanged(pos);
     }
 
     @Override
     public void notifyItemAddRange(int from, int to) {
-        rvClasses.setItemViewCacheSize(objects.size());
         productsClassListAdapter.notifyItemRangeInserted(from,to);
         rvClasses.scrollToPosition(0);
 
@@ -110,20 +108,41 @@ public class ProductsClassFragment  extends BaseFragment implements ProductsClas
 
     @Override
     public void notifyItemAdd(int pos) {
-        rvClasses.setItemViewCacheSize(objects.size());
         productsClassListAdapter.notifyItemInserted(pos);
     }
 
     @Override
     public void notifyItemRemove(int pos) {
-        rvClasses.setItemViewCacheSize(objects.size());
         productsClassListAdapter.notifyItemRemoved(pos);
     }
 
     @Override
     public void notifyItemRemoveRange(int from, int to) {
-        rvClasses.setItemViewCacheSize(objects.size());
+        if(from==to){
+            productsClassListAdapter.notifyItemRemoved(from);
+        }else
         productsClassListAdapter.notifyItemRangeRemoved(from,to);
+    }
+
+    @Override
+    public void closeDiscountActivity() {
+        getActivity().finish();
+    }
+
+    @Override
+    public void openWarning() {
+        WarningDialog warningDialog = new WarningDialog(getActivity());
+        warningDialog.setWarningText(getString(R.string.discard_discounts));
+        warningDialog.setOnYesClickListener(view1 -> warningDialog.dismiss());
+        warningDialog.setOnNoClickListener(view1 -> closeDiscountActivity());
+        warningDialog.setYesButtonText(getString(R.string.cancel));
+        warningDialog.setNoButtonText(getString(R.string.discard));
+        warningDialog.show();
+    }
+
+    @Override
+    public void closeAction() {
+        presenter.onCloseAction();
     }
 
 

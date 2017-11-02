@@ -470,6 +470,8 @@
     <string name="product_class_name_unique">Product class name should be unique</string>
     <string name="change_to_not_delete_when_not_active">First full you should change status item to \"not active\"</string>
     <string name="zero_discont">Discount can\'t be with zero value</string>
+    <string name="discard_discounts">Have not saved discounts, do you want discard?</string>
+    <string name="discard">Discard</string>
     <string name="qty_and_price">Quantity/Price</string>
     <string name="count_of_products">Count of products</string>
     <string-array name="on_item_long_click">
@@ -502,10 +504,12 @@
     <string-array name="discount_used_types">
         <item>Item</item>
         <item>Order</item>
+        <item>All</item>
     </string-array>
     <string-array name="discount_used_types_abr">
         <item>item</item>
         <item>order</item>
+        <item>all</item>
     </string-array>
 
 </resources>

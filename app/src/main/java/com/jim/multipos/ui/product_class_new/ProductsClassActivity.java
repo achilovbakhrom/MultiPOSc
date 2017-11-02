@@ -11,11 +11,12 @@ import com.jim.multipos.ui.product_class_new.fragments.ProductsClassFragment;
  */
 
 public class ProductsClassActivity extends SimpleActivity {
-
+    ProductsClassFragment fragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        addFragment(new ProductsClassFragment());
+        fragment = new ProductsClassFragment();
+        addFragment(fragment);
     }
 
     @Override
@@ -26,5 +27,10 @@ public class ProductsClassActivity extends SimpleActivity {
     @Override
     protected int getToolbarMode() {
         return MpToolbar.DEFAULT_TYPE;
+    }
+    @Override
+    public void onBackPressed() {
+        fragment.closeAction();
+
     }
 }

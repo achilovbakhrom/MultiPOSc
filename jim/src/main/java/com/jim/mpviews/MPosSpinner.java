@@ -24,7 +24,6 @@ import com.jim.mpviews.utils.Utils;
 public class MPosSpinner extends FrameLayout {
 
     private ItemSelectionListener listener;
-    private int pos;
     private boolean firstListner = false;
     private boolean fake = false;
     public MPosSpinner(@NonNull Context context) {
@@ -61,11 +60,9 @@ public class MPosSpinner extends FrameLayout {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(firstListner&&pos!=i){
-                    pos = -1;
+                if(!firstListner)
                 if (listener != null) {
                     listener.onItemSelected(view, i);
-                }
                 }
                 else {
                     firstListner = true;
@@ -92,9 +89,8 @@ public class MPosSpinner extends FrameLayout {
     public void setItemSelectionListener(ItemSelectionListener listener) {
         this.listener = listener;
     }
-    public void setItemSelectionListenerWithPos(ItemSelectionListener listener, int pos) {
+    public void setItemSelectionListenerWithPos(ItemSelectionListener listener) {
         this.listener = listener;
-        this.pos = pos;
     }
     public void setArrowResource(int id) {
         ((ImageView) findViewById(R.id.spinner_arrow)).setImageResource(id);

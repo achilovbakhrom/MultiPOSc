@@ -10,8 +10,10 @@ import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.ui.discount.adapters.DiscountListAdapter;
+import com.jim.multipos.ui.discount.model.DiscountApaterDetials;
 import com.jim.multipos.ui.discount.presenters.DiscountAddingPresenter;
 import com.jim.multipos.ui.discount.presenters.DiscountAddingPresenterImpl;
+import com.jim.multipos.utils.WarningDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,21 +70,65 @@ public class DiscountAddingFragment  extends BaseFragment implements DiscountAdd
         rvDiscounts.setAdapter(discountListAdapter);
         ((SimpleItemAnimator) rvDiscounts.getItemAnimator()).setSupportsChangeAnimations(false);
         btnCancel.setOnClickListener(view -> {
-            getActivity().finish();
+            presenter.onCloseAction();
         });
     }
 
     @Override
-    public void refreshList(List<Object> objects) {
-//        rvDiscounts.setItemViewCacheSize(objects.size());
+    public void refreshList(List<DiscountApaterDetials> objects) {
         discountListAdapter.setData(objects);
         discountListAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void notifyItemChanged(List<Object> objects,int pos) {
-        discountListAdapter.setData(objects);
-        discountListAdapter.notifyItemChanged(pos);
-
+    public void refreshList() {
+        discountListAdapter.notifyDataSetChanged();
     }
+
+    @Override
+    public void notifyItemChanged(int pos) {
+        discountListAdapter.notifyItemChanged(pos);
+    }
+
+    @Override
+    public void notifyItemAddRange(int from, int to) {
+        discountListAdapter.notifyItemRangeInserted(from,to);
+    }
+
+    @Override
+    public void notifyItemAdd(int pos) {
+        discountListAdapter.notifyItemInserted(pos);
+    }
+
+    @Override
+    public void notifyItemRemove(int pos) {
+        discountListAdapter.notifyItemRemoved(pos);
+    }
+
+    @Override
+    public void notifyItemRemoveRange(int from, int to) {
+        discountListAdapter.notifyItemRangeRemoved(from,to);
+    }
+
+    @Override
+    public void closeAction() {
+        presenter.onCloseAction();
+    }
+
+    @Override
+    public void closeDiscountActivity() {
+        getActivity().finish();
+    }
+
+    @Override
+    public void openWarning() {
+        WarningDialog warningDialog = new WarningDialog(getActivity());
+        warningDialog.setWarningText(getString(R.string.discard_discounts));
+        warningDialog.setOnYesClickListener(view1 -> warningDialog.dismiss());
+        warningDialog.setOnNoClickListener(view1 -> closeDiscountActivity());
+        warningDialog.setYesButtonText(getString(R.string.cancel));
+        warningDialog.setNoButtonText(getString(R.string.discard));
+        warningDialog.show();
+    }
+
 }

@@ -160,6 +160,7 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Observable<Long> insertSubCategory(Category subcategory) {
         return Observable.fromCallable(() -> {
+            mDaoSession.clear();
             List<Category> categories = mDaoSession.getCategoryDao().queryBuilder()
                     .where(CategoryDao.Properties.ParentId.eq(subcategory.getParentId()),
                             CategoryDao.Properties.IsDeleted.eq(false),

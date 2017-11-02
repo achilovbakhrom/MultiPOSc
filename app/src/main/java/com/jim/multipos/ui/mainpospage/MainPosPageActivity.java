@@ -11,6 +11,7 @@ import com.jim.multipos.ui.main_menu.inventory_menu.InventoryMenuActivity;
 import com.jim.multipos.ui.main_menu.product_menu.ProductMenuActivity;
 import com.jim.multipos.ui.mainpospage.view.OrderListFragment;
 import com.jim.multipos.ui.mainpospage.view.ProductPickerFragment;
+import com.jim.multipos.ui.mainpospage.view.SearchModeFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,6 +54,8 @@ public class MainPosPageActivity extends DoubleSideActivity implements MainPosPa
         toolbar.setOnReportClickListener(view -> {
         });
         toolbar.setOnSearchClickListener(view -> {
+            addFragmentToRight(new SearchModeFragment());
+
         });
 //        ArrayList<Contact>  contactsTemp = new ArrayList<>();
 //        for(int i=0;i<1000000;i++) {

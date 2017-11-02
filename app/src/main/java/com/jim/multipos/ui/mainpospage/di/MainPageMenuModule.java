@@ -19,6 +19,8 @@ import com.jim.multipos.ui.mainpospage.view.ProductPickerFragment;
 import com.jim.multipos.ui.mainpospage.view.ProductPickerFragmentModule;
 import com.jim.multipos.ui.mainpospage.view.ProductSquareFragmentModule;
 import com.jim.multipos.ui.mainpospage.view.ProductSquareViewFragment;
+import com.jim.multipos.ui.mainpospage.view.SearchModeFragment;
+import com.jim.multipos.ui.mainpospage.view.SearchModeFragmentModule;
 
 import dagger.Binds;
 import dagger.Module;
@@ -55,4 +57,7 @@ public abstract class MainPageMenuModule {
     @ContributesAndroidInjector(modules = ProductFolderFragmentModule.class)
     abstract ProductFolderViewFragment provideProductFolderViewFragmentInjector();
 
+    @PerFragment
+    @ContributesAndroidInjector(modules = SearchModeFragmentModule.class)
+    abstract SearchModeFragment provideSearchModeFragment();
 }

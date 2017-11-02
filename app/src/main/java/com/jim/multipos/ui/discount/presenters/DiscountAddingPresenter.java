@@ -12,4 +12,5 @@ public interface DiscountAddingPresenter extends Presenter {
     void onSave(double amount,String amountTypeAbbr, String discription, String usedTypeAbbr, boolean active, Discount discount);
     void onDelete(Discount discount);
     void sortList(DiscountAddingPresenterImpl.DiscountSortTypes discountSortTypes);
+    void onCloseAction();
 }
