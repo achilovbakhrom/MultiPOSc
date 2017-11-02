@@ -63,9 +63,11 @@ public class ProductSquareViewFragment extends BaseFragment implements ProductSq
         rvCategory.setLayoutManager(new LinearLayoutManager(getContext()));
         categoryAdapter = new SquareViewCategoryAdapter(categories);
         rvCategory.setAdapter(categoryAdapter);
-        presenter.setSelectedCategory(preferencesHelper.getLastPositionCategory());
-        categoryAdapter.setSelected(preferencesHelper.getLastPositionCategory());
-        rxBus.send(new CategoryEvent(categories.get(preferencesHelper.getLastPositionCategory()), CATEGORY_TITLE));
+        if (categories.size() > 0) {
+            presenter.setSelectedCategory(preferencesHelper.getLastPositionCategory());
+            categoryAdapter.setSelected(preferencesHelper.getLastPositionCategory());
+            rxBus.send(new CategoryEvent(categories.get(preferencesHelper.getLastPositionCategory()), CATEGORY_TITLE));
+        } else  rxBus.send(new CategoryEvent(null, CATEGORY_TITLE));
         categoryAdapter.setOnItemClickListener(new ClickableBaseAdapter.OnItemClickListener<Category>() {
             @Override
             public void onItemClicked(int position) {
