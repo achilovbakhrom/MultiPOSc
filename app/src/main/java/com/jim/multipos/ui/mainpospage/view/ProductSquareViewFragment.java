@@ -67,7 +67,7 @@ public class ProductSquareViewFragment extends BaseFragment implements ProductSq
             presenter.setSelectedCategory(preferencesHelper.getLastPositionCategory());
             categoryAdapter.setSelected(preferencesHelper.getLastPositionCategory());
             rxBus.send(new CategoryEvent(categories.get(preferencesHelper.getLastPositionCategory()), CATEGORY_TITLE));
-        } else  rxBus.send(new CategoryEvent(null, CATEGORY_TITLE));
+        } else rxBus.send(new CategoryEvent(null, CATEGORY_TITLE));
         categoryAdapter.setOnItemClickListener(new ClickableBaseAdapter.OnItemClickListener<Category>() {
             @Override
             public void onItemClicked(int position) {
@@ -103,7 +103,7 @@ public class ProductSquareViewFragment extends BaseFragment implements ProductSq
             presenter.setSelectedSubCategory(preferencesHelper.getLastPositionSubCategory(String.valueOf(subCategories.get(0).getParentId())));
             subcategoryAdapter.setSelected(preferencesHelper.getLastPositionSubCategory(String.valueOf(subCategories.get(0).getParentId())));
             rxBus.send(new CategoryEvent(subCategories.get(preferencesHelper.getLastPositionSubCategory(String.valueOf(subCategories.get(0).getParentId()))), SUBCATEGORY_TITLE));
-        }
+        } else rxBus.send(new CategoryEvent(null, SUBCATEGORY_TITLE));
     }
 
     @Override

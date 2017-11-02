@@ -27,7 +27,7 @@
             android:layout_height="@dimen/twenty_five_dp"
             android:layout_marginLeft="@dimen/forty_five_dp"
             android:layout_marginRight="@dimen/forty_dp"
-            android:src="@drawable/checked"
+            android:src="@drawable/checked_blue"
             android:tint="@color/colorBlue"/>
 
         <ImageView

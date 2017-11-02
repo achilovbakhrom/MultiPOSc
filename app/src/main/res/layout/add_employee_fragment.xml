@@ -378,7 +378,7 @@
                     android:layout_height="@dimen/twenty_dp"
                     android:layout_gravity="center"
                     android:layout_marginBottom="@dimen/ten_dp"
-                    android:src="@drawable/checked"
+                    android:src="@drawable/checked_blue"
                     android:tint="#419fd9" />
 
                 <TextView
