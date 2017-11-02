@@ -62,7 +62,9 @@ public class ProductPickerFragment extends BaseFragment implements ProductPicker
                     if (o instanceof CategoryEvent) {
                         CategoryEvent event = (CategoryEvent) o;
                         if (event.getEventType().equals(CATEGORY_TITLE)) {
-                            tvCategory.setText(event.getCategory().getName());
+                            if (event.getCategory() != null)
+                                tvCategory.setText(event.getCategory().getName());
+                            else tvCategory.setText(getResources().getString(R.string.category));
                         }
                         if (event.getEventType().equals(SUBCATEGORY_TITLE)) {
                             if (event.getCategory() != null) {
@@ -92,14 +94,15 @@ public class ProductPickerFragment extends BaseFragment implements ProductPicker
         }
     }
 
-    @OnClick(R.id.ivFolderView)
+    @OnClick(R.id.flFolderView)
     void onFolderViewClick() {
         replaceViewFragments(new ProductFolderViewFragment());
         preferencesHelper.setProductListViewType(FOLDER_VIEW);
         changeViewTypeIcon(FOLDER_VIEW);
+        tvCategory.setText(getResources().getString(R.string.category));
     }
 
-    @OnClick(R.id.ivSquareView)
+    @OnClick(R.id.flSquareView)
     void onSquareViewClick() {
         replaceViewFragments(new ProductSquareViewFragment());
         preferencesHelper.setProductListViewType(SQUARE_VIEW);

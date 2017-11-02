@@ -105,6 +105,7 @@ public class ProductFolderViewPresenterImpl extends BasePresenterImpl<ProductFol
             case SUBCATEGORY:
                 view.setBackItemVisibility(false);
                 folderItems.clear();
+                view.sendCategoryEvent(null, CATEGORY_TITLE);
                 view.sendCategoryEvent(null, SUBCATEGORY_TITLE);
                 categoryOperations.getAllActiveCategories().subscribe(categories -> {
                     for (Category category : categories) {

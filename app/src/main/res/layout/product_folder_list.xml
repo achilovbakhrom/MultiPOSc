@@ -8,7 +8,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="3px"
-        android:background="@drawable/top_fade" />
+        android:background="@drawable/top_fade_reverse" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -41,6 +41,7 @@
     </LinearLayout>
 
     <FrameLayout
+        android:id="@+id/flLine"
         android:layout_width="match_parent"
         android:layout_height="2px"
         android:background="#ebebeb" />
@@ -55,12 +56,12 @@
 
 
         <ImageView
-            android:layout_width="@dimen/twenty_five_dp"
-            android:layout_height="@dimen/twenty_five_dp"
+            android:layout_width="@dimen/twenty_dp"
+            android:layout_height="@dimen/twenty_dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/thirty_dp"
-            android:layout_marginRight="@dimen/thirty_dp"
-            android:src="@drawable/top_arrow"
+            android:layout_marginRight="@dimen/forty_dp"
+            android:src="@drawable/back_arrow"
             android:tint="#747474" />
 
         <TextView

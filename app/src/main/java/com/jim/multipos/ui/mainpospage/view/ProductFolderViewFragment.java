@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,11 +41,11 @@ public class ProductFolderViewFragment extends BaseFragment implements ProductFo
     LinearLayout llBackItem;
     @BindView(R.id.tvProductTitle)
     TextView tvProductTitle;
+    @BindView(R.id.flLine)
+    FrameLayout flLine;
     @Inject
     RxBus rxBus;
     private int mode = 0;
-    private static final int CATEGORY = 0;
-    private static final int SUBCATEGORY = 1;
     private static final int PRODUCT = 2;
     private FolderViewAdapter adapter;
 
@@ -56,7 +57,7 @@ public class ProductFolderViewFragment extends BaseFragment implements ProductFo
     @Override
     protected void init(Bundle savedInstanceState) {
         presenter.setFolderItemsRecyclerView();
-        if (mode == PRODUCT){
+        if (mode == PRODUCT) {
             tvProductTitle.setText(getResources().getString(R.string.qty_and_price));
         } else tvProductTitle.setText(getResources().getString(R.string.count_of_products));
     }
@@ -69,8 +70,12 @@ public class ProductFolderViewFragment extends BaseFragment implements ProductFo
     @Override
     public void setBackItemVisibility(boolean state) {
         if (state) {
+            flLine.setVisibility(View.VISIBLE);
             llBackItem.setVisibility(View.VISIBLE);
-        } else llBackItem.setVisibility(View.GONE);
+        } else {
+            llBackItem.setVisibility(View.GONE);
+            flLine.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -94,7 +99,7 @@ public class ProductFolderViewFragment extends BaseFragment implements ProductFo
     @Override
     public void refreshProductList(List<FolderItem> folderItems, int mode) {
         this.mode = mode;
-        if (mode == PRODUCT){
+        if (mode == PRODUCT) {
             tvProductTitle.setText(getResources().getString(R.string.qty_and_price));
         } else tvProductTitle.setText(getResources().getString(R.string.count_of_products));
         adapter.setMode(mode);

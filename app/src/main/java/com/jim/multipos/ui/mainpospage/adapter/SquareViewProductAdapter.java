@@ -30,7 +30,7 @@ public class SquareViewProductAdapter extends ClickableBaseAdapter<Product, Squa
     @Override
     public void onBindViewHolder(SquareCategoryViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
-        holder.mpSquareItem.setTextSize(14);
+        holder.mpSquareItem.setTextSize(12);
         holder.mpSquareItem.setText(items.get(position).getName());
     }
 
