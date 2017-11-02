@@ -41,9 +41,9 @@ public class WarningDialog extends Dialog {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.warning_dialog);
         getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        btnWarningYES = (MpButton) findViewById(R.id.btnWarningYES);
-        btnWarningNO = (MpButton) findViewById(R.id.btnWarningNO);
-        tvWarningText = (TextView) findViewById(R.id.tvWarningText);
+        btnWarningYES = findViewById(R.id.btnWarningYES);
+        btnWarningNO = findViewById(R.id.btnWarningNO);
+        tvWarningText = findViewById(R.id.tvWarningText);
         btnWarningNO.setVisibility(View.VISIBLE);
         btnWarningYES.setText(getContext().getResources().getString(R.string.yes));
 

@@ -2,13 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="@drawable/btn_txt_color"
     android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/llMenuItem"
         android:layout_width="match_parent"
         android:layout_height="@dimen/seventy_five_dp"
-        android:background="@color/colorWhite"
         android:orientation="horizontal">
 
         <LinearLayout

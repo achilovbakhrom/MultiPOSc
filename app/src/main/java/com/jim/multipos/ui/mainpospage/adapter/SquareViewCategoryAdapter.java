@@ -20,7 +20,7 @@ import butterknife.BindView;
  * Created by Sirojiddin on 12.10.2017.
  */
 
-public class SquareViewCategoryAdapter extends ClickableBaseAdapter<Category, SquareViewCategoryAdapter.SquareCategoryViewHolder> {
+    public class SquareViewCategoryAdapter extends ClickableBaseAdapter<Category, SquareViewCategoryAdapter.SquareCategoryViewHolder> {
 
     public SquareViewCategoryAdapter(List items) {
         super(items);
