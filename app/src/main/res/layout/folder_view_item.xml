@@ -39,7 +39,7 @@
             android:layout_marginRight="@dimen/thirty_dp"
             android:layout_weight="1"
             android:gravity="left"
-            android:textColor="@color/colorMainText"
+            android:textColor="@color/colorTintGrey"
             android:textSize="@dimen/eighteen_dp"/>
 
     </LinearLayout>

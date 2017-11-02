@@ -33,12 +33,10 @@ public class ProductPickerFragment extends BaseFragment implements ProductPicker
     TextView tvCategory;
     @BindView(R.id.tvSubCategory)
     TextView tvSubCategory;
-    //    @BindView(R.id.tvProduct)
-//    TextView tvProduct;
     @BindView(R.id.ivArrowCategory)
     ImageView ivArrowCategory;
-    //    @BindView(R.id.ivArrowSubCategory)
-//    ImageView ivArrowSubCategory;
+    @BindView(R.id.ivArrowSubCategory)
+    ImageView ivArrowSubCategory;
     @Inject
     PreferencesHelper preferencesHelper;
     @Inject
@@ -69,7 +67,11 @@ public class ProductPickerFragment extends BaseFragment implements ProductPicker
                         if (event.getEventType().equals(SUBCATEGORY_TITLE)) {
                             if (event.getCategory() != null) {
                                 tvSubCategory.setText(event.getCategory().getName());
-                            } else tvSubCategory.setText("");
+                                ivArrowSubCategory.setVisibility(View.VISIBLE);
+                            } else {
+                                tvSubCategory.setText("");
+                                ivArrowSubCategory.setVisibility(View.GONE);
+                            }
                         }
                     }
                 }));
@@ -121,33 +123,6 @@ public class ProductPickerFragment extends BaseFragment implements ProductPicker
                 ivFolderView.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorBlue)));
                 break;
         }
-    }
-
-    @Override
-    public void categoryMode() {
-        tvCategory.setVisibility(View.VISIBLE);
-        ivArrowCategory.setVisibility(View.VISIBLE);
-        tvSubCategory.setVisibility(View.GONE);
-//        ivArrowSubCategory.setVisibility(View.GONE);
-//        tvProduct.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void subCategoryMode() {
-        tvCategory.setVisibility(View.VISIBLE);
-        ivArrowCategory.setVisibility(View.VISIBLE);
-        tvSubCategory.setVisibility(View.VISIBLE);
-//        ivArrowSubCategory.setVisibility(View.VISIBLE);
-//        tvProduct.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void productMode() {
-        tvCategory.setVisibility(View.VISIBLE);
-        ivArrowCategory.setVisibility(View.VISIBLE);
-        tvSubCategory.setVisibility(View.VISIBLE);
-//        ivArrowSubCategory.setVisibility(View.VISIBLE);
-//        tvProduct.setVisibility(View.VISIBLE);
     }
 
     @Override
