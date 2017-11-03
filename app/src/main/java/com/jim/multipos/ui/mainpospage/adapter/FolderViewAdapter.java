@@ -79,6 +79,11 @@ public class FolderViewAdapter extends ClickableBaseAdapter<FolderItem, BaseView
     }
 
     @Override
+    protected boolean isSinglePositionClickDisabled() {
+        return true;
+    }
+
+    @Override
     public int getItemViewType(int position) {
         return mode;
     }

@@ -59,6 +59,7 @@ public interface DbHelper {
     Observable<Long> insertSubCategory(Category subcategory);
     Observable<Boolean> insertCategories(List<Category> categories);
     Observable<List<Category>> getAllCategories();
+    Observable<Integer> getAllProductsCount(Category category);
     Single<List<Category>> getAllActiveCategories();
     Single<List<Category>> getAllActiveSubCategories(Category parent);
     Observable<List<Category>> getSubCategories(Category category);

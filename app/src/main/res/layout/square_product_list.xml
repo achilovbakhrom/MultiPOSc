@@ -18,18 +18,21 @@
             android:id="@+id/rvCategory"
             android:layout_width="@dimen/hundred_twenty_dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/five_dp" />
+            android:layout_marginLeft="@dimen/five_dp"
+            android:overScrollMode="never" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvSubcategory"
             android:layout_width="@dimen/hundred_twenty_dp"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:overScrollMode="never" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvProduct"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:overScrollMode="never" />
     </LinearLayout>
 
 </LinearLayout>

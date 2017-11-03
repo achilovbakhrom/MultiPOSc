@@ -122,37 +122,37 @@ public class Product implements Editable, Serializable {
 
     @Override
     public void setId(Long id) {
-
+        this.id = id;
     }
 
     @Override
     public boolean isActive() {
-        return false;
+        return this.isActive;
     }
 
     @Override
     public void setActive(boolean active) {
-
+        this.isActive = active;
     }
 
     @Override
     public boolean isDeleted() {
-        return false;
+        return this.isDeleted;
     }
 
     @Override
     public void setDeleted(boolean deleted) {
-
+        this.isDeleted = deleted;
     }
 
     @Override
     public boolean isNotModifyted() {
-        return false;
+        return this.isNotModified;
     }
 
     @Override
     public void setNotModifyted(boolean notModifyted) {
-
+        this.isNotModified = notModifyted;
     }
 
     @Override
@@ -162,7 +162,6 @@ public class Product implements Editable, Serializable {
 
     @Override
     public void setRootId(Long rootId) {
-
         this.rootId = rootId;
     }
 
@@ -178,7 +177,7 @@ public class Product implements Editable, Serializable {
 
     @Override
     public Long getId() {
-        return null;
+        return this.id;
     }
 
     /**
@@ -508,16 +507,8 @@ public class Product implements Editable, Serializable {
         return this.cost;
     }
 
-    public void setCost(double cost) {
-        this.cost = cost;
-    }
-
     public double getPrice() {
         return this.price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
     }
 
     public String getName() {

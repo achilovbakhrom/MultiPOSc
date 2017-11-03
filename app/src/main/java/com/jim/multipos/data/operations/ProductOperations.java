@@ -19,5 +19,5 @@ public interface ProductOperations {
     Observable<Long> replaceProduct(Product product);
     Observable<List<Product>> getAllProducts();
     Single<List<Product>> getAllActiveProducts(Category category);
-
+    Observable<Integer> getAllProductCount(Category category);
 }

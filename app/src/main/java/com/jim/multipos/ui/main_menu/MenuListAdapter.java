@@ -43,6 +43,11 @@ public class MenuListAdapter extends ClickableBaseAdapter<TitleDescription, Menu
      }
 
     @Override
+    protected boolean isSinglePositionClickDisabled() {
+        return true;
+    }
+
+    @Override
     public int getItemCount() {
         return items.size();
     }

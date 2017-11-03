@@ -25,10 +25,8 @@ public class ProductFolderViewPresenterImpl extends BasePresenterImpl<ProductFol
 
     private CategoryOperations categoryOperations;
     private ProductOperations productOperations;
-    private PreferencesHelper preferencesHelper;
     private List<FolderItem> folderItems;
     private Category category;
-    private FolderItem item;
     private static final int CATEGORY = 0;
     private static final int SUBCATEGORY = 1;
     private static final int PRODUCT = 2;
@@ -36,11 +34,10 @@ public class ProductFolderViewPresenterImpl extends BasePresenterImpl<ProductFol
     private static final String SUBCATEGORY_TITLE = "subcategory_title";
 
     @Inject
-    protected ProductFolderViewPresenterImpl(ProductFolderView view, DatabaseManager databaseManager, PreferencesHelper preferencesHelper) {
+    protected ProductFolderViewPresenterImpl(ProductFolderView view, DatabaseManager databaseManager) {
         super(view);
         this.categoryOperations = databaseManager.getCategoryOperations();
         this.productOperations = databaseManager.getProductOperations();
-        this.preferencesHelper = preferencesHelper;
         folderItems = new ArrayList<>();
     }
 
@@ -51,8 +48,8 @@ public class ProductFolderViewPresenterImpl extends BasePresenterImpl<ProductFol
             for (Category category : categories) {
                 FolderItem folderItem = new FolderItem();
                 folderItem.setCategory(category);
-                categoryOperations.getAllActiveSubCategories(category).subscribe(categories1 -> {
-                    folderItem.setSize(categories1.size());
+                productOperations.getAllProductCount(category).subscribe(integer -> {
+                    folderItem.setSize(integer);
                     folderItems.add(folderItem);
                 });
             }
@@ -62,7 +59,6 @@ public class ProductFolderViewPresenterImpl extends BasePresenterImpl<ProductFol
 
     @Override
     public void selectedItem(FolderItem item) {
-        this.item = item;
         if (item.getCategory() != null) {
             if (isSubcategory(item.getCategory())) {
                 folderItems.clear();
@@ -111,8 +107,8 @@ public class ProductFolderViewPresenterImpl extends BasePresenterImpl<ProductFol
                     for (Category category : categories) {
                         FolderItem folderItem = new FolderItem();
                         folderItem.setCategory(category);
-                        categoryOperations.getAllActiveSubCategories(category).subscribe(categories1 -> {
-                            folderItem.setSize(categories1.size());
+                        productOperations.getAllProductCount(category).subscribe(integer -> {
+                            folderItem.setSize(integer);
                             folderItems.add(folderItem);
                         });
                     }
@@ -137,16 +133,4 @@ public class ProductFolderViewPresenterImpl extends BasePresenterImpl<ProductFol
                 break;
         }
     }
-
-    @Override
-    public void setSelectedItem(int position) {
-        if (item.getCategory() != null) {
-            if (isSubcategory(item.getCategory())) {
-                preferencesHelper.setLastPositionSubCategory(String.valueOf(item.getCategory().getParentId()), position);
-            } else {
-                preferencesHelper.setLastPositionCategory(position);
-            }
-        }
-    }
-
 }

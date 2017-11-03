@@ -211,7 +211,7 @@ public class MpCheckbox extends LinearLayout {
     public void setChecked(boolean checked) {
         ImageView imageView = ((ImageView) findViewById(R.id.chb_iv));
         if (imageView != null) {
-            int imageId = checked ? R.drawable.checked : R.drawable.unchecked;
+            int imageId = checked ? R.drawable.checked_blue : R.drawable.unchecked;
             imageView.setImageResource(imageId);
         }
         this.checked = checked;

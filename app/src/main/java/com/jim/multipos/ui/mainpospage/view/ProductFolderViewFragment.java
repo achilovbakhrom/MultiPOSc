@@ -86,7 +86,6 @@ public class ProductFolderViewFragment extends BaseFragment implements ProductFo
         adapter.setOnItemClickListener(new ClickableBaseAdapter.OnItemClickListener<FolderItem>() {
             @Override
             public void onItemClicked(int position) {
-//                presenter.setSelectedItem(position);
             }
 
             @Override

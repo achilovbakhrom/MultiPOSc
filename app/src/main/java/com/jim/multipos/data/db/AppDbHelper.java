@@ -193,6 +193,25 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
+    public Observable<Integer> getAllProductsCount(Category category) {
+        return Observable.fromCallable(() -> {
+            List<Category> subCategories = mDaoSession.getCategoryDao().queryBuilder()
+                    .where(CategoryDao.Properties.ParentId.eq(category.getId()), CategoryDao.Properties.IsDeleted.eq(false))
+                    .where(CategoryDao.Properties.IsNotModified.eq(true), CategoryDao.Properties.IsActive.eq(true))
+                    .orderAsc(CategoryDao.Properties.Position)
+                    .build().list();
+            int sum = 0;
+            for (Category subcategory : subCategories) {
+                sum += mDaoSession.getProductDao().queryBuilder()
+                        .where(ProductDao.Properties.ParentId.eq(subcategory.getId()), ProductDao.Properties.IsDeleted.eq(false))
+                        .where(ProductDao.Properties.IsNotModified.eq(true), ProductDao.Properties.IsActive.eq(true))
+                        .build().list().size();
+            }
+            return sum;
+        });
+    }
+
+    @Override
     public Single<List<Category>> getAllActiveCategories() {
         Observable<List<Category>> objectObservable = Observable.create(singleSubscriber -> {
             try {

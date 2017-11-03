@@ -33,7 +33,12 @@
         </activity>
         <activity
             android:name=".ui.mainpospage.MainPosPageActivity"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.lock_screen.LockScreenActivity"
             android:windowSoftInputMode="stateHidden">
@@ -41,10 +46,7 @@
         <activity
             android:name=".ui.product_last.ProductActivity"
             android:windowSoftInputMode="stateHidden">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
         <activity
             android:name=".ui.main_menu.product_menu.ProductMenuActivity"
@@ -68,16 +70,12 @@
 
         </activity>
         <activity android:name=".ui.customer_group.CustomerGroupActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".ui.product.ProductsActivity"></activity>
         <activity android:name=".ui.product_class_new.ProductsClassActivity">
         </activity>
         <activity android:name=".ui.discount.DiscountAddingActivity"></activity>
+        <activity android:name=".ui.service_fee.ServiceFeeActivity" />
     </application>
 
 </manifest>

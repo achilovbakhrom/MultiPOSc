@@ -51,6 +51,11 @@ public class SquareViewProductAdapter extends ClickableBaseAdapter<Product, Squa
     }
 
     @Override
+    protected boolean isSinglePositionClickDisabled() {
+        return true;
+    }
+
+    @Override
     protected void onItemClicked(SquareCategoryViewHolder holder, int position) {
         notifyDataSetChanged();
     }

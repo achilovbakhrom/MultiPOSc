@@ -1,5 +1,6 @@
 package com.jim.multipos.ui.main_menu.customers_menu;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +15,8 @@ import com.jim.multipos.core.ClickableBaseAdapter;
 import com.jim.multipos.data.db.model.intosystem.TitleDescription;
 import com.jim.multipos.di.BaseAppComponent;
 import com.jim.multipos.ui.HasComponent;
+import com.jim.multipos.ui.customer_group.CustomerGroupActivity;
+import com.jim.multipos.ui.customers_edit.CustomersEditActivity;
 import com.jim.multipos.ui.main_menu.customers_menu.presenters.CustomersMenuPresenter;
 import com.jim.multipos.ui.main_menu.MenuListAdapter;
 
@@ -81,8 +84,12 @@ public class CustomersMenuActivity extends BaseActivity implements CustomersMenu
         //TODO add activities for opening
         switch (position) {
             case 0:
+                Intent intent = new Intent(this, CustomersEditActivity.class);
+                startActivity(intent);
                 break;
             case 1:
+                Intent intentGroup = new Intent(this, CustomerGroupActivity.class);
+                startActivity(intentGroup);
                 break;
             case 2:
                 break;
