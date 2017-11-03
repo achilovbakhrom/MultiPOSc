@@ -79,7 +79,13 @@
             android:text="+Add"
             android:textSize="@dimen/sixteen_dp" />
     </LinearLayout>
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_marginBottom="@dimen/ten_dp"
+        android:layout_marginRight="@dimen/sixteen_dp"
+        android:layout_marginLeft="@dimen/sixteen_dp"
+        android:background="#e1e1e1"/>
 
 
 </LinearLayout>

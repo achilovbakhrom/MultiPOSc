@@ -95,6 +95,8 @@
     <string name="delete">Delete</string>
     <string name="ok">OK</string>
     <string name="enter_pass">Please, enter password</string>
+    <string name="qty_and_price">Quantity/Price</string>
+    <string name="count_of_products">Count of products</string>
     <string-array name="start_configuration_title">
         <item namte="pos_details">POS подробности</item>
         <item name="account">Аккаунт</item>

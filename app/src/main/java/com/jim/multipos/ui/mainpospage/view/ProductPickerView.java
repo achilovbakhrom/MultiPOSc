@@ -7,8 +7,4 @@ import com.jim.multipos.core.BaseView;
  */
 
 public interface ProductPickerView extends BaseView {
-    void categoryMode();
-    void subCategoryMode();
-    void productMode();
-
 }

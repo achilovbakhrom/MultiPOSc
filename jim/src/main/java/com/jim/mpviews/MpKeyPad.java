@@ -2,6 +2,7 @@ package com.jim.mpviews;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -55,34 +56,22 @@ public class MpKeyPad extends FrameLayout {
         mpLetter = (TextView) findViewById(R.id.mpMainSymbol);
         mpKeyPadBg = (RelativeLayout) findViewById(R.id.mpKeyPadBg);
 
-        mpKeyPadBg.setBackgroundResource(R.drawable.key_pad_btn);
+
 
         TypedArray attribute = context.obtainStyledAttributes(attrs, R.styleable.MpKeyPad);
 
         mpLetter.setText(attribute.getText(R.styleable.MpKeyPad_letter));
         mpSymbol.setText(attribute.getText(R.styleable.MpKeyPad_symbol));
-        mpKeyPadBg.setBackgroundResource(attribute.getResourceId(R.styleable.MpKeyPad_background, R.drawable.key_pad_btn));
-        mpLetter.setTextColor(attribute.getColor(R.styleable.MpKeyPad_letter_color, getResources().getColor(R.color.colorBlue)));
+         mpLetter.setTextColor(attribute.getColor(R.styleable.MpKeyPad_letter_color, getResources().getColor(R.color.colorBlue)));
 
         if (attribute.getBoolean(R.styleable.MpKeyPad_has_extra, false)) {
             mpSymbol.setVisibility(VISIBLE);
         } else mpSymbol.setVisibility(GONE);
 
-        setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                VibrateManager.startVibrate(context, 50);
-                 switch (motionEvent.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        mpKeyPadBg.setBackgroundResource(R.drawable.key_pad_btn_pressed);
-                        return false;
-                    case MotionEvent.ACTION_UP:
-                        mpKeyPadBg.setBackgroundResource(R.drawable.key_pad_btn);
-                        return false;
-                }
-                return false;
-            }
-        });
+        Drawable buttonDrawable = context.getResources().getDrawable(R.drawable.key_pad_mini);
+        buttonDrawable.mutate();
+        mpKeyPadBg.setBackgroundDrawable(buttonDrawable);
+        setClickable(true);
 
         attribute.recycle();
     }

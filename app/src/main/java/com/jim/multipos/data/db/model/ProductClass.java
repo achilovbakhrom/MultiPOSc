@@ -231,4 +231,15 @@ public class ProductClass implements NameId,Editable {
     public void setName(String name) {
         this.name = name;
     }
+    public ProductClass copy(){
+        ProductClass productClass = new ProductClass();
+        productClass.setId(id);
+        productClass.setDeleted(deleted);
+        productClass.setNotModifyted(notModifyted);
+        productClass.setCreatedDate(createdDate);
+        productClass.setActive(active);
+        productClass.setName(name);
+        productClass.setRootId(rootId);
+        return productClass;
+    }
 }

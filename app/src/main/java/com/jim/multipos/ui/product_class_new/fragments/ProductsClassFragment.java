@@ -3,6 +3,7 @@ package com.jim.multipos.ui.product_class_new.fragments;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 
 import com.jim.mpviews.MpButton;
 import com.jim.multipos.R;
@@ -10,7 +11,9 @@ import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.ui.product_class_new.adapters.ProductsClassListAdapter;
+import com.jim.multipos.ui.product_class_new.model.ProductsClassAdapterDetials;
 import com.jim.multipos.ui.product_class_new.presenters.ProductsClassPresenter;
+import com.jim.multipos.utils.WarningDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,11 +68,18 @@ public class ProductsClassFragment  extends BaseFragment implements ProductsClas
             public void onDelete(ProductClass productClass) {
                 presenter.onDelete(productClass);
             }
+
+            @Override
+            public boolean nameIsUnique(String checkName, ProductClass currentProductClass) {
+                return presenter.nameIsUnique(checkName,currentProductClass);
+            }
         });
         rvClasses.setLayoutManager(new LinearLayoutManager(getContext()));
         rvClasses.setAdapter(productsClassListAdapter);
+        ((SimpleItemAnimator) rvClasses.getItemAnimator()).setSupportsChangeAnimations(false);
+
         btnCancel.setOnClickListener(view -> {
-            getActivity().finish();
+            presenter.onCloseAction();
         });
     }
 
@@ -77,10 +87,63 @@ public class ProductsClassFragment  extends BaseFragment implements ProductsClas
     protected void rxConnections() {
 
     }
-
     @Override
-    public void refreshList(List<Object> objects) {
+    public void refreshList(List<ProductsClassAdapterDetials> objects) {
+        rvClasses.setItemViewCacheSize(objects.size());
         productsClassListAdapter.setData(objects);
         productsClassListAdapter.notifyDataSetChanged();
     }
+
+    @Override
+    public void notifyItemChanged(int pos) {
+        productsClassListAdapter.notifyItemChanged(pos);
+    }
+
+    @Override
+    public void notifyItemAddRange(int from, int to) {
+        productsClassListAdapter.notifyItemRangeInserted(from,to);
+        rvClasses.scrollToPosition(0);
+
+    }
+
+    @Override
+    public void notifyItemAdd(int pos) {
+        productsClassListAdapter.notifyItemInserted(pos);
+    }
+
+    @Override
+    public void notifyItemRemove(int pos) {
+        productsClassListAdapter.notifyItemRemoved(pos);
+    }
+
+    @Override
+    public void notifyItemRemoveRange(int from, int to) {
+        if(from==to){
+            productsClassListAdapter.notifyItemRemoved(from);
+        }else
+        productsClassListAdapter.notifyItemRangeRemoved(from,to);
+    }
+
+    @Override
+    public void closeDiscountActivity() {
+        getActivity().finish();
+    }
+
+    @Override
+    public void openWarning() {
+        WarningDialog warningDialog = new WarningDialog(getActivity());
+        warningDialog.setWarningText(getString(R.string.discard_discounts));
+        warningDialog.setOnYesClickListener(view1 -> warningDialog.dismiss());
+        warningDialog.setOnNoClickListener(view1 -> closeDiscountActivity());
+        warningDialog.setYesButtonText(getString(R.string.cancel));
+        warningDialog.setNoButtonText(getString(R.string.discard));
+        warningDialog.show();
+    }
+
+    @Override
+    public void closeAction() {
+        presenter.onCloseAction();
+    }
+
+
 }

@@ -12,33 +12,53 @@
         android:layout_marginBottom="@dimen/ten_dp"
         >
         <com.jim.mpviews.MpEditText
+            android:id="@+id/etAmmount"
+            android:layout_width="@dimen/two_hundred_dp"
+            android:layout_height="@dimen/forty_five_dp"
+            android:layout_marginRight="@dimen/ten_dp"
+            android:paddingRight="@dimen/ten_dp"
+            android:paddingLeft="@dimen/sixteen_dp"
+            android:inputType="numberDecimal"
+            android:hint="Value"
+            android:textSize="@dimen/sixteen_dp"
+            />
+        <com.jim.mpviews.MPosSpinner
+            android:id="@+id/spTypeAmount"
+            android:layout_width="@dimen/hundred_fifty_dp"
+            android:layout_height="@dimen/forty_five_dp"
+            android:layout_marginRight="@dimen/ten_dp"
+            />
+
+        <com.jim.mpviews.MpEditText
             android:id="@+id/etName"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="@dimen/forty_five_dp"
-            android:layout_marginRight="@dimen/sixty_dp"
-            android:layout_marginLeft="@dimen/twenty_five_dp"
+            android:layout_marginRight="@dimen/ten_dp"
             android:paddingRight="@dimen/ten_dp"
-            android:paddingLeft="@dimen/twenty_dp"
-            android:text="Salad"
-            android:inputType="textNoSuggestions"
-            android:hint="Class Name"
+            android:paddingLeft="@dimen/sixteen_dp"
+            android:inputType="textCapWords|textNoSuggestions"
+            android:hint="Description"
             android:textSize="@dimen/sixteen_dp"
             />
-
+        <com.jim.mpviews.MPosSpinner
+            android:id="@+id/spUsed"
+            android:layout_width="@dimen/hundred_fifty_dp"
+            android:layout_height="@dimen/forty_five_dp"
+            android:layout_marginRight="@dimen/forty_dp"
+            />
         <com.jim.mpviews.MpCheckbox
             android:id="@+id/chbActive"
             android:layout_width="@dimen/thirty_dp"
             android:layout_height="@dimen/thirty_dp"
             android:layout_gravity="center"
             android:gravity="center"
-            app:checked="true"
             android:textSize="@dimen/sixteen_dp"
-            android:layout_marginRight="@dimen/sixty_dp"/>
+            app:checked="true"
+            android:layout_marginRight="@dimen/forty_dp"/>
         <RelativeLayout
             android:layout_width="@dimen/hundred_forty_five_dp"
             android:layout_height="@dimen/forty_dp"
-            android:layout_marginRight="@dimen/twenty_five_dp"
             >
             <com.jim.mpviews.MpMiniActionButton
                 android:id="@+id/btnSave"
@@ -60,8 +80,9 @@
                 android:src="@drawable/trash_mini"
                 android:textSize="@dimen/sixteen_dp" />
         </RelativeLayout>
-
     </LinearLayout>
+
+
 
 
 

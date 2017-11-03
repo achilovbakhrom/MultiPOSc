@@ -51,11 +51,11 @@
                     android:orientation="horizontal">
 
                 <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rvClasses"
+                    android:id="@+id/rvDiscounts"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/twenty_dp"
-                    android:layout_marginRight="@dimen/twenty_dp"
+                    android:layout_marginLeft="@dimen/twenty_five_dp"
+                    android:layout_marginRight="@dimen/twenty_five_dp"
                     android:paddingTop="@dimen/ten_dp"
                     android:paddingBottom="@dimen/ten_dp"
                     android:clipToPadding="false"
@@ -83,8 +83,8 @@
                     android:layout_width="@dimen/hundred_sixty_dp"
                     android:layout_height="@dimen/fifty_five_dp"
                     android:layout_marginLeft="@dimen/fifteen_dp"
-                    android:layout_marginRight="@dimen/thirty_five_dp"
-                    android:text="@string/cancel"
+                    android:layout_marginRight="@dimen/sixteen_dp"
+                    android:text="@string/back"
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/sixteen_dp" />
 

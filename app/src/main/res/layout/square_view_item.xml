@@ -12,8 +12,8 @@
 
     <ImageView
         android:id="@+id/ivNextItem"
-        android:layout_width="@dimen/twenty_dp"
-        android:layout_height="@dimen/twenty_dp"
+        android:layout_width="@dimen/fifteen_dp"
+        android:layout_height="@dimen/fifteen_dp"
         android:layout_gravity="center"
         android:src="@drawable/arrow_next"
         android:visibility="invisible" />

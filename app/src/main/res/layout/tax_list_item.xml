@@ -30,7 +30,7 @@
             android:layout_gravity="center"
             android:layout_width="@dimen/twenty_dp"
             android:layout_height="@dimen/twenty_dp"
-            android:src="@drawable/checked"
+            android:src="@drawable/checked_blue"
             android:tint="@color/colorBlue"/>
 
     </LinearLayout>

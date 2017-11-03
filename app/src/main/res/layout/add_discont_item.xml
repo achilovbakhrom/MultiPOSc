@@ -11,18 +11,49 @@
         android:layout_marginTop="@dimen/twenty_dp"
         >
         <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:id="@+id/tvAmount"
+            android:layout_width="@dimen/two_hundred_dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/sixty_dp"
-            android:layout_marginLeft="@dimen/twenty_five_dp"
-            android:text="Named"
+            android:layout_marginLeft="@dimen/five_dp"
+            android:text="Ammount"
             android:textSize="@dimen/sixteen_dp"
             android:textColor="#419fd9"
             android:layout_marginBottom="@dimen/twelve_dp"
             />
         <TextView
-            android:layout_width="@dimen/hundred_sixty_dp"
+            android:id="@+id/tvType"
+            android:layout_width="@dimen/hundred_fifty_dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:text="Type"
+            android:textSize="@dimen/sixteen_dp"
+            android:textColor="#419fd9"
+            android:layout_marginBottom="@dimen/twelve_dp"
+            />
+        <TextView
+            android:id="@+id/tvReason"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:text="Reason"
+            android:textSize="@dimen/sixteen_dp"
+            android:textColor="#419fd9"
+            android:layout_marginBottom="@dimen/twelve_dp"
+            />
+        <TextView
+            android:id="@+id/tvUsed"
+            android:layout_width="@dimen/hundred_forty_dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:text="Used"
+            android:textSize="@dimen/sixteen_dp"
+            android:textColor="#419fd9"
+            android:layout_marginBottom="@dimen/twelve_dp"
+            />
+        <TextView
+            android:id="@+id/tvActive"
+            android:layout_width="@dimen/hundred_twenty_dp"
             android:layout_height="wrap_content"
             android:text="Active"
             android:gravity="center_horizontal"
@@ -34,7 +65,6 @@
             android:layout_height="wrap_content"
             android:text="Action"
             android:gravity="center_horizontal"
-            android:layout_marginRight="@dimen/sixteen_dp"
             android:textColor="#419fd9"
             android:layout_marginBottom="@dimen/twelve_dp"
             />
@@ -47,19 +77,41 @@
         android:layout_marginBottom="@dimen/ten_dp"
         >
         <com.jim.mpviews.MpEditText
+            android:id="@+id/etAmmount"
+            android:layout_width="@dimen/two_hundred_dp"
+            android:layout_height="@dimen/forty_five_dp"
+            android:layout_marginRight="@dimen/ten_dp"
+            android:paddingRight="@dimen/ten_dp"
+            android:paddingLeft="@dimen/sixteen_dp"
+            android:inputType="numberDecimal"
+            android:hint="Value"
+            android:textSize="@dimen/sixteen_dp"
+            />
+        <com.jim.mpviews.MPosSpinner
+            android:id="@+id/spTypeAmount"
+            android:layout_width="@dimen/hundred_fifty_dp"
+            android:layout_height="@dimen/forty_five_dp"
+            android:layout_marginRight="@dimen/ten_dp"
+            />
+
+        <com.jim.mpviews.MpEditText
             android:id="@+id/etName"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="@dimen/forty_five_dp"
-            android:layout_marginRight="@dimen/sixty_dp"
-            android:layout_marginLeft="@dimen/twenty_five_dp"
+            android:layout_marginRight="@dimen/ten_dp"
             android:paddingRight="@dimen/ten_dp"
             android:paddingLeft="@dimen/sixteen_dp"
             android:inputType="textCapWords|textNoSuggestions"
-            android:hint="Class Name"
+            android:hint="Description"
             android:textSize="@dimen/sixteen_dp"
             />
-
+        <com.jim.mpviews.MPosSpinner
+            android:id="@+id/spUsed"
+            android:layout_width="@dimen/hundred_fifty_dp"
+            android:layout_height="@dimen/forty_five_dp"
+            android:layout_marginRight="@dimen/forty_dp"
+            />
         <com.jim.mpviews.MpCheckbox
             android:id="@+id/chbActive"
             android:layout_width="@dimen/thirty_dp"
@@ -68,18 +120,24 @@
             android:gravity="center"
             android:textSize="@dimen/sixteen_dp"
             app:checked="true"
-            android:layout_marginRight="@dimen/sixty_dp"/>
+            android:layout_marginRight="@dimen/forty_dp"/>
         <com.jim.mpviews.MpActionButton
             android:id="@+id/btnAdd"
             android:layout_width="@dimen/hundred_forty_five_dp"
             android:layout_height="@dimen/forty_dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginRight="@dimen/sixteen_dp"
             android:textColor="#23d730"
             android:text="+Add"
             android:textSize="@dimen/sixteen_dp" />
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_marginBottom="@dimen/ten_dp"
+        android:layout_marginRight="@dimen/ten_dp"
+        android:layout_marginLeft="@dimen/ten_dp"
+        android:background="#e1e1e1"/>
 
 
 </LinearLayout>

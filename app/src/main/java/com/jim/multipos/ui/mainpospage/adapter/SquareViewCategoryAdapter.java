@@ -20,7 +20,7 @@ import butterknife.BindView;
  * Created by Sirojiddin on 12.10.2017.
  */
 
-public class SquareViewCategoryAdapter extends ClickableBaseAdapter<Category, SquareViewCategoryAdapter.SquareCategoryViewHolder> {
+    public class SquareViewCategoryAdapter extends ClickableBaseAdapter<Category, SquareViewCategoryAdapter.SquareCategoryViewHolder> {
 
     public SquareViewCategoryAdapter(List items) {
         super(items);
@@ -29,15 +29,24 @@ public class SquareViewCategoryAdapter extends ClickableBaseAdapter<Category, Sq
     @Override
     public void onBindViewHolder(SquareCategoryViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
-        holder.mpSquareItem.setTextSize(14);
+        holder.mpSquareItem.setTextSize(12);
         holder.mpSquareItem.setText(items.get(position).getName());
         if (position == selectedPosition) {
-            holder.mpSquareItem.setActivated(true);
+            holder.mpSquareItem.setActivate(true);
             holder.ivNextItem.setVisibility(View.VISIBLE);
         } else {
-            holder.mpSquareItem.setActivated(false);
+            holder.mpSquareItem.setActivate(false);
             holder.ivNextItem.setVisibility(View.INVISIBLE);
         }
+    }
+
+    @Override
+    public void setItems(List<Category> items) {
+        super.setItems(items);
+    }
+
+    public void setSelected(int position){
+        this.selectedPosition = position;
     }
 
     @Override
@@ -53,9 +62,7 @@ public class SquareViewCategoryAdapter extends ClickableBaseAdapter<Category, Sq
 
     @Override
     protected void onItemClicked(SquareCategoryViewHolder holder, int position) {
-        int prevPosition = selectedPosition;
-        notifyItemChanged(prevPosition);
-        notifyItemChanged(position);
+        notifyDataSetChanged();
     }
 
 

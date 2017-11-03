@@ -6,6 +6,7 @@ import com.jim.multipos.data.db.DbHelper;
 import com.jim.multipos.data.db.model.Account;
 import com.jim.multipos.data.db.model.Contact;
 import com.jim.multipos.data.db.model.DaoSession;
+import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.PaymentType;
 import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.ServiceFee;
@@ -26,6 +27,7 @@ import com.jim.multipos.data.operations.ContactOperations;
 import com.jim.multipos.data.operations.CurrencyOperations;
 import com.jim.multipos.data.operations.CustomerGroupOperations;
 import com.jim.multipos.data.operations.CustomerOperations;
+import com.jim.multipos.data.operations.DiscountOperations;
 import com.jim.multipos.data.operations.JoinCustomerGroupWithCustomerOperations;
 import com.jim.multipos.data.operations.PaymentTypeOperations;
 import com.jim.multipos.data.operations.ProductClassOperations;
@@ -48,8 +50,8 @@ import io.reactivex.Single;
  * Created by Developer on 5/13/17.
  */
 
-public class DatabaseManager implements ContactOperations, CategoryOperations, ProductOperations, AccountOperations, CurrencyOperations, StockOperations, UnitCategoryOperations, UnitOperations, PaymentTypeOperations, ServiceFeeOperations, ProductClassOperations, CustomerOperations, CustomerGroupOperations, SubUnitOperations, JoinCustomerGroupWithCustomerOperations,
-                                        VendorOperations {
+public class DatabaseManager implements ContactOperations, CategoryOperations, ProductOperations, AccountOperations, CurrencyOperations, StockOperations, UnitCategoryOperations, UnitOperations, PaymentTypeOperations, ServiceFeeOperations, ProductClassOperations, CustomerOperations, CustomerGroupOperations, SubUnitOperations, JoinCustomerGroupWithCustomerOperations, DiscountOperations,
+        VendorOperations {
     private Context context;
     private PreferencesHelper preferencesHelper;
     private DbHelper dbHelper;
@@ -213,7 +215,7 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
 
     @Override
     public Observable<Boolean> isCategoryNameExists(String name) {
-            return dbHelper.isCategoryNameExists(name);
+        return dbHelper.isCategoryNameExists(name);
     }
 
     @Override
@@ -489,6 +491,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
+    public Single<List<Product>> getAllActiveProducts(Category category) {
+        return dbHelper.getAllActiveProducts(category);
+    }
+
+    @Override
     public Observable<Long> addSubUnitList(SubUnitsList subUnitsList) {
         return dbHelper.insertSubUnits(subUnitsList);
     }
@@ -587,6 +594,16 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Observable<Boolean> removeCategory(Category category) {
         return dbHelper.removeCategory(category);
+    }
+
+    @Override
+    public Single<List<Discount>> getAllDiscounts() {
+        return dbHelper.getAllDiscounts();
+    }
+
+    @Override
+    public Single<Long> insertDiscount(Discount discount) {
+        return dbHelper.insertDiscount(discount);
     }
 }
 

@@ -6,8 +6,8 @@
 
     <RelativeLayout
         android:id="@+id/mpKeyPadBg"
-        android:layout_width="@dimen/sixty_dp"
-        android:layout_height="@dimen/eighty_five_dp">
+        android:layout_width="@dimen/fifty_five_dp"
+        android:layout_height="@dimen/eighty_dp">
 
 
         <TextView
@@ -15,10 +15,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:paddingRight="@dimen/ten_dp"
+            android:paddingRight="@dimen/twelve_dp"
             android:paddingTop="@dimen/four_dp"
-            android:textColor="@color/colorSecondaryText"
-            android:textSize="@dimen/eighteen_dp" />
+            android:textColor="#bdbdbd"
+            android:textSize="@dimen/sixteen_dp" />
 
         <TextView
             android:id="@+id/mpMainSymbol"

@@ -75,10 +75,6 @@ public class MpKeyBoard extends FrameLayout implements View.OnClickListener, Vie
         LayoutInflater.from(context).inflate(R.layout.mp_keyboard, this);
         LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         setLayoutParams(layoutParams);
-        mpText = (TextView) findViewById(R.id.mpText);
-        mpName = (TextView) findViewById(R.id.mpName);
-        mpSKU = (TextView) findViewById(R.id.mpSKU);
-        mpBarcode = (TextView) findViewById(R.id.mpBarcode);
         mpSpaceBar = (LinearLayout) findViewById(R.id.mpSpaceBar);
         mpLang = (TextView) findViewById(R.id.mpLang);
         mpSearch = (LinearLayout) findViewById(R.id.mpSearchBtn);
@@ -95,7 +91,6 @@ public class MpKeyBoard extends FrameLayout implements View.OnClickListener, Vie
             findViewById(idsRU[i]).setOnClickListener(this);
             findViewById(idsRU[i]).setOnLongClickListener(this);
         }
-        findViewById(R.id.mpClear).setOnClickListener(this);
         findViewById(R.id.mpBackspace).setOnClickListener(this);
         findViewById(R.id.mpBackspaceRU).setOnClickListener(this);
         findViewById(R.id.mpDot).setOnClickListener(this);
@@ -229,8 +224,6 @@ public class MpKeyBoard extends FrameLayout implements View.OnClickListener, Vie
             }
         }
 
-        if (view.getId() == R.id.mpClear)
-            mpText.setText("");
 
         if (view.getId() == R.id.mpDot) {
             VibrateManager.startVibrate(context, 10);

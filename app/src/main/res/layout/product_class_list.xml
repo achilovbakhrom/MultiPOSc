@@ -84,7 +84,7 @@
                     android:layout_height="@dimen/fifty_five_dp"
                     android:layout_marginLeft="@dimen/fifteen_dp"
                     android:layout_marginRight="@dimen/thirty_five_dp"
-                    android:text="@string/cancel"
+                    android:text="@string/back"
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/sixteen_dp" />
 

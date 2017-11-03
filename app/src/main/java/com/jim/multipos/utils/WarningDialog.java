@@ -1,15 +1,12 @@
 package com.jim.multipos.utils;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.Window;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jim.mpviews.MpButton;
@@ -60,7 +57,12 @@ public class WarningDialog extends Dialog {
     public void  setOnNoClickListener(View.OnClickListener listener) {
         btnWarningNO.setOnClickListener(listener);
     }
-
+    public void setYesButtonText(String yesButtonText){
+        btnWarningYES.setText(yesButtonText);
+    }
+    public void setNoButtonText(String noButtonText){
+        btnWarningNO.setText(noButtonText);
+    }
     public void onlyText(boolean state){
         if (state){
             btnWarningNO.setVisibility(View.GONE);

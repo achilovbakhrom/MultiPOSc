@@ -14,5 +14,11 @@ public interface ProductSquareView extends BaseView {
     void setCategoryRecyclerViewItems(List<Category> categories);
     void setSubCategoryRecyclerView(List<Category> subCategories);
     void setProductRecyclerView(List<Product> products);
+    void refreshCategories(List<Category> categoryList);
+    void refreshSubCategories(List<Category> subCategoryList);
+    void refreshProducts(List<Product> productList);
+    void setSelectedCategory(int position);
+    void setSelectedSubCategory(int position);
+    void sendEvent(Category category, String subcategoryTitle);
 }
 

@@ -1,10 +1,12 @@
 package com.jim.multipos.data.operations;
 
+import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.Product;
 
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
 
 
 /**
@@ -16,5 +18,6 @@ public interface ProductOperations {
     Observable<Boolean> addProduct(List<Product> productList);
     Observable<Long> replaceProduct(Product product);
     Observable<List<Product>> getAllProducts();
+    Single<List<Product>> getAllActiveProducts(Category category);
 
 }

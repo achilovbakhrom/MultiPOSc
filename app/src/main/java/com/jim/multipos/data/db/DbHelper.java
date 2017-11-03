@@ -16,6 +16,7 @@
 package com.jim.multipos.data.db;
 
 import com.jim.multipos.data.db.model.DaoSession;
+import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.Account;
@@ -65,6 +66,7 @@ public interface DbHelper {
     Observable<Long> insertProduct(Product product);
     Observable<Boolean> insertProducts(List<Product> products);
     Observable<List<Product>> getAllProducts();
+    Single<List<Product>> getAllActiveProducts(Category parent);
     Observable<Long> insertOrReplaceProduct(Product product);
     Observable<Account> insertAccount(Account account);
     Observable<Boolean> insertAccounts(List<Account> accounts);
@@ -129,6 +131,8 @@ public interface DbHelper {
     Observable<Boolean> isAccountNameExists(String name);
     Observable<Boolean> isPaymentTypeExists(String name);
     List<PaymentType> getPaymentTypes();
+    Single<List<Discount>> getAllDiscounts();
+    Single<Long> insertDiscount(Discount discount);
 
     //Vendor operations
     Observable<Long> addVendor(Vendor vendor);

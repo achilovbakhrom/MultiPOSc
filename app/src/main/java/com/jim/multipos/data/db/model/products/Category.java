@@ -175,7 +175,7 @@ public class Category implements Editable, Serializable{
 
     @Override
     public void setCreatedDate(long createdDate) {
-
+        this.createdDate = createdDate;
     }
 
     public void setCreatedDate(Long createdDate) {

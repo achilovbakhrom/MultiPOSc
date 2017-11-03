@@ -1,19 +1,18 @@
 package com.jim.multipos.ui.discount;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.jim.mpviews.MpToolbar;
-import com.jim.multipos.R;
 import com.jim.multipos.core.SimpleActivity;
 import com.jim.multipos.ui.discount.fragments.DiscountAddingFragment;
 
 public class DiscountAddingActivity extends SimpleActivity {
-
+    DiscountAddingFragment fragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        addFragment(new DiscountAddingFragment());
+        fragment = new DiscountAddingFragment();
+        addFragment(fragment);
     }
 
     @Override
@@ -24,5 +23,11 @@ public class DiscountAddingActivity extends SimpleActivity {
     @Override
     protected int getToolbarMode() {
         return MpToolbar.DEFAULT_TYPE;
+    }
+
+    @Override
+    public void onBackPressed() {
+        fragment.closeDiscountActivity();
+
     }
 }

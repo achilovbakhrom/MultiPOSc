@@ -11,11 +11,16 @@ import android.widget.TextView;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.prefs.PreferencesHelper;
+import com.jim.multipos.utils.RxBus;
+import com.jim.multipos.utils.rxevents.CategoryEvent;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.disposables.Disposable;
 
 public class ProductPickerFragment extends BaseFragment implements ProductPickerView {
 
@@ -28,18 +33,20 @@ public class ProductPickerFragment extends BaseFragment implements ProductPicker
     TextView tvCategory;
     @BindView(R.id.tvSubCategory)
     TextView tvSubCategory;
-    @BindView(R.id.tvProduct)
-    TextView tvProduct;
     @BindView(R.id.ivArrowCategory)
     ImageView ivArrowCategory;
     @BindView(R.id.ivArrowSubCategory)
     ImageView ivArrowSubCategory;
     @Inject
     PreferencesHelper preferencesHelper;
+    @Inject
+    RxBus rxBus;
     private FragmentManager fragmentManager;
     private static final int SQUARE_VIEW = 0;
     private static final int FOLDER_VIEW = 1;
-
+    private static final String CATEGORY_TITLE = "category_title";
+    private static final String SUBCATEGORY_TITLE = "subcategory_title";
+    ArrayList<Disposable> subscriptions;
 
     @Override
     protected int getLayout() {
@@ -47,9 +54,36 @@ public class ProductPickerFragment extends BaseFragment implements ProductPicker
     }
 
     @Override
+    protected void rxConnections() {
+        super.rxConnections();
+        subscriptions = new ArrayList<>();
+        subscriptions.add(
+                rxBus.toObservable().subscribe(o -> {
+                    if (o instanceof CategoryEvent) {
+                        CategoryEvent event = (CategoryEvent) o;
+                        if (event.getEventType().equals(CATEGORY_TITLE)) {
+                            if (event.getCategory() != null)
+                                tvCategory.setText(event.getCategory().getName());
+                            else tvCategory.setText(getResources().getString(R.string.category));
+                        }
+                        if (event.getEventType().equals(SUBCATEGORY_TITLE)) {
+                            if (event.getCategory() != null) {
+                                tvSubCategory.setText(event.getCategory().getName());
+                                ivArrowSubCategory.setVisibility(View.VISIBLE);
+                            } else {
+                                tvSubCategory.setText("");
+                                ivArrowSubCategory.setVisibility(View.GONE);
+                            }
+                        }
+                    }
+                }));
+    }
+
+    @Override
     protected void init(Bundle savedInstanceState) {
         fragmentManager = getActivity().getSupportFragmentManager();
         int viewType = preferencesHelper.getProductListViewType();
+        changeViewTypeIcon(viewType);
         switch (viewType) {
             case SQUARE_VIEW:
                 replaceViewFragments(new ProductSquareViewFragment());
@@ -60,14 +94,15 @@ public class ProductPickerFragment extends BaseFragment implements ProductPicker
         }
     }
 
-    @OnClick(R.id.ivFolderView)
+    @OnClick(R.id.flFolderView)
     void onFolderViewClick() {
         replaceViewFragments(new ProductFolderViewFragment());
         preferencesHelper.setProductListViewType(FOLDER_VIEW);
         changeViewTypeIcon(FOLDER_VIEW);
+        tvCategory.setText(getResources().getString(R.string.category));
     }
 
-    @OnClick(R.id.ivSquareView)
+    @OnClick(R.id.flSquareView)
     void onSquareViewClick() {
         replaceViewFragments(new ProductSquareViewFragment());
         preferencesHelper.setProductListViewType(SQUARE_VIEW);
@@ -94,30 +129,8 @@ public class ProductPickerFragment extends BaseFragment implements ProductPicker
     }
 
     @Override
-    public void categoryMode() {
-        tvCategory.setVisibility(View.VISIBLE);
-        ivArrowCategory.setVisibility(View.VISIBLE);
-        tvSubCategory.setVisibility(View.GONE);
-        ivArrowSubCategory.setVisibility(View.GONE);
-        tvProduct.setVisibility(View.GONE);
+    public void onDestroy() {
+        super.onDestroy();
+        RxBus.removeListners(subscriptions);
     }
-
-    @Override
-    public void subCategoryMode() {
-        tvCategory.setVisibility(View.VISIBLE);
-        ivArrowCategory.setVisibility(View.VISIBLE);
-        tvSubCategory.setVisibility(View.VISIBLE);
-        ivArrowSubCategory.setVisibility(View.VISIBLE);
-        tvProduct.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void productMode() {
-        tvCategory.setVisibility(View.VISIBLE);
-        ivArrowCategory.setVisibility(View.VISIBLE);
-        tvSubCategory.setVisibility(View.VISIBLE);
-        ivArrowSubCategory.setVisibility(View.VISIBLE);
-        tvProduct.setVisibility(View.VISIBLE);
-    }
-
 }

@@ -79,7 +79,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="@dimen/thirty_dp"
                         android:layout_marginRight="@dimen/thirty_dp"
-                        android:src="@drawable/top_arrow"
+                        android:src="@drawable/back_arrow"
                         android:tint="@color/colorTintGrey"
                         />
 

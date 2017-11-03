@@ -12,4 +12,6 @@ public interface ProductsClassPresenter extends Presenter {
     void onAddSubPressed(String name, boolean active, ProductClass parent);
     void onSave(String name, boolean active, ProductClass productClass);
     void onDelete(ProductClass productClass);
+    boolean nameIsUnique(String checkName,ProductClass currentProductClass);
+    void onCloseAction();
 }

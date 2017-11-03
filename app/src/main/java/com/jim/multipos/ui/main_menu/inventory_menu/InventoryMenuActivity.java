@@ -10,6 +10,7 @@ import com.jim.mpviews.MpButton;
 import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseActivity;
+import com.jim.multipos.core.ClickableBaseAdapter;
 import com.jim.multipos.data.db.model.intosystem.TitleDescription;
 import com.jim.multipos.di.BaseAppComponent;
 import com.jim.multipos.ui.HasComponent;
@@ -37,13 +38,10 @@ public class InventoryMenuActivity extends BaseActivity implements  InventoryMen
     MpToolbar mpToolbar;
     @Inject
     InventoryMenuPresenter presenter;
-    final int INVENTORY_MENU = 2;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.product_menu_layout);
         ButterKnife.bind(this);
         mpToolbar.setMode(MpToolbar.DEFAULT_TYPE);
@@ -62,8 +60,19 @@ public class InventoryMenuActivity extends BaseActivity implements  InventoryMen
     @Override
     public void setRecyclerView(ArrayList<TitleDescription> titleDescriptions) {
         rvMenu.setLayoutManager(new LinearLayoutManager(this));
-        MenuListAdapter adapter = new MenuListAdapter(this, titleDescriptions, presenter, INVENTORY_MENU);
+        MenuListAdapter adapter = new MenuListAdapter(titleDescriptions);
         rvMenu.setAdapter(adapter);
+        adapter.setOnItemClickListener(new ClickableBaseAdapter.OnItemClickListener<TitleDescription>() {
+            @Override
+            public void onItemClicked(int position) {
+                presenter.setItemPosition(position);
+            }
+
+            @Override
+            public void onItemClicked(TitleDescription item) {
+
+            }
+        });
     }
 
     @Override

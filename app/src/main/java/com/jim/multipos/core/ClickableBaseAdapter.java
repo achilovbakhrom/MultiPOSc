@@ -1,7 +1,5 @@
 package com.jim.multipos.core;
 
-import com.jim.multipos.data.db.model.products.Category;
-
 import java.util.List;
 
 import lombok.Setter;
@@ -53,4 +51,22 @@ public abstract class ClickableBaseAdapter<T, E extends BaseViewHolder> extends 
         super.addItems(items);
     }
 
+    @Override
+    public void setItems(List<T> items) {
+        super.setItems(items);
+        if (!items.isEmpty() && items.size() <= selectedPosition) {
+            selectedPosition = items.size() - 1;
+        } else if (items.isEmpty()) {
+            selectedPosition = -1;
+        }
+    }
+
+    public void setSelectedPosition(int position) {
+        this.selectedPosition = position;
+        notifyItemChanged(selectedPosition);
+        if (onItemClickListener != null) {
+            onItemClickListener.onItemClicked(items.get(position));
+            onItemClickListener.onItemClicked(position);
+        }
+    }
 }

@@ -333,7 +333,7 @@
                                 android:layout_width="@dimen/forty_five_dp"
                                 android:layout_height="@dimen/forty_five_dp"
                                 android:layout_gravity="center"
-                                android:src="@drawable/backspace"
+                                android:src="@drawable/backspace_1"
                                 android:tint="@color/colorTintGrey" />
 
                         </LinearLayout>
