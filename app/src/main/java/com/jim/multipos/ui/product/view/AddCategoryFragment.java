@@ -24,10 +24,8 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import eu.inmite.android.lib.validations.form.FormValidator;
 import eu.inmite.android.lib.validations.form.annotations.MinLength;
 import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
-import eu.inmite.android.lib.validations.form.callback.SimpleErrorPopupCallback;
 import io.reactivex.disposables.Disposable;
 
 import static com.jim.multipos.utils.UIUtils.closeKeyboard;

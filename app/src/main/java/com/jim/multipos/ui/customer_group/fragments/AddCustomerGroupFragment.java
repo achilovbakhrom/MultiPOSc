@@ -26,7 +26,6 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 
 import static com.jim.multipos.ui.customer_group.fragments.CustomerGroupListFragment.CUSTOMER_GROUP_DELETED;
 import static com.jim.multipos.ui.customer_group.fragments.CustomerGroupListFragment.CUSTOMER_GROUP_UPDATE;

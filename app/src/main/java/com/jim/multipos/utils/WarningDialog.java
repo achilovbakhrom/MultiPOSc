@@ -19,6 +19,7 @@ import com.jim.multipos.R;
 public class WarningDialog extends Dialog {
     private MpButton btnWarningYES, btnWarningNO;
     private TextView tvWarningText;
+
     public WarningDialog(@NonNull Context context) {
         super(context);
         init();
@@ -34,37 +35,38 @@ public class WarningDialog extends Dialog {
         init();
     }
 
-    public void init(){
+    public void init() {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.warning_dialog);
         getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         btnWarningYES = (MpButton) findViewById(R.id.btnWarningYES);
         btnWarningNO = (MpButton) findViewById(R.id.btnWarningNO);
         tvWarningText = (TextView) findViewById(R.id.tvWarningText);
-        btnWarningNO.setVisibility(View.VISIBLE);
-        btnWarningYES.setText(getContext().getResources().getString(R.string.yes));
-
+        onlyText(false);
     }
 
-    public void setWarningText(String warningText){
+    public void setWarningText(String warningText) {
         tvWarningText.setText(warningText);
     }
 
-    public void  setOnYesClickListener(View.OnClickListener listener) {
+    public void setOnYesClickListener(View.OnClickListener listener) {
         btnWarningYES.setOnClickListener(listener);
     }
 
-    public void  setOnNoClickListener(View.OnClickListener listener) {
+    public void setOnNoClickListener(View.OnClickListener listener) {
         btnWarningNO.setOnClickListener(listener);
     }
-    public void setYesButtonText(String yesButtonText){
+
+    public void setYesButtonText(String yesButtonText) {
         btnWarningYES.setText(yesButtonText);
     }
-    public void setNoButtonText(String noButtonText){
+
+    public void setNoButtonText(String noButtonText) {
         btnWarningNO.setText(noButtonText);
     }
-    public void onlyText(boolean state){
-        if (state){
+
+    public void onlyText(boolean state) {
+        if (state) {
             btnWarningNO.setVisibility(View.GONE);
             btnWarningYES.setText(getContext().getResources().getString(R.string.ok));
         } else {

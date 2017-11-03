@@ -32,5 +32,6 @@ public class MpListItem extends android.support.v7.widget.AppCompatButton {
         setBackgroundDrawable(buttonDrawable);
         setAllCaps(false);
         setLines(4);
+        setTextColor(context.getResources().getColorStateList(R.color.item_txt_color));
     }
 }

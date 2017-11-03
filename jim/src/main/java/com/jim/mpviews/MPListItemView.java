@@ -23,6 +23,7 @@ public class MPListItemView extends FrameLayout {
     private String text = "";
     private Drawable drawable;
     private int textSize;
+    private TextView textView;
 
 
     public MPListItemView(Context context) {
@@ -58,12 +59,7 @@ public class MPListItemView extends FrameLayout {
             textSize = attributeArray.getDimensionPixelSize(R.styleable.MPListItemView_list_item_text_size, textSize);
             attributeArray.recycle();
         }
-        if (isActive) {
-            drawable = ContextCompat.getDrawable(context, R.drawable.item_pressed_bg);
-        } else {
-            drawable = ContextCompat.getDrawable(context, R.drawable.item_bg);
-        }
-        TextView textView = new TextView(context);
+        textView = new TextView(context);
         textView.setId(R.id.list_item_text);
         LayoutParams txtLp = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         txtLp.gravity = Gravity.CENTER;
@@ -71,6 +67,13 @@ public class MPListItemView extends FrameLayout {
         txtLp.rightMargin = Utils.dpToPx(10);
         txtLp.topMargin = Utils.dpToPx(10);
         txtLp.bottomMargin = Utils.dpToPx(10);
+        if (isActive) {
+            drawable = ContextCompat.getDrawable(context, R.drawable.item_selected);
+            textView.setTextColor(getResources().getColor(R.color.colorWhite));
+        } else {
+            drawable = ContextCompat.getDrawable(context, R.drawable.item_bg);
+            textView.setTextColor(getResources().getColor(R.color.colorMainText));
+        }
         textView.setLayoutParams(txtLp);
         textView.setTextSize(textSize);
         textView.setLines(4);
@@ -83,10 +86,12 @@ public class MPListItemView extends FrameLayout {
     public void setActivate(boolean isActive) {
         Drawable drawable;
         if (isActive) {
-            drawable = ContextCompat.getDrawable(getContext(), R.drawable.item_pressed_bg);
+            drawable = ContextCompat.getDrawable(getContext(), R.drawable.item_selected);
+            textView.setTextColor(getResources().getColor(R.color.colorWhite));
         }
         else {
             drawable = ContextCompat.getDrawable(getContext(), R.drawable.item_bg);
+            textView.setTextColor(getResources().getColor(R.color.colorMainText));
         }
         setBackground(null);
         setBackground(drawable);
@@ -96,10 +101,12 @@ public class MPListItemView extends FrameLayout {
     private void initActivation(Context context, boolean isActive) {
         Drawable drawable;
         if (isActive) {
-            drawable = ContextCompat.getDrawable(context, R.drawable.item_pressed_bg);
+            drawable = ContextCompat.getDrawable(context, R.drawable.item_selected);
+            textView.setTextColor(getResources().getColor(R.color.colorWhite));
         }
         else {
             drawable = ContextCompat.getDrawable(context, R.drawable.item_bg);
+            textView.setTextColor(getResources().getColor(R.color.colorMainText));
         }
         setBackground(null);
         setBackground(drawable);
