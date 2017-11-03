@@ -3,6 +3,7 @@ package com.jim.multipos.data.db.model.products;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,7 +34,7 @@ import com.jim.multipos.data.db.model.DaoSession;
  * Created by DEV on 26.08.2017.
  */
 @Entity(nameInDb = "PRODUCT", active = true)
-public class Product implements Editable {
+public class Product implements Editable, Serializable {
     @Id(autoincrement = true)
     private Long id;
     private String name;
@@ -92,11 +93,11 @@ public class Product implements Editable {
     public Product() {
     }
 
-    @Generated(hash = 2040294256)
+    @Generated(hash = 2134143750)
     public Product(Long id, String name, Double price, Double cost, Long createdDate, String barcode,
             String sku, String photoPath, Boolean isActive, Boolean isNotModified, Boolean isDeleted,
-            Long priceCurrencyId, Long costCurrencyId, Long classId, Long mainUnitId,
-            Long subCategoryId, Long vendorId, String description, Long rootId, Long parentId) {
+            Double position, Long priceCurrencyId, Long costCurrencyId, Long classId, Long mainUnitId,
+            Long vendorId, String description, Long rootId, Long parentId) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -108,11 +109,11 @@ public class Product implements Editable {
         this.isActive = isActive;
         this.isNotModified = isNotModified;
         this.isDeleted = isDeleted;
+        this.position = position;
         this.priceCurrencyId = priceCurrencyId;
         this.costCurrencyId = costCurrencyId;
         this.classId = classId;
         this.mainUnitId = mainUnitId;
-        this.subCategoryId = subCategoryId;
         this.vendorId = vendorId;
         this.description = description;
         this.rootId = rootId;
@@ -423,14 +424,6 @@ public class Product implements Editable {
         this.vendorId = vendorId;
     }
 
-    public Long getSubCategoryId() {
-        return this.subCategoryId;
-    }
-
-    public void setSubCategoryId(Long subCategoryId) {
-        this.subCategoryId = subCategoryId;
-    }
-
     public Long getMainUnitId() {
         return this.mainUnitId;
     }
@@ -561,6 +554,14 @@ public class Product implements Editable {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public Double getPosition() {
+        return this.position;
+    }
+
+    public void setPosition(Double position) {
+        this.position = position;
     }
 
 }
