@@ -1,15 +1,22 @@
 package com.jim.multipos.ui.product_last.fragment;
 
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
+import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.core.ClickableBaseAdapter;
 import com.jim.multipos.data.db.model.products.Category;
+import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.ui.product_last.ProductActivity;
 import com.jim.multipos.ui.product_last.adapter.CategoryAdapter;
+import com.jim.multipos.ui.product_last.adapter.ProductAdapter;
+import com.jim.multipos.utils.item_touch_helper.SimpleItemTouchHelperCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +26,6 @@ import butterknife.BindView;
 /**
  * Created by Achilov Bakhrom on 10/26/17.
  */
-
 public class ProductListFragment extends BaseFragment  {
 
     @BindView(R.id.rvCategory)
@@ -35,13 +41,11 @@ public class ProductListFragment extends BaseFragment  {
     }
 
     @Override
-    protected void init(Bundle savedInstanceState) {
-        initCategoriesAndSubcategories();
-    }
+    protected void init(Bundle savedInstanceState) {}
 
-    private void initCategoriesAndSubcategories() {
-        categories.setLayoutManager(new LinearLayoutManager(getContext()));
-        CategoryAdapter categoryAdapter = new CategoryAdapter(((ProductActivity) getContext()).getPresenter().getCategories());
+    public void init(List<Category> categories) {
+
+        CategoryAdapter categoryAdapter = new CategoryAdapter(categories);
         categoryAdapter.setOnItemClickListener(new ClickableBaseAdapter.OnItemClickListener<Category>() {
             @Override
             public void onItemClicked(int position) {}
@@ -51,7 +55,15 @@ public class ProductListFragment extends BaseFragment  {
                 ((ProductActivity) getContext()).getPresenter().categorySelected(item);
             }
         });
-        categories.setAdapter(categoryAdapter);
+        this.categories.setLayoutManager(new LinearLayoutManager(getContext()));
+        this.categories.setAdapter(categoryAdapter);
+        categoryAdapter.setMoveListener((fromPosition, toPosition) -> {
+            ((ProductActivity) getContext()).getPresenter().setCategoryItemsMoved();
+        });
+        ((SimpleItemAnimator) this.categories.getItemAnimator()).setSupportsChangeAnimations(false);
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(categoryAdapter);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(this.categories);
 
         CategoryAdapter subcategoryAdapter = new CategoryAdapter(new ArrayList<>());
         subcategoryAdapter.setOnItemClickListener(new ClickableBaseAdapter.OnItemClickListener<Category>() {
@@ -63,9 +75,38 @@ public class ProductListFragment extends BaseFragment  {
                 ((ProductActivity) getContext()).getPresenter().subcategorySelected(item);
             }
         });
-        subcategories.setLayoutManager(new LinearLayoutManager(getContext()));
-        subcategories.setAdapter(subcategoryAdapter);
+        this.subcategories.setLayoutManager(new LinearLayoutManager(getContext()));
+        this.subcategories.setAdapter(subcategoryAdapter);
+        subcategoryAdapter.setMoveListener((fromPosition, toPosition) -> {
+            ((ProductActivity) getContext()).getPresenter().setSubcategoryItemsMoved();
+        });
+        ((SimpleItemAnimator) this.subcategories.getItemAnimator()).setSupportsChangeAnimations(false);
+        ItemTouchHelper.Callback scCallback = new SimpleItemTouchHelperCallback(subcategoryAdapter);
+        ItemTouchHelper scTouchHelper = new ItemTouchHelper(scCallback);
+        scTouchHelper.attachToRecyclerView(this.subcategories);
+
+        ProductAdapter productAdapter = new ProductAdapter(new ArrayList<>());
+        productAdapter.setOnItemClickListener(new ClickableBaseAdapter.OnItemClickListener<Product>() {
+            @Override
+            public void onItemClicked(int position) {}
+
+            @Override
+            public void onItemClicked(Product item) {
+//              ((ProductActivity) getContext()).getPresenter().subcategorySelected(item);
+            }
+        });
+        this.products.setLayoutManager(new GridLayoutManager(getContext(), 4));
+        this.products.setAdapter(productAdapter);
+        productAdapter.setMoveListener((fromPosition, toPosition) -> {
+//            ((ProductActivity) getContext()).getPresenter().setSubcategoryItemsMoved();
+        });
+        ((SimpleItemAnimator) this.products.getItemAnimator()).setSupportsChangeAnimations(false);
+        ItemTouchHelper.Callback prCallback = new SimpleItemTouchHelperCallback(subcategoryAdapter);
+        ItemTouchHelper prTouchHelper = new ItemTouchHelper(prCallback);
+        prTouchHelper.attachToRecyclerView(this.products);
     }
+
+
 
     @Override
     protected boolean isAndroidInjectionEnabled() {
@@ -113,11 +154,168 @@ public class ProductListFragment extends BaseFragment  {
         ((CategoryAdapter) categories.getAdapter()).editItem(category);
     }
 
-    public void selectSubcategoryListItem(int position) {
+    public void selectSubcategoryListItem(Long id) {
         if (subcategories.getAdapter() != null) {
-            ((CategoryAdapter) subcategories.getAdapter()).setSelectedPosition(position);
+            ((CategoryAdapter) subcategories.getAdapter()).setSelectedPositionWithId(id);
         }
 
+    }
+
+//    public Long getSubcategoryListPosition() {
+//        return ((CategoryAdapter) subcategories.getAdapter()).getSelectedItem();
+//    }
+
+//    public Long getSelectedCategoryId() {
+//        if (categories.getAdapter() != null) {
+//            return ((CategoryAdapter) categories.getAdapter()).getSelectedItem();
+//        }
+//        return null;
+//    }
+
+//    public Long getSelectedSubcategory() {
+//        if (subcategories.getAdapter() != null) {
+//            return ((CategoryAdapter) subcategories.getAdapter()).getSelectedItem();
+//        }
+//        return null;
+//    }
+
+    public Category getCategoryByPosition(int position) {
+        if (subcategories.getAdapter() != null) {
+            return ((CategoryAdapter) subcategories.getAdapter())
+                    .getItems()
+                    .get(position);
+        }
+        return null;
+    }
+
+
+    // new time
+
+    public void selectAddCategoryItem() {
+        if (categories.getAdapter() != null) {
+            ((CategoryAdapter) categories.getAdapter()).setSelectedPosition(0);
+        }
+    }
+
+
+    public void selectAddSubcategoryItem() {
+        if (subcategories.getAdapter() != null) {
+            ((CategoryAdapter) subcategories.getAdapter()).setSelectedPosition(0);
+        }
+    }
+
+
+    public void selectCategory(Long id) {
+        if (categories.getAdapter() != null) {
+            ((CategoryAdapter) categories.getAdapter()).setSelectedPositionWithId(id);
+        }
+    }
+
+    public void selectSubcategory(Long id) {
+        if (subcategories.getAdapter() != null) {
+            ((CategoryAdapter) subcategories.getAdapter()).setSelectedPositionWithId(id);
+        }
+    }
+
+    public Category getSelectedCategory() {
+        if (categories.getAdapter() != null) {
+            ((CategoryAdapter) categories.getAdapter()).getSelectedItem();
+        }
+        return null;
+    }
+
+    public Category getSelectedSubcategory() {
+        if (subcategories.getAdapter() != null) {
+            ((CategoryAdapter) subcategories.getAdapter()).getSelectedItem();
+        }
+        return null;
+    }
+
+    public void editCategory(Category category) {
+        if (categories.getAdapter() != null) {
+            ((CategoryAdapter)categories.getAdapter()).editItem(category);
+        }
+    }
+
+    public void editSubcategory(Category category) {
+        if (subcategories.getAdapter() != null) {
+            ((CategoryAdapter)subcategories.getAdapter()).editItem(category);
+        }
+    }
+
+    public void addCategory(Category category) {
+        if (categories.getAdapter() != null) {
+            ((CategoryAdapter)categories.getAdapter()).addItem(category);
+        }
+    }
+
+    public void addSubcategory(Category category) {
+        if (subcategories.getAdapter() != null) {
+            ((CategoryAdapter)subcategories.getAdapter()).addItem(category);
+        }
+    }
+
+    public void deleteCategory(Category category) {
+        if (categories.getAdapter() != null) {
+            ((CategoryAdapter)categories.getAdapter()).removeItem(category);
+        }
+    }
+
+    public void deleteSubcategory(Category category) {
+        if (subcategories.getAdapter() != null) {
+            ((CategoryAdapter)subcategories.getAdapter()).removeItem(category);
+        }
+
+    }
+
+    public void setListToCategories(List<Category> categories) {
+        if (this.categories.getAdapter() != null) {
+            ((CategoryAdapter)this.categories.getAdapter()).setItems(categories);
+        }
+    }
+
+    public void setListToSubcategories(List<Category> subcategories) {
+        if (this.subcategories.getAdapter() != null) {
+            ((CategoryAdapter)this.subcategories.getAdapter()).setItems(subcategories);
+        }
+    }
+
+    public List<Category> getCategories() {
+        if (this.categories.getAdapter() != null) {
+            return ((CategoryAdapter)this.categories.getAdapter()).getItems();
+        }
+        return null;
+    }
+
+    public List<Category> getSubcategories() {
+        if (this.subcategories.getAdapter() != null) {
+            return ((CategoryAdapter)this.subcategories.getAdapter()).getItems();
+        }
+        return null;
+    }
+
+    public void setListToProductsList(List<Product> products) {
+        if (this.products.getAdapter() != null) {
+            ((ProductAdapter) this.products.getAdapter()).setItems(products);
+        }
+    }
+
+    public void unselectSubcategoriesList() {
+        if (this.subcategories.getAdapter() != null) {
+            ((CategoryAdapter) this.subcategories.getAdapter()).unselect();
+        }
+    }
+
+    public void unselectProductsList() {
+        if (this.products.getAdapter() != null) {
+            ((ProductAdapter) this.products.getAdapter()).unselect();
+        }
+    }
+
+    public void clearProductList() {
+        if (this.products.getAdapter() != null) {
+            ((ProductAdapter) this.products.getAdapter()).removeAllItems();
+        }
     }
 
 }

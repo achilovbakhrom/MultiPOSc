@@ -3,6 +3,7 @@ package com.jim.multipos.data.db.model.products;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,7 +34,7 @@ import com.jim.multipos.data.db.model.DaoSession;
  * Created by DEV on 26.08.2017.
  */
 @Entity(nameInDb = "PRODUCT", active = true)
-public class Product implements Editable {
+public class Product implements Editable, Serializable {
     @Id(autoincrement = true)
     private Long id;
     private String name;
@@ -47,6 +48,7 @@ public class Product implements Editable {
     private Boolean isNotModified;
     private Boolean isDeleted;
     private Long priceCurrencyId;
+    private Double position = 0d;
     @ToOne(joinProperty = "priceCurrencyId")
     private Currency priceCurrency;
     private Long costCurrencyId;
@@ -92,10 +94,10 @@ public class Product implements Editable {
     public Product() {
     }
 
-    @Generated(hash = 2040294256)
+    @Generated(hash = 392236981)
     public Product(Long id, String name, Double price, Double cost, Long createdDate, String barcode,
             String sku, String photoPath, Boolean isActive, Boolean isNotModified, Boolean isDeleted,
-            Long priceCurrencyId, Long costCurrencyId, Long classId, Long mainUnitId,
+            Long priceCurrencyId, Double position, Long costCurrencyId, Long classId, Long mainUnitId,
             Long subCategoryId, Long vendorId, String description, Long rootId, Long parentId) {
         this.id = id;
         this.name = name;
@@ -109,6 +111,7 @@ public class Product implements Editable {
         this.isNotModified = isNotModified;
         this.isDeleted = isDeleted;
         this.priceCurrencyId = priceCurrencyId;
+        this.position = position;
         this.costCurrencyId = costCurrencyId;
         this.classId = classId;
         this.mainUnitId = mainUnitId;
@@ -561,6 +564,14 @@ public class Product implements Editable {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public Double getPosition() {
+        return this.position;
+    }
+
+    public void setPosition(Double position) {
+        this.position = position;
     }
 
 }

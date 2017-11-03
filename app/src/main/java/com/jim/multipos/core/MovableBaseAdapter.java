@@ -1,5 +1,6 @@
 package com.jim.multipos.core;
 
+import java.util.Collections;
 import java.util.List;
 
 import lombok.Setter;
@@ -19,6 +20,16 @@ public abstract class MovableBaseAdapter<T, E extends BaseViewHolder> extends Cl
 
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
+        if (fromPosition < toPosition) {
+            for (int i = fromPosition; i < toPosition; i++) {
+                Collections.swap(items, i, i + 1);
+            }
+        } else {
+            for (int i = fromPosition; i > toPosition; i--) {
+                Collections.swap(items, i, i - 1);
+            }
+        }
+        notifyItemMoved(fromPosition, toPosition);
         if (moveListener != null){
             moveListener.onItemMove(fromPosition, toPosition);
         }

@@ -49,6 +49,7 @@ import org.greenrobot.greendao.query.Query;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
@@ -141,41 +142,32 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Observable<Long> insertCategory(Category category) {
         return Observable.fromCallable(() -> {
-            List<Category> categories = mDaoSession.getCategoryDao().queryBuilder()
-                    .where(CategoryDao.Properties.ParentId.eq(WITHOUT_PARENT),
-                            CategoryDao.Properties.IsDeleted.eq(false),
-                            CategoryDao.Properties.IsNotModified.eq(true))
-                    .build().list();
-            if (categories.isEmpty()) {
-                category.setPosition(1d);
-            } else {
+            if (category.getId() == null) {
+                List<Category> categories = mDaoSession.getCategoryDao().queryBuilder()
+                        .where(CategoryDao.Properties.ParentId.eq(WITHOUT_PARENT),
+                                CategoryDao.Properties.IsDeleted.eq(false),
+                                CategoryDao.Properties.IsNotModified.eq(true))
+                        .build().list();
                 category.setPosition((double) (categories.size() + 1));
             }
-            return mDaoSession.getCategoryDao().insertOrReplace(category);
+            Long result = mDaoSession.getCategoryDao().insertOrReplace(category);
+            mDaoSession.getCategoryDao().detachAll();
+            return result;
         });
     }
 
     @Override
     public Observable<Long> insertSubCategory(Category subcategory) {
         return Observable.fromCallable(() -> {
-            List<Category> categories = mDaoSession.getCategoryDao().queryBuilder()
-                    .where(CategoryDao.Properties.ParentId.eq(subcategory.getParentId()),
-                            CategoryDao.Properties.IsDeleted.eq(false),
-                            CategoryDao.Properties.IsNotModified.eq(true))
-                    .build().list();
-            if (categories.isEmpty()) {
-                subcategory.setPosition(1d);
-            } else {
-                subcategory.setPosition((double) (categories.size() + 1));
-            }
-            return mDaoSession.getCategoryDao().insertOrReplace(subcategory);
+            Long result = mDaoSession.getCategoryDao().insertOrReplace(subcategory);
+            mDaoSession.getCategoryDao().detachAll();
+            return result;
         });
     }
 
     @Override
     public Observable<Boolean> insertCategories(List<Category> categories) {
-        return Observable.fromCallable(() ->
-        {
+        return Observable.fromCallable(() -> {
             mDaoSession.getCategoryDao().insertOrReplaceInTx(categories);
             return true;
         });
@@ -644,18 +636,19 @@ public class AppDbHelper implements DbHelper {
     public Observable<Boolean> isSubCategoryNameExists(String parentName, String name) {
         return Observable.fromCallable(() -> {
             List<Category> categories = mDaoSession.getCategoryDao().queryBuilder()
-                    .where(CategoryDao.Properties.Name.eq(parentName), CategoryDao.Properties.IsDeleted.eq(false))
+                    .where(CategoryDao.Properties.Name.eq(parentName), CategoryDao.Properties.ParentId.eq(Category.WITHOUT_PARENT),
+                            CategoryDao.Properties.IsDeleted.eq(false))
                     .build()
                     .list();
-            Long parentId = -1L;
+            Long parentId = Category.WITHOUT_PARENT;
             if (!categories.isEmpty()) {
                 parentId = categories.get(0).getId();
             }
-            if (parentId == -1L) {
+            if (Objects.equals(parentId, Category.WITHOUT_PARENT)) {
                 return false;
             }
             return !mDaoSession.getCategoryDao().queryBuilder()
-                    .where(CategoryDao.Properties.Id.eq(parentId), CategoryDao.Properties.Name.eq(name))
+                    .where(CategoryDao.Properties.ParentId.eq(parentId), CategoryDao.Properties.Name.eq(name))
                     .list()
                     .isEmpty();
         });

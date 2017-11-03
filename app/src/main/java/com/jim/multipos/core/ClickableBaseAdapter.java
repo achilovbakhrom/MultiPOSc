@@ -1,5 +1,7 @@
 package com.jim.multipos.core;
 
+import com.jim.multipos.data.db.model.products.Category;
+
 import java.util.List;
 
 import lombok.Setter;
@@ -20,7 +22,7 @@ public abstract class ClickableBaseAdapter<T, E extends BaseViewHolder> extends 
     @Override
     public void onBindViewHolder(E holder, int position) {
         holder.view.setOnClickListener(view -> {
-            if(selectedPosition!=position)
+            if(selectedPosition!=position || isSinglePositionClickDisabled())
                 if (onItemClickListener != null) {
                     onItemClickListener.onItemClicked(items.get(position));
                     onItemClickListener.onItemClicked(position);
@@ -28,6 +30,10 @@ public abstract class ClickableBaseAdapter<T, E extends BaseViewHolder> extends 
                     selectedPosition = position;
             }
         });
+    }
+
+    protected boolean isSinglePositionClickDisabled() {
+        return false;
     }
 
     @Override
@@ -47,22 +53,4 @@ public abstract class ClickableBaseAdapter<T, E extends BaseViewHolder> extends 
         super.addItems(items);
     }
 
-    @Override
-    public void setItems(List<T> items) {
-        super.setItems(items);
-        if (!items.isEmpty() && items.size() <= selectedPosition) {
-            selectedPosition = items.size() - 1;
-        } else if (items.isEmpty()) {
-            selectedPosition = -1;
-        }
-    }
-
-    public void setSelectedPosition(int position) {
-        this.selectedPosition = position;
-        notifyItemChanged(selectedPosition);
-        if (onItemClickListener != null) {
-            onItemClickListener.onItemClicked(items.get(position));
-            onItemClickListener.onItemClicked(position);
-        }
-    }
 }

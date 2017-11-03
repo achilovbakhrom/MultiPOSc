@@ -135,6 +135,17 @@ public class CategoryAdapter extends MovableBaseAdapter<Category, BaseViewHolder
         }
     }
 
+    public void setSelectedPositionWithId(Long id) {
+        for (Category category : items) {
+            if (category == null) continue;
+            if (category.getId().equals(id)) {
+                this.selectedPosition = items.indexOf(category);
+                notifyItemChanged(selectedPosition);
+                break;
+            }
+        }
+    }
+
     @Override
     protected void onItemClicked(BaseViewHolder holder, int position) {
         int prevPosition = selectedPosition;

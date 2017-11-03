@@ -40,37 +40,34 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        addCategoryListFragment();
+        addProductAddEditFragment();
+        addCategoryAddEditFragment();
         presenter.onCreateView(savedInstanceState);
-        if (activityFragmentManager.getFragments().isEmpty()) {
-            prepareLeftSide();
-            prepareRightSide();
-        }
-
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        presenter.onResume();
+    }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        presenter.onPause();
+    }
+
     public void addProductAddEditFragment() {
-        addFragmentWithTagToLeft(new CategoryAddEditFragment(), PRODUCT_FRAGMENT);
+//        addFragmentWithTagToLeft(new CategoryAddEditFragment(), PRODUCT_FRAGMENT);
     }
 
-    @Override
     public void addCategoryAddEditFragment() {
         addFragmentWithTagToLeft(new CategoryAddEditFragment(), CATEGORY_FRAGMENT);
     }
 
-    @Override
     public void addCategoryListFragment() {
         addFragmentToRight(new ProductListFragment());
-    }
-
-    private void prepareLeftSide() {
-//        addProductAddEditFragment();
-        addCategoryAddEditFragment();
-    }
-
-    private void prepareRightSide() {
-        addCategoryListFragment();
     }
 
     @Override
@@ -110,8 +107,8 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
         CategoryAddEditFragment categoryAddEditFragment = (CategoryAddEditFragment) activityFragmentManager.findFragmentByTag(CATEGORY_FRAGMENT);
         if (categoryAddEditFragment != null) {
             activityFragmentManager.beginTransaction().show(categoryAddEditFragment).commit();
-            categoryAddEditFragment.setFragmentType(type);
-            categoryAddEditFragment.setMode(mode, category);
+//            categoryAddEditFragment.setFragmentType(type);
+//            categoryAddEditFragment.setMode(mode, category);
         } else {
             Log.d("sss", "openCategoryAddEditFragment: category fragment is null, maybe not added");
         }
@@ -161,7 +158,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
     @Override
     public void suchCategoryNameExists(String name) {
         UIUtils.showAlert(this, getString(R.string.ok), getString(R.string.warning_such_category_name_exists),
-                getString(R.string.warning_such_category_name_exists_message) + name, () -> {
+                getString(R.string.warning_such_category_name_exists_message) + " " + name, () -> {
                     Log.d("sss", "suchCategoryNameExists: user accepted existing name warning");
                 });
     }
@@ -169,7 +166,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
     @Override
     public void suchSubcategoryNameExists(String name) {
         UIUtils.showAlert(this, getString(R.string.ok), getString(R.string.warning_such_subcategory_name_exists_title),
-                getString(R.string.warning_subcategory_name_exists) + name, () -> {
+                getString(R.string.warning_subcategory_name_exists) + " " + name, () -> {
                     Log.d("sss", "suchSubcategoryNameExists: user accepted existing name warning");
                 });
     }
@@ -197,10 +194,234 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
     }
 
     @Override
-    public void selectSubcategoryListItem(int position) {
+    public void selectSubcategoryListItem(Long id) {
         ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
         if (fragment != null) {
-            fragment.selectSubcategoryListItem(position);
+            fragment.selectSubcategoryListItem(id);
+        }
+    }
+
+    @Override
+    public Long getSubcategorySelectedPosition() {
+        return null;
+    }
+
+
+
+
+    @Override
+    public Category getSubcategoryByPosition(int position) {
+        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        Category result = null;
+        if (fragment != null) {
+            result = fragment.getSelectedSubcategory();
+        }
+        return result;
+    }
+
+
+    @Override
+    public void selectAddCategoryItem() {
+        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        if (fragment != null) {
+            fragment.selectAddCategoryItem();
+        }
+    }
+
+    @Override
+    public void selectAddSubcategoryItem() {
+        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        if (fragment != null) {
+            fragment.selectAddSubcategoryItem();
+        }
+    }
+
+    @Override
+    public void selectCategory(Long id) {
+        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        if (fragment != null) {
+            fragment.selectCategory(id);
+        }
+    }
+
+    @Override
+    public void selectSubcategory(Long id) {
+        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        if (fragment != null) {
+            fragment.selectSubcategory(id);
+        }
+    }
+
+    @Override
+    public Category getSelectedCategory() {
+        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        if (fragment != null) {
+            return fragment.getSelectedCategory();
+        }
+        return null;
+    }
+
+    @Override
+    public Category getSelectedSubcategory() {
+        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        if (fragment != null) {
+            return fragment.getSelectedSubcategory();
+        }
+        return null;
+    }
+
+    @Override
+    public void addCategory(Category category) {
+        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        if (fragment != null) {
+            fragment.addCategory(category);
+        }
+    }
+
+    @Override
+    public void addSubcategory(Category category) {
+        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        if (fragment != null) {
+            fragment.addSubcategory(category);
+        }
+    }
+
+    @Override
+    public void deleteCategory(Category category) {
+        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        if (fragment != null) {
+            fragment.deleteCategory(category);
+        }
+    }
+
+    @Override
+    public void deleteSubcategory(Category category) {
+        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        if (fragment != null) {
+            fragment.deleteSubcategory(category);
+        }
+    }
+
+    @Override
+    public void setListToCategories(List<Category> categories) {
+        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        if (fragment != null) {
+            fragment.setListToCategories(categories);
+        }
+    }
+
+    @Override
+    public void setListToSubcategories(List<Category> subcategories) {
+        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        if (fragment != null) {
+            fragment.setListToSubcategoryList(subcategories);
+        }
+    }
+
+    @Override
+    public void initRightSide(List<Category> categories) {
+        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        if (fragment != null) {
+            fragment.init(categories);
+        }
+    }
+
+    private CategoryAddEditFragment getCategoryAddEditFragment() {
+        ProductAddEditFragment productAddEditFragment = (ProductAddEditFragment) activityFragmentManager.findFragmentByTag(PRODUCT_FRAGMENT);
+        if (productAddEditFragment != null) {
+            activityFragmentManager.beginTransaction().show(productAddEditFragment).commit();
+        } else {
+            Log.d("sss", "openCategoryAddEditFragment: product fragment is null, maybe not added");
+        }
+        CategoryAddEditFragment categoryAddEditFragment = (CategoryAddEditFragment) activityFragmentManager.findFragmentByTag(CATEGORY_FRAGMENT);
+        if (categoryAddEditFragment != null) {
+            activityFragmentManager.beginTransaction().show(categoryAddEditFragment).commit();
+            return categoryAddEditFragment;
+        } else {
+            Log.d("sss", "openCategoryAddEditFragment: category fragment is null, maybe not added");
+        }
+        return null;
+    }
+
+    @Override
+    public void openAddCategoryMode() {
+        CategoryAddEditFragment fragment = getCategoryAddEditFragment();
+        if (fragment != null) {
+            fragment.setCategoryAddMode();
+        }
+    }
+
+    @Override
+    public void openAddSubcategoryMode(String parentName) {
+        CategoryAddEditFragment fragment = getCategoryAddEditFragment();
+        if (fragment != null) {
+            fragment.setSubcategoryAddMode(parentName);
+        }
+    }
+
+    @Override
+    public void openEditCategoryMode(String name, String description, boolean isActive) {
+        CategoryAddEditFragment fragment = getCategoryAddEditFragment();
+        if (fragment != null) {
+            fragment.setCategoryEditMode(name, description, isActive);
+        }
+    }
+
+    @Override
+    public void openEditSubcategoryMode(String name, String description, boolean isActive, String parentName) {
+        CategoryAddEditFragment fragment = getCategoryAddEditFragment();
+        if (fragment != null) {
+            fragment.setSubcategoryEditMode(name, description, isActive, parentName);
+        }
+    }
+
+    @Override
+    public List<Category> getCategories() {
+        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        if (fragment != null) {
+            return fragment.getCategories();
+        }
+        return null;
+    }
+
+    @Override
+    public List<Category> getSubcategories() {
+        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        if (fragment != null) {
+            return fragment.getSubcategories();
+        }
+        return null;
+    }
+
+    @Override
+    public void setListToProducts(List<Product> products) {
+        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        if (fragment != null) {
+            fragment.setListToProductsList(products);
+        }
+    }
+
+    @Override
+    public void unselectSubcategoryList() {
+        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        if (fragment != null) {
+            fragment.unselectSubcategoriesList();
+        }
+    }
+
+    @Override
+    public void unselectProductsList() {
+        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        if (fragment != null) {
+            fragment.unselectProductsList();
+        }
+    }
+
+    @Override
+    public void clearProductList() {
+        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        if (fragment != null) {
+            fragment.clearProductList();
         }
     }
 }

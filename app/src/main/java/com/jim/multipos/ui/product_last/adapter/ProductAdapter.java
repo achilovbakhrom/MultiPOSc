@@ -9,7 +9,7 @@ import com.jim.mpviews.MPListItemView;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseViewHolder;
 import com.jim.multipos.core.MovableBaseAdapter;
-import com.jim.multipos.data.db.model.products.Category;
+import com.jim.multipos.data.db.model.products.Product;
 
 import java.util.Collections;
 import java.util.List;
@@ -17,15 +17,15 @@ import java.util.List;
 import butterknife.BindView;
 
 /**
- * Created by Achilov Bakhrom on 10/26/17.
+ * Created by Achilov Bakhrom on 11/2/17.
  */
-
-public class CategoryAdapter extends MovableBaseAdapter<Category, BaseViewHolder> {
+public class ProductAdapter extends MovableBaseAdapter<Product, BaseViewHolder> {
 
     private static final int ADD = 0, ITEM = 1;
 
-    public CategoryAdapter(List<Category> items) {
+    public ProductAdapter(List<Product> items) {
         super(items);
+
     }
 
     @Override
@@ -53,43 +53,38 @@ public class CategoryAdapter extends MovableBaseAdapter<Category, BaseViewHolder
     }
 
     @Override
-    protected boolean isSinglePositionClickDisabled() {
-        return true;
-    }
-
-    @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
-        if (holder instanceof AddViewHolder) {
-            AddViewHolder item = ((AddViewHolder) holder);
+        if (holder instanceof CategoryAdapter.AddViewHolder) {
+            CategoryAdapter.AddViewHolder item = ((CategoryAdapter.AddViewHolder) holder);
             item.itemView.setActivate(position == selectedPosition);
-        } else if (holder instanceof ItemViewHolder) {
-            ItemViewHolder item = ((ItemViewHolder) holder);
+        } else if (holder instanceof CategoryAdapter.ItemViewHolder) {
+            CategoryAdapter.ItemViewHolder item = ((CategoryAdapter.ItemViewHolder) holder);
             item.itemView.setActivate(position == selectedPosition);
             item.itemView.setText(items.get(position).getName());
             item.itemView.makeDeleteable(!items.get(position).isActive());
         }
     }
 
-    public void editItem(Category category) {
+    public void editItem(Product product) {
         for (int i = 0; i < items.size(); i++) {
-            if (items.get(i) != null && category.getId().equals(items.get(i).getId())) {
-                items.set(i, category);
+            if (items.get(i) != null && product.getId().equals(items.get(i).getId())) {
+                items.set(i, product);
                 sort();
                 break;
             }
         }
     }
 
-    public Category getSelectedItem() {
+    public Product getSelectedItem() {
         return items.get(selectedPosition);
     }
 
     public void setSelectedPositionWithId(Long id) {
-        for (Category category : items) {
-            if (category == null) continue;
-            if (category.getId().equals(id)) {
-                this.selectedPosition = items.indexOf(category);
+        for (Product product : items) {
+            if (product == null) continue;
+            if (product.getId().equals(id)) {
+                this.selectedPosition = items.indexOf(product);
                 notifyItemChanged(selectedPosition);
                 break;
             }
@@ -115,13 +110,13 @@ public class CategoryAdapter extends MovableBaseAdapter<Category, BaseViewHolder
     }
 
     @Override
-    public void addItems(List<Category> items) {
+    public void addItems(List<Product> items) {
         super.addItems(items);
         sort();
     }
 
     @Override
-    public void addItem(Category item) {
+    public void addItem(Product item) {
         super.addItem(item);
         sort();
     }
@@ -133,7 +128,7 @@ public class CategoryAdapter extends MovableBaseAdapter<Category, BaseViewHolder
     }
 
     @Override
-    public void removeItem(Category item) {
+    public void removeItem(Product item) {
         super.removeItem(item);
         sort();
     }
@@ -155,12 +150,14 @@ public class CategoryAdapter extends MovableBaseAdapter<Category, BaseViewHolder
 
         AddViewHolder(View itemView) {
             super(itemView);
+
         }
     }
 
     class ItemViewHolder extends BaseViewHolder {
         @BindView(R.id.aivItem)
         MPListItemView itemView;
+
         ItemViewHolder(View itemView) {
             super(itemView);
         }

@@ -11,10 +11,11 @@ import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.JoinProperty;
 import org.greenrobot.greendao.annotation.ToMany;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Entity(nameInDb = "CATEGORY", active = true)
-public class Category implements Editable{
+public class Category implements Editable, Serializable{
     public static final Long WITHOUT_PARENT = -1L;
     @Id(autoincrement = true)
     private Long id;
@@ -24,7 +25,7 @@ public class Category implements Editable{
     private Boolean isDeleted = false;
     private Boolean isNotModified = true;
     private Long createdDate;
-    private Double position;
+    private Double position = 0d;
     private Long rootId;
     private Long parentId = WITHOUT_PARENT;
     @ToMany(joinProperties = {

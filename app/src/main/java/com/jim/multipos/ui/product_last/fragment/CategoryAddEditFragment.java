@@ -26,39 +26,36 @@ import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 /**
  * Created by Achilov Bakhrom on 10/26/17.
  */
-
 public class CategoryAddEditFragment extends BaseFragment {
 
     @BindView(R.id.tvName)
     TextView tvName;
-
     @NotEmpty(messageId = R.string.category_length_validation)
     @BindView(R.id.etSubCategoryName)
     MpEditText name;
-
     @BindView(R.id.llCategoryChoose)
     LinearLayout categoryChooseContainer;
-
     @BindView(R.id.tvChooseCategory)
     TextView categoryChoose;
-
     @BindView(R.id.etSubCategoryDescription)
     EditText description;
-
     @BindView(R.id.chbActive)
     MpCheckbox active;
-
     @BindView(R.id.btnSubCategoryDelete)
     MpButton delete;
-
     @BindView(R.id.btnSubCategorySave)
     MpButton save;
+
 
     @Override
     protected int getLayout() {
         return R.layout.category_add_edit_fragment;
     }
 
+    /**
+     * this fragment will not be added to the container of dagger
+     * @return - false
+     */
     @Override
     protected boolean isAndroidInjectionEnabled() {
         return false;
@@ -66,59 +63,94 @@ public class CategoryAddEditFragment extends BaseFragment {
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        ProductPresenter presenter = ((ProductActivity) getContext()).getPresenter();
-        setFragmentType(presenter.getType());
-        setMode(presenter.getMode(), presenter.getCategory());
+        setCategoryAddMode();
     }
 
-
-    public void setFragmentType(FragmentType type) {
-        if (type == FragmentType.CATEGORY) {
-            categoryChooseContainer.setVisibility(View.GONE);
-            tvName.setText(R.string.category);
-        }
-        else  {
-            categoryChooseContainer.setVisibility(View.VISIBLE);
-            tvName.setText(R.string.subcategory);
-        }
+    /**
+     * sets mode for adding category
+     */
+    public void setCategoryAddMode() {
+        categoryChooseContainer.setVisibility(View.GONE);
+        tvName.setText(R.string.category);
+        save.setText(R.string.save);
+        name.setText("");
+        name.setError(null);
+        name.requestFocus();
+        categoryChoose.setText("");
+        description.setText("");
+        active.setChecked(true);
+        delete.setVisibility(View.GONE);
     }
 
-    public void setMode(AddingMode mode, Category category) {
-        if (mode == AddingMode.ADD) {
-            save.setText(R.string.save);
-            name.setText("");
-            name.requestFocus();
-            categoryChoose.setText("");
-            description.setText("");
-            active.setChecked(true);
-            delete.setVisibility(View.GONE);
-        }
-        else  {
-            save.setText(R.string.update);
-            name.setText(category.getName());
-            if (!Objects.equals(category.getParentId(), Category.WITHOUT_PARENT)) {
-                categoryChoose.setText(((ProductActivity) getContext()).getPresenter().getCategoryById(category.getParentId()).getName());
-            }
-            description.setText(category.getDescription());
-            active.setChecked(category.isActive());
-            delete.setVisibility(View.VISIBLE);
-        }
+    /**
+     * sets mode for adding subcategory
+     */
+    public void setSubcategoryAddMode(String parentName) {
+        categoryChooseContainer.setVisibility(View.VISIBLE);
+        tvName.setText(R.string.subcategory);
+        save.setText(R.string.save);
+        name.setText("");
+        name.setError(null);
+        name.requestFocus();
+        categoryChoose.setText(parentName);
+        description.setText("");
+        active.setChecked(true);
+        delete.setVisibility(View.GONE);
     }
 
+    /**
+     * sets mode for editing category
+     * @param categoryName - editing category name
+     * @param categoryDescription - editing category description
+     * @param isActive - editing category activation state
+     */
+    public void setCategoryEditMode(String categoryName, String categoryDescription, boolean isActive) {
+        categoryChooseContainer.setVisibility(View.GONE);
+        tvName.setText(R.string.category);
+        save.setText(R.string.update);
+        name.setText(categoryName);
+        name.setError(null);
+        description.setText(categoryDescription);
+        active.setChecked(isActive);
+        delete.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * sets mode for editing subcategory
+     * @param categoryName - editing subcategory name
+     * @param categoryDescription - editing subcategory description
+     * @param isActive - editing subcategory activation state
+     * @param parentCategoryName - editing subcategory's parent's name
+     */
+    public void setSubcategoryEditMode(String categoryName, String categoryDescription, boolean isActive, String parentCategoryName) {
+        categoryChooseContainer.setVisibility(View.VISIBLE);
+        tvName.setText(R.string.subcategory);
+        save.setText(R.string.update);
+        name.setText(categoryName);
+        name.setError(null);
+        categoryChoose.setText(parentCategoryName);
+        description.setText(categoryDescription);
+        active.setChecked(isActive);
+        delete.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * processing button clicks
+     * @param view - clicked button view
+     */
     @OnClick(value = {R.id.btnSubCategorySave, R.id.btnSubCategoryDelete, R.id.btnSubCategoryCancel})
     public void buttonClick(View view) {
         ProductPresenter presenter = ((ProductActivity) getContext()).getPresenter();
         switch (view.getId()) {
             case R.id.btnSubCategorySave:
-                presenter.addCategory(name.getText().toString(), description.getText().toString(), active.isChecked());
+                if (isValid())
+                    presenter.addCategory(name.getText().toString(), description.getText().toString(), active.isChecked());
                 break;
-
             case R.id.btnSubCategoryDelete:
                 presenter.deleteCategory();
                 break;
-
             case R.id.btnSubCategoryCancel:
-
+                //TODO process back button
                 break;
         }
     }

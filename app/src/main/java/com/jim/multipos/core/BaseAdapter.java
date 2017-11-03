@@ -5,12 +5,15 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import lombok.Getter;
+
 /**
  * Created by Sirojiddin on 12.10.2017.
  */
 
 public abstract class BaseAdapter<T, E extends BaseViewHolder> extends RecyclerView.Adapter<E> {
 
+    @Getter
     protected List<T> items;
 
     public BaseAdapter(List<T> items) {

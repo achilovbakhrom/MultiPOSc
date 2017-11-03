@@ -320,7 +320,6 @@
         <item>Белорусский рубль (BYN)</item>
         <item>Армянский драм (АРМ)</item>
         <item>Китайская Юань (CNY)</item>
-        <item>Туркменский Манат (АР)</item>
         <item>Армянский драм (AMD)</item>
         <item>Сомони (TJS)</item>
         <item>Киргизский сом (Сом)</item>
@@ -341,7 +340,6 @@
         <item>Белорусский рубль</item>
         <item>Армянский драм</item>
         <item>Китайская Юань</item>
-        <item>Туркменский Манат</item>
         <item>Армянский драм</item>
         <item>Сомони</item>
         <item>Киргизский сом</item>
@@ -350,20 +348,18 @@
         <item>Грузинский лари</item>
         <item>Молдавский лей</item>
         <item>Узбекский сум</item>
-        <item>Швейцарский франк</item>
     </string-array>
+
     <string-array name="base_abbrs">
         <item>$</item>
         <item>₽</item>
         <item>€</item>
         <item>₴</item>
         <item>£</item>
-        <item>лв</item>
         <item>₸</item>
         <item>BYN</item>
         <item>АРМ</item>
         <item>CNY</item>
-        <item>АР</item>
         <item>AMD</item>
         <item>TJS</item>
         <item>Сом</item>
@@ -373,6 +369,7 @@
         <item>LEI</item>
         <item>UZS</item>
     </string-array>
+
     <string name="title_activity_product_class">ProductClassActivity</string>
 
     <string-array name="service_fee_type">

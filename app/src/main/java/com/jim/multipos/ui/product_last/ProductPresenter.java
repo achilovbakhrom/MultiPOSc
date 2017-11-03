@@ -18,19 +18,17 @@ public interface ProductPresenter extends Presenter {
     void subcategorySelected(Category category);
     void addCategory(String name, String description, boolean isActive);
     void addProduct(Product product);
-    List<Category> getCategories();
     List<Category> getSubcategories(Category category);
-    List<Product> getProducts();
     boolean isSubcategoryNameUnique(String categoryName, String subcategoryName);
     boolean isCategoryNameUnique(String categoryName);
     AddingMode getMode();
     void setMode(AddingMode mode);
     FragmentType getType();
     void setType(FragmentType type);
-    void openAddEditCategoryFragment(AddingMode mode, FragmentType type, Category category);
-    void openAddEditProductFragment(AddingMode mode, Product product);
     Category getCategory();
     void setCategory(Category category);
     Category getCategoryById(Long id);
     void deleteCategory();
+    void setCategoryItemsMoved();
+    void setSubcategoryItemsMoved();
 }
