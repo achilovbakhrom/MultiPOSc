@@ -467,6 +467,9 @@
     <string name="discard">Discard</string>
     <string name="qty_and_price">Quantity/Price</string>
     <string name="count_of_products">Count of products</string>
+    <string name="vendor_name">Vendor name</string>
+    <string name="contact_name">Contact name</string>
+    <string name="selected">Selected</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>

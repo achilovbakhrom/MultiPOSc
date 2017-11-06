@@ -81,7 +81,7 @@ public class ProductFolderViewFragment extends BaseFragment implements ProductFo
     @Override
     public void setFolderItemRecyclerView(List<FolderItem> folderItems) {
         rvFolderItems.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new FolderViewAdapter(folderItems, mode);
+        adapter = new FolderViewAdapter(folderItems, mode, getContext());
         rvFolderItems.setAdapter(adapter);
         adapter.setOnItemClickListener(new ClickableBaseAdapter.OnItemClickListener<FolderItem>() {
             @Override

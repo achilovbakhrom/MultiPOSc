@@ -1,18 +1,23 @@
 package com.jim.multipos.ui.mainpospage.adapter;
 
-import android.media.Image;
+import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseViewHolder;
 import com.jim.multipos.core.ClickableBaseAdapter;
 import com.jim.multipos.data.db.model.intosystem.FolderItem;
 import com.jim.multipos.data.db.model.products.Product;
+import com.jim.multipos.utils.GlideApp;
 
+import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;
@@ -24,13 +29,15 @@ import butterknife.BindView;
 public class FolderViewAdapter extends ClickableBaseAdapter<FolderItem, BaseViewHolder> {
 
     private int mode = 0;
+    private Context context;
     private static final int CATEGORY = 0;
     private static final int SUBCATEGORY = 1;
     private static final int PRODUCT = 2;
 
-    public FolderViewAdapter(List items, int mode) {
+    public FolderViewAdapter(List items, int mode, Context context) {
         super(items);
         this.mode = mode;
+        this.context = context;
     }
 
     @Override
@@ -48,9 +55,11 @@ public class FolderViewAdapter extends ClickableBaseAdapter<FolderItem, BaseView
             productViewHolder.tvProductSKU.setText("SKU: " + product.getSku());
             productViewHolder.tvProductQty.setText("100.0 pcs");
             productViewHolder.tvProductPrice.setText(product.getPrice() + " sum");
-//            if (!product.getPhotoPath().equals("")){
-//                //TODO load product image
-//            }
+//            productViewHolder.tvProductPrice.setText(product.getPrice() + " " + product.getPriceCurrency().getAbbr());
+            if (!product.getPhotoPath().equals("")){
+                Uri photoSelected = Uri.fromFile(new File(product.getPhotoPath()));
+                GlideApp.with(context).load(photoSelected).diskCacheStrategy(DiskCacheStrategy.RESOURCE).thumbnail(0.2f).centerCrop().transform(new RoundedCorners(20)).into(productViewHolder.ivProductImage);
+            } else productViewHolder.ivProductImage.setImageResource(R.drawable.basket);
         }
 
     }
