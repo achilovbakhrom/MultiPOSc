@@ -45,8 +45,8 @@ public class AddProductFragment extends BaseFragment implements ProductsView {
     RxBusLocal rxBusLocal;
     @BindView(R.id.etProductName)
     MpEditText etProductName;
-    @BindView(R.id.tvLinked)
-    TextView tvLinked;
+//    @BindView(R.id.tvLinked)
+//    TextView tvLinked;
     @BindView(R.id.etBarcode)
     MpEditText etBarcode;
     @BindView(R.id.etSKU)
@@ -154,10 +154,10 @@ public class AddProductFragment extends BaseFragment implements ProductsView {
         activity.finish();
     }
 
-    @OnClick(R.id.tvLinked)
-    public void onChooseVendor() {
-
-    }
+//    @OnClick(R.id.tvLinked)
+//    public void onChooseVendor() {
+//
+//    }
 
     @OnClick(R.id.btnAdvance)
     public void onAdvance() {
@@ -199,7 +199,7 @@ public class AddProductFragment extends BaseFragment implements ProductsView {
         etProductCost.setText("");
         etProductPrice.setText("");
         etSKU.setText("");
-        tvLinked.setText("");
+//        tvLinked.setText("");
     }
 
     @Override

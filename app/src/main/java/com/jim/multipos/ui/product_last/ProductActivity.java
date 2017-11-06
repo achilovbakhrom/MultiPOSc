@@ -1,9 +1,7 @@
 package com.jim.multipos.ui.product_last;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 
 import com.jim.mpviews.MpToolbar;
@@ -14,7 +12,7 @@ import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.ui.product_last.fragment.CategoryAddEditFragment;
 import com.jim.multipos.ui.product_last.fragment.ProductListFragment;
 import com.jim.multipos.ui.product_last.fragment.ProductAddEditFragment;
-import com.jim.multipos.ui.product_last.helpers.AddingMode;
+import com.jim.multipos.ui.product_last.helpers.CategoryAddEditMode;
 import com.jim.multipos.ui.product_last.helpers.FragmentType;
 import com.jim.multipos.utils.UIUtils;
 
@@ -77,7 +75,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
     }
 
     @Override
-    public void setModeToProductAddEditFragment(AddingMode mode) {
+    public void setModeToProductAddEditFragment(CategoryAddEditMode mode) {
 
     }
 
@@ -92,26 +90,8 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
     }
 
     @Override
-    public void openProductAddEditFragment(AddingMode mode, Product product) {
+    public void openProductAddEditFragment(CategoryAddEditMode mode, Product product) {
 
-    }
-
-    @Override
-    public void openCategoryAddEditFragment(AddingMode mode, FragmentType type, Category category) {
-        ProductAddEditFragment productAddEditFragment = (ProductAddEditFragment) activityFragmentManager.findFragmentByTag(PRODUCT_FRAGMENT);
-        if (productAddEditFragment != null) {
-            activityFragmentManager.beginTransaction().show(productAddEditFragment).commit();
-        } else {
-            Log.d("sss", "openCategoryAddEditFragment: product fragment is null, maybe not added");
-        }
-        CategoryAddEditFragment categoryAddEditFragment = (CategoryAddEditFragment) activityFragmentManager.findFragmentByTag(CATEGORY_FRAGMENT);
-        if (categoryAddEditFragment != null) {
-            activityFragmentManager.beginTransaction().show(categoryAddEditFragment).commit();
-//            categoryAddEditFragment.setFragmentType(type);
-//            categoryAddEditFragment.setMode(mode, category);
-        } else {
-            Log.d("sss", "openCategoryAddEditFragment: category fragment is null, maybe not added");
-        }
     }
 
     @Override
@@ -329,7 +309,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
     private CategoryAddEditFragment getCategoryAddEditFragment() {
         ProductAddEditFragment productAddEditFragment = (ProductAddEditFragment) activityFragmentManager.findFragmentByTag(PRODUCT_FRAGMENT);
         if (productAddEditFragment != null) {
-            activityFragmentManager.beginTransaction().show(productAddEditFragment).commit();
+            activityFragmentManager.beginTransaction().hide(productAddEditFragment).commit();
         } else {
             Log.d("sss", "openCategoryAddEditFragment: product fragment is null, maybe not added");
         }
@@ -339,6 +319,23 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
             return categoryAddEditFragment;
         } else {
             Log.d("sss", "openCategoryAddEditFragment: category fragment is null, maybe not added");
+        }
+        return null;
+    }
+
+    private ProductAddEditFragment getProductAddEditFragment() {
+        CategoryAddEditFragment categoryAddEditFragment = (CategoryAddEditFragment) activityFragmentManager.findFragmentByTag(CATEGORY_FRAGMENT);
+        if (categoryAddEditFragment != null) {
+            activityFragmentManager.beginTransaction().hide(categoryAddEditFragment).commit();
+        } else {
+            Log.d("sss", "openCategoryAddEditFragment: category fragment is null, maybe not added");
+        }
+        ProductAddEditFragment productAddEditFragment = (ProductAddEditFragment) activityFragmentManager.findFragmentByTag(PRODUCT_FRAGMENT);
+        if (productAddEditFragment != null) {
+            activityFragmentManager.beginTransaction().show(productAddEditFragment).commit();
+            return productAddEditFragment;
+        } else {
+            Log.d("sss", "openCategoryAddEditFragment: product fragment is null, maybe not added");
         }
         return null;
     }
@@ -422,6 +419,24 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
         ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
         if (fragment != null) {
             fragment.clearProductList();
+        }
+    }
+
+    @Override
+    public void openProductAddMode() {
+
+    }
+
+    @Override
+    public void openProductEditMode(Product product) {
+
+    }
+
+    @Override
+    public void initProductForm(String[] unitList, String[] priceCurrency, String[] costCurrency, String[] productClasses) {
+        ProductAddEditFragment fragment = getProductAddEditFragment();
+        if (fragment != null) {
+            fragment.initProductAddEditFragment(unitList, priceCurrency, costCurrency, productClasses);
         }
     }
 }

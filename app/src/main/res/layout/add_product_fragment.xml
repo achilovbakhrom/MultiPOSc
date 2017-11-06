@@ -79,52 +79,6 @@
                     android:layout_marginLeft="@dimen/sixteen_dp"
                     android:src="@drawable/camera"
                     android:tint="@color/colorTintGrey" />
-
-                <ImageView
-                    android:id="@+id/ivChild"
-                    android:layout_width="@dimen/thirty_dp"
-                    android:layout_height="@dimen/thirty_dp"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/sixteen_dp"
-                    android:src="@drawable/child"
-                    android:tint="@color/colorTintGrey" />
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/ten_dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="@dimen/hundred_dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginRight="@dimen/sixteen_dp"
-                    android:gravity="right"
-                    android:text="@string/linked"
-                    android:textSize="@dimen/sixteen_dp" />
-
-                <TextView
-                    android:id="@+id/tvLinked"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/forty_dp"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:background="@drawable/edit_text_bg"
-                    android:drawablePadding="@dimen/twenty_dp"
-                    android:drawableRight="@drawable/chain"
-                    android:drawableTint="#e1e1e1"
-                    android:gravity="center_vertical"
-                    android:hint="@string/none"
-                    android:paddingBottom="@dimen/five_dp"
-                    android:paddingLeft="@dimen/ten_dp"
-                    android:paddingRight="@dimen/fifteen_dp"
-                    android:paddingTop="@dimen/five_dp"
-                    android:textColorHint="@color/colorTextHint"
-                    android:textSize="@dimen/sixteen_dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -230,7 +184,7 @@
                     android:textSize="@dimen/sixteen_dp" />
 
 
-                <com.jim.mpviews.MpSpinner
+                <com.jim.mpviews.MPosSpinner
                     android:id="@+id/spPriceCurrency"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/forty_dp"
@@ -266,7 +220,7 @@
                     android:textColorHint="@color/colorTextHint"
                     android:textSize="@dimen/sixteen_dp" />
 
-                <com.jim.mpviews.MpSpinner
+                <com.jim.mpviews.MPosSpinner
                     android:id="@+id/spCostCurrency"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/forty_dp"
@@ -289,7 +243,7 @@
                     android:text="@string/product_class"
                     android:textSize="@dimen/sixteen_dp" />
 
-                <com.jim.mpviews.MpSpinner
+                <com.jim.mpviews.MPosSpinner
                     android:id="@+id/spProductClass"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/forty_dp"

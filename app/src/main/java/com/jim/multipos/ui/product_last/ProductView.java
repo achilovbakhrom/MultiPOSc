@@ -3,8 +3,7 @@ package com.jim.multipos.ui.product_last;
 import com.jim.multipos.core.BaseView;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.Product;
-import com.jim.multipos.ui.product_last.adapter.CategoryAdapter;
-import com.jim.multipos.ui.product_last.helpers.AddingMode;
+import com.jim.multipos.ui.product_last.helpers.CategoryAddEditMode;
 import com.jim.multipos.ui.product_last.helpers.FragmentType;
 
 import java.util.List;
@@ -14,10 +13,9 @@ import java.util.List;
  */
 
 public interface ProductView extends BaseView {
-    void setModeToProductAddEditFragment(AddingMode mode);
+    void setModeToProductAddEditFragment(CategoryAddEditMode mode);
     void setTypeToCategoryFragment(FragmentType type);
-    void openProductAddEditFragment(AddingMode mode, Product product);
-    void openCategoryAddEditFragment(AddingMode mode, FragmentType type, Category category);
+    void openProductAddEditFragment(CategoryAddEditMode mode, Product product);
     void addToCategoryList(Category category);
     void addToSubcategoryList(Category category);
     void clearSubcategoryList();
@@ -58,4 +56,8 @@ public interface ProductView extends BaseView {
     void unselectSubcategoryList();
     void unselectProductsList();
     void clearProductList();
+
+    void openProductAddMode();
+    void openProductEditMode(Product product);
+    void initProductForm(String[] unitList, String[] priceCurrency, String[] costCurrency, String[] productClasses);
 }

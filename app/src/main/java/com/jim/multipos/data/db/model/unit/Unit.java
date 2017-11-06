@@ -12,7 +12,7 @@ import org.greenrobot.greendao.DaoException;
 import com.jim.multipos.data.db.model.DaoSession;
 
 
-@Entity(nameInDb = "UNIT_ADDED", active = true)
+@Entity(nameInDb = "UNIT", active = true)
 public class Unit {
     @Id
     private Long id;
@@ -24,6 +24,7 @@ public class Unit {
     private String subUnitAbbr;
     private Long rootId;
     private Long unitCategoryId;
+    private Long productId;
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
      * Entity must attached to an entity context.
@@ -123,10 +124,16 @@ public class Unit {
     public void setId(Long id) {
         this.id = id;
     }
-    @Generated(hash = 849017146)
-    public Unit(Long id, String name, String abbr, float factorRoot,
-            boolean isActive, boolean isStaticUnit, String subUnitAbbr,
-            Long rootId, Long unitCategoryId) {
+    public Long getProductId() {
+        return this.productId;
+    }
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
+    @Generated(hash = 1570457876)
+    public Unit(Long id, String name, String abbr, float factorRoot, boolean isActive,
+            boolean isStaticUnit, String subUnitAbbr, Long rootId, Long unitCategoryId,
+            Long productId) {
         this.id = id;
         this.name = name;
         this.abbr = abbr;
@@ -136,6 +143,7 @@ public class Unit {
         this.subUnitAbbr = subUnitAbbr;
         this.rootId = rootId;
         this.unitCategoryId = unitCategoryId;
+        this.productId = productId;
     }
     @Generated(hash = 1236212320)
     public Unit() {

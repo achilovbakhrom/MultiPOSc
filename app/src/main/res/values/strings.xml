@@ -144,50 +144,48 @@
     <string name="clock_in">Clock in:</string>
     <string name="clock_out">Clock out:</string>
     <string name="till_opened_for">Till opened for:</string>
-    <string-array name="base_units_title">
+
+    <string-array name="unit_categories">
+        <item>Piece</item>
         <item>Weight</item>
         <item>Length</item>
         <item>Area</item>
         <item>Volume</item>
     </string-array>
-    <string-array name="base_units_abbr">
-        <item>kg</item>
-        <item>m</item>
-        <item>m2</item>
-        <item>m3</item>
-    </string-array>
+
     <string-array name="weight_title">
-        <item>Gramm</item>
+        <item>Kilogram</item>
+        <item>Gram</item>
         <item>Ton</item>
         <item>Centner</item>
         <item>Carat</item>
     </string-array>
-    <string-array name="length_title">
-        <item>Decimetr</item>
-        <item>Centimetr</item>
-        <item>Milimetr</item>
-        <item>Kilometr</item>
-        <item>Inch</item>
-        <item>Fot</item>
-    </string-array>
-    <string-array name="area_title">
-        <item>Are</item>
-        <item>Acre</item>
-        <item>Hectare</item>
-    </string-array>
-    <string-array name="volume_title">
-        <item>Liter</item>
-        <item>Barrel</item>
-        <item>Gallon</item>
-        <item>Milliliter</item>
-    </string-array>
-    <string-array name="weigth_abbr">
+    <string-array name="weight_abbr">
+        <item>kg</item>
         <item>gr</item>
         <item>tn</item>
         <item>st</item>
         <item>c.</item>
     </string-array>
+    <string-array name="weight_factor">
+        <item>1</item>
+        <item>0.001</item>
+        <item>1000</item>
+        <item>100</item>
+        <item>0.0023</item>
+    </string-array>
+
+    <string-array name="length_title">
+        <item>Meter</item>
+        <item>Decimeter</item>
+        <item>Centimeter</item>
+        <item>Millimeter</item>
+        <item>Kilometer</item>
+        <item>Inch</item>
+        <item>Fot</item>
+    </string-array>
     <string-array name="length_abbr">
+        <item>m</item>
         <item>dm</item>
         <item>cm</item>
         <item>mm</item>
@@ -195,71 +193,69 @@
         <item>inc</item>
         <item>ft</item>
     </string-array>
-    <string-array name="area_abbr">
-        <item>a</item>
-        <item>ac</item>
-        <item>ha</item>
-    </string-array>
-    <string-array name="volume_abbr">
-        <item>l</item>
-        <item>brr</item>
-        <item>gl</item>
-        <item>ml</item>
-    </string-array>
-    <string-array name="weight_property">
-        <item>1 gr = 0.01 kg</item>
-        <item>1 tn = 1000 kg</item>
-        <item>1 st = 100 kg</item>
-        <item>1 c. = 0.0023 kg</item>
-    </string-array>
-    <string-array name="length_property">
-        <item>1 dm = 0.1 m</item>
-        <item>1 cm = 100 m</item>
-        <item>1 mm = 0.001 m</item>
-        <item>1 km = 1000 m</item>
-        <item>1 inc = 0.0254 m</item>
-        <item>1 ft = 0.3048 m</item>
-    </string-array>
-    <string-array name="area_property">
-        <item>1 a = 100 m2</item>
-        <item>1 ac = 4046.85 m2</item>
-        <item>1 ha = 10 000 m2</item>
-    </string-array>
-    <string-array name="volume_property">
-        <item>1 l = 0.001 m3</item>
-        <item>1 brr = 0.158 m3</item>
-        <item>1 gl = 0.00378 m3</item>
-        <item>1 ml = 0.000001 m3</item>
-    </string-array>
-    <string-array name="weightRootFactor">
-        <item>0.01</item>
-        <item>1000</item>
-        <item>100</item>
-        <item>0.0023</item>
-    </string-array>
-
-    <string-array name="lengthRootFactor">
+    <string-array name="length_factor">
+        <item>1</item>
         <item>0.1</item>
-        <item>100</item>
-        <item>1000</item>
+        <item>0.01</item>
         <item>0.001</item>
         <item>1000</item>
         <item>0.0254</item>
         <item>0.3048</item>
     </string-array>
 
-    <string-array name="areaRootFactor">
+    <string-array name="piece_title">
+        <item>Piece</item>
+    </string-array>
+
+    <string-array name="piece_abbr">
+        <item>pcs</item>
+    </string-array>
+    <string-array name="piece_factor">
+        <item>1</item>
+    </string-array>
+
+    <string-array name="area_title">
+        <item>M2</item>
+        <item>Are</item>
+        <item>Acre</item>
+        <item>Hectare</item>
+    </string-array>
+    <string-array name="area_abbr">
+        <item>m2</item>
+        <item>a</item>
+        <item>ac</item>
+        <item>ha</item>
+    </string-array>
+    <string-array name="area_factor">
+        <item>1</item>
         <item>100</item>
         <item>4046.85</item>
         <item>10000</item>
     </string-array>
 
-    <string-array name="volumeRootFactor">
+    <string-array name="volume_title">
+        <item>M3</item>
+        <item>Liter</item>
+        <item>Barrel</item>
+        <item>Gallon</item>
+        <item>Milliliter</item>
+    </string-array>
+    <string-array name="volume_abbr">
+        <item>m3</item>
+        <item>l</item>
+        <item>brr</item>
+        <item>gl</item>
+        <item>ml</item>
+    </string-array>
+    <string-array name="volume_factor">
+        <item>1</item>
         <item>0.001</item>
         <item>0.158</item>
         <item>0.00378</item>
         <item>0.000001</item>
     </string-array>
+
+
     <string name="enter_pos_id">Enter POS ID</string>
     <string name="enter_alias">Enter alias</string>
     <string name="enter_address">Enter address</string>
@@ -310,7 +306,7 @@
     <string name="usage_type">Usage Type</string>
     <string name="should_not_be_greater_than_999">Should not be greater than 999</string>
 
-    <string-array name="base_currencies_with_abbr">
+    <string-array name="currency_with_abbr">
         <item>Доллары США ($)</item>
         <item>Российский рубль (₽)</item>
         <item>Евро (€)</item>
@@ -330,7 +326,7 @@
         <item>Узбекский сум (UZS)</item>
     </string-array>
 
-    <string-array name="base_currencies">
+    <string-array name="currency_title">
         <item>Доллары США</item>
         <item>Российский рубль</item>
         <item>Евро</item>
@@ -350,7 +346,7 @@
         <item>Узбекский сум</item>
     </string-array>
 
-    <string-array name="base_abbrs">
+    <string-array name="currency_abbrs">
         <item>$</item>
         <item>₽</item>
         <item>€</item>

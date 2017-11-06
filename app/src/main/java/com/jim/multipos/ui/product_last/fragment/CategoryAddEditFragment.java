@@ -11,13 +11,8 @@ import com.jim.mpviews.MpCheckbox;
 import com.jim.mpviews.MpEditText;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
-import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.ui.product_last.ProductActivity;
 import com.jim.multipos.ui.product_last.ProductPresenter;
-import com.jim.multipos.ui.product_last.helpers.AddingMode;
-import com.jim.multipos.ui.product_last.helpers.FragmentType;
-
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.OnClick;

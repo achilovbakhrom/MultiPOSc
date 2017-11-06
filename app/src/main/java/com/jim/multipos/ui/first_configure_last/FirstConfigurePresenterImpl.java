@@ -56,20 +56,6 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
 
     private final String[] currencyName;
     private final String[] currencyAbbr;
-    private final String[] baseUnitsTitle;
-    private final String[] baseUnitsAbbr;
-    private final String[] weightUnitsTitle;
-    private final String[] lengthUnitsTitle;
-    private final String[] areaUnitsTitle;
-    private final String[] volumeUnitsTitle;
-    private final String[] weightUnitsAbbr;
-    private final String[] lengthUnitsAbbr;
-    private final String[] areaUnitsAbbr;
-    private final String[] volumeUnitsAbbr;
-    private final String[] weightUnitsRootFactor;
-    private final String[] lengthUnitsRootFactor;
-    private final String[] areaUnitsRootFactor;
-    private final String[] volumeUnitsRootFactor;
     private final String[] firstConfigureListItems;
     private final String[] firstConfigurationItemsDescription;
     public static final String COMPLETED_FRAGMENTS_KEY = "COMPLETED_FRAGMENTS_KEY";
@@ -82,20 +68,6 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
                                        @Named(value = "account_types") String[] types,
                                        @Named(value = "currency_name") String[] currencyName,
                                        @Named(value = "currency_abbr") String[] currencyAbbr,
-                                       @Named(value = "base_units_title") String[] baseUnitsTitle,
-                                       @Named(value = "base_units_abbr") String[] baseUnitsAbbr,
-                                       @Named(value = "weight_units_title") String[] weightUnitsTitle,
-                                       @Named(value = "length_units_title") String[] lengthUnitsTitle,
-                                       @Named(value = "area_units_title") String[] areaUnitsTitle,
-                                       @Named(value = "volume_units_title") String[] volumeUnitsTitle,
-                                       @Named(value = "weight_units_abbr") String[] weightUnitsAbbr,
-                                       @Named(value = "length_units_abbr") String[] lengthUnitsAbbr,
-                                       @Named(value = "area_units_abbr") String[] areaUnitsAbbr,
-                                       @Named(value = "volume_units_abbr") String[] volumeUnitsAbbr,
-                                       @Named(value = "weight_units_root_factor") String[] weightUnitsRootFactor,
-                                       @Named(value = "length_units_root_factor") String[] lengthUnitsRootFactor,
-                                       @Named(value = "area_units_root_factor") String[] areaUnitsRootFactor,
-                                       @Named(value = "volume_units_root_factor") String[] volumeUnitsRootFactor,
                                        @Named(value = "first_configure_items") String[] firstConfigureListItems,
                                        @Named(value = "first_configure_items_description") String[] firstConfigurationItemsDescription) {
         super(view);
@@ -107,20 +79,6 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
         this.circulations = circulations;
         this.currencyName = currencyName;
         this.currencyAbbr = currencyAbbr;
-        this.baseUnitsTitle = baseUnitsTitle;
-        this.baseUnitsAbbr = baseUnitsAbbr;
-        this.weightUnitsTitle = weightUnitsTitle;
-        this.lengthUnitsTitle = lengthUnitsTitle;
-        this.areaUnitsTitle = areaUnitsTitle;
-        this.volumeUnitsTitle = volumeUnitsTitle;
-        this.weightUnitsAbbr = weightUnitsAbbr;
-        this.lengthUnitsAbbr = lengthUnitsAbbr;
-        this.areaUnitsAbbr = areaUnitsAbbr;
-        this.volumeUnitsAbbr = volumeUnitsAbbr;
-        this.weightUnitsRootFactor = weightUnitsRootFactor;
-        this.lengthUnitsRootFactor = lengthUnitsRootFactor;
-        this.areaUnitsRootFactor = areaUnitsRootFactor;
-        this.volumeUnitsRootFactor = volumeUnitsRootFactor;
         this.firstConfigureListItems = firstConfigureListItems;
         this.firstConfigurationItemsDescription = firstConfigurationItemsDescription;
     }

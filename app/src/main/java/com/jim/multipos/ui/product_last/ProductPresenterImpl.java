@@ -6,17 +6,18 @@ import android.util.Log;
 import com.jim.multipos.config.scope.PerActivity;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
+import com.jim.multipos.data.db.model.ProductClass;
+import com.jim.multipos.data.db.model.Vendor;
+import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.Product;
-import com.jim.multipos.ui.product_last.helpers.AddingMode;
+import com.jim.multipos.data.db.model.unit.Unit;
+import com.jim.multipos.ui.product_last.helpers.CategoryAddEditMode;
 import com.jim.multipos.ui.product_last.helpers.FragmentType;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
@@ -35,7 +36,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
 
     @Setter
     @Getter
-    private AddingMode mode = AddingMode.ADD;
+    private CategoryAddEditMode mode = CategoryAddEditMode.CATEGORY_ADD_MODE;
 
     @Setter
     @Getter
@@ -49,8 +50,11 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     @Setter
     private Product product;
 
-    @Getter
-    private Map<Long, Long> selectedItems;
+    private List<Currency> currencies;
+
+    private List<ProductClass> productClasses;
+
+    private List<Unit> units;
 
     DatabaseManager databaseManager;
     ProductView productView;
@@ -70,22 +74,25 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             subcategory = (Category) bundle.getSerializable(SUBCATEGORY_KEY);
             product = (Product) bundle.getSerializable(PRODUCT_KEY);
         }
-        initSelectedItemsList(bundle);
     }
 
-    private void initSelectedItemsList(Bundle bundle) {
-        selectedItems = new HashMap();
-        List<Category> categories = new ArrayList<>();
-        categories.addAll(databaseManager.getAllCategories().blockingSingle());
-        if (bundle == null) {
-            for (Category category : categories)
-                selectedItems.put(category.getId(), -1L);
-        } else {
-            for (Category category : categories)
-                selectedItems.put(category.getId(), bundle.getLong(category.getId().toString()));
-        }
+    private List<Unit> getUnits() {
+        if (units == null)
+            units = databaseManager.getAllStaticUnits().blockingSingle();
+        return units;
     }
 
+    private List<ProductClass> getProductClasses() {
+        if (productClasses == null)
+            productClasses = databaseManager.getAllProductClass().blockingGet();
+        return productClasses;
+    }
+
+    private List<Currency> getCurrencies() {
+        if (currencies == null)
+            currencies = databaseManager.getCurrencies();
+        return currencies;
+    }
 
     /**
      * item move processing for categories
@@ -130,13 +137,29 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     public void onResume() {
         super.onResume();
         view.initRightSide(getCategories());
+        view.initProductForm(provideUnitList(), provideCurrencyList(), provideCostCurrencyList(), provideProductClassList());
+    }
+
+    private String[] provideUnitList() {
+        return null;
+    }
+
+    private String[] provideCurrencyList() {
+        return null;
+    }
+
+    private String[] provideCostCurrencyList() {
+        return null;
+    }
+
+    private String[] provideProductClassList() {
+        return null;
     }
 
     @Override
     public void onSaveInstanceState(@Nullable Bundle bundle) {
         super.onSaveInstanceState(bundle);
         if (bundle != null) {
-            for (Object key : selectedItems.keySet()) { bundle.putLong(key.toString(), selectedItems.get(key)); }
             if (category != null) { bundle.putSerializable(CATEGORY_KEY, category); }
             if (subcategory != null) { bundle.putSerializable(SUBCATEGORY_KEY, subcategory); }
             if (product != null) { bundle.putSerializable(PRODUCT_KEY, product); }
@@ -155,14 +178,14 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
         if (category == null) {
             this.category = null;
             this.subcategory = null;
-            mode = AddingMode.ADD;
+            mode = CategoryAddEditMode.CATEGORY_ADD_MODE;
             view.openAddCategoryMode();
             view.clearSubcategoryList();
         }
         else {
             category.resetSubCategories();
             this.category = category;
-            mode = AddingMode.EDIT;
+            mode = CategoryAddEditMode.CATEGORY_EDIT_MODE;
             view.openEditCategoryMode(category.getName(), category.getDescription(), category.isActive());
             if (subcategory == null) {
                 List<Category> list = new ArrayList<>();
@@ -176,30 +199,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             } else
                 view.unselectSubcategoryList();
             subcategory = null;
-//            Long id = selectedItems.get(category.getId());
-//            if (id == -1L) {
-//                mode = AddingMode.ADD;
-//                view.openAddSubcategoryMode(category.getName());
-//                view.selectAddSubcategoryItem();
-//            } else {
-//                mode = AddingMode.EDIT;
-//                view.selectSubcategoryListItem(id);
-//                Category selectedSubcategory = getCategoryById(id);
-//                Category parent = null;
-//                if (selectedSubcategory != null) {
-//                    parent = getCategoryById(selectedSubcategory.getParentId());
-//                }
-//                if (parent != null) {
-//                    view.selectSubcategory(selectedItems.get(id));
-//                    view.openEditSubcategoryMode(
-//                            selectedSubcategory.getName(),
-//                            selectedSubcategory.getDescription(),
-//                            selectedSubcategory.isActive(),
-//                            parent.getName()
-//                    );
-//                    this.category = selectedSubcategory;
-//                }
-//            }
         }
     }
 
@@ -210,29 +209,19 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
      */
     @Override
     public void subcategorySelected(Category category) {
-
         if (category == null) {
             this.product = null;
             subcategory = null;
-            mode = AddingMode.ADD;
+            mode = CategoryAddEditMode.SUBCATEGORY_ADD_MODE;
             view.openAddSubcategoryMode(this.category.getName());
-//            if (this.category != null && !Objects.equals(this.category.getParentId(), Category.WITHOUT_PARENT)) {
-//                Category parent = getCategoryById(this.category.getParentId());
-//                if (parent != null) {
-//                    selectedItems.put(parent.getId(), -1L);
-//                }
-//            } else if(this.category != null && Objects.equals(this.category.getParentId(), Category.WITHOUT_PARENT)) {
-//                selectedItems.put(this.category.getId(), -1L);
-//            }
         }
         else {
             category.resetProducts();
             subcategory = category;
-            mode = AddingMode.EDIT;
+            mode = CategoryAddEditMode.SUBCATEGORY_EDIT_MODE;
             view.setTypeToCategoryFragment(type);
             if (this.category != null) {
                 view.openEditSubcategoryMode(category.getName(), category.getDescription(), category.isActive(), this.category.getName());
-                selectedItems.put(this.category.getId(), category.getId());
                 if (product == null) {
                     List<Product> products = new ArrayList<>();
                     products.addAll(category.getProducts());
@@ -246,6 +235,21 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
         }
     }
 
+
+    /**
+     * product selection processing
+     * @param product - selected product from view
+     */
+    @Override
+    public void productSelected(Product product) {
+        if (product == null) {
+
+        }
+        else {
+
+        }
+    }
+
     /**
      * adding or editing category and subcategory
      * @param name - name of category or subcategory
@@ -254,46 +258,36 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
      */
     @Override
     public void addCategory(String name, String description, boolean isActive) {
-        if ((mode == AddingMode.EDIT && !isCategoryNameUnique(name) && !name.equals(category.getName()) && category.getParentId().equals(Category.WITHOUT_PARENT)) ||
-                (mode == AddingMode.ADD && category == null && !isCategoryNameUnique(name))) {
+        if ((mode == CategoryAddEditMode.CATEGORY_ADD_MODE || mode == CategoryAddEditMode.CATEGORY_EDIT_MODE)
+                && !isCategoryNameUnique(name)) {
             view.suchCategoryNameExists(name);
             return;
         }
-        if ((mode == AddingMode.EDIT && !category.getParentId().equals(Category.WITHOUT_PARENT) && !isSubcategoryNameUnique(getCategoryById(category.getParentId()).getName(), name)
-                && !name.equals(category.getName()) && !category.getParentId().equals(Category.WITHOUT_PARENT)) ||
-                mode == AddingMode.ADD && category != null && Objects.equals(category.getParentId(), Category.WITHOUT_PARENT) &&
-                        !isSubcategoryNameUnique(getCategoryById(category.getId()).getName(), name)) {
+
+        if ((mode == CategoryAddEditMode.SUBCATEGORY_ADD_MODE || mode == CategoryAddEditMode.SUBCATEGORY_EDIT_MODE)
+                && category != null && !isSubcategoryNameUnique(category.getName(), name)) {
             view.suchSubcategoryNameExists(name);
             return;
         }
+
         Category result = new Category();
-        if (mode == AddingMode.ADD && category != null) { // adding subcategory
+        if (mode == CategoryAddEditMode.CATEGORY_ADD_MODE) { // adding category
+            result.setName(name);
+            result.setDescription(description);
+            result.setIsActive(isActive);
+            databaseManager.addCategory(result).subscribe(id -> {
+                view.addToCategoryList(result);
+            });
+            view.openAddCategoryMode();
+        }
+        else if (mode == CategoryAddEditMode.SUBCATEGORY_ADD_MODE && category != null) { // adding subcategory
             result.setParentId(category.getId());
             result.setName(name);
             result.setDescription(description);
             result.setActive(isActive);
             databaseManager.addCategory(result).subscribe(id -> view.addToSubcategoryList(result));
             view.openAddSubcategoryMode(category.getName());
-        } else if (mode == AddingMode.ADD && category == null) { // adding category
-            result.setName(name);
-            result.setDescription(description);
-            result.setIsActive(isActive);
-            databaseManager.addCategory(result).subscribe(id -> {
-                view.addToCategoryList(result);
-                selectedItems.put(id, -1L);
-            });
-            view.openAddCategoryMode();
-        } else if (mode == AddingMode.EDIT && category != null && !category.getParentId().equals(Category.WITHOUT_PARENT)) { // edit subcategory
-            result.setId(category.getId());
-            result.setParentId(category.getParentId());
-            result.setName(name);
-            result.setDescription(description);
-            result.setActive(isActive);
-            databaseManager.addCategory(result).subscribe(id -> {
-                view.editSubcategory(result);
-                Log.d("sss", "addCategory: " + id);
-            });
-        } else if(mode == AddingMode.EDIT && category != null && category.getParentId().equals(Category.WITHOUT_PARENT)) { // edit category
+        } else if(mode == CategoryAddEditMode.CATEGORY_EDIT_MODE && category != null) { // edit category
             result.setId(category.getId());
             result.setName(name);
             result.setDescription(description);
@@ -301,15 +295,22 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             databaseManager.addCategory(result).subscribe(id -> {
                 view.editCategory(result);
                 Log.d("sss", "addCategory: " + id);
+                category.refresh();
+            });
+        } else if (mode == CategoryAddEditMode.SUBCATEGORY_EDIT_MODE && subcategory != null) { // edit subcategory
+            result.setId(subcategory.getId());
+            result.setParentId(subcategory.getParentId());
+            result.setName(name);
+            result.setDescription(description);
+            result.setActive(isActive);
+            databaseManager.addCategory(result).subscribe(id -> {
+                view.editSubcategory(result);
+                Log.d("sss", "addCategory: " + id);
+                subcategory.refresh();
             });
         }
     }
 
-
-    @Override
-    public void addProduct(Product product) {
-        //TODO next step
-    }
 
     /**
      * All categories from db added to first index null object
@@ -397,5 +398,45 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 Log.d("sss", "deleteCategory: ");
             });
         }
+    }
+
+    /**
+     * creating or editing product
+     * @param name - product name
+     * @param price - product price
+     * @param createdDate - product created date
+     * @param barcode - product barcode
+     * @param sku - product sku
+     * @param photoPath - product photo path
+     * @param isActive - product active state
+     * @param costCurrency - product cost currency
+     * @param priceCurrency - product price currency
+     * @param productClass - product class
+     * @param mainUnit - product main unit
+     * @param subunits - product sub units
+     * @param vendor - product vendor
+     * @param description - product description
+     */
+    @Override
+    public void addProduct(String name,
+                           Double price,
+                           Long createdDate,
+                           String barcode,
+                           String sku,
+                           String photoPath,
+                           boolean isActive,
+                           Currency costCurrency,
+                           Currency priceCurrency,
+                           ProductClass productClass,
+                           Unit mainUnit,
+                           List<Unit> subunits,
+                           Vendor vendor,
+                           String description) {
+        if (product == null) {}
+        //TODO fill product class
+        databaseManager.addProduct(product).subscribe(id -> {
+            view.openProductAddMode();
+            product = null;
+        });
     }
 }
