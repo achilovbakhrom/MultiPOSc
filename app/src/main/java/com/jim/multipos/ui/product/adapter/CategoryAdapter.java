@@ -58,15 +58,6 @@ public class CategoryAdapter extends MovableBaseAdapter<Category, BaseViewHolder
         super.onBindViewHolder(holder, position);
         if (holder instanceof CategoryFirstViewHolder) {
             CategoryFirstViewHolder firstViewHolder = (CategoryFirstViewHolder) holder;
-            if (position == selectedPosition) {
-                firstViewHolder.tvFirstItem.setTextColor(Color.parseColor("#419fd9"));
-                firstViewHolder.ivItemBg.setImageTintList(ColorStateList.valueOf(Color.parseColor("#419fd9")));
-                firstViewHolder.ivAddPlus.setImageTintList(ColorStateList.valueOf(Color.parseColor("#419fd9")));
-            } else {
-                firstViewHolder.tvFirstItem.setTextColor(Color.parseColor("#8e8e8e"));
-                firstViewHolder.ivItemBg.setImageTintList(ColorStateList.valueOf(Color.parseColor("#8e8e8e")));
-                firstViewHolder.ivAddPlus.setImageTintList(ColorStateList.valueOf(Color.parseColor("#8e8e8e")));
-            }
             switch (mode){
                 case 0:
                     firstViewHolder.tvFirstItem.setText("Category");

@@ -55,12 +55,8 @@ public class AddProductFragment extends BaseFragment implements ProductsView {
     MpSpinner spUnit;
     @BindView(R.id.etProductPrice)
     MpEditText etProductPrice;
-    @BindView(R.id.spPriceCurrency)
-    MpSpinner spPriceCurrency;
     @BindView(R.id.etProductCost)
     MpEditText etProductCost;
-    @BindView(R.id.spCostCurrency)
-    MpSpinner spCostCurrency;
     @BindView(R.id.spProductClass)
     MpSpinner spProductClass;
     @BindView(R.id.chbActive)
@@ -187,8 +183,6 @@ public class AddProductFragment extends BaseFragment implements ProductsView {
     public void setCurrencyItems(List<Currency> currencyItems) {
         currencyList = currencyItems;
         CurrencySpinnerAdapter adapter = new CurrencySpinnerAdapter(getContext(), android.R.layout.simple_spinner_item, currencyItems);
-        spPriceCurrency.setAdapter(adapter);
-        spCostCurrency.setAdapter(adapter);
     }
 
 
@@ -215,8 +209,6 @@ public class AddProductFragment extends BaseFragment implements ProductsView {
         etProductCost.setText(cost);
         etBarcode.setText(barcode);
         spUnit.setSelection(unit);
-        spPriceCurrency.setSelection(priceCurrency);
-        spCostCurrency.setSelection(costCurrency);
         spProductClass.setSelection(productClass);
         chbActive.setChecked(active);
     }

@@ -53,9 +53,6 @@ public class VendorsListAdapter extends ClickableBaseAdapter<Vendor, BaseViewHol
             ((VendorViewHolder) holder).item.setActivate(position == selectedPosition);
             ((VendorViewHolder) holder).item.makeDeleteable(!items.get(position).getIsActive());
         }
-        else if (holder instanceof AddItemViewHolder) {
-            ((AddItemViewHolder) holder).item.setActivate(position == selectedPosition);
-        }
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.jim.multipos.utils;
 import android.content.Context;
 
 import com.jim.multipos.R;
+import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.unit.Unit;
 import com.jim.multipos.data.db.model.unit.UnitCategory;
 
@@ -17,7 +18,7 @@ import java.util.Map;
 
 public class UnitUtils {
 
-    public static List<UnitCategory> generateUnitCategories(Context context) {
+    public static List<UnitCategory> generateUnitCategories(Context context, DatabaseManager databaseManager) {
         List<UnitCategory> result = new ArrayList<>();
         int unitCategoriesId = R.array.unit_categories;
         Map<Integer, Integer> titles = new HashMap<>();
@@ -37,7 +38,7 @@ public class UnitUtils {
         factors.put(1, R.array.weight_factor);
         factors.put(2, R.array.length_factor);
         factors.put(3, R.array.area_factor);
-        factors.put(4, R.array.piece_factor);
+        factors.put(4, R.array.volume_factor);
         String[] unitCategories = context.getResources().getStringArray(unitCategoriesId);
         for (int i = 0; i < unitCategories.length; i++) {
             UnitCategory category = new UnitCategory();
@@ -50,7 +51,7 @@ public class UnitUtils {
                 unit.setName(unitTitles[j]);
                 unit.setAbbr(unitAbbrs[j]);
                 unit.setFactorRoot(Float.valueOf(unitFactors[j]));
-                category.getUnits().add(unit);
+                databaseManager.addUnit(unit);
             }
             result.add(category);
         }

@@ -17,12 +17,9 @@ public class TestUtils {
 
     public static void createUnits(DatabaseManager databaseManager, Context context) {
         if (databaseManager.getAllUnitCategories().blockingSingle().isEmpty()) {
-            List<UnitCategory> unitCategories = UnitUtils.generateUnitCategories(context);
+            List<UnitCategory> unitCategories = UnitUtils.generateUnitCategories(context, databaseManager);
             for (UnitCategory category : unitCategories) {
                 databaseManager.addUnitCategory(category);
-                for (Unit unit : category.getUnits()) {
-                    databaseManager.addUnit(unit);
-                }
             }
         }
     }

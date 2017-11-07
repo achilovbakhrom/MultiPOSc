@@ -150,4 +150,17 @@ public class CategoryAddEditFragment extends BaseFragment {
         }
     }
 
+    public String getName() {
+        return name.getText().toString();
+    }
+
+    public String getDescription() {
+        return description.getText().toString();
+    }
+
+    public boolean isActive() {
+        return active.isChecked();
+    }
+
+
 }

@@ -7,6 +7,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
@@ -35,6 +38,18 @@ public class ProductListFragment extends BaseFragment  {
     @BindView(R.id.rvProduct)
     RecyclerView products;
 
+    @BindView(R.id.tvCategory)
+    TextView categoryPath;
+
+    @BindView(R.id.tvSubCategory)
+    TextView subcategoryPath;
+
+    @BindView(R.id.ivArrowFirst)
+    ImageView firstArrow;
+
+    @BindView(R.id.ivArrow)
+    ImageView secordArrow;
+
     @Override
     protected int getLayout() {
         return R.layout.choose_product_fragment;
@@ -44,8 +59,9 @@ public class ProductListFragment extends BaseFragment  {
     protected void init(Bundle savedInstanceState) {}
 
     public void init(List<Category> categories) {
-
-        CategoryAdapter categoryAdapter = new CategoryAdapter(categories);
+        firstArrow.setVisibility(View.GONE);
+        secordArrow.setVisibility(View.GONE);
+        CategoryAdapter categoryAdapter = new CategoryAdapter(categories, CategoryAdapter.CATEGORY_MODE);
         categoryAdapter.setOnItemClickListener(new ClickableBaseAdapter.OnItemClickListener<Category>() {
             @Override
             public void onItemClicked(int position) {}
@@ -65,7 +81,7 @@ public class ProductListFragment extends BaseFragment  {
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(this.categories);
 
-        CategoryAdapter subcategoryAdapter = new CategoryAdapter(new ArrayList<>());
+        CategoryAdapter subcategoryAdapter = new CategoryAdapter(new ArrayList<>(), CategoryAdapter.SUBCATEGORY_MODE);
         subcategoryAdapter.setOnItemClickListener(new ClickableBaseAdapter.OnItemClickListener<Category>() {
             @Override
             public void onItemClicked(int position) {}
@@ -92,7 +108,7 @@ public class ProductListFragment extends BaseFragment  {
 
             @Override
             public void onItemClicked(Product item) {
-//              ((ProductActivity) getContext()).getPresenter().subcategorySelected(item);
+              ((ProductActivity) getContext()).getPresenter().productSelected(item);
             }
         });
         this.products.setLayoutManager(new GridLayoutManager(getContext(), 4));
@@ -141,7 +157,7 @@ public class ProductListFragment extends BaseFragment  {
         if (subcategories.getAdapter() != null) {
             ((CategoryAdapter) subcategories.getAdapter()).removeAllItems();
         } else {
-            CategoryAdapter adapter = new CategoryAdapter(new ArrayList<>());
+            CategoryAdapter adapter = new CategoryAdapter(new ArrayList<>(), CategoryAdapter.SUBCATEGORY_MODE);
             subcategories.setAdapter(adapter);
         }
     }
@@ -161,23 +177,6 @@ public class ProductListFragment extends BaseFragment  {
 
     }
 
-//    public Long getSubcategoryListPosition() {
-//        return ((CategoryAdapter) subcategories.getAdapter()).getSelectedItem();
-//    }
-
-//    public Long getSelectedCategoryId() {
-//        if (categories.getAdapter() != null) {
-//            return ((CategoryAdapter) categories.getAdapter()).getSelectedItem();
-//        }
-//        return null;
-//    }
-
-//    public Long getSelectedSubcategory() {
-//        if (subcategories.getAdapter() != null) {
-//            return ((CategoryAdapter) subcategories.getAdapter()).getSelectedItem();
-//        }
-//        return null;
-//    }
 
     public Category getCategoryByPosition(int position) {
         if (subcategories.getAdapter() != null) {
@@ -315,6 +314,36 @@ public class ProductListFragment extends BaseFragment  {
     public void clearProductList() {
         if (this.products.getAdapter() != null) {
             ((ProductAdapter) this.products.getAdapter()).removeAllItems();
+        }
+    }
+
+    public void setCategoryPath(String name) {
+        secordArrow.setVisibility(View.GONE);
+        subcategoryPath.setText("");
+        if (name == null) {
+            firstArrow.setVisibility(View.GONE);
+            categoryPath.setText("");
+        } else {
+            firstArrow.setVisibility(View.VISIBLE);
+            categoryPath.setText(name);
+        }
+    }
+
+    public void unselectCategoryList() {
+        if (this.categories.getAdapter() != null) {
+            ((CategoryAdapter) this.categories.getAdapter()).unselect();
+        }
+    }
+
+    public void setSubcategoryPath(String name) {
+
+        if (name == null) {
+            secordArrow.setVisibility(View.GONE);
+            subcategoryPath.setText("");
+        }
+        else {
+            secordArrow.setVisibility(View.VISIBLE);
+            subcategoryPath.setText(name);
         }
     }
 

@@ -1,6 +1,7 @@
 package com.jim.multipos.ui.product_last;
 
 import com.jim.multipos.core.Presenter;
+import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.Vendor;
 import com.jim.multipos.data.db.model.currency.Currency;
@@ -28,8 +29,6 @@ public interface ProductPresenter extends Presenter {
     boolean isCategoryNameUnique(String categoryName);
     CategoryAddEditMode getMode();
     void setMode(CategoryAddEditMode mode);
-    FragmentType getType();
-    void setType(FragmentType type);
     Category getCategory();
     void setCategory(Category category);
     Category getCategoryById(Long id);
@@ -37,4 +36,5 @@ public interface ProductPresenter extends Presenter {
     void setCategoryItemsMoved();
     void setSubcategoryItemsMoved();
     void productSelected(Product product);
+    DatabaseManager getDatabaseManager();
 }

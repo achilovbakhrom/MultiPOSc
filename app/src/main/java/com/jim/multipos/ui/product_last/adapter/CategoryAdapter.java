@@ -24,15 +24,17 @@ public class CategoryAdapter extends MovableBaseAdapter<Category, BaseViewHolder
 
     private static final int ADD = 0, ITEM = 1;
 
-    public CategoryAdapter(List<Category> items) {
+    public static final int CATEGORY_MODE = 0, SUBCATEGORY_MODE = 1;
+    private int mode;
+
+    public CategoryAdapter(List<Category> items, int mode) {
         super(items);
+        this.mode = mode;
     }
 
     @Override
     protected void onItemClicked(BaseViewHolder holder, int position) {
         notifyDataSetChanged();
-        //TODO while nothing
-
     }
 
     @Override
@@ -41,7 +43,10 @@ public class CategoryAdapter extends MovableBaseAdapter<Category, BaseViewHolder
         View view;
         switch (viewType) {
             case ADD:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.category_add_item, parent, false);
+                if (mode == CATEGORY_MODE)
+                    view = LayoutInflater.from(parent.getContext()).inflate(R.layout.category_add_item, parent, false);
+                else
+                    view = LayoutInflater.from(parent.getContext()).inflate(R.layout.subcategory_add_item, parent, false);
                 holder = new AddViewHolder(view);
                 break;
             case ITEM:
@@ -60,10 +65,7 @@ public class CategoryAdapter extends MovableBaseAdapter<Category, BaseViewHolder
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
-        if (holder instanceof AddViewHolder) {
-            AddViewHolder item = ((AddViewHolder) holder);
-            item.itemView.setActivate(position == selectedPosition);
-        } else if (holder instanceof ItemViewHolder) {
+        if (holder instanceof ItemViewHolder) {
             ItemViewHolder item = ((ItemViewHolder) holder);
             item.itemView.setActivate(position == selectedPosition);
             item.itemView.setText(items.get(position).getName());
@@ -90,7 +92,7 @@ public class CategoryAdapter extends MovableBaseAdapter<Category, BaseViewHolder
             if (category == null) continue;
             if (category.getId().equals(id)) {
                 this.selectedPosition = items.indexOf(category);
-                notifyItemChanged(selectedPosition);
+                notifyDataSetChanged();
                 break;
             }
         }

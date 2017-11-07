@@ -12,8 +12,11 @@ import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.unit.Unit;
+import com.jim.multipos.data.db.model.unit.UnitCategory;
 import com.jim.multipos.ui.product_last.helpers.CategoryAddEditMode;
 import com.jim.multipos.ui.product_last.helpers.FragmentType;
+import com.jim.multipos.utils.TestUtils;
+import com.jim.multipos.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,10 +43,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
 
     @Setter
     @Getter
-    private FragmentType type = FragmentType.CATEGORY;
-
-    @Setter
-    @Getter
     private Category category, subcategory;
 
     @Getter
@@ -56,14 +55,13 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
 
     private List<Unit> units;
 
+    @Getter
     DatabaseManager databaseManager;
-    ProductView productView;
 
     @Inject
     ProductPresenterImpl(ProductView productView, DatabaseManager databaseManager) {
         super(productView);
         this.databaseManager = databaseManager;
-        this.productView = productView;
     }
 
     @Override
@@ -74,12 +72,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             subcategory = (Category) bundle.getSerializable(SUBCATEGORY_KEY);
             product = (Product) bundle.getSerializable(PRODUCT_KEY);
         }
-    }
-
-    private List<Unit> getUnits() {
-        if (units == null)
-            units = databaseManager.getAllStaticUnits().blockingSingle();
-        return units;
     }
 
     private List<ProductClass> getProductClasses() {
@@ -132,28 +124,45 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
         }
     }
 
-
     @Override
     public void onResume() {
         super.onResume();
         view.initRightSide(getCategories());
-        view.initProductForm(provideUnitList(), provideCurrencyList(), provideCostCurrencyList(), provideProductClassList());
+        view.initProductForm(provideUnitCategoriesList(), provideUnitList(), provideProductClassList(), provideCurrencyName());
+    }
+
+    private String provideCurrencyName() {
+        List<Currency> currencies = databaseManager.getCurrencies();
+        if (currencies != null && !currencies.isEmpty()) {
+            return currencies.get(0).getAbbr();
+        }
+        return null;
+    }
+
+    private String[] provideUnitCategoriesList() {
+        List<UnitCategory> unitCategories = databaseManager.getAllUnitCategories().blockingSingle();
+        if (unitCategories != null && !unitCategories.isEmpty()) {
+            return (String[]) unitCategories.toArray();
+        }
+        return new String[0];
     }
 
     private String[] provideUnitList() {
-        return null;
-    }
-
-    private String[] provideCurrencyList() {
-        return null;
-    }
-
-    private String[] provideCostCurrencyList() {
-        return null;
+        List<UnitCategory> unitCategories = databaseManager.getAllUnitCategories().blockingSingle();
+        if (unitCategories != null && !unitCategories.isEmpty()) {
+            List<Unit> units = unitCategories.get(0).getUnits();
+            if (units != null && !units.isEmpty())
+                return (String[]) units.toArray();
+        }
+        return new String[0];
     }
 
     private String[] provideProductClassList() {
-        return null;
+        List<ProductClass> productClasses = databaseManager.getAllProductClass().blockingGet();
+        if (productClasses != null && !productClasses.isEmpty()) {
+            return (String[]) productClasses.toArray();
+        }
+        return new String[0];
     }
 
     @Override
@@ -166,42 +175,117 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
         }
     }
 
-
     /**
      * category selection processing
      * @param category - selected category object from the view
      */
     @Override
     public void categorySelected(Category category) {
+        view.closeKeyboard();
+        switch (mode) {
+            case CATEGORY_ADD_MODE:
+                if (!view.getName().equals("") || !view.getDescription().equals("") || !view.isActive()) {
+                    view.showDiscardChangesDialog(new UIUtils.AlertListener() {
+                        @Override
+                        public void onPositiveButtonClicked() {
+                            openCategory(category);
+                            view.unselectSubcategoryList();
+                        }
+                        @Override
+                        public void onNegativeButtonClicked() {
+                            view.selectAddCategoryItem();
+                        }
+                    });
+                } else
+                    openCategory(category);
+                break;
+            case SUBCATEGORY_ADD_MODE:
+                if (!view.getName().equals("") || !view.getDescription().equals("") || !view.isActive()) {
+                    view.showDiscardChangesDialog(new UIUtils.AlertListener() {
+                        @Override
+                        public void onPositiveButtonClicked() {
+                            openCategory(category);
+                            view.unselectSubcategoryList();
+                        }
+                        @Override
+                        public void onNegativeButtonClicked() {
+                            view.selectAddSubcategoryItem();
+                        }
+                    });
+                } else
+                    openCategory(category);
+                break;
+            case CATEGORY_EDIT_MODE:
+                if (!view.getName().equals(this.category.getName()) || !view.getDescription().equals(this.category.getDescription()) || this.category.getIsActive() != view.isActive()) {
+                    view.showDiscardChangesDialog(new UIUtils.AlertListener() {
+                        @Override
+                        public void onPositiveButtonClicked() {
+                            openCategory(category);
+                            view.unselectSubcategoryList();
+                        }
+                        @Override
+                        public void onNegativeButtonClicked() {
+                            view.selectCategory(ProductPresenterImpl.this.category.getId());
+                            view.unselectSubcategoryList();
+                        }
+                    });
+                } else
+                    openCategory(category);
+                break;
+            case SUBCATEGORY_EDIT_MODE:
+                if (!view.getName().equals(subcategory.getName()) || !view.getDescription().equals(subcategory.getDescription()) || subcategory.getIsActive() != view.isActive()) {
+                    view.showDiscardChangesDialog(new UIUtils.AlertListener() {
+                        @Override
+                        public void onPositiveButtonClicked() {
+                            openCategory(category);
+                            view.unselectSubcategoryList();
+                        }
+                        @Override
+                        public void onNegativeButtonClicked() {
+                            view.selectSubcategory(ProductPresenterImpl.this.subcategory.getId());
+                            view.selectCategory(ProductPresenterImpl.this.category.getId());
+                        }
+                    });
+                } else
+                    openCategory(category);
+                break;
+            //TODO for products will be written later
+        }
+
+
+    }
+
+    private void openCategory(Category category) {
         this.product = null;
         view.clearProductList();
         if (category == null) {
+            view.setCategoryPath(null);
             this.category = null;
             this.subcategory = null;
             mode = CategoryAddEditMode.CATEGORY_ADD_MODE;
             view.openAddCategoryMode();
+            view.setCategoryPath(null);
+            view.unselectSubcategoryList();
             view.clearSubcategoryList();
         }
         else {
-            category.resetSubCategories();
+            view.setCategoryPath(category.getName());
             this.category = category;
+            this.category.resetSubCategories();
             mode = CategoryAddEditMode.CATEGORY_EDIT_MODE;
             view.openEditCategoryMode(category.getName(), category.getDescription(), category.isActive());
-            if (subcategory == null) {
-                List<Category> list = new ArrayList<>();
-                if (category.getSubCategories() != null && !category.getSubCategories().isEmpty()) {
-                    list.addAll(category.getSubCategories());
-                    Collections.sort(list, (o1, o2) -> o1.getPosition().compareTo(o2.getPosition()));
-                    Collections.sort(list, (o1, o2) -> -((Boolean) o1.isActive()).compareTo(o2.isActive()));
-                }
-                list.add(0, null);
-                view.setListToSubcategoryList(list);
-            } else
-                view.unselectSubcategoryList();
+            List<Category> list = new ArrayList<>();
+            if (this.category.getSubCategories() != null && !this.category.getSubCategories().isEmpty()) {
+                list.addAll(category.getSubCategories());
+                Collections.sort(list, (o1, o2) -> o1.getPosition().compareTo(o2.getPosition()));
+                Collections.sort(list, (o1, o2) -> -((Boolean) o1.isActive()).compareTo(o2.isActive()));
+            }
+            list.add(0, null);
+            view.setListToSubcategoryList(list);
+            view.unselectSubcategoryList();
             subcategory = null;
         }
     }
-
 
     /**
      * subcategory selection processing
@@ -209,17 +293,90 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
      */
     @Override
     public void subcategorySelected(Category category) {
+        view.closeKeyboard();
+
+        switch (mode) {
+            case CATEGORY_ADD_MODE:
+                if (!view.getName().equals("") || !view.getDescription().equals("") || !view.isActive()) {
+                    view.showDiscardChangesDialog(new UIUtils.AlertListener() {
+                        @Override
+                        public void onPositiveButtonClicked() {
+                            openCategory(category);
+                        }
+                        @Override
+                        public void onNegativeButtonClicked() {
+                            view.selectAddCategoryItem();
+                        }
+                    });
+                } else
+                    openCategory(category);
+                break;
+            case SUBCATEGORY_ADD_MODE:
+                if (!view.getName().equals("") || !view.getDescription().equals("") || !view.isActive()) {
+                    view.showDiscardChangesDialog(new UIUtils.AlertListener() {
+                        @Override
+                        public void onPositiveButtonClicked() {
+                            openSubcategory(category);
+                        }
+                        @Override
+                        public void onNegativeButtonClicked() {
+                            view.selectAddSubcategoryItem();
+                        }
+                    });
+                } else
+                    openSubcategory(category);
+                break;
+            case CATEGORY_EDIT_MODE:
+                if (!view.getName().equals(this.category.getName()) || !view.getDescription().equals(this.category.getDescription()) || this.category.getIsActive() != view.isActive()) {
+                    view.showDiscardChangesDialog(new UIUtils.AlertListener() {
+                        @Override
+                        public void onPositiveButtonClicked() {
+                            openSubcategory(category);
+                        }
+                        @Override
+                        public void onNegativeButtonClicked() {
+                            view.selectCategory(ProductPresenterImpl.this.category.getId());
+                            view.unselectSubcategoryList();
+                        }
+                    });
+                } else
+                    openSubcategory(category);
+                break;
+            case SUBCATEGORY_EDIT_MODE:
+                if (!view.getName().equals(subcategory.getName()) || !view.getDescription().equals(subcategory.getDescription()) || subcategory.getIsActive() != view.isActive()) {
+                    view.showDiscardChangesDialog(new UIUtils.AlertListener() {
+                        @Override
+                        public void onPositiveButtonClicked() {
+                            openSubcategory(category);
+                        }
+                        @Override
+                        public void onNegativeButtonClicked() {
+                            view.selectSubcategoryListItem(ProductPresenterImpl.this.subcategory.getId());
+                        }
+                    });
+                }
+                else openSubcategory(category);
+                break;
+            //TODO for products will be written later
+        }
+
+
+    }
+
+    private void openSubcategory(Category category) {
         if (category == null) {
+            view.setSubcategoryPath(null);
             this.product = null;
             subcategory = null;
             mode = CategoryAddEditMode.SUBCATEGORY_ADD_MODE;
             view.openAddSubcategoryMode(this.category.getName());
+            view.setSubcategoryPath(null);
         }
         else {
+            view.setSubcategoryPath(category.getName());
             category.resetProducts();
             subcategory = category;
             mode = CategoryAddEditMode.SUBCATEGORY_EDIT_MODE;
-            view.setTypeToCategoryFragment(type);
             if (this.category != null) {
                 view.openEditSubcategoryMode(category.getName(), category.getDescription(), category.isActive(), this.category.getName());
                 if (product == null) {
@@ -235,18 +392,21 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
         }
     }
 
-
     /**
      * product selection processing
      * @param product - selected product from view
      */
     @Override
     public void productSelected(Product product) {
+        view.closeKeyboard();
         if (product == null) {
-
+            this.product = null;
+            mode = CategoryAddEditMode.PRODUCT_ADD_MODE;
+            view.openProductAddMode();
         }
         else {
-
+            this.product = product;
+            mode = CategoryAddEditMode.PRODUCT_EDIT_MODE;
         }
     }
 
@@ -258,14 +418,16 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
      */
     @Override
     public void addCategory(String name, String description, boolean isActive) {
-        if ((mode == CategoryAddEditMode.CATEGORY_ADD_MODE || mode == CategoryAddEditMode.CATEGORY_EDIT_MODE)
-                && !isCategoryNameUnique(name)) {
+        if ((mode == CategoryAddEditMode.CATEGORY_ADD_MODE
+                && !isCategoryNameUnique(name)) || (mode == CategoryAddEditMode.CATEGORY_EDIT_MODE && !isCategoryNameUnique(name) && category != null && !category.getName().equals(name))) {
             view.suchCategoryNameExists(name);
             return;
         }
 
-        if ((mode == CategoryAddEditMode.SUBCATEGORY_ADD_MODE || mode == CategoryAddEditMode.SUBCATEGORY_EDIT_MODE)
-                && category != null && !isSubcategoryNameUnique(category.getName(), name)) {
+        if (mode == CategoryAddEditMode.SUBCATEGORY_ADD_MODE
+                && category != null && !isSubcategoryNameUnique(category.getName(), name) ||
+                (mode == CategoryAddEditMode.SUBCATEGORY_EDIT_MODE && category != null && !isSubcategoryNameUnique(category.getName(), name) &&
+                subcategory != null && !subcategory.getName().equals(name))) {
             view.suchSubcategoryNameExists(name);
             return;
         }
@@ -277,40 +439,77 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             result.setIsActive(isActive);
             databaseManager.addCategory(result).subscribe(id -> {
                 view.addToCategoryList(result);
+                view.openAddCategoryMode();
+                view.setCategoryPath(null);
+                mode = CategoryAddEditMode.CATEGORY_ADD_MODE;
             });
-            view.openAddCategoryMode();
         }
         else if (mode == CategoryAddEditMode.SUBCATEGORY_ADD_MODE && category != null) { // adding subcategory
             result.setParentId(category.getId());
             result.setName(name);
             result.setDescription(description);
             result.setActive(isActive);
-            databaseManager.addCategory(result).subscribe(id -> view.addToSubcategoryList(result));
-            view.openAddSubcategoryMode(category.getName());
-        } else if(mode == CategoryAddEditMode.CATEGORY_EDIT_MODE && category != null) { // edit category
-            result.setId(category.getId());
-            result.setName(name);
-            result.setDescription(description);
-            result.setActive(isActive);
             databaseManager.addCategory(result).subscribe(id -> {
-                view.editCategory(result);
-                Log.d("sss", "addCategory: " + id);
-                category.refresh();
+                view.addToSubcategoryList(result);
+                view.openAddSubcategoryMode(category.getName());
+                view.setSubcategoryPath(null);
+                mode = CategoryAddEditMode.SUBCATEGORY_ADD_MODE;
             });
+
+        } else if(mode == CategoryAddEditMode.CATEGORY_EDIT_MODE && category != null) { // edit category
+            view.showEditDialog(new UIUtils.AlertListener() {
+                @Override
+                public void onPositiveButtonClicked() {
+                    result.setId(category.getId());
+                    result.setName(name);
+                    result.setDescription(description);
+                    result.setActive(isActive);
+                    databaseManager.addCategory(result).subscribe(id -> {
+                        view.editCategory(result);
+                        Log.d("sss", "addCategory: " + id);
+                        category.refresh();
+                        view.unselectSubcategoryList();
+                        view.unselectCategoryList();
+                        view.openAddCategoryMode();
+                        view.clearSubcategoryList();
+                        view.setCategoryPath(null);
+                        mode = CategoryAddEditMode.CATEGORY_ADD_MODE;
+                    });
+                }
+
+                @Override
+                public void onNegativeButtonClicked() {
+
+                }
+            });
+
         } else if (mode == CategoryAddEditMode.SUBCATEGORY_EDIT_MODE && subcategory != null) { // edit subcategory
-            result.setId(subcategory.getId());
-            result.setParentId(subcategory.getParentId());
-            result.setName(name);
-            result.setDescription(description);
-            result.setActive(isActive);
-            databaseManager.addCategory(result).subscribe(id -> {
-                view.editSubcategory(result);
-                Log.d("sss", "addCategory: " + id);
-                subcategory.refresh();
+            view.showEditDialog(new UIUtils.AlertListener() {
+                @Override
+                public void onPositiveButtonClicked() {
+                    result.setId(subcategory.getId());
+                    result.setParentId(subcategory.getParentId());
+                    result.setName(name);
+                    result.setDescription(description);
+                    result.setActive(isActive);
+                    databaseManager.addCategory(result).subscribe(id -> {
+                        view.editSubcategory(result);
+                        Log.d("sss", "addCategory: " + id);
+                        subcategory.refresh();
+                        view.unselectSubcategoryList();
+                        view.openAddSubcategoryMode(category.getName());
+                        view.setSubcategoryPath(null);
+                        mode = CategoryAddEditMode.SUBCATEGORY_ADD_MODE;
+                    });
+                }
+
+                @Override
+                public void onNegativeButtonClicked() {
+
+                }
             });
         }
     }
-
 
     /**
      * All categories from db added to first index null object
@@ -389,14 +588,88 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
      */
     @Override
     public void deleteCategory() {
-        if (category != null) {
-            if (category.isActive()) {
-                view.showCannotDeleteActiveItemDialog();
-                return;
-            }
-            databaseManager.removeCategory(category).subscribe(isDeleted -> {
-                Log.d("sss", "deleteCategory: ");
-            });
+        switch (mode) {
+            case SUBCATEGORY_EDIT_MODE:
+                if (subcategory != null) {
+                    if (subcategory.isActive()) {
+                        view.showCannotDeleteActiveItemDialog();
+                        return;
+                    }
+                    if (!subcategory.getProducts().isEmpty()) {
+                        view.showListMustBeEmptyDialog();
+                        return;
+                    }
+                    view.showDeleteDialog(new UIUtils.AlertListener() {
+                        @Override
+                        public void onPositiveButtonClicked() {
+                            databaseManager.removeCategory(subcategory).subscribe(isDeleted -> {
+                                Log.d("sss", "deleteCategory: ");
+                                if (isDeleted) {
+                                    category.resetSubCategories();
+                                    List<Category> list = new ArrayList<>();
+                                    if (ProductPresenterImpl.this.category.getSubCategories() != null && !ProductPresenterImpl.this.category.getSubCategories().isEmpty()) {
+                                        list.addAll(category.getSubCategories());
+                                        Collections.sort(list, (o1, o2) -> o1.getPosition().compareTo(o2.getPosition()));
+                                        Collections.sort(list, (o1, o2) -> -((Boolean) o1.isActive()).compareTo(o2.isActive()));
+                                    }
+                                    list.add(0, null);
+                                    view.setListToSubcategoryList(list);
+                                    view.selectAddSubcategoryItem();
+                                    view.openAddSubcategoryMode(category.getName());
+                                    view.setSubcategoryPath(null);
+                                    mode = CategoryAddEditMode.SUBCATEGORY_ADD_MODE;
+                                }
+                            });
+                        }
+                        @Override
+                        public void onNegativeButtonClicked() {}
+                    });
+
+                }
+                break;
+            case CATEGORY_EDIT_MODE:
+                if (category != null) {
+                    if (category.isActive()) {
+                        view.showCannotDeleteActiveItemDialog();
+                        return;
+                    }
+                    if (!category.getSubCategories().isEmpty()) {
+                        view.showListMustBeEmptyDialog();
+                        return;
+                    }
+                    view.showDeleteDialog(new UIUtils.AlertListener() {
+                        @Override
+                        public void onPositiveButtonClicked() {
+                            databaseManager.removeCategory(category).subscribe(isDeleted -> {
+                                Log.d("sss", "deleteCategory: ");
+                                if (isDeleted) {
+                                    List<Category> categories = databaseManager.getAllCategories().blockingSingle();
+                                    if (categories != null && !categories.isEmpty()) {
+                                        Collections.sort(categories, (o1, o2) -> o1.getPosition().compareTo(o2.getPosition()));
+                                        Collections.sort(categories, (o1, o2) -> -((Boolean) o1.isActive()).compareTo(o2.isActive()));
+                                    }
+                                    categories.add(0, null);
+                                    view.setListToCategoryList(categories);
+                                    view.unselectSubcategoryList();
+                                    view.selectAddCategoryItem();
+                                    view.openAddCategoryMode();
+                                    view.setCategoryPath(null);
+                                    view.clearSubcategoryList();
+                                    mode = CategoryAddEditMode.CATEGORY_ADD_MODE;
+                                    subcategory = null;
+                                    category = null;
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onNegativeButtonClicked() {
+
+                        }
+                    });
+                }
+                break;
+
         }
     }
 

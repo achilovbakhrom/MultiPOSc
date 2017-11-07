@@ -29,7 +29,7 @@
                     android:layout_marginLeft="@dimen/fifteen_dp"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:maxWidth="@dimen/hundred_dp"
+                    android:maxWidth="300dp"
                     android:paddingBottom="@dimen/five_dp"
                     android:paddingLeft="@dimen/ten_dp"
                     android:paddingRight="@dimen/ten_dp"
@@ -52,7 +52,7 @@
                     android:layout_gravity="center"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:maxWidth="@dimen/hundred_dp"
+                    android:maxWidth="300dp"
                     android:paddingBottom="@dimen/five_dp"
                     android:paddingLeft="@dimen/ten_dp"
                     android:paddingRight="@dimen/ten_dp"
@@ -142,7 +142,8 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:overScrollMode="never" />
+                    android:overScrollMode="never"
+                    android:visibility="gone"/>
 
 
             </LinearLayout>

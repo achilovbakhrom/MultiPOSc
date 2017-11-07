@@ -41,7 +41,7 @@ public class ProductAdapter extends MovableBaseAdapter<Product, BaseViewHolder> 
         View view;
         switch (viewType) {
             case ADD:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.category_add_item, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_add_item, parent, false);
                 holder = new AddViewHolder(view);
                 break;
             case ITEM:
@@ -55,15 +55,17 @@ public class ProductAdapter extends MovableBaseAdapter<Product, BaseViewHolder> 
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
-        if (holder instanceof CategoryAdapter.AddViewHolder) {
-            CategoryAdapter.AddViewHolder item = ((CategoryAdapter.AddViewHolder) holder);
-            item.itemView.setActivate(position == selectedPosition);
-        } else if (holder instanceof CategoryAdapter.ItemViewHolder) {
+        if (holder instanceof CategoryAdapter.ItemViewHolder) {
             CategoryAdapter.ItemViewHolder item = ((CategoryAdapter.ItemViewHolder) holder);
             item.itemView.setActivate(position == selectedPosition);
             item.itemView.setText(items.get(position).getName());
             item.itemView.makeDeleteable(!items.get(position).isActive());
         }
+    }
+
+    @Override
+    protected boolean isSinglePositionClickDisabled() {
+        return true;
     }
 
     public void editItem(Product product) {

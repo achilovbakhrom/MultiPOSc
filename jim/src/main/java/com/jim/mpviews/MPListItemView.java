@@ -65,8 +65,8 @@ public class MPListItemView extends FrameLayout {
         txtLp.gravity = Gravity.CENTER;
         txtLp.leftMargin = Utils.dpToPx(10);
         txtLp.rightMargin = Utils.dpToPx(10);
-        txtLp.topMargin = Utils.dpToPx(10);
-        txtLp.bottomMargin = Utils.dpToPx(10);
+//        txtLp.topMargin = Utils.dpToPx(10);
+//        txtLp.bottomMargin = Utils.dpToPx(10);
         if (isActive) {
             drawable = ContextCompat.getDrawable(context, R.drawable.item_selected);
             textView.setTextColor(getResources().getColor(R.color.colorWhite));

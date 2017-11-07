@@ -7,13 +7,18 @@ import android.util.Log;
 import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.R;
 import com.jim.multipos.core.DoubleSideActivity;
+import com.jim.multipos.data.db.model.ProductClass;
+import com.jim.multipos.data.db.model.Vendor;
+import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.Product;
+import com.jim.multipos.data.db.model.unit.Unit;
 import com.jim.multipos.ui.product_last.fragment.CategoryAddEditFragment;
 import com.jim.multipos.ui.product_last.fragment.ProductListFragment;
 import com.jim.multipos.ui.product_last.fragment.ProductAddEditFragment;
 import com.jim.multipos.ui.product_last.helpers.CategoryAddEditMode;
 import com.jim.multipos.ui.product_last.helpers.FragmentType;
+import com.jim.multipos.utils.TestUtils;
 import com.jim.multipos.utils.UIUtils;
 
 import java.util.List;
@@ -38,15 +43,18 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TestUtils.createUnits(presenter.getDatabaseManager(), this);
+        TestUtils.createCurrencies(presenter.getDatabaseManager(), this);
+        TestUtils.createProductClasses(presenter.getDatabaseManager());
         addCategoryListFragment();
-        addProductAddEditFragment();
-        addCategoryAddEditFragment();
         presenter.onCreateView(savedInstanceState);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        addProductAddEditFragment();
+        addCategoryAddEditFragment();
         presenter.onResume();
     }
 
@@ -56,11 +64,11 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
         presenter.onPause();
     }
 
-    public void addProductAddEditFragment() {
-//        addFragmentWithTagToLeft(new CategoryAddEditFragment(), PRODUCT_FRAGMENT);
+    private void addProductAddEditFragment() {
+        addFragmentWithTagToLeft(new ProductAddEditFragment(), PRODUCT_FRAGMENT);
     }
 
-    public void addCategoryAddEditFragment() {
+    private void addCategoryAddEditFragment() {
         addFragmentWithTagToLeft(new CategoryAddEditFragment(), CATEGORY_FRAGMENT);
     }
 
@@ -75,23 +83,8 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
     }
 
     @Override
-    public void setModeToProductAddEditFragment(CategoryAddEditMode mode) {
-
-    }
-
-    @Override
-    public void setTypeToCategoryFragment(FragmentType type) {
-        //TODO
-    }
-
-    @Override
     protected int getToolbarMode() {
         return MpToolbar.DEFAULT_TYPE;
-    }
-
-    @Override
-    public void openProductAddEditFragment(CategoryAddEditMode mode, Product product) {
-
     }
 
     @Override
@@ -171,6 +164,12 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
     public void showCannotDeleteActiveItemDialog() {
         UIUtils.showAlert(this, getString(R.string.ok), getString(R.string.warning_deletion_of_active_elements),
                 getString(R.string.cannot_delete_active_item), () -> Log.d("sss", "onButtonClicked: "));
+    }
+
+    @Override
+    public void showListMustBeEmptyDialog() {
+        UIUtils.showAlert(this, getString(R.string.ok), getString(R.string.cannot_delete_empty_list_title),
+                getString(R.string.cannot_delete_empty_list_title), () -> Log.d("sss", "onButtonClicked: "));
     }
 
     @Override
@@ -424,19 +423,126 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     @Override
     public void openProductAddMode() {
-
-    }
-
-    @Override
-    public void openProductEditMode(Product product) {
-
-    }
-
-    @Override
-    public void initProductForm(String[] unitList, String[] priceCurrency, String[] costCurrency, String[] productClasses) {
         ProductAddEditFragment fragment = getProductAddEditFragment();
         if (fragment != null) {
-            fragment.initProductAddEditFragment(unitList, priceCurrency, costCurrency, productClasses);
+            fragment.openAddMode();
         }
+    }
+
+    @Override
+    public void openProductEditMode(String name,
+                                    double price,
+                                    double cost,
+                                    String barCode,
+                                    String sku,
+                                    boolean isActive,
+                                    String priceCurrencyAbbr,
+                                    String costCurrencyAbbr,
+                                    int productClassPos,
+                                    int unitCategoryPos,
+                                    int unitPos,
+                                    String vendorName,
+                                    String description) {
+        ProductAddEditFragment fragment = getProductAddEditFragment();
+        if (fragment != null) {
+            fragment.openEditMode(
+                    name,
+                    price,
+                    cost,
+                    barCode,
+                    sku,
+                    isActive,
+                    priceCurrencyAbbr,
+                    costCurrencyAbbr,
+                    productClassPos,
+                    unitCategoryPos,
+                    unitPos,
+                    vendorName,
+                    description
+            );
+        }
+    }
+
+    @Override
+    public void initProductForm(String[] unitCategoryList, String[] unitList, String[] productClasses, String currencyAbbr) {
+        ProductAddEditFragment fragment = getProductAddEditFragment();
+        if (fragment != null) {
+            fragment.initProductAddEditFragment(unitCategoryList, unitList, productClasses, currencyAbbr);
+        }
+    }
+
+    @Override
+    public void closeKeyboard() {
+        UIUtils.closeKeyboard(this.getCurrentFocus(), this);
+    }
+
+    @Override
+    public void setCategoryPath(String name) {
+        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        if (fragment != null) {
+            fragment.setCategoryPath(name);
+        }
+    }
+
+    @Override
+    public void setSubcategoryPath(String name) {
+        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        if (fragment != null) {
+            fragment.setSubcategoryPath(name);
+        }
+    }
+
+    @Override
+    public void unselectCategoryList() {
+        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        if (fragment != null) {
+            fragment.unselectCategoryList();
+        }
+    }
+
+    @Override
+    public void showDiscardChangesDialog(UIUtils.AlertListener listener) {
+        UIUtils.showAlert(this, getString(R.string.yes), getString(R.string.no), getString(R.string.discard_changes),
+                getString(R.string.warning_discard_changes), listener);
+    }
+
+
+    @Override
+    public String getName() {
+        CategoryAddEditFragment fragment = getCategoryAddEditFragment();
+        if (fragment != null) {
+            return fragment.getName();
+        }
+        return "";
+    }
+
+    @Override
+    public String getDescription() {
+        CategoryAddEditFragment fragment = getCategoryAddEditFragment();
+        if (fragment != null) {
+            return fragment.getDescription();
+        }
+        return "";
+    }
+
+    @Override
+    public boolean isActive() {
+        CategoryAddEditFragment fragment = getCategoryAddEditFragment();
+        if (fragment != null) {
+            return fragment.isActive();
+        }
+        return true;
+    }
+
+    @Override
+    public void showDeleteDialog(UIUtils.AlertListener listener) {
+        UIUtils.showAlert(this, getString(R.string.yes), getString(R.string.no), getString(R.string.delete),
+                getString(R.string.warning_delete), listener);
+    }
+
+    @Override
+    public void showEditDialog(UIUtils.AlertListener listener) {
+        UIUtils.showAlert(this, getString(R.string.yes), getString(R.string.no), getString(R.string.edit),
+                getString(R.string.update_message), listener);
     }
 }

@@ -454,7 +454,10 @@
     <string name="can_not_remove_customer_group">We can not remove the customer group because it has customers.</string>
     <string name="do_you_want_to_save_the_change">Do you want to save the change?</string>
     <string name="you_can_only_delete_inactive_customer_groups">You can only delete inactive customer groups.</string>
-    <string name="add_category">Add Category</string>
+    <string name="add_category">+Add\n Category</string>
+    <string name="add_subcategory">+Add\n Subategory</string>
+    <string name="add_product">+Add\n Product</string>
+
     <string name="warning_such_category_name_exists">Such category name exists</string>
     <string name="warning_such_category_name_exists_message">Such category name exists</string>
     <string name="warning_subcategory_name_exists">Such subcategory name exists</string>
@@ -470,6 +473,10 @@
     <string name="vendor_name">Vendor name</string>
     <string name="contact_name">Contact name</string>
     <string name="selected">Selected</string>
+    <string name="unit_category">Unit category</string>
+    <string name="cannot_delete_empty_list_title">Cannot delete not empty list</string>
+    <string name="warning_delete">Do you want to delete element?</string>
+    <string name="update_message">Do you want update the item?</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>

@@ -134,9 +134,34 @@
                     android:layout_height="@dimen/forty_dp"
                     android:hint="SKU number"
                     android:layout_gravity="center"
-                    android:layout_marginRight="@dimen/sixteen_dp"
                     android:layout_weight="1"
                     android:textSize="@dimen/sixteen_dp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="@dimen/hundred_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/sixteen_dp"
+                    android:gravity="right"
+                    android:text="@string/unit_category"
+                    android:textSize="@dimen/sixteen_dp" />
+
+                <com.jim.mpviews.MPosSpinner
+                    android:id="@+id/spUnitCategories"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/forty_dp"
+                    android:layout_weight="1"
+                    android:layout_marginRight="@dimen/sixteen_dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -147,7 +172,7 @@
                     android:text="@string/unit"
                     android:textSize="@dimen/sixteen_dp" />
 
-                <com.jim.mpviews.MpSpinner
+                <com.jim.mpviews.MPosSpinner
                     android:id="@+id/spUnit"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/forty_dp"
@@ -183,12 +208,12 @@
                     android:textColorHint="@color/colorTextHint"
                     android:textSize="@dimen/sixteen_dp" />
 
-
-                <com.jim.mpviews.MPosSpinner
-                    android:id="@+id/spPriceCurrency"
+                <TextView
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/forty_dp"
-                    android:layout_weight="1" />
+                    android:layout_height="@dimen/fourty_dp"
+                    android:layout_weight="1"
+                    android:id="@+id/tvPriceCurrency"
+                    />
 
             </LinearLayout>
 
@@ -220,11 +245,36 @@
                     android:textColorHint="@color/colorTextHint"
                     android:textSize="@dimen/sixteen_dp" />
 
-                <com.jim.mpviews.MPosSpinner
-                    android:id="@+id/spCostCurrency"
+                <TextView
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/forty_dp"
-                    android:layout_weight="1" />
+                    android:layout_height="@dimen/fourty_dp"
+                    android:layout_weight="1"
+                    android:id="@+id/tvCostCurrency"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="@dimen/hundred_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/sixteen_dp"
+                    android:gravity="right"
+                    android:text="@string/vendors"
+                    android:textSize="@dimen/sixteen_dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/fourty_dp"
+                    android:background="@drawable/edit_text_bg"
+                    android:layout_weight="1"
+                    android:id="@+id/tvVendor"/>
 
             </LinearLayout>
 

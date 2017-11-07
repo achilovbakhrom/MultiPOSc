@@ -2,27 +2,29 @@ package com.jim.mpviews;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jim.mpviews.utils.Utils;
 
 /**
- * Created by bakhrom on 10/23/17.
+ * Created by Achilov Bakhrom on 10/23/17.
  */
 
-public class MPAddItemView extends LinearLayout {
+public class MPAddItemView extends FrameLayout {
 
     private boolean isActive = false;
     private String text = "";
-    private Drawable drawable;
+
     private int textSize;
 
     public MPAddItemView(Context context) {
@@ -46,70 +48,32 @@ public class MPAddItemView extends LinearLayout {
     }
 
     private void init(Context context, AttributeSet attributeSet) {
-        setOrientation(VERTICAL);
-
-        drawable = ContextCompat.getDrawable(context, R.drawable.plus);
-        textSize = Utils.dpToPx(8);
+        textSize = Utils.dpToPx(9);
         if (attributeSet != null) {
             TypedArray attributeArray = context.obtainStyledAttributes(attributeSet, R.styleable.MPAddItemView);
             text = attributeArray.getString(R.styleable.MPAddItemView_add_item_text);
             isActive = attributeArray.getBoolean(R.styleable.MPAddItemView_add_item_active, false);
-            drawable = attributeArray.getDrawable(R.styleable.MPAddItemView_add_item_image);
             textSize = attributeArray.getDimensionPixelSize(R.styleable.MPAddItemView_add_item_text_size, textSize);
             attributeArray.recycle();
         }
-        ImageView imageView = new ImageView(context);
-        imageView.setId(R.id.add_item_plus);
-        LayoutParams lp = new LayoutParams(Utils.dpToPx(20), Utils.dpToPx(20));
-        lp.gravity = Gravity.CENTER;
-        lp.topMargin = Utils.dpToPx(6);
-        lp.bottomMargin = Utils.dpToPx(6);
-        lp.weight = 1.5f;
-        imageView.setLayoutParams(lp);
-        imageView.setImageDrawable(drawable);
-        addView(imageView);
 
         TextView textView = new TextView(context);
         textView.setId(R.id.add_item_text);
-        LayoutParams txtLp = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        textView.setGravity(Gravity.CENTER);
+        LayoutParams txtLp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         txtLp.gravity = Gravity.CENTER;
-        txtLp.bottomMargin = Utils.dpToPx(6);
-        txtLp.weight = 0.5f;
         textView.setTextSize(textSize);
-        textView.setSingleLine();
+        textView.setTextColor(Color.parseColor("#27af27"));
         textView.setLayoutParams(txtLp);
         addView(textView);
         setText(text);
         initActivation(context, isActive);
     }
 
-    public void setActivate(boolean isActive) {
-        int color;
-        if (isActive) {
-            color = R.color.colorBlue;
-        }
-        else {
-            color = R.color.colorTintGrey;
-        }
-        Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.add_item_bg);
-        drawable.setTint(ContextCompat.getColor(getContext(), color));
-        setBackground(null);
-        setBackground(drawable);
-        ((TextView) findViewById(R.id.add_item_text)).setTextColor(ContextCompat.getColor(getContext(), color));
-        ((ImageView) findViewById(R.id.add_item_plus)).setColorFilter(ContextCompat.getColor(getContext(), color));
-        this.isActive = isActive;
-    }
-
     private void initActivation(Context context, boolean isActive) {
-        int color;
-        if (isActive) { color = R.color.colorBlueSecond; }
-        else { color = R.color.colorTintGrey; }
-        Drawable drawable = ContextCompat.getDrawable(context, R.drawable.add_item_bg);
-        drawable.setTint(color);
+        Drawable drawable = ContextCompat.getDrawable(context, R.drawable.item_bg);
         setBackground(null);
         setBackground(drawable);
-        ((TextView) findViewById(R.id.add_item_text)).setTextColor(color);
-        ((ImageView) findViewById(R.id.add_item_plus)).setColorFilter(color);
         this.isActive = isActive;
     }
 
