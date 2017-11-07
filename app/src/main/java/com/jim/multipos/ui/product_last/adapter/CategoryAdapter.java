@@ -70,6 +70,10 @@ public class CategoryAdapter extends MovableBaseAdapter<Category, BaseViewHolder
             item.itemView.setActivate(position == selectedPosition);
             item.itemView.setText(items.get(position).getName());
             item.itemView.makeDeleteable(!items.get(position).isActive());
+            item.itemView.setTextSize(12);
+        } else if (holder instanceof AddViewHolder){
+            AddViewHolder item = (AddViewHolder) holder;
+            item.itemView.setTextSize(12);
         }
     }
 
