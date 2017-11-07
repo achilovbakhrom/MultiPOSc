@@ -6,8 +6,5 @@
     android:layout_height="@dimen/ninety_dp"
     app:list_item_active="true"
     app:list_item_text="Category name"
-    android:layout_marginTop="@dimen/ten_dp"
-    android:layout_marginLeft="@dimen/five_dp"
-    android:layout_marginRight="@dimen/five_dp"
-    android:layout_marginBottom="@dimen/five_dp"
+    android:layout_margin="@dimen/two_dp"
     android:id="@+id/aivItem" />

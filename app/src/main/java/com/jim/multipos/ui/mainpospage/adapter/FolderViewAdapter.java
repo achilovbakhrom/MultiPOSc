@@ -56,10 +56,10 @@ public class FolderViewAdapter extends ClickableBaseAdapter<FolderItem, BaseView
             productViewHolder.tvProductQty.setText("100.0 pcs");
             productViewHolder.tvProductPrice.setText(product.getPrice() + " sum");
 //            productViewHolder.tvProductPrice.setText(product.getPrice() + " " + product.getPriceCurrency().getAbbr());
-            if (!product.getPhotoPath().equals("")){
-                Uri photoSelected = Uri.fromFile(new File(product.getPhotoPath()));
-                GlideApp.with(context).load(photoSelected).diskCacheStrategy(DiskCacheStrategy.RESOURCE).thumbnail(0.2f).centerCrop().transform(new RoundedCorners(20)).into(productViewHolder.ivProductImage);
-            } else productViewHolder.ivProductImage.setImageResource(R.drawable.basket);
+//            if (!product.getPhotoPath().equals("")){
+//                Uri photoSelected = Uri.fromFile(new File(product.getPhotoPath()));
+//                GlideApp.with(context).load(photoSelected).diskCacheStrategy(DiskCacheStrategy.RESOURCE).thumbnail(0.2f).centerCrop().transform(new RoundedCorners(20)).into(productViewHolder.ivProductImage);
+//            } else productViewHolder.ivProductImage.setImageResource(R.drawable.basket);
         }
 
     }
