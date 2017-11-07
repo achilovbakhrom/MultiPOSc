@@ -307,63 +307,60 @@
     <string name="should_not_be_greater_than_999">Should not be greater than 999</string>
 
     <string-array name="currency_with_abbr">
+        <item>Узбекский сум (UZS)</item>
         <item>Доллары США ($)</item>
-        <item>Российский рубль (₽)</item>
+        <item>Азербайджанский манат (AZN)</item>
+        <item>Армянский драм (АРМ)</item>
+        <item>Белорусский рубль (BYN)</item>
+        <item>Грузинский лари (GEL)</item>
         <item>Евро (€)</item>
+        <item>Киргизский сом (Сом)</item>
+        <item>Китайская Юань (CNY)</item>
+        <item>Молдавский лей (LEI)</item>
+        <item>Российский рубль (₽)</item>
+        <item>Сомони (TJS)</item>
+        <item>Тенге (₸)</item>
+        <item>Туркменский манат (TMT)</item>
         <item>Украинская гривна (₴)</item>
         <item>Фунт стерлингов (£)</item>
-        <item>Тенге (₸)</item>
-        <item>Белорусский рубль (BYN)</item>
-        <item>Армянский драм (АРМ)</item>
-        <item>Китайская Юань (CNY)</item>
-        <item>Армянский драм (AMD)</item>
-        <item>Сомони (TJS)</item>
-        <item>Киргизский сом (Сом)</item>
-        <item>Туркменский манат (TMT)</item>
-        <item>Азербайджанский манат (AZN)</item>
-        <item>Грузинский лари (GEL)</item>
-        <item>Молдавский лей (LEI)</item>
-        <item>Узбекский сум (UZS)</item>
     </string-array>
 
     <string-array name="currency_title">
+        <item>Узбекский сум</item>
         <item>Доллары США</item>
-        <item>Российский рубль</item>
+        <item>Азербайджанский манат</item>
+        <item>Армянский драм</item>
+        <item>Белорусский рубль</item>
+        <item>Грузинский лари</item>
         <item>Евро</item>
+        <item>Киргизский сом</item>
+        <item>Китайская Юань</item>
+        <item>Молдавский лей</item>
+        <item>Российский рубль</item>
+        <item>Сомони</item>
+        <item>Тенге</item>
+        <item>Туркменский манат</item>
         <item>Украинская гривна</item>
         <item>Фунт стерлингов</item>
-        <item>Тенге</item>
-        <item>Белорусский рубль</item>
-        <item>Армянский драм</item>
-        <item>Китайская Юань</item>
-        <item>Армянский драм</item>
-        <item>Сомони</item>
-        <item>Киргизский сом</item>
-        <item>Туркменский манат</item>
-        <item>Азербайджанский манат</item>
-        <item>Грузинский лари</item>
-        <item>Молдавский лей</item>
-        <item>Узбекский сум</item>
     </string-array>
 
     <string-array name="currency_abbrs">
+        <item>UZS</item>
         <item>$</item>
-        <item>₽</item>
+        <item>AZN</item>
+        <item>АРМ</item>
+        <item>BYN</item>
+        <item>GEL</item>
         <item>€</item>
+        <item>Сом</item>
+        <item>CNY</item>
+        <item>LEI</item>
+        <item>₽</item>
+        <item>TJS</item>
+        <item>₸</item>
+        <item>TMT</item>
         <item>₴</item>
         <item>£</item>
-        <item>₸</item>
-        <item>BYN</item>
-        <item>АРМ</item>
-        <item>CNY</item>
-        <item>AMD</item>
-        <item>TJS</item>
-        <item>Сом</item>
-        <item>TMT</item>
-        <item>AZN</item>
-        <item>GEL</item>
-        <item>LEI</item>
-        <item>UZS</item>
     </string-array>
 
     <string name="title_activity_product_class">ProductClassActivity</string>
