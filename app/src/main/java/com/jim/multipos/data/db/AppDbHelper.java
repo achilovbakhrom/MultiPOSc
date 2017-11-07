@@ -227,7 +227,6 @@ public class AppDbHelper implements DbHelper {
                 .filter(category -> !category.isDeleted())
                 .filter(Category::getIsActive)
                 .filter(category -> category.getParentId().equals(WITHOUT_PARENT))
-                .sorted((category, t1) -> t1.getCreatedDate().compareTo(category.getCreatedDate()))
                 .sorted((category, t1) -> category.getPosition().compareTo(t1.getPosition()))
                 .toList();
     }
@@ -248,7 +247,6 @@ public class AppDbHelper implements DbHelper {
                 .filter(category -> !category.isDeleted())
                 .filter(Category::getIsActive)
                 .filter(category -> category.getParentId().equals(parent.getId()))
-                .sorted((category, t1) -> t1.getCreatedDate().compareTo(category.getCreatedDate()))
                 .sorted((category, t1) -> category.getPosition().compareTo(t1.getPosition()))
                 .toList();
     }

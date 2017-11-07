@@ -34,6 +34,10 @@
         <activity
             android:name=".ui.mainpospage.MainPosPageActivity"
             android:windowSoftInputMode="stateHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".ui.lock_screen.LockScreenActivity"
@@ -42,10 +46,7 @@
         <activity
             android:name=".ui.product_last.ProductActivity"
             android:windowSoftInputMode="stateHidden">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
         <activity
             android:name=".ui.main_menu.product_menu.ProductMenuActivity"
