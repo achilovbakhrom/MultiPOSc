@@ -18,6 +18,7 @@ import com.jim.multipos.ui.mainpospage.adapter.SquareViewProductAdapter;
 import com.jim.multipos.ui.mainpospage.presenter.ProductSquareViewPresenter;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.rxevents.CategoryEvent;
+import com.jim.multipos.utils.rxevents.ProductEvent;
 
 import java.util.List;
 
@@ -47,6 +48,7 @@ public class ProductSquareViewFragment extends BaseFragment implements ProductSq
     private SquareViewProductAdapter productAdapter;
     private static final String CATEGORY_TITLE = "category_title";
     private static final String SUBCATEGORY_TITLE = "subcategory_title";
+    private static final String OPEN_PRODUCT = "open_product";
 
     @Override
     protected int getLayout() {
@@ -120,6 +122,7 @@ public class ProductSquareViewFragment extends BaseFragment implements ProductSq
             @Override
             public void onItemClicked(Product item) {
                 Toast.makeText(getContext(), item.getName(), Toast.LENGTH_SHORT).show();
+                rxBus.send(new ProductEvent(item, OPEN_PRODUCT));
             }
         });
     }

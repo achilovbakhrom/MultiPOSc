@@ -13,6 +13,7 @@ import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.rxevents.CategoryEvent;
+import com.jim.multipos.utils.rxevents.ProductEvent;
 
 import java.util.ArrayList;
 
@@ -46,6 +47,7 @@ public class ProductPickerFragment extends BaseFragment implements ProductPicker
     private static final int FOLDER_VIEW = 1;
     private static final String CATEGORY_TITLE = "category_title";
     private static final String SUBCATEGORY_TITLE = "subcategory_title";
+    private static final String OPEN_PRODUCT = "open_product";
     ArrayList<Disposable> subscriptions;
 
     @Override
@@ -75,6 +77,11 @@ public class ProductPickerFragment extends BaseFragment implements ProductPicker
                                 ivArrowSubCategory.setVisibility(View.GONE);
                             }
                         }
+                    }
+                    if (o instanceof ProductEvent){
+                        ProductEvent event = (ProductEvent) o;
+                        if (event.getEventType().equals(OPEN_PRODUCT))
+                            replaceViewFragments(new ProductInfoFragment(), "PRODUCT_INFO");
                     }
                 }));
     }

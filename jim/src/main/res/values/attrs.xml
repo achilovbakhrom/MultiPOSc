@@ -72,6 +72,9 @@
         <attr name="text_content" format="string" />
         <attr name="btn_mode" format="integer" />
     </declare-styleable>
+    <declare-styleable name="MpButton">
+        <attr name="isLong" format="boolean" />
+    </declare-styleable>
     <declare-styleable name="MpNumPadSecond">
         <attr name="values" format="string" />
         <attr name="currency" format="string" />
