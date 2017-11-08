@@ -477,6 +477,7 @@
     <string name="cannot_delete_empty_list_title">Cannot delete not empty list</string>
     <string name="warning_delete">Do you want to delete element?</string>
     <string name="update_message">Do you want update the item?</string>
+    <string name="products">Products</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>

@@ -14,9 +14,11 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 
 import com.jim.mpviews.MPosSpinner;
+import com.jim.mpviews.MpActionButton;
 import com.jim.mpviews.MpButton;
 import com.jim.mpviews.MpCheckbox;
 import com.jim.mpviews.MpEditText;
+import com.jim.mpviews.MpMiniActionButton;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.core.ItemRemoveListener;
@@ -75,7 +77,7 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
     MpButton save;
 
     @BindView(R.id.ivAdd)
-    ImageView add;
+    MpMiniActionButton add;
 
     @BindView(R.id.rvContacts)
     RecyclerView contacts;

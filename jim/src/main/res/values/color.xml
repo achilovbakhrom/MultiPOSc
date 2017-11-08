@@ -27,4 +27,5 @@
     <color name="colorDarkGreenSecond">#0f8f27</color>
     <color name="colorTransparent">#00ffffff</color>
     <color name="colorGreen">#2fd215</color>
+    <color name="colorGreenSecond">#27af27</color>
 </resources>

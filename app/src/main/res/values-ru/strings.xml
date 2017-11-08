@@ -100,6 +100,7 @@
     <string name="vendor_name">Vendor name</string>
     <string name="contact_name">Contact name</string>
     <string name="selected">Selected</string>
+    <string name="products">Products</string>
     <string-array name="start_configuration_title">
         <item namte="pos_details">POS подробности</item>
         <item name="account">Аккаунт</item>

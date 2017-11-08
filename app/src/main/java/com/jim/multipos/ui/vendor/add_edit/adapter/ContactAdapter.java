@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.jim.mpviews.MpMiniActionButton;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseAdapter;
 import com.jim.multipos.core.BaseViewHolder;
@@ -38,7 +39,7 @@ public class ContactAdapter extends BaseAdapter<Contact, ContactAdapter.ContactV
 
     @Override
     public void onBindViewHolder(ContactViewHolder holder, int position) {
-        holder.contact.setText(items.get(position).getType() == 0 ? "PHONE" : "EMAIL");
+        holder.contact.setText(items.get(position).getType() == 0 ? "Phone" : "Email");
         holder.contactData.setText(items.get(position).getName());
         holder.remove.setOnClickListener(v -> {
             if (listener != null) {
@@ -53,7 +54,7 @@ public class ContactAdapter extends BaseAdapter<Contact, ContactAdapter.ContactV
         @BindView(R.id.tvContactsValue)
         TextView contactData;
         @BindView(R.id.ivRemoveContact)
-        ImageView remove;
+        MpMiniActionButton remove;
         public ContactViewHolder(View itemView) {
             super(itemView);
         }

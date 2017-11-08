@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/llVendor"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:paddingLeft="@dimen/twenty_dp"
+        android:paddingRight="@dimen/twenty_dp"
+        android:paddingTop="@dimen/ten_dp"
+        android:paddingBottom="@dimen/ten_dp"
+        >
+
+        <TextView
+            android:id="@+id/tvFirstItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/four_dp"
+            android:paddingLeft="@dimen/ten_dp"
+            android:gravity="left"
+            android:textColor="@color/colorMainText"
+            android:paddingRight="@dimen/ten_dp"/>
+        <TextView
+            android:id="@+id/tvSecondItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/four_dp"
+            android:paddingLeft="@dimen/ten_dp"
+            android:gravity="left"
+            android:textColor="@color/colorSecondaryText"
+            android:paddingRight="@dimen/ten_dp"/>
+        <TextView
+            android:id="@+id/tvThirdItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/four_dp"
+            android:paddingLeft="@dimen/ten_dp"
+            android:gravity="left"
+            android:textColor="@color/colorSecondaryText"
+            android:paddingRight="@dimen/ten_dp"/>
+    </LinearLayout>
+
+</merge>

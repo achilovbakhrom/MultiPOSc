@@ -21,7 +21,7 @@
     </declare-styleable>
 
     <declare-styleable name="MpToolbar">
-        <attr name="view_mode" format="integer"/>
+        <attr name="view_mode" format="integer" />
     </declare-styleable>
 
     <declare-styleable name="MpSearchView">
@@ -90,5 +90,13 @@
         <attr name="list_item_active" format="boolean" />
         <attr name="list_item_text" format="string" />
         <attr name="list_item_text_size" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="MpLongItemWithList">
+        <attr name="long_item_active" format="boolean" />
+        <attr name="long_item_text_size" format="dimension" />
+        <attr name="long_item_first_text" format="string" />
+        <attr name="long_item_second_text" format="string" />
+        <attr name="long_item_third_text" format="string" />
     </declare-styleable>
 </resources>

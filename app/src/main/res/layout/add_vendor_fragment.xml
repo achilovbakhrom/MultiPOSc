@@ -156,35 +156,40 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/forty_dp"
                 android:layout_gravity="center"
                 android:layout_marginRight="@dimen/sixteen_dp"
-                android:gravity="right"
-                android:text="Contact"
+                android:gravity="center_vertical"
+                android:text="@string/contacts"
                 android:textColor="@color/colorMainText"
                 android:textSize="@dimen/sixteen_dp" />
 
             <com.jim.mpviews.MPosSpinner
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/forty_dp"
                 android:id="@+id/spContactType"/>
 
             <com.jim.mpviews.MpEditText
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/forty_dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/fifteen_dp"
                 android:layout_marginRight="@dimen/fifteen_dp"
+                android:textSize="@dimen/sixteen_dp"
                 android:layout_weight="1"
                 android:hint="enter phone number"
                 android:inputType="phone"
                 android:id="@+id/etContactData"/>
 
-            <ImageView
-                android:layout_width="@dimen/twenty_five_dp"
-                android:layout_height="@dimen/twenty_five_dp"
-                android:src="@drawable/add_round"
-                android:id="@+id/ivAdd"/>
+            <com.jim.mpviews.MpMiniActionButton
+                android:id="@+id/ivAdd"
+                android:layout_width="@dimen/sixty_dp"
+                android:layout_height="@dimen/forty_dp"
+                android:layout_gravity="center_vertical"
+                android:paddingTop="@dimen/twelve_dp"
+                android:paddingBottom="@dimen/twelve_dp"
+                android:tint="#23d730"
+                android:src="@drawable/plus" />
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
@@ -200,41 +205,40 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_marginBottom="@dimen/thirty_dp"
         android:gravity="right"
         android:orientation="horizontal" >
         <com.jim.mpviews.MpButton
-            android:layout_width="@dimen/hundred_dp"
+            android:layout_width="@dimen/hundred_twenty_five_dp"
             android:layout_height="@dimen/fifty_dp"
-            android:layout_marginRight="@dimen/fifteen_dp"
-            android:text="Cancel"
-            android:textColor="@color/colorMainText"
+            android:layout_marginRight="@dimen/five_dp"
+            android:text="@string/back"
+            android:textColor="@color/colorSecondaryText"
             android:textSize="@dimen/sixteen_dp"
             android:id="@+id/btnCancel"/>
         <com.jim.mpviews.MpButton
-            android:layout_width="@dimen/hundred_dp"
+            android:layout_width="@dimen/hundred_twenty_five_dp"
             android:layout_height="@dimen/fifty_dp"
-            android:layout_marginRight="@dimen/fifteen_dp"
-            android:text="Delete"
-            android:textColor="@color/colorMainText"
+            android:layout_marginRight="@dimen/five_dp"
+            android:text="@string/delete"
+            android:textColor="@color/colorSecondaryText"
             android:textSize="@dimen/sixteen_dp"
             android:visibility="gone"
             android:id="@+id/btnDelete"/>
         <com.jim.mpviews.MpButton
-            android:layout_width="@dimen/hundred_dp"
+            android:layout_width="@dimen/hundred_twenty_five_dp"
             android:layout_height="@dimen/fifty_dp"
-            android:layout_marginRight="@dimen/fifteen_dp"
-            android:text="Products"
+            android:layout_marginRight="@dimen/five_dp"
+            android:text="@string/products"
             android:textColor="@color/colorBlue"
             android:textSize="@dimen/sixteen_dp"
             android:visibility="gone"
             android:id="@+id/btnProducts"/>
         <com.jim.mpviews.MpButton
-            android:layout_width="@dimen/hundred_dp"
+            android:layout_width="@dimen/hundred_twenty_five_dp"
             android:layout_height="@dimen/fifty_dp"
-            android:layout_marginRight="@dimen/thirty_dp"
-            android:text="Save"
+            android:layout_marginRight="@dimen/ten_dp"
+            android:text="@string/save"
             android:textColor="@color/colorBlue"
             android:textSize="@dimen/sixteen_dp"
             android:textStyle="bold"

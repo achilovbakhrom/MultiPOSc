@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.jim.mpviews.MPAddItemView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.jim.mpviews.MpLongItemWithList xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="@dimen/hundred_dp"
-    android:layout_height="@dimen/hundred_dp"
-    android:layout_marginTop="@dimen/ten_dp"
-    android:layout_marginLeft="@dimen/five_dp"
-    android:layout_marginRight="@dimen/five_dp"
-    android:layout_marginBottom="@dimen/five_dp"
     android:id="@+id/aivAddItem"
-    app:add_item_active="true"
-    app:add_item_image="@drawable/plus"
-    app:add_item_text="@string/add_vendor_text"/>
+    android:layout_width="@dimen/two_hundred_dp"
+    android:layout_height="@dimen/hundred_dp"
+    android:layout_margin="@dimen/two_dp"
+    app:long_item_active="false"
+    app:long_item_first_text="@string/add_vendor_text" />
