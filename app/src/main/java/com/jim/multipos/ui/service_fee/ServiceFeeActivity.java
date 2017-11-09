@@ -45,8 +45,8 @@ public class ServiceFeeActivity extends BaseActivity implements ServiceFeeView, 
     MPosSpinner spCurrency;
     @BindView(R.id.spAppType)
     MPosSpinner spAppType;
-    @BindView(R.id.chbTaxed)
-    MpCheckbox chbTaxed;
+   /* @BindView(R.id.chbTaxed)
+    MpCheckbox chbTaxed;*/
     @BindView(R.id.chbActive)
     MpCheckbox chbActive;
     @BindView(R.id.ivAdd)
@@ -74,7 +74,7 @@ public class ServiceFeeActivity extends BaseActivity implements ServiceFeeView, 
 
         spCurrency.setEnabled(false);
 
-        RxView.clicks(ivAdd).subscribe(aVoid -> {
+        /*RxView.clicks(ivAdd).subscribe(aVoid -> {
             presenter.openUsageTypeDialog(etName.getText().toString(),
                     etAmount.getText().toString(),
                     spType.getSelectedPosition(),
@@ -82,7 +82,7 @@ public class ServiceFeeActivity extends BaseActivity implements ServiceFeeView, 
                     spAppType.getSelectedPosition(),
                     chbTaxed.isChecked(),
                     chbActive.isChecked());
-        });
+        });*/
 
         RxView.clicks(btnSave).subscribe(aVoid -> {
             presenter.saveData();
@@ -212,7 +212,7 @@ public class ServiceFeeActivity extends BaseActivity implements ServiceFeeView, 
     }
 
     private void addItem(int paymentTypePosition) {
-        if (paymentTypePosition != -1)
+       /* if (paymentTypePosition != -1)
             presenter.addItem(etName.getText().toString(),
                     etAmount.getText().toString(),
                     spType.getSelectedPosition(),
@@ -229,6 +229,6 @@ public class ServiceFeeActivity extends BaseActivity implements ServiceFeeView, 
                     spAppType.getSelectedPosition(),
                     chbTaxed.isChecked(),
                     chbActive.isChecked(),
-                    -1);
+                    -1);*/
     }
 }

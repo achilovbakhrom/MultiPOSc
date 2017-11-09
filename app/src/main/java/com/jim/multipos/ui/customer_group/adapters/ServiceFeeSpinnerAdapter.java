@@ -42,7 +42,7 @@ public class ServiceFeeSpinnerAdapter extends BaseAdapter {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_spinner, parent, false);
 
         TextView tv = (TextView) view.findViewById(R.id.tvItemText);
-        tv.setText(serviceFees.get(position).getName());
+        //tv.setText(serviceFees.get(position).getName());
 
         return view;
     }

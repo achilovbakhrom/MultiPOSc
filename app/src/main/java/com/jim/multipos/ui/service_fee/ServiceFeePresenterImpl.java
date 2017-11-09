@@ -159,19 +159,19 @@ public class ServiceFeePresenterImpl extends BasePresenterImpl<ServiceFeeView> i
 
         if (!hasError) {
             ServiceFee serviceFee = new ServiceFee();
-            serviceFee.setName(name);
+            //serviceFee.setName(name);
             serviceFee.setAmount(Double.parseDouble(amount));
             serviceFee.setType(getTypeConst(type));
             serviceFee.setApplyingType(getAppTypeConst(appType));
-            serviceFee.setIsTaxed(isTaxed);
+            //serviceFee.setIsTaxed(isTaxed);
             serviceFee.setIsActive(isActive);
 
             if (paymentType != -1) {
-                serviceFee.setPaymentType(paymentTypes.get(paymentType));
+              //  serviceFee.setPaymentType(paymentTypes.get(paymentType));
             }
 
             if (type != 0) {
-                serviceFee.setCurrency(currencies.get(currency));
+                //serviceFee.setCurrency(currencies.get(currency));
             }
 
             databaseManager.getServiceFeeOperations().addServiceFee(serviceFee).subscribe(aLong -> {
@@ -206,7 +206,7 @@ public class ServiceFeePresenterImpl extends BasePresenterImpl<ServiceFeeView> i
 
     @Override
     public void setCheckedTaxed(boolean state, int position) {
-        serviceFeeList.get(position).setIsTaxed(state);
+        //serviceFeeList.get(position).setIsTaxed(state);
         updateItem(position);
     }
 

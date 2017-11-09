@@ -122,6 +122,7 @@
     <string name="tap_product_to_manage_it_info">Tap Product to manage it info</string>
     <string name="category">Category</string>
     <string name="description">Description</string>
+    <string name="enter_description">Enter description</string>
     <string name="some_notes">Some notes</string>
 
     <string name="product">Product</string>
@@ -412,6 +413,7 @@
     <string name="sure">Sure</string>
     <string name="do_you_want_delete_item">Do you want delete the item</string>
     <string name="do_you_want_delete">Do you really want to delete?</string>
+    <string name="do_you_want_delete_with_argument">Do you really want to delete %s?</string>
     <string name="title_product_class_fragment">Managing Product Class</string>
     <string name="tap_product_class_for_editing_and_save">Tap product class for editing and save</string>
     <string name="not_selected">Not selected</string>
@@ -477,7 +479,9 @@
     <string name="cannot_delete_empty_list_title">Cannot delete not empty list</string>
     <string name="warning_delete">Do you want to delete element?</string>
     <string name="update_message">Do you want update the item?</string>
-    <string name="products">Products</string>
+    <string name="service_fee">Service Fee</string>
+    <string name="you_have_unsaved_service_fee">You have %d unsaved service fee. Do you really want to leave?</string>
+    <string name="you_have_unsaved_customers">You have %d unsaved customers. Do you really want to leave?</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>

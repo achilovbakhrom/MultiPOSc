@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.jim.mpviews.MpCheckbox;
@@ -52,20 +53,20 @@ public class ServiceFeeAdapter extends RecyclerView.Adapter<ServiceFeeAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         ServiceFee serviceFee = serviceFeeList.get(position);
-
+/*
         holder.tvCurrency.setText("");
-        holder.tvName.setText(serviceFee.getName());
+        //holder.tvName.setText(serviceFee.getName());
         holder.tvAmount.setText(String.valueOf(serviceFee.getAmount()));
         holder.tvType.setText(getType(serviceFee.getType()));
         //TODO
         holder.tvCurrency.setText("We must add currency");
         holder.tvAppType.setText(getAppType(serviceFee.getApplyingType()));
-        holder.chbTaxed.setChecked(serviceFee.getIsTaxed());
+        *//*holder.chbTaxed.setChecked(serviceFee.getIsTaxed());
         holder.chbActive.setChecked(serviceFee.getIsActive());
 
         if (serviceFee.getCurrencyId() != null) {
             holder.tvCurrency.setText(serviceFee.getCurrency().getName());
-        }
+        }*/
     }
 
     private String getType(String type) {
@@ -106,18 +107,16 @@ public class ServiceFeeAdapter extends RecyclerView.Adapter<ServiceFeeAdapter.Vi
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.tvName)
-        TextView tvName;
-        @BindView(R.id.tvAmount)
-        TextView tvAmount;
+        @BindView(R.id.etAmount)
+        EditText etAmount;
         @BindView(R.id.tvType)
         TextView tvType;
         @BindView(R.id.tvCurrency)
         TextView tvCurrency;
-        @BindView(R.id.tvAppType)
+        //@BindView(R.id.tvAppType)
         TextView tvAppType;
-        @BindView(R.id.chbTaxed)
-        MpCheckbox chbTaxed;
+        /*@BindView(R.id.chbTaxed)
+        MpCheckbox chbTaxed;*/
         @BindView(R.id.chbActive)
         MpCheckbox chbActive;
 
@@ -125,7 +124,7 @@ public class ServiceFeeAdapter extends RecyclerView.Adapter<ServiceFeeAdapter.Vi
             super(itemView);
 
             ButterKnife.bind(this, itemView);
-
+/*
             RxView.clicks(chbTaxed).subscribe(aVoid -> {
                if (chbTaxed.isChecked()) {
                    chbTaxed.setChecked(false);
@@ -134,7 +133,7 @@ public class ServiceFeeAdapter extends RecyclerView.Adapter<ServiceFeeAdapter.Vi
                    chbTaxed.setChecked(true);
                    onClickCallback.setCheckedTaxed(true, getAdapterPosition());
                }
-            });
+            });*/
 
             RxView.clicks(chbActive).subscribe(aVoid -> {
                 if (chbActive.isChecked()) {

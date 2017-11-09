@@ -49,7 +49,6 @@ public class MpToolbar extends RelativeLayout {
     private RelativeLayout mpSearch;
     private RelativeLayout mpLeftSide, mpRightSide;
     private ImageView mpSettings;
-    private TextView mpEmpName, mpEmpRole;
     private MpHorizontalScroller mpHorizontalScroller;
     private MpSearchView mpSearchView;
 
@@ -82,8 +81,6 @@ public class MpToolbar extends RelativeLayout {
         llEmployer = (LinearLayout) findViewById(R.id.llEmployer);
         mpSearch = (RelativeLayout) findViewById(R.id.mpSearch);
         mpSettings = (ImageView) findViewById(R.id.mpSettings);
-        mpEmpName = (TextView) findViewById(R.id.mpEmpName);
-        mpEmpRole = (TextView) findViewById(R.id.mpEmpRole);
         mpHorizontalScroller = (MpHorizontalScroller) findViewById(R.id.mpHorRoller);
         mpSearchView = (MpSearchView) findViewById(R.id.mpSearchView);
         mpLeftSide = (RelativeLayout) findViewById(R.id.mpLeftSide);
@@ -324,7 +321,7 @@ public class MpToolbar extends RelativeLayout {
         }
     }
 
-    public void setName(String name) {
+    /*public void setName(String name) {
         mpEmpName.setText(name);
         invalidate();
     }
@@ -332,7 +329,7 @@ public class MpToolbar extends RelativeLayout {
     public void setRole(String role) {
         mpEmpRole.setText(role);
         invalidate();
-    }
+    }*/
 
     public void setOrders(ArrayList<String> orders) {
         mpHorizontalScroller.setItems(orders);

@@ -86,9 +86,9 @@ public class CustomerGroupListFragmentPresenterImpl extends BasePresenterImpl<Cu
         if (customerGroup.getCustomers().isEmpty()) {
             databaseManager.getCustomerGroupOperations().removeCustomerGroup(customerGroup).subscribe(aBoolean -> {
                 customerGroups.remove(customerGroup);
-                view.updateRV();
                 prevPosition = 0;
                 itemSelectedPosition = 0;
+                view.updateRV(itemSelectedPosition);
                 rxBusLocal.send(new CustomerGroupEvent(null, CUSTOMER_GROUP_DELETED));
             });
         } else {

@@ -69,6 +69,7 @@ public class AddCustomerGroupFragmentPresenterImpl extends BasePresenterImpl<Add
 
                 databaseManager.getCustomerGroupOperations().addCustomerGroup(customerGroup).subscribe(aLong -> {
                     view.clearViews();
+                    view.changeButtonNameAndVisibility();
                     rxBusLocal.send(new CustomerGroupEvent(customerGroup, CustomerGroupListConnector.CUSTOMER_GROUP_ADDED));
                     rxBus.send(new CustomerGroupEvent(customerGroup, CustomersEditConnector.CUSTOMER_GROUP_ADDED));
                     currentCustomerGroup = null;
@@ -96,7 +97,7 @@ public class AddCustomerGroupFragmentPresenterImpl extends BasePresenterImpl<Add
         if (currentCustomerGroup != null && !currentCustomerGroup.getIsActive()) {
             rxBusLocal.send(new CustomerGroupEvent(currentCustomerGroup, CUSTOMER_GROUP_DELETE));
         } else {
-            view.showCustomerGroupWarningDialog();
+            view.showItemActiveCustomerGroupWarningDialog();
         }
     }
 

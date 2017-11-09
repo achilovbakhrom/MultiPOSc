@@ -6,11 +6,12 @@ import dagger.Binds;
 import dagger.Module;
 
 /**
- * Created by Sirojiddin on 27.10.2017.
+ * Created by Portable-Acer on 27.10.2017.
  */
+
 @Module
 public abstract class ProductInfoPresenterModule {
     @Binds
     @PerFragment
-    abstract ProductInfoPresenter provideProductInfoPresenter(ProductInfoPresenterImpl productInfoPresenter);
+    abstract ProductInfoPresenter provideProductInfoPresenter(ProductInfoPresenterImpl presenter);
 }

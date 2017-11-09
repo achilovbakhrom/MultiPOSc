@@ -37,6 +37,7 @@ public class CustomerGroup {
             sourceProperty = "customerGroupId",
             targetProperty = "customerId")
     private List<Customer> customers;
+    private Long createdDate;
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
      * Entity must attached to an entity context.
@@ -167,6 +168,12 @@ public class CustomerGroup {
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
+    public Long getCreatedDate() {
+        return this.createdDate;
+    }
+    public void setCreatedDate(Long createdDate) {
+        this.createdDate = createdDate;
+    }
     public Long getDiscountId() {
         return this.discountId;
     }
@@ -203,15 +210,16 @@ public class CustomerGroup {
     public void setId(Long id) {
         this.id = id;
     }
-    @Generated(hash = 1199827531)
+    @Generated(hash = 1093339686)
     public CustomerGroup(Long id, String name, boolean isActive, boolean isTaxFree,
-            Long serviceFeeId, Long discountId) {
+            Long serviceFeeId, Long discountId, Long createdDate) {
         this.id = id;
         this.name = name;
         this.isActive = isActive;
         this.isTaxFree = isTaxFree;
         this.serviceFeeId = serviceFeeId;
         this.discountId = discountId;
+        this.createdDate = createdDate;
     }
     @Generated(hash = 662460451)
     public CustomerGroup() {

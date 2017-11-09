@@ -28,6 +28,7 @@ import com.jim.multipos.data.db.model.PaymentType;
 import com.jim.multipos.data.db.model.PaymentTypeDao;
 import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.ServiceFee;
+import com.jim.multipos.data.db.model.ServiceFeeDao;
 import com.jim.multipos.data.db.model.Vendor;
 import com.jim.multipos.data.db.model.VendorDao;
 import com.jim.multipos.data.db.model.currency.Currency;
@@ -761,22 +762,7 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public Observable<List<ServiceFee>> getAllServiceFees() {
-        return Observable.fromCallable(() -> {
-            List<ServiceFee> serviceFees = mDaoSession.getServiceFeeDao().loadAll();
-            Collections.sort(serviceFees, (o1, o2) -> {
-                if (o1.getIsActive() && o2.getIsActive()) {
-                    return 0;
-                }
-
-                if (o1.getIsActive()) {
-                    return 1;
-                } else {
-                    return -1;
-                }
-            });
-
-            return serviceFees;
-        });
+        return Observable.fromCallable(() -> mDaoSession.getServiceFeeDao().queryBuilder().orderDesc(ServiceFeeDao.Properties.CreatedDate).build().list());
     }
 
     @Override
@@ -836,12 +822,7 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public Observable<List<Customer>> getAllCustomers() {
-        return Observable.fromCallable(() -> {
-            List<Customer> customers = mDaoSession.getCustomerDao().loadAll();
-            Collections.reverse(customers);
-
-            return customers;
-        });
+        return Observable.fromCallable(() -> mDaoSession.getCustomerDao().queryBuilder().where(CustomerDao.Properties.IsNotModifyted.notEq(false)).orderDesc(CustomerDao.Properties.CreatedDate).build().list());
     }
 
     @Override
@@ -878,12 +859,7 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public Observable<List<CustomerGroup>> getAllCustomerGroups() {
-        return Observable.fromCallable(() -> {
-            List<CustomerGroup> customerGroups = mDaoSession.getCustomerGroupDao().loadAll();
-            Collections.reverse(customerGroups);
-
-            return customerGroups;
-        });
+        return Observable.fromCallable(() -> mDaoSession.getCustomerGroupDao().queryBuilder().orderDesc(CustomerGroupDao.Properties.CreatedDate).build().list());
     }
 
     @Override

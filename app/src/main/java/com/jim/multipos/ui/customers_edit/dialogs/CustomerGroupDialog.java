@@ -13,6 +13,7 @@ import android.view.KeyboardShortcutGroup;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.jakewharton.rxbinding2.view.RxView;
@@ -44,8 +45,8 @@ public class CustomerGroupDialog extends Dialog {
     MpButton btnSave;
     @BindView(R.id.btnCancel)
     MpButton btnCancel;
-    @BindView(R.id.tvAdd)
-    TextView tvAdd;
+    @BindView(R.id.btnAdd)
+    Button btnAdd;
     private List<CustomerGroup> customerGroups;
     private List<CustomerGroup> selectedCustomerGroups;
     private OnClickListener onClickListener;
@@ -88,7 +89,7 @@ public class CustomerGroupDialog extends Dialog {
             dismiss();
         });
 
-        RxView.clicks(tvAdd).subscribe(o -> {
+        RxView.clicks(btnAdd).subscribe(o -> {
             context.startActivity(new Intent(context, CustomerGroupActivity.class));
         });
     }

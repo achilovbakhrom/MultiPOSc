@@ -37,11 +37,11 @@ public class CustomersEditActivity extends BaseActivity implements CustomersEdit
     RxBus rxBus;
     @Inject
     CustomersEditPresenter presenter;
-    @BindView(R.id.spCustomerGroup)
+    /*@BindView(R.id.spCustomerGroup)
     MPosSpinner spCustomerGroup;
     @BindView(R.id.toolbar)
     MpToolbar toolbar;
-    @BindView(R.id.rvCustomers)
+    @BindView(R.id.rvCustomers)*/
     RecyclerView rvCustomers;
     @BindView(R.id.btnBack)
     MpButton btnBack;
@@ -73,7 +73,7 @@ public class CustomersEditActivity extends BaseActivity implements CustomersEdit
 
         unbinder = ButterKnife.bind(this);
 
-        toolbar.setMode(MpToolbar.DEFAULT_TYPE);
+        //toolbar.setMode(MpToolbar.DEFAULT_TYPE);
 
         presenter.getCustomerGroups();
         presenter.getCustomers();
@@ -85,10 +85,10 @@ public class CustomersEditActivity extends BaseActivity implements CustomersEdit
             presenter.back();
         });
 
-        spCustomerGroup.setItemSelectionListener((view, position) -> {
+        /*spCustomerGroup.setItemSelectionListener((view, position) -> {
             UIUtils.closeKeyboard(tvFullName, getBaseContext());
             presenter.filterCustomerGroups(position);
-        });
+        });*/
 
         RxView.clicks(tvFullName).subscribe(o -> {
             UIUtils.closeKeyboard(tvFullName, getBaseContext());
@@ -219,7 +219,7 @@ public class CustomersEditActivity extends BaseActivity implements CustomersEdit
 
     @Override
     public void showCustomerGroups(List<CustomerGroup> customerGroups) {
-        spCustomerGroup.setAdapter(new CustomerGroupSpinnerAdapter(customerGroups));
+        //spCustomerGroup.setAdapter(new CustomerGroupSpinnerAdapter(customerGroups));
     }
 
     @Override
