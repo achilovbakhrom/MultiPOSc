@@ -23,7 +23,7 @@ import com.jim.multipos.ui.product.ProductsActivity;
 import com.jim.multipos.ui.product_class_new.ProductsClassActivity;
 import com.jim.multipos.ui.product_class_new.fragments.ProductsClassFragment;
 import com.jim.multipos.ui.product_last.ProductActivity;
-import com.jim.multipos.ui.service_fee.ServiceFeeActivity;
+import com.jim.multipos.ui.service_fee_new.ServiceFeeActivity;
 
 import java.util.ArrayList;
 
