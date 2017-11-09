@@ -75,7 +75,7 @@
         </activity>
         <activity android:name=".ui.customers_edit_new.CustomersEditActivity">
         </activity>
-        <activity android:name=".ui.inventory.InventoryActivity">
+        <activity android:name=".ui.consignment.ConsignmentActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

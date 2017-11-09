@@ -6,7 +6,6 @@ import com.jim.multipos.data.db.model.customer.CustomerGroup;
 import com.jim.multipos.ui.customer_group.connector.CustomerGroupConnector;
 import com.jim.multipos.ui.customer_group.connector.CustomerGroupListConnector;
 import com.jim.multipos.ui.customer_group.fragments.AddCustomerGroupFragmentView;
-import com.jim.multipos.ui.customers_edit.connector.CustomersEditConnector;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.RxBusLocal;
 import com.jim.multipos.utils.rxevents.CustomerGroupEvent;
@@ -71,7 +70,6 @@ public class AddCustomerGroupFragmentPresenterImpl extends BasePresenterImpl<Add
                     view.clearViews();
                     view.changeButtonNameAndVisibility();
                     rxBusLocal.send(new CustomerGroupEvent(customerGroup, CustomerGroupListConnector.CUSTOMER_GROUP_ADDED));
-                    rxBus.send(new CustomerGroupEvent(customerGroup, CustomersEditConnector.CUSTOMER_GROUP_ADDED));
                     currentCustomerGroup = null;
                 });
             } else {
