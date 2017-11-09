@@ -62,16 +62,12 @@
             android:name=".ui.product_class.ProductClassActivity"
             android:windowSoftInputMode="stateHidden">
         </activity>
-        <activity android:name=".ui.customers_edit.CustomersEditActivity">
-
-        </activity>
         <activity android:name=".ui.customer_group.CustomerGroupActivity">
         </activity>
         <activity android:name=".ui.product.ProductsActivity"></activity>
         <activity android:name=".ui.product_class_new.ProductsClassActivity">
         </activity>
         <activity android:name=".ui.discount.DiscountAddingActivity"></activity>
-        <activity android:name=".ui.service_fee.ServiceFeeActivity" />
         <activity android:name=".ui.service_fee_new.ServiceFeeActivity">
 
         </activity>
