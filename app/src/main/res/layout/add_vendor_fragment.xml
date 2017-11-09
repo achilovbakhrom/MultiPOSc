@@ -210,7 +210,7 @@
         android:orientation="horizontal" >
         <com.jim.mpviews.MpButton
             android:layout_width="@dimen/hundred_twenty_five_dp"
-            android:layout_height="@dimen/fifty_dp"
+            android:layout_height="@dimen/sixty_dp"
             android:layout_marginRight="@dimen/five_dp"
             android:text="@string/back"
             android:textColor="@color/colorSecondaryText"
@@ -218,7 +218,7 @@
             android:id="@+id/btnCancel"/>
         <com.jim.mpviews.MpButton
             android:layout_width="@dimen/hundred_twenty_five_dp"
-            android:layout_height="@dimen/fifty_dp"
+            android:layout_height="@dimen/sixty_dp"
             android:layout_marginRight="@dimen/five_dp"
             android:text="@string/delete"
             android:textColor="@color/colorSecondaryText"
@@ -227,7 +227,7 @@
             android:id="@+id/btnDelete"/>
         <com.jim.mpviews.MpButton
             android:layout_width="@dimen/hundred_twenty_five_dp"
-            android:layout_height="@dimen/fifty_dp"
+            android:layout_height="@dimen/sixty_dp"
             android:layout_marginRight="@dimen/five_dp"
             android:text="@string/products"
             android:textColor="@color/colorBlue"
@@ -236,7 +236,7 @@
             android:id="@+id/btnProducts"/>
         <com.jim.mpviews.MpButton
             android:layout_width="@dimen/hundred_twenty_five_dp"
-            android:layout_height="@dimen/fifty_dp"
+            android:layout_height="@dimen/sixty_dp"
             android:layout_marginRight="@dimen/ten_dp"
             android:text="@string/save"
             android:textColor="@color/colorBlue"
