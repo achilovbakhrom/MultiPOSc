@@ -144,6 +144,7 @@ public interface DbHelper {
     Observable<Vendor> getVendorById(Long vendorId);
     Observable<List<Vendor>> getVendors();
     Observable<Boolean> removeAllContacts(Long vendorId);
+    Single<List<Product>> getSearchProducts(String searchText, boolean skuMode, boolean barcodeMode,boolean nameMode);
 
     //Category
     Observable<Category> getCategoryById(Long id);

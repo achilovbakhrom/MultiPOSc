@@ -7,4 +7,9 @@ import com.jim.multipos.core.Presenter;
  */
 
 public interface SearchModePresenter extends Presenter {
-}
+     void setSkuSearchMode(boolean active);
+     void setNameSearchMode(boolean active);
+     void setBarcodeSearchMode(boolean active);
+     void onSearchTextChange(String s);
+     void onOkPressed();
+ }

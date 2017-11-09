@@ -58,4 +58,5 @@ public abstract class BaseAppModule {
     static RxBus getRxBus() {
         return new RxBus();
     }
+
 }

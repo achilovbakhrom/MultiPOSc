@@ -479,6 +479,7 @@
     <string name="cannot_delete_empty_list_title">Cannot delete not empty list</string>
     <string name="warning_delete">Do you want to delete element?</string>
     <string name="update_message">Do you want update the item?</string>
+    <string name="search_results">Search results</string>
     <string name="service_fee">Service Fee</string>
     <string name="you_have_unsaved_service_fee">You have %d unsaved service fee. Do you really want to leave?</string>
     <string name="you_have_unsaved_customers">You have %d unsaved customers. Do you really want to leave?</string>

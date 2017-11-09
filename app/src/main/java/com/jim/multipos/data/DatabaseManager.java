@@ -32,6 +32,7 @@ import com.jim.multipos.data.operations.JoinCustomerGroupWithCustomerOperations;
 import com.jim.multipos.data.operations.PaymentTypeOperations;
 import com.jim.multipos.data.operations.ProductClassOperations;
 import com.jim.multipos.data.operations.ProductOperations;
+import com.jim.multipos.data.operations.SearchOperations;
 import com.jim.multipos.data.operations.ServiceFeeOperations;
 import com.jim.multipos.data.operations.StockOperations;
 import com.jim.multipos.data.operations.SubUnitOperations;
@@ -51,7 +52,7 @@ import io.reactivex.Single;
  */
 
 public class DatabaseManager implements ContactOperations, CategoryOperations, ProductOperations, AccountOperations, CurrencyOperations, StockOperations, UnitCategoryOperations, UnitOperations, PaymentTypeOperations, ServiceFeeOperations, ProductClassOperations, CustomerOperations, CustomerGroupOperations, SubUnitOperations, JoinCustomerGroupWithCustomerOperations, DiscountOperations,
-        VendorOperations {
+        VendorOperations,SearchOperations {
     private Context context;
     private PreferencesHelper preferencesHelper;
     private DbHelper dbHelper;
@@ -609,6 +610,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Single<Long> insertDiscount(Discount discount) {
         return dbHelper.insertDiscount(discount);
+    }
+
+    @Override
+    public Single<List<Product>> getSearchProducts(String searchText, boolean skuMode, boolean barcodeMode,boolean nameMode) {
+        return dbHelper.getSearchProducts(searchText,skuMode,barcodeMode,nameMode);
     }
 }
 

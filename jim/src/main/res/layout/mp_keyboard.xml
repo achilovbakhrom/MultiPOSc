@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="@dimen/twenty_dp">
-
+        android:orientation="vertical">
 
 
         <LinearLayout
@@ -18,106 +16,174 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <com.jim.mpviews.MpKeyPad
-                android:id="@+id/mpOne"
-                android:layout_width="wrap_content"
+            <FrameLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/five_dp"
-                app:has_extra="true"
-                app:letter="1"
-                app:letter_color="@color/colorSecondaryText"
-                app:symbol="!" />
+                android:layout_marginRight="@dimen/two_dp"
+                android:layout_weight="1">
 
-            <com.jim.mpviews.MpKeyPad
-                android:id="@+id/mpTwo"
-                android:layout_width="wrap_content"
+                <com.jim.mpviews.MpKeyPad
+                    android:id="@+id/mpOne"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    app:has_extra="true"
+                    app:letter="1"
+                    app:letter_color="@color/colorSecondaryText"
+                    app:symbol="!" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/five_dp"
-                app:has_extra="true"
-                app:letter="2"
-                app:letter_color="@color/colorSecondaryText"
-                app:symbol="\@" />
+                android:layout_marginRight="@dimen/two_dp"
+                android:layout_weight="1">
 
-            <com.jim.mpviews.MpKeyPad
-                android:id="@+id/mpThree"
-                android:layout_width="wrap_content"
+                <com.jim.mpviews.MpKeyPad
+                    android:id="@+id/mpTwo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    app:has_extra="true"
+                    app:letter="2"
+                    app:letter_color="@color/colorSecondaryText"
+                    app:symbol="\@" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/five_dp"
-                app:has_extra="true"
-                app:letter="3"
-                app:letter_color="@color/colorSecondaryText"
-                app:symbol="#" />
+                android:layout_marginRight="@dimen/two_dp"
+                android:layout_weight="1">
 
-            <com.jim.mpviews.MpKeyPad
-                android:id="@+id/mpFour"
-                android:layout_width="wrap_content"
+                <com.jim.mpviews.MpKeyPad
+                    android:id="@+id/mpThree"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    app:has_extra="true"
+                    app:letter="3"
+                    app:letter_color="@color/colorSecondaryText"
+                    app:symbol="#" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/five_dp"
-                app:has_extra="true"
-                app:letter="4"
-                app:letter_color="@color/colorSecondaryText"
-                app:symbol="$" />
+                android:layout_marginRight="@dimen/two_dp"
+                android:layout_weight="1">
 
-            <com.jim.mpviews.MpKeyPad
-                android:id="@+id/mpFive"
-                android:layout_width="wrap_content"
+                <com.jim.mpviews.MpKeyPad
+                    android:id="@+id/mpFour"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    app:has_extra="true"
+                    app:letter="4"
+                    app:letter_color="@color/colorSecondaryText"
+                    app:symbol="$" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/five_dp"
-                app:has_extra="true"
-                app:letter="5"
-                app:letter_color="@color/colorSecondaryText"
-                app:symbol="%" />
+                android:layout_marginRight="@dimen/two_dp"
+                android:layout_weight="1">
 
-            <com.jim.mpviews.MpKeyPad
-                android:id="@+id/mpSix"
-                android:layout_width="wrap_content"
+                <com.jim.mpviews.MpKeyPad
+                    android:id="@+id/mpFive"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    app:has_extra="true"
+                    app:letter="5"
+                    app:letter_color="@color/colorSecondaryText"
+                    app:symbol="%" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/five_dp"
-                app:has_extra="true"
-                app:letter="6"
-                app:letter_color="@color/colorSecondaryText"
-                app:symbol="^" />
+                android:layout_marginRight="@dimen/two_dp"
+                android:layout_weight="1">
 
-            <com.jim.mpviews.MpKeyPad
-                android:id="@+id/mpSeven"
-                android:layout_width="wrap_content"
+                <com.jim.mpviews.MpKeyPad
+                    android:id="@+id/mpSix"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    app:has_extra="true"
+                    app:letter="6"
+                    app:letter_color="@color/colorSecondaryText"
+                    app:symbol="^" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/five_dp"
-                app:has_extra="true"
-                app:letter="7"
-                app:letter_color="@color/colorSecondaryText"
-                app:symbol="&amp;" />
+                android:layout_marginRight="@dimen/two_dp"
+                android:layout_weight="1">
 
-            <com.jim.mpviews.MpKeyPad
-                android:id="@+id/mpEight"
-                android:layout_width="wrap_content"
+                <com.jim.mpviews.MpKeyPad
+                    android:id="@+id/mpSeven"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    app:has_extra="true"
+                    app:letter="7"
+                    app:letter_color="@color/colorSecondaryText"
+                    app:symbol="&amp;" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/five_dp"
-                app:has_extra="true"
-                app:letter="8"
-                app:letter_color="@color/colorSecondaryText"
-                app:symbol="*" />
+                android:layout_marginRight="@dimen/two_dp"
+                android:layout_weight="1">
 
-            <com.jim.mpviews.MpKeyPad
-                android:id="@+id/mpNine"
-                android:layout_width="wrap_content"
+                <com.jim.mpviews.MpKeyPad
+                    android:id="@+id/mpEight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    app:has_extra="true"
+                    app:letter="8"
+                    app:letter_color="@color/colorSecondaryText"
+                    app:symbol="*" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/five_dp"
-                app:has_extra="true"
-                app:letter="9"
-                app:letter_color="@color/colorSecondaryText"
-                app:symbol="(" />
+                android:layout_marginRight="@dimen/two_dp"
+                android:layout_weight="1">
 
-            <com.jim.mpviews.MpKeyPad
-                android:id="@+id/mpZero"
-                android:layout_width="wrap_content"
+                <com.jim.mpviews.MpKeyPad
+                    android:id="@+id/mpNine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    app:has_extra="true"
+                    app:letter="9"
+                    app:letter_color="@color/colorSecondaryText"
+                    app:symbol="(" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/five_dp"
-                app:has_extra="true"
-                app:letter="0"
-                app:letter_color="@color/colorSecondaryText"
-                app:symbol=")" />
+                android:layout_weight="1">
 
+                <com.jim.mpviews.MpKeyPad
+                    android:id="@+id/mpZero"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    app:has_extra="true"
+                    app:letter="0"
+                    app:letter_color="@color/colorSecondaryText"
+                    app:symbol=")" />
+            </FrameLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -132,76 +198,144 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpQ"
-                    android:layout_width="wrap_content"
+                <FrameLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/ten_dp"
-                    app:letter="Q" />
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
 
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpW"
-                    android:layout_width="wrap_content"
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpQ"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:letter="Q" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/ten_dp"
-                    app:letter="W" />
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
 
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpE"
-                    android:layout_width="wrap_content"
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpW"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:letter="W" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/ten_dp"
-                    app:letter="E" />
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
 
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpR"
-                    android:layout_width="wrap_content"
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpE"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:letter="E" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/ten_dp"
-                    app:letter="R" />
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
 
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpT"
-                    android:layout_width="wrap_content"
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpR"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:letter="R" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/ten_dp"
-                    app:letter="T" />
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
 
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpY"
-                    android:layout_width="wrap_content"
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpT"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:letter="T" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/ten_dp"
-                    app:letter="Y" />
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
 
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpU"
-                    android:layout_width="wrap_content"
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpY"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:letter="Y" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/ten_dp"
-                    app:letter="U" />
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
 
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpI"
-                    android:layout_width="wrap_content"
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpU"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:letter="U" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/ten_dp"
-                    app:letter="I" />
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
 
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpO"
-                    android:layout_width="wrap_content"
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpI"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:letter="I" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/ten_dp"
-                    app:letter="O" />
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
 
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpP"
-                    android:layout_width="wrap_content"
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpO"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:letter="O" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/ten_dp"
-                    app:letter="P" />
+                    android:layout_weight="1">
 
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpP"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:letter="P" />
+                </FrameLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -211,69 +345,138 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpA"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/ten_dp"
-                    app:letter="A" />
+                <FrameLayout
+                    android:layout_width="@dimen/thirty_dp"
+                    android:layout_height="match_parent" />
 
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpS"
-                    android:layout_width="wrap_content"
+                <FrameLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/ten_dp"
-                    app:letter="S" />
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
 
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpD"
-                    android:layout_width="wrap_content"
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpA"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:letter="A" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/ten_dp"
-                    app:letter="D" />
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
 
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpF"
-                    android:layout_width="wrap_content"
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpS"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:letter="S" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/ten_dp"
-                    app:letter="F" />
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
 
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpG"
-                    android:layout_width="wrap_content"
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpD"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:letter="D" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/ten_dp"
-                    app:letter="G" />
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
 
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpH"
-                    android:layout_width="wrap_content"
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpF"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:letter="F" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/ten_dp"
-                    app:letter="H" />
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
 
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpJ"
-                    android:layout_width="wrap_content"
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpG"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:letter="G" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/ten_dp"
-                    app:letter="J" />
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
 
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpK"
-                    android:layout_width="wrap_content"
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpH"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:letter="H" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/ten_dp"
-                    app:letter="K" />
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
 
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpL"
-                    android:layout_width="wrap_content"
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpJ"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:letter="J" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/ten_dp"
-                    app:letter="L" />
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
 
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpK"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:letter="K" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpL"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:letter="L" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="@dimen/thirty_dp"
+                    android:layout_height="match_parent" />
             </LinearLayout>
 
             <LinearLayout
@@ -283,78 +486,130 @@
 
                 <LinearLayout
                     android:id="@+id/mpCase"
-                    android:layout_width="@dimen/ninety_dp"
+                    android:layout_width="@dimen/eighty_five_dp"
                     android:layout_height="@dimen/eighty_dp"
+                    android:layout_marginLeft="@dimen/five_dp"
                     android:layout_marginRight="@dimen/ten_dp"
                     android:background="@drawable/key_pad_big_btn"
                     android:gravity="center">
 
                     <ImageView
                         android:id="@+id/mpShift"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="@dimen/twenty_dp"
+                        android:layout_height="@dimen/twenty_dp"
                         android:src="@drawable/top" />
                 </LinearLayout>
 
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpZ"
-                    android:layout_width="wrap_content"
+                <FrameLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/ten_dp"
-                    app:letter="Z" />
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
 
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpX"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/ten_dp"
-                    app:letter="X" />
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpZ"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/five_dp"
+                        app:letter="Z" />
+                </FrameLayout>
 
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpC"
-                    android:layout_width="wrap_content"
+                <FrameLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/ten_dp"
-                    app:letter="C" />
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
 
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/ten_dp"
-                    app:letter="V" />
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpX"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/five_dp"
+                        app:letter="X" />
+                </FrameLayout>
 
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpB"
-                    android:layout_width="wrap_content"
+                <FrameLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/ten_dp"
-                    app:letter="B" />
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
 
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpN"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/ten_dp"
-                    app:letter="N" />
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpC"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/five_dp"
+                        app:letter="C" />
+                </FrameLayout>
 
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpM"
-                    android:layout_width="wrap_content"
+                <FrameLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/ten_dp"
-                    app:letter="M" />
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
+
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/five_dp"
+                        app:letter="V" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
+
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpB"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/five_dp"
+                        app:letter="B" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
+
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpN"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/five_dp"
+                        app:letter="N" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
+
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpM"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/five_dp"
+                        app:letter="M" />
+                </FrameLayout>
 
                 <LinearLayout
                     android:id="@+id/mpBackspace"
-                    android:layout_width="@dimen/ninety_dp"
+                    android:layout_width="@dimen/eighty_five_dp"
                     android:layout_height="@dimen/eighty_dp"
-                    android:background="@drawable/key_pad_big_btn"
+                    android:layout_marginRight="@dimen/five_dp"
+                    android:clickable="true"
+                    android:background="@drawable/grey_search_button"
                     android:gravity="center">
 
                     <ImageView
-                        android:layout_width="@dimen/forty_dp"
-                        android:layout_height="@dimen/forty_dp"
+                        android:layout_width="@dimen/thirty_dp"
+                        android:layout_height="@dimen/thirty_dp"
                         android:src="@drawable/backspace"
                         android:tint="@color/colorTintGrey" />
                 </LinearLayout>
@@ -375,84 +630,161 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpY_RU"
-                    android:layout_width="wrap_content"
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
+
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpY_RU"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/two_dp"
+                        app:letter="Й" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
+
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpTs_RU"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:letter="Ц" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
+
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpU_RU"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:letter="У" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
+
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpK_RU"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:letter="К" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
+
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpE_RU"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:has_extra="true"
+                        app:letter="Е"
+                        app:symbol="Ё" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
+
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpN_RU"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:letter="Н" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
+
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpG_RU"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:letter="Г" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
+
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpSh_RU"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:letter="Ш" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
+
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpSh2_RU"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:letter="Щ" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
+
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpZ_Ru"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:letter="З" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/three_dp"
-                    app:letter="Й" />
+                    android:layout_weight="1">
 
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpTs_RU"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/three_dp"
-                    app:letter="Ц" />
-
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpU_RU"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/three_dp"
-                    app:letter="У" />
-
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpK_RU"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/three_dp"
-                    app:letter="К" />
-
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpE_RU"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/three_dp"
-                    app:has_extra="true"
-                    app:letter="Е"
-                    app:symbol="Ё" />
-
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpN_RU"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/three_dp"
-                    app:letter="Н" />
-
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpG_RU"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/three_dp"
-                    app:letter="Г" />
-
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpSh_RU"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/three_dp"
-                    app:letter="Ш" />
-
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpSh2_RU"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/three_dp"
-                    app:letter="Щ" />
-
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpZ_Ru"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/three_dp"
-                    app:letter="З" />
-
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpX_RU"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:letter="Х" />
-
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpX_RU"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:letter="Х" />
+                </FrameLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -460,82 +792,159 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpF_RU"
-                    android:layout_width="wrap_content"
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
+
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpF_RU"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/two_dp"
+                        app:letter="Ф" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
+
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpHard_RU"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:letter="Ы" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
+
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpV_RU"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:letter="В" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
+
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpA_RU"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:letter="А" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
+
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpP_RU"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:letter="П" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
+
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpR_RU"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:letter="Р" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
+
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpO_RU"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:letter="О" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
+
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpL_RU"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:letter="Л" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
+
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpD_RU"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:letter="Д" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
+
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpJ_RU"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:letter="Ж" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/three_dp"
-                    app:letter="Ф" />
+                    android:layout_weight="1">
 
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpHard_RU"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/three_dp"
-                    app:letter="Ы" />
-
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpV_RU"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/three_dp"
-                    app:letter="В" />
-
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpA_RU"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/three_dp"
-                    app:letter="А" />
-
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpP_RU"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/three_dp"
-                    app:letter="П" />
-
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpR_RU"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/three_dp"
-                    app:letter="Р" />
-
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpO_RU"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/three_dp"
-                    app:letter="О" />
-
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpL_RU"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/three_dp"
-                    app:letter="Л" />
-
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpD_RU"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/three_dp"
-                    app:letter="Д" />
-
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpJ_RU"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/three_dp"
-                    app:letter="Ж" />
-
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpE2_RU"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:letter="Э" />
-
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpE2_RU"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:letter="Э" />
+                </FrameLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -545,95 +954,160 @@
 
                 <LinearLayout
                     android:id="@+id/mpCaseRU"
-                    android:layout_width="@dimen/sixty_dp"
-                    android:layout_height="@dimen/eighty_five_dp"
+                    android:layout_width="@dimen/fifty_two_dp"
+                    android:layout_height="@dimen/eighty_dp"
+                    android:layout_marginLeft="@dimen/five_dp"
                     android:layout_marginRight="@dimen/three_dp"
                     android:background="@drawable/key_pad_big_btn"
                     android:gravity="center">
 
                     <ImageView
                         android:id="@+id/mpShiftRU"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="@dimen/twenty_dp"
+                        android:layout_height="@dimen/twenty_dp"
                         android:src="@drawable/top" />
                 </LinearLayout>
 
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpYa_RU"
-                    android:layout_width="wrap_content"
+                <FrameLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/three_dp"
-                    app:letter="Я" />
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
 
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpCh_RU"
-                    android:layout_width="wrap_content"
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpYa_RU"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/three_dp"
+                        app:letter="Я" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/three_dp"
-                    app:letter="Ч" />
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
 
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpC_RU"
-                    android:layout_width="wrap_content"
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpCh_RU"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/three_dp"
+                        app:letter="Ч" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/three_dp"
-                    app:letter="С" />
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
 
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpM_RU"
-                    android:layout_width="wrap_content"
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpC_RU"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/three_dp"
+                        app:letter="С" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/three_dp"
-                    app:letter="М" />
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
 
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpI_Ru"
-                    android:layout_width="wrap_content"
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpM_RU"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/three_dp"
+                        app:letter="М" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/three_dp"
-                    app:letter="И" />
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
 
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpT_RU"
-                    android:layout_width="wrap_content"
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpI_Ru"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/three_dp"
+                        app:letter="И" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/three_dp"
-                    app:letter="Т" />
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
 
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpSoft_RU"
-                    android:layout_width="wrap_content"
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpT_RU"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/three_dp"
+                        app:letter="Т" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/three_dp"
-                    app:has_extra="true"
-                    app:letter="Ь"
-                    app:symbol="Ъ" />
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
 
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpB_RU"
-                    android:layout_width="wrap_content"
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpSoft_RU"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/three_dp"
+                        app:has_extra="true"
+                        app:letter="Ь"
+                        app:symbol="Ъ" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/three_dp"
-                    app:letter="Б" />
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
 
-                <com.jim.mpviews.MpKeyPad
-                    android:id="@+id/mpYu_RU"
-                    android:layout_width="wrap_content"
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpB_RU"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/three_dp"
+                        app:letter="Б" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/three_dp"
-                    app:letter="Ю" />
+                    android:layout_marginRight="@dimen/two_dp"
+                    android:layout_weight="1">
 
+                    <com.jim.mpviews.MpKeyPad
+                        android:id="@+id/mpYu_RU"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/three_dp"
+                        app:letter="Ю" />
+                </FrameLayout>
 
                 <LinearLayout
                     android:id="@+id/mpBackspaceRU"
-                    android:layout_width="@dimen/sixty_dp"
-                    android:layout_height="@dimen/eighty_five_dp"
-                    android:background="@drawable/key_pad_big_btn"
+                    android:layout_width="@dimen/fifty_four_dp"
+                    android:layout_height="@dimen/eighty_dp"
+                    android:layout_marginRight="@dimen/five_dp"
+                    android:clickable="true"
+                    android:background="@drawable/grey_search_button"
                     android:gravity="center">
 
                     <ImageView
-                        android:layout_width="@dimen/forty_dp"
-                        android:layout_height="@dimen/forty_dp"
+                        android:layout_width="@dimen/thirty_dp"
+                        android:layout_height="@dimen/thirty_dp"
                         android:src="@drawable/backspace"
                         android:tint="@color/colorTintGrey" />
                 </LinearLayout>
@@ -645,21 +1119,23 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/ten_dp"
+
             android:orientation="horizontal">
 
             <LinearLayout
                 android:id="@+id/mpSwitcherEN"
-                android:layout_width="@dimen/ninety_dp"
+                android:layout_width="@dimen/eighty_five_dp"
                 android:layout_height="@dimen/eighty_dp"
+                android:layout_marginLeft="@dimen/five_dp"
                 android:layout_marginRight="@dimen/ten_dp"
-                android:background="@drawable/key_pad_big_btn"
+                android:clickable="true"
+                android:background="@drawable/grey_search_button"
                 android:gravity="center"
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/twenty_dp"
+                    android:layout_height="@dimen/twenty_dp"
                     android:layout_marginRight="@dimen/four_dp"
                     android:src="@drawable/global" />
 
@@ -667,33 +1143,37 @@
                     android:id="@+id/mpLang"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="RU"
+                    android:text="En"
                     android:textColor="@color/colorSecondaryText"
-                    android:textSize="@dimen/twenty_four_dp"
+                    android:textSize="@dimen/twenty_dp"
                     android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/mpSpaceBar"
-                android:layout_width="@dimen/three_hundred_eighty_dp"
-                android:layout_height="@dimen/eighty_five_dp"
-                android:layout_marginRight="@dimen/ten_dp"
-                android:background="@drawable/space_bar"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/eighty_dp"
+                android:layout_marginRight="@dimen/five_dp"
+                android:layout_weight="1"
+                android:background="@drawable/space_bar_button"
+                android:clickable="true"
                 android:gravity="center">
 
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/twelve_dp"
                     android:src="@drawable/space_bar_symbol"
                     android:tint="@color/colorTintGrey" />
             </LinearLayout>
 
             <RelativeLayout
                 android:id="@+id/mpDot"
-                android:layout_width="@dimen/sixty_dp"
-                android:layout_height="@dimen/eighty_five_dp"
-                android:layout_marginRight="@dimen/ten_dp"
-                android:background="@drawable/key_pad_grey_btn">
+                android:layout_width="@dimen/fifty_five_dp"
+                android:layout_height="@dimen/eighty_dp"
+                android:layout_marginLeft="@dimen/five_dp"
+                android:layout_marginRight="@dimen/five_dp"
+                android:clickable="true"
+                android:background="@drawable/grey_search_button">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -708,19 +1188,22 @@
             </RelativeLayout>
 
             <LinearLayout
-                android:id="@+id/mpSearchBtn"
-                android:layout_width="@dimen/hundred_dp"
-                android:layout_height="@dimen/ninety_dp"
-                android:layout_marginRight="@dimen/ten_dp"
-                android:background="@drawable/key_pad_big_btn"
-                android:backgroundTint="@color/colorBlue"
+                android:id="@+id/mpOkButton"
+                android:layout_width="@dimen/eighty_five_dp"
+                android:layout_height="@dimen/eighty_dp"
+                android:layout_marginLeft="@dimen/five_dp"
+                android:layout_marginRight="@dimen/five_dp"
+                android:background="@drawable/blue_search_button"
+                android:clickable="true"
                 android:gravity="center">
 
-                <ImageView
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/search"
-                    android:tint="@color/colorWhite" />
+                    android:text="OK"
+                    android:textColor="#fff"
+                    android:textSize="@dimen/twenty_dp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
         </LinearLayout>
