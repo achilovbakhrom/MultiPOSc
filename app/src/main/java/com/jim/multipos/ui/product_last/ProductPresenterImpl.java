@@ -14,8 +14,6 @@ import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.unit.Unit;
 import com.jim.multipos.data.db.model.unit.UnitCategory;
 import com.jim.multipos.ui.product_last.helpers.CategoryAddEditMode;
-import com.jim.multipos.ui.product_last.helpers.FragmentType;
-import com.jim.multipos.utils.TestUtils;
 import com.jim.multipos.utils.UIUtils;
 
 import java.util.ArrayList;
@@ -52,8 +50,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     private List<Currency> currencies;
 
     private List<ProductClass> productClasses;
-
-    private List<Unit> units;
 
     @Getter
     DatabaseManager databaseManager;
@@ -125,6 +121,22 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     }
 
     @Override
+    public void setProductItemsMoved() {
+        List<Product> products = view.getProducts();
+        if (products != null) {
+            for (int i = 0; i < products.size(); i++) {
+                Product product = products.get(i);
+                if (product != null) {
+                    product.setPosition((double) i);
+                    databaseManager.addProduct(product).subscribe(id -> {
+                        Log.d("sss", "setProductItemsMoved: " + id);
+                    });
+                }
+            }
+        }
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         view.initRightSide(getCategories());
@@ -142,7 +154,11 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     private String[] provideUnitCategoriesList() {
         List<UnitCategory> unitCategories = databaseManager.getAllUnitCategories().blockingSingle();
         if (unitCategories != null && !unitCategories.isEmpty()) {
-            return (String[]) unitCategories.toArray();
+            String[] result = new String[unitCategories.size()];
+            for (int i = 0; i < result.length; i++) {
+                result[i] = unitCategories.get(i).getName();
+            }
+            return result;
         }
         return new String[0];
     }
@@ -151,11 +167,18 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
         List<UnitCategory> unitCategories = databaseManager.getAllUnitCategories().blockingSingle();
         if (unitCategories != null && !unitCategories.isEmpty()) {
             List<Unit> units = unitCategories.get(0).getUnits();
-            if (units != null && !units.isEmpty())
-                return (String[]) units.toArray();
+            if (units != null && !units.isEmpty()) {
+                String[] result = new String[units.size()];
+                for (int i = 0; i < result.length; i++) {
+                    result[i] = units.get(i).getName();
+                }
+                return result;
+            }
         }
         return new String[0];
     }
+
+
 
     private String[] provideProductClassList() {
         List<ProductClass> productClasses = databaseManager.getAllProductClass().blockingGet();
@@ -249,10 +272,97 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 } else
                     openCategory(category);
                 break;
-            //TODO for products will be written later
+            case PRODUCT_ADD_MODE:
+                openCategory(category);
+                break;
+            case PRODUCT_EDIT_MODE:
+                openCategory(category);
+                break;
         }
 
 
+    }
+
+    /**
+     * product selection processing
+     * @param product - selected product from view
+     */
+    @Override
+    public void productSelected(Product product) {
+        view.closeKeyboard();
+        switch (mode) {
+            case PRODUCT_ADD_MODE:
+                if (!view.getProductName().equals("") || !view.getBarCode().equals("") || !view.getSku().equals("") ||
+                        !view.getPrice().equals(0.0d) || !view.getCost().equals(0.0d) || view.getUnitCategorySelectedPos() != 0 ||
+                        view.getUnitSelectedPos() != 0 || view.getVendorSelectedPos() != 0 || view.getProductClassSelectedPos() != 0 ||
+                        !view.getProductIsActive()) {
+                    view.showDiscardChangesDialog(new UIUtils.AlertListener() {
+                        @Override
+                        public void onPositiveButtonClicked() {
+                            openProduct(product);
+                        }
+                        @Override
+                        public void onNegativeButtonClicked() {
+                            view.selectAddProductListItem();
+                            mode = CategoryAddEditMode.PRODUCT_ADD_MODE;
+                        }
+                    });
+                } else {
+                    openProduct(product);
+                }
+                break;
+            case PRODUCT_EDIT_MODE:
+                if (product == null) return;
+                UnitCategory unitCategory = null;
+                List<UnitCategory> tempUnitCategories = databaseManager.getAllUnitCategories().blockingSingle();
+                if (tempUnitCategories.size() > view.getUnitCategorySelectedPos())
+                    unitCategory = tempUnitCategories.get(view.getUnitCategorySelectedPos());
+                Vendor vendor = null;
+                List<Vendor> tempVendorList = databaseManager.getVendors().blockingSingle();
+                if (tempVendorList.size() > view.getVendorSelectedPos())
+                    vendor = tempVendorList.get(view.getVendorSelectedPos());
+                ProductClass productClass = null;
+                List<ProductClass> tempProductClasses = databaseManager.getAllProductClass().blockingGet();
+                if (tempProductClasses.size() > view.getProductClassSelectedPos())
+                    productClass = tempProductClasses.get(view.getProductClassSelectedPos());
+                if (!view.getProductName().equals(product.getName()) || !view.getBarCode().equals(product.getBarcode()) || !view.getSku().equals(product.getSku()) ||
+                        !view.getPrice().equals(product.getPrice()) || !view.getCost().equals(product.getPrice()) ||
+                        (unitCategory != null && unitCategory.getUnits().get(view.getUnitSelectedPos()).getId().equals(product.getMainUnitId())) ||
+                        (vendor != null && !vendor.getId().equals(product.getVendorId()) ||  (productClass != null && !productClass.getId().equals(product.getProductClass().getId())) ||
+                        view.getProductIsActive() != product.getIsActive())) {
+                    view.showDiscardChangesDialog(new UIUtils.AlertListener() {
+                        @Override
+                        public void onPositiveButtonClicked() {
+                            openProduct(product);
+                        }
+                        @Override
+                        public void onNegativeButtonClicked() {
+                            view.selectProductListItem(product.getId());
+                            mode = CategoryAddEditMode.PRODUCT_EDIT_MODE;
+                        }
+                    });
+                } else {
+                    openProduct(product);
+                }
+                break;
+            case SUBCATEGORY_EDIT_MODE:
+                if (!view.getName().equals(subcategory.getName()) || !view.getDescription().equals(subcategory.getDescription()) || subcategory.getIsActive() != view.isActive()) {
+                    view.showDiscardChangesDialog(new UIUtils.AlertListener() {
+                        @Override
+                        public void onPositiveButtonClicked() {
+                            openProduct(product);
+                        }
+                        @Override
+                        public void onNegativeButtonClicked() {
+                            view.selectSubcategory(ProductPresenterImpl.this.subcategory.getId());
+                            view.selectCategory(ProductPresenterImpl.this.category.getId());
+                        }
+                    });
+                } else
+                    openProduct(product);
+                break;
+
+        }
     }
 
     private void openCategory(Category category) {
@@ -284,6 +394,49 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             view.setListToSubcategoryList(list);
             view.unselectSubcategoryList();
             subcategory = null;
+        }
+    }
+
+    private void openProduct(Product product) {
+        if (product == null) {
+            this.product = null;
+            mode = CategoryAddEditMode.PRODUCT_ADD_MODE;
+            view.openProductAddMode();
+        }
+        else {
+            this.product = product;
+            mode = CategoryAddEditMode.PRODUCT_EDIT_MODE;
+            List<UnitCategory> unitCategories = databaseManager.getAllUnitCategories().blockingSingle();
+            int unitCategoryPos = 0;
+            UnitCategory temp = null;
+            for (UnitCategory unitCategory : unitCategories) {
+                if (unitCategory.getId().equals(product.getMainUnit().getUnitCategoryId())) {
+                    unitCategoryPos = unitCategories.indexOf(unitCategory);
+                    temp = unitCategory;
+                    break;
+                }
+            }
+            int unitPos = 0;
+            String[] units = null;
+            if (temp != null) {
+                unitPos = temp.getUnits().indexOf(product.getMainUnit());
+                units = new String[temp.getUnits().size()];
+                for (int i  = 0; i < units.length; i++) {
+                    units[i] = temp.getUnits().get(i).getName();
+                }
+
+            }
+            int productClassPos = 0;
+            if (product.getProductClass() != null) {
+                productClassPos = databaseManager.getAllProductClass().blockingGet().indexOf(product.getProductClass());
+            }
+            String vendorName = "";
+            if (product.getVendor() != null) {
+                vendorName = product.getVendor().getName();
+            }
+
+            view.openProductEditMode(product.getName(), product.getPrice(), product.getCost(), product.getBarcode(), product.getSku(), product.isActive(),
+                    product.getPriceCurrency().getAbbr(), product.getCostCurrency().getAbbr(), productClassPos, unitCategoryPos, units, unitPos, vendorName, product.getDescription());
         }
     }
 
@@ -357,7 +510,12 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 }
                 else openSubcategory(category);
                 break;
-            //TODO for products will be written later
+            case PRODUCT_ADD_MODE:
+                openSubcategory(category);
+                break;
+            case PRODUCT_EDIT_MODE:
+                openSubcategory(category);
+                break;
         }
 
 
@@ -371,6 +529,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             mode = CategoryAddEditMode.SUBCATEGORY_ADD_MODE;
             view.openAddSubcategoryMode(this.category.getName());
             view.setSubcategoryPath(null);
+            view.clearProductList();
         }
         else {
             view.setSubcategoryPath(category.getName());
@@ -379,36 +538,20 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             mode = CategoryAddEditMode.SUBCATEGORY_EDIT_MODE;
             if (this.category != null) {
                 view.openEditSubcategoryMode(category.getName(), category.getDescription(), category.isActive(), this.category.getName());
-                if (product == null) {
-                    List<Product> products = new ArrayList<>();
+                List<Product> products = new ArrayList<>();
+                if (category.getProducts() != null && !category.getProducts().isEmpty()) {
                     products.addAll(category.getProducts());
                     Collections.sort(products, (o1, o2) -> o1.getPosition().compareTo(o2.getPosition()));
                     Collections.sort(products, (o1, o2) -> ((Boolean) o1.isActive()).compareTo(o2.isActive()));
-                    products.add(0, null);
-                    view.setListToProducts(products);
-                } else
-                    view.unselectProductsList();
+                }
+                products.add(0, null);
+                view.setListToProducts(products);
+                view.unselectProductsList();
             }
         }
     }
 
-    /**
-     * product selection processing
-     * @param product - selected product from view
-     */
-    @Override
-    public void productSelected(Product product) {
-        view.closeKeyboard();
-        if (product == null) {
-            this.product = null;
-            mode = CategoryAddEditMode.PRODUCT_ADD_MODE;
-            view.openProductAddMode();
-        }
-        else {
-            this.product = product;
-            mode = CategoryAddEditMode.PRODUCT_EDIT_MODE;
-        }
-    }
+
 
     /**
      * adding or editing category and subcategory
@@ -499,6 +642,8 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                         view.unselectSubcategoryList();
                         view.openAddSubcategoryMode(category.getName());
                         view.setSubcategoryPath(null);
+                        view.clearProductList();
+                        view.unselectProductsList();
                         mode = CategoryAddEditMode.SUBCATEGORY_ADD_MODE;
                     });
                 }
@@ -557,6 +702,16 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     }
 
     /**
+     * Check for uniqueness the given product name
+     * @param productName - given product name
+     * @return true if product name is unique, otherwise false
+     */
+    @Override
+    public boolean isProductNameUnique(String productName, Long categoryId) {
+        return !databaseManager.isProductNameExists(productName, categoryId).blockingSingle();
+    }
+
+    /**
      * Gets category by given id
      * @param id - give id
      * @return Category object if found, otherwise null
@@ -581,6 +736,46 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             result.addAll(category.getSubCategories());
         }
         return result;
+    }
+
+    /**
+     * product deletion
+     */
+    @Override
+    public void deleteProduct() {
+        if (product != null) {
+            if (product.isActive()) {
+                view.showCannotDeleteActiveItemDialog();
+                return;
+            }
+            view.showDeleteDialog(new UIUtils.AlertListener() {
+                @Override
+                public void onPositiveButtonClicked() {
+                    databaseManager.removeProduct(product).subscribe(isDeleted -> {
+                        if (isDeleted) {
+                            if (subcategory != null) {
+                                subcategory.resetProducts();
+                                List<Product> list = new ArrayList<>();
+                                if (ProductPresenterImpl.this.subcategory != null &&
+                                        !ProductPresenterImpl.this.subcategory.getProducts().isEmpty()) {
+                                    list.addAll(subcategory.getProducts());
+                                    Collections.sort(list, (o1, o2) -> o1.getPosition().compareTo(o2.getPosition()));
+                                    Collections.sort(list, (o1, o2) -> -((Boolean) o1.isActive()).compareTo(o2.isActive()));
+                                }
+                                list.add(0, null);
+                                view.setListToProducts(list);
+                                mode = CategoryAddEditMode.PRODUCT_ADD_MODE;
+                                view.openProductAddMode();
+                                view.unselectProductsList();
+                            }
+
+                        }
+                    });
+                }
+                @Override
+                public void onNegativeButtonClicked() {}
+            });
+        }
     }
 
     /**
@@ -673,43 +868,147 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
         }
     }
 
+
     /**
      * creating or editing product
      * @param name - product name
      * @param price - product price
-     * @param createdDate - product created date
      * @param barcode - product barcode
      * @param sku - product sku
      * @param photoPath - product photo path
      * @param isActive - product active state
-     * @param costCurrency - product cost currency
-     * @param priceCurrency - product price currency
-     * @param productClass - product class
-     * @param mainUnit - product main unit
-     * @param subunits - product sub units
-     * @param vendor - product vendor
+     * @param costCurrencyPos - product cost currency
+     * @param priceCurrencuyPos - product price currency
+     * @param productClassPos - product class
+     * @param unitCategoryPos - product main unit
+     * @param unitPos - product sub units
+     * @param vendorPos - product vendor
      * @param description - product description
      */
     @Override
-    public void addProduct(String name,
-                           Double price,
-                           Long createdDate,
-                           String barcode,
-                           String sku,
-                           String photoPath,
-                           boolean isActive,
-                           Currency costCurrency,
-                           Currency priceCurrency,
-                           ProductClass productClass,
-                           Unit mainUnit,
-                           List<Unit> subunits,
-                           Vendor vendor,
-                           String description) {
-        if (product == null) {}
+    public void addProduct(String name, Double price, Double cost, String barcode,
+                           String sku, String photoPath, boolean isActive,
+                           int costCurrencyPos, int priceCurrencuyPos, int productClassPos,
+                           int unitCategoryPos, int unitPos, int vendorPos, String description) {
+
+        switch (mode) {
+            case PRODUCT_ADD_MODE:
+                Product product = new Product();
+                product.setName(name);
+                product.setCost(cost);
+                product.setPrice(price);
+                product.setBarcode(barcode);
+                product.setSku(sku);
+                product.setPhotoPath(photoPath);
+                product.setIsActive(isActive);
+                product.setCategory(subcategory);
+                product.setCategoryId(subcategory.getId());
+                List<Currency> currencies = databaseManager.getAllCurrencies().blockingSingle();
+                if (currencies != null && !currencies.isEmpty()) {
+                    product.setCostCurrency(currencies.get(costCurrencyPos));
+                    product.setPriceCurrency(currencies.get(priceCurrencuyPos));
+                }
+                List<ProductClass> productClasses = databaseManager.getAllProductClass().blockingGet();
+                if (productClasses != null && !productClasses.isEmpty()) {
+                    product.setProductClass(productClasses.get(productClassPos));
+                }
+                List<UnitCategory> unitCategories = databaseManager.getAllUnitCategories().blockingSingle();
+                if (unitCategories != null && !unitCategories.isEmpty()) {
+                    UnitCategory unitCategory = unitCategories.get(unitCategoryPos);
+                    if (unitCategory.getUnits() != null && !unitCategory.getUnits().isEmpty()) {
+                        product.setMainUnit(unitCategory.getUnits().get(unitPos));
+                    }
+                }
+                List<Vendor> vendors = databaseManager.getVendors().blockingSingle();
+                if (vendors != null && !vendors.isEmpty()) {
+                    product.setVendor(vendors.get(vendorPos));
+                }
+                product.setDescription(description);
+                databaseManager.addProduct(product).subscribe(id -> {
+                    view.openProductAddMode();
+                    view.addToProductList(product);
+                    this.product = null;
+                });
+                break;
+            case PRODUCT_EDIT_MODE:
+                view.showEditDialog(new UIUtils.AlertListener() {
+                    @Override
+                    public void onPositiveButtonClicked() {
+                        if (ProductPresenterImpl.this.product != null) {
+                            Product result = new Product();
+                            result.setId(ProductPresenterImpl.this.product.getId());
+                            result.setName(name);
+                            result.setPrice(price);
+                            result.setCost(cost);
+                            result.setBarcode(barcode);
+                            result.setSku(sku);
+                            result.setPhotoPath(photoPath);
+                            result.setIsActive(isActive);
+                            result.setCategory(subcategory);
+                            result.setCategoryId(subcategory.getId());
+                            List<Currency> tempCurrencies = databaseManager.getAllCurrencies().blockingSingle();
+                            if (tempCurrencies.size() > priceCurrencuyPos) {
+                                result.setPriceCurrency(tempCurrencies.get(priceCurrencuyPos));
+                                result.setPriceCurrencyId(tempCurrencies.get(priceCurrencuyPos).getId());
+                            }
+                            if (tempCurrencies.size() > costCurrencyPos) {
+                                result.setCostCurrency(tempCurrencies.get(costCurrencyPos));
+                                result.setCostCurrencyId(tempCurrencies.get(costCurrencyPos).getId());
+                            }
+                            List<ProductClass> tempProductClasses = databaseManager.getAllProductClass().blockingGet();
+                            if (tempProductClasses.size() > productClassPos) {
+                                result.setProductClass(tempProductClasses.get(priceCurrencuyPos));
+                            }
+                            List<UnitCategory> tempUnitCategories = databaseManager.getAllUnitCategories().blockingSingle();
+                            if (tempUnitCategories.size() > unitCategoryPos) {
+                                List<Unit> units = tempUnitCategories.get(unitCategoryPos).getUnits();
+                                if (units.size() > unitPos) {
+                                    result.setMainUnit(units.get(unitPos));
+                                    result.setMainUnitId(units.get(unitPos).getId());
+                                }
+                            }
+                            List<Vendor> tempVendors = databaseManager.getVendors().blockingSingle();
+                            if (tempVendors.size() > vendorPos) {
+                                result.setVendor(tempVendors.get(vendorPos));
+                                result.setVendorId(tempVendors.get(vendorPos).getId());
+                            }
+                            result.setDescription(description);
+                            databaseManager.addProduct(result).subscribe(id -> {
+                                view.openProductAddMode();
+                                view.editProduct(result);
+                                view.unselectProductsList();
+                                mode = CategoryAddEditMode.PRODUCT_ADD_MODE;
+                                ProductPresenterImpl.this.product = null;
+                            });
+                        }
+
+                    }
+
+                    @Override
+                    public void onNegativeButtonClicked() {
+
+                    }
+                });
+                break;
+        }
+
         //TODO fill product class
-        databaseManager.addProduct(product).subscribe(id -> {
-            view.openProductAddMode();
-            product = null;
-        });
+
+    }
+
+    @Override
+    public void unitCategorySelected(int position) {
+        List<UnitCategory> unitCategories = databaseManager.getAllUnitCategories().blockingSingle();
+        if (unitCategories != null && !unitCategories.isEmpty()) {
+            UnitCategory category = unitCategories.get(position);
+            List<Unit> units = category.getUnits();
+            if (units != null && !units.isEmpty()) {
+                String[] result = new String[units.size()];
+                for (int i = 0; i < result.length; i++) {
+                    result[i] = units.get(i).getName();
+                }
+                view.setUnitsToProductsAddEdit(result);
+            }
+        }
     }
 }

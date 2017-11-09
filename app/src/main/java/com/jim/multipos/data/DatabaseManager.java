@@ -472,6 +472,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
+    public Observable<Boolean> removeProduct(Product product) {
+        return dbHelper.removeProduct(product);
+    }
+
+    @Override
     public Observable<Long> addProduct(Product product) {
         return dbHelper.insertProduct(product);
     }
@@ -479,6 +484,12 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Observable<Boolean> addProduct(List<Product> productList) {
         return dbHelper.insertProducts(productList);
+    }
+
+    @Override
+    public Observable<Boolean> isProductNameExists(String productName, Long categoryId) {
+        dbHelper.isProductNameExists(productName, categoryId);
+        return null;
     }
 
     @Override

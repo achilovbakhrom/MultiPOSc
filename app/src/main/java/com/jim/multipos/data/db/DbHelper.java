@@ -149,4 +149,8 @@ public interface DbHelper {
     //Category
     Observable<Category> getCategoryById(Long id);
     Observable<Boolean> removeCategory(Category category);
+
+    //Product
+    Observable<Boolean> isProductNameExists(String productName, Long categoryId);
+    Observable<Boolean> removeProduct(Product product);
 }

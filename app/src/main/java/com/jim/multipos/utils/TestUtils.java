@@ -17,10 +17,7 @@ public class TestUtils {
 
     public static void createUnits(DatabaseManager databaseManager, Context context) {
         if (databaseManager.getAllUnitCategories().blockingSingle().isEmpty()) {
-            List<UnitCategory> unitCategories = UnitUtils.generateUnitCategories(context, databaseManager);
-            for (UnitCategory category : unitCategories) {
-                databaseManager.addUnitCategory(category);
-            }
+            UnitUtils.generateUnitCategories(context, databaseManager);
         }
     }
 
@@ -29,7 +26,7 @@ public class TestUtils {
             List<Currency> currencies = CurrencyUtils.generateCurrencies(context);
             if (!currencies.isEmpty()) {
                 Currency currency = currencies.get(0);
-                databaseManager.addCurrency(currency);
+                databaseManager.addCurrency(currency).subscribe();
             }
         }
     }

@@ -25,7 +25,6 @@ public class MPosSpinner extends FrameLayout {
 
     private ItemSelectionListener listener;
     private boolean firstListner = false;
-    private boolean fake = false;
     public MPosSpinner(@NonNull Context context) {
         super(context);
         init(context);
@@ -136,10 +135,9 @@ public class MPosSpinner extends FrameLayout {
         ((AppCompatSpinner) findViewById(R.id.spinner)).setSelection(position);
     }
     public void setSelectedPosition(int position){
-        ((AppCompatSpinner)findViewById(R.id.spinner)).setSelection(position,false);
-        fake = true;
+        ((AppCompatSpinner)findViewById(R.id.spinner)).setSelection(position);
     }
-    public void setSelectedPosition(int position,boolean b){
+    public void setSelectedPosition(int position, boolean b){
         ((AppCompatSpinner)findViewById(R.id.spinner)).setSelection(position,b);
     }
 }

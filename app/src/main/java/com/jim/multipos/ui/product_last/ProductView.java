@@ -20,6 +20,7 @@ import java.util.List;
 public interface ProductView extends BaseView {
     void addToCategoryList(Category category);
     void addToSubcategoryList(Category category);
+    void addToProductList(Product product);
     void clearSubcategoryList();
     void setListToSubcategoryList(List<Category> categories);
     void setListToCategoryList(List<Category> categories);
@@ -35,10 +36,12 @@ public interface ProductView extends BaseView {
     void selectAddSubcategoryItem();
     void selectCategory(Long id);
     void selectSubcategory(Long id);
+    void selectProductListItem(Long id);
     Category getSelectedCategory();
     Category getSelectedSubcategory();
     void editCategory(Category category);
     void editSubcategory(Category category);
+    void editProduct(Product product);
     void addCategory(Category category);
     void addSubcategory(Category category);
     void deleteCategory(Category category);
@@ -53,8 +56,9 @@ public interface ProductView extends BaseView {
     void openEditSubcategoryMode(String name, String description, boolean isActive, String parentName);
     List<Category> getCategories();
     List<Category> getSubcategories();
+    List<Product> getProducts();
     void setListToProducts(List<Product> products);
-
+    void selectAddProductListItem();
     void unselectSubcategoryList();
     void unselectCategoryList();
     void unselectProductsList();
@@ -71,6 +75,7 @@ public interface ProductView extends BaseView {
                                     String costCurrencyAbbr,
                                     int productClassPos,
                                     int unitCategoryPos,
+                                    String[] units,
                                     int unitPos,
                                     String vendorName,
                                     String description);
@@ -85,4 +90,16 @@ public interface ProductView extends BaseView {
     void showListMustBeEmptyDialog();
     void showDeleteDialog(UIUtils.AlertListener listener);
     void showEditDialog(UIUtils.AlertListener listener);
+    void setUnitsToProductsAddEdit(String[] units);
+
+    String getProductName();
+    String getBarCode();
+    String getSku();
+    int getUnitCategorySelectedPos();
+    int getUnitSelectedPos();
+    Double getPrice();
+    Double getCost();
+    int getVendorSelectedPos();
+    int getProductClassSelectedPos();
+    boolean getProductIsActive();
 }

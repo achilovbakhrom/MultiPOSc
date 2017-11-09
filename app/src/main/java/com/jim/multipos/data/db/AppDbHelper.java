@@ -269,14 +269,11 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Observable<Long> insertProduct(Product product) {
         return Observable.fromCallable(() -> {
-            List<Product> products = mDaoSession.getProductDao().queryBuilder()
-                    .where(ProductDao.Properties.ParentId.eq(product.getParentId()),
-                            ProductDao.Properties.IsDeleted.eq(false),
-                            ProductDao.Properties.IsNotModified.eq(true))
-                    .build().list();
-            if (products.isEmpty()) {
-                product.setPosition(1d);
-            } else {
+            if (product.getId() == null) {
+                List<Product> products = mDaoSession.getProductDao().queryBuilder()
+                        .where(ProductDao.Properties.IsDeleted.eq(false),
+                                ProductDao.Properties.IsNotModified.eq(true))
+                        .list();
                 product.setPosition((double) (products.size() + 1));
             }
             return mDaoSession.getProductDao().insertOrReplace(product);
@@ -422,7 +419,11 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public Observable<Long> addCurrency(Currency currency) {
-        return Observable.fromCallable(() -> mDaoSession.getCurrencyDao().insertOrReplace(currency));
+        return Observable.fromCallable(() -> {
+            Long id = mDaoSession.getCurrencyDao().insertOrReplace(currency);
+            mDaoSession.getCurrencyDao().detachAll();
+            return id;
+        });
     }
 
     @Override
@@ -1083,5 +1084,23 @@ public class AppDbHelper implements DbHelper {
             mDaoSession.getCategoryDao().delete(category);
             return true;
         });
+    }
+
+    @Override
+    public Observable<Boolean> isProductNameExists(String productName, Long categoryId) {
+        return Observable.fromCallable(() -> !mDaoSession
+                .queryBuilder(Product.class)
+                .where(ProductDao.Properties.CategoryId.eq(categoryId), ProductDao.Properties.Name.eq(productName))
+                .list()
+                .isEmpty());
+    }
+
+    @Override
+    public Observable<Boolean> removeProduct(Product product) {
+        return Observable.fromCallable(() -> {
+            mDaoSession.getProductDao().delete(product);
+            return true;
+        });
+
     }
 }

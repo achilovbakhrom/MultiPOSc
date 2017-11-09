@@ -34,7 +34,7 @@ public class Category implements Editable, Serializable{
             )
     })
     private List<Category> subCategories;
-    @ToMany(joinProperties = {@JoinProperty(name = "id", referencedName = "parentId")})
+    @ToMany(joinProperties = {@JoinProperty(name = "id", referencedName = "categoryId")})
     private List<Product> products;
 
     /**

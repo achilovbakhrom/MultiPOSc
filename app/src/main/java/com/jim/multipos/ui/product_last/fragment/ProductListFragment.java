@@ -111,13 +111,13 @@ public class ProductListFragment extends BaseFragment  {
               ((ProductActivity) getContext()).getPresenter().productSelected(item);
             }
         });
-        this.products.setLayoutManager(new GridLayoutManager(getContext(), 4));
+        this.products.setLayoutManager(new GridLayoutManager(getContext(), 5));
         this.products.setAdapter(productAdapter);
         productAdapter.setMoveListener((fromPosition, toPosition) -> {
-//            ((ProductActivity) getContext()).getPresenter().setSubcategoryItemsMoved();
+            ((ProductActivity) getContext()).getPresenter().setProductItemsMoved();
         });
         ((SimpleItemAnimator) this.products.getItemAnimator()).setSupportsChangeAnimations(false);
-        ItemTouchHelper.Callback prCallback = new SimpleItemTouchHelperCallback(subcategoryAdapter);
+        ItemTouchHelper.Callback prCallback = new SimpleItemTouchHelperCallback(productAdapter);
         ItemTouchHelper prTouchHelper = new ItemTouchHelper(prCallback);
         prTouchHelper.attachToRecyclerView(this.products);
     }
@@ -168,6 +168,12 @@ public class ProductListFragment extends BaseFragment  {
 
     public void editCartegoryItem(Category category) {
         ((CategoryAdapter) categories.getAdapter()).editItem(category);
+    }
+
+    public void editProductItem(Product product) {
+        if (products.getAdapter() != null) {
+            ((ProductAdapter) products.getAdapter()).editItem(product);
+        }
     }
 
     public void selectSubcategoryListItem(Long id) {
@@ -347,4 +353,28 @@ public class ProductListFragment extends BaseFragment  {
         }
     }
 
+    public void addProductToProductsList(Product product) {
+        if (products.getAdapter() != null) {
+            ((ProductAdapter) products.getAdapter()).addItem(product);
+        }
+    }
+
+    public List<Product> getProducts() {
+        if (this.products.getAdapter() != null) {
+            return ((ProductAdapter)this.products.getAdapter()).getItems();
+        }
+        return null;
+    }
+
+    public void selectProductListItem(Long id) {
+        if (this.products.getAdapter() != null) {
+            ((ProductAdapter)this.products.getAdapter()).setSelectedPositionWithId(id);
+        }
+    }
+
+    public void selectAddProductListItem() {
+        if (this.products.getAdapter() != null) {
+            ((ProductAdapter)this.products.getAdapter()).setSelectedPosition(0);
+        }
+    }
 }

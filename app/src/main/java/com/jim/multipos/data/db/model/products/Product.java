@@ -72,6 +72,9 @@ public class Product implements Editable, Serializable {
     private String description;
     private Long rootId;
     private Long parentId;
+    @ToOne(joinProperty = "categoryId")
+    private Category category;
+    private Long categoryId;
     @Generated(hash = 1022035388)
     private transient Long vendor__resolvedKey;
     @Generated(hash = 1037669877)
@@ -88,16 +91,18 @@ public class Product implements Editable, Serializable {
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
+    @Generated(hash = 1372501278)
+    private transient Long category__resolvedKey;
 
     @Generated(hash = 1890278724)
     public Product() {
     }
 
-    @Generated(hash = 2134143750)
+    @Generated(hash = 958397984)
     public Product(Long id, String name, Double price, Double cost, Long createdDate, String barcode,
             String sku, String photoPath, Boolean isActive, Boolean isNotModified, Boolean isDeleted,
             Double position, Long priceCurrencyId, Long costCurrencyId, Long classId, Long mainUnitId,
-            Long vendorId, String description, Long rootId, Long parentId) {
+            Long vendorId, String description, Long rootId, Long parentId, Long categoryId) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -118,6 +123,7 @@ public class Product implements Editable, Serializable {
         this.description = description;
         this.rootId = rootId;
         this.parentId = parentId;
+        this.categoryId = categoryId;
     }
 
     @Override
@@ -553,6 +559,43 @@ public class Product implements Editable, Serializable {
 
     public void setPosition(Double position) {
         this.position = position;
+    }
+
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 1132018243)
+    public void setCategory(Category category) {
+        synchronized (this) {
+            this.category = category;
+            categoryId = category == null ? null : category.getId();
+            category__resolvedKey = categoryId;
+        }
+    }
+
+    /** To-one relationship, resolved on first access. */
+    @Generated(hash = 728129201)
+    public Category getCategory() {
+        Long __key = this.categoryId;
+        if (category__resolvedKey == null || !category__resolvedKey.equals(__key)) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            CategoryDao targetDao = daoSession.getCategoryDao();
+            Category categoryNew = targetDao.load(__key);
+            synchronized (this) {
+                category = categoryNew;
+                category__resolvedKey = __key;
+            }
+        }
+        return category;
+    }
+
+    public Long getCategoryId() {
+        return this.categoryId;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
     }
 
 }

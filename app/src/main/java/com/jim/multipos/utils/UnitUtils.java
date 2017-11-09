@@ -43,6 +43,7 @@ public class UnitUtils {
         for (int i = 0; i < unitCategories.length; i++) {
             UnitCategory category = new UnitCategory();
             category.setName(unitCategories[i]);
+            databaseManager.addUnitCategory(category).subscribe();
             String[] unitTitles = context.getResources().getStringArray(titles.get(i));
             String[] unitAbbrs = context.getResources().getStringArray(abbrs.get(i));
             String[] unitFactors = context.getResources().getStringArray(factors.get(i));
@@ -51,7 +52,8 @@ public class UnitUtils {
                 unit.setName(unitTitles[j]);
                 unit.setAbbr(unitAbbrs[j]);
                 unit.setFactorRoot(Float.valueOf(unitFactors[j]));
-                databaseManager.addUnit(unit);
+                unit.setUnitCategoryId(category.getId());
+                databaseManager.addUnit(unit).subscribe();
             }
             result.add(category);
         }

@@ -26,10 +26,7 @@
         <activity
             android:name=".ui.first_configure_last.FirstConfigureActivity"
             android:windowSoftInputMode="stateHidden">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
         <activity android:name=".ui.vendor.add_edit.VendorAddEditActivity"
             android:windowSoftInputMode="stateHidden">
@@ -46,7 +43,10 @@
         <activity
             android:name=".ui.product_last.ProductActivity"
             android:windowSoftInputMode="stateHidden">
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".ui.main_menu.product_menu.ProductMenuActivity"

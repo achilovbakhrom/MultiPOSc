@@ -55,8 +55,8 @@ public class ProductAdapter extends MovableBaseAdapter<Product, BaseViewHolder> 
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
-        if (holder instanceof CategoryAdapter.ItemViewHolder) {
-            CategoryAdapter.ItemViewHolder item = ((CategoryAdapter.ItemViewHolder) holder);
+        if (holder instanceof ItemViewHolder) {
+            ItemViewHolder item = ((ItemViewHolder) holder);
             item.itemView.setActivate(position == selectedPosition);
             item.itemView.setText(items.get(position).getName());
             item.itemView.makeDeleteable(!items.get(position).isActive());

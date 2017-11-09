@@ -20,4 +20,6 @@ public interface ProductOperations {
     Observable<List<Product>> getAllProducts();
     Single<List<Product>> getAllActiveProducts(Category category);
     Observable<Integer> getAllProductCount(Category category);
+    Observable<Boolean> isProductNameExists(String productName, Long categoryId);
+    Observable<Boolean> removeProduct(Product product);
 }

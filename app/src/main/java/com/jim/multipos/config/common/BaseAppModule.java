@@ -11,6 +11,7 @@ import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.utils.AppConstants;
 import com.jim.multipos.utils.RxBus;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import org.greenrobot.greendao.database.Database;
 

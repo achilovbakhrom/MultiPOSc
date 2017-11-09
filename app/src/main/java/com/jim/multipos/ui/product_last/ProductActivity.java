@@ -20,6 +20,7 @@ import com.jim.multipos.ui.product_last.helpers.CategoryAddEditMode;
 import com.jim.multipos.ui.product_last.helpers.FragmentType;
 import com.jim.multipos.utils.TestUtils;
 import com.jim.multipos.utils.UIUtils;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.List;
 
@@ -40,6 +41,10 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
     @Getter
     ProductPresenter presenter;
 
+    @Inject
+    @Getter
+    RxPermissions permissions;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,13 +52,13 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
         TestUtils.createCurrencies(presenter.getDatabaseManager(), this);
         TestUtils.createProductClasses(presenter.getDatabaseManager());
         addCategoryListFragment();
+        addProductAddEditFragment();
         presenter.onCreateView(savedInstanceState);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        addProductAddEditFragment();
         addCategoryAddEditFragment();
         presenter.onResume();
     }
@@ -70,6 +75,14 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     private void addCategoryAddEditFragment() {
         addFragmentWithTagToLeft(new CategoryAddEditFragment(), CATEGORY_FRAGMENT);
+    }
+
+    @Override
+    public void addToProductList(Product product) {
+        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        if (fragment != null) {
+            fragment.addProductToProductsList(product);
+        }
     }
 
     public void addCategoryListFragment() {
@@ -381,6 +394,15 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
     }
 
     @Override
+    public List<Product> getProducts() {
+        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        if (fragment != null) {
+            return fragment.getProducts();
+        }
+        return null;
+    }
+
+    @Override
     public List<Category> getSubcategories() {
         ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
         if (fragment != null) {
@@ -440,6 +462,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
                                     String costCurrencyAbbr,
                                     int productClassPos,
                                     int unitCategoryPos,
+                                    String[] units,
                                     int unitPos,
                                     String vendorName,
                                     String description) {
@@ -456,6 +479,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
                     costCurrencyAbbr,
                     productClassPos,
                     unitCategoryPos,
+                    units,
                     unitPos,
                     vendorName,
                     description
@@ -544,5 +568,127 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
     public void showEditDialog(UIUtils.AlertListener listener) {
         UIUtils.showAlert(this, getString(R.string.yes), getString(R.string.no), getString(R.string.edit),
                 getString(R.string.update_message), listener);
+    }
+
+    @Override
+    public void setUnitsToProductsAddEdit(String[] units) {
+        ProductAddEditFragment fragment = getProductAddEditFragment();
+        if (fragment != null) {
+            fragment.setUnits(units);
+        }
+    }
+
+    @Override
+    public String getProductName() {
+        ProductAddEditFragment fragment = getProductAddEditFragment();
+        if (fragment != null) {
+            return fragment.getProductName();
+        }
+        return "";
+    }
+
+    @Override
+    public String getBarCode() {
+        ProductAddEditFragment fragment = getProductAddEditFragment();
+        if (fragment != null) {
+            return fragment.getBarCode();
+        }
+        return "";
+    }
+
+    @Override
+    public String getSku() {
+        ProductAddEditFragment fragment = getProductAddEditFragment();
+        if (fragment != null) {
+            return fragment.getSku();
+        }
+        return "";
+    }
+
+    @Override
+    public int getUnitCategorySelectedPos() {
+        ProductAddEditFragment fragment = getProductAddEditFragment();
+        if (fragment != null) {
+            return fragment.getUnitCategorySelectedPos();
+        }
+        return 0;
+    }
+
+    @Override
+    public int getUnitSelectedPos() {
+        ProductAddEditFragment fragment = getProductAddEditFragment();
+        if (fragment != null) {
+            return fragment.getUnitSelectedPos();
+        }
+        return 0;
+    }
+
+    @Override
+    public Double getPrice() {
+        ProductAddEditFragment fragment = getProductAddEditFragment();
+        if (fragment != null) {
+            return fragment.getPrice();
+        }
+        return 0.0d;
+    }
+
+    @Override
+    public Double getCost() {
+        ProductAddEditFragment fragment = getProductAddEditFragment();
+        if (fragment != null) {
+            return fragment.getCost();
+        }
+        return 0.0d;
+    }
+
+    @Override
+    public int getVendorSelectedPos() {
+        ProductAddEditFragment fragment = getProductAddEditFragment();
+        if (fragment != null) {
+            return fragment.getVendorSelectedPos();
+        }
+        return 0;
+    }
+
+    @Override
+    public int getProductClassSelectedPos() {
+        ProductAddEditFragment fragment = getProductAddEditFragment();
+        if (fragment != null) {
+            return fragment.getProductClassSelectedPos();
+        }
+        return 0;
+    }
+
+    @Override
+    public boolean getProductIsActive() {
+        ProductAddEditFragment fragment = getProductAddEditFragment();
+        if (fragment != null) {
+            return fragment.getIsActive();
+        }
+        return true;
+    }
+
+    @Override
+    public void editProduct(Product product) {
+        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        if (fragment != null) {
+            fragment.editProductItem(product);
+        }
+    }
+
+    @Override
+    public void selectProductListItem(Long id) {
+        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        if (fragment != null) {
+            fragment.selectProductListItem(id);
+        }
+    }
+
+    @Override
+    public void selectAddProductListItem() {
+        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        if (fragment != null) {
+            fragment.selectAddProductListItem();
+        }
     }
 }
