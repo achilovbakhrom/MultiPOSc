@@ -61,21 +61,31 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ui.signing.SignActivity"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ui.product_class.ProductClassActivity"
             android:windowSoftInputMode="stateHidden">
         </activity>
-        <activity android:name=".ui.customers_edit.CustomersEditActivity">
-
-        </activity>
         <activity android:name=".ui.customer_group.CustomerGroupActivity">
         </activity>
-        <activity android:name=".ui.product.ProductsActivity"></activity>
+        <activity android:name=".ui.product.ProductsActivity" />
         <activity android:name=".ui.product_class_new.ProductsClassActivity">
         </activity>
-        <activity android:name=".ui.discount.DiscountAddingActivity"></activity>
-        <activity android:name=".ui.service_fee.ServiceFeeActivity" />
+        <activity android:name=".ui.discount.DiscountAddingActivity" />
+        <activity android:name=".ui.service_fee_new.ServiceFeeActivity">
+
+        </activity>
+        <activity android:name=".ui.customer_group_new.CustomerGroupActivity">
+        </activity>
+        <activity android:name=".ui.customers_edit_new.CustomersEditActivity">
+        </activity>
+        <activity android:name=".ui.inventory.InventoryActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

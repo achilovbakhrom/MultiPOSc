@@ -38,7 +38,7 @@ public class CustomerGroupActivity extends DoubleSideActivity implements Custome
     public void onBackPressed() {
         if (isMembersOpen) {
             popBackStack();
-            //replaceFragmentToRight(new CustomerGroupListFragment());
+            //replaceFragmentToRight(new CustomerGroupsFragment());
             isMembersOpen = false;
         } else {
             finish();
@@ -47,8 +47,8 @@ public class CustomerGroupActivity extends DoubleSideActivity implements Custome
 
     public void openCustomerGroupsFragment() {
         if (isMembersOpen) {
-            //replaceFragmentToRight(new CustomerGroupListFragment());
-            //addFragmentToRight(new CustomerGroupListFragment());
+            //replaceFragmentToRight(new CustomerGroupsFragment());
+            //addFragmentToRight(new CustomerGroupsFragment());
             popBackStack();
             isMembersOpen = false;
         } else {

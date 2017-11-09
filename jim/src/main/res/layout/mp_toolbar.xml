@@ -79,22 +79,28 @@
                         android:layout_marginLeft="@dimen/twenty_dp"
                         android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/mpEmpName"
+                        <TextClock
+                            android:id="@+id/tvTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/twenty_dp"
+                            android:textColor="@color/colorWhite"/>
+
+                        <!--<TextView
+                            android:id="@+id/tvTime"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Somebody"
-                            android:textSize="@dimen/sixteen_dp"
-
-                            android:textColor="@color/colorWhite" />
+                            android:textSize="@dimen/twenty_dp"
+                            android:textColor="@color/colorWhite" />-->
 
                         <TextView
-                            android:id="@+id/mpEmpRole"
+                            android:id="@+id/tvDate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Some role"
-                            android:textSize="@dimen/ten_dp"
-                            android:textColor="@color/colorWhite" />
+                            android:textSize="@dimen/sixteen_dp"
+                            android:textColor="@color/colorGrey" />
 
                     </LinearLayout>
 

@@ -4,15 +4,17 @@ import android.app.Application;
 
 import com.jim.multipos.MultiPosApp;
 import com.jim.multipos.config.scope.PerActivity;
-import com.jim.multipos.ui.customer_group.CustomerGroupActivity;
-import com.jim.multipos.ui.customer_group.di.CustomerGroupActivityModule;
-import com.jim.multipos.ui.customers_edit.CustomersEditActivity;
-import com.jim.multipos.ui.customers_edit.di.CustomersEditActivityModule;
+import com.jim.multipos.ui.customer_group_new.CustomerGroupActivity;
+import com.jim.multipos.ui.customer_group_new.di.CustomerGroupActivityModule;
+import com.jim.multipos.ui.customers_edit_new.CustomersEditActivity;
+import com.jim.multipos.ui.customers_edit_new.di.CustomersEditActivityModule;
 import com.jim.multipos.ui.discount.DiscountAddingActivity;
 import com.jim.multipos.ui.discount.di.DiscountAddingModule;
 import com.jim.multipos.ui.first_configure_last.FirstConfigureActivity;
 
 import com.jim.multipos.ui.first_configure_last.di.FirstConfigureActivityModule;
+import com.jim.multipos.ui.inventory.InventoryActivity;
+import com.jim.multipos.ui.inventory.di.InventoryActivityModule;
 import com.jim.multipos.ui.lock_screen.LockScreenActivity;
 import com.jim.multipos.ui.lock_screen.di.LockScreenActivityModule;
 import com.jim.multipos.ui.main_menu.customers_menu.CustomersMenuActivity;
@@ -27,12 +29,12 @@ import com.jim.multipos.ui.product.ProductsActivity;
 import com.jim.multipos.ui.product.di.ProductsModule;
 import com.jim.multipos.ui.product_class.ProductClassActivity;
 import com.jim.multipos.ui.product_class.di.ProductClassModule;
-import com.jim.multipos.ui.service_fee.ServiceFeeActivity;
-import com.jim.multipos.ui.service_fee.di.ServiceFeeActivityModule;
-import com.jim.multipos.ui.product_class_new.ProductsClassActivity;
-import com.jim.multipos.ui.product_class_new.di.ProductsClassModule;
 import com.jim.multipos.ui.product_last.ProductActivity;
 import com.jim.multipos.ui.product_last.di.ProductModule;
+import com.jim.multipos.ui.product_class_new.ProductsClassActivity;
+import com.jim.multipos.ui.product_class_new.di.ProductsClassModule;
+import com.jim.multipos.ui.service_fee_new.ServiceFeeActivity;
+import com.jim.multipos.ui.service_fee_new.di.ServiceFeeActivityModule;
 import com.jim.multipos.ui.signing.SignActivity;
 import com.jim.multipos.ui.signing.di.SignActivityModule;
 import com.jim.multipos.ui.vendor.add_edit.VendorAddEditActivity;
@@ -86,19 +88,22 @@ abstract class AppModule {
     @ContributesAndroidInjector(modules = CustomersEditActivityModule.class)
     abstract CustomersEditActivity provideCustomersEditActivity();
 
-    @PerActivity
+    /*@PerActivity
     @ContributesAndroidInjector(modules = CustomerGroupActivityModule.class)
-    abstract CustomerGroupActivity provideCustomerGroupActivity();
+    abstract CustomerGroupActivity provideCustomerGroupActivity();*/
 
     @PerActivity
-    @ContributesAndroidInjector(modules = ServiceFeeActivityModule.class)
-    abstract ServiceFeeActivity provideServiceFeeActivity();
+    @ContributesAndroidInjector(modules = com.jim.multipos.ui.customer_group.di.CustomerGroupActivityModule.class)
+    abstract com.jim.multipos.ui.customer_group.CustomerGroupActivity provideCustomerGroupActivity();
+
     @PerActivity
     @ContributesAndroidInjector(modules = LockScreenActivityModule.class)
     abstract LockScreenActivity provideLockScreenActivity();
+
     @PerActivity
     @ContributesAndroidInjector(modules = VendorAddEditActivityModule.class)
     abstract VendorAddEditActivity provideVendorAddEditActivity();
+
     @PerActivity
     @ContributesAndroidInjector(modules = ProductsClassModule.class)
     abstract ProductsClassActivity provideProductsClassActivity();
@@ -108,6 +113,14 @@ abstract class AppModule {
     abstract DiscountAddingActivity provideDiscountAddingActivity();
 
     @PerActivity
+    @ContributesAndroidInjector(modules = ServiceFeeActivityModule.class)
+    abstract ServiceFeeActivity provideServiceFeeActivity();
+
+    @PerActivity
     @ContributesAndroidInjector(modules = ProductModule.class)
     abstract ProductActivity provideProductActivity();
+
+    @PerActivity
+    @ContributesAndroidInjector(modules = InventoryActivityModule.class)
+    abstract InventoryActivity provideInventoryActivity();
 }

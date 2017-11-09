@@ -13,6 +13,7 @@ import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.rxevents.CategoryEvent;
+import com.jim.multipos.utils.rxevents.ProductEvent;
 
 import java.util.ArrayList;
 
@@ -46,6 +47,7 @@ public class ProductPickerFragment extends BaseFragment implements ProductPicker
     private static final int FOLDER_VIEW = 1;
     private static final String CATEGORY_TITLE = "category_title";
     private static final String SUBCATEGORY_TITLE = "subcategory_title";
+    private static final String OPEN_PRODUCT = "open_product";
     ArrayList<Disposable> subscriptions;
 
     @Override
@@ -76,6 +78,11 @@ public class ProductPickerFragment extends BaseFragment implements ProductPicker
                             }
                         }
                     }
+                    if (o instanceof ProductEvent){
+                        ProductEvent event = (ProductEvent) o;
+                        if (event.getEventType().equals(OPEN_PRODUCT))
+                            replaceViewFragments(new ProductInfoFragment(), "PRODUCT_INFO");
+                    }
                 }));
     }
 
@@ -86,32 +93,41 @@ public class ProductPickerFragment extends BaseFragment implements ProductPicker
         changeViewTypeIcon(viewType);
         switch (viewType) {
             case SQUARE_VIEW:
-                replaceViewFragments(new ProductSquareViewFragment());
+                replaceViewFragments(new ProductSquareViewFragment(), String.valueOf(SQUARE_VIEW));
                 break;
             case FOLDER_VIEW:
-                replaceViewFragments(new ProductFolderViewFragment());
+                replaceViewFragments(new ProductFolderViewFragment(), String.valueOf(FOLDER_VIEW));
                 break;
         }
     }
 
     @OnClick(R.id.flFolderView)
     void onFolderViewClick() {
-        replaceViewFragments(new ProductFolderViewFragment());
-        preferencesHelper.setProductListViewType(FOLDER_VIEW);
-        changeViewTypeIcon(FOLDER_VIEW);
-        tvCategory.setText(getResources().getString(R.string.category));
+        ProductFolderViewFragment fragment = (ProductFolderViewFragment) fragmentManager.findFragmentByTag(String.valueOf(FOLDER_VIEW));
+        if (fragment == null) {
+            fragment = new ProductFolderViewFragment();
+            replaceViewFragments(fragment, String.valueOf(FOLDER_VIEW));
+            preferencesHelper.setProductListViewType(FOLDER_VIEW);
+            changeViewTypeIcon(FOLDER_VIEW);
+            tvCategory.setText(getResources().getString(R.string.category));
+        }
     }
 
     @OnClick(R.id.flSquareView)
     void onSquareViewClick() {
-        replaceViewFragments(new ProductSquareViewFragment());
-        preferencesHelper.setProductListViewType(SQUARE_VIEW);
-        changeViewTypeIcon(SQUARE_VIEW);
+        ProductSquareViewFragment fragment = (ProductSquareViewFragment) fragmentManager.findFragmentByTag(String.valueOf(SQUARE_VIEW));
+        if (fragment == null) {
+            fragment = new ProductSquareViewFragment();
+            replaceViewFragments(fragment, String.valueOf(SQUARE_VIEW));
+            preferencesHelper.setProductListViewType(SQUARE_VIEW);
+            changeViewTypeIcon(SQUARE_VIEW);
+        }
     }
 
-    private void replaceViewFragments(Fragment fragment) {
+    private void replaceViewFragments(Fragment fragment, String tag) {
         fragmentManager.beginTransaction()
-                .replace(R.id.flProductListContainer, fragment)
+                .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+                .replace(R.id.flProductListContainer, fragment, tag)
                 .commit();
     }
 

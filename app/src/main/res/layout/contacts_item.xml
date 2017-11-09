@@ -8,8 +8,9 @@
     <TextView
         android:id="@+id/tvContacts"
         android:layout_width="@dimen/hundred_forty_dp"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/forty_dp"
         android:layout_gravity="center"
+        android:gravity="center_vertical"
         android:background="@drawable/text_view_bg"
         android:paddingBottom="@dimen/five_dp"
         android:paddingLeft="@dimen/ten_dp"
@@ -22,8 +23,9 @@
     <TextView
         android:id="@+id/tvContactsValue"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/forty_dp"
         android:layout_gravity="center"
+        android:gravity="center_vertical"
         android:layout_marginLeft="@dimen/fifteen_dp"
         android:layout_marginRight="@dimen/fifteen_dp"
         android:layout_weight="1"
@@ -35,11 +37,12 @@
         android:textColor="@color/colorMainText"
         android:textSize="@dimen/sixteen_dp" />
 
-    <ImageView
+    <com.jim.mpviews.MpMiniActionButton
         android:id="@+id/ivRemoveContact"
-        android:layout_width="@dimen/twenty_five_dp"
-        android:layout_height="@dimen/twenty_five_dp"
-        android:layout_gravity="center"
-        android:adjustViewBounds="true"
-        android:src="@drawable/remove" />
+        android:layout_width="@dimen/sixty_dp"
+        android:layout_height="@dimen/forty_dp"
+        android:layout_gravity="center_vertical"
+        android:paddingTop="@dimen/twelve_dp"
+        android:paddingBottom="@dimen/twelve_dp"
+        android:src="@drawable/trash_mini" />
 </LinearLayout>

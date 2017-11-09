@@ -101,7 +101,16 @@ public class AddCustomerGroupFragment extends BaseFragment implements AddCustome
         });
 
         RxView.clicks(btnDelete).subscribe(o -> {
-            presenter.deleteCustomerGroup();
+            WarningDialog warningDialog = new WarningDialog(getContext());
+            warningDialog.setWarningText(getString(R.string.do_you_want_delete));
+            warningDialog.setOnYesClickListener(view -> {
+                presenter.deleteCustomerGroup();
+                warningDialog.dismiss();
+            });
+            warningDialog.setOnNoClickListener(v -> {
+                warningDialog.dismiss();
+            });
+            warningDialog.show();
         });
     }
 
@@ -112,7 +121,7 @@ public class AddCustomerGroupFragment extends BaseFragment implements AddCustome
                 CustomerGroupEvent customerGroupEvent = (CustomerGroupEvent) o;
                 if (customerGroupEvent.getEventType().equals(ITEM_CLICKED)) {
                     btnDelete.setVisibility(View.VISIBLE);
-                    btnSave.setText(getString(R.string.edit));
+                    btnSave.setText(getString(R.string.save));
                     presenter.showCustomerGroup(customerGroupEvent.getCustomerGroup());
                 } else if (customerGroupEvent.getEventType().equals(ADD_CUSTOMER_GROUP_CLICKED)) {
                     btnDelete.setVisibility(View.GONE);
@@ -147,7 +156,7 @@ public class AddCustomerGroupFragment extends BaseFragment implements AddCustome
     }
 
     @Override
-    public void showCustomerGroupWarningDialog() {
+    public void showItemActiveCustomerGroupWarningDialog() {
         WarningDialog warningDialog = new WarningDialog(getContext());
         warningDialog.onlyText(true);
         warningDialog.setWarningText(getString(R.string.you_can_only_delete_inactive_customer_groups));
@@ -155,5 +164,11 @@ public class AddCustomerGroupFragment extends BaseFragment implements AddCustome
             warningDialog.dismiss();
         });
         warningDialog.show();
+    }
+
+    @Override
+    public void changeButtonNameAndVisibility() {
+        btnSave.setText(R.string.add);
+        btnDelete.setVisibility(View.GONE);
     }
 }

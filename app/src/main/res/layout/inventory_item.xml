@@ -22,7 +22,6 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:paddingLeft="@dimen/twenty_dp"
-                android:text="Angels's food"
                 android:textColor="@color/colorMainText"
                 android:textSize="@dimen/eighteen_dp"/>
 
@@ -31,7 +30,6 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:paddingLeft="@dimen/forty_dp"
-                android:text="Class: Pizza"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="@dimen/eighteen_dp"
                 android:textStyle="italic"/>
@@ -41,7 +39,6 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:paddingLeft="@dimen/forty_dp"
-                android:text="Barcode: 1456643143"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="@dimen/eighteen_dp"
                 android:textStyle="italic"/>
@@ -51,7 +48,6 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:paddingLeft="@dimen/forty_dp"
-                android:text="SKU: 546"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="@dimen/eighteen_dp"
                 android:textStyle="italic"/>
@@ -70,7 +66,6 @@
             android:layout_gravity="center"
             android:gravity="left"
             android:paddingLeft="@dimen/twenty_dp"
-            android:text="Cell Solutions"
             android:textColor="@color/colorMainText"
             android:textSize="@dimen/eighteen_dp"/>
 
@@ -105,7 +100,6 @@
             android:layout_gravity="center"
             android:gravity="right"
             android:paddingRight="@dimen/twenty_dp"
-            android:text="128.0000"
             android:textColor="@color/colorMainText"
             android:textSize="@dimen/eighteen_dp"/>
 
@@ -114,10 +108,11 @@
             android:layout_height="match_parent"
             android:background="@color/colorGrey"/>
 
-        <com.jim.mpviews.MpRoller
+        <TextView
             android:layout_width="@dimen/hundred_ten_dp"
             android:gravity="center"
-            android:layout_height="match_parent" />
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content" />
 
         <FrameLayout
             android:layout_width="2px"

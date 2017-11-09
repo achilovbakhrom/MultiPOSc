@@ -1,5 +1,6 @@
 package com.jim.multipos.ui.main_menu.inventory_menu;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +17,7 @@ import com.jim.multipos.di.BaseAppComponent;
 import com.jim.multipos.ui.HasComponent;
 import com.jim.multipos.ui.main_menu.MenuListAdapter;
 import com.jim.multipos.ui.main_menu.inventory_menu.presenters.InventoryMenuPresenter;
+import com.jim.multipos.ui.vendor.add_edit.VendorAddEditActivity;
 
 import java.util.ArrayList;
 
@@ -84,8 +86,8 @@ public class InventoryMenuActivity extends BaseActivity implements  InventoryMen
             case 1:
                 break;
             case 2:
-                break;
-            case 3:
+                Intent intent = new Intent(this, VendorAddEditActivity.class);
+                startActivity(intent);
                 break;
         }
     }

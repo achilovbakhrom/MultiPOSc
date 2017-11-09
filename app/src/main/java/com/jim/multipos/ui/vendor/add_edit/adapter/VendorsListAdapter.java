@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import com.jim.mpviews.MPAddItemView;
 import com.jim.mpviews.MPListItemView;
+import com.jim.mpviews.MpLongItemWithList;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseAdapter;
 import com.jim.multipos.core.BaseView;
@@ -49,9 +50,17 @@ public class VendorsListAdapter extends ClickableBaseAdapter<Vendor, BaseViewHol
     public void onBindViewHolder(BaseViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
         if (holder instanceof VendorViewHolder) {
-            ((VendorViewHolder) holder).item.setText(items.get(position).getName());
+            ((VendorViewHolder) holder).item.setFirstItemText(items.get(position).getName());
+            ((VendorViewHolder) holder).item.setSecondItemText("Items: " + items.get(position).getProducts().size());
+            ((VendorViewHolder) holder).item.setThirdItemText(items.get(position).getContactName());
+            ((VendorViewHolder) holder).item.setTextSize(12);
             ((VendorViewHolder) holder).item.setActivate(position == selectedPosition);
-            ((VendorViewHolder) holder).item.makeDeleteable(!items.get(position).getIsActive());
+            ((VendorViewHolder) holder).item.makeDeletable(!items.get(position).getIsActive());
+        } else {
+            ((AddItemViewHolder) holder).item.setVisibility(View.VISIBLE, View.GONE, View.GONE);
+            ((AddItemViewHolder) holder).item.setTextColor(R.color.colorGreenSecond);
+            ((AddItemViewHolder) holder).item.setTextSize(14);
+
         }
     }
 
@@ -67,13 +76,13 @@ public class VendorsListAdapter extends ClickableBaseAdapter<Vendor, BaseViewHol
 
     class VendorViewHolder extends BaseViewHolder {
         @BindView(R.id.aivItem)
-        MPListItemView item;
+        MpLongItemWithList item;
         VendorViewHolder(View itemView) { super(itemView); }
     }
 
     class AddItemViewHolder extends BaseViewHolder {
         @BindView(R.id.aivAddItem)
-        MPAddItemView item;
+        MpLongItemWithList item;
         AddItemViewHolder(View itemView) {
             super(itemView);
         }

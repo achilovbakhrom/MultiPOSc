@@ -120,7 +120,8 @@ public class CustomerGroupListFragment extends BaseFragment implements CustomerG
     }
 
     @Override
-    public void updateRV() {
+    public void updateRV(int position) {
+        adapter.setPosition(position);
         adapter.notifyDataSetChanged();
     }
 }

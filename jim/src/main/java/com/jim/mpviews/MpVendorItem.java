@@ -7,15 +7,10 @@ import android.os.Parcelable;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.jim.mpviews.utils.StateSaver;
-import com.jim.mpviews.utils.VibrateManager;
 
 
 /**
@@ -57,34 +52,27 @@ public class MpVendorItem extends RelativeLayout {
         mpItem = (TextView) findViewById(R.id.tvItemQty);
         mpName = (TextView) findViewById(R.id.tvVendorName);
         llVendor = (LinearLayout) findViewById(R.id.llVendor);
-        llVendor.setBackgroundResource(R.drawable.vendor_item_bg);
-        setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch (motionEvent.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        VibrateManager.startVibrate(context, 50);
-                        if (!isPressed) {
-                            llVendor.setBackgroundResource(R.drawable.pressed_vendor_item);
-                            isPressed = true;
-                        } else {
-                            llVendor.setBackgroundResource(R.drawable.vendor_item_bg);
-                            isPressed = false;
-                        }
-                        break;
-                }
-                return false;
-            }
-        });
+        mpVendor.setTextColor(context.getResources().getColorStateList(R.color.item_txt_color));
+        mpItem.setTextColor(context.getResources().getColorStateList(R.color.item_txt_second_color));
+        mpName.setTextColor(context.getResources().getColorStateList(R.color.item_txt_second_color));
+
 
     }
 
     public void setVendor(String vendor) {
         mpVendor.setText(vendor);
     }
-
+    public TextView getVendorTv(){
+        return mpVendor;
+    }
+    public TextView getVendorItemTv(){
+        return mpItem;
+    }
+    public TextView getVendorNameTv(){
+        return mpName;
+    }
     public void setVendorItem(String item) {
-        mpItem.setText("Item: " + item);
+        mpItem.setText( item);
     }
 
     public void setVendorName(String name) {

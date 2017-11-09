@@ -13,5 +13,5 @@ public interface CustomerGroupListFragmentView extends BaseView {
     void showCustomerGroups(List<CustomerGroup> customerGroups, int selectedPosition);
     void showCustomerGroupRemoveWarningDialog();
     void showCustomerGroupSaveDialog();
-    void updateRV();
+    void updateRV(int position);
 }

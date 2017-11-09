@@ -13,6 +13,7 @@ import com.jim.mpviews.MpList;
 import com.jim.mpviews.model.PaymentTypeWithService;
 import com.jim.mpviews.utils.VibrateManager;
 import com.jim.multipos.R;
+import com.jim.multipos.core.BaseFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ import java.util.List;
  * Created by developer on 22.08.2017.
  */
 
-public class PaymentFragment extends Fragment {
+public class PaymentFragment extends BaseFragment implements PaymentView {
     MpList mpList;
     TextView tvPay;
     @Override
@@ -61,5 +62,15 @@ public class PaymentFragment extends Fragment {
         paymentTypes.add(new PaymentTypeWithService("Visa Card",""));
         paymentTypes.add(new PaymentTypeWithService("Master card","+5%"));
         paymentTypes.add(new PaymentTypeWithService("Asia Alians",""));
+    }
+
+    @Override
+    protected int getLayout() {
+        return 0;
+    }
+
+    @Override
+    protected void init(Bundle savedInstanceState) {
+
     }
 }

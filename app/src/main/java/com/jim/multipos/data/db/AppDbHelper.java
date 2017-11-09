@@ -28,6 +28,7 @@ import com.jim.multipos.data.db.model.PaymentType;
 import com.jim.multipos.data.db.model.PaymentTypeDao;
 import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.ServiceFee;
+import com.jim.multipos.data.db.model.ServiceFeeDao;
 import com.jim.multipos.data.db.model.Vendor;
 import com.jim.multipos.data.db.model.VendorDao;
 import com.jim.multipos.data.db.model.currency.Currency;
@@ -47,6 +48,7 @@ import com.jim.multipos.data.db.model.unit.UnitCategory;
 import com.jim.multipos.data.db.model.unit.UnitDao;
 
 import org.greenrobot.greendao.query.Query;
+import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -227,7 +229,6 @@ public class AppDbHelper implements DbHelper {
                 .filter(category -> !category.isDeleted())
                 .filter(Category::getIsActive)
                 .filter(category -> category.getParentId().equals(WITHOUT_PARENT))
-                .sorted((category, t1) -> t1.getCreatedDate().compareTo(category.getCreatedDate()))
                 .sorted((category, t1) -> category.getPosition().compareTo(t1.getPosition()))
                 .toList();
     }
@@ -248,7 +249,6 @@ public class AppDbHelper implements DbHelper {
                 .filter(category -> !category.isDeleted())
                 .filter(Category::getIsActive)
                 .filter(category -> category.getParentId().equals(parent.getId()))
-                .sorted((category, t1) -> t1.getCreatedDate().compareTo(category.getCreatedDate()))
                 .sorted((category, t1) -> category.getPosition().compareTo(t1.getPosition()))
                 .toList();
     }
@@ -763,22 +763,7 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public Observable<List<ServiceFee>> getAllServiceFees() {
-        return Observable.fromCallable(() -> {
-            List<ServiceFee> serviceFees = mDaoSession.getServiceFeeDao().loadAll();
-            Collections.sort(serviceFees, (o1, o2) -> {
-                if (o1.getIsActive() && o2.getIsActive()) {
-                    return 0;
-                }
-
-                if (o1.getIsActive()) {
-                    return 1;
-                } else {
-                    return -1;
-                }
-            });
-
-            return serviceFees;
-        });
+        return Observable.fromCallable(() -> mDaoSession.getServiceFeeDao().queryBuilder().orderDesc(ServiceFeeDao.Properties.CreatedDate).build().list());
     }
 
     @Override
@@ -838,12 +823,7 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public Observable<List<Customer>> getAllCustomers() {
-        return Observable.fromCallable(() -> {
-            List<Customer> customers = mDaoSession.getCustomerDao().loadAll();
-            Collections.reverse(customers);
-
-            return customers;
-        });
+        return Observable.fromCallable(() -> mDaoSession.getCustomerDao().queryBuilder().where(CustomerDao.Properties.IsNotModifyted.notEq(false)).orderDesc(CustomerDao.Properties.CreatedDate).build().list());
     }
 
     @Override
@@ -880,12 +860,7 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public Observable<List<CustomerGroup>> getAllCustomerGroups() {
-        return Observable.fromCallable(() -> {
-            List<CustomerGroup> customerGroups = mDaoSession.getCustomerGroupDao().loadAll();
-            Collections.reverse(customerGroups);
-
-            return customerGroups;
-        });
+        return Observable.fromCallable(() -> mDaoSession.getCustomerGroupDao().queryBuilder().orderDesc(CustomerGroupDao.Properties.CreatedDate).build().list());
     }
 
     @Override
@@ -983,6 +958,112 @@ public class AppDbHelper implements DbHelper {
         return Observable.fromCallable(() -> {
             mDaoSession.getContactDao().queryBuilder().where(ContactDao.Properties.VendorId.eq(vendorId)).buildDelete().executeDeleteWithoutDetachingEntities();
             return true;
+        });
+    }
+
+    @Override
+    public Single<List<Product>> getSearchProducts(String searchText, boolean skuMode, boolean barcodeMode,boolean nameMode) {
+        if(mDaoSession.getProductDao().loadAll().size()==0){
+            List<Product> products = new ArrayList<>();
+
+            Product product = new Product();
+            product.setName("Coca Cola");
+            product.setBarcode("123456789");
+            product.setSku("cc777");
+            product.setPrice(1d);
+            product.setCost(1d);
+            product.setCreatedDate(System.currentTimeMillis());
+            products.add(product);
+
+            Product product1 = new Product();
+            product1.setName("Колбаса");
+            product1.setBarcode("777444888");
+            product1.setSku("колБ123");
+            product1.setPrice(1d);
+            product1.setCost(1d);
+            product1.setCreatedDate(System.currentTimeMillis());
+            products.add(product1);
+
+
+            Product product2 = new Product();
+            product2.setName("Яицо");
+            product2.setBarcode("7887878787");
+            product2.setSku("Тт15");
+            product2.setPrice(1d);
+            product2.setCost(1d);
+            product2.setCreatedDate(System.currentTimeMillis());
+            products.add(product2);
+
+
+            Product product3 = new Product();
+            product3.setName("Анти Хайп");
+            product3.setBarcode("");
+            product3.setSku("");
+            product3.setPrice(1d);
+            product3.setCost(1d);
+            product3.setCreatedDate(System.currentTimeMillis());
+            products.add(product3);
+
+
+            Product product4 = new Product();
+            product4.setName("58йй2");
+            product4.setBarcode("фывйа");
+            product4.setSku("фывййаыа");
+            product4.setPrice(1d);
+            product4.setCost(1d);
+            product4.setCreatedDate(System.currentTimeMillis());
+            products.add(product4);
+
+
+            Product product5 = new Product();
+            product5.setName("5884878613");
+            product5.setBarcode("777889961");
+            product5.setSku("cc777");
+            product5.setPrice(1d);
+            product5.setCost(1d);
+            product5.setCreatedDate(System.currentTimeMillis());
+            products.add(product5);
+
+
+            Product product6 = new Product();
+            product6.setName("Сардор");
+            product6.setBarcode("234023");
+            product6.setSku("сс144458");
+            product6.setPrice(1d);
+            product6.setCost(1d);
+            product6.setCreatedDate(System.currentTimeMillis());
+            products.add(product6);
+            mDaoSession.getProductDao().insertOrReplaceInTx(products);
+        }
+        return Single.create(e -> {
+
+            QueryBuilder<Product> queryBuilderCred = mDaoSession.getProductDao().queryBuilder();
+                queryBuilderCred.whereOr(
+                        ProductDao.Properties.Name.like("%" + searchText.toLowerCase() + "%"),
+                        ProductDao.Properties.Name.like("%" + searchText.toUpperCase() + "%"),
+                        ProductDao.Properties.Barcode.like("%" + searchText.toUpperCase() + "%"),
+                        ProductDao.Properties.Barcode.like("%" + searchText.toUpperCase() + "%"),
+                        ProductDao.Properties.Sku.like("%" + searchText.toUpperCase() + "%"),
+                        ProductDao.Properties.Sku.like("%" + searchText.toUpperCase() + "%"));
+            List<Product> list = queryBuilderCred.build().list();
+            for (int i = list.size()-1; i >=0; i--) {
+                if(list.get(i).getIsDeleted()) list.remove(i);
+                boolean keepMe = false;
+                if(skuMode && list.get(i).getSku().toUpperCase().contains(searchText.toUpperCase())){
+                    keepMe = true;
+                }
+                if(barcodeMode && list.get(i).getBarcode().toUpperCase().contains(searchText.toUpperCase())){
+                    keepMe = true;
+                }
+                if(nameMode && list.get(i).getName().toUpperCase().contains(searchText.toUpperCase())){
+                    keepMe = true;
+                }
+                if(!keepMe){
+                    list.remove(i);
+                }
+            }
+
+            e.onSuccess(list);
         });
     }
 

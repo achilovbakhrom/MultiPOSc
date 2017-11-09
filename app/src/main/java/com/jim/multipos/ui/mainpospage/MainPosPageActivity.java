@@ -2,7 +2,13 @@ package com.jim.multipos.ui.mainpospage;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.format.Time;
+import android.util.Log;
 import android.view.WindowManager;
+import android.widget.TextClock;
+import android.widget.TextView;
+
 import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.R;
 import com.jim.multipos.core.DoubleSideActivity;
@@ -13,14 +19,23 @@ import com.jim.multipos.ui.mainpospage.view.OrderListFragment;
 import com.jim.multipos.ui.mainpospage.view.ProductPickerFragment;
 import com.jim.multipos.ui.mainpospage.view.SearchModeFragment;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainPosPageActivity extends DoubleSideActivity implements MainPosPageActivityView {
     @BindView(R.id.toolbar)
     MpToolbar toolbar;
-
-
+    @BindView(R.id.tvTime)
+    TextClock tvTime;
+    @BindView(R.id.tvDate)
+    TextView tvDate;
+    private Handler handler;
 
 
     @Override
@@ -33,6 +48,9 @@ public class MainPosPageActivity extends DoubleSideActivity implements MainPosPa
         addFragmentToLeft(new OrderListFragment());
 //        posFragmentManager.displayFragmentWithoutBackStack(new PaymentFragment(), R.id.rightLowContainer);
         addFragmentToRight(new ProductPickerFragment());
+
+        handler = new Handler();
+        handler.post(timerUpdate);
 
         toolbar.setOnClickListener(view -> {
         });
@@ -75,4 +93,12 @@ public class MainPosPageActivity extends DoubleSideActivity implements MainPosPa
     protected int getToolbarMode() {
         return MpToolbar.MAIN_PAGE_TYPE;
     }
+
+    Runnable timerUpdate = new Runnable() {
+        @Override
+        public void run() {
+            tvDate.setText(new SimpleDateFormat("dd - MMM, yyyy", Locale.ENGLISH).format(new Date()));
+            handler.postDelayed(timerUpdate, 30000);
+        }
+    };
 }

@@ -1,146 +1,218 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginTop="@dimen/twenty_dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvClientId"
+            android:layout_width="@dimen/sixty_dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/twelve_dp"
+            android:layout_marginLeft="@dimen/five_dp"
+            android:text="@string/id"
+            android:textColor="#419fd9"
+            android:textSize="@dimen/sixteen_dp" />
+
+        <TextView
+            android:id="@+id/tvFullName"
+            android:layout_width="@dimen/hundred_ninety_five_dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/twelve_dp"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:text="Full name"
+            android:textColor="#419fd9"
+            android:textSize="@dimen/sixteen_dp" />
+
+        <TextView
+            android:id="@+id/tvPhone"
+            android:layout_width="@dimen/hundred_seventy_dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/twelve_dp"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:text="Phone"
+            android:textColor="#419fd9"
+            android:textSize="@dimen/sixteen_dp" />
+
+        <TextView
+            android:id="@+id/tvAddress"
+            android:layout_width="@dimen/hundred_ninety_dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/twelve_dp"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:text="Address"
+            android:textColor="#419fd9"
+            android:textSize="@dimen/sixteen_dp" />
+
+        <TextView
+            android:id="@+id/tvQrCode"
+            android:layout_width="@dimen/hundred_ninety_five_dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/twelve_dp"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:text="QR-code"
+            android:textColor="#419fd9"
+            android:textSize="@dimen/sixteen_dp" />
+
+        <TextView
+            android:layout_width="@dimen/hundred_eighty_five_dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/twelve_dp"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:text="Customer group"
+            android:textColor="#419fd9"
+            android:textSize="@dimen/sixteen_dp" />
+
+        <TextView
+            android:layout_width="@dimen/hundred_forty_five_dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/twelve_dp"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:gravity="center"
+            android:text="Action"
+            android:textColor="#419fd9"
+            android:textSize="@dimen/sixteen_dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/five_dp"
+        android:layout_marginTop="@dimen/ten_dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvId"
+            android:layout_width="@dimen/sixty_dp"
+            android:layout_height="@dimen/forty_five_dp"
+            android:layout_gravity="center"
+            android:background="@drawable/text_view_bg2"
+            android:gravity="center_vertical"
+            android:hint="02"
+            android:paddingBottom="@dimen/five_dp"
+            android:paddingLeft="@dimen/ten_dp"
+            android:paddingRight="@dimen/ten_dp"
+            android:paddingTop="@dimen/five_dp"
+            android:textAlignment="center"
+            android:textColorHint="@color/colorTextHint"
+            android:textSize="@dimen/eighteen_dp" />
+
+        <com.jim.mpviews.MpEditText
+            android:id="@+id/etFullName"
+            android:layout_width="@dimen/hundred_ninety_five_dp"
+            android:layout_height="@dimen/forty_five_dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:inputType="textCapWords"
+            android:gravity="center_vertical"
+            android:hint="Name"
+            android:paddingBottom="@dimen/five_dp"
+            android:paddingLeft="@dimen/ten_dp"
+            android:paddingRight="@dimen/ten_dp"
+            android:paddingTop="@dimen/five_dp"
+            android:textColorHint="@color/colorTextHint"
+            android:textSize="@dimen/eighteen_dp" />
+
+        <com.jim.mpviews.MpEditText
+            android:id="@+id/etPhone"
+            android:layout_width="@dimen/hundred_seventy_dp"
+            android:layout_height="@dimen/forty_five_dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:gravity="center_vertical"
+            android:hint="Number"
+            android:inputType="phone"
+            android:paddingBottom="@dimen/five_dp"
+            android:paddingLeft="@dimen/ten_dp"
+            android:paddingRight="@dimen/ten_dp"
+            android:paddingTop="@dimen/five_dp"
+            android:textColorHint="@color/colorTextHint"
+            android:textSize="@dimen/eighteen_dp" />
+
+        <com.jim.mpviews.MpEditText
+            android:id="@+id/etAddress"
+            android:layout_width="@dimen/hundred_ninety_dp"
+            android:layout_height="@dimen/forty_five_dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:inputType="textCapSentences"
+            android:gravity="center_vertical"
+            android:hint="Short"
+            android:paddingBottom="@dimen/five_dp"
+            android:paddingLeft="@dimen/ten_dp"
+            android:paddingRight="@dimen/ten_dp"
+            android:paddingTop="@dimen/five_dp"
+            android:textColorHint="@color/colorTextHint"
+            android:textSize="@dimen/eighteen_dp" />
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/five_dp"
-            android:layout_marginTop="@dimen/ten_dp"
-            android:orientation="horizontal">
+            android:layout_width="@dimen/hundred_ninety_five_dp"
+            android:layout_height="@dimen/forty_five_dp"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:background="@drawable/edit_text_bg"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/five_dp"
+            android:paddingLeft="@dimen/ten_dp"
+            android:paddingRight="@dimen/ten_dp"
+            android:paddingTop="@dimen/five_dp">
 
             <TextView
-                android:id="@+id/tvId"
-                android:layout_width="@dimen/sixty_dp"
-                android:layout_height="@dimen/forty_dp"
+                android:id="@+id/tvQrCodeInAdd"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/thirty_dp"
-                android:background="@drawable/text_view_bg2"
-                android:gravity="center_vertical"
-                android:hint="02"
-                android:paddingBottom="@dimen/five_dp"
-                android:paddingLeft="@dimen/ten_dp"
-                android:paddingRight="@dimen/ten_dp"
-                android:paddingTop="@dimen/five_dp"
-                android:textAlignment="center"
-                android:textColorHint="@color/colorTextHint"
+                android:layout_weight="1"
+                android:hint="789456123"
+                android:background="@color/colorWhite"
+                android:textColor="@android:color/black"
                 android:textSize="@dimen/eighteen_dp" />
 
-            <com.jim.mpviews.MpEditText
-                android:id="@+id/etFullName"
-                android:layout_width="@dimen/hundred_ninety_five_dp"
-                android:layout_height="@dimen/forty_dp"
+            <ImageView
+                android:id="@+id/ivRefreshQrCode"
+                android:layout_width="@dimen/forty_five_dp"
+                android:layout_height="@dimen/forty_five_dp"
                 android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/ten_dp"
-                android:gravity="center_vertical"
-                android:hint="Name"
-                android:paddingBottom="@dimen/five_dp"
-                android:paddingLeft="@dimen/ten_dp"
-                android:paddingRight="@dimen/ten_dp"
-                android:paddingTop="@dimen/five_dp"
-                android:textColorHint="@color/colorTextHint"
-                android:textSize="@dimen/eighteen_dp" />
-
-            <com.jim.mpviews.MpEditText
-                android:id="@+id/etPhone"
-                android:layout_width="@dimen/hundred_seventy_dp"
-                android:layout_height="@dimen/forty_dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/ten_dp"
-                android:gravity="center_vertical"
-                android:hint="Number"
-                android:inputType="phone"
-                android:paddingBottom="@dimen/five_dp"
-                android:paddingLeft="@dimen/ten_dp"
-                android:paddingRight="@dimen/ten_dp"
-                android:paddingTop="@dimen/five_dp"
-                android:textColorHint="@color/colorTextHint"
-                android:textSize="@dimen/eighteen_dp" />
-
-            <com.jim.mpviews.MpEditText
-                android:id="@+id/etAddress"
-                android:layout_width="@dimen/hundred_ninety_dp"
-                android:layout_height="@dimen/forty_dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/ten_dp"
-                android:gravity="center_vertical"
-                android:hint="Short"
-                android:paddingBottom="@dimen/five_dp"
-                android:paddingLeft="@dimen/ten_dp"
-                android:paddingRight="@dimen/ten_dp"
-                android:paddingTop="@dimen/five_dp"
-                android:textColorHint="@color/colorTextHint"
-                android:textSize="@dimen/eighteen_dp" />
-
-            <LinearLayout
-                android:layout_width="@dimen/hundred_ninety_five_dp"
-                android:layout_height="@dimen/forty_dp"
-                android:layout_marginLeft="@dimen/ten_dp"
-                android:background="@drawable/edit_text_bg"
-                android:orientation="horizontal"
-                android:paddingBottom="@dimen/five_dp"
-                android:paddingLeft="@dimen/ten_dp"
-                android:paddingRight="@dimen/ten_dp"
-                android:paddingTop="@dimen/five_dp">
-
-                <TextView
-                    android:id="@+id/tvQrCode"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:background="@color/colorWhite"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/eighteen_dp" />
-
-                <ImageView
-                    android:id="@+id/ivRefreshQrCode"
-                    android:layout_width="@dimen/forty_five_dp"
-                    android:layout_height="@dimen/forty_five_dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/refresh"
-                    android:tint="@color/colorBlue" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/tvCustomerGroup"
-                android:layout_width="@dimen/hundred_eighty_five_dp"
-                android:layout_height="@dimen/forty_dp"
-                android:layout_marginLeft="@dimen/ten_dp"
-                android:background="@drawable/edit_text_bg"
-                android:ellipsize="end"
-                android:gravity="center_vertical"
-                android:maxLines="1"
-                android:paddingBottom="@dimen/five_dp"
-                android:paddingLeft="@dimen/ten_dp"
-                android:paddingRight="@dimen/ten_dp"
-                android:paddingTop="@dimen/five_dp"
-                android:singleLine="true" />
-
-            <com.jim.mpviews.MpActionButton
-                android:id="@+id/btnAdd"
-                android:layout_width="@dimen/hundred_forty_five_dp"
-                android:layout_height="@dimen/forty_dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/fifteen_dp"
-                android:text="+Add"
-                android:textColor="#23d730"
-                android:textSize="@dimen/sixteen_dp" />
+                android:src="@drawable/refresh"
+                android:tint="@color/colorBlue" />
         </LinearLayout>
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="2px"
-            android:layout_marginBottom="@dimen/four_dp"
-            android:layout_marginLeft="@dimen/sixteen_dp"
-            android:layout_marginRight="@dimen/sixteen_dp"
-            android:layout_marginTop="@dimen/four_dp"
-            android:background="@color/colorGrey" />
+        <TextView
+            android:id="@+id/tvCustomerGroup"
+            android:layout_width="@dimen/hundred_eighty_five_dp"
+            android:layout_height="@dimen/forty_five_dp"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:background="@drawable/edit_text_bg"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:paddingBottom="@dimen/five_dp"
+            android:paddingLeft="@dimen/ten_dp"
+            android:paddingRight="@dimen/ten_dp"
+            android:paddingTop="@dimen/five_dp"
+            android:singleLine="true" />
+
+        <com.jim.mpviews.MpActionButton
+            android:id="@+id/btnAdd"
+            android:layout_width="@dimen/hundred_forty_five_dp"
+            android:layout_height="@dimen/forty_dp"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:layout_gravity="center_vertical"
+            android:text="+Add"
+            android:textColor="#23d730"
+            android:textSize="@dimen/sixteen_dp" />
     </LinearLayout>
-</FrameLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_marginBottom="@dimen/ten_dp"
+        android:layout_marginLeft="@dimen/ten_dp"
+        android:layout_marginRight="@dimen/ten_dp"
+        android:background="#e1e1e1" />
+</LinearLayout>

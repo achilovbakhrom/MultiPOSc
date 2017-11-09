@@ -6,13 +6,14 @@
 
     <LinearLayout
         android:id="@+id/llVendor"
-        android:layout_width="@dimen/two_hundred_dp"
-        android:layout_height="@dimen/hundred_dp"
+        android:layout_width="@dimen/two_hundred_fifty_dp"
+        android:layout_height="@dimen/hundred_twenty_dp"
         android:orientation="vertical"
-        android:gravity="center"
+        android:background="@drawable/list_long_item"
+        android:clickable="true"
         android:paddingLeft="@dimen/twenty_dp"
         android:paddingRight="@dimen/twenty_dp"
-        android:paddingTop="@dimen/ten_dp"
+        android:paddingTop="@dimen/five_dp"
         android:paddingBottom="@dimen/ten_dp"
         >
 
@@ -20,27 +21,32 @@
             android:id="@+id/tvVendor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/four_dp"
-            android:paddingLeft="@dimen/ten_dp"
-            android:gravity="left"
+            android:gravity="center_vertical"
+            android:text="sukaaa"
+            android:minLines="2"
+            android:textSize="@dimen/sixteen_dp"
+            android:layout_marginTop="@dimen/five_dp"
             android:textColor="@color/colorMainText"
             android:paddingRight="@dimen/ten_dp"/>
         <TextView
             android:id="@+id/tvItemQty"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/four_dp"
-            android:paddingLeft="@dimen/ten_dp"
+            android:textSize="@dimen/fourteen_dp"
+
             android:gravity="left"
+            android:text="asd"
             android:textColor="@color/colorSecondaryText"
             android:paddingRight="@dimen/ten_dp"/>
         <TextView
             android:id="@+id/tvVendorName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/four_dp"
-            android:paddingLeft="@dimen/ten_dp"
+
+
+            android:textSize="@dimen/fourteen_dp"
             android:gravity="left"
+            android:text="sas"
             android:textColor="@color/colorSecondaryText"
             android:paddingRight="@dimen/ten_dp"/>
     </LinearLayout>

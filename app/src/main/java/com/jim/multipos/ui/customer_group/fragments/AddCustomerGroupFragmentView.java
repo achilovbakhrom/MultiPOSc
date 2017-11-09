@@ -17,5 +17,6 @@ public interface AddCustomerGroupFragmentView extends BaseView {
     void showMembers();
     void clearViews();
     void requestFocus();
-    void showCustomerGroupWarningDialog();
+    void showItemActiveCustomerGroupWarningDialog();
+    void changeButtonNameAndVisibility();
 }

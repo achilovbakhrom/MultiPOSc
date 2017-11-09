@@ -186,7 +186,7 @@
         <com.jim.mpviews.MpButton
             android:id="@+id/btnSubCategoryCancel"
             android:layout_width="@dimen/hundred_sixty_dp"
-            android:layout_height="@dimen/sixty_dp"
+            android:layout_height="@dimen/fifty_dp"
             android:layout_marginRight="@dimen/ten_dp"
             android:text="@string/back"
             android:textColor="@color/colorSecondaryText"
@@ -195,7 +195,7 @@
         <com.jim.mpviews.MpButton
             android:id="@+id/btnSubCategoryDelete"
             android:layout_width="@dimen/hundred_sixty_dp"
-            android:layout_height="@dimen/sixty_dp"
+            android:layout_height="@dimen/fifty_dp"
             android:layout_marginRight="@dimen/ten_dp"
             android:text="@string/delete"
             android:textColor="@color/colorSecondaryText"
@@ -205,7 +205,7 @@
         <com.jim.mpviews.MpButton
             android:id="@+id/btnSubCategorySave"
             android:layout_width="@dimen/hundred_sixty_dp"
-            android:layout_height="@dimen/sixty_dp"
+            android:layout_height="@dimen/fifty_dp"
             android:text="@string/save"
             android:textColor="@color/colorBlue"
             android:textSize="@dimen/eighteen_dp" />

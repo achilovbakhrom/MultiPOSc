@@ -6,7 +6,7 @@
 
     <RelativeLayout
         android:id="@+id/mpKeyPadBg"
-        android:layout_width="@dimen/fifty_five_dp"
+        android:layout_width="@dimen/fifty_eight_dp"
         android:layout_height="@dimen/eighty_dp">
 
 

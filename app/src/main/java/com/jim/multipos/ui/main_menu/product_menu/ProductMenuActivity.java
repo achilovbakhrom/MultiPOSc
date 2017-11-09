@@ -22,6 +22,7 @@ import com.jim.multipos.ui.product_class.ProductClassActivity;
 import com.jim.multipos.ui.product.ProductsActivity;
 import com.jim.multipos.ui.product_class_new.ProductsClassActivity;
 import com.jim.multipos.ui.product_class_new.fragments.ProductsClassFragment;
+import com.jim.multipos.ui.product_last.ProductActivity;
 import com.jim.multipos.ui.service_fee.ServiceFeeActivity;
 
 import java.util.ArrayList;
@@ -88,7 +89,7 @@ public class ProductMenuActivity extends BaseActivity implements ProductMenuView
         //TODO add activities for opening
         switch (position) {
             case 0:
-                Intent intent = new Intent(this, ProductsActivity.class);
+                Intent intent = new Intent(this, ProductActivity.class);
                 startActivity(intent);
                 break;
             case 1:
@@ -100,8 +101,6 @@ public class ProductMenuActivity extends BaseActivity implements ProductMenuView
                 startActivity(intentDiscount);
                 break;
             case 3:
-                Intent serviceFee = new Intent(this, ServiceFeeActivity.class);
-                startActivity(serviceFee);
                 break;
 
         }
