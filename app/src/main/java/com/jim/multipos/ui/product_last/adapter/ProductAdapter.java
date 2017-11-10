@@ -91,7 +91,7 @@ public class ProductAdapter extends MovableBaseAdapter<Product, BaseViewHolder> 
             if (product == null) continue;
             if (product.getId().equals(id)) {
                 this.selectedPosition = items.indexOf(product);
-                notifyItemChanged(selectedPosition);
+                notifyDataSetChanged();
                 break;
             }
         }

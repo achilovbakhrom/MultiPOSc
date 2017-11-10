@@ -67,16 +67,14 @@ public class Product implements Editable, Serializable {
     private List<Unit> subUnits;
     @Property
     private Long vendorId;
-    @ToOne(joinProperty = "vendorId")
-    private Vendor vendor;
+    @ToMany(joinProperties = {@JoinProperty(name = "id", referencedName = "productId")})
+    private List<Vendor> vendor;
     private String description;
     private Long rootId;
     private Long parentId;
     @ToOne(joinProperty = "categoryId")
     private Category category;
     private Long categoryId;
-    @Generated(hash = 1022035388)
-    private transient Long vendor__resolvedKey;
     @Generated(hash = 1037669877)
     private transient Long mainUnit__resolvedKey;
     @Generated(hash = 1979699144)
@@ -250,30 +248,23 @@ public class Product implements Editable, Serializable {
         return subUnits;
     }
 
-    /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 332557200)
-    public void setVendor(Vendor vendor) {
-        synchronized (this) {
-            this.vendor = vendor;
-            vendorId = vendor == null ? null : vendor.getId();
-            vendor__resolvedKey = vendorId;
-        }
-    }
-
-    /** To-one relationship, resolved on first access. */
-    @Generated(hash = 1192552702)
-    public Vendor getVendor() {
-        Long __key = this.vendorId;
-        if (vendor__resolvedKey == null || !vendor__resolvedKey.equals(__key)) {
+    /**
+     * To-many relationship, resolved on first access (and after reset).
+     * Changes to to-many relations are not persisted, make changes to the target entity.
+     */
+    @Generated(hash = 1883235164)
+    public List<Vendor> getVendor() {
+        if (vendor == null) {
             final DaoSession daoSession = this.daoSession;
             if (daoSession == null) {
                 throw new DaoException("Entity is detached from DAO context");
             }
             VendorDao targetDao = daoSession.getVendorDao();
-            Vendor vendorNew = targetDao.load(__key);
+            List<Vendor> vendorNew = targetDao._queryProduct_Vendor(id);
             synchronized (this) {
-                vendor = vendorNew;
-                vendor__resolvedKey = __key;
+                if(vendor == null) {
+                    vendor = vendorNew;
+                }
             }
         }
         return vendor;
@@ -596,6 +587,12 @@ public class Product implements Editable, Serializable {
 
     public void setCategoryId(Long categoryId) {
         this.categoryId = categoryId;
+    }
+
+    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    @Generated(hash = 1207622463)
+    public synchronized void resetVendor() {
+        vendor = null;
     }
 
 }

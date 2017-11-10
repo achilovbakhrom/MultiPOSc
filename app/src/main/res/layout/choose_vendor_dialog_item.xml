@@ -16,21 +16,24 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="" />
+        android:text=""
+        android:id="@+id/tvVendorName"/>
 
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="" />
+        android:text=""
+        android:id="@+id/tvVendorContact"/>
 
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="" />
+        android:text=""
+        android:id="@+id/tvVendorAddress"/>
 
     <LinearLayout
         android:layout_width="0dp"
@@ -40,7 +43,8 @@
 
         <com.jim.mpviews.MpCheckbox
             android:layout_width="@dimen/thirty_dp"
-            android:layout_height="@dimen/thirty_dp" />
+            android:layout_height="@dimen/thirty_dp"
+            android:id="@+id/chbVendorChecked"/>
 
     </LinearLayout>
 

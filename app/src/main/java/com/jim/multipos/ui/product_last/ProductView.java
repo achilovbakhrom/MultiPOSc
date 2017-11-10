@@ -78,6 +78,7 @@ public interface ProductView extends BaseView {
                                     String[] units,
                                     int unitPos,
                                     String vendorName,
+                                    List<Long> vendors,
                                     String description);
     void initProductForm(String[] unitCategoryList, String[] unitList, String[] productClasses, String currencyAbbr);
     void closeKeyboard();
@@ -102,4 +103,5 @@ public interface ProductView extends BaseView {
     int getVendorSelectedPos();
     int getProductClassSelectedPos();
     boolean getProductIsActive();
+    void openVendorChooserDialog(List<Vendor> vendors);
 }

@@ -41,4 +41,5 @@ public interface ProductPresenter extends Presenter {
     void productSelected(Product product);
     DatabaseManager getDatabaseManager();
     void unitCategorySelected(int position);
+    void openVendorChooserDialog();
 }

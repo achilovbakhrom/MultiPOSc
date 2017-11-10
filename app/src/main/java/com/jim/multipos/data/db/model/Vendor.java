@@ -11,12 +11,13 @@ import org.greenrobot.greendao.annotation.JoinProperty;
 import org.greenrobot.greendao.annotation.ToMany;
 import org.greenrobot.greendao.annotation.Keep;
 
+import java.io.Serializable;
 import java.util.List;
 import org.greenrobot.greendao.DaoException;
 import com.jim.multipos.data.db.model.products.ProductDao;
 
 @Entity(nameInDb = "VENDOR", active = true)
-public class Vendor implements Editable{
+public class Vendor implements Editable, Serializable {
     @Id(autoincrement = true)
     private Long id;
     private String name;
@@ -28,6 +29,7 @@ public class Vendor implements Editable{
     private Long globalId;
     private Long rootId;
     private Long createdDate;
+    private Long productId;
     @ToMany(joinProperties = {@JoinProperty(name = "id", referencedName = "vendorId")})
     private List<Product> products;
     @ToMany(joinProperties = {@JoinProperty(name = "id", referencedName = "vendorId")})
@@ -39,10 +41,10 @@ public class Vendor implements Editable{
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
 
-    @Generated(hash = 1808206024)
+    @Generated(hash = 1854852822)
     public Vendor(Long id, String name, String contactName, String address, Boolean isActive,
-            Boolean isDeleted, Boolean isNotModified, Long globalId, Long rootId,
-            Long createdDate) {
+            Boolean isDeleted, Boolean isNotModified, Long globalId, Long rootId, Long createdDate,
+            Long productId) {
         this.id = id;
         this.name = name;
         this.contactName = contactName;
@@ -53,6 +55,7 @@ public class Vendor implements Editable{
         this.globalId = globalId;
         this.rootId = rootId;
         this.createdDate = createdDate;
+        this.productId = productId;
     }
 
     @Generated(hash = 530746692)
@@ -288,5 +291,13 @@ public class Vendor implements Editable{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Long getProductId() {
+        return this.productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
     }
  }

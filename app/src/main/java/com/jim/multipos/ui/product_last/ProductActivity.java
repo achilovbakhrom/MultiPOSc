@@ -465,6 +465,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
                                     String[] units,
                                     int unitPos,
                                     String vendorName,
+                                    List<Long> vendors,
                                     String description) {
         ProductAddEditFragment fragment = getProductAddEditFragment();
         if (fragment != null) {
@@ -482,6 +483,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
                     units,
                     unitPos,
                     vendorName,
+                    vendors,
                     description
             );
         }
@@ -689,6 +691,14 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
         ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
         if (fragment != null) {
             fragment.selectAddProductListItem();
+        }
+    }
+
+    @Override
+    public void openVendorChooserDialog(List<Vendor> vendors) {
+        ProductAddEditFragment fragment = getProductAddEditFragment();
+        if (fragment != null) {
+            fragment.openVendorChooserDialog(vendors);
         }
     }
 }

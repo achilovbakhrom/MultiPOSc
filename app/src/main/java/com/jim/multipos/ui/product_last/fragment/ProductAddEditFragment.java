@@ -1,10 +1,17 @@
 package com.jim.multipos.ui.product_last.fragment;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,8 +21,12 @@ import com.jim.mpviews.MPosSpinner;
 import com.jim.mpviews.MpButton;
 import com.jim.mpviews.MpCheckbox;
 import com.jim.mpviews.MpEditText;
+import com.jim.mpviews.MpSearchView;
 import com.jim.multipos.R;
+import com.jim.multipos.core.BaseAdapter;
 import com.jim.multipos.core.BaseFragment;
+import com.jim.multipos.core.BaseViewHolder;
+import com.jim.multipos.data.db.model.Vendor;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.ui.product.view.AddCategoryFragment;
 import com.jim.multipos.ui.product_last.ProductActivity;
@@ -23,6 +34,10 @@ import com.jim.multipos.ui.product_last.ProductPresenter;
 import com.jim.multipos.utils.GlideApp;
 import com.jim.multipos.utils.OpenPickPhotoUtils;
 import com.jim.multipos.utils.PhotoPickDialog;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -34,7 +49,7 @@ import static android.app.Activity.RESULT_OK;
  * Created by Achilov Bakhrom on 10/26/17.
  */
 
-public class ProductAddEditFragment extends BaseFragment {
+public class ProductAddEditFragment extends BaseFragment implements View.OnClickListener{
 
     @NotEmpty(messageId = R.string.name_validation)
     @BindView(R.id.etProductName)
@@ -85,6 +100,8 @@ public class ProductAddEditFragment extends BaseFragment {
     @BindView(R.id.tvVendor)
     TextView vendor;
 
+    private static final String VENDOR_LIST_COUNT = "VENDOR_LIST_COUNT";
+    private static final String VENDOR_ID = "VENDOR_ID_";
     private int vendorSelectedPos = 0;
     private String photoPath = null;
     private Uri photoSelected;
@@ -98,8 +115,50 @@ public class ProductAddEditFragment extends BaseFragment {
         return false;
     }
 
+    private Dialog dialog;
+
+    private MpSearchView vendorDialogSearchView;
+    private RecyclerView vendorDialogList;
+    private MpButton vendorDialogBack;
+    private MpButton vendorDialogOk;
+
+    private List<Long> vendors;
+
     @Override
-    protected void init(Bundle savedInstanceState) {}
+    protected void init(Bundle savedInstanceState) {
+        vendors = new ArrayList<>();
+        if (savedInstanceState != null) {
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+            int count = preferences.getInt(VENDOR_LIST_COUNT, 0);
+            if (count > 0) {
+                for (int i = 0; i < count; i++) {
+                    vendors.add(preferences.getLong(VENDOR_ID + i, -1L));
+                }
+            }
+        }
+
+        dialog = new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.choose_vendor_dialog, null, false);
+        dialog.getWindow().getDecorView().setBackgroundResource(android.R.color.transparent);
+        dialog.setContentView(dialogView);
+        vendorDialogSearchView = (MpSearchView) dialogView.findViewById(R.id.searchView);
+        vendorDialogList = (RecyclerView) dialogView.findViewById(R.id.rvVendors);
+        vendorDialogBack = (MpButton) dialogView.findViewById(R.id.btnBack);
+        vendorDialogBack.setOnClickListener(this);
+        vendorDialogOk = (MpButton) dialogView.findViewById(R.id.btnOk);
+        vendorDialogOk.setOnClickListener(this);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        preferences.edit().putInt(VENDOR_LIST_COUNT, vendors.size()).apply();
+        for (int i = 0; i < vendors.size(); i++) {
+            preferences.edit().putLong(VENDOR_ID + i, vendors.get(i)).apply();
+        }
+    }
 
     public void initProductAddEditFragment(String[] unitCategoryList,
                                            String[] unitList,
@@ -115,7 +174,9 @@ public class ProductAddEditFragment extends BaseFragment {
         costCurrency.setText(currencyAbbr);
     }
 
-    @OnClick(value = {R.id.btnSave, R.id.btnCancel, R.id.btnAdvance, R.id.ivChooseImage})
+
+
+    @OnClick(value = {R.id.btnSave, R.id.btnCancel, R.id.btnAdvance, R.id.ivChooseImage, R.id.tvVendor})
     public void buttonClick(View view) {
         ProductPresenter presenter = ((ProductActivity) getContext()).getPresenter();
         switch (view.getId()) {
@@ -139,7 +200,9 @@ public class ProductAddEditFragment extends BaseFragment {
                     );
                 }
                 break;
-
+            case R.id.tvVendor:
+                ((ProductActivity) getContext()).getPresenter().openVendorChooserDialog();
+                break;
             case R.id.btnCancel:
 
                 break;
@@ -225,6 +288,7 @@ public class ProductAddEditFragment extends BaseFragment {
                              String[] units,
                              int unitPos,
                              String vendorName,
+                             List<Long> vendors,
                              String description) {
         this.name.setText(name);
         this.name.setError(null);
@@ -243,6 +307,20 @@ public class ProductAddEditFragment extends BaseFragment {
         }
         this.vendor.setText(vendorName);
         this.save.setText(R.string.update);
+        this.vendors = vendors;
+    }
+
+    public void openVendorChooserDialog(List<Vendor> vendorList) {
+        List<VendorWithCheckedPosition> result = new ArrayList<>();
+        for (Vendor vendor : vendorList) {
+            VendorWithCheckedPosition vendorWithCheckedPosition = new VendorWithCheckedPosition();
+            vendorWithCheckedPosition.setVendor(vendor);
+            vendorWithCheckedPosition.setChecked(containsVendor(vendor.getId()));
+            result.add(vendorWithCheckedPosition);
+        }
+        VendorChooseAdapter adapter = new VendorChooseAdapter(result);
+        vendorDialogList.setAdapter(adapter);
+        dialog.show();
     }
 
     public void setUnits(String[] units) {
@@ -296,4 +374,76 @@ public class ProductAddEditFragment extends BaseFragment {
         return isActive.isChecked();
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btnOk:
+
+            case R.id.btnBack:
+                dialog.dismiss();
+                break;
+        }
+    }
+
+    private boolean containsVendor(Long vendorId) {
+        for (Long id : vendors) {
+            if (id.equals(vendorId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    class VendorChooseAdapter extends BaseAdapter<VendorWithCheckedPosition, VendorChooseAdapter.VendorChooseItemHolder> {
+
+        public VendorChooseAdapter(List<VendorWithCheckedPosition> items) {
+            super(items);
+        }
+
+        @Override
+        public VendorChooseItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.choose_vendor_dialog_item, parent, false);
+            return new VendorChooseItemHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(VendorChooseItemHolder holder, int position) {
+            holder.vendorName.setText(items.get(position).getVendor().getName());
+            holder.vendorContact.setText(items.get(position).getVendor().getContactName());
+            holder.vendorAddress.setText(items.get(position).getVendor().getAddress());
+            holder.vendorChecked.setChecked(items.get(position).isChecked());
+        }
+
+        class VendorChooseItemHolder extends BaseViewHolder {
+            @BindView(R.id.tvVendorName)
+            TextView vendorName;
+            @BindView(R.id.tvVendorContact)
+            TextView vendorContact;
+            @BindView(R.id.tvVendorAddress)
+            TextView vendorAddress;
+            @BindView(R.id.chbVendorChecked)
+            MpCheckbox vendorChecked;
+
+            VendorChooseItemHolder(View itemView) {
+                super(itemView);
+            }
+        }
+    }
+
+    class VendorWithCheckedPosition implements Serializable {
+        private Vendor vendor;
+        private boolean isChecked;
+        public Vendor getVendor() {
+            return vendor;
+        }
+        public void setVendor(Vendor vendor) {
+            this.vendor = vendor;
+        }
+        public boolean isChecked() {
+            return isChecked;
+        }
+        public void setChecked(boolean checked) {
+            isChecked = checked;
+        }
+    }
 }
