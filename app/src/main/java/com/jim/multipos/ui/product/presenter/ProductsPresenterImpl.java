@@ -71,7 +71,6 @@ public class ProductsPresenterImpl extends BasePresenterImpl<ProductsView> imple
             product.setMainUnit(unit);
             product.setMainUnitId(unit.getId());
 //            product.setVendor(vendor);
-            product.setVendorId(vendor.getId());
             product.setProductClass(productClass);
             product.setClassId(productClass.getId());
             product.setPriceCurrencyId(priceCurrency.getId());
@@ -95,7 +94,6 @@ public class ProductsPresenterImpl extends BasePresenterImpl<ProductsView> imple
             newProduct.setMainUnit(unit);
             newProduct.setMainUnitId(unit.getId());
 //            newProduct.setVendor(vendor);
-            newProduct.setVendorId(vendor.getId());
             newProduct.setClassId(productClass.getId());
             newProduct.setProductClass(productClass);
             newProduct.setPriceCurrencyId(priceCurrency.getId());

@@ -647,7 +647,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
     public int getVendorSelectedPos() {
         ProductAddEditFragment fragment = getProductAddEditFragment();
         if (fragment != null) {
-            return fragment.getVendorSelectedPos();
+//            return fragment.getVendorSelectedPos();
         }
         return 0;
     }

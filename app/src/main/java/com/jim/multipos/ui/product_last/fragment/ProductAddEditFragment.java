@@ -102,7 +102,6 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
 
     private static final String VENDOR_LIST_COUNT = "VENDOR_LIST_COUNT";
     private static final String VENDOR_ID = "VENDOR_ID_";
-    private int vendorSelectedPos = 0;
     private String photoPath = null;
     private Uri photoSelected;
     @Override
@@ -360,10 +359,6 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
             return Double.parseDouble(temp);
         }
         return 0.0d;
-    }
-
-    public int getVendorSelectedPos() {
-        return vendorSelectedPos;
     }
 
     public int getProductClassSelectedPos() {

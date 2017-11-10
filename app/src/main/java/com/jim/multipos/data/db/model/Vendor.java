@@ -7,6 +7,7 @@ import com.jim.multipos.data.db.model.products.Product;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.JoinEntity;
 import org.greenrobot.greendao.annotation.JoinProperty;
 import org.greenrobot.greendao.annotation.ToMany;
 import org.greenrobot.greendao.annotation.Keep;
@@ -30,8 +31,14 @@ public class Vendor implements Editable, Serializable {
     private Long rootId;
     private Long createdDate;
     private Long productId;
-    @ToMany(joinProperties = {@JoinProperty(name = "id", referencedName = "vendorId")})
+
+
+    @ToMany
+    @JoinEntity(entity = VendorProductConnection.class, sourceProperty = "vendorId", targetProperty = "productId")
     private List<Product> products;
+
+
+
     @ToMany(joinProperties = {@JoinProperty(name = "id", referencedName = "vendorId")})
     private List<Contact> contacts;
     /** Used for active entity operations. */
@@ -41,10 +48,10 @@ public class Vendor implements Editable, Serializable {
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
 
+
     @Generated(hash = 1854852822)
-    public Vendor(Long id, String name, String contactName, String address, Boolean isActive,
-            Boolean isDeleted, Boolean isNotModified, Long globalId, Long rootId, Long createdDate,
-            Long productId) {
+    public Vendor(Long id, String name, String contactName, String address, Boolean isActive, Boolean isDeleted,
+            Boolean isNotModified, Long globalId, Long rootId, Long createdDate, Long productId) {
         this.id = id;
         this.name = name;
         this.contactName = contactName;
@@ -61,6 +68,7 @@ public class Vendor implements Editable, Serializable {
     @Generated(hash = 530746692)
     public Vendor() {
     }
+
 
     @Override
     @Keep
@@ -233,6 +241,14 @@ public class Vendor implements Editable, Serializable {
         myDao = daoSession != null ? daoSession.getVendorDao() : null;
     }
 
+    public Long getProductId() {
+        return this.productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
+
     public void setCreatedDate(Long createdDate) {
         this.createdDate = createdDate;
     }
@@ -293,11 +309,4 @@ public class Vendor implements Editable, Serializable {
         this.name = name;
     }
 
-    public Long getProductId() {
-        return this.productId;
-    }
-
-    public void setProductId(Long productId) {
-        this.productId = productId;
-    }
  }

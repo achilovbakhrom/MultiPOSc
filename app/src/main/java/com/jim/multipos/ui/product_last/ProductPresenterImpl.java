@@ -328,8 +328,8 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 if (!view.getProductName().equals(this.product.getName()) || !view.getBarCode().equals(this.product.getBarcode()) || !view.getSku().equals(this.product.getSku()) ||
                         !view.getPrice().equals(this.product.getPrice()) || !view.getCost().equals(this.product.getCost()) ||
                         (unitCategory != null && !unitCategory.getUnits().get(view.getUnitSelectedPos()).getId().equals(this.product.getMainUnitId())) ||
-                        (vendor != null && !vendor.getId().equals(this.product.getVendorId()) ||  (productClass != null && !productClass.getId().equals(this.product.getProductClass().getId())) ||
-                        view.getProductIsActive() != this.product.getIsActive())) {
+                        (productClass != null && !productClass.getId().equals(this.product.getProductClass().getId())) ||
+                        view.getProductIsActive() != this.product.getIsActive()) {
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
                         public void onPositiveButtonClicked() {
@@ -978,7 +978,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                             List<Vendor> tempVendors = databaseManager.getVendors().blockingSingle();
                             if (tempVendors.size() > vendorPos) {
 //                                result.setVendor(tempVendors.get(vendorPos));
-                                result.setVendorId(tempVendors.get(vendorPos).getId());
+//                                result.setVendorId(tempVendors.get(vendorPos).getId());
                             }
                             result.setDescription(description);
                             databaseManager.addProduct(result).subscribe(id -> {

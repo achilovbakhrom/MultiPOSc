@@ -11,6 +11,7 @@ import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.JoinEntity;
 import org.greenrobot.greendao.annotation.JoinProperty;
+import org.greenrobot.greendao.annotation.Keep;
 import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.Property;
 import org.greenrobot.greendao.annotation.ToMany;
@@ -19,6 +20,7 @@ import org.greenrobot.greendao.annotation.ToOne;
 import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.Vendor;
 
+import com.jim.multipos.data.db.model.VendorProductConnection;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.intosystem.Editable;
 import com.jim.multipos.data.db.model.intosystem.NamePhotoPathId;
@@ -65,16 +67,23 @@ public class Product implements Editable, Serializable {
             sourceProperty = "productId",
             targetProperty = "unitId")
     private List<Unit> subUnits;
-    @Property
-    private Long vendorId;
-    @ToMany(joinProperties = {@JoinProperty(name = "id", referencedName = "productId")})
+
+
+    @ToMany
+    @JoinEntity(entity = VendorProductConnection.class,
+            sourceProperty = "productId",
+            targetProperty = "vendorId")
     private List<Vendor> vendor;
+
+
     private String description;
     private Long rootId;
     private Long parentId;
     @ToOne(joinProperty = "categoryId")
     private Category category;
     private Long categoryId;
+    @Generated(hash = 1372501278)
+    private transient Long category__resolvedKey;
     @Generated(hash = 1037669877)
     private transient Long mainUnit__resolvedKey;
     @Generated(hash = 1979699144)
@@ -89,18 +98,13 @@ public class Product implements Editable, Serializable {
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
-    @Generated(hash = 1372501278)
-    private transient Long category__resolvedKey;
 
-    @Generated(hash = 1890278724)
-    public Product() {
-    }
 
-    @Generated(hash = 958397984)
+    @Generated(hash = 1712732975)
     public Product(Long id, String name, Double price, Double cost, Long createdDate, String barcode,
             String sku, String photoPath, Boolean isActive, Boolean isNotModified, Boolean isDeleted,
             Double position, Long priceCurrencyId, Long costCurrencyId, Long classId, Long mainUnitId,
-            Long vendorId, String description, Long rootId, Long parentId, Long categoryId) {
+            String description, Long rootId, Long parentId, Long categoryId) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -117,69 +121,85 @@ public class Product implements Editable, Serializable {
         this.costCurrencyId = costCurrencyId;
         this.classId = classId;
         this.mainUnitId = mainUnitId;
-        this.vendorId = vendorId;
         this.description = description;
         this.rootId = rootId;
         this.parentId = parentId;
         this.categoryId = categoryId;
     }
 
+    @Generated(hash = 1890278724)
+    public Product() {
+    }
+
+
     @Override
+    @Keep
     public void setId(Long id) {
         this.id = id;
     }
 
     @Override
+    @Keep
     public boolean isActive() {
         return this.isActive;
     }
 
     @Override
+    @Keep
     public void setActive(boolean active) {
         this.isActive = active;
     }
 
     @Override
+    @Keep
     public boolean isDeleted() {
         return this.isDeleted;
     }
 
     @Override
+    @Keep
     public void setDeleted(boolean deleted) {
         this.isDeleted = deleted;
     }
 
     @Override
+    @Keep
     public boolean isNotModifyted() {
         return this.isNotModified;
     }
 
     @Override
+    @Keep
     public void setNotModifyted(boolean notModifyted) {
         this.isNotModified = notModifyted;
     }
 
     @Override
+    @Keep
     public Long getRootId() {
         return this.rootId;
     }
 
     @Override
+    @Keep
     public void setRootId(Long rootId) {
         this.rootId = rootId;
     }
 
     @Override
+    @Keep
     public Long getCreatedDate() {
         return this.createdDate;
     }
 
     @Override
+    @Keep
     public void setCreatedDate(long createdDate) {
         this.createdDate = createdDate;
     }
 
     @Override
+    @Keep
     public Long getId() {
         return this.id;
     }
@@ -221,6 +241,34 @@ public class Product implements Editable, Serializable {
     }
 
     /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    @Generated(hash = 1207622463)
+    public synchronized void resetVendor() {
+        vendor = null;
+    }
+
+    /**
+     * To-many relationship, resolved on first access (and after reset).
+     * Changes to to-many relations are not persisted, make changes to the target entity.
+     */
+    @Generated(hash = 1883235164)
+    public List<Vendor> getVendor() {
+        if (vendor == null) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            VendorDao targetDao = daoSession.getVendorDao();
+            List<Vendor> vendorNew = targetDao._queryProduct_Vendor(id);
+            synchronized (this) {
+                if(vendor == null) {
+                    vendor = vendorNew;
+                }
+            }
+        }
+        return vendor;
+    }
+
+    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
     @Generated(hash = 622239219)
     public synchronized void resetSubUnits() {
         subUnits = null;
@@ -248,26 +296,33 @@ public class Product implements Editable, Serializable {
         return subUnits;
     }
 
-    /**
-     * To-many relationship, resolved on first access (and after reset).
-     * Changes to to-many relations are not persisted, make changes to the target entity.
-     */
-    @Generated(hash = 1883235164)
-    public List<Vendor> getVendor() {
-        if (vendor == null) {
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 1132018243)
+    public void setCategory(Category category) {
+        synchronized (this) {
+            this.category = category;
+            categoryId = category == null ? null : category.getId();
+            category__resolvedKey = categoryId;
+        }
+    }
+
+    /** To-one relationship, resolved on first access. */
+    @Generated(hash = 728129201)
+    public Category getCategory() {
+        Long __key = this.categoryId;
+        if (category__resolvedKey == null || !category__resolvedKey.equals(__key)) {
             final DaoSession daoSession = this.daoSession;
             if (daoSession == null) {
                 throw new DaoException("Entity is detached from DAO context");
             }
-            VendorDao targetDao = daoSession.getVendorDao();
-            List<Vendor> vendorNew = targetDao._queryProduct_Vendor(id);
+            CategoryDao targetDao = daoSession.getCategoryDao();
+            Category categoryNew = targetDao.load(__key);
             synchronized (this) {
-                if(vendor == null) {
-                    vendor = vendorNew;
-                }
+                category = categoryNew;
+                category__resolvedKey = __key;
             }
         }
-        return vendor;
+        return category;
     }
 
     /** called by internal mechanisms, do not call yourself. */
@@ -396,6 +451,14 @@ public class Product implements Editable, Serializable {
         myDao = daoSession != null ? daoSession.getProductDao() : null;
     }
 
+    public Long getCategoryId() {
+        return this.categoryId;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
+    }
+
     public Long getParentId() {
         return this.parentId;
     }
@@ -410,14 +473,6 @@ public class Product implements Editable, Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Long getVendorId() {
-        return this.vendorId;
-    }
-
-    public void setVendorId(Long vendorId) {
-        this.vendorId = vendorId;
     }
 
     public Long getMainUnitId() {
@@ -452,27 +507,35 @@ public class Product implements Editable, Serializable {
         this.priceCurrencyId = priceCurrencyId;
     }
 
-    public boolean getIsDeleted() {
+    public Double getPosition() {
+        return this.position;
+    }
+
+    public void setPosition(Double position) {
+        this.position = position;
+    }
+
+    public Boolean getIsDeleted() {
         return this.isDeleted;
     }
 
-    public void setIsDeleted(boolean isDeleted) {
+    public void setIsDeleted(Boolean isDeleted) {
         this.isDeleted = isDeleted;
     }
 
-    public boolean getIsNotModifyted() {
+    public Boolean getIsNotModified() {
         return this.isNotModified;
     }
 
-    public void setIsNotModifyted(boolean isNotModifyted) {
-        this.isNotModified = isNotModifyted;
+    public void setIsNotModified(Boolean isNotModified) {
+        this.isNotModified = isNotModified;
     }
 
-    public boolean getIsActive() {
+    public Boolean getIsActive() {
         return this.isActive;
     }
 
-    public void setIsActive(boolean isActive) {
+    public void setIsActive(Boolean isActive) {
         this.isActive = isActive;
     }
 
@@ -500,12 +563,24 @@ public class Product implements Editable, Serializable {
         this.barcode = barcode;
     }
 
-    public double getCost() {
+    public void setCreatedDate(Long createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public Double getCost() {
         return this.cost;
     }
 
-    public double getPrice() {
+    public void setCost(Double cost) {
+        this.cost = cost;
+    }
+
+    public Double getPrice() {
         return this.price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
     public String getName() {
@@ -514,85 +589,6 @@ public class Product implements Editable, Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setIsDeleted(Boolean isDeleted) {
-        this.isDeleted = isDeleted;
-    }
-
-    public Boolean getIsNotModified() {
-        return this.isNotModified;
-    }
-
-    public void setIsNotModified(Boolean isNotModified) {
-        this.isNotModified = isNotModified;
-    }
-
-    public void setIsActive(Boolean isActive) {
-        this.isActive = isActive;
-    }
-
-    public void setCreatedDate(Long createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public void setCost(Double cost) {
-        this.cost = cost;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public Double getPosition() {
-        return this.position;
-    }
-
-    public void setPosition(Double position) {
-        this.position = position;
-    }
-
-    /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 1132018243)
-    public void setCategory(Category category) {
-        synchronized (this) {
-            this.category = category;
-            categoryId = category == null ? null : category.getId();
-            category__resolvedKey = categoryId;
-        }
-    }
-
-    /** To-one relationship, resolved on first access. */
-    @Generated(hash = 728129201)
-    public Category getCategory() {
-        Long __key = this.categoryId;
-        if (category__resolvedKey == null || !category__resolvedKey.equals(__key)) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            CategoryDao targetDao = daoSession.getCategoryDao();
-            Category categoryNew = targetDao.load(__key);
-            synchronized (this) {
-                category = categoryNew;
-                category__resolvedKey = __key;
-            }
-        }
-        return category;
-    }
-
-    public Long getCategoryId() {
-        return this.categoryId;
-    }
-
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
-    @Generated(hash = 1207622463)
-    public synchronized void resetVendor() {
-        vendor = null;
     }
 
 }
