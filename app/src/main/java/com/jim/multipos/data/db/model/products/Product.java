@@ -5,28 +5,20 @@ import org.greenrobot.greendao.annotation.Id;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.UUID;
 
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.JoinEntity;
-import org.greenrobot.greendao.annotation.JoinProperty;
 import org.greenrobot.greendao.annotation.Keep;
-import org.greenrobot.greendao.annotation.NotNull;
-import org.greenrobot.greendao.annotation.Property;
 import org.greenrobot.greendao.annotation.ToMany;
 import org.greenrobot.greendao.annotation.ToOne;
 
 import com.jim.multipos.data.db.model.ProductClass;
-import com.jim.multipos.data.db.model.Vendor;
 
-import com.jim.multipos.data.db.model.VendorProductConnection;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.intosystem.Editable;
-import com.jim.multipos.data.db.model.intosystem.NamePhotoPathId;
 import com.jim.multipos.data.db.model.unit.SubUnitsList;
 import com.jim.multipos.data.db.model.unit.Unit;
-import com.jim.multipos.data.db.model.VendorDao;
 import com.jim.multipos.data.db.model.unit.UnitDao;
 import com.jim.multipos.data.db.model.ProductClassDao;
 import com.jim.multipos.data.db.model.currency.CurrencyDao;
@@ -70,7 +62,7 @@ public class Product implements Editable, Serializable {
 
 
     @ToMany
-    @JoinEntity(entity = VendorProductConnection.class,
+    @JoinEntity(entity = VendorProductCon.class,
             sourceProperty = "productId",
             targetProperty = "vendorId")
     private List<Vendor> vendor;
@@ -269,32 +261,7 @@ public class Product implements Editable, Serializable {
     }
 
     /** Resets a to-many relationship, making the next get call to query for a fresh result. */
-    @Generated(hash = 622239219)
-    public synchronized void resetSubUnits() {
-        subUnits = null;
-    }
 
-    /**
-     * To-many relationship, resolved on first access (and after reset).
-     * Changes to to-many relations are not persisted, make changes to the target entity.
-     */
-    @Generated(hash = 1537469223)
-    public List<Unit> getSubUnits() {
-        if (subUnits == null) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            UnitDao targetDao = daoSession.getUnitDao();
-            List<Unit> subUnitsNew = targetDao._queryProduct_SubUnits(id);
-            synchronized (this) {
-                if(subUnits == null) {
-                    subUnits = subUnitsNew;
-                }
-            }
-        }
-        return subUnits;
-    }
 
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 1132018243)
@@ -589,6 +556,34 @@ public class Product implements Editable, Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    @Generated(hash = 622239219)
+    public synchronized void resetSubUnits() {
+        subUnits = null;
+    }
+
+    /**
+     * To-many relationship, resolved on first access (and after reset).
+     * Changes to to-many relations are not persisted, make changes to the target entity.
+     */
+    @Generated(hash = 1537469223)
+    public List<Unit> getSubUnits() {
+        if (subUnits == null) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            UnitDao targetDao = daoSession.getUnitDao();
+            List<Unit> subUnitsNew = targetDao._queryProduct_SubUnits(id);
+            synchronized (this) {
+                if(subUnits == null) {
+                    subUnits = subUnitsNew;
+                }
+            }
+        }
+        return subUnits;
     }
 
 }

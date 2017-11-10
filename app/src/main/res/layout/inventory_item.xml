@@ -18,14 +18,17 @@
             >
 
             <TextView
+                android:id="@+id/tvProductName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:paddingLeft="@dimen/twenty_dp"
                 android:textColor="@color/colorMainText"
+                android:text="Product"
                 android:textSize="@dimen/eighteen_dp"/>
 
             <TextView
+                android:id="@+id/tvProductSku"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -35,6 +38,7 @@
                 android:textStyle="italic"/>
 
             <TextView
+                android:id="@+id/tvProductBarcode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -44,6 +48,7 @@
                 android:textStyle="italic"/>
 
             <TextView
+                android:id="@+id/tvProductClassName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -61,7 +66,8 @@
             android:background="@color/colorGrey"/>
 
         <TextView
-            android:layout_width="@dimen/two_hundred_sixty_dp"
+            android:id="@+id/tvVendorNames"
+            android:layout_width="@dimen/two_hundred_thirty_dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="left"
@@ -75,7 +81,7 @@
             android:background="@color/colorGrey"/>
 
         <LinearLayout
-            android:layout_width="@dimen/hundred_sixty_dp"
+            android:layout_width="@dimen/hundred_twenty_dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:orientation="vertical"
@@ -83,6 +89,7 @@
             android:paddingRight="@dimen/twenty_dp">
 
             <com.jim.mpviews.MpEditText
+                android:id="@+id/etStockAlert"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/forty_dp"
                 android:inputType="numberDecimal"
@@ -95,6 +102,7 @@
             android:background="@color/colorGrey"/>
 
         <TextView
+            android:id="@+id/tvInventoryCount"
             android:layout_width="@dimen/two_hundred_dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -109,7 +117,8 @@
             android:background="@color/colorGrey"/>
 
         <TextView
-            android:layout_width="@dimen/hundred_ten_dp"
+            android:id="@+id/tvUnitAbr"
+            android:layout_width="@dimen/hundred_dp"
             android:gravity="center"
             android:layout_gravity="center_vertical"
             android:layout_height="wrap_content" />
@@ -129,14 +138,7 @@
             >
 
             <ImageView
-                android:layout_width="0dp"
-                android:layout_height="@dimen/thirty_dp"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:src="@drawable/expense"
-                />
-
-            <ImageView
+                android:id="@+id/ivIncome"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/thirty_dp"
                 android:layout_gravity="center"
@@ -145,6 +147,16 @@
                 />
 
             <ImageView
+                android:id="@+id/ivBackReturn"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/thirty_dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:src="@drawable/expense"
+                />
+
+            <ImageView
+                android:id="@+id/ivSetActualy"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/thirty_dp"
                 android:layout_gravity="center"
@@ -153,6 +165,7 @@
                 />
 
             <ImageView
+                android:id="@+id/ivAddProduct"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/thirty_dp"
                 android:layout_gravity="center"
@@ -161,6 +174,7 @@
                 />
 
             <ImageView
+                android:id="@+id/ivWriteOff"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/thirty_dp"
                 android:layout_gravity="center"

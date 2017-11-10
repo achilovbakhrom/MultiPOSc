@@ -1,11 +1,8 @@
 package com.jim.multipos.ui.vendor.add_edit;
 
-import android.view.View;
-
 import com.jim.multipos.core.BaseView;
 import com.jim.multipos.data.db.model.Contact;
-import com.jim.multipos.data.db.model.Vendor;
-import com.jim.multipos.ui.first_configure.adapters.UnitAdapter;
+import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.utils.UIUtils;
 
 /**

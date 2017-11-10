@@ -47,7 +47,7 @@ public class MpToolbar extends RelativeLayout {
     boolean pressed = false;
     private LinearLayout mpMainMenu, llEmployer;
     private RelativeLayout mpSearch;
-    private RelativeLayout mpLeftSide, mpRightSide;
+    private RelativeLayout mpLeftSide, mpRightSide,rlBackgroun;
     private ImageView mpSettings;
     private MpHorizontalScroller mpHorizontalScroller;
     private MpSearchView mpSearchView;
@@ -85,6 +85,7 @@ public class MpToolbar extends RelativeLayout {
         mpSearchView = (MpSearchView) findViewById(R.id.mpSearchView);
         mpLeftSide = (RelativeLayout) findViewById(R.id.mpLeftSide);
         mpRightSide = (RelativeLayout) findViewById(R.id.mpRightSide);
+        rlBackgroun = (RelativeLayout) findViewById(R.id.rlBackgroun);
         mode = array.getInt(R.styleable.MpToolbar_view_mode, DEFAULT_MODE);
         setMode(mode);
         mpSettings.setOnTouchListener(new OnTouchListener() {
@@ -285,6 +286,7 @@ public class MpToolbar extends RelativeLayout {
     private void setVisibility() {
         switch (mode) {
             case DEFAULT_TYPE: {
+                rlBackgroun.setVisibility(GONE);
                 mpRightSide.setVisibility(GONE);
                 mpMainMenu.setVisibility(GONE);
                 mpSettings.setVisibility(GONE);
@@ -307,7 +309,7 @@ public class MpToolbar extends RelativeLayout {
                 break;
             }
             case WITH_SEARCH_TYPE: {
-                mpRightSide.setVisibility(VISIBLE);
+                mpRightSide.setVisibility(GONE);
                 mpMainMenu.setVisibility(GONE);
                 mpSettings.setVisibility(GONE);
                 mpHorizontalScroller.setVisibility(GONE);

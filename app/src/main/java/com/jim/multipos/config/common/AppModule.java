@@ -13,6 +13,8 @@ import com.jim.multipos.ui.first_configure_last.FirstConfigureActivity;
 
 import com.jim.multipos.ui.first_configure_last.di.FirstConfigureActivityModule;
 import com.jim.multipos.ui.consignment.ConsignmentActivity;
+import com.jim.multipos.ui.inventory.InventoryActivity;
+import com.jim.multipos.ui.inventory.di.InventoryModule;
 import com.jim.multipos.ui.lock_screen.LockScreenActivity;
 import com.jim.multipos.ui.lock_screen.di.LockScreenActivityModule;
 import com.jim.multipos.ui.main_menu.customers_menu.CustomersMenuActivity;
@@ -121,4 +123,9 @@ abstract class AppModule {
     @PerActivity
     @ContributesAndroidInjector(modules = ConsignmentActivityModule.class)
     abstract ConsignmentActivity provideConsignmentActivity();
+
+    @PerActivity
+    @ContributesAndroidInjector(modules = InventoryModule.class)
+    abstract InventoryActivity provideInventoryActivity();
+
 }

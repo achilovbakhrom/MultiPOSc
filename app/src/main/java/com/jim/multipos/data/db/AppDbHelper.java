@@ -29,8 +29,6 @@ import com.jim.multipos.data.db.model.PaymentTypeDao;
 import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.ServiceFeeDao;
-import com.jim.multipos.data.db.model.Vendor;
-import com.jim.multipos.data.db.model.VendorDao;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.CustomerDao;
@@ -41,11 +39,14 @@ import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.CategoryDao;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.ProductDao;
+import com.jim.multipos.data.db.model.products.Vendor;
+import com.jim.multipos.data.db.model.products.VendorDao;
 import com.jim.multipos.data.db.model.stock.Stock;
 import com.jim.multipos.data.db.model.unit.SubUnitsList;
 import com.jim.multipos.data.db.model.unit.Unit;
 import com.jim.multipos.data.db.model.unit.UnitCategory;
 import com.jim.multipos.data.db.model.unit.UnitDao;
+import com.jim.multipos.ui.inventory.model.InventoryItem;
 
 import org.greenrobot.greendao.query.Query;
 import org.greenrobot.greendao.query.QueryBuilder;
@@ -54,7 +55,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -63,7 +63,6 @@ import io.reactivex.Observable;
 import io.reactivex.Single;
 
 import static com.jim.multipos.data.db.model.products.Category.WITHOUT_PARENT;
-import static com.jim.multipos.utils.CategoryUtils.isSubcategory;
 
 
 /**
@@ -1102,5 +1101,103 @@ public class AppDbHelper implements DbHelper {
             return true;
         });
 
+    }
+
+    @Override
+    public Single<List<InventoryItem>> getInventoryItems() {
+        if(mDaoSession.getProductDao().loadAll().size()==0){
+
+            List<Product> products = new ArrayList<>();
+
+
+
+            Product product = new Product();
+            product.setName("Coca Cola");
+            product.setBarcode("123456789");
+            product.setSku("cc777");
+            product.setPrice(1d);
+            product.setCost(1d);
+            product.setCreatedDate(System.currentTimeMillis());
+            products.add(product);
+
+            Product product1 = new Product();
+            product1.setName("Колбаса");
+            product1.setBarcode("777444888");
+            product1.setSku("колБ123");
+            product1.setPrice(1d);
+            product1.setCost(1d);
+            product1.setCreatedDate(System.currentTimeMillis());
+            products.add(product1);
+
+
+            Product product2 = new Product();
+            product2.setName("Яицо");
+            product2.setBarcode("7887878787");
+            product2.setSku("Тт15");
+            product2.setPrice(1d);
+            product2.setCost(1d);
+            product2.setCreatedDate(System.currentTimeMillis());
+            products.add(product2);
+
+
+            Product product3 = new Product();
+            product3.setName("Анти Хайп");
+            product3.setBarcode("");
+            product3.setSku("");
+            product3.setPrice(1d);
+            product3.setCost(1d);
+            product3.setCreatedDate(System.currentTimeMillis());
+            products.add(product3);
+
+
+            Product product4 = new Product();
+            product4.setName("58йй2");
+            product4.setBarcode("фывйа");
+            product4.setSku("фывййаыа");
+            product4.setPrice(1d);
+            product4.setCost(1d);
+            product4.setCreatedDate(System.currentTimeMillis());
+            products.add(product4);
+
+
+            Product product5 = new Product();
+            product5.setName("5884878613");
+            product5.setBarcode("777889961");
+            product5.setSku("cc777");
+            product5.setPrice(1d);
+            product5.setCost(1d);
+            product5.setCreatedDate(System.currentTimeMillis());
+            products.add(product5);
+
+
+            Product product6 = new Product();
+            product6.setName("Сардор");
+            product6.setBarcode("234023");
+            product6.setSku("сс144458");
+            product6.setPrice(1d);
+            product6.setCost(1d);
+            product6.setCreatedDate(System.currentTimeMillis());
+            products.add(product6);
+            mDaoSession.getProductDao().insertOrReplaceInTx(products);
+
+
+            Vendor vendor = new Vendor();
+            vendor.setName("Orifjon");
+            vendor.setActive(true);
+            vendor.setCreatedDate(System.currentTimeMillis());
+            mDaoSession.getVendorDao().insertOrReplace(vendor);
+
+            Vendor vendor1 = new Vendor();
+            vendor1.setName("Anvarjon");
+            vendor1.setActive(true);
+            vendor1.setCreatedDate(System.currentTimeMillis());
+            mDaoSession.getVendorDao().insertOrReplace(vendor1);
+
+        }
+
+        return Single.create(e -> {
+            List<InventoryItem> inventoryItems = new ArrayList<>();
+            e.onSuccess(inventoryItems);
+        });
     }
 }

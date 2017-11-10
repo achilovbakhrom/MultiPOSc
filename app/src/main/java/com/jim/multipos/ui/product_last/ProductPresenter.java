@@ -2,14 +2,9 @@ package com.jim.multipos.ui.product_last;
 
 import com.jim.multipos.core.Presenter;
 import com.jim.multipos.data.DatabaseManager;
-import com.jim.multipos.data.db.model.ProductClass;
-import com.jim.multipos.data.db.model.Vendor;
-import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.Product;
-import com.jim.multipos.data.db.model.unit.Unit;
 import com.jim.multipos.ui.product_last.helpers.CategoryAddEditMode;
-import com.jim.multipos.ui.product_last.helpers.FragmentType;
 
 import java.util.List;
 

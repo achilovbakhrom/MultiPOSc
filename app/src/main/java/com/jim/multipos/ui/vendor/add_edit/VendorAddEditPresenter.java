@@ -2,12 +2,10 @@ package com.jim.multipos.ui.vendor.add_edit;
 
 import com.jim.multipos.core.Presenter;
 import com.jim.multipos.data.db.model.Contact;
-import com.jim.multipos.data.db.model.Vendor;
+import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.vendor.AddingMode;
 
 import java.util.List;
-
-import io.reactivex.Observable;
 
 /**
  * Created by Achilov Bakhrom on 10/21/17.

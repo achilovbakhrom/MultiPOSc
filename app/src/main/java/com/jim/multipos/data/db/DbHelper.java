@@ -21,7 +21,7 @@ import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.Account;
 
-import com.jim.multipos.data.db.model.Vendor;
+import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
 import com.jim.multipos.data.db.model.customer.JoinCustomerGroupsWithCustomers;
@@ -34,6 +34,7 @@ import com.jim.multipos.data.db.model.stock.Stock;
 import com.jim.multipos.data.db.model.unit.SubUnitsList;
 import com.jim.multipos.data.db.model.unit.Unit;
 import com.jim.multipos.data.db.model.unit.UnitCategory;
+import com.jim.multipos.ui.inventory.model.InventoryItem;
 
 import java.util.List;
 
@@ -153,4 +154,6 @@ public interface DbHelper {
     //Product
     Observable<Boolean> isProductNameExists(String productName, Long categoryId);
     Observable<Boolean> removeProduct(Product product);
+    //Inventory
+    Single<List<InventoryItem>> getInventoryItems();
 }

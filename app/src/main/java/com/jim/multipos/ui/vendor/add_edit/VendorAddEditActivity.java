@@ -2,18 +2,16 @@ package com.jim.multipos.ui.vendor.add_edit;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.View;
 
 import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.R;
 import com.jim.multipos.core.DoubleSideActivity;
 import com.jim.multipos.data.db.model.Contact;
-import com.jim.multipos.data.db.model.Vendor;
+import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.vendor.AddingMode;
 import com.jim.multipos.ui.vendor.add_edit.fragment.VendorAddEditFragment;
 import com.jim.multipos.ui.vendor.add_edit.fragment.VendorsListFragment;
 import com.jim.multipos.utils.UIUtils;
-import com.jim.multipos.utils.WarningDialog;
 
 import javax.inject.Inject;
 

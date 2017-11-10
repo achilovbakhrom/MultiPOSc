@@ -10,7 +10,7 @@ import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.PaymentType;
 import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.ServiceFee;
-import com.jim.multipos.data.db.model.Vendor;
+import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
@@ -28,6 +28,7 @@ import com.jim.multipos.data.operations.CurrencyOperations;
 import com.jim.multipos.data.operations.CustomerGroupOperations;
 import com.jim.multipos.data.operations.CustomerOperations;
 import com.jim.multipos.data.operations.DiscountOperations;
+import com.jim.multipos.data.operations.InventoryOperations;
 import com.jim.multipos.data.operations.JoinCustomerGroupWithCustomerOperations;
 import com.jim.multipos.data.operations.PaymentTypeOperations;
 import com.jim.multipos.data.operations.ProductClassOperations;
@@ -40,6 +41,7 @@ import com.jim.multipos.data.operations.UnitCategoryOperations;
 import com.jim.multipos.data.operations.UnitOperations;
 import com.jim.multipos.data.operations.VendorOperations;
 import com.jim.multipos.data.prefs.PreferencesHelper;
+import com.jim.multipos.ui.inventory.model.InventoryItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +54,7 @@ import io.reactivex.Single;
  */
 
 public class DatabaseManager implements ContactOperations, CategoryOperations, ProductOperations, AccountOperations, CurrencyOperations, StockOperations, UnitCategoryOperations, UnitOperations, PaymentTypeOperations, ServiceFeeOperations, ProductClassOperations, CustomerOperations, CustomerGroupOperations, SubUnitOperations, JoinCustomerGroupWithCustomerOperations, DiscountOperations,
-        VendorOperations,SearchOperations {
+        VendorOperations,SearchOperations, InventoryOperations {
     private Context context;
     private PreferencesHelper preferencesHelper;
     private DbHelper dbHelper;
@@ -626,6 +628,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Single<List<Product>> getSearchProducts(String searchText, boolean skuMode, boolean barcodeMode,boolean nameMode) {
         return dbHelper.getSearchProducts(searchText,skuMode,barcodeMode,nameMode);
+    }
+
+    @Override
+    public Single<List<InventoryItem>> getInventoryItems() {
+        return dbHelper.getInventoryItems();
     }
 }
 

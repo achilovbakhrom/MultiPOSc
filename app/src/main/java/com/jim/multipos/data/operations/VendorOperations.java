@@ -1,7 +1,7 @@
 package com.jim.multipos.data.operations;
 
 import com.jim.multipos.data.db.model.Contact;
-import com.jim.multipos.data.db.model.Vendor;
+import com.jim.multipos.data.db.model.products.Vendor;
 
 import java.util.List;
 

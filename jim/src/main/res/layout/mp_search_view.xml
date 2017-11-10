@@ -14,8 +14,12 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/forty_dp"
             android:layout_weight="1"
+            android:paddingLeft="@dimen/twelve_dp"
+            android:paddingTop="@dimen/five_dp"
+            android:paddingBottom="@dimen/five_dp"
+            android:paddingRight="@dimen/twelve_dp"
             android:background="@android:color/transparent"
-            android:padding="@dimen/four_dp" />
+            />
 
         <ImageView
             android:id="@+id/mpBarcodeImage"

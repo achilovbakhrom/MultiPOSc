@@ -1,12 +1,10 @@
 package com.jim.multipos.ui.product.presenter;
 
-import com.jim.multipos.core.BaseFragmentPresenter;
 import com.jim.multipos.core.Presenter;
 import com.jim.multipos.data.db.model.ProductClass;
-import com.jim.multipos.data.db.model.Vendor;
+import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.unit.Unit;
-import com.jim.multipos.ui.product.view.ProductsView;
 
 /**
  * Created by DEV on 09.08.2017.

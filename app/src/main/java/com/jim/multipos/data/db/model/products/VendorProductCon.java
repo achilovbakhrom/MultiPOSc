@@ -1,29 +1,29 @@
-package com.jim.multipos.data.db.model;
+package com.jim.multipos.data.db.model.products;
 
 import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Id;
-
-import java.io.Serializable;
 import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Id;
 
 /**
  * Created by Achilov Bakhrom on 11/10/17.
  */
 @Entity(nameInDb = "VENDOR_PRODUCT_CONNECTION")
-public class VendorProductConnection implements Serializable {
+public class VendorProductCon {
     @Id(autoincrement = true)
     Long id;
     private Long productId;
     private Long vendorId;
-    @Generated(hash = 1813949627)
-    public VendorProductConnection(Long id, Long productId, Long vendorId) {
+
+    @Generated(hash = 2146024953)
+    public VendorProductCon(Long id, Long productId, Long vendorId) {
         this.id = id;
         this.productId = productId;
         this.vendorId = vendorId;
     }
-    @Generated(hash = 2042696388)
-    public VendorProductConnection() {
+    @Generated(hash = 1840350928)
+    public VendorProductCon() {
     }
+   
     public Long getVendorId() {
         return this.vendorId;
     }

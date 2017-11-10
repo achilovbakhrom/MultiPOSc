@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.core.ClickableBaseAdapter;
-import com.jim.multipos.data.db.model.Vendor;
+import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.vendor.AddingMode;
 import com.jim.multipos.ui.vendor.add_edit.VendorAddEditActivity;
 import com.jim.multipos.ui.vendor.add_edit.adapter.VendorsListAdapter;

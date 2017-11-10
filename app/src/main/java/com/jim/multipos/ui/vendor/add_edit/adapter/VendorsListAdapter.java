@@ -1,22 +1,16 @@
 package com.jim.multipos.ui.vendor.add_edit.adapter;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.jim.mpviews.MPAddItemView;
-import com.jim.mpviews.MPListItemView;
 import com.jim.mpviews.MpLongItemWithList;
 import com.jim.multipos.R;
-import com.jim.multipos.core.BaseAdapter;
-import com.jim.multipos.core.BaseView;
 import com.jim.multipos.core.BaseViewHolder;
 import com.jim.multipos.core.ClickableBaseAdapter;
-import com.jim.multipos.data.db.model.Vendor;
+import com.jim.multipos.data.db.model.products.Vendor;
 
 import java.util.List;
-import java.util.zip.Inflater;
 
 import butterknife.BindView;
 

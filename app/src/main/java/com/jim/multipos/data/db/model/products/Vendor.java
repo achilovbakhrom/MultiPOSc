@@ -1,21 +1,22 @@
-package com.jim.multipos.data.db.model;
+package com.jim.multipos.data.db.model.products;
 
 
+import com.jim.multipos.data.db.model.Contact;
+import com.jim.multipos.data.db.model.ContactDao;
+import com.jim.multipos.data.db.model.DaoSession;
 import com.jim.multipos.data.db.model.intosystem.Editable;
-import com.jim.multipos.data.db.model.products.Product;
 
+import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.JoinEntity;
 import org.greenrobot.greendao.annotation.JoinProperty;
-import org.greenrobot.greendao.annotation.ToMany;
 import org.greenrobot.greendao.annotation.Keep;
+import org.greenrobot.greendao.annotation.ToMany;
 
 import java.io.Serializable;
 import java.util.List;
-import org.greenrobot.greendao.DaoException;
-import com.jim.multipos.data.db.model.products.ProductDao;
 
 @Entity(nameInDb = "VENDOR", active = true)
 public class Vendor implements Editable, Serializable {
@@ -34,7 +35,7 @@ public class Vendor implements Editable, Serializable {
 
 
     @ToMany
-    @JoinEntity(entity = VendorProductConnection.class, sourceProperty = "vendorId", targetProperty = "productId")
+    @JoinEntity(entity = VendorProductCon.class, sourceProperty = "vendorId", targetProperty = "productId")
     private List<Product> products;
 
 

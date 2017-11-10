@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.WindowManager;
 
 import com.jim.mpviews.MpButton;
 import com.jim.mpviews.MpToolbar;
@@ -13,12 +12,11 @@ import com.jim.multipos.R;
 import com.jim.multipos.core.BaseActivity;
 import com.jim.multipos.core.ClickableBaseAdapter;
 import com.jim.multipos.data.db.model.intosystem.TitleDescription;
-import com.jim.multipos.di.BaseAppComponent;
-import com.jim.multipos.ui.HasComponent;
 import com.jim.multipos.ui.customer_group.CustomerGroupActivity;
 import com.jim.multipos.ui.customers_edit_new.CustomersEditActivity;
 import com.jim.multipos.ui.main_menu.customers_menu.presenters.CustomersMenuPresenter;
 import com.jim.multipos.ui.main_menu.MenuListAdapter;
+import com.jim.multipos.ui.main_menu.customers_menu.presenters.CustomersMenuPresenter;
 
 import java.util.ArrayList;
 

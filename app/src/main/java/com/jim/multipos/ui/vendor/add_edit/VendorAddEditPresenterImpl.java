@@ -6,23 +6,18 @@ import android.util.Log;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Contact;
-import com.jim.multipos.data.db.model.Vendor;
+import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.vendor.AddingMode;
-import com.jim.multipos.ui.vendor.add_edit.fragment.VendorAddEditFragment;
 import com.jim.multipos.utils.UIUtils;
-
-import org.apache.commons.collections4.list.PredicatedList;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import io.reactivex.Observable;
 import lombok.Getter;
 import lombok.Setter;
 

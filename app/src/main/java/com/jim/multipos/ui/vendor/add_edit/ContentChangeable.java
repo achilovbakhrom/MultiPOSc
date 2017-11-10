@@ -1,6 +1,6 @@
 package com.jim.multipos.ui.vendor.add_edit;
 
-import com.jim.multipos.data.db.model.Vendor;
+import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.vendor.AddingMode;
 
 /**
