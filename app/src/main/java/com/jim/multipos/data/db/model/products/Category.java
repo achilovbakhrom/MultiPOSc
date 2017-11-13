@@ -9,9 +9,11 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.JoinProperty;
+import org.greenrobot.greendao.annotation.Keep;
 import org.greenrobot.greendao.annotation.ToMany;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(nameInDb = "CATEGORY", active = true)
@@ -103,6 +105,22 @@ public class Category implements Editable, Serializable{
         return products;
     }
 
+    @Keep
+    public List<Product> getActiveProducts() {
+        final DaoSession daoSession = this.daoSession;
+        if (daoSession == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        return daoSession
+                .queryBuilder(Product.class)
+                .where(
+                        ProductDao.Properties.CategoryId.eq(id),
+                        ProductDao.Properties.IsActive.eq(true)
+                )
+                .build()
+                .list();
+    }
+
     /**
      * Resets a to-many relationship, making the next get call to query for a fresh result.
      */
@@ -131,6 +149,20 @@ public class Category implements Editable, Serializable{
             }
         }
         return subCategories;
+    }
+
+    @Keep
+    public List<Category> getActiveSubCategories() {
+        final DaoSession daoSession = this.daoSession;
+        if (daoSession == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        return daoSession
+                .queryBuilder(Category.class)
+                .where(CategoryDao.Properties.ParentId.eq(id),
+                        CategoryDao.Properties.IsActive.eq(true))
+                .build()
+                .list();
     }
 
     /**

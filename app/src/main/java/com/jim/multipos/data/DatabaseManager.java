@@ -17,6 +17,7 @@ import com.jim.multipos.data.db.model.customer.CustomerGroup;
 import com.jim.multipos.data.db.model.customer.JoinCustomerGroupsWithCustomers;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.Product;
+import com.jim.multipos.data.db.model.products.VendorProductCon;
 import com.jim.multipos.data.db.model.stock.Stock;
 import com.jim.multipos.data.db.model.unit.SubUnitsList;
 import com.jim.multipos.data.db.model.unit.Unit;
@@ -633,6 +634,32 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Single<List<InventoryItem>> getInventoryItems() {
         return dbHelper.getInventoryItems();
+    }
+
+    @Override
+    public Observable<Long> addVendorProductConnection(VendorProductCon vendorProductCon) {
+        return dbHelper.addProductVendorConn(vendorProductCon);
+    }
+
+    @Override
+    public Observable<Boolean> removeVendorProductConnection(VendorProductCon vendorProductCon) {
+
+        return null;
+    }
+
+    @Override
+    public Observable<Boolean> removeVendorProductConnectionByVendorId(Long vendorId) {
+        return dbHelper.removeVendorProductConnectionByVendorId(vendorId);
+    }
+
+    @Override
+    public Observable<Boolean> removeVendorProductConnectionByProductId(Long productId) {
+        return dbHelper.removeVendorProductConnectionByProductId(productId);
+    }
+
+    @Override
+    public Observable<List<Category>> getActiveCategories() {
+        return dbHelper.getActiveCategories();
     }
 }
 

@@ -274,6 +274,9 @@
                     android:layout_height="@dimen/fourty_dp"
                     android:background="@drawable/edit_text_bg"
                     android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@string/vendor_are_not_choosed"
+                    android:paddingLeft="@dimen/ten_dp"
                     android:id="@+id/tvVendor"/>
 
             </LinearLayout>

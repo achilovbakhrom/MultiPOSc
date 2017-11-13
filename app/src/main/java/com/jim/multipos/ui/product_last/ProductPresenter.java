@@ -18,7 +18,7 @@ public interface ProductPresenter extends Presenter {
     void subcategorySelected(Category category);
     void addCategory(String name, String description, boolean isActive);
     void addProduct(String name, Double price, Double cost, String barcode, String sku, String photoPath, boolean isActive, int costCurrencyPos,
-                    int priceCurrencuyPos, int productClassPos, int unitCategoryPos, int unitPos, int vendorPos, String description);
+                    int priceCurrencuyPos, int productClassPos, int unitCategoryPos, int unitPos, List<Long> vendors, String description);
     List<Category> getSubcategories(Category category);
     boolean isSubcategoryNameUnique(String categoryName, String subcategoryName);
     boolean isCategoryNameUnique(String categoryName);
@@ -37,4 +37,6 @@ public interface ProductPresenter extends Presenter {
     DatabaseManager getDatabaseManager();
     void unitCategorySelected(int position);
     void openVendorChooserDialog();
+    void setVendorName(List<Long> vendors);
+    void showActivesToggled();
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.currency.Currency;
+import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.unit.Unit;
 import com.jim.multipos.data.db.model.unit.UnitCategory;
 
@@ -33,6 +34,18 @@ public class TestUtils {
 
     public static void createProductClasses(DatabaseManager databaseManager) {
 
+    }
+
+    public static void createVendord(DatabaseManager databaseManager) {
+        if (databaseManager.getVendors().blockingSingle().isEmpty()) {
+            for (int i = 0; i < 10; i++) {
+                Vendor vendor = new Vendor();
+                vendor.setName("Vendor " + i);
+                vendor.setContactName("Vendor contact name " + i);
+                vendor.setAddress("Vendor address" + i);
+                databaseManager.addVendor(vendor).subscribe();
+            }
+        }
     }
 
 }

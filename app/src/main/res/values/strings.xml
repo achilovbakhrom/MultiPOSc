@@ -480,6 +480,7 @@
     <string name="service_fee">Service Fee</string>
     <string name="you_have_unsaved_service_fee">You have %d unsaved service fee. Do you really want to leave?</string>
     <string name="you_have_unsaved_customers">You have %d unsaved customers. Do you really want to leave?</string>
+    <string name="vendor_are_not_choosed">Vendors are not choosed</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>

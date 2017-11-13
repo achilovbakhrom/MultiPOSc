@@ -26,4 +26,5 @@ public interface CategoryOperations {
     Observable<Boolean> isSubCategoryNameExists(String parentName, String name);
     Observable<Category> getCategoryById(Long id);
     Observable<Boolean> removeCategory(Category category);
+    Observable<List<Category>> getActiveCategories();
 }

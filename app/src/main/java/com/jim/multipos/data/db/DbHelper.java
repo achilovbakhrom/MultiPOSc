@@ -30,6 +30,7 @@ import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.Contact;
 import com.jim.multipos.data.db.model.products.Product;
+import com.jim.multipos.data.db.model.products.VendorProductCon;
 import com.jim.multipos.data.db.model.stock.Stock;
 import com.jim.multipos.data.db.model.unit.SubUnitsList;
 import com.jim.multipos.data.db.model.unit.Unit;
@@ -150,10 +151,15 @@ public interface DbHelper {
     //Category
     Observable<Category> getCategoryById(Long id);
     Observable<Boolean> removeCategory(Category category);
+    Observable<List<Category>> getActiveCategories();
 
     //Product
     Observable<Boolean> isProductNameExists(String productName, Long categoryId);
     Observable<Boolean> removeProduct(Product product);
     //Inventory
     Single<List<InventoryItem>> getInventoryItems();
+    Observable<Long> addProductVendorConn(VendorProductCon vendorProductCon);
+    Observable<Boolean> removeVendorProductConnection(VendorProductCon vendorProductCon);
+    Observable<Boolean> removeVendorProductConnectionByVendorId(Long vendorid);
+    Observable<Boolean> removeVendorProductConnectionByProductId(Long productId);
 }

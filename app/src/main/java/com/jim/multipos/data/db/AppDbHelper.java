@@ -41,6 +41,8 @@ import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.ProductDao;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.products.VendorDao;
+import com.jim.multipos.data.db.model.products.VendorProductCon;
+import com.jim.multipos.data.db.model.products.VendorProductConDao;
 import com.jim.multipos.data.db.model.stock.Stock;
 import com.jim.multipos.data.db.model.unit.SubUnitsList;
 import com.jim.multipos.data.db.model.unit.Unit;
@@ -1199,5 +1201,47 @@ public class AppDbHelper implements DbHelper {
             List<InventoryItem> inventoryItems = new ArrayList<>();
             e.onSuccess(inventoryItems);
         });
+    }
+
+    @Override
+    public Observable<Long> addProductVendorConn(VendorProductCon vendorProductCon) {
+        return Observable.fromCallable(() -> mDaoSession.getVendorProductConDao().insertOrReplace(vendorProductCon));
+    }
+
+    @Override
+    public Observable<Boolean> removeVendorProductConnection(VendorProductCon vendorProductCon) {
+        return Observable.fromCallable(() -> {
+            mDaoSession.getVendorProductConDao().delete(vendorProductCon);
+            return true;
+        });
+    }
+
+    @Override
+    public Observable<Boolean> removeVendorProductConnectionByVendorId(Long vendorid) {
+        return Observable.fromCallable(() -> {
+            mDaoSession.queryBuilder(VendorProductCon.class)
+                    .where(VendorProductConDao.Properties.VendorId.eq(vendorid))
+                    .buildDelete().executeDeleteWithoutDetachingEntities();
+            return true;
+        });
+    }
+
+    @Override
+    public Observable<Boolean> removeVendorProductConnectionByProductId(Long productId) {
+        return Observable.fromCallable(() -> {
+            mDaoSession.queryBuilder(VendorProductCon.class)
+                    .where(VendorProductConDao.Properties.ProductId.eq(productId))
+                    .buildDelete().executeDeleteWithoutDetachingEntities();
+            return true;
+        });
+    }
+
+    @Override
+    public Observable<List<Category>> getActiveCategories() {
+        return Observable.fromCallable(() -> mDaoSession.queryBuilder(Category.class)
+                .where(CategoryDao.Properties.ParentId.eq(WITHOUT_PARENT),
+                        CategoryDao.Properties.IsActive.eq(true))
+                .build()
+                .list());
     }
 }

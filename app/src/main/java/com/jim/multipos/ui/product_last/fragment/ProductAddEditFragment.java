@@ -4,9 +4,11 @@ import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -141,6 +144,7 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
         dialog.setContentView(dialogView);
         vendorDialogSearchView = (MpSearchView) dialogView.findViewById(R.id.searchView);
         vendorDialogList = (RecyclerView) dialogView.findViewById(R.id.rvVendors);
+        vendorDialogList.setLayoutManager(new LinearLayoutManager(getContext()));
         vendorDialogBack = (MpButton) dialogView.findViewById(R.id.btnBack);
         vendorDialogBack.setOnClickListener(this);
         vendorDialogOk = (MpButton) dialogView.findViewById(R.id.btnOk);
@@ -179,10 +183,18 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
         switch (view.getId()) {
             case R.id.btnSave:
                 if (isValid()) {
+                    if (vendors == null || vendors.isEmpty()) {
+                        vendor.setTextColor(Color.RED);
+                        return;
+                    }
+                    String tempPrice = price.getText().toString().replace(",", ".");
+                    Double resultPrice = tempPrice.isEmpty() ? 0.0d : Double.parseDouble(tempPrice);
+                    String tempCost = cost.getText().toString().replace(",", ".");
+                    Double resultCost = tempCost.isEmpty() ? 0.0d : Double.parseDouble(tempCost);
                     ((ProductActivity) getContext()).getPresenter().addProduct(
                             name.getText().toString(),
-                            Double.parseDouble(price.getText().toString().replaceAll(",", ".")),
-                            Double.parseDouble(cost.getText().toString().replaceAll(",", ".")),
+                            resultPrice,
+                            resultCost,
                             barcode.getText().toString(),
                             sku.getText().toString(),
                             null,
@@ -192,7 +204,7 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
                             0,
                             unitsCategory.getSelectedPosition(),
                             units.getSelectedPosition(),
-                            0,
+                            vendors,
                             "Description"
                     );
                 }
@@ -205,7 +217,7 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
                 break;
 
             case R.id.btnAdvance:
-
+                presenter.deleteProduct();
                 break;
             case R.id.ivChooseImage:
                 PhotoPickDialog photoPickDialog = new PhotoPickDialog(getActivity(), new PhotoPickDialog.OnButtonsClickListner() {
@@ -265,6 +277,7 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
         sku.setText("");
         price.setText("");
         cost.setText("");
+        vendor.setText(getString(R.string.vendor_are_not_choosed));
         productClass.setSelection(0);
         units.setSelectedPosition(0);
         unitsCategory.setSelectedPosition(0);
@@ -284,7 +297,6 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
                              int unitCategoryPos,
                              String[] units,
                              int unitPos,
-                             String vendorName,
                              List<Long> vendors,
                              String description) {
         this.name.setText(name);
@@ -302,7 +314,7 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
             this.units.setAdapter(units);
             this.units.setSelectedPosition(unitPos);
         }
-        this.vendor.setText(vendorName);
+        ((ProductActivity) getContext()).getPresenter().setVendorName(vendors);
         this.save.setText(R.string.update);
         this.vendors = vendors;
     }
@@ -371,10 +383,30 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnOk:
-
+                if (vendorDialogList.getAdapter() != null) {
+                    VendorChooseAdapter adapter = (VendorChooseAdapter) vendorDialogList.getAdapter();
+                    vendors.clear();
+                    for (int i = 0; i < adapter.getItemCount(); i++) {
+                        if (adapter.isVendorChecked(i)) {
+                            vendors.add(adapter.getVendorId(i));
+                        }
+                    }
+                    ((ProductActivity) getContext()).getPresenter().setVendorName(vendors);
+                }
             case R.id.btnBack:
                 dialog.dismiss();
                 break;
+        }
+    }
+
+    public void setVendorName(String vendors) {
+        if (!vendors.isEmpty()) {
+            this.vendor.setTextColor(Color.BLACK);
+            this.vendor.setText(vendors);
+        }
+        else {
+            this.vendor.setTextColor(Color.RED);
+            this.vendor.setText(R.string.vendor_are_not_choosed);
         }
     }
 
@@ -405,6 +437,26 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
             holder.vendorContact.setText(items.get(position).getVendor().getContactName());
             holder.vendorAddress.setText(items.get(position).getVendor().getAddress());
             holder.vendorChecked.setChecked(items.get(position).isChecked());
+            holder.vendorChecked.setCheckedChangeListener(new MpCheckbox.CheckedChangeListener() {
+                @Override
+                public void onCheckedChange(boolean isChecked) {
+                    items.get(position).setChecked(isChecked);
+                    if (vendors == null) return;
+                    if (isChecked) {
+                        vendors.add(items.get(position).getVendor().getId());
+                    } else {
+                        vendors.remove(items.get(position).getVendor().getId());
+                    }
+                }
+            });
+        }
+
+        public boolean isVendorChecked(int position) {
+            return items.get(position).isChecked();
+        }
+
+        public Long getVendorId(int position) {
+            return items.get(position).getVendor().getId();
         }
 
         class VendorChooseItemHolder extends BaseViewHolder {
@@ -419,6 +471,7 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
 
             VendorChooseItemHolder(View itemView) {
                 super(itemView);
+                itemView.setOnClickListener(v -> vendorChecked.setChecked(!vendorChecked.isChecked()));
             }
         }
     }

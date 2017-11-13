@@ -8,7 +8,9 @@ import android.support.v7.widget.SimpleItemAnimator;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.jim.multipos.R;
@@ -49,6 +51,9 @@ public class ProductListFragment extends BaseFragment  {
 
     @BindView(R.id.ivArrow)
     ImageView secordArrow;
+
+    @BindView(R.id.switchShowActive)
+    Switch isActiveEnabled;
 
     @Override
     protected int getLayout() {
@@ -120,6 +125,7 @@ public class ProductListFragment extends BaseFragment  {
         ItemTouchHelper.Callback prCallback = new SimpleItemTouchHelperCallback(productAdapter);
         ItemTouchHelper prTouchHelper = new ItemTouchHelper(prCallback);
         prTouchHelper.attachToRecyclerView(this.products);
+        isActiveEnabled.setOnCheckedChangeListener((buttonView, isChecked) -> ((ProductActivity) getContext()).getPresenter().showActivesToggled());
     }
 
 
@@ -376,5 +382,9 @@ public class ProductListFragment extends BaseFragment  {
         if (this.products.getAdapter() != null) {
             ((ProductAdapter)this.products.getAdapter()).setSelectedPosition(0);
         }
+    }
+
+    public boolean isActiveEnabled() {
+        return isActiveEnabled.isEnabled();
     }
 }

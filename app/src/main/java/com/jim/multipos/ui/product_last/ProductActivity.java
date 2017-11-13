@@ -46,16 +46,18 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
         TestUtils.createUnits(presenter.getDatabaseManager(), this);
         TestUtils.createCurrencies(presenter.getDatabaseManager(), this);
         TestUtils.createProductClasses(presenter.getDatabaseManager());
+        TestUtils.createVendord(presenter.getDatabaseManager());
         addCategoryListFragment();
         addProductAddEditFragment();
+        addCategoryAddEditFragment();
         presenter.onCreateView(savedInstanceState);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        addCategoryAddEditFragment();
         presenter.onResume();
+        getCategoryAddEditFragment();
     }
 
     @Override
@@ -459,7 +461,6 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
                                     int unitCategoryPos,
                                     String[] units,
                                     int unitPos,
-                                    String vendorName,
                                     List<Long> vendors,
                                     String description) {
         ProductAddEditFragment fragment = getProductAddEditFragment();
@@ -477,7 +478,6 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
                     unitCategoryPos,
                     units,
                     unitPos,
-                    vendorName,
                     vendors,
                     description
             );
@@ -695,5 +695,22 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
         if (fragment != null) {
             fragment.openVendorChooserDialog(vendors);
         }
+    }
+
+    @Override
+    public void setVendorNameToAddEditProductFragment(String vendorName) {
+        ProductAddEditFragment fragment = getProductAddEditFragment();
+        if (fragment != null) {
+            fragment.setVendorName(vendorName);
+        }
+    }
+
+    @Override
+    public boolean isActiveVisible() {
+        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        if (fragment != null) {
+            return fragment.isActiveEnabled();
+        }
+        return false;
     }
 }
