@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#00ffffff"
@@ -74,7 +73,7 @@
 
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:id="@+id/rvVendors"
             android:layout_weight="1"/>
 
@@ -91,7 +90,7 @@
 
             <com.jim.mpviews.MpButton
                 android:layout_width="@dimen/hundred_thirty_dp"
-                android:layout_height="@dimen/forty_dp"
+                android:layout_height="@dimen/sixty_dp"
                 android:layout_gravity="center"
                 android:layout_marginRight="@dimen/fifteen_dp"
                 android:gravity="center"
@@ -103,19 +102,14 @@
 
             <com.jim.mpviews.MpButton
                 android:layout_width="@dimen/hundred_thirty_dp"
-                android:layout_height="@dimen/forty_dp"
+                android:layout_height="@dimen/sixty_dp"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="@string/confirm"
                 android:textColor="@color/colorBlue"
                 android:textSize="@dimen/eighteen_dp"
                 android:textStyle="bold"
-                android:id="@+id/btnOk"
-                />
-
-
+                android:id="@+id/btnOk" />
         </LinearLayout>
-
-
     </LinearLayout>
 </LinearLayout>
