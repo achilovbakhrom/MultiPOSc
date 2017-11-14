@@ -265,8 +265,15 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
                     @Override
                     public void onCameraShot(Uri uri) {
                         photoSelected = uri;
-                        GlideApp.with(ProductAddEditFragment.this).load(uri).diskCacheStrategy(DiskCacheStrategy.RESOURCE).thumbnail(0.2f).centerCrop().transform(new RoundedCorners(20)).into(photoButton);
-
+                        photoButton.setColorFilter(null);
+                        GlideApp
+                                .with(ProductAddEditFragment.this)
+                                .load(uri)
+                                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                                .thumbnail(0.2f)
+                                .centerCrop()
+                                .transform(new RoundedCorners(20))
+                                .into(photoButton);
                     }
 
                     @Override
@@ -282,6 +289,7 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
                     public void onRemove() {
                         photoSelected = null;
                         photoButton.setImageResource(R.drawable.camera);
+                        photoButton.setColorFilter(Color.GRAY);
                     }
                 });
                 ((ProductActivity) getContext()).getPermissions().request(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(aBoolean -> {
@@ -342,7 +350,8 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
                              String[] units,
                              int unitPos,
                              List<Long> vendors,
-                             String description) {
+                             String description,
+                             String url) {
         this.name.setText(name);
         this.name.setError(null);
         this.price.setText(Double.toString(price));
@@ -354,6 +363,16 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
         this.costCurrency.setText(costCurrencyName);
         this.productClass.setSelectedPosition(productClassPos);
         this.unitsCategory.setSelectedPosition(unitCategoryPos);
+        if (url != null && !url.isEmpty()) {
+            GlideApp
+                    .with(ProductAddEditFragment.this)
+                    .load(url)
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .thumbnail(0.2f)
+                    .centerCrop()
+                    .transform(new RoundedCorners(20))
+                    .into(photoButton);
+        }
         if (units != null) {
             this.units.setAdapter(units);
             this.units.setSelectedPosition(unitPos);

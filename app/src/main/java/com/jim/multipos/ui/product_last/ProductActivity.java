@@ -463,7 +463,8 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
                                     String[] units,
                                     int unitPos,
                                     List<Long> vendors,
-                                    String description) {
+                                    String description,
+                                    String url) {
         ProductAddEditFragment fragment = getProductAddEditFragment();
         if (fragment != null) {
             fragment.openEditMode(
@@ -480,7 +481,8 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
                     units,
                     unitPos,
                     vendors,
-                    description
+                    description,
+                    url
             );
         }
     }

@@ -588,7 +588,8 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     units,
                     unitPos,
                     vendorIds,
-                    product.getDescription());
+                    product.getDescription(),
+                    product.getPhotoPath());
         }
     }
 
