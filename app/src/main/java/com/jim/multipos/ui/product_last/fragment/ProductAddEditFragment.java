@@ -32,11 +32,13 @@ import com.jim.multipos.core.BaseViewHolder;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.product_last.ProductActivity;
 import com.jim.multipos.ui.product_last.ProductPresenter;
+import com.jim.multipos.utils.CommonUtils;
 import com.jim.multipos.utils.GlideApp;
 import com.jim.multipos.utils.OpenPickPhotoUtils;
 import com.jim.multipos.utils.PhotoPickDialog;
 import com.jim.multipos.utils.UIUtils;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -205,7 +207,7 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
                                                 resultCost,
                                                 barcode.getText().toString(),
                                                 sku.getText().toString(),
-                                                null,
+                                                (photoSelected != null) ? CommonUtils.getRealPathFromURI(getContext(), photoSelected) : "",
                                                 isActive.isChecked(),
                                                 0,
                                                 0,
@@ -237,7 +239,7 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
                                 resultCost,
                                 barcode.getText().toString(),
                                 sku.getText().toString(),
-                                null,
+                                (photoSelected != null) ? CommonUtils.getRealPathFromURI(getContext(), photoSelected) : "",
                                 isActive.isChecked(),
                                 0,
                                 0,
@@ -265,7 +267,6 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
                     @Override
                     public void onCameraShot(Uri uri) {
                         photoSelected = uri;
-                        photoButton.setColorFilter(null);
                         GlideApp
                                 .with(ProductAddEditFragment.this)
                                 .load(uri)
@@ -289,7 +290,6 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
                     public void onRemove() {
                         photoSelected = null;
                         photoButton.setImageResource(R.drawable.camera);
-                        photoButton.setColorFilter(Color.GRAY);
                     }
                 });
                 ((ProductActivity) getContext()).getPermissions().request(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(aBoolean -> {
@@ -335,6 +335,8 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
         unitsCategory.setSelectedPosition(0);
         isActive.setChecked(true);
         save.setText(R.string.save);
+        photoSelected = null;
+        photoButton.setImageResource(R.drawable.camera);
     }
 
     public void openEditMode(String name,
@@ -363,16 +365,21 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
         this.costCurrency.setText(costCurrencyName);
         this.productClass.setSelectedPosition(productClassPos);
         this.unitsCategory.setSelectedPosition(unitCategoryPos);
-        if (url != null && !url.isEmpty()) {
+        if (url != null && !url.equals("")){
+            photoSelected = Uri.fromFile(new File(url));
             GlideApp
                     .with(ProductAddEditFragment.this)
-                    .load(url)
+                    .load(photoSelected)
                     .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                     .thumbnail(0.2f)
                     .centerCrop()
                     .transform(new RoundedCorners(20))
                     .into(photoButton);
+        } else {
+            photoSelected = null;
+            photoButton.setImageResource(R.drawable.camera);
         }
+
         if (units != null) {
             this.units.setAdapter(units);
             this.units.setSelectedPosition(unitPos);
