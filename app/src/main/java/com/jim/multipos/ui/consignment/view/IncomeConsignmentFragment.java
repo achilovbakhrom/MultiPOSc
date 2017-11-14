@@ -48,7 +48,7 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
     @Inject
     DecimalFormat decimalFormat;
     @BindView(R.id.etConsignmentDescription)
-    MpEditText etConsignmentDescription;
+    EditText etConsignmentDescription;
     @BindView(R.id.tvVendorName)
     TextView tvVendorName;
     @BindView(R.id.rvConsignmentItems)
@@ -81,7 +81,7 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
         rvConsignmentItems.setLayoutManager(new LinearLayoutManager(getContext()));
         rvConsignmentItems.setAdapter(itemsListAdapter);
         ((SimpleItemAnimator) rvConsignmentItems.getItemAnimator()).setSupportsChangeAnimations(false);
-
+        chbFromAccount.setTextSize(16);
         dialog = new Dialog(getContext());
         View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.vendor_product_list_dialog, null, false);
         RecyclerView rvProductList = (RecyclerView) dialogView.findViewById(R.id.rvProductList);

@@ -76,7 +76,7 @@ public class IncomeItemsListAdapter extends RecyclerView.Adapter<IncomeItemsList
 
     class IncomeItemViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.etProductCost)
-        EditText etProductCost;
+        MpEditText etProductCost;
         @BindView(R.id.etProductCount)
         MpEditText etProductCount;
         @BindView(R.id.tvProductSum)

@@ -15,6 +15,10 @@ import android.text.InputType;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -53,7 +57,7 @@ public class MpEditText extends android.support.v7.widget.AppCompatEditText {
             setBackgroundResource(R.drawable.edit_text_bg);
         }
         //check attributes you need, for example all paddings
-        int [] attributes = new int [] {android.R.attr.paddingLeft, android.R.attr.paddingTop, android.R.attr.paddingBottom, android.R.attr.paddingRight};
+        int[] attributes = new int[]{android.R.attr.paddingLeft, android.R.attr.paddingTop, android.R.attr.paddingBottom, android.R.attr.paddingRight};
 
         //then obtain typed array
         TypedArray arr = context.obtainStyledAttributes(attrs, attributes);
@@ -62,7 +66,7 @@ public class MpEditText extends android.support.v7.widget.AppCompatEditText {
 //        int paddingRight = arr.hasValue(3) ? arr.getDimensionPixelOffset(3, -1) : 10;
 
         Resources r = getResources();
-        if(!arr.hasValue(0) && !arr.hasValue(1) && !arr.hasValue(2) && !arr.hasValue(3)) {
+        if (!arr.hasValue(0) && !arr.hasValue(1) && !arr.hasValue(2) && !arr.hasValue(3)) {
             int topPadding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, r.getDisplayMetrics());
             int sidePadding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, r.getDisplayMetrics());
             setPadding(sidePadding, topPadding, sidePadding, topPadding);
@@ -71,5 +75,24 @@ public class MpEditText extends android.support.v7.widget.AppCompatEditText {
         }
         setHintTextColor(ContextCompat.getColor(context, R.color.colorTextHint));
         setTextColor(ContextCompat.getColor(context, R.color.colorMainText));
+        setImeOptions(EditorInfo.IME_ACTION_DONE);
+        setOnKeyListener((view, keyCode, keyEvent) -> {
+            if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                switch (keyCode) {
+                    case EditorInfo.IME_ACTION_NEXT:
+                    case EditorInfo.IME_ACTION_DONE:
+                    case KeyEvent.KEYCODE_ENTER:
+                        if (view != null) {
+                            InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                            assert imm != null;
+                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                        }
+                        return true;
+                    default:
+                        break;
+                }
+            }
+            return false;
+        });
     }
 }

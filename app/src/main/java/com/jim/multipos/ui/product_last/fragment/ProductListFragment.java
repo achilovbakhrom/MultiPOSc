@@ -123,7 +123,7 @@ public class ProductListFragment extends BaseFragment  {
               ((ProductActivity) getContext()).getPresenter().productSelected(item);
             }
         });
-        this.products.setLayoutManager(new GridLayoutManager(getContext(), 5));
+        this.products.setLayoutManager(new GridLayoutManager(getContext(), 4));
         this.products.setAdapter(productAdapter);
         productAdapter.setMoveListener((fromPosition, toPosition) -> {
             ((ProductActivity) getContext()).getPresenter().setProductItemsMoved();

@@ -24,13 +24,14 @@
         android:orientation="horizontal"
         android:paddingLeft="@dimen/ten_dp">
 
-        <EditText
+        <com.jim.mpviews.MpEditText
             android:id="@+id/etProductCost"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginRight="@dimen/ten_dp"
+            android:maxLength="15"
             android:layout_weight="1"
-            android:background="@color/colorTransparent"
+            android:backgroundTint="@color/colorTransparent"
             android:gravity="center_vertical"
             android:hint="Value"
             android:inputType="numberDecimal"
@@ -63,6 +64,7 @@
         android:id="@+id/etProductCount"
         android:layout_width="@dimen/hundred_sixty_dp"
         android:layout_height="match_parent"
+        android:maxLength="15"
         android:layout_gravity="center"
         android:inputType="numberDecimal"
         android:layout_marginRight="@dimen/ten_dp"
@@ -84,6 +86,8 @@
     <TextView
         android:id="@+id/tvProductSum"
         android:layout_width="@dimen/hundred_eighty_dp"
+        android:maxLength="20"
+        android:textColor="@color/colorMainText"
         android:layout_height="match_parent"
         android:layout_marginRight="@dimen/twenty_dp"
         android:background="@drawable/edit_text_bg"

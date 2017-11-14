@@ -228,6 +228,7 @@
                     android:layout_width="@dimen/two_hundred_forty_dp"
                     android:layout_height="@dimen/forty_dp"
                     android:layout_gravity="center"
+                    android:textColor="@color/colorMainText"
                     android:background="@drawable/edit_text_bg"
                     android:gravity="right|center_vertical"
                     android:paddingLeft="@dimen/five_dp"
@@ -266,6 +267,7 @@
                     android:layout_width="@dimen/two_hundred_forty_dp"
                     android:layout_height="@dimen/forty_dp"
                     android:layout_gravity="center"
+                    android:text="0"
                     android:gravity="right"
                     android:inputType="numberDecimal"
                     android:textSize="@dimen/sixteen_dp" />
@@ -317,14 +319,14 @@
                     android:layout_gravity="center"
                     android:layout_marginRight="@dimen/sixteen_dp"
                     android:gravity="right"
-                    android:text="@string/options"
+                    android:text="@string/from_account"
                     android:textSize="@dimen/sixteen_dp" />
 
                 <com.jim.mpviews.MpCheckbox
                     android:id="@+id/chbFromAccount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:chb_type="3"
+                    app:chb_type="0"
                     app:checked="true"
                     app:text="@string/from_account" />
             </LinearLayout>
