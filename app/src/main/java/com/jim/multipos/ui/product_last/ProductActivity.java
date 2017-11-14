@@ -17,6 +17,7 @@ import com.jim.multipos.utils.TestUtils;
 import com.jim.multipos.utils.UIUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -639,12 +640,12 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
     }
 
     @Override
-    public int getVendorSelectedPos() {
+    public List<Long> getVendorSelectedPos() {
         ProductAddEditFragment fragment = getProductAddEditFragment();
         if (fragment != null) {
-//            return fragment.getVendorSelectedPos();
+            return fragment.getVendors();
         }
-        return 0;
+        return new ArrayList<>();
     }
 
     @Override
@@ -712,5 +713,11 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
             return fragment.isActiveEnabled();
         }
         return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (presenter.backPressFinish())
+            finish();
     }
 }

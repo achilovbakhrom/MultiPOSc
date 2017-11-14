@@ -147,7 +147,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
 
     private List<Category> getCategories() {
         List<Category> result = null;
-        if (view.isActiveVisible())
+        if (!view.isActiveVisible())
             result = databaseManager.getActiveCategories().blockingSingle();
         else
             result = databaseManager.getAllCategories().blockingSingle();
@@ -197,8 +197,12 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
 
     private String[] provideProductClassList() {
         List<ProductClass> productClasses = databaseManager.getAllProductClass().blockingGet();
-        if (productClasses != null && !productClasses.isEmpty()) {
-            return (String[]) productClasses.toArray();
+         if (productClasses != null && !productClasses.isEmpty()) {
+            String[] result = new String[productClasses.size()];
+            for (int i = 0; i < result.length; i++) {
+                result[i] = productClasses.get(i).getName();
+            }
+            return result;
         }
         return new String[0];
     }
@@ -227,7 +231,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                         @Override
                         public void onPositiveButtonClicked() {
                             openCategory(category);
-                            view.unselectSubcategoryList();
                         }
                         @Override
                         public void onNegativeButtonClicked() {
@@ -243,7 +246,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                         @Override
                         public void onPositiveButtonClicked() {
                             openCategory(category);
-                            view.unselectSubcategoryList();
                         }
                         @Override
                         public void onNegativeButtonClicked() {
@@ -259,12 +261,10 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                         @Override
                         public void onPositiveButtonClicked() {
                             openCategory(category);
-                            view.unselectSubcategoryList();
                         }
                         @Override
                         public void onNegativeButtonClicked() {
                             view.selectCategory(ProductPresenterImpl.this.category.getId());
-                            view.unselectSubcategoryList();
                         }
                     });
                 } else
@@ -276,7 +276,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                         @Override
                         public void onPositiveButtonClicked() {
                             openCategory(category);
-                            view.unselectSubcategoryList();
                         }
                         @Override
                         public void onNegativeButtonClicked() {
@@ -288,10 +287,72 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     openCategory(category);
                 break;
             case PRODUCT_ADD_MODE:
-                openCategory(category);
+                if (!view.getProductName().equals("") || !view.getBarCode().equals("") || !view.getSku().equals("") ||
+                        !view.getPrice().equals(0.0d) || !view.getCost().equals(0.0d) || view.getUnitCategorySelectedPos() != 0 ||
+                        view.getUnitSelectedPos() != 0 || !view.getVendorSelectedPos().isEmpty() || view.getProductClassSelectedPos() > 0 ||
+                        !view.getProductIsActive()) {
+                    view.showDiscardChangesDialog(new UIUtils.AlertListener() {
+                        @Override
+                        public void onPositiveButtonClicked() {
+                            openCategory(category);
+                        }
+                        @Override
+                        public void onNegativeButtonClicked() {
+                            view.selectAddProductListItem();
+                            mode = CategoryAddEditMode.PRODUCT_ADD_MODE;
+                        }
+                    });
+                } else {
+                    openCategory(category);
+                }
                 break;
             case PRODUCT_EDIT_MODE:
-                openCategory(category);
+                if (this.product == null) return;
+                UnitCategory unitCategory = null;
+                List<UnitCategory> tempUnitCategories = databaseManager.getAllUnitCategories().blockingSingle();
+                if (tempUnitCategories.size() > view.getUnitCategorySelectedPos())
+                    unitCategory = tempUnitCategories.get(view.getUnitCategorySelectedPos());
+                ProductClass productClass = null;
+                List<ProductClass> tempProductClasses = databaseManager.getAllProductClass().blockingGet();
+                if (view.getProductClassSelectedPos() >= 0 && tempProductClasses.size() > view.getProductClassSelectedPos())
+                    productClass = tempProductClasses.get(view.getProductClassSelectedPos());
+                List<Vendor> vendors = this.product.getVendor();
+                List<Long> viewVendors = view.getVendorSelectedPos();
+                boolean hasChanged = vendors.size() != viewVendors.size();
+                if (!hasChanged) {
+                    for (Long id : viewVendors) {
+                        boolean found = false;
+                        for (Vendor vendor : vendors) {
+                            if (vendor.getId().equals(id)) {
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found) {
+                            hasChanged = true;
+                            break;
+                        }
+                    }
+                }
+                if (!view.getProductName().equals(this.product.getName()) || !view.getBarCode().equals(this.product.getBarcode()) || !view.getSku().equals(this.product.getSku()) ||
+                        !view.getPrice().equals(this.product.getPrice()) || !view.getCost().equals(this.product.getCost()) ||
+                        (unitCategory != null && !unitCategory.getUnits().get(view.getUnitSelectedPos()).getId().equals(this.product.getMainUnitId())) ||
+                        (productClass != null && !productClass.getId().equals(this.product.getProductClass().getId())) ||
+                        view.getProductIsActive() != this.product.getIsActive() || hasChanged) {
+                    view.showDiscardChangesDialog(new UIUtils.AlertListener() {
+                        @Override
+                        public void onPositiveButtonClicked() {
+                            openCategory(category);
+                        }
+                        @Override
+                        public void onNegativeButtonClicked() {
+                            view.selectProductListItem(ProductPresenterImpl.this.product.getId());
+                            mode = CategoryAddEditMode.PRODUCT_EDIT_MODE;
+                        }
+                    });
+                } else {
+                    openCategory(category);
+                }
                 break;
         }
 
@@ -309,7 +370,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             case PRODUCT_ADD_MODE:
                 if (!view.getProductName().equals("") || !view.getBarCode().equals("") || !view.getSku().equals("") ||
                         !view.getPrice().equals(0.0d) || !view.getCost().equals(0.0d) || view.getUnitCategorySelectedPos() != 0 ||
-                        view.getUnitSelectedPos() != 0 || view.getVendorSelectedPos() != 0 || view.getProductClassSelectedPos() > 0 ||
+                        view.getUnitSelectedPos() != 0 || !view.getVendorSelectedPos().isEmpty() || view.getProductClassSelectedPos() > 0 ||
                         !view.getProductIsActive()) {
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
@@ -332,19 +393,33 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 List<UnitCategory> tempUnitCategories = databaseManager.getAllUnitCategories().blockingSingle();
                 if (tempUnitCategories.size() > view.getUnitCategorySelectedPos())
                     unitCategory = tempUnitCategories.get(view.getUnitCategorySelectedPos());
-                Vendor vendor = null;
-                List<Vendor> tempVendorList = databaseManager.getVendors().blockingSingle();
-                if (view.getVendorSelectedPos() >= -1 && tempVendorList.size() > view.getVendorSelectedPos())
-                    vendor = tempVendorList.get(view.getVendorSelectedPos());
                 ProductClass productClass = null;
                 List<ProductClass> tempProductClasses = databaseManager.getAllProductClass().blockingGet();
                 if (view.getProductClassSelectedPos() >= 0 && tempProductClasses.size() > view.getProductClassSelectedPos())
                     productClass = tempProductClasses.get(view.getProductClassSelectedPos());
+                List<Vendor> vendors = this.product.getVendor();
+                List<Long> viewVendors = view.getVendorSelectedPos();
+                boolean hasChanged = vendors.size() != viewVendors.size();
+                if (!hasChanged) {
+                    for (Long id : viewVendors) {
+                        boolean found = false;
+                        for (Vendor vendor : vendors) {
+                            if (vendor.getId().equals(id)) {
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found) {
+                            hasChanged = true;
+                            break;
+                        }
+                    }
+                }
                 if (!view.getProductName().equals(this.product.getName()) || !view.getBarCode().equals(this.product.getBarcode()) || !view.getSku().equals(this.product.getSku()) ||
                         !view.getPrice().equals(this.product.getPrice()) || !view.getCost().equals(this.product.getCost()) ||
                         (unitCategory != null && !unitCategory.getUnits().get(view.getUnitSelectedPos()).getId().equals(this.product.getMainUnitId())) ||
                         (productClass != null && !productClass.getId().equals(this.product.getProductClass().getId())) ||
-                        view.getProductIsActive() != this.product.getIsActive()) {
+                        view.getProductIsActive() != this.product.getIsActive() || hasChanged) {
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
                         public void onPositiveButtonClicked() {
@@ -382,22 +457,25 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
 
     private void openCategory(Category category) {
         this.product = null;
+        this.subcategory = null;
+        view.setSubcategoryPath(null);
         view.clearProductList();
+        view.unselectProductsList();
         if (category == null) {
             view.setCategoryPath(null);
             this.category = null;
-            this.subcategory = null;
-            this.product = null;
             mode = CategoryAddEditMode.CATEGORY_ADD_MODE;
-            view.openAddCategoryMode();
-            view.setCategoryPath(null);
             view.unselectSubcategoryList();
             view.clearSubcategoryList();
+            view.setCategoryPath(null);
+            view.openAddCategoryMode();
+            view.unselectCategoryList();
         }
         else {
-            view.setCategoryPath(category.getName());
             this.category = category;
             this.category.resetSubCategories();
+            view.setCategoryPath(this.category.getName());
+            view.selectCategory(category.getId());
             mode = CategoryAddEditMode.CATEGORY_EDIT_MODE;
             view.openEditCategoryMode(category.getName(), category.getDescription(), category.isActive());
             List<Category> subCategories;
@@ -411,25 +489,57 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 Collections.sort(subCategories, (o1, o2) -> -((Boolean) o1.isActive()).compareTo(o2.isActive()));
             }
             subCategories.add(0, null);
-            view.setListToSubcategoryList(subCategories);
             view.unselectSubcategoryList();
-            subcategory = null;
+            view.setListToSubcategoryList(subCategories);
         }
     }
 
-    @Override
-    public void openVendorChooserDialog() {
-        view.openVendorChooserDialog(databaseManager.getVendors().blockingSingle());
+    private void openSubcategory(Category category) {
+        this.product = null;
+        view.unselectProductsList();
+        if (category == null) {
+            view.setSubcategoryPath(null);
+            this.subcategory = null;
+            mode = CategoryAddEditMode.SUBCATEGORY_ADD_MODE;
+            view.openAddSubcategoryMode(this.category.getName());
+            view.clearProductList();
+            view.unselectSubcategoryList();
+        }
+        else {
+            view.setSubcategoryPath(category.getName());
+            this.subcategory = category;
+            this.subcategory.resetProducts();
+            mode = CategoryAddEditMode.SUBCATEGORY_EDIT_MODE;
+            if (this.category != null) {
+                view.openEditSubcategoryMode(category.getName(), category.getDescription(), category.isActive(), this.category.getName());
+                view.selectSubcategory(subcategory.getId());
+                List<Product> products;
+                if (view.isActiveVisible()) {
+                    products = category.getProducts();
+                } else {
+                    products = category.getActiveProducts();
+                }
+                if (products != null && !products.isEmpty()) {
+                    Collections.sort(products, (o1, o2) -> o1.getPosition().compareTo(o2.getPosition()));
+                    Collections.sort(products, (o1, o2) -> -((Boolean) o1.isActive()).compareTo(o2.isActive()));
+                }
+                products.add(0, null);
+                view.setListToProducts(products);
+            }
+        }
     }
+
 
     private void openProduct(Product product) {
         if (product == null) {
             this.product = null;
             mode = CategoryAddEditMode.PRODUCT_ADD_MODE;
+            view.unselectProductsList();
             view.openProductAddMode();
         }
         else {
             this.product = product;
+            view.selectProductListItem(this.product.getId());
             mode = CategoryAddEditMode.PRODUCT_EDIT_MODE;
             List<UnitCategory> unitCategories = databaseManager.getAllUnitCategories().blockingSingle();
             int unitCategoryPos = 0;
@@ -453,16 +563,41 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             }
             int productClassPos = 0;
             if (product.getProductClass() != null) {
-                productClassPos = databaseManager.getAllProductClass().blockingGet().indexOf(product.getProductClass());
+                List<ProductClass> dbProductClasses = databaseManager.getAllProductClass().blockingGet();
+                for (ProductClass productClass : dbProductClasses) {
+                    if (productClass.getId().equals(product.getProductClass().getId())) {
+                        productClassPos = dbProductClasses.indexOf(productClass);
+                        break;
+                    }
+                }
             }
             List<Long> vendorIds = new ArrayList<>();
             for (Vendor vendor : product.getVendor()) {
                 vendorIds.add(vendor.getId());
             }
-            view.openProductEditMode(product.getName(), product.getPrice(), product.getCost(), product.getBarcode(), product.getSku(), product.isActive(),
-                    product.getPriceCurrency().getAbbr(), product.getCostCurrency().getAbbr(), productClassPos, unitCategoryPos, units, unitPos, vendorIds, product.getDescription());
+            view.openProductEditMode(product.getName(),
+                    product.getPrice(),
+                    product.getCost(),
+                    product.getBarcode(),
+                    product.getSku(),
+                    product.isActive(),
+                    product.getPriceCurrency().getAbbr(),
+                    product.getCostCurrency().getAbbr(),
+                    productClassPos,
+                    unitCategoryPos,
+                    units,
+                    unitPos,
+                    vendorIds,
+                    product.getDescription());
         }
     }
+
+
+    @Override
+    public void openVendorChooserDialog() {
+        view.openVendorChooserDialog(databaseManager.getVendors().blockingSingle());
+    }
+
 
     /**
      * subcategory selection processing
@@ -535,49 +670,79 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 else openSubcategory(category);
                 break;
             case PRODUCT_ADD_MODE:
-                openSubcategory(category);
+                if (!view.getProductName().equals("") || !view.getBarCode().equals("") || !view.getSku().equals("") ||
+                        !view.getPrice().equals(0.0d) || !view.getCost().equals(0.0d) || view.getUnitCategorySelectedPos() != 0 ||
+                        view.getUnitSelectedPos() != 0 || !view.getVendorSelectedPos().isEmpty() || view.getProductClassSelectedPos() > 0 ||
+                        !view.getProductIsActive()) {
+                    view.showDiscardChangesDialog(new UIUtils.AlertListener() {
+                        @Override
+                        public void onPositiveButtonClicked() {
+                            openSubcategory(category);
+                        }
+                        @Override
+                        public void onNegativeButtonClicked() {
+                            view.selectAddProductListItem();
+                            mode = CategoryAddEditMode.PRODUCT_ADD_MODE;
+                        }
+                    });
+                } else {
+                    openSubcategory(category);
+                }
                 break;
             case PRODUCT_EDIT_MODE:
-                openSubcategory(category);
+                if (this.product == null) return;
+                UnitCategory unitCategory = null;
+                List<UnitCategory> tempUnitCategories = databaseManager.getAllUnitCategories().blockingSingle();
+                if (tempUnitCategories.size() > view.getUnitCategorySelectedPos())
+                    unitCategory = tempUnitCategories.get(view.getUnitCategorySelectedPos());
+                ProductClass productClass = null;
+                List<ProductClass> tempProductClasses = databaseManager.getAllProductClass().blockingGet();
+                if (view.getProductClassSelectedPos() >= 0 && tempProductClasses.size() > view.getProductClassSelectedPos())
+                    productClass = tempProductClasses.get(view.getProductClassSelectedPos());
+                List<Vendor> vendors = this.product.getVendor();
+                List<Long> viewVendors = view.getVendorSelectedPos();
+                boolean hasChanged = vendors.size() != viewVendors.size();
+                if (!hasChanged) {
+                    for (Long id : viewVendors) {
+                        boolean found = false;
+                        for (Vendor vendor : vendors) {
+                            if (vendor.getId().equals(id)) {
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found) {
+                            hasChanged = true;
+                            break;
+                        }
+                    }
+                }
+                if (!view.getProductName().equals(this.product.getName()) || !view.getBarCode().equals(this.product.getBarcode()) || !view.getSku().equals(this.product.getSku()) ||
+                        !view.getPrice().equals(this.product.getPrice()) || !view.getCost().equals(this.product.getCost()) ||
+                        (unitCategory != null && !unitCategory.getUnits().get(view.getUnitSelectedPos()).getId().equals(this.product.getMainUnitId())) ||
+                        (productClass != null && !productClass.getId().equals(this.product.getProductClass().getId())) ||
+                        view.getProductIsActive() != this.product.getIsActive() || hasChanged) {
+                    view.showDiscardChangesDialog(new UIUtils.AlertListener() {
+                        @Override
+                        public void onPositiveButtonClicked() {
+                            openSubcategory(category);
+                        }
+                        @Override
+                        public void onNegativeButtonClicked() {
+                            view.selectProductListItem(ProductPresenterImpl.this.product.getId());
+                            mode = CategoryAddEditMode.PRODUCT_EDIT_MODE;
+                        }
+                    });
+                } else {
+                    openSubcategory(category);
+                }
                 break;
         }
 
 
     }
 
-    private void openSubcategory(Category category) {
-        if (category == null) {
-            view.setSubcategoryPath(null);
-            this.product = null;
-            subcategory = null;
-            mode = CategoryAddEditMode.SUBCATEGORY_ADD_MODE;
-            view.openAddSubcategoryMode(this.category.getName());
-            view.setSubcategoryPath(null);
-            view.clearProductList();
-        }
-        else {
-            view.setSubcategoryPath(category.getName());
-            category.resetProducts();
-            subcategory = category;
-            mode = CategoryAddEditMode.SUBCATEGORY_EDIT_MODE;
-            if (this.category != null) {
-                view.openEditSubcategoryMode(category.getName(), category.getDescription(), category.isActive(), this.category.getName());
-                List<Product> products = null;
-                if (view.isActiveVisible()) {
-                    products = category.getActiveProducts();
-                } else {
-                    products = category.getProducts();
-                }
-                if (products != null && !products.isEmpty()) {
-                    Collections.sort(products, (o1, o2) -> o1.getPosition().compareTo(o2.getPosition()));
-                    Collections.sort(products, (o1, o2) -> ((Boolean) o1.isActive()).compareTo(o2.isActive()));
-                }
-                products.add(0, null);
-                view.setListToProducts(products);
-                view.unselectProductsList();
-            }
-        }
-    }
+
 
 
 
@@ -610,9 +775,8 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             result.setIsActive(isActive);
             databaseManager.addCategory(result).subscribe(id -> {
                 view.addToCategoryList(result);
-                view.openAddCategoryMode();
                 view.setCategoryPath(null);
-                mode = CategoryAddEditMode.CATEGORY_ADD_MODE;
+                openCategory(null);
             });
         }
         else if (mode == CategoryAddEditMode.SUBCATEGORY_ADD_MODE && category != null) { // adding subcategory
@@ -622,9 +786,8 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             result.setActive(isActive);
             databaseManager.addCategory(result).subscribe(id -> {
                 view.addToSubcategoryList(result);
-                view.openAddSubcategoryMode(category.getName());
                 view.setSubcategoryPath(null);
-                mode = CategoryAddEditMode.SUBCATEGORY_ADD_MODE;
+                openSubcategory(null);
             });
 
         } else if(mode == CategoryAddEditMode.CATEGORY_EDIT_MODE && category != null) { // edit category
@@ -637,14 +800,8 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     result.setActive(isActive);
                     databaseManager.addCategory(result).subscribe(id -> {
                         view.editCategory(result);
-                        Log.d("sss", "addCategory: " + id);
                         category.refresh();
-                        view.unselectSubcategoryList();
-                        view.unselectCategoryList();
-                        view.openAddCategoryMode();
-                        view.clearSubcategoryList();
-                        view.setCategoryPath(null);
-                        mode = CategoryAddEditMode.CATEGORY_ADD_MODE;
+                        openCategory(null);
                     });
                 }
 
@@ -665,14 +822,10 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     result.setActive(isActive);
                     databaseManager.addCategory(result).subscribe(id -> {
                         view.editSubcategory(result);
-                        Log.d("sss", "addCategory: " + id);
                         subcategory.refresh();
+                        category.resetSubCategories();
                         view.unselectSubcategoryList();
-                        view.openAddSubcategoryMode(category.getName());
-                        view.setSubcategoryPath(null);
-                        view.clearProductList();
-                        view.unselectProductsList();
-                        mode = CategoryAddEditMode.SUBCATEGORY_ADD_MODE;
+                        openSubcategory(null);
                     });
                 }
 
@@ -776,18 +929,21 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                         if (isDeleted) {
                             if (subcategory != null) {
                                 subcategory.resetProducts();
-                                List<Product> list = new ArrayList<>();
-                                if (ProductPresenterImpl.this.subcategory != null &&
-                                        !ProductPresenterImpl.this.subcategory.getProducts().isEmpty()) {
-                                    list.addAll(subcategory.getProducts());
-                                    Collections.sort(list, (o1, o2) -> o1.getPosition().compareTo(o2.getPosition()));
-                                    Collections.sort(list, (o1, o2) -> -((Boolean) o1.isActive()).compareTo(o2.isActive()));
-                                }
-                                list.add(0, null);
-                                view.setListToProducts(list);
-                                mode = CategoryAddEditMode.PRODUCT_ADD_MODE;
-                                view.openProductAddMode();
-                                view.unselectProductsList();
+                                openSubcategory(subcategory);
+                                openProduct(null);
+//                                List<Product> list = new ArrayList<>();
+//                                if (ProductPresenterImpl.this.subcategory != null &&
+//                                        !ProductPresenterImpl.this.subcategory.getProducts().isEmpty()) {
+//                                    list.addAll(subcategory.getProducts());
+//                                    Collections.sort(list, (o1, o2) -> o1.getPosition().compareTo(o2.getPosition()));
+//                                    Collections.sort(list, (o1, o2) -> -((Boolean) o1.isActive()).compareTo(o2.isActive()));
+//                                }
+//                                list.add(0, null);
+//                                view.setListToProducts(list);
+//                                mode = CategoryAddEditMode.PRODUCT_ADD_MODE;
+//                                view.openProductAddMode();
+//                                view.unselectProductsList();
+//                                showActivesToggled();
                             }
 
                         }
@@ -811,6 +967,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                         view.showCannotDeleteActiveItemDialog();
                         return;
                     }
+                    subcategory.resetProducts();
                     if (!subcategory.getProducts().isEmpty()) {
                         view.showListMustBeEmptyDialog();
                         return;
@@ -822,18 +979,8 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                                 Log.d("sss", "deleteCategory: ");
                                 if (isDeleted) {
                                     category.resetSubCategories();
-                                    List<Category> list = new ArrayList<>();
-                                    if (ProductPresenterImpl.this.category.getSubCategories() != null && !ProductPresenterImpl.this.category.getSubCategories().isEmpty()) {
-                                        list.addAll(category.getSubCategories());
-                                        Collections.sort(list, (o1, o2) -> o1.getPosition().compareTo(o2.getPosition()));
-                                        Collections.sort(list, (o1, o2) -> -((Boolean) o1.isActive()).compareTo(o2.isActive()));
-                                    }
-                                    list.add(0, null);
-                                    view.setListToSubcategoryList(list);
-                                    view.selectAddSubcategoryItem();
-                                    view.openAddSubcategoryMode(category.getName());
-                                    view.setSubcategoryPath(null);
-                                    mode = CategoryAddEditMode.SUBCATEGORY_ADD_MODE;
+                                    openCategory(category);
+                                    openSubcategory(null);
                                 }
                             });
                         }
@@ -849,6 +996,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                         view.showCannotDeleteActiveItemDialog();
                         return;
                     }
+                    category.resetSubCategories();
                     if (!category.getSubCategories().isEmpty()) {
                         view.showListMustBeEmptyDialog();
                         return;
@@ -859,7 +1007,12 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                             databaseManager.removeCategory(category).subscribe(isDeleted -> {
                                 Log.d("sss", "deleteCategory: ");
                                 if (isDeleted) {
-                                    List<Category> categories = databaseManager.getAllCategories().blockingSingle();
+                                    List<Category> categories;
+                                    if (!view.isActiveVisible()) {
+                                        categories = databaseManager.getActiveCategories().blockingSingle();
+                                    } else {
+                                        categories = databaseManager.getAllCategories().blockingSingle();
+                                    }
                                     if (categories != null && !categories.isEmpty()) {
                                         Collections.sort(categories, (o1, o2) -> o1.getPosition().compareTo(o2.getPosition()));
                                         Collections.sort(categories, (o1, o2) -> -((Boolean) o1.isActive()).compareTo(o2.isActive()));
@@ -867,13 +1020,17 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                                     categories.add(0, null);
                                     view.setListToCategoryList(categories);
                                     view.unselectSubcategoryList();
+                                    view.unselectProductsList();
+                                    view.clearSubcategoryList();
+                                    view.clearProductList();
                                     view.selectAddCategoryItem();
                                     view.openAddCategoryMode();
                                     view.setCategoryPath(null);
-                                    view.clearSubcategoryList();
+                                    view.setSubcategoryPath(null);
                                     mode = CategoryAddEditMode.CATEGORY_ADD_MODE;
                                     subcategory = null;
                                     category = null;
+                                    product = null;
                                 }
                             });
                         }
@@ -888,6 +1045,8 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
 
         }
     }
+
+
 
 
     /**
@@ -948,9 +1107,8 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                         connection.setProductId(id);
                         databaseManager.addVendorProductConnection(connection).subscribe();
                     }
-                    view.openProductAddMode();
                     view.addToProductList(product);
-                    this.product = null;
+                    openProduct(null);
                 });
                 break;
             case PRODUCT_EDIT_MODE:
@@ -980,7 +1138,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                             }
                             List<ProductClass> tempProductClasses = databaseManager.getAllProductClass().blockingGet();
                             if (tempProductClasses.size() > productClassPos) {
-                                result.setProductClass(tempProductClasses.get(priceCurrencuyPos));
+                                result.setProductClass(tempProductClasses.get(productClassPos));
                             }
                             List<UnitCategory> tempUnitCategories = databaseManager.getAllUnitCategories().blockingSingle();
                             if (tempUnitCategories.size() > unitCategoryPos) {
@@ -990,7 +1148,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                                     result.setMainUnitId(units.get(unitPos).getId());
                                 }
                             }
-                            List<Vendor> tempVendors = databaseManager.getVendors().blockingSingle();
                             result.setDescription(description);
                             databaseManager.addProduct(result).subscribe(id -> {
                                 databaseManager.removeVendorProductConnectionByProductId(id).subscribe();
@@ -1000,11 +1157,9 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                                     connection.setProductId(id);
                                     databaseManager.addVendorProductConnection(connection).subscribe();
                                 }
-                                view.openProductAddMode();
                                 view.editProduct(result);
                                 view.unselectProductsList();
-                                mode = CategoryAddEditMode.PRODUCT_ADD_MODE;
-                                ProductPresenterImpl.this.product = null;
+                                openProduct(null);
                             });
                         }
 
@@ -1055,6 +1210,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
 
     @Override
     public void showActivesToggled() {
+        view.initRightSide(getCategories());
         switch (mode) {
             case CATEGORY_ADD_MODE:
                 openCategory(category);
@@ -1066,24 +1222,25 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 break;
             case SUBCATEGORY_ADD_MODE:
                 if (!category.isActive()) {
-                    category = null;
-                    openCategory(category);
-                } else {
-                    view.selectCategory(category.getId());
-                    view.setCategoryPath(category.getName());
-                    openSubcategory(subcategory);
+                    openCategory(null);
+                    return;
                 }
+                Category tempCategory = subcategory;
+                openCategory(category);
+                openSubcategory(tempCategory);
                 break;
             case SUBCATEGORY_EDIT_MODE:
                 if (!category.isActive()) {
                     category = null;
                     openCategory(category);
                 } else {
-                    view.selectCategory(category.getId());
-                    view.setCategoryPath(category.getName());
-                    if (!subcategory.isActive())
-                        subcategory = null;
-                    openSubcategory(subcategory);
+                    Category tempSubcategory = subcategory;
+                    openCategory(category);
+                    if (!tempSubcategory.isActive()) {
+                        openSubcategory(null);
+                        return;
+                    }
+                    openSubcategory(tempSubcategory);
                 }
                 break;
             case PRODUCT_ADD_MODE:
@@ -1091,16 +1248,14 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     category = null;
                     openCategory(category);
                 } else {
-                    view.selectCategory(category.getId());
-                    view.setCategoryPath(category.getName());
-                    if (!subcategory.isActive()) {
-                        subcategory = null;
-                        openSubcategory(subcategory);
-                    } else {
-                        view.selectSubcategory(subcategory.getId());
-                        view.setSubcategoryPath(subcategory.getName());
-                        view.openProductAddMode();
+                    Category tempSubcategory = subcategory;
+                    openCategory(category);
+                    if (!tempSubcategory.isActive()) {
+                        openSubcategory(null);
+                        return;
                     }
+                    openSubcategory(tempSubcategory);
+                    openProduct(product);
                 }
                 break;
             case PRODUCT_EDIT_MODE:
@@ -1108,21 +1263,41 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     category = null;
                     openCategory(category);
                 } else {
-                    view.selectCategory(category.getId());
-                    view.setCategoryPath(category.getName());
-                    if (!subcategory.isActive()) {
-                        subcategory = null;
-                        openSubcategory(subcategory);
-                    } else {
-                        view.selectSubcategory(subcategory.getId());
-                        view.setSubcategoryPath(subcategory.getName());
-                        if (!product.isActive()) {
-                            product = null;
-                        }
-                        openProduct(product);
+                    Category tempSubcategory = subcategory;
+                    Product tempProduct = product;
+                    openCategory(category);
+                    if (!tempSubcategory.isActive()) {
+                        openSubcategory(null);
+                        return;
                     }
+                    openSubcategory(tempSubcategory);
+                    if (!tempProduct.isActive()) {
+                        openProduct(null);
+                    }
+                    openProduct(tempProduct);
                 }
                 break;
+        }
+    }
+
+    @Override
+    public boolean backPressFinish() {
+        switch (mode) {
+            case CATEGORY_ADD_MODE:
+                return true;
+            case CATEGORY_EDIT_MODE:
+            case SUBCATEGORY_ADD_MODE:
+                openCategory(null);
+                return false;
+            case SUBCATEGORY_EDIT_MODE:
+            case PRODUCT_ADD_MODE:
+                openSubcategory(null);
+                return false;
+            case PRODUCT_EDIT_MODE:
+                openProduct(null);
+                return false;
+            default:
+                    return false;
         }
     }
 }

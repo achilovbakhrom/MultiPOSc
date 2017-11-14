@@ -35,6 +35,7 @@ import com.jim.multipos.ui.product_last.ProductPresenter;
 import com.jim.multipos.utils.GlideApp;
 import com.jim.multipos.utils.OpenPickPhotoUtils;
 import com.jim.multipos.utils.PhotoPickDialog;
+import com.jim.multipos.utils.UIUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -71,12 +72,14 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
     @BindView(R.id.spUnitCategories)
     MPosSpinner unitsCategory;
 
+    @NotEmpty(messageId = R.string.warning_price_empty)
     @BindView(R.id.etProductPrice)
     MpEditText price;
 
     @BindView(R.id.tvPriceCurrency)
     TextView priceCurrency;
 
+    @NotEmpty(messageId = R.string.warning_cost_empty)
     @BindView(R.id.etProductCost)
     MpEditText cost;
 
@@ -117,7 +120,6 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
 
     private Dialog dialog;
 
-    private MpSearchView vendorDialogSearchView;
     private RecyclerView vendorDialogList;
     private MpButton vendorDialogBack;
     private MpButton vendorDialogOk;
@@ -142,7 +144,6 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
         View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.choose_vendor_dialog, null, false);
         dialog.getWindow().getDecorView().setBackgroundResource(android.R.color.transparent);
         dialog.setContentView(dialogView);
-        vendorDialogSearchView = (MpSearchView) dialogView.findViewById(R.id.searchView);
         vendorDialogList = (RecyclerView) dialogView.findViewById(R.id.rvVendors);
         vendorDialogList.setLayoutManager(new LinearLayoutManager(getContext()));
         vendorDialogBack = (MpButton) dialogView.findViewById(R.id.btnBack);
@@ -183,37 +184,77 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
         switch (view.getId()) {
             case R.id.btnSave:
                 if (isValid()) {
-                    if (vendors == null || vendors.isEmpty()) {
-                        vendor.setTextColor(Color.RED);
-                        return;
+                    Double c = Double.parseDouble(this.cost.getText().toString());
+                    Double p = Double.parseDouble(this.price.getText().toString());
+                    if (p < c) {
+                        UIUtils.showAlert(getContext(), getString(R.string.yes), getString(R.string.no),
+                                getString(R.string.warning), getString(R.string.warning_cost_more_than_price), new UIUtils.AlertListener() {
+                                    @Override
+                                    public void onPositiveButtonClicked() {
+                                        if (vendors == null || vendors.isEmpty()) {
+                                            vendor.setTextColor(Color.RED);
+                                            return;
+                                        }
+                                        String tempPrice = price.getText().toString().replace(",", ".");
+                                        Double resultPrice = tempPrice.isEmpty() ? 0.0d : Double.parseDouble(tempPrice);
+                                        String tempCost = cost.getText().toString().replace(",", ".");
+                                        Double resultCost = tempCost.isEmpty() ? 0.0d : Double.parseDouble(tempCost);
+                                        ((ProductActivity) getContext()).getPresenter().addProduct(
+                                                name.getText().toString(),
+                                                resultPrice,
+                                                resultCost,
+                                                barcode.getText().toString(),
+                                                sku.getText().toString(),
+                                                null,
+                                                isActive.isChecked(),
+                                                0,
+                                                0,
+                                                productClass.getSelectedPosition(),
+                                                unitsCategory.getSelectedPosition(),
+                                                units.getSelectedPosition(),
+                                                vendors,
+                                                "Description"
+                                        );
+                                    }
+
+                                    @Override
+                                    public void onNegativeButtonClicked() {
+
+                                    }
+                                });
+                    } else {
+                        if (vendors == null || vendors.isEmpty()) {
+                            vendor.setTextColor(Color.RED);
+                            return;
+                        }
+                        String tempPrice = price.getText().toString().replace(",", ".");
+                        Double resultPrice = tempPrice.isEmpty() ? 0.0d : Double.parseDouble(tempPrice);
+                        String tempCost = cost.getText().toString().replace(",", ".");
+                        Double resultCost = tempCost.isEmpty() ? 0.0d : Double.parseDouble(tempCost);
+                        ((ProductActivity) getContext()).getPresenter().addProduct(
+                                name.getText().toString(),
+                                resultPrice,
+                                resultCost,
+                                barcode.getText().toString(),
+                                sku.getText().toString(),
+                                null,
+                                isActive.isChecked(),
+                                0,
+                                0,
+                                productClass.getSelectedPosition(),
+                                unitsCategory.getSelectedPosition(),
+                                units.getSelectedPosition(),
+                                vendors,
+                                "Description"
+                        );
                     }
-                    String tempPrice = price.getText().toString().replace(",", ".");
-                    Double resultPrice = tempPrice.isEmpty() ? 0.0d : Double.parseDouble(tempPrice);
-                    String tempCost = cost.getText().toString().replace(",", ".");
-                    Double resultCost = tempCost.isEmpty() ? 0.0d : Double.parseDouble(tempCost);
-                    ((ProductActivity) getContext()).getPresenter().addProduct(
-                            name.getText().toString(),
-                            resultPrice,
-                            resultCost,
-                            barcode.getText().toString(),
-                            sku.getText().toString(),
-                            null,
-                            isActive.isChecked(),
-                            0,
-                            0,
-                            0,
-                            unitsCategory.getSelectedPosition(),
-                            units.getSelectedPosition(),
-                            vendors,
-                            "Description"
-                    );
                 }
                 break;
             case R.id.tvVendor:
                 ((ProductActivity) getContext()).getPresenter().openVendorChooserDialog();
                 break;
             case R.id.btnCancel:
-
+                getActivity().finish();
                 break;
 
             case R.id.btnAdvance:
@@ -271,12 +312,15 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
     }
 
     public void openAddMode() {
+        vendors = new ArrayList<>();
         name.setText("");
         name.setError(null);
         barcode.setText("");
         sku.setText("");
         price.setText("");
+        price.setError(null);
         cost.setText("");
+        cost.setError(null);
         vendor.setText(getString(R.string.vendor_are_not_choosed));
         productClass.setSelection(0);
         units.setSelectedPosition(0);
@@ -419,6 +463,10 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
         return false;
     }
 
+    public List<Long> getVendors() {
+        return vendors;
+    }
+
     class VendorChooseAdapter extends BaseAdapter<VendorWithCheckedPosition, VendorChooseAdapter.VendorChooseItemHolder> {
 
         public VendorChooseAdapter(List<VendorWithCheckedPosition> items) {
@@ -437,16 +485,13 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
             holder.vendorContact.setText(items.get(position).getVendor().getContactName());
             holder.vendorAddress.setText(items.get(position).getVendor().getAddress());
             holder.vendorChecked.setChecked(items.get(position).isChecked());
-            holder.vendorChecked.setCheckedChangeListener(new MpCheckbox.CheckedChangeListener() {
-                @Override
-                public void onCheckedChange(boolean isChecked) {
-                    items.get(position).setChecked(isChecked);
-                    if (vendors == null) return;
-                    if (isChecked) {
-                        vendors.add(items.get(position).getVendor().getId());
-                    } else {
-                        vendors.remove(items.get(position).getVendor().getId());
-                    }
+            holder.vendorChecked.setCheckedChangeListener(isChecked -> {
+                items.get(position).setChecked(isChecked);
+                if (vendors == null) return;
+                if (isChecked) {
+                    vendors.add(items.get(position).getVendor().getId());
+                } else {
+                    vendors.remove(items.get(position).getVendor().getId());
                 }
             });
         }

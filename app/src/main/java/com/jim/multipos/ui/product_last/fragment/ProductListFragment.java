@@ -1,6 +1,8 @@
 package com.jim.multipos.ui.product_last.fragment;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -55,13 +57,18 @@ public class ProductListFragment extends BaseFragment  {
     @BindView(R.id.switchShowActive)
     Switch isActiveEnabled;
 
+    private final String IS_ACTIVE_KEY = "IS_ACTIVE_KEY";
+
     @Override
     protected int getLayout() {
         return R.layout.choose_product_fragment;
     }
 
     @Override
-    protected void init(Bundle savedInstanceState) {}
+    protected void init(Bundle savedInstanceState) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        isActiveEnabled.setChecked(preferences.getBoolean(IS_ACTIVE_KEY, false));
+    }
 
     public void init(List<Category> categories) {
         firstArrow.setVisibility(View.GONE);
@@ -125,7 +132,11 @@ public class ProductListFragment extends BaseFragment  {
         ItemTouchHelper.Callback prCallback = new SimpleItemTouchHelperCallback(productAdapter);
         ItemTouchHelper prTouchHelper = new ItemTouchHelper(prCallback);
         prTouchHelper.attachToRecyclerView(this.products);
-        isActiveEnabled.setOnCheckedChangeListener((buttonView, isChecked) -> ((ProductActivity) getContext()).getPresenter().showActivesToggled());
+        isActiveEnabled.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+            preferences.edit().putBoolean(IS_ACTIVE_KEY, isChecked).apply();
+            ((ProductActivity) getContext()).getPresenter().showActivesToggled();
+        });
     }
 
 
@@ -385,6 +396,6 @@ public class ProductListFragment extends BaseFragment  {
     }
 
     public boolean isActiveEnabled() {
-        return isActiveEnabled.isEnabled();
+        return isActiveEnabled.isChecked();
     }
 }

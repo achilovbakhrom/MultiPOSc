@@ -26,13 +26,13 @@ public class ProductClass implements NameId,Editable {
     @Property
     private String name;
     @Property
-    private boolean active;
+    private boolean active = true;
     @Property
     private Long parentId;
-    private boolean deleted;
-    private boolean notModifyted;
+    private boolean deleted = false;
+    private boolean notModifyted = true;
     private Long rootId;
-    private Long createdDate;
+    private Long createdDate = System.currentTimeMillis();
     @ToOne(joinProperty = "id")
     @NotNull
     private ProductClass productClass;

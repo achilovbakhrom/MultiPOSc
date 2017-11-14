@@ -481,6 +481,9 @@
     <string name="you_have_unsaved_service_fee">You have %d unsaved service fee. Do you really want to leave?</string>
     <string name="you_have_unsaved_customers">You have %d unsaved customers. Do you really want to leave?</string>
     <string name="vendor_are_not_choosed">Vendors are not choosed</string>
+    <string name="warning_price_empty">Price must not be empty!</string>
+    <string name="warning_cost_empty">Cost must not be empty!</string>
+    <string name="warning_cost_more_than_price">Cost must be less than price</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>

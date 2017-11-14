@@ -39,4 +39,5 @@ public interface ProductPresenter extends Presenter {
     void openVendorChooserDialog();
     void setVendorName(List<Long> vendors);
     void showActivesToggled();
+    boolean backPressFinish();
 }

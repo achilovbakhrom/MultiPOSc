@@ -213,6 +213,7 @@
                     android:layout_height="@dimen/fourty_dp"
                     android:layout_weight="1"
                     android:id="@+id/tvPriceCurrency"
+                    android:gravity="center_vertical"
                     />
 
             </LinearLayout>
@@ -250,6 +251,7 @@
                     android:layout_height="@dimen/fourty_dp"
                     android:layout_weight="1"
                     android:id="@+id/tvCostCurrency"
+                    android:gravity="center_vertical"
                     />
 
             </LinearLayout>

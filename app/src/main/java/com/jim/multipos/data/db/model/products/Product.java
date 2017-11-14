@@ -41,7 +41,7 @@ public class Product implements Editable, Serializable {
     private Boolean isActive = true;
     private Boolean isNotModified = true;
     private Boolean isDeleted = false;
-    private Double position;
+    private Double position = 0.0d;
     private Long priceCurrencyId;
     @ToOne(joinProperty = "priceCurrencyId")
     private Currency priceCurrency;

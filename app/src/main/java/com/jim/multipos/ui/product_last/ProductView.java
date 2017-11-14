@@ -94,7 +94,7 @@ public interface ProductView extends BaseView {
     int getUnitSelectedPos();
     Double getPrice();
     Double getCost();
-    int getVendorSelectedPos();
+    List<Long> getVendorSelectedPos();
     int getProductClassSelectedPos();
     boolean getProductIsActive();
     void openVendorChooserDialog(List<Vendor> vendors);

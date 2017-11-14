@@ -143,7 +143,7 @@ public class CategoryAddEditFragment extends BaseFragment {
                 presenter.deleteCategory();
                 break;
             case R.id.btnSubCategoryCancel:
-                //TODO process back button
+                getActivity().finish();
                 break;
         }
     }
@@ -159,6 +159,7 @@ public class CategoryAddEditFragment extends BaseFragment {
     public boolean isActive() {
         return active.isChecked();
     }
+
 
 
 }

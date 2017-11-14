@@ -3,6 +3,7 @@ package com.jim.multipos.utils;
 import android.content.Context;
 
 import com.jim.multipos.data.DatabaseManager;
+import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.unit.Unit;
@@ -33,7 +34,13 @@ public class TestUtils {
     }
 
     public static void createProductClasses(DatabaseManager databaseManager) {
-
+        if (databaseManager.getAllProductClass().blockingGet().isEmpty()) {
+            for (int i = 0; i < 10; i++) {
+                ProductClass productClass = new ProductClass();
+                productClass.setName("Product class " + i);
+                databaseManager.insertProductClass(productClass).subscribe();
+            }
+        }
     }
 
     public static void createVendord(DatabaseManager databaseManager) {
@@ -47,5 +54,4 @@ public class TestUtils {
             }
         }
     }
-
 }
