@@ -9,13 +9,11 @@ import com.jim.mpviews.MpButton;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.db.model.ProductClass;
-import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.ui.product_class_new.adapters.ProductsClassListAdapter;
 import com.jim.multipos.ui.product_class_new.model.ProductsClassAdapterDetials;
 import com.jim.multipos.ui.product_class_new.presenters.ProductsClassPresenter;
 import com.jim.multipos.utils.WarningDialog;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -132,11 +130,11 @@ public class ProductsClassFragment  extends BaseFragment implements ProductsClas
     @Override
     public void openWarning() {
         WarningDialog warningDialog = new WarningDialog(getActivity());
-        warningDialog.setWarningText(getString(R.string.discard_discounts));
+        warningDialog.setWarningMessage(getString(R.string.discard_discounts));
         warningDialog.setOnYesClickListener(view1 -> warningDialog.dismiss());
         warningDialog.setOnNoClickListener(view1 -> closeDiscountActivity());
-        warningDialog.setYesButtonText(getString(R.string.cancel));
-        warningDialog.setNoButtonText(getString(R.string.discard));
+        warningDialog.setPositiveButtonText(getString(R.string.cancel));
+        warningDialog.setNegativeButtonText(getString(R.string.discard));
         warningDialog.show();
     }
 

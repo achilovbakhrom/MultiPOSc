@@ -19,6 +19,7 @@
             android:background="@drawable/rounded_blue_bg">
 
             <TextView
+                android:id="@+id/tvDialogTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

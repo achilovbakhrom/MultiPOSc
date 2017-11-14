@@ -10,6 +10,8 @@ import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.PaymentType;
 import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.ServiceFee;
+import com.jim.multipos.data.db.model.consignment.Consignment;
+import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.customer.Customer;
@@ -24,6 +26,7 @@ import com.jim.multipos.data.db.model.unit.Unit;
 import com.jim.multipos.data.db.model.unit.UnitCategory;
 import com.jim.multipos.data.operations.AccountOperations;
 import com.jim.multipos.data.operations.CategoryOperations;
+import com.jim.multipos.data.operations.ConsignmentOperations;
 import com.jim.multipos.data.operations.ContactOperations;
 import com.jim.multipos.data.operations.CurrencyOperations;
 import com.jim.multipos.data.operations.CustomerGroupOperations;
@@ -55,7 +58,7 @@ import io.reactivex.Single;
  */
 
 public class DatabaseManager implements ContactOperations, CategoryOperations, ProductOperations, AccountOperations, CurrencyOperations, StockOperations, UnitCategoryOperations, UnitOperations, PaymentTypeOperations, ServiceFeeOperations, ProductClassOperations, CustomerOperations, CustomerGroupOperations, SubUnitOperations, JoinCustomerGroupWithCustomerOperations, DiscountOperations,
-        VendorOperations,SearchOperations, InventoryOperations {
+        VendorOperations,SearchOperations, ConsignmentOperations, InventoryOperations {
     private Context context;
     private PreferencesHelper preferencesHelper;
     private DbHelper dbHelper;
@@ -516,6 +519,16 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
+    public Observable<Product> getProductById(Long productId) {
+        return dbHelper.getProductById(productId);
+    }
+
+    @Override
+    public Observable<List<Product>> getAllActiveProductsFromVendor(Long vendorId) {
+        return dbHelper.getAllActiveProductsFromVendor(vendorId);
+    }
+
+    @Override
     public Observable<Long> addSubUnitList(SubUnitsList subUnitsList) {
         return dbHelper.insertSubUnits(subUnitsList);
     }
@@ -629,6 +642,27 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Single<List<Product>> getSearchProducts(String searchText, boolean skuMode, boolean barcodeMode,boolean nameMode) {
         return dbHelper.getSearchProducts(searchText,skuMode,barcodeMode,nameMode);
+    }
+
+
+    @Override
+    public Observable<Long> insertConsignment(Consignment consignment) {
+        return dbHelper.insertConsignment(consignment);
+    }
+
+    @Override
+    public Observable<Long> insertConsignmentProduct(ConsignmentProduct consignment) {
+        return dbHelper.insertConsignmentProduct(consignment);
+    }
+
+    @Override
+    public Observable<List<Consignment>> getConsignments() {
+        return dbHelper.getConsignments();
+    }
+
+    @Override
+    public Observable<Boolean> insertConsignmentProducts(List<ConsignmentProduct> consignmentProducts) {
+        return dbHelper.insertConsignmentProduct(consignmentProducts);
     }
 
     @Override

@@ -17,6 +17,8 @@ import android.widget.Spinner;
 
 import com.jim.mpviews.utils.Utils;
 
+import java.util.List;
+
 /**
  * Created by bakhrom on 10/16/17.
  */
@@ -116,11 +118,16 @@ public class MPosSpinner extends FrameLayout {
 
     public void setAdapter(String[] items) {
         ((AppCompatSpinner)findViewById(R.id.spinner))
-                .setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, items));
+                .setAdapter(new ArrayAdapter<>(getContext(), R.layout.simple_spinner_item, items));
     }
 
     public void setArrowTint(int color) {
         ((ImageView) findViewById(R.id.spinner_arrow)).setColorFilter(color);
+    }
+
+    public void setAdapter(List<String> items) {
+        ((AppCompatSpinner)findViewById(R.id.spinner))
+                .setAdapter(new ArrayAdapter<>(getContext(), R.layout.simple_spinner_item, items));
     }
 
     public interface ItemSelectionListener {

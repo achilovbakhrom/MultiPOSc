@@ -81,6 +81,7 @@
         <activity android:name=".ui.customers_edit_new.CustomersEditActivity">
         </activity>
         <activity android:name=".ui.consignment.ConsignmentActivity">
+
         </activity>
         <activity android:name=".ui.inventory.InventoryActivity"
             android:windowSoftInputMode="stateHidden">

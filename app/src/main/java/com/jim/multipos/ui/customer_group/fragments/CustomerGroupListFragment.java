@@ -100,7 +100,7 @@ public class CustomerGroupListFragment extends BaseFragment implements CustomerG
     public void showCustomerGroupRemoveWarningDialog() {
         WarningDialog warningDialog = new WarningDialog(getContext());
         warningDialog.onlyText(true);
-        warningDialog.setWarningText(getString(R.string.can_not_remove_customer_group));
+        warningDialog.setWarningMessage(getString(R.string.can_not_remove_customer_group));
         warningDialog.setOnYesClickListener(view -> warningDialog.dismiss());
         warningDialog.show();
     }
@@ -108,7 +108,7 @@ public class CustomerGroupListFragment extends BaseFragment implements CustomerG
     @Override
     public void showCustomerGroupSaveDialog() {
         WarningDialog warningDialog = new WarningDialog(getContext());
-        warningDialog.setWarningText(getString(R.string.do_you_want_to_save_the_change));
+        warningDialog.setWarningMessage(getString(R.string.do_you_want_to_save_the_change));
         warningDialog.setOnYesClickListener(view -> {
             presenter.customerGroupUpdate();
             warningDialog.dismiss();

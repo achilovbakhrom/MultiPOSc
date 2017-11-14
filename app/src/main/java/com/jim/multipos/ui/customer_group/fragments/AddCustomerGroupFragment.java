@@ -102,7 +102,7 @@ public class AddCustomerGroupFragment extends BaseFragment implements AddCustome
 
         RxView.clicks(btnDelete).subscribe(o -> {
             WarningDialog warningDialog = new WarningDialog(getContext());
-            warningDialog.setWarningText(getString(R.string.do_you_want_delete));
+            warningDialog.setWarningMessage(getString(R.string.do_you_want_delete));
             warningDialog.setOnYesClickListener(view -> {
                 presenter.deleteCustomerGroup();
                 warningDialog.dismiss();
@@ -159,7 +159,7 @@ public class AddCustomerGroupFragment extends BaseFragment implements AddCustome
     public void showItemActiveCustomerGroupWarningDialog() {
         WarningDialog warningDialog = new WarningDialog(getContext());
         warningDialog.onlyText(true);
-        warningDialog.setWarningText(getString(R.string.you_can_only_delete_inactive_customer_groups));
+        warningDialog.setWarningMessage(getString(R.string.you_can_only_delete_inactive_customer_groups));
         warningDialog.setOnYesClickListener(view -> {
             warningDialog.dismiss();
         });

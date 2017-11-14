@@ -158,7 +158,7 @@ public class AddSubCategoryFragment extends BaseFragment implements SubCategoryV
     @Override
     public void confirmChanges() {
         WarningDialog dialog = new WarningDialog(getContext());
-        dialog.setWarningText(getString(R.string.want_accept_changes));
+        dialog.setWarningMessage(getString(R.string.want_accept_changes));
         dialog.setOnYesClickListener(view -> {
             presenter.acceptChanges();
             dialog.dismiss();
@@ -176,21 +176,21 @@ public class AddSubCategoryFragment extends BaseFragment implements SubCategoryV
             case HAVE_CHILD:
                 dialog = new WarningDialog(getContext());
                 dialog.onlyText(true);
-                dialog.setWarningText("You can't delete subcategory, which has products. Firstly, delete products to delete subcategory");
+                dialog.setWarningMessage("You can't delete subcategory, which has products. Firstly, delete products to delete subcategory");
                 dialog.setOnYesClickListener(view -> dialog.dismiss());
                 dialog.show();
                 break;
             case IS_ACTIVE:
                 dialog = new WarningDialog(getContext());
                 dialog.onlyText(true);
-                dialog.setWarningText("You can't delete active subcategory. Make subcategory non-active for deleting");
+                dialog.setWarningMessage("You can't delete active subcategory. Make subcategory non-active for deleting");
                 dialog.setOnYesClickListener(view -> dialog.dismiss());
                 dialog.show();
                 break;
             case NOT_UPDATED:
                 dialog = new WarningDialog(getContext());
                 dialog.onlyText(true);
-                dialog.setWarningText("No changes found");
+                dialog.setWarningMessage("No changes found");
                 dialog.setOnYesClickListener(view -> dialog.dismiss());
                 dialog.show();
                 break;
@@ -200,7 +200,7 @@ public class AddSubCategoryFragment extends BaseFragment implements SubCategoryV
     @Override
     public void confirmDeleting() {
         WarningDialog dialog = new WarningDialog(getContext());
-        dialog.setWarningText(getString(R.string.do_you_want_delete));
+        dialog.setWarningMessage(getString(R.string.do_you_want_delete));
         dialog.setOnYesClickListener(view -> {
             presenter.deleteSubCategory();
             dialog.dismiss();

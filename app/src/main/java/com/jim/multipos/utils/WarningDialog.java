@@ -18,7 +18,7 @@ import com.jim.multipos.R;
 
 public class WarningDialog extends Dialog {
     private MpButton btnWarningYES, btnWarningNO;
-    private TextView tvWarningText;
+    private TextView tvWarningText, tvDialogTitle;
 
     public WarningDialog(@NonNull Context context) {
         super(context);
@@ -42,11 +42,16 @@ public class WarningDialog extends Dialog {
         btnWarningYES = (MpButton) findViewById(R.id.btnWarningYES);
         btnWarningNO = (MpButton) findViewById(R.id.btnWarningNO);
         tvWarningText = (TextView) findViewById(R.id.tvWarningText);
+        tvDialogTitle = (TextView) findViewById(R.id.tvDialogTitle);
         onlyText(false);
     }
 
-    public void setWarningText(String warningText) {
+    public void setWarningMessage(String warningText) {
         tvWarningText.setText(warningText);
+    }
+
+    public void setDialogTitle(String title) {
+        tvDialogTitle.setText(title);
     }
 
     public void setOnYesClickListener(View.OnClickListener listener) {
@@ -57,11 +62,11 @@ public class WarningDialog extends Dialog {
         btnWarningNO.setOnClickListener(listener);
     }
 
-    public void setYesButtonText(String yesButtonText) {
+    public void setPositiveButtonText(String yesButtonText) {
         btnWarningYES.setText(yesButtonText);
     }
 
-    public void setNoButtonText(String noButtonText) {
+    public void setNegativeButtonText(String noButtonText) {
         btnWarningNO.setText(noButtonText);
     }
 

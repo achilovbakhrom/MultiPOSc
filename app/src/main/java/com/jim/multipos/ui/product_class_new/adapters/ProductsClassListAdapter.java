@@ -226,13 +226,13 @@ public class ProductsClassListAdapter extends RecyclerView.Adapter<RecyclerView.
                 if(productClass.getActive()){
                     WarningDialog warningDialog = new WarningDialog(context);
                     warningDialog.onlyText(true);
-                    warningDialog.setWarningText("First full you should change status item to\n\"not active\"");
+                    warningDialog.setWarningMessage("First full you should change status item to\n\"not active\"");
                     warningDialog.setOnYesClickListener(view1 -> warningDialog.dismiss());
                     warningDialog.show();
                     return;
                 }
                 WarningDialog warningDialog = new WarningDialog(context);
-                warningDialog.setWarningText(context.getString(R.string.do_you_want_delete_item)+" "+ productClass.getName()+"?");
+                warningDialog.setWarningMessage(context.getString(R.string.do_you_want_delete_item)+" "+ productClass.getName()+"?");
                 warningDialog.setOnNoClickListener(view1 -> {
                     warningDialog.dismiss();
                 });
@@ -290,13 +290,13 @@ public class ProductsClassListAdapter extends RecyclerView.Adapter<RecyclerView.
                 if(productClass.getActive()){
                     WarningDialog warningDialog = new WarningDialog(context);
                     warningDialog.onlyText(true);
-                    warningDialog.setWarningText(context.getString(R.string.change_to_not_delete_when_not_active));
+                    warningDialog.setWarningMessage(context.getString(R.string.change_to_not_delete_when_not_active));
                     warningDialog.setOnYesClickListener(view1 -> warningDialog.dismiss());
                     warningDialog.show();
                     return;
                 }
                 WarningDialog warningDialog = new WarningDialog(context);
-                warningDialog.setWarningText(context.getString(R.string.do_you_want_delete_item)+" "+productClass.getName()+"?");
+                warningDialog.setWarningMessage(context.getString(R.string.do_you_want_delete_item)+" "+productClass.getName()+"?");
                 warningDialog.setOnNoClickListener(view1 -> {
                     warningDialog.dismiss();
                 });

@@ -113,7 +113,7 @@ public class LockScreenActivity extends BaseActivity implements LockScreenView {
             case EMPTY:
                 dialog = new WarningDialog(this);
                 dialog.onlyText(true);
-                dialog.setWarningText("Please, enter the password");
+                dialog.setWarningMessage("Please, enter the password");
                 dialog.setOnYesClickListener(view -> {
                     clear();
                     dialog.dismiss();
@@ -123,7 +123,7 @@ public class LockScreenActivity extends BaseActivity implements LockScreenView {
             case WRONG_PASS:
                 dialog = new WarningDialog(this);
                 dialog.onlyText(true);
-                dialog.setWarningText("Wrong password");
+                dialog.setWarningMessage("Wrong password");
                 dialog.setOnYesClickListener(view -> {
                     clear();
                     dialog.dismiss();

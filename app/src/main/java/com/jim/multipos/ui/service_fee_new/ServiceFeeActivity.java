@@ -63,7 +63,7 @@ public class ServiceFeeActivity extends BaseActivity implements ServiceFeeView, 
                 finish();
             } else {
                 WarningDialog warningDialog = new WarningDialog(this);
-                warningDialog.setWarningText(getString(R.string.you_have_unsaved_service_fee, ((ServiceFeeAdapter) rvItems.getAdapter()).getChangedItems().size()));
+                warningDialog.setWarningMessage(getString(R.string.you_have_unsaved_service_fee, ((ServiceFeeAdapter) rvItems.getAdapter()).getChangedItems().size()));
                 warningDialog.setOnYesClickListener(view -> finish());
                 warningDialog.setOnNoClickListener(view -> warningDialog.dismiss());
                 warningDialog.show();
@@ -84,7 +84,7 @@ public class ServiceFeeActivity extends BaseActivity implements ServiceFeeView, 
     @Override
     public void onDeleteClicked(ServiceFee serviceFee) {
         WarningDialog removeWarningDialog = new WarningDialog(this);
-        removeWarningDialog.setWarningText(getString(R.string.do_you_want_delete));
+        removeWarningDialog.setWarningMessage(getString(R.string.do_you_want_delete));
         removeWarningDialog.setOnYesClickListener(view -> {
             presenter.deleteServiceFee(serviceFee);
             removeWarningDialog.dismiss();
@@ -99,7 +99,7 @@ public class ServiceFeeActivity extends BaseActivity implements ServiceFeeView, 
     public void showActiveItemWarningDialog() {
         WarningDialog warningDialog = new WarningDialog(this);
         warningDialog.onlyText(true);
-        warningDialog.setWarningText(getString(R.string.change_to_not_delete_when_not_active));
+        warningDialog.setWarningMessage(getString(R.string.change_to_not_delete_when_not_active));
         warningDialog.setOnYesClickListener(view -> warningDialog.dismiss());
         warningDialog.show();
     }

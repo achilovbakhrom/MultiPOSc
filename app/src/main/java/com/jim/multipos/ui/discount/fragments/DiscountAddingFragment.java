@@ -15,7 +15,6 @@ import com.jim.multipos.ui.discount.presenters.DiscountAddingPresenter;
 import com.jim.multipos.ui.discount.presenters.DiscountAddingPresenterImpl;
 import com.jim.multipos.utils.WarningDialog;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -123,11 +122,11 @@ public class DiscountAddingFragment  extends BaseFragment implements DiscountAdd
     @Override
     public void openWarning() {
         WarningDialog warningDialog = new WarningDialog(getActivity());
-        warningDialog.setWarningText(getString(R.string.discard_discounts));
+        warningDialog.setWarningMessage(getString(R.string.discard_discounts));
         warningDialog.setOnYesClickListener(view1 -> warningDialog.dismiss());
         warningDialog.setOnNoClickListener(view1 -> closeDiscountActivity());
-        warningDialog.setYesButtonText(getString(R.string.cancel));
-        warningDialog.setNoButtonText(getString(R.string.discard));
+        warningDialog.setPositiveButtonText(getString(R.string.cancel));
+        warningDialog.setNegativeButtonText(getString(R.string.discard));
         warningDialog.show();
     }
 

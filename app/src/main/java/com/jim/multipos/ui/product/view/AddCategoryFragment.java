@@ -156,7 +156,7 @@ public class AddCategoryFragment extends BaseFragment implements CategoryView {
     @Override
     public void confirmChanges() {
         WarningDialog dialog = new WarningDialog(getContext());
-        dialog.setWarningText(getString(R.string.want_accept_changes));
+        dialog.setWarningMessage(getString(R.string.want_accept_changes));
         dialog.setOnYesClickListener(view -> {
             presenter.acceptChanges();
             dialog.dismiss();
@@ -174,21 +174,21 @@ public class AddCategoryFragment extends BaseFragment implements CategoryView {
             case HAVE_CHILD:
                 dialog = new WarningDialog(getContext());
                 dialog.onlyText(true);
-                dialog.setWarningText("You can't delete category, which has subcategories. Firstly, delete subcategories to delete category");
+                dialog.setWarningMessage("You can't delete category, which has subcategories. Firstly, delete subcategories to delete category");
                 dialog.setOnYesClickListener(view -> dialog.dismiss());
                 dialog.show();
                 break;
             case IS_ACTIVE:
                 dialog = new WarningDialog(getContext());
                 dialog.onlyText(true);
-                dialog.setWarningText("You can't delete active category. Make category non-active for deleting");
+                dialog.setWarningMessage("You can't delete active category. Make category non-active for deleting");
                 dialog.setOnYesClickListener(view -> dialog.dismiss());
                 dialog.show();
                 break;
             case NOT_UPDATED:
                 dialog = new WarningDialog(getContext());
                 dialog.onlyText(true);
-                dialog.setWarningText("No changes found");
+                dialog.setWarningMessage("No changes found");
                 dialog.setOnYesClickListener(view -> dialog.dismiss());
                 dialog.show();
                 break;
@@ -198,7 +198,7 @@ public class AddCategoryFragment extends BaseFragment implements CategoryView {
     @Override
     public void confirmDeleting() {
         WarningDialog dialog = new WarningDialog(getContext());
-        dialog.setWarningText(getString(R.string.do_you_want_delete));
+        dialog.setWarningMessage(getString(R.string.do_you_want_delete));
         dialog.setOnYesClickListener(view -> {
             presenter.deleteCategory();
             dialog.dismiss();

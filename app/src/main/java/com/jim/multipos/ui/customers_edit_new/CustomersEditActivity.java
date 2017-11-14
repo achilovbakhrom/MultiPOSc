@@ -58,7 +58,7 @@ public class CustomersEditActivity extends BaseActivity implements CustomersEdit
                 finish();
             } else {
                 WarningDialog warningDialog = new WarningDialog(this);
-                warningDialog.setWarningText(getString(R.string.you_have_unsaved_customers, adapter.getNotSavedItemCount()));
+                warningDialog.setWarningMessage(getString(R.string.you_have_unsaved_customers, adapter.getNotSavedItemCount()));
                 warningDialog.setOnYesClickListener(view -> finish());
                 warningDialog.setOnNoClickListener(view -> warningDialog.dismiss());
                 warningDialog.show();
@@ -101,7 +101,7 @@ public class CustomersEditActivity extends BaseActivity implements CustomersEdit
     @Override
     public void onDeleteClicked(Customer customer) {
         WarningDialog removeWarningDialog = new WarningDialog(this);
-        removeWarningDialog.setWarningText(getString(R.string.do_you_want_delete));
+        removeWarningDialog.setWarningMessage(getString(R.string.do_you_want_delete));
         removeWarningDialog.setOnYesClickListener(view -> {
             presenter.removeCustomer(customer);
             removeWarningDialog.dismiss();

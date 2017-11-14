@@ -16,6 +16,10 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 import org.greenrobot.greendao.database.Database;
 
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -58,6 +62,20 @@ public abstract class BaseAppModule {
     @Singleton
     static RxBus getRxBus() {
         return new RxBus();
+    }
+
+    @Provides
+    @Singleton
+    static DecimalFormat getFormatter() {
+        DecimalFormat formatter;
+        NumberFormat numberFormat = NumberFormat.getNumberInstance();
+        numberFormat.setMaximumFractionDigits(2);
+        formatter = (DecimalFormat) numberFormat;
+        DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
+        symbols.setGroupingSeparator(' ');
+        formatter.setDecimalFormatSymbols(symbols);
+        return formatter;
+
     }
 
 }

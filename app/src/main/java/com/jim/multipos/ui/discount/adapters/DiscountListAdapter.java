@@ -446,7 +446,7 @@ public class DiscountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 if(discount.getActive()){
                     WarningDialog warningDialog = new WarningDialog(context);
                     warningDialog.onlyText(true);
-                    warningDialog.setWarningText(context.getString(R.string.change_to_not_delete_when_not_active));
+                    warningDialog.setWarningMessage(context.getString(R.string.change_to_not_delete_when_not_active));
                     warningDialog.setOnYesClickListener(view1 -> warningDialog.dismiss());
                     warningDialog.show();
                     return;
@@ -456,7 +456,7 @@ public class DiscountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 if(discount.getAmountType().equals(discountAmountTypeAbbr[0])){
                     type = "%";
                 }
-                warningDialog.setWarningText(context.getString(R.string.do_you_want_delete_item)+" "+String.valueOf(discount.getAmount())+type+" "+discount.getDiscription()+"?");
+                warningDialog.setWarningMessage(context.getString(R.string.do_you_want_delete_item)+" "+String.valueOf(discount.getAmount())+type+" "+discount.getDiscription()+"?");
                 warningDialog.setOnNoClickListener(view1 -> {
                     warningDialog.dismiss();
                 });

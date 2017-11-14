@@ -29,6 +29,8 @@ import com.jim.multipos.data.db.model.PaymentTypeDao;
 import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.ServiceFeeDao;
+import com.jim.multipos.data.db.model.consignment.Consignment;
+import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.CustomerDao;
@@ -57,6 +59,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -65,6 +68,7 @@ import io.reactivex.Observable;
 import io.reactivex.Single;
 
 import static com.jim.multipos.data.db.model.products.Category.WITHOUT_PARENT;
+import static com.jim.multipos.utils.CategoryUtils.isSubcategory;
 
 
 /**
@@ -1243,5 +1247,43 @@ public class AppDbHelper implements DbHelper {
                         CategoryDao.Properties.IsActive.eq(true))
                 .build()
                 .list());
+    }
+
+    @Override
+    public Observable<Long> insertConsignment(Consignment consignment) {
+        return Observable.fromCallable(() -> mDaoSession.getConsignmentDao().insertOrReplace(consignment));
+    }
+
+    @Override
+    public Observable<Long> insertConsignmentProduct(ConsignmentProduct consignmentProduct) {
+        return Observable.fromCallable(() -> mDaoSession.getConsignmentProductDao().insertOrReplace(consignmentProduct));
+    }
+
+    @Override
+    public Observable<List<Consignment>> getConsignments() {
+        return Observable.fromCallable(() -> mDaoSession.getConsignmentDao().loadAll());
+    }
+
+    @Override
+    public Observable<Boolean> insertConsignmentProduct(List<ConsignmentProduct> consignmentProducts) {
+        return Observable.fromCallable(() ->
+        {
+            mDaoSession.getConsignmentProductDao().insertOrReplaceInTx(consignmentProducts);
+            return true;
+        });
+    }
+
+    @Override
+    public Observable<Product> getProductById(Long productId) {
+        return Observable.fromCallable(() -> mDaoSession.getProductDao().load(productId));
+    }
+
+    @Override
+    public Observable<List<Product>> getAllActiveProductsFromVendor(Long vendorId) {
+//        return Observable.fromCallable(() -> mDaoSession.getProductDao().queryBuilder()
+//                 .where(ProductDao.Properties.VendorId.eq(vendorId), ProductDao.Properties.IsDeleted.eq(false))
+//                 .where(ProductDao.Properties.IsNotModified.eq(true), ProductDao.Properties.IsActive.eq(true))
+//                 .build().list());
+        return null;
     }
 }

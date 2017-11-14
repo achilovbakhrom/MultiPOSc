@@ -13,34 +13,38 @@ import android.widget.Toast;
 public class UIUtils {
 
     public static void showAlert(Context context, String positiveButtonText, String negativeButtonText, String title, String message, AlertListener listener) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(title)
-                .setMessage(message)
-                .setPositiveButton(positiveButtonText, (dialog, which) -> {
-                    if (listener != null) {
-                        listener.onPositiveButtonClicked();
-                    }
-                })
-                .setNegativeButton(negativeButtonText, (dialog, id) -> {
-                    if (listener != null) {
-                        listener.onNegativeButtonClicked();
-                    }
-                });
-        AlertDialog alert = builder.create();
-        alert.show();
+        WarningDialog dialog = new WarningDialog(context);
+        dialog.setPositiveButtonText(positiveButtonText);
+        dialog.setNegativeButtonText(negativeButtonText);
+        dialog.setWarningMessage(message);
+        dialog.setDialogTitle(title);
+        dialog.setOnYesClickListener(view -> {
+            if (listener != null) {
+                listener.onPositiveButtonClicked();
+                dialog.dismiss();
+            }
+        });
+        dialog.setOnNoClickListener(view -> {
+            if (listener != null) {
+                listener.onNegativeButtonClicked();
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 
     public static void showAlert(Context context, String buttonText, String title, String message, SingleButtonAlertListener listener) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(title)
-                .setMessage(message)
-                .setPositiveButton(buttonText, (dialog, which) -> {
-                    if (listener != null) {
-                        listener.onButtonClicked();
-                    }
-                });
-        AlertDialog alert = builder.create();
-        alert.show();
+        WarningDialog dialog = new WarningDialog(context);
+        dialog.setPositiveButtonText(buttonText);
+        dialog.setWarningMessage(message);
+        dialog.setDialogTitle(title);
+        dialog.setOnYesClickListener(view -> {
+            if (listener != null) {
+                listener.onButtonClicked();
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 
     public interface AlertListener {

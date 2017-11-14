@@ -408,6 +408,7 @@
     <string name="no">No</string>
     <string name="what_do_you_want">What do you want?</string>
     <string name="sure">Sure</string>
+    <string name="consignment_number_is_empty">Please, enter consignment number</string>
     <string name="do_you_want_delete_item">Do you want delete the item</string>
     <string name="do_you_want_delete">Do you really want to delete?</string>
     <string name="do_you_want_delete_with_argument">Do you really want to delete %s?</string>
@@ -480,10 +481,19 @@
     <string name="service_fee">Service Fee</string>
     <string name="you_have_unsaved_service_fee">You have %d unsaved service fee. Do you really want to leave?</string>
     <string name="you_have_unsaved_customers">You have %d unsaved customers. Do you really want to leave?</string>
+    <string name="total_should_pay">Total should pay</string>
+    <string name="total_paid">Total paid</string>
+    <string name="account">Account</string>
+    <string name="from_account">From Account</string>
+    <string name="consignment">Consignment</string>
+    <string name="income_from">Income from :</string>
     <string name="vendor_are_not_choosed">Vendors are not choosed</string>
     <string name="warning_price_empty">Price must not be empty!</string>
     <string name="warning_cost_empty">Cost must not be empty!</string>
     <string name="warning_cost_more_than_price">Cost must be less than price</string>
+    <string name="add_product_to_consignment">Please, add product to consignment</string>
+    <string name="number">Number</string>
+    <string name="total_paid_sum_warning">Total paid sum cannot be larger than total sum</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>

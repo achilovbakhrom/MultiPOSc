@@ -101,6 +101,15 @@
     <string name="contact_name">Contact name</string>
     <string name="selected">Selected</string>
     <string name="products">Products</string>
+    <string name="total_should_pay">Total should pay</string>
+    <string name="total_paid">Total paid</string>
+    <string name="account">Account</string>
+    <string name="from_account">From Account</string>
+    <string name="consignment">Consignment</string>
+    <string name="income_from">Income from : </string>
+    <string name="add_product_to_consignment">Please, add product to consignment</string>
+    <string name="number">Number</string>
+    <string name="total_paid_sum_warning">Total paid sum cannot be larger than total sum</string>
     <string-array name="start_configuration_title">
         <item namte="pos_details">POS подробности</item>
         <item name="account">Аккаунт</item>

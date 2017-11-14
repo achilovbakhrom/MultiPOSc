@@ -28,6 +28,7 @@ public class MpTripleSwitcher extends LinearLayout {
     private boolean right = false;
     private boolean center = false;
     private boolean left = false;
+    private OnStateChangedListener listener;
 
     public MpTripleSwitcher(Context context) {
         super(context);
@@ -86,6 +87,7 @@ public class MpTripleSwitcher extends LinearLayout {
                 right = false;
                 center = false;
                 left = true;
+                listener.onStateChange(right, center, left);
             }
         });
 
@@ -102,6 +104,7 @@ public class MpTripleSwitcher extends LinearLayout {
                 right = true;
                 center = false;
                 left = false;
+                listener.onStateChange(right, center, left);
             }
         });
 
@@ -118,6 +121,7 @@ public class MpTripleSwitcher extends LinearLayout {
                 right = false;
                 center = true;
                 left = false;
+                listener.onStateChange(right, center, left);
             }
         });
 
@@ -142,6 +146,13 @@ public class MpTripleSwitcher extends LinearLayout {
         mpCenterText.setText(center);
     }
 
+    public interface OnStateChangedListener{
+        void onStateChange(boolean isRight, boolean isCenter, boolean isLeft);
+    }
+
+    public void setStateChangedListener(OnStateChangedListener listener) {
+        this.listener = listener;
+    }
 
     @Override
     public void onRestoreInstanceState(Parcelable state) {
