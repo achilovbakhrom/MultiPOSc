@@ -1160,6 +1160,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                                 }
                                 view.editProduct(result);
                                 view.unselectProductsList();
+                                openSubcategory(subcategory);
                                 openProduct(null);
                             });
                         }
