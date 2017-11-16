@@ -58,7 +58,7 @@ import io.reactivex.Single;
  */
 
 public class DatabaseManager implements ContactOperations, CategoryOperations, ProductOperations, AccountOperations, CurrencyOperations, StockOperations, UnitCategoryOperations, UnitOperations, PaymentTypeOperations, ServiceFeeOperations, ProductClassOperations, CustomerOperations, CustomerGroupOperations, SubUnitOperations, JoinCustomerGroupWithCustomerOperations, DiscountOperations,
-        VendorOperations,SearchOperations, ConsignmentOperations, InventoryOperations {
+        VendorOperations, SearchOperations, ConsignmentOperations, InventoryOperations {
     private Context context;
     private PreferencesHelper preferencesHelper;
     private DbHelper dbHelper;
@@ -121,38 +121,23 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
         return this;
     }
 
-    public JoinCustomerGroupWithCustomerOperations getJoinCustomerGroupWithCustomerOperations () {
+    public JoinCustomerGroupWithCustomerOperations getJoinCustomerGroupWithCustomerOperations() {
         return this;
     }
 
     @Override
-    public Observable<Long> addJoinCustomerGroupWithCustomer(JoinCustomerGroupsWithCustomers joinCustomerGroupWithCustomer) {
-        return dbHelper.insertJoinCustomerGroupWithCustomer(joinCustomerGroupWithCustomer);
+    public Observable<Long> addCustomerToCustomerGroup(Long customerGroupId, Long customerId) {
+        return dbHelper.insertCustomerToCustomerGroup(customerGroupId, customerId);
     }
 
     @Override
-    public Observable<Boolean> addJoinCustomerGroupWithCustomers(List<JoinCustomerGroupsWithCustomers> joinCustomerGroupsWithCustomers) {
-        return dbHelper.insertJoinCustomerGroupWithCustomers(joinCustomerGroupsWithCustomers);
-    }
-
-    @Override
-    public Observable<Boolean> removeJoinCustomerGroupWithCustomer(Long customerGroupId, Long customerId) {
-        return dbHelper.deleteJoinCustomerGroupWithCustomer(customerGroupId, customerId);
+    public Observable<Boolean> removeCustomerFromCustomerGroup(Long customerGroupId, Long customerId) {
+        return dbHelper.deleteCustomerFromCustomerGroup(customerGroupId, customerId);
     }
 
     @Override
     public Observable<Boolean> removeJoinCustomerGroupWithCustomer(Long customerId) {
         return dbHelper.deleteJoinCustomerGroupWithCustomer(customerId);
-    }
-
-    @Override
-    public Observable<Boolean> removeAllJoinCustomerGroupWithCustomer() {
-        return dbHelper.deleteAllJoinCustomerGroupWithCustomer();
-    }
-
-    @Override
-    public Observable<List<JoinCustomerGroupsWithCustomers>> getAllJoinCustomerGroupsWithCustomers() {
-        return dbHelper.getAllJoinCustomerGroupsWithCustomers();
     }
 
     @Override
@@ -254,7 +239,6 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     public Observable<List<Account>> getAllAccounts() {
         return dbHelper.getAllAccounts();
     }
-
 
 
     @Override
@@ -569,6 +553,16 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
+    public Observable<CustomerGroup> getCustomerGroupByName(String name) {
+        return dbHelper.getCustomerGroupByName(name);
+    }
+
+    @Override
+    public Observable<CustomerGroup> getCustomerGroupById(long id) {
+        return dbHelper.getCustomerGroupById(id);
+    }
+
+    @Override
     public Observable<List<CustomerGroup>> getCustomerGroups(Customer customer) {
         return dbHelper.getCustomerGroups(customer);
     }
@@ -640,8 +634,8 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
-    public Single<List<Product>> getSearchProducts(String searchText, boolean skuMode, boolean barcodeMode,boolean nameMode) {
-        return dbHelper.getSearchProducts(searchText,skuMode,barcodeMode,nameMode);
+    public Single<List<Product>> getSearchProducts(String searchText, boolean skuMode, boolean barcodeMode, boolean nameMode) {
+        return dbHelper.getSearchProducts(searchText, skuMode, barcodeMode, nameMode);
     }
 
 

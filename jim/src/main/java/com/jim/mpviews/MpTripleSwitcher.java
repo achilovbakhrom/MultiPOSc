@@ -73,6 +73,7 @@ public class MpTripleSwitcher extends LinearLayout {
         mpCenterText.setText(attributeArray.getText(R.styleable.MpTripleSwitcher_center_text));
         mpLeftText.setText(attributeArray.getText(R.styleable.MpTripleSwitcher_left_text));
         mpRightText.setText(attributeArray.getText(R.styleable.MpTripleSwitcher_right_text));
+        left = true;
 
         mpLeftBtn.setOnClickListener(new OnClickListener() {
             @Override

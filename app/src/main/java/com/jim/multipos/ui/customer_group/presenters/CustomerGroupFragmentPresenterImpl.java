@@ -52,9 +52,9 @@ public class CustomerGroupFragmentPresenterImpl extends BasePresenterImpl<Custom
                 joinCustomerGroupsWithCustomers.setCustomerGroupId(customerGroup.getId());
                 joinCustomerGroupsWithCustomers.setCustomerId(customers.get(position).getId());
 
-                databaseManager.getJoinCustomerGroupWithCustomerOperations().addJoinCustomerGroupWithCustomer(joinCustomerGroupsWithCustomers).subscribe(aLong -> {
+                /*databaseManager.getJoinCustomerGroupWithCustomerOperations().addJoinCustomerGroupWithCustomer(joinCustomerGroupsWithCustomers).subscribe(aLong -> {
                     customerGroup.getCustomers().add(customers.get(position));
-                });
+                });*/
             }
         } else {
             if (customerGroup.getName() == null) {
@@ -64,9 +64,9 @@ public class CustomerGroupFragmentPresenterImpl extends BasePresenterImpl<Custom
                 Long customerGroupId = customerGroup.getId();
                 Long customerId = customers.get(position).getId();
 
-                databaseManager.getJoinCustomerGroupWithCustomerOperations().removeJoinCustomerGroupWithCustomer(customerGroupId, customerId).subscribe(aBoolean -> {
+                /*databaseManager.getJoinCustomerGroupWithCustomerOperations().removeJoinCustomerGroupWithCustomer(customerGroupId, customerId).subscribe(aBoolean -> {
                     customerGroup.getCustomers().remove(customers.get(position));
-                });
+                });*/
             }
         }
     }
@@ -81,13 +81,13 @@ public class CustomerGroupFragmentPresenterImpl extends BasePresenterImpl<Custom
                 joinCustomerGroupsWithCustomers.setCustomerGroupId(customerGroup.getId());
                 joinCustomerGroupsWithCustomers.setCustomerId(c.getId());
 
-                databaseManager.getJoinCustomerGroupWithCustomerOperations().addJoinCustomerGroupWithCustomer(joinCustomerGroupsWithCustomers).subscribe(aLong -> {
+                /*databaseManager.getJoinCustomerGroupWithCustomerOperations().addJoinCustomerGroupWithCustomer(joinCustomerGroupsWithCustomers).subscribe(aLong -> {
                     customerGroup.getCustomers().add(c);
 
                     if (view != null) {
                         view.showCustomers(customerGroup, customers);
                     }
-                });
+                });*/
             }
 
             reverseList = null;

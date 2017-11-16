@@ -1,7 +1,9 @@
 package com.jim.multipos.ui.mainpospage.di;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 
+import com.jim.multipos.R;
 import com.jim.multipos.config.scope.PerActivity;
 import com.jim.multipos.config.scope.PerFragment;
 import com.jim.multipos.core.BaseActivityModule;
@@ -13,6 +15,8 @@ import com.jim.multipos.ui.mainpospage.MainPosPageActivity;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivityImpl;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivityPresenter;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivityView;
+import com.jim.multipos.ui.mainpospage.view.OrderListFragment;
+import com.jim.multipos.ui.mainpospage.view.OrderListFragmentModule;
 import com.jim.multipos.ui.mainpospage.view.ProductFolderFragmentModule;
 import com.jim.multipos.ui.mainpospage.view.ProductFolderViewFragment;
 import com.jim.multipos.ui.mainpospage.view.ProductInfoFragment;
@@ -24,8 +28,16 @@ import com.jim.multipos.ui.mainpospage.view.ProductSquareViewFragment;
 import com.jim.multipos.ui.mainpospage.view.SearchModeFragment;
 import com.jim.multipos.ui.mainpospage.view.SearchModeFragmentModule;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import dagger.Binds;
 import dagger.Module;
+import dagger.Provides;
 import dagger.android.ContributesAndroidInjector;
 
 /**
@@ -66,4 +78,15 @@ public abstract class MainPageMenuModule {
     @PerFragment
     @ContributesAndroidInjector(modules = ProductInfoFragmentModule.class)
     abstract ProductInfoFragment provideProductInfoFragmentInjector();
+
+    @PerFragment
+    @ContributesAndroidInjector(modules = OrderListFragmentModule.class)
+    abstract OrderListFragment provideOrderListFragment();
+
+    @PerActivity
+    @Provides
+    @Named(value = "discount_amount_types")
+    static String[] provideDiscountAmountTypes(Context context) {
+        return context.getResources().getStringArray(R.array.discount_amount_types_abr);
+    }
 }

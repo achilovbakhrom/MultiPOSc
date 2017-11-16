@@ -51,6 +51,9 @@
     <string name="email_">Email:</string>
     <string name="address_">Address</string>
     <string name="zip_code_">Zip Code</string>
+    <string name="amount">Amount</string>
+    <string name="percent">Percent</string>
+    <string name="reprice">Reprice</string>
     <string-array name="start_configuration_title">
         <item>POS details</item>
         <item>Account</item>
@@ -303,6 +306,7 @@
     <string name="password_length_equals_6">The password must be 6 characters in length</string>
     <string name="enter_name">Enter name</string>
     <string name="enter_amount">Enter amount</string>
+    <string name="enter_value">Enter value</string>
     <string name="for_payment_type">For payment type</string>
     <string name="usage_type">Usage Type</string>
     <string name="should_not_be_greater_than_999">Should not be greater than 999</string>
@@ -481,6 +485,9 @@
     <string name="service_fee">Service Fee</string>
     <string name="you_have_unsaved_service_fee">You have %d unsaved service fee. Do you really want to leave?</string>
     <string name="you_have_unsaved_customers">You have %d unsaved customers. Do you really want to leave?</string>
+    <string name="choose_for_order">Choose for order</string>
+    <string name="discount">Discount</string>
+    <string name="created_date">Created date:</string>
     <string name="total_should_pay">Total should pay</string>
     <string name="total_paid">Total paid</string>
     <string name="account">Account</string>
@@ -494,6 +501,7 @@
     <string name="add_product_to_consignment">Please, add product to consignment</string>
     <string name="number">Number</string>
     <string name="total_paid_sum_warning">Total paid sum cannot be larger than total sum</string>
+    <string name="new_new">New</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>
@@ -520,6 +528,7 @@
     <string-array name="discount_amount_types_abr">
         <item>percent</item>
         <item>value</item>
+        <item>reprice</item>
     </string-array>
     <string-array name="discount_used_types">
         <item>Item</item>

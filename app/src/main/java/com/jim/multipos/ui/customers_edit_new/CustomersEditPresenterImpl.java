@@ -4,7 +4,6 @@ import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
-import com.jim.multipos.data.db.model.customer.JoinCustomerGroupsWithCustomers;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -65,7 +64,7 @@ public class CustomersEditPresenterImpl extends BasePresenterImpl<CustomersEditV
 
         databaseManager.getCustomerOperations().addCustomer(customer).subscribe(aLong -> {
             for (CustomerGroup cg : customerGroups) {
-                databaseManager.getJoinCustomerGroupWithCustomerOperations().addJoinCustomerGroupWithCustomer(new JoinCustomerGroupsWithCustomers(customer.getId(), cg.getId())).subscribe();
+                databaseManager.getJoinCustomerGroupWithCustomerOperations().addCustomerToCustomerGroup(customer.getId(), cg.getId()).subscribe();
             }
 
             view.customerAdded(customer);
@@ -77,7 +76,7 @@ public class CustomersEditPresenterImpl extends BasePresenterImpl<CustomersEditV
         databaseManager.getCustomerOperations().addCustomer(customer).subscribe(aLong -> {
             databaseManager.getJoinCustomerGroupWithCustomerOperations().removeJoinCustomerGroupWithCustomer(customer.getId()).subscribe(aBoolean -> {
                 for (CustomerGroup cg : customer.getCustomerGroups()) {
-                    databaseManager.getJoinCustomerGroupWithCustomerOperations().addJoinCustomerGroupWithCustomer(new JoinCustomerGroupsWithCustomers(customer.getId(), cg.getId())).subscribe();
+                    databaseManager.getJoinCustomerGroupWithCustomerOperations().addCustomerToCustomerGroup(customer.getId(), cg.getId()).subscribe();
                 }
             });
         });

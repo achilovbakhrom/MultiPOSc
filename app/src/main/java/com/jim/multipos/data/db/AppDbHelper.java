@@ -24,6 +24,7 @@ import com.jim.multipos.data.db.model.ContactDao;
 import com.jim.multipos.data.db.model.DaoMaster;
 import com.jim.multipos.data.db.model.DaoSession;
 import com.jim.multipos.data.db.model.Discount;
+import com.jim.multipos.data.db.model.DiscountDao;
 import com.jim.multipos.data.db.model.PaymentType;
 import com.jim.multipos.data.db.model.PaymentTypeDao;
 import com.jim.multipos.data.db.model.ProductClass;
@@ -37,6 +38,7 @@ import com.jim.multipos.data.db.model.customer.CustomerDao;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
 import com.jim.multipos.data.db.model.customer.CustomerGroupDao;
 import com.jim.multipos.data.db.model.customer.JoinCustomerGroupsWithCustomers;
+import com.jim.multipos.data.db.model.customer.JoinCustomerGroupsWithCustomersDao;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.CategoryDao;
 import com.jim.multipos.data.db.model.products.Product;
@@ -84,7 +86,7 @@ public class AppDbHelper implements DbHelper {
         mDaoSession = new DaoMaster(dbOpenHelper.getWritableDb()).newSession();
     }
 
-    @Override
+    /*@Override
     public Observable<Long> insertJoinCustomerGroupWithCustomer(JoinCustomerGroupsWithCustomers joinCustomerGroupWithCustomer) {
         return Observable.fromCallable(() -> mDaoSession.getJoinCustomerGroupsWithCustomersDao().insertOrReplace(joinCustomerGroupWithCustomer));
     }
@@ -127,6 +129,31 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Observable<List<JoinCustomerGroupsWithCustomers>> getAllJoinCustomerGroupsWithCustomers() {
         return Observable.fromCallable(() -> mDaoSession.getJoinCustomerGroupsWithCustomersDao().loadAll());
+    }*/
+
+    @Override
+    public Observable<Long> insertCustomerToCustomerGroup(Long customerGroupId, Long customerId) {
+        JoinCustomerGroupsWithCustomers entity = new JoinCustomerGroupsWithCustomers(customerId, customerGroupId);
+
+        return Observable.fromCallable(() -> mDaoSession.getJoinCustomerGroupsWithCustomersDao().insertOrReplace(entity));
+    }
+
+    @Override
+    public Observable<Boolean> deleteCustomerFromCustomerGroup(Long customerGroupId, Long customerId) {
+        return Observable.fromCallable(() -> {
+            mDaoSession.getJoinCustomerGroupsWithCustomersDao().queryBuilder().where(JoinCustomerGroupsWithCustomersDao.Properties.CustomerId.eq(customerId), JoinCustomerGroupsWithCustomersDao.Properties.CustomerGroupId.eq(customerGroupId)).buildDelete().executeDeleteWithoutDetachingEntities();
+
+            return true;
+        });
+    }
+
+    @Override
+    public Observable<Boolean> deleteJoinCustomerGroupWithCustomer(Long customerId) {
+        return Observable.fromCallable(() -> {
+            mDaoSession.getDatabase().execSQL("DELETE FROM JOIN_CUSTOMER_GROUPS_WITH_CUSTOMERS WHERE CUSTOMER_ID=?", new String[]{String.valueOf(customerId)});
+
+            return true;
+        });
     }
 
     @Override
@@ -520,7 +547,7 @@ public class AppDbHelper implements DbHelper {
     public Single<List<Discount>> getAllDiscounts() {
         Observable<List<Discount>> objectObservable = Observable.create(singleSubscriber -> {
             try {
-                List<Discount> discounts = mDaoSession.getDiscountDao().loadAll();
+                List<Discount> discounts = mDaoSession.getDiscountDao().queryBuilder().where(DiscountDao.Properties.Delete.eq(false)).list();
                 singleSubscriber.onNext(discounts);
                 singleSubscriber.onComplete();
             } catch (Exception o) {
@@ -769,7 +796,7 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public Observable<List<ServiceFee>> getAllServiceFees() {
-        return Observable.fromCallable(() -> mDaoSession.getServiceFeeDao().queryBuilder().orderDesc(ServiceFeeDao.Properties.CreatedDate).build().list());
+        return Observable.fromCallable(() -> mDaoSession.getServiceFeeDao().queryBuilder().where(ServiceFeeDao.Properties.IsDeleted.eq(false)).orderDesc(ServiceFeeDao.Properties.CreatedDate).build().list());
     }
 
     @Override
@@ -825,6 +852,16 @@ public class AppDbHelper implements DbHelper {
 
             return true;
         });
+    }
+
+    @Override
+    public Observable<CustomerGroup> getCustomerGroupByName(String name) {
+        return Observable.fromCallable(() -> mDaoSession.getCustomerGroupDao().queryBuilder().where(CustomerGroupDao.Properties.Name.eq(name)).build().unique());
+    }
+
+    @Override
+    public Observable<CustomerGroup> getCustomerGroupById(long id) {
+        return Observable.fromCallable(() -> mDaoSession.getCustomerGroupDao().queryBuilder().where(CustomerGroupDao.Properties.Id.eq(id)).build().unique());
     }
 
     @Override

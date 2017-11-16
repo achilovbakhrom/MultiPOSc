@@ -2,24 +2,29 @@ package com.jim.multipos.ui.mainpospage.view;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.mpviews.utils.VibrateManager;
 import com.jim.multipos.R;
+import com.jim.multipos.core.BaseFragment;
+import com.jim.multipos.ui.mainpospage.dialogs.DiscountDialog;
+import com.jim.multipos.ui.mainpospage.dialogs.ServiceFeeDialog;
+import com.jim.multipos.ui.mainpospage.presenter.OrderListPresenter;
+
+import java.text.DecimalFormat;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
-public class OrderListFragment extends Fragment {//BaseFragment {
-
+public class OrderListFragment extends BaseFragment implements OrderListView {//BaseFragment {
+    @Inject
+    OrderListPresenter presenter;
+    @Inject
+    DecimalFormat decimalFormat;
     @BindView(R.id.llPay)
     LinearLayout llPay;
     @BindView(R.id.llDiscount)
@@ -32,55 +37,61 @@ public class OrderListFragment extends Fragment {//BaseFragment {
     Activity activity;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
+    protected int getLayout() {
+        return R.layout.fragment_order_list;
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    protected void init(Bundle savedInstanceState) {
+        //setClickEffects();
 
-    }
-
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_order_list, container, false);
-//        this.getComponent(MainPosPageActivityComponent.class).inject(this);
-
-        ButterKnife.bind(this, view);
-        setClickEffects();
-        activity = getActivity();
-        view.findViewById(R.id.lbChoiseCustomer).setOnClickListener(view1->{
+        /*view.findViewById(R.id.lbChoiseCustomer).setOnClickListener(view1 -> {
 
         });
-        view.findViewById(R.id.lbHoldOrder).setOnClickListener(view1->{
+        view.findViewById(R.id.lbHoldOrder).setOnClickListener(view1 -> {
 
         });
-        view.findViewById(R.id.lbCancelOrder).setOnClickListener(view1->{
+        view.findViewById(R.id.lbCancelOrder).setOnClickListener(view1 -> {
 
-        });
+        });*/
+
         RxView.clicks(llPay)
-                .subscribe(view1->{
+                .subscribe(view1 -> {
 
                 });
         RxView.clicks(llDiscount)
-                .subscribe(view1->{
-
+                .subscribe(view1 -> {
+                    /*Bundle bundle = new Bundle();
+                    bundle.putSerializable("decimelFormatter", decimalFormat);*/
+                    DiscountDialog discountDialog = new DiscountDialog();
+                    //discountDialog.setArguments(bundle);
+                    discountDialog.show(getActivity().getSupportFragmentManager(), "discountDialog");
                 });
         RxView.clicks(llPrintCheck)
-                .subscribe(view1->{
+                .subscribe(view1 -> {
 
                 });
         RxView.clicks(llServiceFee)
-                .subscribe(view1->{
-
+                .subscribe(view1 -> {
+                    ServiceFeeDialog serviceFeeDialog = new ServiceFeeDialog();
+                    serviceFeeDialog.show(getActivity().getSupportFragmentManager(), "discountDialog");
                 });
-        return view;
     }
+
+    /*public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View view = inflater.inflate(R.layout.fragment_order_list, container, false);
+    //        this.getComponent(MainPosPageActivityComponent.class).inject(this);
+
+            ButterKnife.bind(this, view);
+
+            activity = getActivity();
+
+            return view;
+        }*/
     boolean pressed = false;
 
-    public void setClickEffects(){
+    public void setClickEffects() {
         pressed = false;
 
         llPay.setOnTouchListener((view, motionEvent) -> {

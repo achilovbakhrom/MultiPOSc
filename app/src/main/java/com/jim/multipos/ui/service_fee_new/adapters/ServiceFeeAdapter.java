@@ -34,6 +34,9 @@ import butterknife.ButterKnife;
 import eu.inmite.android.lib.validations.form.FormValidator;
 import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 
+import static com.jim.multipos.ui.service_fee_new.Constants.TYPE_PERCENT;
+import static com.jim.multipos.ui.service_fee_new.Constants.TYPE_VALUE;
+
 /**
  * Created by Portable-Acer on 28.10.2017.
  */
@@ -63,8 +66,6 @@ public class ServiceFeeAdapter extends BaseAdapter<ServiceFee, BaseViewHolder> {
 
     public static final int SERVICE_FEE_ITEM = 0;
     public static final int SERVICE_FEE_TYPE_ITEM = 1;
-    public static final String TYPE_PERCENT = "PERCENT";
-    public static final String TYPE_VALUE = "VALUE";
     public static final String APP_TYPE_ITEM = "ITEM";
     public static final String APP_TYPE_ORDER = "ORDER";
     public static final String APP_TYPE_ALL = "ALL";

@@ -21,18 +21,20 @@ import butterknife.ButterKnife;
  * Created by user on 08.09.17.
  */
 
-public class CustomerGroupMembersAdapter extends RecyclerView.Adapter<CustomerGroupMembersAdapter.ViewHolder> {
-    public interface OnItemClickListener {
-        void itemClicked(int position, boolean checked);
+public class CustomersAdapter extends RecyclerView.Adapter<CustomersAdapter.ViewHolder> {
+    public interface OnClickListener {
+        void addCustomerToCustomerGroup(CustomerGroup customerGroup, Customer customer);
+
+        void removeCustomerFromCustomerGroup(CustomerGroup customerGroup, Customer customer);
     }
 
-    private CustomerGroup customerGroups;
+    private CustomerGroup customerGroup;
     private List<Customer> customers;
-    private OnItemClickListener callback;
+    private OnClickListener callback;
 
-    public CustomerGroupMembersAdapter(OnItemClickListener callback, CustomerGroup customerGroups, List<Customer> customers) {
+    public CustomersAdapter(OnClickListener callback, CustomerGroup customerGroup, List<Customer> customers) {
         this.callback = callback;
-        this.customerGroups = customerGroups;
+        this.customerGroup = customerGroup;
         this.customers = customers;
     }
 
@@ -50,15 +52,14 @@ public class CustomerGroupMembersAdapter extends RecyclerView.Adapter<CustomerGr
         holder.tvClientId.setText(customer.getClientId().toString());
         holder.tvFullName.setText(customer.getName());
         holder.tvPhoneNumber.setText(customer.getPhoneNumber());
+        holder.chbMember.setChecked(false);
 
-        if (customerGroups.getName() != null) {
-            List<Customer> c = customerGroups.getCustomers();
+        List<Customer> c = customerGroup.getCustomers();
 
-            for (Customer x : c) {
-                if (x.getId().equals(customer.getId())) {
-                    holder.chbMember.setChecked(true);
-                    break;
-                }
+        for (Customer x : c) {
+            if (x.getId().equals(customer.getId())) {
+                holder.chbMember.setChecked(true);
+                break;
             }
         }
     }
@@ -66,6 +67,22 @@ public class CustomerGroupMembersAdapter extends RecyclerView.Adapter<CustomerGr
     @Override
     public int getItemCount() {
         return customers.size();
+    }
+
+    public void addedCustomerToCustomerGroup(Customer customer) {
+        customerGroup.getCustomers().add(customer);
+        notifyDataSetChanged();
+    }
+
+    public void removedCustomerFromCustomerGroup(Customer customer) {
+        for (int i = 0; i < customerGroup.getCustomers().size(); i++) {
+            if (customerGroup.getCustomers().get(i).getId() == customer.getId()) {
+                customerGroup.getCustomers().remove(i);
+                break;
+            }
+        }
+
+        notifyDataSetChanged();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -85,12 +102,10 @@ public class CustomerGroupMembersAdapter extends RecyclerView.Adapter<CustomerGr
 
             RxView.clicks(chbMember).subscribe(o -> {
                 if (chbMember.isChecked()) {
-                    chbMember.setChecked(false);
+                    callback.removeCustomerFromCustomerGroup(customerGroup, customers.get(getAdapterPosition()));
                 } else {
-                    chbMember.setChecked(true);
+                    callback.addCustomerToCustomerGroup(customerGroup, customers.get(getAdapterPosition()));
                 }
-
-                callback.itemClicked(getAdapterPosition(), chbMember.isChecked());
             });
         }
     }

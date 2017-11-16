@@ -38,6 +38,10 @@ public class CustomerGroup {
             targetProperty = "customerId")
     private List<Customer> customers;
     private Long createdDate;
+
+    public void setCustomers(List<Customer> customers) {
+        this.customers = customers;
+    }
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
      * Entity must attached to an entity context.

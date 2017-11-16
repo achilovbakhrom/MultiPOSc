@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <com.jim.mpviews.MpItem
+    <com.jim.mpviews.MPListItemView
         android:id="@+id/mpListItem"
         android:layout_margin="@dimen/two_dp"
         android:layout_width="@dimen/hundred_dp"

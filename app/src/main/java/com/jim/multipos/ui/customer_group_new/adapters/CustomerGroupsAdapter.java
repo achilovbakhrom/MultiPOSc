@@ -11,7 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jakewharton.rxbinding2.view.RxView;
-import com.jim.mpviews.MpItem;
+import com.jim.mpviews.MPListItemView;
 import com.jim.multipos.R;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
 
@@ -24,7 +24,7 @@ import butterknife.ButterKnife;
  * Created by DEV on 17.08.2017.
  */
 
-public class CustomerGroupListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class CustomerGroupsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<CustomerGroup> list;
     private int selectedPosition = 0;
     private OnItemClickListener onItemClickListener;
@@ -41,7 +41,7 @@ public class CustomerGroupListAdapter extends RecyclerView.Adapter<RecyclerView.
         selectedPosition = 0;
     }
 
-    public CustomerGroupListAdapter(List<CustomerGroup> list, OnItemClickListener onItemClickListener, int selectedPosition) {
+    public CustomerGroupsAdapter(List<CustomerGroup> list, OnItemClickListener onItemClickListener, int selectedPosition) {
         this.list = list;
         this.onItemClickListener = onItemClickListener;
         this.selectedPosition = selectedPosition;
@@ -62,7 +62,7 @@ public class CustomerGroupListAdapter extends RecyclerView.Adapter<RecyclerView.
         View view;
         if (viewType == ADD_ITEM) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.customer_group_list_first_item, parent, false);
-            return new CustomerGroupListAdapter.FirstItemViewHolder(view);
+            return new CustomerGroupsAdapter.FirstItemViewHolder(view);
         } else {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.customer_group_list_item, parent, false);
             return new CustomerGroupViewHolder(view);
@@ -115,10 +115,30 @@ public class CustomerGroupListAdapter extends RecyclerView.Adapter<RecyclerView.
         this.selectedPosition = position;
     }
 
+    public void addItem(CustomerGroup customerGroup) {
+        list.add(1, customerGroup);
+        //notifyItemInserted(1);
+        notifyDataSetChanged();
+    }
+
+    public void removeItem(CustomerGroup customerGroup) {
+        selectedPosition = 0;
+        list.remove(customerGroup);
+        notifyDataSetChanged();
+    }
+
+    public void updateItem(CustomerGroup customerGroup) {
+        selectedPosition = 0;
+        /*int index = list.indexOf(customerGroup);
+        notifyItemChanged(index);
+        notifyItemChanged(0);*/
+        notifyDataSetChanged();
+    }
+
 
     public class CustomerGroupViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.mpListItem)
-        MpItem mpItem;
+        MPListItemView mpItem;
         View mainView;
 
         public CustomerGroupViewHolder(View itemView) {
@@ -133,7 +153,6 @@ public class CustomerGroupListAdapter extends RecyclerView.Adapter<RecyclerView.
                 onItemClickListener.onItemPressed(selectedPosition);
             });
         }
-
     }
 
     public class FirstItemViewHolder extends RecyclerView.ViewHolder {

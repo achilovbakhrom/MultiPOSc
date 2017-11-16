@@ -25,7 +25,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:paddingLeft="@dimen/thirty_dp"
-                android:text="Discount"
+                android:text="@string/service_fee"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/twenty_dp"
                 android:textStyle="bold" />
@@ -39,7 +39,7 @@
             android:orientation="vertical">
 
             <com.jim.mpviews.MpTripleSwitcher
-                android:id="@+id/tsDiscountType"
+                android:id="@+id/tsServiceFeeType"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/forty_seven_dp"
                 android:layout_marginBottom="@dimen/fifteen_dp"

@@ -9,14 +9,14 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="@dimen/thousand_fifty_dp"
+        android:layout_width="@dimen/five_hundred_twenty_dp"
         android:layout_height="@dimen/six_hundred_ninety_dp"
         android:background="@drawable/rounded_edit_text_bg"
         android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/seventy_dp"
+            android:layout_height="@dimen/fifty_dp"
             android:background="@drawable/rounded_blue_bg">
 
             <TextView
@@ -33,12 +33,12 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/five_hundred_forty_dp"
+            android:layout_height="@dimen/four_hundred_eighty_five_dp"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/fifty_dp"
+                android:layout_height="@dimen/fourty_dp"
                 android:background="#fcfaec"
                 android:orientation="horizontal">
 
@@ -49,22 +49,7 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/thirty_dp"
                     android:layout_weight="1"
-                    android:text="Manual"
-                    android:textColor="@color/colorBlue"
-                    android:textSize="@dimen/eighteen_dp" />
-
-                <FrameLayout
-                    android:layout_width="1px"
-                    android:layout_height="match_parent"
-                    android:background="@color/colorTextHint" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/thirty_dp"
-                    android:layout_weight="1"
-                    android:text="Static Discounts"
+                    android:text="@string/choose_for_order"
                     android:textColor="@color/colorBlue"
                     android:textSize="@dimen/eighteen_dp" />
 
@@ -83,19 +68,11 @@
                 android:orientation="horizontal">
 
                 <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvDiscounts"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <FrameLayout
-                    android:layout_width="1px"
-                    android:layout_height="match_parent"
-                    android:background="@color/colorTextHint" />
-
-                <android.support.v7.widget.RecyclerView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:overScrollMode="never" />
 
             </LinearLayout>
 
@@ -106,53 +83,35 @@
             android:layout_height="1px"
             android:background="@color/colorTextHint" />
 
-        <RelativeLayout
+        <!--<RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="right"
-            android:orientation="horizontal"
-            android:paddingRight="@dimen/thirty_dp">
+            android:gravity="center"
+            android:orientation="horizontal">
 
-            <com.jim.mpviews.MpButton
-                android:layout_width="@dimen/hundred_eighty_dp"
-                android:layout_height="@dimen/sixty_dp"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/thirty_dp"
-                android:gravity="center"
-                android:text="Manual"
-                android:textColor="@color/colorBlue"
-                android:textSize="@dimen/eighteen_dp" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-            <com.jim.mpviews.MpButton
-                android:layout_width="@dimen/hundred_eighty_dp"
-                android:layout_height="@dimen/sixty_dp"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center"
-                android:layout_toLeftOf="@+id/mpNextBtn"
-                android:gravity="center"
-                android:text="Back"
-                android:textColor="@color/colorSecondaryText"
-                android:textSize="@dimen/eighteen_dp" />
+                <com.jim.mpviews.MpButton
+                    android:id="@+id/btnBack"
+                    android:layout_width="161dp"
+                    android:layout_height="55dp"
+                    android:layout_marginRight="@dimen/thirty_dp"
+                    android:text="@string/back"
+                    android:textColor="@color/colorBlue"
+                    android:textSize="@dimen/eighteen_dp" />
 
-
-            <com.jim.mpviews.MpButton
-                android:id="@+id/mpNextBtn"
-                android:layout_width="@dimen/hundred_eighty_dp"
-                android:layout_height="@dimen/sixty_dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="Next"
-                android:textColor="@color/colorBlue"
-                android:textSize="@dimen/eighteen_dp"
-                android:textStyle="bold" />
-
-        </RelativeLayout>
-
+                <com.jim.mpviews.MpButton
+                    android:id="@+id/btnAdd"
+                    android:layout_width="@dimen/hundred_eighty_dp"
+                    android:layout_height="@dimen/sixty_dp"
+                    android:text="@string/add"
+                    android:textColor="@color/colorBlue"
+                    android:textSize="@dimen/eighteen_dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </RelativeLayout>-->
     </LinearLayout>
-
-
 </LinearLayout>
