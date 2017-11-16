@@ -97,11 +97,11 @@ public class AddCustomerGroupFragment extends BaseFragment {
             warningDialog.setWarningMessage(getString(R.string.do_you_want_delete));
             warningDialog.setOnYesClickListener(view -> {
                 ((CustomerGroupActivity) getActivity()).getPresenter().removeCustomerGroup(editCustomerGroup);
-                btnSave.setText(R.string.add);
+                /*btnSave.setText(R.string.add);
                 etGroupName.setText("");
                 btnDelete.setVisibility(View.GONE);
                 isEditMode = false;
-                editCustomerGroup = null;
+                editCustomerGroup = null;*/
                 warningDialog.dismiss();
             });
             warningDialog.setOnNoClickListener(v -> {
@@ -111,7 +111,7 @@ public class AddCustomerGroupFragment extends BaseFragment {
         });
     }
 
-    private void setDefaultState() {
+    public void setDefaultState() {
         btnSave.setText(R.string.add);
         etGroupName.setText("");
         btnDelete.setVisibility(View.GONE);

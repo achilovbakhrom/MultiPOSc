@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.jim.multipos">
 
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -26,7 +24,6 @@
         <activity
             android:name=".ui.first_configure_last.FirstConfigureActivity"
             android:windowSoftInputMode="stateHidden">
-
         </activity>
         <activity android:name=".ui.vendor.add_edit.VendorAddEditActivity"
             android:windowSoftInputMode="stateHidden">
@@ -43,13 +40,6 @@
         <activity
             android:name=".ui.product_last.ProductActivity"
             android:windowSoftInputMode="stateHidden">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
         </activity>
         <activity
             android:name=".ui.main_menu.product_menu.ProductMenuActivity"
@@ -64,23 +54,27 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ui.signing.SignActivity"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name=".ui.product_class.ProductClassActivity"
             android:windowSoftInputMode="stateHidden">
         </activity>
-        <activity android:name=".ui.customer_group.CustomerGroupActivity">
-        </activity>
-        <activity android:name=".ui.product.ProductsActivity" />
+        <activity android:name=".ui.product.ProductsActivity"></activity>
         <activity android:name=".ui.product_class_new.ProductsClassActivity">
         </activity>
-        <activity android:name=".ui.discount.DiscountAddingActivity" />
+        <activity android:name=".ui.discount.DiscountAddingActivity"></activity>
         <activity android:name=".ui.service_fee_new.ServiceFeeActivity">
 
         </activity>
         <activity android:name=".ui.customer_group_new.CustomerGroupActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".ui.customers_edit_new.CustomersEditActivity">
+
         </activity>
         <activity android:name=".ui.consignment.ConsignmentActivity">
 

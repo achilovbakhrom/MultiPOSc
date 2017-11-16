@@ -117,4 +117,9 @@ public class CustomerGroupPresenterImpl extends BasePresenterImpl<CustomerGroupV
             });
         }
     }
+
+    @Override
+    public List<Customer> getTempCustomers() {
+        return addCustomers;
+    }
 }

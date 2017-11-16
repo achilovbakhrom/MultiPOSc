@@ -75,9 +75,9 @@ public class CustomerGroupsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             CustomerGroupViewHolder productViewHolder = (CustomerGroupViewHolder) holder;
             productViewHolder.mpItem.setText(list.get(position).getName());
             if (position == selectedPosition) {
-                productViewHolder.mpItem.setBackgroundResource(R.drawable.item_pressed_bg);
+                productViewHolder.mpItem.setActivate(true);
             } else {
-                productViewHolder.mpItem.setBackgroundResource(R.drawable.item_bg);
+                productViewHolder.mpItem.setActivate(false);
             }
             if (list.get(position).getIsActive())
                 productViewHolder.mainView.setAlpha(1f);
@@ -145,6 +145,7 @@ public class CustomerGroupsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             super(itemView);
             ButterKnife.bind(this, itemView);
             mainView = itemView;
+            mpItem.setTextSize(14);
             RxView.clicks(mpItem).subscribe(aVoid -> {
                 int prevPosition = selectedPosition;
                 selectedPosition = getAdapterPosition();

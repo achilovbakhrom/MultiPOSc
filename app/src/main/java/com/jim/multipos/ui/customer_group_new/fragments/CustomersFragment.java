@@ -44,7 +44,7 @@ public class CustomersFragment extends BaseFragment implements CustomersAdapter.
         if (getArguments().getLong(CUSTOMER_GROUP_ID) == -1) {
             CustomerGroup customerGroup = new CustomerGroup();
             customerGroup.setId(-1L);
-            customerGroup.setCustomers(new ArrayList<>());
+            customerGroup.setCustomers(((CustomerGroupActivity) getActivity()).getPresenter().getTempCustomers());
 
             rvCustomerGroups.setAdapter(new CustomersAdapter(this,
                     customerGroup,

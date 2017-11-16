@@ -22,4 +22,5 @@ public interface CustomerGroupPresenter extends Presenter {
     boolean isCustomerGroupExists(String name);
     void addCustomerToCustomerGroup(CustomerGroup customerGroup, Customer customer);
     void removeCustomerFromCustomerGroup(CustomerGroup customerGroup, Customer customer);
+    List<Customer> getTempCustomers();
 }
