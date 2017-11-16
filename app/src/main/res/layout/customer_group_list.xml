@@ -53,7 +53,8 @@
                     android:layout_height="match_parent"
                     android:layout_marginBottom="@dimen/eighteen_dp"
                     android:layout_marginLeft="@dimen/twenty_dp"
-                    android:layout_marginRight="@dimen/twenty_dp" />
+                    android:layout_marginRight="@dimen/twenty_dp"
+                    android:overScrollMode="never" />
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>

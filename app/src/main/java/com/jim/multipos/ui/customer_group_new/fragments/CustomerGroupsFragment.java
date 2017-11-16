@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
@@ -32,6 +33,7 @@ public class CustomerGroupsFragment extends BaseFragment {
 
     @Override
     protected void init(Bundle savedInstanceState) {
+        ((SimpleItemAnimator) rvCustomerGroups.getItemAnimator()).setSupportsChangeAnimations(false);
         rvCustomerGroups.setLayoutManager(new GridLayoutManager(getContext(), 6));
         rvCustomerGroups.setAdapter(new CustomerGroupsAdapter(((CustomerGroupActivity) getActivity()).getPresenter().getCustomerGroups(),
                 new CustomerGroupsAdapter.OnItemClickListener() {
