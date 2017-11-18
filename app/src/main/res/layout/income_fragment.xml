@@ -12,7 +12,7 @@
         android:background="@color/colorWhite"
         android:orientation="horizontal"
         android:paddingLeft="@dimen/thirty_dp"
-        android:paddingRight="@dimen/thirty_dp">
+        android:paddingRight="@dimen/seventeen_dp">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -43,11 +43,11 @@
 
         <com.jim.mpviews.MpMiniActionButton
             android:id="@+id/btnAddProductToConsignment"
-            android:layout_width="@dimen/sixty_dp"
-            android:layout_height="@dimen/forty_dp"
+            android:layout_width="@dimen/fifty_five_dp"
+            android:layout_height="@dimen/thirty_five_dp"
             android:layout_gravity="center_vertical"
-            android:paddingBottom="@dimen/twelve_dp"
-            android:paddingTop="@dimen/twelve_dp"
+            android:paddingBottom="@dimen/ten_dp"
+            android:paddingTop="@dimen/ten_dp"
             android:src="@drawable/plus" />
 
     </LinearLayout>
@@ -67,7 +67,7 @@
             android:layout_gravity="center"
             android:layout_marginRight="@dimen/twenty_dp"
             android:gravity="left"
-            android:text="SKU name"
+            android:text="@string/product_name"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/eighteen_dp" />
 
@@ -92,7 +92,7 @@
             android:textSize="@dimen/eighteen_dp" />
 
         <TextView
-            android:layout_width="@dimen/hundred_twenty_dp"
+            android:layout_width="@dimen/fifty_dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginRight="@dimen/twenty_dp"

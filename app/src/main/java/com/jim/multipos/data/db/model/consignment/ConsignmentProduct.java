@@ -16,7 +16,7 @@ import com.jim.multipos.data.db.model.products.ProductDao;
  */
 @Entity(nameInDb = "CONSIGNMENT_PRODUCTS", active = true)
 public class ConsignmentProduct {
-    @Id
+    @Id(autoincrement = true)
     private Long id;
     private Double costValue;
     private Double countValue;

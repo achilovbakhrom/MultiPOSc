@@ -36,6 +36,7 @@ public class UIUtils {
     public static void showAlert(Context context, String buttonText, String title, String message, SingleButtonAlertListener listener) {
         WarningDialog dialog = new WarningDialog(context);
         dialog.setPositiveButtonText(buttonText);
+        dialog.onlyText(true);
         dialog.setWarningMessage(message);
         dialog.setDialogTitle(title);
         dialog.setOnYesClickListener(view -> {

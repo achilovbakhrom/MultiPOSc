@@ -4,6 +4,7 @@ import com.jim.multipos.core.BaseView;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.Product;
+import com.jim.multipos.data.db.model.products.VendorProductCon;
 import com.jim.multipos.utils.UIUtils;
 
 import java.util.List;
@@ -61,8 +62,6 @@ public interface ProductView extends BaseView {
 
     void openProductAddMode();
     public void openProductEditMode(String name,
-                                    double price,
-                                    double cost,
                                     String barCode,
                                     String sku,
                                     boolean isActive,
@@ -74,7 +73,8 @@ public interface ProductView extends BaseView {
                                     int unitPos,
                                     List<Long> vendors,
                                     String description,
-                                    String url);
+                                    String url,
+                                    double price);
     void initProductForm(String[] unitCategoryList, String[] unitList, String[] productClasses, String currencyAbbr);
     void closeKeyboard();
     void setCategoryPath(String name);
@@ -99,6 +99,9 @@ public interface ProductView extends BaseView {
     int getProductClassSelectedPos();
     boolean getProductIsActive();
     void openVendorChooserDialog(List<Vendor> vendors);
+    void openChooseProductCostDialog(List<String> vendors, List<VendorProductCon> costs);
     void setVendorNameToAddEditProductFragment(String vendorName);
     boolean isActiveVisible();
+    void setCostValue(String result);
+    void saveProduct(boolean isBigger);
 }

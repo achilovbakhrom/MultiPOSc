@@ -7,6 +7,7 @@ import com.jim.multipos.config.scope.PerActivity;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.ProductClass;
+import com.jim.multipos.data.db.model.intosystem.ProductCost;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.products.Category;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
@@ -50,8 +52,10 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     private Product product;
 
     private List<Currency> currencies;
-
+    private List<Long> vendors;
+    private List<ProductCost> costs;
     private List<ProductClass> productClasses;
+    private List<VendorProductCon> vendorProductConnectionsList;
 
     @Getter
     DatabaseManager databaseManager;
@@ -60,6 +64,9 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     ProductPresenterImpl(ProductView productView, DatabaseManager databaseManager) {
         super(productView);
         this.databaseManager = databaseManager;
+        vendors = new ArrayList<>();
+        costs = new ArrayList<>();
+        vendorProductConnectionsList = new ArrayList<>();
     }
 
     @Override
@@ -92,7 +99,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     public void setCategoryItemsMoved() {
         List<Category> categories = view.getCategories();
         if (categories != null) {
-            for (int i = 0; i <categories.size(); i++) {
+            for (int i = 0; i < categories.size(); i++) {
                 Category category = categories.get(i);
                 if (category != null) {
                     category.setPosition((double) i);
@@ -111,7 +118,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     public void setSubcategoryItemsMoved() {
         List<Category> categories = view.getSubcategories();
         if (categories != null) {
-            for (int i = 0; i <categories.size(); i++) {
+            for (int i = 0; i < categories.size(); i++) {
                 Category category = categories.get(i);
                 if (category != null) {
                     category.setPosition((double) i);
@@ -194,10 +201,9 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     }
 
 
-
     private String[] provideProductClassList() {
         List<ProductClass> productClasses = databaseManager.getAllProductClass().blockingGet();
-         if (productClasses != null && !productClasses.isEmpty()) {
+        if (productClasses != null && !productClasses.isEmpty()) {
             String[] result = new String[productClasses.size()];
             for (int i = 0; i < result.length; i++) {
                 result[i] = productClasses.get(i).getName();
@@ -211,14 +217,21 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     public void onSaveInstanceState(@Nullable Bundle bundle) {
         super.onSaveInstanceState(bundle);
         if (bundle != null) {
-            if (category != null) { bundle.putSerializable(CATEGORY_KEY, category); }
-            if (subcategory != null) { bundle.putSerializable(SUBCATEGORY_KEY, subcategory); }
-            if (product != null) { bundle.putSerializable(PRODUCT_KEY, product); }
+            if (category != null) {
+                bundle.putSerializable(CATEGORY_KEY, category);
+            }
+            if (subcategory != null) {
+                bundle.putSerializable(SUBCATEGORY_KEY, subcategory);
+            }
+            if (product != null) {
+                bundle.putSerializable(PRODUCT_KEY, product);
+            }
         }
     }
 
     /**
      * category selection processing
+     *
      * @param category - selected category object from the view
      */
     @Override
@@ -232,6 +245,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                         public void onPositiveButtonClicked() {
                             openCategory(category);
                         }
+
                         @Override
                         public void onNegativeButtonClicked() {
                             view.selectAddCategoryItem();
@@ -247,6 +261,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                         public void onPositiveButtonClicked() {
                             openCategory(category);
                         }
+
                         @Override
                         public void onNegativeButtonClicked() {
                             view.selectAddSubcategoryItem();
@@ -262,6 +277,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                         public void onPositiveButtonClicked() {
                             openCategory(category);
                         }
+
                         @Override
                         public void onNegativeButtonClicked() {
                             view.selectCategory(ProductPresenterImpl.this.category.getId());
@@ -277,6 +293,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                         public void onPositiveButtonClicked() {
                             openCategory(category);
                         }
+
                         @Override
                         public void onNegativeButtonClicked() {
                             view.selectSubcategory(ProductPresenterImpl.this.subcategory.getId());
@@ -296,6 +313,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                         public void onPositiveButtonClicked() {
                             openCategory(category);
                         }
+
                         @Override
                         public void onNegativeButtonClicked() {
                             view.selectAddProductListItem();
@@ -335,7 +353,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     }
                 }
                 if (!view.getProductName().equals(this.product.getName()) || !view.getBarCode().equals(this.product.getBarcode()) || !view.getSku().equals(this.product.getSku()) ||
-                        !view.getPrice().equals(this.product.getPrice()) || !view.getCost().equals(this.product.getCost()) ||
                         (unitCategory != null && !unitCategory.getUnits().get(view.getUnitSelectedPos()).getId().equals(this.product.getMainUnitId())) ||
                         (productClass != null && !productClass.getId().equals(this.product.getProductClass().getId())) ||
                         view.getProductIsActive() != this.product.getIsActive() || hasChanged) {
@@ -344,6 +361,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                         public void onPositiveButtonClicked() {
                             openCategory(category);
                         }
+
                         @Override
                         public void onNegativeButtonClicked() {
                             view.selectProductListItem(ProductPresenterImpl.this.product.getId());
@@ -361,6 +379,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
 
     /**
      * product selection processing
+     *
      * @param product - selected product from view
      */
     @Override
@@ -377,6 +396,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                         public void onPositiveButtonClicked() {
                             openProduct(product);
                         }
+
                         @Override
                         public void onNegativeButtonClicked() {
                             view.selectAddProductListItem();
@@ -416,7 +436,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     }
                 }
                 if (!view.getProductName().equals(this.product.getName()) || !view.getBarCode().equals(this.product.getBarcode()) || !view.getSku().equals(this.product.getSku()) ||
-                        !view.getPrice().equals(this.product.getPrice()) || !view.getCost().equals(this.product.getCost()) ||
                         (unitCategory != null && !unitCategory.getUnits().get(view.getUnitSelectedPos()).getId().equals(this.product.getMainUnitId())) ||
                         (productClass != null && !productClass.getId().equals(this.product.getProductClass().getId())) ||
                         view.getProductIsActive() != this.product.getIsActive() || hasChanged) {
@@ -425,6 +444,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                         public void onPositiveButtonClicked() {
                             openProduct(product);
                         }
+
                         @Override
                         public void onNegativeButtonClicked() {
                             view.selectProductListItem(ProductPresenterImpl.this.product.getId());
@@ -442,6 +462,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                         public void onPositiveButtonClicked() {
                             openProduct(product);
                         }
+
                         @Override
                         public void onNegativeButtonClicked() {
                             view.selectSubcategory(ProductPresenterImpl.this.subcategory.getId());
@@ -470,8 +491,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             view.setCategoryPath(null);
             view.openAddCategoryMode();
             view.unselectCategoryList();
-        }
-        else {
+        } else {
             this.category = category;
             this.category.resetSubCategories();
             view.setCategoryPath(this.category.getName());
@@ -504,8 +524,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             view.openAddSubcategoryMode(this.category.getName());
             view.clearProductList();
             view.unselectSubcategoryList();
-        }
-        else {
+        } else {
             view.setSubcategoryPath(category.getName());
             this.subcategory = category;
             this.subcategory.resetProducts();
@@ -533,11 +552,11 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     private void openProduct(Product product) {
         if (product == null) {
             this.product = null;
+            this.vendorProductConnectionsList.clear();
             mode = CategoryAddEditMode.PRODUCT_ADD_MODE;
             view.unselectProductsList();
             view.openProductAddMode();
-        }
-        else {
+        } else {
             this.product = product;
             view.selectProductListItem(this.product.getId());
             mode = CategoryAddEditMode.PRODUCT_EDIT_MODE;
@@ -556,7 +575,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             if (temp != null) {
                 unitPos = temp.getUnits().indexOf(product.getMainUnit());
                 units = new String[temp.getUnits().size()];
-                for (int i  = 0; i < units.length; i++) {
+                for (int i = 0; i < units.length; i++) {
                     units[i] = temp.getUnits().get(i).getName();
                 }
 
@@ -575,9 +594,14 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             for (Vendor vendor : product.getVendor()) {
                 vendorIds.add(vendor.getId());
             }
+
+            databaseManager.getVendorProductConnectionByProductId(this.product.getId()).subscribe(productConList -> {
+                vendorProductConnectionsList.clear();
+                this.vendorProductConnectionsList = productConList;
+                setProductCosts(vendorProductConnectionsList);
+            });
+
             view.openProductEditMode(product.getName(),
-                    product.getPrice(),
-                    product.getCost(),
                     product.getBarcode(),
                     product.getSku(),
                     product.isActive(),
@@ -589,7 +613,8 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     unitPos,
                     vendorIds,
                     product.getDescription(),
-                    product.getPhotoPath());
+                    product.getPhotoPath(),
+                    product.getPrice());
         }
     }
 
@@ -599,9 +624,22 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
         view.openVendorChooserDialog(databaseManager.getVendors().blockingSingle());
     }
 
+    @Override
+    public void setProductCostDialog() {
+        List<String> result = new ArrayList<>();
+        for (int i = 0; i < vendors.size(); i++) {
+            Vendor vendor = databaseManager.getVendorById(vendors.get(i)).blockingSingle();
+            if (vendor != null) {
+                result.add(vendor.getName());
+            }
+        }
+        view.openChooseProductCostDialog(result, vendorProductConnectionsList);
+    }
+
 
     /**
      * subcategory selection processing
+     *
      * @param category - selected subcategory from view
      */
     @Override
@@ -616,6 +654,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                         public void onPositiveButtonClicked() {
                             openCategory(category);
                         }
+
                         @Override
                         public void onNegativeButtonClicked() {
                             view.selectAddCategoryItem();
@@ -631,6 +670,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                         public void onPositiveButtonClicked() {
                             openSubcategory(category);
                         }
+
                         @Override
                         public void onNegativeButtonClicked() {
                             view.selectAddSubcategoryItem();
@@ -646,6 +686,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                         public void onPositiveButtonClicked() {
                             openSubcategory(category);
                         }
+
                         @Override
                         public void onNegativeButtonClicked() {
                             view.selectCategory(ProductPresenterImpl.this.category.getId());
@@ -662,13 +703,13 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                         public void onPositiveButtonClicked() {
                             openSubcategory(category);
                         }
+
                         @Override
                         public void onNegativeButtonClicked() {
                             view.selectSubcategoryListItem(ProductPresenterImpl.this.subcategory.getId());
                         }
                     });
-                }
-                else openSubcategory(category);
+                } else openSubcategory(category);
                 break;
             case PRODUCT_ADD_MODE:
                 if (!view.getProductName().equals("") || !view.getBarCode().equals("") || !view.getSku().equals("") ||
@@ -680,6 +721,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                         public void onPositiveButtonClicked() {
                             openSubcategory(category);
                         }
+
                         @Override
                         public void onNegativeButtonClicked() {
                             view.selectAddProductListItem();
@@ -719,7 +761,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     }
                 }
                 if (!view.getProductName().equals(this.product.getName()) || !view.getBarCode().equals(this.product.getBarcode()) || !view.getSku().equals(this.product.getSku()) ||
-                        !view.getPrice().equals(this.product.getPrice()) || !view.getCost().equals(this.product.getCost()) ||
                         (unitCategory != null && !unitCategory.getUnits().get(view.getUnitSelectedPos()).getId().equals(this.product.getMainUnitId())) ||
                         (productClass != null && !productClass.getId().equals(this.product.getProductClass().getId())) ||
                         view.getProductIsActive() != this.product.getIsActive() || hasChanged) {
@@ -728,6 +769,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                         public void onPositiveButtonClicked() {
                             openSubcategory(category);
                         }
+
                         @Override
                         public void onNegativeButtonClicked() {
                             view.selectProductListItem(ProductPresenterImpl.this.product.getId());
@@ -744,14 +786,12 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     }
 
 
-
-
-
     /**
      * adding or editing category and subcategory
-     * @param name - name of category or subcategory
+     *
+     * @param name        - name of category or subcategory
      * @param description - description of category or subcategory
-     * @param isActive - active state of category or subcategory
+     * @param isActive    - active state of category or subcategory
      */
     @Override
     public void addCategory(String name, String description, boolean isActive) {
@@ -764,7 +804,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
         if (mode == CategoryAddEditMode.SUBCATEGORY_ADD_MODE
                 && category != null && !isSubcategoryNameUnique(category.getName(), name) ||
                 (mode == CategoryAddEditMode.SUBCATEGORY_EDIT_MODE && category != null && !isSubcategoryNameUnique(category.getName(), name) &&
-                subcategory != null && !subcategory.getName().equals(name))) {
+                        subcategory != null && !subcategory.getName().equals(name))) {
             view.suchSubcategoryNameExists(name);
             return;
         }
@@ -779,8 +819,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 view.setCategoryPath(null);
                 openCategory(null);
             });
-        }
-        else if (mode == CategoryAddEditMode.SUBCATEGORY_ADD_MODE && category != null) { // adding subcategory
+        } else if (mode == CategoryAddEditMode.SUBCATEGORY_ADD_MODE && category != null) { // adding subcategory
             result.setParentId(category.getId());
             result.setName(name);
             result.setDescription(description);
@@ -791,7 +830,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 openSubcategory(null);
             });
 
-        } else if(mode == CategoryAddEditMode.CATEGORY_EDIT_MODE && category != null) { // edit category
+        } else if (mode == CategoryAddEditMode.CATEGORY_EDIT_MODE && category != null) { // edit category
             view.showEditDialog(new UIUtils.AlertListener() {
                 @Override
                 public void onPositiveButtonClicked() {
@@ -845,6 +884,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
 
     /**
      * All products from db added to first index null object
+     *
      * @return - all products from db
      */
     public List<Product> getProducts() {
@@ -857,7 +897,8 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
 
     /**
      * Check for uniqueness the given subcategory name
-     * @param categoryName - parent's name
+     *
+     * @param categoryName    - parent's name
      * @param subcategoryName - given subcategory name
      * @return - true if subcategory name is unique, otherwise false
      */
@@ -868,6 +909,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
 
     /**
      * Check for uniqueness the given category name
+     *
      * @param categoryName - give category name
      * @return - true if category name is unique, otherwise false
      */
@@ -878,6 +920,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
 
     /**
      * Check for uniqueness the given product name
+     *
      * @param productName - given product name
      * @return true if product name is unique, otherwise false
      */
@@ -888,6 +931,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
 
     /**
      * Gets category by given id
+     *
      * @param id - give id
      * @return Category object if found, otherwise null
      */
@@ -900,13 +944,14 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
 
     /**
      * Ejects subcategory of given category added by first index null object
+     *
      * @param category - given category
      * @return subcategories of given category
      */
     @Override
     public List<Category> getSubcategories(Category category) {
         List<Category> result = new ArrayList<>();
-            result.add(null);
+        result.add(null);
         if (category.getSubCategories() != null) {
             result.addAll(category.getSubCategories());
         }
@@ -950,8 +995,10 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                         }
                     });
                 }
+
                 @Override
-                public void onNegativeButtonClicked() {}
+                public void onNegativeButtonClicked() {
+                }
             });
         }
     }
@@ -985,8 +1032,10 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                                 }
                             });
                         }
+
                         @Override
-                        public void onNegativeButtonClicked() {}
+                        public void onNegativeButtonClicked() {
+                        }
                     });
 
                 }
@@ -1048,40 +1097,38 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     }
 
 
-
-
     /**
      * creating or editing product
-     * @param name - product name
-     * @param price - product price
-     * @param barcode - product barcode
-     * @param sku - product sku
-     * @param photoPath - product photo path
-     * @param isActive - product active state
-     * @param costCurrencyPos - product cost currency
+     *
+     * @param name              - product name
+     * @param barcode           - product barcode
+     * @param sku               - product sku
+     * @param photoPath         - product photo path
+     * @param isActive          - product active state
+     * @param costCurrencyPos   - product cost currency
      * @param priceCurrencuyPos - product price currency
-     * @param productClassPos - product class
-     * @param unitCategoryPos - product main unit
-     * @param unitPos - product sub units
-     * @param vendors - product vendors
-     * @param description - product description
+     * @param productClassPos   - product class
+     * @param unitCategoryPos   - product main unit
+     * @param unitPos           - product sub units
+     * @param vendors           - product vendors
+     * @param description       - product description
+     * @param resultPrice
      */
     @Override
-    public void addProduct(String name, Double price, Double cost, String barcode,
+    public void addProduct(String name, String barcode,
                            String sku, String photoPath, boolean isActive,
                            int costCurrencyPos, int priceCurrencuyPos, int productClassPos,
-                           int unitCategoryPos, int unitPos, List<Long> vendors, String description) {
+                           int unitCategoryPos, int unitPos, List<Long> vendors, String description, Double resultPrice) {
 
         switch (mode) {
             case PRODUCT_ADD_MODE:
                 Product product = new Product();
                 product.setName(name);
-                product.setCost(cost);
-                product.setPrice(price);
                 product.setBarcode(barcode);
                 product.setSku(sku);
                 product.setPhotoPath(photoPath);
                 product.setIsActive(isActive);
+                product.setPrice(resultPrice);
                 product.setCategory(subcategory);
                 product.setCategoryId(subcategory.getId());
                 List<Currency> currencies = databaseManager.getAllCurrencies().blockingSingle();
@@ -1102,11 +1149,9 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 }
                 product.setDescription(description);
                 databaseManager.addProduct(product).subscribe(id -> {
-                    for (Long vendorId : vendors) {
-                        VendorProductCon connection = new VendorProductCon();
-                        connection.setVendorId(vendorId);
-                        connection.setProductId(id);
-                        databaseManager.addVendorProductConnection(connection).subscribe();
+                    for (int i = 0; i < vendors.size(); i++) {
+                        vendorProductConnectionsList.get(i).setProductId(id);
+                        databaseManager.addVendorProductConnection(vendorProductConnectionsList.get(i)).subscribe();
                     }
                     view.addToProductList(product);
                     openProduct(null);
@@ -1120,12 +1165,11 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                             Product result = new Product();
                             result.setId(ProductPresenterImpl.this.product.getId());
                             result.setName(name);
-                            result.setPrice(price);
-                            result.setCost(cost);
                             result.setBarcode(barcode);
                             result.setSku(sku);
                             result.setPhotoPath(photoPath);
                             result.setIsActive(isActive);
+                            result.setPrice(resultPrice);
                             result.setCategory(subcategory);
                             result.setCategoryId(subcategory.getId());
                             List<Currency> tempCurrencies = databaseManager.getAllCurrencies().blockingSingle();
@@ -1152,11 +1196,9 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                             result.setDescription(description);
                             databaseManager.addProduct(result).subscribe(id -> {
                                 databaseManager.removeVendorProductConnectionByProductId(id).subscribe();
-                                for (Long vendorId : vendors) {
-                                    VendorProductCon connection = new VendorProductCon();
-                                    connection.setVendorId(vendorId);
-                                    connection.setProductId(id);
-                                    databaseManager.addVendorProductConnection(connection).subscribe();
+                                for (int i = 0; i < vendors.size(); i++) {
+                                    vendorProductConnectionsList.get(i).setProductId(id);
+                                    databaseManager.addVendorProductConnection(vendorProductConnectionsList.get(i)).subscribe();
                                 }
                                 view.editProduct(result);
                                 view.unselectProductsList();
@@ -1197,15 +1239,34 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
 
     @Override
     public void setVendorName(List<Long> vendors) {
+        this.vendors = vendors;
         String result = "";
-        for (Long id : vendors) {
-            Vendor vendor = databaseManager.getVendorById(id).blockingSingle();
+        List<Long> tempExistIds = new ArrayList<>();
+        for (int i = 0; i < this.vendorProductConnectionsList.size(); i++) {
+            Long vendorId = this.vendorProductConnectionsList.get(i).getVendorId();
+            if (!vendors.contains(vendorId)) {
+                this.vendorProductConnectionsList.remove(i);
+                i--;
+            } else {
+                tempExistIds.add(vendorId);
+            }
+        }
+
+        for (int i = 0; i < vendors.size(); i++) {
+            if (!tempExistIds.contains(vendors.get(i))) {
+                VendorProductCon vendorProductCon = new VendorProductCon();
+                vendorProductCon.setVendorId(vendors.get(i));
+                this.vendorProductConnectionsList.add(vendorProductCon);
+            }
+
+            Vendor vendor = databaseManager.getVendorById(vendors.get(i)).blockingSingle();
             if (vendor != null) {
                 result += vendor.getName();
             }
-            if (vendors.indexOf(id) != vendors.size() - 1) {
+            if (vendors.indexOf(vendors.get(i)) != vendors.size() - 1) {
                 result += ", ";
             }
+
         }
         view.setVendorNameToAddEditProductFragment(result);
     }
@@ -1299,7 +1360,38 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 openProduct(null);
                 return false;
             default:
-                    return false;
+                return false;
+        }
+    }
+
+    @Override
+    public void setProductCosts(List<VendorProductCon> productConList) {
+        this.vendorProductConnectionsList = productConList;
+        String result = "";
+        for (VendorProductCon cost : vendorProductConnectionsList) {
+            if (cost != null) {
+                result += cost.getCost();
+            }
+            if (vendorProductConnectionsList.indexOf(cost) != vendorProductConnectionsList.size() - 1) {
+                result += ", ";
+            }
+        }
+        view.setCostValue(result);
+    }
+
+    @Override
+    public void comparePriceWithCost(double priceValue) {
+        int count = 0;
+        for (int i = 0; i < vendorProductConnectionsList.size(); i ++){
+            double cost =vendorProductConnectionsList.get(i).getCost();
+             if (priceValue > cost){
+                 view.saveProduct(true);
+                 break;
+             } else count++;
+        }
+
+        if (count == vendorProductConnectionsList.size()){
+            view.saveProduct(false);
         }
     }
 }

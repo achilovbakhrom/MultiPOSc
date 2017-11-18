@@ -1013,8 +1013,6 @@ public class AppDbHelper implements DbHelper {
             product.setName("Coca Cola");
             product.setBarcode("123456789");
             product.setSku("cc777");
-            product.setPrice(1d);
-            product.setCost(1d);
             product.setCreatedDate(System.currentTimeMillis());
             products.add(product);
 
@@ -1022,8 +1020,6 @@ public class AppDbHelper implements DbHelper {
             product1.setName("Колбаса");
             product1.setBarcode("777444888");
             product1.setSku("колБ123");
-            product1.setPrice(1d);
-            product1.setCost(1d);
             product1.setCreatedDate(System.currentTimeMillis());
             products.add(product1);
 
@@ -1032,8 +1028,6 @@ public class AppDbHelper implements DbHelper {
             product2.setName("Яицо");
             product2.setBarcode("7887878787");
             product2.setSku("Тт15");
-            product2.setPrice(1d);
-            product2.setCost(1d);
             product2.setCreatedDate(System.currentTimeMillis());
             products.add(product2);
 
@@ -1042,8 +1036,6 @@ public class AppDbHelper implements DbHelper {
             product3.setName("Анти Хайп");
             product3.setBarcode("");
             product3.setSku("");
-            product3.setPrice(1d);
-            product3.setCost(1d);
             product3.setCreatedDate(System.currentTimeMillis());
             products.add(product3);
 
@@ -1052,8 +1044,6 @@ public class AppDbHelper implements DbHelper {
             product4.setName("58йй2");
             product4.setBarcode("фывйа");
             product4.setSku("фывййаыа");
-            product4.setPrice(1d);
-            product4.setCost(1d);
             product4.setCreatedDate(System.currentTimeMillis());
             products.add(product4);
 
@@ -1062,8 +1052,6 @@ public class AppDbHelper implements DbHelper {
             product5.setName("5884878613");
             product5.setBarcode("777889961");
             product5.setSku("cc777");
-            product5.setPrice(1d);
-            product5.setCost(1d);
             product5.setCreatedDate(System.currentTimeMillis());
             products.add(product5);
 
@@ -1072,8 +1060,6 @@ public class AppDbHelper implements DbHelper {
             product6.setName("Сардор");
             product6.setBarcode("234023");
             product6.setSku("сс144458");
-            product6.setPrice(1d);
-            product6.setCost(1d);
             product6.setCreatedDate(System.currentTimeMillis());
             products.add(product6);
             mDaoSession.getProductDao().insertOrReplaceInTx(products);
@@ -1158,8 +1144,6 @@ public class AppDbHelper implements DbHelper {
             product.setName("Coca Cola");
             product.setBarcode("123456789");
             product.setSku("cc777");
-            product.setPrice(1d);
-            product.setCost(1d);
             product.setCreatedDate(System.currentTimeMillis());
             products.add(product);
 
@@ -1167,8 +1151,6 @@ public class AppDbHelper implements DbHelper {
             product1.setName("Колбаса");
             product1.setBarcode("777444888");
             product1.setSku("колБ123");
-            product1.setPrice(1d);
-            product1.setCost(1d);
             product1.setCreatedDate(System.currentTimeMillis());
             products.add(product1);
 
@@ -1177,8 +1159,6 @@ public class AppDbHelper implements DbHelper {
             product2.setName("Яицо");
             product2.setBarcode("7887878787");
             product2.setSku("Тт15");
-            product2.setPrice(1d);
-            product2.setCost(1d);
             product2.setCreatedDate(System.currentTimeMillis());
             products.add(product2);
 
@@ -1187,8 +1167,6 @@ public class AppDbHelper implements DbHelper {
             product3.setName("Анти Хайп");
             product3.setBarcode("");
             product3.setSku("");
-            product3.setPrice(1d);
-            product3.setCost(1d);
             product3.setCreatedDate(System.currentTimeMillis());
             products.add(product3);
 
@@ -1197,8 +1175,6 @@ public class AppDbHelper implements DbHelper {
             product4.setName("58йй2");
             product4.setBarcode("фывйа");
             product4.setSku("фывййаыа");
-            product4.setPrice(1d);
-            product4.setCost(1d);
             product4.setCreatedDate(System.currentTimeMillis());
             products.add(product4);
 
@@ -1207,8 +1183,6 @@ public class AppDbHelper implements DbHelper {
             product5.setName("5884878613");
             product5.setBarcode("777889961");
             product5.setSku("cc777");
-            product5.setPrice(1d);
-            product5.setCost(1d);
             product5.setCreatedDate(System.currentTimeMillis());
             products.add(product5);
 
@@ -1217,8 +1191,6 @@ public class AppDbHelper implements DbHelper {
             product6.setName("Сардор");
             product6.setBarcode("234023");
             product6.setSku("сс144458");
-            product6.setPrice(1d);
-            product6.setCost(1d);
             product6.setCreatedDate(System.currentTimeMillis());
             products.add(product6);
             mDaoSession.getProductDao().insertOrReplaceInTx(products);
@@ -1275,6 +1247,12 @@ public class AppDbHelper implements DbHelper {
                     .buildDelete().executeDeleteWithoutDetachingEntities();
             return true;
         });
+    }
+
+    @Override
+    public Observable<List<VendorProductCon>> getVendorProductConnectionByProductId(Long productId) {
+        return Observable.fromCallable(() -> mDaoSession.queryBuilder(VendorProductCon.class)
+                .where(VendorProductConDao.Properties.ProductId.eq(productId)).build().list());
     }
 
     @Override

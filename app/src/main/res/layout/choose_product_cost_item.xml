@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/five_dp"
+    android:orientation="horizontal"
+    android:paddingLeft="@dimen/thirty_dp">
+
+    <TextView
+        android:id="@+id/tvProductName"
+        android:layout_width="@dimen/two_hundred_fifty_dp"
+        android:layout_height="@dimen/forty_dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="@dimen/twenty_five_dp"
+        android:background="@drawable/edit_text_bg"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/ten_dp"
+        android:textColor="@color/colorMainText"
+        android:textSize="@dimen/sixteen_dp" />
+
+    <com.jim.mpviews.MpEditText
+        android:id="@+id/etProductCost"
+        android:layout_width="@dimen/hundred_seventy_dp"
+        android:layout_height="@dimen/forty_dp"
+        android:inputType="numberDecimal"
+        android:hint="@string/value"
+        android:textSize="@dimen/sixteen_dp"
+        android:textColorHint="@color/colorTextHint" />
+
+</LinearLayout>

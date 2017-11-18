@@ -10,6 +10,7 @@ import com.jim.multipos.core.DoubleSideActivity;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.Product;
+import com.jim.multipos.data.db.model.products.VendorProductCon;
 import com.jim.multipos.ui.product_last.fragment.CategoryAddEditFragment;
 import com.jim.multipos.ui.product_last.fragment.ProductListFragment;
 import com.jim.multipos.ui.product_last.fragment.ProductAddEditFragment;
@@ -451,8 +452,6 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     @Override
     public void openProductEditMode(String name,
-                                    double price,
-                                    double cost,
                                     String barCode,
                                     String sku,
                                     boolean isActive,
@@ -464,13 +463,12 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
                                     int unitPos,
                                     List<Long> vendors,
                                     String description,
-                                    String url) {
+                                    String url,
+                                    double price) {
         ProductAddEditFragment fragment = getProductAddEditFragment();
         if (fragment != null) {
             fragment.openEditMode(
                     name,
-                    price,
-                    cost,
                     barCode,
                     sku,
                     isActive,
@@ -482,7 +480,8 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
                     unitPos,
                     vendors,
                     description,
-                    url
+                    url,
+                    price
             );
         }
     }
@@ -701,6 +700,14 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
     }
 
     @Override
+    public void openChooseProductCostDialog(List<String> vendors, List<VendorProductCon> costs) {
+        ProductAddEditFragment fragment = getProductAddEditFragment();
+        if (fragment != null) {
+            fragment.openChooseProductCostDialog(vendors, costs);
+        }
+    }
+
+    @Override
     public void setVendorNameToAddEditProductFragment(String vendorName) {
         ProductAddEditFragment fragment = getProductAddEditFragment();
         if (fragment != null) {
@@ -715,6 +722,22 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
             return fragment.isActiveEnabled();
         }
         return false;
+    }
+
+    @Override
+    public void setCostValue(String result) {
+        ProductAddEditFragment fragment = getProductAddEditFragment();
+        if (fragment != null) {
+            fragment.setCostValue(result);
+        }
+    }
+
+    @Override
+    public void saveProduct(boolean isBigger) {
+        ProductAddEditFragment fragment = getProductAddEditFragment();
+        if (fragment != null) {
+            fragment.saveProduct(isBigger);
+        }
     }
 
     @Override

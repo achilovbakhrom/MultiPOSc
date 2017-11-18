@@ -29,4 +29,5 @@ public interface ProductOperations {
     Observable<Boolean> removeVendorProductConnection(VendorProductCon vendorProductCon);
     Observable<Boolean> removeVendorProductConnectionByVendorId(Long vendorId);
     Observable<Boolean> removeVendorProductConnectionByProductId(Long productId);
+    Observable<List<VendorProductCon>> getVendorProductConnectionByProductId(Long productId);
 }

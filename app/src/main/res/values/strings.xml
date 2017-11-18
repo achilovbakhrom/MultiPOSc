@@ -502,6 +502,9 @@
     <string name="number">Number</string>
     <string name="total_paid_sum_warning">Total paid sum cannot be larger than total sum</string>
     <string name="new_new">New</string>
+    <string name="product_name">Product name</string>
+    <string name="please_enter_product_count">Please, enter product count</string>
+    <string name="choose_vendor">First fully choose vendor</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>

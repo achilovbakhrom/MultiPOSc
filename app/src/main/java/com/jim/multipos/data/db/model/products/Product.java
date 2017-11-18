@@ -32,9 +32,8 @@ public class Product implements Editable, Serializable {
     @Id(autoincrement = true)
     private Long id;
     private String name;
-    private Double price;
-    private Double cost;
     private Long createdDate;
+    private Double price;
     private String barcode;
     private String sku;
     private String photoPath;
@@ -59,15 +58,11 @@ public class Product implements Editable, Serializable {
             sourceProperty = "productId",
             targetProperty = "unitId")
     private List<Unit> subUnits;
-
-
     @ToMany
     @JoinEntity(entity = VendorProductCon.class,
             sourceProperty = "productId",
             targetProperty = "vendorId")
     private List<Vendor> vendor;
-
-
     private String description;
     private Long rootId;
     private Long parentId;
@@ -92,16 +87,15 @@ public class Product implements Editable, Serializable {
     private transient DaoSession daoSession;
 
 
-    @Generated(hash = 1712732975)
-    public Product(Long id, String name, Double price, Double cost, Long createdDate, String barcode,
-            String sku, String photoPath, Boolean isActive, Boolean isNotModified, Boolean isDeleted,
+    @Generated(hash = 1148833688)
+    public Product(Long id, String name, Long createdDate, Double price, String barcode, String sku,
+            String photoPath, Boolean isActive, Boolean isNotModified, Boolean isDeleted,
             Double position, Long priceCurrencyId, Long costCurrencyId, Long classId, Long mainUnitId,
             String description, Long rootId, Long parentId, Long categoryId) {
         this.id = id;
         this.name = name;
-        this.price = price;
-        this.cost = cost;
         this.createdDate = createdDate;
+        this.price = price;
         this.barcode = barcode;
         this.sku = sku;
         this.photoPath = photoPath;
@@ -534,22 +528,6 @@ public class Product implements Editable, Serializable {
         this.createdDate = createdDate;
     }
 
-    public Double getCost() {
-        return this.cost;
-    }
-
-    public void setCost(Double cost) {
-        this.cost = cost;
-    }
-
-    public Double getPrice() {
-        return this.price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
     public String getName() {
         return this.name;
     }
@@ -584,6 +562,14 @@ public class Product implements Editable, Serializable {
             }
         }
         return subUnits;
+    }
+
+    public Double getPrice() {
+        return this.price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
 }

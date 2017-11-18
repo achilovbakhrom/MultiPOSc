@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -24,14 +23,16 @@ import com.jim.mpviews.MPosSpinner;
 import com.jim.mpviews.MpButton;
 import com.jim.mpviews.MpCheckbox;
 import com.jim.mpviews.MpEditText;
-import com.jim.mpviews.MpSearchView;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseAdapter;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.core.BaseViewHolder;
+import com.jim.multipos.data.db.model.intosystem.ProductCost;
 import com.jim.multipos.data.db.model.products.Vendor;
+import com.jim.multipos.data.db.model.products.VendorProductCon;
 import com.jim.multipos.ui.product_last.ProductActivity;
 import com.jim.multipos.ui.product_last.ProductPresenter;
+import com.jim.multipos.ui.product_last.adapter.ProductCostListAdapter;
 import com.jim.multipos.utils.CommonUtils;
 import com.jim.multipos.utils.GlideApp;
 import com.jim.multipos.utils.OpenPickPhotoUtils;
@@ -53,7 +54,7 @@ import static android.app.Activity.RESULT_OK;
  * Created by Achilov Bakhrom on 10/26/17.
  */
 
-public class ProductAddEditFragment extends BaseFragment implements View.OnClickListener{
+public class ProductAddEditFragment extends BaseFragment implements View.OnClickListener {
 
     @NotEmpty(messageId = R.string.name_validation)
     @BindView(R.id.etProductName)
@@ -83,7 +84,7 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
 
     @NotEmpty(messageId = R.string.warning_cost_empty)
     @BindView(R.id.etProductCost)
-    MpEditText cost;
+    TextView cost;
 
     @BindView(R.id.tvCostCurrency)
     TextView costCurrency;
@@ -108,8 +109,8 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
 
     private static final String VENDOR_LIST_COUNT = "VENDOR_LIST_COUNT";
     private static final String VENDOR_ID = "VENDOR_ID_";
-    private String photoPath = null;
     private Uri photoSelected;
+
     @Override
     protected int getLayout() {
         return R.layout.add_product_fragment;
@@ -120,10 +121,10 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
         return false;
     }
 
-    private Dialog dialog;
+    private Dialog dialog, costDialog;
 
-    private RecyclerView vendorDialogList;
-    private MpButton vendorDialogBack;
+    private RecyclerView vendorDialogList, productCostList;
+    private MpButton vendorDialogBack, btnBackToAddProduct, btnSaveCosts;
     private MpButton vendorDialogOk;
 
     private List<Long> vendors;
@@ -152,6 +153,18 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
         vendorDialogBack.setOnClickListener(this);
         vendorDialogOk = (MpButton) dialogView.findViewById(R.id.btnOk);
         vendorDialogOk.setOnClickListener(this);
+
+        costDialog = new Dialog(getContext());
+        View costView = LayoutInflater.from(getContext()).inflate(R.layout.choose_product_cost, null, false);
+        costDialog.getWindow().getDecorView().setBackgroundResource(android.R.color.transparent);
+        costDialog.setContentView(costView);
+        productCostList = (RecyclerView) costView.findViewById(R.id.rvProductCostList);
+        productCostList.setLayoutManager(new LinearLayoutManager(getContext()));
+        btnBackToAddProduct = (MpButton) costView.findViewById(R.id.btnBackToAddProduct);
+        btnBackToAddProduct.setOnClickListener(this);
+        btnSaveCosts = (MpButton) costView.findViewById(R.id.btnSaveCosts);
+        btnSaveCosts.setOnClickListener(this);
+
     }
 
     @Override
@@ -170,7 +183,7 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
                                            String currencyAbbr) {
         unitsCategory.setAdapter(unitCategoryList);
         unitsCategory.setItemSelectionListener((view, position) -> {
-            ((ProductActivity)getContext()).getPresenter().unitCategorySelected(position);
+            ((ProductActivity) getContext()).getPresenter().unitCategorySelected(position);
         });
         units.setAdapter(unitList);
         productClass.setAdapter(productClasses);
@@ -179,86 +192,23 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
     }
 
 
-
-    @OnClick(value = {R.id.btnSave, R.id.btnCancel, R.id.btnAdvance, R.id.ivChooseImage, R.id.tvVendor})
+    @OnClick(value = {R.id.btnSave, R.id.btnCancel, R.id.btnAdvance, R.id.ivChooseImage, R.id.tvVendor, R.id.etProductCost})
     public void buttonClick(View view) {
         ProductPresenter presenter = ((ProductActivity) getContext()).getPresenter();
         switch (view.getId()) {
             case R.id.btnSave:
-                if (isValid()) {
-                    Double c = Double.parseDouble(this.cost.getText().toString());
-                    Double p = Double.parseDouble(this.price.getText().toString());
-                    if (p < c) {
-                        UIUtils.showAlert(getContext(), getString(R.string.yes), getString(R.string.no),
-                                getString(R.string.warning), getString(R.string.warning_cost_more_than_price), new UIUtils.AlertListener() {
-                                    @Override
-                                    public void onPositiveButtonClicked() {
-                                        if (vendors == null || vendors.isEmpty()) {
-                                            vendor.setTextColor(Color.RED);
-                                            return;
-                                        }
-                                        String tempPrice = price.getText().toString().replace(",", ".");
-                                        Double resultPrice = tempPrice.isEmpty() ? 0.0d : Double.parseDouble(tempPrice);
-                                        String tempCost = cost.getText().toString().replace(",", ".");
-                                        Double resultCost = tempCost.isEmpty() ? 0.0d : Double.parseDouble(tempCost);
-                                        ((ProductActivity) getContext()).getPresenter().addProduct(
-                                                name.getText().toString(),
-                                                resultPrice,
-                                                resultCost,
-                                                barcode.getText().toString(),
-                                                sku.getText().toString(),
-                                                (photoSelected != null) ? CommonUtils.getRealPathFromURI(getContext(), photoSelected) : "",
-                                                isActive.isChecked(),
-                                                0,
-                                                0,
-                                                productClass.getSelectedPosition(),
-                                                unitsCategory.getSelectedPosition(),
-                                                units.getSelectedPosition(),
-                                                vendors,
-                                                "Description"
-                                        );
-                                    }
-
-                                    @Override
-                                    public void onNegativeButtonClicked() {
-
-                                    }
-                                });
-                    } else {
-                        if (vendors == null || vendors.isEmpty()) {
-                            vendor.setTextColor(Color.RED);
-                            return;
-                        }
-                        String tempPrice = price.getText().toString().replace(",", ".");
-                        Double resultPrice = tempPrice.isEmpty() ? 0.0d : Double.parseDouble(tempPrice);
-                        String tempCost = cost.getText().toString().replace(",", ".");
-                        Double resultCost = tempCost.isEmpty() ? 0.0d : Double.parseDouble(tempCost);
-                        ((ProductActivity) getContext()).getPresenter().addProduct(
-                                name.getText().toString(),
-                                resultPrice,
-                                resultCost,
-                                barcode.getText().toString(),
-                                sku.getText().toString(),
-                                (photoSelected != null) ? CommonUtils.getRealPathFromURI(getContext(), photoSelected) : "",
-                                isActive.isChecked(),
-                                0,
-                                0,
-                                productClass.getSelectedPosition(),
-                                unitsCategory.getSelectedPosition(),
-                                units.getSelectedPosition(),
-                                vendors,
-                                "Description"
-                        );
-                    }
-                }
+                if (isValid())
+                    ((ProductActivity) getContext()).getPresenter().comparePriceWithCost(Double.parseDouble(this.price.getText().toString()));
                 break;
             case R.id.tvVendor:
                 ((ProductActivity) getContext()).getPresenter().openVendorChooserDialog();
                 break;
+            case R.id.etProductCost:
+                ((ProductActivity) getContext()).getPresenter().setProductCostDialog();
+                break;
             case R.id.btnCancel:
                 getActivity().finish();
                 break;
-
             case R.id.btnAdvance:
                 presenter.deleteProduct();
                 break;
@@ -304,6 +254,65 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
 
     }
 
+    public void saveProduct(boolean isBigger) {
+        if (isBigger) {
+            UIUtils.showAlert(getContext(), getString(R.string.yes), getString(R.string.no),
+                    getString(R.string.warning), getString(R.string.warning_cost_more_than_price), new UIUtils.AlertListener() {
+                        @Override
+                        public void onPositiveButtonClicked() {
+                            if (vendors == null || vendors.isEmpty()) {
+                                vendor.setTextColor(Color.RED);
+                                return;
+                            }
+                            String tempPrice = price.getText().toString().replace(",", ".");
+                            Double resultPrice = tempPrice.isEmpty() ? 0.0d : Double.parseDouble(tempPrice);
+                            ((ProductActivity) getContext()).getPresenter().addProduct(
+                                    name.getText().toString(),
+                                    barcode.getText().toString(),
+                                    sku.getText().toString(),
+                                    (photoSelected != null) ? CommonUtils.getRealPathFromURI(getContext(), photoSelected) : "",
+                                    isActive.isChecked(),
+                                    0,
+                                    0,
+                                    productClass.getSelectedPosition(),
+                                    unitsCategory.getSelectedPosition(),
+                                    units.getSelectedPosition(),
+                                    vendors,
+                                    "Description",
+                                    resultPrice
+                            );
+                        }
+
+                        @Override
+                        public void onNegativeButtonClicked() {
+
+                        }
+                    });
+        } else {
+            if (vendors == null || vendors.isEmpty()) {
+                vendor.setTextColor(Color.RED);
+                return;
+            }
+            String tempPrice = price.getText().toString().replace(",", ".");
+            Double resultPrice = tempPrice.isEmpty() ? 0.0d : Double.parseDouble(tempPrice);
+            ((ProductActivity) getContext()).getPresenter().addProduct(
+                    name.getText().toString(),
+                    barcode.getText().toString(),
+                    sku.getText().toString(),
+                    (photoSelected != null) ? CommonUtils.getRealPathFromURI(getContext(), photoSelected) : "",
+                    isActive.isChecked(),
+                    0,
+                    0,
+                    productClass.getSelectedPosition(),
+                    unitsCategory.getSelectedPosition(),
+                    units.getSelectedPosition(),
+                    vendors,
+                    "Description",
+                    resultPrice
+            );
+        }
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -340,8 +349,6 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
     }
 
     public void openEditMode(String name,
-                             double price,
-                             double cost,
                              String barCode,
                              String sku,
                              boolean isActive,
@@ -353,11 +360,11 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
                              int unitPos,
                              List<Long> vendors,
                              String description,
-                             String url) {
+                             String url,
+                             double price) {
         this.name.setText(name);
         this.name.setError(null);
-        this.price.setText(Double.toString(price));
-        this.cost.setText(Double.toString(cost));
+        this.price.setText(String.valueOf(price));
         this.barcode.setText(barCode);
         this.sku.setText(sku);
         this.isActive.setChecked(isActive);
@@ -365,7 +372,7 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
         this.costCurrency.setText(costCurrencyName);
         this.productClass.setSelectedPosition(productClassPos);
         this.unitsCategory.setSelectedPosition(unitCategoryPos);
-        if (url != null && !url.equals("")){
+        if (url != null && !url.equals("")) {
             photoSelected = Uri.fromFile(new File(url));
             GlideApp
                     .with(ProductAddEditFragment.this)
@@ -402,6 +409,18 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
         dialog.show();
     }
 
+    public void openChooseProductCostDialog(List<String> vendors, List<VendorProductCon> costs) {
+        if (vendors.size() != 0) {
+            ProductCostListAdapter adapter = new ProductCostListAdapter(getContext());
+            adapter.setData(vendors, costs);
+            productCostList.setAdapter(adapter);
+            costDialog.show();
+        } else
+            UIUtils.showAlert(getContext(), getContext().getString(R.string.ok), getContext().getString(R.string.warning), getContext().getString(R.string.choose_vendor), () -> {
+
+            });
+    }
+
     public void setUnits(String[] units) {
         this.units.setAdapter(units);
     }
@@ -433,6 +452,7 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
         }
         return 0.0d;
     }
+
     public Double getCost() {
         String temp = cost.getText().toString();
         if (!temp.isEmpty()) {
@@ -462,9 +482,20 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
                         }
                     }
                     ((ProductActivity) getContext()).getPresenter().setVendorName(vendors);
+                    ((ProductActivity) getContext()).getPresenter().setProductCostDialog();
                 }
             case R.id.btnBack:
                 dialog.dismiss();
+                break;
+            case R.id.btnBackToAddProduct:
+                costDialog.dismiss();
+                break;
+            case R.id.btnSaveCosts:
+                if (productCostList.getAdapter() != null) {
+                    ProductCostListAdapter adapter = (ProductCostListAdapter) productCostList.getAdapter();
+                    ((ProductActivity) getContext()).getPresenter().setProductCosts(adapter.getCosts());
+                }
+                costDialog.dismiss();
                 break;
         }
     }
@@ -473,8 +504,7 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
         if (!vendors.isEmpty()) {
             this.vendor.setTextColor(Color.BLACK);
             this.vendor.setText(vendors);
-        }
-        else {
+        } else {
             this.vendor.setTextColor(Color.RED);
             this.vendor.setText(R.string.vendor_are_not_choosed);
         }
@@ -491,6 +521,10 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
 
     public List<Long> getVendors() {
         return vendors;
+    }
+
+    public void setCostValue(String result) {
+        cost.setText(result);
     }
 
     class VendorChooseAdapter extends BaseAdapter<VendorWithCheckedPosition, VendorChooseAdapter.VendorChooseItemHolder> {
@@ -550,15 +584,19 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
     class VendorWithCheckedPosition implements Serializable {
         private Vendor vendor;
         private boolean isChecked;
+
         public Vendor getVendor() {
             return vendor;
         }
+
         public void setVendor(Vendor vendor) {
             this.vendor = vendor;
         }
+
         public boolean isChecked() {
             return isChecked;
         }
+
         public void setChecked(boolean checked) {
             isChecked = checked;
         }

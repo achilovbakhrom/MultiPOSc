@@ -32,6 +32,7 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
     private List<ConsignmentProduct> consignmentProductList;
     private DatabaseManager databaseManager;
     private List<Account> accountList;
+    private double sum = 0;
 
     @Inject
     protected IncomeConsignmentPresenterImpl(IncomeConsignmentView incomeConsignmentView, DatabaseManager databaseManager) {
@@ -73,6 +74,8 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
         account1.setCirculation(1);
         databaseManager.addAccount(account1).blockingSingle();
         accountList.add(account1);
+        this.accountList.add(account);
+        this.accountList.add(account1);
         List<String> strings = new ArrayList<>();
         for (Account ac : accountList) {
             strings.add(ac.getName());
@@ -83,7 +86,6 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
         product.setName("Tooth paste");
         product.setCostCurrency(currency);
         product.setCreatedDate(System.currentTimeMillis());
-        product.setCost(1500d);
         product.setMainUnit(unit);
         databaseManager.addProduct(product).blockingSingle();
 
@@ -105,7 +107,6 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
         product1.setName("Others paste");
         product1.setCostCurrency(currency);
         product1.setCreatedDate(System.currentTimeMillis());
-        product1.setCost(500d);
         product1.setMainUnit(unit);
         databaseManager.addProduct(product1).blockingSingle();
 
@@ -113,7 +114,6 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
         product2.setName("Mini paste");
         product2.setCostCurrency(currency);
         product2.setCreatedDate(System.currentTimeMillis());
-        product2.setCost(150d);
         product2.setMainUnit(unit);
         databaseManager.addProduct(product2).blockingSingle();
 
@@ -135,7 +135,7 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
         ConsignmentProduct consignmentProduct = new ConsignmentProduct();
         consignmentProduct.setProduct(product);
         consignmentProduct.setProductId(product.getId());
-        consignmentProduct.setCostValue(product.getCost());
+//        consignmentProduct.setCostValue(product.getCost());
         consignmentProduct.setCountValue(0d);
         consignmentProductList.add(consignmentProduct);
         view.fillConsignmentProductList(consignmentProductList);
@@ -151,7 +151,7 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
             consignment.setConsignmentNumber(number);
             consignment.setCreatedDate(System.currentTimeMillis());
             consignment.setDescription(description);
-            consignment.setTotalAmount(Double.valueOf(totalAmount));
+            consignment.setTotalAmount(sum);
             consignment.setIsFromAccount(checked);
             consignment.setCurrency(product.getCostCurrency());
             if (checked)
@@ -184,7 +184,7 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
 
     @Override
     public void calculateConsignmentSum() {
-        double sum = 0;
+        sum = 0;
         for (ConsignmentProduct consignmentProduct : consignmentProductList) {
             sum += consignmentProduct.getCostValue() * consignmentProduct.getCountValue();
         }
@@ -195,7 +195,6 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void loadVendorProducts() {
-//        databaseManager.getAllActiveProductsFromVendor(product.get()).subscribe(view::fillDialogItems);
         this.vendor.resetProducts();
         List<Product> productList = this.vendor.getProducts();
         productList.sort((product1, t1) -> product1.getIsActive().compareTo(true));

@@ -13,12 +13,14 @@ public class VendorProductCon {
     Long id;
     private Long productId;
     private Long vendorId;
+    private Double cost;
 
-    @Generated(hash = 2146024953)
-    public VendorProductCon(Long id, Long productId, Long vendorId) {
+    @Generated(hash = 1743435100)
+    public VendorProductCon(Long id, Long productId, Long vendorId, Double cost) {
         this.id = id;
         this.productId = productId;
         this.vendorId = vendorId;
+        this.cost = cost;
     }
     @Generated(hash = 1840350928)
     public VendorProductCon() {
@@ -41,5 +43,11 @@ public class VendorProductCon {
     }
     public void setId(Long id) {
         this.id = id;
+    }
+    public void setCost(Double cost) {
+        this.cost = cost;
+    }
+    public Double getCost() {
+        return this.cost;
     }
 }

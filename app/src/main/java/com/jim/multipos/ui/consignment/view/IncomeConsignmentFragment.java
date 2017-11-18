@@ -1,10 +1,15 @@
 package com.jim.multipos.ui.consignment.view;
 
 import android.app.Dialog;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -74,6 +79,7 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
         return R.layout.income_fragment;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void init(Bundle savedInstanceState) {
 

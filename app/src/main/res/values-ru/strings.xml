@@ -110,6 +110,9 @@
     <string name="add_product_to_consignment">Please, add product to consignment</string>
     <string name="number">Number</string>
     <string name="total_paid_sum_warning">Total paid sum cannot be larger than total sum</string>
+    <string name="product_name">Product name</string>
+    <string name="please_enter_product_count">Please, enter product count</string>
+    <string name="choose_vendor">First fully choose vendor</string>
     <string-array name="start_configuration_title">
         <item namte="pos_details">POS подробности</item>
         <item name="account">Аккаунт</item>

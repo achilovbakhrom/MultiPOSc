@@ -54,7 +54,7 @@ public class IncomeItemsListAdapter extends RecyclerView.Adapter<IncomeItemsList
         holder.tvCurrencyAbbr.setText(items.get(position).getProduct().getCostCurrency().getAbbr());
         holder.etProductCost.setText(String.valueOf(items.get(position).getCostValue()));
         holder.etProductCount.setText(String.valueOf(items.get(position).getCountValue()));
-        holder.tvProductSum.setText(decimalFormat.format(Double.parseDouble(holder.etProductCost.getText().toString()) * Double.parseDouble(holder.etProductCount.getText().toString())));
+        holder.tvProductSum.setText(String.valueOf(items.get(position).getCostValue() * items.get(position).getCountValue()));
         holder.tvProductUnit.setText(items.get(position).getProduct().getMainUnit().getAbbr());
 
     }
@@ -65,7 +65,6 @@ public class IncomeItemsListAdapter extends RecyclerView.Adapter<IncomeItemsList
 
     public interface OnConsignmentCallback {
         void onDelete(ConsignmentProduct consignmentProduct);
-
         void onSumChanged();
     }
 
@@ -95,6 +94,30 @@ public class IncomeItemsListAdapter extends RecyclerView.Adapter<IncomeItemsList
             ButterKnife.bind(this, itemView);
             btnDeleteProduct.setOnClickListener(view -> onConsignmentCallback.onDelete(items.get(getAdapterPosition())));
 
+            etProductCount.addTextChangedListener(new TextWatcherOnTextChange() {
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    if (charSequence.length() != 0) {
+                        double count = 0;
+                        try {
+                            count = Double.parseDouble(etProductCount.getText().toString());
+                            items.get(getAdapterPosition()).setCountValue(count);
+                        } catch (Exception e) {
+                            etProductCount.setError(context.getString(R.string.invalid));
+                            return;
+                        }
+                        double cost = 0;
+                        try {
+                            cost = Double.parseDouble(etProductCost.getText().toString());
+                        } catch (Exception e) {
+                            return;
+                        }
+                        tvProductSum.setText(decimalFormat.format(cost * count));
+                        onConsignmentCallback.onSumChanged();
+                    } else
+                        etProductCount.setError(context.getString(R.string.please_enter_product_count));
+                }
+            });
             etProductCost.addTextChangedListener(new TextWatcherOnTextChange() {
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -117,31 +140,6 @@ public class IncomeItemsListAdapter extends RecyclerView.Adapter<IncomeItemsList
                         onConsignmentCallback.onSumChanged();
                     } else
                         etProductCost.setError(context.getString(R.string.enter_product_cost));
-                }
-            });
-
-            etProductCount.addTextChangedListener(new TextWatcherOnTextChange() {
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    if (charSequence.length() != 0) {
-                        double count = 0;
-                        try {
-                            count = Double.parseDouble(etProductCount.getText().toString());
-                            items.get(getAdapterPosition()).setCountValue(count);
-                        } catch (Exception e) {
-                            etProductCount.setError(context.getString(R.string.invalid));
-                            return;
-                        }
-                        double cost = 0;
-                        try {
-                            cost = Double.parseDouble(etProductCost.getText().toString());
-                        } catch (Exception e) {
-                            return;
-                        }
-                        tvProductSum.setText(decimalFormat.format(cost * count));
-                        onConsignmentCallback.onSumChanged();
-                    } else
-                        etProductCount.setError(context.getString(R.string.enter_product_cost));
                 }
             });
         }
