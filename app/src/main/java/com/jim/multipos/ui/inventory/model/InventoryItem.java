@@ -11,8 +11,17 @@ import lombok.Data;
  */
 @Data
 public class InventoryItem implements Serializable {
+    long id;
     Product product;
     double inventory;
     double lowStockAlert;
+
+    public Double getLowStockAlert() {
+        return lowStockAlert;
+    }
+
+    public Double getInventory() {
+        return inventory;
+    }
 
 }

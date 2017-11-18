@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <LinearLayout
+        android:id="@+id/llBackground"
         android:layout_width="match_parent"
         android:layout_height="@dimen/hundred_ten_dp"
-        android:background="@color/colorBackground"
+        android:background="#f9f9f9"
         android:orientation="horizontal">
 
 
         <LinearLayout
-            android:layout_width="@dimen/three_hundred_dp"
+            android:layout_width="@dimen/two_hundred_eighty_dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:orientation="vertical"
@@ -19,22 +22,25 @@
 
             <TextView
                 android:id="@+id/tvProductName"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:paddingLeft="@dimen/twenty_dp"
+                android:paddingLeft="@dimen/thirty_dp"
+                android:paddingRight="@dimen/twenty_dp"
                 android:textColor="@color/colorMainText"
                 android:text="Product"
-                android:textSize="@dimen/eighteen_dp"/>
+                android:textStyle="bold"
+                android:maxLines="2"
+                android:layout_marginBottom="@dimen/five_dp"
+                android:textSize="@dimen/sixteen_dp"/>
 
             <TextView
                 android:id="@+id/tvProductSku"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:paddingLeft="@dimen/forty_dp"
+                android:paddingLeft="@dimen/forty_five_dp"
                 android:textColor="@color/colorSecondaryText"
-                android:textSize="@dimen/eighteen_dp"
+                android:textSize="@dimen/sixteen_dp"
                 android:textStyle="italic"/>
 
             <TextView
@@ -42,9 +48,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:paddingLeft="@dimen/forty_dp"
+                android:paddingLeft="@dimen/forty_five_dp"
                 android:textColor="@color/colorSecondaryText"
-                android:textSize="@dimen/eighteen_dp"
+                android:textSize="@dimen/sixteen_dp"
                 android:textStyle="italic"/>
 
             <TextView
@@ -52,9 +58,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:paddingLeft="@dimen/forty_dp"
+                android:paddingLeft="@dimen/fifty_dp"
                 android:textColor="@color/colorSecondaryText"
-                android:textSize="@dimen/eighteen_dp"
+                android:textSize="@dimen/sixteen_dp"
                 android:textStyle="italic"/>
 
 
@@ -63,25 +69,25 @@
         <FrameLayout
             android:layout_width="2px"
             android:layout_height="match_parent"
-            android:background="@color/colorGrey"/>
+            android:background="#e3e3e3"/>
 
         <TextView
             android:id="@+id/tvVendorNames"
-            android:layout_width="@dimen/two_hundred_thirty_dp"
+            android:layout_width="@dimen/three_hundred_dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="left"
             android:paddingLeft="@dimen/twenty_dp"
             android:textColor="@color/colorMainText"
-            android:textSize="@dimen/eighteen_dp"/>
+            android:textSize="@dimen/sixteen_dp"/>
 
         <FrameLayout
             android:layout_width="2px"
             android:layout_height="match_parent"
-            android:background="@color/colorGrey"/>
+            android:background="#e3e3e3"/>
 
         <LinearLayout
-            android:layout_width="@dimen/hundred_twenty_dp"
+            android:layout_width="@dimen/hundred_sixty_dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:orientation="vertical"
@@ -93,40 +99,44 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/forty_dp"
                 android:inputType="numberDecimal"
+                android:textSize="@dimen/sixteen_dp"
+                app:gravity="right"
                 android:gravity="center"/>
         </LinearLayout>
 
         <FrameLayout
             android:layout_width="2px"
             android:layout_height="match_parent"
-            android:background="@color/colorGrey"/>
+            android:background="#e3e3e3"/>
 
         <TextView
             android:id="@+id/tvInventoryCount"
-            android:layout_width="@dimen/two_hundred_dp"
+            android:layout_width="@dimen/hundred_sixty_dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="right"
             android:paddingRight="@dimen/twenty_dp"
             android:textColor="@color/colorMainText"
-            android:textSize="@dimen/eighteen_dp"/>
+            android:textSize="@dimen/sixteen_dp"/>
 
         <FrameLayout
             android:layout_width="2px"
             android:layout_height="match_parent"
-            android:background="@color/colorGrey"/>
+            android:background="#e3e3e3"/>
 
         <TextView
             android:id="@+id/tvUnitAbr"
-            android:layout_width="@dimen/hundred_dp"
+            android:layout_width="@dimen/eighty_dp"
             android:gravity="center"
             android:layout_gravity="center_vertical"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorMainText"
+            android:textSize="@dimen/sixteen_dp"/>
 
         <FrameLayout
             android:layout_width="2px"
             android:layout_height="match_parent"
-            android:background="@color/colorGrey"/>
+            android:background="#e3e3e3"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -135,12 +145,13 @@
             android:gravity="center"
             android:paddingLeft="@dimen/ten_dp"
             android:paddingRight="@dimen/ten_dp"
+            android:layout_marginRight="@dimen/sixteen_dp"
             >
 
             <ImageView
                 android:id="@+id/ivIncome"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/thirty_dp"
+                android:layout_height="@dimen/thirty_five_dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:src="@drawable/income"
@@ -149,37 +160,30 @@
             <ImageView
                 android:id="@+id/ivBackReturn"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/thirty_dp"
+                android:layout_height="@dimen/thirty_five_dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:src="@drawable/expense"
                 />
 
-            <ImageView
-                android:id="@+id/ivSetActualy"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/thirty_dp"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:src="@drawable/order"
-                />
+
 
             <ImageView
                 android:id="@+id/ivAddProduct"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/thirty_dp"
+                android:layout_height="@dimen/thirty_five_dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:src="@drawable/add"
+                android:src="@drawable/add_product"
                 />
 
             <ImageView
                 android:id="@+id/ivWriteOff"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/thirty_dp"
+                android:layout_height="@dimen/thirty_five_dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:src="@drawable/minus"
+                android:src="@drawable/remove_product"
                 />
 
         </LinearLayout>
@@ -188,6 +192,6 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="2px"
-        android:background="@color/colorGrey"/>
+        android:background="#e3e3e3"/>
 
 </LinearLayout>

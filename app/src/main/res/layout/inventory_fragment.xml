@@ -7,19 +7,20 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/seventy_dp"
-            android:background="#fdfdfd"
+            android:background="#fff"
             android:orientation="horizontal">
 
 
             <TextView
-                android:layout_width="@dimen/three_hundred_dp"
-                android:layout_height="wrap_content"
+                android:id="@+id/tvProduct"
+                android:layout_width="@dimen/two_hundred_eighty_dp"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="Product"
@@ -29,11 +30,12 @@
             <FrameLayout
                 android:layout_width="2px"
                 android:layout_height="match_parent"
-                android:background="@color/colorGrey"/>
+                android:background="#e3e3e3"/>
 
             <TextView
-                android:layout_width="@dimen/two_hundred_thirty_dp"
-                android:layout_height="wrap_content"
+                android:id="@+id/tvVendor"
+                android:layout_width="@dimen/three_hundred_dp"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:paddingLeft="@dimen/twenty_dp"
@@ -44,11 +46,12 @@
             <FrameLayout
                 android:layout_width="2px"
                 android:layout_height="match_parent"
-                android:background="@color/colorGrey"/>
+                android:background="#e3e3e3"/>
 
             <TextView
-                android:layout_width="@dimen/hundred_twenty_dp"
-                android:layout_height="wrap_content"
+                android:id="@+id/tvLowStockAlert"
+                android:layout_width="@dimen/hundred_sixty_dp"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="Low \n Stock Alert"
@@ -58,11 +61,12 @@
             <FrameLayout
                 android:layout_width="2px"
                 android:layout_height="match_parent"
-                android:background="@color/colorGrey"/>
+                android:background="#e3e3e3"/>
 
             <TextView
-                android:layout_width="@dimen/two_hundred_dp"
-                android:layout_height="wrap_content"
+                android:id="@+id/tvInventory"
+                android:layout_width="@dimen/hundred_sixty_dp"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="Inventory"
@@ -71,10 +75,11 @@
             <FrameLayout
                 android:layout_width="2px"
                 android:layout_height="match_parent"
-                android:background="@color/colorGrey"/>
+                android:background="#e3e3e3"/>
             <TextView
-                android:layout_width="@dimen/hundred_dp"
-                android:layout_height="wrap_content"
+                android:id="@+id/tvUnit"
+                android:layout_width="@dimen/eighty_dp"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="Unit"
@@ -84,22 +89,23 @@
             <FrameLayout
                 android:layout_width="2px"
                 android:layout_height="match_parent"
-                android:background="@color/colorGrey"/>
+                android:background="#e3e3e3"/>
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="Operations"
                 android:textColor="@color/colorMainText"
+                android:layout_marginRight="@dimen/sixteen_dp"
                 android:textSize="@dimen/sixteen_dp"/>
         </LinearLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="3px"
-            android:background="@color/colorGrey"/>
+            android:background="#e3e3e3"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvInventory"

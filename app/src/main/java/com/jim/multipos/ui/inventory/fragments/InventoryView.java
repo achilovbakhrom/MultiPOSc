@@ -1,7 +1,10 @@
 package com.jim.multipos.ui.inventory.fragments;
 
 import com.jim.multipos.core.BaseView;
+import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
+import com.jim.multipos.utils.SurplusProductDialog;
+import com.jim.multipos.utils.WriteOffProductDialog;
 
 import java.util.List;
 
@@ -11,4 +14,10 @@ import java.util.List;
 
 public interface InventoryView extends BaseView {
     void initRecyclerView(List<InventoryItem> inventoryItemList);
+    void initSearchResults(List<InventoryItem> inventoryItems,String searchText);
+    void initDefault(List<InventoryItem> inventoryItems);
+    void notifyList();
+    void closeKeyboard();
+    void openWriteOffDialog(InventoryItem inventoryItem, WriteOffProductDialog.WriteOffCallback writeOffCallback);
+    void openAddDialog(InventoryItem inventoryItem, SurplusProductDialog.SurplusCallback surplusCallback);
 }

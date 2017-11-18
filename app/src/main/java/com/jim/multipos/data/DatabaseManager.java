@@ -48,6 +48,7 @@ import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -661,7 +662,10 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
 
     @Override
     public Single<List<InventoryItem>> getInventoryItems() {
-        return dbHelper.getInventoryItems();
+        return dbHelper.getInventoryItems().map(inventoryItems ->{
+            Collections.sort(inventoryItems,(inventoryItem, t1) -> inventoryItem.getProduct().getCreatedDate().compareTo(t1.getProduct().getCreatedDate()));
+            return inventoryItems;
+        });
     }
 
     @Override

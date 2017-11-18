@@ -23,7 +23,7 @@ public abstract class SimpleActivity extends BaseActivity {
     protected static final int WITH_TOOLBAR = 1;
 
     @BindView(R.id.toolbar)
-    MpToolbar toolbar;
+    public MpToolbar toolbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

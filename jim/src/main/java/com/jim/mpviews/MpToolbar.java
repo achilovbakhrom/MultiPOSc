@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -70,6 +71,9 @@ public class MpToolbar extends RelativeLayout {
     public MpToolbar(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs);
+    }
+    public EditText getSearchEditText(){
+        return mpSearchView.getSearchView();
     }
 
     public void init(Context context, AttributeSet attributeSet) {

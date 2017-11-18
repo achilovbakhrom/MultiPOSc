@@ -6,17 +6,24 @@ import android.support.annotation.Nullable;
 import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.core.SimpleActivity;
 import com.jim.multipos.ui.inventory.fragments.InventoryFragment;
+import com.jim.multipos.utils.TextWatcherOnTextChange;
 
 /**
  * Created by developer on 09.11.2017.
  */
 
 public class InventoryActivity extends SimpleActivity {
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        addFragment(new InventoryFragment());
+        InventoryFragment fragment = new InventoryFragment();
+        addFragment(fragment);
+        toolbar.getSearchEditText().addTextChangedListener(new TextWatcherOnTextChange() {
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    fragment.searchText(toolbar.getSearchEditText().getText().toString());
+            }
+        });
     }
 
     @Override
