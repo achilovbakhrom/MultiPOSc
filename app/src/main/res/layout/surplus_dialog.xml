@@ -75,7 +75,7 @@
                 android:layout_marginRight="@dimen/twenty_dp"
                 android:textColor="#414141"
                 android:textSize="@dimen/eighteen_dp"
-                android:text="For Vendor"/>
+                android:text="Vendor"/>
             <com.jim.mpviews.MPosSpinner
                 android:id="@+id/spVenders"
                 android:layout_width="@dimen/five_hundred_dp"
@@ -255,7 +255,7 @@
                 android:layout_width="@dimen/hundred_fifty_five_dp"
                 android:layout_height="@dimen/fifty_four_dp"
                 android:gravity="center"
-                android:text="@string/surplus"
+                android:text="@string/update"
                 android:textColor="@color/colorBlue"
                 android:textSize="@dimen/eighteen_dp"
                 />

@@ -27,7 +27,7 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/thirty_dp"
-                android:text="@string/write_off"
+                android:text="@string/shortage"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/twenty_dp" />
 
@@ -75,7 +75,7 @@
                 android:layout_marginRight="@dimen/twenty_dp"
                 android:textColor="#414141"
                 android:textSize="@dimen/eighteen_dp"
-                android:text="For Vendor"/>
+                android:text="Vendor"/>
             <com.jim.mpviews.MPosSpinner
                 android:id="@+id/spVenders"
                 android:layout_width="@dimen/five_hundred_dp"
@@ -141,7 +141,7 @@
                         android:textSize="@dimen/sixteen_dp"
                         android:layout_marginLeft="@dimen/ten_dp"
                         android:textColor="#5997cc"
-                        android:text="Shortage"/>
+                        android:text="@string/shortage"/>
                     <com.jim.mpviews.MpEditText
                         android:id="@+id/etShortage"
                         android:layout_width="@dimen/hundred_seventy_dp"
@@ -255,7 +255,7 @@
                 android:layout_width="@dimen/hundred_fifty_five_dp"
                 android:layout_height="@dimen/fifty_four_dp"
                 android:gravity="center"
-                android:text="@string/write_off"
+                android:text="@string/update"
                 android:textColor="@color/colorBlue"
                 android:textSize="@dimen/eighteen_dp"
                 />

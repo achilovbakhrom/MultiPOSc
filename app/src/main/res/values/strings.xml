@@ -508,6 +508,7 @@
     <string name="product_name">Product name</string>
     <string name="please_enter_product_count">Please, enter product count</string>
     <string name="choose_vendor">First fully choose vendor</string>
+    <string name="shortage">Shortage</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>
