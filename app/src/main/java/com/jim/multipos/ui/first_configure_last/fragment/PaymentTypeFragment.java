@@ -152,7 +152,7 @@ public class PaymentTypeFragment extends BaseFragment implements ChangeableConte
                         activity.getPresenter().openPOSDetails();
                         activity.changeState(FirstConfigurePresenter.PAYMENT_TYPE_POSITION, MpCompletedStateView.COMPLETED_STATE);
                     } else {
-                        getActivity().finish();
+                        ((FirstConfigureActivity) getActivity()).openLockScreen();
                     }
                 } else {
                     warning.setVisibility(View.VISIBLE);

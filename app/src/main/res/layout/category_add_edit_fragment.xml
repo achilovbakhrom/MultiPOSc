@@ -27,6 +27,7 @@
                 android:textColor="@color/colorBlue" />
 
             <TextView
+                android:id="@+id/tvCategoryTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/tap_to_manage_subcategory_items"

@@ -20,37 +20,30 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!-- <activity -->
-        <!-- android:name=".ui.signing.SignActivity" -->
-        <!-- android:windowSoftInputMode="stateHidden" /> -->
         <activity
             android:name=".ui.first_configure_last.FirstConfigureActivity"
-            android:windowSoftInputMode="stateHidden">
-
-        </activity>
+            android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".ui.vendor.add_edit.VendorAddEditActivity"
-            android:windowSoftInputMode="stateHidden">
-
-        </activity>
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name=".ui.mainpospage.MainPosPageActivity"
             android:windowSoftInputMode="stateHidden">
+
         </activity>
         <activity
             android:name=".ui.lock_screen.LockScreenActivity"
-            android:windowSoftInputMode="stateHidden">
-        </activity>
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name=".ui.product_last.ProductActivity"
             android:windowSoftInputMode="stateHidden">
-
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".ui.main_menu.product_menu.ProductMenuActivity"
-            android:windowSoftInputMode="stateHidden">
-
-        </activity>
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name=".ui.main_menu.customers_menu.CustomersMenuActivity"
             android:windowSoftInputMode="stateHidden" />
@@ -62,32 +55,18 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ui.product_class.ProductClassActivity"
-            android:windowSoftInputMode="stateHidden">
-        </activity>
+            android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".ui.product.ProductsActivity" />
-        <activity android:name=".ui.product_class_new.ProductsClassActivity">
-        </activity>
+        <activity android:name=".ui.product_class_new.ProductsClassActivity"/>
         <activity android:name=".ui.discount.DiscountAddingActivity" />
-        <activity android:name=".ui.service_fee_new.ServiceFeeActivity">
-
-        </activity>
-        <activity android:name=".ui.customer_group_new.CustomerGroupActivity">
-        </activity>
-        <activity android:name=".ui.customers_edit_new.CustomersEditActivity">
-        </activity>
-        <activity android:name=".ui.consignment.ConsignmentActivity">
-
-        </activity>
+        <activity android:name=".ui.service_fee_new.ServiceFeeActivity"/>
+        <activity android:name=".ui.customer_group_new.CustomerGroupActivity"/>
+        <activity android:name=".ui.customers_edit_new.CustomersEditActivity"/>
+        <activity android:name=".ui.consignment.ConsignmentActivity"/>
         <activity android:name=".ui.inventory.InventoryActivity"
-            android:windowSoftInputMode="stateHidden">
-        </activity>
-        <activity android:name=".ui.vendor_products_view.VendorProductsViewActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".ui.vendor_products_view.VendorProductsViewActivity"/>
+        <activity android:name=".ui.vendor_item_managment.VendorItemsActivity" />
     </application>
 
 </manifest>

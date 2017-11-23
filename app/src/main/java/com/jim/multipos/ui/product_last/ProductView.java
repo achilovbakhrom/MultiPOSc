@@ -1,6 +1,7 @@
 package com.jim.multipos.ui.product_last;
 
 import com.jim.multipos.core.BaseView;
+import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.Product;
@@ -67,7 +68,7 @@ public interface ProductView extends BaseView {
                                     boolean isActive,
                                     String priceCurrencyAbbr,
                                     String costCurrencyAbbr,
-                                    int productClassPos,
+                                    String productClassPos,
                                     int unitCategoryPos,
                                     String[] units,
                                     int unitPos,
@@ -75,7 +76,7 @@ public interface ProductView extends BaseView {
                                     String description,
                                     String url,
                                     double price);
-    void initProductForm(String[] unitCategoryList, String[] unitList, String[] productClasses, String currencyAbbr);
+    void initProductForm(String[] unitCategoryList, String[] unitList, List<ProductClass> productClasses, String currencyAbbr);
     void closeKeyboard();
     void setCategoryPath(String name);
     void setSubcategoryPath(String name);
@@ -94,9 +95,9 @@ public interface ProductView extends BaseView {
     int getUnitCategorySelectedPos();
     int getUnitSelectedPos();
     Double getPrice();
-    Double getCost();
+    String getCost();
     List<Long> getVendorSelectedPos();
-    int getProductClassSelectedPos();
+    String getProductClassSelectedPos();
     boolean getProductIsActive();
     void openVendorChooserDialog(List<Vendor> vendors);
     void openChooseProductCostDialog(List<String> vendors, List<VendorProductCon> costs);
@@ -104,4 +105,8 @@ public interface ProductView extends BaseView {
     boolean isActiveVisible();
     void setCostValue(String result);
     void saveProduct(boolean isBigger);
+    String getPhotoPath();
+    void finishActivity();
+
+    void openCategoryFragment();
 }

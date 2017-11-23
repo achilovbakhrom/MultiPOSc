@@ -98,7 +98,7 @@ public class SignUpFragment extends BaseFragment implements SignUpView {
                 //TODO add item to contact list
                 break;
             case R.id.btnBack:
-                ((SignActivity) getContext()).openSignUp();
+                ((SignActivity) getContext()).openSignIn();
                 break;
         }
     }

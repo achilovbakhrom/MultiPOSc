@@ -36,8 +36,15 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvProductList"
+            android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="0dp" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/ten_dp"
+            android:layout_marginBottom="@dimen/twenty_dp"
+            android:layout_marginTop="@dimen/twenty_dp" />
 
     </LinearLayout>
 

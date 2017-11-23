@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -67,13 +68,28 @@ public class MPAddItemView extends FrameLayout {
         textView.setLayoutParams(txtLp);
         addView(textView);
         setText(text);
+        Drawable drawable = ContextCompat.getDrawable(context, R.drawable.item_bg);
+        setBackground(null);
+        setBackground(drawable);
+        setOnTouchListener((view, motionEvent) -> {
+            switch (motionEvent.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    Drawable drawable1 = ContextCompat.getDrawable(context, R.drawable.item_pressed_bg);
+                    setBackground(drawable1);
+                    return false;
+                case MotionEvent.ACTION_UP:
+                    setBackground(drawable);
+                    return false;
+                case MotionEvent.ACTION_CANCEL:
+                    setBackground(drawable);
+                    return false;
+            }
+            return false;
+        });
         initActivation(context, isActive);
     }
 
     private void initActivation(Context context, boolean isActive) {
-        Drawable drawable = ContextCompat.getDrawable(context, R.drawable.item_bg);
-        setBackground(null);
-        setBackground(drawable);
         this.isActive = isActive;
     }
 

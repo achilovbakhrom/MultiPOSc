@@ -68,6 +68,7 @@ public class ProductListFragment extends BaseFragment  {
     protected void init(Bundle savedInstanceState) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         isActiveEnabled.setChecked(preferences.getBoolean(IS_ACTIVE_KEY, false));
+        ((ProductActivity) getContext()).getPresenter().initDataForList();
     }
 
     public void init(List<Category> categories) {

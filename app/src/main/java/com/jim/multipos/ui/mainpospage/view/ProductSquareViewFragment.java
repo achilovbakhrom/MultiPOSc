@@ -61,6 +61,12 @@ public class ProductSquareViewFragment extends BaseFragment implements ProductSq
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        presenter.setCategoryRecyclerView();
+    }
+
+    @Override
     public void setCategoryRecyclerViewItems(List<Category> categories) {
         rvCategory.setLayoutManager(new LinearLayoutManager(getContext()));
         categoryAdapter = new SquareViewCategoryAdapter(categories);
@@ -122,7 +128,6 @@ public class ProductSquareViewFragment extends BaseFragment implements ProductSq
             @Override
             public void onItemClicked(Product item) {
                 Toast.makeText(getContext(), item.getName(), Toast.LENGTH_SHORT).show();
-                rxBus.send(new ProductEvent(item, OPEN_PRODUCT));
             }
         });
     }

@@ -76,7 +76,7 @@ public class SignUpPresenterImpl extends BasePresenterImpl<SignUpView> implement
             view.setErrorToEmail("Please, enter your e-mail address");
             return;
         }
-        if (isEmailValid(email)) {
+        if (!isEmailValid(email)) {
             view.setErrorToEmail("Email is not valid...");
             return;
         }

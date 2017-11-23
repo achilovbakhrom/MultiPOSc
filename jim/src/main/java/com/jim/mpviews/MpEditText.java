@@ -79,9 +79,7 @@ public class MpEditText extends android.support.v7.widget.AppCompatEditText {
         setOnKeyListener((view, keyCode, keyEvent) -> {
             if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
                 switch (keyCode) {
-                    case EditorInfo.IME_ACTION_NEXT:
                     case EditorInfo.IME_ACTION_DONE:
-                    case KeyEvent.KEYCODE_ENTER:
                         if (view != null) {
                             InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
                             assert imm != null;

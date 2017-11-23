@@ -1,11 +1,14 @@
 package com.jim.multipos.ui.signing.sign_in.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.jim.mpviews.MpButton;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.R;
 import com.jim.multipos.data.prefs.PreferencesHelper;
+import com.jim.multipos.ui.lock_screen.LockScreenActivity;
+import com.jim.multipos.ui.signing.SignActivity;
 import com.jim.multipos.ui.signing.sign_in.presenter.LoginDetailsPresenter;
 import com.jim.multipos.utils.managers.PosFragmentManager;
 
@@ -50,12 +53,15 @@ public class LoginDetailsFragment extends BaseFragment implements LoginDetailsVi
 
     @OnClick(R.id.btnLogin)
     public void onLogin() {
-        presenter.loginFounder();
+//        presenter.loginFounder();
+        Intent intent = new Intent(getContext(), LockScreenActivity.class);
+        startActivity(intent);
     }
 
     @OnClick(R.id.btnRegistration)
     public void onRegistration() {
-        presenter.registerFounder();
+//        presenter.registerFounder();
+        ((SignActivity) getContext()).openSignUp();
     }
 
 }

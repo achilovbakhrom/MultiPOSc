@@ -7,9 +7,11 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 
+import java.io.Serializable;
+
 
 @Entity(nameInDb = "UNIT", active = true)
-public class Unit {
+public class Unit implements Serializable{
     @Id
     private Long id;
     private String name;

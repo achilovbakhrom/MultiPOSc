@@ -15,9 +15,11 @@ import com.jim.multipos.core.ClickableBaseAdapter;
 import com.jim.multipos.data.db.model.intosystem.TitleDescription;
 import com.jim.multipos.di.BaseAppComponent;
 import com.jim.multipos.ui.HasComponent;
+import com.jim.multipos.ui.inventory.InventoryActivity;
 import com.jim.multipos.ui.main_menu.MenuListAdapter;
 import com.jim.multipos.ui.main_menu.inventory_menu.presenters.InventoryMenuPresenter;
 import com.jim.multipos.ui.vendor.add_edit.VendorAddEditActivity;
+import com.jim.multipos.ui.vendor_item_managment.VendorItemsActivity;
 
 import java.util.ArrayList;
 
@@ -82,8 +84,12 @@ public class InventoryMenuActivity extends BaseActivity implements  InventoryMen
         //TODO add activities for opening
         switch (position) {
             case 0:
+                Intent intent1 = new Intent(this, InventoryActivity.class);
+                startActivity(intent1);
                 break;
             case 1:
+                Intent intent2 = new Intent(this, VendorItemsActivity.class);
+                startActivity(intent2);
                 break;
             case 2:
                 Intent intent = new Intent(this, VendorAddEditActivity.class);

@@ -78,11 +78,6 @@ public class ProductPickerFragment extends BaseFragment implements ProductPicker
                             }
                         }
                     }
-                    if (o instanceof ProductEvent){
-                        ProductEvent event = (ProductEvent) o;
-                        if (event.getEventType().equals(OPEN_PRODUCT))
-                            replaceViewFragments(new ProductInfoFragment(), "PRODUCT_INFO");
-                    }
                 }));
     }
 

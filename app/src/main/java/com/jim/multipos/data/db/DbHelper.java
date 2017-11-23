@@ -167,6 +167,7 @@ public interface DbHelper {
     Observable<Boolean> removeVendorProductConnectionByVendorId(Long vendorid);
     Observable<Boolean> removeVendorProductConnectionByProductId(Long productId);
     Observable<List<VendorProductCon>> getVendorProductConnectionByProductId(Long productId);
+    Observable<VendorProductCon> getVendorProductConnectionById(Long productId, Long vendorId);
 
     Observable<Long> insertConsignment(Consignment consignment);
     Observable<Long> insertConsignmentProduct(ConsignmentProduct consignmentProduct);

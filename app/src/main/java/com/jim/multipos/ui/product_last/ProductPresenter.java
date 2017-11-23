@@ -2,7 +2,7 @@ package com.jim.multipos.ui.product_last;
 
 import com.jim.multipos.core.Presenter;
 import com.jim.multipos.data.DatabaseManager;
-import com.jim.multipos.data.db.model.intosystem.ProductCost;
+import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.VendorProductCon;
@@ -20,7 +20,7 @@ public interface ProductPresenter extends Presenter {
     void subcategorySelected(Category category);
     void addCategory(String name, String description, boolean isActive);
     void addProduct(String name, String barcode, String sku, String photoPath, boolean isActive, int costCurrencyPos,
-                    int priceCurrencuyPos, int productClassPos, int unitCategoryPos, int unitPos, List<Long> vendors, String description, Double resultPrice);
+                    int priceCurrencuyPos, int productClassPos, int unitCategoryPos, List<Long> vendors, String description, Double resultPrice);
     List<Category> getSubcategories(Category category);
     boolean isSubcategoryNameUnique(String categoryName, String subcategoryName);
     boolean isCategoryNameUnique(String categoryName);
@@ -45,4 +45,8 @@ public interface ProductPresenter extends Presenter {
     boolean backPressFinish();
     void setProductCosts(List<VendorProductCon> productConList);
     void comparePriceWithCost(double priceValue);
+    void setProductClass(ProductClass productClass);
+    void initDataForProduct();
+    void initDataForList();
+    void finishActivity();
 }

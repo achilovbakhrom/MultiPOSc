@@ -115,7 +115,24 @@ public class Category implements Editable, Serializable{
                 .queryBuilder(Product.class)
                 .where(
                         ProductDao.Properties.CategoryId.eq(id),
-                        ProductDao.Properties.IsActive.eq(true)
+                        ProductDao.Properties.IsActive.eq(true),
+                        ProductDao.Properties.IsDeleted.eq(false)
+                )
+                .build()
+                .list();
+    }
+
+    @Keep
+    public List<Product> getAllProducts() {
+        final DaoSession daoSession = this.daoSession;
+        if (daoSession == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        return daoSession
+                .queryBuilder(Product.class)
+                .where(
+                        ProductDao.Properties.CategoryId.eq(id),
+                        ProductDao.Properties.IsDeleted.eq(false)
                 )
                 .build()
                 .list();

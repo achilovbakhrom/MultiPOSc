@@ -55,6 +55,15 @@ public class ProductCostListAdapter extends RecyclerView.Adapter<ProductCostList
     }
 
     public List<VendorProductCon> getCosts() {
+//        int count = 0;
+//        for (VendorProductCon productCon: costs){
+//            if (productCon.getCost() == null)
+//                break;
+//            else count++;
+//        }
+//        if (count == costs.size()) {
+//            return costs;
+//        } return null;
         return costs;
     }
 
@@ -82,11 +91,14 @@ public class ProductCostListAdapter extends RecyclerView.Adapter<ProductCostList
                             cost = Double.parseDouble(etProductCost.getText().toString());
                             costs.get(getAdapterPosition()).setCost(cost);
                         } catch (Exception e) {
-//                            etProductCost.setError(context.getString(R.string.invalid));
+                            etProductCost.setError(context.getString(R.string.invalid));
+                            costs.get(getAdapterPosition()).setCost(null);
                             return;
                         }
-                    } else
+                    } else {
                         etProductCost.setError(context.getString(R.string.enter_product_cost));
+                        costs.get(getAdapterPosition()).setCost(null);
+                    }
                 }
             });
         }

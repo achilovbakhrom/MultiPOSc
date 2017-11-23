@@ -135,7 +135,10 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
         ConsignmentProduct consignmentProduct = new ConsignmentProduct();
         consignmentProduct.setProduct(product);
         consignmentProduct.setProductId(product.getId());
-//        consignmentProduct.setCostValue(product.getCost());
+        VendorProductCon productCon = databaseManager.getVendorProductConnectionById(product.getId(), vendor.getId()).blockingSingle();
+        if (productCon != null) {
+            consignmentProduct.setCostValue(productCon.getCost());
+        } else consignmentProduct.setCostValue(null);
         consignmentProduct.setCountValue(0d);
         consignmentProductList.add(consignmentProduct);
         view.fillConsignmentProductList(consignmentProductList);
@@ -174,10 +177,11 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
     public void getAccounts() {
         databaseManager.getAllAccounts().subscribe(accounts -> {
             List<String> strings = new ArrayList<>();
-            for (Account account : accounts) {
-                this.accountList = accounts;
-                strings.add(account.getName());
-            }
+            if (!accounts.isEmpty())
+                for (Account account : accounts) {
+                    this.accountList = accounts;
+                    strings.add(account.getName());
+                }
             view.fillAccountsList(strings);
         });
     }

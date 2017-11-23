@@ -1,5 +1,6 @@
 package com.jim.multipos.ui.first_configure_last;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
@@ -15,6 +16,7 @@ import com.jim.multipos.ui.first_configure_last.fragment.CurrencyFragment;
 import com.jim.multipos.ui.first_configure_last.fragment.FirstConfigureListFragment;
 import com.jim.multipos.ui.first_configure_last.fragment.POSDetailsFragment;
 import com.jim.multipos.ui.first_configure_last.fragment.PaymentTypeFragment;
+import com.jim.multipos.ui.lock_screen.LockScreenActivity;
 import com.jim.multipos.utils.UIUtils;
 
 import javax.inject.Inject;
@@ -121,5 +123,10 @@ public class FirstConfigureActivity extends DoubleSideActivity implements FirstC
     public void onBackPressed() {
         super.onBackPressed();
         finish();
+    }
+
+    public void openLockScreen() {
+        Intent intent = new Intent(this, LockScreenActivity.class);
+        startActivity(intent);
     }
 }

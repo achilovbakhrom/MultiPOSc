@@ -101,6 +101,9 @@ public class ProductMenuActivity extends BaseActivity implements ProductMenuView
                 startActivity(intentDiscount);
                 break;
             case 3:
+                Intent intentServiceFee = new Intent(this, ServiceFeeActivity.class);
+                startActivity(intentServiceFee);
+
                 break;
 
         }

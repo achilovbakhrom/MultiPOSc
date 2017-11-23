@@ -57,8 +57,8 @@ public class AddProductFragment extends BaseFragment implements ProductsView {
     MpEditText etProductPrice;
     @BindView(R.id.etProductCost)
     MpEditText etProductCost;
-    @BindView(R.id.spProductClass)
-    MpSpinner spProductClass;
+//    @BindView(R.id.spProductClass)
+//    MpSpinner spProductClass;
     @BindView(R.id.chbActive)
     MpCheckbox chbActive;
 
@@ -176,7 +176,7 @@ public class AddProductFragment extends BaseFragment implements ProductsView {
     public void setClassItems(List<ProductClass> classItems) {
         classList = classItems;
         ProductClassSpinnerAdapter adapter = new ProductClassSpinnerAdapter(getContext(), android.R.layout.simple_spinner_item, classItems);
-        spProductClass.setAdapter(adapter);
+//        spProductClass.setAdapter(adapter);
     }
 
     @Override
@@ -209,7 +209,7 @@ public class AddProductFragment extends BaseFragment implements ProductsView {
         etProductCost.setText(cost);
         etBarcode.setText(barcode);
         spUnit.setSelection(unit);
-        spProductClass.setSelection(productClass);
+//        spProductClass.setSelection(productClass);
         chbActive.setChecked(active);
     }
 

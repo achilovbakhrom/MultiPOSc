@@ -40,6 +40,8 @@ public class CategoryAddEditFragment extends BaseFragment {
     MpButton delete;
     @BindView(R.id.btnSubCategorySave)
     MpButton save;
+    @BindView(R.id.tvCategoryTitle)
+    TextView tvCategoryTitle;
 
 
     @Override
@@ -74,6 +76,7 @@ public class CategoryAddEditFragment extends BaseFragment {
         description.setText("");
         active.setChecked(true);
         delete.setVisibility(View.GONE);
+        tvCategoryTitle.setText(R.string.tap_to_category_to_manage_it);
     }
 
     /**
@@ -89,6 +92,7 @@ public class CategoryAddEditFragment extends BaseFragment {
         description.setText("");
         active.setChecked(true);
         delete.setVisibility(View.GONE);
+        tvCategoryTitle.setText(R.string.tap_to_manage_subcategory_items);
     }
 
     /**
@@ -106,6 +110,7 @@ public class CategoryAddEditFragment extends BaseFragment {
         description.setText(categoryDescription);
         active.setChecked(isActive);
         delete.setVisibility(View.VISIBLE);
+        tvCategoryTitle.setText(R.string.tap_to_category_to_manage_it);
     }
 
     /**
@@ -125,6 +130,7 @@ public class CategoryAddEditFragment extends BaseFragment {
         description.setText(categoryDescription);
         active.setChecked(isActive);
         delete.setVisibility(View.VISIBLE);
+        tvCategoryTitle.setText(R.string.tap_to_manage_subcategory_items);
     }
 
     /**
@@ -143,7 +149,7 @@ public class CategoryAddEditFragment extends BaseFragment {
                 presenter.deleteCategory();
                 break;
             case R.id.btnSubCategoryCancel:
-                getActivity().finish();
+                presenter.finishActivity();
                 break;
         }
     }

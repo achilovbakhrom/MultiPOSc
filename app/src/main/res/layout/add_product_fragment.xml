@@ -96,18 +96,35 @@
                     android:text="@string/barcode"
                     android:textSize="@dimen/sixteen_dp" />
 
-                <com.jim.mpviews.MpEditText
-                    android:id="@+id/etBarcode"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/forty_dp"
-                    android:layout_gravity="center"
-                    android:inputType="numberDecimal"
-                    android:layout_weight="1"
-                    android:drawablePadding="@dimen/twenty_dp"
-                    android:drawableRight="@drawable/barcode"
-                    android:drawableTint="#e1e1e1"
-                    android:hint="@string/barcode"
-                    android:textSize="@dimen/sixteen_dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edit_text_bg"
+                    android:orientation="horizontal">
+
+                    <com.jim.mpviews.MpEditText
+                        android:id="@+id/etBarcode"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/forty_dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/colorTransparent"
+                        android:hint="@string/barcode"
+                        android:inputType="numberDecimal"
+                        android:textSize="@dimen/sixteen_dp" />
+
+                    <ImageView
+                        android:scaleType="centerInside"
+                        android:layout_width="@dimen/twenty_five_dp"
+                        android:layout_height="@dimen/twenty_five_dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/fifteen_dp"
+                        android:layout_marginRight="@dimen/fifteen_dp"
+                        android:src="@drawable/barcode"
+                        android:tint="@color/colorTintGrey" />
+
+                </LinearLayout>
+
 
             </LinearLayout>
 
@@ -131,9 +148,9 @@
                     android:id="@+id/etSKU"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/forty_dp"
-                    android:hint="SKU number"
                     android:layout_gravity="center"
                     android:layout_weight="1"
+                    android:hint="SKU number"
                     android:textSize="@dimen/sixteen_dp" />
 
 
@@ -155,14 +172,14 @@
                     android:textSize="@dimen/sixteen_dp" />
 
                 <TextView
+                    android:id="@+id/tvVendor"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/fourty_dp"
-                    android:background="@drawable/edit_text_bg"
                     android:layout_weight="1"
+                    android:background="@drawable/edit_text_bg"
                     android:gravity="center_vertical"
-                    android:text="@string/vendor_are_not_choosed"
                     android:paddingLeft="@dimen/ten_dp"
-                    android:id="@+id/tvVendor"/>
+                    android:text="@string/vendor_are_not_choosed" />
 
             </LinearLayout>
 
@@ -186,8 +203,8 @@
                     android:id="@+id/spUnitCategories"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/forty_dp"
-                    android:layout_weight="1"
-                    android:layout_marginRight="@dimen/sixteen_dp"/>
+                    android:layout_marginRight="@dimen/sixteen_dp"
+                    android:layout_weight="1" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -235,12 +252,11 @@
                     android:textSize="@dimen/sixteen_dp" />
 
                 <TextView
+                    android:id="@+id/tvPriceCurrency"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/fourty_dp"
                     android:layout_weight="1"
-                    android:id="@+id/tvPriceCurrency"
-                    android:gravity="center_vertical"
-                    />
+                    android:gravity="center_vertical" />
 
             </LinearLayout>
 
@@ -265,24 +281,22 @@
                     android:layout_width="0dp"
                     android:layout_height="@dimen/forty_dp"
                     android:layout_gravity="center"
-                    android:gravity="center_vertical"
-                    android:background="@drawable/edit_text_bg"
                     android:layout_marginRight="@dimen/sixteen_dp"
-                    android:paddingLeft="@dimen/ten_dp"
                     android:layout_weight="1"
-                    android:textColor="@color/colorMainText"
+                    android:background="@drawable/edit_text_bg"
+                    android:gravity="center_vertical"
                     android:hint="@string/value"
-                    android:inputType="numberDecimal"
+                    android:paddingLeft="@dimen/ten_dp"
+                    android:textColor="@color/colorMainText"
                     android:textColorHint="@color/colorTextHint"
                     android:textSize="@dimen/sixteen_dp" />
 
                 <TextView
+                    android:id="@+id/tvCostCurrency"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/fourty_dp"
                     android:layout_weight="1"
-                    android:id="@+id/tvCostCurrency"
-                    android:gravity="center_vertical"
-                    />
+                    android:gravity="center_vertical" />
 
             </LinearLayout>
 
@@ -301,11 +315,20 @@
                     android:text="@string/product_class"
                     android:textSize="@dimen/sixteen_dp" />
 
-                <com.jim.mpviews.MPosSpinner
-                    android:id="@+id/spProductClass"
+                <TextView
+                    android:id="@+id/tvProductClass"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/forty_dp"
-                    android:layout_weight="1" />
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@drawable/edit_text_bg"
+                    android:gravity="center_vertical"
+                    android:hint="@string/name"
+                    android:paddingLeft="@dimen/ten_dp"
+                    android:textColor="@color/colorMainText"
+                    android:textColorHint="@color/colorTextHint"
+                    android:textSize="@dimen/sixteen_dp" />
+
 
             </LinearLayout>
 
@@ -328,9 +351,9 @@
                     android:id="@+id/chbActive"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    app:chb_type="3"
                     app:checked="true"
-                    app:text="@string/active"
-                    app:chb_type="3"/>
+                    app:text="@string/active" />
 
             </LinearLayout>
         </LinearLayout>
@@ -352,7 +375,7 @@
             android:layout_width="@dimen/hundred_sixty_dp"
             android:layout_height="@dimen/sixty_dp"
             android:layout_marginRight="@dimen/fifteen_dp"
-            android:text="@string/cancel"
+            android:text="@string/back"
             android:textColor="@color/colorSecondaryText" />
 
         <com.jim.mpviews.MpButton

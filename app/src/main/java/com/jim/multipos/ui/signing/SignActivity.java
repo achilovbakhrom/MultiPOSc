@@ -18,7 +18,7 @@ public class SignActivity extends SimpleActivity implements SignView {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        openSignUp();
+        openSignIn();
     }
 
     @Override

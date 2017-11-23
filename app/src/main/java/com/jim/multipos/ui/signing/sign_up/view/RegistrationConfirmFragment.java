@@ -1,5 +1,6 @@
 package com.jim.multipos.ui.signing.sign_up.view;
 
+import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.jim.mpviews.MpButton;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.R;
+import com.jim.multipos.ui.first_configure_last.FirstConfigureActivity;
 import com.jim.multipos.ui.signing.SignActivity;
 import com.jim.multipos.ui.signing.sign_up.presenter.RegistrationConfirmPresenter;
 import com.jim.multipos.utils.managers.PosFragmentManager;
@@ -85,11 +87,13 @@ public class RegistrationConfirmFragment extends BaseFragment implements Registr
 
     @OnClick(R.id.btnBack)
     public void onBack() {
-
+        ((SignActivity) getContext()).openSignUp();
     }
 
     @OnClick(R.id.btnConfirm)
     public void onConfirm() {
+        Intent intent = new Intent(getContext(), FirstConfigureActivity.class);
+        startActivity(intent);
     }
 
     @OnClick(R.id.ivEditDetails)

@@ -7,7 +7,6 @@ import com.jim.multipos.config.scope.PerActivity;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.ProductClass;
-import com.jim.multipos.data.db.model.intosystem.ProductCost;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.products.Category;
@@ -19,10 +18,8 @@ import com.jim.multipos.ui.product_last.helpers.CategoryAddEditMode;
 import com.jim.multipos.utils.UIUtils;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
@@ -37,7 +34,7 @@ import lombok.Setter;
 @PerActivity
 public class ProductPresenterImpl extends BasePresenterImpl<ProductView> implements ProductPresenter {
 
-    private final String CATEGORY_KEY = "CATEGORY_KEY", SUBCATEGORY_KEY = "SUBCATEGORY_KEY", PRODUCT_KEY = "PRODUCT_KEY";
+    private final String CATEGORY_KEY = "CATEGORY_KEY", SUBCATEGORY_KEY = "SUBCATEGORY_KEY", PRODUCT_KEY = "PRODUCT_KEY", STATE_KEY = "STATE_KEY";
 
     @Setter
     @Getter
@@ -50,23 +47,21 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     @Getter
     @Setter
     private Product product;
-
-    private List<Currency> currencies;
+    private ProductClass productClass;
     private List<Long> vendors;
-    private List<ProductCost> costs;
-    private List<ProductClass> productClasses;
     private List<VendorProductCon> vendorProductConnectionsList;
 
     @Getter
     DatabaseManager databaseManager;
+    private boolean isNew = true;
 
     @Inject
     ProductPresenterImpl(ProductView productView, DatabaseManager databaseManager) {
         super(productView);
         this.databaseManager = databaseManager;
         vendors = new ArrayList<>();
-        costs = new ArrayList<>();
         vendorProductConnectionsList = new ArrayList<>();
+        productClass = null;
     }
 
     @Override
@@ -76,19 +71,8 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             category = (Category) bundle.getSerializable(CATEGORY_KEY);
             subcategory = (Category) bundle.getSerializable(SUBCATEGORY_KEY);
             product = (Product) bundle.getSerializable(PRODUCT_KEY);
+            isNew = bundle.getBoolean(STATE_KEY);
         }
-    }
-
-    private List<ProductClass> getProductClasses() {
-        if (productClasses == null)
-            productClasses = databaseManager.getAllProductClass().blockingGet();
-        return productClasses;
-    }
-
-    private List<Currency> getCurrencies() {
-        if (currencies == null)
-            currencies = databaseManager.getCurrencies();
-        return currencies;
     }
 
     /**
@@ -148,8 +132,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     @Override
     public void onResume() {
         super.onResume();
-        view.initRightSide(getCategories());
-        view.initProductForm(provideUnitCategoriesList(), provideUnitList(), provideProductClassList(), provideCurrencyName());
     }
 
     private List<Category> getCategories() {
@@ -201,16 +183,32 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     }
 
 
-    private String[] provideProductClassList() {
+    private List<ProductClass> provideProductClassList() {
         List<ProductClass> productClasses = databaseManager.getAllProductClass().blockingGet();
+        List<ProductClass> sortedList = new ArrayList<>();
         if (productClasses != null && !productClasses.isEmpty()) {
-            String[] result = new String[productClasses.size()];
-            for (int i = 0; i < result.length; i++) {
-                result[i] = productClasses.get(i).getName();
+            for (int i = 0; i < productClasses.size(); i++) {
+                if (productClasses.get(i).getParentId() == null) {
+                    sortedList.add(productClasses.get(i));
+                    for (int j = productClasses.size() - 1; j >= 0; j--) {
+                        if (productClasses.get(i).getId().equals(productClasses.get(j).getParentId())) {
+                            sortedList.add(productClasses.get(j));
+                        }
+                    }
+                }
             }
-            return result;
+            return sortedList;
         }
-        return new String[0];
+        return productClasses;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (isNew) {
+            isNew = false;
+            view.openCategoryFragment();
+        }
     }
 
     @Override
@@ -226,6 +224,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             if (product != null) {
                 bundle.putSerializable(PRODUCT_KEY, product);
             }
+            bundle.putBoolean(STATE_KEY, isNew);
         }
     }
 
@@ -305,8 +304,8 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 break;
             case PRODUCT_ADD_MODE:
                 if (!view.getProductName().equals("") || !view.getBarCode().equals("") || !view.getSku().equals("") ||
-                        !view.getPrice().equals(0.0d) || !view.getCost().equals(0.0d) || view.getUnitCategorySelectedPos() != 0 ||
-                        view.getUnitSelectedPos() != 0 || !view.getVendorSelectedPos().isEmpty() || view.getProductClassSelectedPos() > 0 ||
+                        !view.getPrice().equals(0.0d) || !view.getCost().equals("") || view.getUnitCategorySelectedPos() != 0 ||
+                        view.getUnitSelectedPos() != 0 || !view.getVendorSelectedPos().isEmpty() || this.productClass != null ||
                         !view.getProductIsActive()) {
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
@@ -330,10 +329,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 List<UnitCategory> tempUnitCategories = databaseManager.getAllUnitCategories().blockingSingle();
                 if (tempUnitCategories.size() > view.getUnitCategorySelectedPos())
                     unitCategory = tempUnitCategories.get(view.getUnitCategorySelectedPos());
-                ProductClass productClass = null;
-                List<ProductClass> tempProductClasses = databaseManager.getAllProductClass().blockingGet();
-                if (view.getProductClassSelectedPos() >= 0 && tempProductClasses.size() > view.getProductClassSelectedPos())
-                    productClass = tempProductClasses.get(view.getProductClassSelectedPos());
                 List<Vendor> vendors = this.product.getVendor();
                 List<Long> viewVendors = view.getVendorSelectedPos();
                 boolean hasChanged = vendors.size() != viewVendors.size();
@@ -354,12 +349,40 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 }
                 if (!view.getProductName().equals(this.product.getName()) || !view.getBarCode().equals(this.product.getBarcode()) || !view.getSku().equals(this.product.getSku()) ||
                         (unitCategory != null && !unitCategory.getUnits().get(view.getUnitSelectedPos()).getId().equals(this.product.getMainUnitId())) ||
-                        (productClass != null && !productClass.getId().equals(this.product.getProductClass().getId())) ||
-                        view.getProductIsActive() != this.product.getIsActive() || hasChanged) {
+                        !view.getPhotoPath().equals(this.product.getPhotoPath()) ||
+                        view.getProductIsActive() != this.product.getIsActive() || hasChanged || !view.getCost().equals("")) {
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
                         public void onPositiveButtonClicked() {
-                            openCategory(category);
+                            openProduct(product);
+                        }
+
+                        @Override
+                        public void onNegativeButtonClicked() {
+                            view.selectProductListItem(ProductPresenterImpl.this.product.getId());
+                            mode = CategoryAddEditMode.PRODUCT_EDIT_MODE;
+                        }
+                    });
+                } else if (this.productClass != null && this.product.getProductClass() != null) {
+                    if (!this.productClass.getId().equals(this.product.getProductClass().getId()))
+                        view.showDiscardChangesDialog(new UIUtils.AlertListener() {
+                            @Override
+                            public void onPositiveButtonClicked() {
+                                openProduct(product);
+                            }
+
+                            @Override
+                            public void onNegativeButtonClicked() {
+                                view.selectProductListItem(ProductPresenterImpl.this.product.getId());
+                                mode = CategoryAddEditMode.PRODUCT_EDIT_MODE;
+                            }
+                        });
+                    else openProduct(product);
+                } else if ((this.productClass != null && this.product.getProductClass() == null) || (this.productClass == null && this.product.getProductClass() != null)) {
+                    view.showDiscardChangesDialog(new UIUtils.AlertListener() {
+                        @Override
+                        public void onPositiveButtonClicked() {
+                            openProduct(product);
                         }
 
                         @Override
@@ -369,7 +392,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                         }
                     });
                 } else {
-                    openCategory(category);
+                    openProduct(product);
                 }
                 break;
         }
@@ -388,9 +411,9 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
         switch (mode) {
             case PRODUCT_ADD_MODE:
                 if (!view.getProductName().equals("") || !view.getBarCode().equals("") || !view.getSku().equals("") ||
-                        !view.getPrice().equals(0.0d) || !view.getCost().equals(0.0d) || view.getUnitCategorySelectedPos() != 0 ||
-                        view.getUnitSelectedPos() != 0 || !view.getVendorSelectedPos().isEmpty() || view.getProductClassSelectedPos() > 0 ||
-                        !view.getProductIsActive()) {
+                        !view.getPrice().equals(0.0d) || view.getUnitCategorySelectedPos() != 0 ||
+                        view.getUnitSelectedPos() != 0 || !view.getVendorSelectedPos().isEmpty() || this.productClass != null ||
+                        !view.getProductIsActive() || !view.getPhotoPath().equals("") || !view.getCost().equals("")) {
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
                         public void onPositiveButtonClicked() {
@@ -413,10 +436,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 List<UnitCategory> tempUnitCategories = databaseManager.getAllUnitCategories().blockingSingle();
                 if (tempUnitCategories.size() > view.getUnitCategorySelectedPos())
                     unitCategory = tempUnitCategories.get(view.getUnitCategorySelectedPos());
-                ProductClass productClass = null;
-                List<ProductClass> tempProductClasses = databaseManager.getAllProductClass().blockingGet();
-                if (view.getProductClassSelectedPos() >= 0 && tempProductClasses.size() > view.getProductClassSelectedPos())
-                    productClass = tempProductClasses.get(view.getProductClassSelectedPos());
                 List<Vendor> vendors = this.product.getVendor();
                 List<Long> viewVendors = view.getVendorSelectedPos();
                 boolean hasChanged = vendors.size() != viewVendors.size();
@@ -435,10 +454,54 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                         }
                     }
                 }
+                String result = "";
+                List<VendorProductCon> cons = databaseManager.getVendorProductConnectionByProductId(this.product.getId()).blockingSingle();
+                for (VendorProductCon cost : cons) {
+                    if (cost != null) {
+                        if (cost.getCost() != null)
+                            result += cost.getCost();
+                        else {
+                            cost.setCost(0d);
+                            result += cost.getCost();
+                        }
+                    }
+                    if (cons.indexOf(cost) != cons.size() - 1) {
+                        result += ", ";
+                    }
+                }
+
                 if (!view.getProductName().equals(this.product.getName()) || !view.getBarCode().equals(this.product.getBarcode()) || !view.getSku().equals(this.product.getSku()) ||
                         (unitCategory != null && !unitCategory.getUnits().get(view.getUnitSelectedPos()).getId().equals(this.product.getMainUnitId())) ||
-                        (productClass != null && !productClass.getId().equals(this.product.getProductClass().getId())) ||
-                        view.getProductIsActive() != this.product.getIsActive() || hasChanged) {
+                        !view.getPhotoPath().equals(this.product.getPhotoPath()) ||
+                        !view.getCost().equals(result) || view.getProductIsActive() != this.product.getIsActive() || hasChanged) {
+                    view.showDiscardChangesDialog(new UIUtils.AlertListener() {
+                        @Override
+                        public void onPositiveButtonClicked() {
+                            openProduct(product);
+                        }
+
+                        @Override
+                        public void onNegativeButtonClicked() {
+                            view.selectProductListItem(ProductPresenterImpl.this.product.getId());
+                            mode = CategoryAddEditMode.PRODUCT_EDIT_MODE;
+                        }
+                    });
+                } else if (this.productClass != null && this.product.getProductClass() != null) {
+                    if (!this.productClass.getId().equals(this.product.getProductClass().getId()))
+                        view.showDiscardChangesDialog(new UIUtils.AlertListener() {
+                            @Override
+                            public void onPositiveButtonClicked() {
+                                openProduct(product);
+                            }
+
+                            @Override
+                            public void onNegativeButtonClicked() {
+                                view.selectProductListItem(ProductPresenterImpl.this.product.getId());
+                                mode = CategoryAddEditMode.PRODUCT_EDIT_MODE;
+                            }
+                        });
+                    else openProduct(product);
+                } else if ((this.productClass != null && this.product.getProductClass() == null) || (this.productClass == null && this.product.getProductClass() != null)) {
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
                         public void onPositiveButtonClicked() {
@@ -534,7 +597,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 view.selectSubcategory(subcategory.getId());
                 List<Product> products;
                 if (view.isActiveVisible()) {
-                    products = category.getProducts();
+                    products = category.getAllProducts();
                 } else {
                     products = category.getActiveProducts();
                 }
@@ -552,6 +615,8 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     private void openProduct(Product product) {
         if (product == null) {
             this.product = null;
+            this.productClass = null;
+            this.vendors.clear();
             this.vendorProductConnectionsList.clear();
             mode = CategoryAddEditMode.PRODUCT_ADD_MODE;
             view.unselectProductsList();
@@ -580,15 +645,10 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 }
 
             }
-            int productClassPos = 0;
+            String productClassPos = "";
             if (product.getProductClass() != null) {
-                List<ProductClass> dbProductClasses = databaseManager.getAllProductClass().blockingGet();
-                for (ProductClass productClass : dbProductClasses) {
-                    if (productClass.getId().equals(product.getProductClass().getId())) {
-                        productClassPos = dbProductClasses.indexOf(productClass);
-                        break;
-                    }
-                }
+                this.productClass = product.getProductClass();
+                productClassPos = product.getProductClass().getName();
             }
             List<Long> vendorIds = new ArrayList<>();
             for (Vendor vendor : product.getVendor()) {
@@ -713,8 +773,8 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 break;
             case PRODUCT_ADD_MODE:
                 if (!view.getProductName().equals("") || !view.getBarCode().equals("") || !view.getSku().equals("") ||
-                        !view.getPrice().equals(0.0d) || !view.getCost().equals(0.0d) || view.getUnitCategorySelectedPos() != 0 ||
-                        view.getUnitSelectedPos() != 0 || !view.getVendorSelectedPos().isEmpty() || view.getProductClassSelectedPos() > 0 ||
+                        !view.getPrice().equals(0.0d) || !view.getCost().equals("") || view.getUnitCategorySelectedPos() != 0 ||
+                        view.getUnitSelectedPos() != 0 || !view.getVendorSelectedPos().isEmpty() || this.productClass != null ||
                         !view.getProductIsActive()) {
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
@@ -738,10 +798,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 List<UnitCategory> tempUnitCategories = databaseManager.getAllUnitCategories().blockingSingle();
                 if (tempUnitCategories.size() > view.getUnitCategorySelectedPos())
                     unitCategory = tempUnitCategories.get(view.getUnitCategorySelectedPos());
-                ProductClass productClass = null;
-                List<ProductClass> tempProductClasses = databaseManager.getAllProductClass().blockingGet();
-                if (view.getProductClassSelectedPos() >= 0 && tempProductClasses.size() > view.getProductClassSelectedPos())
-                    productClass = tempProductClasses.get(view.getProductClassSelectedPos());
                 List<Vendor> vendors = this.product.getVendor();
                 List<Long> viewVendors = view.getVendorSelectedPos();
                 boolean hasChanged = vendors.size() != viewVendors.size();
@@ -762,12 +818,40 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 }
                 if (!view.getProductName().equals(this.product.getName()) || !view.getBarCode().equals(this.product.getBarcode()) || !view.getSku().equals(this.product.getSku()) ||
                         (unitCategory != null && !unitCategory.getUnits().get(view.getUnitSelectedPos()).getId().equals(this.product.getMainUnitId())) ||
-                        (productClass != null && !productClass.getId().equals(this.product.getProductClass().getId())) ||
-                        view.getProductIsActive() != this.product.getIsActive() || hasChanged) {
+                        !view.getPhotoPath().equals(this.product.getPhotoPath()) ||
+                        view.getProductIsActive() != this.product.getIsActive() || hasChanged || !view.getCost().equals("")) {
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
                         public void onPositiveButtonClicked() {
-                            openSubcategory(category);
+                            openProduct(product);
+                        }
+
+                        @Override
+                        public void onNegativeButtonClicked() {
+                            view.selectProductListItem(ProductPresenterImpl.this.product.getId());
+                            mode = CategoryAddEditMode.PRODUCT_EDIT_MODE;
+                        }
+                    });
+                } else if (this.productClass != null && this.product.getProductClass() != null) {
+                    if (!this.productClass.getId().equals(this.product.getProductClass().getId()))
+                        view.showDiscardChangesDialog(new UIUtils.AlertListener() {
+                            @Override
+                            public void onPositiveButtonClicked() {
+                                openProduct(product);
+                            }
+
+                            @Override
+                            public void onNegativeButtonClicked() {
+                                view.selectProductListItem(ProductPresenterImpl.this.product.getId());
+                                mode = CategoryAddEditMode.PRODUCT_EDIT_MODE;
+                            }
+                        });
+                    else openProduct(product);
+                } else if ((this.productClass != null && this.product.getProductClass() == null) || (this.productClass == null && this.product.getProductClass() != null)) {
+                    view.showDiscardChangesDialog(new UIUtils.AlertListener() {
+                        @Override
+                        public void onPositiveButtonClicked() {
+                            openProduct(product);
                         }
 
                         @Override
@@ -777,7 +861,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                         }
                     });
                 } else {
-                    openSubcategory(category);
+                    openProduct(product);
                 }
                 break;
         }
@@ -841,7 +925,8 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     databaseManager.addCategory(result).subscribe(id -> {
                         view.editCategory(result);
                         category.refresh();
-                        openCategory(null);
+                        view.setCategoryPath(result.getName());
+//                        openCategory(null);
                     });
                 }
 
@@ -864,8 +949,9 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                         view.editSubcategory(result);
                         subcategory.refresh();
                         category.resetSubCategories();
-                        view.unselectSubcategoryList();
-                        openSubcategory(null);
+                        view.setSubcategoryPath(result.getName());
+//                        view.unselectSubcategoryList();
+//                        openSubcategory(null);
                     });
                 }
 
@@ -1107,9 +1193,8 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
      * @param isActive          - product active state
      * @param costCurrencyPos   - product cost currency
      * @param priceCurrencuyPos - product price currency
-     * @param productClassPos   - product class
      * @param unitCategoryPos   - product main unit
-     * @param unitPos           - product sub units
+     * @param unitPos           - product unit
      * @param vendors           - product vendors
      * @param description       - product description
      * @param resultPrice
@@ -1117,8 +1202,8 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     @Override
     public void addProduct(String name, String barcode,
                            String sku, String photoPath, boolean isActive,
-                           int costCurrencyPos, int priceCurrencuyPos, int productClassPos,
-                           int unitCategoryPos, int unitPos, List<Long> vendors, String description, Double resultPrice) {
+                           int costCurrencyPos, int priceCurrencuyPos, int unitCategoryPos,
+                           int unitPos, List<Long> vendors, String description, Double resultPrice) {
 
         switch (mode) {
             case PRODUCT_ADD_MODE:
@@ -1131,15 +1216,13 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 product.setPrice(resultPrice);
                 product.setCategory(subcategory);
                 product.setCategoryId(subcategory.getId());
+                product.setCreatedDate(System.currentTimeMillis());
                 List<Currency> currencies = databaseManager.getAllCurrencies().blockingSingle();
                 if (currencies != null && !currencies.isEmpty()) {
                     product.setCostCurrency(currencies.get(costCurrencyPos));
                     product.setPriceCurrency(currencies.get(priceCurrencuyPos));
                 }
-                List<ProductClass> productClasses = databaseManager.getAllProductClass().blockingGet();
-                if (productClasses != null && !productClasses.isEmpty()) {
-                    product.setProductClass(productClasses.get(productClassPos));
-                }
+                product.setProductClass(productClass);
                 List<UnitCategory> unitCategories = databaseManager.getAllUnitCategories().blockingSingle();
                 if (unitCategories != null && !unitCategories.isEmpty()) {
                     UnitCategory unitCategory = unitCategories.get(unitCategoryPos);
@@ -1163,7 +1246,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     public void onPositiveButtonClicked() {
                         if (ProductPresenterImpl.this.product != null) {
                             Product result = new Product();
-                            result.setId(ProductPresenterImpl.this.product.getId());
                             result.setName(name);
                             result.setBarcode(barcode);
                             result.setSku(sku);
@@ -1171,7 +1253,14 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                             result.setIsActive(isActive);
                             result.setPrice(resultPrice);
                             result.setCategory(subcategory);
+                            result.setCreatedDate(System.currentTimeMillis());
                             result.setCategoryId(subcategory.getId());
+                            if (ProductPresenterImpl.this.product.getRootId() == null)
+                                result.setRootId(ProductPresenterImpl.this.product.getId());
+                            else result.setRootId(ProductPresenterImpl.this.product.getRootId());
+                            ProductPresenterImpl.this.product.setActive(false);
+                            ProductPresenterImpl.this.product.setDeleted(true);
+                            ProductPresenterImpl.this.product.setNotModifyted(false);
                             List<Currency> tempCurrencies = databaseManager.getAllCurrencies().blockingSingle();
                             if (tempCurrencies.size() > priceCurrencuyPos) {
                                 result.setPriceCurrency(tempCurrencies.get(priceCurrencuyPos));
@@ -1181,10 +1270,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                                 result.setCostCurrency(tempCurrencies.get(costCurrencyPos));
                                 result.setCostCurrencyId(tempCurrencies.get(costCurrencyPos).getId());
                             }
-                            List<ProductClass> tempProductClasses = databaseManager.getAllProductClass().blockingGet();
-                            if (tempProductClasses.size() > productClassPos) {
-                                result.setProductClass(tempProductClasses.get(productClassPos));
-                            }
+                            result.setProductClass(productClass);
                             List<UnitCategory> tempUnitCategories = databaseManager.getAllUnitCategories().blockingSingle();
                             if (tempUnitCategories.size() > unitCategoryPos) {
                                 List<Unit> units = tempUnitCategories.get(unitCategoryPos).getUnits();
@@ -1194,16 +1280,17 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                                 }
                             }
                             result.setDescription(description);
+                            databaseManager.replaceProduct(ProductPresenterImpl.this.product).subscribe();
+                            databaseManager.removeVendorProductConnectionByProductId(ProductPresenterImpl.this.product.getId()).subscribe();
                             databaseManager.addProduct(result).subscribe(id -> {
-                                databaseManager.removeVendorProductConnectionByProductId(id).subscribe();
                                 for (int i = 0; i < vendors.size(); i++) {
                                     vendorProductConnectionsList.get(i).setProductId(id);
                                     databaseManager.addVendorProductConnection(vendorProductConnectionsList.get(i)).subscribe();
                                 }
                                 view.editProduct(result);
-                                view.unselectProductsList();
+//                                view.unselectProductsList();
                                 openSubcategory(subcategory);
-                                openProduct(null);
+                                openProduct(result);
                             });
                         }
 
@@ -1241,6 +1328,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     public void setVendorName(List<Long> vendors) {
         this.vendors = vendors;
         String result = "";
+        int count = 0;
         List<Long> tempExistIds = new ArrayList<>();
         for (int i = 0; i < this.vendorProductConnectionsList.size(); i++) {
             Long vendorId = this.vendorProductConnectionsList.get(i).getVendorId();
@@ -1257,6 +1345,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 VendorProductCon vendorProductCon = new VendorProductCon();
                 vendorProductCon.setVendorId(vendors.get(i));
                 this.vendorProductConnectionsList.add(vendorProductCon);
+                count++;
             }
 
             Vendor vendor = databaseManager.getVendorById(vendors.get(i)).blockingSingle();
@@ -1267,6 +1356,11 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 result += ", ";
             }
 
+        }
+        if (count != 0) {
+            setProductCostDialog();
+        } else {
+            setProductCosts(vendorProductConnectionsList);
         }
         view.setVendorNameToAddEditProductFragment(result);
     }
@@ -1370,7 +1464,12 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
         String result = "";
         for (VendorProductCon cost : vendorProductConnectionsList) {
             if (cost != null) {
-                result += cost.getCost();
+                if (cost.getCost() != null)
+                    result += cost.getCost();
+                else {
+                    cost.setCost(0d);
+                    result += cost.getCost();
+                }
             }
             if (vendorProductConnectionsList.indexOf(cost) != vendorProductConnectionsList.size() - 1) {
                 result += ", ";
@@ -1382,16 +1481,210 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     @Override
     public void comparePriceWithCost(double priceValue) {
         int count = 0;
-        for (int i = 0; i < vendorProductConnectionsList.size(); i ++){
-            double cost =vendorProductConnectionsList.get(i).getCost();
-             if (priceValue > cost){
-                 view.saveProduct(true);
-                 break;
-             } else count++;
+        for (int i = 0; i < vendorProductConnectionsList.size(); i++) {
+            double cost = vendorProductConnectionsList.get(i).getCost();
+            if (priceValue < cost) {
+                view.saveProduct(true);
+                break;
+            } else count++;
         }
 
-        if (count == vendorProductConnectionsList.size()){
+        if (count == vendorProductConnectionsList.size()) {
             view.saveProduct(false);
+        }
+    }
+
+    @Override
+    public void setProductClass(ProductClass productClass) {
+        this.productClass = productClass;
+    }
+
+    @Override
+    public void initDataForProduct() {
+        view.initProductForm(provideUnitCategoriesList(), provideUnitList(), provideProductClassList(), provideCurrencyName());
+    }
+
+    @Override
+    public void initDataForList() {
+        view.initRightSide(getCategories());
+    }
+
+    @Override
+    public void finishActivity() {
+        switch (mode) {
+            case CATEGORY_ADD_MODE:
+                if (!view.getName().equals("") || !view.getDescription().equals("") || !view.isActive()) {
+                    view.showDiscardChangesDialog(new UIUtils.AlertListener() {
+                        @Override
+                        public void onPositiveButtonClicked() {
+                            view.finishActivity();
+                        }
+
+                        @Override
+                        public void onNegativeButtonClicked() {
+                            view.selectAddCategoryItem();
+                        }
+                    });
+                } else
+                    view.finishActivity();
+                break;
+            case SUBCATEGORY_ADD_MODE:
+                if (!view.getName().equals("") || !view.getDescription().equals("") || !view.isActive()) {
+                    view.showDiscardChangesDialog(new UIUtils.AlertListener() {
+                        @Override
+                        public void onPositiveButtonClicked() {
+                            view.finishActivity();
+                        }
+
+                        @Override
+                        public void onNegativeButtonClicked() {
+                            view.selectAddSubcategoryItem();
+                        }
+                    });
+                } else
+                    view.finishActivity();
+                break;
+            case CATEGORY_EDIT_MODE:
+                if (!view.getName().equals(this.category.getName()) || !view.getDescription().equals(this.category.getDescription()) || this.category.getIsActive() != view.isActive()) {
+                    view.showDiscardChangesDialog(new UIUtils.AlertListener() {
+                        @Override
+                        public void onPositiveButtonClicked() {
+                            view.finishActivity();
+                        }
+
+                        @Override
+                        public void onNegativeButtonClicked() {
+                            view.selectCategory(ProductPresenterImpl.this.category.getId());
+                        }
+                    });
+                } else
+                    view.finishActivity();
+                break;
+            case SUBCATEGORY_EDIT_MODE:
+                if (!view.getName().equals(subcategory.getName()) || !view.getDescription().equals(subcategory.getDescription()) || subcategory.getIsActive() != view.isActive()) {
+                    view.showDiscardChangesDialog(new UIUtils.AlertListener() {
+                        @Override
+                        public void onPositiveButtonClicked() {
+                            view.finishActivity();
+                        }
+
+                        @Override
+                        public void onNegativeButtonClicked() {
+                            view.selectSubcategory(ProductPresenterImpl.this.subcategory.getId());
+                            view.selectCategory(ProductPresenterImpl.this.category.getId());
+                        }
+                    });
+                } else
+                    view.finishActivity();
+                break;
+            case PRODUCT_ADD_MODE:
+                if (!view.getProductName().equals("") || !view.getBarCode().equals("") || !view.getSku().equals("") ||
+                        !view.getPrice().equals(0.0d) || !view.getCost().equals("") || view.getUnitCategorySelectedPos() != 0 ||
+                        view.getUnitSelectedPos() != 0 || !view.getVendorSelectedPos().isEmpty() || this.productClass != null ||
+                        !view.getProductIsActive() || !view.getPhotoPath().equals("")) {
+                    view.showDiscardChangesDialog(new UIUtils.AlertListener() {
+                        @Override
+                        public void onPositiveButtonClicked() {
+                            view.finishActivity();
+                        }
+
+                        @Override
+                        public void onNegativeButtonClicked() {
+                            view.selectAddProductListItem();
+                            mode = CategoryAddEditMode.PRODUCT_ADD_MODE;
+                        }
+                    });
+                } else {
+                    view.finishActivity();
+                }
+                break;
+            case PRODUCT_EDIT_MODE:
+                if (this.product == null) return;
+                UnitCategory unitCategory = null;
+                List<UnitCategory> tempUnitCategories = databaseManager.getAllUnitCategories().blockingSingle();
+                if (tempUnitCategories.size() > view.getUnitCategorySelectedPos())
+                    unitCategory = tempUnitCategories.get(view.getUnitCategorySelectedPos());
+                List<Vendor> vendors = this.product.getVendor();
+                List<Long> viewVendors = view.getVendorSelectedPos();
+                boolean hasChanged = vendors.size() != viewVendors.size();
+                if (!hasChanged) {
+                    for (Long id : viewVendors) {
+                        boolean found = false;
+                        for (Vendor vendor : vendors) {
+                            if (vendor.getId().equals(id)) {
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found) {
+                            hasChanged = true;
+                            break;
+                        }
+                    }
+                }
+                String result = "";
+                List<VendorProductCon> cons = databaseManager.getVendorProductConnectionByProductId(this.product.getId()).blockingSingle();
+                for (VendorProductCon cost : cons) {
+                    if (cost != null) {
+                        if (cost.getCost() != null)
+                            result += cost.getCost();
+                        else {
+                            cost.setCost(0d);
+                            result += cost.getCost();
+                        }
+                    }
+                    if (cons.indexOf(cost) != cons.size() - 1) {
+                        result += ", ";
+                    }
+                }
+                if (!view.getProductName().equals(this.product.getName()) || !view.getBarCode().equals(this.product.getBarcode()) || !view.getSku().equals(this.product.getSku()) ||
+                        (unitCategory != null && !unitCategory.getUnits().get(view.getUnitSelectedPos()).getId().equals(this.product.getMainUnitId())) ||
+                        !view.getPhotoPath().equals(this.product.getPhotoPath()) ||
+                        view.getProductIsActive() != this.product.getIsActive() || hasChanged || !view.getCost().equals(result)) {
+                    view.showDiscardChangesDialog(new UIUtils.AlertListener() {
+                        @Override
+                        public void onPositiveButtonClicked() {
+                            view.finishActivity();
+                        }
+
+                        @Override
+                        public void onNegativeButtonClicked() {
+                            view.selectProductListItem(ProductPresenterImpl.this.product.getId());
+                            mode = CategoryAddEditMode.PRODUCT_EDIT_MODE;
+                        }
+                    });
+                } else if (this.productClass != null && this.product.getProductClass() != null) {
+                    if (!this.productClass.getId().equals(this.product.getProductClass().getId()))
+                        view.showDiscardChangesDialog(new UIUtils.AlertListener() {
+                            @Override
+                            public void onPositiveButtonClicked() {
+                                view.finishActivity();
+                            }
+
+                            @Override
+                            public void onNegativeButtonClicked() {
+                                view.selectProductListItem(ProductPresenterImpl.this.product.getId());
+                                mode = CategoryAddEditMode.PRODUCT_EDIT_MODE;
+                            }
+                        });
+                    else view.finishActivity();
+                } else if ((this.productClass != null && this.product.getProductClass() == null) || (this.productClass == null && this.product.getProductClass() != null)) {
+                    view.showDiscardChangesDialog(new UIUtils.AlertListener() {
+                        @Override
+                        public void onPositiveButtonClicked() {
+                            openProduct(product);
+                        }
+
+                        @Override
+                        public void onNegativeButtonClicked() {
+                            view.selectProductListItem(ProductPresenterImpl.this.product.getId());
+                            mode = CategoryAddEditMode.PRODUCT_EDIT_MODE;
+                        }
+                    });
+                } else {
+                    view.finishActivity();
+                }
+                break;
         }
     }
 }

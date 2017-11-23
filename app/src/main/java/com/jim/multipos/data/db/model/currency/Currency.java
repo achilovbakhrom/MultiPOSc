@@ -1,6 +1,8 @@
 package com.jim.multipos.data.db.model.currency;
 
 import org.greenrobot.greendao.annotation.Entity;
+
+import java.io.Serializable;
 import java.util.UUID;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
@@ -12,7 +14,7 @@ import com.jim.multipos.data.db.model.intosystem.Activatable;
  * Created by DEV on 17.08.2017.
  */
 @Entity(nameInDb = "CURRENCY", active = true)
-public class Currency {
+public class Currency implements Serializable{
     @Id(autoincrement = true)
     private Long id;
     private String name;

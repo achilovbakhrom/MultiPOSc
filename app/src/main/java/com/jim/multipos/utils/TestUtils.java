@@ -38,7 +38,14 @@ public class TestUtils {
             for (int i = 0; i < 10; i++) {
                 ProductClass productClass = new ProductClass();
                 productClass.setName("Product class " + i);
-                databaseManager.insertProductClass(productClass).subscribe();
+                databaseManager.insertProductClass(productClass).subscribe( aLong -> {
+                    for (int j = 0; j < 2; j++){
+                        ProductClass childClass = new ProductClass();
+                        childClass.setName("Child class " + j);
+                        childClass.setParentId(productClass.getId());
+                        databaseManager.insertProductClass(childClass).subscribe();
+                    }
+                });
             }
         }
     }

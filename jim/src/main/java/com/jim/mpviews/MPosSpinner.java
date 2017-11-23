@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatSpinner;
 import android.util.AttributeSet;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -14,9 +15,11 @@ import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.jim.mpviews.utils.Utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,7 +29,10 @@ import java.util.List;
 public class MPosSpinner extends FrameLayout {
 
     private ItemSelectionListener listener;
+    private List<String> list;
+    private String[] strings;
     private boolean firstListner = false;
+
     public MPosSpinner(@NonNull Context context) {
         super(context);
         init(context);
@@ -61,13 +67,12 @@ public class MPosSpinner extends FrameLayout {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(!firstListner)
-                if (listener != null) {
-                    listener.onItemSelected(view, i);
-                }
-                else {
-                    firstListner = true;
-                }
+                if (!firstListner)
+                    if (listener != null) {
+                        listener.onItemSelected(view, i);
+                    } else {
+                        firstListner = true;
+                    }
 
             }
 
@@ -90,35 +95,41 @@ public class MPosSpinner extends FrameLayout {
     public void setItemSelectionListener(ItemSelectionListener listener) {
         this.listener = listener;
     }
+
     public void setItemSelectionListenerWithPos(ItemSelectionListener listener) {
         this.listener = listener;
     }
+
     public void setArrowResource(int id) {
         ((ImageView) findViewById(R.id.spinner_arrow)).setImageResource(id);
     }
-    public void setOnClickListner(AdapterView.OnItemSelectedListener onClickListner){
-        ((Spinner)findViewById(R.id.spinner)).setOnItemSelectedListener(onClickListner);
+
+    public void setOnClickListner(AdapterView.OnItemSelectedListener onClickListner) {
+        ((Spinner) findViewById(R.id.spinner)).setOnItemSelectedListener(onClickListner);
     }
+
     public void setAdapter(String[] items, String defaultItemName) {
         String[] temp = new String[items.length + 1];
         int size = items.length + 1;
-        for(int i = 0; i < size; i++) {
+        for (int i = 0; i < size; i++) {
             if (i == 0) {
                 temp[i] = defaultItemName;
             } else {
-                temp[i] = items[i-1];
+                temp[i] = items[i - 1];
             }
         }
         setAdapter(items);
     }
 
     public void setAdapter(BaseAdapter adapter) {
-        ((AppCompatSpinner)findViewById(R.id.spinner)).setAdapter(adapter);
+        ((AppCompatSpinner) findViewById(R.id.spinner)).setAdapter(adapter);
     }
 
     public void setAdapter(String[] items) {
-        ((AppCompatSpinner)findViewById(R.id.spinner))
-                .setAdapter(new ArrayAdapter<>(getContext(), R.layout.simple_spinner_item, items));
+        ArrayAdapter arrayAdapter = new ArrayAdapter<>(getContext(), R.layout.simple_spinner_item, items);
+        ((AppCompatSpinner) findViewById(R.id.spinner))
+                .setAdapter(arrayAdapter);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     }
 
     public void setArrowTint(int color) {
@@ -126,8 +137,10 @@ public class MPosSpinner extends FrameLayout {
     }
 
     public void setAdapter(List<String> items) {
-        ((AppCompatSpinner)findViewById(R.id.spinner))
-                .setAdapter(new ArrayAdapter<>(getContext(), R.layout.simple_spinner_item, items));
+        ArrayAdapter arrayAdapter = new ArrayAdapter<>(getContext(), R.layout.simple_spinner_item, items);
+        ((AppCompatSpinner) findViewById(R.id.spinner))
+                .setAdapter(arrayAdapter);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     }
 
     public interface ItemSelectionListener {
@@ -135,16 +148,18 @@ public class MPosSpinner extends FrameLayout {
     }
 
     public int getSelectedPosition() {
-        return ((AppCompatSpinner)findViewById(R.id.spinner)).getSelectedItemPosition();
+        return ((AppCompatSpinner) findViewById(R.id.spinner)).getSelectedItemPosition();
     }
 
     public void setSelection(int position) {
         ((AppCompatSpinner) findViewById(R.id.spinner)).setSelection(position);
     }
-    public void setSelectedPosition(int position){
-        ((AppCompatSpinner)findViewById(R.id.spinner)).setSelection(position);
+
+    public void setSelectedPosition(int position) {
+        ((AppCompatSpinner) findViewById(R.id.spinner)).setSelection(position);
     }
-    public void setSelectedPosition(int position, boolean b){
-        ((AppCompatSpinner)findViewById(R.id.spinner)).setSelection(position,b);
+
+    public void setSelectedPosition(int position, boolean b) {
+        ((AppCompatSpinner) findViewById(R.id.spinner)).setSelection(position, b);
     }
 }

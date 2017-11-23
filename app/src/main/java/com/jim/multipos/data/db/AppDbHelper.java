@@ -342,7 +342,7 @@ public class AppDbHelper implements DbHelper {
                 .filter(Product::isNotModifyted)
                 .filter(product -> !product.isDeleted())
                 .filter(Product::getIsActive)
-                .filter(product -> product.getParentId().equals(parent.getId()))
+                .filter(product -> product.getCategoryId().equals(parent.getId()))
                 .sorted((product, t1) -> t1.getCreatedDate().compareTo(product.getCreatedDate()))
                 .sorted((product, t1) -> product.getPosition().compareTo(t1.getPosition()))
                 .toList();
@@ -1331,6 +1331,12 @@ public class AppDbHelper implements DbHelper {
     public Observable<List<VendorProductCon>> getVendorProductConnectionByProductId(Long productId) {
         return Observable.fromCallable(() -> mDaoSession.queryBuilder(VendorProductCon.class)
                 .where(VendorProductConDao.Properties.ProductId.eq(productId)).build().list());
+    }
+
+    @Override
+    public Observable<VendorProductCon> getVendorProductConnectionById(Long productId, Long vendorId) {
+        return Observable.fromCallable(() -> mDaoSession.queryBuilder(VendorProductCon.class)
+                .where(VendorProductConDao.Properties.ProductId.eq(productId), VendorProductConDao.Properties.VendorId.eq(vendorId)).build().list().get(0));
     }
 
     @Override
