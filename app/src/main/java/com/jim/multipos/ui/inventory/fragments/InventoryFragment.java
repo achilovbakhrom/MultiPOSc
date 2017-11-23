@@ -49,7 +49,7 @@ public class InventoryFragment extends BaseFragment implements InventoryView{
     SortModes filterMode ;
     @Inject
     DecimalFormat decimalFormat;
-   public enum SortModes{
+    public enum SortModes{
         DEFAULT,FILTERED_BY_PRODUCT,FILTERED_BY_VENDOR,FILTERED_BY_LOWSTOCK,FILTERED_BY_INVENTORY,FILTERED_BY_UNIT
     }
 

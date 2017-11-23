@@ -41,6 +41,8 @@ import com.jim.multipos.ui.signing.SignActivity;
 import com.jim.multipos.ui.signing.di.SignActivityModule;
 import com.jim.multipos.ui.vendor.add_edit.VendorAddEditActivity;
 import com.jim.multipos.ui.vendor.add_edit.di.VendorAddEditActivityModule;
+import com.jim.multipos.ui.vendor_item_managment.VendorItemsActivity;
+import com.jim.multipos.ui.vendor_item_managment.di.VendorItemMainModule;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -130,4 +132,7 @@ abstract class AppModule {
     @ContributesAndroidInjector(modules = InventoryModule.class)
     abstract InventoryActivity provideInventoryActivity();
 
+    @PerActivity
+    @ContributesAndroidInjector(modules = VendorItemMainModule.class)
+    abstract VendorItemsActivity provideVendorItemsActivity();
 }

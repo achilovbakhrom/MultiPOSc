@@ -86,10 +86,10 @@ public class InventoryItemAdapter  extends ClickableBaseAdapter<InventoryItem, I
 
         }else {
             colorSubSeqUnderLine(inventoryItem.getProduct().getName(),searchText,Color.parseColor("#95ccee"),holder.tvProductName);
-            colorSubSeqUnderLine("Sku: " + inventoryItem.getProduct().getSku(),searchText,Color.parseColor("#95ccee"),holder.tvProductSku);
-            colorSubSeqUnderLine("Barcode: " + inventoryItem.getProduct().getBarcode(),searchText,Color.parseColor("#95ccee"),holder.tvProductBarcode);
+            colorSubSeq("Sku: " + inventoryItem.getProduct().getSku(),searchText,Color.parseColor("#95ccee"),holder.tvProductSku);
+            colorSubSeq("Barcode: " + inventoryItem.getProduct().getBarcode(),searchText,Color.parseColor("#95ccee"),holder.tvProductBarcode);
             if (inventoryItem.getProduct().getProductClass() != null){
-                colorSubSeqUnderLine("Product Class: " + inventoryItem.getProduct().getProductClass().getName(),searchText,Color.parseColor("#95ccee"),holder.tvProductClassName);
+                colorSubSeq("Product Class: " + inventoryItem.getProduct().getProductClass().getName(),searchText,Color.parseColor("#95ccee"),holder.tvProductClassName);
             }
             else holder.tvProductClassName.setVisibility(View.GONE);
 
@@ -99,7 +99,7 @@ public class InventoryItemAdapter  extends ClickableBaseAdapter<InventoryItem, I
                     vendorsName = new StringBuilder(vendor.getName());
                 else vendorsName.append(", ").append(vendor.getName());
             }
-            colorSubSeqUnderLine(vendorsName.toString(),searchText,Color.parseColor("#95ccee"),holder.tvVendorNames);
+            colorSubSeq(vendorsName.toString(),searchText,Color.parseColor("#95ccee"),holder.tvVendorNames);
         }
         holder.tvUnitAbr.setText(inventoryItem.getProduct().getMainUnit().getAbbr());
         holder.tvInventoryCount.setText(String.valueOf(inventoryItem.getInventory()));

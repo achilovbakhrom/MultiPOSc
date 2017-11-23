@@ -43,9 +43,11 @@ import com.jim.multipos.data.operations.StockOperations;
 import com.jim.multipos.data.operations.SubUnitOperations;
 import com.jim.multipos.data.operations.UnitCategoryOperations;
 import com.jim.multipos.data.operations.UnitOperations;
+import com.jim.multipos.data.operations.VendorItemManagmentOperations;
 import com.jim.multipos.data.operations.VendorOperations;
 import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
+import com.jim.multipos.ui.vendor_item_managment.model.VendorWithDebt;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -59,7 +61,7 @@ import io.reactivex.Single;
  */
 
 public class DatabaseManager implements ContactOperations, CategoryOperations, ProductOperations, AccountOperations, CurrencyOperations, StockOperations, UnitCategoryOperations, UnitOperations, PaymentTypeOperations, ServiceFeeOperations, ProductClassOperations, CustomerOperations, CustomerGroupOperations, SubUnitOperations, JoinCustomerGroupWithCustomerOperations, DiscountOperations,
-        VendorOperations, SearchOperations, ConsignmentOperations, InventoryOperations {
+        VendorOperations, SearchOperations, ConsignmentOperations, InventoryOperations , VendorItemManagmentOperations{
     private Context context;
     private PreferencesHelper preferencesHelper;
     private DbHelper dbHelper;
@@ -697,6 +699,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Observable<List<Category>> getActiveCategories() {
         return dbHelper.getActiveCategories();
+    }
+
+    @Override
+    public Single<List<VendorWithDebt>> getVendorWirhDebt() {
+        return dbHelper.getVendorWirhDebt();
     }
 }
 

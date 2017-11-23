@@ -38,6 +38,7 @@ import com.jim.multipos.data.db.model.unit.SubUnitsList;
 import com.jim.multipos.data.db.model.unit.Unit;
 import com.jim.multipos.data.db.model.unit.UnitCategory;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
+import com.jim.multipos.ui.vendor_item_managment.model.VendorWithDebt;
 
 import java.util.List;
 
@@ -171,5 +172,5 @@ public interface DbHelper {
     Observable<Long> insertConsignmentProduct(ConsignmentProduct consignmentProduct);
     Observable<List<Consignment>> getConsignments();
     Observable<Boolean> insertConsignmentProduct(List<ConsignmentProduct> consignmentProducts);
-
+    Single<List<VendorWithDebt>> getVendorWirhDebt();
 }

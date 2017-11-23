@@ -17,11 +17,11 @@ public class VendorItemsActivity extends SimpleActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         VendorItemFragment fragment = new VendorItemFragment();
-//        addFragment(fragment);
+        addFragment(fragment);
         toolbar.getSearchEditText().addTextChangedListener(new TextWatcherOnTextChange() {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//                    fragment.searchText(toolbar.getSearchEditText().getText().toString());
+                    fragment.searchText(toolbar.getSearchEditText().getText().toString());
             }
         });
     }

@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/llBackground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f9f9f9"
+        android:orientation="horizontal">
+
+
+        <LinearLayout
+            android:layout_width="@dimen/three_hundred_thirty_dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:id="@+id/tvVendorName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/thirty_dp"
+                android:paddingRight="@dimen/twenty_dp"
+                android:textColor="@color/colorMainText"
+                android:text="Product"
+                android:gravity="left"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:textStyle="bold"
+                android:maxLines="2"
+                android:layout_marginBottom="@dimen/five_dp"
+                android:textSize="@dimen/sixteen_dp"/>
+
+            <TextView
+                android:id="@+id/tvContactName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:paddingLeft="@dimen/forty_five_dp"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="@dimen/sixteen_dp"
+                android:textStyle="italic"/>
+
+            <TextView
+                android:id="@+id/tvTel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:paddingLeft="@dimen/forty_five_dp"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="@dimen/sixteen_dp"
+                android:textStyle="italic"/>
+
+            <TextView
+                android:id="@+id/tvProductCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:paddingLeft="@dimen/forty_five_dp"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="@dimen/sixteen_dp"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:textStyle="italic"/>
+
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="2px"
+            android:layout_height="match_parent"
+            android:background="#e3e3e3"/>
+
+        <TextView
+            android:id="@+id/tvProductNames"
+            android:layout_width="@dimen/four_hundred_thirty_dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="left"
+            android:maxLines="5"
+            android:ellipsize="end"
+            android:paddingLeft="@dimen/twenty_dp"
+            android:paddingRight="@dimen/twenty_dp"
+            android:textColor="@color/colorMainText"
+            android:textSize="@dimen/sixteen_dp"/>
+
+        <FrameLayout
+            android:layout_width="2px"
+            android:layout_height="match_parent"
+            android:background="#e3e3e3"/>
+
+        <TextView
+            android:id="@+id/tvDebtAmmount"
+            android:layout_width="@dimen/two_hundred_twenty_dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="right"
+            android:paddingRight="@dimen/twenty_dp"
+            android:textColor="@color/colorMainText"
+            android:textSize="@dimen/sixteen_dp"/>
+
+        <FrameLayout
+            android:layout_width="2px"
+            android:layout_height="match_parent"
+            android:background="#e3e3e3"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="@dimen/sixteen_dp"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tvMore"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/thirty_five_dp"
+                android:layout_marginLeft="@dimen/thirty_dp"
+                android:layout_marginRight="@dimen/thirty_dp"
+                android:text="@string/open"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/twelve_dp"
+                android:textSize="@dimen/sixteen_dp"
+                android:textColor="#a0cfeb"
+                android:background="@drawable/blue_stroke_2"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/five_dp"
+                android:gravity="center"
+                android:layout_marginBottom="@dimen/twelve_dp"
+                android:layout_marginLeft="@dimen/thirty_dp"
+                android:layout_marginRight="@dimen/thirty_dp"
+                >
+                <ImageView
+                    android:id="@+id/ivPayment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/thirty_five_dp"
+                    android:layout_gravity="center"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/currency_btn"
+                    />
+                <ImageView
+                    android:id="@+id/ivPaymentsStory"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/thirty_five_dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:src="@drawable/payments_btn"
+                    />
+                <ImageView
+                    android:id="@+id/ivStoryConsigment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/thirty_five_dp"
+                    android:layout_gravity="center"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/history"
+                    />
+
+
+
+                <ImageView
+                    android:id="@+id/ivBackReturn"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/thirty_five_dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:src="@drawable/expense"
+                    />
+                <ImageView
+                    android:id="@+id/ivIncome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/thirty_five_dp"
+                    android:layout_gravity="center"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/income"
+                    />
+
+
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="#e3e3e3"/>
+
+</LinearLayout>
