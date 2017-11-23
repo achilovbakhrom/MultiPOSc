@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/colorBackground"
+    android:background="#f8f8f8"
     android:orientation="horizontal">
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="43"
-        android:background="@color/colorBackgroundGrey"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/seventy_dp"
-            android:background="@color/colorBackground"
+            android:background="@color/colorWhite"
             android:gravity="center"
             android:orientation="horizontal"
             android:paddingBottom="@dimen/ten_dp"
@@ -32,14 +31,6 @@
                 android:text="Vendor details"
                 android:textColor="@color/colorBlue" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginRight="@dimen/thirty_dp"
-                android:gravity="center"
-                android:src="@drawable/chain" />
-
         </LinearLayout>
 
         <FrameLayout
@@ -49,8 +40,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:orientation="horizontal"
             android:paddingBottom="@dimen/ten_dp"
             android:paddingTop="@dimen/ten_dp">
@@ -59,26 +50,24 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="top"
                 android:layout_marginLeft="@dimen/thirty_dp"
-                android:background="@drawable/grey_bg"
+                android:background="@drawable/image_view_background"
                 android:orientation="vertical">
 
                 <ImageView
+                    android:id="@+id/ivPhoto"
                     android:layout_width="@dimen/ninety_dp"
-                    android:layout_height="@dimen/ninety_dp"
-                    android:padding="@dimen/one_dp"/>
-
+                    android:layout_height="@dimen/ninety_dp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tvCompanyName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -88,6 +77,7 @@
                     android:textSize="@dimen/eighteen_dp" />
 
                 <TextView
+                    android:id="@+id/tvFullName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -98,6 +88,18 @@
                     android:textStyle="italic" />
 
                 <LinearLayout
+                    android:id="@+id/llPhones"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+
+                <LinearLayout
+                    android:id="@+id/llEmails"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+
+                <!--<LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -113,6 +115,7 @@
                         android:textStyle="italic" />
 
                     <TextView
+                        android:id="@+id/tvPhone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -140,6 +143,7 @@
                         android:textStyle="italic" />
 
                     <TextView
+                        android:id="@+id/tvEmail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -149,7 +153,7 @@
                         android:textSize="@dimen/eighteen_dp"
                         android:textStyle="italic" />
 
-                </LinearLayout>
+                </LinearLayout>-->
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -167,6 +171,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/tvAddress"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -177,16 +182,14 @@
                         android:textStyle="italic" />
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:id="@+id/ivEditVendor"
+                        android:layout_width="@dimen/twenty_five_dp"
+                        android:layout_height="@dimen/twenty_five_dp"
                         android:layout_gravity="center"
                         android:layout_marginRight="@dimen/thirty_dp"
                         android:gravity="center"
                         android:src="@drawable/edit" />
-
                 </LinearLayout>
-
-
             </LinearLayout>
         </LinearLayout>
 
@@ -196,66 +199,73 @@
             android:layout_marginBottom="@dimen/fifteen_dp"
             android:background="@color/colorTextHint" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/thirty_five_dp"
-            android:layout_marginLeft="@dimen/thirty_dp"
-            android:gravity="center"
-            android:text="State details"
-            android:textColor="@color/colorBlue"
-            android:textSize="@dimen/eighteen_dp" />
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/ten_dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/thirty_dp"
-                android:layout_weight="1"
-                android:text="Debt:"
-                android:textColor="@color/colorMainText"
-                android:textSize="@dimen/eighteen_dp" />
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/thirty_dp"
-                android:gravity="center"
-                android:text="128.00 uzs"
-                android:textColor="@color/colorMainText"
-                android:textSize="@dimen/eighteen_dp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/thirty_dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/thirty_five_dp"
                 android:layout_marginLeft="@dimen/thirty_dp"
-                android:layout_weight="1"
-                android:text="Payed in this month:"
-                android:textColor="@color/colorMainText"
-                android:textSize="@dimen/eighteen_dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/thirty_dp"
                 android:gravity="center"
-                android:text="187 000.00 uzs"
-                android:textColor="@color/colorMainText"
+                android:text="State details"
+                android:textColor="@color/colorBlue"
                 android:textSize="@dimen/eighteen_dp" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/thirty_dp"
+                    android:layout_weight="1"
+                    android:text="Debt:"
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/eighteen_dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/thirty_dp"
+                    android:gravity="center"
+                    android:text="128.00 UZS"
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/eighteen_dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/thirty_dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/thirty_dp"
+                    android:layout_weight="1"
+                    android:text="Payed in this month:"
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/eighteen_dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/thirty_dp"
+                    android:gravity="center"
+                    android:text="187 000.00 UZS"
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/eighteen_dp" />
+
+            </LinearLayout>
         </LinearLayout>
 
         <FrameLayout
@@ -269,25 +279,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/ten_dp"
-            android:layout_marginLeft="@dimen/thirty_dp"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:layout_marginRight="@dimen/ten_dp"
             android:gravity="right"
             android:orientation="horizontal">
 
             <com.jim.mpviews.MpButtonWithIcon
-                android:layout_width="@dimen/hundred_seventy_dp"
+                android:layout_width="@dimen/hundred_sixty_five_dp"
                 android:layout_height="@dimen/sixty_dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/ten_dp"
                 app:btn_text="Pay"
                 app:src="@drawable/currency" />
 
             <com.jim.mpviews.MpButtonWithIcon
-                android:layout_width="@dimen/hundred_seventy_dp"
+                android:layout_width="@dimen/hundred_sixty_five_dp"
                 android:layout_height="@dimen/sixty_dp"
+                android:layout_marginRight="@dimen/ten_dp"
                 app:btn_text="Payments"
                 app:src="@drawable/payments" />
 
             <com.jim.mpviews.MpButtonWithIcon
-                android:layout_width="@dimen/hundred_seventy_dp"
+                android:layout_width="@dimen/hundred_sixty_five_dp"
                 android:layout_height="@dimen/sixty_dp"
+                android:layout_marginRight="@dimen/ten_dp"
                 app:btn_text="Income"
                 app:src="@drawable/income_2nd" />
 
@@ -298,55 +314,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/ten_dp"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:layout_marginRight="@dimen/ten_dp"
             android:gravity="right"
-            android:layout_marginLeft="@dimen/thirty_dp"
             android:orientation="horizontal">
 
             <com.jim.mpviews.MpButtonWithIcon
-                android:layout_width="@dimen/hundred_seventy_dp"
+                android:layout_width="@dimen/hundred_sixty_five_dp"
                 android:layout_height="@dimen/sixty_dp"
-                app:btn_text="Message"
-                app:src="@drawable/message" />
-
-            <com.jim.mpviews.MpButtonWithIcon
-                android:layout_width="@dimen/hundred_seventy_dp"
-                android:layout_height="@dimen/sixty_dp"
+                android:layout_marginRight="@dimen/ten_dp"
                 app:btn_text="Story"
                 app:src="@drawable/story" />
 
             <com.jim.mpviews.MpButtonWithIcon
-                android:layout_width="@dimen/hundred_seventy_dp"
+                android:layout_width="@dimen/hundred_sixty_five_dp"
                 android:layout_height="@dimen/sixty_dp"
+                android:layout_marginRight="@dimen/ten_dp"
                 app:btn_text="Return"
                 app:src="@drawable/expense_2nd" />
-
-
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/fifteen_dp"
-            android:layout_marginLeft="@dimen/thirty_dp"
-            android:gravity="right"
-            android:orientation="horizontal">
-
-            <com.jim.mpviews.MpButtonWithIcon
-                android:layout_width="@dimen/hundred_seventy_dp"
-                android:layout_height="@dimen/sixty_dp"
-                app:btn_text="Order list"
-                app:src="@drawable/order_list" />
-
-            <com.jim.mpviews.MpButtonWithIcon
-                android:layout_width="@dimen/hundred_seventy_dp"
-                android:layout_height="@dimen/sixty_dp"
-                app:btn_text="Order"
-                app:src="@drawable/truck" />
-
-
-        </LinearLayout>
-
-
     </LinearLayout>
-
 </LinearLayout>

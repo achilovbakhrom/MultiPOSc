@@ -1192,6 +1192,14 @@ public class AppDbHelper implements DbHelper {
         mDaoSession.getVendorDao().insertOrReplace(vendor3);
 
 
+        ProductClass productClass = new ProductClass();
+        productClass.setName("T-shirt");
+        productClass.setCreatedDate(System.currentTimeMillis());
+        productClass.setActive(true);
+        productClass.setDeleted(false);
+
+        mDaoSession.getProductClassDao().insertOrReplace(productClass);
+
         Product product = new Product();
         product.setName("Taxima");
         product.setBarcode("88974");
@@ -1201,6 +1209,7 @@ public class AppDbHelper implements DbHelper {
         product.setMainUnitId(unit.getId());
         product.setCostCurrencyId(currency.getId());
         product.setPriceCurrencyId(currency.getId());
+        product.setClassId(productClass.getId());
         mDaoSession.getProductDao().insertOrReplace(product);
 
 
@@ -1223,6 +1232,7 @@ public class AppDbHelper implements DbHelper {
             product5.setMainUnitId(unit1.getId());
             product5.setCostCurrencyId(currency.getId());
             product5.setPriceCurrencyId(currency.getId());
+            product5.setClassId(productClass.getId());
             mDaoSession.getProductDao().insertOrReplace(product5);
 
             VendorProductCon vendorProductCon01 = new VendorProductCon();
@@ -1239,6 +1249,7 @@ public class AppDbHelper implements DbHelper {
             product6.setMainUnitId(unit1.getId());
             product6.setCostCurrencyId(currency.getId());
             product6.setPriceCurrencyId(currency.getId());
+            product6.setClassId(productClass.getId());
             mDaoSession.getProductDao().insertOrReplace(product6);
 
             VendorProductCon vendorProductCon02 = new VendorProductCon();
@@ -1254,6 +1265,7 @@ public class AppDbHelper implements DbHelper {
         product1.setCreatedDate(System.currentTimeMillis());
         product1.setMainUnitId(unit1.getId());
         product1.setCostCurrencyId(currency.getId());
+        product1.setClassId(productClass.getId());
         product1.setPriceCurrencyId(currency.getId());
         mDaoSession.getProductDao().insertOrReplace(product1);
 

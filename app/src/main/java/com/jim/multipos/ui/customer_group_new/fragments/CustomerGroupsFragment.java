@@ -49,10 +49,6 @@ public class CustomerGroupsFragment extends BaseFragment {
                 }, 0));
     }
 
-    /*public void updateCustomerGroupsRV() {
-        ((CustomerGroupsAdapter) rvCustomerGroups.getAdapter()).notifyDataSetChanged();
-    }*/
-
     public void addItem(CustomerGroup customerGroup) {
         ((CustomerGroupsAdapter) rvCustomerGroups.getAdapter()).addItem(customerGroup);
     }

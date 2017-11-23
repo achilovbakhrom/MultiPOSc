@@ -20,7 +20,7 @@ import dagger.Module;
 public abstract class ServiceFeeActivityModule {
     @Binds
     @PerActivity
-    abstract AppCompatActivity provideServiceFeeActivityModule(ServiceFeeActivity activity);
+    abstract AppCompatActivity provideServiceFeeActivity(ServiceFeeActivity activity);
 
     @Binds
     @PerActivity

@@ -97,11 +97,6 @@ public class AddCustomerGroupFragment extends BaseFragment {
             warningDialog.setWarningMessage(getString(R.string.do_you_want_delete));
             warningDialog.setOnYesClickListener(view -> {
                 ((CustomerGroupActivity) getActivity()).getPresenter().removeCustomerGroup(editCustomerGroup);
-                /*btnSave.setText(R.string.add);
-                etGroupName.setText("");
-                btnDelete.setVisibility(View.GONE);
-                isEditMode = false;
-                editCustomerGroup = null;*/
                 warningDialog.dismiss();
             });
             warningDialog.setOnNoClickListener(v -> {
@@ -124,11 +119,24 @@ public class AddCustomerGroupFragment extends BaseFragment {
     }
 
     public void showCustomerGroup(CustomerGroup customerGroup) {
-        isEditMode = true;
-        editCustomerGroup = customerGroup;
-        etGroupName.setText(customerGroup.getName());
-        chbActive.setChecked(customerGroup.getIsActive());
-        btnDelete.setVisibility(View.VISIBLE);
-        btnSave.setText(R.string.save);
+        if (editCustomerGroup != null) {
+            if (customerGroup.getId() != editCustomerGroup.getId()) {
+                isEditMode = true;
+                editCustomerGroup = customerGroup;
+                etGroupName.setText(customerGroup.getName());
+                chbActive.setChecked(customerGroup.getIsActive());
+                btnDelete.setVisibility(View.VISIBLE);
+                btnSave.setText(R.string.save);
+            }
+        } else {
+            isEditMode = true;
+            editCustomerGroup = customerGroup;
+            etGroupName.setText(customerGroup.getName());
+            chbActive.setChecked(customerGroup.getIsActive());
+            btnDelete.setVisibility(View.VISIBLE);
+            btnSave.setText(R.string.save);
+        }
+
+        etGroupName.setSelection(etGroupName.getText().length());
     }
 }

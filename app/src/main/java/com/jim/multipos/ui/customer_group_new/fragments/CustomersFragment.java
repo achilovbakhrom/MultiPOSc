@@ -12,9 +12,6 @@ import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
 import com.jim.multipos.ui.customer_group_new.CustomerGroupActivity;
 import com.jim.multipos.ui.customer_group_new.adapters.CustomersAdapter;
-import com.jim.multipos.ui.mainpospage.MainPosPageActivity;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 
