@@ -5,6 +5,9 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jim.multipos.R;
@@ -35,22 +38,33 @@ public class InventoryFragment extends BaseFragment implements InventoryView{
     @BindView(R.id.rvInventory)
     RecyclerView rvInventory;
 
-    @BindView(R.id.tvProduct)
-    TextView tvProduct;
-    @BindView(R.id.tvVendor)
-    TextView tvVendor;
-    @BindView(R.id.tvLowStockAlert)
-    TextView tvLowStockAlert;
-    @BindView(R.id.tvInventory)
-    TextView tvInventory;
-    @BindView(R.id.tvUnit)
-    TextView tvUnit;
+    @BindView(R.id.llProduct)
+    LinearLayout llProduct;
+    @BindView(R.id.llVendor)
+    LinearLayout llVendor;
+    @BindView(R.id.llLowStockAlert)
+    LinearLayout llLowStockAlert;
+    @BindView(R.id.llInventory)
+    LinearLayout llInventory;
+    @BindView(R.id.llUnit)
+    LinearLayout llUnit;
 
-    SortModes filterMode ;
+    @BindView(R.id.ivProductSort)
+    ImageView ivProductSort;
+    @BindView(R.id.ivVendorSort)
+    ImageView ivVendorSort;
+    @BindView(R.id.ivLowStockAlertSort)
+    ImageView ivLowStockAlertSort;
+    @BindView(R.id.ivInventorySort)
+    ImageView ivInventorySort;
+    @BindView(R.id.ivUnitSort)
+    ImageView ivUnitSort;
+
+    SortModes filterMode = FILTERED_BY_PRODUCT;
     @Inject
     DecimalFormat decimalFormat;
     public enum SortModes{
-        DEFAULT,FILTERED_BY_PRODUCT,FILTERED_BY_VENDOR,FILTERED_BY_LOWSTOCK,FILTERED_BY_INVENTORY,FILTERED_BY_UNIT
+        FILTERED_BY_PRODUCT,FILTERED_BY_PRODUCT_INVERT,FILTERED_BY_VENDOR,FILTERED_BY_VENDOR_INVERT,FILTERED_BY_LOWSTOCK,FILTERED_BY_LOWSTOCK_INVERT,FILTERED_BY_INVENTORY,FILTERED_BY_INVENTORY_INVERT,FILTERED_BY_UNIT,FILTERED_BY_UNIT_INVERT
     }
 
     @Inject
@@ -104,62 +118,78 @@ public class InventoryFragment extends BaseFragment implements InventoryView{
         },getActivity());
         rvInventory.setLayoutManager(new LinearLayoutManager(getContext()));
         rvInventory.setAdapter(inventoryItemAdapter);
+        ivProductSort.setVisibility(View.VISIBLE);
 
-        tvProduct.setOnClickListener(view -> {
+        llProduct.setOnClickListener(view -> {
             deselectAll();
             if(filterMode != FILTERED_BY_PRODUCT){
                 filterMode = FILTERED_BY_PRODUCT;
                 presenter.filterBy(FILTERED_BY_PRODUCT);
-                tvProduct.setTypeface(Typeface.create(tvProduct.getTypeface(), Typeface.BOLD));
+                ivProductSort.setVisibility(View.VISIBLE);
+                ivProductSort.setImageResource(R.drawable.sorting);
             }
             else {
-                filterMode = DEFAULT;
-                presenter.filterCancel();
+                filterMode = FILTERED_BY_PRODUCT_INVERT;
+                ivProductSort.setVisibility(View.VISIBLE);
+                ivProductSort.setImageResource(R.drawable.sorting_invert);
+                presenter.filterInvert();
             }
         });
-        tvVendor.setOnClickListener(view -> {
+        llVendor.setOnClickListener(view -> {
             deselectAll();
             if(filterMode != FILTERED_BY_VENDOR){
                 filterMode = FILTERED_BY_VENDOR;
                 presenter.filterBy(FILTERED_BY_VENDOR);
-                tvVendor.setTypeface(Typeface.create(tvVendor.getTypeface(), Typeface.BOLD));
+                ivVendorSort.setVisibility(View.VISIBLE);
+                ivVendorSort.setImageResource(R.drawable.sorting);
             }else {
-                filterMode = DEFAULT;
-                presenter.filterCancel();
+                filterMode = FILTERED_BY_VENDOR_INVERT;
+                ivVendorSort.setVisibility(View.VISIBLE);
+                ivVendorSort.setImageResource(R.drawable.sorting_invert);
+                presenter.filterInvert();
             }
         });
-        tvLowStockAlert.setOnClickListener(view -> {
+        llLowStockAlert.setOnClickListener(view -> {
             deselectAll();
             if(filterMode != FILTERED_BY_LOWSTOCK){
                 filterMode = FILTERED_BY_LOWSTOCK;
                 presenter.filterBy(FILTERED_BY_LOWSTOCK);
-                tvLowStockAlert.setTypeface(Typeface.create(tvLowStockAlert.getTypeface(), Typeface.BOLD));
+                ivLowStockAlertSort.setVisibility(View.VISIBLE);
+                ivLowStockAlertSort.setImageResource(R.drawable.sorting);
             }else {
-                filterMode = DEFAULT;
-                presenter.filterCancel();
+                filterMode = FILTERED_BY_LOWSTOCK_INVERT;
+                ivLowStockAlertSort.setVisibility(View.VISIBLE);
+                ivLowStockAlertSort.setImageResource(R.drawable.sorting_invert);
+                presenter.filterInvert();
             }
 
         });
-        tvUnit.setOnClickListener(view -> {
+        llUnit.setOnClickListener(view -> {
             deselectAll();
             if(filterMode != FILTERED_BY_UNIT){
                 filterMode = FILTERED_BY_UNIT;
                 presenter.filterBy(FILTERED_BY_UNIT);
-                tvUnit.setTypeface(Typeface.create(tvUnit.getTypeface(), Typeface.BOLD));
+                ivUnitSort.setVisibility(View.VISIBLE);
+                ivUnitSort.setImageResource(R.drawable.sorting);
             }else {
-                filterMode = DEFAULT;
-                presenter.filterCancel();
+                filterMode = FILTERED_BY_UNIT_INVERT;
+                ivUnitSort.setVisibility(View.VISIBLE);
+                ivUnitSort.setImageResource(R.drawable.sorting_invert);
+                presenter.filterInvert();
             }
         });
-        tvInventory.setOnClickListener(view -> {
+        llInventory.setOnClickListener(view -> {
             deselectAll();
             if(filterMode != FILTERED_BY_INVENTORY){
                 filterMode = FILTERED_BY_INVENTORY;
                 presenter.filterBy(FILTERED_BY_INVENTORY);
-                tvInventory.setTypeface(Typeface.create(tvInventory.getTypeface(), Typeface.BOLD));
+                ivInventorySort.setVisibility(View.VISIBLE);
+                ivInventorySort.setImageResource(R.drawable.sorting);
             }else {
-                filterMode = DEFAULT;
-                presenter.filterCancel();
+                filterMode = FILTERED_BY_INVENTORY_INVERT;
+                ivInventorySort.setVisibility(View.VISIBLE);
+                ivInventorySort.setImageResource(R.drawable.sorting_invert);
+                presenter.filterInvert();
             }
         });
 
@@ -184,7 +214,7 @@ public class InventoryFragment extends BaseFragment implements InventoryView{
 
     @Override
     public void closeKeyboard() {
-        UIUtils.closeKeyboard(tvUnit,getActivity());
+        UIUtils.closeKeyboard(llUnit,getActivity());
 
     }
 
@@ -205,10 +235,10 @@ public class InventoryFragment extends BaseFragment implements InventoryView{
         presenter.onSearchTyped(searchText);
     }
     private void deselectAll(){
-        tvProduct.setTypeface(Typeface.create(tvProduct.getTypeface(), Typeface.NORMAL));
-        tvInventory.setTypeface(Typeface.create(tvInventory.getTypeface(), Typeface.NORMAL));
-        tvLowStockAlert.setTypeface(Typeface.create(tvLowStockAlert.getTypeface(), Typeface.NORMAL));
-        tvUnit.setTypeface(Typeface.create(tvUnit.getTypeface(), Typeface.NORMAL));
-        tvVendor.setTypeface(Typeface.create(tvVendor.getTypeface(), Typeface.NORMAL));
+        ivProductSort.setVisibility(View.GONE);
+        ivInventorySort.setVisibility(View.GONE);
+        ivLowStockAlertSort.setVisibility(View.GONE);
+        ivUnitSort.setVisibility(View.GONE);
+        ivVendorSort.setVisibility(View.GONE);
     }
 }

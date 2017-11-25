@@ -16,75 +16,155 @@
             android:background="#fff"
             android:orientation="horizontal">
 
-
-            <TextView
-                android:id="@+id/tvProduct"
+            <LinearLayout
+                android:id="@+id/llProduct"
                 android:layout_width="@dimen/two_hundred_eighty_dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Product"
-                android:textColor="@color/colorMainText"
-                android:textSize="@dimen/sixteen_dp"/>
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="Product"
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/sixteen_dp"/>
+                <ImageView
+                    android:id="@+id/ivProductSort"
+                    android:src="@drawable/sorting"
+                    android:visibility="gone"
+                    android:layout_width="@dimen/twelve_dp"
+                    android:layout_height="@dimen/ten_dp"
+                    android:layout_marginLeft="@dimen/ten_dp"
+                    />
+            </LinearLayout>
+
 
             <FrameLayout
                 android:layout_width="2px"
                 android:layout_height="match_parent"
                 android:background="#e3e3e3"/>
 
-            <TextView
-                android:id="@+id/tvVendor"
+            <LinearLayout
+                android:id="@+id/llVendor"
                 android:layout_width="@dimen/three_hundred_dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:paddingLeft="@dimen/twenty_dp"
-                android:text="Vendor"
-                android:textColor="@color/colorMainText"
-                android:textSize="@dimen/sixteen_dp"/>
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="Vendor"
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/sixteen_dp"/>
+                <ImageView
+                    android:id="@+id/ivVendorSort"
+                    android:src="@drawable/sorting"
+                    android:visibility="gone"
+                    android:layout_width="@dimen/twelve_dp"
+                    android:layout_height="@dimen/ten_dp"
+                    android:layout_marginLeft="@dimen/ten_dp"
+                    />
+            </LinearLayout>
+
+
 
             <FrameLayout
                 android:layout_width="2px"
                 android:layout_height="match_parent"
                 android:background="#e3e3e3"/>
 
-            <TextView
-                android:id="@+id/tvLowStockAlert"
+            <LinearLayout
+                android:id="@+id/llLowStockAlert"
                 android:layout_width="@dimen/hundred_sixty_dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Low \n Stock Alert"
-                android:textColor="@color/colorMainText"
-                android:textSize="@dimen/sixteen_dp"/>
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="Low \n Stock Alert"
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/sixteen_dp"/>
+                <ImageView
+                    android:id="@+id/ivLowStockAlertSort"
+                    android:src="@drawable/sorting"
+                    android:visibility="gone"
+                    android:layout_width="@dimen/twelve_dp"
+                    android:layout_height="@dimen/ten_dp"
+                    android:layout_marginLeft="@dimen/ten_dp"
+                    />
+            </LinearLayout>
+
+
 
             <FrameLayout
                 android:layout_width="2px"
                 android:layout_height="match_parent"
                 android:background="#e3e3e3"/>
 
-            <TextView
-                android:id="@+id/tvInventory"
+            <LinearLayout
+                android:id="@+id/llInventory"
                 android:layout_width="@dimen/hundred_sixty_dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Inventory"
-                android:textColor="@color/colorMainText"
-                android:textSize="@dimen/sixteen_dp"/>
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="Inventory"
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/sixteen_dp"/>
+                <ImageView
+                    android:id="@+id/ivInventorySort"
+                    android:src="@drawable/sorting"
+                    android:visibility="gone"
+                    android:layout_width="@dimen/twelve_dp"
+                    android:layout_height="@dimen/ten_dp"
+                    android:layout_marginLeft="@dimen/ten_dp"
+                    />
+            </LinearLayout>
+
             <FrameLayout
                 android:layout_width="2px"
                 android:layout_height="match_parent"
                 android:background="#e3e3e3"/>
-            <TextView
-                android:id="@+id/tvUnit"
+            <LinearLayout
+                android:id="@+id/llUnit"
                 android:layout_width="@dimen/eighty_dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Unit"
-                android:textColor="@color/colorMainText"
-                android:textSize="@dimen/sixteen_dp"/>
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="Unit"
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/sixteen_dp"/>
+                <ImageView
+                    android:id="@+id/ivUnitSort"
+                    android:src="@drawable/sorting"
+                    android:visibility="gone"
+                    android:layout_width="@dimen/twelve_dp"
+                    android:layout_height="@dimen/ten_dp"
+                    android:layout_marginLeft="@dimen/ten_dp"
+                    />
+            </LinearLayout>
+
 
             <FrameLayout
                 android:layout_width="2px"

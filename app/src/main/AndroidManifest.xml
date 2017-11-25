@@ -36,10 +36,7 @@
         <activity
             android:name=".ui.product_last.ProductActivity"
             android:windowSoftInputMode="stateHidden">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
         <activity
             android:name=".ui.main_menu.product_menu.ProductMenuActivity"
@@ -52,7 +49,9 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ui.signing.SignActivity"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden" >
+
+        </activity>
         <activity
             android:name=".ui.product_class.ProductClassActivity"
             android:windowSoftInputMode="stateHidden"/>
@@ -64,9 +63,17 @@
         <activity android:name=".ui.customers_edit_new.CustomersEditActivity"/>
         <activity android:name=".ui.consignment.ConsignmentActivity"/>
         <activity android:name=".ui.inventory.InventoryActivity"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden">
+
+        </activity>
+
         <activity android:name=".ui.vendor_products_view.VendorProductsViewActivity"/>
-        <activity android:name=".ui.vendor_item_managment.VendorItemsActivity" />
+        <activity android:name=".ui.vendor_item_managment.VendorItemsActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

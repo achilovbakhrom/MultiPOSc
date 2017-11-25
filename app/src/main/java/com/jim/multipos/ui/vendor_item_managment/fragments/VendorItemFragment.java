@@ -4,6 +4,9 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jim.multipos.R;
@@ -24,9 +27,11 @@ import javax.inject.Inject;
 import butterknife.BindView;
 
 import static com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemFragment.SortModes.DEBT;
-import static com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemFragment.SortModes.DEFAULT;
+import static com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemFragment.SortModes.DEBT_INVENTORY;
 import static com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemFragment.SortModes.PRODUCTS;
+import static com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemFragment.SortModes.PRODUCTS_INVENTORY;
 import static com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemFragment.SortModes.VENDOR;
+import static com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemFragment.SortModes.VENDOR_INVENTORY;
 
 
 /**
@@ -34,15 +39,25 @@ import static com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemFrag
  */
 
 public class VendorItemFragment extends BaseFragment implements VendorItemView{
-    @BindView(R.id.tvVendor)
-    TextView tvVendor;
-    @BindView(R.id.tvProduct)
-    TextView tvProduct;
-    @BindView(R.id.tvDebt)
-    TextView tvDebt;
+    @BindView(R.id.llVendor)
+    LinearLayout llVendor;
+    @BindView(R.id.llProduct)
+    LinearLayout llProduct;
+    @BindView(R.id.llDebt)
+    LinearLayout llDebt;
+
+    @BindView(R.id.ivVendorSort)
+    ImageView ivVendorSort;
+    @BindView(R.id.ivProductSort)
+    ImageView ivProductSort;
+    @BindView(R.id.ivDebtSort)
+    ImageView ivDebtSort;
+
+
+
     @BindView(R.id.rvVendorItems)
     RecyclerView rvVendorItems;
-    SortModes filterMode ;
+    SortModes filterMode = VENDOR;
     @Inject
     DecimalFormat decimalFormat;
     @Inject
@@ -52,7 +67,7 @@ public class VendorItemFragment extends BaseFragment implements VendorItemView{
     VendorItemAdapter vendorItemAdapter;
 
     public enum SortModes{
-        DEFAULT,VENDOR,PRODUCTS,DEBT
+        VENDOR,VENDOR_INVENTORY,PRODUCTS,PRODUCTS_INVENTORY,DEBT,DEBT_INVENTORY
     }
     @Override
     public void initRecyclerView(List<VendorWithDebt> vendorWithDebts) {
@@ -89,43 +104,53 @@ public class VendorItemFragment extends BaseFragment implements VendorItemView{
         },getContext(),decimalFormat);
         rvVendorItems.setLayoutManager(new LinearLayoutManager(getContext()));
         rvVendorItems.setAdapter(vendorItemAdapter);
+        ivVendorSort.setVisibility(View.VISIBLE);
 
-        tvVendor.setOnClickListener(view -> {
+        llVendor.setOnClickListener(view -> {
             deselectAll();
             if(filterMode != VENDOR){
                 filterMode = VENDOR;
                 presenter.filterBy(VENDOR);
-                tvVendor.setTypeface(Typeface.create(tvVendor.getTypeface(), Typeface.BOLD));
+                ivVendorSort.setVisibility(View.VISIBLE);
+                ivVendorSort.setImageResource(R.drawable.sorting);
             }
             else {
-                filterMode = DEFAULT;
-                presenter.filterCancel();
+                filterMode = VENDOR_INVENTORY;
+                ivVendorSort.setVisibility(View.VISIBLE);
+                ivVendorSort.setImageResource(R.drawable.sorting_invert);
+                presenter.filterInvert();
             }
         });
 
-        tvProduct.setOnClickListener(view -> {
+        llProduct.setOnClickListener(view -> {
             deselectAll();
             if(filterMode != PRODUCTS){
                 filterMode = PRODUCTS;
                 presenter.filterBy(PRODUCTS);
-                tvProduct.setTypeface(Typeface.create(tvProduct.getTypeface(), Typeface.BOLD));
+                ivProductSort.setVisibility(View.VISIBLE);
+                ivProductSort.setImageResource(R.drawable.sorting);
             }
             else {
-                filterMode = DEFAULT;
-                presenter.filterCancel();
+                filterMode = PRODUCTS_INVENTORY;
+                ivProductSort.setVisibility(View.VISIBLE);
+                ivProductSort.setImageResource(R.drawable.sorting_invert);
+                presenter.filterInvert();
             }
         });
 
-        tvDebt.setOnClickListener(view -> {
+        llDebt.setOnClickListener(view -> {
             deselectAll();
             if(filterMode != DEBT){
                 filterMode = DEBT;
                 presenter.filterBy(DEBT);
-                tvDebt.setTypeface(Typeface.create(tvDebt.getTypeface(), Typeface.BOLD));
+                ivDebtSort.setVisibility(View.VISIBLE);
+                ivDebtSort.setImageResource(R.drawable.sorting);
             }
             else {
-                filterMode = DEFAULT;
-                presenter.filterCancel();
+                filterMode = DEBT_INVENTORY;
+                ivDebtSort.setVisibility(View.VISIBLE);
+                ivDebtSort.setImageResource(R.drawable.sorting_invert);
+                presenter.filterInvert();
             }
         });
 
@@ -150,7 +175,7 @@ public class VendorItemFragment extends BaseFragment implements VendorItemView{
 
     @Override
     public void closeKeyboard() {
-        UIUtils.closeKeyboard(tvVendor,getActivity());
+        UIUtils.closeKeyboard(llDebt,getActivity());
 
     }
 
@@ -168,8 +193,8 @@ public class VendorItemFragment extends BaseFragment implements VendorItemView{
         presenter.onCreateView(savedInstanceState);
     }
     private void deselectAll(){
-        tvProduct.setTypeface(Typeface.create(tvProduct.getTypeface(), Typeface.NORMAL));
-        tvDebt.setTypeface(Typeface.create(tvDebt.getTypeface(), Typeface.NORMAL));
-        tvVendor.setTypeface(Typeface.create(tvVendor.getTypeface(), Typeface.NORMAL));
+        ivDebtSort.setVisibility(View.GONE);
+        ivProductSort.setVisibility(View.GONE);
+        ivVendorSort.setVisibility(View.GONE);
     }
 }

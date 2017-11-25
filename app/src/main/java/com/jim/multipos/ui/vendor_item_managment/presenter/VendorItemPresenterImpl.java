@@ -21,7 +21,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import static com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemFragment.SortModes.DEFAULT;
+import static com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemFragment.SortModes.*;
 
 
 /**
@@ -32,8 +32,9 @@ public class VendorItemPresenterImpl extends BasePresenterImpl<VendorItemView> i
     @Inject
     DatabaseManager databaseManager;
 
-    VendorItemFragment.SortModes searchMode = DEFAULT;
+    VendorItemFragment.SortModes searchMode = VENDOR;
 
+    int SORTING = 1;
 
     List<VendorWithDebt> vendorWithDebts;
     @Inject
@@ -46,6 +47,7 @@ public class VendorItemPresenterImpl extends BasePresenterImpl<VendorItemView> i
         super.onCreateView(bundle);
         databaseManager.getVendorWirhDebt().subscribe((vendorWithDebts, throwable) -> {
            this.vendorWithDebts = vendorWithDebts;
+           sortList();
            view.initRecyclerView(vendorWithDebts);
         });
     }
@@ -120,16 +122,19 @@ public class VendorItemPresenterImpl extends BasePresenterImpl<VendorItemView> i
     @Override
     public void filterBy(VendorItemFragment.SortModes searchMode) {
         this.searchMode = searchMode;
+        SORTING =1;
         sortList();
         view.notifyList();
     }
 
     @Override
-    public void filterCancel() {
-        this.searchMode = VendorItemFragment.SortModes.DEFAULT;
+    public void filterInvert() {
+        SORTING *=-1;
         sortList();
         view.notifyList();
     }
+
+
     private void sortList(){
 
         List<VendorWithDebt> vendorWithDebtsTemp;
@@ -141,21 +146,19 @@ public class VendorItemPresenterImpl extends BasePresenterImpl<VendorItemView> i
 
         switch (searchMode){
             case DEBT:
-                Collections.sort(vendorWithDebtsTemp,(vendorWithDebt, t1) -> t1.getDebt().compareTo(vendorWithDebt.getDebt()));
+                Collections.sort(vendorWithDebtsTemp,(vendorWithDebt, t1) -> t1.getDebt().compareTo(vendorWithDebt.getDebt())*SORTING);
                 break;
             case PRODUCTS:
                 Collections.sort(vendorWithDebtsTemp,(vendorWithDebt, t1) -> {
                     Integer size = vendorWithDebt.getVendor().getProducts().size();
                     Integer size2 = t1.getVendor().getProducts().size();
-                    return size2.compareTo(size);
+                    return size2.compareTo(size)*SORTING;
                 });
                 break;
             case VENDOR:
-                Collections.sort(vendorWithDebtsTemp,(vendorWithDebt, t1) -> vendorWithDebt.getVendor().getName().compareTo(t1.getVendor().getName()));
+                Collections.sort(vendorWithDebtsTemp,(vendorWithDebt, t1) -> vendorWithDebt.getVendor().getName().compareTo(t1.getVendor().getName())*SORTING);
                 break;
-            case DEFAULT:
-                Collections.sort(vendorWithDebtsTemp,(vendorWithDebt, t1) -> vendorWithDebt.getVendor().getCreatedDate().compareTo(t1.getVendor().getCreatedDate()));
-                break;
+
         }
 
     }

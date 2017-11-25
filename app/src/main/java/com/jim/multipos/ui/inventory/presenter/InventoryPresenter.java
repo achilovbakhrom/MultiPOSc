@@ -18,5 +18,5 @@ public interface InventoryPresenter extends Presenter {
     void onSearchTyped(String searchText);
 
     void filterBy(InventoryFragment.SortModes searchMode);
-    void filterCancel();
+    void filterInvert();
 }

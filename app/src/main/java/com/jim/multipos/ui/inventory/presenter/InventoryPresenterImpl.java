@@ -31,8 +31,9 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
     @Inject
     DatabaseManager databaseManager;
 
-    InventoryFragment.SortModes searchMode = DEFAULT;
+    InventoryFragment.SortModes searchMode = FILTERED_BY_PRODUCT;
 
+    int SORTING = 1;
 
     List<InventoryItem> inventoryItems;
     @Inject
@@ -46,6 +47,7 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
 
         databaseManager.getInventoryItems().subscribe((inventoryItems, throwable) -> {
             this.inventoryItems = inventoryItems;
+            sortList();
             view.initRecyclerView(inventoryItems);
         });
     }
@@ -153,18 +155,20 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
 
     @Override
     public void filterBy(InventoryFragment.SortModes searchMode) {
+        SORTING = 1;
         this.searchMode = searchMode;
         sortList();
         view.notifyList();
     }
 
     @Override
-    public void filterCancel() {
-        this.searchMode = DEFAULT;
+    public void filterInvert() {
+        SORTING *=-1;
         sortList();
         view.notifyList();
-
     }
+
+
 
     private void sortList(){
 
@@ -176,7 +180,7 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
         }
         switch (searchMode){
             case FILTERED_BY_PRODUCT:
-                Collections.sort(inventoryItemsTemp,(inventoryItem, t1) -> inventoryItem.getProduct().getName().compareTo(t1.getProduct().getName()));
+                Collections.sort(inventoryItemsTemp,(inventoryItem, t1) -> inventoryItem.getProduct().getName().compareTo(t1.getProduct().getName())*SORTING);
                 break;
             case FILTERED_BY_VENDOR:
                 Collections.sort(inventoryItemsTemp,(inventoryItem, t1) -> {
@@ -192,21 +196,19 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
                             vendorsName2 = new StringBuilder(vendor.getName());
                         else vendorsName2.append(", ").append(vendor.getName());
                     }
-                    return vendorsName.toString().compareTo(vendorsName2.toString());
+                    return vendorsName.toString().compareTo(vendorsName2.toString())*SORTING;
                 });
                 break;
             case FILTERED_BY_UNIT:
-                Collections.sort(inventoryItemsTemp,(inventoryItem, t1) -> t1.getProduct().getMainUnit().getAbbr().compareTo(inventoryItem.getProduct().getMainUnit().getAbbr()));
+                Collections.sort(inventoryItemsTemp,(inventoryItem, t1) -> t1.getProduct().getMainUnit().getAbbr().compareTo(inventoryItem.getProduct().getMainUnit().getAbbr())*SORTING);
                 break;
             case FILTERED_BY_LOWSTOCK:
-                Collections.sort(inventoryItemsTemp,(inventoryItem, t1) -> t1.getLowStockAlert().compareTo(inventoryItem.getLowStockAlert()));
+                Collections.sort(inventoryItemsTemp,(inventoryItem, t1) -> t1.getLowStockAlert().compareTo(inventoryItem.getLowStockAlert())*SORTING);
                 break;
             case FILTERED_BY_INVENTORY:
-                Collections.sort(inventoryItemsTemp,(inventoryItem, t1) -> t1.getInventory().compareTo(inventoryItem.getInventory()));
+                Collections.sort(inventoryItemsTemp,(inventoryItem, t1) -> t1.getInventory().compareTo(inventoryItem.getInventory())*SORTING);
                 break;
-            case DEFAULT:
-                Collections.sort(inventoryItemsTemp,(inventoryItem, t1) -> inventoryItem.getProduct().getCreatedDate().compareTo(t1.getProduct().getCreatedDate()));
-                break;
+
         }
 
     }
