@@ -11,6 +11,8 @@ import com.jim.multipos.ui.consignment.ConsignmentActivityPresenterImpl;
 import com.jim.multipos.ui.consignment.ConsignmentActivityView;
 import com.jim.multipos.ui.consignment.view.IncomeConsignmentFragment;
 import com.jim.multipos.ui.consignment.view.IncomeConsignmentFragmentModule;
+import com.jim.multipos.ui.consignment.view.ReturnConsignmentFragment;
+import com.jim.multipos.ui.consignment.view.ReturnConsignmentFragmentModule;
 
 import dagger.Binds;
 import dagger.Module;
@@ -38,4 +40,8 @@ public abstract class ConsignmentActivityModule {
     @PerFragment
     @ContributesAndroidInjector(modules = IncomeConsignmentFragmentModule.class)
     abstract IncomeConsignmentFragment provideIncomeConsignmentFragmentInjector();
+
+    @PerFragment
+    @ContributesAndroidInjector(modules = ReturnConsignmentFragmentModule.class)
+    abstract ReturnConsignmentFragment provideReturnConsignmentFragmentInjector();
 }

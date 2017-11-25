@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.core.SimpleActivity;
 import com.jim.multipos.ui.consignment.view.IncomeConsignmentFragment;
+import com.jim.multipos.ui.consignment.view.ReturnConsignmentFragment;
 
 /**
  * Created by Sirojiddin on 09.11.2017.
@@ -28,6 +29,6 @@ public class ConsignmentActivity extends SimpleActivity implements ConsignmentAc
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        addFragment(new IncomeConsignmentFragment());
+        addFragment(new ReturnConsignmentFragment());
     }
 }

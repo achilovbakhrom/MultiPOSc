@@ -19,4 +19,5 @@ public interface InventoryPresenter extends Presenter {
 
     void filterBy(InventoryFragment.SortModes searchMode);
     void filterInvert();
+    void sendDataToConsignment(Long productId, Long vendorId);
 }

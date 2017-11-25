@@ -516,6 +516,7 @@
     <string name="open">Open</string>
     <string name="not_classified">Not classified</string>
     <string name="choose_product_class">Choose product class</string>
+    <string name="return_to">Return to:</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>

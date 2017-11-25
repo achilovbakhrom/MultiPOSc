@@ -61,7 +61,12 @@
         <activity android:name=".ui.service_fee_new.ServiceFeeActivity"/>
         <activity android:name=".ui.customer_group_new.CustomerGroupActivity"/>
         <activity android:name=".ui.customers_edit_new.CustomersEditActivity"/>
-        <activity android:name=".ui.consignment.ConsignmentActivity"/>
+        <activity android:name=".ui.consignment.ConsignmentActivity">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
         <activity android:name=".ui.inventory.InventoryActivity"
             android:windowSoftInputMode="stateHidden">
 

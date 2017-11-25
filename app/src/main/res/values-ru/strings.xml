@@ -115,6 +115,7 @@
     <string name="choose_vendor">First fully choose vendor</string>
     <string name="not_classified">Not classified</string>
     <string name="choose_product_class">Choose product class</string>
+    <string name="return_to">Return to:</string>
     <string-array name="start_configuration_title">
         <item namte="pos_details">POS подробности</item>
         <item name="account">Аккаунт</item>

@@ -1,6 +1,5 @@
 package com.jim.multipos.data.db.model.consignment;
 
-import com.jim.multipos.data.db.model.Account;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.intosystem.Editable;
 
@@ -11,76 +10,75 @@ import org.greenrobot.greendao.annotation.ToMany;
 import org.greenrobot.greendao.annotation.ToOne;
 
 import java.util.List;
+
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
+
 import com.jim.multipos.data.db.model.DaoSession;
 import com.jim.multipos.data.db.model.currency.CurrencyDao;
-import com.jim.multipos.data.db.model.AccountDao;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.products.VendorDao;
 
 /**
- * Created by Sirojiddin on 09.11.2017.
+ * Created by Sirojiddin on 24.11.2017.
  */
-@Entity(active = true, nameInDb = "CONSIGNMENT")
-public class Consignment implements Editable {
+@Entity(nameInDb = "RETURN_CONSIGNMENT", active = true)
+public class ReturnConsignment implements Editable {
+
     @Id(autoincrement = true)
-    private Long id;
-    private String consignmentNumber;
+    Long id;
+    private String returnNumber;
     private String description;
-    private Double totalAmount;
+    private Double totalReturnAmount;
     private Boolean isActive = true;
     private Boolean isDeleted = false;
     private Boolean isNotModified = true;
-    private Boolean isFromAccount;
     private Long createdDate;
     private Long rootId;
-    private Long accountId;
-    @ToOne(joinProperty = "accountId")
-    private Account account;
-    private Long currencyId;
-    @ToOne(joinProperty = "currencyId")
-    private Currency currency;
     private Long vendorId;
     @ToOne(joinProperty = "vendorId")
     private Vendor vendor;
+    private Long currencyId;
+    @ToOne(joinProperty = "currencyId")
+    private Currency currency;
     @ToMany(joinProperties = {@JoinProperty(name = "id", referencedName = "consignmentId")})
     private List<ConsignmentProduct> consignmentProducts;
     @Generated(hash = 1489923924)
     private transient Long currency__resolvedKey;
-    /** Used for active entity operations. */
-    @Generated(hash = 265222024)
-    private transient ConsignmentDao myDao;
-    /** Used to resolve relations */
+    /**
+     * Used for active entity operations.
+     */
+    @Generated(hash = 1831394786)
+    private transient ReturnConsignmentDao myDao;
+    /**
+     * Used to resolve relations
+     */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
-    @Generated(hash = 1501133588)
-    private transient Long account__resolvedKey;
     @Generated(hash = 1022035388)
     private transient Long vendor__resolvedKey;
 
-    @Generated(hash = 930788422)
-    public Consignment(Long id, String consignmentNumber, String description, Double totalAmount,
-            Boolean isActive, Boolean isDeleted, Boolean isNotModified, Boolean isFromAccount, Long createdDate,
-            Long rootId, Long accountId, Long currencyId, Long vendorId) {
+
+    @Generated(hash = 1648958820)
+    public ReturnConsignment(Long id, String returnNumber, String description, Double totalReturnAmount, Boolean isActive,
+            Boolean isDeleted, Boolean isNotModified, Long createdDate, Long rootId, Long vendorId, Long currencyId) {
         this.id = id;
-        this.consignmentNumber = consignmentNumber;
+        this.returnNumber = returnNumber;
         this.description = description;
-        this.totalAmount = totalAmount;
+        this.totalReturnAmount = totalReturnAmount;
         this.isActive = isActive;
         this.isDeleted = isDeleted;
         this.isNotModified = isNotModified;
-        this.isFromAccount = isFromAccount;
         this.createdDate = createdDate;
         this.rootId = rootId;
-        this.accountId = accountId;
-        this.currencyId = currencyId;
         this.vendorId = vendorId;
+        this.currencyId = currencyId;
     }
 
-    @Generated(hash = 1791287112)
-    public Consignment() {
+    @Generated(hash = 1040655140)
+    public ReturnConsignment() {
     }
+
 
     @Override
     public void setId(Long id) {
@@ -178,7 +176,9 @@ public class Consignment implements Editable {
         myDao.delete(this);
     }
 
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    /**
+     * Resets a to-many relationship, making the next get call to query for a fresh result.
+     */
     @Generated(hash = 307869910)
     public synchronized void resetConsignmentProducts() {
         consignmentProducts = null;
@@ -188,7 +188,7 @@ public class Consignment implements Editable {
      * To-many relationship, resolved on first access (and after reset).
      * Changes to to-many relations are not persisted, make changes to the target entity.
      */
-    @Generated(hash = 578339266)
+    @Generated(hash = 1130291441)
     public List<ConsignmentProduct> getConsignmentProducts() {
         if (consignmentProducts == null) {
             final DaoSession daoSession = this.daoSession;
@@ -196,9 +196,9 @@ public class Consignment implements Editable {
                 throw new DaoException("Entity is detached from DAO context");
             }
             ConsignmentProductDao targetDao = daoSession.getConsignmentProductDao();
-            List<ConsignmentProduct> consignmentProductsNew = targetDao._queryConsignment_ConsignmentProducts(id);
+            List<ConsignmentProduct> consignmentProductsNew = targetDao._queryReturnConsignment_ConsignmentProducts(id);
             synchronized (this) {
-                if(consignmentProducts == null) {
+                if (consignmentProducts == null) {
                     consignmentProducts = consignmentProductsNew;
                 }
             }
@@ -206,7 +206,9 @@ public class Consignment implements Editable {
         return consignmentProducts;
     }
 
-    /** called by internal mechanisms, do not call yourself. */
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
     @Generated(hash = 1889019422)
     public void setCurrency(Currency currency) {
         synchronized (this) {
@@ -216,7 +218,9 @@ public class Consignment implements Editable {
         }
     }
 
-    /** To-one relationship, resolved on first access. */
+    /**
+     * To-one relationship, resolved on first access.
+     */
     @Generated(hash = 434384135)
     public Currency getCurrency() {
         Long __key = this.currencyId;
@@ -235,11 +239,13 @@ public class Consignment implements Editable {
         return currency;
     }
 
-    /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 1181206235)
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
+    @Generated(hash = 183238007)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
-        myDao = daoSession != null ? daoSession.getConsignmentDao() : null;
+        myDao = daoSession != null ? daoSession.getReturnConsignmentDao() : null;
     }
 
     public Long getCurrencyId() {
@@ -252,14 +258,6 @@ public class Consignment implements Editable {
 
     public void setCreatedDate(Long createdDate) {
         this.createdDate = createdDate;
-    }
-
-    public Boolean getIsFromAccount() {
-        return this.isFromAccount;
-    }
-
-    public void setIsFromAccount(Boolean isFromAccount) {
-        this.isFromAccount = isFromAccount;
     }
 
     public Boolean getIsNotModified() {
@@ -286,12 +284,12 @@ public class Consignment implements Editable {
         this.isActive = isActive;
     }
 
-    public Double getTotalAmount() {
-        return this.totalAmount;
+    public Double getTotalReturnAmount() {
+        return this.totalReturnAmount;
     }
 
-    public void setTotalAmount(Double totalAmount) {
-        this.totalAmount = totalAmount;
+    public void setTotalReturnAmount(Double totalReturnAmount) {
+        this.totalReturnAmount = totalReturnAmount;
     }
 
     public String getDescription() {
@@ -302,49 +300,12 @@ public class Consignment implements Editable {
         this.description = description;
     }
 
-    public String getConsignmentNumber() {
-        return this.consignmentNumber;
+    public String getReturnNumber() {
+        return this.returnNumber;
     }
 
-    public void setConsignmentNumber(String consignmentNumber) {
-        this.consignmentNumber = consignmentNumber;
-    }
-
-    /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 1910176546)
-    public void setAccount(Account account) {
-        synchronized (this) {
-            this.account = account;
-            accountId = account == null ? null : account.getId();
-            account__resolvedKey = accountId;
-        }
-    }
-
-    /** To-one relationship, resolved on first access. */
-    @Generated(hash = 531730087)
-    public Account getAccount() {
-        Long __key = this.accountId;
-        if (account__resolvedKey == null || !account__resolvedKey.equals(__key)) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            AccountDao targetDao = daoSession.getAccountDao();
-            Account accountNew = targetDao.load(__key);
-            synchronized (this) {
-                account = accountNew;
-                account__resolvedKey = __key;
-            }
-        }
-        return account;
-    }
-
-    public Long getAccountId() {
-        return this.accountId;
-    }
-
-    public void setAccountId(Long accountId) {
-        this.accountId = accountId;
+    public void setReturnNumber(String returnNumber) {
+        this.returnNumber = returnNumber;
     }
 
     /** called by internal mechanisms, do not call yourself. */

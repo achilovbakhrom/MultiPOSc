@@ -25,9 +25,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/income_from"
-                android:textColor="@color/colorBlue"
                 android:layout_marginRight="@dimen/five_dp"
+                android:text="@string/return_to"
+                android:textColor="@color/colorBlue"
                 android:textSize="@dimen/twenty_dp" />
 
             <TextView
@@ -39,7 +39,6 @@
                 android:textSize="@dimen/twenty_dp" />
 
         </LinearLayout>
-
 
     </LinearLayout>
 
@@ -93,21 +92,21 @@
             android:textSize="@dimen/eighteen_dp" />
 
         <TextView
-            android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_weight="1"
             android:gravity="left"
             android:text="Sum"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/eighteen_dp" />
 
         <com.jim.mpviews.MpMiniActionButton
-            android:id="@+id/btnAddProductToConsignment"
+            android:id="@+id/btnAddProductToReturnConsignment"
             android:layout_width="@dimen/fifty_five_dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center_vertical"
+            android:layout_height="@dimen/thirty_five_dp"
             android:layout_marginRight="@dimen/fifteen_dp"
+            android:layout_gravity="center_vertical"
             android:paddingBottom="@dimen/ten_dp"
             android:paddingTop="@dimen/ten_dp"
             android:src="@drawable/plus" />
@@ -116,7 +115,7 @@
 
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvConsignmentItems"
+        android:id="@+id/rvReturnProducts"
         android:layout_width="match_parent"
         android:layout_height="@dimen/two_hundred_fifty_dp"
         android:overScrollMode="never"
@@ -152,16 +151,16 @@
                     android:layout_gravity="center"
                     android:layout_marginRight="@dimen/sixteen_dp"
                     android:gravity="right"
-                    android:text="@string/consignment"
+                    android:text="Return Number"
                     android:textSize="@dimen/sixteen_dp" />
 
                 <com.jim.mpviews.MpEditText
-                    android:id="@+id/etConsignmentNumber"
+                    android:id="@+id/etReturnNumber"
                     android:layout_width="@dimen/hundred_ten_dp"
                     android:layout_height="@dimen/forty_dp"
+                    android:layout_gravity="center"
                     android:hint="@string/number"
                     android:textColorHint="@color/colorTextHint"
-                    android:layout_gravity="center"
                     android:textSize="@dimen/sixteen_dp" />
 
             </LinearLayout>
@@ -182,7 +181,7 @@
                     android:textSize="@dimen/sixteen_dp" />
 
                 <EditText
-                    android:id="@+id/etConsignmentDescription"
+                    android:id="@+id/etReturnDescription"
                     android:layout_width="@dimen/two_hundred_ninety_five_dp"
                     android:layout_height="@dimen/hundred_dp"
                     android:layout_marginRight="@dimen/thirty_dp"
@@ -222,19 +221,19 @@
                     android:layout_gravity="center"
                     android:layout_marginRight="@dimen/sixteen_dp"
                     android:gravity="right"
-                    android:text="@string/total_should_pay"
+                    android:text="Total products sum"
                     android:textSize="@dimen/sixteen_dp" />
 
                 <TextView
-                    android:id="@+id/tvTotalShouldPay"
+                    android:id="@+id/tvTotalReturnSum"
                     android:layout_width="@dimen/two_hundred_forty_dp"
                     android:layout_height="@dimen/forty_dp"
                     android:layout_gravity="center"
-                    android:textColor="@color/colorMainText"
                     android:background="@drawable/edit_text_bg"
                     android:gravity="right|center_vertical"
                     android:paddingLeft="@dimen/five_dp"
                     android:paddingRight="@dimen/five_dp"
+                    android:textColor="@color/colorMainText"
                     android:textSize="@dimen/sixteen_dp" />
 
 
@@ -247,90 +246,6 @@
                     android:text="uzs"
                     android:textColor="@color/colorMainText" />
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/ten_dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="@dimen/two_hundred_fifty_dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginRight="@dimen/sixteen_dp"
-                    android:gravity="right"
-                    android:text="@string/total_paid"
-                    android:textSize="@dimen/sixteen_dp" />
-
-                <com.jim.mpviews.MpEditText
-                    android:id="@+id/etTotalPaid"
-                    android:layout_width="@dimen/two_hundred_forty_dp"
-                    android:layout_height="@dimen/forty_dp"
-                    android:layout_gravity="center"
-                    android:text="0"
-                    android:gravity="right"
-                    android:inputType="numberDecimal"
-                    android:textSize="@dimen/sixteen_dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/forty_dp"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/fifteen_dp"
-                    android:gravity="center_vertical"
-                    android:text="uzs"
-                    android:textColor="@color/colorMainText" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/llAccounts"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/ten_dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="@dimen/two_hundred_fifty_dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginRight="@dimen/sixteen_dp"
-                    android:gravity="right"
-                    android:text="@string/account"
-                    android:textSize="@dimen/sixteen_dp" />
-
-                <com.jim.mpviews.MPosSpinner
-                    android:id="@+id/spAccounts"
-                    android:layout_width="@dimen/three_hundred_dp"
-                    android:layout_height="@dimen/forty_dp"
-                    android:layout_gravity="center"
-                    android:gravity="left"
-                    android:textSize="@dimen/sixteen_dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/ten_dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="@dimen/two_hundred_fifty_dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginRight="@dimen/sixteen_dp"
-                    android:gravity="right"
-                    android:text="@string/from_account"
-                    android:textSize="@dimen/sixteen_dp" />
-
-                <com.jim.mpviews.MpCheckbox
-                    android:id="@+id/chbFromAccount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:chb_type="0"
-                    app:checked="true"
-                    app:text="@string/from_account" />
             </LinearLayout>
 
         </LinearLayout>
@@ -353,7 +268,7 @@
             android:textSize="@dimen/eighteen_dp" />
 
         <com.jim.mpviews.MpButton
-            android:id="@+id/btnAddConsignment"
+            android:id="@+id/btnAddReturn"
             android:layout_width="@dimen/hundred_fifty_dp"
             android:layout_height="@dimen/sixty_dp"
             android:layout_marginRight="@dimen/thirty_dp"

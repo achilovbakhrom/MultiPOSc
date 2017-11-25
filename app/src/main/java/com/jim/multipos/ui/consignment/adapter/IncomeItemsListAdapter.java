@@ -52,9 +52,14 @@ public class IncomeItemsListAdapter extends RecyclerView.Adapter<IncomeItemsList
     public void onBindViewHolder(IncomeItemViewHolder holder, int position) {
         holder.tvProductName.setText(items.get(position).getProduct().getName());
         holder.tvCurrencyAbbr.setText(items.get(position).getProduct().getCostCurrency().getAbbr());
-        holder.etProductCost.setText(String.valueOf(items.get(position).getCostValue()));
         holder.etProductCount.setText(String.valueOf(items.get(position).getCountValue()));
-        holder.tvProductSum.setText(String.valueOf(items.get(position).getCostValue() * items.get(position).getCountValue()));
+        if (items.get(position).getCostValue() == null) {
+            holder.etProductCost.setText(String.valueOf(0.0d));
+            holder.tvProductSum.setText(String.valueOf(0.0d));
+        } else {
+            holder.etProductCost.setText(String.valueOf(items.get(position).getCostValue()));
+            holder.tvProductSum.setText(String.valueOf(items.get(position).getCostValue() * items.get(position).getCountValue()));
+        }
         holder.tvProductUnit.setText(items.get(position).getProduct().getMainUnit().getAbbr());
 
     }

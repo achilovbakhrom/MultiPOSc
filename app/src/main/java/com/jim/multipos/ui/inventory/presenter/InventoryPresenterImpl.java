@@ -8,6 +8,7 @@ import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
+import com.jim.multipos.data.db.model.products.VendorProductCon;
 import com.jim.multipos.ui.inventory.fragments.InventoryFragment;
 import com.jim.multipos.ui.inventory.fragments.InventoryView;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
@@ -36,6 +37,7 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
     int SORTING = 1;
 
     List<InventoryItem> inventoryItems;
+
     @Inject
     protected InventoryPresenterImpl(InventoryView inventoryView) {
         super(inventoryView);
@@ -55,7 +57,7 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
     @Override
     public void onStockAlertChange(double newAlertCount, InventoryItem inventoryItem) {
         for (int i = 0; i < inventoryItems.size(); i++) {
-            if(inventoryItems.get(i).getId() == inventoryItem.getId()){
+            if (inventoryItems.get(i).getId() == inventoryItem.getId()) {
                 inventoryItems.get(i).setLowStockAlert(newAlertCount);
                 break;
             }
@@ -64,15 +66,15 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
 
     @Override
     public void onIncomeProduct(InventoryItem inventoryItem) {
-        view.openAddDialog(inventoryItem,(inventoryItem1, vendor, v, etReason) -> {
+        view.openAddDialog(inventoryItem, (inventoryItem1, vendor, v, etReason) -> {
             List<InventoryItem> inventoryItemsTemp;
-            if(searchResults !=null){
+            if (searchResults != null) {
                 inventoryItemsTemp = searchResults;
-            }else {
+            } else {
                 inventoryItemsTemp = inventoryItems;
             }
-            for (int i=0;i<inventoryItemsTemp.size();i++) {
-                if(inventoryItemsTemp.get(i).getProduct().getId().equals(inventoryItem1.getProduct().getId())){
+            for (int i = 0; i < inventoryItemsTemp.size(); i++) {
+                if (inventoryItemsTemp.get(i).getProduct().getId().equals(inventoryItem1.getProduct().getId())) {
                     inventoryItemsTemp.get(i).setInventory(v);
                     break;
                 }
@@ -86,13 +88,13 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
     public void onWriteOff(InventoryItem inventoryItem) {
         view.openWriteOffDialog(inventoryItem, (inventoryItem1, vendor, v, etReason) -> {
             List<InventoryItem> inventoryItemsTemp;
-            if(searchResults !=null){
+            if (searchResults != null) {
                 inventoryItemsTemp = searchResults;
-            }else {
+            } else {
                 inventoryItemsTemp = inventoryItems;
             }
-            for (int i=0;i<inventoryItemsTemp.size();i++) {
-                if(inventoryItemsTemp.get(i).getProduct().getId().equals(inventoryItem1.getProduct().getId())){
+            for (int i = 0; i < inventoryItemsTemp.size(); i++) {
+                if (inventoryItemsTemp.get(i).getProduct().getId().equals(inventoryItem1.getProduct().getId())) {
                     inventoryItemsTemp.get(i).setInventory(v);
                     break;
                 }
@@ -109,6 +111,20 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
 
     @Override
     public void onConsigmentIn(InventoryItem inventoryItem) {
+        Product product = inventoryItem.getProduct();
+        databaseManager.getVendorProductConnectionByProductId(product.getId()).subscribe(productConList -> {
+            if (productConList.size() > 1) {
+                List<Vendor> vendorList = new ArrayList<>();
+                for (VendorProductCon productCon : productConList) {
+                    vendorList.add(databaseManager.getVendorById(productCon.getVendorId()).blockingSingle());
+                    view.openChooseVendorDialog(vendorList);
+                }
+            } else {
+                final Vendor[] itemVendor = {null};
+                databaseManager.getVendorById(productConList.get(0).getVendorId()).subscribe(vendor -> itemVendor[0] = vendor);
+                sendDataToConsignment(product.getId(), itemVendor[0].getId());
+            }
+        });
 
     }
 
@@ -116,25 +132,27 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
     public void onConsigmentOut(InventoryItem inventoryItem) {
 
     }
+
     List<InventoryItem> searchResults;
+
     @Override
     public void onSearchTyped(String searchText) {
-        if(searchText.isEmpty()){
+        if (searchText.isEmpty()) {
             searchResults = null;
             sortList();
             view.initDefault(inventoryItems);
-        }else {
+        } else {
             searchResults = new ArrayList<>();
-            for(int i = 0;i<inventoryItems.size();i++){
-                if(inventoryItems.get(i).getProduct().getName().toUpperCase().contains(searchText.toUpperCase())){
+            for (int i = 0; i < inventoryItems.size(); i++) {
+                if (inventoryItems.get(i).getProduct().getName().toUpperCase().contains(searchText.toUpperCase())) {
                     searchResults.add(inventoryItems.get(i));
                     continue;
                 }
-                if(inventoryItems.get(i).getProduct().getSku().toUpperCase().contains(searchText.toUpperCase())){
+                if (inventoryItems.get(i).getProduct().getSku().toUpperCase().contains(searchText.toUpperCase())) {
                     searchResults.add(inventoryItems.get(i));
                     continue;
                 }
-                if(inventoryItems.get(i).getProduct().getBarcode().toUpperCase().contains(searchText.toUpperCase())){
+                if (inventoryItems.get(i).getProduct().getBarcode().toUpperCase().contains(searchText.toUpperCase())) {
                     searchResults.add(inventoryItems.get(i));
                     continue;
                 }
@@ -144,12 +162,12 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
                         vendorsName = new StringBuilder(vendor.getName());
                     else vendorsName.append(", ").append(vendor.getName());
                 }
-                if(vendorsName.toString().toUpperCase().contains(searchText.toUpperCase())){
+                if (vendorsName.toString().toUpperCase().contains(searchText.toUpperCase())) {
                     searchResults.add(inventoryItems.get(i));
                 }
             }
             sortList();
-            view.initSearchResults(searchResults,searchText);
+            view.initSearchResults(searchResults, searchText);
         }
     }
 
@@ -163,27 +181,31 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
 
     @Override
     public void filterInvert() {
-        SORTING *=-1;
+        SORTING *= -1;
         sortList();
         view.notifyList();
     }
 
+    @Override
+    public void sendDataToConsignment(Long productId, Long vendorId) {
+
+    }
 
 
-    private void sortList(){
+    private void sortList() {
 
-       List<InventoryItem> inventoryItemsTemp;
-       if(searchResults !=null){
+        List<InventoryItem> inventoryItemsTemp;
+        if (searchResults != null) {
             inventoryItemsTemp = searchResults;
-        }else {
+        } else {
             inventoryItemsTemp = inventoryItems;
         }
-        switch (searchMode){
+        switch (searchMode) {
             case FILTERED_BY_PRODUCT:
-                Collections.sort(inventoryItemsTemp,(inventoryItem, t1) -> inventoryItem.getProduct().getName().compareTo(t1.getProduct().getName())*SORTING);
+                Collections.sort(inventoryItemsTemp, (inventoryItem, t1) -> inventoryItem.getProduct().getName().compareTo(t1.getProduct().getName()) * SORTING);
                 break;
             case FILTERED_BY_VENDOR:
-                Collections.sort(inventoryItemsTemp,(inventoryItem, t1) -> {
+                Collections.sort(inventoryItemsTemp, (inventoryItem, t1) -> {
                     StringBuilder vendorsName = new StringBuilder();
                     for (Vendor vendor : inventoryItem.getProduct().getVendor()) {
                         if (vendorsName.length() == 0)
@@ -196,17 +218,17 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
                             vendorsName2 = new StringBuilder(vendor.getName());
                         else vendorsName2.append(", ").append(vendor.getName());
                     }
-                    return vendorsName.toString().compareTo(vendorsName2.toString())*SORTING;
+                    return vendorsName.toString().compareTo(vendorsName2.toString()) * SORTING;
                 });
                 break;
             case FILTERED_BY_UNIT:
-                Collections.sort(inventoryItemsTemp,(inventoryItem, t1) -> t1.getProduct().getMainUnit().getAbbr().compareTo(inventoryItem.getProduct().getMainUnit().getAbbr())*SORTING);
+                Collections.sort(inventoryItemsTemp, (inventoryItem, t1) -> t1.getProduct().getMainUnit().getAbbr().compareTo(inventoryItem.getProduct().getMainUnit().getAbbr()) * SORTING);
                 break;
             case FILTERED_BY_LOWSTOCK:
-                Collections.sort(inventoryItemsTemp,(inventoryItem, t1) -> t1.getLowStockAlert().compareTo(inventoryItem.getLowStockAlert())*SORTING);
+                Collections.sort(inventoryItemsTemp, (inventoryItem, t1) -> t1.getLowStockAlert().compareTo(inventoryItem.getLowStockAlert()) * SORTING);
                 break;
             case FILTERED_BY_INVENTORY:
-                Collections.sort(inventoryItemsTemp,(inventoryItem, t1) -> t1.getInventory().compareTo(inventoryItem.getInventory())*SORTING);
+                Collections.sort(inventoryItemsTemp, (inventoryItem, t1) -> t1.getInventory().compareTo(inventoryItem.getInventory()) * SORTING);
                 break;
 
         }
