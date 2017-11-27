@@ -29,6 +29,9 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.jim.multipos.ui.consignment.view.IncomeConsignmentFragment.PRODUCT_ID;
+import static com.jim.multipos.ui.consignment.view.IncomeConsignmentFragment.VENDOR_ID;
+
 /**
  * Created by Sirojiddin on 24.11.2017.
  */
@@ -63,7 +66,11 @@ public class ReturnConsignmentFragment extends BaseFragment implements ReturnCon
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        presenter.setData();
+        if (getArguments() != null){
+            Long productId = (Long) getArguments().get(PRODUCT_ID);
+            Long vendorId = (Long) getArguments().get(VENDOR_ID);
+            presenter.setData(productId, vendorId);
+        }
         rvReturnProducts.setLayoutManager(new LinearLayoutManager(getContext()));
         rvReturnProducts.setAdapter(itemsListAdapter);
         ((SimpleItemAnimator) rvReturnProducts.getItemAnimator()).setSupportsChangeAnimations(false);

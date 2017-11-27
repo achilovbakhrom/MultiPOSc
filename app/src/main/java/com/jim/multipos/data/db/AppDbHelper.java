@@ -32,7 +32,6 @@ import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.ServiceFeeDao;
 import com.jim.multipos.data.db.model.consignment.Consignment;
 import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
-import com.jim.multipos.data.db.model.consignment.ReturnConsignment;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.CustomerDao;
@@ -48,7 +47,6 @@ import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.products.VendorDao;
 import com.jim.multipos.data.db.model.products.VendorProductCon;
 import com.jim.multipos.data.db.model.products.VendorProductConDao;
-import com.jim.multipos.data.db.model.products.VendorProductCon;
 import com.jim.multipos.data.db.model.stock.Stock;
 import com.jim.multipos.data.db.model.unit.SubUnitsList;
 import com.jim.multipos.data.db.model.unit.Unit;
@@ -64,7 +62,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -73,7 +70,6 @@ import io.reactivex.Observable;
 import io.reactivex.Single;
 
 import static com.jim.multipos.data.db.model.products.Category.WITHOUT_PARENT;
-import static com.jim.multipos.utils.CategoryUtils.isSubcategory;
 
 
 /**
@@ -1138,6 +1134,13 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Single<List<InventoryItem>> getInventoryItems() {
         if(mDaoSession.getProductDao().loadAll().size()==0){
+
+        Account account = new Account();
+        account.setType(1);
+        account.setCirculation(0);
+        account.setName("Cash");
+        mDaoSession.getAccountDao().insertOrReplace(account);
+
         Currency currency = new Currency();
         currency.setAbbr("uzs");
         currency.setName("Sum");
@@ -1201,6 +1204,15 @@ public class AppDbHelper implements DbHelper {
 
         mDaoSession.getProductClassDao().insertOrReplace(productClass);
 
+        Category category = new Category();
+        category.setName("MoneyIsGood");
+        mDaoSession.getCategoryDao().insertOrReplace(category);
+
+        Category subcategory = new Category();
+        subcategory.setParentId(category.getId());
+        subcategory.setName("GirlsAreGood");
+        mDaoSession.getCategoryDao().insertOrReplace(subcategory);
+
         Product product = new Product();
         product.setName("Taxima");
         product.setBarcode("88974");
@@ -1211,17 +1223,20 @@ public class AppDbHelper implements DbHelper {
         product.setCostCurrencyId(currency.getId());
         product.setPriceCurrencyId(currency.getId());
         product.setClassId(productClass.getId());
+        product.setCategoryId(subcategory.getId());
         mDaoSession.getProductDao().insertOrReplace(product);
 
 
         VendorProductCon vendorProductCon = new VendorProductCon();
         vendorProductCon.setProductId(product.getId());
         vendorProductCon.setVendorId(vendor.getId());
+        vendorProductCon.setCost(6300d);
         mDaoSession.getVendorProductConDao().insertOrReplace(vendorProductCon);
 
         VendorProductCon vendorProductCon0 = new VendorProductCon();
         vendorProductCon0.setProductId(product.getId());
         vendorProductCon0.setVendorId(vendor1.getId());
+        vendorProductCon.setCost(6100d);
         mDaoSession.getVendorProductConDao().insertOrReplace(vendorProductCon0);
 
             Product product5 = new Product();
@@ -1234,11 +1249,13 @@ public class AppDbHelper implements DbHelper {
             product5.setCostCurrencyId(currency.getId());
             product5.setPriceCurrencyId(currency.getId());
             product5.setClassId(productClass.getId());
+            product5.setCategoryId(subcategory.getId());
             mDaoSession.getProductDao().insertOrReplace(product5);
 
             VendorProductCon vendorProductCon01 = new VendorProductCon();
             vendorProductCon01.setProductId(product5.getId());
             vendorProductCon01.setVendorId(vendor2.getId());
+            vendorProductCon01.setCost(6200d);
             mDaoSession.getVendorProductConDao().insertOrReplace(vendorProductCon01);
 
             Product product6 = new Product();
@@ -1251,11 +1268,13 @@ public class AppDbHelper implements DbHelper {
             product6.setCostCurrencyId(currency.getId());
             product6.setPriceCurrencyId(currency.getId());
             product6.setClassId(productClass.getId());
+            product6.setCategoryId(subcategory.getId());
             mDaoSession.getProductDao().insertOrReplace(product6);
 
             VendorProductCon vendorProductCon02 = new VendorProductCon();
             vendorProductCon02.setProductId(product6.getId());
             vendorProductCon02.setVendorId(vendor3.getId());
+            vendorProductCon02.setCost(6500d);
             mDaoSession.getVendorProductConDao().insertOrReplace(vendorProductCon02);
 
             Product product1 = new Product();
@@ -1268,6 +1287,7 @@ public class AppDbHelper implements DbHelper {
         product1.setCostCurrencyId(currency.getId());
         product1.setClassId(productClass.getId());
         product1.setPriceCurrencyId(currency.getId());
+        product1.setCategoryId(subcategory.getId());
         mDaoSession.getProductDao().insertOrReplace(product1);
 
 
@@ -1362,16 +1382,6 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Observable<List<Consignment>> getConsignments() {
         return Observable.fromCallable(() -> mDaoSession.getConsignmentDao().loadAll());
-    }
-
-    @Override
-    public Observable<Long> insertReturnConsignment(ReturnConsignment consignment) {
-        return Observable.fromCallable(() -> mDaoSession.getReturnConsignmentDao().insertOrReplace(consignment));
-    }
-
-    @Override
-    public Observable<List<ReturnConsignment>> getReturnConsignments() {
-        return Observable.fromCallable(() -> mDaoSession.getReturnConsignmentDao().loadAll());
     }
 
     @Override

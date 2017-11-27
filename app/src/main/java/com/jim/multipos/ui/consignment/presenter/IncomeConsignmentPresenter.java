@@ -10,7 +10,7 @@ import com.jim.multipos.data.db.model.products.Product;
 
 public interface IncomeConsignmentPresenter extends Presenter {
     void loadVendorProducts();
-    void setData();
+    void setData(Long productId, Long vendorId);
     void setConsignmentItem(Product product);
     void saveConsignment(String number, String description, String totalAmount, boolean checked, int selectedPosition);
     void deleteFromList(ConsignmentProduct consignmentProduct);

@@ -14,6 +14,8 @@ import javax.inject.Inject;
 
 import lombok.Getter;
 
+import static com.jim.multipos.ui.consignment.view.IncomeConsignmentFragment.VENDOR_ID;
+
 public class VendorProductsViewActivity extends DoubleSideActivity implements VendorProductsView {
     @Inject
     @Getter
@@ -30,7 +32,11 @@ public class VendorProductsViewActivity extends DoubleSideActivity implements Ve
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //presenter.setVendorId();
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null){
+            Long vendorId = bundle.getLong(VENDOR_ID);
+            presenter.setVendorId(vendorId);
+        }
         addFragmentToLeft(new VendorDetailsFragment());
         addFragmentToRight(new VendorDetailsList());
     }

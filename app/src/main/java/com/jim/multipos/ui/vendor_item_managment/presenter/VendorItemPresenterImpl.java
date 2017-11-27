@@ -1,16 +1,12 @@
 package com.jim.multipos.ui.vendor_item_managment.presenter;
 
-import android.content.Context;
 import android.os.Bundle;
 
-import com.jim.multipos.R;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
-import com.jim.multipos.data.db.model.Contact;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
-import com.jim.multipos.ui.inventory.fragments.InventoryFragment;
-import com.jim.multipos.ui.inventory.model.InventoryItem;
+import com.jim.multipos.data.db.model.products.VendorProductCon;
 import com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemFragment;
 import com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemView;
 import com.jim.multipos.ui.vendor_item_managment.model.VendorWithDebt;
@@ -21,7 +17,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import static com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemFragment.SortModes.*;
+import static com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemFragment.SortModes.VENDOR;
 
 
 /**
@@ -33,6 +29,10 @@ public class VendorItemPresenterImpl extends BasePresenterImpl<VendorItemView> i
     DatabaseManager databaseManager;
 
     VendorItemFragment.SortModes searchMode = VENDOR;
+    private static final int INCOME = 0;
+    private static final int RETURN = 1;
+    private Long vendorId;
+    private int consignment_type = 0;
 
     int SORTING = 1;
 
@@ -54,12 +54,16 @@ public class VendorItemPresenterImpl extends BasePresenterImpl<VendorItemView> i
 
     @Override
     public void onIncomeProduct(VendorWithDebt vendorWithDebt) {
-
+        consignment_type = INCOME;
+        vendorId = vendorWithDebt.getVendor().getId();
+        view.sendDataToConsignment(vendorId, consignment_type);
     }
 
     @Override
     public void onWriteOff(VendorWithDebt vendorWithDebt) {
-
+        consignment_type = RETURN;
+        vendorId = vendorWithDebt.getVendor().getId();
+        view.sendDataToConsignment(vendorId, consignment_type);
     }
 
     @Override
@@ -79,7 +83,8 @@ public class VendorItemPresenterImpl extends BasePresenterImpl<VendorItemView> i
 
     @Override
     public void onMore(VendorWithDebt vendorWithDebt) {
-
+        vendorId = vendorWithDebt.getVendor().getId();
+        view.openVendorDetails(vendorId);
     }
 
     List<VendorWithDebt> searchResults;

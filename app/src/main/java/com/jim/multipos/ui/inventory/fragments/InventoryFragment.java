@@ -1,8 +1,6 @@
 package com.jim.multipos.ui.inventory.fragments;
 
-import android.Manifest;
 import android.app.Dialog;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,12 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
-import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
+import com.jim.multipos.ui.inventory.InventoryActivity;
 import com.jim.multipos.ui.inventory.adapters.InventoryItemAdapter;
 import com.jim.multipos.ui.inventory.adapters.VendorListAdapter;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
@@ -203,11 +200,12 @@ public class InventoryFragment extends BaseFragment implements InventoryView{
         View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.vendor_product_list_dialog, null, false);
         RecyclerView rvProductList = (RecyclerView) dialogView.findViewById(R.id.rvProductList);
         rvProductList.setLayoutManager(new LinearLayoutManager(getContext()));
+        vendorListAdapter = new VendorListAdapter();
         rvProductList.setAdapter(vendorListAdapter);
         dialog.setContentView(dialogView);
         dialog.getWindow().getDecorView().setBackgroundResource(android.R.color.transparent);
         vendorListAdapter.setListener(vendor -> {
-//            presenter.sendDataToConsignment();
+            presenter.setVendorId(vendor.getId());
             dialog.dismiss();
         });
 
@@ -252,6 +250,11 @@ public class InventoryFragment extends BaseFragment implements InventoryView{
     public void openChooseVendorDialog(List<Vendor> vendorList) {
         vendorListAdapter.setData(vendorList);
         dialog.show();
+    }
+
+    @Override
+    public void sendDataToConsignment(Long productId, Long vendorId, int consignment_type) {
+        ((InventoryActivity) getActivity()).sendDataWithBundle(productId, vendorId, consignment_type);
     }
 
 

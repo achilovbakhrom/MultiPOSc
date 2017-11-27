@@ -70,12 +70,16 @@ public class IncomeItemsListAdapter extends RecyclerView.Adapter<IncomeItemsList
 
     public interface OnConsignmentCallback {
         void onDelete(ConsignmentProduct consignmentProduct);
+
         void onSumChanged();
     }
 
     @Override
     public int getItemCount() {
-        return items.size();
+        if (items == null)
+            return 0;
+        else
+            return items.size();
     }
 
     class IncomeItemViewHolder extends RecyclerView.ViewHolder {

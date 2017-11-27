@@ -5,8 +5,8 @@ import android.support.annotation.RequiresApi;
 
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
+import com.jim.multipos.data.db.model.consignment.Consignment;
 import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
-import com.jim.multipos.data.db.model.consignment.ReturnConsignment;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
@@ -27,7 +27,7 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
 
     private Product product;
     private Vendor vendor;
-    private ReturnConsignment returnConsignment;
+    private Consignment returnConsignment;
     private List<ConsignmentProduct> consignmentProductList;
     private DatabaseManager databaseManager;
     private double sum = 0;
@@ -41,68 +41,25 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
     }
 
     @Override
-    public void setData() {
-        //        databaseManager.getProductById(id).subscribe(product -> {
-//            this.product = product;
-//            if (product != null)
-//                setConsignmentItem(product);
-//        });
+    public void setData(Long productId, Long vendorId) {
 
-
-        Currency currency = new Currency();
-        currency.setAbbr("uzs");
-        currency.setName("Sum");
-        currency.setMain(true);
-        databaseManager.addCurrency(currency).blockingSingle();
-        Unit unit = new Unit();
-        unit.setAbbr("gr");
-        unit.setFactorRoot(1);
-        databaseManager.addUnit(unit).blockingSingle();
-        Product product = new Product();
-        product.setName("Tooth paste");
-        product.setCostCurrency(currency);
-        product.setCreatedDate(System.currentTimeMillis());
-        product.setMainUnit(unit);
-        databaseManager.addProduct(product).blockingSingle();
-
-        this.product = product;
-
-        Vendor vendor = new Vendor();
-        vendor.setName("Huawei Design");
-        vendor.setContactName("Islomov Sardor");
-        databaseManager.addVendor(vendor).blockingSingle();
-        this.vendor = vendor;
-
-        VendorProductCon vendorProductCon = new VendorProductCon();
-        vendorProductCon.setProductId(product.getId());
-        vendorProductCon.setVendorId(vendor.getId());
-        databaseManager.addVendorProductConnection(vendorProductCon).subscribe();
-
-        Product product1 = new Product();
-        product1.setName("Others paste");
-        product1.setCostCurrency(currency);
-        product1.setCreatedDate(System.currentTimeMillis());
-        product1.setMainUnit(unit);
-        databaseManager.addProduct(product1).blockingSingle();
-
-        Product product2 = new Product();
-        product2.setName("Mini paste");
-        product2.setCostCurrency(currency);
-        product2.setCreatedDate(System.currentTimeMillis());
-        product2.setMainUnit(unit);
-        databaseManager.addProduct(product2).blockingSingle();
-
-        VendorProductCon productCon = new VendorProductCon();
-        productCon.setProductId(product1.getId());
-        productCon.setVendorId(vendor.getId());
-        databaseManager.addVendorProductConnection(productCon).subscribe();
-
-        VendorProductCon con = new VendorProductCon();
-        con.setProductId(product2.getId());
-        con.setVendorId(vendor.getId());
-        databaseManager.addVendorProductConnection(con).subscribe();
-        view.setVendorName(vendor.getName());
-        setReturnItem(product);
+        if (productId != null) {
+            databaseManager.getProductById(productId).subscribe(product -> {
+                this.product = product;
+                List<Vendor> vendorList = this.product.getVendor();
+                for (Vendor vendor : vendorList) {
+                    if (vendor.getId().equals(vendorId))
+                        this.vendor = vendor;
+                }
+                setReturnItem(product);
+                view.setVendorName(this.vendor.getName());
+            });
+        } else {
+            databaseManager.getVendorById(vendorId).subscribe(vendor -> {
+                this.vendor = vendor;
+                view.setVendorName(this.vendor.getName());
+            });
+        }
     }
 
     @Override
@@ -150,14 +107,14 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
         if (consignmentProductList.isEmpty()) {
             view.setError();
         } else {
-            this.returnConsignment = new ReturnConsignment();
-            this.returnConsignment.setReturnNumber(number);
+            this.returnConsignment = new Consignment();
+            this.returnConsignment.setConsignmentNumber(number);
             this.returnConsignment.setCreatedDate(System.currentTimeMillis());
             this.returnConsignment.setDescription(description);
-            this.returnConsignment.setTotalReturnAmount(sum);
+            this.returnConsignment.setTotalAmount(sum);
             this.returnConsignment.setVendor(this.vendor);
-            this.returnConsignment.setCurrency(this.product.getCostCurrency());
-            databaseManager.insertReturnConsignment(this.returnConsignment).subscribe(aLong -> {
+            this.returnConsignment.setConsignmentType(1);
+            databaseManager.insertConsignment(this.returnConsignment).subscribe(aLong -> {
                 for (ConsignmentProduct consignmentProduct : consignmentProductList) {
                     consignmentProduct.setConsignmentId(this.returnConsignment.getId());
                     databaseManager.insertConsignmentProduct(consignmentProduct).subscribe();

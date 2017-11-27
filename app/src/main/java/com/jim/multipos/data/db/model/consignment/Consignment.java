@@ -1,23 +1,19 @@
 package com.jim.multipos.data.db.model.consignment;
 
-import com.jim.multipos.data.db.model.Account;
-import com.jim.multipos.data.db.model.currency.Currency;
+import com.jim.multipos.data.db.model.DaoSession;
 import com.jim.multipos.data.db.model.intosystem.Editable;
+import com.jim.multipos.data.db.model.products.Vendor;
+import com.jim.multipos.data.db.model.products.VendorDao;
 
+import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.JoinProperty;
 import org.greenrobot.greendao.annotation.ToMany;
 import org.greenrobot.greendao.annotation.ToOne;
 
 import java.util.List;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.DaoException;
-import com.jim.multipos.data.db.model.DaoSession;
-import com.jim.multipos.data.db.model.currency.CurrencyDao;
-import com.jim.multipos.data.db.model.AccountDao;
-import com.jim.multipos.data.db.model.products.Vendor;
-import com.jim.multipos.data.db.model.products.VendorDao;
 
 /**
  * Created by Sirojiddin on 09.11.2017.
@@ -35,34 +31,25 @@ public class Consignment implements Editable {
     private Boolean isFromAccount;
     private Long createdDate;
     private Long rootId;
-    private Long accountId;
-    @ToOne(joinProperty = "accountId")
-    private Account account;
-    private Long currencyId;
-    @ToOne(joinProperty = "currencyId")
-    private Currency currency;
+    private Integer consignmentType;
     private Long vendorId;
     @ToOne(joinProperty = "vendorId")
     private Vendor vendor;
     @ToMany(joinProperties = {@JoinProperty(name = "id", referencedName = "consignmentId")})
     private List<ConsignmentProduct> consignmentProducts;
-    @Generated(hash = 1489923924)
-    private transient Long currency__resolvedKey;
     /** Used for active entity operations. */
     @Generated(hash = 265222024)
     private transient ConsignmentDao myDao;
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
-    @Generated(hash = 1501133588)
-    private transient Long account__resolvedKey;
     @Generated(hash = 1022035388)
     private transient Long vendor__resolvedKey;
 
-    @Generated(hash = 930788422)
+    @Generated(hash = 25766513)
     public Consignment(Long id, String consignmentNumber, String description, Double totalAmount,
             Boolean isActive, Boolean isDeleted, Boolean isNotModified, Boolean isFromAccount, Long createdDate,
-            Long rootId, Long accountId, Long currencyId, Long vendorId) {
+            Long rootId, Integer consignmentType, Long vendorId) {
         this.id = id;
         this.consignmentNumber = consignmentNumber;
         this.description = description;
@@ -73,8 +60,7 @@ public class Consignment implements Editable {
         this.isFromAccount = isFromAccount;
         this.createdDate = createdDate;
         this.rootId = rootId;
-        this.accountId = accountId;
-        this.currencyId = currencyId;
+        this.consignmentType = consignmentType;
         this.vendorId = vendorId;
     }
 
@@ -207,47 +193,10 @@ public class Consignment implements Editable {
     }
 
     /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 1889019422)
-    public void setCurrency(Currency currency) {
-        synchronized (this) {
-            this.currency = currency;
-            currencyId = currency == null ? null : currency.getId();
-            currency__resolvedKey = currencyId;
-        }
-    }
-
-    /** To-one relationship, resolved on first access. */
-    @Generated(hash = 434384135)
-    public Currency getCurrency() {
-        Long __key = this.currencyId;
-        if (currency__resolvedKey == null || !currency__resolvedKey.equals(__key)) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            CurrencyDao targetDao = daoSession.getCurrencyDao();
-            Currency currencyNew = targetDao.load(__key);
-            synchronized (this) {
-                currency = currencyNew;
-                currency__resolvedKey = __key;
-            }
-        }
-        return currency;
-    }
-
-    /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 1181206235)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getConsignmentDao() : null;
-    }
-
-    public Long getCurrencyId() {
-        return this.currencyId;
-    }
-
-    public void setCurrencyId(Long currencyId) {
-        this.currencyId = currencyId;
     }
 
     public void setCreatedDate(Long createdDate) {
@@ -310,44 +259,7 @@ public class Consignment implements Editable {
         this.consignmentNumber = consignmentNumber;
     }
 
-    /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 1910176546)
-    public void setAccount(Account account) {
-        synchronized (this) {
-            this.account = account;
-            accountId = account == null ? null : account.getId();
-            account__resolvedKey = accountId;
-        }
-    }
-
-    /** To-one relationship, resolved on first access. */
-    @Generated(hash = 531730087)
-    public Account getAccount() {
-        Long __key = this.accountId;
-        if (account__resolvedKey == null || !account__resolvedKey.equals(__key)) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            AccountDao targetDao = daoSession.getAccountDao();
-            Account accountNew = targetDao.load(__key);
-            synchronized (this) {
-                account = accountNew;
-                account__resolvedKey = __key;
-            }
-        }
-        return account;
-    }
-
-    public Long getAccountId() {
-        return this.accountId;
-    }
-
-    public void setAccountId(Long accountId) {
-        this.accountId = accountId;
-    }
-
-    /** called by internal mechanisms, do not call yourself. */
+     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 332557200)
     public void setVendor(Vendor vendor) {
         synchronized (this) {
@@ -382,5 +294,13 @@ public class Consignment implements Editable {
 
     public void setVendorId(Long vendorId) {
         this.vendorId = vendorId;
+    }
+
+    public Integer getConsignmentType() {
+        return this.consignmentType;
+    }
+
+    public void setConsignmentType(Integer consignmentType) {
+        this.consignmentType = consignmentType;
     }
 }

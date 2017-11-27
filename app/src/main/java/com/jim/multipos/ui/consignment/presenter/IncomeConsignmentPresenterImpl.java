@@ -31,7 +31,6 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
     private Consignment consignment;
     private List<ConsignmentProduct> consignmentProductList;
     private DatabaseManager databaseManager;
-    private List<Account> accountList;
     private double sum = 0;
 
     @Inject
@@ -39,96 +38,30 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
         super(incomeConsignmentView);
         this.databaseManager = databaseManager;
         consignmentProductList = new ArrayList<>();
-        accountList = new ArrayList<>();
     }
 
 
     @Override
-    public void setData() {
-//        databaseManager.getProductById(id).subscribe(product -> {
-//            this.product = product;
-//            if (product != null)
-//                setConsignmentItem(product);
-//        });
+    public void setData(Long productId, Long vendorId) {
 
-
-        Currency currency = new Currency();
-        currency.setAbbr("uzs");
-        currency.setName("Sum");
-        currency.setMain(true);
-        databaseManager.addCurrency(currency).blockingSingle();
-        Unit unit = new Unit();
-        unit.setAbbr("gr");
-        unit.setFactorRoot(1);
-        databaseManager.addUnit(unit).blockingSingle();
-        List<Account> accountList = new ArrayList<>();
-        Account account = new Account();
-        account.setName("Cash");
-        account.setType(1);
-        account.setCirculation(0);
-        databaseManager.addAccount(account).blockingSingle();
-        accountList.add(account);
-        Account account1 = new Account();
-        account1.setName("Bank");
-        account1.setType(0);
-        account1.setCirculation(1);
-        databaseManager.addAccount(account1).blockingSingle();
-        accountList.add(account1);
-        this.accountList.add(account);
-        this.accountList.add(account1);
-        List<String> strings = new ArrayList<>();
-        for (Account ac : accountList) {
-            strings.add(ac.getName());
+        if (productId != null) {
+            databaseManager.getProductById(productId).subscribe(product -> {
+                this.product = product;
+                List<Vendor> vendorList = this.product.getVendor();
+                for (Vendor vendor : vendorList) {
+                    if (vendor.getId().equals(vendorId))
+                        this.vendor = vendor;
+                }
+                setConsignmentItem(product);
+                view.setVendorName(this.vendor.getName());
+            });
+        } else {
+            databaseManager.getVendorById(vendorId).subscribe(vendor -> {
+                this.vendor = vendor;
+                view.setVendorName(this.vendor.getName());
+            });
         }
-        view.fillAccountsList(strings);
-
-        Product product = new Product();
-        product.setName("Tooth paste");
-        product.setCostCurrency(currency);
-        product.setCreatedDate(System.currentTimeMillis());
-        product.setMainUnit(unit);
-        databaseManager.addProduct(product).blockingSingle();
-
-        this.product = product;
-
-
-        Vendor vendor = new Vendor();
-        vendor.setName("Huawei Design");
-        vendor.setContactName("Islomov Sardor");
-        databaseManager.addVendor(vendor).blockingSingle();
-        this.vendor = vendor;
-
-        VendorProductCon vendorProductCon = new VendorProductCon();
-        vendorProductCon.setProductId(product.getId());
-        vendorProductCon.setVendorId(vendor.getId());
-        databaseManager.addVendorProductConnection(vendorProductCon).subscribe();
-
-        Product product1 = new Product();
-        product1.setName("Others paste");
-        product1.setCostCurrency(currency);
-        product1.setCreatedDate(System.currentTimeMillis());
-        product1.setMainUnit(unit);
-        databaseManager.addProduct(product1).blockingSingle();
-
-        Product product2 = new Product();
-        product2.setName("Mini paste");
-        product2.setCostCurrency(currency);
-        product2.setCreatedDate(System.currentTimeMillis());
-        product2.setMainUnit(unit);
-        databaseManager.addProduct(product2).blockingSingle();
-
-        VendorProductCon productCon = new VendorProductCon();
-        productCon.setProductId(product1.getId());
-        productCon.setVendorId(vendor.getId());
-        databaseManager.addVendorProductConnection(productCon).subscribe();
-
-        VendorProductCon con = new VendorProductCon();
-        con.setProductId(product2.getId());
-        con.setVendorId(vendor.getId());
-        databaseManager.addVendorProductConnection(con).subscribe();
-        view.setVendorName(vendor.getName());
-//        getAccounts();
-        setConsignmentItem(product);
+        getAccounts();
     }
 
     @Override
@@ -136,7 +69,7 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
         ConsignmentProduct consignmentProduct = new ConsignmentProduct();
         consignmentProduct.setProduct(product);
         consignmentProduct.setProductId(product.getId());
-        VendorProductCon productCon = databaseManager.getVendorProductConnectionById(product.getId(), vendor.getId()).blockingSingle();
+        VendorProductCon productCon = databaseManager.getVendorProductConnectionById(product.getId(), this.vendor.getId()).blockingSingle();
         if (productCon != null) {
             consignmentProduct.setCostValue(productCon.getCost());
         } else consignmentProduct.setCostValue(null);
@@ -158,9 +91,7 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
             consignment.setTotalAmount(sum);
             consignment.setIsFromAccount(checked);
             consignment.setVendor(this.vendor);
-            consignment.setCurrency(product.getCostCurrency());
-            if (checked)
-                consignment.setAccount(accountList.get(selectedPosition));
+            consignment.setConsignmentType(0);
             databaseManager.insertConsignment(consignment).subscribe(aLong -> {
                 for (ConsignmentProduct consignmentProduct : consignmentProductList) {
                     consignmentProduct.setConsignmentId(consignment.getId());
@@ -181,7 +112,6 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
             List<String> strings = new ArrayList<>();
             if (!accounts.isEmpty())
                 for (Account account : accounts) {
-                    this.accountList = accounts;
                     strings.add(account.getName());
                 }
             view.fillAccountsList(strings);

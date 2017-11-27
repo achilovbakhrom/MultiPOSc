@@ -12,12 +12,10 @@ import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.consignment.Consignment;
 import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
-import com.jim.multipos.data.db.model.consignment.ReturnConsignment;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
-import com.jim.multipos.data.db.model.customer.JoinCustomerGroupsWithCustomers;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.VendorProductCon;
@@ -649,11 +647,6 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
-    public Observable<Long> insertReturnConsignment(ReturnConsignment consignment) {
-        return dbHelper.insertReturnConsignment(consignment);
-    }
-
-    @Override
     public Observable<Long> insertConsignmentProduct(ConsignmentProduct consignment) {
         return dbHelper.insertConsignmentProduct(consignment);
     }
@@ -661,11 +654,6 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Observable<List<Consignment>> getConsignments() {
         return dbHelper.getConsignments();
-    }
-
-    @Override
-    public Observable<List<ReturnConsignment>> getReturnConsignments() {
-        return dbHelper.getReturnConsignments();
     }
 
     @Override

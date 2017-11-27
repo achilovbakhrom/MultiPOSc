@@ -1,9 +1,7 @@
 package com.jim.multipos.ui.inventory.presenter;
 
 import android.os.Bundle;
-import android.util.Log;
 
-import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.products.Product;
@@ -12,9 +10,6 @@ import com.jim.multipos.data.db.model.products.VendorProductCon;
 import com.jim.multipos.ui.inventory.fragments.InventoryFragment;
 import com.jim.multipos.ui.inventory.fragments.InventoryView;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
-import com.jim.multipos.utils.CommonUtils;
-import com.jim.multipos.utils.UIUtils;
-import com.jim.multipos.utils.WriteOffProductDialog;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,10 +28,14 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
     DatabaseManager databaseManager;
 
     InventoryFragment.SortModes searchMode = FILTERED_BY_PRODUCT;
+    private static final int INCOME = 0;
+    private static final int RETURN = 1;
 
     int SORTING = 1;
 
     List<InventoryItem> inventoryItems;
+    private Long vendorId, productId;
+    private int consignment_type = 0;
 
     @Inject
     protected InventoryPresenterImpl(InventoryView inventoryView) {
@@ -111,7 +110,9 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
 
     @Override
     public void onConsigmentIn(InventoryItem inventoryItem) {
+        consignment_type = INCOME;
         Product product = inventoryItem.getProduct();
+        this.productId = product.getId();
         databaseManager.getVendorProductConnectionByProductId(product.getId()).subscribe(productConList -> {
             if (productConList.size() > 1) {
                 List<Vendor> vendorList = new ArrayList<>();
@@ -120,17 +121,29 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
                     view.openChooseVendorDialog(vendorList);
                 }
             } else {
-                final Vendor[] itemVendor = {null};
-                databaseManager.getVendorById(productConList.get(0).getVendorId()).subscribe(vendor -> itemVendor[0] = vendor);
-                sendDataToConsignment(product.getId(), itemVendor[0].getId());
+                databaseManager.getVendorById(productConList.get(0).getVendorId()).subscribe(vendor -> this.vendorId = vendor.getId());
+                setProductId(this.productId);
             }
         });
-
     }
 
     @Override
     public void onConsigmentOut(InventoryItem inventoryItem) {
-
+        consignment_type = RETURN;
+        Product product = inventoryItem.getProduct();
+        this.productId = product.getId();
+        databaseManager.getVendorProductConnectionByProductId(product.getId()).subscribe(productConList -> {
+            if (productConList.size() > 1) {
+                List<Vendor> vendorList = new ArrayList<>();
+                for (VendorProductCon productCon : productConList) {
+                    vendorList.add(databaseManager.getVendorById(productCon.getVendorId()).blockingSingle());
+                    view.openChooseVendorDialog(vendorList);
+                }
+            } else {
+                databaseManager.getVendorById(productConList.get(0).getVendorId()).subscribe(vendor -> this.vendorId = vendor.getId());
+                setProductId(this.productId);
+            }
+        });
     }
 
     List<InventoryItem> searchResults;
@@ -187,8 +200,14 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
     }
 
     @Override
-    public void sendDataToConsignment(Long productId, Long vendorId) {
+    public void setVendorId(Long vendorId) {
+        this.vendorId = vendorId;
+        setProductId(this.productId);
+    }
 
+    @Override
+    public void setProductId(Long productId) {
+        view.sendDataToConsignment(productId, this.vendorId, consignment_type);
     }
 
 

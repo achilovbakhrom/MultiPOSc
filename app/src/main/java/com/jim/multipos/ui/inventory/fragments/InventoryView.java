@@ -1,7 +1,6 @@
 package com.jim.multipos.ui.inventory.fragments;
 
 import com.jim.multipos.core.BaseView;
-import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
 import com.jim.multipos.utils.SurplusProductDialog;
@@ -22,4 +21,5 @@ public interface InventoryView extends BaseView {
     void openWriteOffDialog(InventoryItem inventoryItem, WriteOffProductDialog.WriteOffCallback writeOffCallback);
     void openAddDialog(InventoryItem inventoryItem, SurplusProductDialog.SurplusCallback surplusCallback);
     void openChooseVendorDialog(List<Vendor> vendorList);
+    void sendDataToConsignment(Long productId, Long vendorId, int consignment_type);
 }

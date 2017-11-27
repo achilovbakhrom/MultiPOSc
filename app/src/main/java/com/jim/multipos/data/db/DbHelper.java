@@ -23,11 +23,9 @@ import com.jim.multipos.data.db.model.Account;
 
 import com.jim.multipos.data.db.model.consignment.Consignment;
 import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
-import com.jim.multipos.data.db.model.consignment.ReturnConsignment;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
-import com.jim.multipos.data.db.model.customer.JoinCustomerGroupsWithCustomers;
 import com.jim.multipos.data.db.model.PaymentType;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.products.Category;
@@ -173,8 +171,6 @@ public interface DbHelper {
     Observable<Long> insertConsignment(Consignment consignment);
     Observable<Long> insertConsignmentProduct(ConsignmentProduct consignmentProduct);
     Observable<List<Consignment>> getConsignments();
-    Observable<Long> insertReturnConsignment(ReturnConsignment consignment);
-    Observable<List<ReturnConsignment>> getReturnConsignments();
     Observable<Boolean> insertConsignmentProduct(List<ConsignmentProduct> consignmentProducts);
     Single<List<VendorWithDebt>> getVendorWirhDebt();
 }

@@ -73,7 +73,8 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
     LinearLayout llAccounts;
     private Dialog dialog;
     private double sum = 0;
-
+    public static final String PRODUCT_ID = "PRODUCT_ID";
+    public static final String VENDOR_ID = "VENDOR_ID";
     @Override
     protected int getLayout() {
         return R.layout.income_fragment;
@@ -82,8 +83,11 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void init(Bundle savedInstanceState) {
-
-        presenter.setData();
+        if (getArguments() != null){
+            Long productId = (Long) getArguments().get(PRODUCT_ID);
+            Long vendorId = (Long) getArguments().get(VENDOR_ID);
+            presenter.setData(productId, vendorId);
+        }
         rvConsignmentItems.setLayoutManager(new LinearLayoutManager(getContext()));
         rvConsignmentItems.setAdapter(itemsListAdapter);
         ((SimpleItemAnimator) rvConsignmentItems.getItemAnimator()).setSupportsChangeAnimations(false);

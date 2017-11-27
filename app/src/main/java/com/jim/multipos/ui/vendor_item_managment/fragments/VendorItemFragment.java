@@ -13,6 +13,8 @@ import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.ui.inventory.fragments.InventoryFragment;
 import com.jim.multipos.ui.inventory.presenter.InventoryPresenter;
+import com.jim.multipos.ui.vendor.add_edit.adapter.VendorsListAdapter;
+import com.jim.multipos.ui.vendor_item_managment.VendorItemsActivity;
 import com.jim.multipos.ui.vendor_item_managment.adapters.VendorItemAdapter;
 import com.jim.multipos.ui.vendor_item_managment.model.VendorWithDebt;
 import com.jim.multipos.ui.vendor_item_managment.presenter.VendorItemPresenter;
@@ -177,6 +179,16 @@ public class VendorItemFragment extends BaseFragment implements VendorItemView{
     public void closeKeyboard() {
         UIUtils.closeKeyboard(llDebt,getActivity());
 
+    }
+
+    @Override
+    public void sendDataToConsignment(Long vendorId, int consignment_type) {
+        ((VendorItemsActivity) getActivity()).sendDataToConsignment(vendorId, consignment_type);
+    }
+
+    @Override
+    public void openVendorDetails(Long vendorId) {
+        ((VendorItemsActivity) getActivity()).openVendorDetails(vendorId);
     }
 
 

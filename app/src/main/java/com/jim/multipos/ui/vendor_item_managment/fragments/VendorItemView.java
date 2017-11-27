@@ -1,6 +1,7 @@
 package com.jim.multipos.ui.vendor_item_managment.fragments;
 
 import com.jim.multipos.core.BaseView;
+import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.vendor_item_managment.model.VendorWithDebt;
 
 import java.util.List;
@@ -15,4 +16,6 @@ public interface VendorItemView extends BaseView {
     void initDefault(List<VendorWithDebt> vendorWithDebts);
     void notifyList();
     void closeKeyboard();
+    void sendDataToConsignment(Long vendorId, int consignment_type);
+    void openVendorDetails(Long vendorId);
 }
