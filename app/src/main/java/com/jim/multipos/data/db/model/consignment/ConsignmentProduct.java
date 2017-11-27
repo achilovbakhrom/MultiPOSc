@@ -1,5 +1,6 @@
 package com.jim.multipos.data.db.model.consignment;
 
+import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.data.db.model.products.Product;
 
 import org.greenrobot.greendao.annotation.Entity;
@@ -9,6 +10,7 @@ import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 import com.jim.multipos.data.db.model.DaoSession;
 import com.jim.multipos.data.db.model.products.ProductDao;
+import com.jim.multipos.data.db.model.inventory.WarehouseOperationsDao;
 
 
 /**
@@ -24,6 +26,11 @@ public class ConsignmentProduct {
     @ToOne(joinProperty = "productId")
     private Product product;
     private Long consignmentId;
+    @ToOne(joinProperty = "consignmentId")
+    private Consignment consignment;
+    private Long warehouseId;
+    @ToOne(joinProperty = "warehouseId")
+    private WarehouseOperations warehouse;
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
      * Entity must attached to an entity context.
@@ -98,6 +105,10 @@ public class ConsignmentProduct {
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
+    @Generated(hash = 1229596798)
+    private transient Long warehouse__resolvedKey;
+    @Generated(hash = 1986436088)
+    private transient Long consignment__resolvedKey;
     public Long getConsignmentId() {
         return this.consignmentId;
     }
@@ -128,14 +139,75 @@ public class ConsignmentProduct {
     public void setId(Long id) {
         this.id = id;
     }
-    @Generated(hash = 1515128430)
-    public ConsignmentProduct(Long id, Double costValue, Double countValue,
-            Long productId, Long consignmentId) {
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 33462667)
+    public void setWarehouse(WarehouseOperations warehouse) {
+        synchronized (this) {
+            this.warehouse = warehouse;
+            warehouseId = warehouse == null ? null : warehouse.getId();
+            warehouse__resolvedKey = warehouseId;
+        }
+    }
+    /** To-one relationship, resolved on first access. */
+    @Generated(hash = 1560568949)
+    public WarehouseOperations getWarehouse() {
+        Long __key = this.warehouseId;
+        if (warehouse__resolvedKey == null || !warehouse__resolvedKey.equals(__key)) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            WarehouseOperationsDao targetDao = daoSession.getWarehouseOperationsDao();
+            WarehouseOperations warehouseNew = targetDao.load(__key);
+            synchronized (this) {
+                warehouse = warehouseNew;
+                warehouse__resolvedKey = __key;
+            }
+        }
+        return warehouse;
+    }
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 929152524)
+    public void setConsignment(Consignment consignment) {
+        synchronized (this) {
+            this.consignment = consignment;
+            consignmentId = consignment == null ? null : consignment.getId();
+            consignment__resolvedKey = consignmentId;
+        }
+    }
+    /** To-one relationship, resolved on first access. */
+    @Generated(hash = 330853767)
+    public Consignment getConsignment() {
+        Long __key = this.consignmentId;
+        if (consignment__resolvedKey == null || !consignment__resolvedKey.equals(__key)) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            ConsignmentDao targetDao = daoSession.getConsignmentDao();
+            Consignment consignmentNew = targetDao.load(__key);
+            synchronized (this) {
+                consignment = consignmentNew;
+                consignment__resolvedKey = __key;
+            }
+        }
+        return consignment;
+    }
+    public Long getWarehouseId() {
+        return this.warehouseId;
+    }
+    public void setWarehouseId(Long warehouseId) {
+        this.warehouseId = warehouseId;
+    }
+    @Generated(hash = 383883924)
+    public ConsignmentProduct(Long id, Double costValue, Double countValue, Long productId,
+            Long consignmentId, Long warehouseId) {
         this.id = id;
         this.costValue = costValue;
         this.countValue = countValue;
         this.productId = productId;
         this.consignmentId = consignmentId;
+        this.warehouseId = warehouseId;
     }
     @Generated(hash = 724649454)
     public ConsignmentProduct() {

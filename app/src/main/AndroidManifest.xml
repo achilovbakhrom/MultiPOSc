@@ -22,7 +22,9 @@
 
         <activity
             android:name=".ui.first_configure_last.FirstConfigureActivity"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden">
+
+        </activity>
         <activity android:name=".ui.vendor.add_edit.VendorAddEditActivity"
             android:windowSoftInputMode="stateHidden"/>
         <activity
@@ -66,15 +68,15 @@
         </activity>
         <activity android:name=".ui.inventory.InventoryActivity"
             android:windowSoftInputMode="stateHidden">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
 
         <activity android:name=".ui.vendor_products_view.VendorProductsViewActivity"/>
-        <activity android:name=".ui.vendor_item_managment.VendorItemsActivity" >
-
+        <activity android:name=".ui.vendor_item_managment.VendorItemsActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
     </application>
 

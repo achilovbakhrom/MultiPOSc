@@ -3,7 +3,9 @@
     <CLASSES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.greenrobot/greendao/3.1.0/70d6a26bba227c2736606a5eb6edc3c15ac0ad6a/greendao-3.1.0.jar!/" />
     </CLASSES>
-    <JAVADOC />
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.greenrobot/greendao/3.1.0/9d3a07fe4433a5e9d06ed20865da39671689aff8/greendao-3.1.0-javadoc.jar!/" />
+    </JAVADOC>
     <SOURCES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.greenrobot/greendao/3.1.0/a985e125fd93da0643b432067a73157b95337fa9/greendao-3.1.0-sources.jar!/" />
     </SOURCES>
