@@ -9,6 +9,7 @@ import com.jim.multipos.data.db.model.Account;
 import com.jim.multipos.data.db.model.consignment.Consignment;
 import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
 import com.jim.multipos.data.db.model.currency.Currency;
+import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.products.VendorProductCon;
@@ -19,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import static com.jim.multipos.data.db.model.inventory.WarehouseOperations.INCOME_FROM_VENDOR;
 
 /**
  * Created by Sirojiddin on 09.11.2017.
@@ -94,6 +97,12 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
             consignment.setConsignmentType(0);
             databaseManager.insertConsignment(consignment).subscribe(aLong -> {
                 for (ConsignmentProduct consignmentProduct : consignmentProductList) {
+//                    WarehouseOperations warehouseOperations = new WarehouseOperations();
+//                    warehouseOperations.setCreateAt(System.currentTimeMillis());
+//                    warehouseOperations.setProduct(consignmentProduct.getProduct());
+//                    warehouseOperations.setType(INCOME_FROM_VENDOR);
+//                    warehouseOperations.setVendor(consignment.getVendor());
+//                    warehouseOperations.setValue(consignmentProduct.getCountValue());
                     consignmentProduct.setConsignmentId(consignment.getId());
                     databaseManager.insertConsignmentProduct(consignmentProduct).subscribe();
                 }

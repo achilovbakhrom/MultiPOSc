@@ -33,7 +33,6 @@ public class Consignment implements Editable {
     private Long rootId;
     private Integer consignmentType;
     private Long vendorId;
-    private String type;
     @ToOne(joinProperty = "vendorId")
     private Vendor vendor;
     @ToMany(joinProperties = {@JoinProperty(name = "id", referencedName = "consignmentId")})
@@ -47,10 +46,10 @@ public class Consignment implements Editable {
     @Generated(hash = 1022035388)
     private transient Long vendor__resolvedKey;
 
-    @Generated(hash = 2090232160)
+    @Generated(hash = 25766513)
     public Consignment(Long id, String consignmentNumber, String description, Double totalAmount,
             Boolean isActive, Boolean isDeleted, Boolean isNotModified, Boolean isFromAccount, Long createdDate,
-            Long rootId, Integer consignmentType, Long vendorId, String type) {
+            Long rootId, Integer consignmentType, Long vendorId) {
         this.id = id;
         this.consignmentNumber = consignmentNumber;
         this.description = description;
@@ -63,7 +62,6 @@ public class Consignment implements Editable {
         this.rootId = rootId;
         this.consignmentType = consignmentType;
         this.vendorId = vendorId;
-        this.type = type;
     }
 
     @Generated(hash = 1791287112)
@@ -304,13 +302,5 @@ public class Consignment implements Editable {
 
     public void setConsignmentType(Integer consignmentType) {
         this.consignmentType = consignmentType;
-    }
-
-    public String getType() {
-        return this.type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 }

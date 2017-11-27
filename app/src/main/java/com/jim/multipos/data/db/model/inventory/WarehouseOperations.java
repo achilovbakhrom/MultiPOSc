@@ -1,25 +1,33 @@
 package com.jim.multipos.data.db.model.inventory;
 
+import com.jim.multipos.data.db.model.DaoSession;
 import com.jim.multipos.data.db.model.products.Product;
+import com.jim.multipos.data.db.model.products.ProductDao;
 import com.jim.multipos.data.db.model.products.Vendor;
+import com.jim.multipos.data.db.model.products.VendorDao;
 
+import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.ToOne;
 
 import lombok.Data;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.DaoException;
-import com.jim.multipos.data.db.model.DaoSession;
-import com.jim.multipos.data.db.model.products.ProductDao;
-import com.jim.multipos.data.db.model.products.VendorDao;
 
 /**
  * Created by developer on 27.11.2017.
  */
-@Entity(nameInDb = "WAREHOUSEOPERATION", active = true)
+@Entity(nameInDb = "WAREHOUSE_OPERATION", active = true)
 @Data
 public class WarehouseOperations {
+
+    public static final int INCOME_FROM_VENDOR = 1;
+    public static final int RETURN_TO_VENDOR = 2;
+    public static final int RETURN_FROM_CUSTOMER = 3;
+    public static final int SOLD = 4;
+    public static final int VOID_INCOME = 5;
+    public static final int WASTE = 6;
+
     @Id(autoincrement = true)
     private Long id;
     private Long productId;
@@ -29,7 +37,7 @@ public class WarehouseOperations {
     @ToOne(joinProperty = "vendorId")
     private Vendor vendor;
     private double value; //(+/-)
-    private String type;
+    private int type;
     private Long createAt;
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
@@ -140,12 +148,6 @@ public class WarehouseOperations {
     public void setCreateAt(Long createAt) {
         this.createAt = createAt;
     }
-    public String getType() {
-        return this.type;
-    }
-    public void setType(String type) {
-        this.type = type;
-    }
     public double getValue() {
         return this.value;
     }
@@ -170,9 +172,15 @@ public class WarehouseOperations {
     public void setId(Long id) {
         this.id = id;
     }
-    @Generated(hash = 1620740037)
-    public WarehouseOperations(Long id, Long productId, Long vendorId,
-            double value, String type, Long createAt) {
+    public int getType() {
+        return this.type;
+    }
+    public void setType(int type) {
+        this.type = type;
+    }
+    @Generated(hash = 775457040)
+    public WarehouseOperations(Long id, Long productId, Long vendorId, double value,
+            int type, Long createAt) {
         this.id = id;
         this.productId = productId;
         this.vendorId = vendorId;
