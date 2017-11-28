@@ -29,6 +29,8 @@ public class VoidProductOperations {
     private double count;
     private double beforeCount;
     private Long createAt;
+    private String discription;
+    private int type;
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
      * Entity must attached to an entity context.

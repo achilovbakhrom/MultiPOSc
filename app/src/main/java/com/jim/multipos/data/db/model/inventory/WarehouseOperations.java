@@ -25,8 +25,9 @@ public class WarehouseOperations {
     public static final int RETURN_TO_VENDOR = 2;
     public static final int RETURN_FROM_CUSTOMER = 3;
     public static final int SOLD = 4;
-    public static final int VOID_INCOME = 5;
-    public static final int WASTE = 6;
+    public static final int RETURN_SOLD = 5;
+    public static final int VOID_INCOME = 6;
+    public static final int WASTE = 7;
 
     @Id(autoincrement = true)
     private Long id;

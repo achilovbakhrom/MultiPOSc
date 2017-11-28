@@ -39,6 +39,9 @@ import com.jim.multipos.data.db.model.customer.CustomerGroup;
 import com.jim.multipos.data.db.model.customer.CustomerGroupDao;
 import com.jim.multipos.data.db.model.customer.JoinCustomerGroupsWithCustomers;
 import com.jim.multipos.data.db.model.customer.JoinCustomerGroupsWithCustomersDao;
+import com.jim.multipos.data.db.model.inventory.InventoryState;
+import com.jim.multipos.data.db.model.inventory.InventoryStateDao;
+import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.CategoryDao;
 import com.jim.multipos.data.db.model.products.Product;
@@ -55,6 +58,7 @@ import com.jim.multipos.data.db.model.unit.UnitDao;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
 import com.jim.multipos.ui.vendor_item_managment.model.VendorWithDebt;
 
+import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.query.Query;
 import org.greenrobot.greendao.query.QueryBuilder;
 
@@ -1569,6 +1573,35 @@ public class AppDbHelper implements DbHelper {
                 Collections.sort(vendorWithDebt.getVendor().getProducts(),(product, t1) -> product.getName().compareTo(t1.getName()));
             }
             e.onSuccess(vendorWithDebts);
+        });
+    }
+
+    @Override
+    public Single<Long> insertWarehouseOperation(WarehouseOperations warehouseOperations) {
+        return Single.create(e -> {
+            Database database = mDaoSession.getDatabase();
+            database.beginTransaction();
+            try {
+                mDaoSession.getWarehouseOperationsDao().insertOrReplace(warehouseOperations);
+
+                List<InventoryState> inventoryStates = mDaoSession.getInventoryStateDao().queryBuilder()
+                        .where(InventoryStateDao.Properties.ProductId.eq(warehouseOperations.getProductId()), InventoryStateDao.Properties.VendorId.eq(warehouseOperations.getVendorId()))
+                        .build().list();
+
+                if(inventoryStates.size()!=1){
+                    e.onError(new Throwable("Inventory state invalid data (ONE PRODUCT FROM VENDOR IN DATABASE NOT UNIQUE OR NOT HAVE)"));
+                    return;
+                }
+
+                InventoryState inventoryState = inventoryStates.get(0);
+                inventoryState.setValue(inventoryState.getValue()+warehouseOperations.getValue());
+                inventoryState.update();
+
+                database.setTransactionSuccessful();
+                e.onSuccess(warehouseOperations.getId());
+            }catch (Exception o){
+                e.onError(o);
+            }
         });
     }
 

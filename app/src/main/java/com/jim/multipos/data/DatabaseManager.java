@@ -12,6 +12,7 @@ import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.consignment.Consignment;
 import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
+import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.customer.Customer;
@@ -472,7 +473,6 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     public Observable<Long> addProduct(Product product) {
         return dbHelper.insertProduct(product);
     }
-
     @Override
     public Observable<Boolean> addProduct(List<Product> productList) {
         return dbHelper.insertProducts(productList);
@@ -667,6 +667,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
             Collections.sort(inventoryItems,(inventoryItem, t1) -> inventoryItem.getProduct().getCreatedDate().compareTo(t1.getProduct().getCreatedDate()));
             return inventoryItems;
         });
+    }
+
+    @Override
+    public Single<Long> insertWarehouseOperation(WarehouseOperations warehouseOperations) {
+        return dbHelper.insertWarehouseOperation(warehouseOperations);
     }
 
     @Override

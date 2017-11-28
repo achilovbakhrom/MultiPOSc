@@ -23,6 +23,7 @@ import com.jim.multipos.data.db.model.Account;
 
 import com.jim.multipos.data.db.model.consignment.Consignment;
 import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
+import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
@@ -173,4 +174,5 @@ public interface DbHelper {
     Observable<List<Consignment>> getConsignments();
     Observable<Boolean> insertConsignmentProduct(List<ConsignmentProduct> consignmentProducts);
     Single<List<VendorWithDebt>> getVendorWirhDebt();
+    Single<Long> insertWarehouseOperation(WarehouseOperations warehouseOperations);
 }
