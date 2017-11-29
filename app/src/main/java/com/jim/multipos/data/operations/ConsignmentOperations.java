@@ -14,7 +14,7 @@ import io.reactivex.Single;
  */
 
 public interface ConsignmentOperations {
-    Single<Consignment> insertConsignment(Consignment consignment, BillingOperations operations, List<ConsignmentProduct> consignmentProductList);
+    Single<Consignment> insertConsignment(Consignment consignment, List<BillingOperations> operations, List<ConsignmentProduct> consignmentProductList);
     Observable<Long> insertConsignmentProduct(ConsignmentProduct consignment);
     Observable<List<Consignment>> getConsignments();
     Observable<Boolean> insertConsignmentProducts(List<ConsignmentProduct> consignmentProducts);

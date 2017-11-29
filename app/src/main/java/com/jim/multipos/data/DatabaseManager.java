@@ -643,7 +643,7 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
 
 
     @Override
-    public Single<Consignment> insertConsignment(Consignment consignment, BillingOperations operations, List<ConsignmentProduct> consignmentProductList) {
+    public Single<Consignment> insertConsignment(Consignment consignment, List<BillingOperations> operations, List<ConsignmentProduct> consignmentProductList) {
         return dbHelper.insertConsignment(consignment)
                 .flatMap(consignment1 -> setBillingOperation(operations, consignment1)
                         .flatMap(consignment2 -> setConsignmentProductId(consignmentProductList, consignment2)));
@@ -654,12 +654,12 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
                 .flatMap(consignment1 -> setConsignmentProductId(consignmentProductList, consignment1));
     }
 
-    private Single<Consignment> setBillingOperation(BillingOperations billingOperations, Consignment consignment) {
+    private Single<Consignment> setBillingOperation(List<BillingOperations> billingOperations, Consignment consignment) {
         return Single.create(singleSubscriber -> {
             try {
-                if (billingOperations != null) {
-                    billingOperations.setConsignment(consignment);
-                    insertBillingOperation(billingOperations).subscribe();
+                for (BillingOperations operations : billingOperations) {
+                    operations.setConsignment(consignment);
+                    insertBillingOperation(operations).subscribe();
                 }
                 singleSubscriber.onSuccess(consignment);
             } catch (Exception o) {
