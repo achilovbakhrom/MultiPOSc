@@ -18,13 +18,21 @@ import com.jim.multipos.ui.mainpospage.adapter.SquareViewProductAdapter;
 import com.jim.multipos.ui.mainpospage.presenter.ProductSquareViewPresenter;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.rxevents.CategoryEvent;
+import com.jim.multipos.utils.rxevents.MessageEvent;
 import com.jim.multipos.utils.rxevents.ProductEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import io.reactivex.disposables.Disposable;
+
+import static com.jim.multipos.ui.product_last.ProductPresenterImpl.PRODUCT_ADD;
+import static com.jim.multipos.ui.product_last.ProductPresenterImpl.PRODUCT_DELETE;
+import static com.jim.multipos.ui.product_last.ProductPresenterImpl.PRODUCT_UPDATE;
+import static com.jim.multipos.utils.UIUtils.closeKeyboard;
 
 /**
  * Created by Sirojiddin on 27.10.2017.
@@ -49,6 +57,7 @@ public class ProductSquareViewFragment extends BaseFragment implements ProductSq
     private static final String CATEGORY_TITLE = "category_title";
     private static final String SUBCATEGORY_TITLE = "subcategory_title";
     private static final String OPEN_PRODUCT = "open_product";
+    private ArrayList<Disposable> subscriptions;
 
     @Override
     protected int getLayout() {
@@ -61,9 +70,28 @@ public class ProductSquareViewFragment extends BaseFragment implements ProductSq
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        presenter.setCategoryRecyclerView();
+    protected void rxConnections() {
+        subscriptions = new ArrayList<>();
+        subscriptions.add(
+                rxBus.toObservable().subscribe(o -> {
+                    if (o instanceof MessageEvent) {
+                        MessageEvent event = (MessageEvent) o;
+                        switch (event.getMessage()) {
+                            case PRODUCT_ADD:
+                            case PRODUCT_DELETE:
+                            case PRODUCT_UPDATE: {
+                                presenter.setCategoryRecyclerView();
+                                break;
+                            }
+                        }
+                    }
+                }));
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        RxBus.removeListners(subscriptions);
     }
 
     @Override

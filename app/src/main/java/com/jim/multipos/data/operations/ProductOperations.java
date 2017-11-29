@@ -24,7 +24,6 @@ public interface ProductOperations {
     Observable<Boolean> isProductNameExists(String productName, Long categoryId);
     Observable<Boolean> removeProduct(Product product);
     Observable<Product> getProductById(Long productId);
-    Observable<List<Product>> getAllActiveProductsFromVendor(Long vendorId);
     Observable<Long> addVendorProductConnection(VendorProductCon vendorProductCon);
     Observable<Boolean> removeVendorProductConnection(VendorProductCon vendorProductCon);
     Observable<Boolean> removeVendorProductConnectionByVendorId(Long vendorId);

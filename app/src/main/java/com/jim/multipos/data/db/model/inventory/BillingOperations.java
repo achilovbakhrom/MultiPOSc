@@ -19,9 +19,12 @@ import com.jim.multipos.data.db.model.consignment.ConsignmentDao;
 /**
  * Created by developer on 27.11.2017.
  */
-@Entity(nameInDb = "BILLINGOPERATION", active = true)
+@Entity(nameInDb = "BILLING_OPERATION", active = true)
 @Data
 public class BillingOperations {
+
+    public static final int CONSIGNMENT = 100;
+
     @Id(autoincrement = true)
     private Long id;
     private Long accountId;
@@ -35,7 +38,7 @@ public class BillingOperations {
     private Consignment consignment;
     private double amount;
     private long createAt;
-    private String operationType;
+    private int operationType;
     private String description;
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
@@ -176,12 +179,6 @@ public class BillingOperations {
     public void setDescription(String description) {
         this.description = description;
     }
-    public String getOperationType() {
-        return this.operationType;
-    }
-    public void setOperationType(String operationType) {
-        this.operationType = operationType;
-    }
     public long getCreateAt() {
         return this.createAt;
     }
@@ -218,10 +215,15 @@ public class BillingOperations {
     public void setId(Long id) {
         this.id = id;
     }
-    @Generated(hash = 159894868)
-    public BillingOperations(Long id, Long accountId, Long vendorId,
-            Long consignmentId, double amount, long createAt, String operationType,
-            String description) {
+    public int getOperationType() {
+        return this.operationType;
+    }
+    public void setOperationType(int operationType) {
+        this.operationType = operationType;
+    }
+    @Generated(hash = 926237327)
+    public BillingOperations(Long id, Long accountId, Long vendorId, Long consignmentId,
+            double amount, long createAt, int operationType, String description) {
         this.id = id;
         this.accountId = accountId;
         this.vendorId = vendorId;

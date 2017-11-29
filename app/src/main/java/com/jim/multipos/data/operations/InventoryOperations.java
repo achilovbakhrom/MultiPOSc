@@ -1,10 +1,12 @@
 package com.jim.multipos.data.operations;
 
+import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
 
 import java.util.List;
 
+import io.reactivex.Observable;
 import io.reactivex.Single;
 
 /**
@@ -13,5 +15,9 @@ import io.reactivex.Single;
 
 public interface InventoryOperations {
     Single<List<InventoryItem>> getInventoryItems();
+    Observable<Long> insertInventoryState(InventoryState inventoryState);
+    Observable<List<InventoryState>> getInventoryStates();
+    Observable<List<InventoryState>> getInventoryStatesByProductId(Long productId);
+    Observable<Boolean> removeProductFromInventoryState(Long productId);
     Single<Long> insertWarehouseOperation(WarehouseOperations warehouseOperations);
 }

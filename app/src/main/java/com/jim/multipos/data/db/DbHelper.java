@@ -23,6 +23,8 @@ import com.jim.multipos.data.db.model.Account;
 
 import com.jim.multipos.data.db.model.consignment.Consignment;
 import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
+import com.jim.multipos.data.db.model.inventory.BillingOperations;
+import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.customer.Customer;
@@ -74,7 +76,6 @@ public interface DbHelper {
     Observable<List<Product>> getAllProducts();
     Single<List<Product>> getAllActiveProducts(Category parent);
     Observable<Product> getProductById(Long productId);
-    Observable<List<Product>> getAllActiveProductsFromVendor(Long vendorId);
     Observable<Long> insertOrReplaceProduct(Product product);
     Observable<Account> insertAccount(Account account);
     Observable<Boolean> insertAccounts(List<Account> accounts);
@@ -169,10 +170,18 @@ public interface DbHelper {
     Observable<List<VendorProductCon>> getVendorProductConnectionByProductId(Long productId);
     Observable<VendorProductCon> getVendorProductConnectionById(Long productId, Long vendorId);
 
-    Observable<Long> insertConsignment(Consignment consignment);
+    Single<Consignment> insertConsignment(Consignment consignment);
     Observable<Long> insertConsignmentProduct(ConsignmentProduct consignmentProduct);
     Observable<List<Consignment>> getConsignments();
     Observable<Boolean> insertConsignmentProduct(List<ConsignmentProduct> consignmentProducts);
+
     Single<List<VendorWithDebt>> getVendorWirhDebt();
     Single<Long> insertWarehouseOperation(WarehouseOperations warehouseOperations);
+
+    Observable<Long> insertBillingOperation(BillingOperations billingOperations);
+    Observable<List<BillingOperations>> getBillingOperations();
+    Observable<Long> insertInventoryState(InventoryState inventoryState);
+    Observable<List<InventoryState>> getInventoryStates();
+    Observable<List<InventoryState>> getInventoryStatesByProductId(Long productId);
+    Observable<Boolean> removeProductFromInventoryState(Long productId);
 }

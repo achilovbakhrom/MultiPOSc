@@ -16,8 +16,10 @@ import com.jim.multipos.data.db.model.products.VendorProductCon;
 import com.jim.multipos.ui.product_last.fragment.CategoryAddEditFragment;
 import com.jim.multipos.ui.product_last.fragment.ProductListFragment;
 import com.jim.multipos.ui.product_last.fragment.ProductAddEditFragment;
+import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.TestUtils;
 import com.jim.multipos.utils.UIUtils;
+import com.jim.multipos.utils.rxevents.MessageEvent;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.ArrayList;
@@ -44,13 +46,16 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
     @Getter
     RxPermissions permissions;
 
+    @Inject
+    RxBus rxBus;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         TestUtils.createUnits(presenter.getDatabaseManager(), this);
-        TestUtils.createCurrencies(presenter.getDatabaseManager(), this);
-        TestUtils.createProductClasses(presenter.getDatabaseManager());
-        TestUtils.createVendord(presenter.getDatabaseManager());
+//        TestUtils.createCurrencies(presenter.getDatabaseManager(), this);
+//        TestUtils.createProductClasses(presenter.getDatabaseManager());
+//        TestUtils.createVendord(presenter.getDatabaseManager());
         addCategoryListFragment();
         addProductAddEditFragment();
         addCategoryAddEditFragment();
@@ -767,6 +772,23 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
         } else {
             Log.d("sss", "getCategoryAddEditFragment: category fragment is null, maybe not added");
         }
+    }
+
+    @Override
+    public void sendEvent(String event) {
+        rxBus.send(new MessageEvent(event));
+    }
+
+    @Override
+    public void showCannotDeleteItemWithPlusValue(double value) {
+        UIUtils.showAlert(this, getString(R.string.ok), getString(R.string.warning),
+                "You have " + value + " item in the inventory. You can't delete product with positive inventory state", () -> Log.d("sss", "onButtonClicked: "));
+    }
+
+    @Override
+    public void showCannotDeleteItemWithMinusValue(double value) {
+        UIUtils.showAlert(this, getString(R.string.ok), getString(R.string.warning),
+                "You have " + value + " item in the inventory. You can't delete product with negative inventory state", () -> Log.d("sss", "onButtonClicked: "));
     }
 
     @Override

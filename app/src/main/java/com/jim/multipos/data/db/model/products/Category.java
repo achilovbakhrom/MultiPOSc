@@ -116,7 +116,8 @@ public class Category implements Editable, Serializable{
                 .where(
                         ProductDao.Properties.CategoryId.eq(id),
                         ProductDao.Properties.IsActive.eq(true),
-                        ProductDao.Properties.IsDeleted.eq(false)
+                        ProductDao.Properties.IsDeleted.eq(false),
+                        ProductDao.Properties.IsNotModified.eq(true)
                 )
                 .build()
                 .list();
@@ -132,7 +133,8 @@ public class Category implements Editable, Serializable{
                 .queryBuilder(Product.class)
                 .where(
                         ProductDao.Properties.CategoryId.eq(id),
-                        ProductDao.Properties.IsDeleted.eq(false)
+                        ProductDao.Properties.IsDeleted.eq(false),
+                        ProductDao.Properties.IsNotModified.eq(true)
                 )
                 .build()
                 .list();

@@ -12,8 +12,9 @@ public interface IncomeConsignmentPresenter extends Presenter {
     void loadVendorProducts();
     void setData(Long productId, Long vendorId);
     void setConsignmentItem(Product product);
-    void saveConsignment(String number, String description, String totalAmount, boolean checked, int selectedPosition);
+    void saveConsignment(String number, String description, String totalAmount, String paidSum, boolean checked, int selectedPosition);
     void deleteFromList(ConsignmentProduct consignmentProduct);
     void getAccounts();
     void calculateConsignmentSum();
+    void checkChanges(String number, String description, String totalPaid, boolean checked, int selectedPosition);
 }

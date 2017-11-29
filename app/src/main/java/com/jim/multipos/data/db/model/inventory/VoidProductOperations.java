@@ -172,15 +172,29 @@ public class VoidProductOperations {
     public void setId(Long id) {
         this.id = id;
     }
-    @Generated(hash = 1594571685)
-    public VoidProductOperations(Long id, Long productId, Long warehouseId,
-            double count, double beforeCount, Long createAt) {
+    public int getType() {
+        return this.type;
+    }
+    public void setType(int type) {
+        this.type = type;
+    }
+    public String getDiscription() {
+        return this.discription;
+    }
+    public void setDiscription(String discription) {
+        this.discription = discription;
+    }
+    @Generated(hash = 1390682649)
+    public VoidProductOperations(Long id, Long productId, Long warehouseId, double count,
+            double beforeCount, Long createAt, String discription, int type) {
         this.id = id;
         this.productId = productId;
         this.warehouseId = warehouseId;
         this.count = count;
         this.beforeCount = beforeCount;
         this.createAt = createAt;
+        this.discription = discription;
+        this.type = type;
     }
     @Generated(hash = 1051827895)
     public VoidProductOperations() {

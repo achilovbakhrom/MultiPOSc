@@ -20,6 +20,10 @@ import java.util.List;
  */
 @Entity(active = true, nameInDb = "CONSIGNMENT")
 public class Consignment implements Editable {
+
+    public static final int INCOME_CONSIGNMENT = 1000;
+    public static final int RETURN_CONSIGNMENT = 1001;
+
     @Id(autoincrement = true)
     private Long id;
     private String consignmentNumber;

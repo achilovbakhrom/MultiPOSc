@@ -19,13 +19,20 @@ import com.jim.multipos.ui.mainpospage.adapter.FolderViewAdapter;
 import com.jim.multipos.ui.mainpospage.presenter.ProductFolderViewPresenterImpl;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.rxevents.CategoryEvent;
+import com.jim.multipos.utils.rxevents.MessageEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.disposables.Disposable;
+
+import static com.jim.multipos.ui.product_last.ProductPresenterImpl.PRODUCT_ADD;
+import static com.jim.multipos.ui.product_last.ProductPresenterImpl.PRODUCT_DELETE;
+import static com.jim.multipos.ui.product_last.ProductPresenterImpl.PRODUCT_UPDATE;
 
 /**
  * Created by Sirojiddin on 27.10.2017.
@@ -48,10 +55,37 @@ public class ProductFolderViewFragment extends BaseFragment implements ProductFo
     private int mode = 0;
     private static final int PRODUCT = 2;
     private FolderViewAdapter adapter;
+    private ArrayList<Disposable> subscriptions;
 
     @Override
     protected int getLayout() {
         return R.layout.product_folder_list;
+    }
+
+
+    @Override
+    protected void rxConnections() {
+        subscriptions = new ArrayList<>();
+        subscriptions.add(
+                rxBus.toObservable().subscribe(o -> {
+                    if (o instanceof MessageEvent) {
+                        MessageEvent event = (MessageEvent) o;
+                        switch (event.getMessage()) {
+                            case PRODUCT_ADD:
+                            case PRODUCT_DELETE:
+                            case PRODUCT_UPDATE: {
+                                presenter.setFolderItemsRecyclerView();
+                                break;
+                            }
+                        }
+                    }
+                }));
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        RxBus.removeListners(subscriptions);
     }
 
     @Override

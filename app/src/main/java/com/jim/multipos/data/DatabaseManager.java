@@ -12,6 +12,8 @@ import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.consignment.Consignment;
 import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
+import com.jim.multipos.data.db.model.inventory.BillingOperations;
+import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.currency.Currency;
@@ -25,6 +27,7 @@ import com.jim.multipos.data.db.model.unit.SubUnitsList;
 import com.jim.multipos.data.db.model.unit.Unit;
 import com.jim.multipos.data.db.model.unit.UnitCategory;
 import com.jim.multipos.data.operations.AccountOperations;
+import com.jim.multipos.data.operations.PaymentOperations;
 import com.jim.multipos.data.operations.CategoryOperations;
 import com.jim.multipos.data.operations.ConsignmentOperations;
 import com.jim.multipos.data.operations.ContactOperations;
@@ -56,12 +59,14 @@ import java.util.List;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 
+import static com.jim.multipos.data.db.model.consignment.Consignment.INCOME_CONSIGNMENT;
+
 /**
  * Created by Developer on 5/13/17.
  */
 
 public class DatabaseManager implements ContactOperations, CategoryOperations, ProductOperations, AccountOperations, CurrencyOperations, StockOperations, UnitCategoryOperations, UnitOperations, PaymentTypeOperations, ServiceFeeOperations, ProductClassOperations, CustomerOperations, CustomerGroupOperations, SubUnitOperations, JoinCustomerGroupWithCustomerOperations, DiscountOperations,
-        VendorOperations, SearchOperations, ConsignmentOperations, InventoryOperations , VendorItemManagmentOperations{
+        VendorOperations, SearchOperations, ConsignmentOperations, InventoryOperations, VendorItemManagmentOperations, PaymentOperations {
     private Context context;
     private PreferencesHelper preferencesHelper;
     private DbHelper dbHelper;
@@ -473,6 +478,7 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     public Observable<Long> addProduct(Product product) {
         return dbHelper.insertProduct(product);
     }
+
     @Override
     public Observable<Boolean> addProduct(List<Product> productList) {
         return dbHelper.insertProducts(productList);
@@ -507,11 +513,6 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Observable<Product> getProductById(Long productId) {
         return dbHelper.getProductById(productId);
-    }
-
-    @Override
-    public Observable<List<Product>> getAllActiveProductsFromVendor(Long vendorId) {
-        return dbHelper.getAllActiveProductsFromVendor(vendorId);
     }
 
     @Override
@@ -642,8 +643,56 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
 
 
     @Override
-    public Observable<Long> insertConsignment(Consignment consignment) {
-        return dbHelper.insertConsignment(consignment);
+    public Single<Consignment> insertConsignment(Consignment consignment, BillingOperations operations, List<ConsignmentProduct> consignmentProductList) {
+        return dbHelper.insertConsignment(consignment)
+                .flatMap(consignment1 -> setBillingOperation(operations, consignment1)
+                        .flatMap(consignment2 -> setConsignmentProductId(consignmentProductList, consignment2)));
+    }
+
+    public Single<Consignment> insertReturnConsignment(Consignment consignment, List<ConsignmentProduct> consignmentProductList) {
+        return dbHelper.insertConsignment(consignment)
+                .flatMap(consignment1 -> setConsignmentProductId(consignmentProductList, consignment1));
+    }
+
+    private Single<Consignment> setBillingOperation(BillingOperations billingOperations, Consignment consignment) {
+        return Single.create(singleSubscriber -> {
+            try {
+                if (billingOperations != null) {
+                    billingOperations.setConsignment(consignment);
+                    insertBillingOperation(billingOperations).subscribe();
+                }
+                singleSubscriber.onSuccess(consignment);
+            } catch (Exception o) {
+                singleSubscriber.onError(o);
+            }
+        });
+    }
+
+    private Single<Consignment> setConsignmentProductId(List<ConsignmentProduct> consignmentProductList, Consignment consignment) {
+        return Single.create(singleSubscriber -> {
+            try {
+                for (ConsignmentProduct consignmentProduct : consignmentProductList) {
+                    consignmentProduct.setConsignmentId(consignment.getId());
+                    insertConsignmentProduct(consignmentProduct).blockingSingle();
+                    WarehouseOperations warehouseOperations = new WarehouseOperations();
+                    warehouseOperations.setProduct(consignmentProduct.getProduct());
+                    warehouseOperations.setVendor(consignment.getVendor());
+                    warehouseOperations.setCreateAt(System.currentTimeMillis());
+                    if (consignment.getConsignmentType().equals(INCOME_CONSIGNMENT)) {
+                        warehouseOperations.setValue(consignmentProduct.getCountValue());
+                        warehouseOperations.setType(WarehouseOperations.INCOME_FROM_VENDOR);
+                    } else {
+                        warehouseOperations.setType(WarehouseOperations.RETURN_TO_VENDOR);
+                        warehouseOperations.setValue(consignmentProduct.getCountValue() * -1);
+                    }
+                    insertWarehouseOperation(warehouseOperations).subscribe();
+
+                }
+                singleSubscriber.onSuccess(consignment);
+            } catch (Exception o) {
+                singleSubscriber.onError(o);
+            }
+        });
     }
 
     @Override
@@ -663,8 +712,8 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
 
     @Override
     public Single<List<InventoryItem>> getInventoryItems() {
-        return dbHelper.getInventoryItems().map(inventoryItems ->{
-            Collections.sort(inventoryItems,(inventoryItem, t1) -> inventoryItem.getProduct().getCreatedDate().compareTo(t1.getProduct().getCreatedDate()));
+        return dbHelper.getInventoryItems().map(inventoryItems -> {
+            Collections.sort(inventoryItems, (inventoryItem, t1) -> inventoryItem.getProduct().getCreatedDate().compareTo(t1.getProduct().getCreatedDate()));
             return inventoryItems;
         });
     }
@@ -672,6 +721,26 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Single<Long> insertWarehouseOperation(WarehouseOperations warehouseOperations) {
         return dbHelper.insertWarehouseOperation(warehouseOperations);
+    }
+
+    @Override
+    public Observable<Long> insertInventoryState(InventoryState inventoryState) {
+        return dbHelper.insertInventoryState(inventoryState);
+    }
+
+    @Override
+    public Observable<List<InventoryState>> getInventoryStates() {
+        return dbHelper.getInventoryStates();
+    }
+
+    @Override
+    public Observable<List<InventoryState>> getInventoryStatesByProductId(Long productId) {
+        return dbHelper.getInventoryStatesByProductId(productId);
+    }
+
+    @Override
+    public Observable<Boolean> removeProductFromInventoryState(Long productId) {
+        return dbHelper.removeProductFromInventoryState(productId);
     }
 
     @Override
@@ -713,6 +782,16 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Single<List<VendorWithDebt>> getVendorWirhDebt() {
         return dbHelper.getVendorWirhDebt();
+    }
+
+    @Override
+    public Observable<Long> insertBillingOperation(BillingOperations billingOperations) {
+        return dbHelper.insertBillingOperation(billingOperations);
+    }
+
+    @Override
+    public Observable<List<com.jim.multipos.data.db.model.inventory.BillingOperations>> getBillingOperations() {
+        return dbHelper.getBillingOperations();
     }
 }
 

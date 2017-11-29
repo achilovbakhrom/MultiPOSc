@@ -8,12 +8,11 @@ import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Account;
 import com.jim.multipos.data.db.model.consignment.Consignment;
 import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
-import com.jim.multipos.data.db.model.currency.Currency;
+import com.jim.multipos.data.db.model.inventory.BillingOperations;
 import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.products.VendorProductCon;
-import com.jim.multipos.data.db.model.unit.Unit;
 import com.jim.multipos.ui.consignment.view.IncomeConsignmentView;
 
 import java.util.ArrayList;
@@ -35,12 +34,14 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
     private List<ConsignmentProduct> consignmentProductList;
     private DatabaseManager databaseManager;
     private double sum = 0;
+    private List<Account> accountList;
 
     @Inject
     protected IncomeConsignmentPresenterImpl(IncomeConsignmentView incomeConsignmentView, DatabaseManager databaseManager) {
         super(incomeConsignmentView);
         this.databaseManager = databaseManager;
         consignmentProductList = new ArrayList<>();
+        accountList = new ArrayList<>();
     }
 
 
@@ -83,7 +84,7 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
     }
 
     @Override
-    public void saveConsignment(String number, String description, String totalAmount, boolean checked, int selectedPosition) {
+    public void saveConsignment(String number, String description, String totalAmount, String paidSum, boolean checked, int selectedPosition) {
         if (consignmentProductList.isEmpty()) {
             view.setError();
         } else {
@@ -94,19 +95,17 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
             consignment.setTotalAmount(sum);
             consignment.setIsFromAccount(checked);
             consignment.setVendor(this.vendor);
-            consignment.setConsignmentType(0);
-            databaseManager.insertConsignment(consignment).subscribe(aLong -> {
-                for (ConsignmentProduct consignmentProduct : consignmentProductList) {
-//                    WarehouseOperations warehouseOperations = new WarehouseOperations();
-//                    warehouseOperations.setCreateAt(System.currentTimeMillis());
-//                    warehouseOperations.setProduct(consignmentProduct.getProduct());
-//                    warehouseOperations.setType(INCOME_FROM_VENDOR);
-//                    warehouseOperations.setVendor(consignment.getVendor());
-//                    warehouseOperations.setValue(consignmentProduct.getCountValue());
-                    consignmentProduct.setConsignmentId(consignment.getId());
-                    databaseManager.insertConsignmentProduct(consignmentProduct).subscribe();
-                }
-            });
+            consignment.setConsignmentType(Consignment.INCOME_CONSIGNMENT);
+            BillingOperations operations = null;
+            if (checked && !paidSum.equals("")){
+                operations = new BillingOperations();
+                operations.setAccount(accountList.get(selectedPosition));
+                operations.setAmount(Double.parseDouble(paidSum));
+                operations.setCreateAt(System.currentTimeMillis());
+                operations.setVendor(this.vendor);
+            }
+            databaseManager.insertConsignment(consignment, operations, consignmentProductList).subscribe();
+            view.closeFragment();
         }
     }
 
@@ -118,6 +117,7 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
     @Override
     public void getAccounts() {
         databaseManager.getAllAccounts().subscribe(accounts -> {
+            this.accountList = accounts;
             List<String> strings = new ArrayList<>();
             if (!accounts.isEmpty())
                 for (Account account : accounts) {
@@ -136,6 +136,13 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
         }
         view.setConsignmentSumValue(sum);
 
+    }
+
+    @Override
+    public void checkChanges(String number, String description, String totalPaid, boolean checked, int selectedPosition) {
+        if (!number.equals("") || !description.equals("") || !totalPaid.equals("") || !checked || selectedPosition != 0){
+            view.openDiscardDialog();
+        } else view.closeFragment();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

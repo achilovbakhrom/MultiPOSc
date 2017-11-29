@@ -107,6 +107,8 @@ public interface ProductView extends BaseView {
     void saveProduct(boolean isBigger);
     String getPhotoPath();
     void finishActivity();
-
     void openCategoryFragment();
+    void sendEvent(String event);
+    void showCannotDeleteItemWithPlusValue(double value);
+    void showCannotDeleteItemWithMinusValue(double value);
 }

@@ -7,6 +7,7 @@ import com.jim.multipos.config.scope.PerActivity;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.ProductClass;
+import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.products.Category;
@@ -35,6 +36,9 @@ import lombok.Setter;
 public class ProductPresenterImpl extends BasePresenterImpl<ProductView> implements ProductPresenter {
 
     private final String CATEGORY_KEY = "CATEGORY_KEY", SUBCATEGORY_KEY = "SUBCATEGORY_KEY", PRODUCT_KEY = "PRODUCT_KEY", STATE_KEY = "STATE_KEY";
+    public static final String PRODUCT_ADD = "PRODUCT_ADD";
+    public static final String PRODUCT_DELETE = "PRODUCT_DELETE";
+    public static final String PRODUCT_UPDATE = "PRODUCT_UPDATE";
 
     @Setter
     @Getter
@@ -357,8 +361,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
                         public void onPositiveButtonClicked() {
-                            for (int i = 0; i < vendorProductConnectionsList.size(); i ++)
-                            {
+                            for (int i = 0; i < vendorProductConnectionsList.size(); i++) {
                                 vendorProductConnectionsList.get(i).setCost(tempCostList.get(i).getCost());
                             }
                             view.setCostValue(savedCosts);
@@ -471,8 +474,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
                         public void onPositiveButtonClicked() {
-                            for (int i = 0; i < vendorProductConnectionsList.size(); i ++)
-                            {
+                            for (int i = 0; i < vendorProductConnectionsList.size(); i++) {
                                 vendorProductConnectionsList.get(i).setCost(tempCostList.get(i).getCost());
                             }
                             view.setCostValue(savedCosts);
@@ -662,13 +664,12 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 tempCostList.clear();
                 for (VendorProductCon cost : vendorProductConnectionsList) {
                     if (cost != null) {
-                        if (cost.getCost() != null){
+                        if (cost.getCost() != null) {
                             VendorProductCon productCon = new VendorProductCon();
                             productCon.setCost(cost.getCost());
                             tempCostList.add(productCon);
                             savedCosts += cost.getCost();
-                        }
-                        else {
+                        } else {
                             cost.setCost(0d);
                             VendorProductCon productCon = new VendorProductCon();
                             productCon.setCost(0.0d);
@@ -843,8 +844,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
                         public void onPositiveButtonClicked() {
-                            for (int i = 0; i < vendorProductConnectionsList.size(); i ++)
-                            {
+                            for (int i = 0; i < vendorProductConnectionsList.size(); i++) {
                                 vendorProductConnectionsList.get(i).setCost(tempCostList.get(i).getCost());
                             }
                             openProduct(product);
@@ -924,6 +924,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             result.setIsActive(isActive);
             databaseManager.addCategory(result).subscribe(id -> {
                 view.addToCategoryList(result);
+                view.sendEvent(PRODUCT_ADD);
                 view.setCategoryPath(null);
                 openCategory(null);
             });
@@ -934,6 +935,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             result.setActive(isActive);
             databaseManager.addCategory(result).subscribe(id -> {
                 view.addToSubcategoryList(result);
+                view.sendEvent(PRODUCT_ADD);
                 view.setSubcategoryPath(null);
                 openSubcategory(null);
             });
@@ -942,14 +944,21 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             view.showEditDialog(new UIUtils.AlertListener() {
                 @Override
                 public void onPositiveButtonClicked() {
-                    result.setId(category.getId());
+                    if (category.getRootId() == null)
+                        result.setRootId(category.getId());
+                    else result.setRootId(category.getRootId());
                     result.setName(name);
                     result.setDescription(description);
                     result.setActive(isActive);
+                    result.setCreatedDate(System.currentTimeMillis());
+                    category.setActive(false);
+                    category.setIsNotModified(false);
+                    databaseManager.replaceCategory(category).subscribe();
                     databaseManager.addCategory(result).subscribe(id -> {
                         view.editCategory(result);
                         category.refresh();
                         view.setCategoryPath(result.getName());
+                        view.sendEvent(PRODUCT_UPDATE);
 //                        openCategory(null);
                     });
                 }
@@ -964,14 +973,21 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             view.showEditDialog(new UIUtils.AlertListener() {
                 @Override
                 public void onPositiveButtonClicked() {
-                    result.setId(subcategory.getId());
+                    if (category.getRootId() == null)
+                        result.setRootId(subcategory.getId());
+                    else result.setRootId(subcategory.getRootId());
+                    result.setCreatedDate(System.currentTimeMillis());
                     result.setParentId(subcategory.getParentId());
                     result.setName(name);
                     result.setDescription(description);
                     result.setActive(isActive);
+                    subcategory.setActive(false);
+                    subcategory.setIsNotModified(false);
+                    databaseManager.replaceCategory(subcategory).subscribe();
                     databaseManager.addCategory(result).subscribe(id -> {
                         view.editSubcategory(result);
                         subcategory.refresh();
+                        view.sendEvent(PRODUCT_UPDATE);
                         category.resetSubCategories();
                         view.setSubcategoryPath(result.getName());
 //                        view.unselectSubcategoryList();
@@ -1078,15 +1094,29 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 view.showCannotDeleteActiveItemDialog();
                 return;
             }
+            List<InventoryState> inventoryStates = databaseManager.getInventoryStatesByProductId(product.getId()).blockingSingle();
+            for (InventoryState inventoryState : inventoryStates) {
+                if (inventoryState.getValue() > 0) {
+                    view.showCannotDeleteItemWithPlusValue(inventoryState.getValue());
+                    return;
+                } else if (inventoryState.getValue() < 0) {
+                    view.showCannotDeleteItemWithMinusValue(inventoryState.getValue());
+                    return;
+                }
+            }
             view.showDeleteDialog(new UIUtils.AlertListener() {
                 @Override
                 public void onPositiveButtonClicked() {
-                    databaseManager.removeProduct(product).subscribe(isDeleted -> {
-                        if (isDeleted) {
-                            if (subcategory != null) {
-                                subcategory.resetProducts();
-                                openSubcategory(subcategory);
-                                openProduct(null);
+
+                    product.setActive(false);
+                    product.setDeleted(true);
+                    product.setNotModifyted(false);
+                    databaseManager.replaceProduct(product).subscribe(aLong -> {
+                        if (subcategory != null) {
+                            subcategory.resetProducts();
+                            view.sendEvent(PRODUCT_DELETE);
+                            openSubcategory(subcategory);
+                            openProduct(null);
 //                                List<Product> list = new ArrayList<>();
 //                                if (ProductPresenterImpl.this.subcategory != null &&
 //                                        !ProductPresenterImpl.this.subcategory.getProducts().isEmpty()) {
@@ -1100,8 +1130,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
 //                                view.openProductAddMode();
 //                                view.unselectProductsList();
 //                                showActivesToggled();
-                            }
-
                         }
                     });
                 }
@@ -1133,13 +1161,15 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     view.showDeleteDialog(new UIUtils.AlertListener() {
                         @Override
                         public void onPositiveButtonClicked() {
-                            databaseManager.removeCategory(subcategory).subscribe(isDeleted -> {
+                            subcategory.setIsNotModified(false);
+                            subcategory.setActive(false);
+                            subcategory.setDeleted(true);
+                            databaseManager.replaceCategory(subcategory).subscribe(isDeleted -> {
+                                view.sendEvent(PRODUCT_DELETE);
                                 Log.d("sss", "deleteCategory: ");
-                                if (isDeleted) {
-                                    category.resetSubCategories();
-                                    openCategory(category);
-                                    openSubcategory(null);
-                                }
+                                category.resetSubCategories();
+                                openCategory(category);
+                                openSubcategory(null);
                             });
                         }
 
@@ -1164,34 +1194,36 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     view.showDeleteDialog(new UIUtils.AlertListener() {
                         @Override
                         public void onPositiveButtonClicked() {
-                            databaseManager.removeCategory(category).subscribe(isDeleted -> {
+                            category.setIsNotModified(false);
+                            category.setActive(false);
+                            category.setDeleted(true);
+                            databaseManager.replaceCategory(category).subscribe(isDeleted -> {
                                 Log.d("sss", "deleteCategory: ");
-                                if (isDeleted) {
-                                    List<Category> categories;
-                                    if (!view.isActiveVisible()) {
-                                        categories = databaseManager.getActiveCategories().blockingSingle();
-                                    } else {
-                                        categories = databaseManager.getAllCategories().blockingSingle();
-                                    }
-                                    if (categories != null && !categories.isEmpty()) {
-                                        Collections.sort(categories, (o1, o2) -> o1.getPosition().compareTo(o2.getPosition()));
-                                        Collections.sort(categories, (o1, o2) -> -((Boolean) o1.isActive()).compareTo(o2.isActive()));
-                                    }
-                                    categories.add(0, null);
-                                    view.setListToCategoryList(categories);
-                                    view.unselectSubcategoryList();
-                                    view.unselectProductsList();
-                                    view.clearSubcategoryList();
-                                    view.clearProductList();
-                                    view.selectAddCategoryItem();
-                                    view.openAddCategoryMode();
-                                    view.setCategoryPath(null);
-                                    view.setSubcategoryPath(null);
-                                    mode = CategoryAddEditMode.CATEGORY_ADD_MODE;
-                                    subcategory = null;
-                                    category = null;
-                                    product = null;
+                                List<Category> categories;
+                                if (!view.isActiveVisible()) {
+                                    categories = databaseManager.getActiveCategories().blockingSingle();
+                                } else {
+                                    categories = databaseManager.getAllCategories().blockingSingle();
                                 }
+                                if (categories != null && !categories.isEmpty()) {
+                                    Collections.sort(categories, (o1, o2) -> o1.getPosition().compareTo(o2.getPosition()));
+                                    Collections.sort(categories, (o1, o2) -> -((Boolean) o1.isActive()).compareTo(o2.isActive()));
+                                }
+                                categories.add(0, null);
+                                view.sendEvent(PRODUCT_DELETE);
+                                view.setListToCategoryList(categories);
+                                view.unselectSubcategoryList();
+                                view.unselectProductsList();
+                                view.clearSubcategoryList();
+                                view.clearProductList();
+                                view.selectAddCategoryItem();
+                                view.openAddCategoryMode();
+                                view.setCategoryPath(null);
+                                view.setSubcategoryPath(null);
+                                mode = CategoryAddEditMode.CATEGORY_ADD_MODE;
+                                subcategory = null;
+                                category = null;
+                                product = null;
                             });
                         }
 
@@ -1223,6 +1255,8 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
      * @param description       - product description
      * @param resultPrice
      */
+    List<InventoryState> inventoryStates;
+
     @Override
     public void addProduct(String name, String barcode,
                            String sku, String photoPath, boolean isActive,
@@ -1255,12 +1289,19 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     }
                 }
                 product.setDescription(description);
-                databaseManager.addProduct(product).subscribe(id -> {
+                databaseManager.addProduct(product).subscribe(aLong -> {
                     for (int i = 0; i < vendors.size(); i++) {
-                        vendorProductConnectionsList.get(i).setProductId(id);
+                        vendorProductConnectionsList.get(i).setProductId(product.getId());
+                        Vendor vendor = databaseManager.getVendorById(vendors.get(i)).blockingSingle();
+                        InventoryState inventoryState = new InventoryState();
+                        inventoryState.setProduct(product);
+                        inventoryState.setVendor(vendor);
+                        inventoryState.setValue(0d);
+                        databaseManager.insertInventoryState(inventoryState).subscribe();
                         databaseManager.addVendorProductConnection(vendorProductConnectionsList.get(i)).subscribe();
                     }
                     view.addToProductList(product);
+                    view.sendEvent(PRODUCT_ADD);
                     openProduct(null);
                 });
                 break;
@@ -1283,7 +1324,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                                 result.setRootId(ProductPresenterImpl.this.product.getId());
                             else result.setRootId(ProductPresenterImpl.this.product.getRootId());
                             ProductPresenterImpl.this.product.setActive(false);
-                            ProductPresenterImpl.this.product.setDeleted(true);
                             ProductPresenterImpl.this.product.setNotModifyted(false);
                             List<Currency> tempCurrencies = databaseManager.getAllCurrencies().blockingSingle();
                             if (tempCurrencies.size() > priceCurrencuyPos) {
@@ -1304,14 +1344,19 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                                 }
                             }
                             result.setDescription(description);
+                            inventoryStates = new ArrayList<>();
+                            inventoryStates = databaseManager.getInventoryStatesByProductId(ProductPresenterImpl.this.product.getId()).blockingSingle();
                             databaseManager.replaceProduct(ProductPresenterImpl.this.product).subscribe();
                             databaseManager.removeVendorProductConnectionByProductId(ProductPresenterImpl.this.product.getId()).subscribe();
                             databaseManager.addProduct(result).subscribe(id -> {
                                 for (int i = 0; i < vendors.size(); i++) {
-                                    vendorProductConnectionsList.get(i).setProductId(id);
+                                    vendorProductConnectionsList.get(i).setProductId(result.getId());
+                                    inventoryStates.get(i).setProduct(result);
+                                    databaseManager.insertInventoryState(inventoryStates.get(i)).subscribe();
                                     databaseManager.addVendorProductConnection(vendorProductConnectionsList.get(i)).subscribe();
                                 }
                                 view.editProduct(result);
+                                view.sendEvent(PRODUCT_ADD);
 //                                view.unselectProductsList();
                                 openSubcategory(subcategory);
                                 openProduct(result);
@@ -1668,8 +1713,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
                         public void onPositiveButtonClicked() {
-                            for (int i = 0; i < vendorProductConnectionsList.size(); i ++)
-                            {
+                            for (int i = 0; i < vendorProductConnectionsList.size(); i++) {
                                 vendorProductConnectionsList.get(i).setCost(tempCostList.get(i).getCost());
                             }
                             view.finishActivity();

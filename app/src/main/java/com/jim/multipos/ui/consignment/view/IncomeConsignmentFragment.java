@@ -75,6 +75,7 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
     private double sum = 0;
     public static final String PRODUCT_ID = "PRODUCT_ID";
     public static final String VENDOR_ID = "VENDOR_ID";
+
     @Override
     protected int getLayout() {
         return R.layout.income_fragment;
@@ -83,7 +84,7 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void init(Bundle savedInstanceState) {
-        if (getArguments() != null){
+        if (getArguments() != null) {
             Long productId = (Long) getArguments().get(PRODUCT_ID);
             Long vendorId = (Long) getArguments().get(VENDOR_ID);
             presenter.setData(productId, vendorId);
@@ -150,7 +151,7 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
 
     @OnClick(R.id.btnBack)
     public void onBack() {
-        getActivity().finish();
+        presenter.checkChanges(etConsignmentNumber.getText().toString(), etConsignmentDescription.getText().toString(), etTotalPaid.getText().toString(), chbFromAccount.isChecked(), spAccounts.getSelectedPosition());
     }
 
     @OnClick(R.id.btnAddProductToConsignment)
@@ -161,8 +162,9 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
 
     @OnClick(R.id.btnAddConsignment)
     public void onAddConsignment() {
-        if (isValid())
-            presenter.saveConsignment(etConsignmentNumber.getText().toString(), etConsignmentDescription.getText().toString(), tvTotalShouldPay.getText().toString(), chbFromAccount.isChecked(), spAccounts.getSelectedPosition());
+        if (isValid()) {
+            presenter.saveConsignment(etConsignmentNumber.getText().toString(), etConsignmentDescription.getText().toString(), tvTotalShouldPay.getText().toString(), etTotalPaid.getText().toString(), chbFromAccount.isChecked(), spAccounts.getSelectedPosition());
+        }
     }
 
     @Override
@@ -199,5 +201,23 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
         warningDialog.setWarningMessage(getString(R.string.add_product_to_consignment));
         warningDialog.setOnYesClickListener(view1 -> warningDialog.dismiss());
         warningDialog.show();
+    }
+
+    @Override
+    public void openDiscardDialog() {
+        WarningDialog warningDialog = new WarningDialog(getContext());
+        warningDialog.setWarningMessage(getString(R.string.warning_discard_changes));
+        warningDialog.setDialogTitle(getString(R.string.discard_changes));
+        warningDialog.setOnYesClickListener(view1 -> {
+            warningDialog.dismiss();
+            closeFragment();
+        });
+        warningDialog.setOnNoClickListener(view -> warningDialog.dismiss());
+        warningDialog.show();
+    }
+
+    @Override
+    public void closeFragment() {
+        getActivity().finish();
     }
 }

@@ -39,6 +39,7 @@ public class VendorListAdapter extends RecyclerView.Adapter<VendorListAdapter.Ve
     public void onBindViewHolder(VendorItemViewHolder holder, int position) {
         holder.tvProductName.setText(items.get(position).getName());
         holder.tvProductSKU.setVisibility(View.GONE);
+        holder.tvSKU.setVisibility(View.GONE);
     }
 
     public void setListener(OnVendorSelectCallback listener){
@@ -60,6 +61,8 @@ public class VendorListAdapter extends RecyclerView.Adapter<VendorListAdapter.Ve
         TextView tvProductName;
         @BindView(R.id.tvProductSKU)
         TextView tvProductSKU;
+        @BindView(R.id.tvSKU)
+        TextView tvSKU;
         @BindView(R.id.llListContainer)
         LinearLayout llListContainer;
 

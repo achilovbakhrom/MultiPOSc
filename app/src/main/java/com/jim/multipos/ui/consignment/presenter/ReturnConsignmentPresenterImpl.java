@@ -7,17 +7,18 @@ import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.consignment.Consignment;
 import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
-import com.jim.multipos.data.db.model.currency.Currency;
+import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.products.VendorProductCon;
-import com.jim.multipos.data.db.model.unit.Unit;
 import com.jim.multipos.ui.consignment.view.ReturnConsignmentView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import static com.jim.multipos.data.db.model.inventory.WarehouseOperations.RETURN_TO_VENDOR;
 
 /**
  * Created by Sirojiddin on 24.11.2017.
@@ -113,13 +114,16 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
             this.returnConsignment.setDescription(description);
             this.returnConsignment.setTotalAmount(sum);
             this.returnConsignment.setVendor(this.vendor);
-            this.returnConsignment.setConsignmentType(1);
-            databaseManager.insertConsignment(this.returnConsignment).subscribe(aLong -> {
-                for (ConsignmentProduct consignmentProduct : consignmentProductList) {
-                    consignmentProduct.setConsignmentId(this.returnConsignment.getId());
-                    databaseManager.insertConsignmentProduct(consignmentProduct).subscribe();
-                }
-            });
+            this.returnConsignment.setConsignmentType(Consignment.RETURN_CONSIGNMENT);
+            databaseManager.insertReturnConsignment(this.returnConsignment, consignmentProductList).subscribe();
+            view.closeFragment();
         }
+    }
+
+    @Override
+    public void checkChanges(String number, String des) {
+        if (!number.equals("") || !des.equals("") || consignmentProductList.size() != 0){
+            view.openDiscardDialog();
+        } else view.closeFragment();
     }
 }

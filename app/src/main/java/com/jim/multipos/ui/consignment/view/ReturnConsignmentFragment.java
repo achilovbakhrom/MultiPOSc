@@ -28,6 +28,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 
 import static com.jim.multipos.ui.consignment.view.IncomeConsignmentFragment.PRODUCT_ID;
 import static com.jim.multipos.ui.consignment.view.IncomeConsignmentFragment.VENDOR_ID;
@@ -48,6 +49,7 @@ public class ReturnConsignmentFragment extends BaseFragment implements ReturnCon
     DecimalFormat decimalFormat;
     @BindView(R.id.rvReturnProducts)
     RecyclerView rvReturnProducts;
+    @NotEmpty(messageId = R.string.consignment_number_is_empty)
     @BindView(R.id.etReturnNumber)
     MpEditText etReturnNumber;
     @BindView(R.id.etReturnDescription)
@@ -66,7 +68,7 @@ public class ReturnConsignmentFragment extends BaseFragment implements ReturnCon
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        if (getArguments() != null){
+        if (getArguments() != null) {
             Long productId = (Long) getArguments().get(PRODUCT_ID);
             Long vendorId = (Long) getArguments().get(VENDOR_ID);
             presenter.setData(productId, vendorId);
@@ -109,7 +111,7 @@ public class ReturnConsignmentFragment extends BaseFragment implements ReturnCon
 
     @OnClick(R.id.btnBack)
     public void onBack() {
-        getActivity().finish();
+        presenter.checkChanges(etReturnNumber.getText().toString(), etReturnDescription.getText().toString());
     }
 
     @OnClick(R.id.btnAddProductToReturnConsignment)
@@ -152,5 +154,23 @@ public class ReturnConsignmentFragment extends BaseFragment implements ReturnCon
     @Override
     public void setVendorName(String name) {
         tvVendorName.setText(name);
+    }
+
+    @Override
+    public void openDiscardDialog() {
+        WarningDialog warningDialog = new WarningDialog(getContext());
+        warningDialog.setWarningMessage(getString(R.string.warning_discard_changes));
+        warningDialog.setDialogTitle(getString(R.string.discard_changes));
+        warningDialog.setOnYesClickListener(view1 -> {
+            warningDialog.dismiss();
+            closeFragment();
+        });
+        warningDialog.setOnNoClickListener(view -> warningDialog.dismiss());
+        warningDialog.show();
+    }
+
+    @Override
+    public void closeFragment() {
+        getActivity().finish();
     }
 }

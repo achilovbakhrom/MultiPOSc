@@ -39,6 +39,8 @@ import com.jim.multipos.data.db.model.customer.CustomerGroup;
 import com.jim.multipos.data.db.model.customer.CustomerGroupDao;
 import com.jim.multipos.data.db.model.customer.JoinCustomerGroupsWithCustomers;
 import com.jim.multipos.data.db.model.customer.JoinCustomerGroupsWithCustomersDao;
+import com.jim.multipos.data.db.model.inventory.BillingOperations;
+import com.jim.multipos.data.db.model.inventory.BillingOperationsDao;
 import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.inventory.InventoryStateDao;
 import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
@@ -224,7 +226,7 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Observable<List<Category>> getAllCategories() {
         return Observable.fromCallable(() -> mDaoSession.getCategoryDao().queryBuilder()
-                .where(CategoryDao.Properties.ParentId.eq(WITHOUT_PARENT), CategoryDao.Properties.IsDeleted.eq(false))
+                .where(CategoryDao.Properties.ParentId.eq(WITHOUT_PARENT), CategoryDao.Properties.IsDeleted.eq(false), CategoryDao.Properties.IsNotModified.eq(true))
                 .orderAsc(CategoryDao.Properties.Position)
                 .build().list());
     }
@@ -1137,171 +1139,198 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public Single<List<InventoryItem>> getInventoryItems() {
-        if(mDaoSession.getProductDao().loadAll().size()==0){
-
-        Account account = new Account();
-        account.setType(1);
-        account.setCirculation(0);
-        account.setName("Cash");
-        mDaoSession.getAccountDao().insertOrReplace(account);
-
-        Currency currency = new Currency();
-        currency.setAbbr("uzs");
-        currency.setName("Sum");
-        currency.setIsMain(true);
-        mDaoSession.getCurrencyDao().insertOrReplace(currency);
-
-        Unit unit = new Unit();
-        unit.setAbbr("kg");
-        unit.setFactorRoot(1);
-        unit.setIsActive(true);
-
-        mDaoSession.getUnitDao().insertOrReplace(unit);
-
-        Unit unit1 = new Unit();
-        unit1.setAbbr("pcs");
-        unit1.setFactorRoot(1);
-        unit1.setIsActive(true);
-
-        mDaoSession.getUnitDao().insertOrReplace(unit1);
-
-
-        Vendor vendor = new Vendor();
-        vendor.setName("Huawei Design");
-        vendor.setContactName("Islomov Sardor");
-        vendor.setDeleted(false);
-        vendor.setActive(true);
-        vendor.setCreatedDate(System.currentTimeMillis());
-        mDaoSession.getVendorDao().insertOrReplace(vendor);
-
-        Vendor vendor1 = new Vendor();
-        vendor1.setName("Motorola");
-        vendor1.setContactName("Islomov Sardor");
-        vendor1.setDeleted(false);
-        vendor1.setActive(true);
-        vendor1.setCreatedDate(System.currentTimeMillis());
-        mDaoSession.getVendorDao().insertOrReplace(vendor1);
-
-
-        Vendor vendor2 = new Vendor();
-        vendor2.setName("Samsung");
-        vendor2.setContactName("Islomov Sardor");
-        vendor2.setDeleted(false);
-        vendor2.setActive(true);
-        vendor2.setCreatedDate(System.currentTimeMillis());
-        mDaoSession.getVendorDao().insertOrReplace(vendor2);
-
-        Vendor vendor3 = new Vendor();
-        vendor3.setName("Google");
-        vendor3.setContactName("Islomov Sardor");
-        vendor3.setDeleted(false);
-        vendor3.setActive(true);
-        vendor3.setCreatedDate(System.currentTimeMillis());
-        mDaoSession.getVendorDao().insertOrReplace(vendor3);
-
-
-        ProductClass productClass = new ProductClass();
-        productClass.setName("T-shirt");
-        productClass.setCreatedDate(System.currentTimeMillis());
-        productClass.setActive(true);
-        productClass.setDeleted(false);
-
-        mDaoSession.getProductClassDao().insertOrReplace(productClass);
-
-        Category category = new Category();
-        category.setName("MoneyIsGood");
-        mDaoSession.getCategoryDao().insertOrReplace(category);
-
-        Category subcategory = new Category();
-        subcategory.setParentId(category.getId());
-        subcategory.setName("GirlsAreGood");
-        mDaoSession.getCategoryDao().insertOrReplace(subcategory);
-
-        Product product = new Product();
-        product.setName("Taxima");
-        product.setBarcode("88974");
-        product.setSku("12312421");
-        product.setPrice(6500d);
-        product.setCreatedDate(System.currentTimeMillis());
-        product.setMainUnitId(unit.getId());
-        product.setCostCurrencyId(currency.getId());
-        product.setPriceCurrencyId(currency.getId());
-        product.setClassId(productClass.getId());
-        product.setCategoryId(subcategory.getId());
-        mDaoSession.getProductDao().insertOrReplace(product);
-
-
-        VendorProductCon vendorProductCon = new VendorProductCon();
-        vendorProductCon.setProductId(product.getId());
-        vendorProductCon.setVendorId(vendor.getId());
-        vendorProductCon.setCost(6300d);
-        mDaoSession.getVendorProductConDao().insertOrReplace(vendorProductCon);
-
-        VendorProductCon vendorProductCon0 = new VendorProductCon();
-        vendorProductCon0.setProductId(product.getId());
-        vendorProductCon0.setVendorId(vendor1.getId());
-        vendorProductCon.setCost(6100d);
-        mDaoSession.getVendorProductConDao().insertOrReplace(vendorProductCon0);
-
-            Product product5 = new Product();
-            product5.setName("Bono Chocolate");
-            product5.setBarcode("3414124");
-            product5.setSku("8732344");
-            product5.setPrice(6500d);
-            product5.setCreatedDate(System.currentTimeMillis());
-            product5.setMainUnitId(unit1.getId());
-            product5.setCostCurrencyId(currency.getId());
-            product5.setPriceCurrencyId(currency.getId());
-            product5.setClassId(productClass.getId());
-            product5.setCategoryId(subcategory.getId());
-            mDaoSession.getProductDao().insertOrReplace(product5);
-
-            VendorProductCon vendorProductCon01 = new VendorProductCon();
-            vendorProductCon01.setProductId(product5.getId());
-            vendorProductCon01.setVendorId(vendor2.getId());
-            vendorProductCon01.setCost(6200d);
-            mDaoSession.getVendorProductConDao().insertOrReplace(vendorProductCon01);
-
-            Product product6 = new Product();
-            product6.setName("Sugar 1000gr");
-            product6.setBarcode("8875154");
-            product6.setSku("px1412");
-            product6.setPrice(6500d);
-            product6.setCreatedDate(System.currentTimeMillis());
-            product6.setMainUnitId(unit1.getId());
-            product6.setCostCurrencyId(currency.getId());
-            product6.setPriceCurrencyId(currency.getId());
-            product6.setClassId(productClass.getId());
-            product6.setCategoryId(subcategory.getId());
-            mDaoSession.getProductDao().insertOrReplace(product6);
-
-            VendorProductCon vendorProductCon02 = new VendorProductCon();
-            vendorProductCon02.setProductId(product6.getId());
-            vendorProductCon02.setVendorId(vendor3.getId());
-            vendorProductCon02.setCost(6500d);
-            mDaoSession.getVendorProductConDao().insertOrReplace(vendorProductCon02);
-
-            Product product1 = new Product();
-        product1.setName("To'xtaniyoz ota kapchonniy");
-        product1.setBarcode("sadq");
-        product1.setSku("qweqs");
-        product1.setPrice(5000d);
-        product1.setCreatedDate(System.currentTimeMillis());
-        product1.setMainUnitId(unit1.getId());
-        product1.setCostCurrencyId(currency.getId());
-        product1.setClassId(productClass.getId());
-        product1.setPriceCurrencyId(currency.getId());
-        product1.setCategoryId(subcategory.getId());
-        mDaoSession.getProductDao().insertOrReplace(product1);
-
-
-        VendorProductCon vendorProductCon1 = new VendorProductCon();
-        vendorProductCon1.setProductId(product1.getId());
-        vendorProductCon1.setVendorId(vendor.getId());
-        mDaoSession.getVendorProductConDao().insertOrReplace(vendorProductCon1);
-
-
-    }
+//        if(mDaoSession.getProductDao().loadAll().size()==0){
+//
+//        Account account = new Account();
+//        account.setType(1);
+//        account.setCirculation(0);
+//        account.setName("Cash");
+//        mDaoSession.getAccountDao().insertOrReplace(account);
+//
+//        Currency currency = new Currency();
+//        currency.setAbbr("uzs");
+//        currency.setName("Sum");
+//        currency.setIsMain(true);
+//        mDaoSession.getCurrencyDao().insertOrReplace(currency);
+//
+//        Unit unit = new Unit();
+//        unit.setAbbr("kg");
+//        unit.setFactorRoot(1);
+//        unit.setIsActive(true);
+//
+//        mDaoSession.getUnitDao().insertOrReplace(unit);
+//
+//        Unit unit1 = new Unit();
+//        unit1.setAbbr("pcs");
+//        unit1.setFactorRoot(1);
+//        unit1.setIsActive(true);
+//
+//        mDaoSession.getUnitDao().insertOrReplace(unit1);
+//
+//
+//        Vendor vendor = new Vendor();
+//        vendor.setName("Huawei Design");
+//        vendor.setContactName("Islomov Sardor");
+//        vendor.setDeleted(false);
+//        vendor.setActive(true);
+//        vendor.setCreatedDate(System.currentTimeMillis());
+//        mDaoSession.getVendorDao().insertOrReplace(vendor);
+//
+//        Vendor vendor1 = new Vendor();
+//        vendor1.setName("Motorola");
+//        vendor1.setContactName("Islomov Sardor");
+//        vendor1.setDeleted(false);
+//        vendor1.setActive(true);
+//        vendor1.setCreatedDate(System.currentTimeMillis());
+//        mDaoSession.getVendorDao().insertOrReplace(vendor1);
+//
+//
+//        Vendor vendor2 = new Vendor();
+//        vendor2.setName("Samsung");
+//        vendor2.setContactName("Islomov Sardor");
+//        vendor2.setDeleted(false);
+//        vendor2.setActive(true);
+//        vendor2.setCreatedDate(System.currentTimeMillis());
+//        mDaoSession.getVendorDao().insertOrReplace(vendor2);
+//
+//        Vendor vendor3 = new Vendor();
+//        vendor3.setName("Google");
+//        vendor3.setContactName("Islomov Sardor");
+//        vendor3.setDeleted(false);
+//        vendor3.setActive(true);
+//        vendor3.setCreatedDate(System.currentTimeMillis());
+//        mDaoSession.getVendorDao().insertOrReplace(vendor3);
+//
+//
+//        ProductClass productClass = new ProductClass();
+//        productClass.setName("T-shirt");
+//        productClass.setCreatedDate(System.currentTimeMillis());
+//        productClass.setActive(true);
+//        productClass.setDeleted(false);
+//
+//        mDaoSession.getProductClassDao().insertOrReplace(productClass);
+//
+//        Category category = new Category();
+//        category.setName("MoneyIsGood");
+//        mDaoSession.getCategoryDao().insertOrReplace(category);
+//
+//        Category subcategory = new Category();
+//        subcategory.setParentId(category.getId());
+//        subcategory.setName("GirlsAreGood");
+//        mDaoSession.getCategoryDao().insertOrReplace(subcategory);
+//
+//        Product product = new Product();
+//        product.setName("Taxima");
+//        product.setBarcode("88974");
+//        product.setSku("12312421");
+//        product.setPrice(6500d);
+//        product.setCreatedDate(System.currentTimeMillis());
+//        product.setMainUnitId(unit.getId());
+//        product.setCostCurrencyId(currency.getId());
+//        product.setPriceCurrencyId(currency.getId());
+//        product.setClassId(productClass.getId());
+//        product.setCategoryId(subcategory.getId());
+//        mDaoSession.getProductDao().insertOrReplace(product);
+//
+//        VendorProductCon vendorProductCon = new VendorProductCon();
+//        vendorProductCon.setProductId(product.getId());
+//        vendorProductCon.setVendorId(vendor.getId());
+//        vendorProductCon.setCost(6300d);
+//        mDaoSession.getVendorProductConDao().insertOrReplace(vendorProductCon);
+//
+//        VendorProductCon vendorProductCon0 = new VendorProductCon();
+//        vendorProductCon0.setProductId(product.getId());
+//        vendorProductCon0.setVendorId(vendor1.getId());
+//        vendorProductCon.setCost(6100d);
+//        mDaoSession.getVendorProductConDao().insertOrReplace(vendorProductCon0);
+//
+//            InventoryState inventoryState = new InventoryState();
+//            inventoryState.setValue(0d);
+//            inventoryState.setVendor(vendor);
+//            inventoryState.setProduct(product);
+//            mDaoSession.getInventoryStateDao().insertOrReplace(inventoryState);
+//
+//            InventoryState inventoryState1 = new InventoryState();
+//            inventoryState1.setValue(0d);
+//            inventoryState1.setVendor(vendor1);
+//            inventoryState1.setProduct(product);
+//            mDaoSession.getInventoryStateDao().insertOrReplace(inventoryState1);
+//
+//            Product product5 = new Product();
+//            product5.setName("Bono Chocolate");
+//            product5.setBarcode("3414124");
+//            product5.setSku("8732344");
+//            product5.setPrice(6500d);
+//            product5.setCreatedDate(System.currentTimeMillis());
+//            product5.setMainUnitId(unit1.getId());
+//            product5.setCostCurrencyId(currency.getId());
+//            product5.setPriceCurrencyId(currency.getId());
+//            product5.setClassId(productClass.getId());
+//            product5.setCategoryId(subcategory.getId());
+//            mDaoSession.getProductDao().insertOrReplace(product5);
+//
+//            VendorProductCon vendorProductCon01 = new VendorProductCon();
+//            vendorProductCon01.setProductId(product5.getId());
+//            vendorProductCon01.setVendorId(vendor2.getId());
+//            vendorProductCon01.setCost(6200d);
+//            mDaoSession.getVendorProductConDao().insertOrReplace(vendorProductCon01);
+//
+//            InventoryState inventoryState2 = new InventoryState();
+//            inventoryState2.setValue(0d);
+//            inventoryState2.setVendor(vendor2);
+//            inventoryState2.setProduct(product5);
+//            mDaoSession.getInventoryStateDao().insertOrReplace(inventoryState2);
+//
+//            Product product6 = new Product();
+//            product6.setName("Sugar 1000gr");
+//            product6.setBarcode("8875154");
+//            product6.setSku("px1412");
+//            product6.setPrice(6500d);
+//            product6.setCreatedDate(System.currentTimeMillis());
+//            product6.setMainUnitId(unit1.getId());
+//            product6.setCostCurrencyId(currency.getId());
+//            product6.setPriceCurrencyId(currency.getId());
+//            product6.setClassId(productClass.getId());
+//            product6.setCategoryId(subcategory.getId());
+//            mDaoSession.getProductDao().insertOrReplace(product6);
+//
+//            VendorProductCon vendorProductCon02 = new VendorProductCon();
+//            vendorProductCon02.setProductId(product6.getId());
+//            vendorProductCon02.setVendorId(vendor3.getId());
+//            vendorProductCon02.setCost(6500d);
+//            mDaoSession.getVendorProductConDao().insertOrReplace(vendorProductCon02);
+//
+//            InventoryState inventoryState3 = new InventoryState();
+//            inventoryState3.setValue(0d);
+//            inventoryState3.setVendor(vendor3);
+//            inventoryState3.setProduct(product6);
+//            mDaoSession.getInventoryStateDao().insertOrReplace(inventoryState3);
+//
+//            Product product1 = new Product();
+//        product1.setName("To'xtaniyoz ota kapchonniy");
+//        product1.setBarcode("sadq");
+//        product1.setSku("qweqs");
+//        product1.setPrice(5000d);
+//        product1.setCreatedDate(System.currentTimeMillis());
+//        product1.setMainUnitId(unit1.getId());
+//        product1.setCostCurrencyId(currency.getId());
+//        product1.setClassId(productClass.getId());
+//        product1.setPriceCurrencyId(currency.getId());
+//        product1.setCategoryId(subcategory.getId());
+//        mDaoSession.getProductDao().insertOrReplace(product1);
+//
+//
+//        VendorProductCon vendorProductCon1 = new VendorProductCon();
+//        vendorProductCon1.setProductId(product1.getId());
+//        vendorProductCon1.setVendorId(vendor.getId());
+//        mDaoSession.getVendorProductConDao().insertOrReplace(vendorProductCon1);
+//
+//            InventoryState inventoryState4 = new InventoryState();
+//            inventoryState4.setValue(0d);
+//            inventoryState4.setVendor(vendor);
+//            inventoryState4.setProduct(product1);
+//            mDaoSession.getInventoryStateDao().insertOrReplace(inventoryState4);
+//    }
         return Single.create(e -> {
             List<InventoryItem> inventoryItems = new ArrayList<>();
             List<Product> products = mDaoSession.getProductDao().loadAll();
@@ -1368,14 +1397,23 @@ public class AppDbHelper implements DbHelper {
     public Observable<List<Category>> getActiveCategories() {
         return Observable.fromCallable(() -> mDaoSession.queryBuilder(Category.class)
                 .where(CategoryDao.Properties.ParentId.eq(WITHOUT_PARENT),
-                        CategoryDao.Properties.IsActive.eq(true))
+                        CategoryDao.Properties.IsActive.eq(true),
+                        CategoryDao.Properties.IsDeleted.eq(false),
+                        CategoryDao.Properties.IsNotModified.eq(true))
                 .build()
                 .list());
     }
 
     @Override
-    public Observable<Long> insertConsignment(Consignment consignment) {
-        return Observable.fromCallable(() -> mDaoSession.getConsignmentDao().insertOrReplace(consignment));
+    public Single<Consignment> insertConsignment(Consignment consignment) {
+        return Single.create(singleSubscriber -> {
+            try {
+                mDaoSession.getConsignmentDao().insertOrReplace(consignment);
+                singleSubscriber.onSuccess(consignment);
+            } catch (Exception o) {
+                singleSubscriber.onError(o);
+            }
+        });
     }
 
     @Override
@@ -1577,6 +1615,31 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
+    public Observable<Long> insertBillingOperation(BillingOperations billingOperations) {
+        return Observable.fromCallable(() -> mDaoSession.getBillingOperationsDao().insertOrReplace(billingOperations));
+    }
+
+    @Override
+    public Observable<List<BillingOperations>> getBillingOperations() {
+        return Observable.fromCallable(() -> mDaoSession.getBillingOperationsDao().loadAll());
+    }
+
+    @Override
+    public Observable<Long> insertInventoryState(InventoryState inventoryState) {
+        return Observable.fromCallable(() -> mDaoSession.getInventoryStateDao().insertOrReplace(inventoryState));
+    }
+
+    @Override
+    public Observable<List<InventoryState>> getInventoryStates() {
+        return Observable.fromCallable(() -> mDaoSession.getInventoryStateDao().loadAll());
+    }
+
+    @Override
+    public Observable<List<InventoryState>> getInventoryStatesByProductId(Long productId) {
+        return Observable.fromCallable(() -> mDaoSession.queryBuilder(InventoryState.class)
+                .where(InventoryStateDao.Properties.ProductId.eq(productId)).build().list());
+    }
+    @Override
     public Single<Long> insertWarehouseOperation(WarehouseOperations warehouseOperations) {
         return Single.create(e -> {
             Database database = mDaoSession.getDatabase();
@@ -1598,6 +1661,7 @@ public class AppDbHelper implements DbHelper {
                 inventoryState.update();
 
                 database.setTransactionSuccessful();
+                database.endTransaction();
                 e.onSuccess(warehouseOperations.getId());
             }catch (Exception o){
                 e.onError(o);
@@ -1611,11 +1675,12 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
-    public Observable<List<Product>> getAllActiveProductsFromVendor(Long vendorId) {
-//        return Observable.fromCallable(() -> mDaoSession.getProductDao().queryBuilder()
-//                 .where(ProductDao.Properties.VendorId.eq(vendorId), ProductDao.Properties.IsDeleted.eq(false))
-//                 .where(ProductDao.Properties.IsNotModified.eq(true), ProductDao.Properties.IsActive.eq(true))
-//                 .build().list());
-        return null;
+    public Observable<Boolean> removeProductFromInventoryState(Long productId) {
+        return Observable.fromCallable(() -> {
+            mDaoSession.queryBuilder(InventoryStateDao.class)
+                    .where(InventoryStateDao.Properties.ProductId.eq(productId))
+                    .buildDelete().executeDeleteWithoutDetachingEntities();
+            return true;
+        });
     }
 }
