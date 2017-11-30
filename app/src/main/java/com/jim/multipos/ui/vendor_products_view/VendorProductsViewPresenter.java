@@ -2,6 +2,7 @@ package com.jim.multipos.ui.vendor_products_view;
 
 import com.jim.multipos.core.Presenter;
 import com.jim.multipos.data.db.model.ProductClass;
+import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
@@ -16,8 +17,8 @@ public interface VendorProductsViewPresenter extends Presenter {
     Vendor getVendor();
     List<Product> getProducts();
     void setVendorId(long vendorId);
-    List<InventoryItem> getInventoryItems();
-    InventoryItem getInventoryItem(int position);
+    List<InventoryState> getInventoryStates();
+    InventoryState getInventoryState(int position);
     ProductClass getProductClassById(Long id);
     void sortByProductAsc();
     void sortByProductDesc();

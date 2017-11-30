@@ -759,6 +759,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
+    public Observable<List<InventoryState>> getInventoryStatesByVendorId(Long vendorId) {
+        return dbHelper.getInventoryStatesByVendorId(vendorId);
+    }
+
+    @Override
     public Observable<Long> addVendorProductConnection(VendorProductCon vendorProductCon) {
         return dbHelper.addProductVendorConn(vendorProductCon);
     }

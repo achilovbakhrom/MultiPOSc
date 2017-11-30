@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.multipos.R;
+import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
 import com.jim.multipos.ui.vendor_products_view.VendorProductsViewActivity;
@@ -28,7 +29,7 @@ import static com.jim.multipos.ui.vendor_products_view.fragments.VendorDetailsLi
 
 public class MinusInventoryDialog extends DialogFragment {
     public interface MinusInventoryDialogListener {
-        void updateInventory(InventoryItem inventory);
+        void updateInventory(InventoryState inventory);
     }
 
     @BindView(R.id.tvProductName)
@@ -50,7 +51,7 @@ public class MinusInventoryDialog extends DialogFragment {
     @BindView(R.id.btnNext)
     TextView btnNext;
     private Unbinder unbinder;
-    private InventoryItem inventory;
+    private InventoryState inventory;
     private Vendor vendor;
     private MinusInventoryDialog.MinusInventoryDialogListener listener;
 
@@ -60,13 +61,13 @@ public class MinusInventoryDialog extends DialogFragment {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.minus_inventory_dialog, container, false);
         getDialog().getWindow().getDecorView().setBackgroundResource(R.color.colorTransparent);
         unbinder = ButterKnife.bind(this, view);
-        inventory = ((VendorProductsViewActivity) getActivity()).getPresenter().getInventoryItem(getArguments().getInt((INVENTORY_POSITION)));
+        inventory = ((VendorProductsViewActivity) getActivity()).getPresenter().getInventoryState(getArguments().getInt((INVENTORY_POSITION)));
         vendor = ((VendorProductsViewActivity) getActivity()).getPresenter().getVendor();
         tvProductName.setText(inventory.getProduct().getName());
         tvVender.setText(vendor.getName());
-        tvStockRecord.setText(((VendorProductsViewActivity) getActivity()).getDecimalFormat().format(inventory.getInventory()));
+        tvStockRecord.setText(((VendorProductsViewActivity) getActivity()).getDecimalFormat().format(inventory.getValue()));
         tvUnit.setText(inventory.getProduct().getMainUnit().getAbbr());
-        tvActual.setText(((VendorProductsViewActivity) getActivity()).getDecimalFormat().format(inventory.getInventory()));
+        tvActual.setText(((VendorProductsViewActivity) getActivity()).getDecimalFormat().format(inventory.getValue()));
 
         etShortage.addTextChangedListener(new TextWatcher() {
             @Override
@@ -82,16 +83,16 @@ public class MinusInventoryDialog extends DialogFragment {
             @Override
             public void afterTextChanged(Editable s) {
                 if (!etShortage.getText().toString().isEmpty()) {
-                    tvActual.setText(((VendorProductsViewActivity) getActivity()).getDecimalFormat().format(inventory.getInventory() - Double.parseDouble(etShortage.getText().toString())));
+                    tvActual.setText(((VendorProductsViewActivity) getActivity()).getDecimalFormat().format(inventory.getValue() - Double.parseDouble(etShortage.getText().toString())));
                 } else {
-                    tvActual.setText(((VendorProductsViewActivity) getActivity()).getDecimalFormat().format(inventory.getInventory()));
+                    tvActual.setText(((VendorProductsViewActivity) getActivity()).getDecimalFormat().format(inventory.getValue()));
                 }
             }
         });
 
         RxView.clicks(btnNext).subscribe(o -> {
             if (!etShortage.getText().toString().isEmpty()) {
-                inventory.setInventory(Double.parseDouble(tvActual.getText().toString()));
+                inventory.setValue(Double.parseDouble(tvActual.getText().toString()));
                 listener.updateInventory(inventory);
             }
 

@@ -54,7 +54,7 @@ public class VendorDetailsList extends BaseFragment implements ProductAdapter.Pr
     protected void init(Bundle savedInstanceState) {
         rvProduct.setLayoutManager(new LinearLayoutManager(getContext()));
         ((SimpleItemAnimator) rvProduct.getItemAnimator()).setSupportsChangeAnimations(false);
-        rvProduct.setAdapter(new ProductAdapter(getContext(), ((VendorProductsViewActivity) getActivity()).getDecimalFormat(), this, ((VendorProductsViewActivity) getActivity()).getPresenter().getInventoryItems()));
+        rvProduct.setAdapter(new ProductAdapter(getContext(), ((VendorProductsViewActivity) getActivity()).getDecimalFormat(), this, ((VendorProductsViewActivity) getActivity()).getPresenter().getInventoryStates()));
 
         showProductArrowDown();
         isSortedByProduct = true;

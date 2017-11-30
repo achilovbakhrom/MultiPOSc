@@ -16,6 +16,7 @@ import com.jim.multipos.R;
 import com.jim.multipos.core.BaseAdapter;
 import com.jim.multipos.core.BaseViewHolder;
 import com.jim.multipos.data.db.model.ProductClass;
+import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
 import com.jim.multipos.ui.vendor_products_view.VendorProductsView;
@@ -32,7 +33,7 @@ import butterknife.ButterKnife;
  * Created by Portable-Acer on 18.11.2017.
  */
 
-public class ProductAdapter extends BaseAdapter<InventoryItem, ProductAdapter.ProductViewHolder> {
+public class ProductAdapter extends BaseAdapter<InventoryState, ProductAdapter.ProductViewHolder> {
     public interface ProductAdapterListener {
         void showMinusDialog(int position);
         void showPlusDialog(int position);
@@ -43,7 +44,7 @@ public class ProductAdapter extends BaseAdapter<InventoryItem, ProductAdapter.Pr
     private ProductAdapterListener listener;
     private DecimalFormat decimalFormat;
 
-    public ProductAdapter(Context context, DecimalFormat decimalFormat, ProductAdapterListener listener, List<InventoryItem> items) {
+    public ProductAdapter(Context context, DecimalFormat decimalFormat, ProductAdapterListener listener, List<InventoryState> items) {
         super(items);
         this.context = context;
         this.listener = listener;
@@ -62,7 +63,7 @@ public class ProductAdapter extends BaseAdapter<InventoryItem, ProductAdapter.Pr
         holder.tvName.setText(items.get(position).getProduct().getName());
         holder.tvBarcode.setText(items.get(position).getProduct().getBarcode());
         holder.tvSku.setText(items.get(position).getProduct().getSku());
-        holder.tvInventory.setText(decimalFormat.format(items.get(position).getInventory()));
+        holder.tvInventory.setText(decimalFormat.format(items.get(position).getValue()));
         holder.tvUnit.setText(items.get(position).getProduct().getMainUnit().getAbbr());
         holder.tvClass.setText("");
         holder.tvSubClass.setText("");
@@ -96,10 +97,10 @@ public class ProductAdapter extends BaseAdapter<InventoryItem, ProductAdapter.Pr
         }
     }
 
-    public void updateItem(InventoryItem item) {
+    public void updateItem(InventoryState item) {
         for (int i = 0; i < items.size(); i++) {
             if (items.get(i).getProduct().getName().equals(item.getProduct().getName())) {
-                items.get(i).setInventory(item.getInventory());
+                items.get(i).setValue(item.getValue());
                 notifyItemChanged(i);
                 break;
             }

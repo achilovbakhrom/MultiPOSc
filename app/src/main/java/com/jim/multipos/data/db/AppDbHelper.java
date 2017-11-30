@@ -68,6 +68,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -1699,5 +1700,10 @@ public class AppDbHelper implements DbHelper {
                     .buildDelete().executeDeleteWithoutDetachingEntities();
             return true;
         });
+    }
+
+    @Override
+    public Observable<List<InventoryState>> getInventoryStatesByVendorId(Long vendorId) {
+        return Observable.fromCallable(() -> mDaoSession.getInventoryStateDao().queryBuilder().where(InventoryStateDao.Properties.VendorId.eq(vendorId)).build().list());
     }
 }
