@@ -1,9 +1,11 @@
 package com.jim.multipos.data.operations;
 
 import com.jim.multipos.data.db.model.Discount;
+import com.jim.multipos.data.db.model.ServiceFee;
 
 import java.util.List;
 
+import io.reactivex.Observable;
 import io.reactivex.Single;
 
 /**
@@ -13,4 +15,5 @@ import io.reactivex.Single;
 public interface DiscountOperations {
     Single<List<Discount>> getAllDiscounts();
     Single<Long> insertDiscount(Discount discount);
+    Observable<List<Discount>> getDiscountsWithAllItemTypes(String[] discountTypes);
 }

@@ -430,6 +430,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
+    public Observable<List<ServiceFee>> getServiceFeesWithAllItemTypes() {
+        return dbHelper.getServiceFeesWithAllItemTypes();
+    }
+
+    @Override
     public Observable<Long> addCustomer(Customer customer) {
         return dbHelper.insertCustomer(customer);
     }
@@ -467,6 +472,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Single<Long> insertProductClass(ProductClass productClass) {
         return dbHelper.insertProductClass(productClass);
+    }
+
+    @Override
+    public Observable<ProductClass> getProductClass(Long id) {
+        return dbHelper.getProductClass(id);
     }
 
     @Override
@@ -634,6 +644,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Single<Long> insertDiscount(Discount discount) {
         return dbHelper.insertDiscount(discount);
+    }
+
+    @Override
+    public Observable<List<Discount>> getDiscountsWithAllItemTypes(String[] discountTypes) {
+        return dbHelper.getDiscountsWithAllItemTypes(discountTypes);
     }
 
     @Override

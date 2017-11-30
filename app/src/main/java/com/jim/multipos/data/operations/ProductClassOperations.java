@@ -4,6 +4,7 @@ import com.jim.multipos.data.db.model.ProductClass;
 
 import java.util.List;
 
+import io.reactivex.Observable;
 import io.reactivex.Single;
 
 
@@ -14,4 +15,5 @@ import io.reactivex.Single;
 public interface ProductClassOperations {
     Single<List<ProductClass>> getAllProductClass();
     Single<Long> insertProductClass(ProductClass productClass);
+    Observable<ProductClass> getProductClass(Long id);
 }

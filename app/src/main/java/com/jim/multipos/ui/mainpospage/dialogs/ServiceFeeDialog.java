@@ -8,13 +8,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.mpviews.MpButton;
 import com.jim.multipos.R;
 import com.jim.multipos.data.db.model.ServiceFee;
-import com.jim.multipos.ui.mainpospage.MainPosPageActivity;
 import com.jim.multipos.ui.mainpospage.adapter.ServiceFeeAdapter;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,6 +27,13 @@ import butterknife.Unbinder;
  */
 
 public class ServiceFeeDialog extends DialogFragment implements ServiceFeeAdapter.OnClickListener {
+    public interface OnDialogListener {
+        List<ServiceFee> getServiceFees();
+        void addServiceFee(double amount, String description, String amountType);
+    }
+
+    @BindView(R.id.tvCaption)
+    TextView tvCaption;
     @BindView(R.id.rvServiceFees)
     RecyclerView recyclerView;
     @BindView(R.id.btnBack)
@@ -33,6 +42,9 @@ public class ServiceFeeDialog extends DialogFragment implements ServiceFeeAdapte
     MpButton btnAdd;
     private Unbinder unbinder;
     private ServiceFeeAdapter adapter;
+    private List<ServiceFee> serviceFees;
+    private OnDialogListener listener;
+    private String caption;
 
     @Nullable
     @Override
@@ -42,22 +54,46 @@ public class ServiceFeeDialog extends DialogFragment implements ServiceFeeAdapte
 
         unbinder = ButterKnife.bind(this, view);
 
+        if (caption != null) {
+            tvCaption.setText(caption);
+        }
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new ServiceFeeAdapter(getContext(), this, ((MainPosPageActivity) getActivity()).getServiceFees());
+        adapter = new ServiceFeeAdapter(getContext(), this, serviceFees);
         recyclerView.setAdapter(adapter);
 
         RxView.clicks(btnBack).subscribe(o -> dismiss());
 
         RxView.clicks(btnAdd).subscribe(o -> {
             AddServiceFeeDialog dialog = new AddServiceFeeDialog();
-            dialog.setOnDismissListener(() -> {
-                adapter.setItems(((MainPosPageActivity) getActivity()).getServiceFees());
+
+            dialog.setOnServiceFeeDialogListener(new AddServiceFeeDialog.OnServiceFeeDialogListener() {
+                @Override
+                public void dismiss() {
+                    adapter.setItems(listener.getServiceFees());
+                }
+
+                @Override
+                public void addServiceFee(double amount, String description, String amountType) {
+                    listener.addServiceFee(amount, description, amountType);
+                }
             });
             dialog.show(getActivity().getSupportFragmentManager(), "AddServiceFeeDialog");
         });
 
         return view;
+    }
+
+    public void setServiceFee(List<ServiceFee> serviceFees) {
+        this.serviceFees = serviceFees;
+    }
+
+    public void setOnDialogListener(OnDialogListener listener) {
+        this.listener = listener;
+    }
+
+    public void setCaption(String caption) {
+        this.caption = caption;
     }
 
     @Override

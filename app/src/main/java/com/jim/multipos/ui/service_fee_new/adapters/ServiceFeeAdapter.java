@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +33,9 @@ import butterknife.ButterKnife;
 import eu.inmite.android.lib.validations.form.FormValidator;
 import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 
+import static com.jim.multipos.ui.service_fee_new.Constants.APP_TYPE_ALL;
+import static com.jim.multipos.ui.service_fee_new.Constants.APP_TYPE_ITEM;
+import static com.jim.multipos.ui.service_fee_new.Constants.APP_TYPE_ORDER;
 import static com.jim.multipos.ui.service_fee_new.Constants.TYPE_PERCENT;
 import static com.jim.multipos.ui.service_fee_new.Constants.TYPE_VALUE;
 
@@ -66,9 +68,7 @@ public class ServiceFeeAdapter extends BaseAdapter<ServiceFee, BaseViewHolder> {
 
     public static final int SERVICE_FEE_ITEM = 0;
     public static final int SERVICE_FEE_TYPE_ITEM = 1;
-    public static final String APP_TYPE_ITEM = "ITEM";
-    public static final String APP_TYPE_ORDER = "ORDER";
-    public static final String APP_TYPE_ALL = "ALL";
+
     private String[] types;
     private String[] appTypes;
     private Context context;
@@ -218,8 +218,6 @@ public class ServiceFeeAdapter extends BaseAdapter<ServiceFee, BaseViewHolder> {
 
             RxView.clicks(btnRemove).subscribe(o -> {
                 UIUtils.closeKeyboard(btnRemove, context);
-                //Log.d("myLogs", "I am in btnRemove");
-                //Log.d("myLogs", "btnRemove state is " + changedActiveItem.contains(getItem(getAdapterPosition() - 1).getId()));
 
                 if (getItem(getAdapterPosition() - 1).getIsActive()) {
                     listener.showActiveItemWarningDialog();
@@ -231,9 +229,6 @@ public class ServiceFeeAdapter extends BaseAdapter<ServiceFee, BaseViewHolder> {
             });
 
             spType.setItemSelectionListener((view, position) -> {
-                Log.d("myLogs", "TYPE Object app type position is " + getTypePositionFromConst(getItem(getAdapterPosition() - 1).getType()));
-                Log.d("myLogs", "TYPE App type position is " + position);
-
                 if (getTypeFromPosition(position).equals(TYPE_VALUE)) {
                     etAmount.setError(null);
                 }
@@ -242,18 +237,14 @@ public class ServiceFeeAdapter extends BaseAdapter<ServiceFee, BaseViewHolder> {
                     getItem(getAdapterPosition() - 1).setType(getTypeFromPosition(position));
                     changedItemPosition.add(getItem(getAdapterPosition() - 1));
                     btnSave.enable();
-                    //notifyItemChanged(getAdapterPosition());
                 }
             });
 
             spAppType.setItemSelectionListener((view, position) -> {
-                Log.d("myLogs", "Object app type position is " + getAppTypePositionFromConst(getItem(getAdapterPosition() - 1).getApplyingType()));
-                Log.d("myLogs", "App type position is " + position);
                 if (getAppTypePositionFromConst(getItem(getAdapterPosition() - 1).getApplyingType()) != position) {
                     getItem(getAdapterPosition() - 1).setApplyingType(getAppTypeFromPosition(position));
                     changedItemPosition.add(getItem(getAdapterPosition() - 1));
                     btnSave.enable();
-                    //notifyItemChanged(getAdapterPosition());
                 }
             });
 
@@ -261,16 +252,8 @@ public class ServiceFeeAdapter extends BaseAdapter<ServiceFee, BaseViewHolder> {
                 if (!getItem(getAdapterPosition() - 1).getIsActive().equals(isChecked)) {
                     changedActiveItem.put(new Long(getItem(getAdapterPosition() - 1).getId()), isChecked);
                     changedItemPosition.add(getItem(getAdapterPosition() - 1));
-/*
-                    if (isChecked) {
-                        changedActiveItem.add(new Long(getItem(getAdapterPosition() - 1).getId()));
-                    } else {
-                        changedActiveItem.remove(new Long(getItem(getAdapterPosition() - 1).getId()));
-                    }*/
-                    //getItem(getAdapterPosition() - 1).setIsActive(isChecked);
+
                     btnSave.enable();
-                    //changedItemPosition.add(getItem(getAdapterPosition() - 1));
-                    //notifyItemChanged(getAdapterPosition());
                 }
             });
 
@@ -312,7 +295,6 @@ public class ServiceFeeAdapter extends BaseAdapter<ServiceFee, BaseViewHolder> {
                             if (!editText.getText().toString().equals(getItem(getAdapterPosition() - 1).getReason())) {
                                 items.get(getAdapterPosition() - 1).setReason(editText.getText().toString());
                                 changedItemPosition.add(getItem(getAdapterPosition() - 1));
-                                //notifyItemChanged(getAdapterPosition());
                                 btnSave.enable();
                             }
                             break;

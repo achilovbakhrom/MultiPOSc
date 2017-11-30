@@ -7,4 +7,7 @@ import com.jim.multipos.core.BaseView;
  */
 
 public interface ProductInfoView extends BaseView {
+    void changeQuantityColor(int color);
+    void showAlert();
+    void hideAlert();
 }

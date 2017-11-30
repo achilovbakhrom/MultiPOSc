@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/colorBackground"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,6 +23,7 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -30,22 +31,22 @@
                     android:gravity="center"
                     android:text="Product"
                     android:textColor="@color/colorMainText"
-                    android:textSize="@dimen/sixteen_dp"/>
+                    android:textSize="@dimen/sixteen_dp" />
+
                 <ImageView
                     android:id="@+id/ivProductSort"
-                    android:src="@drawable/sorting"
-                    android:visibility="gone"
                     android:layout_width="@dimen/twelve_dp"
                     android:layout_height="@dimen/ten_dp"
                     android:layout_marginLeft="@dimen/ten_dp"
-                    />
+                    android:src="@drawable/sorting"
+                    android:visibility="gone" />
             </LinearLayout>
 
 
             <FrameLayout
                 android:layout_width="2px"
                 android:layout_height="match_parent"
-                android:background="#e3e3e3"/>
+                android:background="#e3e3e3" />
 
             <LinearLayout
                 android:id="@+id/llVendor"
@@ -54,6 +55,7 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -61,23 +63,22 @@
                     android:gravity="center"
                     android:text="Vendor"
                     android:textColor="@color/colorMainText"
-                    android:textSize="@dimen/sixteen_dp"/>
+                    android:textSize="@dimen/sixteen_dp" />
+
                 <ImageView
                     android:id="@+id/ivVendorSort"
-                    android:src="@drawable/sorting"
-                    android:visibility="gone"
                     android:layout_width="@dimen/twelve_dp"
                     android:layout_height="@dimen/ten_dp"
                     android:layout_marginLeft="@dimen/ten_dp"
-                    />
+                    android:src="@drawable/sorting"
+                    android:visibility="gone" />
             </LinearLayout>
-
 
 
             <FrameLayout
                 android:layout_width="2px"
                 android:layout_height="match_parent"
-                android:background="#e3e3e3"/>
+                android:background="#e3e3e3" />
 
             <LinearLayout
                 android:id="@+id/llLowStockAlert"
@@ -86,6 +87,7 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -93,23 +95,22 @@
                     android:gravity="center"
                     android:text="Low \n Stock Alert"
                     android:textColor="@color/colorMainText"
-                    android:textSize="@dimen/sixteen_dp"/>
+                    android:textSize="@dimen/sixteen_dp" />
+
                 <ImageView
                     android:id="@+id/ivLowStockAlertSort"
-                    android:src="@drawable/sorting"
-                    android:visibility="gone"
                     android:layout_width="@dimen/twelve_dp"
                     android:layout_height="@dimen/ten_dp"
                     android:layout_marginLeft="@dimen/ten_dp"
-                    />
+                    android:src="@drawable/sorting"
+                    android:visibility="gone" />
             </LinearLayout>
-
 
 
             <FrameLayout
                 android:layout_width="2px"
                 android:layout_height="match_parent"
-                android:background="#e3e3e3"/>
+                android:background="#e3e3e3" />
 
             <LinearLayout
                 android:id="@+id/llInventory"
@@ -118,6 +119,7 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -125,21 +127,22 @@
                     android:gravity="center"
                     android:text="Inventory"
                     android:textColor="@color/colorMainText"
-                    android:textSize="@dimen/sixteen_dp"/>
+                    android:textSize="@dimen/sixteen_dp" />
+
                 <ImageView
                     android:id="@+id/ivInventorySort"
-                    android:src="@drawable/sorting"
-                    android:visibility="gone"
                     android:layout_width="@dimen/twelve_dp"
                     android:layout_height="@dimen/ten_dp"
                     android:layout_marginLeft="@dimen/ten_dp"
-                    />
+                    android:src="@drawable/sorting"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <FrameLayout
                 android:layout_width="2px"
                 android:layout_height="match_parent"
-                android:background="#e3e3e3"/>
+                android:background="#e3e3e3" />
+
             <LinearLayout
                 android:id="@+id/llUnit"
                 android:layout_width="@dimen/eighty_dp"
@@ -147,6 +150,7 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -154,45 +158,44 @@
                     android:gravity="center"
                     android:text="Unit"
                     android:textColor="@color/colorMainText"
-                    android:textSize="@dimen/sixteen_dp"/>
+                    android:textSize="@dimen/sixteen_dp" />
+
                 <ImageView
                     android:id="@+id/ivUnitSort"
-                    android:src="@drawable/sorting"
-                    android:visibility="gone"
                     android:layout_width="@dimen/twelve_dp"
                     android:layout_height="@dimen/ten_dp"
                     android:layout_marginLeft="@dimen/ten_dp"
-                    />
+                    android:src="@drawable/sorting"
+                    android:visibility="gone" />
             </LinearLayout>
 
 
             <FrameLayout
                 android:layout_width="2px"
                 android:layout_height="match_parent"
-                android:background="#e3e3e3"/>
+                android:background="#e3e3e3" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
+                android:layout_marginRight="@dimen/sixteen_dp"
                 android:gravity="center"
                 android:text="Operations"
                 android:textColor="@color/colorMainText"
-                android:layout_marginRight="@dimen/sixteen_dp"
-                android:textSize="@dimen/sixteen_dp"/>
+                android:textSize="@dimen/sixteen_dp" />
         </LinearLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="3px"
-            android:background="#e3e3e3"/>
+            android:background="#e3e3e3" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvInventory"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#f9f9f9"
-            />
+            android:background="#f9f9f9" />
 
     </LinearLayout>
 

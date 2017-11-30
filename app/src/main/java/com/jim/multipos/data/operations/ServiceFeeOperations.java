@@ -16,4 +16,5 @@ public interface ServiceFeeOperations {
     Observable<Boolean> removeAllServiceFees();
     Observable<Boolean> removeServiceFee(ServiceFee serviceFee);
     Observable<List<Currency>> getAllCurrencies();
+    Observable<List<ServiceFee>> getServiceFeesWithAllItemTypes();
 }

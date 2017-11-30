@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseAdapter;
 import com.jim.multipos.core.BaseViewHolder;
+import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
 import com.jim.multipos.ui.vendor_products_view.VendorProductsView;
@@ -35,6 +36,7 @@ public class ProductAdapter extends BaseAdapter<InventoryItem, ProductAdapter.Pr
     public interface ProductAdapterListener {
         void showMinusDialog(int position);
         void showPlusDialog(int position);
+        ProductClass getProductClass(Long id);
     }
 
     private Context context;
@@ -58,11 +60,34 @@ public class ProductAdapter extends BaseAdapter<InventoryItem, ProductAdapter.Pr
     @Override
     public void onBindViewHolder(ProductViewHolder holder, int position) {
         holder.tvName.setText(items.get(position).getProduct().getName());
-        holder.tvClass.setText(items.get(position).getProduct().getProductClass().getName());
         holder.tvBarcode.setText(items.get(position).getProduct().getBarcode());
         holder.tvSku.setText(items.get(position).getProduct().getSku());
         holder.tvInventory.setText(decimalFormat.format(items.get(position).getInventory()));
         holder.tvUnit.setText(items.get(position).getProduct().getMainUnit().getAbbr());
+        holder.tvClass.setText("");
+        holder.tvSubClass.setText("");
+
+        if (items.get(position).getProduct().getProductClass().getParentId() != null) {
+            ProductClass parentProductClass = listener.getProductClass(items.get(position).getProduct().getProductClass().getParentId());
+
+            if (parentProductClass.getName().length() > 9) {
+                holder.tvClass.setText(parentProductClass.getName().substring(0, 9) + "..., ");
+            } else {
+                holder.tvClass.setText(parentProductClass.getName() + ", ");
+            }
+
+            if (items.get(position).getProduct().getProductClass().getName().length() > 9) {
+                holder.tvSubClass.setText(items.get(position).getProduct().getProductClass().getName().substring(0, 9) + "...");
+            } else {
+                holder.tvSubClass.setText(items.get(position).getProduct().getProductClass().getName());
+            }
+        } else {
+            if (items.get(position).getProduct().getProductClass().getName().length() > 9) {
+                holder.tvClass.setText(items.get(position).getProduct().getProductClass().getName() + "...");
+            } else {
+                holder.tvClass.setText(items.get(position).getProduct().getProductClass().getName());
+            }
+        }
 
         if (position % 2 == 0) {
             holder.llcontainer.setBackgroundColor(Color.parseColor("#f9f9f9"));
@@ -88,6 +113,8 @@ public class ProductAdapter extends BaseAdapter<InventoryItem, ProductAdapter.Pr
         TextView tvName;
         @BindView(R.id.tvClass)
         TextView tvClass;
+        @BindView(R.id.tvSubClass)
+        TextView tvSubClass;
         @BindView(R.id.tvBarcode)
         TextView tvBarcode;
         @BindView(R.id.tvSku)

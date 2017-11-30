@@ -517,7 +517,15 @@
     <string name="open">Open</string>
     <string name="not_classified">Not classified</string>
     <string name="choose_product_class">Choose product class</string>
-    <string name="return_to">Return to:</string>
+    <string name="close">Close</string>
+    <string name="discount_item">Discount item</string>
+    <string name="special_request">Special request</string>
+    <string name="action">Action</string>
+    <string name="inventory">Inventory</string>
+    <string name="enter_quantity">Enter quantity</string>
+    <string name="set_quantity">Set quantity</string>
+    <string name="choose_vendor_dialog">Choose vendor</string>
+    <string name="choose_for_product">Choose for product</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>

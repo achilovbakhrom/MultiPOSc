@@ -5,10 +5,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -18,12 +16,7 @@ import com.jim.mpviews.MpButton;
 import com.jim.mpviews.MpEditText;
 import com.jim.mpviews.MpTripleSwitcher;
 import com.jim.multipos.R;
-import com.jim.multipos.ui.mainpospage.MainPosPageActivity;
-import com.jim.multipos.utils.RxBus;
-import com.jim.multipos.utils.RxBusLocal;
 import com.jim.multipos.utils.validator.MultipleCallback;
-
-import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,8 +29,9 @@ import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
  */
 
 public class AddDiscountDialog extends DialogFragment {
-    public interface OnDismissListener {
+    public interface OnDiscountDialogListener {
         void dismiss();
+        void addDiscount(double amount, String description, String amountType);
     }
 
     @BindView(R.id.tsDiscountType)
@@ -54,7 +48,7 @@ public class AddDiscountDialog extends DialogFragment {
     @BindView(R.id.btnNext)
     MpButton btnNext;
     private Unbinder unbinder;
-    private OnDismissListener dismissListener;
+    private OnDiscountDialogListener listener;
 
     @Nullable
     @Override
@@ -108,8 +102,8 @@ public class AddDiscountDialog extends DialogFragment {
                             amountType = amountTypes[2];
                         }
 
-                        ((MainPosPageActivity) getActivity()).addDiscount(amount, etDescription.getText().toString(), amountType);
-                        dismissListener.dismiss();
+                        listener.addDiscount(amount, etDescription.getText().toString(), amountType);
+                        listener.dismiss();
                         dismiss();
                     }
                 } catch (NumberFormatException e) {
@@ -168,8 +162,8 @@ public class AddDiscountDialog extends DialogFragment {
         }
     }
 
-    public void setOnDismissListener(OnDismissListener dismissListener) {
-        this.dismissListener = dismissListener;
+    public void setOnDiscountDialogListener(OnDiscountDialogListener listener) {
+        this.listener = listener;
     }
 
     @Override
