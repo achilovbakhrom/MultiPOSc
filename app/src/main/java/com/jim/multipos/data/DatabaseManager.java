@@ -430,6 +430,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
+    public Observable<List<ServiceFee>> getServiceFeesWithAllItemTypes() {
+        return dbHelper.getServiceFeesWithAllItemTypes();
+    }
+
+    @Override
     public Observable<Long> addCustomer(Customer customer) {
         return dbHelper.insertCustomer(customer);
     }
@@ -467,6 +472,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Single<Long> insertProductClass(ProductClass productClass) {
         return dbHelper.insertProductClass(productClass);
+    }
+
+    @Override
+    public Observable<ProductClass> getProductClass(Long id) {
+        return dbHelper.getProductClass(id);
     }
 
     @Override
@@ -637,13 +647,18 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
+    public Observable<List<Discount>> getDiscountsWithAllItemTypes(String[] discountTypes) {
+        return dbHelper.getDiscountsWithAllItemTypes(discountTypes);
+    }
+
+    @Override
     public Single<List<Product>> getSearchProducts(String searchText, boolean skuMode, boolean barcodeMode, boolean nameMode) {
         return dbHelper.getSearchProducts(searchText, skuMode, barcodeMode, nameMode);
     }
 
 
     @Override
-    public Single<Consignment> insertConsignment(Consignment consignment, BillingOperations operations, List<ConsignmentProduct> consignmentProductList) {
+    public Single<Consignment> insertConsignment(Consignment consignment, List<BillingOperations> operations, List<ConsignmentProduct> consignmentProductList) {
         return dbHelper.insertConsignment(consignment)
                 .flatMap(consignment1 -> setBillingOperation(operations, consignment1)
                         .flatMap(consignment2 -> setConsignmentProductId(consignmentProductList, consignment2)));
@@ -654,12 +669,12 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
                 .flatMap(consignment1 -> setConsignmentProductId(consignmentProductList, consignment1));
     }
 
-    private Single<Consignment> setBillingOperation(BillingOperations billingOperations, Consignment consignment) {
+    private Single<Consignment> setBillingOperation(List<BillingOperations> billingOperations, Consignment consignment) {
         return Single.create(singleSubscriber -> {
             try {
-                if (billingOperations != null) {
-                    billingOperations.setConsignment(consignment);
-                    insertBillingOperation(billingOperations).subscribe();
+                for (BillingOperations operations : billingOperations) {
+                    operations.setConsignment(consignment);
+                    insertBillingOperation(operations).subscribe();
                 }
                 singleSubscriber.onSuccess(consignment);
             } catch (Exception o) {
@@ -741,6 +756,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Observable<Boolean> removeProductFromInventoryState(Long productId) {
         return dbHelper.removeProductFromInventoryState(productId);
+    }
+
+    @Override
+    public Observable<List<InventoryState>> getInventoryStatesByVendorId(Long vendorId) {
+        return dbHelper.getInventoryStatesByVendorId(vendorId);
     }
 
     @Override

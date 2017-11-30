@@ -23,7 +23,8 @@ import com.jim.multipos.data.db.model.consignment.ConsignmentDao;
 @Data
 public class BillingOperations {
 
-    public static final int CONSIGNMENT = 100;
+    public static final int DEBT = 100;
+    public static final int PAID = 101;
 
     @Id(autoincrement = true)
     private Long id;

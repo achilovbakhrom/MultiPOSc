@@ -112,6 +112,7 @@ public interface DbHelper {
     Observable<List<ServiceFee>> getAllServiceFees();
     Observable<Boolean> deleteAllServiceFees();
     Observable<Boolean> deleteServiceFee(ServiceFee serviceFee);
+    Observable<List<ServiceFee>> getServiceFeesWithAllItemTypes();
     Observable<Boolean> isCustomerExists(String name);
     Observable<Long> insertCustomer(Customer customer);
     Observable<Boolean> insertCustomers(List<Customer> customers);
@@ -131,6 +132,7 @@ public interface DbHelper {
     Observable<CustomerGroup> getCustomerGroupById(long id);
     Single<List<ProductClass>> getAllProductClass();
     Single<Long> insertProductClass(ProductClass productClass);
+    Observable<ProductClass> getProductClass(Long id);
     Observable<List<SubUnitsList>> getSubUnits();
     Observable<Long> insertSubUnits(SubUnitsList subUnitsList);
     Observable<List<CustomerGroup>> getCustomerGroups(Customer customer);
@@ -141,6 +143,7 @@ public interface DbHelper {
     List<PaymentType> getPaymentTypes();
     Single<List<Discount>> getAllDiscounts();
     Single<Long> insertDiscount(Discount discount);
+    Observable<List<Discount>> getDiscountsWithAllItemTypes(String[] discountTypes);
 
     //Vendor operations
     Observable<Long> addVendor(Vendor vendor);
@@ -184,4 +187,5 @@ public interface DbHelper {
     Observable<List<InventoryState>> getInventoryStates();
     Observable<List<InventoryState>> getInventoryStatesByProductId(Long productId);
     Observable<Boolean> removeProductFromInventoryState(Long productId);
+    Observable<List<InventoryState>> getInventoryStatesByVendorId(Long vendorId);
 }

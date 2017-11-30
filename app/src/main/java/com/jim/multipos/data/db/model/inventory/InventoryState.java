@@ -29,8 +29,8 @@ public class InventoryState {
     private Long vendorId;
     @ToOne(joinProperty = "vendorId")
     private Vendor vendor;
-    private double value;
-    private double lowStockAlert;
+    private Double value;
+    private Double lowStockAlert;
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
      * Entity must attached to an entity context.
@@ -134,13 +134,13 @@ public class InventoryState {
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
-    public double getLowStockAlert() {
+    public Double getLowStockAlert() {
         return this.lowStockAlert;
     }
     public void setLowStockAlert(double lowStockAlert) {
         this.lowStockAlert = lowStockAlert;
     }
-    public double getValue() {
+    public Double getValue() {
         return this.value;
     }
     public void setValue(double value) {
@@ -164,9 +164,15 @@ public class InventoryState {
     public void setId(Long id) {
         this.id = id;
     }
-    @Generated(hash = 1572258237)
-    public InventoryState(Long id, Long productId, Long vendorId, double value,
-            double lowStockAlert) {
+    public void setLowStockAlert(Double lowStockAlert) {
+        this.lowStockAlert = lowStockAlert;
+    }
+    public void setValue(Double value) {
+        this.value = value;
+    }
+    @Generated(hash = 1487727907)
+    public InventoryState(Long id, Long productId, Long vendorId, Double value,
+            Double lowStockAlert) {
         this.id = id;
         this.productId = productId;
         this.vendorId = vendorId;

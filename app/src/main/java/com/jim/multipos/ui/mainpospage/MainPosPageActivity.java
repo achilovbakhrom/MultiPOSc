@@ -18,6 +18,7 @@ import com.jim.multipos.ui.main_menu.customers_menu.CustomersMenuActivity;
 import com.jim.multipos.ui.main_menu.inventory_menu.InventoryMenuActivity;
 import com.jim.multipos.ui.main_menu.product_menu.ProductMenuActivity;
 import com.jim.multipos.ui.mainpospage.view.OrderListFragment;
+import com.jim.multipos.ui.mainpospage.view.ProductInfoFragment;
 import com.jim.multipos.ui.mainpospage.view.ProductPickerFragment;
 import com.jim.multipos.ui.mainpospage.view.SearchModeFragment;
 import com.jim.multipos.utils.RxBusLocal;
@@ -60,7 +61,8 @@ public class MainPosPageActivity extends DoubleSideActivity implements MainPosPa
 
         addFragmentToLeft(new OrderListFragment());
 //        posFragmentManager.displayFragmentWithoutBackStack(new PaymentFragment(), R.id.rightLowContainer);
-        addFragmentToRight(new ProductPickerFragment());
+//        addFragmentToRight(new ProductPickerFragment());
+        addFragmentWithTagToRight(new ProductInfoFragment(), "ProductInfoFragment");
 
         handler = new Handler();
         handler.post(timerUpdate);
@@ -107,26 +109,6 @@ public class MainPosPageActivity extends DoubleSideActivity implements MainPosPa
         return MpToolbar.MAIN_PAGE_TYPE;
     }
 
-    @Override
-    public List<Discount> getDiscounts() {
-        return presenter.getDiscounts();
-    }
-
-    @Override
-    public void addDiscount(double amount, String description, String amountType) {
-        presenter.addDiscount(amount, description, amountType);
-    }
-
-    @Override
-    public List<ServiceFee> getServiceFees() {
-        return presenter.getServiceFees();
-    }
-
-    @Override
-    public void addServiceFee(double amount, String description, String amountType) {
-        presenter.addServiceFee(amount, description, amountType);
-    }
-
     Runnable timerUpdate = new Runnable() {
         @Override
         public void run() {
@@ -134,4 +116,8 @@ public class MainPosPageActivity extends DoubleSideActivity implements MainPosPa
             handler.postDelayed(timerUpdate, 30000);
         }
     };
+
+    public void closeProductInfoFragment() {
+        activityFragmentManager.popBackStack();
+    }
 }

@@ -2,15 +2,12 @@ package com.jim.multipos.ui.vendor_products_view;
 
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
-import com.jim.multipos.data.db.model.Contact;
 import com.jim.multipos.data.db.model.ProductClass;
+import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
-import com.jim.multipos.data.db.model.products.VendorProductCon;
-import com.jim.multipos.ui.inventory.model.InventoryItem;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -22,8 +19,7 @@ import javax.inject.Inject;
 public class VendorProductsViewPresenterImpl extends BasePresenterImpl<VendorProductsView> implements VendorProductsViewPresenter {
     private DatabaseManager databaseManager;
     private long vendorId;
-    private Vendor vendor;
-    private List<InventoryItem> inventoryItems;
+    private List<InventoryState> inventoryStates;
 
     @Inject
     public VendorProductsViewPresenterImpl(VendorProductsView vendorProductsView, DatabaseManager databaseManager) {
@@ -38,76 +34,7 @@ public class VendorProductsViewPresenterImpl extends BasePresenterImpl<VendorPro
 
     @Override
     public Vendor getVendor() {
-        //TODO
-        if (databaseManager.getVendors().blockingSingle().isEmpty()) {
-            Vendor vendor = new Vendor();
-            vendor.setActive(true);
-            vendor.setName("Abdulla Production");
-            vendor.setContactName("Abdulla");
-            vendor.setAddress("Texno plaza");
-            vendor.setCreatedDate(System.currentTimeMillis());
-
-            databaseManager.addVendor(vendor).blockingSingle();
-
-            Contact contact1 = new Contact();
-            contact1.setType(Contact.PHONE);
-            contact1.setName("+998007");
-            contact1.setVendorId(vendor.getId());
-
-            Contact contact2 = new Contact();
-            contact2.setType(Contact.PHONE);
-            contact2.setName("+998008");
-            contact2.setVendorId(vendor.getId());
-
-            Contact contact3 = new Contact();
-            contact3.setType(Contact.E_MAIL);
-            contact3.setName("mymail@gmail.com");
-            contact3.setVendorId(vendor.getId());
-
-            databaseManager.addContact(contact1).blockingSingle();
-            databaseManager.addContact(contact2).blockingSingle();
-            databaseManager.addContact(contact3).blockingSingle();
-
-            /*ProductClass productClass = new ProductClass();
-            productClass.setName("Pizza");
-            databaseManager.insertProductClass(productClass).blockingGet();
-            Product product = new Product();
-            product.setActive(true);
-            product.setName("Angles Food");
-            product.setBarcode("12345679");
-            product.setSku("811589");
-            product.setClassId(productClass.getId());
-
-            ProductClass productClass2 = new ProductClass();
-            productClass2.setName("T-shirts");
-            databaseManager.insertProductClass(productClass2).blockingGet();
-            Product product2 = new Product();
-            product2.setActive(true);
-            product2.setName("POLO Red 32");
-            product2.setBarcode("456879");
-            product2.setSku("14952");
-            product2.setClassId(productClass2.getId());
-
-            databaseManager.addProduct(product).blockingSingle();
-            databaseManager.addProduct(product2).blockingSingle();
-            databaseManager.insertProductClass(productClass).blockingGet();
-            databaseManager.insertProductClass(productClass2).blockingGet();*/
-
-            /*VendorProductCon vendorProductCon1 = new VendorProductCon();
-            vendorProductCon1.setProductId(product.getId());
-            vendorProductCon1.setVendorId(vendor.getId());
-
-            VendorProductCon vendorProductCon2 = new VendorProductCon();
-            vendorProductCon2.setProductId(product2.getId());
-            vendorProductCon2.setVendorId(vendor.getId());
-
-            databaseManager.addVendorProductConnection(vendorProductCon1).blockingSingle();
-            databaseManager.addVendorProductConnection(vendorProductCon2).blockingSingle();*/
-        }
-
-        vendor = databaseManager.getVendors().blockingSingle().get(0);
-
-        return vendor;
+        return databaseManager.getVendorById(vendorId).blockingSingle();
     }
 
     @Override
@@ -116,50 +43,169 @@ public class VendorProductsViewPresenterImpl extends BasePresenterImpl<VendorPro
     }
 
     @Override
-    public List<InventoryItem> getInventoryItems() {
-        inventoryItems = databaseManager.getInventoryItems().blockingGet();
+    public List<InventoryState> getInventoryStates() {
+        /*if (databaseManager.getInventoryStatesByVendorId(vendorId).blockingSingle().isEmpty()) {
+            Unit unit = new Unit();
+            unit.setAbbr("kg");
+            unit.setFactorRoot(1);
+            unit.setIsActive(true);
+            databaseManager.getUnitOperations().addUnit(unit).blockingSingle();
+
+            Unit unit1 = new Unit();
+            unit1.setAbbr("pcs");
+            unit1.setFactorRoot(1);
+            unit1.setIsActive(true);
+            databaseManager.getUnitOperations().addUnit(unit1).blockingSingle();
+
+            Currency currency = new Currency();
+            currency.setAbbr("uzs");
+            currency.setName("Sum");
+            currency.setIsMain(true);
+            databaseManager.getCurrencyOperations().addCurrency(currency).blockingSingle();
+
+            ProductClass productClass = new ProductClass();
+            productClass.setName("T-shirt");
+            productClass.setCreatedDate(System.currentTimeMillis());
+            productClass.setActive(true);
+            productClass.setDeleted(false);
+            databaseManager.insertProductClass(productClass).blockingGet();
+
+            Category category = new Category();
+            category.setName("MoneyIsGood");
+            databaseManager.addCategory(category).blockingSingle();
+
+            Category subcategory = new Category();
+            subcategory.setParentId(category.getId());
+            subcategory.setName("GirlsAreGood");
+            databaseManager.getCategoryOperations().addCategory(subcategory).blockingSingle();
+
+            Product product = new Product();
+            product.setName("Taxima");
+            product.setBarcode("88974");
+            product.setSku("12312421");
+            product.setPrice(6500d);
+            product.setCreatedDate(System.currentTimeMillis());
+            product.setMainUnitId(unit.getId());
+            product.setCostCurrencyId(currency.getId());
+            product.setPriceCurrencyId(currency.getId());
+            product.setClassId(productClass.getId());
+            product.setCategoryId(subcategory.getId());
+            databaseManager.getProductOperations().addProduct(product).blockingSingle();
+
+            Product product1 = new Product();
+            product1.setName("To'xtaniyoz ota kapchonniy");
+            product1.setBarcode("sadq");
+            product1.setSku("qweqs");
+            product1.setPrice(5000d);
+            product1.setCreatedDate(System.currentTimeMillis());
+            product1.setMainUnitId(unit1.getId());
+            product1.setCostCurrencyId(currency.getId());
+            product1.setClassId(productClass.getId());
+            product1.setPriceCurrencyId(currency.getId());
+            product1.setCategoryId(subcategory.getId());
+            databaseManager.getProductOperations().addProduct(product1).blockingSingle();
+
+            Product product5 = new Product();
+            product5.setName("Bono Chocolate");
+            product5.setBarcode("3414124");
+            product5.setSku("8732344");
+            product5.setPrice(6500d);
+            product5.setCreatedDate(System.currentTimeMillis());
+            product5.setMainUnitId(unit1.getId());
+            product5.setCostCurrencyId(currency.getId());
+            product5.setPriceCurrencyId(currency.getId());
+            product5.setClassId(productClass.getId());
+            product5.setCategoryId(subcategory.getId());
+            databaseManager.getProductOperations().addProduct(product5).blockingSingle();
+
+            Product product6 = new Product();
+            product6.setName("Sugar 1000gr");
+            product6.setBarcode("8875154");
+            product6.setSku("px1412");
+            product6.setPrice(6500d);
+            product6.setCreatedDate(System.currentTimeMillis());
+            product6.setMainUnitId(unit1.getId());
+            product6.setCostCurrencyId(currency.getId());
+            product6.setPriceCurrencyId(currency.getId());
+            product6.setClassId(productClass.getId());
+            product6.setCategoryId(subcategory.getId());
+            databaseManager.getProductOperations().addProduct(product6).blockingSingle();
+
+            InventoryState inventoryState1 = new InventoryState();
+            inventoryState1.setVendorId(vendorId);
+            inventoryState1.setProductId(product.getId());
+            inventoryState1.setValue(12);
+            databaseManager.insertInventoryState(inventoryState1).blockingSingle();
+
+
+            InventoryState inventoryState2 = new InventoryState();
+            inventoryState2.setVendorId(vendorId);
+            inventoryState2.setProductId(product1.getId());
+            inventoryState2.setValue(24);
+            databaseManager.insertInventoryState(inventoryState2).blockingSingle();
+
+            InventoryState inventoryState3 = new InventoryState();
+            inventoryState3.setVendorId(vendorId);
+            inventoryState3.setProductId(product5.getId());
+            inventoryState3.setValue(40);
+            databaseManager.insertInventoryState(inventoryState3).blockingSingle();
+
+            InventoryState inventoryState4 = new InventoryState();
+            inventoryState4.setVendorId(vendorId);
+            inventoryState4.setProductId(product6.getId());
+            inventoryState4.setValue(102);
+            databaseManager.insertInventoryState(inventoryState4).blockingSingle();
+        }*/
+
+        inventoryStates = databaseManager.getInventoryStatesByVendorId(vendorId).blockingSingle();
+
         sortByProductAsc();
 
-        return inventoryItems;
+        return inventoryStates;
     }
 
     @Override
-    public InventoryItem getInventoryItem(int position) {
-        return inventoryItems.get(position);
+    public InventoryState getInventoryState(int position) {
+        return inventoryStates.get(position);
     }
 
     @Override
     public void sortByProductAsc() {
-        Collections.sort(inventoryItems, (o1, o2) -> o1.getProduct().getName().compareTo(o2.getProduct().getName()));
+        Collections.sort(inventoryStates, (o1, o2) -> o1.getProduct().getName().compareTo(o2.getProduct().getName()));
     }
 
     @Override
     public void sortByProductDesc() {
-        Collections.sort(inventoryItems, (o1, o2) -> o2.getProduct().getName().compareTo(o1.getProduct().getName()));
+        Collections.sort(inventoryStates, (o1, o2) -> o2.getProduct().getName().compareTo(o1.getProduct().getName()));
     }
 
     @Override
     public void sortByInventoryAsc() {
-        Collections.sort(inventoryItems, (o1, o2) -> o1.getInventory().compareTo(o2.getInventory()));
+        Collections.sort(inventoryStates, (o1, o2) -> o1.getValue().compareTo(o2.getValue()));
     }
 
     @Override
     public void sortByInventoryDesc() {
-        Collections.sort(inventoryItems, (o1, o2) -> o2.getInventory().compareTo(o1.getInventory()));
+        Collections.sort(inventoryStates, (o1, o2) -> o2.getValue().compareTo(o1.getValue()));
     }
 
     @Override
     public void sortByUnitAsc() {
-        Collections.sort(inventoryItems, (o1, o2) -> o1.getProduct().getMainUnit().getAbbr().compareTo(o2.getProduct().getMainUnit().getAbbr()));
+        Collections.sort(inventoryStates, (o1, o2) -> o1.getProduct().getMainUnit().getAbbr().compareTo(o2.getProduct().getMainUnit().getAbbr()));
     }
 
     @Override
     public void sortByUnitDesc() {
-        Collections.sort(inventoryItems, (o1, o2) -> o2.getProduct().getMainUnit().getAbbr().compareTo(o1.getProduct().getMainUnit().getAbbr()));
+        Collections.sort(inventoryStates, (o1, o2) -> o2.getProduct().getMainUnit().getAbbr().compareTo(o1.getProduct().getMainUnit().getAbbr()));
     }
 
     @Override
     public void sortByCreatedDate() {
-        Collections.sort(inventoryItems, (o1, o2) -> o2.getProduct().getCreatedDate().compareTo(o1.getProduct().getCreatedDate()));
+        Collections.sort(inventoryStates, (o1, o2) -> o2.getProduct().getCreatedDate().compareTo(o1.getProduct().getCreatedDate()));
+    }
+
+    @Override
+    public ProductClass getProductClassById(Long id) {
+        return databaseManager.getProductClass(id).blockingSingle();
     }
 }

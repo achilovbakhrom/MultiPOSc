@@ -22,6 +22,8 @@ import com.jim.multipos.ui.vendor_products_view.VendorProductsViewActivity;
 import butterknife.BindView;
 import io.reactivex.functions.Consumer;
 
+import static com.jim.multipos.ui.inventory.InventoryActivity.VENDOR_ID;
+
 /**
  * A simple {@link Fragment} subclass.
  */

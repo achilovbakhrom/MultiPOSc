@@ -10,8 +10,4 @@ import java.util.List;
  */
 
 public interface MainPosPageActivityPresenter {
-    List<Discount> getDiscounts();
-    List<ServiceFee> getServiceFees();
-    void addDiscount(double amount, String description, String amountType);
-    void addServiceFee(double amount, String description, String amountType);
 }

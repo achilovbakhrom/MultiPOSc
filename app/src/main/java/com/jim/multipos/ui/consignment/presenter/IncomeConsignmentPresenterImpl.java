@@ -96,15 +96,28 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
             consignment.setIsFromAccount(checked);
             consignment.setVendor(this.vendor);
             consignment.setConsignmentType(Consignment.INCOME_CONSIGNMENT);
-            BillingOperations operations = null;
-            if (checked && !paidSum.equals("")){
-                operations = new BillingOperations();
-                operations.setAccount(accountList.get(selectedPosition));
-                operations.setAmount(Double.parseDouble(paidSum));
-                operations.setCreateAt(System.currentTimeMillis());
-                operations.setVendor(this.vendor);
+            List<BillingOperations> billingOperationsList = new ArrayList<>();
+            BillingOperations operationDebt = new BillingOperations();
+            operationDebt.setAmount(sum);
+            operationDebt.setCreateAt(System.currentTimeMillis());
+            operationDebt.setVendor(this.vendor);
+            operationDebt.setOperationType(BillingOperations.DEBT);
+            billingOperationsList.add(operationDebt);
+            BillingOperations operationPaid = null;
+            if (!paidSum.equals("") && !paidSum.equals("0")) {
+                operationPaid = new BillingOperations();
+                operationPaid.setAmount(Double.parseDouble(paidSum));
+                operationPaid.setCreateAt(System.currentTimeMillis());
+                operationPaid.setVendor(this.vendor);
+                operationPaid.setOperationType(BillingOperations.PAID);
+                billingOperationsList.add(operationPaid);
             }
-            databaseManager.insertConsignment(consignment, operations, consignmentProductList).subscribe();
+            if (checked) {
+                if (operationPaid != null)
+                    operationPaid.setAccount(accountList.get(selectedPosition));
+                operationDebt.setAccount(accountList.get(selectedPosition));
+            }
+            databaseManager.insertConsignment(consignment, billingOperationsList, consignmentProductList).subscribe();
             view.closeFragment();
         }
     }
@@ -140,7 +153,7 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
 
     @Override
     public void checkChanges(String number, String description, String totalPaid, boolean checked, int selectedPosition) {
-        if (!number.equals("") || !description.equals("") || !totalPaid.equals("") || !checked || selectedPosition != 0){
+        if (!number.equals("") || !description.equals("") || !totalPaid.equals("") || !checked || selectedPosition != 0) {
             view.openDiscardDialog();
         } else view.closeFragment();
     }

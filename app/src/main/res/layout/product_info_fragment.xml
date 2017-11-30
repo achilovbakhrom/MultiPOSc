@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
@@ -44,33 +45,31 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="@dimen/ten_dp"
             android:layout_marginLeft="@dimen/fifteen_dp"
-            android:layout_marginRight="@dimen/fifteen_dp"
             android:layout_marginTop="@dimen/five_dp"
             android:background="@drawable/main_frame_frag_grey"
             android:orientation="vertical"
             android:paddingBottom="@dimen/twenty_five_dp"
-            android:paddingLeft="@dimen/forty_five_dp"
-            android:paddingRight="@dimen/thirty_five_dp"
-            android:paddingTop="@dimen/twenty_dp">
+            android:paddingTop="@dimen/thirty_dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/twenty_dp"
-                android:layout_marginTop="@dimen/ten_dp"
+                android:layout_marginLeft="@dimen/fifty_dp"
+                android:layout_marginRight="@dimen/thirty_dp"
                 android:orientation="horizontal">
 
                 <RelativeLayout
-                    android:layout_width="@dimen/hundred_ninety_five_dp"
-                    android:layout_height="@dimen/hundred_ninety_five_dp"
-                    android:layout_marginRight="@dimen/forty_dp"
+                    android:layout_width="@dimen/hundred_seventy_dp"
+                    android:layout_height="@dimen/hundred_seventy_dp"
                     android:orientation="vertical">
 
                     <ImageView
                         android:id="@+id/ivProductImage"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:adjustViewBounds="true"
                         android:padding="@dimen/one_dp"
+                        android:scaleType="fitCenter"
                         android:src="@drawable/default_product_image" />
 
                     <ImageView
@@ -82,8 +81,8 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/fifty_five_dp"
                     android:layout_weight="1"
-                    android:gravity="center"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -92,6 +91,7 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/tvProductName"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -103,50 +103,62 @@
                             android:textSize="@dimen/twenty_dp"
                             android:textStyle="bold" />
 
+                        <ImageView
+                            android:id="@+id/ivAlert"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="@dimen/ten_dp"
+                            android:src="@drawable/alert"
+                            android:visibility="invisible"
+                            tools:visibility="visible" />
+
                         <TextView
+                            android:id="@+id/tvQuantity"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingBottom="@dimen/five_dp"
-                            android:paddingRight="@dimen/ten_dp"
                             android:paddingTop="@dimen/five_dp"
                             android:text="16 p.c."
                             android:textColor="@color/colorBlue"
                             android:textSize="@dimen/twenty_dp"
                             android:textStyle="bold" />
-
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/tvCompanyName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
+                        android:ellipsize="end"
                         android:gravity="left"
+                        android:maxLines="2"
                         android:paddingBottom="@dimen/five_dp"
                         android:paddingTop="@dimen/five_dp"
-                        android:text="Bell and Bobs"
                         android:textColor="@color/colorSecondaryText"
                         android:textSize="@dimen/eighteen_dp"
-                        android:textStyle="italic" />
+                        android:textStyle="italic"
+                        tools:text="Bell and Bobs" />
 
                     <TextView
+                        android:id="@+id/tvDescription"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
                         android:paddingBottom="@dimen/five_dp"
-                        android:paddingRight="@dimen/ten_dp"
                         android:paddingTop="@dimen/five_dp"
-                        android:text=""
+                        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam porttitor, libero quis luctus molestie, velit nunc aliquet lacus, congue posuere "
                         android:textColor="@color/colorBlue"
                         android:textSize="@dimen/eighteen_dp" />
                 </LinearLayout>
-
-
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/sixteen_dp"
+                android:layout_marginLeft="@dimen/sixty_dp"
+                android:layout_marginRight="@dimen/twenty_five_dp"
+                android:layout_marginTop="@dimen/twenty_dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -170,27 +182,30 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="@dimen/fifty_dp"
-                        android:layout_height="@dimen/fifty_dp"
-                        android:layout_marginLeft="@dimen/hundred_dp"
+                        android:id="@+id/ivMinus"
+                        android:layout_width="@dimen/fifty_five_dp"
+                        android:layout_height="@dimen/fifty_five_dp"
                         android:clickable="true"
                         android:focusable="true"
                         android:src="@drawable/remove_circle_selector" />
 
                     <TextView
-                        android:layout_width="0dp"
+                        android:id="@+id/tvOrderQuantity"
+                        android:layout_width="@dimen/hundred_twenty_five_dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
                         android:gravity="center"
+                        android:paddingLeft="@dimen/five_dp"
+                        android:paddingRight="@dimen/five_dp"
+                        android:text="2"
                         android:textColor="@color/colorMainText"
-                        android:textSize="@dimen/thirty_eight_dp"
+                        android:textSize="@dimen/twenty_five_dp"
                         android:textStyle="bold" />
 
                     <ImageView
-                        android:layout_width="@dimen/fifty_dp"
-                        android:layout_height="@dimen/fifty_dp"
-                        android:layout_marginRight="@dimen/hundred_dp"
+                        android:id="@+id/ivPlus"
+                        android:layout_width="@dimen/fifty_five_dp"
+                        android:layout_height="@dimen/fifty_five_dp"
                         android:clickable="true"
                         android:focusable="true"
                         android:src="@drawable/add_circle_selector" />
@@ -198,8 +213,9 @@
 
 
                 <com.jim.mpviews.MpButton
+                    android:id="@+id/btnSetQuantity"
                     android:layout_width="@dimen/hundred_fifty_five_dp"
-                    android:layout_height="@dimen/sixty_dp"
+                    android:layout_height="@dimen/sixty_five_dp"
                     android:text="Set Quantity"
                     android:textColor="@color/colorBlue"
                     android:textSize="@dimen/sixteen_dp" />
@@ -208,16 +224,17 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:layout_marginBottom="@dimen/twenty_dp"
-                android:layout_marginLeft="@dimen/thirty_dp"
-                android:layout_marginRight="@dimen/thirty_dp"
+                android:layout_marginLeft="@dimen/forty_dp"
+                android:layout_marginRight="@dimen/twenty_five_dp"
                 android:layout_marginTop="@dimen/twenty_dp"
                 android:background="#e9e9e9" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/sixteen_dp"
+                android:layout_marginLeft="@dimen/sixty_dp"
+                android:layout_marginRight="@dimen/twenty_five_dp"
+                android:layout_marginTop="@dimen/twenty_dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -241,38 +258,44 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="@dimen/fifty_dp"
-                        android:layout_height="@dimen/fifty_dp"
+                        android:id="@+id/ivArrowLeft"
+                        android:layout_width="@dimen/fifty_five_dp"
+                        android:layout_height="@dimen/fifty_five_dp"
                         android:layout_marginLeft="@dimen/hundred_dp"
                         android:clickable="true"
                         android:focusable="true"
-                        android:src="@drawable/btn_with_left_arrow" />
+                        android:src="@drawable/btn_with_left_arrow_selector" />
 
                     <TextView
-                        android:layout_width="0dp"
+                        android:id="@+id/tvVendorName"
+                        android:layout_width="@dimen/hundred_twenty_five_dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
+                        android:ellipsize="end"
                         android:gravity="center"
-                        android:paddingRight="@dimen/five_dp"
+                        android:maxLines="3"
                         android:paddingLeft="@dimen/five_dp"
+                        android:paddingRight="@dimen/five_dp"
+                        android:text="Nozim komolon XK To'xtaniyoz ota Corporation"
                         android:textColor="@color/colorMainText"
                         android:textSize="@dimen/fourteen_dp"
                         android:textStyle="bold" />
 
                     <ImageView
-                        android:layout_width="@dimen/fifty_dp"
-                        android:layout_height="@dimen/fifty_dp"
+                        android:id="@+id/ivArrowRight"
+                        android:layout_width="@dimen/fifty_five_dp"
+                        android:layout_height="@dimen/fifty_five_dp"
                         android:layout_marginRight="@dimen/hundred_dp"
                         android:clickable="true"
                         android:focusable="true"
-                        android:src="@drawable/btn_with_right_arrow" />
+                        android:src="@drawable/btn_with_right_arrow_selector" />
                 </LinearLayout>
 
 
                 <com.jim.mpviews.MpButton
+                    android:id="@+id/btnChooseVendor"
                     android:layout_width="@dimen/hundred_fifty_five_dp"
-                    android:layout_height="@dimen/sixty_dp"
+                    android:layout_height="@dimen/sixty_five_dp"
                     android:text="Choose Vendor"
                     android:textColor="@color/colorBlue"
                     android:textSize="@dimen/sixteen_dp" />
@@ -281,9 +304,8 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:layout_marginBottom="@dimen/twenty_dp"
-                android:layout_marginLeft="@dimen/thirty_dp"
-                android:layout_marginRight="@dimen/thirty_dp"
+                android:layout_marginLeft="@dimen/forty_dp"
+                android:layout_marginRight="@dimen/twenty_five_dp"
                 android:layout_marginTop="@dimen/twenty_dp"
                 android:background="#e9e9e9" />
 
@@ -291,33 +313,36 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/ten_dp"
-                android:gravity="center"
-
+                android:layout_marginLeft="@dimen/fifty_dp"
+                android:layout_marginRight="@dimen/twenty_five_dp"
+                android:layout_marginTop="@dimen/twenty_dp"
                 android:orientation="horizontal">
 
                 <com.jim.mpviews.MpButton
+                    android:id="@+id/btnServiceFee"
                     android:layout_width="@dimen/hundred_ninety_dp"
-                    android:layout_height="@dimen/fifty_dp"
-                    android:layout_marginRight="@dimen/ten_dp"
-                    android:text="Remove from order"
+                    android:layout_height="@dimen/sixty_five_dp"
+                    android:layout_marginRight="@dimen/twenty_dp"
+                    android:text="@string/service_fee"
                     android:textColor="@color/colorBlue"
                     android:textSize="@dimen/sixteen_dp"
                     app:isLong="true" />
 
                 <com.jim.mpviews.MpButton
+                    android:id="@+id/btnDiscountItem"
                     android:layout_width="@dimen/hundred_ninety_dp"
-                    android:layout_height="@dimen/fifty_dp"
-                    android:layout_marginRight="@dimen/ten_dp"
-                    android:text="Service Fee"
+                    android:layout_height="@dimen/sixty_five_dp"
+                    android:layout_marginRight="@dimen/twenty_dp"
+                    android:text="@string/discount_item"
                     android:textColor="@color/colorBlue"
                     android:textSize="@dimen/sixteen_dp"
                     app:isLong="true" />
 
                 <com.jim.mpviews.MpButton
+                    android:id="@+id/btnClose"
                     android:layout_width="@dimen/hundred_ninety_dp"
-                    android:layout_height="@dimen/fifty_dp"
-                    android:text="Close"
+                    android:layout_height="@dimen/sixty_five_dp"
+                    android:text="@string/close"
                     android:textColor="@color/colorBlue"
                     android:textSize="@dimen/sixteen_dp" />
 
@@ -326,43 +351,40 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/thirty_five_dp"
+                android:layout_marginRight="@dimen/thirty_dp"
                 android:layout_marginTop="@dimen/twenty_dp">
 
                 <EditText
+                    android:id="@+id/etSpecialRequest"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@drawable/edit_text_bg"
                     android:gravity="left"
-                    android:hint="Special Request"
+                    android:hint="@string/special_request"
                     android:inputType="textMultiLine|textCapSentences"
                     android:isScrollContainer="true"
                     android:maxLength="2000"
                     android:maxLines="10"
-                    android:paddingBottom="@dimen/five_dp"
+                    android:paddingBottom="@dimen/ten_dp"
                     android:paddingLeft="@dimen/ten_dp"
                     android:paddingRight="@dimen/ten_dp"
-                    android:paddingTop="@dimen/five_dp"
+                    android:paddingTop="@dimen/ten_dp"
                     android:singleLine="false"
                     android:textColorHint="@color/colorTextHint"
                     android:textSize="@dimen/sixteen_dp" />
 
                 <ImageView
-                    android:layout_width="@dimen/fifty_dp"
-                    android:layout_height="@dimen/fifty_dp"
+                    android:id="@+id/ivBackLastSpecialRequest"
+                    android:layout_width="@dimen/twenty_five_dp"
+                    android:layout_height="@dimen/twenty_five_dp"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
-                    android:layout_marginBottom="@dimen/twenty_dp"
-                    android:layout_marginRight="@dimen/twenty_dp"
-                    android:padding="@dimen/ten_dp"
+                    android:layout_marginBottom="@dimen/fifteen_dp"
+                    android:layout_marginRight="@dimen/fifteen_dp"
                     android:src="@drawable/repaet_disription" />
             </RelativeLayout>
-
-
         </LinearLayout>
-
-
     </LinearLayout>
-
-
 </LinearLayout>

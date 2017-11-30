@@ -19,5 +19,6 @@ public interface InventoryOperations {
     Observable<List<InventoryState>> getInventoryStates();
     Observable<List<InventoryState>> getInventoryStatesByProductId(Long productId);
     Observable<Boolean> removeProductFromInventoryState(Long productId);
+    Observable<List<InventoryState>> getInventoryStatesByVendorId(Long vendorId);
     Single<Long> insertWarehouseOperation(WarehouseOperations warehouseOperations);
 }

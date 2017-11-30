@@ -28,6 +28,7 @@ import com.jim.multipos.data.db.model.DiscountDao;
 import com.jim.multipos.data.db.model.PaymentType;
 import com.jim.multipos.data.db.model.PaymentTypeDao;
 import com.jim.multipos.data.db.model.ProductClass;
+import com.jim.multipos.data.db.model.ProductClassDao;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.ServiceFeeDao;
 import com.jim.multipos.data.db.model.consignment.Consignment;
@@ -40,7 +41,6 @@ import com.jim.multipos.data.db.model.customer.CustomerGroupDao;
 import com.jim.multipos.data.db.model.customer.JoinCustomerGroupsWithCustomers;
 import com.jim.multipos.data.db.model.customer.JoinCustomerGroupsWithCustomersDao;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
-import com.jim.multipos.data.db.model.inventory.BillingOperationsDao;
 import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.inventory.InventoryStateDao;
 import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
@@ -68,6 +68,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -76,6 +77,8 @@ import io.reactivex.Observable;
 import io.reactivex.Single;
 
 import static com.jim.multipos.data.db.model.products.Category.WITHOUT_PARENT;
+import static com.jim.multipos.ui.service_fee_new.Constants.APP_TYPE_ALL;
+import static com.jim.multipos.ui.service_fee_new.Constants.APP_TYPE_ITEM;
 
 
 /**
@@ -579,6 +582,11 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
+    public Observable<List<Discount>> getDiscountsWithAllItemTypes(String[] discountTypes) {
+        return Observable.fromCallable(() -> mDaoSession.getDiscountDao().queryBuilder().whereOr(DiscountDao.Properties.UsedType.eq(discountTypes[0]), DiscountDao.Properties.UsedType.eq(discountTypes[2])).orderDesc(DiscountDao.Properties.CreatedDate).build().list());
+    }
+
+    @Override
     public Observable<Boolean> deleteAllPaymentTypes() {
         return Observable.fromCallable(() -> {
             mDaoSession.getPaymentTypeDao().deleteAll();
@@ -677,6 +685,11 @@ public class AppDbHelper implements DbHelper {
                 .sorted((productClass, t1) -> t1.getCreatedDate().compareTo(productClass.getCreatedDate()))
                 .sorted((productClass, t1) -> t1.getActive().compareTo(productClass.getActive()))
                 .toList();
+    }
+
+    @Override
+    public Observable<ProductClass> getProductClass(Long id) {
+        return Observable.fromCallable(() -> mDaoSession.getProductClassDao().queryBuilder().where(ProductClassDao.Properties.Id.eq(id)).build().unique());
     }
 
     @Override
@@ -820,6 +833,11 @@ public class AppDbHelper implements DbHelper {
 
             return true;
         });
+    }
+
+    @Override
+    public Observable<List<ServiceFee>> getServiceFeesWithAllItemTypes() {
+        return Observable.fromCallable(() -> mDaoSession.getServiceFeeDao().queryBuilder().whereOr(ServiceFeeDao.Properties.ApplyingType.eq(APP_TYPE_ITEM), ServiceFeeDao.Properties.ApplyingType.eq(APP_TYPE_ALL)).orderDesc(ServiceFeeDao.Properties.CreatedDate).build().list());
     }
 
     @Override
@@ -1537,5 +1555,10 @@ public class AppDbHelper implements DbHelper {
                     .buildDelete().executeDeleteWithoutDetachingEntities();
             return true;
         });
+    }
+
+    @Override
+    public Observable<List<InventoryState>> getInventoryStatesByVendorId(Long vendorId) {
+        return Observable.fromCallable(() -> mDaoSession.getInventoryStateDao().queryBuilder().where(InventoryStateDao.Properties.VendorId.eq(vendorId)).build().list());
     }
 }

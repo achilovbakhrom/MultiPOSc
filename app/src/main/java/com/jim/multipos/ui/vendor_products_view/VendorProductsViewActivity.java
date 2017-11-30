@@ -14,7 +14,7 @@ import javax.inject.Inject;
 
 import lombok.Getter;
 
-import static com.jim.multipos.ui.consignment.view.IncomeConsignmentFragment.VENDOR_ID;
+import static com.jim.multipos.ui.inventory.InventoryActivity.VENDOR_ID;
 
 public class VendorProductsViewActivity extends DoubleSideActivity implements VendorProductsView {
     @Inject

@@ -34,8 +34,9 @@ import static com.jim.multipos.ui.service_fee_new.Constants.TYPE_VALUE;
  */
 
 public class AddServiceFeeDialog extends DialogFragment {
-    public interface OnDismissListener {
+    public interface OnServiceFeeDialogListener {
         void dismiss();
+        void addServiceFee(double amount, String description, String amountType);
     }
 
     @BindView(R.id.tsServiceFeeType)
@@ -52,7 +53,7 @@ public class AddServiceFeeDialog extends DialogFragment {
     @BindView(R.id.btnNext)
     MpButton btnNext;
     private Unbinder unbinder;
-    private OnDismissListener dismissListener;
+    private OnServiceFeeDialogListener listener;
 
     @Nullable
     @Override
@@ -105,8 +106,8 @@ public class AddServiceFeeDialog extends DialogFragment {
                             amountType = TYPE_REPRICE;
                         }
 
-                        ((MainPosPageActivity) getActivity()).addServiceFee(amount, etDescription.getText().toString(), amountType);
-                        dismissListener.dismiss();
+                        listener.addServiceFee(amount, etDescription.getText().toString(), amountType);
+                        listener.dismiss();
                         dismiss();
                     }
                 } catch (NumberFormatException e) {
@@ -165,8 +166,8 @@ public class AddServiceFeeDialog extends DialogFragment {
         }
     }
 
-    public void setOnDismissListener(OnDismissListener dismissListener) {
-        this.dismissListener = dismissListener;
+    public void setOnServiceFeeDialogListener(OnServiceFeeDialogListener listener) {
+        this.listener = listener;
     }
 
     @Override

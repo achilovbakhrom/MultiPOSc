@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="@dimen/five_dp"
-            android:layout_marginLeft="@dimen/thirty_dp"
+            android:layout_marginLeft="@dimen/ten_dp"
             android:layout_marginTop="@dimen/five_dp"
             android:orientation="vertical">
 
@@ -35,25 +35,19 @@
 
                 <TextView
                     android:id="@+id/tvClass"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_marginLeft="@dimen/twenty_dp"
-                    android:text="Class: "
                     android:textColor="@color/colorSecondaryText"
                     android:textSize="@dimen/eighteen_dp"
-                    android:ellipsize="end"
                     android:textStyle="italic" />
 
                 <TextView
                     android:id="@+id/tvSubClass"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Pizza"
                     android:textColor="@color/colorSecondaryText"
                     android:textSize="@dimen/eighteen_dp"
-                    android:ellipsize="end"
                     android:textStyle="italic" />
             </LinearLayout>
 
@@ -112,17 +106,22 @@
             android:layout_height="match_parent"
             android:background="#e3e3e3" />
 
-        <TextView
-            android:id="@+id/tvInventory"
-            android:layout_width="@dimen/hundred_eighty_dp"
+        <FrameLayout
+            android:layout_width="@dimen/hundred_forty_dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="right"
-            android:paddingRight="@dimen/twenty_dp"
-            android:text="128.0000"
-            android:textAlignment="center"
-            android:textColor="@color/colorMainText"
-            android:textSize="@dimen/eighteen_dp" />
+            android:layout_gravity="center">
+
+            <TextView
+                android:id="@+id/tvInventory"
+                android:layout_width="@dimen/hundred_twenty_dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="right"
+                android:text="128.0000"
+                android:textAlignment="center"
+                android:textColor="@color/colorMainText"
+                android:textSize="@dimen/eighteen_dp" />
+        </FrameLayout>
 
         <FrameLayout
             android:layout_width="2px"

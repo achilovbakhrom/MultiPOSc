@@ -8,13 +8,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.mpviews.MpButton;
 import com.jim.multipos.R;
 import com.jim.multipos.data.db.model.Discount;
-import com.jim.multipos.ui.mainpospage.MainPosPageActivity;
 import com.jim.multipos.ui.mainpospage.adapter.DiscountAdapter;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,6 +27,13 @@ import butterknife.Unbinder;
  */
 
 public class DiscountDialog extends DialogFragment implements DiscountAdapter.OnClickListener {
+    public interface OnDialogListener {
+        List<Discount> getDiscounts();
+        void addDiscount(double amount, String description, String amountType);
+    }
+
+    @BindView(R.id.tvCaption)
+    TextView tvCaption;
     @BindView(R.id.rvDiscounts)
     RecyclerView recyclerView;
     @BindView(R.id.btnBack)
@@ -33,6 +42,10 @@ public class DiscountDialog extends DialogFragment implements DiscountAdapter.On
     MpButton btnAdd;
     private Unbinder unbinder;
     private DiscountAdapter adapter;
+    private OnDialogListener listener;
+    private List<Discount> discounts;
+    private String[] discountTypes;
+    private String caption;
 
     @Nullable
     @Override
@@ -42,22 +55,46 @@ public class DiscountDialog extends DialogFragment implements DiscountAdapter.On
 
         unbinder = ButterKnife.bind(this, view);
 
+        if (caption != null) {
+            tvCaption.setText(caption);
+        }
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new DiscountAdapter(getContext(), this, ((MainPosPageActivity) getActivity()).getDiscounts(), getResources().getStringArray(R.array.discount_amount_types_abr));
+        adapter = new DiscountAdapter(getContext(), this, discounts, discountTypes);
         recyclerView.setAdapter(adapter);
 
         RxView.clicks(btnBack).subscribe(o -> dismiss());
 
         RxView.clicks(btnAdd).subscribe(o -> {
             AddDiscountDialog dialog = new AddDiscountDialog();
-            dialog.setOnDismissListener(() -> {
-                adapter.setItems(((MainPosPageActivity) getActivity()).getDiscounts());
+            dialog.setOnDiscountDialogListener(new AddDiscountDialog.OnDiscountDialogListener() {
+                @Override
+                public void dismiss() {
+                    adapter.setItems(listener.getDiscounts());
+                }
+
+                @Override
+                public void addDiscount(double amount, String description, String amountType) {
+                    listener.addDiscount(amount, description, amountType);
+                }
             });
             dialog.show(getActivity().getSupportFragmentManager(), "AddDiscountDialog");
         });
 
         return view;
+    }
+
+    public void setDiscounts(List<Discount> discounts, String[] discountTypes) {
+        this.discounts = discounts;
+        this.discountTypes = discountTypes;
+    }
+
+    public void setCaption(String caption) {
+        this.caption = caption;
+    }
+
+    public void setOnDialogListener(OnDialogListener listener) {
+        this.listener = listener;
     }
 
     @Override

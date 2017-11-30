@@ -443,6 +443,7 @@
     <string name="cancel_adding_message">Do you want to cancel data?</string>
     <string name="warning_contact_deletion_title">Contact deletion</string>
     <string name="vendors">Vendors</string>
+    <string name="products">Products</string>
     <string name="warning_deletion_of_active_elements">Item is active. You can\'t delete active elements!!!</string>
     <string name="subcategory_length_validation">Subcategory name should be longer than 3 letters</string>
     <string name="warning">Warning</string>
@@ -516,7 +517,15 @@
     <string name="open">Open</string>
     <string name="not_classified">Not classified</string>
     <string name="choose_product_class">Choose product class</string>
-    <string name="return_to">Return to:</string>
+    <string name="close">Close</string>
+    <string name="discount_item">Discount item</string>
+    <string name="special_request">Special request</string>
+    <string name="action">Action</string>
+    <string name="inventory">Inventory</string>
+    <string name="enter_quantity">Enter quantity</string>
+    <string name="set_quantity">Set quantity</string>
+    <string name="choose_vendor_dialog">Choose vendor</string>
+    <string name="choose_for_product">Choose for product</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>

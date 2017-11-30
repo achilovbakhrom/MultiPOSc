@@ -77,7 +77,7 @@ public abstract class MainPageMenuModule {
 
     @PerFragment
     @ContributesAndroidInjector(modules = ProductInfoFragmentModule.class)
-    abstract ProductInfoFragment provideProductInfoFragmentInjector();
+    abstract ProductInfoFragment provideProductInfoFragment();
 
     @PerFragment
     @ContributesAndroidInjector(modules = OrderListFragmentModule.class)
@@ -88,5 +88,12 @@ public abstract class MainPageMenuModule {
     @Named(value = "discount_amount_types")
     static String[] provideDiscountAmountTypes(Context context) {
         return context.getResources().getStringArray(R.array.discount_amount_types_abr);
+    }
+
+    @PerActivity
+    @Provides
+    @Named(value = "discount_used_types_abr")
+    static String[] provideDiscountUsedTypesAbr(Context context) {
+        return context.getResources().getStringArray(R.array.discount_used_types_abr);
     }
 }

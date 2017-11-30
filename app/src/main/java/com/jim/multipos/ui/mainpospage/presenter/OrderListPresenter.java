@@ -2,6 +2,7 @@ package com.jim.multipos.ui.mainpospage.presenter;
 
 import com.jim.multipos.core.Presenter;
 import com.jim.multipos.data.db.model.Discount;
+import com.jim.multipos.data.db.model.ServiceFee;
 
 import java.util.List;
 
@@ -11,4 +12,7 @@ import java.util.List;
 
 public interface OrderListPresenter extends Presenter {
     List<Discount> getDiscounts();
+    List<ServiceFee> getServiceFees();
+    void addDiscount(double amount, String description, String amountType);
+    void addServiceFee(double amount, String description, String amountType);
 }
