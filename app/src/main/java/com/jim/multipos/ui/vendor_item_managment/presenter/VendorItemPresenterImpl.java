@@ -112,8 +112,10 @@ public class VendorItemPresenterImpl extends BasePresenterImpl<VendorItemView> i
                     builder.append(",");
                     builder.append(" ");
                 }
-                builder.deleteCharAt(builder.length() - 1);
-                builder.deleteCharAt(builder.length() - 1);
+                if(builder.toString().length()>2) {
+                    builder.deleteCharAt(builder.length() - 1);
+                    builder.deleteCharAt(builder.length() - 1);
+                }
                 if(builder.toString().toUpperCase().contains(searchText.toUpperCase())){
                     searchResults.add(vendorWithDebts.get(i));
                 }

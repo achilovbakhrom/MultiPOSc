@@ -40,7 +40,7 @@ public class VendorItemsActivity extends SimpleActivity {
 
     @Override
     protected int getToolbarMode() {
-        return MpToolbar.WITH_SEARCH_TYPE;
+            return MpToolbar.WITH_SEARCH_TYPE;
     }
 
     public void sendDataToConsignment(Long vendorId, int consignment_type) {

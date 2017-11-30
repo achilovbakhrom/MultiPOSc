@@ -31,10 +31,7 @@
         <activity
             android:name=".ui.mainpospage.MainPosPageActivity"
             android:windowSoftInputMode="stateHidden">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
         <activity
             android:name=".ui.lock_screen.LockScreenActivity"
@@ -69,6 +66,13 @@
         <activity android:name=".ui.customers_edit_new.CustomersEditActivity" />
         <activity android:name=".ui.consignment.ConsignmentActivity">
 
+        </activity>
+        <activity android:name=".ui.billing_vendor.BillingOperationsActivity"
+            android:windowSoftInputMode="stateHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".ui.inventory.InventoryActivity"

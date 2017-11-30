@@ -100,23 +100,7 @@ public class VendorItemAdapter extends ClickableBaseAdapter<VendorWithDebt, Vend
             for (Product product:vendorWithDebt.getVendor().getProducts()) {
                 builder.append(product.getName());
                 builder.append(" | ");
-                builder.append(product.getName());
-                builder.append(" | ");
-                builder.append(product.getName());
-                builder.append(" | ");
-                builder.append(product.getName());
-                builder.append(" | ");
-                builder.append(product.getName());
-                builder.append(" | ");
-                builder.append(product.getName());
-                builder.append(" | ");
-                builder.append(product.getName());
-                builder.append(" | ");
-                builder.append(product.getName());
-                builder.append(" | "); builder.append(product.getName());
-                builder.append(" | ");
-                builder.append(product.getName());
-                builder.append(" | ");
+
             }
             if(builder.toString().length()>2) {
                 builder.deleteCharAt(builder.length() - 1);
@@ -159,24 +143,6 @@ public class VendorItemAdapter extends ClickableBaseAdapter<VendorWithDebt, Vend
             StringBuilder builder = new StringBuilder();
             for (Product product:vendorWithDebt.getVendor().getProducts()) {
                 if(haveContains  && (!product.getName().toUpperCase().contains(searchText.toUpperCase()))) continue;
-                builder.append(product.getName());
-                builder.append(" | ");
-                builder.append(product.getName());
-                builder.append(" | ");
-                builder.append(product.getName());
-                builder.append(" | ");
-                builder.append(product.getName());
-                builder.append(" | ");
-                builder.append(product.getName());
-                builder.append(" | ");
-                builder.append(product.getName());
-                builder.append(" | ");
-                builder.append(product.getName());
-                builder.append(" | ");
-                builder.append(product.getName());
-                builder.append(" | ");
-                builder.append(product.getName());
-                builder.append(" | ");
                 builder.append(product.getName());
                 builder.append(" | ");
             }

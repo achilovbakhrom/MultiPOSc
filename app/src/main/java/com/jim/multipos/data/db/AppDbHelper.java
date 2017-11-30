@@ -1332,17 +1332,23 @@ public class AppDbHelper implements DbHelper {
 //            mDaoSession.getInventoryStateDao().insertOrReplace(inventoryState4);
 //    }
         return Single.create(e -> {
+
+            String query = "SELECT _id, PRODUCT_ID, SUM(VALUE) AS INVENTORY, LOW_STOCK_ALERT FROM INVENTORYSTATE GROUP BY PRODUCT_ID";
+            Cursor cursor = mDaoSession.getDatabase().rawQuery(query, null);
             List<InventoryItem> inventoryItems = new ArrayList<>();
-            List<Product> products = mDaoSession.getProductDao().loadAll();
-            for (Product producti:products) {
-                InventoryItem inventoryItem = new InventoryItem();
-                inventoryItem.setProduct(producti);
-                inventoryItem.setInventory(20 + ((int)(Math.random()*100%40)));
-//                if(((int)(Math.random()*10%2))==0) inventoryItem.setLowStockAlert(-1);
-//                inventoryItem.setLowStockAlert(5+ ((int)(Math.random()*100%10)));
-                inventoryItem.setLowStockAlert(-1);
-                inventoryItem.setId(System.currentTimeMillis()+((int)(Math.random()*100)));
-                inventoryItems.add(inventoryItem);
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+
+                while (!cursor.isAfterLast()) {
+                    InventoryItem inventoryItem = new InventoryItem();
+                    inventoryItem.setId(cursor.getLong(cursor.getColumnIndex("_id")));
+                    inventoryItem.setProduct(mDaoSession.getProductDao().load(cursor.getLong(cursor.getColumnIndex("PRODUCT_ID"))));
+                    inventoryItem.setInventory(cursor.getDouble(cursor.getColumnIndex("INVENTORY")));
+                    inventoryItem.setLowStockAlert(cursor.getDouble(cursor.getColumnIndex("LOW_STOCK_ALERT")));
+                    inventoryItems.add(inventoryItem);
+
+                    cursor.moveToNext();
+                }
             }
             e.onSuccess(inventoryItems);
         });
@@ -1437,176 +1443,25 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public Single<List<VendorWithDebt>> getVendorWirhDebt() {
-        if(mDaoSession.getProductDao().loadAll().size()==0){
-            Currency currency = new Currency();
-            currency.setAbbr("uzs");
-            currency.setName("Sum");
-            currency.setIsMain(true);
-            mDaoSession.getCurrencyDao().insertOrReplace(currency);
 
-            Unit unit = new Unit();
-            unit.setAbbr("kg");
-            unit.setFactorRoot(1);
-            unit.setIsActive(true);
-
-            mDaoSession.getUnitDao().insertOrReplace(unit);
-
-            Unit unit1 = new Unit();
-            unit1.setAbbr("pcs");
-            unit1.setFactorRoot(1);
-            unit1.setIsActive(true);
-
-            mDaoSession.getUnitDao().insertOrReplace(unit1);
-
-            Vendor vendor = new Vendor();
-            vendor.setName("Huawei Design");
-            vendor.setContactName("Islomov Sardor");
-            vendor.setAddress("Toshkent shaxar qorasaroy 9 dom");
-            vendor.setDeleted(false);
-            vendor.setActive(true);
-            vendor.setCreatedDate(System.currentTimeMillis());
-            mDaoSession.getVendorDao().insertOrReplace(vendor);
-
-
-            Contact contact = new Contact();
-            contact.setVendorId(vendor.getId());
-            contact.setType(Contact.PHONE);
-            contact.setName("+998946211888");
-            mDaoSession.getContactDao().insertOrReplace(contact);
-
-            Contact contact2 = new Contact();
-            contact2.setVendorId(vendor.getId());
-            contact2.setType(Contact.E_MAIL);
-            contact2.setName("sardor@gmail.com");
-            mDaoSession.getContactDao().insertOrReplace(contact2);
-
-
-
-            Vendor vendor1 = new Vendor();
-            vendor1.setName("Motorola");
-            vendor.setAddress("Qoqon shaxar katta ko'cha");
-            vendor1.setContactName("Qoshboqov Berdijon");
-            vendor1.setDeleted(false);
-            vendor1.setActive(true);
-            vendor1.setCreatedDate(System.currentTimeMillis());
-            mDaoSession.getVendorDao().insertOrReplace(vendor1);
-
-
-            Contact contact1 = new Contact();
-            contact1.setVendorId(vendor1.getId());
-            contact1.setType(Contact.PHONE);
-            contact1.setName("islomov48@gmail.com");
-            mDaoSession.getContactDao().insertOrReplace(contact1);
-
-
-            Vendor vendor2 = new Vendor();
-            vendor2.setName("Samsung Uz");
-            vendor2.setAddress("Qoqon shaxar katta ko'cha");
-            vendor2.setContactName("Karimov Anvar");
-            vendor2.setDeleted(false);
-            vendor2.setActive(true);
-            vendor2.setCreatedDate(System.currentTimeMillis());
-            mDaoSession.getVendorDao().insertOrReplace(vendor2);
-
-            Product product2 = new Product();
-            product2.setName("A5 2017");
-            product2.setBarcode("123124");
-            product2.setSku("asd787");
-            product2.setPrice(48700d);
-            product2.setCreatedDate(System.currentTimeMillis());
-            product2.setMainUnitId(unit.getId());
-            product2.setCostCurrencyId(currency.getId());
-            product2.setPriceCurrencyId(currency.getId());
-            mDaoSession.getProductDao().insertOrReplace(product2);
-
-            VendorProductCon vendorProductCon2 = new VendorProductCon();
-            vendorProductCon2.setProductId(product2.getId());
-            vendorProductCon2.setVendorId(vendor2.getId());
-            mDaoSession.getVendorProductConDao().insertOrReplace(vendorProductCon2);
-
-            Product product = new Product();
-            product.setName("Taxima");
-            product.setBarcode("88974");
-            product.setSku("12312421");
-            product.setPrice(6500d);
-            product.setCreatedDate(System.currentTimeMillis());
-            product.setMainUnitId(unit.getId());
-            product.setCostCurrencyId(currency.getId());
-            product.setPriceCurrencyId(currency.getId());
-            mDaoSession.getProductDao().insertOrReplace(product);
-
-
-            VendorProductCon vendorProductCon = new VendorProductCon();
-            vendorProductCon.setProductId(product.getId());
-            vendorProductCon.setVendorId(vendor.getId());
-            mDaoSession.getVendorProductConDao().insertOrReplace(vendorProductCon);
-
-            VendorProductCon vendorProductCon0 = new VendorProductCon();
-            vendorProductCon0.setProductId(product.getId());
-            vendorProductCon0.setVendorId(vendor1.getId());
-            mDaoSession.getVendorProductConDao().insertOrReplace(vendorProductCon0);
-
-            Product product5 = new Product();
-            product5.setName("Bono Chocolate");
-            product5.setBarcode("3414124");
-            product5.setSku("8732344");
-            product5.setPrice(6500d);
-            product5.setCreatedDate(System.currentTimeMillis());
-            product5.setMainUnitId(unit1.getId());
-            product5.setCostCurrencyId(currency.getId());
-            product5.setPriceCurrencyId(currency.getId());
-            mDaoSession.getProductDao().insertOrReplace(product5);
-
-            VendorProductCon vendorProductCon01 = new VendorProductCon();
-            vendorProductCon01.setProductId(product5.getId());
-            vendorProductCon01.setVendorId(vendor1.getId());
-            mDaoSession.getVendorProductConDao().insertOrReplace(vendorProductCon01);
-
-            Product product6 = new Product();
-            product6.setName("Sugar 1000gr");
-            product6.setBarcode("8875154");
-            product6.setSku("px1412");
-            product6.setPrice(6500d);
-            product6.setCreatedDate(System.currentTimeMillis());
-            product6.setMainUnitId(unit1.getId());
-            product6.setCostCurrencyId(currency.getId());
-            product6.setPriceCurrencyId(currency.getId());
-            mDaoSession.getProductDao().insertOrReplace(product6);
-
-            VendorProductCon vendorProductCon02 = new VendorProductCon();
-            vendorProductCon02.setProductId(product6.getId());
-            vendorProductCon02.setVendorId(vendor.getId());
-            mDaoSession.getVendorProductConDao().insertOrReplace(vendorProductCon02);
-
-            Product product1 = new Product();
-            product1.setName("To'xtaniyoz ota kapchonniy");
-            product1.setBarcode("sadq");
-            product1.setSku("qweqs");
-            product1.setPrice(5000d);
-            product1.setCreatedDate(System.currentTimeMillis());
-            product1.setMainUnitId(unit1.getId());
-            product1.setCostCurrencyId(currency.getId());
-            product1.setPriceCurrencyId(currency.getId());
-            mDaoSession.getProductDao().insertOrReplace(product1);
-
-
-            VendorProductCon vendorProductCon1 = new VendorProductCon();
-            vendorProductCon1.setProductId(product1.getId());
-            vendorProductCon1.setVendorId(vendor.getId());
-            mDaoSession.getVendorProductConDao().insertOrReplace(vendorProductCon1);
-
-
-        }
         return Single.create(e -> {
             List<Vendor> vendors = mDaoSession.getVendorDao().loadAll();
             List<VendorWithDebt> vendorWithDebts = new ArrayList<>();
             for (Vendor vendor:vendors) {
                 VendorWithDebt vendorWithDebt = new VendorWithDebt();
                 vendorWithDebt.setVendor(vendor);
-                vendorWithDebt.setDebt(999+((int)(Math.random()*1000%700)));
+
+                String query = "SELECT  SUM(AMOUNT) AS AMOUNT FROM BILLING_OPERATION GROUP BY VENDOR_ID HAVING VENDOR_ID=?";
+                Cursor cursor = mDaoSession.getDatabase().rawQuery(query,  new String[]{String.valueOf(vendor.getId())});
+
+                if (cursor.getCount() > 0) {
+                    cursor.moveToFirst();
+                    vendorWithDebt.setDebt(cursor.getDouble(cursor.getColumnIndex("AMOUNT")));
+                }else {
+                    vendorWithDebt.setDebt(0);
+                }
                 vendorWithDebts.add(vendorWithDebt);
             }
-            Collections.sort(vendorWithDebts,(vendorWithDebt, t1) -> vendorWithDebt.getVendor().getCreatedDate().compareTo(t1.getVendor().getCreatedDate()));
             for (VendorWithDebt vendorWithDebt:vendorWithDebts) {
                 Collections.sort(vendorWithDebt.getVendor().getProducts(),(product, t1) -> product.getName().compareTo(t1.getName()));
             }

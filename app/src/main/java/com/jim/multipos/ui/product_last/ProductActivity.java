@@ -53,7 +53,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         TestUtils.createUnits(presenter.getDatabaseManager(), this);
-//        TestUtils.createCurrencies(presenter.getDatabaseManager(), this);
+        TestUtils.createCurrencies(presenter.getDatabaseManager(), this);
 //        TestUtils.createProductClasses(presenter.getDatabaseManager());
 //        TestUtils.createVendord(presenter.getDatabaseManager());
         addCategoryListFragment();

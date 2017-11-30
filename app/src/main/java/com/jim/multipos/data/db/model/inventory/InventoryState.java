@@ -22,6 +22,7 @@ import com.jim.multipos.data.db.model.products.VendorDao;
 public class InventoryState {
     @Id(autoincrement = true)
     private Long id;
+
     private Long productId;
     @ToOne(joinProperty = "productId")
     private Product product;
