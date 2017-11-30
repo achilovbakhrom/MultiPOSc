@@ -29,8 +29,8 @@ public class InventoryState {
     private Long vendorId;
     @ToOne(joinProperty = "vendorId")
     private Vendor vendor;
-    private Double value;
-    private Double lowStockAlert;
+    private double value;
+    private double lowStockAlert;
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
      * Entity must attached to an entity context.
