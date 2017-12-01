@@ -17,6 +17,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import static com.jim.multipos.data.db.model.consignment.Consignment.INCOME_CONSIGNMENT;
+import static com.jim.multipos.data.db.model.consignment.Consignment.RETURN_CONSIGNMENT;
 import static com.jim.multipos.ui.inventory.fragments.InventoryFragment.SortModes.*;
 
 /**
@@ -28,8 +30,6 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
     DatabaseManager databaseManager;
 
     InventoryFragment.SortModes searchMode = FILTERED_BY_PRODUCT;
-    private static final int INCOME = 0;
-    private static final int RETURN = 1;
 
     int SORTING = 1;
 
@@ -110,7 +110,7 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
 
     @Override
     public void onConsigmentIn(InventoryItem inventoryItem) {
-        consignment_type = INCOME;
+        consignment_type = INCOME_CONSIGNMENT;
         Product product = inventoryItem.getProduct();
         this.productId = product.getId();
         databaseManager.getVendorProductConnectionByProductId(product.getId()).subscribe(productConList -> {
@@ -129,7 +129,7 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
 
     @Override
     public void onConsigmentOut(InventoryItem inventoryItem) {
-        consignment_type = RETURN;
+        consignment_type = RETURN_CONSIGNMENT;
         Product product = inventoryItem.getProduct();
         this.productId = product.getId();
         databaseManager.getVendorProductConnectionByProductId(product.getId()).subscribe(productConList -> {

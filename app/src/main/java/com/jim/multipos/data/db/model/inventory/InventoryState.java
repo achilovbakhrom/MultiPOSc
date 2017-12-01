@@ -170,9 +170,9 @@ public class InventoryState {
     public void setValue(Double value) {
         this.value = value;
     }
-    @Generated(hash = 1487727907)
-    public InventoryState(Long id, Long productId, Long vendorId, Double value,
-            Double lowStockAlert) {
+    @Generated(hash = 1572258237)
+    public InventoryState(Long id, Long productId, Long vendorId, double value,
+            double lowStockAlert) {
         this.id = id;
         this.productId = productId;
         this.vendorId = vendorId;

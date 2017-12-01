@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/llBackground"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/hundred_fifteen_dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -15,118 +17,95 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="@dimen/thirty_dp"
-                android:layout_height="@dimen/thirty_dp"
+                android:id="@+id/ivStatus"
+                android:layout_width="@dimen/twenty_five_dp"
+                android:layout_height="@dimen/twenty_five_dp"
                 android:src="@drawable/income_2nd" />
 
         </LinearLayout>
 
-
         <FrameLayout
-            android:layout_width="1px"
+            android:layout_width="2px"
             android:layout_height="match_parent"
-            android:background="@color/colorTextHint" />
-
+            android:background="#e3e3e3" />
 
         <LinearLayout
-            android:layout_width="@dimen/three_hundred_dp"
+            android:id="@+id/llConsignmentProducts"
+            android:layout_width="@dimen/four_hundred_sixty_dp"
             android:layout_height="wrap_content"
+            android:paddingTop="@dimen/twenty_dp"
+            android:paddingBottom="@dimen/twenty_dp"
             android:layout_gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingRight="@dimen/twenty_dp">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/llConsignmentNumber"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:paddingLeft="@dimen/twenty_dp"
-                android:text="#1534"
-                android:textColor="@color/colorMainText"
-                android:textSize="@dimen/eighteen_dp" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:paddingLeft="@dimen/forty_dp"
-                android:text="8754: NBeer"
-                android:textColor="@color/colorSecondaryText"
-                android:textSize="@dimen/eighteen_dp"
-                android:textStyle="italic" />
+                <TextView
+                    android:id="@+id/tvConsignmentNumber"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:paddingLeft="@dimen/twenty_dp"
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/sixteen_dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:paddingLeft="@dimen/forty_dp"
-                android:text="1347: T-shirt"
-                android:textColor="@color/colorSecondaryText"
-                android:textSize="@dimen/eighteen_dp"
-                android:textStyle="italic" />
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/ivShowHide"
+                    android:tint="@color/colorBlack"
+                    android:layout_gravity="center"
+                    android:layout_width="@dimen/fifteen_dp"
+                    android:layout_height="@dimen/fifteen_dp"
+                    android:layout_marginLeft="@dimen/ten_dp"
+                    android:src="@drawable/arrow_down" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:paddingLeft="@dimen/forty_dp"
-                android:text="1354:Kimibop"
-                android:textColor="@color/colorSecondaryText"
-                android:textSize="@dimen/eighteen_dp"
-                android:textStyle="italic" />
-
+            </LinearLayout>
 
         </LinearLayout>
 
-
         <FrameLayout
-            android:layout_width="1px"
+            android:layout_width="2px"
             android:layout_height="match_parent"
-            android:background="@color/colorTextHint" />
+            android:background="#e3e3e3" />
 
         <TextView
-            android:layout_width="@dimen/two_hundred_sixty_dp"
+            android:id="@+id/tvDate"
+            android:layout_width="@dimen/two_hundred_twenty_dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="10:23 22/02/2017"
             android:textColor="@color/colorMainText"
-            android:textSize="@dimen/eighteen_dp" />
+            android:textSize="@dimen/sixteen_dp" />
 
         <FrameLayout
-            android:layout_width="1px"
+            android:layout_width="2px"
             android:layout_height="match_parent"
-            android:background="@color/colorTextHint" />
+            android:background="#e3e3e3" />
 
         <TextView
-            android:layout_width="@dimen/three_hundred_dp"
+            android:id="@+id/tvDebtAmount"
+            android:layout_width="@dimen/three_hundred_fifty_dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="right"
             android:paddingRight="@dimen/twenty_dp"
-            android:text="128 000.00 uzs"
             android:textColor="@color/colorMainText"
-            android:textSize="@dimen/eighteen_dp" />
+            android:textSize="@dimen/sixteen_dp" />
 
         <FrameLayout
-            android:layout_width="1px"
+            android:layout_width="2px"
             android:layout_height="match_parent"
-            android:background="@color/colorTextHint" />
+            android:background="#e3e3e3" />
 
-
-        <TextView
-            android:layout_width="@dimen/hundred_seventy_dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="Confirmed"
-            android:textColor="@color/colorMainText"
-            android:textSize="@dimen/eighteen_dp" />
-
-        <FrameLayout
-            android:layout_width="1px"
-            android:layout_height="match_parent"
-            android:background="@color/colorTextHint" />
 
         <LinearLayout
+            android:id="@+id/llEditConsignment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -135,25 +114,20 @@
             android:paddingRight="@dimen/ten_dp">
 
             <ImageView
+                android:id="@+id/ivEditConsignment"
                 android:layout_width="@dimen/thirty_dp"
                 android:layout_height="@dimen/thirty_dp"
                 android:layout_gravity="center"
                 android:layout_marginRight="@dimen/ten_dp"
                 android:src="@drawable/edit_blue" />
 
-            <ImageView
-                android:layout_width="@dimen/thirty_dp"
-                android:layout_height="@dimen/thirty_dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/ten_dp"
-                android:src="@drawable/delete_blue" />
         </LinearLayout>
 
     </LinearLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/colorTextHint" />
+        android:layout_height="2px"
+        android:background="#e3e3e3" />
 
 </LinearLayout>

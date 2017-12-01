@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.core.SimpleActivity;
 import com.jim.multipos.ui.consignment.ConsignmentActivity;
+import com.jim.multipos.ui.consignment_list.ConsignmentListActivity;
 import com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemFragment;
 import com.jim.multipos.ui.vendor_products_view.VendorProductsViewActivity;
 import com.jim.multipos.utils.TextWatcherOnTextChange;
@@ -52,6 +53,12 @@ public class VendorItemsActivity extends SimpleActivity {
 
     public void openVendorDetails(Long vendorId) {
         Intent intent = new Intent(this, VendorProductsViewActivity.class);
+        intent.putExtra(VENDOR_ID, vendorId);
+        startActivity(intent);
+    }
+
+    public void openVendorConsignmentStory(Long vendorId) {
+        Intent intent = new Intent(this, ConsignmentListActivity.class);
         intent.putExtra(VENDOR_ID, vendorId);
         startActivity(intent);
     }

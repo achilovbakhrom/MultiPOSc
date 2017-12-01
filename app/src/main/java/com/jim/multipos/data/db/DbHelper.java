@@ -92,6 +92,7 @@ public interface DbHelper {
     Observable<Boolean> deleteCurrency(Currency currency);
     Observable<Boolean> deleteAllCurrencies();
     Observable<List<Currency>> getAllCurrencies();
+    Single<Currency> getMainCurrency();
     Observable<Long> insertUnitCategory(UnitCategory category);
     Observable<Boolean> insertUnitCategories(List<UnitCategory> categoryList);
     Observable<List<UnitCategory>> getAllUnitCategories();
@@ -168,7 +169,7 @@ public interface DbHelper {
     Single<List<InventoryItem>> getInventoryItems();
     Observable<Long> addProductVendorConn(VendorProductCon vendorProductCon);
     Observable<Boolean> removeVendorProductConnection(VendorProductCon vendorProductCon);
-    Observable<Boolean> removeVendorProductConnectionByVendorId(Long vendorid);
+    Observable<Boolean> removeVendorProductConnectionByVendorId(Long vendorId);
     Observable<Boolean> removeVendorProductConnectionByProductId(Long productId);
     Observable<List<VendorProductCon>> getVendorProductConnectionByProductId(Long productId);
     Observable<VendorProductCon> getVendorProductConnectionById(Long productId, Long vendorId);
@@ -176,9 +177,13 @@ public interface DbHelper {
     Single<Consignment> insertConsignment(Consignment consignment);
     Observable<Long> insertConsignmentProduct(ConsignmentProduct consignmentProduct);
     Observable<List<Consignment>> getConsignments();
+    Single<List<Consignment>> getConsignmentsByVendorId(Long vendorId);
+    Single<List<ConsignmentProduct>> getConsignmentProductsByConsignmentId(Long consignmentId);
     Observable<Boolean> insertConsignmentProduct(List<ConsignmentProduct> consignmentProducts);
+    Single<Consignment> getConsignmentById(Long consignmentId);
 
     Single<List<VendorWithDebt>> getVendorWirhDebt();
+
     Single<Long> insertWarehouseOperation(WarehouseOperations warehouseOperations);
 
     Observable<Long> insertBillingOperation(BillingOperations billingOperations);

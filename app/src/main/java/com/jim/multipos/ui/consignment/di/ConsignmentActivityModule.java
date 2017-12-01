@@ -27,15 +27,15 @@ public abstract class ConsignmentActivityModule {
 
     @Binds
     @PerActivity
-    abstract AppCompatActivity provideInventoryActivity(ConsignmentActivity consignmentActivity);
+    abstract AppCompatActivity provideConsignmentActivity(ConsignmentActivity consignmentActivity);
 
     @Binds
     @PerActivity
-    abstract ConsignmentActivityPresenter provideInventoryActivityPresenter(ConsignmentActivityPresenterImpl consignmentActivityPresenter);
+    abstract ConsignmentActivityPresenter provideConsignmentActivityPresenter(ConsignmentActivityPresenterImpl consignmentActivityPresenter);
 
     @Binds
     @PerActivity
-    abstract ConsignmentActivityView provideInventoryActivityView(ConsignmentActivity consignmentActivity);
+    abstract ConsignmentActivityView provideConsignmentActivityView(ConsignmentActivity consignmentActivity);
 
     @PerFragment
     @ContributesAndroidInjector(modules = IncomeConsignmentFragmentModule.class)

@@ -2,6 +2,7 @@ package com.jim.multipos.data.db.model.inventory;
 
 import com.jim.multipos.data.db.model.Account;
 import com.jim.multipos.data.db.model.consignment.Consignment;
+import com.jim.multipos.data.db.model.intosystem.Editable;
 import com.jim.multipos.data.db.model.products.Vendor;
 
 import org.greenrobot.greendao.annotation.Entity;
@@ -21,10 +22,11 @@ import com.jim.multipos.data.db.model.consignment.ConsignmentDao;
  */
 @Entity(nameInDb = "BILLING_OPERATION", active = true)
 @Data
-public class BillingOperations {
+public class BillingOperations implements Editable {
 
-    public static final int DEBT = 100;
-    public static final int PAID = 101;
+    public static final int DEBT_CONSIGNMENT = 100;
+    public static final int PAID_TO_CONSIGNMENT = 101;
+    public static final int RETURN_TO_VENDOR = 102;
 
     @Id(autoincrement = true)
     private Long id;
@@ -41,6 +43,10 @@ public class BillingOperations {
     private long createAt;
     private int operationType;
     private String description;
+    private boolean isActive = true;
+    private boolean isNotModified = false;
+    private boolean isDeleted = true;
+    private Long rootId;
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
      * Entity must attached to an entity context.
@@ -216,15 +222,85 @@ public class BillingOperations {
     public void setId(Long id) {
         this.id = id;
     }
-    public int getOperationType() {
+
+    @Override
+    public boolean isActive() {
+        return this.isActive;
+    }
+
+    @Override
+    public void setActive(boolean active) {
+        this.isActive = active;
+    }
+
+    @Override
+    public boolean isDeleted() {
+        return this.isDeleted;
+    }
+
+    @Override
+    public void setDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+    @Override
+    public boolean isNotModifyted() {
+        return this.isNotModified;
+    }
+
+    @Override
+    public void setNotModifyted(boolean isNotModified) {
+        this.isNotModified = isNotModified;
+    }
+
+    @Override
+    public Long getRootId() {
+        return this.rootId;
+    }
+
+    @Override
+    public void setRootId(Long rootId) {
+        this.rootId = rootId;
+    }
+
+    @Override
+    public Long getCreatedDate() {
+        return this.createAt;
+    }
+
+    @Override
+    public void setCreatedDate(long createdDate) {
+        this.createAt = createdDate;
+    }
+
+    public Integer getOperationType() {
         return this.operationType;
     }
     public void setOperationType(int operationType) {
         this.operationType = operationType;
     }
-    @Generated(hash = 926237327)
+    public boolean getIsDeleted() {
+        return this.isDeleted;
+    }
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+    public boolean getIsNotModified() {
+        return this.isNotModified;
+    }
+    public void setIsNotModified(boolean isNotModified) {
+        this.isNotModified = isNotModified;
+    }
+    public boolean getIsActive() {
+        return this.isActive;
+    }
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+    @Generated(hash = 1860174015)
     public BillingOperations(Long id, Long accountId, Long vendorId, Long consignmentId,
-            double amount, long createAt, int operationType, String description) {
+            double amount, long createAt, int operationType, String description,
+            boolean isActive, boolean isNotModified, boolean isDeleted, Long rootId) {
         this.id = id;
         this.accountId = accountId;
         this.vendorId = vendorId;
@@ -233,6 +309,10 @@ public class BillingOperations {
         this.createAt = createAt;
         this.operationType = operationType;
         this.description = description;
+        this.isActive = isActive;
+        this.isNotModified = isNotModified;
+        this.isDeleted = isDeleted;
+        this.rootId = rootId;
     }
     @Generated(hash = 1327934834)
     public BillingOperations() {

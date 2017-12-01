@@ -61,8 +61,8 @@ public class MainPosPageActivity extends DoubleSideActivity implements MainPosPa
 
         addFragmentToLeft(new OrderListFragment());
 //        posFragmentManager.displayFragmentWithoutBackStack(new PaymentFragment(), R.id.rightLowContainer);
-//        addFragmentToRight(new ProductPickerFragment());
-        addFragmentWithTagToRight(new ProductInfoFragment(), "ProductInfoFragment");
+        addFragmentToRight(new ProductPickerFragment());
+//        addFragmentWithTagToRight(new ProductInfoFragment(), "ProductInfoFragment");
 
         handler = new Handler();
         handler.post(timerUpdate);

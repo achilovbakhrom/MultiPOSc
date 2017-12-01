@@ -1090,33 +1090,30 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     @Override
     public void deleteProduct() {
         if (product != null) {
+            List<InventoryState> inventoryStates = databaseManager.getInventoryStatesByProductId(product.getId()).blockingSingle();
+            double summary = 0;
+            for (InventoryState inventoryState : inventoryStates) {
+                summary += inventoryState.getValue();
+            }
             if (product.isActive()) {
                 view.showCannotDeleteActiveItemDialog();
-                return;
-            }
-            List<InventoryState> inventoryStates = databaseManager.getInventoryStatesByProductId(product.getId()).blockingSingle();
-            for (InventoryState inventoryState : inventoryStates) {
-                if (inventoryState.getValue() > 0) {
-                    view.showCannotDeleteItemWithPlusValue(inventoryState.getValue());
-                    return;
-                } else if (inventoryState.getValue() < 0) {
-                    view.showCannotDeleteItemWithMinusValue(inventoryState.getValue());
-                    return;
-                }
-            }
-            view.showDeleteDialog(new UIUtils.AlertListener() {
-                @Override
-                public void onPositiveButtonClicked() {
-
-                    product.setActive(false);
-                    product.setDeleted(true);
-                    product.setNotModifyted(false);
-                    databaseManager.replaceProduct(product).subscribe(aLong -> {
-                        if (subcategory != null) {
-                            subcategory.resetProducts();
-                            view.sendEvent(PRODUCT_DELETE);
-                            openSubcategory(subcategory);
-                            openProduct(null);
+            } else if (summary > 0) {
+                view.showCannotDeleteItemWithPlusValue(summary);
+            } else if (summary < 0) {
+                view.showCannotDeleteItemWithMinusValue(summary);
+            } else {
+                view.showDeleteDialog(new UIUtils.AlertListener() {
+                    @Override
+                    public void onPositiveButtonClicked() {
+                        product.setActive(false);
+                        product.setDeleted(true);
+                        product.setNotModifyted(false);
+                        databaseManager.replaceProduct(product).subscribe(aLong -> {
+                            if (subcategory != null) {
+                                subcategory.resetProducts();
+                                view.sendEvent(PRODUCT_DELETE);
+                                openSubcategory(subcategory);
+                                openProduct(null);
 //                                List<Product> list = new ArrayList<>();
 //                                if (ProductPresenterImpl.this.subcategory != null &&
 //                                        !ProductPresenterImpl.this.subcategory.getProducts().isEmpty()) {
@@ -1130,14 +1127,15 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
 //                                view.openProductAddMode();
 //                                view.unselectProductsList();
 //                                showActivesToggled();
-                        }
-                    });
-                }
+                            }
+                        });
+                    }
 
-                @Override
-                public void onNegativeButtonClicked() {
-                }
-            });
+                    @Override
+                    public void onNegativeButtonClicked() {
+                    }
+                });
+            }
         }
     }
 

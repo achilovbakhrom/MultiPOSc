@@ -3,6 +3,7 @@ package com.jim.multipos.data.operations;
 import com.jim.multipos.data.db.model.consignment.Consignment;
 import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
+import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 
 import java.util.List;
 
@@ -14,8 +15,11 @@ import io.reactivex.Single;
  */
 
 public interface ConsignmentOperations {
-    Single<Consignment> insertConsignment(Consignment consignment, List<BillingOperations> operations, List<ConsignmentProduct> consignmentProductList);
+    Single<Consignment> insertConsignment(Consignment consignment, List<BillingOperations> operations, List<ConsignmentProduct> consignmentProductList, List<WarehouseOperations> warehouseOperationsList);
     Observable<Long> insertConsignmentProduct(ConsignmentProduct consignment);
     Observable<List<Consignment>> getConsignments();
+    Single<List<Consignment>> getConsignmentsByVendorId(Long vendorId);
     Observable<Boolean> insertConsignmentProducts(List<ConsignmentProduct> consignmentProducts);
+    Single<List<ConsignmentProduct>> getConsignmentProductsByConsignmentId(Long consignmentId);
+    Single<Consignment> getConsignmentById(Long consignmentId);
 }

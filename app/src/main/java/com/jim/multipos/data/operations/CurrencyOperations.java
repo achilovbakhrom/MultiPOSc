@@ -5,6 +5,8 @@ import com.jim.multipos.data.db.model.currency.Currency;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
+
 /**
  * Created by user on 18.08.17.
  */
@@ -16,4 +18,5 @@ public interface CurrencyOperations {
     Observable<Boolean> removeAllCurrencies();
     Observable<List<Currency>> getAllCurrencies();
     List<Currency> getCurrencies();
+    Single<Currency> getMainCurrency();
 }

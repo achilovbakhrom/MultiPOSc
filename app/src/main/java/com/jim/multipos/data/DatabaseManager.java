@@ -59,8 +59,6 @@ import java.util.List;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 
-import static com.jim.multipos.data.db.model.consignment.Consignment.INCOME_CONSIGNMENT;
-
 /**
  * Created by Developer on 5/13/17.
  */
@@ -347,6 +345,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public List<Currency> getCurrencies() {
         return dbHelper.getCurrencies();
+    }
+
+    @Override
+    public Single<Currency> getMainCurrency() {
+        return dbHelper.getMainCurrency();
     }
 
     @Override
@@ -658,24 +661,25 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
 
 
     @Override
-    public Single<Consignment> insertConsignment(Consignment consignment, List<BillingOperations> operations, List<ConsignmentProduct> consignmentProductList) {
+    public Single<Consignment> insertConsignment(Consignment consignment, List<BillingOperations> operations, List<ConsignmentProduct> consignmentProductList, List<WarehouseOperations> warehouseOperationsList) {
         return dbHelper.insertConsignment(consignment)
                 .flatMap(consignment1 -> setBillingOperation(operations, consignment1)
-                        .flatMap(consignment2 -> setConsignmentProductId(consignmentProductList, consignment2)));
+                        .flatMap(consignment2 -> setConsignmentProductId(consignmentProductList, warehouseOperationsList, consignment2)));
     }
 
-    public Single<Consignment> insertReturnConsignment(Consignment consignment, List<ConsignmentProduct> consignmentProductList) {
+    public Single<Consignment> insertReturnConsignment(Consignment consignment, List<ConsignmentProduct> consignmentProductList, List<WarehouseOperations> warehouseOperationsList) {
         return dbHelper.insertConsignment(consignment)
-                .flatMap(consignment1 -> setConsignmentProductId(consignmentProductList, consignment1));
+                .flatMap(consignment1 -> setConsignmentProductId(consignmentProductList, warehouseOperationsList, consignment1));
     }
 
     private Single<Consignment> setBillingOperation(List<BillingOperations> billingOperations, Consignment consignment) {
         return Single.create(singleSubscriber -> {
             try {
-                for (BillingOperations operations : billingOperations) {
-                    operations.setConsignment(consignment);
-                    insertBillingOperation(operations).subscribe();
-                }
+                if (billingOperations != null)
+                    for (BillingOperations operations : billingOperations) {
+                        operations.setConsignment(consignment);
+                        insertBillingOperation(operations).subscribe();
+                    }
                 singleSubscriber.onSuccess(consignment);
             } catch (Exception o) {
                 singleSubscriber.onError(o);
@@ -683,26 +687,18 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
         });
     }
 
-    private Single<Consignment> setConsignmentProductId(List<ConsignmentProduct> consignmentProductList, Consignment consignment) {
+    private Single<Consignment> setConsignmentProductId(List<ConsignmentProduct> consignmentProductList, List<WarehouseOperations> warehouseOperations, Consignment consignment) {
         return Single.create(singleSubscriber -> {
             try {
-                for (ConsignmentProduct consignmentProduct : consignmentProductList) {
-                    consignmentProduct.setConsignmentId(consignment.getId());
-                    insertConsignmentProduct(consignmentProduct).blockingSingle();
-                    WarehouseOperations warehouseOperations = new WarehouseOperations();
-                    warehouseOperations.setProduct(consignmentProduct.getProduct());
-                    warehouseOperations.setVendor(consignment.getVendor());
-                    warehouseOperations.setCreateAt(System.currentTimeMillis());
-                    if (consignment.getConsignmentType().equals(INCOME_CONSIGNMENT)) {
-                        warehouseOperations.setValue(consignmentProduct.getCountValue());
-                        warehouseOperations.setType(WarehouseOperations.INCOME_FROM_VENDOR);
-                    } else {
-                        warehouseOperations.setType(WarehouseOperations.RETURN_TO_VENDOR);
-                        warehouseOperations.setValue(consignmentProduct.getCountValue() * -1);
+                if (consignmentProductList != null)
+                    for (int i = 0; i < consignmentProductList.size(); i++) {
+                        consignmentProductList.get(i).setConsignmentId(consignment.getId());
+                        if (warehouseOperations.get(i) != null) {
+                            insertWarehouseOperation(warehouseOperations.get(i)).blockingGet();
+                            consignmentProductList.get(i).setWarehouse(warehouseOperations.get(i));
+                        }
+                        insertConsignmentProduct(consignmentProductList.get(i)).blockingSingle();
                     }
-                    insertWarehouseOperation(warehouseOperations).subscribe();
-
-                }
                 singleSubscriber.onSuccess(consignment);
             } catch (Exception o) {
                 singleSubscriber.onError(o);
@@ -721,8 +717,23 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
+    public Single<List<Consignment>> getConsignmentsByVendorId(Long vendorId) {
+        return dbHelper.getConsignmentsByVendorId(vendorId);
+    }
+
+    @Override
     public Observable<Boolean> insertConsignmentProducts(List<ConsignmentProduct> consignmentProducts) {
         return dbHelper.insertConsignmentProduct(consignmentProducts);
+    }
+
+    @Override
+    public Single<List<ConsignmentProduct>> getConsignmentProductsByConsignmentId(Long consignmentId) {
+        return dbHelper.getConsignmentProductsByConsignmentId(consignmentId);
+    }
+
+    @Override
+    public Single<Consignment> getConsignmentById(Long consignmentId) {
+        return dbHelper.getConsignmentById(consignmentId);
     }
 
     @Override

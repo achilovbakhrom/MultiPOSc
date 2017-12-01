@@ -20,7 +20,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import static com.jim.multipos.data.db.model.inventory.WarehouseOperations.INCOME_FROM_VENDOR;
+import static com.jim.multipos.data.db.model.consignment.Consignment.INCOME_CONSIGNMENT;
+import static com.jim.multipos.data.db.model.inventory.BillingOperations.DEBT_CONSIGNMENT;
+import static com.jim.multipos.data.db.model.inventory.BillingOperations.PAID_TO_CONSIGNMENT;
 
 /**
  * Created by Sirojiddin on 09.11.2017.
@@ -31,7 +33,8 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
     private Product product;
     private Vendor vendor;
     private Consignment consignment;
-    private List<ConsignmentProduct> consignmentProductList;
+    private List<ConsignmentProduct> consignmentProductList, tempProductList;
+    private List<BillingOperations> billingOperations;
     private DatabaseManager databaseManager;
     private double sum = 0;
     private List<Account> accountList;
@@ -42,13 +45,41 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
         this.databaseManager = databaseManager;
         consignmentProductList = new ArrayList<>();
         accountList = new ArrayList<>();
+        tempProductList = new ArrayList<>();
+        billingOperations = new ArrayList<>();
     }
 
 
     @Override
-    public void setData(Long productId, Long vendorId) {
-
-        if (productId != null) {
+    public void setData(Long productId, Long vendorId, Long consignmentId) {
+        getAccounts();
+        if (consignmentId != null) {
+            this.consignment = databaseManager.getConsignmentById(consignmentId).blockingGet();
+            consignmentProductList = databaseManager.getConsignmentProductsByConsignmentId(consignmentId).blockingGet();
+            tempProductList.addAll(consignmentProductList);
+            view.fillConsignmentProductList(consignmentProductList);
+            calculateConsignmentSum();
+            this.vendor = this.consignment.getVendor();
+            view.setVendorName(this.vendor.getName());
+            BillingOperations operations = null;
+            billingOperations = databaseManager.getBillingOperations().blockingSingle();
+            for (BillingOperations operation : billingOperations) {
+                if (operation.getOperationType() == PAID_TO_CONSIGNMENT)
+                    operations = operation;
+            }
+            int selectedAccount = 0;
+            if (operations != null) {
+                if (consignment.getIsFromAccount()) {
+                    for (int i = 0; i < accountList.size(); i++) {
+                        if (accountList.get(i).getId().equals(operations.getAccountId()))
+                            selectedAccount = i;
+                    }
+                    view.setAccountSpinnerSelection(selectedAccount);
+                }
+                view.fillConsignmentData(consignment.getConsignmentNumber(), consignment.getDescription(), consignment.getIsFromAccount(), operations.getAmount());
+            } else
+                view.fillConsignmentData(consignment.getConsignmentNumber(), consignment.getDescription(), consignment.getIsFromAccount(), 0.0d);
+        } else if (productId != null) {
             databaseManager.getProductById(productId).subscribe(product -> {
                 this.product = product;
                 List<Vendor> vendorList = this.product.getVendor();
@@ -65,7 +96,6 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
                 view.setVendorName(this.vendor.getName());
             });
         }
-        getAccounts();
     }
 
     @Override
@@ -88,37 +118,127 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
         if (consignmentProductList.isEmpty()) {
             view.setError();
         } else {
-            consignment = new Consignment();
-            consignment.setConsignmentNumber(number);
-            consignment.setCreatedDate(System.currentTimeMillis());
-            consignment.setDescription(description);
-            consignment.setTotalAmount(sum);
-            consignment.setIsFromAccount(checked);
-            consignment.setVendor(this.vendor);
-            consignment.setConsignmentType(Consignment.INCOME_CONSIGNMENT);
-            List<BillingOperations> billingOperationsList = new ArrayList<>();
-            BillingOperations operationDebt = new BillingOperations();
-            operationDebt.setAmount(sum);
-            operationDebt.setCreateAt(System.currentTimeMillis());
-            operationDebt.setVendor(this.vendor);
-            operationDebt.setOperationType(BillingOperations.DEBT);
-            billingOperationsList.add(operationDebt);
-            BillingOperations operationPaid = null;
-            if (!paidSum.equals("") && !paidSum.equals("0")) {
-                operationPaid = new BillingOperations();
-                operationPaid.setAmount(Double.parseDouble(paidSum));
-                operationPaid.setCreateAt(System.currentTimeMillis());
-                operationPaid.setVendor(this.vendor);
-                operationPaid.setOperationType(BillingOperations.PAID);
-                billingOperationsList.add(operationPaid);
+            if (consignment == null) {
+                consignment = new Consignment();
+                consignment.setConsignmentNumber(number);
+                consignment.setCreatedDate(System.currentTimeMillis());
+                consignment.setDescription(description);
+                consignment.setTotalAmount(sum);
+                consignment.setIsFromAccount(checked);
+                consignment.setVendor(this.vendor);
+                consignment.setConsignmentType(Consignment.INCOME_CONSIGNMENT);
+                List<BillingOperations> billingOperationsList = new ArrayList<>();
+                BillingOperations operationDebt = new BillingOperations();
+                operationDebt.setAmount(sum * -1);
+                operationDebt.setCreateAt(System.currentTimeMillis());
+                operationDebt.setVendor(this.vendor);
+                operationDebt.setOperationType(BillingOperations.DEBT_CONSIGNMENT);
+                billingOperationsList.add(operationDebt);
+                BillingOperations operationPaid;
+                if (!paidSum.equals("") && !paidSum.equals("0")) {
+                    operationPaid = new BillingOperations();
+                    operationPaid.setAmount(Double.parseDouble(paidSum));
+                    operationPaid.setCreateAt(System.currentTimeMillis());
+                    operationPaid.setVendor(this.vendor);
+                    operationPaid.setOperationType(PAID_TO_CONSIGNMENT);
+                    if (checked) {
+                        operationPaid.setAccount(accountList.get(selectedPosition));
+                    }
+                    billingOperationsList.add(operationPaid);
+                }
+                List<WarehouseOperations> warehouseOperationsList = new ArrayList<>();
+                for (ConsignmentProduct consignmentProduct : consignmentProductList) {
+                    WarehouseOperations warehouseOperations = new WarehouseOperations();
+                    warehouseOperations.setProduct(consignmentProduct.getProduct());
+                    warehouseOperations.setVendor(consignment.getVendor());
+                    warehouseOperations.setCreateAt(System.currentTimeMillis());
+                    warehouseOperations.setType(WarehouseOperations.INCOME_FROM_VENDOR);
+                    warehouseOperations.setValue(consignmentProduct.getCountValue());
+                    warehouseOperationsList.add(warehouseOperations);
+                }
+                databaseManager.insertConsignment(consignment, billingOperationsList, consignmentProductList, warehouseOperationsList).subscribe();
+                view.closeFragment();
+            } else {
+                Consignment consignmentNew = new Consignment();
+                consignmentNew.setConsignmentNumber(number);
+                consignmentNew.setCreatedDate(System.currentTimeMillis());
+                consignmentNew.setDescription(description);
+                consignmentNew.setTotalAmount(sum);
+                consignmentNew.setIsFromAccount(checked);
+                consignmentNew.setVendor(this.vendor);
+                consignmentNew.setConsignmentType(Consignment.INCOME_CONSIGNMENT);
+                if (consignment.getRootId() == null)
+                    consignmentNew.setRootId(consignment.getId());
+                else consignmentNew.setRootId(consignment.getRootId());
+                consignment.setIsNotModified(false);
+                databaseManager.insertConsignment(consignment, null, null, null);
+                List<BillingOperations> billingOperationsList = new ArrayList<>();
+                BillingOperations billing;
+                if (consignment.getTotalAmount() != sum) {
+                    for (BillingOperations operation : billingOperations) {
+                        if (operation.getOperationType() == DEBT_CONSIGNMENT) {
+                            billing = new BillingOperations();
+                            billing.setAmount(sum * -1);
+                            billing.setCreateAt(System.currentTimeMillis());
+                            billing.setVendor(this.vendor);
+                            billing.setOperationType(BillingOperations.DEBT_CONSIGNMENT);
+                            billingOperationsList.add(billing);
+                            operation.setIsNotModified(false);
+                            databaseManager.insertBillingOperation(operation).subscribe();
+                        }
+                    }
+                }
+                BillingOperations operationPaid;
+                if (!paidSum.equals("") && !paidSum.equals("0")) {
+                    for (BillingOperations operation : billingOperations) {
+                        if (operation.getOperationType() == PAID_TO_CONSIGNMENT && operation.getAmount() != Double.parseDouble(paidSum)) {
+                            operationPaid = new BillingOperations();
+                            operationPaid.setAmount(Double.parseDouble(paidSum));
+                            operationPaid.setCreateAt(System.currentTimeMillis());
+                            operationPaid.setVendor(this.vendor);
+                            operationPaid.setOperationType(PAID_TO_CONSIGNMENT);
+                            operation.setIsNotModified(false);
+                            if (checked) {
+                                operationPaid.setAccount(accountList.get(selectedPosition));
+                            }
+                            databaseManager.insertBillingOperation(operation).subscribe();
+                            billingOperationsList.add(operationPaid);
+                        }
+                    }
+                }
+                List<WarehouseOperations> warehouseOperationsList = new ArrayList<>();
+                for (int i = 0; i < consignmentProductList.size(); i++) {
+                    if (tempProductList.contains(consignmentProductList.get(i))) {
+                        double count = 0;
+                        for (ConsignmentProduct product : tempProductList) {
+                            if (product.getId().equals(consignmentProductList.get(i).getId())) {
+                                count = product.getCountValue();
+                                break;
+                            }
+                        }
+                        if (count != consignmentProductList.get(i).getCountValue()) {
+                            WarehouseOperations warehouseOperations = new WarehouseOperations();
+                            warehouseOperations.setProduct(consignmentProductList.get(i).getProduct());
+                            warehouseOperations.setVendor(consignmentNew.getVendor());
+                            warehouseOperations.setCreateAt(System.currentTimeMillis());
+                            warehouseOperations.setType(WarehouseOperations.INCOME_FROM_VENDOR);
+                            warehouseOperations.setValue(consignmentProductList.get(i).getCountValue() - count);
+                            warehouseOperationsList.add(warehouseOperations);
+                        } else warehouseOperationsList.add(null);
+
+                    } else {
+                        WarehouseOperations warehouseOperations = new WarehouseOperations();
+                        warehouseOperations.setProduct(consignmentProductList.get(i).getProduct());
+                        warehouseOperations.setVendor(consignmentNew.getVendor());
+                        warehouseOperations.setCreateAt(System.currentTimeMillis());
+                        warehouseOperations.setType(WarehouseOperations.INCOME_FROM_VENDOR);
+                        warehouseOperations.setValue(consignmentProductList.get(i).getCountValue());
+                        warehouseOperationsList.add(warehouseOperations);
+                    }
+                }
+                databaseManager.insertConsignment(consignmentNew, billingOperationsList, consignmentProductList, warehouseOperationsList).subscribe();
+                view.closeFragment();
             }
-            if (checked) {
-                if (operationPaid != null)
-                    operationPaid.setAccount(accountList.get(selectedPosition));
-                operationDebt.setAccount(accountList.get(selectedPosition));
-            }
-            databaseManager.insertConsignment(consignment, billingOperationsList, consignmentProductList).subscribe();
-            view.closeFragment();
         }
     }
 

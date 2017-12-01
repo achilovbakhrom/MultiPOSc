@@ -30,8 +30,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 
-import static com.jim.multipos.ui.consignment.view.IncomeConsignmentFragment.PRODUCT_ID;
-import static com.jim.multipos.ui.consignment.view.IncomeConsignmentFragment.VENDOR_ID;
+import static com.jim.multipos.ui.consignment.ConsignmentActivity.PRODUCT_ID;
+import static com.jim.multipos.ui.consignment.ConsignmentActivity.VENDOR_ID;
 
 /**
  * Created by Sirojiddin on 24.11.2017.

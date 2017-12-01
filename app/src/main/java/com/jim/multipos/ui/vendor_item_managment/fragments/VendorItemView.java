@@ -18,4 +18,5 @@ public interface VendorItemView extends BaseView {
     void closeKeyboard();
     void sendDataToConsignment(Long vendorId, int consignment_type);
     void openVendorDetails(Long vendorId);
+    void openVendorConsignmentsStory(Long vendorId);
 }

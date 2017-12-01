@@ -191,6 +191,11 @@ public class VendorItemFragment extends BaseFragment implements VendorItemView{
         ((VendorItemsActivity) getActivity()).openVendorDetails(vendorId);
     }
 
+    @Override
+    public void openVendorConsignmentsStory(Long vendorId) {
+        ((VendorItemsActivity) getActivity()).openVendorConsignmentStory(vendorId);
+    }
+
 
     @Override
     protected int getLayout() {

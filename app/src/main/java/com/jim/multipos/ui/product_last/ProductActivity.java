@@ -180,8 +180,10 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     @Override
     public void showCannotDeleteActiveItemDialog() {
-        UIUtils.showAlert(this, getString(R.string.ok), getString(R.string.warning_deletion_of_active_elements),
-                getString(R.string.cannot_delete_active_item), () -> Log.d("sss", "onButtonClicked: "));
+        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        if (fragment != null) {
+            fragment.showCannotDeleteActiveItemDialog();
+        }
     }
 
     @Override
@@ -781,14 +783,18 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     @Override
     public void showCannotDeleteItemWithPlusValue(double value) {
-        UIUtils.showAlert(this, getString(R.string.ok), getString(R.string.warning),
-                "You have " + value + " item in the inventory. You can't delete product with positive inventory state", () -> Log.d("sss", "onButtonClicked: "));
+        ProductAddEditFragment fragment = getProductAddEditFragment();
+        if (fragment != null) {
+            fragment.showCannotDeleteItemWithPlusValue(value);
+        }
     }
 
     @Override
     public void showCannotDeleteItemWithMinusValue(double value) {
-        UIUtils.showAlert(this, getString(R.string.ok), getString(R.string.warning),
-                "You have " + value + " item in the inventory. You can't delete product with negative inventory state", () -> Log.d("sss", "onButtonClicked: "));
+        ProductAddEditFragment fragment = getProductAddEditFragment();
+        if (fragment != null) {
+            fragment.showCannotDeleteItemWithMinusValue(value);
+        }
     }
 
     @Override

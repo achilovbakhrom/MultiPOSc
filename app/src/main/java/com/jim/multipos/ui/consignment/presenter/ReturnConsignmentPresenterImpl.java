@@ -7,6 +7,7 @@ import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.consignment.Consignment;
 import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
+import com.jim.multipos.data.db.model.inventory.BillingOperations;
 import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
@@ -115,7 +116,24 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
             this.returnConsignment.setTotalAmount(sum);
             this.returnConsignment.setVendor(this.vendor);
             this.returnConsignment.setConsignmentType(Consignment.RETURN_CONSIGNMENT);
-            databaseManager.insertReturnConsignment(this.returnConsignment, consignmentProductList).subscribe();
+            List<BillingOperations> billingOperationsList = new ArrayList<>();
+            BillingOperations operationDebt = new BillingOperations();
+            operationDebt.setAmount(sum * -1);
+            operationDebt.setCreateAt(System.currentTimeMillis());
+            operationDebt.setVendor(this.vendor);
+            operationDebt.setOperationType(BillingOperations.RETURN_TO_VENDOR);
+            billingOperationsList.add(operationDebt);
+            List<WarehouseOperations> warehouseOperationsList = new ArrayList<>();
+            for (ConsignmentProduct consignmentProduct : consignmentProductList) {
+                WarehouseOperations warehouseOperations = new WarehouseOperations();
+                warehouseOperations.setProduct(consignmentProduct.getProduct());
+                warehouseOperations.setVendor(returnConsignment.getVendor());
+                warehouseOperations.setCreateAt(System.currentTimeMillis());
+                warehouseOperations.setType(WarehouseOperations.RETURN_TO_VENDOR);
+                warehouseOperations.setValue(consignmentProduct.getCountValue() * -1);
+                warehouseOperationsList.add(warehouseOperations);
+            }
+            databaseManager.insertConsignment(this.returnConsignment, billingOperationsList, consignmentProductList, warehouseOperationsList).subscribe();
             view.closeFragment();
         }
     }

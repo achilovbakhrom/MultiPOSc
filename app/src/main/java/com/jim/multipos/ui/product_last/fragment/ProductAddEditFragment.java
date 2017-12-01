@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -289,7 +290,7 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
                                 vendor.setTextColor(Color.RED);
                                 return;
                             }
-                            String tempPrice = price.getText().toString().replace(",",  ".");
+                            String tempPrice = price.getText().toString().replace(",", ".");
                             Double resultPrice = tempPrice.isEmpty() ? 0.0d : Double.parseDouble(tempPrice);
                             ((ProductActivity) getContext()).getPresenter().addProduct(
                                     name.getText().toString(),
@@ -444,7 +445,8 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
             productCostList.setAdapter(adapter);
             costDialog.show();
         } else
-            UIUtils.showAlert(getContext(), getContext().getString(R.string.ok), getContext().getString(R.string.warning), getContext().getString(R.string.choose_vendor), () -> {});
+            UIUtils.showAlert(getContext(), getContext().getString(R.string.ok), getContext().getString(R.string.warning), getContext().getString(R.string.choose_vendor), () -> {
+            });
     }
 
     public void setUnits(String[] units) {
@@ -554,6 +556,16 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
 
     public String getPhotoPath() {
         return (photoSelected != null) ? CommonUtils.getRealPathFromURI(getContext(), photoSelected) : "";
+    }
+
+    public void showCannotDeleteItemWithPlusValue(double value) {
+        UIUtils.showAlert(getContext(), getString(R.string.ok), getString(R.string.warning),
+                "You have " + value + " item in the inventory. You can't delete product with positive inventory state", () -> Log.d("sss", "onButtonClicked: "));
+    }
+
+    public void showCannotDeleteItemWithMinusValue(double value) {
+        UIUtils.showAlert(getContext(), getString(R.string.ok), getString(R.string.warning),
+                "You have " + value + " item in the inventory. You can't delete product with negative inventory state", () -> Log.d("sss", "onButtonClicked: "));
     }
 
     class VendorChooseAdapter extends BaseAdapter<VendorWithCheckedPosition, VendorChooseAdapter.VendorChooseItemHolder> {

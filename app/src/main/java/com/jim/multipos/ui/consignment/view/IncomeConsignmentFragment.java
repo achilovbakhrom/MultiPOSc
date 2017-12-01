@@ -7,9 +7,6 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -37,6 +34,10 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.OnClick;
 import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
+
+import static com.jim.multipos.ui.consignment.ConsignmentActivity.CONSIGNMENT_ID;
+import static com.jim.multipos.ui.consignment.ConsignmentActivity.PRODUCT_ID;
+import static com.jim.multipos.ui.consignment.ConsignmentActivity.VENDOR_ID;
 
 /**
  * Created by Sirojiddin on 09.11.2017.
@@ -73,8 +74,6 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
     LinearLayout llAccounts;
     private Dialog dialog;
     private double sum = 0;
-    public static final String PRODUCT_ID = "PRODUCT_ID";
-    public static final String VENDOR_ID = "VENDOR_ID";
 
     @Override
     protected int getLayout() {
@@ -87,7 +86,8 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
         if (getArguments() != null) {
             Long productId = (Long) getArguments().get(PRODUCT_ID);
             Long vendorId = (Long) getArguments().get(VENDOR_ID);
-            presenter.setData(productId, vendorId);
+            Long consignmentId = (Long) getArguments().get(CONSIGNMENT_ID);
+            presenter.setData(productId, vendorId, consignmentId);
         }
         rvConsignmentItems.setLayoutManager(new LinearLayoutManager(getContext()));
         rvConsignmentItems.setAdapter(itemsListAdapter);
@@ -219,5 +219,21 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
     @Override
     public void closeFragment() {
         getActivity().finish();
+    }
+
+    @Override
+    public void fillConsignmentData(String consignmentNumber, String description, Boolean isFromAccount, double amount) {
+        etConsignmentNumber.setText(consignmentNumber);
+        etConsignmentDescription.setText(description);
+        chbFromAccount.setChecked(isFromAccount);
+        if (isFromAccount) {
+            llAccounts.setVisibility(View.VISIBLE);
+        } else llAccounts.setVisibility(View.GONE);
+        etTotalPaid.setText(String.valueOf(amount));
+    }
+
+    @Override
+    public void setAccountSpinnerSelection(int selectedAccount) {
+        spAccounts.setSelectedPosition(selectedAccount);
     }
 }

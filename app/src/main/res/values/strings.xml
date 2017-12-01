@@ -517,6 +517,10 @@
     <string name="open">Open</string>
     <string name="not_classified">Not classified</string>
     <string name="choose_product_class">Choose product class</string>
+    <string name="return_to">Return to:</string>
+    <string name="status">Status</string>
+    <string name="date">Date</string>
+    <string name="total_debt">Total Debt</string>
     <string name="close">Close</string>
     <string name="discount_item">Discount item</string>
     <string name="special_request">Special request</string>

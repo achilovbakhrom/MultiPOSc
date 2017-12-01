@@ -7,85 +7,169 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/eighty_dp"
-        android:background="@color/colorWhite"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <FrameLayout
-            android:layout_width="1px"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/ninety_dp"
-            android:background="@color/colorTextHint" />
-
-        <TextView
-            android:layout_width="@dimen/three_hundred_dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="Consignment"
-            android:textColor="@color/colorMainText"
-            android:textSize="@dimen/eighteen_dp" />
-
-        <FrameLayout
-            android:layout_width="1px"
-            android:layout_height="match_parent"
-            android:background="@color/colorTextHint" />
-
-        <TextView
-            android:layout_width="@dimen/two_hundred_sixty_dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="Date"
-            android:textColor="@color/colorMainText"
-            android:textSize="@dimen/eighteen_dp" />
-
-        <FrameLayout
-            android:layout_width="1px"
-            android:layout_height="match_parent"
-            android:background="@color/colorTextHint" />
-
-        <TextView
-            android:layout_width="@dimen/three_hundred_dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="Total price"
-            android:textColor="@color/colorMainText"
-            android:textSize="@dimen/eighteen_dp" />
-
-        <FrameLayout
-            android:layout_width="1px"
-            android:layout_height="match_parent"
-            android:background="@color/colorTextHint" />
-
-        <TextView
-            android:layout_width="@dimen/hundred_seventy_dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="Status"
-            android:textColor="@color/colorMainText"
-            android:textSize="@dimen/eighteen_dp" />
-
-        <FrameLayout
-            android:layout_width="1px"
-            android:layout_height="match_parent"
-            android:background="@color/colorTextHint" />
-
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="Operations"
-            android:textColor="@color/colorMainText"
-            android:textSize="@dimen/eighteen_dp" />
-    </LinearLayout>
+            android:layout_height="@dimen/seventy_dp"
+            android:background="#fff"
+            android:orientation="horizontal">
 
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+            <LinearLayout
+                android:id="@+id/llStatus"
+                android:layout_width="@dimen/ninety_dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@string/status"
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/sixteen_dp"/>
+                <ImageView
+                    android:id="@+id/ivStatusSort"
+                    android:src="@drawable/sorting"
+                    android:visibility="gone"
+                    android:layout_width="@dimen/twelve_dp"
+                    android:layout_height="@dimen/ten_dp"
+                    android:layout_marginLeft="@dimen/ten_dp"
+                    />
+            </LinearLayout>
+
+
+            <FrameLayout
+                android:layout_width="2px"
+                android:layout_height="match_parent"
+                android:background="#e3e3e3"/>
+
+            <LinearLayout
+                android:id="@+id/llConsignment"
+                android:layout_width="@dimen/four_hundred_sixty_dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@string/consignment"
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/sixteen_dp"/>
+                <ImageView
+                    android:id="@+id/ivConsignmentSort"
+                    android:src="@drawable/sorting"
+                    android:visibility="gone"
+                    android:layout_width="@dimen/twelve_dp"
+                    android:layout_height="@dimen/ten_dp"
+                    android:layout_marginLeft="@dimen/ten_dp"
+                    />
+            </LinearLayout>
+
+
+
+            <FrameLayout
+                android:layout_width="2px"
+                android:layout_height="match_parent"
+                android:background="#e3e3e3"/>
+
+            <LinearLayout
+                android:id="@+id/llDate"
+                android:layout_width="@dimen/two_hundred_twenty_dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@string/date"
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/sixteen_dp"/>
+                <ImageView
+                    android:id="@+id/ivDateSort"
+                    android:src="@drawable/sorting"
+                    android:visibility="gone"
+                    android:layout_width="@dimen/twelve_dp"
+                    android:layout_height="@dimen/ten_dp"
+                    android:layout_marginLeft="@dimen/ten_dp"
+                    />
+            </LinearLayout>
+
+
+
+            <FrameLayout
+                android:layout_width="2px"
+                android:layout_height="match_parent"
+                android:background="#e3e3e3"/>
+
+            <LinearLayout
+                android:id="@+id/llTotalDebt"
+                android:layout_width="@dimen/three_hundred_fifty_dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="right"
+                android:paddingRight="@dimen/twenty_dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@string/total_debt"
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/sixteen_dp"/>
+                <ImageView
+                    android:id="@+id/ivDebtSort"
+                    android:src="@drawable/sorting"
+                    android:visibility="gone"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_width="@dimen/twelve_dp"
+                    android:layout_height="@dimen/ten_dp"
+                    android:layout_marginLeft="@dimen/ten_dp"
+                    />
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="2px"
+                android:layout_height="match_parent"
+                android:background="#e3e3e3"/>
+
+            <TextView
+                android:id="@+id/tvActions"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/actions"
+                android:textColor="@color/colorMainText"
+                android:layout_marginRight="@dimen/sixteen_dp"
+                android:textSize="@dimen/sixteen_dp"/>
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="3px"
+            android:background="#e3e3e3"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvConsignmentList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            android:background="#f9f9f9"
+            />
+
+    </LinearLayout>
 
 
 </LinearLayout>

@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
+import com.jim.multipos.data.db.model.consignment.Consignment;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.products.VendorProductCon;
@@ -17,6 +18,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import static com.jim.multipos.data.db.model.consignment.Consignment.INCOME_CONSIGNMENT;
+import static com.jim.multipos.data.db.model.consignment.Consignment.RETURN_CONSIGNMENT;
 import static com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemFragment.SortModes.VENDOR;
 
 
@@ -29,8 +32,6 @@ public class VendorItemPresenterImpl extends BasePresenterImpl<VendorItemView> i
     DatabaseManager databaseManager;
 
     VendorItemFragment.SortModes searchMode = VENDOR;
-    private static final int INCOME = 0;
-    private static final int RETURN = 1;
     private Long vendorId;
     private int consignment_type = 0;
 
@@ -54,21 +55,22 @@ public class VendorItemPresenterImpl extends BasePresenterImpl<VendorItemView> i
 
     @Override
     public void onIncomeProduct(VendorWithDebt vendorWithDebt) {
-        consignment_type = INCOME;
+        consignment_type = INCOME_CONSIGNMENT;
         vendorId = vendorWithDebt.getVendor().getId();
         view.sendDataToConsignment(vendorId, consignment_type);
     }
 
     @Override
     public void onWriteOff(VendorWithDebt vendorWithDebt) {
-        consignment_type = RETURN;
+        consignment_type = RETURN_CONSIGNMENT;
         vendorId = vendorWithDebt.getVendor().getId();
         view.sendDataToConsignment(vendorId, consignment_type);
     }
 
     @Override
     public void onConsigmentStory(VendorWithDebt vendorWithDebt) {
-
+        vendorId = vendorWithDebt.getVendor().getId();
+        view.openVendorConsignmentsStory(vendorId);
     }
 
     @Override

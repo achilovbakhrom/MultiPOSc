@@ -23,6 +23,7 @@ import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.ui.product_last.ProductActivity;
 import com.jim.multipos.ui.product_last.adapter.CategoryAdapter;
 import com.jim.multipos.ui.product_last.adapter.ProductAdapter;
+import com.jim.multipos.utils.UIUtils;
 import com.jim.multipos.utils.item_touch_helper.SimpleItemTouchHelperCallback;
 
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ import butterknife.BindView;
 /**
  * Created by Achilov Bakhrom on 10/26/17.
  */
-public class ProductListFragment extends BaseFragment  {
+public class ProductListFragment extends BaseFragment {
 
     @BindView(R.id.rvCategory)
     RecyclerView categories;
@@ -77,7 +78,8 @@ public class ProductListFragment extends BaseFragment  {
         CategoryAdapter categoryAdapter = new CategoryAdapter(categories, CategoryAdapter.CATEGORY_MODE);
         categoryAdapter.setOnItemClickListener(new ClickableBaseAdapter.OnItemClickListener<Category>() {
             @Override
-            public void onItemClicked(int position) {}
+            public void onItemClicked(int position) {
+            }
 
             @Override
             public void onItemClicked(Category item) {
@@ -97,7 +99,8 @@ public class ProductListFragment extends BaseFragment  {
         CategoryAdapter subcategoryAdapter = new CategoryAdapter(new ArrayList<>(), CategoryAdapter.SUBCATEGORY_MODE);
         subcategoryAdapter.setOnItemClickListener(new ClickableBaseAdapter.OnItemClickListener<Category>() {
             @Override
-            public void onItemClicked(int position) {}
+            public void onItemClicked(int position) {
+            }
 
             @Override
             public void onItemClicked(Category item) {
@@ -117,11 +120,12 @@ public class ProductListFragment extends BaseFragment  {
         ProductAdapter productAdapter = new ProductAdapter(new ArrayList<>());
         productAdapter.setOnItemClickListener(new ClickableBaseAdapter.OnItemClickListener<Product>() {
             @Override
-            public void onItemClicked(int position) {}
+            public void onItemClicked(int position) {
+            }
 
             @Override
             public void onItemClicked(Product item) {
-              ((ProductActivity) getContext()).getPresenter().productSelected(item);
+                ((ProductActivity) getContext()).getPresenter().productSelected(item);
             }
         });
         this.products.setLayoutManager(new GridLayoutManager(getContext(), 4));
@@ -139,7 +143,6 @@ public class ProductListFragment extends BaseFragment  {
             ((ProductActivity) getContext()).getPresenter().showActivesToggled();
         });
     }
-
 
 
     @Override
@@ -256,63 +259,63 @@ public class ProductListFragment extends BaseFragment  {
 
     public void editCategory(Category category) {
         if (categories.getAdapter() != null) {
-            ((CategoryAdapter)categories.getAdapter()).editItem(category);
+            ((CategoryAdapter) categories.getAdapter()).editItem(category);
         }
     }
 
     public void editSubcategory(Category category) {
         if (subcategories.getAdapter() != null) {
-            ((CategoryAdapter)subcategories.getAdapter()).editItem(category);
+            ((CategoryAdapter) subcategories.getAdapter()).editItem(category);
         }
     }
 
     public void addCategory(Category category) {
         if (categories.getAdapter() != null) {
-            ((CategoryAdapter)categories.getAdapter()).addItem(category);
+            ((CategoryAdapter) categories.getAdapter()).addItem(category);
         }
     }
 
     public void addSubcategory(Category category) {
         if (subcategories.getAdapter() != null) {
-            ((CategoryAdapter)subcategories.getAdapter()).addItem(category);
+            ((CategoryAdapter) subcategories.getAdapter()).addItem(category);
         }
     }
 
     public void deleteCategory(Category category) {
         if (categories.getAdapter() != null) {
-            ((CategoryAdapter)categories.getAdapter()).removeItem(category);
+            ((CategoryAdapter) categories.getAdapter()).removeItem(category);
         }
     }
 
     public void deleteSubcategory(Category category) {
         if (subcategories.getAdapter() != null) {
-            ((CategoryAdapter)subcategories.getAdapter()).removeItem(category);
+            ((CategoryAdapter) subcategories.getAdapter()).removeItem(category);
         }
 
     }
 
     public void setListToCategories(List<Category> categories) {
         if (this.categories.getAdapter() != null) {
-            ((CategoryAdapter)this.categories.getAdapter()).setItems(categories);
+            ((CategoryAdapter) this.categories.getAdapter()).setItems(categories);
         }
     }
 
     public void setListToSubcategories(List<Category> subcategories) {
         if (this.subcategories.getAdapter() != null) {
-            ((CategoryAdapter)this.subcategories.getAdapter()).setItems(subcategories);
+            ((CategoryAdapter) this.subcategories.getAdapter()).setItems(subcategories);
         }
     }
 
     public List<Category> getCategories() {
         if (this.categories.getAdapter() != null) {
-            return ((CategoryAdapter)this.categories.getAdapter()).getItems();
+            return ((CategoryAdapter) this.categories.getAdapter()).getItems();
         }
         return null;
     }
 
     public List<Category> getSubcategories() {
         if (this.subcategories.getAdapter() != null) {
-            return ((CategoryAdapter)this.subcategories.getAdapter()).getItems();
+            return ((CategoryAdapter) this.subcategories.getAdapter()).getItems();
         }
         return null;
     }
@@ -364,8 +367,7 @@ public class ProductListFragment extends BaseFragment  {
         if (name == null) {
             secordArrow.setVisibility(View.GONE);
             subcategoryPath.setText("");
-        }
-        else {
+        } else {
             secordArrow.setVisibility(View.VISIBLE);
             subcategoryPath.setText(name);
         }
@@ -379,24 +381,29 @@ public class ProductListFragment extends BaseFragment  {
 
     public List<Product> getProducts() {
         if (this.products.getAdapter() != null) {
-            return ((ProductAdapter)this.products.getAdapter()).getItems();
+            return ((ProductAdapter) this.products.getAdapter()).getItems();
         }
         return null;
     }
 
     public void selectProductListItem(Long id) {
         if (this.products.getAdapter() != null) {
-            ((ProductAdapter)this.products.getAdapter()).setSelectedPositionWithId(id);
+            ((ProductAdapter) this.products.getAdapter()).setSelectedPositionWithId(id);
         }
     }
 
     public void selectAddProductListItem() {
         if (this.products.getAdapter() != null) {
-            ((ProductAdapter)this.products.getAdapter()).setSelectedPosition(0);
+            ((ProductAdapter) this.products.getAdapter()).setSelectedPosition(0);
         }
     }
 
     public boolean isActiveEnabled() {
         return isActiveEnabled.isChecked();
+    }
+
+    public void showCannotDeleteActiveItemDialog() {
+        UIUtils.showAlert(getContext(), getString(R.string.ok), getString(R.string.warning_deletion_of_active_elements),
+                getString(R.string.cannot_delete_active_item), () -> Log.d("sss", "onButtonClicked: "));
     }
 }

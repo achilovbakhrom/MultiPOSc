@@ -32,8 +32,11 @@ import com.jim.multipos.data.db.model.ProductClassDao;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.ServiceFeeDao;
 import com.jim.multipos.data.db.model.consignment.Consignment;
+import com.jim.multipos.data.db.model.consignment.ConsignmentDao;
 import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
+import com.jim.multipos.data.db.model.consignment.ConsignmentProductDao;
 import com.jim.multipos.data.db.model.currency.Currency;
+import com.jim.multipos.data.db.model.currency.CurrencyDao;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.CustomerDao;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
@@ -496,6 +499,17 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Observable<List<Currency>> getAllCurrencies() {
         return Observable.fromCallable(() -> mDaoSession.getCurrencyDao().loadAll());
+    }
+
+    @Override
+    public Single<Currency> getMainCurrency() {
+        return Single.create(e -> {
+            Currency currency = mDaoSession.queryBuilder(Currency.class)
+                    .where(CurrencyDao.Properties.IsMain.eq(true))
+                    .build()
+                    .list().get(0);
+            e.onSuccess(currency);
+        });
     }
 
     @Override
@@ -1110,7 +1124,7 @@ public class AppDbHelper implements DbHelper {
                 if(nameMode && list.get(i).getName().toUpperCase().contains(searchText.toUpperCase())){
                     keepMe = true;
                 }
-                if(!keepMe){
+                if (!keepMe) {
                     list.remove(i);
                 }
             }
@@ -1451,11 +1465,44 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
+    public Single<List<Consignment>> getConsignmentsByVendorId(Long vendorId) {
+        return Single.create(e -> {
+            List<Consignment> consignmentList = mDaoSession.queryBuilder(Consignment.class)
+                    .where(ConsignmentDao.Properties.VendorId.eq(vendorId), ConsignmentDao.Properties.IsNotModified.eq(true))
+                    .build()
+                    .list();
+            e.onSuccess(consignmentList);
+        });
+    }
+
+    @Override
+    public Single<List<ConsignmentProduct>> getConsignmentProductsByConsignmentId(Long consignmentId) {
+        return Single.create(e -> {
+            List<ConsignmentProduct> productList = mDaoSession.queryBuilder(ConsignmentProduct.class)
+                    .where(ConsignmentProductDao.Properties.ConsignmentId.eq(consignmentId))
+                    .build()
+                    .list();
+            e.onSuccess(productList);
+        });
+    }
+
+    @Override
     public Observable<Boolean> insertConsignmentProduct(List<ConsignmentProduct> consignmentProducts) {
         return Observable.fromCallable(() ->
         {
             mDaoSession.getConsignmentProductDao().insertOrReplaceInTx(consignmentProducts);
             return true;
+        });
+    }
+
+    @Override
+    public Single<Consignment> getConsignmentById(Long consignmentId) {
+        return Single.create(e -> {
+            Consignment consignment = mDaoSession.queryBuilder(Consignment.class)
+                    .where(ConsignmentDao.Properties.Id.eq(consignmentId))
+                    .build()
+                    .list().get(0);
+            e.onSuccess(consignment);
         });
     }
 
