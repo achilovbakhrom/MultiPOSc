@@ -23,8 +23,10 @@ import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.ui.consignment.adapter.IncomeItemsListAdapter;
 import com.jim.multipos.ui.consignment.adapter.VendorItemsListAdapter;
 import com.jim.multipos.ui.consignment.presenter.IncomeConsignmentPresenter;
+import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.TextWatcherOnTextChange;
 import com.jim.multipos.utils.WarningDialog;
+import com.jim.multipos.utils.rxevents.MessageWithIdEvent;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -53,6 +55,8 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
     VendorItemsListAdapter vendorItemsListAdapter;
     @Inject
     DecimalFormat decimalFormat;
+    @Inject
+    RxBus rxBus;
     @BindView(R.id.etConsignmentDescription)
     EditText etConsignmentDescription;
     @BindView(R.id.tvVendorName)
@@ -62,6 +66,7 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
     @NotEmpty(messageId = R.string.consignment_number_is_empty)
     @BindView(R.id.etConsignmentNumber)
     EditText etConsignmentNumber;
+    @NotEmpty(messageId = R.string.cannot_be_empty)
     @BindView(R.id.tvTotalShouldPay)
     TextView tvTotalShouldPay;
     @BindView(R.id.etTotalPaid)
@@ -74,6 +79,8 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
     LinearLayout llAccounts;
     private Dialog dialog;
     private double sum = 0;
+    public static final String CONSIGNMENT_UPDATE = "CONSIGNMENT_UPDATE";
+
 
     @Override
     protected int getLayout() {
@@ -210,15 +217,24 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
         warningDialog.setDialogTitle(getString(R.string.discard_changes));
         warningDialog.setOnYesClickListener(view1 -> {
             warningDialog.dismiss();
-            closeFragment();
+            getActivity().finish();
         });
         warningDialog.setOnNoClickListener(view -> warningDialog.dismiss());
         warningDialog.show();
     }
 
     @Override
-    public void closeFragment() {
-        getActivity().finish();
+    public void closeFragment(Long id) {
+        WarningDialog warningDialog = new WarningDialog(getContext());
+        warningDialog.setWarningMessage(getString(R.string.do_you_want_to_save_the_change));
+        warningDialog.setDialogTitle(getString(R.string.warning));
+        warningDialog.setOnYesClickListener(view1 -> {
+            rxBus.send(new MessageWithIdEvent(id, CONSIGNMENT_UPDATE));
+            getActivity().finish();
+            warningDialog.dismiss();
+        });
+        warningDialog.setOnNoClickListener(view -> warningDialog.dismiss());
+        warningDialog.show();
     }
 
     @Override

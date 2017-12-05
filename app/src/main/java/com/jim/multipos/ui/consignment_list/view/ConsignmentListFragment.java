@@ -15,14 +15,20 @@ import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.ui.consignment_list.ConsignmentListActivity;
 import com.jim.multipos.ui.consignment_list.adapter.ConsignmentListItemAdapter;
 import com.jim.multipos.ui.consignment_list.presenter.ConsignmentListPresenter;
+import com.jim.multipos.utils.RxBus;
+import com.jim.multipos.utils.rxevents.MessageWithIdEvent;
+import com.jim.multipos.utils.rxevents.MessageEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import io.reactivex.disposables.Disposable;
 
 import static com.jim.multipos.ui.consignment.ConsignmentActivity.VENDOR_ID;
+import static com.jim.multipos.ui.consignment.view.IncomeConsignmentFragment.CONSIGNMENT_UPDATE;
 import static com.jim.multipos.ui.consignment_list.view.ConsignmentListFragment.SortingStates.FILTERED_BY_CONSIGNMENT;
 import static com.jim.multipos.ui.consignment_list.view.ConsignmentListFragment.SortingStates.FILTERED_BY_CONSIGNMENT_INVERT;
 import static com.jim.multipos.ui.consignment_list.view.ConsignmentListFragment.SortingStates.FILTERED_BY_DATE;
@@ -39,6 +45,8 @@ public class ConsignmentListFragment extends BaseFragment implements Consignment
 
     @Inject
     ConsignmentListPresenter presenter;
+    @Inject
+    RxBus rxBus;
 
     @BindView(R.id.rvConsignmentList)
     RecyclerView rvConsignmentList;
@@ -66,15 +74,32 @@ public class ConsignmentListFragment extends BaseFragment implements Consignment
 
     ConsignmentListItemAdapter adapter;
     SortingStates filterMode = SortingStates.FILTERED_BY_DATE;
+    private ArrayList<Disposable> subscriptions;
 
-
-    public enum SortingStates{
-        FILTERED_BY_STATUS,FILTERED_BY_STATUS_INVERT,FILTERED_BY_CONSIGNMENT,FILTERED_BY_CONSIGNMENT_INVERT,FILTERED_BY_DATE,FILTERED_BY_DATE_INVERT,FILTERED_BY_DEBT,FILTERED_BY_DEBT_INVERT
+    public enum SortingStates {
+        FILTERED_BY_STATUS, FILTERED_BY_STATUS_INVERT, FILTERED_BY_CONSIGNMENT, FILTERED_BY_CONSIGNMENT_INVERT, FILTERED_BY_DATE, FILTERED_BY_DATE_INVERT, FILTERED_BY_DEBT, FILTERED_BY_DEBT_INVERT
     }
 
     @Override
     protected int getLayout() {
         return R.layout.consignment_list_fragment;
+    }
+
+    @Override
+    protected void rxConnections() {
+        subscriptions = new ArrayList<>();
+        subscriptions.add(
+                rxBus.toObservable().subscribe(o -> {
+                    if (o instanceof MessageWithIdEvent) {
+                        MessageWithIdEvent event = (MessageWithIdEvent) o;
+                        switch (event.getMessage()) {
+                            case CONSIGNMENT_UPDATE: {
+                                presenter.initConsignmentListRecyclerViewData(event.getId());
+                                break;
+                            }
+                        }
+                    }
+                }));
     }
 
     @Override
@@ -90,13 +115,12 @@ public class ConsignmentListFragment extends BaseFragment implements Consignment
 
         llStatus.setOnClickListener(view -> {
             deselectAll();
-            if(filterMode != FILTERED_BY_STATUS){
+            if (filterMode != FILTERED_BY_STATUS) {
                 filterMode = FILTERED_BY_STATUS;
                 presenter.filterBy(FILTERED_BY_STATUS);
                 ivStatusSort.setVisibility(View.VISIBLE);
                 ivStatusSort.setImageResource(R.drawable.sorting);
-            }
-            else {
+            } else {
                 filterMode = SortingStates.FILTERED_BY_STATUS_INVERT;
                 ivStatusSort.setVisibility(View.VISIBLE);
                 ivStatusSort.setImageResource(R.drawable.sorting_invert);
@@ -105,12 +129,12 @@ public class ConsignmentListFragment extends BaseFragment implements Consignment
         });
         llConsignment.setOnClickListener(view -> {
             deselectAll();
-            if(filterMode != FILTERED_BY_CONSIGNMENT){
+            if (filterMode != FILTERED_BY_CONSIGNMENT) {
                 filterMode = FILTERED_BY_CONSIGNMENT;
                 presenter.filterBy(FILTERED_BY_CONSIGNMENT);
                 ivConsignmentSort.setVisibility(View.VISIBLE);
                 ivConsignmentSort.setImageResource(R.drawable.sorting);
-            }else {
+            } else {
                 filterMode = FILTERED_BY_CONSIGNMENT_INVERT;
                 ivConsignmentSort.setVisibility(View.VISIBLE);
                 ivConsignmentSort.setImageResource(R.drawable.sorting_invert);
@@ -119,12 +143,12 @@ public class ConsignmentListFragment extends BaseFragment implements Consignment
         });
         llDate.setOnClickListener(view -> {
             deselectAll();
-            if(filterMode != FILTERED_BY_DATE){
+            if (filterMode != FILTERED_BY_DATE) {
                 filterMode = FILTERED_BY_DATE;
                 presenter.filterBy(FILTERED_BY_DATE);
                 ivDateSort.setVisibility(View.VISIBLE);
                 ivDateSort.setImageResource(R.drawable.sorting);
-            }else {
+            } else {
                 filterMode = FILTERED_BY_DATE_INVERT;
                 ivDateSort.setVisibility(View.VISIBLE);
                 ivDateSort.setImageResource(R.drawable.sorting_invert);
@@ -134,12 +158,12 @@ public class ConsignmentListFragment extends BaseFragment implements Consignment
         });
         llTotalDebt.setOnClickListener(view -> {
             deselectAll();
-            if(filterMode != FILTERED_BY_DEBT){
+            if (filterMode != FILTERED_BY_DEBT) {
                 filterMode = FILTERED_BY_DEBT;
                 presenter.filterBy(FILTERED_BY_DEBT);
                 ivDebtSort.setVisibility(View.VISIBLE);
                 ivDebtSort.setImageResource(R.drawable.sorting);
-            }else {
+            } else {
                 filterMode = FILTERED_BY_DEBT_INVERT;
                 ivDebtSort.setVisibility(View.VISIBLE);
                 ivDebtSort.setImageResource(R.drawable.sorting_invert);
@@ -179,4 +203,9 @@ public class ConsignmentListFragment extends BaseFragment implements Consignment
         presenter.search(searchText);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        RxBus.removeListners(subscriptions);
+    }
 }

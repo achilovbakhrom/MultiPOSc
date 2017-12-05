@@ -36,7 +36,9 @@ import butterknife.ButterKnife;
 public class ProductAdapter extends BaseAdapter<InventoryState, ProductAdapter.ProductViewHolder> {
     public interface ProductAdapterListener {
         void showMinusDialog(int position);
+
         void showPlusDialog(int position);
+
         ProductClass getProductClass(Long id);
     }
 
@@ -68,32 +70,34 @@ public class ProductAdapter extends BaseAdapter<InventoryState, ProductAdapter.P
         holder.tvClass.setText("");
         holder.tvSubClass.setText("");
 
-        if (items.get(position).getProduct().getProductClass().getParentId() != null) {
-            ProductClass parentProductClass = listener.getProductClass(items.get(position).getProduct().getProductClass().getParentId());
+        if (items.get(position).getProduct().getProductClass() != null) {
+            if (items.get(position).getProduct().getProductClass().getParentId() != null) {
+                ProductClass parentProductClass = listener.getProductClass(items.get(position).getProduct().getProductClass().getParentId());
 
-            if (parentProductClass.getName().length() > 9) {
-                holder.tvClass.setText(parentProductClass.getName().substring(0, 9) + "..., ");
+                if (parentProductClass.getName().length() > 9) {
+                    holder.tvClass.setText(parentProductClass.getName().substring(0, 9) + "..., ");
+                } else {
+                    holder.tvClass.setText(parentProductClass.getName() + ", ");
+                }
+
+                if (items.get(position).getProduct().getProductClass().getName().length() > 9) {
+                    holder.tvSubClass.setText(items.get(position).getProduct().getProductClass().getName().substring(0, 9) + "...");
+                } else {
+                    holder.tvSubClass.setText(items.get(position).getProduct().getProductClass().getName());
+                }
             } else {
-                holder.tvClass.setText(parentProductClass.getName() + ", ");
+                if (items.get(position).getProduct().getProductClass().getName().length() > 9) {
+                    holder.tvClass.setText(items.get(position).getProduct().getProductClass().getName() + "...");
+                } else {
+                    holder.tvClass.setText(items.get(position).getProduct().getProductClass().getName());
+                }
             }
 
-            if (items.get(position).getProduct().getProductClass().getName().length() > 9) {
-                holder.tvSubClass.setText(items.get(position).getProduct().getProductClass().getName().substring(0, 9) + "...");
+            if (position % 2 == 0) {
+                holder.llcontainer.setBackgroundColor(Color.parseColor("#f9f9f9"));
             } else {
-                holder.tvSubClass.setText(items.get(position).getProduct().getProductClass().getName());
+                holder.llcontainer.setBackgroundColor(Color.parseColor("#ededed"));
             }
-        } else {
-            if (items.get(position).getProduct().getProductClass().getName().length() > 9) {
-                holder.tvClass.setText(items.get(position).getProduct().getProductClass().getName() + "...");
-            } else {
-                holder.tvClass.setText(items.get(position).getProduct().getProductClass().getName());
-            }
-        }
-
-        if (position % 2 == 0) {
-            holder.llcontainer.setBackgroundColor(Color.parseColor("#f9f9f9"));
-        } else {
-            holder.llcontainer.setBackgroundColor(Color.parseColor("#ededed"));
         }
     }
 
@@ -134,15 +138,15 @@ public class ProductAdapter extends BaseAdapter<InventoryState, ProductAdapter.P
 
             ButterKnife.bind(this, itemView);
 
-           tvName.setPaintFlags(tvName.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+            tvName.setPaintFlags(tvName.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
-           ivMinus.setOnClickListener(v -> {
-               listener.showMinusDialog(getAdapterPosition());
-           });
+            ivMinus.setOnClickListener(v -> {
+                listener.showMinusDialog(getAdapterPosition());
+            });
 
-           ivPlus.setOnClickListener(v -> {
-               listener.showPlusDialog(getAdapterPosition());
-           });
+            ivPlus.setOnClickListener(v -> {
+                listener.showPlusDialog(getAdapterPosition());
+            });
         }
     }
 }

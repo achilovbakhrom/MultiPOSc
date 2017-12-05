@@ -185,12 +185,18 @@ public interface DbHelper {
     Single<List<VendorWithDebt>> getVendorWirhDebt();
 
     Single<Long> insertWarehouseOperation(WarehouseOperations warehouseOperations);
+    Single<WarehouseOperations> getWarehouseOperationById(Long warehouseId);
+    Single<Long> replaceWarehouseOperation(WarehouseOperations warehouseOperations);
 
-    Observable<Long> insertBillingOperation(BillingOperations billingOperations);
+    Single<BillingOperations> insertBillingOperation(BillingOperations billingOperations);
     Observable<List<BillingOperations>> getBillingOperations();
+    Single<BillingOperations> getBillingOperationsByConsignmentId(Long consignmentId);
+    Single<BillingOperations> getBillingOperationsById(Long firstPayId);
+
     Observable<Long> insertInventoryState(InventoryState inventoryState);
     Observable<List<InventoryState>> getInventoryStates();
     Observable<List<InventoryState>> getInventoryStatesByProductId(Long productId);
+
     Observable<Boolean> removeProductFromInventoryState(Long productId);
     Observable<List<InventoryState>> getInventoryStatesByVendorId(Long vendorId);
 }

@@ -667,18 +667,27 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
                         .flatMap(consignment2 -> setConsignmentProductId(consignmentProductList, warehouseOperationsList, consignment2)));
     }
 
-    public Single<Consignment> insertReturnConsignment(Consignment consignment, List<ConsignmentProduct> consignmentProductList, List<WarehouseOperations> warehouseOperationsList) {
-        return dbHelper.insertConsignment(consignment)
-                .flatMap(consignment1 -> setConsignmentProductId(consignmentProductList, warehouseOperationsList, consignment1));
-    }
-
     private Single<Consignment> setBillingOperation(List<BillingOperations> billingOperations, Consignment consignment) {
         return Single.create(singleSubscriber -> {
             try {
                 if (billingOperations != null)
-                    for (BillingOperations operations : billingOperations) {
-                        operations.setConsignment(consignment);
-                        insertBillingOperation(operations).subscribe();
+                    for (int i = 0; i < billingOperations.size(); i++) {
+                        if (billingOperations.get(i).getOperationType().equals(BillingOperations.DEBT_CONSIGNMENT)) {
+                            billingOperations.get(i).setConsignment(consignment);
+                            billingOperations.get(i).setConsignmentId(consignment.getId());
+                            insertBillingOperation(billingOperations.get(i)).subscribe();
+                        }
+                        if (billingOperations.get(i).getOperationType().equals(BillingOperations.RETURN_TO_VENDOR)) {
+                            billingOperations.get(i).setConsignment(consignment);
+                            billingOperations.get(i).setConsignmentId(consignment.getId());
+                            insertBillingOperation(billingOperations.get(i)).subscribe();
+                        } else if (billingOperations.get(i).getOperationType().equals(BillingOperations.PAID_TO_CONSIGNMENT)) {
+                            insertBillingOperation(billingOperations.get(i)).subscribe(operations -> {
+                                consignment.setFirstPayId(operations.getId());
+                                dbHelper.insertConsignment(consignment).blockingGet();
+                            });
+                            continue;
+                        }
                     }
                 singleSubscriber.onSuccess(consignment);
             } catch (Exception o) {
@@ -696,6 +705,7 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
                         if (warehouseOperations.get(i) != null) {
                             insertWarehouseOperation(warehouseOperations.get(i)).blockingGet();
                             consignmentProductList.get(i).setWarehouse(warehouseOperations.get(i));
+                            consignmentProductList.get(i).setWarehouseId(warehouseOperations.get(i).getId());
                         }
                         insertConsignmentProduct(consignmentProductList.get(i)).blockingSingle();
                     }
@@ -747,6 +757,16 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Single<Long> insertWarehouseOperation(WarehouseOperations warehouseOperations) {
         return dbHelper.insertWarehouseOperation(warehouseOperations);
+    }
+
+    @Override
+    public Single<WarehouseOperations> getWarehouseOperationById(Long warehouseId) {
+        return dbHelper.getWarehouseOperationById(warehouseId);
+    }
+
+    @Override
+    public Single<Long> replaceWarehouseOperation(WarehouseOperations warehouseOperations) {
+        return dbHelper.replaceWarehouseOperation(warehouseOperations);
     }
 
     @Override
@@ -816,13 +836,23 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
-    public Observable<Long> insertBillingOperation(BillingOperations billingOperations) {
+    public Single<BillingOperations> insertBillingOperation(BillingOperations billingOperations) {
         return dbHelper.insertBillingOperation(billingOperations);
     }
 
     @Override
     public Observable<List<com.jim.multipos.data.db.model.inventory.BillingOperations>> getBillingOperations() {
         return dbHelper.getBillingOperations();
+    }
+
+    @Override
+    public Single<BillingOperations> getBillingOperationsByConsignmentId(Long consignmentId) {
+        return dbHelper.getBillingOperationsByConsignmentId(consignmentId);
+    }
+
+    @Override
+    public Single<BillingOperations> getBillingOperationsById(Long firstPayId) {
+        return dbHelper.getBillingOperationsById(firstPayId);
     }
 }
 

@@ -9,7 +9,7 @@ import com.jim.multipos.data.db.model.products.Product;
  */
 
 public interface ReturnConsignmentPresenter extends Presenter{
-    void setData(Long productId, Long vendorId);
+    void setData(Long productId, Long vendorId, Long consignmentId);
     void setReturnItem(Product product);
     void deleteFromList(ConsignmentProduct consignmentProduct);
     void calculateConsignmentSum();

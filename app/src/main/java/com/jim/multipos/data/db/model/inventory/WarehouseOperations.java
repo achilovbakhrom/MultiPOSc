@@ -1,6 +1,7 @@
 package com.jim.multipos.data.db.model.inventory;
 
 import com.jim.multipos.data.db.model.DaoSession;
+import com.jim.multipos.data.db.model.intosystem.Editable;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.ProductDao;
 import com.jim.multipos.data.db.model.products.Vendor;
@@ -19,7 +20,7 @@ import lombok.Data;
  */
 @Entity(nameInDb = "WAREHOUSE_OPERATION", active = true)
 @Data
-public class WarehouseOperations {
+public class WarehouseOperations implements Editable{
 
     public static final int INCOME_FROM_VENDOR = 1;
     public static final int RETURN_TO_VENDOR = 2;
@@ -40,6 +41,10 @@ public class WarehouseOperations {
     private double value; //(+/-)
     private int type;
     private Long createAt;
+    private boolean isActive = true;
+    private boolean isDeleted = false;
+    private boolean isNotModified = true;
+    private Long rootId;
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
      * Entity must attached to an entity context.
@@ -173,21 +178,95 @@ public class WarehouseOperations {
     public void setId(Long id) {
         this.id = id;
     }
+
+    @Override
+    public boolean isActive() {
+        return this.isActive;
+    }
+
+    @Override
+    public void setActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+
+    @Override
+    public boolean isDeleted() {
+        return this.isDeleted;
+    }
+
+    @Override
+    public void setDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+    @Override
+    public boolean isNotModifyted() {
+        return this.isNotModified;
+    }
+
+    @Override
+    public void setNotModifyted(boolean isNotModified) {
+        this.isNotModified = isNotModified;
+    }
+
+    @Override
+    public Long getRootId() {
+        return this.rootId;
+    }
+
+    @Override
+    public void setRootId(Long rootId) {
+        this.rootId = rootId;
+    }
+
+    @Override
+    public Long getCreatedDate() {
+        return this.createAt;
+    }
+
+    @Override
+    public void setCreatedDate(long createdDate) {
+        this.createAt = createdDate;
+    }
+
     public int getType() {
         return this.type;
     }
     public void setType(int type) {
         this.type = type;
     }
-    @Generated(hash = 775457040)
+    public boolean getIsNotModified() {
+        return this.isNotModified;
+    }
+    public void setIsNotModified(boolean isNotModified) {
+        this.isNotModified = isNotModified;
+    }
+    public boolean getIsDeleted() {
+        return this.isDeleted;
+    }
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+    public boolean getIsActive() {
+        return this.isActive;
+    }
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+    @Generated(hash = 317766689)
     public WarehouseOperations(Long id, Long productId, Long vendorId, double value,
-            int type, Long createAt) {
+            int type, Long createAt, boolean isActive, boolean isDeleted,
+            boolean isNotModified, Long rootId) {
         this.id = id;
         this.productId = productId;
         this.vendorId = vendorId;
         this.value = value;
         this.type = type;
         this.createAt = createAt;
+        this.isActive = isActive;
+        this.isDeleted = isDeleted;
+        this.isNotModified = isNotModified;
+        this.rootId = rootId;
     }
     @Generated(hash = 266239327)
     public WarehouseOperations() {

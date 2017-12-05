@@ -44,8 +44,8 @@ public class BillingOperations implements Editable {
     private int operationType;
     private String description;
     private boolean isActive = true;
-    private boolean isNotModified = false;
-    private boolean isDeleted = true;
+    private boolean isDeleted = false;
+    private boolean isNotModified = true;
     private Long rootId;
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
@@ -297,10 +297,10 @@ public class BillingOperations implements Editable {
     public void setIsActive(boolean isActive) {
         this.isActive = isActive;
     }
-    @Generated(hash = 1860174015)
+    @Generated(hash = 981093375)
     public BillingOperations(Long id, Long accountId, Long vendorId, Long consignmentId,
             double amount, long createAt, int operationType, String description,
-            boolean isActive, boolean isNotModified, boolean isDeleted, Long rootId) {
+            boolean isActive, boolean isDeleted, boolean isNotModified, Long rootId) {
         this.id = id;
         this.accountId = accountId;
         this.vendorId = vendorId;
@@ -310,8 +310,8 @@ public class BillingOperations implements Editable {
         this.operationType = operationType;
         this.description = description;
         this.isActive = isActive;
-        this.isNotModified = isNotModified;
         this.isDeleted = isDeleted;
+        this.isNotModified = isNotModified;
         this.rootId = rootId;
     }
     @Generated(hash = 1327934834)

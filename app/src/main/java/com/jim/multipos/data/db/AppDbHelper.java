@@ -44,9 +44,11 @@ import com.jim.multipos.data.db.model.customer.CustomerGroupDao;
 import com.jim.multipos.data.db.model.customer.JoinCustomerGroupsWithCustomers;
 import com.jim.multipos.data.db.model.customer.JoinCustomerGroupsWithCustomersDao;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
+import com.jim.multipos.data.db.model.inventory.BillingOperationsDao;
 import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.inventory.InventoryStateDao;
 import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
+import com.jim.multipos.data.db.model.inventory.WarehouseOperationsDao;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.CategoryDao;
 import com.jim.multipos.data.db.model.products.Product;
@@ -1042,8 +1044,8 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
-    public Single<List<Product>> getSearchProducts(String searchText, boolean skuMode, boolean barcodeMode,boolean nameMode) {
-        if(mDaoSession.getProductDao().loadAll().size()==0){
+    public Single<List<Product>> getSearchProducts(String searchText, boolean skuMode, boolean barcodeMode, boolean nameMode) {
+        if (mDaoSession.getProductDao().loadAll().size() == 0) {
             List<Product> products = new ArrayList<>();
 
             Product product = new Product();
@@ -1104,24 +1106,24 @@ public class AppDbHelper implements DbHelper {
         return Single.create(e -> {
 
             QueryBuilder<Product> queryBuilderCred = mDaoSession.getProductDao().queryBuilder();
-                queryBuilderCred.whereOr(
-                        ProductDao.Properties.Name.like("%" + searchText.toLowerCase() + "%"),
-                        ProductDao.Properties.Name.like("%" + searchText.toUpperCase() + "%"),
-                        ProductDao.Properties.Barcode.like("%" + searchText.toUpperCase() + "%"),
-                        ProductDao.Properties.Barcode.like("%" + searchText.toUpperCase() + "%"),
-                        ProductDao.Properties.Sku.like("%" + searchText.toUpperCase() + "%"),
-                        ProductDao.Properties.Sku.like("%" + searchText.toUpperCase() + "%"));
+            queryBuilderCred.whereOr(
+                    ProductDao.Properties.Name.like("%" + searchText.toLowerCase() + "%"),
+                    ProductDao.Properties.Name.like("%" + searchText.toUpperCase() + "%"),
+                    ProductDao.Properties.Barcode.like("%" + searchText.toUpperCase() + "%"),
+                    ProductDao.Properties.Barcode.like("%" + searchText.toUpperCase() + "%"),
+                    ProductDao.Properties.Sku.like("%" + searchText.toUpperCase() + "%"),
+                    ProductDao.Properties.Sku.like("%" + searchText.toUpperCase() + "%"));
             List<Product> list = queryBuilderCred.build().list();
-            for (int i = list.size()-1; i >=0; i--) {
-                if(list.get(i).getIsDeleted()) list.remove(i);
+            for (int i = list.size() - 1; i >= 0; i--) {
+                if (list.get(i).getIsDeleted()) list.remove(i);
                 boolean keepMe = false;
-                if(skuMode && list.get(i).getSku().toUpperCase().contains(searchText.toUpperCase())){
+                if (skuMode && list.get(i).getSku().toUpperCase().contains(searchText.toUpperCase())) {
                     keepMe = true;
                 }
-                if(barcodeMode && list.get(i).getBarcode().toUpperCase().contains(searchText.toUpperCase())){
+                if (barcodeMode && list.get(i).getBarcode().toUpperCase().contains(searchText.toUpperCase())) {
                     keepMe = true;
                 }
-                if(nameMode && list.get(i).getName().toUpperCase().contains(searchText.toUpperCase())){
+                if (nameMode && list.get(i).getName().toUpperCase().contains(searchText.toUpperCase())) {
                     keepMe = true;
                 }
                 if (!keepMe) {
@@ -1512,36 +1514,73 @@ public class AppDbHelper implements DbHelper {
         return Single.create(e -> {
             List<Vendor> vendors = mDaoSession.getVendorDao().loadAll();
             List<VendorWithDebt> vendorWithDebts = new ArrayList<>();
-            for (Vendor vendor:vendors) {
+            for (Vendor vendor : vendors) {
                 VendorWithDebt vendorWithDebt = new VendorWithDebt();
                 vendorWithDebt.setVendor(vendor);
 
-                String query = "SELECT  SUM(AMOUNT) AS AMOUNT FROM BILLING_OPERATION GROUP BY VENDOR_ID HAVING VENDOR_ID=?";
-                Cursor cursor = mDaoSession.getDatabase().rawQuery(query,  new String[]{String.valueOf(vendor.getId())});
+                String query = "SELECT  SUM(AMOUNT) AS AMOUNT FROM BILLING_OPERATION WHERE IS_NOT_MODIFIED == " + 1 + " GROUP BY VENDOR_ID HAVING VENDOR_ID=?";
+                Cursor cursor = mDaoSession.getDatabase().rawQuery(query, new String[]{String.valueOf(vendor.getId())});
 
                 if (cursor.getCount() > 0) {
                     cursor.moveToFirst();
                     vendorWithDebt.setDebt(cursor.getDouble(cursor.getColumnIndex("AMOUNT")));
-                }else {
+                } else {
                     vendorWithDebt.setDebt(0);
                 }
                 vendorWithDebts.add(vendorWithDebt);
             }
-            for (VendorWithDebt vendorWithDebt:vendorWithDebts) {
-                Collections.sort(vendorWithDebt.getVendor().getProducts(),(product, t1) -> product.getName().compareTo(t1.getName()));
+            for (VendorWithDebt vendorWithDebt : vendorWithDebts) {
+                Collections.sort(vendorWithDebt.getVendor().getProducts(), (product, t1) -> product.getName().compareTo(t1.getName()));
             }
             e.onSuccess(vendorWithDebts);
         });
     }
 
     @Override
-    public Observable<Long> insertBillingOperation(BillingOperations billingOperations) {
-        return Observable.fromCallable(() -> mDaoSession.getBillingOperationsDao().insertOrReplace(billingOperations));
+    public Single<BillingOperations> insertBillingOperation(BillingOperations billingOperations) {
+        return Single.create(singleSubscriber -> {
+            try {
+                mDaoSession.getBillingOperationsDao().insertOrReplace(billingOperations);
+                singleSubscriber.onSuccess(billingOperations);
+            } catch (Exception o) {
+                singleSubscriber.onError(o);
+            }
+        });
     }
 
     @Override
     public Observable<List<BillingOperations>> getBillingOperations() {
-        return Observable.fromCallable(() -> mDaoSession.getBillingOperationsDao().loadAll());
+        return Observable.fromCallable(() -> mDaoSession.queryBuilder(BillingOperations.class)
+                .where(BillingOperationsDao.Properties.IsDeleted.eq(false),
+                       BillingOperationsDao.Properties.IsNotModified.eq(true))
+                .build()
+                .list());
+    }
+
+    @Override
+    public Single<BillingOperations> getBillingOperationsByConsignmentId(Long consignmentId) {
+        return Single.create(e -> {
+            List<BillingOperations> billingOperations = mDaoSession.queryBuilder(BillingOperations.class)
+                    .where(BillingOperationsDao.Properties.ConsignmentId.eq(consignmentId),
+                           BillingOperationsDao.Properties.IsNotModified.eq(true),
+                           BillingOperationsDao.Properties.IsDeleted.eq(false))
+                    .build()
+                    .list();
+            e.onSuccess(billingOperations.get(0));
+        });
+    }
+
+    @Override
+    public Single<BillingOperations> getBillingOperationsById(Long firstPayId) {
+        return Single.create(e -> {
+            List<BillingOperations> billingOperations = mDaoSession.queryBuilder(BillingOperations.class)
+                    .where(BillingOperationsDao.Properties.Id.eq(firstPayId),
+                           BillingOperationsDao.Properties.IsNotModified.eq(true),
+                           BillingOperationsDao.Properties.IsDeleted.eq(false))
+                    .build()
+                    .list();
+            e.onSuccess(billingOperations.get(0));
+        });
     }
 
     @Override
@@ -1559,6 +1598,7 @@ public class AppDbHelper implements DbHelper {
         return Observable.fromCallable(() -> mDaoSession.queryBuilder(InventoryState.class)
                 .where(InventoryStateDao.Properties.ProductId.eq(productId)).build().list());
     }
+
     @Override
     public Single<Long> insertWarehouseOperation(WarehouseOperations warehouseOperations) {
         return Single.create(e -> {
@@ -1571,19 +1611,63 @@ public class AppDbHelper implements DbHelper {
                         .where(InventoryStateDao.Properties.ProductId.eq(warehouseOperations.getProductId()), InventoryStateDao.Properties.VendorId.eq(warehouseOperations.getVendorId()))
                         .build().list();
 
-                if(inventoryStates.size()!=1){
+                if (inventoryStates.size() != 1) {
                     e.onError(new Throwable("Inventory state invalid data (ONE PRODUCT FROM VENDOR IN DATABASE NOT UNIQUE OR NOT HAVE)"));
                     return;
                 }
 
                 InventoryState inventoryState = inventoryStates.get(0);
-                inventoryState.setValue(inventoryState.getValue()+warehouseOperations.getValue());
+                inventoryState.setValue(inventoryState.getValue() + warehouseOperations.getValue());
                 inventoryState.update();
 
                 database.setTransactionSuccessful();
                 database.endTransaction();
                 e.onSuccess(warehouseOperations.getId());
-            }catch (Exception o){
+            } catch (Exception o) {
+                e.onError(o);
+            }
+        });
+    }
+
+    @Override
+    public Single<WarehouseOperations> getWarehouseOperationById(Long warehouseId) {
+        return Single.create(e -> {
+            try {
+                WarehouseOperations warehouseOperations = mDaoSession.getWarehouseOperationsDao().queryBuilder()
+                        .where(WarehouseOperationsDao.Properties.Id.eq(warehouseId))
+                        .build().list().get(0);
+                e.onSuccess(warehouseOperations);
+            } catch (Exception o) {
+                e.onError(o);
+            }
+        });
+    }
+
+    @Override
+    public Single<Long> replaceWarehouseOperation(WarehouseOperations warehouseOperations) {
+        return Single.create(e -> {
+            Database database = mDaoSession.getDatabase();
+            database.beginTransaction();
+            try {
+                mDaoSession.getWarehouseOperationsDao().insertOrReplace(warehouseOperations);
+
+                List<InventoryState> inventoryStates = mDaoSession.getInventoryStateDao().queryBuilder()
+                        .where(InventoryStateDao.Properties.ProductId.eq(warehouseOperations.getProductId()), InventoryStateDao.Properties.VendorId.eq(warehouseOperations.getVendorId()))
+                        .build().list();
+
+                if (inventoryStates.size() != 1) {
+                    e.onError(new Throwable("Inventory state invalid data (ONE PRODUCT FROM VENDOR IN DATABASE NOT UNIQUE OR NOT HAVE)"));
+                    return;
+                }
+
+                InventoryState inventoryState = inventoryStates.get(0);
+                inventoryState.setValue(inventoryState.getValue() + warehouseOperations.getValue() * -1);
+                inventoryState.update();
+
+                database.setTransactionSuccessful();
+                database.endTransaction();
+                e.onSuccess(warehouseOperations.getId());
+            } catch (Exception o) {
                 e.onError(o);
             }
         });

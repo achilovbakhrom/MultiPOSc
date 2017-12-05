@@ -10,6 +10,7 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.JoinProperty;
+import org.greenrobot.greendao.annotation.Keep;
 import org.greenrobot.greendao.annotation.ToMany;
 import org.greenrobot.greendao.annotation.ToOne;
 
@@ -41,19 +42,24 @@ public class Consignment implements Editable {
     private Vendor vendor;
     @ToMany(joinProperties = {@JoinProperty(name = "id", referencedName = "consignmentId")})
     private List<ConsignmentProduct> consignmentProducts;
-    /** Used for active entity operations. */
+    private Long firstPayId;
+    /**
+     * Used for active entity operations.
+     */
     @Generated(hash = 265222024)
     private transient ConsignmentDao myDao;
-    /** Used to resolve relations */
+    /**
+     * Used to resolve relations
+     */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
     @Generated(hash = 1022035388)
     private transient Long vendor__resolvedKey;
 
-    @Generated(hash = 1947377045)
-    public Consignment(Long id, String consignmentNumber, String description, Double totalAmount,
-            Boolean isActive, Boolean isDeleted, Boolean isNotModified, Boolean isFromAccount, Long createdDate,
-            Long rootId, int consignmentType, Long vendorId) {
+    @Generated(hash = 965200699)
+    public Consignment(Long id, String consignmentNumber, String description, Double totalAmount, Boolean isActive,
+            Boolean isDeleted, Boolean isNotModified, Boolean isFromAccount, Long createdDate, Long rootId,
+            int consignmentType, Long vendorId, Long firstPayId) {
         this.id = id;
         this.consignmentNumber = consignmentNumber;
         this.description = description;
@@ -66,6 +72,7 @@ public class Consignment implements Editable {
         this.rootId = rootId;
         this.consignmentType = consignmentType;
         this.vendorId = vendorId;
+        this.firstPayId = firstPayId;
     }
 
     @Generated(hash = 1791287112)
@@ -168,7 +175,9 @@ public class Consignment implements Editable {
         myDao.delete(this);
     }
 
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    /**
+     * Resets a to-many relationship, making the next get call to query for a fresh result.
+     */
     @Generated(hash = 307869910)
     public synchronized void resetConsignmentProducts() {
         consignmentProducts = null;
@@ -188,7 +197,7 @@ public class Consignment implements Editable {
             ConsignmentProductDao targetDao = daoSession.getConsignmentProductDao();
             List<ConsignmentProduct> consignmentProductsNew = targetDao._queryConsignment_ConsignmentProducts(id);
             synchronized (this) {
-                if(consignmentProducts == null) {
+                if (consignmentProducts == null) {
                     consignmentProducts = consignmentProductsNew;
                 }
             }
@@ -196,7 +205,26 @@ public class Consignment implements Editable {
         return consignmentProducts;
     }
 
-    /** called by internal mechanisms, do not call yourself. */
+    @Keep
+    public List<ConsignmentProduct> getAllConsignmentProducts() {
+        final DaoSession daoSession = this.daoSession;
+        if (daoSession == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        return daoSession
+                .queryBuilder(ConsignmentProduct.class)
+                .where(
+                        ConsignmentProductDao.Properties.ConsignmentId.eq(id),
+                        ConsignmentProductDao.Properties.IsDeleted.eq(false),
+                        ConsignmentProductDao.Properties.IsNotModified.eq(true)
+                )
+                .build()
+                .list();
+    }
+
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
     @Generated(hash = 1181206235)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
@@ -263,7 +291,9 @@ public class Consignment implements Editable {
         this.consignmentNumber = consignmentNumber;
     }
 
-     /** called by internal mechanisms, do not call yourself. */
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
     @Generated(hash = 332557200)
     public void setVendor(Vendor vendor) {
         synchronized (this) {
@@ -273,7 +303,9 @@ public class Consignment implements Editable {
         }
     }
 
-    /** To-one relationship, resolved on first access. */
+    /**
+     * To-one relationship, resolved on first access.
+     */
     @Generated(hash = 1192552702)
     public Vendor getVendor() {
         Long __key = this.vendorId;
@@ -310,5 +342,13 @@ public class Consignment implements Editable {
 
     public void setConsignmentType(int consignmentType) {
         this.consignmentType = consignmentType;
+    }
+
+    public Long getFirstPayId() {
+        return this.firstPayId;
+    }
+
+    public void setFirstPayId(Long firstPayId) {
+        this.firstPayId = firstPayId;
     }
 }

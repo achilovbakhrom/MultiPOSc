@@ -27,7 +27,7 @@ public class ConsignmentListPresenterImpl extends BasePresenterImpl<ConsignmentL
     private List<Consignment> consignmentList, searchResults;
     private int sorting = 1;
     private Currency currency;
-    ConsignmentListFragment.SortingStates sortType = ConsignmentListFragment.SortingStates.FILTERED_BY_DATE;
+    private ConsignmentListFragment.SortingStates sortType = ConsignmentListFragment.SortingStates.FILTERED_BY_DATE;
 
     @Inject
     protected ConsignmentListPresenterImpl(ConsignmentListView consignmentListView, DatabaseManager databaseManager) {

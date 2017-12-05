@@ -82,7 +82,7 @@ public class ConsignmentListItemAdapter extends RecyclerView.Adapter<Consignment
     public void onBindViewHolder(ConsignmentListViewHolder holder, int position) {
         SimpleDateFormat formatter = new SimpleDateFormat("hh:mm MM/dd/yyyy");
         Consignment consignment = items.get(position);
-        List<ConsignmentProduct> productList = consignment.getConsignmentProducts();
+        List<ConsignmentProduct> productList = consignment.getAllConsignmentProducts();
         if (position % 2 == 0)
             holder.llBackground.setBackgroundColor(Color.parseColor("#f9f9f9"));
         else holder.llBackground.setBackgroundColor(Color.parseColor("#f0f0f0"));

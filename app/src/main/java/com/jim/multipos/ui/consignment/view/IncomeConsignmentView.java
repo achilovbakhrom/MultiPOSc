@@ -18,7 +18,7 @@ public interface IncomeConsignmentView extends BaseView {
     void setConsignmentSumValue(double sum);
     void setError();
     void openDiscardDialog();
-    void closeFragment();
+    void closeFragment(Long id);
     void fillConsignmentData(String consignmentNumber, String description, Boolean isFromAccount, double amount);
     void setAccountSpinnerSelection(int selectedAccount);
 }

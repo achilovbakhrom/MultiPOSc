@@ -18,4 +18,6 @@ public interface ReturnConsignmentView extends BaseView {
     void setVendorName(String name);
     void openDiscardDialog();
     void closeFragment();
+
+    void fillConsignmentData(String consignmentNumber, String description);
 }

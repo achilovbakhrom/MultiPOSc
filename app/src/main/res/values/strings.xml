@@ -530,6 +530,7 @@
     <string name="set_quantity">Set quantity</string>
     <string name="choose_vendor_dialog">Choose vendor</string>
     <string name="choose_for_product">Choose for product</string>
+    <string name="cannot_be_empty">This value cannot be empty</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>
