@@ -7,9 +7,8 @@
     android:orientation="horizontal">
 
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="43"
         android:orientation="vertical">
 
         <LinearLayout
@@ -28,7 +27,7 @@
                 android:layout_marginLeft="@dimen/thirty_dp"
                 android:layout_weight="1"
                 android:gravity="left"
-                android:text="Vendor details"
+                android:text="@string/vendor_details"
                 android:textColor="@color/colorBlue" />
 
         </LinearLayout>
@@ -61,9 +60,8 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <TextView
@@ -72,9 +70,8 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:paddingLeft="@dimen/twenty_dp"
-                    android:text="Some vendor"
                     android:textColor="@color/colorMainText"
-                    android:textSize="@dimen/eighteen_dp" />
+                    android:textSize="@dimen/sixteen_dp" />
 
                 <TextView
                     android:id="@+id/tvFullName"
@@ -82,24 +79,12 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:paddingLeft="@dimen/twenty_dp"
-                    android:text="Alvaro Gonzalez"
                     android:textColor="@color/colorSecondaryText"
-                    android:textSize="@dimen/eighteen_dp"
+                    android:textSize="@dimen/sixteen_dp"
                     android:textStyle="italic" />
 
-                <LinearLayout
-                    android:id="@+id/llPhones"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical" />
 
                 <LinearLayout
-                    android:id="@+id/llEmails"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical" />
-
-                <!--<LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -111,19 +96,14 @@
                         android:paddingLeft="@dimen/twenty_dp"
                         android:text="Phone:"
                         android:textColor="@color/colorSecondaryText"
-                        android:textSize="@dimen/eighteen_dp"
+                        android:textSize="@dimen/sixteen_dp"
                         android:textStyle="italic" />
 
-                    <TextView
-                        android:id="@+id/tvPhone"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/llPhones"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:paddingLeft="@dimen/five_dp"
-                        android:text="+ 99890 986 23 15"
-                        android:textColor="@color/colorSecondaryText"
-                        android:textSize="@dimen/eighteen_dp"
-                        android:textStyle="italic" />
+                        android:orientation="vertical" />
 
                 </LinearLayout>
 
@@ -139,21 +119,16 @@
                         android:paddingLeft="@dimen/twenty_dp"
                         android:text="Email:"
                         android:textColor="@color/colorSecondaryText"
-                        android:textSize="@dimen/eighteen_dp"
+                        android:textSize="@dimen/sixteen_dp"
                         android:textStyle="italic" />
 
-                    <TextView
-                        android:id="@+id/tvEmail"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/llEmails"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:paddingLeft="@dimen/five_dp"
-                        android:text="somevendor@gmail.com"
-                        android:textColor="@color/colorSecondaryText"
-                        android:textSize="@dimen/eighteen_dp"
-                        android:textStyle="italic" />
+                        android:orientation="vertical" />
 
-                </LinearLayout>-->
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -163,7 +138,7 @@
                     android:paddingLeft="@dimen/twenty_dp"
                     android:text="Address:"
                     android:textColor="@color/colorMainText"
-                    android:textSize="@dimen/eighteen_dp" />
+                    android:textSize="@dimen/sixteen_dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -176,9 +151,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:paddingLeft="@dimen/twenty_dp"
-                        android:text="Some where in the galaxy"
                         android:textColor="@color/colorSecondaryText"
-                        android:textSize="@dimen/eighteen_dp"
+                        android:textSize="@dimen/sixteen_dp"
                         android:textStyle="italic" />
 
                     <ImageView
@@ -211,9 +185,9 @@
                 android:layout_marginBottom="@dimen/thirty_five_dp"
                 android:layout_marginLeft="@dimen/thirty_dp"
                 android:gravity="center"
-                android:text="State details"
+                android:text="@string/state_details"
                 android:textColor="@color/colorBlue"
-                android:textSize="@dimen/eighteen_dp" />
+                android:textSize="@dimen/sixteen_dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -226,18 +200,17 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/thirty_dp"
                     android:layout_weight="1"
-                    android:text="Debt:"
+                    android:text="@string/debt"
                     android:textColor="@color/colorMainText"
-                    android:textSize="@dimen/eighteen_dp" />
+                    android:textSize="@dimen/sixteen_dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/thirty_dp"
                     android:gravity="center"
-                    android:text="128.00 UZS"
                     android:textColor="@color/colorMainText"
-                    android:textSize="@dimen/eighteen_dp" />
+                    android:textSize="@dimen/sixteen_dp" />
 
             </LinearLayout>
 
@@ -252,18 +225,17 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/thirty_dp"
                     android:layout_weight="1"
-                    android:text="Payed in this month:"
+                    android:text="@string/payed_in_this_month"
                     android:textColor="@color/colorMainText"
-                    android:textSize="@dimen/eighteen_dp" />
+                    android:textSize="@dimen/sixteen_dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/thirty_dp"
                     android:gravity="center"
-                    android:text="187 000.00 UZS"
                     android:textColor="@color/colorMainText"
-                    android:textSize="@dimen/eighteen_dp" />
+                    android:textSize="@dimen/sixteen_dp" />
 
             </LinearLayout>
         </LinearLayout>
@@ -285,6 +257,7 @@
             android:orientation="horizontal">
 
             <com.jim.mpviews.MpButtonWithIcon
+                android:id="@+id/btnPay"
                 android:layout_width="@dimen/hundred_sixty_five_dp"
                 android:layout_height="@dimen/sixty_dp"
                 android:layout_alignParentEnd="true"
@@ -294,6 +267,7 @@
                 app:src="@drawable/currency" />
 
             <com.jim.mpviews.MpButtonWithIcon
+                android:id="@+id/btnPayments"
                 android:layout_width="@dimen/hundred_sixty_five_dp"
                 android:layout_height="@dimen/sixty_dp"
                 android:layout_marginRight="@dimen/ten_dp"
@@ -301,6 +275,7 @@
                 app:src="@drawable/payments" />
 
             <com.jim.mpviews.MpButtonWithIcon
+                android:id="@+id/btnIncome"
                 android:layout_width="@dimen/hundred_sixty_five_dp"
                 android:layout_height="@dimen/sixty_dp"
                 android:layout_marginRight="@dimen/ten_dp"
@@ -320,6 +295,7 @@
             android:orientation="horizontal">
 
             <com.jim.mpviews.MpButtonWithIcon
+                android:id="@+id/btnStory"
                 android:layout_width="@dimen/hundred_sixty_five_dp"
                 android:layout_height="@dimen/sixty_dp"
                 android:layout_marginRight="@dimen/ten_dp"
@@ -327,6 +303,7 @@
                 app:src="@drawable/story" />
 
             <com.jim.mpviews.MpButtonWithIcon
+                android:id="@+id/btnReturn"
                 android:layout_width="@dimen/hundred_sixty_five_dp"
                 android:layout_height="@dimen/sixty_dp"
                 android:layout_marginRight="@dimen/ten_dp"

@@ -7,4 +7,8 @@ import com.jim.multipos.core.BaseView;
  */
 
 public interface VendorProductsView extends BaseView {
+    void sendDataToConsignment(int consignmentType, long vendorId);
+    void sendDataToConsignmentList(long vendorId);
+    void openIncomeConsignmentToProduct(int incomeConsignment, long vendorId, Long productId);
+    void openVendorEditing(long vendorId);
 }

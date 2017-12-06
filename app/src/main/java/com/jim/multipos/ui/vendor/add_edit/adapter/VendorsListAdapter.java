@@ -87,6 +87,17 @@ public class VendorsListAdapter extends ClickableBaseAdapter<Vendor, BaseViewHol
         notifyDataSetChanged();
     }
 
+    public void setSelectedPositionWithId(Long id) {
+        for (Vendor vendor : items) {
+            if (vendor == null) continue;
+            if (vendor.getId().equals(id)) {
+                this.selectedPosition = items.indexOf(vendor);
+                notifyDataSetChanged();
+                break;
+            }
+        }
+    }
+
     public int getSelectedPosition() {
         return selectedPosition;
     }

@@ -109,4 +109,10 @@ public class VendorsListFragment extends BaseFragment implements ClickableBaseAd
     public void changeSelectedPosition() {
         selectedPosition = ((VendorsListAdapter) vendors.getAdapter()).getSelectedPosition();
     }
+
+    public void selectListItem(Long id) {
+        if (this.vendors.getAdapter() != null) {
+            ((VendorsListAdapter) this.vendors.getAdapter()).setSelectedPositionWithId(id);
+        }
+    }
 }

@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,6 @@ import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.multipos.R;
 import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.products.Vendor;
-import com.jim.multipos.ui.inventory.model.InventoryItem;
 import com.jim.multipos.ui.vendor_products_view.VendorProductsViewActivity;
 
 import butterknife.BindView;
@@ -30,7 +28,7 @@ import static com.jim.multipos.ui.vendor_products_view.fragments.VendorDetailsLi
 
 public class PlusInventoryDialog extends DialogFragment {
     public interface PlusInventoryDialogListener {
-        void updateInventory(InventoryState inventory);
+        void updateInventory(InventoryState inventory, double shortage);
     }
 
     @BindView(R.id.tvProductName)
@@ -55,6 +53,7 @@ public class PlusInventoryDialog extends DialogFragment {
     private InventoryState inventory;
     private Vendor vendor;
     private PlusInventoryDialogListener listener;
+    private double shortage;
 
     @Nullable
     @Override
@@ -93,8 +92,9 @@ public class PlusInventoryDialog extends DialogFragment {
 
         RxView.clicks(btnNext).subscribe(o -> {
             if (!etShortage.getText().toString().isEmpty()) {
+                shortage = Double.parseDouble(etShortage.getText().toString());
                 inventory.setValue(Double.parseDouble(tvActual.getText().toString()));
-                listener.updateInventory(inventory);
+                listener.updateInventory(inventory ,shortage);
             }
 
             dismiss();

@@ -1,10 +1,8 @@
 package com.jim.multipos.ui.vendor_products_view.adapters;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,17 +15,15 @@ import com.jim.multipos.core.BaseAdapter;
 import com.jim.multipos.core.BaseViewHolder;
 import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.inventory.InventoryState;
-import com.jim.multipos.data.db.model.products.Product;
-import com.jim.multipos.ui.inventory.model.InventoryItem;
-import com.jim.multipos.ui.vendor_products_view.VendorProductsView;
-import com.jim.multipos.ui.vendor_products_view.dialogs.MinusInventoryDialog;
-import com.jim.multipos.ui.vendor_products_view.dialogs.PlusInventoryDialog;
 
 import java.text.DecimalFormat;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.jim.multipos.data.db.model.consignment.Consignment.INCOME_CONSIGNMENT;
+import static com.jim.multipos.data.db.model.consignment.Consignment.RETURN_CONSIGNMENT;
 
 /**
  * Created by Portable-Acer on 18.11.2017.
@@ -38,6 +34,8 @@ public class ProductAdapter extends BaseAdapter<InventoryState, ProductAdapter.P
         void showMinusDialog(int position);
 
         void showPlusDialog(int position);
+
+        void getInventoryItem(InventoryState state, int consignmentType);
 
         ProductClass getProductClass(Long id);
     }
@@ -132,6 +130,10 @@ public class ProductAdapter extends BaseAdapter<InventoryState, ProductAdapter.P
         ImageView ivMinus;
         @BindView(R.id.ivPlus)
         ImageView ivPlus;
+        @BindView(R.id.ivIncome)
+        ImageView ivIncome;
+        @BindView(R.id.ivReturn)
+        ImageView ivReturn;
 
         public ProductViewHolder(View itemView) {
             super(itemView);
@@ -146,6 +148,14 @@ public class ProductAdapter extends BaseAdapter<InventoryState, ProductAdapter.P
 
             ivPlus.setOnClickListener(v -> {
                 listener.showPlusDialog(getAdapterPosition());
+            });
+
+            ivIncome.setOnClickListener(v -> {
+                listener.getInventoryItem(items.get(getAdapterPosition()), INCOME_CONSIGNMENT);
+            });
+
+            ivReturn.setOnClickListener(v -> {
+                listener.getInventoryItem(items.get(getAdapterPosition()), RETURN_CONSIGNMENT);
             });
         }
     }

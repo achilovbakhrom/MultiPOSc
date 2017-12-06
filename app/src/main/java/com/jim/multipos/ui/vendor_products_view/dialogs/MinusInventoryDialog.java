@@ -14,7 +14,6 @@ import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.multipos.R;
 import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.products.Vendor;
-import com.jim.multipos.ui.inventory.model.InventoryItem;
 import com.jim.multipos.ui.vendor_products_view.VendorProductsViewActivity;
 
 import butterknife.BindView;
@@ -29,7 +28,7 @@ import static com.jim.multipos.ui.vendor_products_view.fragments.VendorDetailsLi
 
 public class MinusInventoryDialog extends DialogFragment {
     public interface MinusInventoryDialogListener {
-        void updateInventory(InventoryState inventory);
+        void updateInventory(InventoryState inventory, double shortage);
     }
 
     @BindView(R.id.tvProductName)
@@ -54,6 +53,7 @@ public class MinusInventoryDialog extends DialogFragment {
     private InventoryState inventory;
     private Vendor vendor;
     private MinusInventoryDialog.MinusInventoryDialogListener listener;
+    private double shortage;
 
     @Nullable
     @Override
@@ -92,10 +92,10 @@ public class MinusInventoryDialog extends DialogFragment {
 
         RxView.clicks(btnNext).subscribe(o -> {
             if (!etShortage.getText().toString().isEmpty()) {
+                shortage = Double.parseDouble(etShortage.getText().toString()) * -1;
                 inventory.setValue(Double.parseDouble(tvActual.getText().toString()));
-                listener.updateInventory(inventory);
+                listener.updateInventory(inventory, shortage);
             }
-
             dismiss();
         });
 

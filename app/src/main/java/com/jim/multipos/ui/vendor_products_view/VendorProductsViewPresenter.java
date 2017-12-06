@@ -5,7 +5,6 @@ import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
-import com.jim.multipos.ui.inventory.model.InventoryItem;
 
 import java.util.List;
 
@@ -27,4 +26,10 @@ public interface VendorProductsViewPresenter extends Presenter {
     void sortByUnitAsc();
     void sortByUnitDesc();
     void sortByCreatedDate();
+    void openIncomeConsignment();
+    void openReturnConsignment();
+    void openConsignmentList();
+    void openIncomeConsignmentToProduct(InventoryState state, int consignmentType);
+    void openVendorEditing();
+    void insertNewWarehouseOperation(InventoryState inventory, double shortage);
 }

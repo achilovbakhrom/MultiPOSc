@@ -52,7 +52,7 @@ public class MpButtonWithIcon extends RelativeLayout {
 
     public void init(Context context, AttributeSet attrs) {
         LayoutInflater.from(context).inflate(R.layout.mp_btn_with_icon, this);
-        LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         setLayoutParams(layoutParams);
         TypedArray attributeArray = context.obtainStyledAttributes(attrs, R.styleable.MpButtonWithIcon);
 
@@ -69,15 +69,16 @@ public class MpButtonWithIcon extends RelativeLayout {
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        VibrateManager.startVibrate(context, 50);
                         if (!isPressed) {
+                            VibrateManager.startVibrate(context, 50);
                             setBackgroundResource(R.drawable.pressed_btn);
                             isPressed = true;
-                        } else {
-                            setBackgroundResource(R.drawable.button_bg);
-                            isPressed = false;
                         }
-                        break;
+                        return false;
+                    case MotionEvent.ACTION_UP:
+                        isPressed = false;
+                        setBackgroundResource(R.drawable.button_bg);
+                        return false;
                 }
                 return false;
             }

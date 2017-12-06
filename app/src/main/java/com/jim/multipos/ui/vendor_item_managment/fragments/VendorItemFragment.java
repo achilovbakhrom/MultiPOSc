@@ -1,19 +1,14 @@
 package com.jim.multipos.ui.vendor_item_managment.fragments;
 
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
-import com.jim.multipos.ui.inventory.fragments.InventoryFragment;
-import com.jim.multipos.ui.inventory.presenter.InventoryPresenter;
-import com.jim.multipos.ui.vendor.add_edit.adapter.VendorsListAdapter;
 import com.jim.multipos.ui.vendor_item_managment.VendorItemsActivity;
 import com.jim.multipos.ui.vendor_item_managment.adapters.VendorItemAdapter;
 import com.jim.multipos.ui.vendor_item_managment.model.VendorWithDebt;

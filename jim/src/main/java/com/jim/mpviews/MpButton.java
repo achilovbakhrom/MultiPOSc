@@ -42,7 +42,7 @@ public class MpButton extends android.support.v7.widget.AppCompatButton {
 
         TypedArray attributeArray = context.obtainStyledAttributes(attrs, R.styleable.MpButton);
         if (attributeArray.getBoolean(R.styleable.MpButton_isLong, false)) {
-            Drawable buttonDrawable = context.getResources().getDrawable(R.drawable.mp_button);
+            Drawable buttonDrawable = context.getResources().getDrawable(R.drawable.mp_button_long);
             buttonDrawable.mutate();
             setBackgroundDrawable(buttonDrawable);
         } else {

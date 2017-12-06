@@ -180,6 +180,7 @@
                 android:paddingRight="@dimen/ten_dp">
 
                 <ImageView
+                    android:id="@+id/ivReturn"
                     android:layout_width="@dimen/thirty_dp"
                     android:layout_height="@dimen/thirty_dp"
                     android:layout_gravity="right"
@@ -187,6 +188,7 @@
                     android:src="@drawable/expense" />
 
                 <ImageView
+                    android:id="@+id/ivIncome"
                     android:layout_width="@dimen/thirty_dp"
                     android:layout_height="@dimen/thirty_dp"
                     android:layout_gravity="right"

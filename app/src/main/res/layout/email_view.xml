@@ -5,16 +5,6 @@
     android:orientation="horizontal">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingLeft="@dimen/twenty_dp"
-        android:text="Email:"
-        android:textColor="@color/colorSecondaryText"
-        android:textSize="@dimen/eighteen_dp"
-        android:textStyle="italic" />
-
-    <TextView
         android:id="@+id/tvEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

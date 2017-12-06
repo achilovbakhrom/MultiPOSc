@@ -17,11 +17,13 @@ import javax.inject.Inject;
 
 import lombok.Getter;
 
+import static com.jim.multipos.ui.inventory.InventoryActivity.VENDOR_ID;
+
 /**
  * Created by Achilov Bakhrom on 10/21/17.
  */
 
-public class VendorAddEditActivity extends DoubleSideActivity implements VendorAddEditView{
+public class VendorAddEditActivity extends DoubleSideActivity implements VendorAddEditView {
 
     public static final String ADDING_MODE_KEY = "ADDING_MODE_KEY";
     public static final String VENDOR_ID = "VENDOR_ID";
@@ -41,6 +43,26 @@ public class VendorAddEditActivity extends DoubleSideActivity implements VendorA
         presenter.setMode(AddingMode.ADD, null);
         addFragmentToLeft(new VendorAddEditFragment());
         addFragmentToRight(new VendorsListFragment());
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            Long vendorId = bundle.getLong(VENDOR_ID);
+            presenter.setMode(AddingMode.EDIT, vendorId);
+            selectListItem(vendorId);
+        } else
+            presenter.setMode(AddingMode.ADD, null);
+    }
+
+    public void selectListItem(Long id) {
+        VendorsListFragment fragment = (VendorsListFragment) getCurrentFragmentRight();
+        if (fragment != null) {
+            fragment.selectListItem(id);
+        }
     }
 
     @Override
@@ -73,7 +95,7 @@ public class VendorAddEditActivity extends DoubleSideActivity implements VendorA
     @Override
     public void selectItem(int position) {
         if (position != 0) {
-            if ( position - 1 < presenter.getVendors().size() && position - 1 > 0) {
+            if (position - 1 < presenter.getVendors().size() && position - 1 > 0) {
                 Vendor vendor = presenter.getVendors().get(position);
                 prepareEditMode(vendor);
             }
@@ -82,12 +104,12 @@ public class VendorAddEditActivity extends DoubleSideActivity implements VendorA
 
     @Override
     public void addContactToAddEditView(Contact contact) {
-        ((VendorAddEditFragment)getCurrentFragmentLeft()).addContact(contact);
+        ((VendorAddEditFragment) getCurrentFragmentLeft()).addContact(contact);
     }
 
     @Override
     public void removeContact(Contact contact) {
-        ((VendorAddEditFragment)getCurrentFragmentLeft()).removeContact(contact);
+        ((VendorAddEditFragment) getCurrentFragmentLeft()).removeContact(contact);
     }
 
     @Override

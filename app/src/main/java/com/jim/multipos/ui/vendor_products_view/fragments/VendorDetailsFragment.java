@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jakewharton.rxbinding2.view.RxView;
+import com.jim.mpviews.MpButtonWithIcon;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.db.model.Contact;
@@ -20,9 +21,6 @@ import com.jim.multipos.ui.vendor.add_edit.VendorAddEditActivity;
 import com.jim.multipos.ui.vendor_products_view.VendorProductsViewActivity;
 
 import butterknife.BindView;
-import io.reactivex.functions.Consumer;
-
-import static com.jim.multipos.ui.inventory.InventoryActivity.VENDOR_ID;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,10 +30,6 @@ public class VendorDetailsFragment extends BaseFragment {
     TextView tvCompanyName;
     @BindView(R.id.tvFullName)
     TextView tvFullName;
-    /*@BindView(R.id.tvPhone)
-    TextView tvPhone;
-    @BindView(R.id.tvEmail)
-    TextView tvEmail;*/
     @BindView(R.id.llPhones)
     LinearLayout llPhones;
     @BindView(R.id.llEmails)
@@ -44,6 +38,16 @@ public class VendorDetailsFragment extends BaseFragment {
     TextView tvAddress;
     @BindView(R.id.ivEditVendor)
     ImageView ivEditVendor;
+    @BindView(R.id.btnPay)
+    MpButtonWithIcon btnPay;
+    @BindView(R.id.btnPayments)
+    MpButtonWithIcon btnPayments;
+    @BindView(R.id.btnIncome)
+    MpButtonWithIcon btnIncome;
+    @BindView(R.id.btnReturn)
+    MpButtonWithIcon btnReturn;
+    @BindView(R.id.btnStory)
+    MpButtonWithIcon btnStory;
 
     @Override
     protected int getLayout() {
@@ -60,7 +64,7 @@ public class VendorDetailsFragment extends BaseFragment {
         tvAddress.setText(vendor.getAddress());
 
         RxView.clicks(ivEditVendor).subscribe(o -> {
-            startActivity(new Intent(getActivity(), VendorAddEditActivity.class));
+            ((VendorProductsViewActivity) getActivity()).getPresenter().openVendorEditing();
         });
 
         for (int i = 0; i < vendor.getContacts().size(); i++) {
@@ -76,6 +80,22 @@ public class VendorDetailsFragment extends BaseFragment {
                 llEmails.addView(view);
             }
         }
+
+        btnPay.setOnClickListener(view -> {
+
+        });
+        btnPayments.setOnClickListener(view -> {
+
+        });
+        btnIncome.setOnClickListener(view -> {
+            ((VendorProductsViewActivity) getActivity()).getPresenter().openIncomeConsignment();
+        });
+        btnReturn.setOnClickListener(view -> {
+            ((VendorProductsViewActivity) getActivity()).getPresenter().openReturnConsignment();
+        });
+        btnStory.setOnClickListener(view -> {
+            ((VendorProductsViewActivity) getActivity()).getPresenter().openConsignmentList();
+        });
     }
 
     @Override

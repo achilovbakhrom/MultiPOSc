@@ -3,24 +3,12 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingLeft="@dimen/twenty_dp"
-        android:text="Phone:"
-        android:textColor="@color/colorSecondaryText"
-        android:textSize="@dimen/eighteen_dp"
-        android:textStyle="italic" />
-
     <TextView
         android:id="@+id/tvPhone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:paddingLeft="@dimen/five_dp"
-        android:text="+ 99890 986 23 15"
         android:textColor="@color/colorSecondaryText"
         android:textSize="@dimen/eighteen_dp"
         android:textStyle="italic" />
