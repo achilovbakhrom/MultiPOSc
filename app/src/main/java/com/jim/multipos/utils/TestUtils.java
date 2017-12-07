@@ -3,6 +3,7 @@ package com.jim.multipos.utils;
 import android.content.Context;
 
 import com.jim.multipos.data.DatabaseManager;
+import com.jim.multipos.data.db.model.Account;
 import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.products.Vendor;
@@ -59,6 +60,15 @@ public class TestUtils {
                 vendor.setAddress("Vendor address" + i);
                 databaseManager.addVendor(vendor).subscribe();
             }
+        }
+    }
+    public static void createAccount(DatabaseManager databaseManager){
+        if(databaseManager.getAccounts().isEmpty()){
+            Account account = new Account();
+            account.setName("Naqt Pul");
+            account.setCirculation(1);
+            account.setType(1);
+            databaseManager.addAccount(account).subscribe();
         }
     }
 }

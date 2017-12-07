@@ -38,6 +38,7 @@ public class MpButtonLong extends android.support.v7.widget.AppCompatTextView {
     public void init(Context context, AttributeSet attrs) {
         setBackgroundResource(R.drawable.long_mp_button);
         setPadding((int) Utils.convertDpToPixel(10), (int) Utils.convertDpToPixel(10), (int) Utils.convertDpToPixel(10), (int) Utils.convertDpToPixel(10));
+        if(getGravity()!=Gravity.START)
         setGravity(Gravity.CENTER);
         pressed = false;
         setOnTouchListener(new OnTouchListener() {

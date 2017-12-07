@@ -503,16 +503,7 @@ public class AppDbHelper implements DbHelper {
         return Observable.fromCallable(() -> mDaoSession.getCurrencyDao().loadAll());
     }
 
-    @Override
-    public Single<Currency> getMainCurrency() {
-        return Single.create(e -> {
-            Currency currency = mDaoSession.queryBuilder(Currency.class)
-                    .where(CurrencyDao.Properties.IsMain.eq(true))
-                    .build()
-                    .list().get(0);
-            e.onSuccess(currency);
-        });
-    }
+
 
     @Override
     public List<Currency> getCurrencies() {
@@ -1517,7 +1508,7 @@ public class AppDbHelper implements DbHelper {
             for (Vendor vendor : vendors) {
                 VendorWithDebt vendorWithDebt = new VendorWithDebt();
                 vendorWithDebt.setVendor(vendor);
-
+                vendor.resetProducts();
                 String query = "SELECT  SUM(AMOUNT) AS AMOUNT FROM BILLING_OPERATION WHERE IS_NOT_MODIFIED == " + 1 + " GROUP BY VENDOR_ID HAVING VENDOR_ID=?";
                 Cursor cursor = mDaoSession.getDatabase().rawQuery(query, new String[]{String.valueOf(vendor.getId())});
 
@@ -1533,6 +1524,22 @@ public class AppDbHelper implements DbHelper {
                 Collections.sort(vendorWithDebt.getVendor().getProducts(), (product, t1) -> product.getName().compareTo(t1.getName()));
             }
             e.onSuccess(vendorWithDebts);
+        });
+    }
+
+    @Override
+    public Single<Double> getVendorDebt(Long vendorId) {
+        return Single.create(e -> {
+            double debt=0;
+            String query = "SELECT  SUM(AMOUNT) AS AMOUNT FROM BILLING_OPERATION GROUP BY VENDOR_ID HAVING VENDOR_ID=?";
+            Cursor cursor = mDaoSession.getDatabase().rawQuery(query,  new String[]{String.valueOf(vendorId)});
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                debt = cursor.getDouble(cursor.getColumnIndex("AMOUNT"));
+            }else {
+                debt = 0;
+            }
+            e.onSuccess(debt);
         });
     }
 
@@ -1691,5 +1698,23 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Observable<List<InventoryState>> getInventoryStatesByVendorId(Long vendorId) {
         return Observable.fromCallable(() -> mDaoSession.getInventoryStateDao().queryBuilder().where(InventoryStateDao.Properties.VendorId.eq(vendorId)).build().list());
+    }
+
+    @Override
+    public Currency getMainCurrency() {
+        List<Currency> currencies = mDaoSession.queryBuilder(Currency.class)
+                .where(CurrencyDao.Properties.IsMain.eq(true))
+                .build().list();
+        return currencies.get(0);
+    }
+
+    @Override
+    public Single<List<BillingOperations>> getBillingOperationForVendor(Long vendorId) {
+        return Single.create(e -> {
+            List<BillingOperations> billingOperations = mDaoSession.queryBuilder(BillingOperations.class)
+                    .where(BillingOperationsDao.Properties.VendorId.eq(vendorId))
+                    .build().list();
+            e.onSuccess(billingOperations);
+        });
     }
 }

@@ -17,7 +17,9 @@ import android.widget.TextView;
 
 import com.jim.mpviews.utils.VibrateManager;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import static com.jim.mpviews.utils.Constants.ADMIN_MODE;
 import static com.jim.mpviews.utils.Constants.DEFAULT_MODE;
@@ -43,16 +45,19 @@ public class MpToolbar extends RelativeLayout {
     public static final int PAYMENT_MODE = 14;
     public static final int BALANCE_MODE = 15;
 
-
+    private SimpleDateFormat simpleDateFormat ;
     private int mode;
     boolean pressed = false;
-    private LinearLayout mpMainMenu, llEmployer;
+    private LinearLayout mpMainMenu, llEmployer,llDateIntervalPicker;
     private RelativeLayout mpSearch;
     private RelativeLayout mpLeftSide, mpRightSide,rlBackgroun;
     private ImageView mpSettings;
     private MpHorizontalScroller mpHorizontalScroller;
     private MpSearchView mpSearchView;
-
+    private Calendar from;
+    private Calendar to;
+    private DataIntervalCallbackToToolbar dataIntervalPicker;
+    private TextView tvPeriod;
     public MpToolbar(Context context) {
         super(context);
         init(context, null);
@@ -83,15 +88,18 @@ public class MpToolbar extends RelativeLayout {
         TypedArray array = context.obtainStyledAttributes(attributeSet, R.styleable.MpToolbar);
         mpMainMenu = (LinearLayout) findViewById(R.id.mpMainMenu);
         llEmployer = (LinearLayout) findViewById(R.id.llEmployer);
+        llDateIntervalPicker = (LinearLayout) findViewById(R.id.llDateIntervalPicker);
         mpSearch = (RelativeLayout) findViewById(R.id.mpSearch);
         mpSettings = (ImageView) findViewById(R.id.mpSettings);
         mpHorizontalScroller = (MpHorizontalScroller) findViewById(R.id.mpHorRoller);
         mpSearchView = (MpSearchView) findViewById(R.id.mpSearchView);
         mpLeftSide = (RelativeLayout) findViewById(R.id.mpLeftSide);
         mpRightSide = (RelativeLayout) findViewById(R.id.mpRightSide);
+        tvPeriod = (TextView) findViewById(R.id.tvPeriod);
         rlBackgroun = (RelativeLayout) findViewById(R.id.rlBackgroun);
         mode = array.getInt(R.styleable.MpToolbar_view_mode, DEFAULT_MODE);
         setMode(mode);
+        simpleDateFormat =  new SimpleDateFormat(" MMM dd, yyyy");
         mpSettings.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -294,6 +302,7 @@ public class MpToolbar extends RelativeLayout {
                 mpRightSide.setVisibility(GONE);
                 mpMainMenu.setVisibility(GONE);
                 mpSettings.setVisibility(GONE);
+                llDateIntervalPicker.setVisibility(GONE);
                 mpHorizontalScroller.setVisibility(GONE);
                 mpSearchView.setVisibility(GONE);
                 llEmployer.setVisibility(GONE);
@@ -307,6 +316,7 @@ public class MpToolbar extends RelativeLayout {
                 mpSettings.setVisibility(VISIBLE);
                 mpHorizontalScroller.setVisibility(VISIBLE);
                 mpSearchView.setVisibility(GONE);
+                llDateIntervalPicker.setVisibility(GONE);
                 llEmployer.setVisibility(VISIBLE);
                 findViewById(R.id.mpInfo).setVisibility(GONE);
                 findViewById(R.id.blackLine).setVisibility(GONE);
@@ -317,6 +327,7 @@ public class MpToolbar extends RelativeLayout {
                 mpMainMenu.setVisibility(GONE);
                 mpSettings.setVisibility(GONE);
                 mpHorizontalScroller.setVisibility(GONE);
+                llDateIntervalPicker.setVisibility(GONE);
                 mpSearchView.setVisibility(VISIBLE);
                 llEmployer.setVisibility(GONE);
                 findViewById(R.id.mpInfo).setVisibility(GONE);
@@ -329,25 +340,42 @@ public class MpToolbar extends RelativeLayout {
                 mpSettings.setVisibility(GONE);
                 mpHorizontalScroller.setVisibility(GONE);
                 mpSearchView.setVisibility(GONE);
+                llDateIntervalPicker.setVisibility(VISIBLE);
                 llEmployer.setVisibility(GONE);
                 findViewById(R.id.mpInfo).setVisibility(GONE);
                 findViewById(R.id.blackLine).setVisibility(GONE);
-
                 break;
             }
 
         }
     }
+    public interface DataIntervalCallbackToToolbar{
+        void onDataIntervalPickerPressed();
+    }
+    public void setDataIntervalPicker(Calendar from, Calendar to,DataIntervalCallbackToToolbar dataIntervalPicker){
+        this.from = from;
+        this.to = to;
+        setCurrentIntervalToView();
+        this.dataIntervalPicker = dataIntervalPicker;
+        llDateIntervalPicker.setOnClickListener(view -> {
+            dataIntervalPicker.onDataIntervalPickerPressed();
+        });
+    }
+    public void changeInterval (Calendar from,Calendar to){
+        this.from = from;
+        this.to = to;
+        setCurrentIntervalToView();
 
-    /*public void setName(String name) {
-        mpEmpName.setText(name);
-        invalidate();
     }
 
-    public void setRole(String role) {
-        mpEmpRole.setText(role);
-        invalidate();
-    }*/
+    private void setCurrentIntervalToView(){
+        if(from == null && to == null) return;
+        StringBuilder builder = new StringBuilder();
+        builder.append(simpleDateFormat.format(from.getTime()));
+        builder.append(" - ");
+        builder.append(simpleDateFormat.format(to.getTime()));
+        tvPeriod.setText(builder.toString());
+    }
 
     public void setOrders(ArrayList<String> orders) {
         mpHorizontalScroller.setItems(orders);

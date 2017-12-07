@@ -38,7 +38,7 @@ public class ConsignmentListPresenterImpl extends BasePresenterImpl<ConsignmentL
 
     @Override
     public void initConsignmentListRecyclerViewData(Long vendorId) {
-        currency = databaseManager.getMainCurrency().blockingGet();
+        currency = databaseManager.getMainCurrency();
         databaseManager.getConsignmentsByVendorId(vendorId).subscribe(consignments -> {
             this.consignmentList = consignments;
             sortList();

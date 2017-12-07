@@ -168,7 +168,7 @@ public class VendorItemAdapter extends ClickableBaseAdapter<VendorWithDebt, Vend
         void onWriteOff(VendorWithDebt vendorWithDebt);
         void onConsigmentStory(VendorWithDebt vendorWithDebt);
         void onPay(VendorWithDebt vendorWithDebt);
-        void onPayStory(VendorWithDebt vendorWithDebt);
+        void onPayStory(VendorWithDebt vendorWithDebt,Double totalDebt);
         void onMore(VendorWithDebt vendorWithDebt);
     }
 
@@ -205,7 +205,7 @@ public class VendorItemAdapter extends ClickableBaseAdapter<VendorWithDebt, Vend
         public VendorItemViewHolder(View itemView) {
             super(itemView);
             ivPayment.setOnClickListener(view1 -> onVendorAdapterCallback.onPay(items.get(getAdapterPosition())));
-            ivPaymentsStory.setOnClickListener(view1 -> onVendorAdapterCallback.onPayStory(items.get(getAdapterPosition())));
+            ivPaymentsStory.setOnClickListener(view1 -> onVendorAdapterCallback.onPayStory(items.get(getAdapterPosition()),items.get(getAdapterPosition()).getDebt()));
             ivBackReturn.setOnClickListener(view1 -> onVendorAdapterCallback.onWriteOff(items.get(getAdapterPosition())));
             ivIncome.setOnClickListener(view1 -> onVendorAdapterCallback.onIncomeProduct(items.get(getAdapterPosition())));
             tvMore.setOnClickListener(view1 -> onVendorAdapterCallback.onMore(items.get(getAdapterPosition())));

@@ -27,6 +27,7 @@ import com.jim.multipos.data.db.model.unit.SubUnitsList;
 import com.jim.multipos.data.db.model.unit.Unit;
 import com.jim.multipos.data.db.model.unit.UnitCategory;
 import com.jim.multipos.data.operations.AccountOperations;
+import com.jim.multipos.data.operations.BillingTransactionOperations;
 import com.jim.multipos.data.operations.PaymentOperations;
 import com.jim.multipos.data.operations.CategoryOperations;
 import com.jim.multipos.data.operations.ConsignmentOperations;
@@ -59,12 +60,14 @@ import java.util.List;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 
+import static com.jim.multipos.data.db.model.consignment.Consignment.INCOME_CONSIGNMENT;
+
 /**
  * Created by Developer on 5/13/17.
  */
 
 public class DatabaseManager implements ContactOperations, CategoryOperations, ProductOperations, AccountOperations, CurrencyOperations, StockOperations, UnitCategoryOperations, UnitOperations, PaymentTypeOperations, ServiceFeeOperations, ProductClassOperations, CustomerOperations, CustomerGroupOperations, SubUnitOperations, JoinCustomerGroupWithCustomerOperations, DiscountOperations,
-        VendorOperations, SearchOperations, ConsignmentOperations, InventoryOperations, VendorItemManagmentOperations, PaymentOperations {
+        VendorOperations, SearchOperations, ConsignmentOperations, InventoryOperations, VendorItemManagmentOperations, PaymentOperations, BillingTransactionOperations {
     private Context context;
     private PreferencesHelper preferencesHelper;
     private DbHelper dbHelper;
@@ -348,7 +351,7 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
-    public Single<Currency> getMainCurrency() {
+    public Currency getMainCurrency() {
         return dbHelper.getMainCurrency();
     }
 
@@ -853,6 +856,16 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Single<BillingOperations> getBillingOperationsById(Long firstPayId) {
         return dbHelper.getBillingOperationsById(firstPayId);
+    }
+
+    @Override
+    public Single<List<BillingOperations>> getBillingOperationForVendor(Long vendorId) {
+        return dbHelper.getBillingOperationForVendor(vendorId);
+    }
+
+    @Override
+    public Single<Double> getVendorDebt(Long vendorId) {
+        return dbHelper.getVendorDebt(vendorId);
     }
 }
 

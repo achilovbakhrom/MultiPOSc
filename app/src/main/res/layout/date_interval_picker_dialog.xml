@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00ffffff"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="@dimen/nine_hundred_thirty_dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_edit_text_bg"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/fifty_dp"
+            android:background="@drawable/rounded_blue_bg">
+
+            <TextView
+                android:id="@+id/tvDialogTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:paddingLeft="@dimen/thirty_dp"
+                android:text="Date Interval"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/twenty_dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/forty_dp"
+            android:orientation="horizontal"
+            android:background="#fff">
+
+        </LinearLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="#e8e8e8"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/three_hundred_thirty_dp"
+            android:background="#f9f9f9"
+            android:orientation="horizontal"
+            >
+            <FrameLayout
+                android:layout_width="@dimen/three_hundred_ten_dp"
+                android:layout_marginLeft="@dimen/thirty_dp"
+                android:layout_height="match_parent"/>
+            <FrameLayout
+                android:layout_width="@dimen/three_hundred_ten_dp"
+                android:layout_marginLeft="@dimen/ten_dp"
+                android:layout_marginRight="@dimen/forty_dp"
+                android:layout_height="match_parent"/>
+            <LinearLayout
+                android:layout_width="@dimen/two_hundred_dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/forty_dp"
+                android:orientation="vertical">
+                <com.jim.mpviews.MpButtonLong
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/forty_five_dp"
+                    android:text="Today"
+                    android:textSize="@dimen/fourteen_dp"
+                    android:gravity="start"
+                    android:textColor="#3e97cf"
+                    android:layout_marginTop="@dimen/ten_dp"
+                    />
+                <com.jim.mpviews.MpButtonLong
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/forty_five_dp"
+                    android:text="Yesterday"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:textSize="@dimen/fourteen_dp"
+                    android:gravity="start"
+                    android:textColor="#3e97cf"
+                    />
+                <com.jim.mpviews.MpButtonLong
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/forty_five_dp"
+                    android:text="Last 7 days"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:textSize="@dimen/fourteen_dp"
+                    android:gravity="start"
+                    android:textColor="#3e97cf"
+                    />
+                <com.jim.mpviews.MpButtonLong
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/forty_five_dp"
+                    android:text="Last 30 days"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:textSize="@dimen/fourteen_dp"
+                    android:gravity="start"
+                    android:textColor="#3e97cf"
+                    />
+                <com.jim.mpviews.MpButtonLong
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/forty_five_dp"
+                    android:text="This month"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:textSize="@dimen/fourteen_dp"
+                    android:gravity="start"
+                    android:textColor="#3e97cf"
+                    />
+                <com.jim.mpviews.MpButtonLong
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/forty_five_dp"
+                    android:text="Last Year"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:textSize="@dimen/fourteen_dp"
+                    android:gravity="start"
+                    android:textColor="#3e97cf"
+                    />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="#e8e8e8"/>
+
+
+
+
+        <LinearLayout
+            android:id="@+id/llBtnContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:layout_marginTop="@dimen/sixteen_dp"
+            android:layout_marginRight="@dimen/thirty_dp"
+            android:layout_marginBottom="@dimen/sixteen_dp"
+            android:orientation="horizontal">
+
+            <com.jim.mpviews.MpButton
+                android:id="@+id/btnWarningNO"
+                android:layout_width="@dimen/hundred_fifty_dp"
+                android:layout_height="@dimen/fifty_four_dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/back"
+                android:layout_marginRight="@dimen/fifteen_dp"
+                android:textColor="#c7c7c7"
+                android:textSize="@dimen/fourteen_dp"
+                android:textStyle="bold" />
+
+            <com.jim.mpviews.MpButton
+                android:id="@+id/btnWarningYES"
+                android:layout_width="@dimen/hundred_fifty_dp"
+                android:layout_height="@dimen/fifty_four_dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/confirm"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/fourteen_dp"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</LinearLayout>

@@ -1,14 +1,22 @@
 package com.jim.multipos.ui.vendor_item_managment.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
+import com.jim.multipos.data.db.model.inventory.BillingOperations;
+import com.jim.multipos.ui.billing_vendor.BillingOperationsActivity;
+import com.jim.multipos.ui.billing_vendor.fragments.BillingOperationFragment;
+import com.jim.multipos.ui.inventory.fragments.InventoryFragment;
+import com.jim.multipos.ui.inventory.presenter.InventoryPresenter;
+import com.jim.multipos.ui.vendor.add_edit.adapter.VendorsListAdapter;
 import com.jim.multipos.ui.vendor_item_managment.VendorItemsActivity;
 import com.jim.multipos.ui.vendor_item_managment.adapters.VendorItemAdapter;
 import com.jim.multipos.ui.vendor_item_managment.model.VendorWithDebt;
@@ -90,8 +98,8 @@ public class VendorItemFragment extends BaseFragment implements VendorItemView{
             }
 
             @Override
-            public void onPayStory(VendorWithDebt vendorWithDebt) {
-                presenter.onPayStory(vendorWithDebt);
+            public void onPayStory(VendorWithDebt vendorWithDebt,Double debt) {
+                presenter.onPayStory(vendorWithDebt,debt);
             }
 
             @Override
@@ -189,6 +197,14 @@ public class VendorItemFragment extends BaseFragment implements VendorItemView{
     @Override
     public void openVendorConsignmentsStory(Long vendorId) {
         ((VendorItemsActivity) getActivity()).openVendorConsignmentStory(vendorId);
+    }
+
+    @Override
+    public void openVendorBillingStory(Long vendorId,Double totaldebt) {
+        Intent intent = new Intent(getActivity(), BillingOperationsActivity.class);
+        intent.putExtra(BillingOperationsActivity.VENDOR_EXTRA_ID,vendorId);
+        intent.putExtra(BillingOperationsActivity.VENDOR_DEBT,totaldebt);
+        getActivity().startActivity(intent);
     }
 
 

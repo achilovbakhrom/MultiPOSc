@@ -80,7 +80,9 @@
 
         </activity>
 
-        <activity android:name=".ui.vendor_products_view.VendorProductsViewActivity" />
+        <activity android:name=".ui.vendor_products_view.VendorProductsViewActivity" >
+
+        </activity>
         <activity android:name=".ui.vendor_item_managment.VendorItemsActivity">
 
         </activity>

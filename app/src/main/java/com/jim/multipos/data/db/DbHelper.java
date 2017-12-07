@@ -92,7 +92,6 @@ public interface DbHelper {
     Observable<Boolean> deleteCurrency(Currency currency);
     Observable<Boolean> deleteAllCurrencies();
     Observable<List<Currency>> getAllCurrencies();
-    Single<Currency> getMainCurrency();
     Observable<Long> insertUnitCategory(UnitCategory category);
     Observable<Boolean> insertUnitCategories(List<UnitCategory> categoryList);
     Observable<List<UnitCategory>> getAllUnitCategories();
@@ -183,6 +182,7 @@ public interface DbHelper {
     Single<Consignment> getConsignmentById(Long consignmentId);
 
     Single<List<VendorWithDebt>> getVendorWirhDebt();
+    Single<Double> getVendorDebt(Long vendorId);
 
     Single<Long> insertWarehouseOperation(WarehouseOperations warehouseOperations);
     Single<WarehouseOperations> getWarehouseOperationById(Long warehouseId);
@@ -199,4 +199,6 @@ public interface DbHelper {
 
     Observable<Boolean> removeProductFromInventoryState(Long productId);
     Observable<List<InventoryState>> getInventoryStatesByVendorId(Long vendorId);
+    Currency getMainCurrency();
+    Single<List<BillingOperations>> getBillingOperationForVendor(Long vendorId);
 }

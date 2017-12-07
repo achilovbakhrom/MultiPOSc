@@ -141,7 +141,7 @@
                     android:layout_height="@dimen/thirty_five_dp"
                     android:layout_gravity="center"
                     android:adjustViewBounds="true"
-                    android:src="@drawable/currency_btn"
+                    android:src="@drawable/currency_btn_mini"
                     />
                 <ImageView
                     android:id="@+id/ivPaymentsStory"

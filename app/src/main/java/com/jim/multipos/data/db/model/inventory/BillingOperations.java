@@ -27,6 +27,7 @@ public class BillingOperations implements Editable {
     public static final int DEBT_CONSIGNMENT = 100;
     public static final int PAID_TO_CONSIGNMENT = 101;
     public static final int RETURN_TO_VENDOR = 102;
+    public static final int TAKE_MONEY = 114;
 
     @Id(autoincrement = true)
     private Long id;
@@ -47,139 +48,33 @@ public class BillingOperations implements Editable {
     private boolean isDeleted = false;
     private boolean isNotModified = true;
     private Long rootId;
-    /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
-     * Entity must attached to an entity context.
-     */
-    @Generated(hash = 1942392019)
-    public void refresh() {
-        if (myDao == null) {
-            throw new DaoException("Entity is detached from DAO context");
-        }
-        myDao.refresh(this);
-    }
-    /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
-     * Entity must attached to an entity context.
-     */
-    @Generated(hash = 713229351)
-    public void update() {
-        if (myDao == null) {
-            throw new DaoException("Entity is detached from DAO context");
-        }
-        myDao.update(this);
-    }
-    /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
-     * Entity must attached to an entity context.
-     */
-    @Generated(hash = 128553479)
-    public void delete() {
-        if (myDao == null) {
-            throw new DaoException("Entity is detached from DAO context");
-        }
-        myDao.delete(this);
-    }
-    /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 929152524)
-    public void setConsignment(Consignment consignment) {
-        synchronized (this) {
-            this.consignment = consignment;
-            consignmentId = consignment == null ? null : consignment.getId();
-            consignment__resolvedKey = consignmentId;
-        }
-    }
-    /** To-one relationship, resolved on first access. */
-    @Generated(hash = 330853767)
-    public Consignment getConsignment() {
-        Long __key = this.consignmentId;
-        if (consignment__resolvedKey == null
-                || !consignment__resolvedKey.equals(__key)) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            ConsignmentDao targetDao = daoSession.getConsignmentDao();
-            Consignment consignmentNew = targetDao.load(__key);
-            synchronized (this) {
-                consignment = consignmentNew;
-                consignment__resolvedKey = __key;
-            }
-        }
-        return consignment;
-    }
+    private long paymentDate;
     @Generated(hash = 1986436088)
     private transient Long consignment__resolvedKey;
-    /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 332557200)
-    public void setVendor(Vendor vendor) {
-        synchronized (this) {
-            this.vendor = vendor;
-            vendorId = vendor == null ? null : vendor.getId();
-            vendor__resolvedKey = vendorId;
-        }
-    }
-    /** To-one relationship, resolved on first access. */
-    @Generated(hash = 1192552702)
-    public Vendor getVendor() {
-        Long __key = this.vendorId;
-        if (vendor__resolvedKey == null || !vendor__resolvedKey.equals(__key)) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            VendorDao targetDao = daoSession.getVendorDao();
-            Vendor vendorNew = targetDao.load(__key);
-            synchronized (this) {
-                vendor = vendorNew;
-                vendor__resolvedKey = __key;
-            }
-        }
-        return vendor;
-    }
     @Generated(hash = 1022035388)
     private transient Long vendor__resolvedKey;
-    /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 1910176546)
-    public void setAccount(Account account) {
-        synchronized (this) {
-            this.account = account;
-            accountId = account == null ? null : account.getId();
-            account__resolvedKey = accountId;
-        }
-    }
-    /** To-one relationship, resolved on first access. */
-    @Generated(hash = 531730087)
-    public Account getAccount() {
-        Long __key = this.accountId;
-        if (account__resolvedKey == null || !account__resolvedKey.equals(__key)) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            AccountDao targetDao = daoSession.getAccountDao();
-            Account accountNew = targetDao.load(__key);
-            synchronized (this) {
-                account = accountNew;
-                account__resolvedKey = __key;
-            }
-        }
-        return account;
-    }
     @Generated(hash = 1501133588)
     private transient Long account__resolvedKey;
-    /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 1885474104)
-    public void __setDaoSession(DaoSession daoSession) {
-        this.daoSession = daoSession;
-        myDao = daoSession != null ? daoSession.getBillingOperationsDao() : null;
-    }
     /** Used for active entity operations. */
     @Generated(hash = 862952958)
     private transient BillingOperationsDao myDao;
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
+
+    public Long getPaymentDate() {
+        return paymentDate;
+    }
+
+    public void setPaymentDate(long paymentDate) {
+        this.paymentDate = paymentDate;
+    }
+
+    /**
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
+     * Entity must attached to an entity context.
+     */
+
     public String getDescription() {
         return this.description;
     }
@@ -192,7 +87,7 @@ public class BillingOperations implements Editable {
     public void setCreateAt(long createAt) {
         this.createAt = createAt;
     }
-    public double getAmount() {
+    public Double getAmount() {
         return this.amount;
     }
     public void setAmount(double amount) {
@@ -297,10 +192,130 @@ public class BillingOperations implements Editable {
     public void setIsActive(boolean isActive) {
         this.isActive = isActive;
     }
-    @Generated(hash = 981093375)
-    public BillingOperations(Long id, Long accountId, Long vendorId, Long consignmentId,
-            double amount, long createAt, int operationType, String description,
-            boolean isActive, boolean isDeleted, boolean isNotModified, Long rootId) {
+    /**
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
+     * Entity must attached to an entity context.
+     */
+    @Generated(hash = 1942392019)
+    public void refresh() {
+        if (myDao == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        myDao.refresh(this);
+    }
+    /**
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
+     * Entity must attached to an entity context.
+     */
+    @Generated(hash = 713229351)
+    public void update() {
+        if (myDao == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        myDao.update(this);
+    }
+    /**
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
+     * Entity must attached to an entity context.
+     */
+    @Generated(hash = 128553479)
+    public void delete() {
+        if (myDao == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        myDao.delete(this);
+    }
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 929152524)
+    public void setConsignment(Consignment consignment) {
+        synchronized (this) {
+            this.consignment = consignment;
+            consignmentId = consignment == null ? null : consignment.getId();
+            consignment__resolvedKey = consignmentId;
+        }
+    }
+    /** To-one relationship, resolved on first access. */
+    @Generated(hash = 330853767)
+    public Consignment getConsignment() {
+        Long __key = this.consignmentId;
+        if (consignment__resolvedKey == null || !consignment__resolvedKey.equals(__key)) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            ConsignmentDao targetDao = daoSession.getConsignmentDao();
+            Consignment consignmentNew = targetDao.load(__key);
+            synchronized (this) {
+                consignment = consignmentNew;
+                consignment__resolvedKey = __key;
+            }
+        }
+        return consignment;
+    }
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 332557200)
+    public void setVendor(Vendor vendor) {
+        synchronized (this) {
+            this.vendor = vendor;
+            vendorId = vendor == null ? null : vendor.getId();
+            vendor__resolvedKey = vendorId;
+        }
+    }
+    /** To-one relationship, resolved on first access. */
+    @Generated(hash = 1192552702)
+    public Vendor getVendor() {
+        Long __key = this.vendorId;
+        if (vendor__resolvedKey == null || !vendor__resolvedKey.equals(__key)) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            VendorDao targetDao = daoSession.getVendorDao();
+            Vendor vendorNew = targetDao.load(__key);
+            synchronized (this) {
+                vendor = vendorNew;
+                vendor__resolvedKey = __key;
+            }
+        }
+        return vendor;
+    }
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 1910176546)
+    public void setAccount(Account account) {
+        synchronized (this) {
+            this.account = account;
+            accountId = account == null ? null : account.getId();
+            account__resolvedKey = accountId;
+        }
+    }
+    /** To-one relationship, resolved on first access. */
+    @Generated(hash = 531730087)
+    public Account getAccount() {
+        Long __key = this.accountId;
+        if (account__resolvedKey == null || !account__resolvedKey.equals(__key)) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            AccountDao targetDao = daoSession.getAccountDao();
+            Account accountNew = targetDao.load(__key);
+            synchronized (this) {
+                account = accountNew;
+                account__resolvedKey = __key;
+            }
+        }
+        return account;
+    }
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 1885474104)
+    public void __setDaoSession(DaoSession daoSession) {
+        this.daoSession = daoSession;
+        myDao = daoSession != null ? daoSession.getBillingOperationsDao() : null;
+    }
+    @Generated(hash = 1901818654)
+    public BillingOperations(Long id, Long accountId, Long vendorId, Long consignmentId, double amount,
+            long createAt, int operationType, String description, boolean isActive, boolean isDeleted,
+            boolean isNotModified, Long rootId, long paymentDate) {
         this.id = id;
         this.accountId = accountId;
         this.vendorId = vendorId;
@@ -313,9 +328,12 @@ public class BillingOperations implements Editable {
         this.isDeleted = isDeleted;
         this.isNotModified = isNotModified;
         this.rootId = rootId;
+        this.paymentDate = paymentDate;
     }
+
     @Generated(hash = 1327934834)
     public BillingOperations() {
     }
+
 }
 

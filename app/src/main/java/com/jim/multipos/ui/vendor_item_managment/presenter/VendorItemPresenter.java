@@ -15,7 +15,7 @@ public interface VendorItemPresenter extends Presenter {
     void onWriteOff(VendorWithDebt vendorWithDebt);
     void onConsigmentStory(VendorWithDebt vendorWithDebt);
     void onPay(VendorWithDebt vendorWithDebt);
-    void onPayStory(VendorWithDebt vendorWithDebt);
+    void onPayStory(VendorWithDebt vendorWithDebt,Double totalDebt);
     void onMore(VendorWithDebt vendorWithDebt);
 
     void onSearchTyped(String searchText);

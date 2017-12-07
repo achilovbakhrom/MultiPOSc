@@ -530,10 +530,19 @@
     <string name="set_quantity">Set quantity</string>
     <string name="choose_vendor_dialog">Choose vendor</string>
     <string name="choose_for_product">Choose for product</string>
+    <string name="consigment_income">Consigment Income</string>
+    <string name="consigment_return">Consigment Return</string>
+    <string name="payment_vendor">Payment to Vendor</string>
+    <string name="take_money_vendor">Take Debt from Vendor</string>
+    <string name="pay">Pay</string>
+    <string name="ammount_is_empty">Ammount is empty</string>
+    <string name="ammount_cant_be_zero">Ammount can\'t be zero</string>
+    <string name="overpaid">Overpaid: </string>
+    <string name="debt">Debt: </string>
     <string name="cannot_be_empty">This value cannot be empty</string>
     <string name="vendor_details">Vendor details</string>
     <string name="state_details">State details</string>
-    <string name="debt">Debt:</string>
+
     <string name="payed_in_this_month">Payed in this month:</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>

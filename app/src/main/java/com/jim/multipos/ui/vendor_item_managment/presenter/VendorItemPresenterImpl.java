@@ -79,8 +79,8 @@ public class VendorItemPresenterImpl extends BasePresenterImpl<VendorItemView> i
     }
 
     @Override
-    public void onPayStory(VendorWithDebt vendorWithDebt) {
-
+    public void onPayStory(VendorWithDebt vendorWithDebt,Double totalDebt) {
+        view.openVendorBillingStory(vendorWithDebt.getVendor().getId(),totalDebt);
     }
 
     @Override
