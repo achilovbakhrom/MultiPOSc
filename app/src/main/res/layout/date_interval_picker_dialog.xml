@@ -50,15 +50,17 @@
             android:background="#f9f9f9"
             android:orientation="horizontal"
             >
-            <FrameLayout
+            <com.jim.mpviews.MpCalendarIntervView
                 android:layout_width="@dimen/three_hundred_ten_dp"
                 android:layout_marginLeft="@dimen/thirty_dp"
-                android:layout_height="match_parent"/>
-            <FrameLayout
+                android:layout_marginTop="@dimen/ten_dp"
+                android:layout_height="@dimen/three_hundred_ten_dp"/>
+            <com.jim.mpviews.MpCalendarIntervView
                 android:layout_width="@dimen/three_hundred_ten_dp"
                 android:layout_marginLeft="@dimen/ten_dp"
+                android:layout_marginTop="@dimen/ten_dp"
                 android:layout_marginRight="@dimen/forty_dp"
-                android:layout_height="match_parent"/>
+                android:layout_height="@dimen/three_hundred_ten_dp"/>
             <LinearLayout
                 android:layout_width="@dimen/two_hundred_dp"
                 android:layout_height="match_parent"
