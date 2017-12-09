@@ -41,6 +41,10 @@ public class VendorAddEditPresenterImpl extends BasePresenterImpl<VendorAddEditV
     @Getter
     private List<Contact> contacts;
 
+    public static final String VENDOR_ADD = "VENDOR_ADD";
+    public static final String VENDOR_UPDATE = "VENDOR_UPDATE";
+    public static final String VENDOR_DELETE = "VENDOR_DELETE";
+
     @Inject
     VendorAddEditPresenterImpl(VendorAddEditView vendorAddEditView, DatabaseManager databaseManager,
                                @Named("contact_types") String[] contactTypes) {
@@ -52,7 +56,7 @@ public class VendorAddEditPresenterImpl extends BasePresenterImpl<VendorAddEditV
     }
 
     @Override
-    public void addVendor(String name, String contactName, String address, boolean isActive) {
+    public void addVendor(String name, String contactName, String address, String photoSelected, boolean isActive) {
         Vendor vendor;
         switch (mode) {
             case ADD:
@@ -60,12 +64,14 @@ public class VendorAddEditPresenterImpl extends BasePresenterImpl<VendorAddEditV
                 vendor.setName(name);
                 vendor.setContactName(contactName);
                 vendor.setAddress(address);
+                vendor.setPhotoPath(photoSelected);
                 vendor.setActive(isActive);
                 databaseManager.addVendor(vendor).subscribe(id -> {
                     for (Contact contact : contacts) {
                         contact.setVendorId(id);
                         databaseManager.addContact(contact).subscribe(contactId -> Log.d("sss", "addVendor: " + contactId));
                     }
+                    view.sendEvent(VENDOR_ADD, vendorId);
                 });
                 break;
             case EDIT:
@@ -75,12 +81,14 @@ public class VendorAddEditPresenterImpl extends BasePresenterImpl<VendorAddEditV
                 vendor.setContactName(contactName);
                 vendor.setAddress(address);
                 vendor.setActive(isActive);
+                vendor.setPhotoPath(photoSelected);
                 databaseManager.addVendor(vendor).subscribe(id -> {
                     for (Contact contact : contacts) {
                         contact.setVendorId(id);
                         databaseManager.addContact(contact).subscribe(contactId -> Log.d("sss", "addVendor: " + contactId));
                     }
                     databaseManager.updateContacts(id, contacts);
+                    view.sendEvent(VENDOR_UPDATE, vendorId);
                 });
                 break;
         }
@@ -197,6 +205,7 @@ public class VendorAddEditPresenterImpl extends BasePresenterImpl<VendorAddEditV
             databaseManager.deleteVendor(vendorId).subscribe(isDeleted -> {
                 if (isDeleted) {
                     view.refreshVendorsList();
+                    view.sendEvent(VENDOR_DELETE, vendorId);
                 }
             });
         }
@@ -217,4 +226,5 @@ public class VendorAddEditPresenterImpl extends BasePresenterImpl<VendorAddEditV
         else
             return databaseManager.getVendorById(vendorId).blockingSingle();
     }
+
 }

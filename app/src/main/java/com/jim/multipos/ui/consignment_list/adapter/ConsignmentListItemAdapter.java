@@ -80,7 +80,7 @@ public class ConsignmentListItemAdapter extends RecyclerView.Adapter<Consignment
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onBindViewHolder(ConsignmentListViewHolder holder, int position) {
-        SimpleDateFormat formatter = new SimpleDateFormat("hh:mm MM/dd/yyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm dd/MM/yyyy");
         Consignment consignment = items.get(position);
         List<ConsignmentProduct> productList = consignment.getAllConsignmentProducts();
         if (position % 2 == 0)

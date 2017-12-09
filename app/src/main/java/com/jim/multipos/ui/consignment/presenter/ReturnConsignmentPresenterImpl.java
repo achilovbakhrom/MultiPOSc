@@ -38,6 +38,8 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
     private double sum = 0;
     private BillingOperations debt;
     private List<ConsignmentProduct> deletedProductsList;
+    private String number;
+    private String description;
 
     @Inject
     protected ReturnConsignmentPresenterImpl(ReturnConsignmentView view, DatabaseManager databaseManager) {
@@ -133,6 +135,8 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
 
     @Override
     public void saveReturnConsignment(String number, String description) {
+        this.number = number;
+        this.description = description;
         if (consignmentProductList.isEmpty()) {
             view.setError();
         } else {
@@ -151,6 +155,7 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
                 operationDebt.setVendor(this.vendor);
                 operationDebt.setNotModifyted(true);
                 operationDebt.setDeleted(false);
+                operationDebt.setPaymentDate(System.currentTimeMillis());
                 operationDebt.setOperationType(BillingOperations.RETURN_TO_VENDOR);
                 billingOperationsList.add(operationDebt);
                 List<WarehouseOperations> warehouseOperationsList = new ArrayList<>();
@@ -164,119 +169,137 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
                     warehouseOperationsList.add(warehouseOperations);
                 }
                 databaseManager.insertConsignment(this.returnConsignment, billingOperationsList, consignmentProductList, warehouseOperationsList).subscribe();
-                view.closeFragment();
+                view.closeFragment(this.vendor.getId());
             } else {
-                Consignment consignmentNew = new Consignment();
-                consignmentNew.setConsignmentNumber(number);
-                consignmentNew.setCreatedDate(System.currentTimeMillis());
-                consignmentNew.setDescription(description);
-                consignmentNew.setTotalAmount(sum);
-                consignmentNew.setVendor(this.vendor);
-                consignmentNew.setConsignmentType(Consignment.RETURN_CONSIGNMENT);
-                if (this.returnConsignment.getRootId() == null)
-                    consignmentNew.setRootId(this.returnConsignment.getId());
-                else consignmentNew.setRootId(this.returnConsignment.getRootId());
-                this.returnConsignment.setIsNotModified(false);
-                List<BillingOperations> billingOperationsList = new ArrayList<>();
-                BillingOperations debtOperation = new BillingOperations();
-                debtOperation.setAmount(sum * -1);
-                debtOperation.setCreateAt(System.currentTimeMillis());
-                debtOperation.setVendor(this.vendor);
-                debtOperation.setOperationType(BillingOperations.DEBT_CONSIGNMENT);
-                if (debt.getRootId() != null)
-                    debtOperation.setRootId(debt.getRootId());
-                else debtOperation.setRootId(debt.getId());
-                billingOperationsList.add(debtOperation);
-                debt.setNotModifyted(false);
-                databaseManager.insertBillingOperation(debt).blockingGet();
-                if (deletedProductsList.size() != 0) {
-                    for (ConsignmentProduct consignmentProduct : deletedProductsList) {
-                        consignmentProduct.setDeleted(true);
-                        WarehouseOperations warehouseOperations = databaseManager.getWarehouseOperationById(consignmentProduct.getWarehouseId()).blockingGet();
-                        warehouseOperations.setDeleted(true);
-                        databaseManager.insertConsignmentProduct(consignmentProduct).blockingSingle();
-                        databaseManager.replaceWarehouseOperation(warehouseOperations).blockingGet();
-                    }
-                }
-                List<ConsignmentProduct> newConsignmentProductList = new ArrayList<>();
-                List<WarehouseOperations> warehouseOperationsList = new ArrayList<>();
-                for (int i = 0; i < consignmentProductList.size(); i++) {
-                    ConsignmentProduct product = consignmentProductList.get(i);
-                    if (ids.contains(consignmentProductList.get(i).getId())) {
-                        for (int j = 0; j < tempProductList.size(); j++) {
-                            if (tempProductList.get(j).getId().equals(consignmentProductList.get(i).getId())) {
-                                if (tempProductList.get(j).getCount() != (product.getCountValue())) {
-                                    ConsignmentProduct consignmentProduct = new ConsignmentProduct();
-                                    consignmentProduct.setCostValue(product.getCostValue());
-                                    consignmentProduct.setCountValue(product.getCountValue());
-                                    consignmentProduct.setProduct(product.getProduct());
-                                    consignmentProduct.setCreatedDate(System.currentTimeMillis());
-                                    if (product.getRootId() != null)
-                                        consignmentProduct.setRootId(product.getRootId());
-                                    else consignmentProduct.setRootId(product.getId());
-                                    product.setNotModifyted(false);
-                                    product.setCountValue(tempProductList.get(j).getCount());
-                                    product.setCostValue(tempProductList.get(j).getCost());
-                                    WarehouseOperations warehouseOperations = databaseManager.getWarehouseOperationById(product.getWarehouseId()).blockingGet();
-                                    warehouseOperations.setNotModifyted(true);
-                                    WarehouseOperations newOperation = new WarehouseOperations();
-                                    newOperation.setValue(consignmentProduct.getCountValue());
-                                    newOperation.setType(WarehouseOperations.INCOME_FROM_VENDOR);
-                                    newOperation.setCreateAt(System.currentTimeMillis());
-                                    newOperation.setVendor(this.vendor);
-                                    newOperation.setProduct(consignmentProduct.getProduct());
-                                    if (warehouseOperations.getRootId() != null) {
-                                        newOperation.setRootId(warehouseOperations.getRootId());
-                                    } else newOperation.setRootId(warehouseOperations.getId());
-                                    warehouseOperationsList.add(newOperation);
-                                    newConsignmentProductList.add(consignmentProduct);
-                                    databaseManager.insertConsignmentProduct(product).blockingSingle();
-                                    databaseManager.replaceWarehouseOperation(warehouseOperations).blockingGet();
-                                } else if (tempProductList.get(j).getCost() != (product.getCostValue())) {
-                                    ConsignmentProduct consignmentProduct = new ConsignmentProduct();
-                                    consignmentProduct.setCostValue(product.getCostValue());
-                                    consignmentProduct.setCountValue(product.getCountValue());
-                                    consignmentProduct.setProduct(product.getProduct());
-                                    consignmentProduct.setCreatedDate(System.currentTimeMillis());
-                                    if (product.getRootId() != null)
-                                        consignmentProduct.setRootId(product.getRootId());
-                                    else consignmentProduct.setRootId(product.getId());
-                                    product.setNotModifyted(false);
-                                    databaseManager.insertConsignmentProduct(product).blockingSingle();
-                                    WarehouseOperations warehouseOperations = databaseManager.getWarehouseOperationById(product.getWarehouseId()).blockingGet();
-                                    consignmentProduct.setWarehouseId(warehouseOperations.getId());
-                                    consignmentProduct.setWarehouse(warehouseOperations);
-                                    newConsignmentProductList.add(consignmentProduct);
-                                    warehouseOperationsList.add(null);
-                                } else {
-                                    newConsignmentProductList.add(product);
-                                    warehouseOperationsList.add(null);
-                                }
-                                break;
-                            }
-                        }
-                    } else {
-                        newConsignmentProductList.add(product);
-                        WarehouseOperations newOperation = new WarehouseOperations();
-                        newOperation.setValue(product.getCountValue());
-                        newOperation.setType(WarehouseOperations.INCOME_FROM_VENDOR);
-                        newOperation.setCreateAt(System.currentTimeMillis());
-                        newOperation.setVendor(this.vendor);
-                        newOperation.setProduct(product.getProduct());
-                        warehouseOperationsList.add(newOperation);
-                    }
-                }
-                databaseManager.insertConsignment(this.returnConsignment, null, null, null).blockingGet();
-                databaseManager.insertConsignment(consignmentNew, billingOperationsList, newConsignmentProductList, warehouseOperationsList).subscribe();
-                view.closeFragment();
+                view.openSaveChangesDialog();
             }
         }
     }
 
     @Override
     public void checkChanges(String number, String des) {
-        if (!number.equals("") || !des.equals("") || consignmentProductList.size() != 0) {
-            view.openDiscardDialog();
-        } else view.closeFragment();
+        int count = 0;
+        if (!number.equals("") || !des.equals("")) {
+            if (ids.size() != consignmentProductList.size()) {
+                view.openDiscardDialog();
+            } else {
+                for (int i = 0; i < consignmentProductList.size(); i++) {
+                    if (ids.contains(consignmentProductList.get(i).getId())) {
+                        count++;
+                    }
+                }
+                if (count != ids.size()) {
+                    view.openDiscardDialog();
+                } else view.closeFragment(this.vendor.getId());
+            }
+        } else view.closeFragment(this.vendor.getId());
+    }
+
+    @Override
+    public void saveChanges() {
+        Consignment consignmentNew = new Consignment();
+        consignmentNew.setConsignmentNumber(number);
+        consignmentNew.setCreatedDate(System.currentTimeMillis());
+        consignmentNew.setDescription(description);
+        consignmentNew.setTotalAmount(sum);
+        consignmentNew.setVendor(this.vendor);
+        consignmentNew.setConsignmentType(Consignment.RETURN_CONSIGNMENT);
+        if (this.returnConsignment.getRootId() == null)
+            consignmentNew.setRootId(this.returnConsignment.getId());
+        else consignmentNew.setRootId(this.returnConsignment.getRootId());
+        this.returnConsignment.setIsNotModified(false);
+        List<BillingOperations> billingOperationsList = new ArrayList<>();
+        BillingOperations debtOperation = new BillingOperations();
+        debtOperation.setAmount(sum * -1);
+        debtOperation.setCreateAt(System.currentTimeMillis());
+        debtOperation.setVendor(this.vendor);
+        debtOperation.setPaymentDate(debt.getPaymentDate());
+        debtOperation.setOperationType(BillingOperations.DEBT_CONSIGNMENT);
+        if (debt.getRootId() != null)
+            debtOperation.setRootId(debt.getRootId());
+        else debtOperation.setRootId(debt.getId());
+        billingOperationsList.add(debtOperation);
+        debt.setNotModifyted(false);
+        databaseManager.insertBillingOperation(debt).blockingGet();
+        if (deletedProductsList.size() != 0) {
+            for (ConsignmentProduct consignmentProduct : deletedProductsList) {
+                consignmentProduct.setDeleted(true);
+                WarehouseOperations warehouseOperations = databaseManager.getWarehouseOperationById(consignmentProduct.getWarehouseId()).blockingGet();
+                warehouseOperations.setDeleted(true);
+                databaseManager.insertConsignmentProduct(consignmentProduct).blockingSingle();
+                databaseManager.replaceWarehouseOperation(warehouseOperations).blockingGet();
+            }
+        }
+        List<ConsignmentProduct> newConsignmentProductList = new ArrayList<>();
+        List<WarehouseOperations> warehouseOperationsList = new ArrayList<>();
+        for (int i = 0; i < consignmentProductList.size(); i++) {
+            ConsignmentProduct product = consignmentProductList.get(i);
+            if (ids.contains(consignmentProductList.get(i).getId())) {
+                for (int j = 0; j < tempProductList.size(); j++) {
+                    if (tempProductList.get(j).getId().equals(consignmentProductList.get(i).getId())) {
+                        if (tempProductList.get(j).getCount() != (product.getCountValue())) {
+                            ConsignmentProduct consignmentProduct = new ConsignmentProduct();
+                            consignmentProduct.setCostValue(product.getCostValue());
+                            consignmentProduct.setCountValue(product.getCountValue());
+                            consignmentProduct.setProduct(product.getProduct());
+                            consignmentProduct.setCreatedDate(System.currentTimeMillis());
+                            if (product.getRootId() != null)
+                                consignmentProduct.setRootId(product.getRootId());
+                            else consignmentProduct.setRootId(product.getId());
+                            product.setNotModifyted(false);
+                            product.setCountValue(tempProductList.get(j).getCount());
+                            product.setCostValue(tempProductList.get(j).getCost());
+                            WarehouseOperations warehouseOperations = databaseManager.getWarehouseOperationById(product.getWarehouseId()).blockingGet();
+                            warehouseOperations.setNotModifyted(true);
+                            WarehouseOperations newOperation = new WarehouseOperations();
+                            newOperation.setValue(consignmentProduct.getCountValue());
+                            newOperation.setType(WarehouseOperations.INCOME_FROM_VENDOR);
+                            newOperation.setCreateAt(System.currentTimeMillis());
+                            newOperation.setVendor(this.vendor);
+                            newOperation.setProduct(consignmentProduct.getProduct());
+                            if (warehouseOperations.getRootId() != null) {
+                                newOperation.setRootId(warehouseOperations.getRootId());
+                            } else newOperation.setRootId(warehouseOperations.getId());
+                            warehouseOperationsList.add(newOperation);
+                            newConsignmentProductList.add(consignmentProduct);
+                            databaseManager.insertConsignmentProduct(product).blockingSingle();
+                            databaseManager.replaceWarehouseOperation(warehouseOperations).blockingGet();
+                        } else if (tempProductList.get(j).getCost() != (product.getCostValue())) {
+                            ConsignmentProduct consignmentProduct = new ConsignmentProduct();
+                            consignmentProduct.setCostValue(product.getCostValue());
+                            consignmentProduct.setCountValue(product.getCountValue());
+                            consignmentProduct.setProduct(product.getProduct());
+                            consignmentProduct.setCreatedDate(System.currentTimeMillis());
+                            if (product.getRootId() != null)
+                                consignmentProduct.setRootId(product.getRootId());
+                            else consignmentProduct.setRootId(product.getId());
+                            product.setNotModifyted(false);
+                            databaseManager.insertConsignmentProduct(product).blockingSingle();
+                            WarehouseOperations warehouseOperations = databaseManager.getWarehouseOperationById(product.getWarehouseId()).blockingGet();
+                            consignmentProduct.setWarehouseId(warehouseOperations.getId());
+                            consignmentProduct.setWarehouse(warehouseOperations);
+                            newConsignmentProductList.add(consignmentProduct);
+                            warehouseOperationsList.add(null);
+                        } else {
+                            newConsignmentProductList.add(product);
+                            warehouseOperationsList.add(null);
+                        }
+                        break;
+                    }
+                }
+            } else {
+                newConsignmentProductList.add(product);
+                WarehouseOperations newOperation = new WarehouseOperations();
+                newOperation.setValue(product.getCountValue());
+                newOperation.setType(WarehouseOperations.INCOME_FROM_VENDOR);
+                newOperation.setCreateAt(System.currentTimeMillis());
+                newOperation.setVendor(this.vendor);
+                newOperation.setProduct(product.getProduct());
+                warehouseOperationsList.add(newOperation);
+            }
+        }
+        databaseManager.insertConsignment(this.returnConsignment, null, null, null).blockingGet();
+        databaseManager.insertConsignment(consignmentNew, billingOperationsList, newConsignmentProductList, warehouseOperationsList).subscribe();
+        view.closeFragment(this.vendor.getId());
     }
 }

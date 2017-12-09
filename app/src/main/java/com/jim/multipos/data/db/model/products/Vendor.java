@@ -25,9 +25,10 @@ public class Vendor implements Editable, Serializable {
     private String name;
     private String contactName;
     private String address;
-    private Boolean isActive;
-    private Boolean isDeleted;
-    private Boolean isNotModified;
+    private String photoPath;
+    private Boolean isActive = true;
+    private Boolean isDeleted = false;
+    private Boolean isNotModified = true;
     private Long globalId;
     private Long rootId;
     private Long createdDate;
@@ -50,13 +51,14 @@ public class Vendor implements Editable, Serializable {
     private transient DaoSession daoSession;
 
 
-    @Generated(hash = 1854852822)
-    public Vendor(Long id, String name, String contactName, String address, Boolean isActive, Boolean isDeleted,
-            Boolean isNotModified, Long globalId, Long rootId, Long createdDate, Long productId) {
+    @Generated(hash = 1208099700)
+    public Vendor(Long id, String name, String contactName, String address, String photoPath, Boolean isActive,
+            Boolean isDeleted, Boolean isNotModified, Long globalId, Long rootId, Long createdDate, Long productId) {
         this.id = id;
         this.name = name;
         this.contactName = contactName;
         this.address = address;
+        this.photoPath = photoPath;
         this.isActive = isActive;
         this.isDeleted = isDeleted;
         this.isNotModified = isNotModified;
@@ -308,6 +310,14 @@ public class Vendor implements Editable, Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPhotoPath() {
+        return this.photoPath;
+    }
+
+    public void setPhotoPath(String photoPath) {
+        this.photoPath = photoPath;
     }
 
  }

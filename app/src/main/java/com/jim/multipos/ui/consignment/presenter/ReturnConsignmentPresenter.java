@@ -16,4 +16,5 @@ public interface ReturnConsignmentPresenter extends Presenter{
     void loadVendorProducts();
     void saveReturnConsignment(String number, String description);
     void checkChanges(String number, String des);
+    void saveChanges();
 }

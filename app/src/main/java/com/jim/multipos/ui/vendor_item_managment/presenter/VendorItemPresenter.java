@@ -21,4 +21,6 @@ public interface VendorItemPresenter extends Presenter {
     void onSearchTyped(String searchText);
     void filterBy(VendorItemFragment.SortModes searchMode);
     void filterInvert();
+
+    void updateData();
 }

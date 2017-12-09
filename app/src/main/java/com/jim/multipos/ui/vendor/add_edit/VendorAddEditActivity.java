@@ -11,13 +11,14 @@ import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.vendor.AddingMode;
 import com.jim.multipos.ui.vendor.add_edit.fragment.VendorAddEditFragment;
 import com.jim.multipos.ui.vendor.add_edit.fragment.VendorsListFragment;
+import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.UIUtils;
+import com.jim.multipos.utils.rxevents.MessageWithIdEvent;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import javax.inject.Inject;
 
 import lombok.Getter;
-
-import static com.jim.multipos.ui.inventory.InventoryActivity.VENDOR_ID;
 
 /**
  * Created by Achilov Bakhrom on 10/21/17.
@@ -31,6 +32,14 @@ public class VendorAddEditActivity extends DoubleSideActivity implements VendorA
     @Inject
     @Getter
     VendorAddEditPresenter presenter;
+
+    @Inject
+    @Getter
+    RxBus rxBus;
+
+    @Inject
+    @Getter
+    RxPermissions rxPermissions;
 
     @Override
     protected int getToolbarMode() {
@@ -54,8 +63,7 @@ public class VendorAddEditActivity extends DoubleSideActivity implements VendorA
             Long vendorId = bundle.getLong(VENDOR_ID);
             presenter.setMode(AddingMode.EDIT, vendorId);
             selectListItem(vendorId);
-        } else
-            presenter.setMode(AddingMode.ADD, null);
+        }
     }
 
     public void selectListItem(Long id) {
@@ -147,4 +155,10 @@ public class VendorAddEditActivity extends DoubleSideActivity implements VendorA
             ((VendorsListFragment) getCurrentFragmentRight()).changeSelectedPosition();
         }
     }
+
+    @Override
+    public void sendEvent(String state, Long vendorId) {
+        rxBus.send(new MessageWithIdEvent(vendorId, state));
+    }
+
 }

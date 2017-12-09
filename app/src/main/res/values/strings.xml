@@ -544,6 +544,7 @@
     <string name="state_details">State details</string>
 
     <string name="payed_in_this_month">Payed in this month:</string>
+    <string name="paid">Paid:</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>

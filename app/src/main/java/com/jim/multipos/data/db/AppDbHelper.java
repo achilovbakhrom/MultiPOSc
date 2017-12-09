@@ -1712,7 +1712,8 @@ public class AppDbHelper implements DbHelper {
     public Single<List<BillingOperations>> getBillingOperationForVendor(Long vendorId) {
         return Single.create(e -> {
             List<BillingOperations> billingOperations = mDaoSession.queryBuilder(BillingOperations.class)
-                    .where(BillingOperationsDao.Properties.VendorId.eq(vendorId))
+                    .where(BillingOperationsDao.Properties.VendorId.eq(vendorId),
+                            BillingOperationsDao.Properties.IsNotModified.eq(true))
                     .build().list();
             e.onSuccess(billingOperations);
         });

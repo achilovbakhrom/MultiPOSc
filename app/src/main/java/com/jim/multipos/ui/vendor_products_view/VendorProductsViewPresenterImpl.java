@@ -3,11 +3,14 @@ package com.jim.multipos.ui.vendor_products_view;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.ProductClass;
+import com.jim.multipos.data.db.model.currency.Currency;
+import com.jim.multipos.data.db.model.inventory.BillingOperations;
 import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -15,6 +18,7 @@ import javax.inject.Inject;
 
 import static com.jim.multipos.data.db.model.consignment.Consignment.INCOME_CONSIGNMENT;
 import static com.jim.multipos.data.db.model.consignment.Consignment.RETURN_CONSIGNMENT;
+import static com.jim.multipos.data.db.model.inventory.BillingOperations.PAID_TO_CONSIGNMENT;
 
 /**
  * Created by Portable-Acer on 17.11.2017.
@@ -24,16 +28,35 @@ public class VendorProductsViewPresenterImpl extends BasePresenterImpl<VendorPro
     private DatabaseManager databaseManager;
     private long vendorId;
     private List<InventoryState> inventoryStates;
+    private Vendor vendor;
+    private Double debt;
+    private List<BillingOperations> billingOperations;
+    private Currency currency;
 
     @Inject
     public VendorProductsViewPresenterImpl(VendorProductsView vendorProductsView, DatabaseManager databaseManager) {
         super(vendorProductsView);
         this.databaseManager = databaseManager;
+        billingOperations = new ArrayList<>();
     }
 
     @Override
     public void setVendorId(long vendorId) {
         this.vendorId = vendorId;
+    }
+
+    @Override
+    public void initVendorDetails() {
+        this.vendor = databaseManager.getVendorById(vendorId).blockingSingle();
+        debt = databaseManager.getVendorDebt(vendorId).blockingGet() * -1;
+        billingOperations = databaseManager.getBillingOperationForVendor(vendor.getId()).blockingGet();
+        double paid = 0;
+        for (BillingOperations operations : billingOperations) {
+            if (operations.getOperationType().equals(PAID_TO_CONSIGNMENT))
+                paid += operations.getAmount();
+        }
+        currency = databaseManager.getMainCurrency();
+        view.initVendorDetails(vendor.getName(), vendor.getPhotoPath(), vendor.getAddress(), vendor.getContactName(), vendor.getContacts(), debt, paid, currency.getAbbr());
     }
 
     @Override
@@ -120,15 +143,41 @@ public class VendorProductsViewPresenterImpl extends BasePresenterImpl<VendorPro
 
     @Override
     public void insertNewWarehouseOperation(InventoryState inventory, double shortage) {
-//        WarehouseOperations warehouseOperations = new WarehouseOperations();
-//        warehouseOperations.setProduct(inventory.getProduct());
-//        warehouseOperations.setVendor(inventory.getVendor());
-//        warehouseOperations.setCreateAt(System.currentTimeMillis());
-//        if (shortage > 0)
-//            warehouseOperations.setValue(WarehouseOperations.VOID_INCOME);
-//        else warehouseOperations.setValue(WarehouseOperations.WASTE);
-//        warehouseOperations.setValue(shortage);
-//        databaseManager.insertWarehouseOperation(warehouseOperations).subscribe();
+        WarehouseOperations warehouseOperations = new WarehouseOperations();
+        warehouseOperations.setProduct(inventory.getProduct());
+        warehouseOperations.setVendor(inventory.getVendor());
+        warehouseOperations.setCreateAt(System.currentTimeMillis());
+        if (shortage > 0)
+            warehouseOperations.setValue(WarehouseOperations.VOID_INCOME);
+        else warehouseOperations.setValue(WarehouseOperations.WASTE);
+        warehouseOperations.setValue(shortage);
+        databaseManager.insertWarehouseOperation(warehouseOperations).subscribe((aLong, throwable) -> {
+            inventoryStates = databaseManager.getInventoryStatesByVendorId(vendorId).blockingSingle();
+            sortByProductAsc();
+            view.updateAdapterItems(inventoryStates);
+        });
+    }
+
+    @Override
+    public void openPaymentsList() {
+        view.openPaymentsList(vendorId, debt);
+    }
+
+    @Override
+    public void openPayDialog() {
+        view.openPayDialog(this.vendor, databaseManager);
+    }
+
+    @Override
+    public void updateBillings() {
+        debt = databaseManager.getVendorDebt(vendorId).blockingGet() * -1;
+        billingOperations = databaseManager.getBillingOperationForVendor(vendor.getId()).blockingGet();
+        double paid = 0;
+        for (BillingOperations operations : billingOperations) {
+            if (operations.getOperationType().equals(PAID_TO_CONSIGNMENT))
+                paid += operations.getAmount();
+        }
+        view.updateVendorBillings(debt, paid, currency.getAbbr());
     }
 
     @Override

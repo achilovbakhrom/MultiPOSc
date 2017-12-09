@@ -13,7 +13,7 @@ import java.util.List;
 
 public interface VendorAddEditPresenter extends Presenter {
 
-    void addVendor(String name, String contactName, String address, boolean isActive);
+    void addVendor(String name, String contactName, String address, String photoSelected, boolean isActive);
     Boolean isVendorNameExists(String name);
     AddingMode getMode();
     void setMode(AddingMode mode, Long vendorId);
@@ -24,5 +24,4 @@ public interface VendorAddEditPresenter extends Presenter {
     List<Contact> getContacts();
     void removeContact(Contact contact);
     Vendor getVendor();
-
 }

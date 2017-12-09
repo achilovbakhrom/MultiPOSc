@@ -21,6 +21,8 @@ import com.jim.multipos.ui.vendor_products_view.adapters.ProductAdapter;
 import com.jim.multipos.ui.vendor_products_view.dialogs.MinusInventoryDialog;
 import com.jim.multipos.ui.vendor_products_view.dialogs.PlusInventoryDialog;
 
+import java.util.List;
+
 import butterknife.BindView;
 
 /**
@@ -125,7 +127,7 @@ public class VendorDetailsList extends BaseFragment implements ProductAdapter.Pr
         MinusInventoryDialog dialog = new MinusInventoryDialog();
         dialog.setArguments(bundle);
         dialog.setMinusInventoryDialogListener((inventory, shortage) ->  {
-            ((ProductAdapter) rvProduct.getAdapter()).updateItem(inventory);
+//            ((ProductAdapter) rvProduct.getAdapter()).updateItem(inventory);
             ((VendorProductsViewActivity) getActivity()).getPresenter().insertNewWarehouseOperation(inventory, shortage);
         });
         dialog.show(getActivity().getSupportFragmentManager(), "MinusInventoryDialog");
@@ -138,7 +140,7 @@ public class VendorDetailsList extends BaseFragment implements ProductAdapter.Pr
         PlusInventoryDialog dialog = new PlusInventoryDialog();
         dialog.setArguments(bundle);
         dialog.setPlusInventoryDialogListener((inventory, shortage) ->  {
-            ((ProductAdapter) rvProduct.getAdapter()).updateItem(inventory);
+//            ((ProductAdapter) rvProduct.getAdapter()).updateItem(inventory);
             ((VendorProductsViewActivity) getActivity()).getPresenter().insertNewWarehouseOperation(inventory, shortage);
         });
         dialog.show(getActivity().getSupportFragmentManager(), "PlusInventoryDialog");
@@ -205,5 +207,9 @@ public class VendorDetailsList extends BaseFragment implements ProductAdapter.Pr
         ivProductSort.setVisibility(View.INVISIBLE);
         ivInventorySort.setVisibility(View.INVISIBLE);
         tvUnit.setTypeface(Typeface.create(tvUnit.getTypeface(), Typeface.BOLD));
+    }
+
+    public void updateAdapterItems(List<InventoryState> inventoryStates) {
+        ((ProductAdapter) rvProduct.getAdapter()).setData(inventoryStates);
     }
 }

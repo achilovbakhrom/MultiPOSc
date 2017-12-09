@@ -16,6 +16,7 @@ public interface VendorProductsViewPresenter extends Presenter {
     Vendor getVendor();
     List<Product> getProducts();
     void setVendorId(long vendorId);
+    void initVendorDetails();
     List<InventoryState> getInventoryStates();
     InventoryState getInventoryState(int position);
     ProductClass getProductClassById(Long id);
@@ -32,4 +33,7 @@ public interface VendorProductsViewPresenter extends Presenter {
     void openIncomeConsignmentToProduct(InventoryState state, int consignmentType);
     void openVendorEditing();
     void insertNewWarehouseOperation(InventoryState inventory, double shortage);
+    void openPaymentsList();
+    void openPayDialog();
+    void updateBillings();
 }

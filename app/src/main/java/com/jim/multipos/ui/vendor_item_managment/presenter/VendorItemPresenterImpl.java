@@ -75,7 +75,7 @@ public class VendorItemPresenterImpl extends BasePresenterImpl<VendorItemView> i
 
     @Override
     public void onPay(VendorWithDebt vendorWithDebt) {
-
+        view.openPaymentDialog(databaseManager, vendorWithDebt.getVendor());
     }
 
     @Override
@@ -143,6 +143,14 @@ public class VendorItemPresenterImpl extends BasePresenterImpl<VendorItemView> i
         view.notifyList();
     }
 
+    @Override
+    public void updateData() {
+        databaseManager.getVendorWirhDebt().subscribe((vendorWithDebts, throwable) -> {
+            this.vendorWithDebts = vendorWithDebts;
+            sortList();
+            view.initRecyclerView(vendorWithDebts);
+        });
+    }
 
     private void sortList(){
 

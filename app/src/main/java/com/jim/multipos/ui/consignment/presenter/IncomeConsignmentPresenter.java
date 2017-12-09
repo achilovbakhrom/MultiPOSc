@@ -17,4 +17,5 @@ public interface IncomeConsignmentPresenter extends Presenter {
     void getAccounts();
     void calculateConsignmentSum();
     void checkChanges(String number, String description, String totalPaid, boolean checked, int selectedPosition);
+    void saveChanges();
 }

@@ -3,6 +3,7 @@ package com.jim.multipos.ui.consignment.view;
 import android.app.Dialog;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,6 +27,7 @@ import com.jim.multipos.ui.consignment.presenter.IncomeConsignmentPresenter;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.TextWatcherOnTextChange;
 import com.jim.multipos.utils.WarningDialog;
+import com.jim.multipos.utils.rxevents.MessageEvent;
 import com.jim.multipos.utils.rxevents.MessageWithIdEvent;
 
 import java.text.DecimalFormat;
@@ -40,6 +42,7 @@ import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 import static com.jim.multipos.ui.consignment.ConsignmentActivity.CONSIGNMENT_ID;
 import static com.jim.multipos.ui.consignment.ConsignmentActivity.PRODUCT_ID;
 import static com.jim.multipos.ui.consignment.ConsignmentActivity.VENDOR_ID;
+import static com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemFragment.BILLINGS_UPDATE;
 
 /**
  * Created by Sirojiddin on 09.11.2017.
@@ -224,17 +227,23 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
     }
 
     @Override
-    public void closeFragment(Long id) {
+    public void openSaveChangesDialog() {
         WarningDialog warningDialog = new WarningDialog(getContext());
         warningDialog.setWarningMessage(getString(R.string.do_you_want_to_save_the_change));
         warningDialog.setDialogTitle(getString(R.string.warning));
         warningDialog.setOnYesClickListener(view1 -> {
-            rxBus.send(new MessageWithIdEvent(id, CONSIGNMENT_UPDATE));
-            getActivity().finish();
+            presenter.saveChanges();
             warningDialog.dismiss();
         });
         warningDialog.setOnNoClickListener(view -> warningDialog.dismiss());
         warningDialog.show();
+    }
+
+    @Override
+    public void closeFragment(Long id) {
+            rxBus.send(new MessageWithIdEvent(id, CONSIGNMENT_UPDATE));
+            rxBus.send(new MessageEvent(BILLINGS_UPDATE));
+            getActivity().finish();
     }
 
     @Override

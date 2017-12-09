@@ -1,6 +1,7 @@
 package com.jim.multipos.ui.vendor_item_managment.fragments;
 
 import com.jim.multipos.core.BaseView;
+import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.vendor_item_managment.model.VendorWithDebt;
 
@@ -20,4 +21,5 @@ public interface VendorItemView extends BaseView {
     void openVendorDetails(Long vendorId);
     void openVendorBillingStory(Long vendorId,Double totalDebt);
     void openVendorConsignmentsStory(Long vendorId);
+    void openPaymentDialog(DatabaseManager databaseManager, Vendor vendor);
 }

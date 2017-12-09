@@ -10,6 +10,6 @@
         android:gravity="center"
         android:paddingLeft="@dimen/five_dp"
         android:textColor="@color/colorSecondaryText"
-        android:textSize="@dimen/eighteen_dp"
+        android:textSize="@dimen/sixteen_dp"
         android:textStyle="italic" />
 </LinearLayout>

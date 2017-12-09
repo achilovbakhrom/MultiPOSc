@@ -11,7 +11,9 @@ import android.widget.TextView;
 
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
+import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
+import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.billing_vendor.BillingOperationsActivity;
 import com.jim.multipos.ui.billing_vendor.fragments.BillingOperationFragment;
 import com.jim.multipos.ui.inventory.fragments.InventoryFragment;
@@ -21,16 +23,23 @@ import com.jim.multipos.ui.vendor_item_managment.VendorItemsActivity;
 import com.jim.multipos.ui.vendor_item_managment.adapters.VendorItemAdapter;
 import com.jim.multipos.ui.vendor_item_managment.model.VendorWithDebt;
 import com.jim.multipos.ui.vendor_item_managment.presenter.VendorItemPresenter;
+import com.jim.multipos.utils.PaymentToVendorDialog;
+import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.UIUtils;
+import com.jim.multipos.utils.rxevents.MessageEvent;
+import com.jim.multipos.utils.rxevents.MessageWithIdEvent;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import io.reactivex.disposables.Disposable;
 
+import static com.jim.multipos.ui.consignment.view.IncomeConsignmentFragment.CONSIGNMENT_UPDATE;
 import static com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemFragment.SortModes.DEBT;
 import static com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemFragment.SortModes.DEBT_INVENTORY;
 import static com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemFragment.SortModes.PRODUCTS;
@@ -69,7 +78,12 @@ public class VendorItemFragment extends BaseFragment implements VendorItemView{
     VendorItemPresenter presenter;
     @Inject
     RxPermissions rxPermissions;
+    @Inject
+    RxBus rxBus;
     VendorItemAdapter vendorItemAdapter;
+    public static final String BILLINGS_UPDATE = "BILLINGS_UPDATE";
+    private ArrayList<Disposable> subscriptions;
+
 
     public enum SortModes{
         VENDOR,VENDOR_INVENTORY,PRODUCTS,PRODUCTS_INVENTORY,DEBT,DEBT_INVENTORY
@@ -162,6 +176,23 @@ public class VendorItemFragment extends BaseFragment implements VendorItemView{
     }
 
     @Override
+    protected void rxConnections() {
+        subscriptions = new ArrayList<>();
+        subscriptions.add(
+                rxBus.toObservable().subscribe(o -> {
+                    if (o instanceof MessageEvent) {
+                        MessageEvent event = (MessageEvent) o;
+                        switch (event.getMessage()) {
+                            case BILLINGS_UPDATE: {
+                                presenter.updateData();
+                                break;
+                            }
+                        }
+                    }
+                }));
+    }
+
+    @Override
     public void initSearchResults(List<VendorWithDebt> vendorWithDebts, String searchText) {
         vendorItemAdapter.setSearchResult(vendorWithDebts,searchText);
         vendorItemAdapter.notifyDataSetChanged();
@@ -197,6 +228,19 @@ public class VendorItemFragment extends BaseFragment implements VendorItemView{
     @Override
     public void openVendorConsignmentsStory(Long vendorId) {
         ((VendorItemsActivity) getActivity()).openVendorConsignmentStory(vendorId);
+    }
+
+    @Override
+    public void openPaymentDialog(DatabaseManager databaseManager, Vendor vendor) {
+        PaymentToVendorDialog paymentToVendorDialog = new PaymentToVendorDialog(getContext(), vendor, new PaymentToVendorDialog.PaymentToVendorCallback() {
+            @Override
+            public void onChanged() {
+                presenter.updateData();
+            }
+            @Override
+            public void onCancel() {}
+        }, databaseManager);
+        paymentToVendorDialog.show();
     }
 
     @Override

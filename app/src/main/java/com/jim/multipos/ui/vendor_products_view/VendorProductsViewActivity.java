@@ -6,13 +6,21 @@ import android.support.annotation.Nullable;
 
 import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.core.DoubleSideActivity;
+import com.jim.multipos.data.DatabaseManager;
+import com.jim.multipos.data.db.model.Contact;
+import com.jim.multipos.data.db.model.inventory.InventoryState;
+import com.jim.multipos.data.db.model.products.Vendor;
+import com.jim.multipos.ui.billing_vendor.BillingOperationsActivity;
 import com.jim.multipos.ui.consignment.ConsignmentActivity;
 import com.jim.multipos.ui.consignment_list.ConsignmentListActivity;
 import com.jim.multipos.ui.vendor.add_edit.VendorAddEditActivity;
 import com.jim.multipos.ui.vendor_products_view.fragments.VendorDetailsFragment;
 import com.jim.multipos.ui.vendor_products_view.fragments.VendorDetailsList;
+import com.jim.multipos.utils.PaymentToVendorDialog;
+import com.jim.multipos.utils.RxBus;
 
 import java.text.DecimalFormat;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -29,6 +37,9 @@ public class VendorProductsViewActivity extends DoubleSideActivity implements Ve
     @Inject
     @Getter
     DecimalFormat decimalFormat;
+    @Inject
+    @Getter
+    RxBus rxBus;
 
     @Override
     protected int getToolbarMode() {
@@ -39,7 +50,7 @@ public class VendorProductsViewActivity extends DoubleSideActivity implements Ve
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = getIntent().getExtras();
-        if (bundle != null){
+        if (bundle != null) {
             Long vendorId = bundle.getLong(VENDOR_ID);
             presenter.setVendorId(vendorId);
         }
@@ -76,5 +87,52 @@ public class VendorProductsViewActivity extends DoubleSideActivity implements Ve
         Intent intent = new Intent(this, VendorAddEditActivity.class);
         intent.putExtra(VENDOR_ID, vendorId);
         startActivity(intent);
+    }
+
+    @Override
+    public void updateAdapterItems(List<InventoryState> inventoryStates) {
+        VendorDetailsList fragment = (VendorDetailsList) getCurrentFragmentRight();
+        if (fragment != null) {
+            fragment.updateAdapterItems(inventoryStates);
+        }
+    }
+
+    @Override
+    public void initVendorDetails(String name, String photoPath, String address, String contactName, List<Contact> contacts, Double debt, double paid, String abbr) {
+        VendorDetailsFragment fragment = (VendorDetailsFragment) getCurrentFragmentLeft();
+        if (fragment != null) {
+            fragment.initVendor(name, photoPath, address, contactName, contacts, debt, paid, abbr);
+        }
+    }
+
+    @Override
+    public void openPaymentsList(long vendorId, Double debt) {
+        Intent intent = new Intent(this, BillingOperationsActivity.class);
+        intent.putExtra(BillingOperationsActivity.VENDOR_EXTRA_ID, vendorId);
+        intent.putExtra(BillingOperationsActivity.VENDOR_DEBT, debt);
+        startActivity(intent);
+    }
+
+    @Override
+    public void openPayDialog(Vendor vendor, DatabaseManager databaseManager) {
+        PaymentToVendorDialog paymentToVendorDialog = new PaymentToVendorDialog(this, vendor, new PaymentToVendorDialog.PaymentToVendorCallback() {
+            @Override
+            public void onChanged() {
+                presenter.updateBillings();
+            }
+            @Override
+            public void onCancel() {
+
+            }
+        }, databaseManager);
+        paymentToVendorDialog.show();
+    }
+
+    @Override
+    public void updateVendorBillings(Double debt, double paid, String abbr) {
+        VendorDetailsFragment fragment = (VendorDetailsFragment) getCurrentFragmentLeft();
+        if (fragment != null) {
+            fragment.updateBillings(debt, paid, abbr);
+        }
     }
 }

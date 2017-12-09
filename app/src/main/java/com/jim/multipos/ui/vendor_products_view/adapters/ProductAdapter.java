@@ -109,6 +109,11 @@ public class ProductAdapter extends BaseAdapter<InventoryState, ProductAdapter.P
         }
     }
 
+    public void setData(List<InventoryState> stateList){
+        items = stateList;
+        notifyDataSetChanged();
+    }
+
     class ProductViewHolder extends BaseViewHolder {
         @BindView(R.id.llcontainer)
         LinearLayout llcontainer;
