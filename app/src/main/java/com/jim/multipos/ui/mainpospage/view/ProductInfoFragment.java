@@ -6,6 +6,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.mpviews.MpButton;
 import com.jim.multipos.R;
@@ -20,13 +22,17 @@ import com.jim.multipos.ui.mainpospage.dialogs.ServiceFeeDialog;
 import com.jim.multipos.ui.mainpospage.dialogs.SetQuantityDialog;
 import com.jim.multipos.ui.mainpospage.presenter.ProductInfoPresenter;
 import com.jim.multipos.utils.GlideApp;
+import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.UIUtils;
+import com.jim.multipos.utils.rxevents.MessageEvent;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
+
+import static com.jim.multipos.ui.consignment.ConsignmentActivity.PRODUCT_ID;
 
 /**
  * Created by developer on 24.08.2017.
@@ -69,10 +75,10 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
     MpButton btnClose;
     @BindView(R.id.etSpecialRequest)
     EditText etSpecialRequest;
-    @BindView(R.id.ivBackLastSpecialRequest)
-    ImageView ivBackLastSpecialRequest;
     @BindView(R.id.ivAlert)
     ImageView ivAlert;
+    @Inject
+    RxBus rxBus;
 
     @Override
     protected int getLayout() {
@@ -81,26 +87,9 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        Product product = presenter.getProduct();
-
-        GlideApp.with(this)
-                .load(product.getPhotoPath())
-                .placeholder(R.drawable.default_product_image)
-                .error(R.drawable.default_product_image)
-                .into(ivProductImage);
-
-        tvProductName.setText(product.getName());
-        tvDescription.setText(product.getDescription());
-        tvVendorName.setText(presenter.getVendor(0).getName());
-        tvQuantity.setText(presenter.getProductQuantity() + " " + product.getMainUnit().getAbbr());
-        tvOrderQuantity.setText(String.valueOf(presenter.getCurrentProductQuantity()));
-
-        for (int i = 0; i < product.getVendor().size(); i++) {
-            tvCompanyName.append(product.getVendor().get(i).getName());
-
-            if (i < product.getVendor().size() - 1) {
-                tvCompanyName.append(", ");
-            }
+        if (getArguments() != null) {
+            Long productId = getArguments().getLong(PRODUCT_ID);
+            presenter.initProduct(productId);
         }
 
         RxView.clicks(ivArrowLeft).subscribe(o -> {
@@ -113,37 +102,7 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
 
         RxView.clicks(btnClose).subscribe(o -> {
             UIUtils.closeKeyboard(btnClose, getContext());
-            ((MainPosPageActivity) getActivity()).closeProductInfoFragment();
-        });
-
-        RxView.clicks(ivMinus).subscribe(o -> {
-            tvOrderQuantity.setText(String.valueOf(presenter.decrementQuantity()));
-
-            tvQuantity.setText(presenter.getProductQuantity() + " " + product.getMainUnit().getAbbr());
-        });
-
-        RxView.clicks(ivPlus).subscribe(o -> {
-            tvOrderQuantity.setText(String.valueOf(presenter.incrementQuantity()));
-
-            tvQuantity.setText(presenter.getProductQuantity() + " " + product.getMainUnit().getAbbr());
-        });
-
-        RxView.clicks(btnSetQuantity).subscribe(o -> {
-            SetQuantityDialog dialog = new SetQuantityDialog(getContext(), value -> {
-                presenter.setCurrentQuantity(value);
-                tvQuantity.setText(String.valueOf(presenter.getProductQuantity()) + " " + product.getMainUnit().getAbbr());
-                tvOrderQuantity.setText(String.valueOf(presenter.getCurrentProductQuantity()));
-            });
-
-            dialog.show();
-        });
-
-        RxView.clicks(btnChooseVendor).subscribe(o -> {
-            ChooseVendorDialog dialog = new ChooseVendorDialog(getContext(), product.getVendor(), vendor -> {
-                tvVendorName.setText(vendor.getName());
-            });
-
-            dialog.show();
+            rxBus.send(new MessageEvent("Close_Info_Product"));
         });
 
         RxView.clicks(btnServiceFee).subscribe(o -> {
@@ -183,6 +142,65 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
         });
     }
 
+
+    @Override
+    public void initProductData(Product product, double quantity) {
+
+        GlideApp.with(this)
+                .load(product.getPhotoPath())
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .thumbnail(0.2f)
+                .centerCrop()
+                .transform(new RoundedCorners(20))
+                .placeholder(R.drawable.default_product_image)
+                .error(R.drawable.default_product_image)
+                .into(ivProductImage);
+
+        tvProductName.setText(product.getName());
+        tvDescription.setText(product.getDescription());
+        tvVendorName.setText(presenter.getVendor(0).getName());
+        tvQuantity.setText((quantity - 1) + " " + product.getMainUnit().getAbbr());
+        tvOrderQuantity.setText(String.valueOf(presenter.getCurrentProductQuantity()));
+
+        for (int i = 0; i < product.getVendor().size(); i++) {
+            tvCompanyName.append(product.getVendor().get(i).getName());
+
+            if (i < product.getVendor().size() - 1) {
+                tvCompanyName.append(", ");
+            }
+        }
+
+        RxView.clicks(ivMinus).subscribe(o -> {
+            tvOrderQuantity.setText(String.valueOf(presenter.decrementQuantity()));
+
+            tvQuantity.setText(presenter.getProductQuantity() + " " + product.getMainUnit().getAbbr());
+        });
+
+        RxView.clicks(ivPlus).subscribe(o -> {
+            tvOrderQuantity.setText(String.valueOf(presenter.incrementQuantity()));
+
+            tvQuantity.setText(presenter.getProductQuantity() + " " + product.getMainUnit().getAbbr());
+        });
+
+        RxView.clicks(btnSetQuantity).subscribe(o -> {
+            SetQuantityDialog dialog = new SetQuantityDialog(getContext(), value -> {
+                presenter.setCurrentQuantity(value);
+                tvQuantity.setText(String.valueOf(presenter.getProductQuantity()) + " " + product.getMainUnit().getAbbr());
+                tvOrderQuantity.setText(String.valueOf(presenter.getCurrentProductQuantity()));
+            });
+
+            dialog.show();
+        });
+
+        RxView.clicks(btnChooseVendor).subscribe(o -> {
+            ChooseVendorDialog dialog = new ChooseVendorDialog(getContext(), product.getVendor(), vendor -> {
+                tvVendorName.setText(vendor.getName());
+            });
+
+            dialog.show();
+        });
+    }
+
     @Override
     public void changeQuantityColor(int color) {
         tvQuantity.setTextColor(getContext().getResources().getColor(color));
@@ -197,4 +215,5 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
     public void hideAlert() {
         ivAlert.setVisibility(View.INVISIBLE);
     }
+
 }

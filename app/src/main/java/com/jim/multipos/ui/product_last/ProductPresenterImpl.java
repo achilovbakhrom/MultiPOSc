@@ -365,7 +365,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                                 vendorProductConnectionsList.get(i).setCost(tempCostList.get(i).getCost());
                             }
                             view.setCostValue(savedCosts);
-                            openProduct(product);
+                            openCategory(category);
                         }
 
                         @Override
@@ -379,7 +379,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                         view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                             @Override
                             public void onPositiveButtonClicked() {
-                                openProduct(product);
+                                openCategory(category);
                             }
 
                             @Override
@@ -388,12 +388,12 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                                 mode = CategoryAddEditMode.PRODUCT_EDIT_MODE;
                             }
                         });
-                    else openProduct(product);
+                    else  openCategory(category);
                 } else if ((this.productClass != null && this.product.getProductClass() == null) || (this.productClass == null && this.product.getProductClass() != null)) {
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
                         public void onPositiveButtonClicked() {
-                            openProduct(product);
+                            openCategory(category);
                         }
 
                         @Override
@@ -403,7 +403,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                         }
                     });
                 } else {
-                    openProduct(product);
+                    openCategory(category);
                 }
                 break;
         }
@@ -847,7 +847,8 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                             for (int i = 0; i < vendorProductConnectionsList.size(); i++) {
                                 vendorProductConnectionsList.get(i).setCost(tempCostList.get(i).getCost());
                             }
-                            openProduct(product);
+                            view.setCostValue(savedCosts);
+                            openSubcategory(category);
                         }
 
                         @Override
@@ -861,7 +862,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                         view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                             @Override
                             public void onPositiveButtonClicked() {
-                                openProduct(product);
+                                openSubcategory(category);
                             }
 
                             @Override
@@ -870,12 +871,12 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                                 mode = CategoryAddEditMode.PRODUCT_EDIT_MODE;
                             }
                         });
-                    else openProduct(product);
+                    else openSubcategory(category);
                 } else if ((this.productClass != null && this.product.getProductClass() == null) || (this.productClass == null && this.product.getProductClass() != null)) {
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
                         public void onPositiveButtonClicked() {
-                            openProduct(product);
+                            openSubcategory(category);
                         }
 
                         @Override
@@ -885,7 +886,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                         }
                     });
                 } else {
-                    openProduct(product);
+                    openSubcategory(category);
                 }
                 break;
         }

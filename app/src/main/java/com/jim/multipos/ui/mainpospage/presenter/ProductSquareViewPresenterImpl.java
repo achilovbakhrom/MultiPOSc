@@ -41,12 +41,6 @@ public class ProductSquareViewPresenterImpl extends BasePresenterImpl<ProductSqu
 
     @Override
     public void setCategoryRecyclerView() {
-//        for (int i = 0; i < 5; i++) {
-//            Category category = new Category();
-//            category.setName("Category " + i);
-//            category.setCreatedDate(System.currentTimeMillis());
-//            categoryOperations.addCategory(category).subscribe();
-//        }
         categoryOperations.getAllActiveCategories().subscribe(categories -> {
             this.categoryList = categories;
             view.setCategoryRecyclerViewItems(categories);
@@ -56,13 +50,7 @@ public class ProductSquareViewPresenterImpl extends BasePresenterImpl<ProductSqu
 
     @Override
     public void setSubCategoryRecyclerView() {
-//        for (int j = 0; j < 2; j++) {
-//                Category subcategory = new Category();
-//                subcategory.setName("SubCategory " + j);
-//                subcategory.setCreatedDate(System.currentTimeMillis());
-//                subcategory.setParentId(parentCategory.getId());
-//                categoryOperations.addSubCategory(subcategory).subscribe();
-//            }
+
         categoryOperations.getAllActiveSubCategories(parentCategory).subscribe(subCategories -> {
             this.subcategoryList = subCategories;
             view.setSubCategoryRecyclerView(subcategoryList);
@@ -72,17 +60,6 @@ public class ProductSquareViewPresenterImpl extends BasePresenterImpl<ProductSqu
 
     @Override
     public void setProductRecyclerView() {
-//        for (int j = 0; j < 2; j++) {
-//            Product product = new Product();
-//            product.setName("Product " + j);
-//            product.setCreatedDate(System.currentTimeMillis());
-//            product.setParentId(parentSubCategory.getId());
-//            product.setPrice(0.5d);
-//            product.setCost(0.5d);
-//            product.setBarcode("123454343");
-//            product.setSku("54545sdf");
-//            productOperations.addProduct(product).subscribe();
-//        }
         if (parentSubCategory != null)
             productOperations.getAllActiveProducts(parentSubCategory).subscribe(products -> {
                 this.productList = products;

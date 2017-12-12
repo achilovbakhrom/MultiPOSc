@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
+import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.products.VendorProductCon;
@@ -65,7 +66,7 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
 
     @Override
     public void onIncomeProduct(InventoryItem inventoryItem) {
-        view.openAddDialog(inventoryItem, (inventoryItem1, vendor, v, etReason) -> {
+        view.openAddDialog(inventoryItem, (inventoryItem1, vendor, v, etReason, shortage) -> {
             List<InventoryItem> inventoryItemsTemp;
             if (searchResults != null) {
                 inventoryItemsTemp = searchResults;
@@ -78,14 +79,19 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
                     break;
                 }
             }
-            view.notifyList();
-
+            WarehouseOperations warehouseOperations = new WarehouseOperations();
+            warehouseOperations.setProduct(inventoryItem.getProduct());
+            warehouseOperations.setVendor(inventoryItem.getVendor());
+            warehouseOperations.setCreateAt(System.currentTimeMillis());
+            warehouseOperations.setValue(WarehouseOperations.VOID_INCOME);
+            warehouseOperations.setValue(shortage);
+            databaseManager.insertWarehouseOperation(warehouseOperations).subscribe(aLong -> view.notifyList());
         });
     }
 
     @Override
     public void onWriteOff(InventoryItem inventoryItem) {
-        view.openWriteOffDialog(inventoryItem, (inventoryItem1, vendor, v, etReason) -> {
+        view.openWriteOffDialog(inventoryItem, (inventoryItem1, vendor, v, etReason, shortage) -> {
             List<InventoryItem> inventoryItemsTemp;
             if (searchResults != null) {
                 inventoryItemsTemp = searchResults;
@@ -98,8 +104,13 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
                     break;
                 }
             }
-            view.notifyList();
-
+            WarehouseOperations warehouseOperations = new WarehouseOperations();
+            warehouseOperations.setProduct(inventoryItem.getProduct());
+            warehouseOperations.setVendor(inventoryItem.getVendor());
+            warehouseOperations.setCreateAt(System.currentTimeMillis());
+            warehouseOperations.setValue(WarehouseOperations.VOID_INCOME);
+            warehouseOperations.setValue(shortage * -1);
+            databaseManager.insertWarehouseOperation(warehouseOperations).subscribe(aLong -> view.notifyList());
         });
     }
 
@@ -208,6 +219,15 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
     @Override
     public void setProductId(Long productId) {
         view.sendDataToConsignment(productId, this.vendorId, consignment_type);
+    }
+
+    @Override
+    public void updateData() {
+        databaseManager.getInventoryItems().subscribe((inventoryItems, throwable) -> {
+            this.inventoryItems = inventoryItems;
+            sortList();
+            view.initRecyclerView(inventoryItems);
+        });
     }
 
 

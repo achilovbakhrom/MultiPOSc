@@ -1,6 +1,7 @@
 package com.jim.multipos.ui.inventory.model;
 
 import com.jim.multipos.data.db.model.products.Product;
+import com.jim.multipos.data.db.model.products.Vendor;
 
 import java.io.Serializable;
 
@@ -13,6 +14,7 @@ import lombok.Data;
 public class InventoryItem implements Serializable {
     long id;
     Product product;
+    Vendor vendor;
     double inventory;
     double lowStockAlert;
 

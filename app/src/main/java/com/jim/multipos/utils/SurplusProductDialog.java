@@ -51,6 +51,7 @@ public class SurplusProductDialog extends Dialog {
     TextView btnNext;
 
     double aDouble = 0;
+    double v1 = 0;
     public SurplusProductDialog(@NonNull Context context, SurplusCallback surplus, InventoryItem inventoryItem, DecimalFormat decimalFormat){
         super(context);
         this.surplus = surplus;
@@ -75,11 +76,9 @@ public class SurplusProductDialog extends Dialog {
         etShortage.setInputType(InputType.TYPE_CLASS_NUMBER );
         else etShortage.setInputType(InputType.TYPE_CLASS_NUMBER |
                 InputType.TYPE_NUMBER_FLAG_DECIMAL);
-
         etShortage.addTextChangedListener(new TextWatcherOnTextChange() {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                double v1;
                 if(!etShortage.getText().toString().isEmpty()){
                     try {
                         v1 = Double.parseDouble(etShortage.getText().toString());
@@ -100,7 +99,7 @@ public class SurplusProductDialog extends Dialog {
                 UIUtils.closeKeyboard(etShortage,context);
                 Handler handler = new Handler();
                 handler.postDelayed(() -> {
-                    surplus.surplus(inventoryItem, inventoryItem.getProduct().getVendor().get(spVenders.getSelectedPosition()), aDouble, etReason.getText().toString());
+                    surplus.surplus(inventoryItem, inventoryItem.getProduct().getVendor().get(spVenders.getSelectedPosition()), aDouble, etReason.getText().toString(), v1);
                     dismiss();
                 },300);
 
@@ -112,7 +111,7 @@ public class SurplusProductDialog extends Dialog {
         });
     }
     public interface SurplusCallback{
-        void surplus(InventoryItem inventoryItem, Vendor vendor, double v, String etReason);
+        void surplus(InventoryItem inventoryItem, Vendor vendor, double v, String etReason, double shortage);
     }
 
 

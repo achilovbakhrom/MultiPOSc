@@ -13,6 +13,8 @@ import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.rxevents.CategoryEvent;
+import com.jim.multipos.utils.rxevents.MessageEvent;
+import com.jim.multipos.utils.rxevents.MessageWithIdEvent;
 import com.jim.multipos.utils.rxevents.ProductEvent;
 
 import java.util.ArrayList;
@@ -22,6 +24,8 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.disposables.Disposable;
+
+import static com.jim.multipos.ui.consignment.ConsignmentActivity.PRODUCT_ID;
 
 public class ProductPickerFragment extends BaseFragment implements ProductPickerView {
 
@@ -34,6 +38,8 @@ public class ProductPickerFragment extends BaseFragment implements ProductPicker
     TextView tvCategory;
     @BindView(R.id.tvSubCategory)
     TextView tvSubCategory;
+    @BindView(R.id.tvProduct)
+    TextView tvProduct;
     @BindView(R.id.ivArrowCategory)
     ImageView ivArrowCategory;
     @BindView(R.id.ivArrowSubCategory)
@@ -76,6 +82,35 @@ public class ProductPickerFragment extends BaseFragment implements ProductPicker
                                 tvSubCategory.setText("");
                                 ivArrowSubCategory.setVisibility(View.GONE);
                             }
+                        }
+                    }
+                    if (o instanceof ProductEvent) {
+                        ProductEvent event = (ProductEvent) o;
+                        if (event.getEventType().equals(OPEN_PRODUCT)) {
+                            Long id = event.getProduct().getId();
+                            Bundle bundle = new Bundle();
+                            bundle.putLong(PRODUCT_ID, id);
+                            ProductInfoFragment fragment = new ProductInfoFragment();
+                            fragment.setArguments(bundle);
+                            replaceViewFragments(fragment, "InfoProduct");
+                            tvProduct.setText(event.getProduct().getName());
+                        }
+                    } else {
+                        tvProduct.setText("");
+                    }
+                    if (o instanceof MessageEvent){
+                        MessageEvent event = (MessageEvent) o;
+                        if (event.getMessage().equals("Close_Info_Product")){
+                            switch (preferencesHelper.getProductListViewType()) {
+                                case SQUARE_VIEW:
+                                    replaceViewFragments(new ProductSquareViewFragment(), String.valueOf(SQUARE_VIEW));
+                                    break;
+                                case FOLDER_VIEW:
+                                    replaceViewFragments(new ProductFolderViewFragment(), String.valueOf(FOLDER_VIEW));
+                                    tvCategory.setText(getResources().getString(R.string.category));
+                                    break;
+                            }
+                            changeViewTypeIcon(preferencesHelper.getProductListViewType());
                         }
                     }
                 }));

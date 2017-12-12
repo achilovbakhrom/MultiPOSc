@@ -3,7 +3,6 @@ package com.jim.multipos.ui.mainpospage.presenter;
 import com.jim.multipos.core.Presenter;
 import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
-import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
 
 import java.util.List;
@@ -13,13 +12,12 @@ import java.util.List;
  */
 
 public interface ProductInfoPresenter extends Presenter {
-    Product getProduct();
     List<Vendor> getVendors();
     Vendor getVendor(int position);
     Vendor getPrevVendor();
     Vendor getNextVendor();
     Vendor getRandomVendor();
-    int getProductQuantity();
+    Double getProductQuantity();
     int getCurrentProductQuantity();
     int incrementQuantity();
     int decrementQuantity();
@@ -28,4 +26,5 @@ public interface ProductInfoPresenter extends Presenter {
     List<Discount> getDiscount(String[] discountType);
     void addDiscount(double amount, String description, String amountType);
     void addServiceFee(double amount, String description, String amountType);
+    void initProduct(Long productId);
 }

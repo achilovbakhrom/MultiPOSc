@@ -13,32 +13,32 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/forty_dp"
-            android:background="@color/colorWhite"
-            android:orientation="horizontal">
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/forty_dp"-->
+            <!--android:background="@color/colorWhite"-->
+            <!--android:orientation="horizontal">-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/fifteen_dp"
-                android:paddingBottom="@dimen/five_dp"
-                android:paddingLeft="@dimen/ten_dp"
-                android:paddingRight="@dimen/ten_dp"
-                android:paddingTop="@dimen/five_dp"
-                android:text="Info Product"
-                android:textColor="@color/colorBlue"
-                android:textSize="@dimen/sixteen_dp"
-                android:textStyle="bold" />
-        </LinearLayout>
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:layout_marginLeft="@dimen/fifteen_dp"-->
+                <!--android:paddingBottom="@dimen/five_dp"-->
+                <!--android:paddingLeft="@dimen/ten_dp"-->
+                <!--android:paddingRight="@dimen/ten_dp"-->
+                <!--android:paddingTop="@dimen/five_dp"-->
+                <!--android:text="Info Product"-->
+                <!--android:textColor="@color/colorBlue"-->
+                <!--android:textSize="@dimen/sixteen_dp"-->
+                <!--android:textStyle="bold" />-->
+        <!--</LinearLayout>-->
 
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="5px"
-            android:background="@drawable/top_fade" />
+        <!--<FrameLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="5px"-->
+            <!--android:background="@drawable/top_fade" />-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -58,25 +58,15 @@
                 android:layout_marginRight="@dimen/thirty_dp"
                 android:orientation="horizontal">
 
-                <RelativeLayout
-                    android:layout_width="@dimen/hundred_seventy_dp"
-                    android:layout_height="@dimen/hundred_seventy_dp"
-                    android:orientation="vertical">
 
                     <ImageView
                         android:id="@+id/ivProductImage"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_width="@dimen/hundred_seventy_dp"
+                        android:layout_height="@dimen/hundred_seventy_dp"
                         android:adjustViewBounds="true"
-                        android:padding="@dimen/one_dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/default_product_image" />
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/frame_product_photo" />
-                </RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -320,8 +310,8 @@
 
                 <com.jim.mpviews.MpButton
                     android:id="@+id/btnServiceFee"
-                    android:layout_width="@dimen/hundred_ninety_dp"
-                    android:layout_height="@dimen/sixty_five_dp"
+                    android:layout_width="@dimen/hundred_eighty_dp"
+                    android:layout_height="@dimen/sixty_dp"
                     android:layout_marginRight="@dimen/twenty_dp"
                     android:text="@string/service_fee"
                     android:textColor="@color/colorBlue"
@@ -330,8 +320,8 @@
 
                 <com.jim.mpviews.MpButton
                     android:id="@+id/btnDiscountItem"
-                    android:layout_width="@dimen/hundred_ninety_dp"
-                    android:layout_height="@dimen/sixty_five_dp"
+                    android:layout_width="@dimen/hundred_eighty_dp"
+                    android:layout_height="@dimen/sixty_dp"
                     android:layout_marginRight="@dimen/twenty_dp"
                     android:text="@string/discount_item"
                     android:textColor="@color/colorBlue"
@@ -340,8 +330,8 @@
 
                 <com.jim.mpviews.MpButton
                     android:id="@+id/btnClose"
-                    android:layout_width="@dimen/hundred_ninety_dp"
-                    android:layout_height="@dimen/sixty_five_dp"
+                    android:layout_width="@dimen/hundred_eighty_dp"
+                    android:layout_height="@dimen/sixty_dp"
                     android:text="@string/close"
                     android:textColor="@color/colorBlue"
                     android:textSize="@dimen/sixteen_dp" />
@@ -351,7 +341,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/thirty_five_dp"
+                android:layout_marginLeft="@dimen/thirty_dp"
                 android:layout_marginRight="@dimen/thirty_dp"
                 android:layout_marginTop="@dimen/twenty_dp">
 
@@ -374,16 +364,6 @@
                     android:singleLine="false"
                     android:textColorHint="@color/colorTextHint"
                     android:textSize="@dimen/sixteen_dp" />
-
-                <ImageView
-                    android:id="@+id/ivBackLastSpecialRequest"
-                    android:layout_width="@dimen/twenty_five_dp"
-                    android:layout_height="@dimen/twenty_five_dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginBottom="@dimen/fifteen_dp"
-                    android:layout_marginRight="@dimen/fifteen_dp"
-                    android:src="@drawable/repaet_disription" />
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>

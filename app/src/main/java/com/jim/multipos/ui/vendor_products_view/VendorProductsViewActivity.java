@@ -124,7 +124,7 @@ public class VendorProductsViewActivity extends DoubleSideActivity implements Ve
             public void onCancel() {
 
             }
-        }, databaseManager);
+        }, databaseManager, null);
         paymentToVendorDialog.show();
     }
 

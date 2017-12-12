@@ -21,4 +21,6 @@ public interface InventoryPresenter extends Presenter {
     void filterInvert();
     void setVendorId(Long vendorId);
     void setProductId(Long productId);
+
+    void updateData();
 }

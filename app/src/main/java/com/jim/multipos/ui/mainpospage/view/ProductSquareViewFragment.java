@@ -19,6 +19,7 @@ import com.jim.multipos.ui.mainpospage.presenter.ProductSquareViewPresenter;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.rxevents.CategoryEvent;
 import com.jim.multipos.utils.rxevents.MessageEvent;
+import com.jim.multipos.utils.rxevents.MessageWithIdEvent;
 import com.jim.multipos.utils.rxevents.ProductEvent;
 
 import java.util.ArrayList;
@@ -155,7 +156,7 @@ public class ProductSquareViewFragment extends BaseFragment implements ProductSq
 
             @Override
             public void onItemClicked(Product item) {
-                Toast.makeText(getContext(), item.getName(), Toast.LENGTH_SHORT).show();
+                rxBus.send(new ProductEvent(item, OPEN_PRODUCT));
             }
         });
     }

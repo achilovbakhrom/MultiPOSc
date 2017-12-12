@@ -5,11 +5,9 @@ import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
-import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
-import com.jim.multipos.data.db.model.products.VendorProductCon;
-import com.jim.multipos.data.db.model.unit.Unit;
+import com.jim.multipos.ui.inventory.model.InventoryItem;
 import com.jim.multipos.ui.mainpospage.view.ProductInfoView;
 
 import java.util.List;
@@ -28,8 +26,9 @@ import static com.jim.multipos.ui.service_fee_new.Constants.TYPE_REPRICE;
 public class ProductInfoPresenterImpl extends BasePresenterImpl<ProductInfoView> implements ProductInfoPresenter {
     private DatabaseManager databaseManager;
     private Product product;
+    private InventoryItem inventoryItem;
     private int currentVendorPosition = 0;
-    private int productQuantity = 20;
+    private double productQuantity = 20;
     private int currentProductQuantity = 1;
     private String[] discountAmountTypes;
     private String[] discountUsedTypesAbr;
@@ -44,82 +43,17 @@ public class ProductInfoPresenterImpl extends BasePresenterImpl<ProductInfoView>
     }
 
     @Override
-    public Product getProduct() {
-        if (databaseManager.getProductOperations().getAllProducts().blockingSingle().isEmpty()) {
-            Unit unit = new Unit();
-            unit.setAbbr("pcs");
-            unit.setIsActive(true);
-
-            databaseManager.getUnitOperations().addUnit(unit).blockingSingle();
-
-            Currency currency = new Currency();
-            currency.setAbbr("UZS");
-            currency.setName("SUM");
-            currency.setIsMain(true);
-
-            databaseManager.getCurrencyOperations().addCurrency(currency).blockingSingle();
-
-            Vendor vendor = new Vendor();
-            vendor.setName("Bobur Corporation");
-            vendor.setAddress("Temur Malik ko'chasi, Texno Plaza");
-            vendor.setContactName("Bobur");
-            vendor.setCreatedDate(System.currentTimeMillis());
-            vendor.setIsActive(false);
-
-            Vendor vendor1 = new Vendor();
-            vendor1.setName("Temur Corporation");
-            vendor1.setAddress("Bobur Malik ko'chasi, Ocean Plaza");
-            vendor1.setContactName("Temur");
-            vendor1.setCreatedDate(System.currentTimeMillis());
-            vendor1.setIsActive(false);
-
-            Vendor vendor2 = new Vendor();
-            vendor2.setName("Baxtiyor Corporation");
-            vendor2.setAddress("Baxtiyor Malik ko'chasi, Sky Mall");
-            vendor2.setContactName("Baxtiyor");
-            vendor2.setCreatedDate(System.currentTimeMillis());
-            vendor2.setIsActive(false);
-
-            databaseManager.addVendor(vendor).blockingSingle();
-            databaseManager.addVendor(vendor1).blockingSingle();
-            databaseManager.addVendor(vendor2).blockingSingle();
-
-            Product product = new Product();
-            product.setName("Coca cola");
-            product.setCreatedDate(System.currentTimeMillis());
-            product.setIsDeleted(false);
-            product.setIsActive(true);
-            product.setSku(String.valueOf(new Random().nextInt()));
-            product.setBarcode(String.valueOf(new Random().nextInt()));
-            product.setPrice(13.3);
-            product.setPhotoPath("http://pngimg.com/uploads/cocacola/cocacola_PNG2.png");
-            product.setMainUnitId(unit.getId());
-            product.setCostCurrencyId(currency.getId());
-            product.setPriceCurrencyId(currency.getId());
-            product.setDescription("Coca-Cola is the most popular and biggest-selling soft drink in history, as well as one of the most recognizable brands in the world.");
-
-            databaseManager.getProductOperations().addProduct(product).blockingSingle();
-
-            VendorProductCon vendorProductCon = new VendorProductCon();
-            vendorProductCon.setProductId(product.getId());
-            vendorProductCon.setVendorId(vendor.getId());
-
-            VendorProductCon vendorProductCon1 = new VendorProductCon();
-            vendorProductCon1.setProductId(product.getId());
-            vendorProductCon1.setVendorId(vendor1.getId());
-
-            VendorProductCon vendorProductCon2 = new VendorProductCon();
-            vendorProductCon2.setProductId(product.getId());
-            vendorProductCon2.setVendorId(vendor2.getId());
-
-            databaseManager.addVendorProductConnection(vendorProductCon).blockingSingle();
-            databaseManager.addVendorProductConnection(vendorProductCon1).blockingSingle();
-            databaseManager.addVendorProductConnection(vendorProductCon2).blockingSingle();
-        }
-
-        product = databaseManager.getProductOperations().getAllProducts().blockingSingle().get(0);
-
-        return product;
+    public void initProduct(Long productId) {
+        this.product = databaseManager.getProductById(productId).blockingSingle();
+        databaseManager.getInventoryItems().subscribe((inventoryItems, throwable) -> {
+            for(InventoryItem inventoryItem: inventoryItems){
+                if (inventoryItem.getProduct().getId().equals(productId)){
+                    this.inventoryItem = inventoryItem;
+                    productQuantity = inventoryItem.getInventory();
+                }
+            }
+        });
+        view.initProductData(product, productQuantity);
     }
 
     @Override
@@ -169,8 +103,8 @@ public class ProductInfoPresenterImpl extends BasePresenterImpl<ProductInfoView>
     }
 
     @Override
-    public int getProductQuantity() {
-        int result = productQuantity - currentProductQuantity;
+    public Double getProductQuantity() {
+        double result = productQuantity - currentProductQuantity;
 
         if (result >= 0) {
             view.changeQuantityColor(R.color.colorBlue);

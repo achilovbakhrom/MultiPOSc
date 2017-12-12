@@ -6,7 +6,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.Window;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,17 +14,16 @@ import com.jim.mpviews.MPosSpinner;
 import com.jim.mpviews.MpButton;
 import com.jim.mpviews.MpCheckbox;
 import com.jim.mpviews.MpEditText;
-import com.jim.mpviews.MpSpinner;
 import com.jim.multipos.R;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Account;
-import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
 import com.jim.multipos.data.db.model.products.Vendor;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -66,11 +64,14 @@ public class PaymentToVendorDialog extends Dialog {
     private List<Account> accounts;
     private PaymentToVendorCallback paymentToVendorCallback;
     SimpleDateFormat simpleDateFormat;
-    public interface PaymentToVendorCallback{
+
+    public interface PaymentToVendorCallback {
         void onChanged();
+
         void onCancel();
     }
-    public PaymentToVendorDialog(@NonNull Context context, Vendor vendor,PaymentToVendorCallback paymentToVendorCallback,DatabaseManager databaseManager) {
+
+    public PaymentToVendorDialog(@NonNull Context context, Vendor vendor, PaymentToVendorCallback paymentToVendorCallback, DatabaseManager databaseManager, BillingOperations operations) {
         super(context);
         this.accounts = databaseManager.getAccounts();
         simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
@@ -83,46 +84,73 @@ public class PaymentToVendorDialog extends Dialog {
             chbFromAccount.setChecked(!chbFromAccount.isChecked());
         });
         chbFromAccount.setCheckedChangeListener(isChecked -> {
-            if(isChecked){
+            if (isChecked) {
                 tvAccount.setVisibility(View.VISIBLE);
                 spAccount.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 tvAccount.setVisibility(View.GONE);
                 spAccount.setVisibility(View.GONE);
             }
         });
         tvCurrencyAbbr.setText(databaseManager.getMainCurrency().getAbbr());
         tvVendorName.setText(vendor.getName());
-        if(vendor.getName()!=null && !vendor.getName().isEmpty())
-        tvVendorCantact.setText(context.getString(R.string.contact_name)+": "+vendor.getContactName());
+        if (vendor.getName() != null && !vendor.getName().isEmpty())
+            tvVendorCantact.setText(context.getString(R.string.contact_name) + ": " + vendor.getContactName());
         else tvVendorCantact.setVisibility(View.GONE);
         List<String> accountsString = new ArrayList<>();
-        for(Account accName:accounts){
+        for (Account accName : accounts) {
             accountsString.add(accName.getName());
         }
+        etDate.setText(simpleDateFormat.format(calendar.getTime()));
+        etDate.setOnClickListener(view -> {
+
+            DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), (datePicker, i, i1, i2) -> {
+                calendar.set(Calendar.YEAR, i);
+                calendar.set(Calendar.MONTH, i1);
+                calendar.set(Calendar.DAY_OF_MONTH, i2);
+                etDate.setText(simpleDateFormat.format(calendar.getTime()));
+
+            }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+            datePickerDialog.show();
+        });
+        if (operations != null) {
+            etAmmount.setText(String.valueOf(operations.getAmount()));
+            Date date = new Date(operations.getPaymentDate());
+            etDate.setText(simpleDateFormat.format(date));
+            etDisc.setText(operations.getDescription());
+            if (operations.getAccount() != null) {
+                chbFromAccount.setChecked(true);
+                for (int i = 0; i < accounts.size(); i++) {
+                    if (accounts.get(i).getId().equals(operations.getId())) {
+                        spAccount.setSelectedPosition(i);
+                    }
+                }
+            }
+        }
+
         btnWarningYES.setOnClickListener(view -> {
             double ammount = 0;
             etAmmount.setError(null);
-            if(etAmmount.getText().toString().isEmpty()) {
+            if (etAmmount.getText().toString().isEmpty()) {
                 etAmmount.setError(context.getString(R.string.ammount_is_empty));
                 return;
             }
-            try{
+            try {
                 ammount = Double.parseDouble(etAmmount.getText().toString());
-            }catch (Exception o){
+            } catch (Exception o) {
                 etAmmount.setError(context.getString(R.string.invalid));
                 return;
             }
-            if(ammount == 0){
+            if (ammount == 0) {
                 etAmmount.setError(context.getString(R.string.ammount_cant_be_zero));
                 return;
             }
             BillingOperations billingOperations = new BillingOperations();
             billingOperations.setAmount(ammount);
 
-            if(chbFromAccount.isChecked()){
+            if (chbFromAccount.isChecked()) {
                 billingOperations.setAccount(accounts.get(spAccount.getSelectedPosition()));
-            }else billingOperations.setAccount(null);
+            } else billingOperations.setAccount(null);
 
             billingOperations.setPaymentDate(calendar.getTimeInMillis());
             billingOperations.setCreateAt(System.currentTimeMillis());
@@ -131,6 +159,13 @@ public class PaymentToVendorDialog extends Dialog {
             billingOperations.setVendor(vendor);
             billingOperations.setDescription(etDisc.getText().toString());
             billingOperations.setOperationType(BillingOperations.PAID_TO_CONSIGNMENT);
+            if (operations != null) {
+                if (operations.getRootId() != null)
+                    billingOperations.setRootId(operations.getRootId());
+                else billingOperations.setRootId(operations.getId());
+                operations.setNotModifyted(false);
+                databaseManager.insertBillingOperation(operations).subscribe();
+            }
             databaseManager.insertBillingOperation(billingOperations).subscribe();
             paymentToVendorCallback.onChanged();
             dismiss();
@@ -139,19 +174,6 @@ public class PaymentToVendorDialog extends Dialog {
             paymentToVendorCallback.onCancel();
             dismiss();
         });
-        etDate.setText(simpleDateFormat.format(calendar.getTime()));
-        etDate.setOnClickListener(view -> {
-
-            DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), (datePicker, i, i1, i2) -> {
-                calendar.set(Calendar.YEAR,i);
-                calendar.set(Calendar.MONTH,i1);
-                calendar.set(Calendar.DAY_OF_MONTH,i2);
-                etDate.setText(simpleDateFormat.format(calendar.getTime()));
-
-            }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-            datePickerDialog.show();
-        });
-
         spAccount.setAdapter(accountsString);
         chbFromAccount.setChecked(false);
         setContentView(dialogView);

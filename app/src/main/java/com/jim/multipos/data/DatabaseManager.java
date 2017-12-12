@@ -859,6 +859,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
+    public Single<BillingOperations> getBillingOperationByRootId(Long rootId) {
+        return dbHelper.getBillingOperationByRootId(rootId);
+    }
+
+    @Override
     public Single<List<BillingOperations>> getBillingOperationForVendor(Long vendorId) {
         return dbHelper.getBillingOperationForVendor(vendorId);
     }

@@ -1358,7 +1358,7 @@ public class AppDbHelper implements DbHelper {
 //    }
         return Single.create(e -> {
 
-            String query = "SELECT _id, PRODUCT_ID, SUM(VALUE) AS INVENTORY, LOW_STOCK_ALERT FROM INVENTORYSTATE GROUP BY PRODUCT_ID";
+            String query = "SELECT _id, PRODUCT_ID, SUM(VALUE) AS INVENTORY, LOW_STOCK_ALERT, VENDOR_ID FROM INVENTORYSTATE GROUP BY PRODUCT_ID";
             Cursor cursor = mDaoSession.getDatabase().rawQuery(query, null);
             List<InventoryItem> inventoryItems = new ArrayList<>();
             if (cursor.getCount() > 0) {
@@ -1368,6 +1368,7 @@ public class AppDbHelper implements DbHelper {
                     InventoryItem inventoryItem = new InventoryItem();
                     inventoryItem.setId(cursor.getLong(cursor.getColumnIndex("_id")));
                     inventoryItem.setProduct(mDaoSession.getProductDao().load(cursor.getLong(cursor.getColumnIndex("PRODUCT_ID"))));
+                    inventoryItem.setVendor(mDaoSession.getVendorDao().load(cursor.getLong(cursor.getColumnIndex("VENDOR_ID"))));
                     inventoryItem.setInventory(cursor.getDouble(cursor.getColumnIndex("INVENTORY")));
                     inventoryItem.setLowStockAlert(cursor.getDouble(cursor.getColumnIndex("LOW_STOCK_ALERT")));
                     inventoryItems.add(inventoryItem);
@@ -1509,7 +1510,7 @@ public class AppDbHelper implements DbHelper {
                 VendorWithDebt vendorWithDebt = new VendorWithDebt();
                 vendorWithDebt.setVendor(vendor);
                 vendor.resetProducts();
-                String query = "SELECT  SUM(AMOUNT) AS AMOUNT FROM BILLING_OPERATION WHERE IS_NOT_MODIFIED == " + 1 + " GROUP BY VENDOR_ID HAVING VENDOR_ID=?";
+                String query = "SELECT  SUM(AMOUNT) AS AMOUNT FROM BILLING_OPERATION WHERE IS_NOT_MODIFIED == " + 1 + " AND IS_DELETED == " + 0 +  " GROUP BY VENDOR_ID HAVING VENDOR_ID=?";
                 Cursor cursor = mDaoSession.getDatabase().rawQuery(query, new String[]{String.valueOf(vendor.getId())});
 
                 if (cursor.getCount() > 0) {
@@ -1531,7 +1532,7 @@ public class AppDbHelper implements DbHelper {
     public Single<Double> getVendorDebt(Long vendorId) {
         return Single.create(e -> {
             double debt=0;
-            String query = "SELECT  SUM(AMOUNT) AS AMOUNT FROM BILLING_OPERATION GROUP BY VENDOR_ID HAVING VENDOR_ID=?";
+            String query = "SELECT  SUM(AMOUNT) AS AMOUNT FROM BILLING_OPERATION WHERE IS_NOT_MODIFIED == " + 1 + " AND IS_DELETED == " + 0 + " GROUP BY VENDOR_ID HAVING VENDOR_ID=?";
             Cursor cursor = mDaoSession.getDatabase().rawQuery(query,  new String[]{String.valueOf(vendorId)});
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -1584,6 +1585,17 @@ public class AppDbHelper implements DbHelper {
                     .where(BillingOperationsDao.Properties.Id.eq(firstPayId),
                            BillingOperationsDao.Properties.IsNotModified.eq(true),
                            BillingOperationsDao.Properties.IsDeleted.eq(false))
+                    .build()
+                    .list();
+            e.onSuccess(billingOperations.get(0));
+        });
+    }
+
+    @Override
+    public Single<BillingOperations> getBillingOperationByRootId(Long rootId) {
+        return Single.create(e -> {
+            List<BillingOperations> billingOperations = mDaoSession.queryBuilder(BillingOperations.class)
+                    .where(BillingOperationsDao.Properties.Id.eq(rootId))
                     .build()
                     .list();
             e.onSuccess(billingOperations.get(0));
@@ -1713,7 +1725,8 @@ public class AppDbHelper implements DbHelper {
         return Single.create(e -> {
             List<BillingOperations> billingOperations = mDaoSession.queryBuilder(BillingOperations.class)
                     .where(BillingOperationsDao.Properties.VendorId.eq(vendorId),
-                            BillingOperationsDao.Properties.IsNotModified.eq(true))
+                            BillingOperationsDao.Properties.IsNotModified.eq(true),
+                            BillingOperationsDao.Properties.IsDeleted.eq(false))
                     .build().list();
             e.onSuccess(billingOperations);
         });

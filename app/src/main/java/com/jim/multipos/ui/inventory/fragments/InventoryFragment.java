@@ -17,18 +17,23 @@ import com.jim.multipos.ui.inventory.adapters.InventoryItemAdapter;
 import com.jim.multipos.ui.inventory.adapters.VendorListAdapter;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
 import com.jim.multipos.ui.inventory.presenter.InventoryPresenter;
+import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.SurplusProductDialog;
 import com.jim.multipos.utils.UIUtils;
 import com.jim.multipos.utils.WriteOffProductDialog;
+import com.jim.multipos.utils.rxevents.MessageWithIdEvent;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import io.reactivex.disposables.Disposable;
 
+import static com.jim.multipos.ui.consignment.view.IncomeConsignmentFragment.CONSIGNMENT_UPDATE;
 import static com.jim.multipos.ui.inventory.fragments.InventoryFragment.SortModes.*;
 
 /**
@@ -72,9 +77,12 @@ public class InventoryFragment extends BaseFragment implements InventoryView{
     InventoryPresenter presenter;
     @Inject
     RxPermissions rxPermissions;
+    @Inject
+    RxBus rxBus;
     InventoryItemAdapter inventoryItemAdapter;
     VendorListAdapter vendorListAdapter;
     private Dialog dialog;
+    private ArrayList<Disposable> subscriptions;
 
     @Override
     protected int getLayout() {
@@ -212,6 +220,23 @@ public class InventoryFragment extends BaseFragment implements InventoryView{
     }
 
     @Override
+    protected void rxConnections() {
+        subscriptions = new ArrayList<>();
+        subscriptions.add(
+                rxBus.toObservable().subscribe(o -> {
+                    if (o instanceof MessageWithIdEvent) {
+                        MessageWithIdEvent event = (MessageWithIdEvent) o;
+                        switch (event.getMessage()) {
+                            case CONSIGNMENT_UPDATE: {
+                                presenter.updateData();
+                                break;
+                            }
+                        }
+                    }
+                }));
+    }
+
+    @Override
     public void initSearchResults(List<InventoryItem> inventoryItems, String searchText) {
         inventoryItemAdapter.setSearchResult(inventoryItems,searchText);
         inventoryItemAdapter.notifyDataSetChanged();
@@ -267,5 +292,11 @@ public class InventoryFragment extends BaseFragment implements InventoryView{
         ivLowStockAlertSort.setVisibility(View.GONE);
         ivUnitSort.setVisibility(View.GONE);
         ivVendorSort.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        RxBus.removeListners(subscriptions);
     }
 }

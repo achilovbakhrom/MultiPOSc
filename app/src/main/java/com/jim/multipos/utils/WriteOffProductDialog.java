@@ -53,6 +53,7 @@ public class WriteOffProductDialog extends Dialog {
     TextView btnNext;
 
     double aDouble = 0;
+    double v1 = 0;
     public WriteOffProductDialog(@NonNull Context context, WriteOffCallback writeOffCallback, InventoryItem inventoryItem, DecimalFormat decimalFormat){
         super(context);
         this.writeOffCallback = writeOffCallback;
@@ -81,7 +82,6 @@ public class WriteOffProductDialog extends Dialog {
         etShortage.addTextChangedListener(new TextWatcherOnTextChange() {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                double v1;
                 if(!etShortage.getText().toString().isEmpty()){
                     try {
                         v1 = Double.parseDouble(etShortage.getText().toString());
@@ -102,7 +102,7 @@ public class WriteOffProductDialog extends Dialog {
                 UIUtils.closeKeyboard(etShortage,context);
                 Handler handler = new Handler();
                 handler.postDelayed(() -> {
-                    writeOffCallback.writeOff(inventoryItem, inventoryItem.getProduct().getVendor().get(spVenders.getSelectedPosition()), aDouble, etReason.getText().toString());
+                    writeOffCallback.writeOff(inventoryItem, inventoryItem.getProduct().getVendor().get(spVenders.getSelectedPosition()), aDouble, etReason.getText().toString(), v1);
                     dismiss();
                 },300);
 
@@ -114,7 +114,7 @@ public class WriteOffProductDialog extends Dialog {
         });
     }
     public interface WriteOffCallback{
-        void writeOff(InventoryItem inventoryItem,Vendor vendor, double v,String etReason);
+        void writeOff(InventoryItem inventoryItem,Vendor vendor, double v,String etReason, double shortage);
     }
 
 

@@ -48,7 +48,7 @@ public class VendorProductsViewPresenterImpl extends BasePresenterImpl<VendorPro
     @Override
     public void initVendorDetails() {
         this.vendor = databaseManager.getVendorById(vendorId).blockingSingle();
-        debt = databaseManager.getVendorDebt(vendorId).blockingGet() * -1;
+        debt = databaseManager.getVendorDebt(vendorId).blockingGet();
         billingOperations = databaseManager.getBillingOperationForVendor(vendor.getId()).blockingGet();
         double paid = 0;
         for (BillingOperations operations : billingOperations) {
@@ -170,7 +170,7 @@ public class VendorProductsViewPresenterImpl extends BasePresenterImpl<VendorPro
 
     @Override
     public void updateBillings() {
-        debt = databaseManager.getVendorDebt(vendorId).blockingGet() * -1;
+        debt = databaseManager.getVendorDebt(vendorId).blockingGet();
         billingOperations = databaseManager.getBillingOperationForVendor(vendor.getId()).blockingGet();
         double paid = 0;
         for (BillingOperations operations : billingOperations) {

@@ -7,18 +7,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.DatabaseManager;
-import com.jim.multipos.data.db.model.inventory.BillingOperations;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.billing_vendor.BillingOperationsActivity;
-import com.jim.multipos.ui.billing_vendor.fragments.BillingOperationFragment;
-import com.jim.multipos.ui.inventory.fragments.InventoryFragment;
-import com.jim.multipos.ui.inventory.presenter.InventoryPresenter;
-import com.jim.multipos.ui.vendor.add_edit.adapter.VendorsListAdapter;
 import com.jim.multipos.ui.vendor_item_managment.VendorItemsActivity;
 import com.jim.multipos.ui.vendor_item_managment.adapters.VendorItemAdapter;
 import com.jim.multipos.ui.vendor_item_managment.model.VendorWithDebt;
@@ -27,7 +21,6 @@ import com.jim.multipos.utils.PaymentToVendorDialog;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.UIUtils;
 import com.jim.multipos.utils.rxevents.MessageEvent;
-import com.jim.multipos.utils.rxevents.MessageWithIdEvent;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.text.DecimalFormat;
@@ -39,7 +32,6 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import io.reactivex.disposables.Disposable;
 
-import static com.jim.multipos.ui.consignment.view.IncomeConsignmentFragment.CONSIGNMENT_UPDATE;
 import static com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemFragment.SortModes.DEBT;
 import static com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemFragment.SortModes.DEBT_INVENTORY;
 import static com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemFragment.SortModes.PRODUCTS;
@@ -52,7 +44,7 @@ import static com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemFrag
  * Created by developer on 20.11.2017.
  */
 
-public class VendorItemFragment extends BaseFragment implements VendorItemView{
+public class VendorItemFragment extends BaseFragment implements VendorItemView {
     @BindView(R.id.llVendor)
     LinearLayout llVendor;
     @BindView(R.id.llProduct)
@@ -66,7 +58,6 @@ public class VendorItemFragment extends BaseFragment implements VendorItemView{
     ImageView ivProductSort;
     @BindView(R.id.ivDebtSort)
     ImageView ivDebtSort;
-
 
 
     @BindView(R.id.rvVendorItems)
@@ -85,9 +76,10 @@ public class VendorItemFragment extends BaseFragment implements VendorItemView{
     private ArrayList<Disposable> subscriptions;
 
 
-    public enum SortModes{
-        VENDOR,VENDOR_INVENTORY,PRODUCTS,PRODUCTS_INVENTORY,DEBT,DEBT_INVENTORY
+    public enum SortModes {
+        VENDOR, VENDOR_INVENTORY, PRODUCTS, PRODUCTS_INVENTORY, DEBT, DEBT_INVENTORY
     }
+
     @Override
     public void initRecyclerView(List<VendorWithDebt> vendorWithDebts) {
         vendorItemAdapter = new VendorItemAdapter(vendorWithDebts, new VendorItemAdapter.OnVendorAdapterCallback() {
@@ -112,28 +104,27 @@ public class VendorItemFragment extends BaseFragment implements VendorItemView{
             }
 
             @Override
-            public void onPayStory(VendorWithDebt vendorWithDebt,Double debt) {
-                presenter.onPayStory(vendorWithDebt,debt);
+            public void onPayStory(VendorWithDebt vendorWithDebt, Double debt) {
+                presenter.onPayStory(vendorWithDebt, debt);
             }
 
             @Override
             public void onMore(VendorWithDebt vendorWithDebt) {
                 presenter.onMore(vendorWithDebt);
             }
-        },getContext(),decimalFormat);
+        }, getContext(), decimalFormat);
         rvVendorItems.setLayoutManager(new LinearLayoutManager(getContext()));
         rvVendorItems.setAdapter(vendorItemAdapter);
         ivVendorSort.setVisibility(View.VISIBLE);
 
         llVendor.setOnClickListener(view -> {
             deselectAll();
-            if(filterMode != VENDOR){
+            if (filterMode != VENDOR) {
                 filterMode = VENDOR;
                 presenter.filterBy(VENDOR);
                 ivVendorSort.setVisibility(View.VISIBLE);
                 ivVendorSort.setImageResource(R.drawable.sorting);
-            }
-            else {
+            } else {
                 filterMode = VENDOR_INVENTORY;
                 ivVendorSort.setVisibility(View.VISIBLE);
                 ivVendorSort.setImageResource(R.drawable.sorting_invert);
@@ -143,13 +134,12 @@ public class VendorItemFragment extends BaseFragment implements VendorItemView{
 
         llProduct.setOnClickListener(view -> {
             deselectAll();
-            if(filterMode != PRODUCTS){
+            if (filterMode != PRODUCTS) {
                 filterMode = PRODUCTS;
                 presenter.filterBy(PRODUCTS);
                 ivProductSort.setVisibility(View.VISIBLE);
                 ivProductSort.setImageResource(R.drawable.sorting);
-            }
-            else {
+            } else {
                 filterMode = PRODUCTS_INVENTORY;
                 ivProductSort.setVisibility(View.VISIBLE);
                 ivProductSort.setImageResource(R.drawable.sorting_invert);
@@ -159,13 +149,12 @@ public class VendorItemFragment extends BaseFragment implements VendorItemView{
 
         llDebt.setOnClickListener(view -> {
             deselectAll();
-            if(filterMode != DEBT){
+            if (filterMode != DEBT) {
                 filterMode = DEBT;
                 presenter.filterBy(DEBT);
                 ivDebtSort.setVisibility(View.VISIBLE);
                 ivDebtSort.setImageResource(R.drawable.sorting);
-            }
-            else {
+            } else {
                 filterMode = DEBT_INVENTORY;
                 ivDebtSort.setVisibility(View.VISIBLE);
                 ivDebtSort.setImageResource(R.drawable.sorting_invert);
@@ -193,8 +182,14 @@ public class VendorItemFragment extends BaseFragment implements VendorItemView{
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        RxBus.removeListners(subscriptions);
+    }
+
+    @Override
     public void initSearchResults(List<VendorWithDebt> vendorWithDebts, String searchText) {
-        vendorItemAdapter.setSearchResult(vendorWithDebts,searchText);
+        vendorItemAdapter.setSearchResult(vendorWithDebts, searchText);
         vendorItemAdapter.notifyDataSetChanged();
     }
 
@@ -211,7 +206,7 @@ public class VendorItemFragment extends BaseFragment implements VendorItemView{
 
     @Override
     public void closeKeyboard() {
-        UIUtils.closeKeyboard(llDebt,getActivity());
+        UIUtils.closeKeyboard(llDebt, getActivity());
 
     }
 
@@ -237,17 +232,19 @@ public class VendorItemFragment extends BaseFragment implements VendorItemView{
             public void onChanged() {
                 presenter.updateData();
             }
+
             @Override
-            public void onCancel() {}
-        }, databaseManager);
+            public void onCancel() {
+            }
+        }, databaseManager, null);
         paymentToVendorDialog.show();
     }
 
     @Override
-    public void openVendorBillingStory(Long vendorId,Double totaldebt) {
+    public void openVendorBillingStory(Long vendorId, Double totaldebt) {
         Intent intent = new Intent(getActivity(), BillingOperationsActivity.class);
-        intent.putExtra(BillingOperationsActivity.VENDOR_EXTRA_ID,vendorId);
-        intent.putExtra(BillingOperationsActivity.VENDOR_DEBT,totaldebt);
+        intent.putExtra(BillingOperationsActivity.VENDOR_EXTRA_ID, vendorId);
+        intent.putExtra(BillingOperationsActivity.VENDOR_DEBT, totaldebt);
         getActivity().startActivity(intent);
     }
 
@@ -256,7 +253,8 @@ public class VendorItemFragment extends BaseFragment implements VendorItemView{
     protected int getLayout() {
         return R.layout.vendor_item_fragment;
     }
-    public void searchText(String searchText){
+
+    public void searchText(String searchText) {
         presenter.onSearchTyped(searchText);
     }
 
@@ -264,7 +262,8 @@ public class VendorItemFragment extends BaseFragment implements VendorItemView{
     protected void init(Bundle savedInstanceState) {
         presenter.onCreateView(savedInstanceState);
     }
-    private void deselectAll(){
+
+    private void deselectAll() {
         ivDebtSort.setVisibility(View.GONE);
         ivProductSort.setVisibility(View.GONE);
         ivVendorSort.setVisibility(View.GONE);

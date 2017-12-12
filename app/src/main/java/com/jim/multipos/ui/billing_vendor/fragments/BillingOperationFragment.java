@@ -19,7 +19,10 @@ import com.jim.multipos.data.db.model.inventory.BillingOperations;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.billing_vendor.adapter.BillingOperartionsAdapter;
 import com.jim.multipos.ui.billing_vendor.presenter.BillingOperationPresenter;
+import com.jim.multipos.utils.BillingInfoDialog;
 import com.jim.multipos.utils.PaymentToVendorDialog;
+import com.jim.multipos.utils.RxBus;
+import com.jim.multipos.utils.rxevents.MessageEvent;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -38,6 +41,7 @@ import static com.jim.multipos.ui.billing_vendor.fragments.BillingOperationFragm
 import static com.jim.multipos.ui.billing_vendor.fragments.BillingOperationFragment.SortModes.PAYMENT_INVERT;
 import static com.jim.multipos.ui.billing_vendor.fragments.BillingOperationFragment.SortModes.TIME;
 import static com.jim.multipos.ui.billing_vendor.fragments.BillingOperationFragment.SortModes.TIME_INVERT;
+import static com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemFragment.BILLINGS_UPDATE;
 
 /**
  * Created by developer on 30.11.2017.
@@ -92,6 +96,9 @@ public class BillingOperationFragment extends BaseFragment implements BillingOpe
     SortModes filterMode = TIME;
     @Inject
     BillingOperationPresenter presenter;
+    @Inject
+    RxBus rxBus;
+
     @Override
     public void setVendorData(Vendor vendor) {
         StringBuilder builder = new StringBuilder();
@@ -131,7 +138,7 @@ public class BillingOperationFragment extends BaseFragment implements BillingOpe
                 public void onCancel() {
 
                 }
-            }, databaseManager);
+            }, databaseManager, null);
             paymentToVendorDialog.show();
         });
 
@@ -142,7 +149,20 @@ public class BillingOperationFragment extends BaseFragment implements BillingOpe
         rvBilling.setLayoutManager(new LinearLayoutManager(getContext()));
         rvBilling.setAdapter(billingOperartionsAdapter);
         billingOperartionsAdapter.setData(transactions, billingOperations -> {
-            //TODO openInfo
+            BillingInfoDialog infoDialog = new BillingInfoDialog(getContext(), billingOperations, databaseManager, (operations) -> {
+                PaymentToVendorDialog paymentToVendorDialog = new PaymentToVendorDialog(getContext(), operations.getVendor(), new PaymentToVendorDialog.PaymentToVendorCallback() {
+                    @Override
+                    public void onChanged() {
+                        presenter.updateBillings();
+                    }
+                    @Override
+                    public void onCancel() {
+
+                    }
+                }, databaseManager, operations);
+                paymentToVendorDialog.show();
+            });
+            infoDialog.show();
         });
     }
     @Override
@@ -159,7 +179,7 @@ public class BillingOperationFragment extends BaseFragment implements BillingOpe
     @Override
     public void updateDebt(Double debt) {
         totalDebt = debt;
-
+        rxBus.send(new MessageEvent(BILLINGS_UPDATE));
 
         if(debt<=0){
             tvDebtD.setText(R.string.debt);
