@@ -17,6 +17,7 @@ import com.jim.multipos.data.db.model.Contact;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
 import com.jim.multipos.data.db.model.products.Vendor;
+import com.jim.multipos.ui.billing_vendor.BillingOperationsActivity;
 import com.jim.multipos.ui.billing_vendor.adapter.BillingOperartionsAdapter;
 import com.jim.multipos.ui.billing_vendor.presenter.BillingOperationPresenter;
 import com.jim.multipos.utils.BillingInfoDialog;
@@ -31,6 +32,10 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 
+import static com.jim.multipos.data.db.model.consignment.Consignment.INCOME_CONSIGNMENT;
+import static com.jim.multipos.data.db.model.consignment.Consignment.RETURN_CONSIGNMENT;
+import static com.jim.multipos.data.db.model.inventory.BillingOperations.DEBT_CONSIGNMENT;
+import static com.jim.multipos.data.db.model.inventory.BillingOperations.RETURN_TO_VENDOR;
 import static com.jim.multipos.ui.billing_vendor.fragments.BillingOperationFragment.SortModes.DESCRIPTION;
 import static com.jim.multipos.ui.billing_vendor.fragments.BillingOperationFragment.SortModes.DESCRIPTION_INVERT;
 import static com.jim.multipos.ui.billing_vendor.fragments.BillingOperationFragment.SortModes.EXTRA;
@@ -47,7 +52,7 @@ import static com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemFrag
  * Created by developer on 30.11.2017.
  */
 
-public class BillingOperationFragment extends BaseFragment implements BillingOperationView{
+public class BillingOperationFragment extends BaseFragment implements BillingOperationView {
     @BindView(R.id.rvBilling)
     RecyclerView rvBilling;
 
@@ -104,7 +109,7 @@ public class BillingOperationFragment extends BaseFragment implements BillingOpe
         StringBuilder builder = new StringBuilder();
 
         for (Contact contact : vendor.getContacts()) {
-            if(!builder.toString().isEmpty())  builder.append("  |  ");
+            if (!builder.toString().isEmpty()) builder.append("  |  ");
 
             if (contact.getType() == Contact.E_MAIL) {
                 builder.append(getString(R.string.email_two_dots));
@@ -116,14 +121,14 @@ public class BillingOperationFragment extends BaseFragment implements BillingOpe
                 builder.append(contact.getName());
             }
         }
-        if(!builder.toString().isEmpty())
+        if (!builder.toString().isEmpty())
             tvVendorCantact.setText(builder.toString());
-        else if(!vendor.getContactName().isEmpty()){
+        else if (!vendor.getContactName().isEmpty()) {
             builder.append(getString(R.string.contact_name));
             builder.append(": ");
             builder.append(vendor.getContactName());
             tvVendorCantact.setText(builder.toString());
-        }else {
+        } else {
             tvVendorCantact.setVisibility(View.GONE);
         }
 
@@ -134,6 +139,7 @@ public class BillingOperationFragment extends BaseFragment implements BillingOpe
                 public void onChanged() {
                     presenter.updateBillings();
                 }
+
                 @Override
                 public void onCancel() {
 
@@ -150,23 +156,31 @@ public class BillingOperationFragment extends BaseFragment implements BillingOpe
         rvBilling.setAdapter(billingOperartionsAdapter);
         billingOperartionsAdapter.setData(transactions, billingOperations -> {
             BillingInfoDialog infoDialog = new BillingInfoDialog(getContext(), billingOperations, databaseManager, (operations) -> {
-                PaymentToVendorDialog paymentToVendorDialog = new PaymentToVendorDialog(getContext(), operations.getVendor(), new PaymentToVendorDialog.PaymentToVendorCallback() {
-                    @Override
-                    public void onChanged() {
-                        presenter.updateBillings();
-                    }
-                    @Override
-                    public void onCancel() {
+                if (operations.getOperationType().equals(DEBT_CONSIGNMENT)) {
+                    ((BillingOperationsActivity) getActivity()).openConsignment(operations.getConsignmentId(), INCOME_CONSIGNMENT);
+                } else if (operations.getOperationType().equals(RETURN_TO_VENDOR)) {
+                    ((BillingOperationsActivity) getActivity()).openConsignment(operations.getConsignmentId(), RETURN_CONSIGNMENT);
+                } else {
+                    PaymentToVendorDialog paymentToVendorDialog = new PaymentToVendorDialog(getContext(), operations.getVendor(), new PaymentToVendorDialog.PaymentToVendorCallback() {
+                        @Override
+                        public void onChanged() {
+                            presenter.updateBillings();
+                        }
 
-                    }
-                }, databaseManager, operations);
-                paymentToVendorDialog.show();
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    }, databaseManager, operations);
+                    paymentToVendorDialog.show();
+                }
             });
             infoDialog.show();
         });
     }
+
     @Override
-    public void notifyListChange(List<BillingOperations> billingOperations){
+    public void notifyListChange(List<BillingOperations> billingOperations) {
         billingOperartionsAdapter.setData(billingOperations);
         billingOperartionsAdapter.notifyDataSetChanged();
     }
@@ -181,21 +195,21 @@ public class BillingOperationFragment extends BaseFragment implements BillingOpe
         totalDebt = debt;
         rxBus.send(new MessageEvent(BILLINGS_UPDATE));
 
-        if(debt<=0){
+        if (debt <= 0) {
             tvDebtD.setText(R.string.debt);
             tvDebtAmmount.setTextColor(Color.parseColor("#df4f4f"));
-        }else {
+        } else {
             tvDebtD.setText(R.string.overpaid);
             tvDebtAmmount.setTextColor(Color.parseColor("#36a614"));
 
         }
-        tvDebtAmmount.setText(decimalFormat.format(totalDebt)+" "+mainCurrency.getAbbr());
+        tvDebtAmmount.setText(decimalFormat.format(totalDebt) + " " + mainCurrency.getAbbr());
 
 
     }
 
-    public enum SortModes{
-        TIME,TIME_INVERT,OPERATION,OPERATION_INVERT,EXTRA,EXTRA_INVERT, DESCRIPTION, DESCRIPTION_INVERT, PAYMENT, PAYMENT_INVERT
+    public enum SortModes {
+        TIME, TIME_INVERT, OPERATION, OPERATION_INVERT, EXTRA, EXTRA_INVERT, DESCRIPTION, DESCRIPTION_INVERT, PAYMENT, PAYMENT_INVERT
     }
 
     @Override
@@ -210,12 +224,12 @@ public class BillingOperationFragment extends BaseFragment implements BillingOpe
         presenter.findVendor(vendorId);
         llTimeDate.setOnClickListener(view -> {
             deselectAll();
-            if(filterMode != TIME){
+            if (filterMode != TIME) {
                 filterMode = TIME;
                 presenter.filterBy(TIME);
                 ivTimeDate.setVisibility(View.VISIBLE);
                 ivTimeDate.setImageResource(R.drawable.sorting);
-            }else {
+            } else {
                 filterMode = TIME_INVERT;
                 ivTimeDate.setVisibility(View.VISIBLE);
                 ivTimeDate.setImageResource(R.drawable.sorting_invert);
@@ -224,12 +238,12 @@ public class BillingOperationFragment extends BaseFragment implements BillingOpe
         });
         llOperation.setOnClickListener(view -> {
             deselectAll();
-            if(filterMode != OPERATION){
+            if (filterMode != OPERATION) {
                 filterMode = OPERATION;
                 presenter.filterBy(OPERATION);
                 ivOperation.setVisibility(View.VISIBLE);
                 ivOperation.setImageResource(R.drawable.sorting);
-            }else {
+            } else {
                 filterMode = OPERATION_INVERT;
                 ivOperation.setVisibility(View.VISIBLE);
                 ivOperation.setImageResource(R.drawable.sorting_invert);
@@ -238,12 +252,12 @@ public class BillingOperationFragment extends BaseFragment implements BillingOpe
         });
         llExtra.setOnClickListener(view -> {
             deselectAll();
-            if(filterMode != EXTRA){
+            if (filterMode != EXTRA) {
                 filterMode = EXTRA;
                 presenter.filterBy(EXTRA);
                 ivExtra.setVisibility(View.VISIBLE);
                 ivExtra.setImageResource(R.drawable.sorting);
-            }else {
+            } else {
                 filterMode = EXTRA_INVERT;
                 ivExtra.setVisibility(View.VISIBLE);
                 ivExtra.setImageResource(R.drawable.sorting_invert);
@@ -252,12 +266,12 @@ public class BillingOperationFragment extends BaseFragment implements BillingOpe
         });
         llDescription.setOnClickListener(view -> {
             deselectAll();
-            if(filterMode != DESCRIPTION){
+            if (filterMode != DESCRIPTION) {
                 filterMode = DESCRIPTION;
                 presenter.filterBy(DESCRIPTION);
                 ivDescription.setVisibility(View.VISIBLE);
                 ivDescription.setImageResource(R.drawable.sorting);
-            }else {
+            } else {
                 filterMode = DESCRIPTION_INVERT;
                 ivDescription.setVisibility(View.VISIBLE);
                 ivDescription.setImageResource(R.drawable.sorting_invert);
@@ -266,12 +280,12 @@ public class BillingOperationFragment extends BaseFragment implements BillingOpe
         });
         llPayment.setOnClickListener(view -> {
             deselectAll();
-            if(filterMode != PAYMENT){
+            if (filterMode != PAYMENT) {
                 filterMode = PAYMENT;
                 presenter.filterBy(PAYMENT);
                 ivPayment.setVisibility(View.VISIBLE);
                 ivPayment.setImageResource(R.drawable.sorting);
-            }else {
+            } else {
                 filterMode = PAYMENT_INVERT;
                 ivPayment.setVisibility(View.VISIBLE);
                 ivPayment.setImageResource(R.drawable.sorting_invert);
@@ -282,17 +296,22 @@ public class BillingOperationFragment extends BaseFragment implements BillingOpe
 
     }
 
-    private void deselectAll(){
+    private void deselectAll() {
         ivTimeDate.setVisibility(View.GONE);
         ivOperation.setVisibility(View.GONE);
         ivExtra.setVisibility(View.GONE);
         ivDescription.setVisibility(View.GONE);
         ivPayment.setVisibility(View.GONE);
     }
+
     Long vendorId;
     Double totalDebt;
-    public   void setVendorId(Long vendorId){
+
+    public void setVendorId(Long vendorId) {
         this.vendorId = vendorId;
     }
-    public void setTotalDebt(Double totalDebt) {this.totalDebt = totalDebt;}
+
+    public void setTotalDebt(Double totalDebt) {
+        this.totalDebt = totalDebt;
+    }
 }

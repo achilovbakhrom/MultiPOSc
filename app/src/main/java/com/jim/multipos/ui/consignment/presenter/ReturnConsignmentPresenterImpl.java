@@ -210,11 +210,11 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
         this.returnConsignment.setIsNotModified(false);
         List<BillingOperations> billingOperationsList = new ArrayList<>();
         BillingOperations debtOperation = new BillingOperations();
-        debtOperation.setAmount(sum * -1);
+        debtOperation.setAmount(sum);
         debtOperation.setCreateAt(System.currentTimeMillis());
         debtOperation.setVendor(this.vendor);
         debtOperation.setPaymentDate(debt.getPaymentDate());
-        debtOperation.setOperationType(BillingOperations.DEBT_CONSIGNMENT);
+        debtOperation.setOperationType(BillingOperations.RETURN_TO_VENDOR);
         if (debt.getRootId() != null)
             debtOperation.setRootId(debt.getRootId());
         else debtOperation.setRootId(debt.getId());
