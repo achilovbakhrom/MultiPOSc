@@ -41,6 +41,8 @@ public class VendorAddEditActivity extends DoubleSideActivity implements VendorA
     @Getter
     RxPermissions rxPermissions;
 
+    private boolean isVendorDedtails = false;
+
     @Override
     protected int getToolbarMode() {
         return MpToolbar.DEFAULT_TYPE;
@@ -52,17 +54,19 @@ public class VendorAddEditActivity extends DoubleSideActivity implements VendorA
         presenter.setMode(AddingMode.ADD, null);
         addFragmentToLeft(new VendorAddEditFragment());
         addFragmentToRight(new VendorsListFragment());
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            Long vendorId = bundle.getLong(VENDOR_ID);
-            presenter.setMode(AddingMode.EDIT, vendorId);
-            selectListItem(vendorId);
+        if (!isVendorDedtails) {
+            Bundle bundle = getIntent().getExtras();
+            if (bundle != null) {
+                Long vendorId = bundle.getLong(VENDOR_ID);
+                presenter.setEditMode(AddingMode.EDIT, vendorId);
+                selectListItem(vendorId);
+                isVendorDedtails = true;
+            }
         }
     }
 

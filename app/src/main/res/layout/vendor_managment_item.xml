@@ -123,7 +123,7 @@
                 android:gravity="center"
                 android:layout_marginTop="@dimen/twelve_dp"
                 android:textSize="@dimen/sixteen_dp"
-                android:textColor="#a0cfeb"
+                android:textColor="@color/colorBlue"
                 android:background="@drawable/blue_stroke_2"/>
             <LinearLayout
                 android:layout_width="match_parent"

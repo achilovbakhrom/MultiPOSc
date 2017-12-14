@@ -268,7 +268,7 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
                             getString(R.string.warning_discard_changes), new UIUtils.AlertListener() {
                                 @Override
                                 public void onPositiveButtonClicked() {
-                                    setMode(AddingMode.ADD, null);
+                                    getActivity().finish();
                                 }
 
                                 @Override

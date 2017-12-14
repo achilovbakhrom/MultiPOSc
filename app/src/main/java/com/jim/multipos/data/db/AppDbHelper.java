@@ -1592,13 +1592,13 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
-    public Single<BillingOperations> getBillingOperationByRootId(Long rootId) {
+    public Single<List<BillingOperations>> getBillingOperationByRootId(Long rootId) {
         return Single.create(e -> {
             List<BillingOperations> billingOperations = mDaoSession.queryBuilder(BillingOperations.class)
-                    .where(BillingOperationsDao.Properties.Id.eq(rootId))
+                    .whereOr(BillingOperationsDao.Properties.RootId.eq(rootId), BillingOperationsDao.Properties.Id.eq(rootId))
                     .build()
                     .list();
-            e.onSuccess(billingOperations.get(0));
+            e.onSuccess(billingOperations);
         });
     }
 

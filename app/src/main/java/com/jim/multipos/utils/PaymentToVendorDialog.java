@@ -83,6 +83,7 @@ public class PaymentToVendorDialog extends Dialog {
         llFromAccount.setOnClickListener(view -> {
             chbFromAccount.setChecked(!chbFromAccount.isChecked());
         });
+
         chbFromAccount.setCheckedChangeListener(isChecked -> {
             if (isChecked) {
                 tvAccount.setVisibility(View.VISIBLE);
@@ -101,6 +102,8 @@ public class PaymentToVendorDialog extends Dialog {
         for (Account accName : accounts) {
             accountsString.add(accName.getName());
         }
+        spAccount.setAdapter(accountsString);
+        chbFromAccount.setChecked(false);
         etDate.setText(simpleDateFormat.format(calendar.getTime()));
         etDate.setOnClickListener(view -> {
 
@@ -120,6 +123,8 @@ public class PaymentToVendorDialog extends Dialog {
             etDisc.setText(operations.getDescription());
             if (operations.getAccount() != null) {
                 chbFromAccount.setChecked(true);
+                tvAccount.setVisibility(View.VISIBLE);
+                spAccount.setVisibility(View.VISIBLE);
                 for (int i = 0; i < accounts.size(); i++) {
                     if (accounts.get(i).getId().equals(operations.getId())) {
                         spAccount.setSelectedPosition(i);
@@ -174,8 +179,7 @@ public class PaymentToVendorDialog extends Dialog {
             paymentToVendorCallback.onCancel();
             dismiss();
         });
-        spAccount.setAdapter(accountsString);
-        chbFromAccount.setChecked(false);
+
         setContentView(dialogView);
         View v = getWindow().getDecorView();
         v.setBackgroundResource(android.R.color.transparent);

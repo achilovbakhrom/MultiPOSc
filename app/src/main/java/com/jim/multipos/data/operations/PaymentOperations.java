@@ -16,5 +16,5 @@ public interface PaymentOperations {
     Observable<List<BillingOperations>> getBillingOperations();
     Single<BillingOperations> getBillingOperationsByConsignmentId(Long consignmentId);
     Single<BillingOperations> getBillingOperationsById(Long firstPayId);
-    Single<BillingOperations> getBillingOperationByRootId(Long rootId);
+    Single<List<BillingOperations>> getBillingOperationByRootId(Long rootId);
 }

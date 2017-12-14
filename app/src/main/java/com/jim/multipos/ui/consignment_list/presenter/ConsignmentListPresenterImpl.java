@@ -111,6 +111,11 @@ public class ConsignmentListPresenterImpl extends BasePresenterImpl<ConsignmentL
         view.openConsignment(consignment.getId(), consignment.getConsignmentType());
     }
 
+    @Override
+    public void deleteConsignment(Consignment consignment) {
+
+    }
+
     private void sortList() {
         List<Consignment> consignmentListTemp;
         if (searchResults != null)

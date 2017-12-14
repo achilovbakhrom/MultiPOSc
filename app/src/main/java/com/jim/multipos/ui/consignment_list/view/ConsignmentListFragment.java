@@ -107,7 +107,17 @@ public class ConsignmentListFragment extends BaseFragment implements Consignment
         rvConsignmentList.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new ConsignmentListItemAdapter(getContext());
         rvConsignmentList.setAdapter(adapter);
-        adapter.setCallback(consignment -> presenter.setConsignment(consignment));
+        adapter.setCallback(new ConsignmentListItemAdapter.OnConsignmentListItemCallback() {
+            @Override
+            public void onItemClick(Consignment consignment) {
+                presenter.setConsignment(consignment);
+            }
+
+            @Override
+            public void onItemDelete(Consignment consignment) {
+                presenter.deleteConsignment(consignment);
+            }
+        });
         if (getArguments() != null) {
             Long vendorId = (Long) getArguments().get(VENDOR_ID);
             presenter.initConsignmentListRecyclerViewData(vendorId);

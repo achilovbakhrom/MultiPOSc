@@ -859,8 +859,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
-    public Single<BillingOperations> getBillingOperationByRootId(Long rootId) {
-        return dbHelper.getBillingOperationByRootId(rootId);
+    public Single<List<BillingOperations>> getBillingOperationByRootId(Long rootId) {
+        return dbHelper.getBillingOperationByRootId(rootId).map(billingOperations -> {
+            Collections.sort(billingOperations, (billingOperation, t1) -> t1.getCreatedDate().compareTo(billingOperation.getCreatedDate()));
+            return billingOperations;
+        });
     }
 
     @Override

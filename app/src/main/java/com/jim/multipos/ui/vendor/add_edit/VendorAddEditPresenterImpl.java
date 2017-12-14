@@ -227,4 +227,17 @@ public class VendorAddEditPresenterImpl extends BasePresenterImpl<VendorAddEditV
             return databaseManager.getVendorById(vendorId).blockingSingle();
     }
 
+    @Override
+    public void setEditMode(AddingMode mode, Long vendorId) {
+        this.vendorId = vendorId;
+        Vendor vendor = databaseManager.getVendorById(vendorId).blockingSingle();
+        if (vendor != null) {
+            contacts = vendor.getContacts();
+            vendor.resetContacts();
+            view.prepareEditMode(vendor);
+        }
+        view.changeSelectedPosition();
+        this.mode = mode;
+    }
+
 }

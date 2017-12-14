@@ -24,4 +24,5 @@ public interface VendorAddEditPresenter extends Presenter {
     List<Contact> getContacts();
     void removeContact(Contact contact);
     Vendor getVendor();
+    void setEditMode(AddingMode edit, Long vendorId);
 }

@@ -3,19 +3,25 @@ package com.jim.multipos.utils;
 import android.app.Dialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jim.mpviews.MpButton;
+import com.jim.mpviews.RecyclerViewWithMaxHeight;
 import com.jim.multipos.R;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
+import com.jim.multipos.ui.billing_vendor.adapter.BillingInfoAdapter;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,26 +36,10 @@ public class BillingInfoDialog extends Dialog {
     MpButton btnWarningYES;
     @BindView(R.id.btnWarningNO)
     MpButton btnWarningNO;
-    @BindView(R.id.tvCreatedDate)
-    TextView tvCreatedDate;
-    @BindView(R.id.tvAmount)
-    TextView tvAmount;
-    @BindView(R.id.tvPaymentDate)
-    TextView tvPaymentDate;
-    @BindView(R.id.tvAccount)
-    TextView tvAccount;
-    @BindView(R.id.tvEditedCreatedDate)
-    TextView tvEditedCreatedDate;
-    @BindView(R.id.tvEditedAccount)
-    TextView tvEditedAccount;
-    @BindView(R.id.tvEditedAmount)
-    TextView tvEditedAmount;
-    @BindView(R.id.tvEditedPaymentDate)
-    TextView tvEditedPaymentDate;
-    @BindView(R.id.llEditedDetails)
-    LinearLayout llEditedDetails;
-
-    private SimpleDateFormat simpleDateFormat;
+    @BindView(R.id.rvPayments)
+    RecyclerViewWithMaxHeight rvPayments;
+    BillingInfoAdapter adapter;
+    List<BillingOperations> billingOperations;
 
     public interface BillingInfoCallback {
         void onEdit(BillingOperations operations);
@@ -57,35 +47,24 @@ public class BillingInfoDialog extends Dialog {
 
     public BillingInfoDialog(@NonNull Context context, BillingOperations operations, DatabaseManager databaseManager, BillingInfoCallback billingInfoCallback) {
         super(context);
-        simpleDateFormat = new SimpleDateFormat("HH:mm dd-MM-yyyy");
         dialogView = getLayoutInflater().inflate(R.layout.billing_info_dialog, null);
         ButterKnife.bind(this, dialogView);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        Date createdDate = new Date(operations.getCreateAt());
-        Date paymentDate = new Date(operations.getPaymentDate());
-        Currency currency = databaseManager.getMainCurrency();
-        tvCreatedDate.setText(simpleDateFormat.format(createdDate));
-        tvPaymentDate.setText(simpleDateFormat.format(paymentDate));
-        if (operations.getAccount() != null)
-            tvAccount.setText(operations.getAccount().getName());
-        else {
-            tvAccount.setText("None");
-        }
-        tvAmount.setText(String.valueOf(operations.getAmount()) + " " + currency.getAbbr());
 
+        rvPayments.setLayoutManager(new LinearLayoutManager(context));
+        billingOperations = new ArrayList<>();
+        Currency currency = databaseManager.getMainCurrency();
+        adapter = new BillingInfoAdapter(context, currency);
+
+        rvPayments.setAdapter(adapter);
         if (operations.getRootId() != null) {
-            llEditedDetails.setVisibility(View.VISIBLE);
-            BillingOperations rootOperation = databaseManager.getBillingOperationByRootId(operations.getRootId()).blockingGet();
-            Date editedDate = new Date(rootOperation.getCreateAt());
-            Date editedPaymentDate = new Date(rootOperation.getPaymentDate());
-            tvEditedCreatedDate.setText(simpleDateFormat.format(editedDate));
-            tvEditedPaymentDate.setText(simpleDateFormat.format(editedPaymentDate));
-            if (rootOperation.getAccount() != null)
-                tvEditedAccount.setText(rootOperation.getAccount().getName());
-            else {
-                tvEditedAccount.setText("None");
-            }
-            tvEditedAmount.setText(String.valueOf(rootOperation.getAmount()) + " " + currency.getAbbr());
+            databaseManager.getBillingOperationByRootId(operations.getRootId()).subscribe((billingOperations1, throwable) -> {
+                billingOperations = billingOperations1;
+                adapter.setData(billingOperations);
+            });
+        } else {
+            billingOperations.add(operations);
+            adapter.setData(billingOperations);
         }
 
         btnWarningYES.setOnClickListener(view -> {

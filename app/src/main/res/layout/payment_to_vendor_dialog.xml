@@ -216,7 +216,7 @@
                 android:gravity="center"
                 android:text="@string/cancel"
                 android:layout_marginRight="@dimen/fifteen_dp"
-                android:textColor="#c7c7c7"
+                android:textColor="@color/colorSecondaryText"
                 android:textSize="@dimen/fourteen_dp"
                 android:textStyle="bold" />
 

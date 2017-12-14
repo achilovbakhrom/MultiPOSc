@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="@dimen/five_hundred_dp"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/four_hundred_eighty_dp"
         android:background="@drawable/rounded_edit_text_bg"
         android:orientation="vertical">
 
@@ -32,264 +32,35 @@
 
         </LinearLayout>
 
-        <LinearLayout
+        <com.jim.mpviews.RecyclerViewWithMaxHeight
+            android:id="@+id/rvPayments"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/ten_dp"
-            android:layout_marginTop="@dimen/fifteen_dp"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/thirty_dp"
-            android:paddingRight="@dimen/thirty_dp">
+            android:overScrollMode="never" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Created Date"
-                android:textColor="@color/colorSecondaryText"
-                android:textSize="@dimen/sixteen_dp" />
-
-            <TextView
-                android:id="@+id/tvCreatedDate"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:textColor="@color/colorMainText"
-                android:textSize="@dimen/sixteen_dp" />
-
-        </LinearLayout>
-
-
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/ten_dp"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/thirty_dp"
-            android:paddingRight="@dimen/thirty_dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Payment Date"
-                android:textColor="@color/colorSecondaryText"
-                android:textSize="@dimen/sixteen_dp" />
-
-            <TextView
-                android:id="@+id/tvPaymentDate"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:textColor="@color/colorMainText"
-                android:textSize="@dimen/sixteen_dp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/ten_dp"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/thirty_dp"
-            android:paddingRight="@dimen/thirty_dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/account"
-                android:textColor="@color/colorSecondaryText"
-                android:textSize="@dimen/sixteen_dp" />
-
-            <TextView
-                android:id="@+id/tvAccount"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:textColor="@color/colorMainText"
-                android:textSize="@dimen/sixteen_dp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/ten_dp"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/thirty_dp"
-            android:paddingRight="@dimen/thirty_dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/amount"
-                android:textColor="@color/colorSecondaryText"
-                android:textSize="@dimen/sixteen_dp" />
-
-            <TextView
-                android:id="@+id/tvAmount"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:textColor="@color/colorMainText"
-                android:textSize="@dimen/sixteen_dp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/llEditedDetails"
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/ten_dp"
-                android:layout_marginLeft="@dimen/thirty_dp"
-                android:text="Edited details"
-                android:textColor="@color/colorDarkRedSecond"
-                android:textSize="@dimen/sixteen_dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/twenty_dp"
-                android:layout_marginRight="@dimen/twenty_dp"
-                android:background="@drawable/red_storke_bg"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/ten_dp"
-                    android:layout_marginTop="@dimen/ten_dp"
-                    android:orientation="horizontal"
-                    android:paddingLeft="@dimen/thirty_dp"
-                    android:paddingRight="@dimen/thirty_dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Created Date"
-                        android:textColor="@color/colorSecondaryText"
-                        android:textSize="@dimen/sixteen_dp" />
-
-                    <TextView
-                        android:id="@+id/tvEditedCreatedDate"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="right"
-                        android:textColor="@color/colorMainText"
-                        android:textSize="@dimen/sixteen_dp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/ten_dp"
-                    android:orientation="horizontal"
-                    android:paddingLeft="@dimen/thirty_dp"
-                    android:paddingRight="@dimen/thirty_dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Payment Date"
-                        android:textColor="@color/colorSecondaryText"
-                        android:textSize="@dimen/sixteen_dp" />
-
-                    <TextView
-                        android:id="@+id/tvEditedPaymentDate"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="right"
-                        android:textColor="@color/colorMainText"
-                        android:textSize="@dimen/sixteen_dp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/ten_dp"
-                    android:orientation="horizontal"
-                    android:paddingLeft="@dimen/thirty_dp"
-                    android:paddingRight="@dimen/thirty_dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/account"
-                        android:textColor="@color/colorSecondaryText"
-                        android:textSize="@dimen/sixteen_dp" />
-
-                    <TextView
-                        android:id="@+id/tvEditedAccount"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="right"
-                        android:textColor="@color/colorMainText"
-                        android:textSize="@dimen/sixteen_dp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/ten_dp"
-                    android:orientation="horizontal"
-                    android:paddingLeft="@dimen/thirty_dp"
-                    android:paddingRight="@dimen/thirty_dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/amount"
-                        android:textColor="@color/colorSecondaryText"
-                        android:textSize="@dimen/sixteen_dp" />
-
-                    <TextView
-                        android:id="@+id/tvEditedAmount"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="right"
-                        android:textColor="@color/colorMainText"
-                        android:textSize="@dimen/sixteen_dp" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </LinearLayout>
+            android:layout_height="1px"
+            android:background="@color/colorTextHint" />
 
         <LinearLayout
             android:id="@+id/llBtnContainer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/sixteen_dp"
-            android:layout_marginRight="@dimen/thirty_dp"
+            android:layout_height="match_parent"
             android:layout_marginTop="@dimen/sixteen_dp"
             android:gravity="right"
-            android:orientation="horizontal">
+            android:paddingBottom="@dimen/sixteen_dp"
+            android:paddingRight="@dimen/thirty_dp">
 
             <com.jim.mpviews.MpButton
                 android:id="@+id/btnWarningNO"
                 android:layout_width="@dimen/hundred_fifty_dp"
                 android:layout_height="@dimen/fifty_four_dp"
-                android:layout_gravity="center"
+                android:layout_gravity="bottom"
                 android:layout_marginRight="@dimen/fifteen_dp"
                 android:gravity="center"
                 android:text="@string/edit"
-                android:textColor="#c7c7c7"
+                android:textColor="@color/colorSecondaryText"
                 android:textSize="@dimen/fourteen_dp"
                 android:textStyle="bold" />
 
@@ -297,7 +68,7 @@
                 android:id="@+id/btnWarningYES"
                 android:layout_width="@dimen/hundred_fifty_dp"
                 android:layout_height="@dimen/fifty_four_dp"
-                android:layout_gravity="center"
+                android:layout_gravity="bottom"
                 android:gravity="center"
                 android:text="@string/ok"
                 android:textColor="@color/colorBlue"
@@ -306,7 +77,6 @@
 
 
         </LinearLayout>
-
 
     </LinearLayout>
 </LinearLayout>

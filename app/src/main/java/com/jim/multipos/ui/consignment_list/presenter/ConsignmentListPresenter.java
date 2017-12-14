@@ -14,4 +14,5 @@ public interface ConsignmentListPresenter extends Presenter {
     void filterInvert();
     void search(String searchText);
     void setConsignment(Consignment consignment);
+    void deleteConsignment(Consignment consignment);
 }

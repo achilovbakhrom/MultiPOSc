@@ -33,11 +33,11 @@
             android:id="@+id/llConsignmentProducts"
             android:layout_width="@dimen/four_hundred_sixty_dp"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/twenty_dp"
-            android:paddingBottom="@dimen/twenty_dp"
             android:layout_gravity="center"
             android:orientation="vertical"
-            android:paddingRight="@dimen/twenty_dp">
+            android:paddingBottom="@dimen/twenty_dp"
+            android:paddingRight="@dimen/twenty_dp"
+            android:paddingTop="@dimen/twenty_dp">
 
             <LinearLayout
                 android:id="@+id/llConsignmentNumber"
@@ -48,22 +48,22 @@
                 <TextView
                     android:id="@+id/tvConsignmentNumber"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:gravity="left"
                     android:paddingLeft="@dimen/twenty_dp"
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/sixteen_dp" />
 
                 <ImageView
-                    android:visibility="gone"
                     android:id="@+id/ivShowHide"
-                    android:tint="@color/colorBlack"
-                    android:layout_gravity="center"
                     android:layout_width="@dimen/fifteen_dp"
                     android:layout_height="@dimen/fifteen_dp"
+                    android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/ten_dp"
-                    android:src="@drawable/arrow_down" />
+                    android:src="@drawable/arrow_down"
+                    android:tint="@color/colorBlack"
+                    android:visibility="gone" />
 
             </LinearLayout>
 
@@ -106,9 +106,10 @@
 
         <LinearLayout
             android:id="@+id/llEditConsignment"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_weight="1"
             android:gravity="center"
             android:paddingLeft="@dimen/ten_dp"
             android:paddingRight="@dimen/ten_dp">
@@ -120,6 +121,26 @@
                 android:layout_gravity="center"
                 android:layout_marginRight="@dimen/ten_dp"
                 android:src="@drawable/edit_blue" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llDeleteConsignment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingLeft="@dimen/ten_dp"
+            android:paddingRight="@dimen/ten_dp">
+
+            <ImageView
+                android:id="@+id/ivDeleteConsignment"
+                android:layout_width="@dimen/thirty_dp"
+                android:layout_height="@dimen/thirty_dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/ten_dp"
+                android:src="@drawable/delete_blue" />
 
         </LinearLayout>
 

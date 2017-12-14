@@ -276,6 +276,8 @@ public class ConsignmentListItemAdapter extends RecyclerView.Adapter<Consignment
 
     public interface OnConsignmentListItemCallback {
         void onItemClick(Consignment consignment);
+
+        void onItemDelete(Consignment consignment);
     }
 
     private void setUnderlineText(TextView textView, String text) {
@@ -314,6 +316,8 @@ public class ConsignmentListItemAdapter extends RecyclerView.Adapter<Consignment
     public class ConsignmentListViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.llBackground)
         LinearLayout llBackground;
+        @BindView(R.id.llDeleteConsignment)
+        LinearLayout llDeleteConsignment;
         @BindView(R.id.llEditConsignment)
         LinearLayout llEditConsignment;
         @BindView(R.id.llConsignmentProducts)
@@ -335,6 +339,7 @@ public class ConsignmentListItemAdapter extends RecyclerView.Adapter<Consignment
             super(itemView);
             ButterKnife.bind(this, itemView);
             llEditConsignment.setOnClickListener(view -> callback.onItemClick(items.get(getAdapterPosition())));
+            llDeleteConsignment.setOnClickListener(view -> callback.onItemDelete(items.get(getAdapterPosition())));
         }
     }
 }
