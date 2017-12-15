@@ -432,8 +432,10 @@
                     android:layout_marginLeft="@dimen/ten_dp"
                     />
                 <ImageView
-                    android:layout_width="@dimen/twenty_five_dp"
-                    android:layout_height="@dimen/twenty_five_dp"
+                    android:id="@+id/ivClearInterval"
+                    android:layout_width="@dimen/forty_dp"
+                    android:layout_height="@dimen/forty_dp"
+                    android:padding="@dimen/seven_dp"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/calendar_icon"
                     android:layout_marginRight="@dimen/sixteen_dp"/>

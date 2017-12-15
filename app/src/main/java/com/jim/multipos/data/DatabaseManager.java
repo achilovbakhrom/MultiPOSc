@@ -54,6 +54,7 @@ import com.jim.multipos.ui.inventory.model.InventoryItem;
 import com.jim.multipos.ui.vendor_item_managment.model.VendorWithDebt;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
@@ -869,6 +870,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Single<List<BillingOperations>> getBillingOperationForVendor(Long vendorId) {
         return dbHelper.getBillingOperationForVendor(vendorId);
+    }
+
+    @Override
+    public Single<List<BillingOperations>> getBillingOperationInteval(Long vendorId, Calendar fromDate, Calendar toDate) {
+        return dbHelper.getBillingOperationInteval(vendorId,fromDate,toDate);
     }
 
     @Override

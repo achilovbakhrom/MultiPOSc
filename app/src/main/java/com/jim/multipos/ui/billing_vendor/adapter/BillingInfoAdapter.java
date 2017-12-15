@@ -74,7 +74,7 @@ public class BillingInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 infoViewHolder.tvAccount.setText("None");
             }
             infoViewHolder.tvAmount.setText(String.valueOf(items.get(position).getAmount()) + " " + currency.getAbbr());
-            if (items.size() > 0) {
+            if (items.size() > 1) {
                 infoViewHolder.llBackground.setVisibility(View.VISIBLE);
                 if (!items.get(position).getAmount().equals(items.get(position + 1).getAmount())) {
                     infoViewHolder.tvAmount.setTextColor(context.getColor(R.color.colorRed));

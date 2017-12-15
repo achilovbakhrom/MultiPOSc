@@ -15,4 +15,8 @@ public interface BillingOperationPresenter extends Presenter {
     void filterInvert();
     void findVendor(Long vendorId);
     void updateBillings();
+    void dateIntervalPicked(Calendar fromDate, Calendar toDate);
+    void datePicked(Calendar pickedDate);
+    void clearIntervals();
+
 }

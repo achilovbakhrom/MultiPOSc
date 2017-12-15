@@ -37,7 +37,7 @@ import java.util.List;
  * Created by developer on 14.09.2017.
  */
 
-public class PhotoPickDialog extends Dialog  {
+public class    PhotoPickDialog extends Dialog  {
     private View dialogView;
     private ImageView ivContentPhoto;
     private FrameLayout flCamera;

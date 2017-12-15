@@ -12,6 +12,7 @@ import com.jim.multipos.ui.billing_vendor.fragments.BillingOperationView;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -29,14 +30,11 @@ public class BillingOperationPresenterImpl extends BasePresenterImpl<BillingOper
     List<BillingOperations> billingOperations;
     int SORTING = 1;
     BillingOperationFragment.SortModes sortModes = TIME;
-    Calendar from, to;
+    Calendar fromDate, toDate;
     @Override
     public void onCreateView(Bundle bundle) {
         super.onCreateView(bundle);
-        Calendar calendar = (Calendar) Calendar.getInstance().clone();
-        calendar.set(Calendar.MONTH,calendar.get(Calendar.MONTH)-1);
-        from= calendar;
-        to = (Calendar) Calendar.getInstance().clone();
+
     }
 
     @Inject
@@ -71,14 +69,58 @@ public class BillingOperationPresenterImpl extends BasePresenterImpl<BillingOper
     @Override
     public void updateBillings() {
         collectBillings();
+
         databaseManager.getVendorDebt(vendor.getId()).subscribe((aDouble, throwable) -> {
             view.updateDebt(aDouble);
         });
     }
 
+    @Override
+    public void dateIntervalPicked(Calendar fromDate, Calendar toDate) {
+        this.fromDate = fromDate;
+        this.toDate = toDate;
+        databaseManager.getBillingOperationInteval(vendor.getId(),fromDate,toDate).subscribe((billingOperations1, throwable) -> {
+            billingOperations.clear();
+            billingOperations.addAll(billingOperations1);
+            sortList();
+            view.setTransactions(billingOperations);
+        });
+    }
+
+    @Override
+    public void datePicked(Calendar pickedDate) {
+        Calendar temp = new GregorianCalendar();
+        temp.setTimeInMillis(pickedDate.getTimeInMillis());
+        this.fromDate = temp;
+        this.toDate = null;
+        databaseManager.getBillingOperationInteval(vendor.getId(),pickedDate,temp).subscribe((billingOperations1, throwable) -> {
+            billingOperations.clear();
+            billingOperations.addAll(billingOperations1);
+            sortList();
+            view.setTransactions(billingOperations);
+        });
+    }
+
     private void collectBillings(){
+        if(fromDate != null && toDate !=null){
+            databaseManager.getBillingOperationInteval(vendor.getId(),fromDate,toDate).subscribe((billingOperations1, throwable) -> {
+                billingOperations.clear();
+                billingOperations.addAll(billingOperations1);
+                sortList();
+                view.setTransactions(billingOperations);
+            });
+        }else if(fromDate !=null){
+            Calendar temp = new GregorianCalendar();
+            temp.setTimeInMillis(fromDate.getTimeInMillis());
+            databaseManager.getBillingOperationInteval(vendor.getId(),fromDate,temp).subscribe((billingOperations1, throwable) -> {
+                billingOperations.clear();
+                billingOperations.addAll(billingOperations1);
+                sortList();
+                view.setTransactions(billingOperations);
+            });
+        }else
         databaseManager.getBillingOperationForVendor(vendor.getId()).subscribe((billingOperations1, throwable) -> {
-           billingOperations = billingOperations1;
+            billingOperations = billingOperations1;
             sortList();
             view.setTransactions(billingOperations);
         });
@@ -86,7 +128,7 @@ public class BillingOperationPresenterImpl extends BasePresenterImpl<BillingOper
     private void sortList(){
         switch (sortModes){
             case TIME:
-                Collections.sort(billingOperations,(billing, t1) -> billing.getPaymentDate().compareTo(t1.getPaymentDate())*SORTING);
+                Collections.sort(billingOperations,(billing, t1) -> t1.getPaymentDate().compareTo(billing.getPaymentDate())*SORTING);
                 break;
             case OPERATION:
                 Collections.sort(billingOperations,(billing, t1) -> billing.getOperationType().compareTo(t1.getOperationType())*SORTING);
@@ -102,7 +144,6 @@ public class BillingOperationPresenterImpl extends BasePresenterImpl<BillingOper
                 Collections.sort(billingOperations,(billing, t1) -> {
                     String from ="";
                     String to ="";
-
                     if(billing.getOperationType() == BillingOperations.PAID_TO_CONSIGNMENT)
                         if(billing.getDescription() !=null)
                             from = billing.getDescription();
@@ -125,5 +166,11 @@ public class BillingOperationPresenterImpl extends BasePresenterImpl<BillingOper
                 break;
         }
 
+    }
+    @Override
+    public void clearIntervals(){
+        fromDate = null;
+        toDate = null;
+        updateBillings();
     }
 }

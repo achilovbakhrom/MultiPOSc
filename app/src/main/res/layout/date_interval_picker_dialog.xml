@@ -34,10 +34,18 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/forty_dp"
+            android:layout_height="@dimen/fifty_dp"
             android:orientation="horizontal"
             android:background="#fff">
-
+            <TextView
+                android:id="@+id/tvCurrentInterval"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ноябр. 13,2017 - ноябр. 16,2017"
+                android:textColor="#414141"
+                android:layout_gravity="center_vertical"
+                android:textSize="@dimen/eighteen_dp"
+                android:layout_marginLeft="@dimen/thirty_dp"/>
         </LinearLayout>
         <FrameLayout
             android:layout_width="match_parent"
@@ -51,12 +59,14 @@
             android:orientation="horizontal"
             >
             <com.jim.mpviews.MpCalendarIntervView
+                android:id="@+id/calLeft"
                 android:layout_width="@dimen/three_hundred_ten_dp"
                 android:layout_marginLeft="@dimen/thirty_dp"
                 android:layout_marginTop="@dimen/ten_dp"
                 android:layout_height="@dimen/three_hundred_ten_dp"/>
             <com.jim.mpviews.MpCalendarIntervView
-                android:layout_width="@dimen/three_hundred_ten_dp"
+                android:id="@+id/calRight"
+                 android:layout_width="@dimen/three_hundred_ten_dp"
                 android:layout_marginLeft="@dimen/ten_dp"
                 android:layout_marginTop="@dimen/ten_dp"
                 android:layout_marginRight="@dimen/forty_dp"
@@ -67,6 +77,7 @@
                 android:layout_marginRight="@dimen/forty_dp"
                 android:orientation="vertical">
                 <com.jim.mpviews.MpButtonLong
+                    android:id="@+id/btnToday"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/forty_five_dp"
                     android:text="Today"
@@ -76,6 +87,7 @@
                     android:layout_marginTop="@dimen/ten_dp"
                     />
                 <com.jim.mpviews.MpButtonLong
+                    android:id="@+id/btnYesterday"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/forty_five_dp"
                     android:text="Yesterday"
@@ -85,15 +97,17 @@
                     android:textColor="#3e97cf"
                     />
                 <com.jim.mpviews.MpButtonLong
+                    android:id="@+id/btnLastWeek"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/forty_five_dp"
-                    android:text="Last 7 days"
+                    android:text="This week"
                     android:layout_marginTop="@dimen/five_dp"
                     android:textSize="@dimen/fourteen_dp"
                     android:gravity="start"
                     android:textColor="#3e97cf"
                     />
                 <com.jim.mpviews.MpButtonLong
+                    android:id="@+id/btnLastMonth"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/forty_five_dp"
                     android:text="Last 30 days"
@@ -103,6 +117,7 @@
                     android:textColor="#3e97cf"
                     />
                 <com.jim.mpviews.MpButtonLong
+                    android:id="@+id/btnThisMonth"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/forty_five_dp"
                     android:text="This month"
@@ -112,9 +127,10 @@
                     android:textColor="#3e97cf"
                     />
                 <com.jim.mpviews.MpButtonLong
+                    android:id="@+id/btnLastYear"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/forty_five_dp"
-                    android:text="Last Year"
+                    android:text="This Year"
                     android:layout_marginTop="@dimen/five_dp"
                     android:textSize="@dimen/fourteen_dp"
                     android:gravity="start"

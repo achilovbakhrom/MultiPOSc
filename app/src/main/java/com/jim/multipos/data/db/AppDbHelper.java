@@ -70,6 +70,7 @@ import org.greenrobot.greendao.query.Query;
 import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -1616,6 +1617,30 @@ public class AppDbHelper implements DbHelper {
     public Observable<List<InventoryState>> getInventoryStatesByProductId(Long productId) {
         return Observable.fromCallable(() -> mDaoSession.queryBuilder(InventoryState.class)
                 .where(InventoryStateDao.Properties.ProductId.eq(productId)).build().list());
+    }
+
+    @Override
+    public Single<List<BillingOperations>> getBillingOperationInteval(Long vendorId, Calendar fromDate, Calendar toDate) {
+        return Single.create(e -> {
+            fromDate.set(Calendar.HOUR_OF_DAY,0);
+            fromDate.set(Calendar.MINUTE,0);
+            fromDate.set(Calendar.SECOND,0);
+            fromDate.set(Calendar.MILLISECOND,0);
+
+            toDate.set(Calendar.HOUR_OF_DAY,23);
+            toDate.set(Calendar.MINUTE,59);
+            toDate.set(Calendar.SECOND,59);
+            toDate.set(Calendar.MILLISECOND,9999);
+
+            List<BillingOperations> billingOperations = mDaoSession.getBillingOperationsDao().queryBuilder()
+                    .where(BillingOperationsDao.Properties.PaymentDate.ge(fromDate.getTimeInMillis()),
+                            BillingOperationsDao.Properties.PaymentDate.le(toDate.getTimeInMillis()),
+                            BillingOperationsDao.Properties.VendorId.eq(vendorId),
+                            BillingOperationsDao.Properties.IsNotModified.eq(true))
+                    .build().list();
+
+            e.onSuccess(billingOperations);
+        });
     }
 
     @Override

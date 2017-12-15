@@ -100,45 +100,39 @@ public class MpToolbar extends RelativeLayout {
         mode = array.getInt(R.styleable.MpToolbar_view_mode, DEFAULT_MODE);
         setMode(mode);
         simpleDateFormat =  new SimpleDateFormat(" MMM dd, yyyy");
-        mpSettings.setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch (motionEvent.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        if (!pressed) {
-                            VibrateManager.startVibrate(context, 50);
-                            pressed = true;
-                        }
-                        mpSettings.setImageResource(R.drawable.settings_blue_press);
-                        return false;
-                    case MotionEvent.ACTION_UP:
-                        pressed = false;
-                        mpSettings.setImageResource(R.drawable.settings_blue);
-                        return false;
-                }
-                return false;
+        mpSettings.setOnTouchListener((view, motionEvent) -> {
+            switch (motionEvent.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    if (!pressed) {
+                        VibrateManager.startVibrate(context, 50);
+                        pressed = true;
+                    }
+                    mpSettings.setImageResource(R.drawable.settings_blue_press);
+                    return false;
+                case MotionEvent.ACTION_UP:
+                    pressed = false;
+                    mpSettings.setImageResource(R.drawable.settings_blue);
+                    return false;
             }
+            return false;
         });
-        findViewById(R.id.mpProducts).setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch (motionEvent.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        if (!pressed) {
-                            VibrateManager.startVibrate(context, 50);
-                            pressed = true;
-                        }
-                        findViewById(R.id.productLine).setVisibility(GONE);
-                        findViewById(R.id.productPressed).setVisibility(VISIBLE);
-                        return false;
-                    case MotionEvent.ACTION_UP:
-                        pressed = false;
-                        findViewById(R.id.productLine).setVisibility(VISIBLE);
-                        findViewById(R.id.productPressed).setVisibility(GONE);
-                        return false;
-                }
-                return false;
+        findViewById(R.id.mpProducts).setOnTouchListener((view, motionEvent) -> {
+            switch (motionEvent.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    if (!pressed) {
+                        VibrateManager.startVibrate(context, 50);
+                        pressed = true;
+                    }
+                    findViewById(R.id.productLine).setVisibility(GONE);
+                    findViewById(R.id.productPressed).setVisibility(VISIBLE);
+                    return false;
+                case MotionEvent.ACTION_UP:
+                    pressed = false;
+                    findViewById(R.id.productLine).setVisibility(VISIBLE);
+                    findViewById(R.id.productPressed).setVisibility(GONE);
+                    return false;
             }
+            return false;
         });
 
 
@@ -349,17 +343,25 @@ public class MpToolbar extends RelativeLayout {
 
         }
     }
+    public void setDatePickerIntervalText(String intervalText){
+        tvPeriod.setText(intervalText);
+    }
     public interface DataIntervalCallbackToToolbar{
         void onDataIntervalPickerPressed();
+        void clearInterval();
     }
     public void setDataIntervalPicker(Calendar from, Calendar to,DataIntervalCallbackToToolbar dataIntervalPicker){
         this.from = from;
         this.to = to;
         setCurrentIntervalToView();
         this.dataIntervalPicker = dataIntervalPicker;
-        llDateIntervalPicker.setOnClickListener(view -> {
+        findViewById(R.id.llDateIntervalPicker).setOnClickListener(view -> {
             dataIntervalPicker.onDataIntervalPickerPressed();
         });
+        findViewById(R.id.ivClearInterval).setOnClickListener(view -> {
+            dataIntervalPicker.onDataIntervalPickerPressed();
+        });
+
     }
     public void changeInterval (Calendar from,Calendar to){
         this.from = from;
@@ -442,5 +444,18 @@ public class MpToolbar extends RelativeLayout {
             }
         };
     }
-
+    public void changeToCloseImgIntervalPick(){
+        ((ImageView)findViewById(R.id.ivClearInterval)).setImageResource(R.drawable.interval_close);
+        ((ImageView)findViewById(R.id.ivClearInterval)).setEnabled(true);
+        ((ImageView)findViewById(R.id.ivClearInterval)).setOnClickListener(view -> {
+            if(dataIntervalPicker!=null)
+                dataIntervalPicker.clearInterval();
+        });
+    }
+    public void changeToCalendarImgIntervalPick(){
+        ((ImageView)findViewById(R.id.ivClearInterval)).setImageResource(R.drawable.calendar_icon);
+        findViewById(R.id.ivClearInterval).setOnClickListener(view -> {
+            dataIntervalPicker.onDataIntervalPickerPressed();
+        });
+    }
 }

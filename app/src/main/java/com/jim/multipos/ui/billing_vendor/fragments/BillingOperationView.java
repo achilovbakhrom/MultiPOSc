@@ -16,4 +16,5 @@ public interface BillingOperationView extends BaseView {
     void notifyListChange(List<BillingOperations> billingOperations);
     void notifyList();
     void updateDebt(Double debt);
+    void notifyChange();
 }

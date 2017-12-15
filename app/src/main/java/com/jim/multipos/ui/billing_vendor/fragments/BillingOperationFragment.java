@@ -26,6 +26,7 @@ import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.rxevents.MessageEvent;
 
 import java.text.DecimalFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -144,7 +145,7 @@ public class BillingOperationFragment extends BaseFragment implements BillingOpe
                 public void onCancel() {
 
                 }
-            }, databaseManager, null);
+            }, databaseManager,null);
             paymentToVendorDialog.show();
         });
 
@@ -195,22 +196,27 @@ public class BillingOperationFragment extends BaseFragment implements BillingOpe
         totalDebt = debt;
         rxBus.send(new MessageEvent(BILLINGS_UPDATE));
 
-        if (debt <= 0) {
+        if(debt<=0){
             tvDebtD.setText(R.string.debt);
             tvDebtAmmount.setTextColor(Color.parseColor("#df4f4f"));
-        } else {
+        }else {
             tvDebtD.setText(R.string.overpaid);
             tvDebtAmmount.setTextColor(Color.parseColor("#36a614"));
 
         }
-        tvDebtAmmount.setText(decimalFormat.format(totalDebt) + " " + mainCurrency.getAbbr());
+        tvDebtAmmount.setText(decimalFormat.format(totalDebt)+" "+mainCurrency.getAbbr());
 
 
     }
 
-    public enum SortModes {
-        TIME, TIME_INVERT, OPERATION, OPERATION_INVERT, EXTRA, EXTRA_INVERT, DESCRIPTION, DESCRIPTION_INVERT, PAYMENT, PAYMENT_INVERT
+    @Override
+    public void notifyChange() {
+        billingOperartionsAdapter.notifyDataSetChanged();
     }
+
+    public enum SortModes{
+        TIME,TIME_INVERT,OPERATION,OPERATION_INVERT,EXTRA,EXTRA_INVERT, DESCRIPTION, DESCRIPTION_INVERT, PAYMENT, PAYMENT_INVERT
+   }
 
     @Override
     protected int getLayout() {
@@ -310,8 +316,18 @@ public class BillingOperationFragment extends BaseFragment implements BillingOpe
     public void setVendorId(Long vendorId) {
         this.vendorId = vendorId;
     }
+    public void setTotalDebt(Double totalDebt) {this.totalDebt = totalDebt;}
 
-    public void setTotalDebt(Double totalDebt) {
-        this.totalDebt = totalDebt;
+    public void dateIntervalPicked(Calendar fromDate, Calendar toDate) {
+        presenter.dateIntervalPicked(fromDate,toDate);
     }
+
+    public void datePicked(Calendar pickedDate) {
+        presenter.datePicked(pickedDate);
+    }
+    public void clearInterval(){
+        presenter.clearIntervals();
+    }
+
+
 }

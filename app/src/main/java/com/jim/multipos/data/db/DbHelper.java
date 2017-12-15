@@ -42,6 +42,7 @@ import com.jim.multipos.data.db.model.unit.UnitCategory;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
 import com.jim.multipos.ui.vendor_item_managment.model.VendorWithDebt;
 
+import java.util.Calendar;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -197,6 +198,7 @@ public interface DbHelper {
     Observable<Long> insertInventoryState(InventoryState inventoryState);
     Observable<List<InventoryState>> getInventoryStates();
     Observable<List<InventoryState>> getInventoryStatesByProductId(Long productId);
+    Single<List<BillingOperations>> getBillingOperationInteval(Long vendorId, Calendar fromDate, Calendar toDate);
 
     Observable<Boolean> removeProductFromInventoryState(Long productId);
     Observable<List<InventoryState>> getInventoryStatesByVendorId(Long vendorId);
