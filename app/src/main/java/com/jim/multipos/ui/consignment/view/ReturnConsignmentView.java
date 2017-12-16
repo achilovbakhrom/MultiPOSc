@@ -11,7 +11,7 @@ import java.util.List;
  */
 
 public interface ReturnConsignmentView extends BaseView {
-    void fillReturnList(List<ConsignmentProduct> consignmentProductList);
+    void fillReturnList(List<ConsignmentProduct> consignmentProductList, int type);
     void setTotalProductsSum(double sum);
     void fillDialogItems(List<Product> productList);
     void setError();

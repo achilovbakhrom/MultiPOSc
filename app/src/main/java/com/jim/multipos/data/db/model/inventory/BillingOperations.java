@@ -43,7 +43,7 @@ public class BillingOperations implements Editable {
     private double amount;
     private long createAt;
     private int operationType;
-    private String description;
+    private String description = "";
     private boolean isActive = true;
     private boolean isDeleted = false;
     private boolean isNotModified = true;

@@ -24,14 +24,17 @@ import com.jim.multipos.utils.BillingInfoDialog;
 import com.jim.multipos.utils.PaymentToVendorDialog;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.rxevents.MessageEvent;
+import com.jim.multipos.utils.rxevents.MessageWithIdEvent;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import io.reactivex.disposables.Disposable;
 
 import static com.jim.multipos.data.db.model.consignment.Consignment.INCOME_CONSIGNMENT;
 import static com.jim.multipos.data.db.model.consignment.Consignment.RETURN_CONSIGNMENT;
@@ -47,6 +50,7 @@ import static com.jim.multipos.ui.billing_vendor.fragments.BillingOperationFragm
 import static com.jim.multipos.ui.billing_vendor.fragments.BillingOperationFragment.SortModes.PAYMENT_INVERT;
 import static com.jim.multipos.ui.billing_vendor.fragments.BillingOperationFragment.SortModes.TIME;
 import static com.jim.multipos.ui.billing_vendor.fragments.BillingOperationFragment.SortModes.TIME_INVERT;
+import static com.jim.multipos.ui.consignment.view.IncomeConsignmentFragment.CONSIGNMENT_UPDATE;
 import static com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemFragment.BILLINGS_UPDATE;
 
 /**
@@ -104,6 +108,24 @@ public class BillingOperationFragment extends BaseFragment implements BillingOpe
     BillingOperationPresenter presenter;
     @Inject
     RxBus rxBus;
+    private ArrayList<Disposable> subscriptions;
+
+    @Override
+    protected void rxConnections() {
+        subscriptions = new ArrayList<>();
+        subscriptions.add(
+                rxBus.toObservable().subscribe(o -> {
+                    if (o instanceof MessageWithIdEvent) {
+                        MessageWithIdEvent event = (MessageWithIdEvent) o;
+                        switch (event.getMessage()) {
+                            case CONSIGNMENT_UPDATE: {
+                                presenter.updateBillings();
+                                break;
+                            }
+                        }
+                    }
+                }));
+    }
 
     @Override
     public void setVendorData(Vendor vendor) {
@@ -329,5 +351,9 @@ public class BillingOperationFragment extends BaseFragment implements BillingOpe
         presenter.clearIntervals();
     }
 
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        RxBus.removeListners(subscriptions);
+    }
 }

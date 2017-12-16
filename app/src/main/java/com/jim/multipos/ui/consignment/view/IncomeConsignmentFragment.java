@@ -3,7 +3,6 @@ package com.jim.multipos.ui.consignment.view;
 import android.app.Dialog;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Message;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -184,8 +183,8 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
     }
 
     @Override
-    public void fillConsignmentProductList(List<ConsignmentProduct> consignmentProductList) {
-        itemsListAdapter.setData(consignmentProductList);
+    public void fillConsignmentProductList(List<ConsignmentProduct> consignmentProductList, int type) {
+        itemsListAdapter.setData(consignmentProductList, type);
     }
 
     @Override

@@ -21,6 +21,7 @@ import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.SurplusProductDialog;
 import com.jim.multipos.utils.UIUtils;
 import com.jim.multipos.utils.WriteOffProductDialog;
+import com.jim.multipos.utils.rxevents.MessageEvent;
 import com.jim.multipos.utils.rxevents.MessageWithIdEvent;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
@@ -226,6 +227,15 @@ public class InventoryFragment extends BaseFragment implements InventoryView{
                 rxBus.toObservable().subscribe(o -> {
                     if (o instanceof MessageWithIdEvent) {
                         MessageWithIdEvent event = (MessageWithIdEvent) o;
+                        switch (event.getMessage()) {
+                            case CONSIGNMENT_UPDATE: {
+                                presenter.updateData();
+                                break;
+                            }
+                        }
+                    }
+                    if (o instanceof MessageEvent) {
+                        MessageEvent event = (MessageEvent) o;
                         switch (event.getMessage()) {
                             case CONSIGNMENT_UPDATE: {
                                 presenter.updateData();

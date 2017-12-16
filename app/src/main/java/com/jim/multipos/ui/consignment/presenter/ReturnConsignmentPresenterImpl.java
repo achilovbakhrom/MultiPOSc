@@ -40,6 +40,9 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
     private List<ConsignmentProduct> deletedProductsList;
     private String number;
     private String description;
+    public static final int ADD = 0;
+    public static final int EDIT = 1;
+    private int viewType = ADD;
 
     @Inject
     protected ReturnConsignmentPresenterImpl(ReturnConsignmentView view, DatabaseManager databaseManager) {
@@ -65,13 +68,15 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
                 tempProductList.add(tempProduct);
                 ids.add(consignmentProductList.get(i).getId());
             }
-            view.fillReturnList(consignmentProductList);
+            viewType = EDIT;
+            view.fillReturnList(consignmentProductList, viewType);
             calculateConsignmentSum();
             this.vendor = this.returnConsignment.getVendor();
             view.setVendorName(this.vendor.getName());
             debt = databaseManager.getBillingOperationsByConsignmentId(this.returnConsignment.getId()).blockingGet();
             view.fillConsignmentData(returnConsignment.getConsignmentNumber(), returnConsignment.getDescription());
         } else if (productId != null) {
+            viewType = ADD;
             databaseManager.getProductById(productId).subscribe(product -> {
                 this.product = product;
                 List<Vendor> vendorList = this.product.getVendor();
@@ -83,6 +88,7 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
                 view.setVendorName(this.vendor.getName());
             });
         } else {
+            viewType = ADD;
             databaseManager.getVendorById(vendorId).subscribe(vendor -> {
                 this.vendor = vendor;
                 view.setVendorName(this.vendor.getName());
@@ -101,7 +107,7 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
         } else consignmentProduct.setCostValue(null);
         consignmentProduct.setCountValue(0d);
         consignmentProductList.add(consignmentProduct);
-        view.fillReturnList(consignmentProductList);
+        view.fillReturnList(consignmentProductList, viewType);
         calculateConsignmentSum();
     }
 

@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface IncomeConsignmentView extends BaseView {
     void fillDialogItems(List<Product> productList);
-    void fillConsignmentProductList(List<ConsignmentProduct> consignmentProductList);
+    void fillConsignmentProductList(List<ConsignmentProduct> consignmentProductList, int type);
     void setVendorName(String name);
     void fillAccountsList(List<String> accountList);
     void setConsignmentSumValue(double sum);

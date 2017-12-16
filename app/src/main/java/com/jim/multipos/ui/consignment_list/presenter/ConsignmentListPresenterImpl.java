@@ -5,6 +5,8 @@ import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.consignment.Consignment;
 import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
 import com.jim.multipos.data.db.model.currency.Currency;
+import com.jim.multipos.data.db.model.inventory.BillingOperations;
+import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.ui.consignment_list.model.ConsignmentListItem;
 import com.jim.multipos.ui.consignment_list.view.ConsignmentListFragment;
 import com.jim.multipos.ui.consignment_list.view.ConsignmentListView;
@@ -16,6 +18,9 @@ import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import static com.jim.multipos.data.db.model.consignment.Consignment.INCOME_CONSIGNMENT;
+import static com.jim.multipos.ui.consignment.view.IncomeConsignmentFragment.CONSIGNMENT_UPDATE;
 
 /**
  * Created by Sirojiddin on 30.11.2017.
@@ -113,7 +118,28 @@ public class ConsignmentListPresenterImpl extends BasePresenterImpl<ConsignmentL
 
     @Override
     public void deleteConsignment(Consignment consignment) {
-
+        BillingOperations debt = databaseManager.getBillingOperationsByConsignmentId(consignment.getId()).blockingGet();
+        debt.setDeleted(true);
+        databaseManager.insertBillingOperation(debt).subscribe();
+        if (consignment.getFirstPayId() != null) {
+            BillingOperations firstPay = databaseManager.getBillingOperationsById(consignment.getFirstPayId()).blockingGet();
+            firstPay.setDeleted(true);
+            databaseManager.insertBillingOperation(firstPay).subscribe();
+        }
+        List<ConsignmentProduct> consignmentProductList = consignment.getAllConsignmentProducts();
+        for (int i = 0; i < consignmentProductList.size(); i++) {
+            consignmentProductList.get(i).setDeleted(true);
+            WarehouseOperations warehouseOperations = consignmentProductList.get(i).getWarehouse();
+            warehouseOperations.setNotModifyted(false);
+            warehouseOperations.setType(WarehouseOperations.CONSIGNMENT_DELETED);
+            databaseManager.insertConsignmentProduct(consignmentProductList.get(i)).subscribe();
+            databaseManager.replaceWarehouseOperation(warehouseOperations).subscribe();
+        }
+        consignment.setDeleted(true);
+        databaseManager.insertConsignment(consignment, null, null, null).subscribe();
+        consignmentList.remove(consignment);
+        view.notifyList();
+        view.sendEvent(CONSIGNMENT_UPDATE);
     }
 
     private void sortList() {

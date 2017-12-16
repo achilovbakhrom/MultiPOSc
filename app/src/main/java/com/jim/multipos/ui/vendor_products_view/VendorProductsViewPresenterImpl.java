@@ -152,9 +152,7 @@ public class VendorProductsViewPresenterImpl extends BasePresenterImpl<VendorPro
         else warehouseOperations.setValue(WarehouseOperations.WASTE);
         warehouseOperations.setValue(shortage);
         databaseManager.insertWarehouseOperation(warehouseOperations).subscribe((aLong, throwable) -> {
-            inventoryStates = databaseManager.getInventoryStatesByVendorId(vendorId).blockingSingle();
-            sortByProductAsc();
-            view.updateAdapterItems(inventoryStates);
+           updateInventoryItems();
         });
     }
 
@@ -178,6 +176,13 @@ public class VendorProductsViewPresenterImpl extends BasePresenterImpl<VendorPro
                 paid += operations.getAmount();
         }
         view.updateVendorBillings(debt, paid, currency.getAbbr());
+    }
+
+    @Override
+    public void updateInventoryItems() {
+        inventoryStates = databaseManager.getInventoryStatesByVendorId(vendorId).blockingSingle();
+        sortByProductAsc();
+        view.updateAdapterItems(inventoryStates);
     }
 
     @Override

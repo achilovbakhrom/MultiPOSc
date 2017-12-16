@@ -36,4 +36,5 @@ public interface VendorProductsViewPresenter extends Presenter {
     void openPaymentsList();
     void openPayDialog();
     void updateBillings();
+    void updateInventoryItems();
 }

@@ -47,6 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:textColor="@color/colorBlue"
                 android:text="@string/vendor_name" />
 
             <TextView
@@ -54,6 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:textColor="@color/colorBlue"
                 android:text="@string/contact_name" />
 
             <TextView
@@ -61,6 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:textColor="@color/colorBlue"
                 android:text="@string/address" />
 
             <TextView
@@ -68,6 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:textColor="@color/colorBlue"
                 android:text="@string/selected" />
         </LinearLayout>
 
@@ -89,7 +93,7 @@
             android:paddingRight="@dimen/thirty_dp">
 
             <com.jim.mpviews.MpButton
-                android:layout_width="@dimen/hundred_thirty_dp"
+                android:layout_width="@dimen/hundred_fifty_dp"
                 android:layout_height="@dimen/sixty_dp"
                 android:layout_gravity="center"
                 android:layout_marginRight="@dimen/fifteen_dp"
@@ -101,7 +105,7 @@
                 android:id="@+id/btnBack"/>
 
             <com.jim.mpviews.MpButton
-                android:layout_width="@dimen/hundred_thirty_dp"
+                android:layout_width="@dimen/hundred_fifty_dp"
                 android:layout_height="@dimen/sixty_dp"
                 android:layout_gravity="center"
                 android:gravity="center"

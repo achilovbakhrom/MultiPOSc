@@ -15,4 +15,5 @@ public interface ConsignmentListView extends BaseView{
     void notifyList();
     void initSearchResults(List<Consignment> searchResults, String searchText, Currency currency);
     void openConsignment(Long consignmentId, Integer consignmentType);
+    void sendEvent(String event);
 }

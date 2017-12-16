@@ -16,6 +16,7 @@ import com.jim.multipos.ui.consignment_list.ConsignmentListActivity;
 import com.jim.multipos.ui.consignment_list.adapter.ConsignmentListItemAdapter;
 import com.jim.multipos.ui.consignment_list.presenter.ConsignmentListPresenter;
 import com.jim.multipos.utils.RxBus;
+import com.jim.multipos.utils.WarningDialog;
 import com.jim.multipos.utils.rxevents.MessageWithIdEvent;
 import com.jim.multipos.utils.rxevents.MessageEvent;
 
@@ -115,7 +116,15 @@ public class ConsignmentListFragment extends BaseFragment implements Consignment
 
             @Override
             public void onItemDelete(Consignment consignment) {
-                presenter.deleteConsignment(consignment);
+                WarningDialog warningDialog = new WarningDialog(getContext());
+                warningDialog.setWarningMessage(getString(R.string.do_you_want_delete));
+                warningDialog.setDialogTitle(getString(R.string.warning));
+                warningDialog.setOnYesClickListener(view1 -> {
+                    presenter.deleteConsignment(consignment);
+                    warningDialog.dismiss();
+                });
+                warningDialog.setOnNoClickListener(view -> warningDialog.dismiss());
+                warningDialog.show();
             }
         });
         if (getArguments() != null) {
@@ -207,6 +216,11 @@ public class ConsignmentListFragment extends BaseFragment implements Consignment
     @Override
     public void openConsignment(Long consignmentId, Integer consignmentType) {
         ((ConsignmentListActivity) getActivity()).openConsignment(consignmentId, consignmentType);
+    }
+
+    @Override
+    public void sendEvent(String event) {
+        rxBus.send(new MessageEvent(event));
     }
 
     public void setSearchText(String searchText) {

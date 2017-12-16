@@ -20,10 +20,18 @@ import com.jim.multipos.ui.vendor_products_view.VendorProductsViewActivity;
 import com.jim.multipos.ui.vendor_products_view.adapters.ProductAdapter;
 import com.jim.multipos.ui.vendor_products_view.dialogs.MinusInventoryDialog;
 import com.jim.multipos.ui.vendor_products_view.dialogs.PlusInventoryDialog;
+import com.jim.multipos.utils.RxBus;
+import com.jim.multipos.utils.rxevents.MessageWithIdEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
+import io.reactivex.disposables.Disposable;
+
+import static com.jim.multipos.ui.consignment.view.IncomeConsignmentFragment.CONSIGNMENT_UPDATE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -47,10 +55,28 @@ public class VendorDetailsList extends BaseFragment implements ProductAdapter.Pr
     private boolean isSortedByProduct;
     private boolean isSortedByInventory;
     private boolean isSortedByUnit;
+    private ArrayList<Disposable> subscriptions;
 
     @Override
     protected int getLayout() {
         return R.layout.vendors_detail_list;
+    }
+
+    @Override
+    protected void rxConnections() {
+        subscriptions = new ArrayList<>();
+        subscriptions.add(
+                ((VendorProductsViewActivity) getContext()).getRxBus().toObservable().subscribe(o -> {
+                    if (o instanceof MessageWithIdEvent) {
+                        MessageWithIdEvent event = (MessageWithIdEvent) o;
+                        switch (event.getMessage()) {
+                            case CONSIGNMENT_UPDATE: {
+                                ((VendorProductsViewActivity) getContext()).getPresenter().updateInventoryItems();
+                                break;
+                            }
+                        }
+                    }
+                }));
     }
 
     @Override

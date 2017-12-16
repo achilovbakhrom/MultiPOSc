@@ -5,8 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.jim.mpviews.MpEditText;
@@ -28,6 +26,7 @@ import butterknife.ButterKnife;
 public class IncomeItemsListAdapter extends RecyclerView.Adapter<IncomeItemsListAdapter.IncomeItemViewHolder> {
 
     private List<ConsignmentProduct> items;
+    private int type;
     private Context context;
     private OnConsignmentCallback onConsignmentCallback;
     private DecimalFormat decimalFormat;
@@ -37,8 +36,9 @@ public class IncomeItemsListAdapter extends RecyclerView.Adapter<IncomeItemsList
         this.decimalFormat = decimalFormat;
     }
 
-    public void setData(List<ConsignmentProduct> items) {
+    public void setData(List<ConsignmentProduct> items, int type) {
         this.items = items;
+        this.type = type;
         notifyDataSetChanged();
     }
 
@@ -61,6 +61,18 @@ public class IncomeItemsListAdapter extends RecyclerView.Adapter<IncomeItemsList
             holder.tvProductSum.setText(String.valueOf(items.get(position).getCostValue() * items.get(position).getCountValue()));
         }
         holder.tvProductUnit.setText(items.get(position).getProduct().getMainUnit().getAbbr());
+        if (items.size() > 1){
+            holder.btnDeleteProduct.setEnabled(true);
+        }
+        if (type == 1){
+            if (items.size() > 1){
+                holder.btnDeleteProduct.setAlpha(1f);
+                holder.btnDeleteProduct.setEnabled(true);
+            } else {
+                holder.btnDeleteProduct.setAlpha(0.5f);
+                holder.btnDeleteProduct.setEnabled(false);
+            }
+        }
 
     }
 

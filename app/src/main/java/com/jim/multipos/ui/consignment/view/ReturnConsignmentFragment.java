@@ -135,8 +135,8 @@ public class ReturnConsignmentFragment extends BaseFragment implements ReturnCon
     }
 
     @Override
-    public void fillReturnList(List<ConsignmentProduct> consignmentProductList) {
-        itemsListAdapter.setData(consignmentProductList);
+    public void fillReturnList(List<ConsignmentProduct> consignmentProductList, int type) {
+        itemsListAdapter.setData(consignmentProductList, type);
     }
 
     @Override

@@ -1463,7 +1463,9 @@ public class AppDbHelper implements DbHelper {
     public Single<List<Consignment>> getConsignmentsByVendorId(Long vendorId) {
         return Single.create(e -> {
             List<Consignment> consignmentList = mDaoSession.queryBuilder(Consignment.class)
-                    .where(ConsignmentDao.Properties.VendorId.eq(vendorId), ConsignmentDao.Properties.IsNotModified.eq(true))
+                    .where(ConsignmentDao.Properties.VendorId.eq(vendorId),
+                           ConsignmentDao.Properties.IsNotModified.eq(true),
+                           ConsignmentDao.Properties.IsDeleted.eq(false))
                     .build()
                     .list();
             e.onSuccess(consignmentList);

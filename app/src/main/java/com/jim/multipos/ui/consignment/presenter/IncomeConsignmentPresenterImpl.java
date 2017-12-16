@@ -43,6 +43,9 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
     private String number, description, paidSum, totalAmount;
     private boolean checked;
     private int selectedPosition;
+    public static final int ADD = 0;
+    public static final int EDIT = 1;
+    private int viewType = ADD;
 
     @Inject
     protected IncomeConsignmentPresenterImpl(IncomeConsignmentView incomeConsignmentView, DatabaseManager databaseManager) {
@@ -71,7 +74,8 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
                 tempProductList.add(tempProduct);
                 ids.add(consignmentProductList.get(i).getId());
             }
-            view.fillConsignmentProductList(consignmentProductList);
+            viewType = EDIT;
+            view.fillConsignmentProductList(consignmentProductList, viewType);
             calculateConsignmentSum();
             this.vendor = this.consignment.getVendor();
             view.setVendorName(this.vendor.getName());
@@ -94,6 +98,7 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
             } else
                 view.fillConsignmentData(consignment.getConsignmentNumber(), consignment.getDescription(), consignment.getIsFromAccount(), 0.0d);
         } else if (productId != null) {
+            viewType = ADD;
             databaseManager.getProductById(productId).subscribe(product -> {
                 this.product = product;
                 List<Vendor> vendorList = this.product.getVendor();
@@ -105,6 +110,7 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
                 view.setVendorName(this.vendor.getName());
             });
         } else {
+            viewType = ADD;
             databaseManager.getVendorById(vendorId).subscribe(vendor -> {
                 this.vendor = vendor;
                 view.setVendorName(this.vendor.getName());
@@ -123,7 +129,7 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
         } else consignmentProduct.setCostValue(null);
         consignmentProduct.setCountValue(0d);
         consignmentProductList.add(consignmentProduct);
-        view.fillConsignmentProductList(consignmentProductList);
+        view.fillConsignmentProductList(consignmentProductList, viewType);
         calculateConsignmentSum();
     }
 
@@ -155,7 +161,7 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
                 operationDebt.setPaymentDate(System.currentTimeMillis());
                 operationDebt.setOperationType(BillingOperations.DEBT_CONSIGNMENT);
                 billingOperationsList.add(operationDebt);
-                if (!paidSum.equals("") && !paidSum.equals("0")) {
+                if (Double.parseDouble(paidSum) != 0) {
                     BillingOperations operationPaid = new BillingOperations();
                     operationPaid.setAmount(Double.parseDouble(paidSum));
                     operationPaid.setCreateAt(System.currentTimeMillis());
@@ -269,7 +275,7 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
                 billingOperations.get(i).setNotModifyted(false);
                 databaseManager.insertBillingOperation(billingOperations.get(i)).blockingGet();
 
-            } else if (!paidSum.equals("0.0") || !paidSum.equals("0")) {
+            } else if (Double.parseDouble(paidSum) != 0) {
                 BillingOperations operationPaid = new BillingOperations();
                 operationPaid.setAmount(Double.parseDouble(paidSum));
                 operationPaid.setCreateAt(System.currentTimeMillis());
@@ -288,7 +294,7 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
                 firstPayConfirmed = true;
             }
         }
-        if (!firstPayConfirmed && (paidSum.equals("0.0") || !paidSum.equals("0"))) {
+        if (!firstPayConfirmed && (Double.parseDouble(paidSum) != 0)) {
             BillingOperations operationPaid = new BillingOperations();
             operationPaid.setAmount(Double.parseDouble(paidSum));
             operationPaid.setCreateAt(System.currentTimeMillis());
@@ -329,7 +335,7 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
                             product.setCountValue(tempProductList.get(j).getCount());
                             product.setCostValue(tempProductList.get(j).getCost());
                             WarehouseOperations warehouseOperations = databaseManager.getWarehouseOperationById(product.getWarehouseId()).blockingGet();
-                            warehouseOperations.setNotModifyted(true);
+                            warehouseOperations.setNotModifyted(false);
                             WarehouseOperations newOperation = new WarehouseOperations();
                             newOperation.setValue(consignmentProduct.getCountValue());
                             newOperation.setType(WarehouseOperations.INCOME_FROM_VENDOR);

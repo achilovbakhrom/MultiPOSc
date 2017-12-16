@@ -15,7 +15,7 @@ import com.jim.mpviews.utils.Utils;
 
 public class RecyclerViewWithMaxHeight extends RecyclerView {
 
-    private int maxHeight = 300;
+    private int maxHeight = 350;
 
     public RecyclerViewWithMaxHeight(Context context) {
         super(context);

@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -68,6 +69,12 @@ public class BillingInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             Date paymentDate = new Date(items.get(position).getPaymentDate());
             infoViewHolder.tvDate.setText(simpleDateFormat.format(createdDate));
             infoViewHolder.tvPaymentDate.setText(simpleDateFormat.format(paymentDate));
+            infoViewHolder.tvDescription.setText(items.get(position).getDescription());
+            if (!items.get(position).getDescription().equals(""))
+                infoViewHolder.tvDescription.setText(items.get(position).getDescription());
+            else {
+                infoViewHolder.tvDescription.setText("None");
+            }
             if (items.get(position).getAccount() != null)
                 infoViewHolder.tvAccount.setText(items.get(position).getAccount().getName());
             else {
@@ -89,12 +96,20 @@ public class BillingInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     if (items.get(position + 1).getAccount() != null)
                         infoViewHolder.tvAccount.setTextColor(context.getColor(R.color.colorRed));
                 }
+                if (!items.get(position).getDescription().equals(items.get(position + 1).getDescription())) {
+                    infoViewHolder.tvDescription.setTextColor(context.getColor(R.color.colorRed));
+                }
             }
         } else if (holder instanceof BillingInfoEditedViewHolder) {
             BillingInfoEditedViewHolder infoViewHolder = (BillingInfoEditedViewHolder) holder;
             Date createdDate = new Date(items.get(position).getCreateAt());
             Date paymentDate = new Date(items.get(position).getPaymentDate());
             infoViewHolder.tvDate.setText(simpleDateFormat.format(createdDate));
+            if (!items.get(position).getDescription().equals(""))
+                infoViewHolder.tvDescription.setText(items.get(position).getDescription());
+            else {
+                infoViewHolder.tvDescription.setText("None");
+            }
             infoViewHolder.tvPaymentDate.setText(simpleDateFormat.format(paymentDate));
             if (items.get(position).getAccount() != null)
                 infoViewHolder.tvAccount.setText(items.get(position).getAccount().getName());
@@ -116,6 +131,9 @@ public class BillingInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 } else {
                     if (items.get(position + 1).getAccount() != null)
                         infoViewHolder.tvAccount.setTextColor(context.getColor(R.color.colorRed));
+                }
+                if (!items.get(position).getDescription().equals(items.get(position + 1).getDescription())) {
+                    infoViewHolder.tvDescription.setTextColor(context.getColor(R.color.colorRed));
                 }
             }
         }
@@ -145,6 +163,8 @@ public class BillingInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         TextView tvAccount;
         @BindView(R.id.tvAmount)
         TextView tvAmount;
+        @BindView(R.id.tvDescription)
+        TextView tvDescription;
 
         public BillingInfoViewHolder(View itemView) {
             super(itemView);
@@ -164,6 +184,8 @@ public class BillingInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         TextView tvAmount;
         @BindView(R.id.tvCount)
         TextView tvCount;
+        @BindView(R.id.tvDescription)
+        TextView tvDescription;
 
         public BillingInfoEditedViewHolder(View itemView) {
             super(itemView);
