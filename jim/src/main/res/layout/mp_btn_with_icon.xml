@@ -11,8 +11,8 @@
 
             <ImageView
                 android:id="@+id/mpBtnIcon"
-                android:layout_width="@dimen/twenty_five_dp"
-                android:layout_height="@dimen/twenty_five_dp"
+                android:layout_width="@dimen/twenty_dp"
+                android:layout_height="@dimen/twenty_dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/fifteen_dp"
                 android:gravity="left"

@@ -282,7 +282,7 @@
                 android:layout_height="@dimen/sixty_dp"
                 android:layout_marginRight="@dimen/ten_dp"
                 app:btn_text="Income"
-                app:src="@drawable/income_2nd" />
+                app:src="@drawable/blu_but_in" />
 
 
         </LinearLayout>
@@ -310,7 +310,7 @@
                 android:layout_height="@dimen/sixty_dp"
                 android:layout_marginRight="@dimen/ten_dp"
                 app:btn_text="Return"
-                app:src="@drawable/expense_2nd" />
+                app:src="@drawable/blu_but_out" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

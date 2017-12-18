@@ -35,6 +35,7 @@ public class InventoryState {
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
      * Entity must attached to an entity context.
      */
+
     @Generated(hash = 1942392019)
     public void refresh() {
         if (myDao == null) {

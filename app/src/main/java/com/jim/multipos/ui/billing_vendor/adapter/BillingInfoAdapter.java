@@ -3,6 +3,7 @@ package com.jim.multipos.ui.billing_vendor.adapter;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,7 +61,6 @@ public class BillingInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         return null;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof BillingInfoViewHolder) {
@@ -70,7 +70,7 @@ public class BillingInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             infoViewHolder.tvDate.setText(simpleDateFormat.format(createdDate));
             infoViewHolder.tvPaymentDate.setText(simpleDateFormat.format(paymentDate));
             infoViewHolder.tvDescription.setText(items.get(position).getDescription());
-            if (!items.get(position).getDescription().equals(""))
+            if (items.get(position).getDescription()!=null && !items.get(position).getDescription().equals(""))
                 infoViewHolder.tvDescription.setText(items.get(position).getDescription());
             else {
                 infoViewHolder.tvDescription.setText("None");
@@ -84,20 +84,21 @@ public class BillingInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             if (items.size() > 1) {
                 infoViewHolder.llBackground.setVisibility(View.VISIBLE);
                 if (!items.get(position).getAmount().equals(items.get(position + 1).getAmount())) {
-                    infoViewHolder.tvAmount.setTextColor(context.getColor(R.color.colorRed));
+
+                    infoViewHolder.tvAmount.setTextColor(ContextCompat.getColor(context,R.color.colorRed));
                 }
                 if (items.get(position).getAccount() != null) {
                     if (items.get(position + 1).getAccount() == null) {
-                        infoViewHolder.tvAccount.setTextColor(context.getColor(R.color.colorRed));
+                        infoViewHolder.tvAccount.setTextColor(ContextCompat.getColor(context,R.color.colorRed));
                     } else if (!items.get(position).getAccount().getId().equals(items.get(position + 1).getAccount().getId())) {
-                        infoViewHolder.tvAccount.setTextColor(context.getColor(R.color.colorRed));
+                        infoViewHolder.tvAccount.setTextColor(ContextCompat.getColor(context,R.color.colorRed));
                     }
                 } else {
                     if (items.get(position + 1).getAccount() != null)
-                        infoViewHolder.tvAccount.setTextColor(context.getColor(R.color.colorRed));
+                        infoViewHolder.tvAccount.setTextColor(ContextCompat.getColor(context,R.color.colorRed));
                 }
                 if (!items.get(position).getDescription().equals(items.get(position + 1).getDescription())) {
-                    infoViewHolder.tvDescription.setTextColor(context.getColor(R.color.colorRed));
+                    infoViewHolder.tvDescription.setTextColor(ContextCompat.getColor(context,R.color.colorRed));
                 }
             }
         } else if (holder instanceof BillingInfoEditedViewHolder) {
@@ -105,7 +106,7 @@ public class BillingInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             Date createdDate = new Date(items.get(position).getCreateAt());
             Date paymentDate = new Date(items.get(position).getPaymentDate());
             infoViewHolder.tvDate.setText(simpleDateFormat.format(createdDate));
-            if (!items.get(position).getDescription().equals(""))
+            if (items.get(position).getDescription()!=null && !items.get(position).getDescription().equals(""))
                 infoViewHolder.tvDescription.setText(items.get(position).getDescription());
             else {
                 infoViewHolder.tvDescription.setText("None");
@@ -120,20 +121,20 @@ public class BillingInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             infoViewHolder.tvCount.setText(String.valueOf(position));
             if (position != items.size() - 1) {
                 if (!items.get(position).getAmount().equals(items.get(position + 1).getAmount())) {
-                    infoViewHolder.tvAmount.setTextColor(context.getColor(R.color.colorRed));
+                    infoViewHolder.tvAmount.setTextColor(ContextCompat.getColor(context,R.color.colorRed));
                 }
                 if (items.get(position).getAccount() != null) {
                     if (items.get(position + 1).getAccount() == null) {
-                        infoViewHolder.tvAccount.setTextColor(context.getColor(R.color.colorRed));
+                        infoViewHolder.tvAccount.setTextColor(ContextCompat.getColor(context,R.color.colorRed));
                     } else if (!items.get(position).getAccount().getId().equals(items.get(position + 1).getAccount().getId())) {
-                        infoViewHolder.tvAccount.setTextColor(context.getColor(R.color.colorRed));
+                        infoViewHolder.tvAccount.setTextColor(ContextCompat.getColor(context,R.color.colorRed));
                     }
                 } else {
                     if (items.get(position + 1).getAccount() != null)
-                        infoViewHolder.tvAccount.setTextColor(context.getColor(R.color.colorRed));
+                        infoViewHolder.tvAccount.setTextColor(ContextCompat.getColor(context,R.color.colorRed));
                 }
                 if (!items.get(position).getDescription().equals(items.get(position + 1).getDescription())) {
-                    infoViewHolder.tvDescription.setTextColor(context.getColor(R.color.colorRed));
+                    infoViewHolder.tvDescription.setTextColor(ContextCompat.getColor(context,R.color.colorRed));
                 }
             }
         }

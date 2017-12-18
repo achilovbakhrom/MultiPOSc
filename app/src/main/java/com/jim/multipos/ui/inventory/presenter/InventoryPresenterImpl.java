@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
+import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
@@ -59,6 +60,9 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
         for (int i = 0; i < inventoryItems.size(); i++) {
             if (inventoryItems.get(i).getId() == inventoryItem.getId()) {
                 inventoryItems.get(i).setLowStockAlert(newAlertCount);
+                InventoryItem inventoryItem1 = inventoryItems.get(i);
+                InventoryState inventoryState = new InventoryState(inventoryItem1.getId(),inventoryItem1.getProduct().getId(),inventoryItem1.getVendor().getId(),inventoryItem1.getInventory(),inventoryItem1.getLowStockAlert());
+                databaseManager.insertInventoryState(inventoryState).subscribe();
                 break;
             }
         }

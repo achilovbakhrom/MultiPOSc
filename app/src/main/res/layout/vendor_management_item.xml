@@ -173,7 +173,7 @@
                     android:layout_height="@dimen/forty_dp"
                     android:layout_gravity="center"
                     android:layout_marginRight="@dimen/five_dp"
-                    android:src="@drawable/history_btn" />
+                    android:src="@drawable/history" />
 
                 <ImageView
                     android:layout_width="@dimen/forty_dp"

@@ -135,9 +135,16 @@ public class BillingOperationPresenterImpl extends BasePresenterImpl<BillingOper
                 break;
             case EXTRA:
                 Collections.sort(billingOperations,(billing, t1) -> {
-                    if(t1.getConsignment()!=null && billing.getConsignment()!=null &&t1.getConsignment().getConsignmentNumber()!=null && billing.getConsignment().getConsignmentNumber()!=null)
-                        return t1.getConsignment().getConsignmentNumber().compareTo(billing.getConsignment().getConsignmentNumber())*SORTING;
-                    else return -1;
+                    String from ="";
+                    String to ="";
+                    if(t1.getConsignment()!=null && t1.getConsignment().getConsignmentNumber()!=null){
+                        to = t1.getConsignment().getConsignmentNumber();
+                    }
+                    if(billing.getConsignment()!=null && billing.getConsignment().getConsignmentNumber()!=null){
+                        from = billing.getConsignment().getConsignmentNumber();
+                    }
+
+                    return to.compareTo(from)*SORTING;
                 });
                 break;
             case DESCRIPTION:
@@ -151,13 +158,14 @@ public class BillingOperationPresenterImpl extends BasePresenterImpl<BillingOper
                         if(t1.getDescription() !=null)
                             to = t1.getDescription();
 
-                    if(billing.getOperationType() == BillingOperations.DEBT_CONSIGNMENT && billing.getOperationType() == BillingOperations.PAID_TO_CONSIGNMENT)
+                    if(billing.getOperationType() == BillingOperations.DEBT_CONSIGNMENT )
                         if( billing.getConsignment() !=null &&billing.getConsignment().getDescription()!=null)
                             from = billing.getConsignment().getDescription();
 
-                    if(t1.getOperationType() == BillingOperations.DEBT_CONSIGNMENT && t1.getOperationType() == BillingOperations.PAID_TO_CONSIGNMENT)
+                    if(t1.getOperationType() == BillingOperations.DEBT_CONSIGNMENT )
                         if( t1.getConsignment() !=null &&t1.getConsignment().getDescription()!=null)
                             to = t1.getConsignment().getDescription();
+
                         return to.compareTo(from)*SORTING;
                 });
                 break;
