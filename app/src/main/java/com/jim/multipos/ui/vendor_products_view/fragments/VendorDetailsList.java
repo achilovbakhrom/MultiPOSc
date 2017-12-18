@@ -71,7 +71,7 @@ public class VendorDetailsList extends BaseFragment implements ProductAdapter.Pr
                         MessageWithIdEvent event = (MessageWithIdEvent) o;
                         switch (event.getMessage()) {
                             case CONSIGNMENT_UPDATE: {
-                                ((VendorProductsViewActivity) getContext()).getPresenter().updateInventoryItems();
+//                                ((VendorProductsViewActivity) getContext()).getPresenter().updateInventoryItems();
                                 break;
                             }
                         }

@@ -33,6 +33,7 @@ import butterknife.BindView;
 import io.reactivex.disposables.Disposable;
 
 import static com.jim.multipos.ui.consignment.view.IncomeConsignmentFragment.CONSIGNMENT_UPDATE;
+import static com.jim.multipos.ui.product_last.ProductPresenterImpl.PRODUCT_UPDATE;
 import static com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemFragment.SortModes.DEBT;
 import static com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemFragment.SortModes.DEBT_INVENTORY;
 import static com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemFragment.SortModes.PRODUCTS;
@@ -183,6 +184,10 @@ public class VendorItemFragment extends BaseFragment implements VendorItemView {
                         MessageEvent event = (MessageEvent) o;
                         switch (event.getMessage()) {
                             case CONSIGNMENT_UPDATE: {
+                                presenter.updateData();
+                                break;
+                            }
+                            case PRODUCT_UPDATE: {
                                 presenter.updateData();
                                 break;
                             }

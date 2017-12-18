@@ -2,6 +2,7 @@ package com.jim.multipos.ui.consignment.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,11 +62,15 @@ public class IncomeItemsListAdapter extends RecyclerView.Adapter<IncomeItemsList
             holder.tvProductSum.setText(String.valueOf(items.get(position).getCostValue() * items.get(position).getCountValue()));
         }
         holder.tvProductUnit.setText(items.get(position).getProduct().getMainUnit().getAbbr());
-        if (items.size() > 1){
+        if (items.get(position).getProduct().getMainUnit().getAbbr().equals("pcs"))
+            holder.etProductCount.setInputType(InputType.TYPE_CLASS_NUMBER);
+        else holder.etProductCount.setInputType(InputType.TYPE_CLASS_NUMBER |
+                InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        if (items.size() > 1) {
             holder.btnDeleteProduct.setEnabled(true);
         }
-        if (type == 1){
-            if (items.size() > 1){
+        if (type == 1) {
+            if (items.size() > 1) {
                 holder.btnDeleteProduct.setAlpha(1f);
                 holder.btnDeleteProduct.setEnabled(true);
             } else {

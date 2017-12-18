@@ -1,6 +1,7 @@
 package com.jim.multipos.ui.vendor_products_view.fragments;
 
 
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -25,6 +26,7 @@ import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.rxevents.MessageEvent;
 import com.jim.multipos.utils.rxevents.MessageWithIdEvent;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,6 +68,8 @@ public class VendorDetailsFragment extends BaseFragment {
     TextView tvVendorDebt;
     @BindView(R.id.tvPaidSum)
     TextView tvPaidSum;
+    @BindView(R.id.tvDebt)
+    TextView tvDebt;
     private ArrayList<Disposable> subscriptions;
 
     @Override
@@ -127,8 +131,16 @@ public class VendorDetailsFragment extends BaseFragment {
                 llEmails.addView(view);
             }
         }
-        tvVendorDebt.setText(String.valueOf(debt) + " " + abbr);
-        tvPaidSum.setText(String.valueOf(paid) + " " + abbr);
+        if (debt <= 0) {
+            tvDebt.setText(R.string.debt);
+            tvVendorDebt.setTextColor(Color.parseColor("#df4f4f"));
+        } else {
+            tvDebt.setText(R.string.overpaid);
+            tvVendorDebt.setTextColor(Color.parseColor("#36a614"));
+        }
+        DecimalFormat decimalFormat = ((VendorProductsViewActivity) getContext()).getDecimalFormat();
+        tvVendorDebt.setText(decimalFormat.format(debt) + " " + abbr);
+        tvPaidSum.setText(decimalFormat.format(paid) + " " + abbr);
     }
 
     @Override
@@ -162,8 +174,16 @@ public class VendorDetailsFragment extends BaseFragment {
     }
 
     public void updateBillings(Double debt, double paid, String abbr) {
-        tvVendorDebt.setText(String.valueOf(debt) + " " + abbr);
-        tvPaidSum.setText(String.valueOf(paid) + " " + abbr);
+        if (debt <= 0) {
+            tvDebt.setText(R.string.debt);
+            tvVendorDebt.setTextColor(Color.parseColor("#df4f4f"));
+        } else {
+            tvDebt.setText(R.string.overpaid);
+            tvVendorDebt.setTextColor(Color.parseColor("#36a614"));
+        }
+        DecimalFormat decimalFormat = ((VendorProductsViewActivity) getContext()).getDecimalFormat();
+        tvVendorDebt.setText(decimalFormat.format(debt) + " " + abbr);
+        tvPaidSum.setText(decimalFormat.format(paid) + " " + abbr);
         ((VendorProductsViewActivity) getContext()).getRxBus().send(new MessageEvent(BILLINGS_UPDATE));
     }
 }

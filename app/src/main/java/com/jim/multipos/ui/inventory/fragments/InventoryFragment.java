@@ -36,6 +36,7 @@ import io.reactivex.disposables.Disposable;
 
 import static com.jim.multipos.ui.consignment.view.IncomeConsignmentFragment.CONSIGNMENT_UPDATE;
 import static com.jim.multipos.ui.inventory.fragments.InventoryFragment.SortModes.*;
+import static com.jim.multipos.ui.product_last.ProductPresenterImpl.PRODUCT_UPDATE;
 
 /**
  * Created by developer on 09.11.2017.
@@ -238,6 +239,10 @@ public class InventoryFragment extends BaseFragment implements InventoryView{
                         MessageEvent event = (MessageEvent) o;
                         switch (event.getMessage()) {
                             case CONSIGNMENT_UPDATE: {
+                                presenter.updateData();
+                                break;
+                            }
+                            case PRODUCT_UPDATE: {
                                 presenter.updateData();
                                 break;
                             }

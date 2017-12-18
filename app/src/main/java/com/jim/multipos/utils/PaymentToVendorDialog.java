@@ -156,8 +156,12 @@ public class PaymentToVendorDialog extends Dialog {
             if (chbFromAccount.isChecked()) {
                 billingOperations.setAccount(accounts.get(spAccount.getSelectedPosition()));
             } else billingOperations.setAccount(null);
-
-            billingOperations.setPaymentDate(calendar.getTimeInMillis());
+            if (operations != null) {
+                Date date = new Date(operations.getPaymentDate());
+                if (simpleDateFormat.format(date).equals(etDate.getText().toString())) {
+                    billingOperations.setPaymentDate(operations.getPaymentDate());
+                } else billingOperations.setPaymentDate(calendar.getTimeInMillis());
+            } else billingOperations.setPaymentDate(calendar.getTimeInMillis());
             billingOperations.setCreateAt(System.currentTimeMillis());
             billingOperations.setIsActive(true);
             billingOperations.setIsNotModified(true);

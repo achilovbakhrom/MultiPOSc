@@ -204,4 +204,6 @@ public interface DbHelper {
     Observable<List<InventoryState>> getInventoryStatesByVendorId(Long vendorId);
     Currency getMainCurrency();
     Single<List<BillingOperations>> getBillingOperationForVendor(Long vendorId);
+
+    Single<Boolean> deleteInventoryState(InventoryState inventoryState);
 }

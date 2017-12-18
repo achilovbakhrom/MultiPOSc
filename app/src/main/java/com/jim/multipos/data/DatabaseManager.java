@@ -789,11 +789,6 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
-    public Observable<Boolean> removeProductFromInventoryState(Long productId) {
-        return dbHelper.removeProductFromInventoryState(productId);
-    }
-
-    @Override
     public Observable<List<InventoryState>> getInventoryStatesByVendorId(Long vendorId) {
         return dbHelper.getInventoryStatesByVendorId(vendorId);
     }
@@ -805,7 +800,6 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
 
     @Override
     public Observable<Boolean> removeVendorProductConnection(VendorProductCon vendorProductCon) {
-
         return null;
     }
 
@@ -880,6 +874,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Single<Double> getVendorDebt(Long vendorId) {
         return dbHelper.getVendorDebt(vendorId);
+    }
+
+    @Override
+    public Single<Boolean> deleteInventoryState(InventoryState inventoryState) {
+        return dbHelper.deleteInventoryState(inventoryState);
     }
 }
 

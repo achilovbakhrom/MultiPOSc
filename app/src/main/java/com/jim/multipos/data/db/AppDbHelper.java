@@ -1758,4 +1758,16 @@ public class AppDbHelper implements DbHelper {
             e.onSuccess(billingOperations);
         });
     }
+
+    @Override
+    public Single<Boolean> deleteInventoryState(InventoryState inventoryState) {
+        return Single.create(e -> {
+            mDaoSession
+                    .queryBuilder(InventoryState.class)
+                    .where(InventoryStateDao.Properties.Id.eq(inventoryState.getId()))
+                    .buildDelete()
+                    .executeDeleteWithoutDetachingEntities();
+            e.onSuccess(true);
+        });
+    }
 }
