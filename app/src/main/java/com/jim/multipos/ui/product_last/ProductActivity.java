@@ -193,6 +193,12 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
     }
 
     @Override
+    public void showInventoryStateShouldBeEmptyDialog() {
+        UIUtils.showAlert(this, getString(R.string.ok), getString(R.string.warning),
+                "You can not change the vendor who has products available", () -> Log.d("sss", "onButtonClicked: "));
+    }
+
+    @Override
     public void selectSubcategoryListItem(Long id) {
         ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
         if (fragment != null) {

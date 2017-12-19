@@ -151,7 +151,7 @@ public class ReturnConsignmentFragment extends BaseFragment implements ReturnCon
     }
 
     @Override
-    public void setError() {
+    public void setError(String string) {
         WarningDialog warningDialog = new WarningDialog(getContext());
         warningDialog.onlyText(true);
         warningDialog.setWarningMessage(getString(R.string.add_product_to_consignment));

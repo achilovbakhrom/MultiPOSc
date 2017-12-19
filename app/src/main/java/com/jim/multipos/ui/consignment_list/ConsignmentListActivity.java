@@ -10,6 +10,9 @@ import com.jim.multipos.ui.consignment.ConsignmentActivity;
 import com.jim.multipos.ui.consignment_list.view.ConsignmentListFragment;
 import com.jim.multipos.utils.TextWatcherOnTextChange;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import static com.jim.multipos.ui.consignment.ConsignmentActivity.CONSIGNMENT_ID;
 import static com.jim.multipos.ui.consignment.ConsignmentActivity.CONSIGNMENT_TYPE;
 import static com.jim.multipos.ui.consignment.ConsignmentActivity.VENDOR_ID;
@@ -21,6 +24,10 @@ import static com.jim.multipos.ui.consignment.ConsignmentActivity.VENDOR_ID;
 public class ConsignmentListActivity extends SimpleActivity implements ConsignmentListActivityView {
 
     protected static final int WITH_TOOLBAR = 1;
+    SimpleDateFormat simpleDateFormat;
+    Calendar fromDate;
+    Calendar toDate;
+    boolean fromDateCurrent = false, toDateCurrent = false;
 
     @Override
     protected int getToolbar() {
@@ -29,7 +36,7 @@ public class ConsignmentListActivity extends SimpleActivity implements Consignme
 
     @Override
     protected int getToolbarMode() {
-        return MpToolbar.WITH_SEARCH_TYPE;
+        return MpToolbar.WITH_CALENDAR_TYPE;
     }
 
     @Override

@@ -204,10 +204,10 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
     }
 
     @Override
-    public void setError() {
+    public void setError(String string) {
         WarningDialog warningDialog = new WarningDialog(getContext());
         warningDialog.onlyText(true);
-        warningDialog.setWarningMessage(getString(R.string.add_product_to_consignment));
+        warningDialog.setWarningMessage(string);
         warningDialog.setOnYesClickListener(view1 -> warningDialog.dismiss());
         warningDialog.show();
     }
@@ -240,9 +240,9 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
 
     @Override
     public void closeFragment(Long id) {
-            rxBus.send(new MessageWithIdEvent(id, CONSIGNMENT_UPDATE));
-            rxBus.send(new MessageEvent(BILLINGS_UPDATE));
-            getActivity().finish();
+        rxBus.send(new MessageWithIdEvent(id, CONSIGNMENT_UPDATE));
+        rxBus.send(new MessageEvent(BILLINGS_UPDATE));
+        getActivity().finish();
     }
 
     @Override

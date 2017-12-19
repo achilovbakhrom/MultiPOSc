@@ -85,7 +85,7 @@
         <activity android:name=".ui.vendor_item_managment.VendorItemsActivity">
 
         </activity>
-        <activity android:name=".ui.consignment_list.ConsignmentListActivity" />
+        <activity android:name=".ui.consignment_list.ConsignmentListActivity" android:windowSoftInputMode="stateHidden" />
     </application>
 
 </manifest>

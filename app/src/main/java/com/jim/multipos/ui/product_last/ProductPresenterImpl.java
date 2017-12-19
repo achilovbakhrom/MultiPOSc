@@ -18,6 +18,7 @@ import com.jim.multipos.data.db.model.unit.UnitCategory;
 import com.jim.multipos.ui.product_last.helpers.CategoryAddEditMode;
 import com.jim.multipos.utils.UIUtils;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -68,6 +69,8 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
         vendors = new ArrayList<>();
         vendorProductConnectionsList = new ArrayList<>();
         tempCostList = new ArrayList<>();
+        inventoryStates = new ArrayList<>();
+        deletedStatesList = new ArrayList<>();
         productClass = null;
     }
 
@@ -388,7 +391,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                                 mode = CategoryAddEditMode.PRODUCT_EDIT_MODE;
                             }
                         });
-                    else  openCategory(category);
+                    else openCategory(category);
                 } else if ((this.productClass != null && this.product.getProductClass() == null) || (this.productClass == null && this.product.getProductClass() != null)) {
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
@@ -474,9 +477,11 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
                         public void onPositiveButtonClicked() {
-                            for (int i = 0; i < vendorProductConnectionsList.size(); i++) {
-                                vendorProductConnectionsList.get(i).setCost(tempCostList.get(i).getCost());
-                            }
+//                            for (int i = 0; i < vendorProductConnectionsList.size(); i++) {
+//                                vendorProductConnectionsList.get(i).setCost(tempCostList.get(i).getCost());
+//                            }
+                            vendorProductConnectionsList.clear();
+                            vendorProductConnectionsList.addAll(tempCostList);
                             view.setCostValue(savedCosts);
                             openProduct(product);
                         }
@@ -624,6 +629,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             view.openProductAddMode();
         } else {
             this.product = product;
+            inventoryStates = databaseManager.getInventoryStatesByProductId(ProductPresenterImpl.this.product.getId()).blockingSingle();
             view.selectProductListItem(this.product.getId());
             mode = CategoryAddEditMode.PRODUCT_EDIT_MODE;
             List<UnitCategory> unitCategories = databaseManager.getAllUnitCategories().blockingSingle();
@@ -1343,10 +1349,13 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                                 }
                             }
                             result.setDescription(description);
-                            inventoryStates = new ArrayList<>();
-                            inventoryStates = databaseManager.getInventoryStatesByProductId(ProductPresenterImpl.this.product.getId()).blockingSingle();
                             databaseManager.replaceProduct(ProductPresenterImpl.this.product).subscribe();
                             databaseManager.removeVendorProductConnectionByProductId(ProductPresenterImpl.this.product.getId()).subscribe();
+                            if (deletedStatesList.size() > 0){
+                                for (InventoryState state: deletedStatesList) {
+                                    databaseManager.deleteInventoryState(state).blockingGet();
+                                }
+                            }
                             databaseManager.addProduct(result).subscribe(id -> {
                                 for (int i = 0; i < vendors.size(); i++) {
                                     vendorProductConnectionsList.get(i).setProductId(result.getId());
@@ -1355,8 +1364,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                                     databaseManager.addVendorProductConnection(vendorProductConnectionsList.get(i)).subscribe();
                                 }
                                 view.editProduct(result);
-                                view.sendEvent(PRODUCT_ADD);
-//                                view.unselectProductsList();
+                                view.sendEvent(PRODUCT_UPDATE);
                                 openSubcategory(subcategory);
                                 openProduct(result);
                             });
@@ -1392,40 +1400,82 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
         }
     }
 
+    private InventoryState inventoryState;
+    private List<InventoryState> deletedStatesList;
+
     @Override
     public void setVendorName(List<Long> vendors) {
         this.vendors = vendors;
         String result = "";
         int count = 0;
+        boolean isAllowed = true; // если vendor не имеет продуктов на складе, то isAllowed true
+        boolean isFirstTime = true; // true, когда добавляется новый продукт
         List<Long> tempExistIds = new ArrayList<>();
         for (int i = 0; i < this.vendorProductConnectionsList.size(); i++) {
             Long vendorId = this.vendorProductConnectionsList.get(i).getVendorId();
-            if (!vendors.contains(vendorId)) {
-                this.vendorProductConnectionsList.remove(i);
-                i--;
+            isFirstTime = false;
+            if (!vendors.contains(vendorId)) { // проверка на измениия листа поставщиков
+                for (int j = 0; j < inventoryStates.size(); j++) {
+                    if (vendorId.equals(inventoryStates.get(j).getVendorId())) {
+                        inventoryState = inventoryStates.get(j);
+                        break;
+                    }
+                }
+                NumberFormat numberFormat = NumberFormat.getNumberInstance();
+                numberFormat.setMaximumFractionDigits(2);
+                numberFormat.setMinimumFractionDigits(2);
+                // если какой-то поставщик был убран из листа, то проверяется есть ли у него продукты на складе, при наличии выходить предупреждение и все изменения возвращаются назад
+                if (!numberFormat.format(inventoryState.getValue()).replace(',','.').equals("0.00")) {
+                    isAllowed = false;
+                    view.showInventoryStateShouldBeEmptyDialog();
+                    break;
+                } else {
+                    inventoryStates.remove(inventoryState);
+                    deletedStatesList.add(inventoryState);
+//                    databaseManager.deleteInventoryState(inventoryState).blockingGet();
+                    this.vendorProductConnectionsList.remove(i);
+                    isAllowed = true;
+                    i--;
+                }
             } else {
-                tempExistIds.add(vendorId);
+                tempExistIds.add(vendorId); // добавления существующих в новый лист для дальнейшой проверки
             }
         }
+        if (isAllowed || isFirstTime) {
+            for (int i = 0; i < vendors.size(); i++) {
+                if (!tempExistIds.contains(vendors.get(i))) { // если есть новые элементы листа, то для них создается связь с продуктом, со складом
+                    VendorProductCon vendorProductCon = new VendorProductCon();
+                    vendorProductCon.setVendorId(vendors.get(i));
+                    this.vendorProductConnectionsList.add(vendorProductCon);
+                    count++;
+                    Vendor vendor = databaseManager.getVendorById(vendors.get(i)).blockingSingle();
+                    if (!isFirstTime) { // для новых продуктов не создается связь со складом, так как она делается при записи в БД
+                        InventoryState inventoryState = new InventoryState();
+                        inventoryState.setVendor(vendor);
+                        inventoryState.setValue(0d);
+                        inventoryStates.add(inventoryState);
+                    }
+                }
 
-        for (int i = 0; i < vendors.size(); i++) {
-            if (!tempExistIds.contains(vendors.get(i))) {
-                VendorProductCon vendorProductCon = new VendorProductCon();
-                vendorProductCon.setVendorId(vendors.get(i));
-                this.vendorProductConnectionsList.add(vendorProductCon);
-                count++;
+
             }
-
-            Vendor vendor = databaseManager.getVendorById(vendors.get(i)).blockingSingle();
+        } else {
+            this.vendors.clear(); // если нет, то значения листа возвращается в первоначальный вид
+            for (int i = 0; i < vendorProductConnectionsList.size(); i++) {
+                Long vendorId = this.vendorProductConnectionsList.get(i).getVendorId();
+                this.vendors.add(vendorId);
+            }
+        }
+        for (int i = 0; i < this.vendors.size(); i++) {
+            Vendor vendor = databaseManager.getVendorById(this.vendors.get(i)).blockingSingle();
             if (vendor != null) {
                 result += vendor.getName();
             }
             if (vendors.indexOf(vendors.get(i)) != vendors.size() - 1) {
                 result += ", ";
             }
-
         }
-        if (count != 0) {
+        if (count != 0) { // если добавлены новые поставщики, то открывается окно назначения стоимости
             setProductCostDialog();
         } else {
             setProductCosts(vendorProductConnectionsList);

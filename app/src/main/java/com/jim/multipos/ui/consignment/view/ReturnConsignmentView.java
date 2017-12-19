@@ -14,7 +14,7 @@ public interface ReturnConsignmentView extends BaseView {
     void fillReturnList(List<ConsignmentProduct> consignmentProductList, int type);
     void setTotalProductsSum(double sum);
     void fillDialogItems(List<Product> productList);
-    void setError();
+    void setError(String string);
     void setVendorName(String name);
     void openDiscardDialog();
     void closeFragment(Long id);

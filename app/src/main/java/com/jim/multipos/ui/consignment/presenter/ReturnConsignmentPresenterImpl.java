@@ -123,7 +123,7 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
     public void calculateConsignmentSum() {
         sum = 0;
         for (ConsignmentProduct consignmentProduct : consignmentProductList) {
-            if (consignmentProduct.getCostValue() != null)
+            if (consignmentProduct.getCostValue() != null && consignmentProduct.getCountValue() != null)
                 sum += consignmentProduct.getCostValue() * consignmentProduct.getCountValue();
         }
         view.setTotalProductsSum(sum);
@@ -144,9 +144,21 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
         this.number = number;
         this.description = description;
         if (consignmentProductList.isEmpty()) {
-            view.setError();
+            view.setError("Please, add product to consignment");
         } else {
-            if (this.returnConsignment == null) {
+            int countPos = consignmentProductList.size(), costPos = consignmentProductList.size();
+            for (int i = 0; i < consignmentProductList.size(); i++) {
+                if (consignmentProductList.get(i).getCountValue() == 0)
+                    countPos = i;
+                if (consignmentProductList.get(i).getCostValue() == null)
+                    costPos = i;
+            }
+
+            if (countPos != consignmentProductList.size()) {
+                view.setError("Some counts are empty or equals 0");
+            } else if (costPos != consignmentProductList.size())
+                view.setError("Some costs are empty");
+            else if (this.returnConsignment == null) {
                 this.returnConsignment = new Consignment();
                 this.returnConsignment.setConsignmentNumber(number);
                 this.returnConsignment.setCreatedDate(System.currentTimeMillis());

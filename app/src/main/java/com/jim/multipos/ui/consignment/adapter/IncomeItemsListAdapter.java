@@ -51,15 +51,23 @@ public class IncomeItemsListAdapter extends RecyclerView.Adapter<IncomeItemsList
 
     @Override
     public void onBindViewHolder(IncomeItemViewHolder holder, int position) {
+        if (position == 0)
+            holder.etProductCount.post(() -> holder.etProductCount.requestFocus());
         holder.tvProductName.setText(items.get(position).getProduct().getName());
         holder.tvCurrencyAbbr.setText(items.get(position).getProduct().getCostCurrency().getAbbr());
         holder.etProductCount.setText(String.valueOf(items.get(position).getCountValue()));
+        if (items.get(position).getCountValue() == null) {
+            holder.etProductCount.setText("");
+            holder.etProductCount.setHint("0.0");
+        }
         if (items.get(position).getCostValue() == null) {
             holder.etProductCost.setText(String.valueOf(0.0d));
             holder.tvProductSum.setText(String.valueOf(0.0d));
         } else {
             holder.etProductCost.setText(String.valueOf(items.get(position).getCostValue()));
-            holder.tvProductSum.setText(String.valueOf(items.get(position).getCostValue() * items.get(position).getCountValue()));
+            if (items.get(position).getCountValue() != null)
+                holder.tvProductSum.setText(String.valueOf(items.get(position).getCostValue() * items.get(position).getCountValue()));
+            else holder.tvProductSum.setText(String.valueOf(0));
         }
         holder.tvProductUnit.setText(items.get(position).getProduct().getMainUnit().getAbbr());
         if (items.get(position).getProduct().getMainUnit().getAbbr().equals("pcs"))
@@ -140,8 +148,11 @@ public class IncomeItemsListAdapter extends RecyclerView.Adapter<IncomeItemsList
                         }
                         tvProductSum.setText(decimalFormat.format(cost * count));
                         onConsignmentCallback.onSumChanged();
-                    } else
+                    } else {
+                        tvProductSum.setText(decimalFormat.format(0));
+                        items.get(getAdapterPosition()).setCountValue(0d);
                         etProductCount.setError(context.getString(R.string.please_enter_product_count));
+                    }
                 }
             });
             etProductCost.addTextChangedListener(new TextWatcherOnTextChange() {
@@ -164,8 +175,11 @@ public class IncomeItemsListAdapter extends RecyclerView.Adapter<IncomeItemsList
                         }
                         tvProductSum.setText(decimalFormat.format(cost * count));
                         onConsignmentCallback.onSumChanged();
-                    } else
+                    } else {
+                        tvProductSum.setText(decimalFormat.format(0));
+                        items.get(getAdapterPosition()).setCostValue(null);
                         etProductCost.setError(context.getString(R.string.enter_product_cost));
+                    }
                 }
             });
         }

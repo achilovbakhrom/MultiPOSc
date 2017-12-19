@@ -111,4 +111,5 @@ public interface ProductView extends BaseView {
     void sendEvent(String event);
     void showCannotDeleteItemWithPlusValue(double value);
     void showCannotDeleteItemWithMinusValue(double value);
+    void showInventoryStateShouldBeEmptyDialog();
 }
