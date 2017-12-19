@@ -63,7 +63,7 @@ public class MpEditText extends android.support.v7.widget.AppCompatEditText {
         TypedArray arr = context.obtainStyledAttributes(attrs, attributes);
 
         //You can check if attribute exists (in this examle checking paddingRight)
-//        int paddingRight = arr.hasValue(3) ? arr.getDimensionPixelOffset(3, -1) : 10;
+        //int paddingRight = arr.hasValue(3) ? arr.getDimensionPixelOffset(3, -1) : 10;
 
         Resources r = getResources();
         if (!arr.hasValue(0) && !arr.hasValue(1) && !arr.hasValue(2) && !arr.hasValue(3)) {

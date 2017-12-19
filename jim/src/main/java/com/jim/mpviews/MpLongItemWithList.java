@@ -72,7 +72,10 @@ public class MpLongItemWithList extends RelativeLayout {
             thirdItem.setTextColor(getResources().getColor(R.color.colorWhite));
         } else {
             mainContainer.setBackgroundResource(R.drawable.vendor_item_bg);
-            firstItem.setTextColor(getResources().getColor(R.color.colorMainText));
+            if(!isAddButton)
+                firstItem.setTextColor(getResources().getColor(R.color.colorMainText));
+            else
+                firstItem.setTextColor(getResources().getColor(R.color.colorGreenSecond));
             secondItem.setTextColor(getResources().getColor(R.color.colorSecondaryText));
             thirdItem.setTextColor(getResources().getColor(R.color.colorSecondaryText));
         }
@@ -99,7 +102,10 @@ public class MpLongItemWithList extends RelativeLayout {
             thirdItem.setTextColor(getResources().getColor(R.color.colorWhite));
         } else {
             mainContainer.setBackgroundResource(R.drawable.vendor_item_bg);
-            firstItem.setTextColor(getResources().getColor(R.color.colorMainText));
+            if(!isAddButton)
+                firstItem.setTextColor(getResources().getColor(R.color.colorMainText));
+            else
+                firstItem.setTextColor(getResources().getColor(R.color.colorGreenSecond));
             secondItem.setTextColor(getResources().getColor(R.color.colorSecondaryText));
             thirdItem.setTextColor(getResources().getColor(R.color.colorSecondaryText));
         }
@@ -157,7 +163,10 @@ public class MpLongItemWithList extends RelativeLayout {
         return savedState;
 
     }
-
+    boolean isAddButton = false;
+    public void itIsAddButton(boolean isPressed){
+        isAddButton = isPressed;
+    }
     static class SavedState extends BaseSavedState {
         boolean boolValue;
 

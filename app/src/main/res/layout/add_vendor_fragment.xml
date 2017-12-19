@@ -161,30 +161,31 @@
                 app:checked="true"
                 app:text="Active" />
         </LinearLayout>
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/forty_dp"
+            android:layout_gravity="left"
+            android:layout_marginRight="@dimen/sixteen_dp"
+            android:layout_marginLeft="@dimen/twenty_dp"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/fifteen_dp"
+            android:text="@string/contacts"
+            android:textColor="#51afe6"
+            android:textSize="@dimen/sixteen_dp" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/eight_dp"
             android:layout_marginLeft="@dimen/twenty_dp"
             android:layout_marginRight="@dimen/twenty_dp"
-            android:layout_marginTop="@dimen/fifteen_dp"
             android:gravity="center"
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/forty_dp"
-                android:layout_gravity="center"
-                android:layout_marginRight="@dimen/sixteen_dp"
-                android:gravity="center_vertical"
-                android:text="@string/contacts"
-                android:textColor="@color/colorMainText"
-                android:textSize="@dimen/sixteen_dp" />
+
 
             <com.jim.mpviews.MPosSpinner
                 android:id="@+id/spContactType"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/hundred_thirty_dp"
                 android:layout_height="@dimen/forty_dp" />
 
             <com.jim.mpviews.MpEditText

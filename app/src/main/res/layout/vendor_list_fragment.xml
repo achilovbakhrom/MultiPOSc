@@ -18,6 +18,8 @@
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingTop="@dimen/ten_dp"
+        android:clipToPadding="false"
         android:layout_marginLeft="@dimen/fifteen_dp"
         android:layout_marginRight="@dimen/fifteen_dp"
         android:id="@+id/rvVendors"

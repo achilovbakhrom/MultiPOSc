@@ -432,7 +432,7 @@
     <string name="warning_deleting_payment_type_message">Do you want to delete payment type?</string>
     <string name="warning_ventor_name">Vendor name must be entered!</string>
     <string name="update">Update</string>
-    <string name="add_vendor_text">Add Vendor</string>
+    <string name="add_vendor_text">Add \nVendor</string>
     <string name="warning_contact_is_empty">Введите данные для контакта</string>
     <string name="warning_deleting_vendor">Do you want to delete the vendor?</string>
     <string name="deleting_vendor_title">Deleting vendor</string>
@@ -562,8 +562,8 @@
         <item>Payment type</item>
     </string-array>
     <string-array name="contact_types">
-        <item>PHONE</item>
-        <item>EMAIL</item>
+        <item>Phone</item>
+        <item>Email</item>
     </string-array>
     <string-array name="discount_amount_types">
         <item>Percent</item>

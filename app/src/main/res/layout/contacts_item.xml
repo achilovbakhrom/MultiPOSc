@@ -7,7 +7,7 @@
     android:layout_marginBottom="@dimen/five_dp">
     <TextView
         android:id="@+id/tvContacts"
-        android:layout_width="@dimen/hundred_forty_dp"
+        android:layout_width="@dimen/hundred_thirty_dp"
         android:layout_height="@dimen/forty_dp"
         android:layout_gravity="center"
         android:gravity="center_vertical"

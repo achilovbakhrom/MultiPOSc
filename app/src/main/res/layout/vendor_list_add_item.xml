@@ -2,8 +2,7 @@
 <com.jim.mpviews.MpLongItemWithList xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/aivAddItem"
-    android:layout_width="@dimen/two_hundred_dp"
+    android:layout_width="match_parent"
     android:layout_height="@dimen/hundred_dp"
     android:layout_margin="@dimen/two_dp"
-    app:long_item_active="false"
-    app:long_item_first_text="@string/add_vendor_text" />
+    app:long_item_first_text="Blank to add\nNew vendor" />

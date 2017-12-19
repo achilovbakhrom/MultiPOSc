@@ -88,6 +88,7 @@
                     android:id="@+id/etAmmount"
                     android:layout_width="0dp"
                     android:layout_weight="1"
+                    android:selectAllOnFocus="true"
                     android:inputType="numberDecimal"
                     android:layout_height="@dimen/forty_five_dp"
                     android:layout_marginLeft="@dimen/twenty_five_dp"

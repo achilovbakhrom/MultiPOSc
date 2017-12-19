@@ -142,7 +142,8 @@
                     android:layout_height="@dimen/thirty_five_dp"
                     android:layout_gravity="center"
                     android:adjustViewBounds="true"
-                    android:src="@drawable/currency_btn_mini"
+                    android:clickable="true"
+                    android:src="@drawable/currency_btn_mini_selector"
                     />
                 <ImageView
                     android:id="@+id/ivPaymentsStory"
@@ -150,7 +151,9 @@
                     android:layout_height="@dimen/thirty_five_dp"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:src="@drawable/payments_btn"
+                    android:clickable="true"
+
+                    android:src="@drawable/payment_btn_selector"
                     />
                 <ImageView
                     android:id="@+id/ivStoryConsigment"
@@ -158,7 +161,9 @@
                     android:layout_height="@dimen/thirty_five_dp"
                     android:layout_gravity="center"
                     android:adjustViewBounds="true"
-                    android:src="@drawable/history"
+                    android:clickable="true"
+
+                    android:src="@drawable/history_selector"
                     />
 
 
@@ -169,7 +174,9 @@
                     android:layout_height="@dimen/thirty_five_dp"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:src="@drawable/expense"
+                    android:clickable="true"
+
+                    android:src="@drawable/expense_selector"
                     />
                 <ImageView
                     android:id="@+id/ivIncome"
@@ -177,7 +184,9 @@
                     android:layout_height="@dimen/thirty_five_dp"
                     android:layout_gravity="center"
                     android:adjustViewBounds="true"
-                    android:src="@drawable/income"
+                    android:clickable="true"
+
+                    android:src="@drawable/income_selector"
                     />
 
 

@@ -73,7 +73,8 @@
             android:layout_width="@dimen/eighty_dp"
             android:layout_height="match_parent"
             android:layout_marginRight="@dimen/thirty_five_dp"
-            android:src="@drawable/info_icon"
+            android:clickable="true"
+            android:src="@drawable/info_icon_selector"
             android:padding="@dimen/ten_dp"/>
     </LinearLayout>
 </LinearLayout>

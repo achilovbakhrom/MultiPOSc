@@ -52,7 +52,8 @@ public class VendorsListAdapter extends ClickableBaseAdapter<Vendor, BaseViewHol
             ((VendorViewHolder) holder).item.makeDeletable(!items.get(position).getIsActive());
         } else {
             ((AddItemViewHolder) holder).item.setVisibility(View.VISIBLE, View.GONE, View.GONE);
-            ((AddItemViewHolder) holder).item.setTextColor(R.color.colorGreenSecond);
+            ((AddItemViewHolder) holder).item.itIsAddButton(true);
+            ((AddItemViewHolder) holder).item.setActivate(position == selectedPosition);
             ((AddItemViewHolder) holder).item.setTextSize(14);
 
         }
