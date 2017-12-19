@@ -4,6 +4,7 @@ import com.jim.multipos.core.BaseView;
 import com.jim.multipos.data.db.model.consignment.Consignment;
 import com.jim.multipos.data.db.model.currency.Currency;
 
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -16,4 +17,7 @@ public interface ConsignmentListView extends BaseView{
     void initSearchResults(List<Consignment> searchResults, String searchText, Currency currency);
     void openConsignment(Long consignmentId, Integer consignmentType);
     void sendEvent(String event);
+    void dateIntervalPicked(Calendar fromDate, Calendar toDate);
+    void datePicked(Calendar pickedDate);
+    void clearInterval();
 }

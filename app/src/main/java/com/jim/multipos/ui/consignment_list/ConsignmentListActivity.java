@@ -5,9 +5,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.jim.mpviews.MpToolbar;
+import com.jim.multipos.R;
 import com.jim.multipos.core.SimpleActivity;
+import com.jim.multipos.ui.billing_vendor.BillingOperationsActivity;
 import com.jim.multipos.ui.consignment.ConsignmentActivity;
 import com.jim.multipos.ui.consignment_list.view.ConsignmentListFragment;
+import com.jim.multipos.utils.DateIntervalPicker;
 import com.jim.multipos.utils.TextWatcherOnTextChange;
 
 import java.text.SimpleDateFormat;
@@ -36,7 +39,7 @@ public class ConsignmentListActivity extends SimpleActivity implements Consignme
 
     @Override
     protected int getToolbarMode() {
-        return MpToolbar.WITH_CALENDAR_TYPE;
+        return MpToolbar.WITH_SEARCH_CALENDAR_TYPE;
     }
 
     @Override
@@ -50,13 +53,81 @@ public class ConsignmentListActivity extends SimpleActivity implements Consignme
             ConsignmentListFragment fragment = new ConsignmentListFragment();
             fragment.setArguments(bundle1);
             addFragment(fragment);
+            simpleDateFormat = new SimpleDateFormat("MMM dd, yyyy");
+            Calendar from = (Calendar) Calendar.getInstance().clone();
+            Calendar to = (Calendar) Calendar.getInstance().clone();
+            from.set(Calendar.MONTH, from.get(Calendar.MONTH) - 1);
             toolbar.getSearchEditText().addTextChangedListener(new TextWatcherOnTextChange() {
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                     fragment.setSearchText(toolbar.getSearchEditText().getText().toString());
                 }
             });
+
+            toolbar.setDataIntervalPicker(from, to, new MpToolbar.DataIntervalCallbackToToolbar() {
+                @Override
+                public void onDataIntervalPickerPressed() {
+                    DateIntervalPicker dateIntervalPicker = new DateIntervalPicker(ConsignmentListActivity.this, fromDate, toDate, new DateIntervalPicker.CallbackIntervalPicker() {
+                        @Override
+                        public void dateIntervalPicked(Calendar fromDate, Calendar toDate) {
+                            ConsignmentListActivity.this.fromDate = fromDate;
+                            ConsignmentListActivity.this.toDate = toDate;
+                            fromDateCurrent = true;
+                            toDateCurrent = true;
+                            updateCurrentDate();
+                            fragment.dateIntervalPicked(fromDate, toDate);
+                            toolbar.changeToCloseImgIntervalPick();
+                        }
+
+                        @Override
+                        public void datePicked(Calendar pickedDate) {
+                            ConsignmentListActivity.this.fromDate = pickedDate;
+                            ConsignmentListActivity.this.toDate = null;
+                            fromDateCurrent = true;
+                            toDateCurrent = false;
+                            updateCurrentDate();
+                            fragment.datePicked(pickedDate);
+                            toolbar.changeToCloseImgIntervalPick();
+
+                        }
+                    });
+                    dateIntervalPicker.show();
+                }
+
+                @Override
+                public void clearInterval() {
+                    ConsignmentListActivity.this.fromDate = null;
+                    ConsignmentListActivity.this.toDate = null;
+                    toolbar.setDatePickerIntervalText(getString(R.string.select_date));
+                    fragment.clearInterval();
+                    toolbar.changeToCalendarImgIntervalPick();
+
+                }
+            });
+            toolbar.setDatePickerIntervalText(getString(R.string.select_date));
         }
+
+    }
+
+    private void updateCurrentDate() {
+        String date = "";
+        if (fromDateCurrent && !toDateCurrent) {
+            String format = simpleDateFormat.format(fromDate.getTime());
+            date = format.substring(0, 1).toUpperCase() + format.substring(1);
+        } else if (fromDateCurrent && toDateCurrent) {
+            long indecatorTo = toDate.get(Calendar.YEAR) * 365 + toDate.get(Calendar.MONTH) * 30 + toDate.get(Calendar.DAY_OF_MONTH);
+            long indecatorFrom = fromDate.get(Calendar.YEAR) * 365 + fromDate.get(Calendar.MONTH) * 30 + fromDate.get(Calendar.DAY_OF_MONTH);
+            if (indecatorTo == indecatorFrom) {
+                String format = simpleDateFormat.format(fromDate.getTime());
+                date = format.substring(0, 1).toUpperCase() + format.substring(1);
+            } else {
+                String format = simpleDateFormat.format(fromDate.getTime());
+                String format1 = simpleDateFormat.format(toDate.getTime());
+                date = format.substring(0, 1).toUpperCase() + format.substring(1) + " - " + format1.substring(0, 1).toUpperCase() + format1.substring(1);
+            }
+
+        }
+        toolbar.setDatePickerIntervalText(date);
 
     }
 

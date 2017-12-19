@@ -125,11 +125,11 @@ public class VendorAddEditActivity extends DoubleSideActivity implements VendorA
     }
 
     @Override
-    public void showCantDeleteActiveItemMessage() {
+    public void showCantDeleteActiveItemMessage(UIUtils.SingleButtonAlertListener listener) {
         UIUtils.showAlert(this,
                 getString(R.string.ok),
                 getString(R.string.cannot_delete_active_item),
-                getString(R.string.warning_cannot_delete_element), null);
+                getString(R.string.warning_cannot_delete_element), listener);
     }
 
     @Override

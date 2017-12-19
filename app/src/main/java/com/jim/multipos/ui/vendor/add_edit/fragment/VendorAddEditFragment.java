@@ -241,7 +241,7 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
             case R.id.btnDelete:
                 if (((VendorAddEditActivity) getContext()).getPresenter().getVendor() != null &&
                         ((VendorAddEditActivity) getContext()).getPresenter().getVendor().isActive()) {
-                    ((VendorAddEditActivity) getContext()).showCantDeleteActiveItemMessage();
+                    ((VendorAddEditActivity) getContext()).showCantDeleteActiveItemMessage(() -> {});
                 } else {
                     UIUtils.showAlert(getContext(), getString(R.string.yes), getString(R.string.no),
                             getString(R.string.deleting_vendor_title), getString(R.string.warning_deleting_vendor),

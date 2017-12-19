@@ -17,7 +17,7 @@ public interface VendorAddEditView extends BaseView{
     void selectItem(int position);
     void addContactToAddEditView(Contact contact);
     void removeContact(Contact contact);
-    void showCantDeleteActiveItemMessage();
+    void showCantDeleteActiveItemMessage(UIUtils.SingleButtonAlertListener listener);
     void showAddEditChangeMessage(UIUtils.AlertListener listener);
     boolean isChangeDetected();
     void discardChanges();

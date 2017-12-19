@@ -206,4 +206,6 @@ public interface DbHelper {
     Single<List<BillingOperations>> getBillingOperationForVendor(Long vendorId);
 
     Single<Boolean> deleteInventoryState(InventoryState inventoryState);
+
+    Single<List<Consignment>> getConsignmentsInInterval(Long vendorId, Calendar fromDate, Calendar toDate);
 }

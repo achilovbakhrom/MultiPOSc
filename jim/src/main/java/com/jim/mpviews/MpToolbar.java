@@ -340,6 +340,17 @@ public class MpToolbar extends RelativeLayout {
                 findViewById(R.id.blackLine).setVisibility(GONE);
                 break;
             }
+            case WITH_SEARCH_CALENDAR_TYPE:{
+                mpRightSide.setVisibility(GONE);
+                mpMainMenu.setVisibility(GONE);
+                mpSettings.setVisibility(GONE);
+                mpHorizontalScroller.setVisibility(GONE);
+                llDateIntervalPicker.setVisibility(VISIBLE);
+                mpSearchView.setVisibility(VISIBLE);
+                llEmployer.setVisibility(GONE);
+                findViewById(R.id.mpInfo).setVisibility(GONE);
+                findViewById(R.id.blackLine).setVisibility(GONE);
+            }
 
         }
     }

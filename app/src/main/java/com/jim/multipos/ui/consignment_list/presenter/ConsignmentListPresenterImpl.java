@@ -13,8 +13,10 @@ import com.jim.multipos.ui.consignment_list.view.ConsignmentListView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -32,7 +34,9 @@ public class ConsignmentListPresenterImpl extends BasePresenterImpl<ConsignmentL
     private List<Consignment> consignmentList, searchResults;
     private int sorting = 1;
     private Currency currency;
+    private Long vendorId;
     private ConsignmentListFragment.SortingStates sortType = ConsignmentListFragment.SortingStates.FILTERED_BY_DATE;
+    private Calendar fromDate, toDate;
 
     @Inject
     protected ConsignmentListPresenterImpl(ConsignmentListView consignmentListView, DatabaseManager databaseManager) {
@@ -43,6 +47,7 @@ public class ConsignmentListPresenterImpl extends BasePresenterImpl<ConsignmentL
 
     @Override
     public void initConsignmentListRecyclerViewData(Long vendorId) {
+        this.vendorId = vendorId;
         currency = databaseManager.getMainCurrency();
         databaseManager.getConsignmentsByVendorId(vendorId).subscribe(consignments -> {
             this.consignmentList = consignments;
@@ -140,6 +145,44 @@ public class ConsignmentListPresenterImpl extends BasePresenterImpl<ConsignmentL
         consignmentList.remove(consignment);
         view.notifyList();
         view.sendEvent(CONSIGNMENT_UPDATE);
+    }
+
+    @Override
+    public void dateIntervalPicked(Calendar fromDate, Calendar toDate) {
+        this.fromDate = fromDate;
+        this.toDate = toDate;
+        databaseManager.getConsignmentsInInterval(vendorId, fromDate, toDate).subscribe(consignments -> {
+            this.consignmentList.clear();
+            this.consignmentList.addAll(consignments);
+            sortList();
+            view.setConsignmentListRecyclerViewData(consignments, currency);
+        });
+    }
+
+    @Override
+    public void datePicked(Calendar pickedDate) {
+        Calendar temp = new GregorianCalendar();
+        temp.setTimeInMillis(pickedDate.getTimeInMillis());
+        this.fromDate = temp;
+        this.toDate = null;
+        databaseManager.getConsignmentsInInterval(vendorId, pickedDate, temp).subscribe(consignments -> {
+            this.consignmentList.clear();
+            this.consignmentList.addAll(consignments);
+            sortList();
+            view.setConsignmentListRecyclerViewData(consignments, currency);
+        });
+
+    }
+
+    @Override
+    public void clearIntervals() {
+        fromDate = null;
+        toDate = null;
+        databaseManager.getConsignmentsByVendorId(vendorId).subscribe(consignments -> {
+            this.consignmentList = consignments;
+            sortList();
+            view.setConsignmentListRecyclerViewData(consignments, currency);
+        });
     }
 
     private void sortList() {

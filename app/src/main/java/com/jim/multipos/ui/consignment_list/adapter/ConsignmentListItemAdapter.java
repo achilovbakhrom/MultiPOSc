@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -90,7 +91,7 @@ public class ConsignmentListItemAdapter extends RecyclerView.Adapter<Consignment
         holder.ivShowHide.setVisibility(View.GONE);
         if (consignment.getConsignmentType() == Consignment.INCOME_CONSIGNMENT) {
             holder.ivStatus.setImageResource(R.drawable.income_2nd);
-            holder.tvDebtAmount.setTextColor(Color.parseColor("#4fc82b"));
+            holder.tvDebtAmount.setTextColor(ContextCompat.getColor(context, R.color.colorMainText));
         } else {
             holder.ivStatus.setImageResource(R.drawable.expense_2nd);
             holder.tvDebtAmount.setTextColor(Color.parseColor("#df4f4f"));

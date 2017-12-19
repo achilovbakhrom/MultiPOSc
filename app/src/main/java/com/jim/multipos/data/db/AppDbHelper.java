@@ -1578,4 +1578,28 @@ public class AppDbHelper implements DbHelper {
             e.onSuccess(true);
         });
     }
+
+    @Override
+    public Single<List<Consignment>> getConsignmentsInInterval(Long vendorId, Calendar fromDate, Calendar toDate) {
+        return Single.create(e -> {
+            fromDate.set(Calendar.HOUR_OF_DAY,0);
+            fromDate.set(Calendar.MINUTE,0);
+            fromDate.set(Calendar.SECOND,0);
+            fromDate.set(Calendar.MILLISECOND,0);
+
+            toDate.set(Calendar.HOUR_OF_DAY,23);
+            toDate.set(Calendar.MINUTE,59);
+            toDate.set(Calendar.SECOND,59);
+            toDate.set(Calendar.MILLISECOND,9999);
+
+            List<Consignment> consignments = mDaoSession.getConsignmentDao().queryBuilder()
+                    .where(ConsignmentDao.Properties.CreatedDate.ge(fromDate.getTimeInMillis()),
+                            ConsignmentDao.Properties.CreatedDate.le(toDate.getTimeInMillis()),
+                            ConsignmentDao.Properties.VendorId.eq(vendorId),
+                            ConsignmentDao.Properties.IsNotModified.eq(true))
+                    .build().list();
+
+            e.onSuccess(consignments);
+        });
+    }
 }

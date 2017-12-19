@@ -21,6 +21,7 @@ import com.jim.multipos.utils.rxevents.MessageWithIdEvent;
 import com.jim.multipos.utils.rxevents.MessageEvent;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -221,6 +222,21 @@ public class ConsignmentListFragment extends BaseFragment implements Consignment
     @Override
     public void sendEvent(String event) {
         rxBus.send(new MessageEvent(event));
+    }
+
+    @Override
+    public void dateIntervalPicked(Calendar fromDate, Calendar toDate) {
+        presenter.dateIntervalPicked(fromDate,toDate);
+    }
+
+    @Override
+    public void datePicked(Calendar pickedDate) {
+        presenter.datePicked(pickedDate);
+    }
+
+    @Override
+    public void clearInterval() {
+        presenter.clearIntervals();
     }
 
     public void setSearchText(String searchText) {

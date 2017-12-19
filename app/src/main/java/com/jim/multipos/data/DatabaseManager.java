@@ -751,6 +751,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
+    public Single<List<Consignment>> getConsignmentsInInterval(Long vendorId, Calendar fromDate, Calendar toDate) {
+        return dbHelper.getConsignmentsInInterval(vendorId, fromDate, toDate);
+    }
+
+    @Override
     public Single<List<InventoryItem>> getInventoryItems() {
         return dbHelper.getInventoryItems().map(inventoryItems -> {
             Collections.sort(inventoryItems, (inventoryItem, t1) -> inventoryItem.getProduct().getCreatedDate().compareTo(t1.getProduct().getCreatedDate()));

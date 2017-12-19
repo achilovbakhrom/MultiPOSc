@@ -5,6 +5,7 @@ import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
 import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 
+import java.util.Calendar;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -22,4 +23,5 @@ public interface ConsignmentOperations {
     Observable<Boolean> insertConsignmentProducts(List<ConsignmentProduct> consignmentProducts);
     Single<List<ConsignmentProduct>> getConsignmentProductsByConsignmentId(Long consignmentId);
     Single<Consignment> getConsignmentById(Long consignmentId);
+    Single<List<Consignment>> getConsignmentsInInterval(Long vendorId, Calendar fromDate, Calendar toDate);
 }
