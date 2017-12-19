@@ -124,8 +124,8 @@
                 android:gravity="center"
                 android:layout_marginTop="@dimen/twelve_dp"
                 android:textSize="@dimen/sixteen_dp"
-                android:textColor="#51afe6"
-                android:background="@drawable/blue_stroke_2"/>
+                android:textColor="@color/item_txt_color_blue"
+                android:background="@drawable/blue_stroke_selector"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
