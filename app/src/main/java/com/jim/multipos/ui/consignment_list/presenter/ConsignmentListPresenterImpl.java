@@ -58,8 +58,8 @@ public class ConsignmentListPresenterImpl extends BasePresenterImpl<ConsignmentL
 
     @Override
     public void filterBy(ConsignmentListFragment.SortingStates sortingStates) {
-        sorting = 1;
         this.sortType = sortingStates;
+        sorting = 1;
         sortList();
         view.notifyList();
     }
@@ -155,7 +155,7 @@ public class ConsignmentListPresenterImpl extends BasePresenterImpl<ConsignmentL
             this.consignmentList.clear();
             this.consignmentList.addAll(consignments);
             sortList();
-            view.setConsignmentListRecyclerViewData(consignments, currency);
+            view.setConsignmentListRecyclerViewData(consignmentList, currency);
         });
     }
 
@@ -169,7 +169,7 @@ public class ConsignmentListPresenterImpl extends BasePresenterImpl<ConsignmentL
             this.consignmentList.clear();
             this.consignmentList.addAll(consignments);
             sortList();
-            view.setConsignmentListRecyclerViewData(consignments, currency);
+            view.setConsignmentListRecyclerViewData(consignmentList, currency);
         });
 
     }
@@ -181,7 +181,7 @@ public class ConsignmentListPresenterImpl extends BasePresenterImpl<ConsignmentL
         databaseManager.getConsignmentsByVendorId(vendorId).subscribe(consignments -> {
             this.consignmentList = consignments;
             sortList();
-            view.setConsignmentListRecyclerViewData(consignments, currency);
+            view.setConsignmentListRecyclerViewData(consignmentList, currency);
         });
     }
 

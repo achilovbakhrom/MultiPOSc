@@ -301,7 +301,7 @@
                         android:layout_weight="1"
                         android:gravity="right"
                         android:text="closed"
-                        android:textColor="@color/colorGreenLight" />
+                        android:textColor="@color/colorRedLight" />
 
                 </LinearLayout>
 

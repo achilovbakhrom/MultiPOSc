@@ -30,4 +30,6 @@
     <color name="pressedWhite">#f8f8f8</color>
     <color name="colorBlack">#000000</color>
     <color name="separatorColor">#ededed</color>
+    <color name="colorRedLight">#df4f4f</color>
+    <color name="colorGreenLight">#4fc82b</color>
 </resources>

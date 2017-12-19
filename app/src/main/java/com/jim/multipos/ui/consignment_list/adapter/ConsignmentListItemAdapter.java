@@ -1,7 +1,6 @@
 package com.jim.multipos.ui.consignment_list.adapter;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
@@ -16,7 +15,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -25,7 +23,6 @@ import com.jim.multipos.R;
 import com.jim.multipos.data.db.model.consignment.Consignment;
 import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
 import com.jim.multipos.data.db.model.currency.Currency;
-import com.jim.multipos.ui.consignment_list.model.ConsignmentListItem;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -91,14 +88,19 @@ public class ConsignmentListItemAdapter extends RecyclerView.Adapter<Consignment
         holder.ivShowHide.setVisibility(View.GONE);
         if (consignment.getConsignmentType() == Consignment.INCOME_CONSIGNMENT) {
             holder.ivStatus.setImageResource(R.drawable.income_2nd);
-            holder.tvDebtAmount.setTextColor(ContextCompat.getColor(context, R.color.colorMainText));
+            holder.ivStatus.setImageTintList(ContextCompat.getColorStateList(context, R.color.colorRedLight));
+            holder.tvDebtAmount.setTextColor(Color.parseColor("#df4f4f"));
         } else {
             holder.ivStatus.setImageResource(R.drawable.expense_2nd);
-            holder.tvDebtAmount.setTextColor(Color.parseColor("#df4f4f"));
+            holder.ivStatus.setImageTintList(ContextCompat.getColorStateList(context, R.color.colorGreenLight));
+            holder.tvDebtAmount.setTextColor(Color.parseColor("#4fc82b"));
         }
         if (!searchMode) {
             setUnderlineText(holder.tvConsignmentNumber, consignment.getConsignmentNumber());
-            holder.tvDebtAmount.setText(String.valueOf(consignment.getTotalAmount()) + " " + this.currency.getAbbr());
+            if (consignment.getConsignmentType() == Consignment.INCOME_CONSIGNMENT)
+                holder.tvDebtAmount.setText(String.valueOf(-1 * consignment.getTotalAmount()) + " " + this.currency.getAbbr());
+            else
+                holder.tvDebtAmount.setText(String.valueOf(consignment.getTotalAmount()) + " " + this.currency.getAbbr());
             Date date = new Date(consignment.getCreatedDate());
             holder.tvDate.setText(formatter.format(date));
             if (productList.size() > 3) {
@@ -216,7 +218,10 @@ public class ConsignmentListItemAdapter extends RecyclerView.Adapter<Consignment
             }
         } else {
             colorSubSeqUnderLine(consignment.getConsignmentNumber(), searchText, Color.parseColor("#95ccee"), holder.tvConsignmentNumber);
-            colorSubSeq(String.valueOf(consignment.getTotalAmount()) + " " + this.currency.getAbbr(), searchText, Color.parseColor("#95ccee"), holder.tvDebtAmount);
+            if (consignment.getConsignmentType() == Consignment.INCOME_CONSIGNMENT)
+                colorSubSeq(String.valueOf(-1 * consignment.getTotalAmount()) + " " + this.currency.getAbbr(), searchText, Color.parseColor("#95ccee"), holder.tvDebtAmount);
+            else
+                colorSubSeq(String.valueOf(consignment.getTotalAmount()) + " " + this.currency.getAbbr(), searchText, Color.parseColor("#95ccee"), holder.tvDebtAmount);
             Date date = new Date(consignment.getCreatedDate());
             colorSubSeq(formatter.format(date), searchText, Color.parseColor("#95ccee"), holder.tvDate);
             for (int i = 0; i < holder.llConsignmentProducts.getChildCount(); i++) {

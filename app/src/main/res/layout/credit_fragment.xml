@@ -368,7 +368,7 @@
                     android:layout_weight="1"
                     android:gravity="right"
                     android:text="250,84 uzs"
-                    android:textColor="@color/colorGreenLight" />
+                    android:textColor="@color/colorRedLight" />
 
             </LinearLayout>
 
@@ -434,7 +434,7 @@
                     android:layout_weight="1"
                     android:gravity="right"
                     android:text="150,00 izs"
-                    android:textColor="@color/colorGreenLight" />
+                    android:textColor="@color/colorRedLight" />
 
             </LinearLayout>
 
