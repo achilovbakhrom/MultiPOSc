@@ -229,19 +229,22 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
                         return;
                     }
                     detectChange(false);
-                    presenter.addVendor(vendorName.getText().toString(),
-                            vendorContact.getText().toString(),
-                            address.getText().toString(),
-                            (photoSelected != null) ? CommonUtils.getRealPathFromURI(getContext(), photoSelected) : "",
-                            active.isChecked());
-                    presenter.setMode(AddingMode.ADD, null);
+                    if (isValid()) {
+                        presenter.addVendor(vendorName.getText().toString(),
+                                vendorContact.getText().toString(),
+                                address.getText().toString(),
+                                (photoSelected != null) ? CommonUtils.getRealPathFromURI(getContext(), photoSelected) : "",
+                                active.isChecked());
+                        presenter.setMode(AddingMode.ADD, null);
+                    }
                 }
                 break;
 
             case R.id.btnDelete:
                 if (((VendorAddEditActivity) getContext()).getPresenter().getVendor() != null &&
                         ((VendorAddEditActivity) getContext()).getPresenter().getVendor().isActive()) {
-                    ((VendorAddEditActivity) getContext()).showCantDeleteActiveItemMessage(() -> {});
+                    ((VendorAddEditActivity) getContext()).showCantDeleteActiveItemMessage(() -> {
+                    });
                 } else {
                     UIUtils.showAlert(getContext(), getString(R.string.yes), getString(R.string.no),
                             getString(R.string.deleting_vendor_title), getString(R.string.warning_deleting_vendor),
@@ -388,7 +391,7 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
                 contactData.setText("");
                 active.setChecked(true);
                 delete.setVisibility(View.GONE);
-                save.setText(R.string.add);
+                save.setText(R.string.save);
                 photoSelected = null;
                 ivVendorImage.setImageResource(R.drawable.camera);
                 clearContactsList();

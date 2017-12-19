@@ -257,10 +257,7 @@ public class VendorItemFragment extends BaseFragment implements VendorItemView {
 
     @Override
     public void openVendorBillingStory(Long vendorId, Double totaldebt) {
-        Intent intent = new Intent(getActivity(), BillingOperationsActivity.class);
-        intent.putExtra(BillingOperationsActivity.VENDOR_EXTRA_ID, vendorId);
-        intent.putExtra(BillingOperationsActivity.VENDOR_DEBT, totaldebt);
-        getActivity().startActivity(intent);
+        ((VendorItemsActivity) getActivity()).openVendorBillingStory(vendorId, totaldebt);
     }
 
 

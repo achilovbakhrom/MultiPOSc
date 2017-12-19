@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 
 import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.core.SimpleActivity;
+import com.jim.multipos.ui.billing_vendor.BillingOperationsActivity;
 import com.jim.multipos.ui.consignment.ConsignmentActivity;
 import com.jim.multipos.ui.consignment_list.ConsignmentListActivity;
 import com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemFragment;
@@ -60,6 +61,13 @@ public class VendorItemsActivity extends SimpleActivity {
     public void openVendorConsignmentStory(Long vendorId) {
         Intent intent = new Intent(this, ConsignmentListActivity.class);
         intent.putExtra(VENDOR_ID, vendorId);
+        startActivity(intent);
+    }
+
+    public void openVendorBillingStory(Long vendorId, Double totalDebt) {
+        Intent intent = new Intent(this, BillingOperationsActivity.class);
+        intent.putExtra(BillingOperationsActivity.VENDOR_EXTRA_ID, vendorId);
+        intent.putExtra(BillingOperationsActivity.VENDOR_DEBT, totalDebt);
         startActivity(intent);
     }
 }

@@ -72,6 +72,7 @@ public class BillingOperationPresenterImpl extends BasePresenterImpl<BillingOper
 
         databaseManager.getVendorDebt(vendor.getId()).subscribe((aDouble, throwable) -> {
             view.updateDebt(aDouble);
+            view.sendEvent();
         });
     }
 

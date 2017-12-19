@@ -111,6 +111,7 @@ public class BillingOperationFragment extends BaseFragment implements BillingOpe
     private ArrayList<Disposable> subscriptions;
 
     @Override
+
     protected void rxConnections() {
         subscriptions = new ArrayList<>();
         subscriptions.add(
@@ -216,8 +217,6 @@ public class BillingOperationFragment extends BaseFragment implements BillingOpe
     @Override
     public void updateDebt(Double debt) {
         totalDebt = debt;
-        rxBus.send(new MessageEvent(BILLINGS_UPDATE));
-
         if(debt<=0){
             tvDebtD.setText(R.string.debt);
             tvDebtAmmount.setTextColor(Color.parseColor("#df4f4f"));
@@ -227,13 +226,16 @@ public class BillingOperationFragment extends BaseFragment implements BillingOpe
 
         }
         tvDebtAmmount.setText(decimalFormat.format(totalDebt)+" "+mainCurrency.getAbbr());
-
-
     }
 
     @Override
     public void notifyChange() {
         billingOperartionsAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void sendEvent() {
+        rxBus.send(new MessageEvent(BILLINGS_UPDATE));
     }
 
     public enum SortModes{
