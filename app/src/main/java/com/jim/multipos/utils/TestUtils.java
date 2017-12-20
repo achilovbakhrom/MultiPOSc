@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Account;
+import com.jim.multipos.data.db.model.PaymentType;
 import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.products.Vendor;
@@ -65,10 +66,27 @@ public class TestUtils {
     public static void createAccount(DatabaseManager databaseManager){
         if(databaseManager.getAccounts().isEmpty()){
             Account account = new Account();
-            account.setName("Naqt Pul");
+            account.setName("Bank");
             account.setCirculation(1);
             account.setType(1);
             databaseManager.addAccount(account).subscribe();
+            Account account1 = new Account();
+            account1.setName("Kassa");
+            account1.setCirculation(0);
+            account1.setType(0);
+            databaseManager.addAccount(account1).subscribe();
+            if(databaseManager.getPaymentTypes().isEmpty()){
+                PaymentType paymentType = new PaymentType();
+                paymentType.setName("Naqt Pul");
+                paymentType.setAccount(account1);
+                paymentType.setCurrency(databaseManager.getMainCurrency());
+                databaseManager.addPaymentType(paymentType).subscribe();
+                PaymentType paymentType1 = new PaymentType();
+                paymentType1.setName("Plastik");
+                paymentType.setAccount(account);
+                paymentType.setCurrency(databaseManager.getMainCurrency());
+                databaseManager.addPaymentType(paymentType1).subscribe();
+            }
         }
     }
 }

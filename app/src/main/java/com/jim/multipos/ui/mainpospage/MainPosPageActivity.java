@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.R;
 import com.jim.multipos.core.DoubleSideActivity;
+import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.ui.main_menu.customers_menu.CustomersMenuActivity;
@@ -22,6 +23,7 @@ import com.jim.multipos.ui.mainpospage.view.ProductInfoFragment;
 import com.jim.multipos.ui.mainpospage.view.ProductPickerFragment;
 import com.jim.multipos.ui.mainpospage.view.SearchModeFragment;
 import com.jim.multipos.utils.RxBusLocal;
+import com.jim.multipos.utils.TestUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -47,6 +49,8 @@ public class MainPosPageActivity extends DoubleSideActivity implements MainPosPa
     @BindView(R.id.tvDate)
     TextView tvDate;
     private Handler handler;
+    @Inject
+    DatabaseManager databaseManager;
 
     @Inject
     @Getter
@@ -58,7 +62,8 @@ public class MainPosPageActivity extends DoubleSideActivity implements MainPosPa
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         ButterKnife.bind(this);
-
+        TestUtils.createCurrencies(databaseManager, this);
+        TestUtils.createAccount(databaseManager);
         addFragmentToLeft(new OrderListFragment());
 //        posFragmentManager.displayFragmentWithoutBackStack(new PaymentFragment(), R.id.rightLowContainer);
         addFragmentToRight(new ProductPickerFragment());

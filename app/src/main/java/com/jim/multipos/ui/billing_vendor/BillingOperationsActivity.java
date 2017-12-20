@@ -43,9 +43,6 @@ public class BillingOperationsActivity extends SimpleActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        TestUtils.createAccount(databaseManager);
-        TestUtils.createCurrencies(databaseManager, this);
-        TestUtils.createVendord(databaseManager);
         simpleDateFormat = new SimpleDateFormat("MMM dd, yyyy");
         BillingOperationFragment billingOperationFragment = new BillingOperationFragment();
         billingOperationFragment.setVendorId(getIntent().getExtras().getLong(VENDOR_EXTRA_ID));
