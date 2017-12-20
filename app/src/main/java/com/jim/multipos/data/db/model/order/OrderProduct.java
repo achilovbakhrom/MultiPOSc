@@ -35,7 +35,7 @@ public class OrderProduct {
     private double sum;
     private double discountValue;
     private double serviceValue;
-    private String discription;
+    private String description;
 
     private long discountId;
     @ToOne(joinProperty = "discountId")
