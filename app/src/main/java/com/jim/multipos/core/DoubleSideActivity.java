@@ -77,7 +77,6 @@ public abstract class DoubleSideActivity extends BaseActivity{
 
     public final Fragment getCurrentFragmentLeft(){
         return  activityFragmentManager.findFragmentById(R.id.flLeftContainer);
-
     }
 
 
