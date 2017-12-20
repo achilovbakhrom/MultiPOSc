@@ -546,6 +546,7 @@
     <string name="payed_in_this_month">Payed in this month:</string>
     <string name="paid">Paid:</string>
     <string name="select_date">Select Date Interval</string>
+    <string name="warning_till_account">You must create at least one to till account</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>

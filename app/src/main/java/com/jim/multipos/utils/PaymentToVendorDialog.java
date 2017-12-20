@@ -34,7 +34,6 @@ import butterknife.ButterKnife;
  */
 
 public class PaymentToVendorDialog extends Dialog {
-    private View dialogView;
     @BindView(R.id.tvAccount)
     TextView tvAccount;
     @BindView(R.id.spAccount)
@@ -77,7 +76,7 @@ public class PaymentToVendorDialog extends Dialog {
         simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
         calendar = Calendar.getInstance();
         this.paymentToVendorCallback = paymentToVendorCallback;
-        dialogView = getLayoutInflater().inflate(R.layout.payment_to_vendor_dialog, null);
+        View dialogView = getLayoutInflater().inflate(R.layout.payment_to_vendor_dialog, null);
         ButterKnife.bind(this, dialogView);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         llFromAccount.setOnClickListener(view -> {
@@ -103,6 +102,14 @@ public class PaymentToVendorDialog extends Dialog {
             accountsString.add(accName.getName());
         }
         spAccount.setAdapter(accountsString);
+
+        spAccount.setItemSelectionListener((view, position) -> {
+            if (accounts.get(position).getCirculation() == 0) {
+                etDate.setEnabled(false);
+            } else {
+                etDate.setEnabled(true);
+            }
+        });
         chbFromAccount.setChecked(false);
         etDate.setText(simpleDateFormat.format(calendar.getTime()));
         etDate.setOnClickListener(view -> {
@@ -126,8 +133,11 @@ public class PaymentToVendorDialog extends Dialog {
                 tvAccount.setVisibility(View.VISIBLE);
                 spAccount.setVisibility(View.VISIBLE);
                 for (int i = 0; i < accounts.size(); i++) {
-                    if (accounts.get(i).getId().equals(operations.getId())) {
+                    if (accounts.get(i).getId().equals(operations.getAccountId())) {
                         spAccount.setSelectedPosition(i);
+                        if (accounts.get(i).getCirculation() == 0)
+                            etDate.setEnabled(false);
+                        else etDate.setEnabled(true);
                     }
                 }
             }

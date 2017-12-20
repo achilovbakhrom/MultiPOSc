@@ -23,7 +23,10 @@
         <activity
             android:name=".ui.first_configure_last.FirstConfigureActivity"
             android:windowSoftInputMode="stateHidden">
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".ui.vendor.add_edit.VendorAddEditActivity"
@@ -31,10 +34,7 @@
         <activity
             android:name=".ui.mainpospage.MainPosPageActivity"
             android:windowSoftInputMode="stateHidden">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
         <activity
             android:name=".ui.lock_screen.LockScreenActivity"

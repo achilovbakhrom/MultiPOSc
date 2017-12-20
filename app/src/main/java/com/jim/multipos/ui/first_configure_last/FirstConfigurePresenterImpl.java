@@ -60,6 +60,7 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
     private final String[] firstConfigurationItemsDescription;
     public static final String COMPLETED_FRAGMENTS_KEY = "COMPLETED_FRAGMENTS_KEY";
     private Map<String, Boolean> completion = new HashMap<>();
+
     @Inject
     public FirstConfigurePresenterImpl(FirstConfigureView view,
                                        DatabaseManager databaseManager,
@@ -287,14 +288,14 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
             paymentType.setCurrency(currencies.get(0));
             Long id = databaseManager.addPaymentType(paymentType).blockingSingle();
             List<PaymentType> paymentTypes = databaseManager.getAllPaymentTypes().blockingSingle();
-            for(PaymentType pt : paymentTypes) {
+            for (PaymentType pt : paymentTypes) {
                 if (Objects.equals(pt.getId(), id)) {
                     result = pt;
                     break;
                 }
             }
         }
-        view.changeState(PAYMENT_TYPE_POSITION ,MpCompletedStateView.COMPLETED_STATE);
+        view.changeState(PAYMENT_TYPE_POSITION, MpCompletedStateView.COMPLETED_STATE);
         completion.put(PAYMENT_TYPE_KEY, true);
         return result;
     }
@@ -356,10 +357,14 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
                 completion.put(PAYMENT_TYPE_KEY, false);
                 view.changeState(PAYMENT_TYPE_POSITION, MpCompletedStateView.WARNING_STATE);
             }
-        }
-        else {
-            completion.put(ACCOUNT_KEY, true);
-            view.changeState(ACCOUNT_POSITION, MpCompletedStateView.COMPLETED_STATE);
+        } else {
+            if (checkAccountTypes()) {
+                completion.put(ACCOUNT_KEY, true);
+                view.changeState(ACCOUNT_POSITION, MpCompletedStateView.COMPLETED_STATE);
+            } else {
+                completion.put(ACCOUNT_KEY, false);
+                view.changeState(ACCOUNT_POSITION, MpCompletedStateView.WARNING_STATE);
+            }
         }
     }
 
@@ -368,8 +373,7 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
         if (getDbCurrencies() == null || getDbCurrencies().isEmpty()) {
             completion.put(CURRENCY_KEY, false);
             view.changeState(CURRENCY_POSITION, MpCompletedStateView.WARNING_STATE);
-        }
-        else {
+        } else {
             completion.put(CURRENCY_KEY, true);
             view.changeState(CURRENCY_POSITION, MpCompletedStateView.COMPLETED_STATE);
         }
@@ -380,8 +384,7 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
         if (getPaymentTypes() == null || getPaymentTypes().isEmpty()) {
             completion.put(PAYMENT_TYPE_KEY, false);
             view.changeState(PAYMENT_TYPE_POSITION, MpCompletedStateView.WARNING_STATE);
-        }
-        else {
+        } else {
             completion.put(PAYMENT_TYPE_KEY, true);
             view.changeState(PAYMENT_TYPE_POSITION, MpCompletedStateView.COMPLETED_STATE);
         }
@@ -446,5 +449,15 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
     @Override
     public boolean isPayemntTypeNameExists(String name) {
         return databaseManager.isPaymentTypeNameExists(name).blockingSingle();
+    }
+
+    @Override
+    public boolean checkAccountTypes() {
+        List<Account> accountList = getAccounts();
+        for (Account account : accountList) {
+            if (account.getCirculation() == 0)
+                return true;
+        }
+        return false;
     }
 }

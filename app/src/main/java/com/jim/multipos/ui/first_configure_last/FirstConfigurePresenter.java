@@ -65,4 +65,6 @@ public interface FirstConfigurePresenter extends Presenter {
 
     boolean isAccountNameExists(String name);
     boolean isPayemntTypeNameExists(String name);
+
+    boolean checkAccountTypes();
 }
