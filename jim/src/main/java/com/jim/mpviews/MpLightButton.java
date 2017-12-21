@@ -2,6 +2,7 @@ package com.jim.mpviews;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
@@ -26,6 +27,7 @@ public class MpLightButton extends FrameLayout {
     private TextView mpLightBtnText;
     private RelativeLayout relativeLayout;
     private ImageView mpLightBtnImage;
+    private ImageView mpLightBtnBg;
     private final int IMAGE_MODE = 0;
     private final int TEXT_MODE = 1;
     int mode;
@@ -54,6 +56,7 @@ public class MpLightButton extends FrameLayout {
         TypedArray attributeArray = context.obtainStyledAttributes(attrs, R.styleable.MpLightButton);
         mpLightBtnText = (TextView) findViewById(R.id.mpLightBtnText);
         mpLightBtnImage = (ImageView) findViewById(R.id.mpLightBtnImage);
+        mpLightBtnBg = (ImageView) findViewById(R.id.mpLightBtnBg);
         relativeLayout = (RelativeLayout) findViewById(R.id.mpRelativeL);
         mode = attributeArray.getInt(R.styleable.MpLightButton_btn_mode, TEXT_MODE);
         mpLightBtnText.setText(attributeArray.getText(R.styleable.MpLightButton_text_content));
@@ -67,26 +70,29 @@ public class MpLightButton extends FrameLayout {
                 mpLightBtnImage.setVisibility(VISIBLE);
                 mpLightBtnText.setVisibility(GONE);
         }
-
-        relativeLayout.setBackgroundResource(R.drawable.light_button);
-        pressed = false;
-        setOnTouchListener((view, motionEvent) -> {
-            switch (motionEvent.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    view.performClick();
-                    if (!pressed) {
-                        VibrateManager.startVibrate(context, 50);
-                        pressed = true;
-                    }
-                    relativeLayout.setBackgroundResource(R.drawable.light_button_pressed);
-                    return false;
-                case MotionEvent.ACTION_UP:
-                    pressed = false;
-                    relativeLayout.setBackgroundResource(R.drawable.light_button);
-                    return false;
-            }
-            return false;
-        });
+        Drawable buttonDrawable = context.getResources().getDrawable(R.drawable.light_btn_selector);
+        buttonDrawable.mutate();
+        mpLightBtnBg.setImageDrawable(buttonDrawable);
+        mpLightBtnBg.setClickable(true);
+//        relativeLayout.setBackgroundResource(R.drawable.light_button);
+//        pressed = false;
+//        setOnTouchListener((view, motionEvent) -> {
+//            switch (motionEvent.getAction()) {
+//                case MotionEvent.ACTION_DOWN:
+//                    view.performClick();
+//                    if (!pressed) {
+//                        VibrateManager.startVibrate(context, 50);
+//                        pressed = true;
+//                    }
+//                    relativeLayout.setBackgroundResource(R.drawable.light_button_pressed);
+//                    return false;
+//                case MotionEvent.ACTION_UP:
+//                    pressed = false;
+//                    relativeLayout.setBackgroundResource(R.drawable.light_button);
+//                    return false;
+//            }
+//            return false;
+//        });
         attributeArray.recycle();
     }
 

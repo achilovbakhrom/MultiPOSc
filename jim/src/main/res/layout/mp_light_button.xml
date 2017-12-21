@@ -1,34 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
 
     <RelativeLayout
-        android:id="@+id/mpRelativeL"
         android:layout_width="@dimen/sixty_dp"
-        android:layout_height="@dimen/thirty_five_dp"
-        android:gravity="center">
+        android:layout_height="@dimen/thirty_five_dp">
 
         <ImageView
-            android:id="@+id/mpLightBtnImage"
-            android:layout_width="@dimen/twenty_dp"
-            android:layout_height="@dimen/twenty_dp"
+            android:id="@+id/mpLightBtnBg"
+            android:layout_width="@dimen/sixty_dp"
+            android:layout_height="@dimen/thirty_five_dp"
             android:layout_gravity="center"
             android:adjustViewBounds="true"
-            android:tint="@color/colorBlue"
-            android:scaleType="centerInside"
-            android:visibility="gone" />
+            android:scaleType="centerInside" />
 
-        <TextView
-            android:id="@+id/mpLightBtnText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textColor="@color/colorBlue"
-            android:textSize="@dimen/eighteen_dp"
-            android:textStyle="bold" />
+        <RelativeLayout
+            android:id="@+id/mpRelativeL"
+            android:layout_width="@dimen/sixty_dp"
+            android:layout_height="@dimen/thirty_five_dp"
+            android:gravity="center">
+
+
+            <ImageView
+                android:id="@+id/mpLightBtnImage"
+                android:layout_width="@dimen/twenty_dp"
+                android:layout_height="@dimen/twenty_dp"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:tint="@color/colorBlue"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/mpLightBtnText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/eighteen_dp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
     </RelativeLayout>
-
-
 </merge>

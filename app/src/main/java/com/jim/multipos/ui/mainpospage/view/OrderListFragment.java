@@ -102,17 +102,6 @@ public class OrderListFragment extends BaseFragment implements OrderListView {//
                 });
     }
 
-    /*public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                     Bundle savedInstanceState) {
-                View view = inflater.inflate(R.layout.fragment_order_list, container, false);
-        //        this.getComponent(MainPosPageActivityComponent.class).inject(this);
-
-                ButterKnife.bind(this, view);
-
-                activity = getActivity();
-
-                return view;
-            }*/
     boolean pressed = false;
 
     public void setClickEffects() {
