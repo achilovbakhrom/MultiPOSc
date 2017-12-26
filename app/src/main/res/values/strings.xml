@@ -371,7 +371,6 @@
     <string-array name="service_fee_type">
         <item>Percent</item>
         <item>Value</item>
-        <item>Reprice</item>
     </string-array>
     <string-array name="service_fee_app_type">
         <item>Item</item>
@@ -578,12 +577,10 @@
     <string-array name="discount_amount_types">
         <item>Percent</item>
         <item>Value</item>
-        <item>Reprice</item>
     </string-array>
     <string-array name="discount_amount_types_abr">
         <item>percent</item>
         <item>value</item>
-        <item>reprice</item>
     </string-array>
     <string-array name="discount_used_types">
         <item>Item</item>

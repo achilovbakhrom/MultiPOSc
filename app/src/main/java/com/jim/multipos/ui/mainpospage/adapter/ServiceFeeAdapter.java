@@ -71,8 +71,6 @@ public class ServiceFeeAdapter extends BaseAdapter<ServiceFee, ServiceFeeAdapter
             return serviceFeeTypes[0];
         } else if (amountType == ServiceFee.VALUE) {
             return serviceFeeTypes[1];
-        } else if (amountType == ServiceFee.REPRICE) {
-            return serviceFeeTypes[2];
         }
 
         return null;

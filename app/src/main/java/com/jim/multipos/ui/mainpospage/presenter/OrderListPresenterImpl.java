@@ -47,10 +47,6 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         discount.setDeleted(false);
         discount.setNotModifyted(true);
 
-        if (amountType == Discount.REPRICE) {
-            discount.setDeleted(true);
-        }
-
         databaseManager.insertDiscount(discount).subscribe();
     }
 
@@ -64,10 +60,6 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         serviceFee.setCreatedDate(System.currentTimeMillis());
         serviceFee.setDeleted(false);
         serviceFee.setNotModifyted(true);
-
-        if (amountType == ServiceFee.REPRICE) {
-            serviceFee.setDeleted(true);
-        }
 
         databaseManager.getServiceFeeOperations().addServiceFee(serviceFee).blockingSingle();
     }

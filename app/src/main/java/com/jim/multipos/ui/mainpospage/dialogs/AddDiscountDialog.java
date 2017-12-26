@@ -99,8 +99,6 @@ public class AddDiscountDialog extends DialogFragment {
                             amountType = Discount.VALUE;
                         } else if (tsDiscountType.isCenter()) {
                             amountType = Discount.PERCENT;
-                        } else if (tsDiscountType.isRight()) {
-                            amountType = Discount.REPRICE;
                         }
 
                         listener.addDiscount(amount, etDescription.getText().toString(), amountType);

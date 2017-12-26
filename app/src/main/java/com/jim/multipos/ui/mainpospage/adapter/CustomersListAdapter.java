@@ -42,8 +42,8 @@ public class CustomersListAdapter extends RecyclerView.Adapter<CustomersListAdap
     @Override
     public void onBindViewHolder(CustomerListViewHolder holder, int position) {
         if (position % 2 == 0)
-            holder.llBackground.setBackgroundColor(Color.parseColor("#f3f3f3"));
-        else holder.llBackground.setBackgroundColor(Color.parseColor("#fdfdfd"));
+            holder.llBackground.setBackgroundColor(Color.parseColor("#e4f5ff"));
+        else holder.llBackground.setBackgroundColor(Color.parseColor("#d1eafa"));
         if (!searchMode) {
             holder.tvCustomerId.setText(String.valueOf(items.get(position).getClientId()));
             holder.tvCustomerName.setText(items.get(position).getName());

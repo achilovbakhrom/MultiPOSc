@@ -167,8 +167,6 @@ public class DiscountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 holder.spTypeAmount.setSelectedPosition(0);
             }else if(discount.getAmountType() == Discount.VALUE){
                 holder.spTypeAmount.setSelectedPosition(1);
-            }else if(discount.getAmountType() == Discount.REPRICE){
-                holder.spTypeAmount.setSelectedPosition(2);
             }
 
             if(discount.getUsedType()== Discount.ITEM){

@@ -544,8 +544,6 @@ public class ServiceFeeAdapter extends BaseAdapter<ServiceFee, BaseViewHolder> {
                 return 0;
             case ServiceFee.VALUE:
                 return 1;
-            case ServiceFee.REPRICE:
-                return 2;
         }
         return 0;
     }
@@ -568,8 +566,6 @@ public class ServiceFeeAdapter extends BaseAdapter<ServiceFee, BaseViewHolder> {
                 return ServiceFee.PERCENT;
             case 1:
                 return ServiceFee.VALUE;
-            case 2:
-                return ServiceFee.REPRICE;
         }
         return 0;
     }

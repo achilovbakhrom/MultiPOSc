@@ -12,6 +12,7 @@ import com.jim.mpviews.MpEditText;
 import com.jim.multipos.R;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.customer.Customer;
+import com.jim.multipos.utils.UIUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -86,6 +87,7 @@ public class AddCustomerDialog extends Dialog {
                     dismiss();
                 }
             }
+            UIUtils.closeKeyboard(etCustomerAddress, context);
         });
     }
 
@@ -95,6 +97,7 @@ public class AddCustomerDialog extends Dialog {
 
     @OnClick(R.id.btnBack)
     public void onBack() {
+        UIUtils.closeKeyboard(etCustomerAddress, context);
         dismiss();
     }
 
@@ -103,12 +106,6 @@ public class AddCustomerDialog extends Dialog {
         if (etCustomerName.getText().toString().isEmpty()) {
             etCustomerName.setError(context.getString(R.string.enter_name));
             return false;
-        } else if (etCustomerContact.getText().toString().isEmpty()) {
-            etCustomerContact.setError(context.getString(R.string.enter_phone));
-            return false;
-        } else if (etCustomerAddress.getText().toString().isEmpty()) {
-            etCustomerAddress.setError(context.getString(R.string.enter_address));
-            return false;
-        } else return true;
+        } else  return true;
     }
 }

@@ -21,8 +21,8 @@ public class Customer implements Editable {
     private Long id;
     private Long clientId;
     private String name;
-    private String phoneNumber;
-    private String address;
+    private String phoneNumber = "";
+    private String address = "";
     private String qrCode;
     private Long createdDate;
     private Long modifiedDate;

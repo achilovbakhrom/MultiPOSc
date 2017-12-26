@@ -106,8 +106,6 @@ public class AddServiceFeeDialog extends DialogFragment {
                             amountType = ServiceFee.VALUE;
                         } else if (tsServiceFeeType.isCenter()) {
                             amountType = ServiceFee.PERCENT;
-                        } else if (tsServiceFeeType.isRight()) {
-                            amountType = ServiceFee.REPRICE;
                         }
 
                         listener.addServiceFee(amount, etFeeName.getText().toString(), amountType);

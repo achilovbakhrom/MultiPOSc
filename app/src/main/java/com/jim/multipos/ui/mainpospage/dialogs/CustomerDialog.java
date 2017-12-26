@@ -231,25 +231,25 @@ public class CustomerDialog extends Dialog {
         else customerListTemp = customerList;
         switch (filterMode) {
             case SORTED_BY_ADDRESS:
-                Collections.sort(customerListTemp, (customer, t1) -> customer.getAddress().compareTo(t1.getAddress()));
+                Collections.sort(customerListTemp, (customer, t1) -> customer.getAddress().toUpperCase().compareTo(t1.getAddress().toUpperCase()));
                 break;
             case SORTED_BY_ID:
                 Collections.sort(customerListTemp, (customer, t1) -> customer.getClientId().compareTo(t1.getClientId()));
                 break;
             case SORTED_BY_NAME:
-                Collections.sort(customerListTemp, (customer, t1) -> customer.getName().compareTo(t1.getName()));
+                Collections.sort(customerListTemp, (customer, t1) -> customer.getName().toUpperCase().compareTo(t1.getName().toUpperCase()));
                 break;
             case SORTED_BY_PHONE:
                 Collections.sort(customerListTemp, (customer, t1) -> customer.getPhoneNumber().compareTo(t1.getPhoneNumber()));
                 break;
             case SORTED_BY_ADDRESS_INVERT:
-                Collections.sort(customerListTemp, (customer, t1) -> customer.getAddress().compareTo(t1.getAddress()) * -1);
+                Collections.sort(customerListTemp, (customer, t1) -> customer.getAddress().toUpperCase().compareTo(t1.getAddress().toUpperCase()) * -1);
                 break;
             case SORTED_BY_ID_INVERT:
                 Collections.sort(customerListTemp, (customer, t1) -> customer.getClientId().compareTo(t1.getClientId()) * -1);
                 break;
             case SORTED_BY_NAME_INVERT:
-                Collections.sort(customerListTemp, (customer, t1) -> customer.getName().compareTo(t1.getName()) * -1);
+                Collections.sort(customerListTemp, (customer, t1) -> customer.getName().toUpperCase().compareTo(t1.getName().toUpperCase()) * -1);
                 break;
             case SORTED_BY_PHONE_INVERT:
                 Collections.sort(customerListTemp, (customer, t1) -> customer.getPhoneNumber().compareTo(t1.getPhoneNumber()) * -1);

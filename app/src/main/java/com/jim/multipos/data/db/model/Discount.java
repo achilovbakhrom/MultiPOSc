@@ -21,7 +21,6 @@ import lombok.Data;
 public class Discount implements Editable {
     public static final int PERCENT = 0;
     public static final int VALUE = 1;
-    public static final int REPRICE = 2;
     public static final int ITEM = 0;
     public static final int ORDER = 1;
     public static final int ALL = 2;

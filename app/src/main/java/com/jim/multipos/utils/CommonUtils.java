@@ -126,8 +126,6 @@ public class CommonUtils {
             return discountUsedTypes[0];
         }else if(discount_abr == Discount.VALUE){
             return discountUsedTypes[1];
-        }else if(discount_abr == Discount.REPRICE){
-            return discountUsedTypes[2];
         }
         return "NoN";
     }
@@ -138,8 +136,6 @@ public class CommonUtils {
             return serviceUsedTypes[0];
         }else if(service_abr == ServiceFee.VALUE){
             return serviceUsedTypes[1];
-        }else if(service_abr == ServiceFee.REPRICE){
-            return serviceUsedTypes[2];
         }
         return "NoN";
     }

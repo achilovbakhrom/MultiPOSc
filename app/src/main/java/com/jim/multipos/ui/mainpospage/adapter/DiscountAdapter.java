@@ -76,8 +76,6 @@ public class DiscountAdapter extends BaseAdapter<Discount, DiscountAdapter.Disco
             return discountUsedTypes[0];
         } else if (amountType == Discount.VALUE) {
             return discountUsedTypes[1];
-        } else if (amountType == Discount.REPRICE) {
-            return discountUsedTypes[2];
         }
 
         return null;
