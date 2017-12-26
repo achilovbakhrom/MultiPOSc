@@ -23,7 +23,7 @@ public class ServiceFee implements Editable {
     private Long id;
     private Double amount;
     private int type;
-    private String reason;
+    private String name;
     private int applyingType;
     private boolean isActive;
     private boolean isDeleted;
@@ -42,14 +42,15 @@ public class ServiceFee implements Editable {
     public ServiceFee() {
     }
 
-    @Generated(hash = 1258885788)
-    public ServiceFee(Long id, Double amount, int type, String reason, int applyingType,
+
+    @Generated(hash = 1989109301)
+    public ServiceFee(Long id, Double amount, int type, String name, int applyingType,
             boolean isActive, boolean isDeleted, boolean notModifyted, Long rootId,
             Long createdDate) {
         this.id = id;
         this.amount = amount;
         this.type = type;
-        this.reason = reason;
+        this.name = name;
         this.applyingType = applyingType;
         this.isActive = isActive;
         this.isDeleted = isDeleted;
@@ -57,6 +58,7 @@ public class ServiceFee implements Editable {
         this.rootId = rootId;
         this.createdDate = createdDate;
     }
+    
 
     public Boolean getIsActive() {
         return this.isActive;
@@ -66,12 +68,12 @@ public class ServiceFee implements Editable {
         this.isActive = isActive;
     }
 
-    public String getReason() {
-        return this.reason;
+    public String getName() {
+        return this.name;
     }
 
-    public void setReason(String reason) {
-        this.reason = reason;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Double getAmount() {

@@ -177,7 +177,7 @@ public class ProductInfoPresenterImpl extends BasePresenterImpl<ProductInfoView>
     public void addServiceFee(double amount, String description, int amountType) {
         ServiceFee serviceFee = new ServiceFee();
         serviceFee.setAmount(amount);
-        serviceFee.setReason(description);
+        serviceFee.setName(description);
         serviceFee.setType(amountType);
         serviceFee.setApplyingType(APP_TYPE_ITEM);
         serviceFee.setCreatedDate(System.currentTimeMillis());

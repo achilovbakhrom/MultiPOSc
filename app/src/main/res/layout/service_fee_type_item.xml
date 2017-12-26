@@ -18,7 +18,7 @@
             android:layout_marginBottom="@dimen/twelve_dp"
             android:layout_marginLeft="@dimen/ten_dp"
             android:layout_weight="1"
-            android:text="Reason"
+            android:text="@string/name"
             android:textColor="#419fd9"
             android:textSize="@dimen/sixteen_dp" />
 
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/twelve_dp"
             android:layout_marginLeft="@dimen/five_dp"
-            android:text="Amount"
+            android:text="@string/amount"
             android:textColor="#419fd9"
             android:textSize="@dimen/sixteen_dp" />
 

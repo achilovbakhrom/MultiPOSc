@@ -33,7 +33,7 @@ public class ServiceFeePresenterImpl extends BasePresenterImpl<ServiceFeeView> i
             serviceFee.setIsActive(sf.getIsActive());
             serviceFee.setApplyingType(sf.getApplyingType());
             serviceFee.setType(sf.getType());
-            serviceFee.setReason(sf.getReason());
+            serviceFee.setName(sf.getName());
             serviceFee.setAmount(sf.getAmount());
             serviceFee.setCreatedDate(sf.getCreatedDate());
             serviceFee.setId(sf.getId());
@@ -80,7 +80,7 @@ public class ServiceFeePresenterImpl extends BasePresenterImpl<ServiceFeeView> i
 
     @Override
     public void sortByReason(List<ServiceFee> items) {
-        Collections.sort(items, (serviceFee, t1) -> serviceFee.getReason().compareTo(t1.getReason()));
+        Collections.sort(items, (serviceFee, t1) -> serviceFee.getName().compareTo(t1.getName()));
         view.updateRecyclerView(items);
     }
 

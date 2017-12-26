@@ -99,14 +99,14 @@
             </LinearLayout>
 
             <com.jim.mpviews.MpEditText
-                android:id="@+id/etDescription"
+                android:id="@+id/etFeeName"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/hundred_fifteen_dp"
                 android:layout_marginBottom="@dimen/twenty_dp"
                 android:layout_marginLeft="@dimen/thirty_dp"
                 android:layout_marginRight="@dimen/thirty_dp"
                 android:gravity="top"
-                android:hint="Description"
+                android:hint="@string/name"
                 android:padding="@dimen/ten_dp"
                 android:textSize="@dimen/eighteen_dp" />
 

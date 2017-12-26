@@ -16,13 +16,12 @@ import com.jim.mpviews.MpButton;
 import com.jim.mpviews.MpEditText;
 import com.jim.mpviews.MpTripleSwitcher;
 import com.jim.multipos.R;
-import com.jim.multipos.ui.mainpospage.MainPosPageActivity;
 import com.jim.multipos.utils.validator.MultipleCallback;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import eu.inmite.android.lib.validations.form.FormValidator;
+import eu.inmite.android.lib.validations.form.FormValidator;                                                                         
 import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 
 import static com.jim.multipos.data.db.model.ServiceFee.TYPE_PERCENT;
@@ -48,7 +47,7 @@ public class AddServiceFeeDialog extends DialogFragment {
     @BindView(R.id.ivClearAmount)
     ImageView ivClearAmount;
     @BindView(R.id.etDescription)
-    MpEditText etDescription;
+    MpEditText etFeeName;
     @BindView(R.id.btnCancel)
     MpButton btnCancel;
     @BindView(R.id.btnNext)
@@ -98,8 +97,8 @@ public class AddServiceFeeDialog extends DialogFragment {
 
                     if (tsServiceFeeType.isCenter() && amount > 100) {
                         etAmount.setError(getString(R.string.percent_can_not_be_more_hunder));
-                    } else if (etDescription.getText().toString().isEmpty()) {
-                        etDescription.setError(getContext().getString(R.string.enter_service_fee_name));
+                    } else if (etFeeName.getText().toString().isEmpty()) {
+                        etFeeName.setError(getContext().getString(R.string.enter_service_fee_name));
                     } else {
                         int amountType = 0;
 
@@ -111,7 +110,7 @@ public class AddServiceFeeDialog extends DialogFragment {
                             amountType = TYPE_REPRICE;
                         }
 
-                        listener.addServiceFee(amount, etDescription.getText().toString(), amountType);
+                        listener.addServiceFee(amount, etFeeName.getText().toString(), amountType);
                         listener.dismiss();
                         dismiss();
                     }

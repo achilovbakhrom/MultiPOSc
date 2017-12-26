@@ -52,10 +52,10 @@ public class ServiceFeeAdapter extends BaseAdapter<ServiceFee, ServiceFeeAdapter
 
     @Override
     public void onBindViewHolder(ServiceFeeAdapter.ServiceFeeViewHolder holder, int position) {
-        if (getItem(position).getReason().isEmpty()) {
+        if (getItem(position).getName().isEmpty()) {
             holder.tvDescription.setText(getAmountTypeFromConst(getItem(position).getType()));
         } else {
-            holder.tvDescription.setText(getItem(position).getReason() + " - " + getAmountTypeFromConst(getItem(position).getType()));
+            holder.tvDescription.setText(getItem(position).getName() + " - " + getAmountTypeFromConst(getItem(position).getType()));
         }
 
         holder.tvDiscount.setText(decimalFormat.format(getItem(position).getAmount()));

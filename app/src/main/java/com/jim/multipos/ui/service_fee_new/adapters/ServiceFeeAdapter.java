@@ -92,7 +92,7 @@ public class ServiceFeeAdapter extends BaseAdapter<ServiceFee, BaseViewHolder> {
         changedItemPosition = new HashSet<>();
         changedActiveItem = new HashMap<>();
         serviceFeeType = new ServiceFee();
-        serviceFeeType.setReason("");
+        serviceFeeType.setName("");
         serviceFeeType.setIsActive(true);
         serviceFeeType.setType(getTypeFromPosition(0));
         serviceFeeType.setApplyingType(getAppTypeFromPosition(0));
@@ -141,7 +141,7 @@ public class ServiceFeeAdapter extends BaseAdapter<ServiceFee, BaseViewHolder> {
                 ((ServiceFeeTypeViewHolder) holder).etAmount.setText(serviceFeeType.getAmount().toString());
             }
 
-            ((ServiceFeeTypeViewHolder) holder).etReason.setText(serviceFeeType.getReason());
+            ((ServiceFeeTypeViewHolder) holder).etReason.setText(serviceFeeType.getName());
             ((ServiceFeeTypeViewHolder) holder).chbActive.setChecked(serviceFeeType.getIsActive());
             ((ServiceFeeTypeViewHolder) holder).spType.setAdapter(types);
             ((ServiceFeeTypeViewHolder) holder).spAppType.setAdapter(appTypes);
@@ -153,7 +153,7 @@ public class ServiceFeeAdapter extends BaseAdapter<ServiceFee, BaseViewHolder> {
             ((ServiceFeeItemViewHolder) holder).spType.setSelection(getTypePositionFromConst(items.get(position - 1).getType()));
             ((ServiceFeeItemViewHolder) holder).spAppType.setAdapter(appTypes);
             ((ServiceFeeItemViewHolder) holder).spAppType.setSelection(getAppTypePositionFromConst(items.get(position - 1).getApplyingType()));
-            ((ServiceFeeItemViewHolder) holder).etReason.setText(String.valueOf(items.get(position - 1).getReason()));
+            ((ServiceFeeItemViewHolder) holder).etReason.setText(String.valueOf(items.get(position - 1).getName()));
             ((ServiceFeeItemViewHolder) holder).chbActive.setChecked(items.get(position - 1).getIsActive());
 
             ((ServiceFeeItemViewHolder) holder).etAmount.setSelection(((ServiceFeeItemViewHolder) holder).etAmount.length());
@@ -295,8 +295,8 @@ public class ServiceFeeAdapter extends BaseAdapter<ServiceFee, BaseViewHolder> {
                             }
                             break;
                         case R.id.etReason:
-                            if (!editText.getText().toString().equals(getItem(getAdapterPosition() - 1).getReason())) {
-                                items.get(getAdapterPosition() - 1).setReason(editText.getText().toString());
+                            if (!editText.getText().toString().equals(getItem(getAdapterPosition() - 1).getName())) {
+                                items.get(getAdapterPosition() - 1).setName(editText.getText().toString());
                                 changedItemPosition.add(getItem(getAdapterPosition() - 1));
                                 btnSave.enable();
                             }
@@ -368,7 +368,7 @@ public class ServiceFeeAdapter extends BaseAdapter<ServiceFee, BaseViewHolder> {
                             ServiceFee serviceFee = new ServiceFee();
                             serviceFee.setAmount(Double.parseDouble(etAmount.getText().toString()));
                             serviceFee.setType(getTypeFromPosition(spType.getSelectedPosition()));
-                            serviceFee.setReason(etReason.getText().toString());
+                            serviceFee.setName(etReason.getText().toString());
                             serviceFee.setApplyingType(getAppTypeFromPosition(spAppType.getSelectedPosition()));
                             serviceFee.setIsActive(chbActive.isChecked());
                             serviceFee.setCreatedDate(System.currentTimeMillis());
@@ -376,7 +376,7 @@ public class ServiceFeeAdapter extends BaseAdapter<ServiceFee, BaseViewHolder> {
                             listener.onAddClicked(serviceFee);
 
                             serviceFeeType.setAmount(null);
-                            serviceFeeType.setReason("");
+                            serviceFeeType.setName("");
                             serviceFeeType.setIsActive(true);
                             serviceFeeType.setType(getTypeFromPosition(0));
                             serviceFeeType.setApplyingType(getAppTypeFromPosition(0));
@@ -534,8 +534,8 @@ public class ServiceFeeAdapter extends BaseAdapter<ServiceFee, BaseViewHolder> {
                             }
                             break;
                         case R.id.etReason:
-                            if (!editText.getText().toString().equals(serviceFeeType.getReason())) {
-                                serviceFeeType.setReason(editText.getText().toString());
+                            if (!editText.getText().toString().equals(serviceFeeType.getName())) {
+                                serviceFeeType.setName(editText.getText().toString());
                             }
                             break;
                     }

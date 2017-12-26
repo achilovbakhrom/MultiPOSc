@@ -1,15 +1,10 @@
 package com.jim.multipos.ui.mainpospage.presenter;
 
-import android.os.Bundle;
-import android.util.Log;
-
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.ui.mainpospage.view.OrderListView;
-
-import org.greenrobot.greendao.database.Database;
 
 import java.util.List;
 
@@ -65,7 +60,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
     public void addServiceFee(double amount, String description, int amountType) {
         ServiceFee serviceFee = new ServiceFee();
         serviceFee.setAmount(amount);
-        serviceFee.setReason(description);
+        serviceFee.setName(description);
         serviceFee.setType(amountType);
         serviceFee.setCreatedDate(System.currentTimeMillis());
         serviceFee.setDeleted(false);

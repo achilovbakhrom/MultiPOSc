@@ -82,9 +82,9 @@ import javax.inject.Singleton;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 
+import static com.jim.multipos.data.db.model.ServiceFee.APP_TYPE_ALL;
+import static com.jim.multipos.data.db.model.ServiceFee.APP_TYPE_ITEM;
 import static com.jim.multipos.data.db.model.products.Category.WITHOUT_PARENT;
-import static com.jim.multipos.ui.service_fee_new.Constants.APP_TYPE_ALL;
-import static com.jim.multipos.ui.service_fee_new.Constants.APP_TYPE_ITEM;
 
 
 /**

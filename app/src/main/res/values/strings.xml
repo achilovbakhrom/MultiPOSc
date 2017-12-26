@@ -401,7 +401,7 @@
     <string name="select_customer_groups">Select customer groups</string>
     <string name="class_name_should_be_longer">Class name should be longer 3 letter</string>
     <string name="class_name_empty">Class name can not be empty</string>
-    <string name="discount_discription_empty">Discount reason can not be empty</string>
+    <string name="discount_discription_empty">Discount name can not be empty</string>
     <string name="discount_amount_empty">Discount amount can not be empty</string>
     <string name="account_name_exists">Account name exists!</string>
     <string name="customer_name_exists">Customer name exists!</string>
@@ -555,7 +555,7 @@
     <string name="add_to_order">Add to Order</string>
     <string name="update_customer">Update customer</string>
     <string name="select">Select</string>
-    <string name="enter_service_fee_name">Enter service fee reason</string>
+    <string name="enter_service_fee_name">Enter service fee name</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>
