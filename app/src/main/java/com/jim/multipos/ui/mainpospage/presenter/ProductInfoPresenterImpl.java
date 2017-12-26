@@ -16,9 +16,6 @@ import java.util.Random;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import static com.jim.multipos.data.db.model.ServiceFee.APP_TYPE_ITEM;
-import static com.jim.multipos.data.db.model.ServiceFee.TYPE_REPRICE;
-
 /**
  * Created by Portable-Acer on 27.10.2017.
  */
@@ -156,17 +153,17 @@ public class ProductInfoPresenterImpl extends BasePresenterImpl<ProductInfoView>
     }
 
     @Override
-    public void addDiscount(double amount, String description, String amountType) {
+    public void addDiscount(double amount, String description, int amountType) {
         Discount discount = new Discount();
         discount.setAmount(amount);
-        discount.setDiscription(description);
+        discount.setName(description);
         discount.setAmountType(amountType);
-        discount.setUsedType(discountUsedTypesAbr[0]);
+        discount.setUsedType(Discount.ITEM);
         discount.setCreatedDate(System.currentTimeMillis());
         discount.setDeleted(false);
         discount.setNotModifyted(true);
 
-        if (amountType.equals(discountAmountTypes[2])) {
+        if (amountType == Discount.REPRICE) {
             discount.setDeleted(true);
         }
 
@@ -179,12 +176,12 @@ public class ProductInfoPresenterImpl extends BasePresenterImpl<ProductInfoView>
         serviceFee.setAmount(amount);
         serviceFee.setName(description);
         serviceFee.setType(amountType);
-        serviceFee.setApplyingType(APP_TYPE_ITEM);
+        serviceFee.setApplyingType(Discount.ITEM);
         serviceFee.setCreatedDate(System.currentTimeMillis());
         serviceFee.setDeleted(false);
         serviceFee.setNotModifyted(true);
 
-        if (amountType == (TYPE_REPRICE)) {
+        if (amountType == ServiceFee.REPRICE) {
             serviceFee.setDeleted(true);
         }
 

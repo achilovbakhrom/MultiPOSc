@@ -16,6 +16,7 @@ import com.jim.mpviews.MpButton;
 import com.jim.mpviews.MpEditText;
 import com.jim.mpviews.MpTripleSwitcher;
 import com.jim.multipos.R;
+import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.utils.validator.MultipleCallback;
 
 import butterknife.BindView;
@@ -31,7 +32,7 @@ import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 public class AddDiscountDialog extends DialogFragment {
     public interface OnDiscountDialogListener {
         void dismiss();
-        void addDiscount(double amount, String description, String amountType);
+        void addDiscount(double amount, String description, int amountType);
     }
 
     @BindView(R.id.tsDiscountType)
@@ -92,14 +93,14 @@ public class AddDiscountDialog extends DialogFragment {
                         etAmount.setError(getString(R.string.percent_can_not_be_more_hunder));
                     } else {
                         String[] amountTypes = getResources().getStringArray(R.array.discount_amount_types_abr);
-                        String amountType = null;
+                        int amountType = -1;
 
                         if (tsDiscountType.isLeft()) {
-                            amountType = amountTypes[1];
+                            amountType = Discount.VALUE;
                         } else if (tsDiscountType.isCenter()) {
-                            amountType = amountTypes[0];
+                            amountType = Discount.PERCENT;
                         } else if (tsDiscountType.isRight()) {
-                            amountType = amountTypes[2];
+                            amountType = Discount.REPRICE;
                         }
 
                         listener.addDiscount(amount, etDescription.getText().toString(), amountType);

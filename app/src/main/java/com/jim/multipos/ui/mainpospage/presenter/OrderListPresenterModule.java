@@ -14,4 +14,5 @@ public abstract class OrderListPresenterModule {
     @Binds
     @PerFragment
     abstract OrderListPresenter provideOrderListPresenter(OrderListPresenterImpl presenter);
+
 }

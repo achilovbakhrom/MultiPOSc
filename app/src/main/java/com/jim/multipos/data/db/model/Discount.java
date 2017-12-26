@@ -1,20 +1,37 @@
 package com.jim.multipos.data.db.model;
 
+import android.content.Context;
+
 import com.jim.multipos.data.db.model.intosystem.Editable;
+import com.jim.multipos.utils.CommonUtils;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+
+import lombok.Data;
+
 @Entity(nameInDb = "DISCOUNT", active = true)
+@Data
 public class Discount implements Editable {
+    public static final int PERCENT = 0;
+    public static final int VALUE = 1;
+    public static final int REPRICE = 2;
+    public static final int ITEM = 0;
+    public static final int ORDER = 1;
+    public static final int ALL = 2;
+
     @Id(autoincrement = true)
     private Long id;
-    private String discription;
+    private String name;
     private double amount;
-    private String amountType;
-    private String usedType;
+    private int amountType;
+    private int usedType;
     private boolean active;
     private boolean delete;
     private boolean notModifyted;
@@ -28,12 +45,23 @@ public class Discount implements Editable {
     private transient DaoSession daoSession;
 
 
-    @Generated(hash = 923781430)
-    public Discount(Long id, String discription, double amount, String amountType,
-            String usedType, boolean active, boolean delete, boolean notModifyted,
-            Long rootId, Long createdDate) {
+
+
+
+
+    @Generated(hash = 1777606421)
+    public Discount() {
+    }
+
+
+
+
+    @Generated(hash = 48568515)
+    public Discount(Long id, String name, double amount, int amountType, int usedType,
+            boolean active, boolean delete, boolean notModifyted, Long rootId,
+            Long createdDate) {
         this.id = id;
-        this.discription = discription;
+        this.name = name;
         this.amount = amount;
         this.amountType = amountType;
         this.usedType = usedType;
@@ -44,18 +72,8 @@ public class Discount implements Editable {
         this.createdDate = createdDate;
     }
 
-    @Generated(hash = 1777606421)
-    public Discount() {
-    }
 
 
-    public String getDiscription() {
-        return discription;
-    }
-
-    public void setDiscription(String discription) {
-        this.discription = discription;
-    }
 
     public Double getAmount() {
         return amount;
@@ -65,21 +83,7 @@ public class Discount implements Editable {
         this.amount = amount;
     }
 
-    public String getAmountType() {
-        return amountType;
-    }
 
-    public void setAmountType(String amountType) {
-        this.amountType = amountType;
-    }
-
-    public String getUsedType() {
-        return usedType;
-    }
-
-    public void setUsedType(String usedType) {
-        this.usedType = usedType;
-    }
 
     public boolean isDelete() {
         return delete;
@@ -211,7 +215,7 @@ public class Discount implements Editable {
         Discount discount = new Discount();
         discount.setId(id);
         discount.setAmount(amount);
-        discount.setDiscription(discription);
+        discount.setName(name);
         discount.setAmountType(amountType);
         discount.setUsedType(usedType);
         discount.setActive(active);
@@ -220,4 +224,57 @@ public class Discount implements Editable {
         discount.setCreatedDate(createdDate);
         return discount;
     }
+    public String getDiscountTypeName(Context context){
+        String discountTypeName = CommonUtils.getDiscountTypeName(context, amountType);
+        if(amountType == Discount.PERCENT){
+            DecimalFormat formatter;
+            NumberFormat numberFormat = NumberFormat.getNumberInstance();
+            numberFormat.setMaximumFractionDigits(2);
+            formatter = (DecimalFormat) numberFormat;
+            DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
+            symbols.setGroupingSeparator(' ');
+            formatter.setDecimalFormatSymbols(symbols);
+            discountTypeName += " ";
+            discountTypeName += formatter.format(amount);
+            discountTypeName += "%";
+        }
+        return discountTypeName;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+
+
+
+    public Integer getUsedType() {
+        return this.usedType;
+    }
+
+
+
+
+    public void setUsedType(int usedType) {
+        this.usedType = usedType;
+    }
+
+
+
+
+    public Integer getAmountType() {
+        return this.amountType;
+    }
+
+
+
+
+    public void setAmountType(int amountType) {
+        this.amountType = amountType;
+    }
+
 }

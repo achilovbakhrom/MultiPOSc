@@ -12,8 +12,8 @@ public class DiscountApaterDetials {
     Discount changedObject;
 
     public boolean setNewDiscription(String newDiscription){
-        if(!object.getDiscription().equals(newDiscription)|| changedObject !=null){
-            getChangedObject().setDiscription(newDiscription);
+        if(!object.getName().equals(newDiscription)|| changedObject !=null){
+            getChangedObject().setName(newDiscription);
         }
         return changedObject !=null;
     }
@@ -23,14 +23,14 @@ public class DiscountApaterDetials {
         }
         return changedObject !=null;
     }
-    public boolean setNewAmmountType(String amountType){
-        if(!object.getAmountType().equals(amountType) || changedObject !=null){
+    public boolean setNewAmmountType(int amountType){
+        if(object.getAmountType() != amountType || changedObject !=null){
             getChangedObject().setAmountType(amountType);
         }
         return changedObject !=null;
     }
-    public boolean setNewUsedType(String usedType){
-        if(!object.getUsedType().equals(usedType) || changedObject !=null){
+    public boolean setNewUsedType(int usedType){
+        if(object.getUsedType() !=(usedType) || changedObject !=null){
             getChangedObject().setUsedType(usedType);
         }
         return changedObject !=null;
@@ -43,13 +43,13 @@ public class DiscountApaterDetials {
     }
 
     public String getActualDiscription(){
-        return (changedObject != null) ? changedObject.getDiscription() : object.getDiscription();
+        return (changedObject != null) ? changedObject.getName() : object.getName();
     }
 
-    public String getActualyAmmountType(){
+    public int getActualyAmmountType(){
         return (changedObject !=null) ? changedObject.getAmountType() : object.getAmountType();
     }
-    public String getActualyUsedType(){
+    public int getActualyUsedType(){
         return (changedObject !=null) ? changedObject.getUsedType() : object.getUsedType();
     }
     public double getActualyAmmount(){

@@ -53,10 +53,10 @@ public class DiscountAdapter extends BaseAdapter<Discount, DiscountAdapter.Disco
 
     @Override
     public void onBindViewHolder(DiscountViewHolder holder, int position) {
-        if (getItem(position).getDiscription().isEmpty()) {
+        if (getItem(position).getName().isEmpty()) {
             holder.tvDescription.setText(getAmountTypeFromConst(getItem(position).getAmountType()));
         } else {
-            holder.tvDescription.setText(getItem(position).getDiscription() + " - " + getAmountTypeFromConst(getItem(position).getAmountType()));
+            holder.tvDescription.setText(getItem(position).getName() + " - " + getAmountTypeFromConst(getItem(position).getAmountType()));
         }
 
         holder.tvDiscount.setText(decimalFormat.format(getItem(position).getAmount()));
@@ -69,13 +69,15 @@ public class DiscountAdapter extends BaseAdapter<Discount, DiscountAdapter.Disco
         }
     }
 
-    private String getAmountTypeFromConst(String amountType) {
-        if (amountType.equals(amountTypes[0])) {
-            return context.getString(R.string.percent);
-        } else if (amountType.equals(amountTypes[1])) {
-            return context.getString(R.string.amount);
-        } else if (amountType.equals(amountTypes[2])) {
-            return context.getString(R.string.reprice);
+    private String getAmountTypeFromConst(int amountType) {
+        String[] discountUsedTypes = context.getResources().getStringArray(R.array.discount_amount_types);
+
+        if (amountType == Discount.PERCENT) {
+            return discountUsedTypes[0];
+        } else if (amountType == Discount.VALUE) {
+            return discountUsedTypes[1];
+        } else if (amountType == Discount.REPRICE) {
+            return discountUsedTypes[2];
         }
 
         return null;

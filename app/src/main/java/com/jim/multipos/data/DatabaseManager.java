@@ -383,7 +383,7 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
 
     @Override
     public List<PaymentType> getPaymentTypes() {
-        return null;
+        return dbHelper.getPaymentTypes();
     }
 
     @Override

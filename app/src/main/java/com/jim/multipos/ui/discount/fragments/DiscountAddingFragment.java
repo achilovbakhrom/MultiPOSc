@@ -46,12 +46,12 @@ public class DiscountAddingFragment  extends BaseFragment implements DiscountAdd
 
         discountListAdapter.setListners(new DiscountListAdapter.OnDiscountCallback() {
             @Override
-            public void onAddPressed(double amount, String amountTypeAbbr, String discription, String usedTypeAbbr, boolean active) {
+            public void onAddPressed(double amount, int amountTypeAbbr, String discription, int usedTypeAbbr, boolean active) {
                 presenter.onAddPressed(amount,amountTypeAbbr,discription,usedTypeAbbr,active);
             }
 
             @Override
-            public void onSave(double amount, String amountTypeAbbr, String discription, String usedTypeAbbr, boolean active, Discount discount) {
+            public void onSave(double amount, int amountTypeAbbr, String discription, int usedTypeAbbr, boolean active, Discount discount) {
                 presenter.onSave(amount,amountTypeAbbr,discription,usedTypeAbbr,active,discount);
             }
 

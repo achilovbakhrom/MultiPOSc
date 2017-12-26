@@ -73,40 +73,43 @@
 
                 <TextView
                     android:id="@+id/textView3"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/twenty_five_dp"
-                    android:layout_marginRight="@dimen/fifteen_dp"
-                    android:layout_weight="1"
+                    android:layout_marginLeft="@dimen/twenty_dp"
+                    android:layout_weight="5"
                     android:text="Name"
                     android:textColor="@color/colorWhite"
                     android:textSize="@dimen/eighteen_dp" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
+                    android:layout_weight="3"
                     android:text="Qty"
+                    android:gravity="center_horizontal"
                     android:textColor="@color/colorWhite"
                     android:textSize="@dimen/eighteen_dp" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
+                    android:layout_weight="3"
                     android:text="Each"
+                    android:gravity="right|center_vertical"
                     android:textColor="@color/colorWhite"
                     android:textSize="@dimen/eighteen_dp" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
+                    android:layout_weight="4"
                     android:text="Sum"
+                    android:layout_marginRight="@dimen/thirty_dp"
+                    android:gravity="center_vertical|right"
                     android:textColor="@color/colorWhite"
                     android:textSize="@dimen/eighteen_dp" />
 
@@ -114,13 +117,16 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/four_hundred_dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvOrderProducts"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/ten_dp" />
+                    android:layout_height="match_parent"
+
+                    />
 
             </LinearLayout>
 
@@ -138,8 +144,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:layout_marginBottom="@dimen/sixteen_dp"
+                    android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:orientation="vertical">
 
@@ -158,6 +163,7 @@
                             android:textSize="@dimen/sixteen_dp" />
 
                         <TextView
+                            android:id="@+id/tvSubTotal"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -183,6 +189,7 @@
                             android:textSize="@dimen/sixteen_dp" />
 
                         <TextView
+                            android:id="@+id/tvDiscountAmount"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -192,7 +199,31 @@
                             android:textSize="@dimen/sixteen_dp" />
 
                     </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/thirty_dp"
+                        android:orientation="horizontal">
 
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="To service:"
+                            android:textColor="@color/colorMainText"
+                            android:textSize="@dimen/sixteen_dp" />
+
+                        <TextView
+                            android:id="@+id/tvServiceAmount"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:text="316 uzs"
+                            android:textColor="@color/colorMainText"
+                            android:textSize="@dimen/sixteen_dp" />
+
+                    </LinearLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -208,6 +239,7 @@
                             android:textSize="@dimen/sixteen_dp" />
 
                         <TextView
+                            android:id="@+id/tvBalanceDue"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -224,8 +256,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="bottom"
-                    android:layout_marginBottom="@dimen/sixteen_dp"
+                    android:gravity="center_vertical"
 
                     android:orientation="vertical">
 
@@ -240,6 +271,7 @@
                         android:textSize="@dimen/eighteen_dp" />
 
                     <TextView
+                        android:id="@+id/tvTotal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/thirty_five_dp"
@@ -266,118 +298,125 @@
 
 
 
-                    <LinearLayout
-                        android:id="@+id/llDiscount"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                <LinearLayout
+                    android:id="@+id/llDiscount"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:background="@drawable/main_page_rect_selector"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="@dimen/thirty_dp"
+                        android:layout_height="@dimen/thirty_dp"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="@dimen/ten_dp"
+                        android:src="@drawable/discount"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:gravity="center"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:text="Discount" />
 
-                        <ImageView
-                            android:layout_width="@dimen/thirty_dp"
-                            android:layout_height="@dimen/thirty_dp"
-                            android:layout_gravity="center"
-                            android:layout_marginBottom="@dimen/ten_dp"
-                            android:src="@drawable/discount"
-                            />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:text="Discount" />
-
-                    </LinearLayout>
-                    <FrameLayout
-                        android:layout_width="2px"
-                        android:layout_height="match_parent"
-                        android:background="#dddddd"/>
-                    <LinearLayout
-                        android:id="@+id/llServiceFee"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/thirty_dp"
-                            android:layout_gravity="center"
-                            android:layout_marginBottom="@dimen/ten_dp"
-                            android:src="@drawable/service"
-                            />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:text="Service Fee" />
-
-                    </LinearLayout>
+                </LinearLayout>
                 <FrameLayout
                     android:layout_width="2px"
                     android:layout_height="match_parent"
                     android:background="#dddddd"/>
-                    <LinearLayout
-                        android:id="@+id/llPrintCheck"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
+                <LinearLayout
+                    android:id="@+id/llServiceFee"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:clickable="true"
+                    android:background="@drawable/main_page_rect_selector"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/thirty_dp"
                         android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:layout_marginBottom="@dimen/ten_dp"
+                        android:src="@drawable/service"
+                        />
 
-                        <ImageView
-                            android:layout_width="@dimen/thirty_dp"
-                            android:layout_height="@dimen/thirty_dp"
-                            android:layout_gravity="center"
-                            android:layout_marginBottom="@dimen/ten_dp"
-                            android:src="@drawable/print"
-                            />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="Service Fee" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:text="Print check" />
-
-                    </LinearLayout>
+                </LinearLayout>
                 <FrameLayout
                     android:layout_width="2px"
                     android:layout_height="match_parent"
                     android:background="#dddddd"/>
-                    <LinearLayout
-                        android:id="@+id/llPay"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                <LinearLayout
+                    android:id="@+id/llPrintCheck"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:background="@drawable/main_page_rect_selector"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="@dimen/thirty_dp"
+                        android:layout_height="@dimen/thirty_dp"
                         android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:background="@drawable/light_gradient"
+                        android:layout_marginBottom="@dimen/ten_dp"
+                        android:src="@drawable/print"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:gravity="center"
-                        android:orientation="vertical">
+                        android:text="Print check" />
 
-                        <ImageView
-                            android:layout_width="@dimen/thirty_dp"
-                            android:layout_height="@dimen/thirty_dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/currency"
-                            android:layout_marginBottom="@dimen/ten_dp"
+                </LinearLayout>
+                <FrameLayout
+                    android:layout_width="2px"
+                    android:layout_height="match_parent"
+                    android:background="#dddddd"/>
+                <LinearLayout
+                    android:id="@+id/llPay"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:background="@drawable/main_page_rect_pay_selector"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-                            />
+                    <ImageView
+                        android:layout_width="@dimen/thirty_dp"
+                        android:layout_height="@dimen/thirty_dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/currency"
+                        android:layout_marginBottom="@dimen/ten_dp"
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:text="PAY"
-                            android:textColor="@color/colorBlue"
-                            android:textStyle="bold" />
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="PAY"
+                        android:textColor="@color/colorBlue"
+                        android:textStyle="bold" />
 
 
                 </LinearLayout>

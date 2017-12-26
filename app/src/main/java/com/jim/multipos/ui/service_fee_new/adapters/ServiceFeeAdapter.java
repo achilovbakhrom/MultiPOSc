@@ -33,12 +33,6 @@ import butterknife.ButterKnife;
 import eu.inmite.android.lib.validations.form.FormValidator;
 import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 
-import static com.jim.multipos.data.db.model.ServiceFee.APP_TYPE_ALL;
-import static com.jim.multipos.data.db.model.ServiceFee.APP_TYPE_ITEM;
-import static com.jim.multipos.data.db.model.ServiceFee.APP_TYPE_ORDER;
-import static com.jim.multipos.data.db.model.ServiceFee.TYPE_PERCENT;
-import static com.jim.multipos.data.db.model.ServiceFee.TYPE_REPRICE;
-import static com.jim.multipos.data.db.model.ServiceFee.TYPE_VALUE;
 
 /**
  * Created by Portable-Acer on 28.10.2017.
@@ -232,7 +226,7 @@ public class ServiceFeeAdapter extends BaseAdapter<ServiceFee, BaseViewHolder> {
             });
 
             spType.setItemSelectionListener((view, position) -> {
-                if (getTypeFromPosition(position) == TYPE_VALUE) {
+                if (getTypeFromPosition(position) == ServiceFee.VALUE) {
                     etAmount.setError(null);
                 }
 
@@ -280,7 +274,7 @@ public class ServiceFeeAdapter extends BaseAdapter<ServiceFee, BaseViewHolder> {
                     switch (editText.getId()) {
                         case R.id.etAmount:
                             try {
-                                if (getItem(getAdapterPosition() - 1).getType() == TYPE_PERCENT && Double.parseDouble(editText.getText().toString()) > 100) {
+                                if (getItem(getAdapterPosition() - 1).getType() == ServiceFee.PERCENT && Double.parseDouble(editText.getText().toString()) > 100) {
                                     etAmount.setError(context.getString(R.string.percent_can_not_be_more_hunder));
                                     return;
                                 }
@@ -341,7 +335,7 @@ public class ServiceFeeAdapter extends BaseAdapter<ServiceFee, BaseViewHolder> {
             initTextWatcher(etReason);
 
             spType.setItemSelectionListener((view, position) -> {
-                if (getTypeFromPosition(position) == (TYPE_VALUE)) {
+                if (getTypeFromPosition(position) == ServiceFee.VALUE) {
                     etAmount.setError(null);
                 }
 
@@ -546,11 +540,11 @@ public class ServiceFeeAdapter extends BaseAdapter<ServiceFee, BaseViewHolder> {
 
     private int getTypePositionFromConst(int type) {
         switch (type) {
-            case TYPE_PERCENT:
+            case ServiceFee.PERCENT:
                 return 0;
-            case TYPE_VALUE:
+            case ServiceFee.VALUE:
                 return 1;
-            case TYPE_REPRICE:
+            case ServiceFee.REPRICE:
                 return 2;
         }
         return 0;
@@ -558,11 +552,11 @@ public class ServiceFeeAdapter extends BaseAdapter<ServiceFee, BaseViewHolder> {
 
     private int getAppTypePositionFromConst(int appType) {
         switch (appType) {
-            case APP_TYPE_ITEM:
+            case ServiceFee.ITEM:
                 return 0;
-            case APP_TYPE_ORDER:
+            case ServiceFee.ORDER:
                 return 1;
-            case APP_TYPE_ALL:
+            case ServiceFee.ALL:
                 return 2;
         }
         return 0;
@@ -571,11 +565,11 @@ public class ServiceFeeAdapter extends BaseAdapter<ServiceFee, BaseViewHolder> {
     private int getTypeFromPosition(int position) {
         switch (position) {
             case 0:
-                return TYPE_PERCENT;
+                return ServiceFee.PERCENT;
             case 1:
-                return TYPE_VALUE;
+                return ServiceFee.VALUE;
             case 2:
-                return TYPE_REPRICE;
+                return ServiceFee.REPRICE;
         }
         return 0;
     }
@@ -583,11 +577,11 @@ public class ServiceFeeAdapter extends BaseAdapter<ServiceFee, BaseViewHolder> {
     private int getAppTypeFromPosition(int position) {
         switch (position) {
             case 0:
-                return APP_TYPE_ITEM;
+                return ServiceFee.ITEM;
             case 1:
-                return APP_TYPE_ORDER;
+                return ServiceFee.ORDER;
             case 2:
-                return APP_TYPE_ALL;
+                return ServiceFee.ALL;
         }
         return 0;
     }

@@ -96,4 +96,10 @@ public abstract class MainPageMenuModule {
     static String[] provideDiscountUsedTypesAbr(Context context) {
         return context.getResources().getStringArray(R.array.discount_used_types_abr);
     }
+    @PerActivity
+    @Provides
+    @Named(value = "discount_used_types")
+    static String[] provideUsedType(Context context){
+        return context.getResources().getStringArray(R.array.discount_used_types);
+    }
 }

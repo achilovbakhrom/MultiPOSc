@@ -13,6 +13,6 @@ import java.util.List;
 public interface OrderListPresenter extends Presenter {
     List<Discount> getDiscounts();
     List<ServiceFee> getServiceFees();
-    void addDiscount(double amount, String description, String amountType);
+    void addDiscount(double amount, String description, int amountType);
     void addServiceFee(double amount, String description, int amountType);
 }

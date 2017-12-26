@@ -51,9 +51,7 @@
     <string name="email_">Email:</string>
     <string name="address_">Address</string>
     <string name="zip_code_">Zip Code</string>
-    <string name="amount">Amount</string>
-    <string name="percent">Percent</string>
-    <string name="reprice">Reprice</string>
+
     <string-array name="start_configuration_title">
         <item>POS details</item>
         <item>Account</item>
@@ -556,6 +554,8 @@
     <string name="update_customer">Update customer</string>
     <string name="select">Select</string>
     <string name="enter_service_fee_name">Enter service fee name</string>
+    <string name="discount_cant_empty">Discount name can\'t be empty</string>
+    <string name="amount">Amount</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>
@@ -578,6 +578,7 @@
     <string-array name="discount_amount_types">
         <item>Percent</item>
         <item>Value</item>
+        <item>Reprice</item>
     </string-array>
     <string-array name="discount_amount_types_abr">
         <item>percent</item>

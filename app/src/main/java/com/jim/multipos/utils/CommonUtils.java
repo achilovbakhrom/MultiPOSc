@@ -8,6 +8,9 @@ import android.net.Uri;
 import android.provider.MediaStore;
 
 import com.jim.mpviews.MpSpinner;
+import com.jim.multipos.R;
+import com.jim.multipos.data.db.model.Discount;
+import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.intosystem.Activatable;
 import com.jim.multipos.data.db.model.intosystem.Editable;
 
@@ -116,5 +119,28 @@ public class CommonUtils {
                 cursor.close();
             }
         }
+    }
+    public static String getDiscountTypeName(Context context, int discount_abr){
+        String[] discountUsedTypes = context.getResources().getStringArray(R.array.discount_amount_types);
+        if(discount_abr== Discount.PERCENT){
+            return discountUsedTypes[0];
+        }else if(discount_abr == Discount.VALUE){
+            return discountUsedTypes[1];
+        }else if(discount_abr == Discount.REPRICE){
+            return discountUsedTypes[2];
+        }
+        return "NoN";
+    }
+    public static String getServiceTypeName(Context context, int service_abr){
+        String[] serviceUsedTypes = context.getResources().getStringArray(R.array.service_fee_type);
+
+        if(service_abr== ServiceFee.PERCENT){
+            return serviceUsedTypes[0];
+        }else if(service_abr == ServiceFee.VALUE){
+            return serviceUsedTypes[1];
+        }else if(service_abr == ServiceFee.REPRICE){
+            return serviceUsedTypes[2];
+        }
+        return "NoN";
     }
 }

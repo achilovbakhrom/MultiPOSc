@@ -29,7 +29,7 @@ import butterknife.Unbinder;
 public class DiscountDialog extends DialogFragment implements DiscountAdapter.OnClickListener {
     public interface OnDialogListener {
         List<Discount> getDiscounts();
-        void addDiscount(double amount, String description, String amountType);
+        void addDiscount(double amount, String description, int amountType);
     }
 
     @BindView(R.id.tvCaption)
@@ -74,7 +74,7 @@ public class DiscountDialog extends DialogFragment implements DiscountAdapter.On
                 }
 
                 @Override
-                public void addDiscount(double amount, String description, String amountType) {
+                public void addDiscount(double amount, String description, int amountType) {
                     listener.addDiscount(amount, description, amountType);
                 }
             });

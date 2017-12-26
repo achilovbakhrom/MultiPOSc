@@ -16,17 +16,17 @@ import com.jim.mpviews.MpButton;
 import com.jim.mpviews.MpEditText;
 import com.jim.mpviews.MpTripleSwitcher;
 import com.jim.multipos.R;
+import com.jim.multipos.data.db.model.ServiceFee;
+import com.jim.multipos.ui.mainpospage.MainPosPageActivity;
 import com.jim.multipos.utils.validator.MultipleCallback;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import eu.inmite.android.lib.validations.form.FormValidator;                                                                         
+import eu.inmite.android.lib.validations.form.FormValidator;
 import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 
-import static com.jim.multipos.data.db.model.ServiceFee.TYPE_PERCENT;
-import static com.jim.multipos.data.db.model.ServiceFee.TYPE_REPRICE;
-import static com.jim.multipos.data.db.model.ServiceFee.TYPE_VALUE;
+
 
 /**
  * Created by Portable-Acer on 11.11.2017.
@@ -103,11 +103,11 @@ public class AddServiceFeeDialog extends DialogFragment {
                         int amountType = 0;
 
                         if (tsServiceFeeType.isLeft()) {
-                            amountType = TYPE_VALUE;
+                            amountType = ServiceFee.VALUE;
                         } else if (tsServiceFeeType.isCenter()) {
-                            amountType = TYPE_PERCENT;
+                            amountType = ServiceFee.PERCENT;
                         } else if (tsServiceFeeType.isRight()) {
-                            amountType = TYPE_REPRICE;
+                            amountType = ServiceFee.REPRICE;
                         }
 
                         listener.addServiceFee(amount, etFeeName.getText().toString(), amountType);

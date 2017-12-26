@@ -3,8 +3,12 @@ package com.jim.multipos.ui.mainpospage.view;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.view.MotionEvent;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.mpviews.MpLightButton;
@@ -15,6 +19,7 @@ import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.ui.mainpospage.dialogs.CustomerDialog;
+import com.jim.multipos.ui.mainpospage.adapter.OrderProductAdapter;
 import com.jim.multipos.ui.mainpospage.dialogs.DiscountDialog;
 import com.jim.multipos.ui.mainpospage.dialogs.ServiceFeeDialog;
 import com.jim.multipos.ui.mainpospage.presenter.OrderListPresenter;
@@ -42,6 +47,21 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
     LinearLayout llServiceFee;
     @BindView(R.id.llPrintCheck)
     LinearLayout llPrintCheck;
+
+    @BindView(R.id.tvSubTotal)
+    TextView tvSubTotal;
+    @BindView(R.id.tvDiscountAmount)
+    TextView tvDiscountAmount;
+    @BindView(R.id.tvServiceAmount)
+    TextView tvServiceAmount;
+    @BindView(R.id.tvBalanceDue)
+    TextView tvBalanceDue;
+    @BindView(R.id.tvTotal)
+    TextView tvTotal;
+    @BindView(R.id.rvOrderProducts)
+    RecyclerView rvOrderProducts;
+    @Inject
+    OrderProductAdapter orderProductAdapter;
     @BindView(R.id.lbChoiseCustomer)
     MpLightButton lbChooseCustomer;
     Activity activity;
@@ -53,6 +73,9 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
 
     @Override
     protected void init(Bundle savedInstanceState) {
+        rvOrderProducts.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvOrderProducts.setAdapter(orderProductAdapter);
+        ((SimpleItemAnimator) rvOrderProducts.getItemAnimator()).setSupportsChangeAnimations(false);
 
         lbChooseCustomer.setOnLightButtonClickListener(view1 -> {
             CustomerDialog customerDialog = new CustomerDialog(getContext(), databaseManager);
@@ -74,7 +97,7 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
                         }
 
                         @Override
-                        public void addDiscount(double amount, String description, String amountType) {
+                        public void addDiscount(double amount, String description, int amountType) {
                             presenter.addDiscount(amount, description, amountType);
                         }
                     });
@@ -103,88 +126,4 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
                 });
     }
 
-    boolean pressed = false;
-
-    public void setClickEffects() {
-        pressed = false;
-
-        llPay.setOnTouchListener((view, motionEvent) -> {
-            switch (motionEvent.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    view.performClick();
-                    if (!pressed) {
-                        VibrateManager.startVibrate(getContext(), 50);
-                        pressed = true;
-                    }
-                    llPay.setBackgroundResource(R.drawable.light_gradient_revice);
-                    return false;
-                case MotionEvent.ACTION_UP:
-                    pressed = false;
-                    llPay.setBackgroundResource(R.drawable.light_gradient);
-
-                    return false;
-            }
-            return false;
-        });
-
-        llDiscount.setOnTouchListener((view, motionEvent) -> {
-            switch (motionEvent.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    view.performClick();
-                    if (!pressed) {
-                        VibrateManager.startVibrate(getContext(), 50);
-
-                        pressed = true;
-                    }
-                    llDiscount.setBackgroundColor(ContextCompat.getColor(activity, R.color.pressedWhite));
-                    return false;
-                case MotionEvent.ACTION_UP:
-                    pressed = false;
-                    llDiscount.setBackgroundColor(ContextCompat.getColor(activity, R.color.colorWhite));
-
-                    return false;
-            }
-            return false;
-        });
-
-        llServiceFee.setOnTouchListener((view, motionEvent) -> {
-            switch (motionEvent.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    view.performClick();
-                    if (!pressed) {
-                        VibrateManager.startVibrate(getContext(), 50);
-
-                        pressed = true;
-                    }
-                    llServiceFee.setBackgroundColor(ContextCompat.getColor(activity, R.color.pressedWhite));
-                    return false;
-                case MotionEvent.ACTION_UP:
-                    pressed = false;
-                    llServiceFee.setBackgroundColor(ContextCompat.getColor(activity, R.color.colorWhite));
-
-                    return false;
-            }
-            return false;
-        });
-
-        llPrintCheck.setOnTouchListener((view, motionEvent) -> {
-            switch (motionEvent.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    view.performClick();
-                    if (!pressed) {
-                        VibrateManager.startVibrate(getContext(), 50);
-
-                        pressed = true;
-                    }
-                    llPrintCheck.setBackgroundColor(ContextCompat.getColor(activity, R.color.pressedWhite));
-                    return false;
-                case MotionEvent.ACTION_UP:
-                    pressed = false;
-                    llPrintCheck.setBackgroundColor(ContextCompat.getColor(activity, R.color.colorWhite));
-
-                    return false;
-            }
-            return false;
-        });
-    }
 }

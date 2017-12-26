@@ -82,8 +82,6 @@ import javax.inject.Singleton;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 
-import static com.jim.multipos.data.db.model.ServiceFee.APP_TYPE_ALL;
-import static com.jim.multipos.data.db.model.ServiceFee.APP_TYPE_ITEM;
 import static com.jim.multipos.data.db.model.products.Category.WITHOUT_PARENT;
 
 
@@ -845,7 +843,7 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public Observable<List<ServiceFee>> getServiceFeesWithAllItemTypes() {
-        return Observable.fromCallable(() -> mDaoSession.getServiceFeeDao().queryBuilder().whereOr(ServiceFeeDao.Properties.ApplyingType.eq(APP_TYPE_ITEM), ServiceFeeDao.Properties.ApplyingType.eq(APP_TYPE_ALL)).orderDesc(ServiceFeeDao.Properties.CreatedDate).build().list());
+        return Observable.fromCallable(() -> mDaoSession.getServiceFeeDao().queryBuilder().whereOr(ServiceFeeDao.Properties.ApplyingType.eq(ServiceFee.ITEM), ServiceFeeDao.Properties.ApplyingType.eq(ServiceFee.ALL)).orderDesc(ServiceFeeDao.Properties.CreatedDate).build().list());
     }
 
     @Override

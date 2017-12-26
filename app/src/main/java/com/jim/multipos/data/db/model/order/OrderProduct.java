@@ -41,9 +41,9 @@ public class OrderProduct {
     private double price;
     private int count;
     private double sum;
-    private double discountValue;
-    private double serviceValue;
-    private String description;
+    private double firstValueChanger;
+    private double secondValueChanger;
+    private String discription;
 
     private long discountId;
     @ToOne(joinProperty = "discountId")
@@ -242,23 +242,11 @@ public class OrderProduct {
     public void setDiscountId(long discountId) {
         this.discountId = discountId;
     }
-    public String getDescription() {
-        return this.description;
+    public String getDiscription() {
+        return this.discription;
     }
-    public void setDescription(String description) {
-        this.description = description;
-    }
-    public double getServiceValue() {
-        return this.serviceValue;
-    }
-    public void setServiceValue(double serviceValue) {
-        this.serviceValue = serviceValue;
-    }
-    public double getDiscountValue() {
-        return this.discountValue;
-    }
-    public void setDiscountValue(double discountValue) {
-        this.discountValue = discountValue;
+    public void setDiscription(String discription) {
+        this.discription = discription;
     }
     public double getSum() {
         return this.sum;
@@ -308,11 +296,26 @@ public class OrderProduct {
     public void setId(Long id) {
         this.id = id;
     }
-    @Generated(hash = 1667168434)
-    public OrderProduct(Long id, long orderId, long productId, long vendorId,
-            double cost, double price, int count, double sum, double discountValue,
-            double serviceValue, String description, long discountId,
-            long serviceFeeId) {
+    public double getSecondValueChanger() {
+        return this.secondValueChanger;
+    }
+    public void setSecondValueChanger(double secondValueChanger) {
+        this.secondValueChanger = secondValueChanger;
+    }
+    public double getFirstValueChanger() {
+        return this.firstValueChanger;
+    }
+    public void setFirstValueChanger(double firstValueChanger) {
+        this.firstValueChanger = firstValueChanger;
+    }
+
+    @Generated(hash = 1818552344)
+    public OrderProduct() {
+    }
+    @Generated(hash = 414917454)
+    public OrderProduct(Long id, long orderId, long productId, long vendorId, double cost, double price,
+            int count, double sum, double firstValueChanger, double secondValueChanger, String discription,
+            long discountId, long serviceFeeId) {
         this.id = id;
         this.orderId = orderId;
         this.productId = productId;
@@ -321,14 +324,11 @@ public class OrderProduct {
         this.price = price;
         this.count = count;
         this.sum = sum;
-        this.discountValue = discountValue;
-        this.serviceValue = serviceValue;
-        this.description = description;
+        this.firstValueChanger = firstValueChanger;
+        this.secondValueChanger = secondValueChanger;
+        this.discription = discription;
         this.discountId = discountId;
         this.serviceFeeId = serviceFeeId;
-    }
-    @Generated(hash = 1818552344)
-    public OrderProduct() {
     }
 
 }

@@ -1,23 +1,30 @@
 package com.jim.multipos.data.db.model;
 
 
+import android.content.Context;
+
 import com.jim.multipos.data.db.model.intosystem.Editable;
+import com.jim.multipos.utils.CommonUtils;
 
 import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+
 
 @Entity(nameInDb = "SERVICE_FEE", active = true)
 public class ServiceFee implements Editable {
 
-    public static final int TYPE_PERCENT = 100;
-    public static final int TYPE_VALUE = 101;
-    public static final int TYPE_REPRICE = 102;
-    public static final int APP_TYPE_ITEM = 1000;
-    public static final int APP_TYPE_ORDER = 1001;
-    public static final int APP_TYPE_ALL = 1002;
+    public static final int PERCENT = 0;
+    public static final int VALUE = 1;
+    public static final int REPRICE = 2;
+    public static final int ITEM = 0;
+    public static final int ORDER = 1;
+    public static final int ALL = 2;
 
     @Id(autoincrement = true)
     private Long id;
@@ -223,5 +230,21 @@ public class ServiceFee implements Editable {
 
     public void setType(int type) {
         this.type = type;
+    }
+    public String getServiceFeeTypeName(Context context){
+        String serviceFeeTypeName = CommonUtils.getServiceTypeName(context, type);
+        if(type == ServiceFee.PERCENT){
+            DecimalFormat formatter;
+            NumberFormat numberFormat = NumberFormat.getNumberInstance();
+            numberFormat.setMaximumFractionDigits(2);
+            formatter = (DecimalFormat) numberFormat;
+            DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
+            symbols.setGroupingSeparator(' ');
+            formatter.setDecimalFormatSymbols(symbols);
+            serviceFeeTypeName += " ";
+            serviceFeeTypeName += formatter.format(amount);
+            serviceFeeTypeName += "%";
+        }
+        return serviceFeeTypeName;
     }
 }

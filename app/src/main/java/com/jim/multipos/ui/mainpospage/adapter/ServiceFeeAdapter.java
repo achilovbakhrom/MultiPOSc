@@ -21,10 +21,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.jim.multipos.data.db.model.ServiceFee.TYPE_PERCENT;
-import static com.jim.multipos.data.db.model.ServiceFee.TYPE_REPRICE;
-import static com.jim.multipos.data.db.model.ServiceFee.TYPE_VALUE;
-
 /**
  * Created by Portable-Acer on 11.11.2017.
  */
@@ -61,7 +57,7 @@ public class ServiceFeeAdapter extends BaseAdapter<ServiceFee, ServiceFeeAdapter
         holder.tvDiscount.setText(decimalFormat.format(getItem(position).getAmount()));
         holder.tvCreatedDate.setText(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(getItem(position).getCreatedDate()));
 
-        if (getItem(position).getType() == (TYPE_PERCENT)) {
+        if (getItem(position).getType() == ServiceFee.PERCENT) {
             holder.tvDiscount.append(" %");
         } else {
             holder.tvDiscount.append(" UZS");
@@ -71,11 +67,11 @@ public class ServiceFeeAdapter extends BaseAdapter<ServiceFee, ServiceFeeAdapter
     private String getAmountTypeFromConst(int amountType) {
         String[] serviceFeeTypes = context.getResources().getStringArray(R.array.service_fee_type);
 
-        if (amountType == (TYPE_PERCENT)) {
+        if (amountType == ServiceFee.PERCENT) {
             return serviceFeeTypes[0];
-        } else if (amountType == (TYPE_VALUE)) {
+        } else if (amountType == ServiceFee.VALUE) {
             return serviceFeeTypes[1];
-        } else if (amountType == (TYPE_REPRICE)) {
+        } else if (amountType == ServiceFee.REPRICE) {
             return serviceFeeTypes[2];
         }
 

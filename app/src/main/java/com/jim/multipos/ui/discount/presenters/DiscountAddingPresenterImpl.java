@@ -49,11 +49,11 @@ public class DiscountAddingPresenterImpl extends BasePresenterImpl<DiscountAddin
     }
 
     @Override
-    public void onAddPressed(double amount, String amountTypeAbbr, String discription, String usedTypeAbbr, boolean active) {
+    public void onAddPressed(double amount, int amountTypeAbbr, String discription, int usedTypeAbbr, boolean active) {
         Discount discount = new Discount();
         discount.setAmount(amount);
         discount.setAmountType(amountTypeAbbr);
-        discount.setDiscription(discription);
+        discount.setName(discription);
         discount.setUsedType(usedTypeAbbr);
         discount.setActive(active);
         discount.setCreatedDate(System.currentTimeMillis());
@@ -68,13 +68,13 @@ public class DiscountAddingPresenterImpl extends BasePresenterImpl<DiscountAddin
     }
 
     @Override
-    public void onSave(double amount, String amountTypeAbbr, String discription, String usedTypeAbbr, boolean active, Discount discount) {
+    public void onSave(double amount, int amountTypeAbbr, String discription, int usedTypeAbbr, boolean active, Discount discount) {
         discount.setNotModifyted(false);
         databaseManager.insertDiscount(discount).subscribe((aLong, throwable) -> {
             Discount discount1 = new Discount();
             discount1.setAmount(amount);
             discount1.setAmountType(amountTypeAbbr);
-            discount1.setDiscription(discription);
+            discount1.setName(discription);
             discount1.setUsedType(usedTypeAbbr);
             discount1.setActive(active);
             discount1.setCreatedDate(discount.getCreatedDate());
@@ -130,7 +130,7 @@ public class DiscountAddingPresenterImpl extends BasePresenterImpl<DiscountAddin
                 Collections.sort(items,(discounts, t1) -> t1.getObject().getActive().compareTo(discounts.getObject().getActive()));
                 break;
             case Discription:
-                Collections.sort(items,(discounts, t1) -> t1.getObject().getDiscription().compareTo(discounts.getObject().getDiscription()));
+                Collections.sort(items,(discounts, t1) -> t1.getObject().getName().compareTo(discounts.getObject().getName()));
                 break;
             case Default:
                 Collections.sort(items,(discounts, t1) -> t1.getObject().getCreatedDate().compareTo(discounts.getObject().getCreatedDate()));

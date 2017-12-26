@@ -133,7 +133,7 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
                 }
 
                 @Override
-                public void addDiscount(double amount, String description, String amountType) {
+                public void addDiscount(double amount, String description, int amountType) {
                     presenter.addDiscount(amount, description, amountType);
                 }
             });

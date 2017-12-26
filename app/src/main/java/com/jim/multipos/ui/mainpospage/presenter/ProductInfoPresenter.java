@@ -24,7 +24,7 @@ public interface ProductInfoPresenter extends Presenter {
     void setCurrentQuantity(int quantity);
     List<ServiceFee> getServiceFees();
     List<Discount> getDiscount(String[] discountType);
-    void addDiscount(double amount, String description, String amountType);
+    void addDiscount(double amount, String description, int amountType);
     void addServiceFee(double amount, String description, int amountType);
     void initProduct(Long productId);
 }

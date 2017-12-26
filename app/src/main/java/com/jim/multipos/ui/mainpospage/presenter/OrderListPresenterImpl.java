@@ -11,7 +11,6 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import static com.jim.multipos.data.db.model.ServiceFee.TYPE_REPRICE;
 
 /**
  * Created by Portable-Acer on 27.10.2017.
@@ -19,14 +18,12 @@ import static com.jim.multipos.data.db.model.ServiceFee.TYPE_REPRICE;
 
 public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> implements OrderListPresenter {
     private DatabaseManager databaseManager;
-    private String[] discountAmountTypes;
 
     @Inject
-    public OrderListPresenterImpl(OrderListView orderListView, DatabaseManager databaseManager, @Named(value = "discount_amount_types") String[] discountAmountTypes) {
+    public OrderListPresenterImpl(OrderListView orderListView, DatabaseManager databaseManager) {
         super(orderListView);
 
         this.databaseManager = databaseManager;
-        this.discountAmountTypes = discountAmountTypes;
     }
 
     @Override
@@ -40,16 +37,17 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
     }
 
     @Override
-    public void addDiscount(double amount, String description, String amountType) {
+    public void addDiscount(double amount, String description, int amountType) {
         Discount discount = new Discount();
         discount.setAmount(amount);
-        discount.setDiscription(description);
+        discount.setName(description);
         discount.setAmountType(amountType);
+        discount.setUsedType(Discount.ORDER);
         discount.setCreatedDate(System.currentTimeMillis());
         discount.setDeleted(false);
         discount.setNotModifyted(true);
 
-        if (amountType.equals(discountAmountTypes[2])) {
+        if (amountType == Discount.REPRICE) {
             discount.setDeleted(true);
         }
 
@@ -62,11 +60,12 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         serviceFee.setAmount(amount);
         serviceFee.setName(description);
         serviceFee.setType(amountType);
+        serviceFee.setApplyingType(Discount.ORDER);
         serviceFee.setCreatedDate(System.currentTimeMillis());
         serviceFee.setDeleted(false);
         serviceFee.setNotModifyted(true);
 
-        if (amountType == (TYPE_REPRICE)) {
+        if (amountType == ServiceFee.REPRICE) {
             serviceFee.setDeleted(true);
         }
 
