@@ -17,6 +17,7 @@ import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.order.OrderProduct;
 import com.jim.multipos.data.db.model.products.Product;
+import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.products.VendorProductCon;
 
 import java.text.DecimalFormat;
@@ -46,6 +47,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         List<Product> products = databaseManager.getAllProducts().blockingFirst();
         orderProducts = new ArrayList<>();
         //FAKE DATA
+//
 //        OrderProduct orderProduct = new OrderProduct();
 //        VendorProductCon productCon = databaseManager.getVendorProductConnectionById(products.get(0).getId(), products.get(0).getVendor().get(0).getId()).blockingSingle();
 //        orderProduct.setCost(productCon.getCost());
@@ -56,10 +58,10 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 //
 //        Discount discount  = new Discount();
 //        discount.setId(125l);
-//        discount.setUsedType("item");
+//        discount.setUsedType(Discount.ITEM);
 //        discount.setActive(true);
-//        discount.setAmountType("reprice");
-//        discount.setDiscription("Some think great");
+//        discount.setAmountType(Discount.PERCENT);
+//        discount.setName("Some think great");
 //        discount.setCreatedDate(System.currentTimeMillis());
 //        discount.setNotModifyted(true);
 //        discount.setAmount(120000);
@@ -68,10 +70,10 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 //
 //        ServiceFee serviceFee = new ServiceFee();
 //        serviceFee.setId(22l);
-//        serviceFee.setApplyingType("item");
+//        serviceFee.setApplyingType(ServiceFee.ITEM);
 //        serviceFee.setActive(true);
-//        serviceFee.setType("percent");
-//        serviceFee.setReason("Some think great");
+//        serviceFee.setType(ServiceFee.PERCENT);
+//        serviceFee.setName("Some think great");
 //        serviceFee.setCreatedDate(System.currentTimeMillis());
 //        serviceFee.setNotModifyted(true);
 //        serviceFee.setAmount(15);
@@ -100,28 +102,18 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             if(orderProduct.getFirstValueChanger()!=0){
                 if(orderProduct.getFirstValueChanger()>0){
                     //ServiceFee
-                    if(orderProduct.getServiceFee().getType().equals("reprice")){
-                        holder.tvEach.setPaintFlags(holder.tvEach.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                        holder.tvSum.setPaintFlags(holder.tvSum.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                        holder.tvFirstChangerToEach.setText("=" + decimalFormat.format(orderProduct.getServiceFee().getAmount()));
-                        holder.tvFirstChangerSum.setText("=" + decimalFormat.format(orderProduct.getServiceFee().getAmount()*orderProduct.getCount()));
-                    }else {
+
                         holder.tvFirstChangerToEach.setText("+"+decimalFormat.format(orderProduct.getFirstValueChanger()));
                         holder.tvFirstChangerSum.setText("+"+decimalFormat.format(orderProduct.getFirstValueChanger()*orderProduct.getCount()));
-                    }
+
                     holder.tvFirstChangerName.setText("Service Fee "+ orderProduct.getServiceFee().getServiceFeeTypeName(context)+" :");
                     holder.llFirstChanger.setVisibility(View.VISIBLE);
                 }else {
                     //Discount
-                    if(orderProduct.getDiscount().getAmountType() == Discount.REPRICE){
-                        holder.tvEach.setPaintFlags(holder.tvEach.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                        holder.tvSum.setPaintFlags(holder.tvSum.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                        holder.tvFirstChangerToEach.setText("=" + decimalFormat.format(orderProduct.getDiscount().getAmount()));
-                        holder.tvFirstChangerSum.setText("=" + decimalFormat.format(orderProduct.getDiscount().getAmount()*orderProduct.getCount()));
-                    }else {
+
                         holder.tvFirstChangerToEach.setText(decimalFormat.format(orderProduct.getFirstValueChanger()));
                         holder.tvFirstChangerSum.setText(decimalFormat.format(orderProduct.getFirstValueChanger()*orderProduct.getCount()));
-                    }
+
                     holder.tvFirstChangerName.setText("Discount "+ orderProduct.getDiscount().getDiscountTypeName(context)+" :");
                     holder.llFirstChanger.setVisibility(View.VISIBLE);
                 }
@@ -133,34 +125,16 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             if(orderProduct.getSecondValueChanger()!=0){
                 if(orderProduct.getSecondValueChanger()>0){
                         //ServiceFee
-                        if(orderProduct.getServiceFee().getType().equals("reprice")) {
-                            holder.tvEach.setPaintFlags(holder.tvEach.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                            holder.tvSum.setPaintFlags(holder.tvSum.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                            holder.tvFirstChangerToEach.setPaintFlags(holder.tvFirstChangerToEach.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                            holder.tvFirstChangerSum.setPaintFlags(holder.tvFirstChangerSum.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
-                            holder.tvSecondChangerForEach.setText("=" + decimalFormat.format(orderProduct.getServiceFee().getAmount()));
-                            holder.tvSecondChangerSum.setText("=" + decimalFormat.format(orderProduct.getServiceFee().getAmount()*orderProduct.getCount()));
-                        }else {
                             holder.tvSecondChangerForEach.setText("+"+decimalFormat.format(orderProduct.getSecondValueChanger()));
                             holder.tvSecondChangerSum.setText("+"+decimalFormat.format(orderProduct.getSecondValueChanger()*orderProduct.getCount()));
-                        }
                         holder.tvSecondChangerName.setText("Service Fee "+ orderProduct.getServiceFee().getServiceFeeTypeName(context)+" :");
                         holder.llSecondChanger.setVisibility(View.VISIBLE);
                     }else {
                         //Discount
-                        if(orderProduct.getDiscount().getAmountType().equals("reprice")){
-                            holder.tvEach.setPaintFlags(holder.tvEach.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                            holder.tvSum.setPaintFlags(holder.tvSum.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                            holder.tvFirstChangerToEach.setPaintFlags(holder.tvFirstChangerToEach.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                            holder.tvFirstChangerSum.setPaintFlags(holder.tvFirstChangerSum.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
-                            holder.tvSecondChangerForEach.setText("=" + decimalFormat.format(orderProduct.getDiscount().getAmount()));
-                            holder.tvSecondChangerSum.setText("=" + decimalFormat.format(orderProduct.getDiscount().getAmount()*orderProduct.getCount()));
-                        }else {
                             holder.tvSecondChangerForEach.setText(decimalFormat.format(orderProduct.getSecondValueChanger()));
                             holder.tvSecondChangerSum.setText(decimalFormat.format(orderProduct.getSecondValueChanger()*orderProduct.getCount()));
-                        }
                         holder.tvSecondChangerName.setText("Discount "+ orderProduct.getDiscount().getDiscountTypeName(context)+" :");
                         holder.llSecondChanger.setVisibility(View.VISIBLE);
                 }
