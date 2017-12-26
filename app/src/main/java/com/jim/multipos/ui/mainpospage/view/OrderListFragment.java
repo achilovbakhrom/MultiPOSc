@@ -7,11 +7,14 @@ import android.view.MotionEvent;
 import android.widget.LinearLayout;
 
 import com.jakewharton.rxbinding2.view.RxView;
+import com.jim.mpviews.MpLightButton;
 import com.jim.mpviews.utils.VibrateManager;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
+import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
+import com.jim.multipos.ui.mainpospage.dialogs.CustomerDialog;
 import com.jim.multipos.ui.mainpospage.dialogs.DiscountDialog;
 import com.jim.multipos.ui.mainpospage.dialogs.ServiceFeeDialog;
 import com.jim.multipos.ui.mainpospage.presenter.OrderListPresenter;
@@ -22,12 +25,15 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
-public class OrderListFragment extends BaseFragment implements OrderListView {//BaseFragment {
+public class OrderListFragment extends BaseFragment implements OrderListView {
     @Inject
     OrderListPresenter presenter;
     @Inject
     DecimalFormat decimalFormat;
+    @Inject
+    DatabaseManager databaseManager;
     @BindView(R.id.llPay)
     LinearLayout llPay;
     @BindView(R.id.llDiscount)
@@ -36,7 +42,8 @@ public class OrderListFragment extends BaseFragment implements OrderListView {//
     LinearLayout llServiceFee;
     @BindView(R.id.llPrintCheck)
     LinearLayout llPrintCheck;
-
+    @BindView(R.id.lbChoiseCustomer)
+    MpLightButton lbChooseCustomer;
     Activity activity;
 
     @Override
@@ -46,17 +53,11 @@ public class OrderListFragment extends BaseFragment implements OrderListView {//
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        //setClickEffects();
 
-        /*view.findViewById(R.id.lbChoiseCustomer).setOnClickListener(view1 -> {
-
+        lbChooseCustomer.setOnLightButtonClickListener(view1 -> {
+            CustomerDialog customerDialog = new CustomerDialog(getContext(), databaseManager);
+            customerDialog.show();
         });
-        view.findViewById(R.id.lbHoldOrder).setOnClickListener(view1 -> {
-
-        });
-        view.findViewById(R.id.lbCancelOrder).setOnClickListener(view1 -> {
-
-        });*/
 
         RxView.clicks(llPay)
                 .subscribe(view1 -> {
@@ -94,7 +95,7 @@ public class OrderListFragment extends BaseFragment implements OrderListView {//
                         }
 
                         @Override
-                        public void addServiceFee(double amount, String description, String amountType) {
+                        public void addServiceFee(double amount, String description, int amountType) {
                             presenter.addServiceFee(amount, description, amountType);
                         }
                     });

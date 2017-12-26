@@ -8,6 +8,7 @@ import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -56,8 +57,8 @@ public class MpLightButton extends FrameLayout {
         TypedArray attributeArray = context.obtainStyledAttributes(attrs, R.styleable.MpLightButton);
         mpLightBtnText = (TextView) findViewById(R.id.mpLightBtnText);
         mpLightBtnImage = (ImageView) findViewById(R.id.mpLightBtnImage);
-        mpLightBtnBg = (ImageView) findViewById(R.id.mpLightBtnBg);
         relativeLayout = (RelativeLayout) findViewById(R.id.mpRelativeL);
+        mpLightBtnBg = (ImageView) findViewById(R.id.mpLightBtnBg);
         mode = attributeArray.getInt(R.styleable.MpLightButton_btn_mode, TEXT_MODE);
         mpLightBtnText.setText(attributeArray.getText(R.styleable.MpLightButton_text_content));
         mpLightBtnImage.setImageResource(attributeArray.getResourceId(R.styleable.MpLightButton_image_content, 0));
@@ -74,40 +75,11 @@ public class MpLightButton extends FrameLayout {
         buttonDrawable.mutate();
         mpLightBtnBg.setImageDrawable(buttonDrawable);
         mpLightBtnBg.setClickable(true);
-//        relativeLayout.setBackgroundResource(R.drawable.light_button);
-//        pressed = false;
-//        setOnTouchListener((view, motionEvent) -> {
-//            switch (motionEvent.getAction()) {
-//                case MotionEvent.ACTION_DOWN:
-//                    view.performClick();
-//                    if (!pressed) {
-//                        VibrateManager.startVibrate(context, 50);
-//                        pressed = true;
-//                    }
-//                    relativeLayout.setBackgroundResource(R.drawable.light_button_pressed);
-//                    return false;
-//                case MotionEvent.ACTION_UP:
-//                    pressed = false;
-//                    relativeLayout.setBackgroundResource(R.drawable.light_button);
-//                    return false;
-//            }
-//            return false;
-//        });
         attributeArray.recycle();
     }
 
-    private String key = null;
-
-    public void setState(String key) {
-        boolean state = StateSaver.getInstance(getContext()).getStateSaver().getBoolean(key, false);
-        this.key = key;
-        if (state) {
-            setBackgroundResource(R.drawable.pressed_btn);
-            isPressed = true;
-        } else {
-            setBackgroundResource(R.drawable.button_bg);
-            isPressed = false;
-        }
+    public void setOnLightButtonClickListener(OnClickListener clickListener){
+        mpLightBtnBg.setOnClickListener(clickListener);
     }
 
     public void setMode(int mode) {

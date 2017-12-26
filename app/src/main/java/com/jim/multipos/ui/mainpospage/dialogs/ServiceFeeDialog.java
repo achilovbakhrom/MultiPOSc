@@ -29,7 +29,7 @@ import butterknife.Unbinder;
 public class ServiceFeeDialog extends DialogFragment implements ServiceFeeAdapter.OnClickListener {
     public interface OnDialogListener {
         List<ServiceFee> getServiceFees();
-        void addServiceFee(double amount, String description, String amountType);
+        void addServiceFee(double amount, String description, int amountType);
     }
 
     @BindView(R.id.tvCaption)
@@ -74,7 +74,7 @@ public class ServiceFeeDialog extends DialogFragment implements ServiceFeeAdapte
                 }
 
                 @Override
-                public void addServiceFee(double amount, String description, String amountType) {
+                public void addServiceFee(double amount, String description, int amountType) {
                     listener.addServiceFee(amount, description, amountType);
                 }
             });

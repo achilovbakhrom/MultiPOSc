@@ -33,11 +33,12 @@ import butterknife.ButterKnife;
 import eu.inmite.android.lib.validations.form.FormValidator;
 import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 
-import static com.jim.multipos.ui.service_fee_new.Constants.APP_TYPE_ALL;
-import static com.jim.multipos.ui.service_fee_new.Constants.APP_TYPE_ITEM;
-import static com.jim.multipos.ui.service_fee_new.Constants.APP_TYPE_ORDER;
-import static com.jim.multipos.ui.service_fee_new.Constants.TYPE_PERCENT;
-import static com.jim.multipos.ui.service_fee_new.Constants.TYPE_VALUE;
+import static com.jim.multipos.data.db.model.ServiceFee.APP_TYPE_ALL;
+import static com.jim.multipos.data.db.model.ServiceFee.APP_TYPE_ITEM;
+import static com.jim.multipos.data.db.model.ServiceFee.APP_TYPE_ORDER;
+import static com.jim.multipos.data.db.model.ServiceFee.TYPE_PERCENT;
+import static com.jim.multipos.data.db.model.ServiceFee.TYPE_REPRICE;
+import static com.jim.multipos.data.db.model.ServiceFee.TYPE_VALUE;
 
 /**
  * Created by Portable-Acer on 28.10.2017.
@@ -202,6 +203,8 @@ public class ServiceFeeAdapter extends BaseAdapter<ServiceFee, BaseViewHolder> {
                 if (FormValidator.validate(context, this, new MultipleCallback())) {
                     if (spType.getSelectedPosition() == 0 && Double.parseDouble(etAmount.getText().toString()) > 100) {
                         etAmount.setError(context.getString(R.string.percent_can_not_be_more_hunder));
+                    } else if (etReason.getText().toString().isEmpty()) {
+                        etReason.setError(context.getString(R.string.enter_service_fee_name));
                     } else {
                         if (changedActiveItem.get(getAdapterPosition() - 1) != null) {
                             getItem(getAdapterPosition() - 1).setIsActive(changedActiveItem.get(getItem(getAdapterPosition() - 1).getId()));
@@ -229,7 +232,7 @@ public class ServiceFeeAdapter extends BaseAdapter<ServiceFee, BaseViewHolder> {
             });
 
             spType.setItemSelectionListener((view, position) -> {
-                if (getTypeFromPosition(position).equals(TYPE_VALUE)) {
+                if (getTypeFromPosition(position) == TYPE_VALUE) {
                     etAmount.setError(null);
                 }
 
@@ -277,7 +280,7 @@ public class ServiceFeeAdapter extends BaseAdapter<ServiceFee, BaseViewHolder> {
                     switch (editText.getId()) {
                         case R.id.etAmount:
                             try {
-                                if (getItem(getAdapterPosition() - 1).getType().equals(TYPE_PERCENT) && Double.parseDouble(editText.getText().toString()) > 100) {
+                                if (getItem(getAdapterPosition() - 1).getType() == TYPE_PERCENT && Double.parseDouble(editText.getText().toString()) > 100) {
                                     etAmount.setError(context.getString(R.string.percent_can_not_be_more_hunder));
                                     return;
                                 }
@@ -338,7 +341,7 @@ public class ServiceFeeAdapter extends BaseAdapter<ServiceFee, BaseViewHolder> {
             initTextWatcher(etReason);
 
             spType.setItemSelectionListener((view, position) -> {
-                if (getTypeFromPosition(position).equals(TYPE_VALUE)) {
+                if (getTypeFromPosition(position) == (TYPE_VALUE)) {
                     etAmount.setError(null);
                 }
 
@@ -359,6 +362,8 @@ public class ServiceFeeAdapter extends BaseAdapter<ServiceFee, BaseViewHolder> {
                     try {
                         if (spType.getSelectedPosition() == 0 && Double.parseDouble(etAmount.getText().toString()) > 100) {
                             etAmount.setError(context.getString(R.string.percent_can_not_be_more_hunder));
+                        } else if (etReason.getText().toString().isEmpty()) {
+                            etReason.setError(context.getString(R.string.enter_service_fee_name));
                         } else {
                             ServiceFee serviceFee = new ServiceFee();
                             serviceFee.setAmount(Double.parseDouble(etAmount.getText().toString()));
@@ -539,35 +544,43 @@ public class ServiceFeeAdapter extends BaseAdapter<ServiceFee, BaseViewHolder> {
         }
     }
 
-    private int getTypePositionFromConst(String type) {
-        if (type.equals(TYPE_PERCENT)) {
-            return 0;
-        } else {
-            return 1;
+    private int getTypePositionFromConst(int type) {
+        switch (type) {
+            case TYPE_PERCENT:
+                return 0;
+            case TYPE_VALUE:
+                return 1;
+            case TYPE_REPRICE:
+                return 2;
         }
-    }
-
-    private int getAppTypePositionFromConst(String appType) {
-        if (appType.equals(APP_TYPE_ITEM)) {
-            return 0;
-        } else if (appType.equals(APP_TYPE_ORDER)) {
-            return 1;
-        } else if (appType.equals(APP_TYPE_ALL)) {
-            return 2;
-        }
-
         return 0;
     }
 
-    private String getTypeFromPosition(int position) {
-        if (position == 0) {
-            return TYPE_PERCENT;
-        } else {
-            return TYPE_VALUE;
+    private int getAppTypePositionFromConst(int appType) {
+        switch (appType) {
+            case APP_TYPE_ITEM:
+                return 0;
+            case APP_TYPE_ORDER:
+                return 1;
+            case APP_TYPE_ALL:
+                return 2;
         }
+        return 0;
     }
 
-    private String getAppTypeFromPosition(int position) {
+    private int getTypeFromPosition(int position) {
+        switch (position) {
+            case 0:
+                return TYPE_PERCENT;
+            case 1:
+                return TYPE_VALUE;
+            case 2:
+                return TYPE_REPRICE;
+        }
+        return 0;
+    }
+
+    private int getAppTypeFromPosition(int position) {
         switch (position) {
             case 0:
                 return APP_TYPE_ITEM;
@@ -576,7 +589,6 @@ public class ServiceFeeAdapter extends BaseAdapter<ServiceFee, BaseViewHolder> {
             case 2:
                 return APP_TYPE_ALL;
         }
-
-        return "";
+        return 0;
     }
 }

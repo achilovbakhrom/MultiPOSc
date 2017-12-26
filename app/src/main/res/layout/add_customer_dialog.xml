@@ -9,16 +9,17 @@
 
     <LinearLayout
         android:layout_width="@dimen/four_hundred_sixty_dp"
-        android:layout_height="@dimen/two_hundred_sixty_dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/rounded_edit_text_bg"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/seventy_dp"
+            android:layout_height="@dimen/sixty_dp"
             android:background="@drawable/rounded_blue_bg">
 
             <TextView
+                android:id="@+id/tvDialogTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -41,44 +42,123 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/ten_dp"
                 android:orientation="horizontal"
+                android:paddingLeft="@dimen/thirty_dp"
+                android:paddingRight="@dimen/thirty_dp"
                 android:paddingTop="@dimen/twenty_dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/thirty_dp"
-                    android:background="@drawable/edit_text_bg"
-                    android:gravity="center"
-                    android:paddingBottom="@dimen/five_dp"
-                    android:paddingLeft="@dimen/ten_dp"
-                    android:paddingRight="@dimen/ten_dp"
-                    android:paddingTop="@dimen/five_dp"
-                    android:text="ID:" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="@dimen/fifteen_dp"
-                    android:background="@drawable/edit_text_bg"
-                    android:gravity="center"
-                    android:paddingBottom="@dimen/five_dp"
-                    android:paddingLeft="@dimen/ten_dp"
-                    android:paddingRight="@dimen/ten_dp"
-                    android:paddingTop="@dimen/five_dp"
-                    android:text="1452" />
-
-                <com.jim.mpviews.MpEditText
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="@dimen/sixty_dp"
                     android:layout_height="@dimen/forty_dp"
-                    android:layout_marginRight="@dimen/thirty_dp"
-                    android:layout_weight="1" />
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="@dimen/fifteen_dp"
+                    android:gravity="left"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/five_dp"
+                    android:paddingRight="@dimen/five_dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/id"
+                        android:textSize="@dimen/sixteen_dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="@dimen/five_dp"
+                        android:text=" : " />
+
+                    <TextView
+                        android:id="@+id/tvClientId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textSize="@dimen/sixteen_dp" />
+
+                </LinearLayout>
+
             </LinearLayout>
 
-            <com.jim.mpviews.MpEditText
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/forty_dp"
-                android:layout_marginLeft="@dimen/thirty_dp"
-                android:layout_marginRight="@dimen/thirty_dp" />
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/thirty_dp"
+                android:paddingRight="@dimen/thirty_dp">
+
+                <TextView
+                    android:layout_width="@dimen/sixty_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/fifteen_dp"
+                    android:text="@string/name"
+                    android:textSize="@dimen/sixteen_dp" />
+
+                <com.jim.mpviews.MpEditText
+                    android:id="@+id/etCustomerName"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/forty_dp"
+                    android:layout_weight="1"
+                    android:hint="@string/name"
+                    android:textColorHint="@color/colorTextHint"
+                    android:textSize="@dimen/sixteen_dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/thirty_dp"
+                android:paddingRight="@dimen/thirty_dp">
+
+                <TextView
+                    android:layout_width="@dimen/sixty_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/fifteen_dp"
+                    android:text="@string/phone"
+                    android:textSize="@dimen/sixteen_dp" />
+
+                <com.jim.mpviews.MpEditText
+                    android:id="@+id/etCustomerContact"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/forty_dp"
+                    android:hint="@string/phone"
+                    android:inputType="numberDecimal"
+                    android:textColorHint="@color/colorTextHint"
+                    android:textSize="@dimen/sixteen_dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/thirty_dp"
+                android:paddingRight="@dimen/thirty_dp">
+
+
+                <TextView
+                    android:layout_width="@dimen/sixty_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/fifteen_dp"
+                    android:text="@string/address"
+                    android:textSize="@dimen/sixteen_dp" />
+
+                <com.jim.mpviews.MpEditText
+                    android:id="@+id/etCustomerAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/forty_dp"
+                    android:hint="@string/address"
+                    android:inputType="numberDecimal"
+                    android:textColorHint="@color/colorTextHint"
+                    android:textSize="@dimen/sixteen_dp" />
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -86,25 +166,28 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/ten_dp"
             android:gravity="center"
             android:orientation="horizontal">
 
             <com.jim.mpviews.MpButton
-                android:layout_width="@dimen/hundred_eighty_dp"
-                android:layout_height="@dimen/seventy_dp"
+                android:id="@+id/btnBack"
+                android:layout_width="@dimen/hundred_sixty_dp"
+                android:layout_height="@dimen/sixty_dp"
                 android:gravity="center"
-                android:text="Cancel"
+                android:text="@string/back"
                 android:textColor="@color/colorSecondaryText"
-                android:textSize="@dimen/eighteen_dp" />
+                android:textSize="@dimen/sixteen_dp" />
 
 
             <com.jim.mpviews.MpButton
-                android:layout_width="@dimen/hundred_eighty_dp"
-                android:layout_height="@dimen/seventy_dp"
+                android:id="@+id/btnAddSave"
+                android:layout_width="@dimen/hundred_sixty_dp"
+                android:layout_height="@dimen/sixty_dp"
                 android:gravity="center"
-                android:text="Add"
-                android:textColor="@color/colorDarkGreenSecond"
-                android:textSize="@dimen/eighteen_dp"
+                android:text="@string/add"
+                android:textColor="@color/colorGreenLight"
+                android:textSize="@dimen/sixteen_dp"
                 android:textStyle="bold" />
 
         </LinearLayout>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llSettingsMenu"
+    android:layout_width="@dimen/three_hundred_dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/menu_plate"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvCashManagement"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/ten_dp"
+        android:layout_marginTop="@dimen/twenty_dp"
+        android:gravity="center"
+        android:text="Cash management" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="@dimen/twenty_dp"
+        android:layout_marginRight="@dimen/twenty_dp"
+        android:background="@color/colorTextHint" />
+
+    <TextView
+        android:id="@+id/tvReturns"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/ten_dp"
+        android:layout_marginTop="@dimen/ten_dp"
+        android:gravity="center"
+        android:text="Returns" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="@dimen/twenty_dp"
+        android:layout_marginRight="@dimen/twenty_dp"
+        android:background="@color/colorTextHint" />
+
+    <TextView
+        android:id="@+id/tvSettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/ten_dp"
+        android:layout_marginTop="@dimen/ten_dp"
+        android:gravity="center"
+        android:text="Settings" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="@dimen/twenty_dp"
+        android:layout_marginRight="@dimen/twenty_dp"
+        android:background="@color/colorTextHint" />
+
+    <TextView
+        android:id="@+id/tvLogOut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/ten_dp"
+        android:layout_marginTop="@dimen/ten_dp"
+        android:gravity="center"
+        android:text="Log out" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="@dimen/twenty_dp"
+        android:layout_marginRight="@dimen/twenty_dp"
+        android:background="@color/colorTextHint" />
+
+    <TextView
+        android:id="@+id/tvClose"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/ten_dp"
+        android:layout_marginTop="@dimen/ten_dp"
+        android:gravity="center"
+        android:text="Close" />
+
+</LinearLayout>

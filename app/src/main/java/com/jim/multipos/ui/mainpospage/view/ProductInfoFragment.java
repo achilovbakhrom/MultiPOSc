@@ -116,7 +116,7 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
                 }
 
                 @Override
-                public void addServiceFee(double amount, String description, String amountType) {
+                public void addServiceFee(double amount, String description, int amountType) {
                     presenter.addServiceFee(amount, description, amountType);
                 }
             });

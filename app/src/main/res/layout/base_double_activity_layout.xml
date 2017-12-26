@@ -15,9 +15,11 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/eighty_dp" />
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -43,6 +45,7 @@
                         android:layout_width="@dimen/ten_dp"
                         android:layout_height="match_parent"
                         android:src="@drawable/from_right_to_left_shadow" />
+
                     <FrameLayout
                         android:id="@+id/flRightTop"
                         android:layout_width="match_parent"
@@ -50,11 +53,74 @@
                 </RelativeLayout>
 
             </LinearLayout>
+
             <FrameLayout
                 android:id="@+id/flFullContainer"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                />
+                android:layout_height="match_parent" />
         </FrameLayout>
     </LinearLayout>
+
+    <!--<LinearLayout-->
+        <!--android:id="@+id/llSettingsMenu"-->
+        <!--android:visibility="gone"-->
+        <!--android:layout_width="@dimen/three_hundred_dp"-->
+        <!--android:layout_height="@dimen/two_hundred_fifty_dp"-->
+        <!--android:layout_marginLeft="@dimen/eighty_two_dp"-->
+        <!--android:layout_marginTop="@dimen/fifty_dp"-->
+        <!--android:background="@drawable/menu_plate"-->
+        <!--android:orientation="vertical">-->
+
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginBottom="@dimen/ten_dp"-->
+            <!--android:layout_marginTop="@dimen/twenty_dp"-->
+            <!--android:gravity="center"-->
+            <!--android:text="Cash management" />-->
+
+        <!--<FrameLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1px"-->
+            <!--android:layout_marginLeft="@dimen/twenty_dp"-->
+            <!--android:layout_marginRight="@dimen/twenty_dp"-->
+            <!--android:background="@color/colorTextHint" />-->
+
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginBottom="@dimen/ten_dp"-->
+            <!--android:layout_marginTop="@dimen/ten_dp"-->
+            <!--android:gravity="center"-->
+            <!--android:text="Returns" />-->
+
+        <!--<FrameLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1px"-->
+            <!--android:layout_marginLeft="@dimen/twenty_dp"-->
+            <!--android:layout_marginRight="@dimen/twenty_dp"-->
+            <!--android:background="@color/colorTextHint" />-->
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginBottom="@dimen/ten_dp"-->
+            <!--android:layout_marginTop="@dimen/ten_dp"-->
+            <!--android:gravity="center"-->
+            <!--android:text="Settings" />-->
+
+        <!--<FrameLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1px"-->
+            <!--android:layout_marginLeft="@dimen/twenty_dp"-->
+            <!--android:layout_marginRight="@dimen/twenty_dp"-->
+            <!--android:background="@color/colorTextHint" />-->
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginBottom="@dimen/ten_dp"-->
+            <!--android:layout_marginTop="@dimen/ten_dp"-->
+            <!--android:gravity="center"-->
+            <!--android:text="Log out" />-->
+
+    <!--</LinearLayout>-->
 </FrameLayout>

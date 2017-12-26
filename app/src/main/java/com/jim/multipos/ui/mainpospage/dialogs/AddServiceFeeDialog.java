@@ -25,9 +25,9 @@ import butterknife.Unbinder;
 import eu.inmite.android.lib.validations.form.FormValidator;
 import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 
-import static com.jim.multipos.ui.service_fee_new.Constants.TYPE_PERCENT;
-import static com.jim.multipos.ui.service_fee_new.Constants.TYPE_REPRICE;
-import static com.jim.multipos.ui.service_fee_new.Constants.TYPE_VALUE;
+import static com.jim.multipos.data.db.model.ServiceFee.TYPE_PERCENT;
+import static com.jim.multipos.data.db.model.ServiceFee.TYPE_REPRICE;
+import static com.jim.multipos.data.db.model.ServiceFee.TYPE_VALUE;
 
 /**
  * Created by Portable-Acer on 11.11.2017.
@@ -36,7 +36,8 @@ import static com.jim.multipos.ui.service_fee_new.Constants.TYPE_VALUE;
 public class AddServiceFeeDialog extends DialogFragment {
     public interface OnServiceFeeDialogListener {
         void dismiss();
-        void addServiceFee(double amount, String description, String amountType);
+
+        void addServiceFee(double amount, String description, int amountType);
     }
 
     @BindView(R.id.tsServiceFeeType)
@@ -82,6 +83,8 @@ public class AddServiceFeeDialog extends DialogFragment {
             } else if (isRight) {
                 checkAmount();
             }
+
+
         });
 
         RxView.clicks(btnCancel).subscribe(o -> {
@@ -95,8 +98,10 @@ public class AddServiceFeeDialog extends DialogFragment {
 
                     if (tsServiceFeeType.isCenter() && amount > 100) {
                         etAmount.setError(getString(R.string.percent_can_not_be_more_hunder));
+                    } else if (etDescription.getText().toString().isEmpty()) {
+                        etDescription.setError(getContext().getString(R.string.enter_service_fee_name));
                     } else {
-                        String amountType = null;
+                        int amountType = 0;
 
                         if (tsServiceFeeType.isLeft()) {
                             amountType = TYPE_VALUE;

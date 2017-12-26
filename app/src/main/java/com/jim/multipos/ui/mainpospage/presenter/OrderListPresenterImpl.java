@@ -16,7 +16,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import static com.jim.multipos.ui.service_fee_new.Constants.TYPE_REPRICE;
+import static com.jim.multipos.data.db.model.ServiceFee.TYPE_REPRICE;
 
 /**
  * Created by Portable-Acer on 27.10.2017.
@@ -62,7 +62,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
     }
 
     @Override
-    public void addServiceFee(double amount, String description, String amountType) {
+    public void addServiceFee(double amount, String description, int amountType) {
         ServiceFee serviceFee = new ServiceFee();
         serviceFee.setAmount(amount);
         serviceFee.setReason(description);
@@ -71,7 +71,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         serviceFee.setDeleted(false);
         serviceFee.setNotModifyted(true);
 
-        if (amountType.equals(TYPE_REPRICE)) {
+        if (amountType == (TYPE_REPRICE)) {
             serviceFee.setDeleted(true);
         }
 

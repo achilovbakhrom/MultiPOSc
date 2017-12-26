@@ -3,8 +3,7 @@ package com.jim.multipos.ui.mainpospage;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.format.Time;
-import android.util.Log;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextClock;
 import android.widget.TextView;
@@ -13,23 +12,19 @@ import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.R;
 import com.jim.multipos.core.DoubleSideActivity;
 import com.jim.multipos.data.DatabaseManager;
-import com.jim.multipos.data.db.model.Discount;
-import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.ui.main_menu.customers_menu.CustomersMenuActivity;
 import com.jim.multipos.ui.main_menu.inventory_menu.InventoryMenuActivity;
 import com.jim.multipos.ui.main_menu.product_menu.ProductMenuActivity;
 import com.jim.multipos.ui.mainpospage.view.OrderListFragment;
-import com.jim.multipos.ui.mainpospage.view.ProductInfoFragment;
 import com.jim.multipos.ui.mainpospage.view.ProductPickerFragment;
 import com.jim.multipos.ui.mainpospage.view.SearchModeFragment;
+import com.jim.multipos.utils.MainMenuDialog;
+import com.jim.multipos.utils.OrderMenuDialog;
 import com.jim.multipos.utils.RxBusLocal;
 import com.jim.multipos.utils.TestUtils;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -69,12 +64,18 @@ public class MainPosPageActivity extends DoubleSideActivity implements MainPosPa
         addFragmentToRight(new ProductPickerFragment());
 //        addFragmentWithTagToRight(new ProductInfoFragment(), "ProductInfoFragment");
 
+
+
         handler = new Handler();
         handler.post(timerUpdate);
 
         toolbar.setOnClickListener(view -> {
+
         });
+
         toolbar.setOnSettingsClickListener(view -> {
+            MainMenuDialog mainMenuDialog = new MainMenuDialog(this);
+            mainMenuDialog.show();
         });
         toolbar.setOnCustomerClickListener(view -> {
             Intent intent = new Intent(this, CustomersMenuActivity.class);
@@ -94,6 +95,11 @@ public class MainPosPageActivity extends DoubleSideActivity implements MainPosPa
         toolbar.setOnSearchClickListener(view -> {
             addFragmentToRight(new SearchModeFragment());
 
+        });
+
+        toolbar.setOnOrderClickListener(view -> {
+            OrderMenuDialog orderMenuDialog = new OrderMenuDialog(this);
+            orderMenuDialog.show();
         });
 //        ArrayList<Contact>  contactsTemp = new ArrayList<>();
 //        for(int i=0;i<1000000;i++) {

@@ -12,14 +12,22 @@
         android:orientation="horizontal">
 
         <com.jim.mpviews.MpEditText
+            android:id="@+id/etReason"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/forty_five_dp"
+            android:layout_marginRight="@dimen/ten_dp"
+            android:layout_weight="1"
+            android:hint="@string/name"
+            android:inputType="textCapWords|textNoSuggestions"
+            android:textSize="@dimen/sixteen_dp" />
+
+        <com.jim.mpviews.MpEditText
             android:id="@+id/etAmount"
             android:layout_width="@dimen/two_hundred_dp"
             android:layout_height="@dimen/forty_five_dp"
             android:layout_marginRight="@dimen/ten_dp"
-            android:hint="Value"
+            android:hint="@string/value"
             android:inputType="numberDecimal"
-            android:paddingLeft="@dimen/sixteen_dp"
-            android:paddingRight="@dimen/ten_dp"
             android:textSize="@dimen/sixteen_dp" />
 
         <com.jim.mpviews.MPosSpinner
@@ -27,18 +35,6 @@
             android:layout_width="@dimen/hundred_fifty_dp"
             android:layout_height="@dimen/forty_five_dp"
             android:layout_marginRight="@dimen/ten_dp" />
-
-        <com.jim.mpviews.MpEditText
-            android:id="@+id/etReason"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/forty_five_dp"
-            android:layout_marginRight="@dimen/ten_dp"
-            android:layout_weight="1"
-            android:hint="Description"
-            android:inputType="textCapWords|textNoSuggestions"
-            android:paddingLeft="@dimen/sixteen_dp"
-            android:paddingRight="@dimen/ten_dp"
-            android:textSize="@dimen/sixteen_dp" />
 
         <com.jim.mpviews.MPosSpinner
             android:id="@+id/spAppType"

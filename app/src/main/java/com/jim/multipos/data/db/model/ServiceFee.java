@@ -11,12 +11,20 @@ import org.greenrobot.greendao.annotation.Id;
 
 @Entity(nameInDb = "SERVICE_FEE", active = true)
 public class ServiceFee implements Editable {
+
+    public static final int TYPE_PERCENT = 100;
+    public static final int TYPE_VALUE = 101;
+    public static final int TYPE_REPRICE = 102;
+    public static final int APP_TYPE_ITEM = 1000;
+    public static final int APP_TYPE_ORDER = 1001;
+    public static final int APP_TYPE_ALL = 1002;
+
     @Id(autoincrement = true)
     private Long id;
     private Double amount;
-    private String type;
+    private int type;
     private String reason;
-    private String applyingType;
+    private int applyingType;
     private boolean isActive;
     private boolean isDeleted;
     private boolean notModifyted = true;
@@ -29,10 +37,15 @@ public class ServiceFee implements Editable {
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
 
-    @Generated(hash = 690553169)
-    public ServiceFee(Long id, Double amount, String type, String reason,
-            String applyingType, boolean isActive, boolean isDeleted,
-            boolean notModifyted, Long rootId, Long createdDate) {
+
+    @Generated(hash = 1970278224)
+    public ServiceFee() {
+    }
+
+    @Generated(hash = 1258885788)
+    public ServiceFee(Long id, Double amount, int type, String reason, int applyingType,
+            boolean isActive, boolean isDeleted, boolean notModifyted, Long rootId,
+            Long createdDate) {
         this.id = id;
         this.amount = amount;
         this.type = type;
@@ -45,10 +58,6 @@ public class ServiceFee implements Editable {
         this.createdDate = createdDate;
     }
 
-    @Generated(hash = 1970278224)
-    public ServiceFee() {
-    }
-
     public Boolean getIsActive() {
         return this.isActive;
     }
@@ -57,28 +66,12 @@ public class ServiceFee implements Editable {
         this.isActive = isActive;
     }
 
-    public String getApplyingType() {
-        return this.applyingType;
-    }
-
-    public void setApplyingType(String applyingType) {
-        this.applyingType = applyingType;
-    }
-
     public String getReason() {
         return this.reason;
     }
 
     public void setReason(String reason) {
         this.reason = reason;
-    }
-
-    public String getType() {
-        return this.type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public Double getAmount() {
@@ -212,5 +205,21 @@ public class ServiceFee implements Editable {
 
     public void setIsDeleted(boolean isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public Integer getApplyingType() {
+        return this.applyingType;
+    }
+
+    public void setApplyingType(int applyingType) {
+        this.applyingType = applyingType;
+    }
+
+    public Integer getType() {
+        return this.type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 }

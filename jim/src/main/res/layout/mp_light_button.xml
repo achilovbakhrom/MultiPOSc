@@ -4,6 +4,7 @@
     android:layout_height="wrap_content">
 
     <RelativeLayout
+        android:id="@+id/mpRelativeL"
         android:layout_width="@dimen/sixty_dp"
         android:layout_height="@dimen/thirty_five_dp">
 
@@ -16,7 +17,6 @@
             android:scaleType="centerInside" />
 
         <RelativeLayout
-            android:id="@+id/mpRelativeL"
             android:layout_width="@dimen/sixty_dp"
             android:layout_height="@dimen/thirty_five_dp"
             android:gravity="center">

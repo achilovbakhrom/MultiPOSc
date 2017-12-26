@@ -373,6 +373,7 @@
     <string-array name="service_fee_type">
         <item>Percent</item>
         <item>Value</item>
+        <item>Reprice</item>
     </string-array>
     <string-array name="service_fee_app_type">
         <item>Item</item>
@@ -547,6 +548,14 @@
     <string name="paid">Paid:</string>
     <string name="select_date">Select Date Interval</string>
     <string name="warning_till_account">You must create at least one to till account</string>
+    <string name="customer_name">Customer name</string>
+    <string name="choose_customer">Choose Customer</string>
+    <string name="contact">Contact</string>
+    <string name="new_customer">New Customer</string>
+    <string name="add_to_order">Add to Order</string>
+    <string name="update_customer">Update customer</string>
+    <string name="select">Select</string>
+    <string name="enter_service_fee_name">Enter service fee reason</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>

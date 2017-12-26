@@ -7,45 +7,46 @@
         android:id="@+id/mpMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
         android:background="@drawable/toolbar_full"
-        >
+        android:orientation="horizontal">
 
         <RelativeLayout
             android:id="@+id/mpLeftSide"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="43"
-            >
+            android:layout_weight="43">
 
             <ImageView
                 android:layout_width="@dimen/hundred_thirty_dp"
                 android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/twenty_dp"
+                android:adjustViewBounds="true"
                 android:paddingTop="@dimen/ten_dp"
                 android:src="@drawable/posmen" />
 
-            <ImageView
-                android:id="@+id/mpSettings"
-                android:layout_width="@dimen/seventy_dp"
-                android:layout_height="@dimen/forty_five_dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/thirty_dp"
-                android:layout_marginRight="@dimen/eighteen_dp"
-                android:layout_toLeftOf="@+id/mpHorRoller"
-                android:src="@drawable/settings_blue" />
-
-            <com.jim.mpviews.MpHorizontalScroller
-                android:id="@+id/mpHorRoller"
-                android:layout_width="@dimen/two_hundred_thirty_five_dp"
-                android:layout_height="@dimen/forty_five_dp"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/twenty_dp" />
+                android:orientation="horizontal">
 
+                <ImageView
+                    android:id="@+id/mpSettings"
+                    android:layout_width="@dimen/seventy_dp"
+                    android:layout_height="@dimen/forty_five_dp"
+                    android:layout_marginLeft="@dimen/thirty_dp"
+                    android:layout_marginRight="@dimen/eighteen_dp"
+                    android:src="@drawable/settings_blue" />
+
+                <com.jim.mpviews.MpHorizontalScroller
+                    android:id="@+id/mpHorRoller"
+                    android:layout_width="@dimen/two_hundred_thirty_five_dp"
+                    android:layout_height="@dimen/forty_five_dp"
+                    android:layout_marginRight="@dimen/twenty_dp" />
+            </LinearLayout>
 
         </RelativeLayout>
 
@@ -53,8 +54,8 @@
             android:id="@+id/rlBackgroun"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="57"
-            >
+            android:layout_weight="57">
+
             <RelativeLayout
                 android:id="@+id/mpRightSide"
                 android:layout_width="match_parent"
@@ -76,7 +77,6 @@
                         android:orientation="horizontal">
 
 
-
                         <LinearLayout
                             android:id="@+id/llEmployer"
                             android:layout_width="wrap_content"
@@ -89,8 +89,8 @@
                                 android:id="@+id/tvTime"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="@dimen/twenty_dp"
-                                android:textColor="@color/colorWhite"/>
+                                android:textColor="@color/colorWhite"
+                                android:textSize="@dimen/twenty_dp" />
 
                             <!--<TextView
                                 android:id="@+id/tvTime"
@@ -105,8 +105,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Some role"
-                                android:textSize="@dimen/sixteen_dp"
-                                android:textColor="@color/colorGrey" />
+                                android:textColor="@color/colorGrey"
+                                android:textSize="@dimen/sixteen_dp" />
 
                         </LinearLayout>
 
@@ -119,27 +119,30 @@
 
 
                     <RelativeLayout
-                        android:layout_width="0dp"
                         android:id="@+id/mpProducts"
+                        android:layout_width="0dp"
 
                         android:layout_height="match_parent"
                         android:layout_weight="1">
+
                         <FrameLayout
                             android:id="@+id/productLine"
                             android:layout_width="1px"
                             android:layout_height="match_parent"
                             android:background="#20ffffff" />
+
                         <ImageView
                             android:id="@+id/productPressed"
                             android:layout_width="match_parent"
-                            android:visibility="gone"
                             android:layout_height="match_parent"
-                            android:src="#0a000000"/>
+                            android:src="#0a000000"
+                            android:visibility="gone" />
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
                             android:layout_centerInParent="true"
+                            android:layout_gravity="center"
                             android:orientation="vertical">
 
                             <ImageView
@@ -155,8 +158,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:text="Product"
-                                android:textSize="@dimen/fourteen_dp"
-                                android:textColor="@color/colorWhite" />
+                                android:textColor="@color/colorWhite"
+                                android:textSize="@dimen/fourteen_dp" />
 
                         </LinearLayout>
 
@@ -168,16 +171,18 @@
                         android:background="#20000000" />
 
                     <RelativeLayout
-                        android:layout_width="0dp"
                         android:id="@+id/mpReports"
+                        android:layout_width="0dp"
 
                         android:layout_height="match_parent"
                         android:layout_weight="1">
+
                         <FrameLayout
                             android:id="@+id/reportLine"
                             android:layout_width="1px"
                             android:layout_height="match_parent"
                             android:background="#20ffffff" />
+
                         <ImageView
                             android:id="@+id/reportPressed"
                             android:layout_width="match_parent"
@@ -185,6 +190,7 @@
 
                             android:src="#0a000000"
                             android:visibility="gone" />
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -205,42 +211,43 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:text="Reports"
-                                android:textSize="@dimen/fourteen_dp"
-                                android:textColor="@color/colorWhite" />
+                                android:textColor="@color/colorWhite"
+                                android:textSize="@dimen/fourteen_dp" />
 
                         </LinearLayout>
                     </RelativeLayout>
+
                     <FrameLayout
                         android:layout_width="1px"
                         android:layout_height="match_parent"
                         android:background="#20000000" />
 
 
-
-
-
                     <RelativeLayout
+                        android:id="@+id/mpCustomers"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:id="@+id/mpCustomers"
                         android:layout_weight="1">
+
                         <FrameLayout
                             android:id="@+id/customerLine"
                             android:layout_width="1px"
                             android:layout_height="match_parent"
                             android:background="#20ffffff" />
+
                         <ImageView
                             android:id="@+id/customerPressed"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:visibility="gone"
+                            android:src="#0a000000"
 
-                            android:src="#0a000000"/>
+                            android:visibility="gone" />
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
                             android:layout_centerInParent="true"
+                            android:layout_gravity="center"
                             android:orientation="vertical">
 
                             <ImageView
@@ -256,39 +263,43 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:text="Customers"
-                                android:textSize="@dimen/fourteen_dp"
+                                android:textColor="@color/colorWhite"
 
-                                android:textColor="@color/colorWhite" />
+                                android:textSize="@dimen/fourteen_dp" />
 
                         </LinearLayout>
                     </RelativeLayout>
+
                     <FrameLayout
                         android:layout_width="1px"
                         android:layout_height="match_parent"
                         android:background="#20000000" />
 
                     <RelativeLayout
+                        android:id="@+id/mpInventory"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:id="@+id/mpInventory"
                         android:layout_weight="1">
+
                         <FrameLayout
                             android:id="@+id/inventoryLine"
                             android:layout_width="1px"
                             android:layout_height="match_parent"
                             android:background="#20ffffff" />
+
                         <ImageView
                             android:id="@+id/inventoryPressed"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:visibility="gone"
+                            android:src="#0a000000"
 
-                            android:src="#0a000000"/>
+                            android:visibility="gone" />
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
                             android:layout_centerInParent="true"
+                            android:layout_gravity="center"
                             android:orientation="vertical">
 
                             <ImageView
@@ -304,13 +315,14 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:text="Inventory"
-                                android:textSize="@dimen/fourteen_dp"
+                                android:textColor="@color/colorWhite"
 
-                                android:textColor="@color/colorWhite" />
+                                android:textSize="@dimen/fourteen_dp" />
 
                         </LinearLayout>
 
                     </RelativeLayout>
+
                     <FrameLayout
                         android:id="@+id/blackLine"
                         android:layout_width="1px"
@@ -319,24 +331,26 @@
                         android:visibility="gone" />
 
                     <RelativeLayout
+                        android:id="@+id/mpInfo"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:visibility="gone"
-                        android:id="@+id/mpInfo"
-                        android:layout_weight="1">
+                        android:layout_weight="1"
+                        android:visibility="gone">
+
                         <FrameLayout
                             android:id="@+id/whiteLine"
 
                             android:layout_width="1px"
                             android:layout_height="match_parent"
                             android:background="#20ffffff" />
+
                         <ImageView
                             android:id="@+id/infoPressed"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:visibility="visible"
+                            android:src="#0a000000"
 
-                            android:src="#0a000000"/>
+                            android:visibility="visible" />
 
 
                         <LinearLayout
@@ -354,6 +368,7 @@
                                 android:src="@drawable/info" />
                         </LinearLayout>
                     </RelativeLayout>
+
                     <FrameLayout
                         android:layout_width="1px"
                         android:layout_height="match_parent"
@@ -361,27 +376,29 @@
 
 
                     <RelativeLayout
+                        android:id="@+id/mpSearch"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:id="@+id/mpSearch"
                         android:layout_weight="1">
+
                         <FrameLayout
                             android:id="@+id/searchLine"
                             android:layout_width="1px"
                             android:layout_height="match_parent"
                             android:background="#20ffffff" />
+
                         <ImageView
                             android:id="@+id/searchPressed"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:visibility="gone"
-                            android:src="#0a000000"/>
+                            android:src="#0a000000"
+                            android:visibility="gone" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
                             android:layout_centerInParent="true"
+                            android:layout_gravity="center"
                             android:gravity="center"
                             android:orientation="vertical">
 
@@ -397,46 +414,48 @@
             </RelativeLayout>
 
             <LinearLayout
-                android:layout_alignParentRight="true"
-                android:paddingRight="@dimen/thirty_dp"
-                android:orientation="horizontal"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_height="wrap_content">
+                android:orientation="horizontal"
+                android:paddingRight="@dimen/thirty_dp">
 
                 <LinearLayout
                     android:id="@+id/llDateIntervalPicker"
                     android:layout_width="@dimen/three_hundred_dp"
                     android:layout_height="@dimen/forty_dp"
                     android:layout_marginRight="@dimen/thirty_dp"
-                    android:orientation="horizontal"
-                    android:background="@drawable/edit_text_bg">
+                    android:background="@drawable/edit_text_bg"
+                    android:orientation="horizontal">
+
                     <TextView
                         android:id="@+id/tvPeriod"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
                         android:layout_marginLeft="@dimen/sixteen_dp"
-                        android:textSize="@dimen/sixteen_dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
                         android:textColor="#414141"
-                        android:gravity="center_vertical"/>
+                        android:textSize="@dimen/sixteen_dp" />
+
                     <FrameLayout
                         android:layout_width="2px"
                         android:layout_height="match_parent"
-                        android:background="#e8e8e8"
-                        android:layout_marginTop="@dimen/ten_dp"
                         android:layout_marginBottom="@dimen/ten_dp"
-                        android:layout_marginRight="@dimen/ten_dp"
                         android:layout_marginLeft="@dimen/ten_dp"
-                        />
+                        android:layout_marginRight="@dimen/ten_dp"
+                        android:layout_marginTop="@dimen/ten_dp"
+                        android:background="#e8e8e8" />
+
                     <ImageView
                         android:id="@+id/ivClearInterval"
                         android:layout_width="@dimen/forty_dp"
                         android:layout_height="@dimen/forty_dp"
-                        android:padding="@dimen/seven_dp"
                         android:layout_gravity="center_vertical"
-                        android:src="@drawable/calendar_icon"
-                        android:layout_marginRight="@dimen/sixteen_dp"/>
+                        android:layout_marginRight="@dimen/sixteen_dp"
+                        android:padding="@dimen/seven_dp"
+                        android:src="@drawable/calendar_icon" />
 
                 </LinearLayout>
 
@@ -449,8 +468,6 @@
             </LinearLayout>
 
         </RelativeLayout>
-
-
 
 
     </LinearLayout>

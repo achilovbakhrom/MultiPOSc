@@ -1,6 +1,7 @@
 package com.jim.mpviews;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
@@ -63,95 +64,47 @@ public class MpHorizontalScroller extends LinearLayout {
         mpCenter = (ImageView) findViewById(R.id.mpCenter);
         mpLeftArrow = (ImageView) findViewById(R.id.mpLeftArrow);
         mpRightArrow = (ImageView) findViewById(R.id.mpRightArrow);
+        Drawable buttonDrawable = context.getResources().getDrawable(R.drawable.right_arrow_selector);
+        buttonDrawable.mutate();
+        mpRightArrow.setImageDrawable(buttonDrawable);
+        Drawable drawable = context.getResources().getDrawable(R.drawable.left_arrow_selector);
+        buttonDrawable.mutate();
+        mpLeftArrow.setImageDrawable(drawable);
+        Drawable drawable1 = context.getResources().getDrawable(R.drawable.center_btn_selector);
+        buttonDrawable.mutate();
+        mpCenter.setImageDrawable(drawable1);
 
 
-        mpLeftArrow.setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch (motionEvent.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        if (!pressed) {
-                            VibrateManager.startVibrate(context, 50);
-                            pressed = true;
-                        }
-                        mpLeftArrow.setImageResource(R.drawable.oreder_navigator_left_pressed);
-                        return false;
-                    case MotionEvent.ACTION_UP:
-                        pressed = false;
-                        mpLeftArrow.setImageResource(R.drawable.oreder_navigator_left);
-                        return false;
-                }
-                return false;
-            }
-        });
-        mpRightArrow.setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch (motionEvent.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        if (!pressed) {
-                            VibrateManager.startVibrate(context, 50);
-                            pressed = true;
-                        }
-                        mpRightArrow.setImageResource(R.drawable.oreder_navigator_right_pressed);
-                        return false;
-                    case MotionEvent.ACTION_UP:
-                        pressed = false;
-                        mpRightArrow.setImageResource(R.drawable.oreder_navigator_right);
-                        return false;
-                }
-                return false;
-            }
-        });
-        mpCenter.setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch (motionEvent.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        if (!pressed) {
-                            VibrateManager.startVibrate(context, 50);
-                            pressed = true;
-                        }
-                        mpCenter.setImageResource(R.drawable.oreder_navigator_center_pressed);
-                        return false;
-                    case MotionEvent.ACTION_UP:
-                        pressed = false;
-                        mpCenter.setImageResource(R.drawable.oreder_navigator_center);
-                        return false;
-                }
-                return false;
-            }
-        });
-        mpLeftArrow.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (counter > 0) {
-                    counter--;
-                } else {
-                    counter = 0;
-                }
-                if (!arrayList.isEmpty())
-                    mpCounter.setText(arrayList.get(counter));
-            }
-        });
-        mpRightArrow.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (counter < arrayList.size() - 1) {
-                    counter++;
-                } else {
-                    counter = arrayList.size() - 1;
-                }
-                if (!arrayList.isEmpty())
-                    mpCounter.setText(arrayList.get(counter));
-            }
-        });
-        mpCenter.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
+//        mpLeftArrow.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (counter > 0) {
+//                    counter--;
+//                } else {
+//                    counter = 0;
+//                }
+//                if (!arrayList.isEmpty())
+//                    mpCounter.setText(arrayList.get(counter));
+//            }
+//        });
+//        mpRightArrow.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (counter < arrayList.size() - 1) {
+//                    counter++;
+//                } else {
+//                    counter = arrayList.size() - 1;
+//                }
+//                if (!arrayList.isEmpty())
+//                    mpCounter.setText(arrayList.get(counter));
+//            }
+//        });
+//        mpCenter.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//            }
+//        });
     }
 
     public void setItems(ArrayList<String> items) {
