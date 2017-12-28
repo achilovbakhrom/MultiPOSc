@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     >
     <LinearLayout
+        android:id="@+id/llProduct"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#fff"
@@ -11,7 +12,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/twelve_dp"
+            android:layout_marginTop="@dimen/ten_dp"
             android:orientation="horizontal">
             <LinearLayout
                 android:layout_width="0dp"
@@ -25,6 +26,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:maxLines="2"
+                    android:layout_marginBottom="@dimen/five_dp"
+                    android:layout_marginTop="@dimen/five_dp"
                     android:textColor="#212121"
                     android:textSize="@dimen/fourteen_dp"
                     android:text="Coca cola 1.5l Black"/>
@@ -43,6 +46,9 @@
                         android:layout_height="@dimen/twenty_dp"
                         android:layout_gravity="center_vertical"
                         android:src="@drawable/left_arrow"
+                        android:layout_marginTop="@dimen/five_dp"
+                        android:layout_marginLeft="@dimen/ten_dp"
+                        android:layout_marginBottom="@dimen/five_dp"
                         />
                     <TextView
                         android:id="@+id/tvCountProduct"
@@ -59,6 +65,9 @@
                         android:layout_height="@dimen/twenty_dp"
                         android:src="@drawable/right_arrow"
                         android:layout_gravity="center_vertical"
+                        android:layout_marginTop="@dimen/five_dp"
+                        android:layout_marginRight="@dimen/ten_dp"
+                        android:layout_marginBottom="@dimen/five_dp"
                         />
 
                 </LinearLayout>
@@ -114,7 +123,7 @@
         <FrameLayout
             android:id="@+id/flHaveExtras"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/twelve_dp"/>
+            android:layout_height="@dimen/eight_dp"/>
         <LinearLayout
             android:id="@+id/llFirstChanger"
             android:layout_width="match_parent"
@@ -125,18 +134,21 @@
                 android:layout_weight="8"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/twenty_dp"
-                android:paddingRight="@dimen/ten_dp"
                 >
+
                 <TextView
                     android:id="@+id/tvFirstChangerName"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="match_parent"
                     android:maxLines="2"
                     android:textColor="#616161"
+                    android:layout_marginLeft="@dimen/twenty_dp"
                     android:textSize="@dimen/fourteen_dp"
                     android:gravity="right"
                     android:textStyle="italic"
                     android:text="Discount Nimadiram :"/>
+
             </LinearLayout>
 
             <LinearLayout
@@ -144,6 +156,7 @@
                 android:layout_weight="3"
                 android:layout_height="match_parent"
                 >
+
                 <TextView
                     android:id="@+id/tvFirstChangerToEach"
                     android:layout_width="match_parent"
@@ -184,18 +197,22 @@
                 android:layout_weight="8"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/twenty_dp"
-                android:paddingRight="@dimen/ten_dp"
                 >
+
                 <TextView
                     android:id="@+id/tvSecondChangerName"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="match_parent"
                     android:maxLines="2"
                     android:textColor="#616161"
                     android:textSize="@dimen/fourteen_dp"
                     android:gravity="right"
+                    android:layout_marginLeft="@dimen/twenty_dp"
+
                     android:textStyle="italic"
-                    android:text="Service Fee Qanaqadir :"/>
+                    android:text="Service Fee Qanaqadi as asasasassr :"/>
+
             </LinearLayout>
 
             <LinearLayout

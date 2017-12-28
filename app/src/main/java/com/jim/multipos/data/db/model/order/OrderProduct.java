@@ -14,7 +14,6 @@ import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 import com.jim.multipos.data.db.model.DaoSession;
 import com.jim.multipos.data.db.model.products.ProductDao;
-import org.greenrobot.greendao.annotation.NotNull;
 import com.jim.multipos.data.db.model.products.VendorDao;
 import com.jim.multipos.data.db.model.DiscountDao;
 import com.jim.multipos.data.db.model.ServiceFeeDao;
@@ -29,11 +28,11 @@ public class OrderProduct {
     private Long id;
     private long orderId;
 
-    private long productId;
+    private Long productId;
     @ToOne(joinProperty = "productId")
     private Product product;
 
-    private long vendorId;
+    private Long vendorId;
     @ToOne(joinProperty = "vendorId")
     private Vendor vendor;
 
@@ -41,15 +40,15 @@ public class OrderProduct {
     private double price;
     private int count;
     private double sum;
-    private double firstValueChanger;
-    private double secondValueChanger;
+    private double discountAmount;
+    private double serviceAmount;
     private String discription;
 
-    private long discountId;
+    private Long discountId;
     @ToOne(joinProperty = "discountId")
     private Discount discount;
 
-    private long serviceFeeId;
+    private Long serviceFeeId;
     @ToOne(joinProperty = "serviceFeeId")
     private ServiceFee serviceFee;
     /**
@@ -86,22 +85,18 @@ public class OrderProduct {
         myDao.delete(this);
     }
     /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 868197846)
-    public void setServiceFee(@NotNull ServiceFee serviceFee) {
-        if (serviceFee == null) {
-            throw new DaoException(
-                    "To-one property 'serviceFeeId' has not-null constraint; cannot set to-one to null");
-        }
+    @Generated(hash = 233696324)
+    public void setServiceFee(ServiceFee serviceFee) {
         synchronized (this) {
             this.serviceFee = serviceFee;
-            serviceFeeId = serviceFee.getId();
+            serviceFeeId = serviceFee == null ? null : serviceFee.getId();
             serviceFee__resolvedKey = serviceFeeId;
         }
     }
     /** To-one relationship, resolved on first access. */
-    @Generated(hash = 1189758955)
+    @Generated(hash = 416102326)
     public ServiceFee getServiceFee() {
-        long __key = this.serviceFeeId;
+        Long __key = this.serviceFeeId;
         if (serviceFee__resolvedKey == null
                 || !serviceFee__resolvedKey.equals(__key)) {
             final DaoSession daoSession = this.daoSession;
@@ -120,22 +115,18 @@ public class OrderProduct {
     @Generated(hash = 1123616640)
     private transient Long serviceFee__resolvedKey;
     /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 1061119129)
-    public void setDiscount(@NotNull Discount discount) {
-        if (discount == null) {
-            throw new DaoException(
-                    "To-one property 'discountId' has not-null constraint; cannot set to-one to null");
-        }
+    @Generated(hash = 761713010)
+    public void setDiscount(Discount discount) {
         synchronized (this) {
             this.discount = discount;
-            discountId = discount.getId();
+            discountId = discount == null ? null : discount.getId();
             discount__resolvedKey = discountId;
         }
     }
     /** To-one relationship, resolved on first access. */
-    @Generated(hash = 1929929130)
+    @Generated(hash = 1770890420)
     public Discount getDiscount() {
-        long __key = this.discountId;
+        Long __key = this.discountId;
         if (discount__resolvedKey == null || !discount__resolvedKey.equals(__key)) {
             final DaoSession daoSession = this.daoSession;
             if (daoSession == null) {
@@ -153,22 +144,18 @@ public class OrderProduct {
     @Generated(hash = 480750264)
     private transient Long discount__resolvedKey;
     /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 225933291)
-    public void setVendor(@NotNull Vendor vendor) {
-        if (vendor == null) {
-            throw new DaoException(
-                    "To-one property 'vendorId' has not-null constraint; cannot set to-one to null");
-        }
+    @Generated(hash = 332557200)
+    public void setVendor(Vendor vendor) {
         synchronized (this) {
             this.vendor = vendor;
-            vendorId = vendor.getId();
+            vendorId = vendor == null ? null : vendor.getId();
             vendor__resolvedKey = vendorId;
         }
     }
     /** To-one relationship, resolved on first access. */
-    @Generated(hash = 1377213603)
+    @Generated(hash = 1192552702)
     public Vendor getVendor() {
-        long __key = this.vendorId;
+        Long __key = this.vendorId;
         if (vendor__resolvedKey == null || !vendor__resolvedKey.equals(__key)) {
             final DaoSession daoSession = this.daoSession;
             if (daoSession == null) {
@@ -186,22 +173,18 @@ public class OrderProduct {
     @Generated(hash = 1022035388)
     private transient Long vendor__resolvedKey;
     /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 1202438341)
-    public void setProduct(@NotNull Product product) {
-        if (product == null) {
-            throw new DaoException(
-                    "To-one property 'productId' has not-null constraint; cannot set to-one to null");
-        }
+    @Generated(hash = 558738496)
+    public void setProduct(Product product) {
         synchronized (this) {
             this.product = product;
-            productId = product.getId();
+            productId = product == null ? null : product.getId();
             product__resolvedKey = productId;
         }
     }
     /** To-one relationship, resolved on first access. */
-    @Generated(hash = 926515087)
+    @Generated(hash = 1198864293)
     public Product getProduct() {
-        long __key = this.productId;
+        Long __key = this.productId;
         if (product__resolvedKey == null || !product__resolvedKey.equals(__key)) {
             final DaoSession daoSession = this.daoSession;
             if (daoSession == null) {
@@ -230,16 +213,16 @@ public class OrderProduct {
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
-    public long getServiceFeeId() {
+    public Long getServiceFeeId() {
         return this.serviceFeeId;
     }
-    public void setServiceFeeId(long serviceFeeId) {
+    public void setServiceFeeId(Long serviceFeeId) {
         this.serviceFeeId = serviceFeeId;
     }
-    public long getDiscountId() {
+    public Long getDiscountId() {
         return this.discountId;
     }
-    public void setDiscountId(long discountId) {
+    public void setDiscountId(Long discountId) {
         this.discountId = discountId;
     }
     public String getDiscription() {
@@ -247,6 +230,18 @@ public class OrderProduct {
     }
     public void setDiscription(String discription) {
         this.discription = discription;
+    }
+    public double getServiceAmount() {
+        return this.serviceAmount;
+    }
+    public void setServiceAmount(double serviceAmount) {
+        this.serviceAmount = serviceAmount;
+    }
+    public double getDiscountAmount() {
+        return this.discountAmount;
+    }
+    public void setDiscountAmount(double discountAmount) {
+        this.discountAmount = discountAmount;
     }
     public double getSum() {
         return this.sum;
@@ -272,16 +267,16 @@ public class OrderProduct {
     public void setCost(double cost) {
         this.cost = cost;
     }
-    public long getVendorId() {
+    public Long getVendorId() {
         return this.vendorId;
     }
-    public void setVendorId(long vendorId) {
+    public void setVendorId(Long vendorId) {
         this.vendorId = vendorId;
     }
-    public long getProductId() {
+    public Long getProductId() {
         return this.productId;
     }
-    public void setProductId(long productId) {
+    public void setProductId(Long productId) {
         this.productId = productId;
     }
     public long getOrderId() {
@@ -296,26 +291,11 @@ public class OrderProduct {
     public void setId(Long id) {
         this.id = id;
     }
-    public double getSecondValueChanger() {
-        return this.secondValueChanger;
-    }
-    public void setSecondValueChanger(double secondValueChanger) {
-        this.secondValueChanger = secondValueChanger;
-    }
-    public double getFirstValueChanger() {
-        return this.firstValueChanger;
-    }
-    public void setFirstValueChanger(double firstValueChanger) {
-        this.firstValueChanger = firstValueChanger;
-    }
-
-    @Generated(hash = 1818552344)
-    public OrderProduct() {
-    }
-    @Generated(hash = 414917454)
-    public OrderProduct(Long id, long orderId, long productId, long vendorId, double cost, double price,
-            int count, double sum, double firstValueChanger, double secondValueChanger, String discription,
-            long discountId, long serviceFeeId) {
+    @Generated(hash = 768030496)
+    public OrderProduct(Long id, long orderId, Long productId, Long vendorId,
+            double cost, double price, int count, double sum,
+            double discountAmount, double serviceAmount, String discription,
+            Long discountId, Long serviceFeeId) {
         this.id = id;
         this.orderId = orderId;
         this.productId = productId;
@@ -324,11 +304,14 @@ public class OrderProduct {
         this.price = price;
         this.count = count;
         this.sum = sum;
-        this.firstValueChanger = firstValueChanger;
-        this.secondValueChanger = secondValueChanger;
+        this.discountAmount = discountAmount;
+        this.serviceAmount = serviceAmount;
         this.discription = discription;
         this.discountId = discountId;
         this.serviceFeeId = serviceFeeId;
+    }
+    @Generated(hash = 1818552344)
+    public OrderProduct() {
     }
 
 }

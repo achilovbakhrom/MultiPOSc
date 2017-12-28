@@ -15,4 +15,10 @@ public interface OrderListPresenter extends Presenter {
     List<ServiceFee> getServiceFees();
     void addDiscount(double amount, String description, int amountType);
     void addServiceFee(double amount, String description, int amountType);
+    void onPlusCount(int position);
+    void onMinusCount(int position);
+    void onOrderProductClick(int position);
+    void onOrderDiscountClick();
+    void onOrderServiceFeeClick();
+    void addProductToList(Long productId);
 }

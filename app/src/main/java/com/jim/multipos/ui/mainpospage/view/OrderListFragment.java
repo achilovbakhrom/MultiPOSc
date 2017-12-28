@@ -18,19 +18,30 @@ import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
+import com.jim.multipos.ui.mainpospage.MainPosPageActivity;
+import com.jim.multipos.ui.mainpospage.connection.MainPageConnection;
 import com.jim.multipos.ui.mainpospage.dialogs.CustomerDialog;
 import com.jim.multipos.ui.mainpospage.adapter.OrderProductAdapter;
 import com.jim.multipos.ui.mainpospage.dialogs.DiscountDialog;
 import com.jim.multipos.ui.mainpospage.dialogs.ServiceFeeDialog;
+import com.jim.multipos.ui.mainpospage.model.OrderProductItem;
 import com.jim.multipos.ui.mainpospage.presenter.OrderListPresenter;
+import com.jim.multipos.utils.RxBus;
+import com.jim.multipos.utils.RxBusLocal;
+import com.jim.multipos.utils.rxevents.MessageWithIdEvent;
+import com.jim.multipos.utils.rxevents.OrderProductAddEvent;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.disposables.Disposable;
+
+import static com.jim.multipos.ui.consignment.view.IncomeConsignmentFragment.CONSIGNMENT_UPDATE;
 
 public class OrderListFragment extends BaseFragment implements OrderListView {
     @Inject
@@ -39,6 +50,8 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
     DecimalFormat decimalFormat;
     @Inject
     DatabaseManager databaseManager;
+    @Inject
+    MainPageConnection mainPageConnection;
     @BindView(R.id.llPay)
     LinearLayout llPay;
     @BindView(R.id.llDiscount)
@@ -64,8 +77,9 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
     OrderProductAdapter orderProductAdapter;
     @BindView(R.id.lbChoiseCustomer)
     MpLightButton lbChooseCustomer;
-    Activity activity;
-
+    private OrderProductItem orderProductItem;
+    private int currentPosition;
+    public static final String PRODUCT_ADD_TO_ORDER = "addorderproduct";
     @Override
     protected int getLayout() {
         return R.layout.fragment_order_list;
@@ -73,9 +87,8 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        rvOrderProducts.setLayoutManager(new LinearLayoutManager(getContext()));
-        rvOrderProducts.setAdapter(orderProductAdapter);
-        ((SimpleItemAnimator) rvOrderProducts.getItemAnimator()).setSupportsChangeAnimations(false);
+        mainPageConnection.setOrderListView(this);
+        presenter.onCreateView(savedInstanceState);
 
         lbChooseCustomer.setOnLightButtonClickListener(view1 -> {
             CustomerDialog customerDialog = new CustomerDialog(getContext(), databaseManager);
@@ -126,4 +139,94 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
                 });
     }
 
+    @Override
+    public void initOrderList(List<Object> objectList) {
+        rvOrderProducts.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvOrderProducts.setAdapter(orderProductAdapter);
+        ((SimpleItemAnimator) rvOrderProducts.getItemAnimator()).setSupportsChangeAnimations(false);
+        orderProductAdapter.setData(objectList, new OrderProductAdapter.CallbackOrderProductList() {
+            @Override
+            public void onPlusCount(int position) {
+                presenter.onPlusCount(position);
+            }
+
+            @Override
+            public void onMinusCount(int position) {
+                presenter.onMinusCount(position);
+            }
+
+            @Override
+            public void onOrderProductClick(int position) {
+                presenter.onOrderProductClick(position);
+            }
+
+            @Override
+            public void onOrderDiscountClick() {
+                presenter.onOrderDiscountClick();
+            }
+
+            @Override
+            public void onOrderServiceFeeClick() {
+                presenter.onOrderServiceFeeClick();
+            }
+        });
+    }
+
+    @Override
+    public void notifyList() {
+        orderProductAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void notifyItemAdded(int adapterPosition) {
+        orderProductAdapter.notifyItemInserted(adapterPosition);
+    }
+
+    @Override
+    public void notifyItemChanged(int adapterPosition) {
+        orderProductAdapter.notifyItemChanged(adapterPosition);
+    }
+
+    @Override
+    public void openProductInfoFragment(OrderProductItem orderProductItem,int position) {
+        this.orderProductItem = orderProductItem;
+        currentPosition = position;
+        ProductInfoFragment fragment = new ProductInfoFragment();
+        ((MainPosPageActivity)getActivity()).openRightFragment(fragment);
+    }
+
+    @Override
+    public void sendToProductInfoProductItem() {
+        mainPageConnection.sendProductItemToProductInfo(orderProductItem);
+    }
+
+    @Override
+    public void plusProductCount() {
+        presenter.onPlusCount(currentPosition);
+    }
+
+    @Override
+    public void minusProductCount() {
+        presenter.onMinusCount(currentPosition);
+    }
+
+    @Override
+    public void addProductToOrder(Long productId) {
+        presenter.addProductToList(productId);
+    }
+
+    @Override
+    public void onDetach() {
+        mainPageConnection.setOrderListView(null);
+        super.onDetach();
+    }
+    private ArrayList<Disposable> subscriptions;
+
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        RxBus.removeListners(subscriptions);
+    }
 }

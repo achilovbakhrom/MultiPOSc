@@ -14,12 +14,15 @@ import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
+import com.jim.multipos.data.db.model.order.OrderProduct;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivity;
+import com.jim.multipos.ui.mainpospage.connection.MainPageConnection;
 import com.jim.multipos.ui.mainpospage.dialogs.ChooseVendorDialog;
 import com.jim.multipos.ui.mainpospage.dialogs.DiscountDialog;
 import com.jim.multipos.ui.mainpospage.dialogs.ServiceFeeDialog;
 import com.jim.multipos.ui.mainpospage.dialogs.SetQuantityDialog;
+import com.jim.multipos.ui.mainpospage.model.OrderProductItem;
 import com.jim.multipos.ui.mainpospage.presenter.ProductInfoPresenter;
 import com.jim.multipos.utils.GlideApp;
 import com.jim.multipos.utils.RxBus;
@@ -79,7 +82,8 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
     ImageView ivAlert;
     @Inject
     RxBus rxBus;
-
+    @Inject
+    MainPageConnection mainPageConnection;
     @Override
     protected int getLayout() {
         return R.layout.product_info_fragment;
@@ -87,10 +91,9 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        if (getArguments() != null) {
-            Long productId = getArguments().getLong(PRODUCT_ID);
-            presenter.initProduct(productId);
-        }
+        mainPageConnection.setProductInfoView(this);
+        mainPageConnection.giveToProductInfoFragmentProductItem();
+
 
         RxView.clicks(ivArrowLeft).subscribe(o -> {
             tvVendorName.setText(presenter.getPrevVendor().getName());
@@ -144,10 +147,10 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
 
 
     @Override
-    public void initProductData(Product product, double quantity) {
+    public void initProductData(OrderProductItem orderProductItem) {
 
         GlideApp.with(this)
-                .load(product.getPhotoPath())
+                .load(orderProductItem.getOrderProduct().getProduct().getPhotoPath())
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .thumbnail(0.2f)
                 .centerCrop()
@@ -156,36 +159,35 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
                 .error(R.drawable.default_product_image)
                 .into(ivProductImage);
 
-        tvProductName.setText(product.getName());
-        tvDescription.setText(product.getDescription());
-        tvVendorName.setText(presenter.getVendor(0).getName());
-        tvQuantity.setText((quantity - 1) + " " + product.getMainUnit().getAbbr());
+        tvProductName.setText(orderProductItem.getOrderProduct().getProduct().getName());
+        tvDescription.setText(orderProductItem.getOrderProduct().getProduct().getDescription());
+        tvVendorName.setText(orderProductItem.getOrderProduct().getProduct().getVendor().get(0).getName());
+        tvQuantity.setText((orderProductItem.getOrderProduct().getCount() - 1) + " " + orderProductItem.getOrderProduct().getProduct().getMainUnit().getAbbr());
         tvOrderQuantity.setText(String.valueOf(presenter.getCurrentProductQuantity()));
 
-        for (int i = 0; i < product.getVendor().size(); i++) {
-            tvCompanyName.append(product.getVendor().get(i).getName());
+        for (int i = 0; i < orderProductItem.getOrderProduct().getProduct().getVendor().size(); i++) {
+            tvCompanyName.append(orderProductItem.getOrderProduct().getProduct().getVendor().get(i).getName());
 
-            if (i < product.getVendor().size() - 1) {
+            if (i < orderProductItem.getOrderProduct().getProduct().getVendor().size() - 1) {
                 tvCompanyName.append(", ");
             }
         }
 
         RxView.clicks(ivMinus).subscribe(o -> {
-            tvOrderQuantity.setText(String.valueOf(presenter.decrementQuantity()));
-
-            tvQuantity.setText(presenter.getProductQuantity() + " " + product.getMainUnit().getAbbr());
+            mainPageConnection.minusProductCount();
+            mainPageConnection.giveToProductInfoFragmentProductItem();
         });
 
         RxView.clicks(ivPlus).subscribe(o -> {
-            tvOrderQuantity.setText(String.valueOf(presenter.incrementQuantity()));
+            mainPageConnection.plusProductCount();
+            mainPageConnection.giveToProductInfoFragmentProductItem();
 
-            tvQuantity.setText(presenter.getProductQuantity() + " " + product.getMainUnit().getAbbr());
         });
 
         RxView.clicks(btnSetQuantity).subscribe(o -> {
             SetQuantityDialog dialog = new SetQuantityDialog(getContext(), value -> {
                 presenter.setCurrentQuantity(value);
-                tvQuantity.setText(String.valueOf(presenter.getProductQuantity()) + " " + product.getMainUnit().getAbbr());
+                tvQuantity.setText(String.valueOf(presenter.getProductQuantity()) + " " + orderProductItem.getOrderProduct().getProduct().getMainUnit().getAbbr());
                 tvOrderQuantity.setText(String.valueOf(presenter.getCurrentProductQuantity()));
             });
 
@@ -193,7 +195,7 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
         });
 
         RxView.clicks(btnChooseVendor).subscribe(o -> {
-            ChooseVendorDialog dialog = new ChooseVendorDialog(getContext(), product.getVendor(), vendor -> {
+            ChooseVendorDialog dialog = new ChooseVendorDialog(getContext(), orderProductItem.getOrderProduct().getProduct().getVendor(), vendor -> {
                 tvVendorName.setText(vendor.getName());
             });
 
@@ -216,4 +218,9 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
         ivAlert.setVisibility(View.INVISIBLE);
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mainPageConnection.setProductInfoView(null);
+    }
 }

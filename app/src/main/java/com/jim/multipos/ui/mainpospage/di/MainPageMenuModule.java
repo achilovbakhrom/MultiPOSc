@@ -15,6 +15,7 @@ import com.jim.multipos.ui.mainpospage.MainPosPageActivity;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivityImpl;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivityPresenter;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivityView;
+import com.jim.multipos.ui.mainpospage.connection.MainPageConnection;
 import com.jim.multipos.ui.mainpospage.view.OrderListFragment;
 import com.jim.multipos.ui.mainpospage.view.OrderListFragmentModule;
 import com.jim.multipos.ui.mainpospage.view.ProductFolderFragmentModule;
@@ -27,6 +28,7 @@ import com.jim.multipos.ui.mainpospage.view.ProductSquareFragmentModule;
 import com.jim.multipos.ui.mainpospage.view.ProductSquareViewFragment;
 import com.jim.multipos.ui.mainpospage.view.SearchModeFragment;
 import com.jim.multipos.ui.mainpospage.view.SearchModeFragmentModule;
+import com.jim.multipos.utils.RxBusLocal;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -102,4 +104,10 @@ public abstract class MainPageMenuModule {
     static String[] provideUsedType(Context context){
         return context.getResources().getStringArray(R.array.discount_used_types);
     }
+    @PerActivity
+    @Provides
+    static MainPageConnection provideMainPageConnection(Context context){
+        return new MainPageConnection(context);
+    }
+
 }

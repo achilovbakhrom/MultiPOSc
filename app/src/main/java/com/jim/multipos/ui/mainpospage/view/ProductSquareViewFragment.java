@@ -15,8 +15,10 @@ import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.ui.mainpospage.adapter.SquareViewCategoryAdapter;
 import com.jim.multipos.ui.mainpospage.adapter.SquareViewProductAdapter;
+import com.jim.multipos.ui.mainpospage.connection.MainPageConnection;
 import com.jim.multipos.ui.mainpospage.presenter.ProductSquareViewPresenter;
 import com.jim.multipos.utils.RxBus;
+import com.jim.multipos.utils.RxBusLocal;
 import com.jim.multipos.utils.rxevents.CategoryEvent;
 import com.jim.multipos.utils.rxevents.MessageEvent;
 import com.jim.multipos.utils.rxevents.MessageWithIdEvent;
@@ -52,12 +54,16 @@ public class ProductSquareViewFragment extends BaseFragment implements ProductSq
     @Inject
     RxBus rxBus;
     @Inject
+    RxBusLocal rxBusLocal;
+    @Inject
     PreferencesHelper preferencesHelper;
+    @Inject
+    MainPageConnection mainPageConnection;
     private SquareViewCategoryAdapter categoryAdapter, subcategoryAdapter;
     private SquareViewProductAdapter productAdapter;
     private static final String CATEGORY_TITLE = "category_title";
     private static final String SUBCATEGORY_TITLE = "subcategory_title";
-    private static final String OPEN_PRODUCT = "open_product";
+    public static final String OPEN_PRODUCT = "open_product";
     private ArrayList<Disposable> subscriptions;
 
     @Override
@@ -103,8 +109,8 @@ public class ProductSquareViewFragment extends BaseFragment implements ProductSq
         if (categories.size() > 0) {
             presenter.setSelectedCategory(preferencesHelper.getLastPositionCategory());
             categoryAdapter.setSelected(preferencesHelper.getLastPositionCategory());
-            rxBus.send(new CategoryEvent(categories.get(preferencesHelper.getLastPositionCategory()), CATEGORY_TITLE));
-        } else rxBus.send(new CategoryEvent(null, CATEGORY_TITLE));
+            rxBusLocal.send(new CategoryEvent(categories.get(preferencesHelper.getLastPositionCategory()), CATEGORY_TITLE));
+        } else rxBusLocal.send(new CategoryEvent(null, CATEGORY_TITLE));
         categoryAdapter.setOnItemClickListener(new ClickableBaseAdapter.OnItemClickListener<Category>() {
             @Override
             public void onItemClicked(int position) {
@@ -114,7 +120,7 @@ public class ProductSquareViewFragment extends BaseFragment implements ProductSq
             @Override
             public void onItemClicked(Category item) {
                 presenter.setClickedCategory(item);
-                rxBus.send(new CategoryEvent(item, CATEGORY_TITLE));
+                rxBusLocal.send(new CategoryEvent(item, CATEGORY_TITLE));
             }
         });
     }
@@ -133,14 +139,14 @@ public class ProductSquareViewFragment extends BaseFragment implements ProductSq
             @Override
             public void onItemClicked(Category item) {
                 presenter.setClickedSubCategory(item);
-                rxBus.send(new CategoryEvent(item, SUBCATEGORY_TITLE));
+                rxBusLocal.send(new CategoryEvent(item, SUBCATEGORY_TITLE));
             }
         });
         if (subCategories.size() > 0) {
             presenter.setSelectedSubCategory(preferencesHelper.getLastPositionSubCategory(String.valueOf(subCategories.get(0).getParentId())));
             subcategoryAdapter.setSelected(preferencesHelper.getLastPositionSubCategory(String.valueOf(subCategories.get(0).getParentId())));
-            rxBus.send(new CategoryEvent(subCategories.get(preferencesHelper.getLastPositionSubCategory(String.valueOf(subCategories.get(0).getParentId()))), SUBCATEGORY_TITLE));
-        } else rxBus.send(new CategoryEvent(null, SUBCATEGORY_TITLE));
+            rxBusLocal.send(new CategoryEvent(subCategories.get(preferencesHelper.getLastPositionSubCategory(String.valueOf(subCategories.get(0).getParentId()))), SUBCATEGORY_TITLE));
+        } else rxBusLocal.send(new CategoryEvent(null, SUBCATEGORY_TITLE));
     }
 
     @Override
@@ -156,7 +162,7 @@ public class ProductSquareViewFragment extends BaseFragment implements ProductSq
 
             @Override
             public void onItemClicked(Product item) {
-                rxBus.send(new ProductEvent(item, OPEN_PRODUCT));
+                mainPageConnection.addProductToOrder(item.getId());
             }
         });
     }
@@ -191,6 +197,6 @@ public class ProductSquareViewFragment extends BaseFragment implements ProductSq
 
     @Override
     public void sendEvent(Category category, String subcategoryTitle) {
-        rxBus.send(new CategoryEvent(category, subcategoryTitle));
+        rxBusLocal.send(new CategoryEvent(category, subcategoryTitle));
     }
 }

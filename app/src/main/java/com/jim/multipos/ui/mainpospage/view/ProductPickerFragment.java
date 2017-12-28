@@ -12,9 +12,11 @@ import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.utils.RxBus;
+import com.jim.multipos.utils.RxBusLocal;
 import com.jim.multipos.utils.rxevents.CategoryEvent;
 import com.jim.multipos.utils.rxevents.MessageEvent;
 import com.jim.multipos.utils.rxevents.MessageWithIdEvent;
+import com.jim.multipos.utils.rxevents.OrderProductAddEvent;
 import com.jim.multipos.utils.rxevents.ProductEvent;
 
 import java.util.ArrayList;
@@ -38,16 +40,15 @@ public class ProductPickerFragment extends BaseFragment implements ProductPicker
     TextView tvCategory;
     @BindView(R.id.tvSubCategory)
     TextView tvSubCategory;
-    @BindView(R.id.tvProduct)
-    TextView tvProduct;
     @BindView(R.id.ivArrowCategory)
     ImageView ivArrowCategory;
     @BindView(R.id.ivArrowSubCategory)
     ImageView ivArrowSubCategory;
     @Inject
     PreferencesHelper preferencesHelper;
+
     @Inject
-    RxBus rxBus;
+    RxBusLocal rxBusLocal;
     private FragmentManager fragmentManager;
     private static final int SQUARE_VIEW = 0;
     private static final int FOLDER_VIEW = 1;
@@ -66,7 +67,7 @@ public class ProductPickerFragment extends BaseFragment implements ProductPicker
         super.rxConnections();
         subscriptions = new ArrayList<>();
         subscriptions.add(
-                rxBus.toObservable().subscribe(o -> {
+                rxBusLocal.toObservable().subscribe(o -> {
                     if (o instanceof CategoryEvent) {
                         CategoryEvent event = (CategoryEvent) o;
                         if (event.getEventType().equals(CATEGORY_TITLE)) {
@@ -88,31 +89,10 @@ public class ProductPickerFragment extends BaseFragment implements ProductPicker
                         ProductEvent event = (ProductEvent) o;
                         if (event.getEventType().equals(OPEN_PRODUCT)) {
                             Long id = event.getProduct().getId();
-                            Bundle bundle = new Bundle();
-                            bundle.putLong(PRODUCT_ID, id);
-                            ProductInfoFragment fragment = new ProductInfoFragment();
-                            fragment.setArguments(bundle);
-                            replaceViewFragments(fragment, "InfoProduct");
-                            tvProduct.setText(event.getProduct().getName());
-                        }
-                    } else {
-                        tvProduct.setText("");
-                    }
-                    if (o instanceof MessageEvent){
-                        MessageEvent event = (MessageEvent) o;
-                        if (event.getMessage().equals("Close_Info_Product")){
-                            switch (preferencesHelper.getProductListViewType()) {
-                                case SQUARE_VIEW:
-                                    replaceViewFragments(new ProductSquareViewFragment(), String.valueOf(SQUARE_VIEW));
-                                    break;
-                                case FOLDER_VIEW:
-                                    replaceViewFragments(new ProductFolderViewFragment(), String.valueOf(FOLDER_VIEW));
-                                    tvCategory.setText(getResources().getString(R.string.category));
-                                    break;
-                            }
-                            changeViewTypeIcon(preferencesHelper.getProductListViewType());
+                            rxBusLocal.send(new OrderProductAddEvent(id,OrderListFragment.PRODUCT_ADD_TO_ORDER));
                         }
                     }
+
                 }));
     }
 

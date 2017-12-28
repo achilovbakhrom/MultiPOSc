@@ -1,13 +1,11 @@
 package com.jim.multipos.ui.mainpospage.adapter;
 
 import android.content.Context;
-import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -15,17 +13,19 @@ import com.jim.multipos.R;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
+import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.OrderProduct;
 import com.jim.multipos.data.db.model.products.Product;
-import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.products.VendorProductCon;
+import com.jim.multipos.ui.mainpospage.model.DiscountItem;
+import com.jim.multipos.ui.mainpospage.model.OrderProductItem;
+import com.jim.multipos.ui.mainpospage.model.ServiceFeeItem;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,121 +35,122 @@ import butterknife.ButterKnife;
  */
 
 public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    List<OrderProduct> orderProducts;
+    List<Object> adapterItem;
+    private CallbackOrderProductList callback;
     private DecimalFormat decimalFormat;
     private DatabaseManager databaseManager;
     private Context context;
-
+    private final int PRODUCT_ITEM = 1;
+    private final int DISCOUNT_ITEM = 2;
+    private final int SERVICE_FEE_ITEM = 3;
     @Inject
     public OrderProductAdapter(DecimalFormat decimalFormat, DatabaseManager databaseManager, Context context){
         this.databaseManager = databaseManager;
         this.context = context;
-        List<Product> products = databaseManager.getAllProducts().blockingFirst();
-        orderProducts = new ArrayList<>();
+        adapterItem = new ArrayList<>();
         //FAKE DATA
-//
-//        OrderProduct orderProduct = new OrderProduct();
-//        VendorProductCon productCon = databaseManager.getVendorProductConnectionById(products.get(0).getId(), products.get(0).getVendor().get(0).getId()).blockingSingle();
-//        orderProduct.setCost(productCon.getCost());
-//        orderProduct.setPrice(products.get(0).getPrice());
-//        orderProduct.setCount(3);
-//        orderProduct.setProduct(products.get(0));
-//        orderProduct.setDaoSession(databaseManager.getDaoSession());
-//
-//        Discount discount  = new Discount();
-//        discount.setId(125l);
-//        discount.setUsedType(Discount.ITEM);
-//        discount.setActive(true);
-//        discount.setAmountType(Discount.PERCENT);
-//        discount.setName("Some think great");
-//        discount.setCreatedDate(System.currentTimeMillis());
-//        discount.setNotModifyted(true);
-//        discount.setAmount(120000);
-//        orderProduct.setDiscount(discount);
-//        orderProduct.setFirstValueChanger(-9000);
-//
-//        ServiceFee serviceFee = new ServiceFee();
-//        serviceFee.setId(22l);
-//        serviceFee.setApplyingType(ServiceFee.ITEM);
-//        serviceFee.setActive(true);
-//        serviceFee.setType(ServiceFee.PERCENT);
-//        serviceFee.setName("Some think great");
-//        serviceFee.setCreatedDate(System.currentTimeMillis());
-//        serviceFee.setNotModifyted(true);
-//        serviceFee.setAmount(15);
-//        orderProduct.setServiceFee(serviceFee);
-//        orderProduct.setSecondValueChanger(18000);
-//        orderProducts.add(orderProduct);
-        this.decimalFormat = decimalFormat;
+       this.decimalFormat = decimalFormat;
+    }
+    public void setData(List<Object> data, CallbackOrderProductList callbackOrderProductList){
+        adapterItem = data;
+        this.callback = callbackOrderProductList;
+        notifyDataSetChanged();
+    }
+    public interface CallbackOrderProductList{
+        void onPlusCount(int position);
+        void onMinusCount(int position);
+        void onOrderProductClick(int position);
+        void onOrderDiscountClick();
+        void onOrderServiceFeeClick();
     }
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.order_list_item, parent, false);
-        return new OrderProductViewHolder(view);
+        View view ;
+        if(viewType == PRODUCT_ITEM){
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.order_list_item, parent, false);
+            return new OrderProductViewHolder(view);
+        }else if(viewType == DISCOUNT_ITEM){
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.order_list_item_discount, parent, false);
+            return new OrderDiscountViewHolder(view);
+        }else if(viewType == SERVICE_FEE_ITEM){
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.order_list_item_service_fee, parent, false);
+            return new OrderServiceFeeViewHolder(view);
+        }
+        return null;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if(adapterItem.get(position) instanceof DiscountItem){
+            return DISCOUNT_ITEM;
+        }else if(adapterItem.get(position) instanceof OrderProductItem){
+            return PRODUCT_ITEM;
+        }else if(adapterItem.get(position) instanceof ServiceFeeItem){
+            return SERVICE_FEE_ITEM;
+        }
+        return -1;
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holderMain, int position) {
         if(holderMain instanceof OrderProductViewHolder) {
             OrderProductViewHolder holder = (OrderProductViewHolder) holderMain;
-            OrderProduct orderProduct = orderProducts.get(position);
-            holder.tvCountProduct.setText(String.valueOf(orderProduct.getCount()));
-            holder.tvEach.setText(decimalFormat.format(orderProduct.getCost()));
-            holder.tvSum.setText(decimalFormat.format(orderProduct.getCost() * orderProduct.getCount()));
-            holder.tvProductName.setText(orderProduct.getProduct().getName());
+            OrderProductItem orderProductItem = (OrderProductItem) adapterItem.get(position);
+            holder.tvCountProduct.setText(String.valueOf(orderProductItem.getOrderProduct().getCount()));
+            holder.tvEach.setText(decimalFormat.format(orderProductItem.getOrderProduct().getCost()));
+            holder.tvSum.setText(decimalFormat.format(orderProductItem.getOrderProduct().getCost() * orderProductItem.getOrderProduct().getCount()));
+            holder.tvProductName.setText(orderProductItem.getOrderProduct().getProduct().getName());
 
 
-            if(orderProduct.getFirstValueChanger()!=0){
-                if(orderProduct.getFirstValueChanger()>0){
-                    //ServiceFee
-
-                        holder.tvFirstChangerToEach.setText("+"+decimalFormat.format(orderProduct.getFirstValueChanger()));
-                        holder.tvFirstChangerSum.setText("+"+decimalFormat.format(orderProduct.getFirstValueChanger()*orderProduct.getCount()));
-
-                    holder.tvFirstChangerName.setText("Service Fee "+ orderProduct.getServiceFee().getServiceFeeTypeName(context)+" :");
-                    holder.llFirstChanger.setVisibility(View.VISIBLE);
-                }else {
-                    //Discount
-
-                        holder.tvFirstChangerToEach.setText(decimalFormat.format(orderProduct.getFirstValueChanger()));
-                        holder.tvFirstChangerSum.setText(decimalFormat.format(orderProduct.getFirstValueChanger()*orderProduct.getCount()));
-
-                    holder.tvFirstChangerName.setText("Discount "+ orderProduct.getDiscount().getDiscountTypeName(context)+" :");
-                    holder.llFirstChanger.setVisibility(View.VISIBLE);
-                }
+            if(orderProductItem.getDiscount()!=null){
+                holder.tvFirstChangerToEach.setText(decimalFormat.format(orderProductItem.getDiscountAmmount()));
+                holder.tvFirstChangerSum.setText(decimalFormat.format(orderProductItem.getDiscountAmmount()*orderProductItem.getOrderProduct().getCount()));
+                holder.tvFirstChangerName.setText(orderProductItem.getDiscount().getName()+" (discount)");
+                holder.llFirstChanger.setVisibility(View.VISIBLE);
             }else {
                 holder.llFirstChanger.setVisibility(View.GONE);
             }
 
 
-            if(orderProduct.getSecondValueChanger()!=0){
-                if(orderProduct.getSecondValueChanger()>0){
-                        //ServiceFee
-
-                            holder.tvSecondChangerForEach.setText("+"+decimalFormat.format(orderProduct.getSecondValueChanger()));
-                            holder.tvSecondChangerSum.setText("+"+decimalFormat.format(orderProduct.getSecondValueChanger()*orderProduct.getCount()));
-                        holder.tvSecondChangerName.setText("Service Fee "+ orderProduct.getServiceFee().getServiceFeeTypeName(context)+" :");
-                        holder.llSecondChanger.setVisibility(View.VISIBLE);
-                    }else {
-                        //Discount
-
-                            holder.tvSecondChangerForEach.setText(decimalFormat.format(orderProduct.getSecondValueChanger()));
-                            holder.tvSecondChangerSum.setText(decimalFormat.format(orderProduct.getSecondValueChanger()*orderProduct.getCount()));
-                        holder.tvSecondChangerName.setText("Discount "+ orderProduct.getDiscount().getDiscountTypeName(context)+" :");
-                        holder.llSecondChanger.setVisibility(View.VISIBLE);
-                }
+            if(orderProductItem.getServiceFee()!=null){
+                holder.tvSecondChangerForEach.setText("+"+decimalFormat.format(orderProductItem.getServiceFeeAmmount()));
+                holder.tvSecondChangerSum.setText("+"+decimalFormat.format(orderProductItem.getServiceFeeAmmount()*orderProductItem.getOrderProduct().getCount()));
+                holder.tvSecondChangerName.setText(orderProductItem.getServiceFee().getName()+" (service fee)");
+                holder.llSecondChanger.setVisibility(View.VISIBLE);
             }else {
                 holder.llSecondChanger.setVisibility(View.GONE);
             }
 
 
-            if(orderProducts.get(position).getServiceFee() == null && orderProducts.get(position).getDiscount() == null){
+            if(orderProductItem.getServiceFee() == null && orderProductItem.getDiscount() == null){
                 holder.flHaveExtras.setVisibility(View.GONE);
             }else {
                 holder.flHaveExtras.setVisibility(View.VISIBLE);
             }
 
-            if(position==orderProducts.size()-1){
+            if(position==adapterItem.size()-1){
+                holder.isLastItemGone.setVisibility(View.GONE);
+            }else {
+                holder.isLastItemGone.setVisibility(View.VISIBLE);
+            }
+        }
+        if(holderMain instanceof OrderDiscountViewHolder){
+            OrderDiscountViewHolder holder = (OrderDiscountViewHolder) holderMain;
+            DiscountItem discountItem = (DiscountItem) adapterItem.get(position);
+            holder.tvDiscountName.setText(discountItem.getDiscount().getName()+" (order discount)");
+            holder.tvDiscountAmount.setText(decimalFormat.format(discountItem.getAmmount()));
+            if(position==adapterItem.size()-1){
+                holder.isLastItemGone.setVisibility(View.GONE);
+            }else {
+                holder.isLastItemGone.setVisibility(View.VISIBLE);
+            }
+        }
+        if(holderMain instanceof OrderServiceFeeViewHolder){
+            OrderServiceFeeViewHolder holder = (OrderServiceFeeViewHolder) holderMain;
+            ServiceFeeItem serviceFeeItem = (ServiceFeeItem) adapterItem.get(position);
+            holder.tvServiceFeeName.setText(serviceFeeItem.getServiceFee().getName());
+            holder.tvServiceFeeAmount.setText("+"+decimalFormat.format(serviceFeeItem.getAmmount())+" (order service fee)");
+            if(position==adapterItem.size()-1){
                 holder.isLastItemGone.setVisibility(View.GONE);
             }else {
                 holder.isLastItemGone.setVisibility(View.VISIBLE);
@@ -159,7 +160,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemCount() {
-        return orderProducts.size();
+        return adapterItem.size();
     }
 
     class OrderProductViewHolder extends RecyclerView.ViewHolder{
@@ -168,9 +169,9 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         @BindView(R.id.tvCountProduct)
         TextView tvCountProduct;
         @BindView(R.id.flLeftMinus)
-        FrameLayout flLeftMinus;
+        View flLeftMinus;
         @BindView(R.id.flRightPlus)
-        FrameLayout flRightPlus;
+        View flRightPlus;
         @BindView(R.id.tvEach)
         TextView tvEach;
         @BindView(R.id.tvSum)
@@ -195,18 +196,56 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView tvSecondChangerSum;
         @BindView(R.id.isLastItemGone)
         FrameLayout isLastItemGone;
-
+        @BindView(R.id.llProduct)
+        LinearLayout llProduct;
         public OrderProductViewHolder(View itemView) {
              super(itemView);
              ButterKnife.bind(this, itemView);
              flLeftMinus.setOnClickListener(view -> {
-                 orderProducts.get(getAdapterPosition()).setCount(orderProducts.get(getAdapterPosition()).getCount()-1);
-                 notifyItemChanged(getAdapterPosition());
+                 callback.onMinusCount(getAdapterPosition());
              });
              flRightPlus.setOnClickListener(view -> {
-                 orderProducts.get(getAdapterPosition()).setCount(orderProducts.get(getAdapterPosition()).getCount()+1);
-                 notifyItemChanged(getAdapterPosition());
+                 callback.onPlusCount(getAdapterPosition());
+             });
+             llProduct.setOnClickListener(view -> {
+                 callback.onOrderProductClick(getAdapterPosition());
              });
          }
      }
+
+    class OrderDiscountViewHolder extends RecyclerView.ViewHolder{
+        @BindView(R.id.tvDiscountName)
+        TextView tvDiscountName;
+        @BindView(R.id.tvDiscountAmount)
+        TextView tvDiscountAmount;
+        @BindView(R.id.isLastItemGone)
+        FrameLayout isLastItemGone;
+        @BindView(R.id.llDiscount)
+        LinearLayout llDiscount;
+        public OrderDiscountViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+            llDiscount.setOnClickListener(view -> {
+                callback.onOrderDiscountClick();
+            });
+        }
+    }
+
+    class OrderServiceFeeViewHolder extends RecyclerView.ViewHolder{
+        @BindView(R.id.tvServiceFeeName)
+        TextView tvServiceFeeName;
+        @BindView(R.id.tvServiceFeeAmount)
+        TextView tvServiceFeeAmount;
+        @BindView(R.id.isLastItemGone)
+        FrameLayout isLastItemGone;
+        @BindView(R.id.llServiceFee)
+        LinearLayout llServiceFee;
+        public OrderServiceFeeViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+            llServiceFee.setOnClickListener(view -> {
+                callback.onOrderServiceFeeClick();
+            });
+        }
+    }
 }

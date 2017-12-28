@@ -230,20 +230,5 @@ public class ServiceFee implements Editable {
     public void setType(int type) {
         this.type = type;
     }
-    public String getServiceFeeTypeName(Context context){
-        String serviceFeeTypeName = CommonUtils.getServiceTypeName(context, type);
-        if(type == ServiceFee.PERCENT){
-            DecimalFormat formatter;
-            NumberFormat numberFormat = NumberFormat.getNumberInstance();
-            numberFormat.setMaximumFractionDigits(2);
-            formatter = (DecimalFormat) numberFormat;
-            DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
-            symbols.setGroupingSeparator(' ');
-            formatter.setDecimalFormatSymbols(symbols);
-            serviceFeeTypeName += " ";
-            serviceFeeTypeName += formatter.format(amount);
-            serviceFeeTypeName += "%";
-        }
-        return serviceFeeTypeName;
-    }
+
 }

@@ -28,29 +28,26 @@ public class ProductInfoPresenterImpl extends BasePresenterImpl<ProductInfoView>
     private double productQuantity = 20;
     private int currentProductQuantity = 1;
     private String[] discountAmountTypes;
-    private String[] discountUsedTypesAbr;
 
     @Inject
-    public ProductInfoPresenterImpl(ProductInfoView productInfoView, DatabaseManager databaseManager, @Named(value = "discount_amount_types") String[] discountAmountTypes,
-                                    @Named(value = "discount_used_types_abr") String[] discountUsedTypesAbr) {
+    public ProductInfoPresenterImpl(ProductInfoView productInfoView, DatabaseManager databaseManager, @Named(value = "discount_amount_types") String[] discountAmountTypes) {
         super(productInfoView);
         this.databaseManager = databaseManager;
         this.discountAmountTypes = discountAmountTypes;
-        this.discountUsedTypesAbr = discountUsedTypesAbr;
     }
 
     @Override
     public void initProduct(Long productId) {
-        this.product = databaseManager.getProductById(productId).blockingSingle();
-        databaseManager.getInventoryItems().subscribe((inventoryItems, throwable) -> {
-            for(InventoryItem inventoryItem: inventoryItems){
-                if (inventoryItem.getProduct().getId().equals(productId)){
-                    this.inventoryItem = inventoryItem;
-                    productQuantity = inventoryItem.getInventory();
-                }
-            }
-        });
-        view.initProductData(product, productQuantity);
+//        this.product = databaseManager.getProductById(productId).blockingSingle();
+//        databaseManager.getInventoryItems().subscribe((inventoryItems, throwable) -> {
+//            for(InventoryItem inventoryItem: inventoryItems){
+//                if (inventoryItem.getProduct().getId().equals(productId)){
+//                    this.inventoryItem = inventoryItem;
+//                    productQuantity = inventoryItem.getInventory();
+//                }
+//            }
+//        });
+//        view.initProductData(product, productQuantity);
     }
 
     @Override

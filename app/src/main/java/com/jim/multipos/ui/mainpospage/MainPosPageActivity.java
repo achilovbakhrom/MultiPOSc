@@ -3,6 +3,7 @@ package com.jim.multipos.ui.mainpospage;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextClock;
@@ -127,7 +128,9 @@ public class MainPosPageActivity extends DoubleSideActivity implements MainPosPa
             handler.postDelayed(timerUpdate, 30000);
         }
     };
-
+    public void openRightFragment(Fragment fragment){
+        addFragmentToRight(fragment);
+    }
     public void closeProductInfoFragment() {
         activityFragmentManager.popBackStack();
     }

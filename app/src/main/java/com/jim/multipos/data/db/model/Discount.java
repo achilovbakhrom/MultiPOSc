@@ -223,22 +223,7 @@ public class Discount implements Editable {
         discount.setCreatedDate(createdDate);
         return discount;
     }
-    public String getDiscountTypeName(Context context){
-        String discountTypeName = CommonUtils.getDiscountTypeName(context, amountType);
-        if(amountType == Discount.PERCENT){
-            DecimalFormat formatter;
-            NumberFormat numberFormat = NumberFormat.getNumberInstance();
-            numberFormat.setMaximumFractionDigits(2);
-            formatter = (DecimalFormat) numberFormat;
-            DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
-            symbols.setGroupingSeparator(' ');
-            formatter.setDecimalFormatSymbols(symbols);
-            discountTypeName += " ";
-            discountTypeName += formatter.format(amount);
-            discountTypeName += "%";
-        }
-        return discountTypeName;
-    }
+
 
     public String getName() {
         return this.name;

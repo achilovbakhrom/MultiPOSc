@@ -18,8 +18,10 @@ import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.ui.mainpospage.adapter.FolderViewAdapter;
 import com.jim.multipos.ui.mainpospage.presenter.ProductFolderViewPresenterImpl;
 import com.jim.multipos.utils.RxBus;
+import com.jim.multipos.utils.RxBusLocal;
 import com.jim.multipos.utils.rxevents.CategoryEvent;
 import com.jim.multipos.utils.rxevents.MessageEvent;
+import com.jim.multipos.utils.rxevents.ProductEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +32,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.disposables.Disposable;
 
+import static com.jim.multipos.ui.mainpospage.view.ProductSquareViewFragment.OPEN_PRODUCT;
 import static com.jim.multipos.ui.product_last.ProductPresenterImpl.PRODUCT_ADD;
 import static com.jim.multipos.ui.product_last.ProductPresenterImpl.PRODUCT_DELETE;
 import static com.jim.multipos.ui.product_last.ProductPresenterImpl.PRODUCT_UPDATE;
@@ -52,6 +55,8 @@ public class ProductFolderViewFragment extends BaseFragment implements ProductFo
     FrameLayout flLine;
     @Inject
     RxBus rxBus;
+    @Inject
+    RxBusLocal rxBusLocal;
     private int mode = 0;
     private static final int PRODUCT = 2;
     private FolderViewAdapter adapter;
@@ -142,8 +147,7 @@ public class ProductFolderViewFragment extends BaseFragment implements ProductFo
 
     @Override
     public void setSelectedProduct(Product product) {
-        Toast.makeText(getContext(), product.getName(), Toast.LENGTH_SHORT).show();
-        //TODO do smth with product
+        rxBusLocal.send(new ProductEvent(product, OPEN_PRODUCT));
     }
 
     @Override

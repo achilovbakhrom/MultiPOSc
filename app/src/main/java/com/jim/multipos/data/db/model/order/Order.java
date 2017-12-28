@@ -1,8 +1,10 @@
 package com.jim.multipos.data.db.model.order;
 
+import android.app.Service;
+
+import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.customer.Customer;
-import com.jim.multipos.data.db.model.products.Vendor;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
@@ -18,7 +20,9 @@ import org.greenrobot.greendao.DaoException;
 import com.jim.multipos.data.db.model.DaoSession;
 import com.jim.multipos.data.db.model.customer.CustomerDao;
 import org.greenrobot.greendao.annotation.NotNull;
+
 import com.jim.multipos.data.db.model.ServiceFeeDao;
+import com.jim.multipos.data.db.model.DiscountDao;
 
 /**
  * Created by developer on 20.12.2017.
@@ -33,8 +37,6 @@ public class Order {
     private double subTotalValue;
     private double serviceTotalValue;
     private double discountTotalValue;
-    private double orderServiceValue;
-    private double orderDiscountValue;
     private double tips;
     private double totalPayed;
     private double toDebtValue;
@@ -42,9 +44,14 @@ public class Order {
     private long customer_id;
     @ToOne(joinProperty = "customer_id")
     private Customer customer;
-    private long service_id;
-    @ToOne(joinProperty = "service_id")
+
+    private long serviceFeeId;
+    @ToOne(joinProperty = "serviceFeeId")
     private ServiceFee serviceFee;
+
+    private long discountId;
+    @ToOne(joinProperty = "discountId")
+    private Discount discount;
 
     @ToMany(joinProperties = {
             @JoinProperty(
@@ -153,23 +160,61 @@ public List<OrderProduct> getOrderProducts() {
 }
 
 /** called by internal mechanisms, do not call yourself. */
-@Generated(hash = 1626393540)
-public void setServiceFee(@NotNull ServiceFee serviceFee) {
-        if (serviceFee == null) {
+@Generated(hash = 1061119129)
+public void setDiscount(@NotNull Discount discount) {
+        if (discount == null) {
                 throw new DaoException(
-                                "To-one property 'service_id' has not-null constraint; cannot set to-one to null");
+                                "To-one property 'discountId' has not-null constraint; cannot set to-one to null");
         }
         synchronized (this) {
-                this.serviceFee = serviceFee;
-                service_id = serviceFee.getId();
-                serviceFee__resolvedKey = service_id;
+                this.discount = discount;
+                discountId = discount.getId();
+                discount__resolvedKey = discountId;
         }
 }
 
 /** To-one relationship, resolved on first access. */
-@Generated(hash = 1564879830)
+@Generated(hash = 1929929130)
+public Discount getDiscount() {
+        long __key = this.discountId;
+        if (discount__resolvedKey == null
+                        || !discount__resolvedKey.equals(__key)) {
+                final DaoSession daoSession = this.daoSession;
+                if (daoSession == null) {
+                        throw new DaoException(
+                                        "Entity is detached from DAO context");
+                }
+                DiscountDao targetDao = daoSession.getDiscountDao();
+                Discount discountNew = targetDao.load(__key);
+                synchronized (this) {
+                        discount = discountNew;
+                        discount__resolvedKey = __key;
+                }
+        }
+        return discount;
+}
+
+@Generated(hash = 480750264)
+private transient Long discount__resolvedKey;
+
+/** called by internal mechanisms, do not call yourself. */
+@Generated(hash = 868197846)
+public void setServiceFee(@NotNull ServiceFee serviceFee) {
+        if (serviceFee == null) {
+                throw new DaoException(
+                                "To-one property 'serviceFeeId' has not-null constraint; cannot set to-one to null");
+        }
+        synchronized (this) {
+                this.serviceFee = serviceFee;
+                serviceFeeId = serviceFee.getId();
+                serviceFee__resolvedKey = serviceFeeId;
+        }
+}
+
+/** To-one relationship, resolved on first access. */
+@Generated(hash = 1189758955)
 public ServiceFee getServiceFee() {
-        long __key = this.service_id;
+        long __key = this.serviceFeeId;
         if (serviceFee__resolvedKey == null
                         || !serviceFee__resolvedKey.equals(__key)) {
                 final DaoSession daoSession = this.daoSession;
@@ -242,12 +287,20 @@ private transient OrderDao myDao;
 @Generated(hash = 2040040024)
 private transient DaoSession daoSession;
 
-public long getService_id() {
-        return this.service_id;
+public long getDiscountId() {
+        return this.discountId;
 }
 
-public void setService_id(long service_id) {
-        this.service_id = service_id;
+public void setDiscountId(long discountId) {
+        this.discountId = discountId;
+}
+
+public long getServiceFeeId() {
+        return this.serviceFeeId;
+}
+
+public void setServiceFeeId(long serviceFeeId) {
+        this.serviceFeeId = serviceFeeId;
 }
 
 public long getCustomer_id() {
@@ -280,22 +333,6 @@ public double getTips() {
 
 public void setTips(double tips) {
         this.tips = tips;
-}
-
-public double getOrderDiscountValue() {
-        return this.orderDiscountValue;
-}
-
-public void setOrderDiscountValue(double orderDiscountValue) {
-        this.orderDiscountValue = orderDiscountValue;
-}
-
-public double getOrderServiceValue() {
-        return this.orderServiceValue;
-}
-
-public void setOrderServiceValue(double orderServiceValue) {
-        this.orderServiceValue = orderServiceValue;
 }
 
 public double getDiscountTotalValue() {
@@ -346,30 +383,29 @@ public void setId(Long id) {
         this.id = id;
 }
 
-@Generated(hash = 981881482)
+@Generated(hash = 1635484533)
 public Order(Long id, long createAt, int status, double subTotalValue,
                 double serviceTotalValue, double discountTotalValue,
-                double orderServiceValue, double orderDiscountValue,
                 double tips, double totalPayed, double toDebtValue,
-                long customer_id, long service_id) {
+                long customer_id, long serviceFeeId, long discountId) {
         this.id = id;
         this.createAt = createAt;
         this.status = status;
         this.subTotalValue = subTotalValue;
         this.serviceTotalValue = serviceTotalValue;
         this.discountTotalValue = discountTotalValue;
-        this.orderServiceValue = orderServiceValue;
-        this.orderDiscountValue = orderDiscountValue;
         this.tips = tips;
         this.totalPayed = totalPayed;
         this.toDebtValue = toDebtValue;
         this.customer_id = customer_id;
-        this.service_id = service_id;
+        this.serviceFeeId = serviceFeeId;
+        this.discountId = discountId;
 }
 
 @Generated(hash = 1105174599)
 public Order() {
 }
+
 
 
 
