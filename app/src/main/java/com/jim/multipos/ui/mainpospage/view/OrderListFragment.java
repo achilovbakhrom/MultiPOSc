@@ -113,20 +113,9 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
                 });
         RxView.clicks(llServiceFee)
                 .subscribe(view1 -> {
-                    ServiceFeeDialog serviceFeeDialog = new ServiceFeeDialog();
+                    ServiceFeeDialog serviceFeeDialog = new ServiceFeeDialog(getContext(),databaseManager);
                     serviceFeeDialog.setServiceFee(presenter.getServiceFees());
-                    serviceFeeDialog.setOnDialogListener(new ServiceFeeDialog.OnDialogListener() {
-                        @Override
-                        public List<ServiceFee> getServiceFees() {
-                            return presenter.getServiceFees();
-                        }
-
-                        @Override
-                        public void addServiceFee(double amount, String description, int amountType) {
-                            presenter.addServiceFee(amount, description, amountType);
-                        }
-                    });
-                    serviceFeeDialog.show(getActivity().getSupportFragmentManager(), "discountDialog");
+                    serviceFeeDialog.show();
                 });
     }
 

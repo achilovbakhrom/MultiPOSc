@@ -94,12 +94,12 @@
                 </LinearLayout>
 
                 <ImageView
-                    android:layout_width="@dimen/sixteen_dp"
+                    android:layout_width="16dp"
                     android:layout_height="@dimen/forty_five_dp"
                     android:layout_gravity="bottom"
                     android:layout_marginLeft="@dimen/sixteen_dp"
                     android:layout_marginRight="@dimen/sixteen_dp"
-                    android:src="@drawable/minus_icon" />
+                    android:src="@drawable/plus_icon" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -126,8 +126,6 @@
                         android:gravity="center_vertical|right"
                         android:hint="@string/value"
                         android:inputType="numberDecimal"
-                        android:paddingLeft="@dimen/eighteen_dp"
-                        android:paddingRight="@dimen/ten_dp"
                         android:singleLine="true"
                         android:textColor="#414141"
                         android:textSize="@dimen/eighteen_dp" />
@@ -175,8 +173,6 @@
                         android:background="@drawable/edit_text_bg_transparent"
                         android:gravity="center_vertical|right"
                         android:inputType="numberDecimal"
-                        android:paddingLeft="@dimen/eighteen_dp"
-                        android:paddingRight="@dimen/ten_dp"
                         android:singleLine="true"
                         android:textColor="#414141"
                         android:textSize="@dimen/eighteen_dp" />

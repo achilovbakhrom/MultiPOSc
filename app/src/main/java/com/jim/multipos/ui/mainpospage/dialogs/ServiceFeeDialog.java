@@ -1,6 +1,9 @@
 package com.jim.multipos.ui.mainpospage.dialogs;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,11 +11,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.TextView;
 
 import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.mpviews.MpButton;
 import com.jim.multipos.R;
+import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.ui.mainpospage.adapter.ServiceFeeAdapter;
 
@@ -26,11 +31,7 @@ import butterknife.Unbinder;
  * Created by Portable-Acer on 11.11.2017.
  */
 
-public class ServiceFeeDialog extends DialogFragment implements ServiceFeeAdapter.OnClickListener {
-    public interface OnDialogListener {
-        List<ServiceFee> getServiceFees();
-        void addServiceFee(double amount, String description, int amountType);
-    }
+public class ServiceFeeDialog extends Dialog implements ServiceFeeAdapter.OnClickListener {
 
     @BindView(R.id.tvCaption)
     TextView tvCaption;
@@ -40,67 +41,42 @@ public class ServiceFeeDialog extends DialogFragment implements ServiceFeeAdapte
     MpButton btnBack;
     @BindView(R.id.btnAdd)
     MpButton btnAdd;
-    private Unbinder unbinder;
     private ServiceFeeAdapter adapter;
     private List<ServiceFee> serviceFees;
-    private OnDialogListener listener;
     private String caption;
+    private DatabaseManager databaseManager;
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.service_fee_dialog, container, false);
-        getDialog().getWindow().getDecorView().setBackgroundResource(R.color.colorTransparent);
-
-        unbinder = ButterKnife.bind(this, view);
-
+    public ServiceFeeDialog(@NonNull Context context, DatabaseManager databaseManager) {
+        super(context);
+        this.databaseManager = databaseManager;
+        this.databaseManager = databaseManager;
+        View dialogView = getLayoutInflater().inflate(R.layout.service_fee_dialog, null);
+        ButterKnife.bind(this, dialogView);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(dialogView);
+        View v = getWindow().getDecorView();
+        v.setBackgroundResource(android.R.color.transparent);
         if (caption != null) {
             tvCaption.setText(caption);
         }
-
+        serviceFees = databaseManager.getAllServiceFees().blockingSingle();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new ServiceFeeAdapter(getContext(), this, serviceFees);
         recyclerView.setAdapter(adapter);
-
         RxView.clicks(btnBack).subscribe(o -> dismiss());
-
         RxView.clicks(btnAdd).subscribe(o -> {
-            AddServiceFeeDialog dialog = new AddServiceFeeDialog();
-
-            dialog.setOnServiceFeeDialogListener(new AddServiceFeeDialog.OnServiceFeeDialogListener() {
-                @Override
-                public void dismiss() {
-                    adapter.setItems(listener.getServiceFees());
-                }
-
-                @Override
-                public void addServiceFee(double amount, String description, int amountType) {
-                    listener.addServiceFee(amount, description, amountType);
-                }
-            });
-            dialog.show(getActivity().getSupportFragmentManager(), "AddServiceFeeDialog");
+            AddServiceFeeDialog dialog = new AddServiceFeeDialog(getContext(), databaseManager, 30000, ServiceFee.ORDER);
+            dialog.show();
+            dismiss();
         });
-
-        return view;
     }
 
     public void setServiceFee(List<ServiceFee> serviceFees) {
         this.serviceFees = serviceFees;
     }
 
-    public void setOnDialogListener(OnDialogListener listener) {
-        this.listener = listener;
-    }
-
     public void setCaption(String caption) {
         this.caption = caption;
-    }
-
-    @Override
-    public void onDestroyView() {
-        unbinder.unbind();
-
-        super.onDestroyView();
     }
 
     @Override

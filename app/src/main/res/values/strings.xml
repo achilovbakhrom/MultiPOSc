@@ -552,7 +552,6 @@
     <string name="add_to_order">Add to Order</string>
     <string name="update_customer">Update customer</string>
     <string name="select">Select</string>
-    <string name="enter_service_fee_name">Enter service fee name</string>
     <string name="discount_cant_empty">Discount name can\'t be empty</string>
     <string name="amount">Amount</string>
     <string name="manual_discount">Manual Discount</string>
@@ -580,6 +579,8 @@
     <string name="due">Due:</string>
     <string name="service_fee_amount">Service fee amount</string>
     <string name="enter_service_fee_name">Enter service fee name</string>
+    <string name="service_fee_percent">Service fee %</string>
+    <string name="billing_price_cannot_be_lower">Billing price cannot be lower than original price</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>

@@ -112,21 +112,10 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
         });
 
         RxView.clicks(btnServiceFee).subscribe(o -> {
-            ServiceFeeDialog dialog = new ServiceFeeDialog();
+            ServiceFeeDialog dialog = new ServiceFeeDialog(getContext(), databaseManager);
             dialog.setCaption(getString(R.string.choose_for_product));
             dialog.setServiceFee(presenter.getServiceFees());
-            dialog.setOnDialogListener(new ServiceFeeDialog.OnDialogListener() {
-                @Override
-                public List<ServiceFee> getServiceFees() {
-                    return presenter.getServiceFees();
-                }
-
-                @Override
-                public void addServiceFee(double amount, String description, int amountType) {
-                    presenter.addServiceFee(amount, description, amountType);
-                }
-            });
-            dialog.show(getActivity().getSupportFragmentManager(), "ServiceFeeProductInfoDialog");
+            dialog.show();
         });
 
         RxView.clicks(btnDiscountItem).subscribe(o -> {
