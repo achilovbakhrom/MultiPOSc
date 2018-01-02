@@ -18,6 +18,7 @@ import com.jim.multipos.ui.vendor_products_view.fragments.VendorDetailsFragment;
 import com.jim.multipos.ui.vendor_products_view.fragments.VendorDetailsList;
 import com.jim.multipos.utils.PaymentToVendorDialog;
 import com.jim.multipos.utils.RxBus;
+import com.jim.multipos.utils.rxevents.MessageEvent;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -134,5 +135,10 @@ public class VendorProductsViewActivity extends DoubleSideActivity implements Ve
         if (fragment != null) {
             fragment.updateBillings(debt, paid, abbr);
         }
+    }
+
+    @Override
+    public void sendEvent(String event) {
+        rxBus.send(new MessageEvent(event));
     }
 }

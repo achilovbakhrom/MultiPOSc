@@ -11,4 +11,5 @@ public interface ProductFolderViewPresenter extends Presenter {
     void setFolderItemsRecyclerView();
     void selectedItem(FolderItem item);
     void returnBack(int mode);
+    void updateProducts();
 }

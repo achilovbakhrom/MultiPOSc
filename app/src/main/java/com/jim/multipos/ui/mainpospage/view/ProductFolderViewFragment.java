@@ -16,6 +16,7 @@ import com.jim.multipos.data.db.model.intosystem.FolderItem;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.ui.mainpospage.adapter.FolderViewAdapter;
+import com.jim.multipos.ui.mainpospage.connection.MainPageConnection;
 import com.jim.multipos.ui.mainpospage.presenter.ProductFolderViewPresenterImpl;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.RxBusLocal;
@@ -32,6 +33,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.disposables.Disposable;
 
+import static com.jim.multipos.ui.consignment.view.IncomeConsignmentFragment.INVENTORY_STATE_UPDATE;
 import static com.jim.multipos.ui.mainpospage.view.ProductSquareViewFragment.OPEN_PRODUCT;
 import static com.jim.multipos.ui.product_last.ProductPresenterImpl.PRODUCT_ADD;
 import static com.jim.multipos.ui.product_last.ProductPresenterImpl.PRODUCT_DELETE;
@@ -57,6 +59,8 @@ public class ProductFolderViewFragment extends BaseFragment implements ProductFo
     RxBus rxBus;
     @Inject
     RxBusLocal rxBusLocal;
+    @Inject
+    MainPageConnection mainPageConnection;
     private int mode = 0;
     private static final int PRODUCT = 2;
     private FolderViewAdapter adapter;
@@ -82,6 +86,9 @@ public class ProductFolderViewFragment extends BaseFragment implements ProductFo
                                 presenter.setFolderItemsRecyclerView();
                                 break;
                             }
+                            case INVENTORY_STATE_UPDATE:
+                                presenter.updateProducts();
+                                break;
                         }
                     }
                 }));
@@ -152,6 +159,6 @@ public class ProductFolderViewFragment extends BaseFragment implements ProductFo
 
     @Override
     public void sendCategoryEvent(Category category, String key) {
-        rxBus.send(new CategoryEvent(category, key));
+        mainPageConnection.sendSelectedCategory(category, key);
     }
 }

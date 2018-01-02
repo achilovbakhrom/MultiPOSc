@@ -28,6 +28,7 @@ public class MpSwitcher extends LinearLayout {
     private TextView mpLeftText, mpRightText;
     private boolean right = false;
     private boolean left = false;
+    private OnSwitcherStateChangedListener listener;
 
     public MpSwitcher(Context context) {
         super(context);
@@ -49,6 +50,10 @@ public class MpSwitcher extends LinearLayout {
         init(context, attrs);
     }
 
+    public void setSwitcherStateChangedListener(OnSwitcherStateChangedListener listener) {
+        this.listener = listener;
+    }
+
     public void init(Context context, AttributeSet attrs) {
         LayoutInflater.from(context).inflate(R.layout.mp_switch_btn, this);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -67,46 +72,32 @@ public class MpSwitcher extends LinearLayout {
         mpRightImage.setImageResource(R.drawable.ellipse_not_active);
         mpLeftText.setText(attributeArray.getText(R.styleable.MpSwitcher_text_left));
         mpRightText.setText(attributeArray.getText(R.styleable.MpSwitcher_text_right));
-
-        mpLeftBtn.setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch (motionEvent.getAction())
-                {
-                    case MotionEvent.ACTION_DOWN:
-                        VibrateManager.startVibrate(context, 50);
-                        mpLeftBtn.setBackgroundResource(R.drawable.matrix_left_pressed_bg);
-                        mpLeftImage.setImageResource(R.drawable.ellipse);
-                        mpRightBtn.setBackgroundResource(R.drawable.matrix_right_bg);
-                        mpRightImage.setImageResource(R.drawable.ellipse_not_active);
-                        right = false;
-                        left = true;
-                        return false;
-                }
-                return false;
-            }
+        left = true;
+        mpLeftBtn.setOnClickListener(view -> {
+            mpLeftBtn.setBackgroundResource(R.drawable.matrix_left_pressed_bg);
+            mpLeftImage.setImageResource(R.drawable.ellipse);
+            mpRightBtn.setBackgroundResource(R.drawable.matrix_right_bg);
+            mpRightImage.setImageResource(R.drawable.ellipse_not_active);
+            right = false;
+            left = true;
+            listener.onStateChange(right, left);
         });
 
-        mpRightBtn.setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch (motionEvent.getAction())
-                {
-                    case MotionEvent.ACTION_DOWN:
-                        VibrateManager.startVibrate(context, 50);
-                        mpLeftBtn.setBackgroundResource(R.drawable.matrix_left_bg);
-                        mpLeftImage.setImageResource(R.drawable.ellipse_not_active);
-                        mpRightBtn.setBackgroundResource(R.drawable.matrix_right_pressed_bg);
-                        mpRightImage.setImageResource(R.drawable.ellipse);
-                        right = true;
-                        left = false;
-                        return false;
-                }
-                return false;
-            }
+        mpRightBtn.setOnClickListener(view -> {
+            mpLeftBtn.setBackgroundResource(R.drawable.matrix_left_bg);
+            mpLeftImage.setImageResource(R.drawable.ellipse_not_active);
+            mpRightBtn.setBackgroundResource(R.drawable.matrix_right_pressed_bg);
+            mpRightImage.setImageResource(R.drawable.ellipse);
+            right = true;
+            left = false;
+            listener.onStateChange(right, left);
         });
 
         attributeArray.recycle();
+    }
+
+    public interface OnSwitcherStateChangedListener{
+        void onStateChange(boolean isRight, boolean isLeft);
     }
 
     public boolean isRight() {

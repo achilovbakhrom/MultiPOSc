@@ -1,174 +1,190 @@
 package com.jim.multipos.ui.mainpospage.dialogs;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.LayoutInflater;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.support.annotation.NonNull;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageView;
+import android.view.Window;
+import android.widget.TextView;
 
-import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.mpviews.MpButton;
 import com.jim.mpviews.MpEditText;
-import com.jim.mpviews.MpTripleSwitcher;
+import com.jim.mpviews.MpSwitcher;
 import com.jim.multipos.R;
+import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Discount;
-import com.jim.multipos.utils.validator.MultipleCallback;
+import com.jim.multipos.utils.TextWatcherOnTextChange;
+import com.jim.multipos.utils.UIUtils;
+
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.text.ParseException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
-import eu.inmite.android.lib.validations.form.FormValidator;
-import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 
 /**
  * Created by Portable-Acer on 09.11.2017.
  */
 
-public class AddDiscountDialog extends DialogFragment {
-    public interface OnDiscountDialogListener {
-        void dismiss();
-        void addDiscount(double amount, String description, int amountType);
-    }
+public class AddDiscountDialog extends Dialog {
 
-    @BindView(R.id.tsDiscountType)
-    MpTripleSwitcher tsDiscountType;
-    @NotEmpty(messageId = R.string.enter_value)
-    @BindView(R.id.etAmount)
-    EditText etAmount;
-    @BindView(R.id.ivClearAmount)
-    ImageView ivClearAmount;
-    @BindView(R.id.etDescription)
-    MpEditText etDescription;
     @BindView(R.id.btnCancel)
     MpButton btnCancel;
     @BindView(R.id.btnNext)
-    MpButton btnNext;
-    private Unbinder unbinder;
-    private OnDiscountDialogListener listener;
+    MpButton btnOk;
+    @BindView(R.id.swDiscountType)
+    MpSwitcher swDiscountType;
+    @BindView(R.id.tvPrice)
+    TextView tvPrice;
+    @BindView(R.id.tvType)
+    TextView tvType;
+    @BindView(R.id.etDiscountAmount)
+    MpEditText etDiscountAmount;
+    @BindView(R.id.etResultPrice)
+    MpEditText etResultPrice;
+    @BindView(R.id.etDiscountName)
+    MpEditText etDiscountName;
+    @BindView(R.id.tvDiscountAmountType)
+    TextView tvDiscountAmountType;
+    private int discountAmountType;
+    private int discountType;
+    private double resultPrice = 0;
+    private double discountValue = 0;
+    private boolean on = false;
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.discount_manual_dialog, container, false);
-        getDialog().getWindow().getDecorView().setBackgroundResource(R.color.colorTransparent);
-        unbinder = ButterKnife.bind(this, view);
+    public AddDiscountDialog(@NonNull Context context, DatabaseManager databaseManager, double price, int discountType) {
+        super(context);
+        this.discountType = discountType;
+        View dialogView = getLayoutInflater().inflate(R.layout.discount_manual_dialog, null);
+        ButterKnife.bind(this, dialogView);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(dialogView);
+        View v = getWindow().getDecorView();
+        v.setBackgroundResource(android.R.color.transparent);
+        DecimalFormat formatter;
+        NumberFormat numberFormat = NumberFormat.getNumberInstance();
+        numberFormat.setMaximumFractionDigits(2);
+        formatter = (DecimalFormat) numberFormat;
+        DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
+        symbols.setGroupingSeparator(' ');
+        formatter.setDecimalFormatSymbols(symbols);
 
-        tsDiscountType.setStateChangedListener((isRight, isCenter, isLeft) -> {
-            if (isLeft) {
-                checkAmount();
-            } else if (isCenter) {
-                try {
-                    if (!etAmount.getText().toString().isEmpty()) {
-                        double amount = Double.parseDouble(etAmount.getText().toString());
-
-                        if (tsDiscountType.isCenter() && amount > 100) {
-                            etAmount.setError(getString(R.string.percent_can_not_be_more_hunder));
-                        }
-                    } else {
-                        etAmount.setError(getString(R.string.enter_value));
-                    }
-                } catch (NumberFormatException e) {
-                    etAmount.setError(getString(R.string.invalid));
-                }
-            } else if (isRight) {
-                checkAmount();
-            }
-        });
-
-        RxView.clicks(btnCancel).subscribe(o -> {
-            dismiss();
-        });
-
-        RxView.clicks(btnNext).subscribe(o -> {
-            if (FormValidator.validate(this, new MultipleCallback())) {
-                try {
-                    double amount = Double.parseDouble(etAmount.getText().toString());
-
-                    if (tsDiscountType.isCenter() && amount > 100) {
-                        etAmount.setError(getString(R.string.percent_can_not_be_more_hunder));
-                    } else {
-                        String[] amountTypes = getResources().getStringArray(R.array.discount_amount_types_abr);
-                        int amountType = -1;
-
-                        if (tsDiscountType.isLeft()) {
-                            amountType = Discount.VALUE;
-                        } else if (tsDiscountType.isCenter()) {
-                            amountType = Discount.PERCENT;
-                        }
-
-                        listener.addDiscount(amount, etDescription.getText().toString(), amountType);
-                        listener.dismiss();
-                        dismiss();
-                    }
-                } catch (NumberFormatException e) {
-                    etAmount.setError(getString(R.string.invalid));
-                }
-            }
-        });
-
-        RxView.clicks(ivClearAmount).subscribe(o -> {
-            etAmount.setText("");
-        });
-
-        etAmount.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                try {
-                    if (!s.toString().isEmpty()) {
-                        double amount = Double.parseDouble(etAmount.getText().toString());
-
-                        if (tsDiscountType.isCenter() && amount > 100) {
-                            etAmount.setError(getString(R.string.percent_can_not_be_more_hunder));
-                        }
-                    } else {
-                        etAmount.setError(getString(R.string.enter_value));
-                    }
-                } catch (NumberFormatException e) {
-                    etAmount.setError(getString(R.string.invalid));
-                }
-            }
-        });
-
-        return view;
-    }
-
-    private void checkAmount() {
-        try {
-            if (!etAmount.getText().toString().isEmpty()) {
-                double amount = Double.parseDouble(etAmount.getText().toString());
-
-                etAmount.setError(null);
-            } else {
-                etAmount.setError(getString(R.string.enter_value));
-            }
-        } catch (NumberFormatException e) {
-            etAmount.setError(getString(R.string.invalid));
+        tvPrice.setText(formatter.format(price));
+        String abbr = databaseManager.getMainCurrency().getAbbr();
+        if (swDiscountType.isLeft()) {
+            discountAmountType = Discount.VALUE;
+            tvType.setText(abbr);
+        } else {
+            discountAmountType = Discount.PERCENT;
+            tvType.setText("%");
         }
-    }
 
-    public void setOnDiscountDialogListener(OnDiscountDialogListener listener) {
-        this.listener = listener;
-    }
+        swDiscountType.setSwitcherStateChangedListener((isRight, isLeft) -> {
+            if (isLeft) {
+                discountAmountType = Discount.VALUE;
+                tvType.setText(abbr);
+                tvDiscountAmountType.setText(context.getString(R.string.discount_amount));
+                if (!etResultPrice.getText().toString().isEmpty() && !etDiscountAmount.getText().toString().isEmpty()) {
+                    double newDiscountValue = price - resultPrice;
+                    etResultPrice.requestFocus();
+                    etDiscountAmount.setText(formatter.format(newDiscountValue));
+                }
+            } else {
+                discountAmountType = Discount.PERCENT;
+                tvType.setText("%");
+                tvDiscountAmountType.setText(context.getString(R.string.discount_percent));
+                if (!etResultPrice.getText().toString().isEmpty() && !etDiscountAmount.getText().toString().isEmpty()) {
+                    double newDiscountValue = 100 - (100 * resultPrice / price);
+                    etResultPrice.requestFocus();
+                    etDiscountAmount.setText(formatter.format(newDiscountValue));
+                    if (newDiscountValue > 100)
+                        etDiscountAmount.setError("Discount percent cannot be bigger 100");
+                }
 
-    @Override
-    public void onDestroyView() {
-        unbinder.unbind();
+            }
+        });
 
-        super.onDestroyView();
+        etDiscountAmount.addTextChangedListener(new TextWatcherOnTextChange() {
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (getCurrentFocus() == etDiscountAmount)
+                    if (charSequence.length() != 0) {
+                        try {
+                            discountValue = formatter.parse(etDiscountAmount.getText().toString()).doubleValue();
+                            double result = 0;
+                            if (discountAmountType == Discount.VALUE) {
+                                if (discountValue > price) {
+                                    etDiscountAmount.setError("Discount discountValue cannot be bigger than price");
+                                } else {
+                                    result = price - discountValue;
+                                    resultPrice = result;
+                                    etResultPrice.setText(formatter.format(result));
+                                }
+                            } else {
+                                if (discountValue > 100) {
+                                    etDiscountAmount.setError("Discount percent cannot be bigger 100");
+                                } else {
+                                    result = price - (price * discountValue / 100);
+                                    resultPrice = result;
+                                    etResultPrice.setText(formatter.format(result));
+                                }
+                            }
+                        } catch (Exception e) {
+                            etDiscountAmount.setError(context.getString(R.string.invalid));
+                        }
+                    } else {
+                        etResultPrice.setText(formatter.format(0));
+                    }
+            }
+        });
+
+        etResultPrice.addTextChangedListener(new TextWatcherOnTextChange() {
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (getCurrentFocus() == etResultPrice)
+                    if (charSequence.length() != 0) {
+                        try {
+                            resultPrice = formatter.parse(etResultPrice.getText().toString()).doubleValue();
+                            if (resultPrice <= price) {
+                                double result = 0;
+                                if (discountAmountType == Discount.VALUE)
+                                    result = price - resultPrice;
+                                else {
+                                    result = 100 - (100 * resultPrice / price);
+                                }
+                                etDiscountAmount.setText(formatter.format(result));
+                            } else
+                                etResultPrice.setError(context.getString(R.string.result_price_cant_be_bigger));
+                        } catch (Exception e) {
+                            etResultPrice.setError(context.getString(R.string.invalid));
+                        }
+                    } else etDiscountAmount.setText(formatter.format(0));
+            }
+        });
+
+        btnOk.setOnClickListener(view -> {
+            if (etResultPrice.getText().toString().isEmpty() && etDiscountAmount.getText().toString().isEmpty()) {
+                etDiscountAmount.setError(context.getString(R.string.enter_amount));
+                etResultPrice.setError(context.getString(R.string.enter_amount));
+            } else if (etDiscountName.getText().toString().isEmpty()) {
+                etDiscountName.setError(context.getString(R.string.enter_discount_name));
+            } else {
+                Discount discount = new Discount();
+                discount.setIsManual(true);
+                discount.setAmount(discountValue);
+                discount.setCreatedDate(System.currentTimeMillis());
+                discount.setName(etDiscountName.getText().toString());
+                discount.setAmountType(discountAmountType);
+                discount.setUsedType(discountType);
+                //TODO
+                dismiss();
+            }
+        });
+
+        btnCancel.setOnClickListener(view -> dismiss());
+
     }
 }

@@ -16,6 +16,8 @@ import com.jim.multipos.ui.mainpospage.MainPosPageActivityImpl;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivityPresenter;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivityView;
 import com.jim.multipos.ui.mainpospage.connection.MainPageConnection;
+import com.jim.multipos.ui.mainpospage.view.CustomerNotificationsFragment;
+import com.jim.multipos.ui.mainpospage.view.CustomerNotificationsFragmentModule;
 import com.jim.multipos.ui.mainpospage.view.OrderListFragment;
 import com.jim.multipos.ui.mainpospage.view.OrderListFragmentModule;
 import com.jim.multipos.ui.mainpospage.view.ProductFolderFragmentModule;
@@ -84,6 +86,10 @@ public abstract class MainPageMenuModule {
     @PerFragment
     @ContributesAndroidInjector(modules = OrderListFragmentModule.class)
     abstract OrderListFragment provideOrderListFragment();
+
+    @PerFragment
+    @ContributesAndroidInjector(modules = CustomerNotificationsFragmentModule.class)
+    abstract CustomerNotificationsFragment provideCustomerNotificationsFragment();
 
     @PerActivity
     @Provides

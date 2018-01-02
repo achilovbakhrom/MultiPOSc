@@ -13,9 +13,11 @@ import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.R;
 import com.jim.multipos.core.DoubleSideActivity;
 import com.jim.multipos.data.DatabaseManager;
+import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.ui.main_menu.customers_menu.CustomersMenuActivity;
 import com.jim.multipos.ui.main_menu.inventory_menu.InventoryMenuActivity;
 import com.jim.multipos.ui.main_menu.product_menu.ProductMenuActivity;
+import com.jim.multipos.ui.mainpospage.view.CustomerNotificationsFragment;
 import com.jim.multipos.ui.mainpospage.view.OrderListFragment;
 import com.jim.multipos.ui.mainpospage.view.ProductPickerFragment;
 import com.jim.multipos.ui.mainpospage.view.SearchModeFragment;
@@ -23,6 +25,7 @@ import com.jim.multipos.utils.MainMenuDialog;
 import com.jim.multipos.utils.OrderMenuDialog;
 import com.jim.multipos.utils.RxBusLocal;
 import com.jim.multipos.utils.TestUtils;
+import com.jim.multipos.utils.managers.NotifyManager;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -47,6 +50,8 @@ public class MainPosPageActivity extends DoubleSideActivity implements MainPosPa
     private Handler handler;
     @Inject
     DatabaseManager databaseManager;
+    @Inject
+    NotifyManager notifyManager;
 
     @Inject
     @Getter
@@ -63,10 +68,9 @@ public class MainPosPageActivity extends DoubleSideActivity implements MainPosPa
         addFragmentToLeft(new OrderListFragment());
 //        posFragmentManager.displayFragmentWithoutBackStack(new PaymentFragment(), R.id.rightLowContainer);
         addFragmentToRight(new ProductPickerFragment());
+        addFragmentToTopRight(new CustomerNotificationsFragment());
 //        addFragmentWithTagToRight(new ProductInfoFragment(), "ProductInfoFragment");
-
-
-
+        notifyManager.setView(this);
         handler = new Handler();
         handler.post(timerUpdate);
 
@@ -133,5 +137,24 @@ public class MainPosPageActivity extends DoubleSideActivity implements MainPosPa
     }
     public void closeProductInfoFragment() {
         activityFragmentManager.popBackStack();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        notifyManager.setView(null);
+    }
+
+    @Override
+    public void notifyView(Customer customer) {
+//        Bundle bundle = new Bundle();
+//        bundle.putLong("CUSTOMER_ID", customer.getId());
+//        CustomerNotificationsFragment fragment = new CustomerNotificationsFragment();
+//        fragment.setArguments(bundle);
+//        addFragmentToTopRight(fragment);
+        CustomerNotificationsFragment fragment = (CustomerNotificationsFragment) getCurrentFragmentRightTop();
+        if (fragment != null){
+            fragment.addDataToCustomerList(customer);
+        }
     }
 }

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
     <LinearLayout
-        android:layout_width="@dimen/six_hundred_dp"
-        android:layout_height="@dimen/six_hundred_seventy_five_dp"
+        android:layout_width="@dimen/seven_hundred_dp"
+        android:layout_height="@dimen/five_hundred_dp"
         android:background="@drawable/rounded_edit_text_bg"
         android:orientation="vertical">
 
@@ -46,10 +46,10 @@
             android:background="@color/colorTextHint" />
 
         <android.support.v7.widget.RecyclerView
-            android:background="#f9f9f9"
             android:id="@+id/rvDiscounts"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/four_hundred_eighty_five_dp"
+            android:layout_height="@dimen/three_hundred_twenty_dp"
+            android:background="#f9f9f9"
             android:overScrollMode="never" />
 
         <FrameLayout
@@ -61,26 +61,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="@dimen/fifteen_dp"
+            android:layout_margin="@dimen/ten_dp"
             android:orientation="horizontal">
-
-            <com.jim.mpviews.MpButton
-                android:id="@+id/btnBack"
-                android:layout_width="@dimen/hundred_eighty_dp"
-                android:layout_height="@dimen/sixty_dp"
-                android:layout_marginRight="@dimen/thirty_dp"
-                android:text="@string/back"
-                android:textColor="@color/colorBlue"
-                android:textSize="@dimen/eighteen_dp" />
 
             <com.jim.mpviews.MpButton
                 android:id="@+id/btnAdd"
                 android:layout_width="@dimen/hundred_eighty_dp"
                 android:layout_height="@dimen/sixty_dp"
-                android:text="@string/new_new"
+                android:text="@string/manual"
                 android:textColor="@color/colorBlue"
                 android:textSize="@dimen/eighteen_dp"
+                android:layout_marginRight="@dimen/thirty_dp"
                 android:textStyle="bold" />
+
+            <com.jim.mpviews.MpButton
+                android:id="@+id/btnBack"
+                android:layout_width="@dimen/hundred_eighty_dp"
+                android:layout_height="@dimen/sixty_dp"
+                android:text="@string/back"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/eighteen_dp" />
+
+
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

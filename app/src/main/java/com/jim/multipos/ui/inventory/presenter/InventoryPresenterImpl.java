@@ -21,6 +21,7 @@ import javax.inject.Inject;
 
 import static com.jim.multipos.data.db.model.consignment.Consignment.INCOME_CONSIGNMENT;
 import static com.jim.multipos.data.db.model.consignment.Consignment.RETURN_CONSIGNMENT;
+import static com.jim.multipos.ui.consignment.view.IncomeConsignmentFragment.INVENTORY_STATE_UPDATE;
 import static com.jim.multipos.ui.inventory.fragments.InventoryFragment.SortModes.*;
 
 /**
@@ -90,6 +91,7 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
             warehouseOperations.setValue(WarehouseOperations.VOID_INCOME);
             warehouseOperations.setValue(shortage);
             databaseManager.insertWarehouseOperation(warehouseOperations).subscribe(aLong -> view.notifyList());
+            view.sendEvent(INVENTORY_STATE_UPDATE);
         });
     }
 
@@ -115,6 +117,7 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
             warehouseOperations.setValue(WarehouseOperations.VOID_INCOME);
             warehouseOperations.setValue(shortage * -1);
             databaseManager.insertWarehouseOperation(warehouseOperations).subscribe(aLong -> view.notifyList());
+            view.sendEvent(INVENTORY_STATE_UPDATE);
         });
     }
 

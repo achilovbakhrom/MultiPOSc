@@ -3,11 +3,11 @@ package com.jim.multipos.ui.mainpospage.presenter;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.intosystem.FolderItem;
+import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.operations.CategoryOperations;
 import com.jim.multipos.data.operations.ProductOperations;
-import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.ui.mainpospage.view.ProductFolderView;
 
 import java.util.ArrayList;
@@ -25,6 +25,7 @@ public class ProductFolderViewPresenterImpl extends BasePresenterImpl<ProductFol
 
     private CategoryOperations categoryOperations;
     private ProductOperations productOperations;
+    private DatabaseManager databaseManager;
     private List<FolderItem> folderItems;
     private Category category;
     private static final int CATEGORY = 0;
@@ -32,12 +33,15 @@ public class ProductFolderViewPresenterImpl extends BasePresenterImpl<ProductFol
     private static final int PRODUCT = 2;
     private static final String CATEGORY_TITLE = "category_title";
     private static final String SUBCATEGORY_TITLE = "subcategory_title";
+    private int mode = CATEGORY;
+    private FolderItem folderItem;
 
     @Inject
     protected ProductFolderViewPresenterImpl(ProductFolderView view, DatabaseManager databaseManager) {
         super(view);
         this.categoryOperations = databaseManager.getCategoryOperations();
         this.productOperations = databaseManager.getProductOperations();
+        this.databaseManager = databaseManager;
         folderItems = new ArrayList<>();
     }
 
@@ -45,13 +49,13 @@ public class ProductFolderViewPresenterImpl extends BasePresenterImpl<ProductFol
     public void setFolderItemsRecyclerView() {
         categoryOperations.getAllActiveCategories().subscribe(categories -> {
             view.sendCategoryEvent(null, SUBCATEGORY_TITLE);
+            folderItems.clear();
             for (Category category : categories) {
                 FolderItem folderItem = new FolderItem();
                 folderItem.setCategory(category);
-                productOperations.getAllProductCount(category).subscribe(integer -> {
-                    folderItem.setSize(integer);
-                    folderItems.add(folderItem);
-                });
+                int count = productOperations.getAllProductCount(category).blockingSingle();
+                folderItem.setCount(count);
+                folderItems.add(folderItem);
             }
             view.setFolderItemRecyclerView(folderItems);
         });
@@ -59,20 +63,29 @@ public class ProductFolderViewPresenterImpl extends BasePresenterImpl<ProductFol
 
     @Override
     public void selectedItem(FolderItem item) {
+        this.folderItem = item;
         if (item.getCategory() != null) {
             if (isSubcategory(item.getCategory())) {
+                mode = PRODUCT;
                 folderItems.clear();
                 view.sendCategoryEvent(item.getCategory(), SUBCATEGORY_TITLE);
                 productOperations.getAllActiveProducts(item.getCategory()).subscribe(products -> {
                     for (Product product : products) {
                         FolderItem folderItem = new FolderItem();
                         folderItem.setProduct(product);
+                        List<InventoryState> inventoryStates = databaseManager.getInventoryStatesByProductId(product.getId()).blockingSingle();
+                        int count = 0;
+                        for (InventoryState inventoryState : inventoryStates) {
+                            count += inventoryState.getValue();
+                        }
+                        folderItem.setCount(count);
                         folderItems.add(folderItem);
                     }
                     view.refreshProductList(folderItems, PRODUCT);
                     view.setBackItemVisibility(true);
                 });
             } else {
+                mode = SUBCATEGORY;
                 this.category = item.getCategory();
                 view.sendCategoryEvent(category, CATEGORY_TITLE);
                 view.sendCategoryEvent(null, SUBCATEGORY_TITLE);
@@ -82,7 +95,7 @@ public class ProductFolderViewPresenterImpl extends BasePresenterImpl<ProductFol
                         FolderItem folderItem = new FolderItem();
                         folderItem.setCategory(subcategory);
                         productOperations.getAllActiveProducts(subcategory).subscribe(products -> {
-                            folderItem.setSize(products.size());
+                            folderItem.setCount(products.size());
                             folderItems.add(folderItem);
                         });
                     }
@@ -99,6 +112,7 @@ public class ProductFolderViewPresenterImpl extends BasePresenterImpl<ProductFol
     public void returnBack(int mode) {
         switch (mode) {
             case SUBCATEGORY:
+                this.mode = CATEGORY;
                 view.setBackItemVisibility(false);
                 folderItems.clear();
                 view.sendCategoryEvent(null, CATEGORY_TITLE);
@@ -108,7 +122,7 @@ public class ProductFolderViewPresenterImpl extends BasePresenterImpl<ProductFol
                         FolderItem folderItem = new FolderItem();
                         folderItem.setCategory(category);
                         productOperations.getAllProductCount(category).subscribe(integer -> {
-                            folderItem.setSize(integer);
+                            folderItem.setCount(integer);
                             folderItems.add(folderItem);
                         });
                     }
@@ -116,6 +130,7 @@ public class ProductFolderViewPresenterImpl extends BasePresenterImpl<ProductFol
                 });
                 break;
             case PRODUCT:
+                this.mode = SUBCATEGORY;
                 folderItems.clear();
                 view.sendCategoryEvent(null, SUBCATEGORY_TITLE);
                 categoryOperations.getAllActiveSubCategories(category).subscribe(subcategories -> {
@@ -123,7 +138,7 @@ public class ProductFolderViewPresenterImpl extends BasePresenterImpl<ProductFol
                         FolderItem folderItem = new FolderItem();
                         folderItem.setCategory(subcategory);
                         productOperations.getAllActiveProducts(subcategory).subscribe(products -> {
-                            folderItem.setSize(products.size());
+                            folderItem.setCount(products.size());
                             folderItems.add(folderItem);
                         });
                     }
@@ -131,6 +146,29 @@ public class ProductFolderViewPresenterImpl extends BasePresenterImpl<ProductFol
                     view.setBackItemVisibility(true);
                 });
                 break;
+        }
+    }
+
+    @Override
+    public void updateProducts() {
+        if (mode == PRODUCT){
+            folderItems.clear();
+            view.sendCategoryEvent(folderItem.getCategory(), SUBCATEGORY_TITLE);
+            productOperations.getAllActiveProducts(folderItem.getCategory()).subscribe(products -> {
+                for (Product product : products) {
+                    FolderItem folderItem = new FolderItem();
+                    folderItem.setProduct(product);
+                    List<InventoryState> inventoryStates = databaseManager.getInventoryStatesByProductId(product.getId()).blockingSingle();
+                    int count = 0;
+                    for (InventoryState inventoryState : inventoryStates) {
+                        count += inventoryState.getValue();
+                    }
+                    folderItem.setCount(count);
+                    folderItems.add(folderItem);
+                }
+                view.refreshProductList(folderItems, PRODUCT);
+                view.setBackItemVisibility(true);
+            });
         }
     }
 }

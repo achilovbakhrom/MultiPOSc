@@ -19,6 +19,7 @@ import javax.inject.Inject;
 import static com.jim.multipos.data.db.model.consignment.Consignment.INCOME_CONSIGNMENT;
 import static com.jim.multipos.data.db.model.consignment.Consignment.RETURN_CONSIGNMENT;
 import static com.jim.multipos.data.db.model.inventory.BillingOperations.PAID_TO_CONSIGNMENT;
+import static com.jim.multipos.ui.consignment.view.IncomeConsignmentFragment.INVENTORY_STATE_UPDATE;
 
 /**
  * Created by Portable-Acer on 17.11.2017.
@@ -153,6 +154,7 @@ public class VendorProductsViewPresenterImpl extends BasePresenterImpl<VendorPro
         warehouseOperations.setValue(shortage);
         databaseManager.insertWarehouseOperation(warehouseOperations).subscribe((aLong, throwable) -> {
            updateInventoryItems();
+           view.sendEvent(INVENTORY_STATE_UPDATE);
         });
     }
 

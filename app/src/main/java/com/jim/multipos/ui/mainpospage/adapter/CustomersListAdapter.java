@@ -8,12 +8,10 @@ import android.text.style.BackgroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jim.mpviews.MpActionButton;
-import com.jim.mpviews.MpButton;
 import com.jim.multipos.R;
 import com.jim.multipos.data.db.model.customer.Customer;
 
@@ -78,7 +76,7 @@ public class CustomersListAdapter extends RecyclerView.Adapter<CustomersListAdap
     public interface OnCustomerListItemCallback {
         void onItemEdit(Customer customer);
 
-        void onItemDelete(Customer customer);
+        void onItemSelect(Customer customer);
     }
 
     public void setCallback(OnCustomerListItemCallback callback) {
@@ -107,7 +105,7 @@ public class CustomersListAdapter extends RecyclerView.Adapter<CustomersListAdap
             super(itemView);
             ButterKnife.bind(this, itemView);
             btnEdit.setOnClickListener(view -> callback.onItemEdit(items.get(getAdapterPosition())));
-            btnAddToOrder.setOnClickListener(view -> callback.onItemDelete(items.get(getAdapterPosition())));
+            btnAddToOrder.setOnClickListener(view -> callback.onItemSelect(items.get(getAdapterPosition())));
         }
     }
 

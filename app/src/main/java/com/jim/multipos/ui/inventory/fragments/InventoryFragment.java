@@ -297,6 +297,11 @@ public class InventoryFragment extends BaseFragment implements InventoryView{
         ((InventoryActivity) getActivity()).sendDataWithBundle(productId, vendorId, consignment_type);
     }
 
+    @Override
+    public void sendEvent(String event) {
+        rxBus.send(new MessageEvent(event));
+    }
+
 
     public void searchText(String searchText){
         presenter.onSearchTyped(searchText);

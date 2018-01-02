@@ -28,8 +28,8 @@
 
             <ImageView
                 android:id="@+id/mpLeftImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/thirteen_dp"
+                android:layout_height="@dimen/thirteen_dp"
                 android:layout_gravity="center"
                 android:layout_marginRight="@dimen/twenty_dp" />
 
@@ -53,8 +53,8 @@
 
             <ImageView
                 android:id="@+id/mpRightImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/thirteen_dp"
+                android:layout_height="@dimen/thirteen_dp"
                 android:layout_gravity="center"
                 android:layout_marginRight="@dimen/twenty_dp" />
 

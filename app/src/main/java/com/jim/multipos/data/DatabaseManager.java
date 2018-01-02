@@ -12,6 +12,7 @@ import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.consignment.Consignment;
 import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
+import com.jim.multipos.data.db.model.customer.Debt;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
 import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
@@ -60,8 +61,6 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.Single;
-
-import static com.jim.multipos.data.db.model.consignment.Consignment.INCOME_CONSIGNMENT;
 
 /**
  * Created by Developer on 5/13/17.
@@ -469,6 +468,26 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Observable<Boolean> isCustomerExists(String name) {
         return dbHelper.isCustomerExists(name);
+    }
+
+    @Override
+    public Single<Customer> getCustomerById(Long customerId) {
+        return dbHelper.getCustomerById(customerId);
+    }
+
+    @Override
+    public Single<List<Customer>> getCustomersWithDebt() {
+        return dbHelper.getCustomersWithDebt();
+    }
+
+    @Override
+    public Single<Boolean> addDebt(Debt debt) {
+        return dbHelper.insertDebt(debt);
+    }
+
+    @Override
+    public Single<List<Debt>> getDebtsByCustomerId(Long id) {
+        return dbHelper.getDebtsByCustomerId(id);
     }
 
     @Override

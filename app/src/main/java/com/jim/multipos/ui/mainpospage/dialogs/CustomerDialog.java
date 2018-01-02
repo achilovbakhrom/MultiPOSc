@@ -22,6 +22,7 @@ import com.jim.multipos.ui.billing_vendor.adapter.BillingInfoAdapter;
 import com.jim.multipos.ui.mainpospage.adapter.CustomersListAdapter;
 import com.jim.multipos.utils.TextWatcherOnTextChange;
 import com.jim.multipos.utils.UIUtils;
+import com.jim.multipos.utils.managers.NotifyManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -79,7 +80,7 @@ public class CustomerDialog extends Dialog {
 
     private CustomerSortingStates filterMode = SORTED_BY_ID;
 
-    public CustomerDialog(@NonNull Context context, DatabaseManager databaseManager) {
+    public CustomerDialog(@NonNull Context context, DatabaseManager databaseManager, NotifyManager notifyManager) {
         super(context);
         View dialogView = getLayoutInflater().inflate(R.layout.choose_customers_dialog, null);
         ButterKnife.bind(this, dialogView);
@@ -107,8 +108,9 @@ public class CustomerDialog extends Dialog {
             }
 
             @Override
-            public void onItemDelete(Customer customer) {
-
+            public void onItemSelect(Customer customer) {
+                notifyManager.notifyView(customer);
+                dismiss();
             }
         });
 

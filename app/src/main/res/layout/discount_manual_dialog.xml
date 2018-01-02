@@ -9,14 +9,14 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="@dimen/four_hundred_eighty_dp"
-        android:layout_height="@dimen/four_hundred_twenty_dp"
+        android:layout_width="@dimen/seven_hundred_dp"
+        android:layout_height="@dimen/four_hundred_fifty_dp"
         android:background="@drawable/rounded_edit_text_bg"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/fifty_seven_dp"
+            android:layout_height="@dimen/sixty_dp"
             android:background="@drawable/rounded_blue_bg">
 
             <TextView
@@ -25,121 +25,206 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:paddingLeft="@dimen/thirty_dp"
-                android:text="Discount"
+                android:text="@string/manual_discount"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/twenty_dp"
                 android:textStyle="bold" />
 
         </LinearLayout>
 
+
+        <com.jim.mpviews.MpSwitcher
+            android:id="@+id/swDiscountType"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/fifty_dp"
+            android:layout_marginBottom="@dimen/fifteen_dp"
+            android:layout_marginLeft="@dimen/thirty_dp"
+            android:layout_marginTop="@dimen/twenty_three_dp"
+            android:gravity="left"
+            app:text_left="@string/amount"
+            app:text_right="@string/percent" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginBottom="@dimen/ten_dp"
+            android:background="@color/colorTextHint" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#f9f9f9"
-            android:orientation="vertical">
-
-            <com.jim.mpviews.MpTripleSwitcher
-                android:id="@+id/tsDiscountType"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/forty_seven_dp"
-                android:layout_marginBottom="@dimen/fifteen_dp"
-                android:layout_marginTop="@dimen/twenty_three_dp"
-                android:gravity="center"
-                app:center_text="Percent"
-                app:left_text="Amount"
-                app:right_text="Reprice" />
-
+            android:background="@color/colorBackgroundGrey"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/thirty_dp"
+            android:paddingRight="@dimen/thirty_dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/ten_dp"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/thirty_dp"
-                android:paddingRight="@dimen/thirty_dp">
+                android:layout_marginBottom="@dimen/twenty_dp"
+                android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/ten_dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/edit_text_bg"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
-                    <EditText
-                        android:id="@+id/etAmount"
-                        android:layout_width="0dp"
-                        android:layout_height="@dimen/forty_seven_dp"
-                        android:layout_weight="1"
-                        android:background="@color/colorTransparent"
-                        android:hint="Amount"
-                        android:inputType="numberDecimal"
-                        android:paddingLeft="@dimen/ten_dp"
-                        android:textColorHint="@color/colorTextHint"
-                        android:textSize="@dimen/eighteen_dp" />
-
-                    <ImageView
-                        android:id="@+id/ivClearAmount"
-                        android:layout_width="wrap_content"
+                    <TextView
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
                         android:layout_marginLeft="@dimen/ten_dp"
-                        android:layout_marginRight="@dimen/ten_dp"
-                        android:src="@drawable/cancel" />
+                        android:gravity="right"
+                        android:paddingRight="@dimen/fifteen_dp"
+                        android:text="@string/original_amount"
+                        android:textColor="#419ed8"
+                        android:textSize="@dimen/sixteen_dp" />
 
+                    <TextView
+                        android:id="@+id/tvPrice"
+                        android:layout_width="@dimen/hundred_seventy_dp"
+                        android:layout_height="@dimen/forty_five_dp"
+                        android:layout_marginTop="@dimen/ten_dp"
+                        android:background="@drawable/edit_text_bg_transparent"
+                        android:gravity="right|center_vertical"
+                        android:paddingLeft="@dimen/eighteen_dp"
+                        android:paddingRight="@dimen/ten_dp"
+                        android:singleLine="true"
+                        android:textColor="#414141"
+                        android:textSize="@dimen/eighteen_dp" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="@dimen/sixteen_dp"
+                    android:layout_height="@dimen/forty_five_dp"
+                    android:layout_gravity="bottom"
+                    android:layout_marginLeft="@dimen/sixteen_dp"
+                    android:layout_marginRight="@dimen/sixteen_dp"
+                    android:src="@drawable/minus_icon" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvDiscountAmountType"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/ten_dp"
+                        android:gravity="right"
+                        android:paddingRight="@dimen/fifteen_dp"
+                        android:text="@string/discount_amount"
+                        android:textColor="#419ed8"
+                        android:textSize="@dimen/sixteen_dp" />
+
+                    <com.jim.mpviews.MpEditText
+                        android:id="@+id/etDiscountAmount"
+                        android:layout_width="@dimen/hundred_seventy_dp"
+                        android:layout_height="@dimen/forty_five_dp"
+                        android:layout_marginTop="@dimen/ten_dp"
+                        android:background="@drawable/edit_text_bg_transparent"
+                        android:gravity="center_vertical|right"
+                        android:hint="@string/value"
+                        android:inputType="numberDecimal"
+                        android:paddingLeft="@dimen/eighteen_dp"
+                        android:paddingRight="@dimen/ten_dp"
+                        android:singleLine="true"
+                        android:textColor="#414141"
+                        android:textSize="@dimen/eighteen_dp" />
                 </LinearLayout>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tvType"
+                    android:layout_width="@dimen/fifty_five_dp"
+                    android:layout_height="@dimen/forty_five_dp"
+                    android:layout_gravity="bottom"
+                    android:layout_marginLeft="@dimen/sixteen_dp"
+                    android:background="@drawable/edit_text_bg_transparent"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:textColor="#414141"
+                    android:textSize="@dimen/eighteen_dp" />
+
+                <ImageView
+                    android:layout_width="@dimen/sixteen_dp"
+                    android:layout_height="@dimen/forty_five_dp"
+                    android:layout_gravity="bottom"
+                    android:layout_marginLeft="@dimen/sixteen_dp"
+                    android:src="@drawable/equals_black" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="UZS"
-                    android:textSize="@dimen/eighteen_dp"
-                    tools:text="UZS" />
+                    android:layout_marginLeft="@dimen/sixteen_dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/ten_dp"
+                        android:gravity="right"
+                        android:text="@string/billing_amount"
+                        android:textColor="#419ed8"
+                        android:textSize="@dimen/sixteen_dp" />
+
+                    <com.jim.mpviews.MpEditText
+                        android:id="@+id/etResultPrice"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/forty_five_dp"
+                        android:layout_marginTop="@dimen/ten_dp"
+                        android:background="@drawable/edit_text_bg_transparent"
+                        android:gravity="center_vertical|right"
+                        android:inputType="numberDecimal"
+                        android:paddingLeft="@dimen/eighteen_dp"
+                        android:paddingRight="@dimen/ten_dp"
+                        android:singleLine="true"
+                        android:textColor="#414141"
+                        android:textSize="@dimen/eighteen_dp" />
+                </LinearLayout>
             </LinearLayout>
 
             <com.jim.mpviews.MpEditText
-                android:id="@+id/etDescription"
+                android:id="@+id/etDiscountName"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/hundred_fifteen_dp"
+                android:layout_height="@dimen/ninety_dp"
                 android:layout_marginBottom="@dimen/twenty_dp"
-                android:layout_marginLeft="@dimen/thirty_dp"
-                android:layout_marginRight="@dimen/thirty_dp"
                 android:gravity="top"
-                android:hint="Description"
-                android:padding="@dimen/ten_dp"
+                android:hint="@string/enter_discount_name"
                 android:textSize="@dimen/eighteen_dp" />
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/colorTextHint" />
+
         </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/colorTextHint" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/seventeen_dp"
-            android:layout_marginTop="@dimen/eighteen_dp"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:layout_marginBottom="@dimen/fifteen_dp"
+            android:layout_marginTop="@dimen/fifteen_dp"
+            android:gravity="right"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/thirty_dp"
+            android:paddingRight="@dimen/thirty_dp">
 
             <com.jim.mpviews.MpButton
                 android:id="@+id/btnCancel"
                 android:layout_width="@dimen/hundred_fifty_five_dp"
                 android:layout_height="@dimen/fifty_four_dp"
                 android:gravity="center"
-                android:text="Cancel"
+                android:text="@string/cancel"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="@dimen/eighteen_dp" />
-
 
             <com.jim.mpviews.MpButton
                 android:id="@+id/btnNext"
                 android:layout_width="@dimen/hundred_fifty_five_dp"
                 android:layout_height="@dimen/fifty_four_dp"
                 android:gravity="center"
-                android:text="Next"
+                android:text="@string/ok"
                 android:textColor="@color/colorBlue"
                 android:textSize="@dimen/eighteen_dp"
                 android:textStyle="bold" />

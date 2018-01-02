@@ -41,6 +41,8 @@ import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.CustomerDao;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
 import com.jim.multipos.data.db.model.customer.CustomerGroupDao;
+import com.jim.multipos.data.db.model.customer.Debt;
+import com.jim.multipos.data.db.model.customer.DebtDao;
 import com.jim.multipos.data.db.model.customer.JoinCustomerGroupsWithCustomers;
 import com.jim.multipos.data.db.model.customer.JoinCustomerGroupsWithCustomersDao;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
@@ -74,7 +76,6 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -249,7 +250,7 @@ public class AppDbHelper implements DbHelper {
             int sum = 0;
             for (Category subcategory : subCategories) {
                 sum += mDaoSession.getProductDao().queryBuilder()
-                        .where(ProductDao.Properties.ParentId.eq(subcategory.getId()), ProductDao.Properties.IsDeleted.eq(false))
+                        .where(ProductDao.Properties.CategoryId.eq(subcategory.getId()), ProductDao.Properties.IsDeleted.eq(false))
                         .where(ProductDao.Properties.IsNotModified.eq(true), ProductDao.Properties.IsActive.eq(true))
                         .build().list().size();
             }
@@ -895,7 +896,13 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public Observable<List<Customer>> getAllCustomers() {
-        return Observable.fromCallable(() -> mDaoSession.getCustomerDao().queryBuilder().where(CustomerDao.Properties.IsNotModifyted.notEq(false)).orderDesc(CustomerDao.Properties.CreatedDate).build().list());
+        return Observable.fromCallable(() -> mDaoSession.getCustomerDao().queryBuilder()
+                .where(CustomerDao.Properties.IsNotModifyted.eq(true),
+                        CustomerDao.Properties.IsDeleted.eq(false),
+                        CustomerDao.Properties.IsActive.eq(true))
+                .orderDesc(CustomerDao.Properties.CreatedDate)
+                .build()
+                .list());
     }
 
     @Override
@@ -1598,6 +1605,54 @@ public class AppDbHelper implements DbHelper {
                     .build().list();
 
             e.onSuccess(consignments);
+        });
+    }
+
+    @Override
+    public Single<Customer> getCustomerById(Long customerId) {
+        return Single.create(e -> {
+            List<Customer> customerList = mDaoSession
+                    .queryBuilder(Customer.class)
+                    .where(CustomerDao.Properties.Id.eq(customerId))
+                    .build().list();
+            e.onSuccess(customerList.get(0));
+        });
+    }
+
+    @Override
+    public Single<List<Customer>> getCustomersWithDebt() {
+        return Single.create(e -> {
+            List<Customer> customerList = mDaoSession
+                    .queryBuilder(Customer.class)
+                    .where(CustomerDao.Properties.IsNotModifyted.eq(true),
+                           CustomerDao.Properties.IsDeleted.eq(false),
+                           CustomerDao.Properties.IsActive.eq(true))
+                    .build().list();
+            List<Customer> newCustomerList = new ArrayList<>();
+            for (int i = 0; i < customerList.size(); i++) {
+                if (customerList.get(i).getDebtList().size() > 0)
+                    newCustomerList.add(customerList.get(i));
+            }
+            e.onSuccess(newCustomerList);
+        });
+    }
+
+    @Override
+    public Single<Boolean> insertDebt(Debt debt) {
+        return Single.create(singleSubscriber -> {
+                mDaoSession.getDebtDao().insertOrReplace(debt);
+                singleSubscriber.onSuccess(true);
+        });
+    }
+
+    @Override
+    public Single<List<Debt>> getDebtsByCustomerId(Long id) {
+        return Single.create(e -> {
+            List<Debt> debts = mDaoSession
+                    .queryBuilder(Debt.class)
+                    .where(DebtDao.Properties.CustomerId.eq(id))
+                    .build().list();
+            e.onSuccess(debts);
         });
     }
 }

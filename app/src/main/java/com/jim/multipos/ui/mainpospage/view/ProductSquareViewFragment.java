@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.Toast;
 
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
@@ -21,8 +19,6 @@ import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.RxBusLocal;
 import com.jim.multipos.utils.rxevents.CategoryEvent;
 import com.jim.multipos.utils.rxevents.MessageEvent;
-import com.jim.multipos.utils.rxevents.MessageWithIdEvent;
-import com.jim.multipos.utils.rxevents.ProductEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +31,6 @@ import io.reactivex.disposables.Disposable;
 import static com.jim.multipos.ui.product_last.ProductPresenterImpl.PRODUCT_ADD;
 import static com.jim.multipos.ui.product_last.ProductPresenterImpl.PRODUCT_DELETE;
 import static com.jim.multipos.ui.product_last.ProductPresenterImpl.PRODUCT_UPDATE;
-import static com.jim.multipos.utils.UIUtils.closeKeyboard;
 
 /**
  * Created by Sirojiddin on 27.10.2017.
@@ -109,8 +104,8 @@ public class ProductSquareViewFragment extends BaseFragment implements ProductSq
         if (categories.size() > 0) {
             presenter.setSelectedCategory(preferencesHelper.getLastPositionCategory());
             categoryAdapter.setSelected(preferencesHelper.getLastPositionCategory());
-            rxBusLocal.send(new CategoryEvent(categories.get(preferencesHelper.getLastPositionCategory()), CATEGORY_TITLE));
-        } else rxBusLocal.send(new CategoryEvent(null, CATEGORY_TITLE));
+            mainPageConnection.sendSelectedCategory(categories.get(preferencesHelper.getLastPositionCategory()), CATEGORY_TITLE);
+        } else mainPageConnection.sendSelectedCategory(null, CATEGORY_TITLE);
         categoryAdapter.setOnItemClickListener(new ClickableBaseAdapter.OnItemClickListener<Category>() {
             @Override
             public void onItemClicked(int position) {
@@ -120,7 +115,7 @@ public class ProductSquareViewFragment extends BaseFragment implements ProductSq
             @Override
             public void onItemClicked(Category item) {
                 presenter.setClickedCategory(item);
-                rxBusLocal.send(new CategoryEvent(item, CATEGORY_TITLE));
+                mainPageConnection.sendSelectedCategory(item, CATEGORY_TITLE);
             }
         });
     }
@@ -139,14 +134,14 @@ public class ProductSquareViewFragment extends BaseFragment implements ProductSq
             @Override
             public void onItemClicked(Category item) {
                 presenter.setClickedSubCategory(item);
-                rxBusLocal.send(new CategoryEvent(item, SUBCATEGORY_TITLE));
+                mainPageConnection.sendSelectedCategory(item, SUBCATEGORY_TITLE);
             }
         });
         if (subCategories.size() > 0) {
             presenter.setSelectedSubCategory(preferencesHelper.getLastPositionSubCategory(String.valueOf(subCategories.get(0).getParentId())));
             subcategoryAdapter.setSelected(preferencesHelper.getLastPositionSubCategory(String.valueOf(subCategories.get(0).getParentId())));
-            rxBusLocal.send(new CategoryEvent(subCategories.get(preferencesHelper.getLastPositionSubCategory(String.valueOf(subCategories.get(0).getParentId()))), SUBCATEGORY_TITLE));
-        } else rxBusLocal.send(new CategoryEvent(null, SUBCATEGORY_TITLE));
+            mainPageConnection.sendSelectedCategory(subCategories.get(preferencesHelper.getLastPositionSubCategory(String.valueOf(subCategories.get(0).getParentId()))), SUBCATEGORY_TITLE);
+        } else mainPageConnection.sendSelectedCategory(null, SUBCATEGORY_TITLE);
     }
 
     @Override
@@ -197,6 +192,6 @@ public class ProductSquareViewFragment extends BaseFragment implements ProductSq
 
     @Override
     public void sendEvent(Category category, String subcategoryTitle) {
-        rxBusLocal.send(new CategoryEvent(category, subcategoryTitle));
+        mainPageConnection.sendSelectedCategory(category, subcategoryTitle);
     }
 }

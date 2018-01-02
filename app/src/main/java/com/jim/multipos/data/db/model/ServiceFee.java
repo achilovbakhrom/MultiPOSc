@@ -31,9 +31,10 @@ public class ServiceFee implements Editable {
     private int type;
     private String name;
     private int applyingType;
-    private boolean isActive;
-    private boolean isDeleted;
+    private boolean isActive = true;
+    private boolean isDeleted = false;
     private boolean notModifyted = true;
+    private boolean isManual = false;
     private Long rootId;
     private Long createdDate;
     /** Used for active entity operations. */
@@ -43,16 +44,14 @@ public class ServiceFee implements Editable {
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
 
-
     @Generated(hash = 1970278224)
     public ServiceFee() {
     }
 
-
-    @Generated(hash = 1989109301)
+    @Generated(hash = 764501024)
     public ServiceFee(Long id, Double amount, int type, String name, int applyingType,
-            boolean isActive, boolean isDeleted, boolean notModifyted, Long rootId,
-            Long createdDate) {
+            boolean isActive, boolean isDeleted, boolean notModifyted, boolean isManual,
+            Long rootId, Long createdDate) {
         this.id = id;
         this.amount = amount;
         this.type = type;
@@ -61,10 +60,10 @@ public class ServiceFee implements Editable {
         this.isActive = isActive;
         this.isDeleted = isDeleted;
         this.notModifyted = notModifyted;
+        this.isManual = isManual;
         this.rootId = rootId;
         this.createdDate = createdDate;
     }
-    
 
     public Boolean getIsActive() {
         return this.isActive;
@@ -229,6 +228,30 @@ public class ServiceFee implements Editable {
 
     public void setType(int type) {
         this.type = type;
+    }
+    public String getServiceFeeTypeName(Context context){
+        String serviceFeeTypeName = CommonUtils.getServiceTypeName(context, type);
+        if(type == ServiceFee.PERCENT){
+            DecimalFormat formatter;
+            NumberFormat numberFormat = NumberFormat.getNumberInstance();
+            numberFormat.setMaximumFractionDigits(2);
+            formatter = (DecimalFormat) numberFormat;
+            DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
+            symbols.setGroupingSeparator(' ');
+            formatter.setDecimalFormatSymbols(symbols);
+            serviceFeeTypeName += " ";
+            serviceFeeTypeName += formatter.format(amount);
+            serviceFeeTypeName += "%";
+        }
+        return serviceFeeTypeName;
+    }
+
+    public boolean getIsManual() {
+        return this.isManual;
+    }
+
+    public void setIsManual(boolean isManual) {
+        this.isManual = isManual;
     }
 
 }

@@ -9,6 +9,8 @@ import com.jim.multipos.ui.billing_vendor.di.BillingOperationActivityModule;
 import com.jim.multipos.ui.consignment.di.ConsignmentActivityModule;
 import com.jim.multipos.ui.consignment_list.ConsignmentListActivity;
 import com.jim.multipos.ui.consignment_list.di.ConsignmentListActivityModule;
+import com.jim.multipos.ui.customer_debt.CustomerDebtActivity;
+import com.jim.multipos.ui.customer_debt.di.CustomerDebtActivityModule;
 import com.jim.multipos.ui.customer_group_new.CustomerGroupActivity;
 import com.jim.multipos.ui.customer_group_new.di.CustomerGroupActivityModule;
 import com.jim.multipos.ui.customers_edit_new.CustomersEditActivity;
@@ -152,5 +154,9 @@ abstract class AppModule {
     @PerActivity
     @ContributesAndroidInjector(modules = BillingOperationActivityModule.class)
     abstract BillingOperationsActivity provideBillingOperationsActivity();
+
+    @PerActivity
+    @ContributesAndroidInjector(modules = CustomerDebtActivityModule.class)
+    abstract CustomerDebtActivity provideCustomerDebtActivity();
 
 }

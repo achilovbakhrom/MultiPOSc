@@ -1,6 +1,7 @@
 package com.jim.multipos.config.common;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.jim.multipos.MultiPosApp;
 import com.jim.multipos.data.db.AppDbHelper;
@@ -11,6 +12,7 @@ import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.utils.AppConstants;
 import com.jim.multipos.utils.RxBus;
+import com.jim.multipos.utils.managers.NotifyManager;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import org.greenrobot.greendao.database.Database;
@@ -76,6 +78,12 @@ public abstract class BaseAppModule {
         formatter.setDecimalFormatSymbols(symbols);
         return formatter;
 
+    }
+
+    @Provides
+    @Singleton
+    static NotifyManager getNotifyManager() {
+        return new NotifyManager();
     }
 
 }

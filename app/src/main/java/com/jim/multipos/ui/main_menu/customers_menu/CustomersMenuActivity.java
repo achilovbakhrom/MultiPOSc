@@ -12,6 +12,7 @@ import com.jim.multipos.R;
 import com.jim.multipos.core.BaseActivity;
 import com.jim.multipos.core.ClickableBaseAdapter;
 import com.jim.multipos.data.db.model.intosystem.TitleDescription;
+import com.jim.multipos.ui.customer_debt.CustomerDebtActivity;
 import com.jim.multipos.ui.customer_group_new.CustomerGroupActivity;
 import com.jim.multipos.ui.customers_edit_new.CustomersEditActivity;
 import com.jim.multipos.ui.main_menu.MenuListAdapter;
@@ -89,6 +90,8 @@ public class CustomersMenuActivity extends BaseActivity implements CustomersMenu
                 startActivity(intentGroup);
                 break;
             case 2:
+                Intent intentDebt = new Intent(this, CustomerDebtActivity.class);
+                startActivity(intentDebt);
                 break;
             case 3:
                 break;

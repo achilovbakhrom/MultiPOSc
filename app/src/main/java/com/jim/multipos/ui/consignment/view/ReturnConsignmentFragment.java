@@ -36,6 +36,7 @@ import static com.jim.multipos.ui.consignment.ConsignmentActivity.CONSIGNMENT_ID
 import static com.jim.multipos.ui.consignment.ConsignmentActivity.PRODUCT_ID;
 import static com.jim.multipos.ui.consignment.ConsignmentActivity.VENDOR_ID;
 import static com.jim.multipos.ui.consignment.view.IncomeConsignmentFragment.CONSIGNMENT_UPDATE;
+import static com.jim.multipos.ui.consignment.view.IncomeConsignmentFragment.INVENTORY_STATE_UPDATE;
 import static com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemFragment.BILLINGS_UPDATE;
 
 /**
@@ -181,6 +182,7 @@ public class ReturnConsignmentFragment extends BaseFragment implements ReturnCon
     public void closeFragment(Long id) {
         rxBus.send(new MessageWithIdEvent(id, CONSIGNMENT_UPDATE));
         rxBus.send(new MessageEvent(BILLINGS_UPDATE));
+        rxBus.send(new MessageEvent(INVENTORY_STATE_UPDATE));
         getActivity().finish();
     }
 

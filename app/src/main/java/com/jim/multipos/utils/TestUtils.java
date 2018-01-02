@@ -7,10 +7,11 @@ import com.jim.multipos.data.db.model.Account;
 import com.jim.multipos.data.db.model.PaymentType;
 import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.currency.Currency;
+import com.jim.multipos.data.db.model.customer.Customer;
+import com.jim.multipos.data.db.model.customer.Debt;
 import com.jim.multipos.data.db.model.products.Vendor;
-import com.jim.multipos.data.db.model.unit.Unit;
-import com.jim.multipos.data.db.model.unit.UnitCategory;
 
+import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -87,6 +88,62 @@ public class TestUtils {
                 paymentType.setCurrency(databaseManager.getMainCurrency());
                 databaseManager.addPaymentType(paymentType1).subscribe();
             }
+        }
+    }
+
+    public static void createCustomersWithDebt(DatabaseManager databaseManager){
+        if (databaseManager.getAllCustomers().blockingSingle().isEmpty()){
+            Customer customer = new Customer();
+            customer.setAddress("Tashkent, 5A");
+            customer.setClientId(1L);
+            customer.setPhoneNumber("998901532653");
+            customer.setCreatedDate(System.currentTimeMillis());
+            customer.setName("Ketmonbek Toshpulatov");
+            customer.setQrCode("48454846454");
+            databaseManager.addCustomer(customer).subscribe(aLong -> {
+                Debt debt = new Debt();
+                debt.setCustomer(customer);
+                debt.setDebtAmount(500);
+                debt.setFee(5);
+                debt.setTakenDate(System.currentTimeMillis());
+                GregorianCalendar calendar = new GregorianCalendar(2017, 11, 30);
+                debt.setEndDate(calendar.getTimeInMillis());
+                databaseManager.addDebt(debt).subscribe();
+                Debt debt1 = new Debt();
+                debt1.setCustomer(customer);
+                debt1.setDebtAmount(500);
+                debt1.setFee(5);
+                debt1.setTakenDate(System.currentTimeMillis());
+                GregorianCalendar calendar1 = new GregorianCalendar(2017, 11, 30);
+                debt1.setEndDate(calendar1.getTimeInMillis());
+                databaseManager.addDebt(debt1).subscribe();
+            });
+            Customer customer1 = new Customer();
+            customer1.setAddress("Tashkent, QoraSuv 2 - A");
+            customer1.setClientId(2L);
+            customer1.setPhoneNumber("99890154453");
+            customer1.setCreatedDate(System.currentTimeMillis());
+            customer1.setName("Avaz Oxun");
+            customer1.setQrCode("168432135");
+            databaseManager.addCustomer(customer1).subscribe(aLong -> {
+                Debt debt = new Debt();
+                debt.setCustomer(customer1);
+                debt.setDebtAmount(500);
+                debt.setFee(5);
+                debt.setTakenDate(System.currentTimeMillis());
+                GregorianCalendar calendar = new GregorianCalendar(2017, 11, 31);
+                debt.setEndDate(calendar.getTimeInMillis());
+                databaseManager.addDebt(debt).subscribe();
+                Debt debt1 = new Debt();
+                debt1.setCustomer(customer);
+                debt1.setDebtAmount(500);
+                debt1.setFee(5);
+                debt1.setTakenDate(System.currentTimeMillis());
+                GregorianCalendar calendar1 = new GregorianCalendar(2017, 11, 30);
+                debt1.setEndDate(calendar1.getTimeInMillis());
+                databaseManager.addDebt(debt1).subscribe();
+            });
+
         }
     }
 }

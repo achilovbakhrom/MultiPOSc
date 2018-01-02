@@ -12,6 +12,7 @@ import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.mpviews.MpButton;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
+import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.order.OrderProduct;
@@ -83,6 +84,9 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
     @Inject
     RxBus rxBus;
     @Inject
+    DatabaseManager databaseManager;
+
+    @Inject
     MainPageConnection mainPageConnection;
     @Override
     protected int getLayout() {
@@ -105,7 +109,6 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
 
         RxView.clicks(btnClose).subscribe(o -> {
             UIUtils.closeKeyboard(btnClose, getContext());
-            rxBus.send(new MessageEvent("Close_Info_Product"));
         });
 
         RxView.clicks(btnServiceFee).subscribe(o -> {
@@ -127,20 +130,8 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
         });
 
         RxView.clicks(btnDiscountItem).subscribe(o -> {
-            DiscountDialog dialog = new DiscountDialog();
-            dialog.setDiscounts(presenter.getDiscount(getResources().getStringArray(R.array.discount_used_types_abr)), getResources().getStringArray(R.array.discount_amount_types_abr));
-            dialog.setOnDialogListener(new DiscountDialog.OnDialogListener() {
-                @Override
-                public List<Discount> getDiscounts() {
-                    return presenter.getDiscount(getResources().getStringArray(R.array.discount_used_types_abr));
-                }
-
-                @Override
-                public void addDiscount(double amount, String description, int amountType) {
-                    presenter.addDiscount(amount, description, amountType);
-                }
-            });
-            dialog.show(getActivity().getSupportFragmentManager(), "DiscountProductInfoDialog");
+            DiscountDialog dialog = new DiscountDialog(getContext(), databaseManager);
+            dialog.show();
             dialog.setCaption(getString(R.string.choose_for_product));
         });
     }

@@ -555,6 +555,29 @@
     <string name="enter_service_fee_name">Enter service fee name</string>
     <string name="discount_cant_empty">Discount name can\'t be empty</string>
     <string name="amount">Amount</string>
+    <string name="manual_discount">Manual Discount</string>
+    <string name="percent">Percent</string>
+    <string name="manual">Manual</string>
+    <string name="result_price_cant_be_bigger">Result price cannot be bigger than price</string>
+    <string name="enter_discount_name">Enter discount name</string>
+    <string name="favorites">Favorites:</string>
+    <string name="discount_value">Discount value</string>
+    <string name="original_amount">Original amount</string>
+    <string name="discount_amount">Discount amount</string>
+    <string name="billing_amount">Billing amount</string>
+    <string name="discount_percent">Discount %</string>
+    <string name="history">History</string>
+    <string name="order_number">Order number:</string>
+    <string name="taken_date">Taken date:</string>
+    <string name="end_date">End date:</string>
+    <string name="late_date">Late date:</string>
+    <string name="debt_type">Debt type:</string>
+    <string name="status_two_dots">Status:</string>
+    <string name="order_sum">Order sum:</string>
+    <string name="fee_sum">Fee sum:</string>
+    <string name="total_debt_two_dots">Total Debt:</string>
+    <string name="paid_sum">Paid sum:</string>
+    <string name="due">Due:</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>

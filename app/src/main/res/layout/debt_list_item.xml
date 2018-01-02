@@ -1,36 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
 
     <LinearLayout
+        android:id="@+id/llBackground"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/fifty_dp"
         android:orientation="horizontal">
 
-        <FrameLayout
-            android:layout_width="@dimen/twenty_dp"
-            android:layout_height="match_parent"
-            android:background="@color/colorBlue" />
 
         <TextView
-            android:layout_width="0dp"
+            android:id="@+id/tvOrderNumber"
+            android:layout_width="@dimen/hundred_ten_dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="@dimen/thirty_dp"
-            android:layout_weight="1"
-            android:paddingBottom="@dimen/ten_dp"
-            android:paddingTop="@dimen/ten_dp"
-            android:text="Alex Band"
-            android:textColor="@color/colorBlue" />
+            android:textColor="@color/colorMainText"
+            android:textSize="@dimen/sixteen_dp" />
 
-        <ImageView
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/tvTakenDate"
+            android:layout_width="@dimen/hundred_eighty_dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginRight="@dimen/thirty_dp"
-            android:src="@drawable/alert" />
+            android:textColor="@color/colorMainText"
+            android:textSize="@dimen/sixteen_dp" />
+
+        <TextView
+            android:id="@+id/tvEndDate"
+            android:layout_width="@dimen/hundred_eighty_dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/colorMainText"
+            android:textSize="@dimen/sixteen_dp" />
+
+        <TextView
+            android:id="@+id/tvTotalDebt"
+            android:layout_width="@dimen/two_hundred_dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/colorMainText"
+            android:textSize="@dimen/sixteen_dp" />
+
+        <TextView
+            android:id="@+id/tvDueSum"
+            android:layout_width="@dimen/hundred_eighty_dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="@dimen/fifteen_dp"
+            android:textColor="@color/colorMainText"
+            android:textSize="@dimen/sixteen_dp" />
+
+        <ImageView
+            android:id="@+id/ivExtraOptions"
+            android:layout_width="@dimen/twenty_five_dp"
+            android:layout_height="@dimen/twenty_five_dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/three_dots"
+            android:tint="@color/colorTintGrey" />
 
     </LinearLayout>
 

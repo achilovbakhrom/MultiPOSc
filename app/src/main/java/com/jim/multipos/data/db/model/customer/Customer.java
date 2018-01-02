@@ -6,6 +6,7 @@ import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.JoinEntity;
+import org.greenrobot.greendao.annotation.JoinProperty;
 import org.greenrobot.greendao.annotation.ToMany;
 
 import com.jim.multipos.data.db.model.DaoSession;
@@ -26,24 +27,22 @@ public class Customer implements Editable {
     private String qrCode;
     private Long createdDate;
     private Long modifiedDate;
-    private boolean isActive;
-    private boolean isDeleted;
+    private boolean isActive = true;
+    private boolean isDeleted = false;
     private boolean isNotModifyted = true;
     private Long rootId;
+    @ToMany(joinProperties = {@JoinProperty(name = "id", referencedName = "customerId")})
+    private List<Debt> debtList;
 
     @ToMany
     @JoinEntity(entity = JoinCustomerGroupsWithCustomers.class,
             sourceProperty = "customerId",
             targetProperty = "customerGroupId")
     private List<CustomerGroup> customerGroups;
-    /**
-     * Used for active entity operations.
-     */
+    /** Used for active entity operations. */
     @Generated(hash = 1697251196)
     private transient CustomerDao myDao;
-    /**
-     * Used to resolve relations
-     */
+    /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
 
@@ -279,5 +278,33 @@ public class Customer implements Editable {
 
     public void setCreatedDate(Long createdDate) {
         this.createdDate = createdDate;
+    }
+
+    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    @Generated(hash = 2018636599)
+    public synchronized void resetDebtList() {
+        debtList = null;
+    }
+
+    /**
+     * To-many relationship, resolved on first access (and after reset).
+     * Changes to to-many relations are not persisted, make changes to the target entity.
+     */
+    @Generated(hash = 1349978810)
+    public List<Debt> getDebtList() {
+        if (debtList == null) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            DebtDao targetDao = daoSession.getDebtDao();
+            List<Debt> debtListNew = targetDao._queryCustomer_DebtList(id);
+            synchronized (this) {
+                if(debtList == null) {
+                    debtList = debtListNew;
+                }
+            }
+        }
+        return debtList;
     }
 }

@@ -1,18 +1,23 @@
 package com.jim.multipos.ui.mainpospage.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseViewHolder;
 import com.jim.multipos.core.ClickableBaseAdapter;
 import com.jim.multipos.data.db.model.intosystem.FolderItem;
 import com.jim.multipos.data.db.model.products.Product;
+import com.jim.multipos.utils.GlideApp;
 
+import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;
@@ -42,19 +47,18 @@ public class FolderViewAdapter extends ClickableBaseAdapter<FolderItem, BaseView
         if (holder instanceof FolderViewHolder) {
             FolderViewHolder folderViewHolder = ((FolderViewHolder) holder);
             folderViewHolder.tvFolderItemName.setText(items.get(position).getCategory().getName());
-            folderViewHolder.tvFolderItemSize.setText(items.get(position).getSize() + " products");
+            folderViewHolder.tvFolderItemSize.setText(items.get(position).getCount() + " products");
         } else {
             ProductViewHolder productViewHolder = (ProductViewHolder) holder;
             Product product = items.get(position).getProduct();
             productViewHolder.tvProductName.setText(product.getName());
             productViewHolder.tvProductSKU.setText("SKU: " + product.getSku());
-            productViewHolder.tvProductQty.setText("100.0 pcs");
-            productViewHolder.tvProductPrice.setText(product.getPrice() + " sum");
-//            productViewHolder.tvProductPrice.setText(product.getPrice() + " " + product.getPriceCurrency().getAbbr());
-//            if (!product.getPhotoPath().equals("")){
-//                Uri photoSelected = Uri.fromFile(new File(product.getPhotoPath()));
-//                GlideApp.with(context).load(photoSelected).diskCacheStrategy(DiskCacheStrategy.RESOURCE).thumbnail(0.2f).centerCrop().transform(new RoundedCorners(20)).into(productViewHolder.ivProductImage);
-//            } else productViewHolder.ivProductImage.setImageResource(R.drawable.basket);
+            productViewHolder.tvProductQty.setText(items.get(position).getCount() + " " + product.getMainUnit().getAbbr());
+            productViewHolder.tvProductPrice.setText(product.getPrice() + " " + product.getPriceCurrency().getAbbr());
+            if (!product.getPhotoPath().equals("")){
+                Uri photoSelected = Uri.fromFile(new File(product.getPhotoPath()));
+                GlideApp.with(context).load(photoSelected).diskCacheStrategy(DiskCacheStrategy.RESOURCE).thumbnail(0.2f).centerCrop().transform(new RoundedCorners(20)).into(productViewHolder.ivProductImage);
+            } else productViewHolder.ivProductImage.setImageResource(R.drawable.basket);
         }
 
     }

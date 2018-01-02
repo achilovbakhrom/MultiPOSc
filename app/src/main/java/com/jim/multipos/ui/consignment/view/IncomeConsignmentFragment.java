@@ -82,6 +82,7 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
     private Dialog dialog;
     private double sum = 0;
     public static final String CONSIGNMENT_UPDATE = "CONSIGNMENT_UPDATE";
+    public static final String INVENTORY_STATE_UPDATE = "INVENTORY_STATE_UPDATE";
 
 
     @Override
@@ -242,6 +243,7 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
     public void closeFragment(Long id) {
         rxBus.send(new MessageWithIdEvent(id, CONSIGNMENT_UPDATE));
         rxBus.send(new MessageEvent(BILLINGS_UPDATE));
+        rxBus.send(new MessageEvent(INVENTORY_STATE_UPDATE));
         getActivity().finish();
     }
 

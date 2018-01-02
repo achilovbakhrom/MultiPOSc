@@ -31,9 +31,10 @@ public class Discount implements Editable {
     private double amount;
     private int amountType;
     private int usedType;
-    private boolean active;
-    private boolean delete;
-    private boolean notModifyted;
+    private boolean active = true;
+    private boolean delete = false;
+    private boolean notModifyted = true;
+    private boolean isManual = false;
     private Long rootId;
     private Long createdDate;
     /** Used for active entity operations. */
@@ -43,22 +44,15 @@ public class Discount implements Editable {
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
 
-
-
-
-
-
     @Generated(hash = 1777606421)
     public Discount() {
     }
 
 
-
-
-    @Generated(hash = 48568515)
+    @Generated(hash = 1673697319)
     public Discount(Long id, String name, double amount, int amountType, int usedType,
-            boolean active, boolean delete, boolean notModifyted, Long rootId,
-            Long createdDate) {
+            boolean active, boolean delete, boolean notModifyted, boolean isManual,
+            Long rootId, Long createdDate) {
         this.id = id;
         this.name = name;
         this.amount = amount;
@@ -67,11 +61,10 @@ public class Discount implements Editable {
         this.active = active;
         this.delete = delete;
         this.notModifyted = notModifyted;
+        this.isManual = isManual;
         this.rootId = rootId;
         this.createdDate = createdDate;
     }
-
-
 
 
     public Double getAmount() {
@@ -81,8 +74,6 @@ public class Discount implements Editable {
     public void setAmount(double amount) {
         this.amount = amount;
     }
-
-
 
     public boolean isDelete() {
         return delete;
@@ -259,6 +250,16 @@ public class Discount implements Editable {
 
     public void setAmountType(int amountType) {
         this.amountType = amountType;
+    }
+
+
+    public boolean getIsManual() {
+        return this.isManual;
+    }
+
+
+    public void setIsManual(boolean isManual) {
+        this.isManual = isManual;
     }
 
 }

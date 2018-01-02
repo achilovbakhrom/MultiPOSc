@@ -11,7 +11,7 @@ public class FolderItem {
 
     private Category category;
     private Product product;
-    private int size;
+    private int count;
 
     public Category getCategory() {
         return category;
@@ -29,11 +29,11 @@ public class FolderItem {
         this.product = product;
     }
 
-    public int getSize() {
-        return size;
+    public int getCount() {
+        return count;
     }
 
-    public void setSize(int size) {
-        this.size = size;
+    public void setCount(int count) {
+        this.count = count;
     }
 }

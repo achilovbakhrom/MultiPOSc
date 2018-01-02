@@ -30,6 +30,7 @@ import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.RxBusLocal;
 import com.jim.multipos.utils.rxevents.MessageWithIdEvent;
 import com.jim.multipos.utils.rxevents.OrderProductAddEvent;
+import com.jim.multipos.utils.managers.NotifyManager;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -50,6 +51,8 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
     DecimalFormat decimalFormat;
     @Inject
     DatabaseManager databaseManager;
+    @Inject
+    NotifyManager notifyManager;
     @Inject
     MainPageConnection mainPageConnection;
     @BindView(R.id.llPay)
@@ -91,7 +94,7 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
         presenter.onCreateView(savedInstanceState);
 
         lbChooseCustomer.setOnLightButtonClickListener(view1 -> {
-            CustomerDialog customerDialog = new CustomerDialog(getContext(), databaseManager);
+            CustomerDialog customerDialog = new CustomerDialog(getContext(), databaseManager, notifyManager);
             customerDialog.show();
         });
 
@@ -101,20 +104,8 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
                 });
         RxView.clicks(llDiscount)
                 .subscribe(view1 -> {
-                    DiscountDialog discountDialog = new DiscountDialog();
-                    discountDialog.setDiscounts(presenter.getDiscounts(), getResources().getStringArray(R.array.discount_amount_types_abr));
-                    discountDialog.setOnDialogListener(new DiscountDialog.OnDialogListener() {
-                        @Override
-                        public List<Discount> getDiscounts() {
-                            return presenter.getDiscounts();
-                        }
-
-                        @Override
-                        public void addDiscount(double amount, String description, int amountType) {
-                            presenter.addDiscount(amount, description, amountType);
-                        }
-                    });
-                    discountDialog.show(getActivity().getSupportFragmentManager(), "discountDialog");
+                    DiscountDialog discountDialog = new DiscountDialog(getContext(), databaseManager);
+                    discountDialog.show();
                 });
         RxView.clicks(llPrintCheck)
                 .subscribe(view1 -> {

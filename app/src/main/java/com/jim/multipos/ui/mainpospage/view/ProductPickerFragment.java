@@ -10,7 +10,9 @@ import android.widget.TextView;
 
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
+import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.prefs.PreferencesHelper;
+import com.jim.multipos.ui.mainpospage.connection.MainPageConnection;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.RxBusLocal;
 import com.jim.multipos.utils.rxevents.CategoryEvent;
@@ -46,7 +48,8 @@ public class ProductPickerFragment extends BaseFragment implements ProductPicker
     ImageView ivArrowSubCategory;
     @Inject
     PreferencesHelper preferencesHelper;
-
+    @Inject
+    MainPageConnection mainPageConnection;
     @Inject
     RxBusLocal rxBusLocal;
     private FragmentManager fragmentManager;
@@ -68,23 +71,6 @@ public class ProductPickerFragment extends BaseFragment implements ProductPicker
         subscriptions = new ArrayList<>();
         subscriptions.add(
                 rxBusLocal.toObservable().subscribe(o -> {
-                    if (o instanceof CategoryEvent) {
-                        CategoryEvent event = (CategoryEvent) o;
-                        if (event.getEventType().equals(CATEGORY_TITLE)) {
-                            if (event.getCategory() != null)
-                                tvCategory.setText(event.getCategory().getName());
-                            else tvCategory.setText(getResources().getString(R.string.category));
-                        }
-                        if (event.getEventType().equals(SUBCATEGORY_TITLE)) {
-                            if (event.getCategory() != null) {
-                                tvSubCategory.setText(event.getCategory().getName());
-                                ivArrowSubCategory.setVisibility(View.VISIBLE);
-                            } else {
-                                tvSubCategory.setText("");
-                                ivArrowSubCategory.setVisibility(View.GONE);
-                            }
-                        }
-                    }
                     if (o instanceof ProductEvent) {
                         ProductEvent event = (ProductEvent) o;
                         if (event.getEventType().equals(OPEN_PRODUCT)) {
@@ -98,6 +84,7 @@ public class ProductPickerFragment extends BaseFragment implements ProductPicker
 
     @Override
     protected void init(Bundle savedInstanceState) {
+        mainPageConnection.setProductPickerView(this);
         fragmentManager = getActivity().getSupportFragmentManager();
         int viewType = preferencesHelper.getProductListViewType();
         changeViewTypeIcon(viewType);
@@ -158,5 +145,30 @@ public class ProductPickerFragment extends BaseFragment implements ProductPicker
     public void onDestroy() {
         super.onDestroy();
         RxBus.removeListners(subscriptions);
+    }
+
+
+    @Override
+    public void onDetach() {
+        mainPageConnection.setOrderListView(null);
+        super.onDetach();
+    }
+
+    @Override
+    public void updateCategoryTitles(Category category, String type) {
+        if (type.equals(CATEGORY_TITLE)) {
+            if (category != null)
+                tvCategory.setText(category.getName());
+            else tvCategory.setText(getResources().getString(R.string.category));
+        }
+        if (type.equals(SUBCATEGORY_TITLE)) {
+            if (category != null) {
+                tvSubCategory.setText(category.getName());
+                ivArrowSubCategory.setVisibility(View.VISIBLE);
+            } else {
+                tvSubCategory.setText("");
+                ivArrowSubCategory.setVisibility(View.GONE);
+            }
+        }
     }
 }

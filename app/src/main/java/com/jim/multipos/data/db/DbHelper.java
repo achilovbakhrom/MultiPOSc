@@ -23,6 +23,7 @@ import com.jim.multipos.data.db.model.Account;
 
 import com.jim.multipos.data.db.model.consignment.Consignment;
 import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
+import com.jim.multipos.data.db.model.customer.Debt;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
 import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
@@ -208,4 +209,12 @@ public interface DbHelper {
     Single<Boolean> deleteInventoryState(InventoryState inventoryState);
 
     Single<List<Consignment>> getConsignmentsInInterval(Long vendorId, Calendar fromDate, Calendar toDate);
+
+    Single<Customer> getCustomerById(Long customerId);
+
+    Single<List<Customer>> getCustomersWithDebt();
+
+    Single<Boolean> insertDebt(Debt debt);
+
+    Single<List<Debt>> getDebtsByCustomerId(Long id);
 }

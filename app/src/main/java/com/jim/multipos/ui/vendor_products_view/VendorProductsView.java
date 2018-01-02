@@ -22,4 +22,5 @@ public interface VendorProductsView extends BaseView {
     void openPaymentsList(long vendorId, Double debt);
     void openPayDialog(Vendor vendor, DatabaseManager databaseManager);
     void updateVendorBillings(Double debt, double paid, String abbr);
+    void sendEvent(String event);
 }

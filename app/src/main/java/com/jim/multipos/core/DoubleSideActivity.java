@@ -35,6 +35,7 @@ public abstract class DoubleSideActivity extends BaseActivity{
     protected final void addFragmentWithTagToRight(Fragment fragment, String tag){addFragmentWithTag(R.id.flRightContainer,fragment, tag);}
     protected final void addFragmentWithBackStackToRight(Fragment fragment) {addFragmentWithBackStack(R.id.flRightContainer,fragment);}
     protected final void addFragmentToTopRight(Fragment fragment){addFragment(R.id.flRightTop,fragment);}
+    protected final void addFragmentToRightWrap(Fragment fragment){addFragment(R.id.flRightWrap,fragment);}
     protected final void addFragmentWithTagToTopRight(Fragment fragment, String tag){addFragmentWithTag(R.id.flRightTop,fragment, tag);}
     protected final void addFragmentWithBackStackToTopRight(Fragment fragment) {addFragmentWithBackStack(R.id.flRightTop,fragment);}
     protected final void addFragmentToFull(Fragment fragment){addFragment(R.id.flFullContainer,fragment);}
@@ -44,6 +45,7 @@ public abstract class DoubleSideActivity extends BaseActivity{
     protected final void replaceFragmentToLeft(Fragment fragment){replaceFragment(R.id.flLeftContainer,fragment);}
     protected final void replaceFragmentToRight(Fragment fragment){replaceFragment(R.id.flRightContainer,fragment);}
     protected final void replaceFragmentToTopRight(Fragment fragment){replaceFragment(R.id.flRightTop,fragment);}
+    protected final void replaceFragmentToRightWrap(Fragment fragment){replaceFragment(R.id.flRightWrap,fragment);}
     protected final void replaceFragmentToFull(Fragment fragment){replaceFragment(R.id.flFullContainer,fragment);}
 
     protected final void popFragment(Fragment fragment){
@@ -75,6 +77,13 @@ public abstract class DoubleSideActivity extends BaseActivity{
                     remove(fragment).commit();
     }
 
+    protected final void popFragmentFromRightWrap(){
+        Fragment fragment = activityFragmentManager.findFragmentById(R.id.flRightWrap);
+        if(fragment!=null)
+            getSupportFragmentManager().beginTransaction().
+                    remove(fragment).commit();
+    }
+
     public final Fragment getCurrentFragmentLeft(){
         return  activityFragmentManager.findFragmentById(R.id.flLeftContainer);
     }
@@ -82,6 +91,11 @@ public abstract class DoubleSideActivity extends BaseActivity{
 
     public final Fragment getCurrentFragmentRight(){
         return  activityFragmentManager.findFragmentById(R.id.flRightContainer);
+
+    }
+
+    public final Fragment getCurrentFragmentRightTop(){
+        return  activityFragmentManager.findFragmentById(R.id.flRightTop);
 
     }
 

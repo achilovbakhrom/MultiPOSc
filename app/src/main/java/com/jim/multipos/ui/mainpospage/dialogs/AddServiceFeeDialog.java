@@ -46,7 +46,7 @@ public class AddServiceFeeDialog extends DialogFragment {
     EditText etAmount;
     @BindView(R.id.ivClearAmount)
     ImageView ivClearAmount;
-    @BindView(R.id.etDescription)
+    @BindView(R.id.etFeeName)
     MpEditText etFeeName;
     @BindView(R.id.btnCancel)
     MpButton btnCancel;

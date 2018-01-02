@@ -23,6 +23,7 @@ import javax.inject.Inject;
 
 import static com.jim.multipos.data.db.model.consignment.Consignment.INCOME_CONSIGNMENT;
 import static com.jim.multipos.ui.consignment.view.IncomeConsignmentFragment.CONSIGNMENT_UPDATE;
+import static com.jim.multipos.ui.consignment.view.IncomeConsignmentFragment.INVENTORY_STATE_UPDATE;
 
 /**
  * Created by Sirojiddin on 30.11.2017.
@@ -145,6 +146,7 @@ public class ConsignmentListPresenterImpl extends BasePresenterImpl<ConsignmentL
         consignmentList.remove(consignment);
         view.notifyList();
         view.sendEvent(CONSIGNMENT_UPDATE);
+        view.sendEvent(INVENTORY_STATE_UPDATE);
     }
 
     @Override

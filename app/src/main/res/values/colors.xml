@@ -10,7 +10,7 @@
     <color name="colorLightCyan">#d0eaf9</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBackgroundGrey">#f1f1f1</color>
-    <color name="colorBackground">#f8f8f8</color>
+    <color name="colorBackground">#f9f9f9</color>
     <color name="colorGreyLight">#fdfdfd</color>
     <color name="colorGreyLightSecond">#f4f4f4</color>
     <color name="colorGrey">#ebebeb</color>
@@ -32,4 +32,6 @@
     <color name="separatorColor">#ededed</color>
     <color name="colorRedLight">#df4f4f</color>
     <color name="colorGreenLight">#4fc82b</color>
+    <color name="colorGreenVeryLight">#f3feee</color>
+    <color name="colorOrangeLight">#fef9eb</color>
 </resources>
