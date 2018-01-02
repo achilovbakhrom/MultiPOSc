@@ -578,6 +578,8 @@
     <string name="total_debt_two_dots">Total Debt:</string>
     <string name="paid_sum">Paid sum:</string>
     <string name="due">Due:</string>
+    <string name="service_fee_amount">Service fee amount</string>
+    <string name="enter_service_fee_name">Enter service fee name</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>
