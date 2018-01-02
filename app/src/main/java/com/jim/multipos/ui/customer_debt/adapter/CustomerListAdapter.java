@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.jim.multipos.R;
 import com.jim.multipos.data.db.model.customer.Customer;
+import com.jim.multipos.data.db.model.customer.Debt;
 
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -38,6 +39,7 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
     private Context context;
     protected int selectedPosition = -1;
     private boolean searchMode = false;
+    private boolean isFirstTime = false;
 
     public CustomerListAdapter(Context context) {
         this.context = context;
@@ -46,6 +48,7 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
     public void setItems(List<Customer> items) {
         this.items = items;
         searchMode = false;
+        isFirstTime = true;
         notifyDataSetChanged();
     }
 
@@ -65,6 +68,15 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
     @Override
     public void onBindViewHolder(CustomerListViewHolder holder, int position) {
         Customer customer = items.get(position);
+        if (isFirstTime) {
+            if (position == 0) {
+                selectedPosition = holder.getAdapterPosition();
+                holder.flBlueBar.setVisibility(View.VISIBLE);
+                holder.llBackground.setBackgroundColor(ContextCompat.getColor(context, R.color.colorWhite));
+                listener.onItemClicked(items.get(position), position);
+                isFirstTime = false;
+            }
+        }
         if (position == selectedPosition) {
             holder.flBlueBar.setVisibility(View.VISIBLE);
             holder.llBackground.setBackgroundColor(ContextCompat.getColor(context, R.color.colorWhite));
@@ -77,7 +89,7 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
             Date date = new Date(customer.getDebtList().get(i).getEndDate());
             GregorianCalendar calendar = new GregorianCalendar();
             calendar.setTime(date);
-            if (now.after(calendar) || now.equals(calendar)) {
+            if ((now.after(calendar) || now.equals(calendar)) && customer.getDebtList().get(i).getStatus() == Debt.ACTIVE) {
                 holder.ivWarning.setVisibility(View.VISIBLE);
                 break;
             } else holder.ivWarning.setVisibility(View.GONE);

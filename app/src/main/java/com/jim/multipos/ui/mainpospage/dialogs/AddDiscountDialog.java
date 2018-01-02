@@ -88,19 +88,19 @@ public class AddDiscountDialog extends Dialog {
                 tvType.setText(abbr);
                 tvDiscountAmountType.setText(context.getString(R.string.discount_amount));
                 if (!etResultPrice.getText().toString().isEmpty() && !etDiscountAmount.getText().toString().isEmpty()) {
-                    double newDiscountValue = price - resultPrice;
+                    discountValue = price - resultPrice;
                     etResultPrice.requestFocus();
-                    etDiscountAmount.setText(formatter.format(newDiscountValue));
+                    etDiscountAmount.setText(formatter.format(discountValue));
                 }
             } else {
                 discountAmountType = Discount.PERCENT;
                 tvType.setText("%");
                 tvDiscountAmountType.setText(context.getString(R.string.discount_percent));
                 if (!etResultPrice.getText().toString().isEmpty() && !etDiscountAmount.getText().toString().isEmpty()) {
-                    double newDiscountValue = 100 - (100 * resultPrice / price);
+                    discountValue = 100 - (100 * resultPrice / price);
                     etResultPrice.requestFocus();
-                    etDiscountAmount.setText(formatter.format(newDiscountValue));
-                    if (newDiscountValue > 100)
+                    etDiscountAmount.setText(formatter.format(discountValue));
+                    if (discountValue > 100)
                         etDiscountAmount.setError("Discount percent cannot be bigger 100");
                 }
 

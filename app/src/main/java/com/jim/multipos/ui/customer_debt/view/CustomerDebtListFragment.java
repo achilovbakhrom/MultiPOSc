@@ -7,18 +7,22 @@ import android.widget.TextView;
 
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
+import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.Debt;
 import com.jim.multipos.ui.customer_debt.adapter.DebtListAdapter;
 import com.jim.multipos.ui.customer_debt.connection.CustomerDebtConnection;
+import com.jim.multipos.ui.customer_debt.dialog.PayToDebtDialog;
 import com.jim.multipos.ui.customer_debt.presenter.CustomerDebtListPresenter;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by Sirojiddin on 30.12.2017.
@@ -32,6 +36,8 @@ public class CustomerDebtListFragment extends BaseFragment implements CustomerDe
     DebtListAdapter debtListAdapter;
     @Inject
     CustomerDebtConnection customerDebtConnection;
+    @Inject
+    DecimalFormat decimalFormat;
     @BindView(R.id.rvDebts)
     RecyclerView rvDebts;
     @BindView(R.id.tvOrderNumber)
@@ -58,6 +64,8 @@ public class CustomerDebtListFragment extends BaseFragment implements CustomerDe
     TextView tvDueSum;
     @BindView(R.id.tvPaidSum)
     TextView tvPaidSum;
+    @BindView(R.id.btnPayToDebt)
+    TextView btnPayToDebt;
 
     @Override
     protected int getLayout() {
@@ -70,7 +78,7 @@ public class CustomerDebtListFragment extends BaseFragment implements CustomerDe
         rvDebts.setLayoutManager(new LinearLayoutManager(getContext()));
         rvDebts.setAdapter(debtListAdapter);
         debtListAdapter.setListener((item, position) -> {
-
+            presenter.initDebtDetails(item, position);
         });
     }
 
@@ -85,8 +93,35 @@ public class CustomerDebtListFragment extends BaseFragment implements CustomerDe
     }
 
     @Override
+    public void fillDebtInfo(Long orderNumber, String takenDate, String endDate, String leftDate, String debtType, double fee, String status, double orderSum, double feeAmount, double total, double paidAmount, double feeAmount1, double dueAmount, Currency mainCurrency) {
+        tvOrderNumber.setText(String.valueOf(orderNumber));
+        tvTakenDate.setText(takenDate);
+        tvEndDate.setText(endDate);
+        tvLateDate.setText(leftDate);
+        tvDebtType.setText(debtType);
+        tvDebtFee.setText(fee + " %");
+        tvDebtStatus.setText(status);
+        tvOrderSum.setText(decimalFormat.format(orderSum) + " " +  mainCurrency.getAbbr());
+        tvFeeSum.setText(decimalFormat.format(feeAmount) + " " + mainCurrency.getAbbr());
+        tvTotalDebt.setText(decimalFormat.format(total) + " " + mainCurrency.getAbbr());
+        tvPaidSum.setText(decimalFormat.format(paidAmount) + " " + mainCurrency.getAbbr());
+        tvDueSum.setText(decimalFormat.format(dueAmount) + " " + mainCurrency.getAbbr());
+    }
+
+    @Override
+    public void openPayToDebt(Debt debt, DatabaseManager databaseManager) {
+        PayToDebtDialog dialog = new PayToDebtDialog(getContext(), debt, databaseManager);
+        dialog.show();
+    }
+
+    @Override
     public void onDetach() {
         super.onDetach();
         customerDebtConnection.setDebtListView(null);
+    }
+
+    @OnClick(R.id.btnPayToDebt)
+    public void onPayToDebt(){
+        presenter.onPayToDebt();
     }
 }

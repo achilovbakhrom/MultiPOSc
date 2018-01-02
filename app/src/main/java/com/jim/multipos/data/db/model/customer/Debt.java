@@ -22,6 +22,8 @@ import java.util.List;
 public class Debt {
     public static final int PARTICIPLE = 0;
     public static final int ALL = 1;
+    public static final int CLOSED = 0;
+    public static final int ACTIVE = 1;
 
     @Id(autoincrement = true)
     private Long id;

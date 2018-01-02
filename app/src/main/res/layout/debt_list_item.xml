@@ -12,7 +12,7 @@
 
         <TextView
             android:id="@+id/tvOrderNumber"
-            android:layout_width="@dimen/hundred_ten_dp"
+            android:layout_width="@dimen/eighty_dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="@dimen/thirty_dp"
@@ -24,6 +24,7 @@
             android:layout_width="@dimen/hundred_eighty_dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:gravity="center"
             android:textColor="@color/colorMainText"
             android:textSize="@dimen/sixteen_dp" />
 
@@ -32,6 +33,7 @@
             android:layout_width="@dimen/hundred_eighty_dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:gravity="center"
             android:textColor="@color/colorMainText"
             android:textSize="@dimen/sixteen_dp" />
 
@@ -40,14 +42,16 @@
             android:layout_width="@dimen/two_hundred_dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:gravity="center"
             android:textColor="@color/colorMainText"
             android:textSize="@dimen/sixteen_dp" />
 
         <TextView
             android:id="@+id/tvDueSum"
-            android:layout_width="@dimen/hundred_eighty_dp"
+            android:layout_width="@dimen/hundred_thirty_dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:gravity="center"
             android:layout_marginRight="@dimen/fifteen_dp"
             android:textColor="@color/colorMainText"
             android:textSize="@dimen/sixteen_dp" />

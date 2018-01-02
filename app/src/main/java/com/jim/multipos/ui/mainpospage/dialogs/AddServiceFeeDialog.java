@@ -85,18 +85,18 @@ public class AddServiceFeeDialog extends Dialog {
                 tvType.setText(abbr);
                 tvServiceAmountType.setText(context.getString(R.string.service_fee_amount));
                 if (!etResultPrice.getText().toString().isEmpty() && !etServiceFeeAmount.getText().toString().isEmpty()) {
-                    double newDiscountValue = resultPrice - price;
+                    serviceAmount = resultPrice - price;
                     etResultPrice.requestFocus();
-                    etServiceFeeAmount.setText(formatter.format(newDiscountValue));
+                    etServiceFeeAmount.setText(formatter.format(serviceAmount));
                 }
             } else {
                 serviceAmountType = Discount.PERCENT;
                 tvType.setText("%");
                 tvServiceAmountType.setText(context.getString(R.string.service_fee_percent));
                 if (!etResultPrice.getText().toString().isEmpty() && !etServiceFeeAmount.getText().toString().isEmpty()) {
-                    double newDiscountValue = (100 * resultPrice / price) - 100;
+                    serviceAmount = (100 * resultPrice / price) - 100;
                     etResultPrice.requestFocus();
-                    etServiceFeeAmount.setText(formatter.format(newDiscountValue));
+                    etServiceFeeAmount.setText(formatter.format(serviceAmount));
                 }
 
             }

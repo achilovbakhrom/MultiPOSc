@@ -59,28 +59,34 @@ public class DebtListAdapter extends RecyclerView.Adapter<DebtListAdapter.DebtLi
     @Override
     public void onBindViewHolder(DebtListViewHolder holder, int position) {
 //        holder.tvOrderNumber.setText(String.valueOf(items.get(position).getOrder().getId()));
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+        holder.tvOrderNumber.setText(String.valueOf(5422));
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         holder.tvTakenDate.setText(simpleDateFormat.format(items.get(position).getTakenDate()));
         holder.tvEndDate.setText(simpleDateFormat.format(items.get(position).getEndDate()));
-        holder.tvTotalDebt.setText(decimalFormat.format(items.get(position).getDebtAmount()));
+        holder.tvTotalDebt.setText(decimalFormat.format(items.get(position).getDebtAmount()) + " " + currency.getAbbr());
         if (isFirstTime) {
             if (position == 0) {
-                selectedPosition = position;
+                selectedPosition = holder.getAdapterPosition();
                 holder.llBackground.setBackground(ContextCompat.getDrawable(context, R.drawable.yellow_rect));
+                listener.onItemClicked(items.get(position), position);
+                isFirstTime = false;
             }
         }
+        holder.tvDueSum.setTextColor(ContextCompat.getColor(context, R.color.colorRed));
         if (items.get(position).getCustomerPayments().size() > 0) {
             int dueSum = 0;
             for (int i = 0; i < items.get(position).getCustomerPayments().size(); i++) {
                 dueSum += items.get(position).getCustomerPayments().get(i).getDebtDue();
             }
-            holder.tvDueSum.setText(dueSum + "");
-            if (dueSum != items.get(position).getDebtAmount())
+            if (dueSum != items.get(position).getDebtAmount()) {
+                holder.tvDueSum.setText(0 + " " + currency.getAbbr());
                 holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGreenVeryLight));
-            else
+            } else {
+                holder.tvDueSum.setText(decimalFormat.format(dueSum) + " " + currency.getAbbr());
                 holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.colorOrangeLight));
+            }
         } else {
-            holder.tvDueSum.setText(decimalFormat.format(0));
+            holder.tvDueSum.setText(decimalFormat.format(items.get(position).getDebtAmount()) + " " + currency.getAbbr());
             holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.colorOrangeLight));
         }
         if (selectedPosition == position) {
