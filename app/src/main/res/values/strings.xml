@@ -568,15 +568,15 @@
     <string name="history">History</string>
     <string name="order_number">Order number:</string>
     <string name="taken_date">Taken date:</string>
-    <string name="end_date">End date:</string>
-    <string name="late_date">Late date:</string>
+    <string name="end_date">Due date:</string>
+    <string name="late_date">Left days:</string>
     <string name="debt_type">Debt type:</string>
     <string name="status_two_dots">Status:</string>
     <string name="order_sum">Order sum:</string>
     <string name="fee_sum">Fee sum:</string>
     <string name="total_debt_two_dots">Total Debt:</string>
     <string name="paid_sum">Paid sum:</string>
-    <string name="due">Due:</string>
+    <string name="due_with_dots">Due amount:</string>
     <string name="service_fee_amount">Service fee amount</string>
     <string name="enter_service_fee_name">Enter service fee reason</string>
     <string name="service_fee_percent">Service fee %</string>
@@ -592,6 +592,14 @@
     <string name="days">days</string>
     <string name="payment_type">Payment type</string>
     <string name="customer_choice">Customer choice</string>
+    <string name="closed">Closed</string>
+    <string name="can_participle">Can participle</string>
+    <string name="all">All</string>
+    <string name="due">Due</string>
+    <string name="close_debt">Close with paying all debt amount</string>
+    <string name="return_products">Return products</string>
+    <string name="remove_if_only_not_closed_till">Remove(if only not closed till)</string>
+    <string name="debt_amount">Debt amount</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>
@@ -628,6 +636,10 @@
         <item>item</item>
         <item>order</item>
         <item>all</item>
+    </string-array>
+    <string-array name="debt_type">
+        <item>Can participle</item>
+        <item>All</item>
     </string-array>
 
 </resources>

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -11,12 +12,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.jim.mpviews.utils.Utils;
+
 /**
  * Created by DEV on 30.06.2017.
  */
 
 public class MpSearchView extends RelativeLayout {
-    private EditText mpSearchEditText;
+    private MpEditText mpSearchEditText;
     private boolean visibility_status = true;
 
     public MpSearchView(Context context) {
@@ -46,10 +49,13 @@ public class MpSearchView extends RelativeLayout {
         setBackgroundResource(R.drawable.edit_text_bg);
         TypedArray attributeArray = context.obtainStyledAttributes(attributeSet, R.styleable.MpSearchView);
         ImageView mpBarcodeImage = (ImageView) findViewById(R.id.mpBarcodeImage);
-        mpSearchEditText = (EditText) findViewById(R.id.mpSearchEditText);
+        mpSearchEditText = (MpEditText) findViewById(R.id.mpSearchEditText);
         mpSearchEditText.setLines(1);
         mpSearchEditText.setMaxLines(1);
         mpSearchEditText.setSingleLine();
+        mpSearchEditText.setTextColor(ContextCompat.getColor(context, R.color.colorMainText));
+        mpSearchEditText.setHintTextColor(ContextCompat.getColor(context, R.color.colorTextHint));
+        mpSearchEditText.setHint(attributeArray.getString(R.styleable.MpSearchView_hint_text));
         visibility_status = attributeArray.getBoolean(R.styleable.MpSearchView_barcode_visibility, true);
         if (visibility_status) {
             mpBarcodeImage.setVisibility(VISIBLE);

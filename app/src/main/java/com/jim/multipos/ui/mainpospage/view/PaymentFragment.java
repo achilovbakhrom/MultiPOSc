@@ -1,12 +1,12 @@
 package com.jim.multipos.ui.mainpospage.view;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jim.mpviews.MpList;
@@ -14,24 +14,51 @@ import com.jim.mpviews.model.PaymentTypeWithService;
 import com.jim.mpviews.utils.VibrateManager;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
+import com.jim.multipos.data.DatabaseManager;
+import com.jim.multipos.ui.mainpospage.dialogs.AddDebtDialog;
+import com.jim.multipos.ui.mainpospage.presenter.PaymentPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
+
+import butterknife.BindView;
 
 /**
  * Created by developer on 22.08.2017.
  */
 
 public class PaymentFragment extends BaseFragment implements PaymentView {
-    MpList mpList;
+    @Inject
+    PaymentPresenter presenter;
+    @BindView(R.id.llDebtBorrow)
+    LinearLayout llDebtBorrow;
+    @BindView(R.id.tvPay)
     TextView tvPay;
+    @BindView(R.id.mpLPaymentList)
+    MpList mpList;
+
+    List<PaymentTypeWithService> paymentTypes;
+    public void ititArray(){
+        paymentTypes = new ArrayList<>();
+        paymentTypes.add(new PaymentTypeWithService("Dollar","+30%"));
+        paymentTypes.add(new PaymentTypeWithService("Cash Uzs",""));
+        paymentTypes.add(new PaymentTypeWithService("Bank Uzs","+10%"));
+        paymentTypes.add(new PaymentTypeWithService("Visa Card",""));
+        paymentTypes.add(new PaymentTypeWithService("Master card","+5%"));
+        paymentTypes.add(new PaymentTypeWithService("Asia Alians",""));
+    }
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.main_page_payment_fragment, container, false);
-        mpList = (MpList) view.findViewById(R.id.mpLPaymentList);
-        tvPay = (TextView) view.findViewById(R.id.tvPay);
+    protected int getLayout() {
+        return R.layout.main_page_payment_fragment;
+    }
+    public void refreshData(){
+
+    }
+    @Override
+    protected void init(Bundle savedInstanceState) {
 
         tvPay.setOnTouchListener((vieww, motionEvent) -> {
             switch (motionEvent.getAction()) {
@@ -51,28 +78,15 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
         mpList.setOnPaymentClickListner(position -> {
             Log.d("paymenttest", "onCreateView: "+position);
         });
-        return view;
-    }
-    List<PaymentTypeWithService> paymentTypes;
-    public void ititArray(){
-        paymentTypes = new ArrayList<>();
-        paymentTypes.add(new PaymentTypeWithService("Dollar","+30%"));
-        paymentTypes.add(new PaymentTypeWithService("Cash Uzs",""));
-        paymentTypes.add(new PaymentTypeWithService("Bank Uzs","+10%"));
-        paymentTypes.add(new PaymentTypeWithService("Visa Card",""));
-        paymentTypes.add(new PaymentTypeWithService("Master card","+5%"));
-        paymentTypes.add(new PaymentTypeWithService("Asia Alians",""));
+
+        llDebtBorrow.setOnClickListener(view12 -> {
+            presenter.onDebtBorrowClicked();
+        });
     }
 
     @Override
-    protected int getLayout() {
-        return 0;
-    }
-    public void refreshData(){
-
-    }
-    @Override
-    protected void init(Bundle savedInstanceState) {
-
+    public void openAddDebtDialog(DatabaseManager databaseManager) {
+        AddDebtDialog dialog = new AddDebtDialog(getContext(),null, databaseManager, null, debt -> {});
+        dialog.show();
     }
 }

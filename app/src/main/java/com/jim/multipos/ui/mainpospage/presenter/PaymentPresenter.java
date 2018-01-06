@@ -7,4 +7,5 @@ import com.jim.multipos.core.Presenter;
  */
 
 public interface PaymentPresenter extends Presenter {
+    void onDebtBorrowClicked();
 }

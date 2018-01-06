@@ -117,13 +117,13 @@ public class Debt {
     private transient DaoSession daoSession;
     @Generated(hash = 8592637)
     private transient Long customer__resolvedKey;
-    public int getStatus() {
+    public Integer getStatus() {
         return this.status;
     }
     public void setStatus(int status) {
         this.status = status;
     }
-    public double getDebtAmount() {
+    public Double getDebtAmount() {
         return this.debtAmount;
     }
     public void setDebtAmount(double debtAmount) {
@@ -153,13 +153,13 @@ public class Debt {
     public void setCustomerId(Long customerId) {
         this.customerId = customerId;
     }
-    public long getEndDate() {
+    public Long getEndDate() {
         return this.endDate;
     }
     public void setEndDate(long endDate) {
         this.endDate = endDate;
     }
-    public long getTakenDate() {
+    public Long getTakenDate() {
         return this.takenDate;
     }
     public void setTakenDate(long takenDate) {

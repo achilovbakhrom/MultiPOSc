@@ -156,4 +156,6 @@
     <dimen name="thousand_ninety_dp">981dp</dimen>
     <dimen name="eight_hundred_eighty_dp">792dp</dimen>
     <dimen name="four_hundred_thirty_dp">387dp</dimen>
+    <dimen name="eight_hundred_dp">720dp</dimen>
+
 </resources>

@@ -1,5 +1,7 @@
 package com.jim.multipos.ui.customer_debt.presenter;
 
+import android.view.View;
+
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.customer.Customer;
@@ -29,6 +31,9 @@ public class CustomerListPresenterImpl extends BasePresenterImpl<CustomerListVie
     public void initData() {
         customerList = databaseManager.getCustomersWithDebt().blockingGet();
         view.fillCustomerListRecyclerView(customerList);
+        if (customerList.size() == 0)
+            view.setDebtListVisibility(View.GONE);
+        else view.setDebtListVisibility(View.VISIBLE);
     }
 
     @Override

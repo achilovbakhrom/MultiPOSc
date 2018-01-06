@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <EditText
+        <com.jim.mpviews.MpEditText
             android:id="@+id/mpSearchEditText"
             android:layout_width="0dp"
             android:layout_height="@dimen/forty_dp"
@@ -18,7 +18,8 @@
             android:paddingTop="@dimen/five_dp"
             android:paddingBottom="@dimen/five_dp"
             android:paddingRight="@dimen/twelve_dp"
-            android:background="@android:color/transparent"
+            android:textSize="@dimen/sixteen_dp"
+            android:backgroundTint="@color/colorTransparent"
             />
 
         <ImageView

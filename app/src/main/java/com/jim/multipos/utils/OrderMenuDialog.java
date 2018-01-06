@@ -53,7 +53,8 @@ public class OrderMenuDialog extends Dialog {
 
         llSettingsMenu.setOnClickListener(view -> dismiss());
         tvTodayOrders.setOnClickListener(view -> {
-            Toast.makeText(context, tvTodayOrders.getText().toString(), Toast.LENGTH_SHORT).show();
+
+            dismiss();
         });
         tvHeldOrders.setOnClickListener(view -> {
             Toast.makeText(context, tvHeldOrders.getText().toString(), Toast.LENGTH_SHORT).show();

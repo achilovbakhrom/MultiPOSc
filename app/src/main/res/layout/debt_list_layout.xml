@@ -1,21 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
-
-    <!--<FrameLayout-->
-    <!--android:layout_width="0dp"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:layout_weight="33" />-->
-
-    <!--<LinearLayout-->
-    <!--android:layout_width="0dp"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:layout_weight="66"-->
-    <!--android:orientation="vertical">
--->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,50 +11,141 @@
         android:orientation="horizontal">
 
 
-        <TextView
+        <LinearLayout
+            android:id="@+id/llOrderNumber"
             android:layout_width="@dimen/eighty_dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_marginLeft="@dimen/thirty_dp"
-            android:text="Order#"
-            android:textColor="@color/colorMainText"
-            android:textSize="@dimen/sixteen_dp" />
+            android:gravity="left"
+            android:orientation="horizontal">
 
-        <TextView
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Order №"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/sixteen_dp" />
+
+            <ImageView
+                android:id="@+id/ivOrderSort"
+                android:layout_width="@dimen/twelve_dp"
+                android:layout_height="@dimen/ten_dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/ten_dp"
+                android:src="@drawable/sorting"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llTakenDate"
             android:layout_width="@dimen/hundred_eighty_dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:text="Taken Date"
             android:gravity="center"
-            android:textColor="@color/colorMainText"
-            android:textSize="@dimen/sixteen_dp" />
+            android:orientation="horizontal">
 
-        <TextView
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Taken Date"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/sixteen_dp" />
+
+            <ImageView
+                android:id="@+id/ivTakenDateSort"
+                android:layout_width="@dimen/twelve_dp"
+                android:layout_height="@dimen/ten_dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/ten_dp"
+                android:src="@drawable/sorting"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llDueDate"
             android:layout_width="@dimen/hundred_eighty_dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:text="End Date"
             android:gravity="center"
-            android:textColor="@color/colorMainText"
-            android:textSize="@dimen/sixteen_dp" />
+            android:orientation="horizontal">
 
-        <TextView
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Due Date"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/sixteen_dp" />
+
+            <ImageView
+                android:id="@+id/ivDueDateSort"
+                android:layout_width="@dimen/twelve_dp"
+                android:layout_height="@dimen/ten_dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/ten_dp"
+                android:src="@drawable/sorting"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llTotalDebt"
             android:layout_width="@dimen/two_hundred_dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:text="Total"
             android:gravity="center"
-            android:textColor="@color/colorMainText"
-            android:textSize="@dimen/sixteen_dp" />
+            android:orientation="horizontal">
 
-        <TextView
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Total"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/sixteen_dp" />
+
+            <ImageView
+                android:id="@+id/ivTotalDebtSort"
+                android:layout_width="@dimen/twelve_dp"
+                android:layout_height="@dimen/ten_dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/ten_dp"
+                android:src="@drawable/sorting"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llDueAmount"
             android:layout_width="@dimen/hundred_thirty_dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:text="Due"
             android:gravity="center"
-            android:textColor="@color/colorMainText"
-            android:textSize="@dimen/sixteen_dp" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Due"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/sixteen_dp" />
+
+            <ImageView
+                android:id="@+id/ivDueAmountSort"
+                android:layout_width="@dimen/twelve_dp"
+                android:layout_height="@dimen/ten_dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/ten_dp"
+                android:src="@drawable/sorting"
+                android:visibility="gone" />
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -75,30 +154,49 @@
         android:layout_height="3px"
         android:background="@color/colorTextHint" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvDebts"
-        android:layout_marginRight="@dimen/two_dp"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/three_hundred_fifty_dp" />
+        android:layout_height="@dimen/three_hundred_fifty_dp">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvDebts"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginRight="@dimen/two_dp" />
+
+        <TextView
+            android:id="@+id/tvNoDebts"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="There are no customers with debt"
+            android:textColor="@color/colorSecondaryText"
+            android:visibility="gone" />
+
+
+    </RelativeLayout>
+
 
     <FrameLayout
+        android:id="@+id/flSeparateLine"
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="@color/colorTextHint" />
 
     <LinearLayout
+        android:id="@+id/llLowGround"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
         android:background="@color/colorWhite"
-        android:paddingTop="@dimen/twenty_five_dp"
+        android:orientation="horizontal"
         android:paddingLeft="@dimen/thirty_dp"
-        android:paddingRight="@dimen/thirty_dp">
+        android:paddingRight="@dimen/thirty_dp"
+        android:paddingTop="@dimen/twenty_five_dp">
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="@dimen/two_hundred_fifty_dp"
-            android:layout_marginRight="@dimen/ten_dp"
+            android:layout_marginRight="@dimen/fifteen_dp"
             android:layout_weight="1"
             android:background="@drawable/big_edit_text_bg"
             android:orientation="vertical"
@@ -236,34 +334,12 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/five_dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/status_two_dots"
-                    android:textColor="@color/colorMainText" />
-
-                <TextView
-                    android:id="@+id/tvDebtStatus"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="right"
-                    android:textColor="@color/colorRedLight" />
-
-            </LinearLayout>
-
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="@dimen/two_hundred_fifty_dp"
-            android:layout_marginRight="@dimen/ten_dp"
+            android:layout_marginRight="@dimen/fifteen_dp"
             android:layout_weight="1"
             android:background="@drawable/big_edit_text_bg"
             android:orientation="vertical"
@@ -278,11 +354,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="@string/order_sum"
+                    android:text="Debt amount:"
                     android:textColor="@color/colorMainText" />
 
                 <TextView
-                    android:id="@+id/tvOrderSum"
+                    android:id="@+id/tvDebtAmount"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -366,7 +442,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/due"
+                    android:text="@string/due_with_dots"
                     android:textColor="@color/colorMainText" />
 
                 <TextView
@@ -375,34 +451,54 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="right"
-                    android:textColor="@color/colorRed" />
+                    android:textColor="@color/colorMainText" />
 
             </LinearLayout>
 
             <com.jim.mpviews.MpButton
+                android:id="@+id/btnPaymentHistory"
                 android:layout_width="@dimen/hundred_eighty_dp"
                 android:layout_height="@dimen/fifty_dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="@dimen/five_dp"
                 android:layout_marginTop="@dimen/fifteen_dp"
-                android:text="@string/history"
-                app:isLong="true"
+                android:text="Repayments"
                 android:textColor="@color/colorBlue"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:isLong="true" />
 
         </LinearLayout>
 
 
-        <TextView
-            android:id="@+id/btnPayToDebt"
-            android:layout_width="@dimen/two_hundred_seventy_five_dp"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="@dimen/two_hundred_fifty_dp"
-            android:background="@drawable/big_btn"
-            android:gravity="center"
-            android:text="@string/pay"
-            android:textColor="@color/colorBlue"
-            android:textSize="@dimen/fifty_dp"
-            android:textStyle="bold" />
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <com.jim.mpviews.MpButton
+                android:id="@+id/btnDebtsHistory"
+                android:layout_width="@dimen/hundred_eighty_dp"
+                android:layout_height="@dimen/fifty_dp"
+                android:layout_marginBottom="@dimen/fifteen_dp"
+                android:background="@drawable/big_btn"
+                android:gravity="center"
+                android:text="All debts"
+                android:textColor="@color/colorBlue"
+                android:textStyle="bold"
+                app:isLong="true" />
+
+            <TextView
+                android:id="@+id/btnPayToDebt"
+                android:background="@drawable/big_btn"
+                android:text="PAY"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textSize="@dimen/thirty_dp"
+                android:textColor="@color/colorBlue"
+                android:layout_width="@dimen/hundred_eighty_dp"
+                android:layout_height="@dimen/hundred_fifty_dp" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

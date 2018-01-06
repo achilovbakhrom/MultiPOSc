@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.ui.customer_debt.view.CustomerDebtListView;
+import com.jim.multipos.ui.customer_debt.view.CustomerListView;
 
 /**
  * Created by Sirojiddin on 30.12.2017.
@@ -11,6 +12,7 @@ import com.jim.multipos.ui.customer_debt.view.CustomerDebtListView;
 
 public class CustomerDebtConnection {
     private CustomerDebtListView debtListView;
+    private CustomerListView customerListView;
     private Context context;
 
     public CustomerDebtConnection(Context context) {
@@ -24,5 +26,19 @@ public class CustomerDebtConnection {
     public void sendCustomerWithDebt(Customer customer) {
          if (this.debtListView != null)
              this.debtListView.initCustomerWithDebt(customer);
+    }
+
+    public void updateCustomersList() {
+        if (this.customerListView != null)
+            this.customerListView.updateList();
+    }
+
+    public void setCustomerListView(CustomerListView customerListView) {
+        this.customerListView = customerListView;
+    }
+
+    public void setCustomerDebtListVisibility(int visibility) {
+        if (this.debtListView != null)
+            this.debtListView.setCustomerDebtListVisibility(visibility);
     }
 }

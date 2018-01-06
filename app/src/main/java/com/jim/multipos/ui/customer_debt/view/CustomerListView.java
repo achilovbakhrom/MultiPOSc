@@ -12,4 +12,6 @@ import java.util.List;
 public interface CustomerListView extends BaseView {
     void fillCustomerListRecyclerView(List<Customer> customerList);
     void initSearchResults(List<Customer> searchResults, String searchText);
+    void updateList();
+    void setDebtListVisibility(int visibility);
 }

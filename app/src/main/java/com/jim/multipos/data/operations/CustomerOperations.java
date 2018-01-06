@@ -2,6 +2,7 @@ package com.jim.multipos.data.operations;
 
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
+import com.jim.multipos.data.db.model.customer.CustomerPayment;
 import com.jim.multipos.data.db.model.customer.Debt;
 
 import java.util.List;
@@ -27,4 +28,5 @@ public interface CustomerOperations {
     //Debts
     Single<Boolean> addDebt(Debt debt);
     Single<List<Debt>> getDebtsByCustomerId(Long id);
+    Single<CustomerPayment> addCustomerPayment(CustomerPayment payment);
 }

@@ -85,11 +85,11 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
             holder.llBackground.setBackgroundColor(ContextCompat.getColor(context, R.color.colorBackground));
         }
         GregorianCalendar now = new GregorianCalendar();
-        for (int i = 0; i < customer.getDebtList().size(); i++) {
-            Date date = new Date(customer.getDebtList().get(i).getEndDate());
+        for (int i = 0; i < customer.getActiveDebts().size(); i++) {
+            Date date = new Date(customer.getActiveDebts().get(i).getEndDate());
             GregorianCalendar calendar = new GregorianCalendar();
             calendar.setTime(date);
-            if ((now.after(calendar) || now.equals(calendar)) && customer.getDebtList().get(i).getStatus() == Debt.ACTIVE) {
+            if (now.after(calendar) || now.equals(calendar)) {
                 holder.ivWarning.setVisibility(View.VISIBLE);
                 break;
             } else holder.ivWarning.setVisibility(View.GONE);

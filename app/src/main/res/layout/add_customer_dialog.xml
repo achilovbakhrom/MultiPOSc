@@ -116,7 +116,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/forty_dp"
                     android:hint="@string/phone"
-                    android:inputType="numberDecimal"
+                    android:inputType="phone"
                     android:textColorHint="@color/colorTextHint"
                     android:textSize="@dimen/sixteen_dp" />
             </LinearLayout>

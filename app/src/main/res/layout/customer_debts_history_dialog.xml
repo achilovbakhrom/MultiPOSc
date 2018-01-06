@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00000000"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="@dimen/eight_hundred_dp"
+        android:layout_height="@dimen/three_hundred_eighty_dp"
+        android:background="@drawable/rounded_edit_text_bg"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/fifty_dp"
+            android:background="@drawable/rounded_blue_bg">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/thirty_dp"
+                android:text="Customer debts history"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/twenty_dp" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/fifty_dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/llOrderNumber"
+                    android:layout_width="@dimen/hundred_seventy_dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/thirty_dp"
+                    android:layout_marginRight="@dimen/ten_dp"
+                    android:gravity="left"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="Order №"
+                        android:textColor="@color/colorBlue"
+                        android:textSize="@dimen/sixteen_dp" />
+
+                    <ImageView
+                        android:id="@+id/ivOrderSort"
+                        android:layout_width="@dimen/twelve_dp"
+                        android:layout_height="@dimen/ten_dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/ten_dp"
+                        android:src="@drawable/sorting"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llTakenDate"
+                    android:layout_width="@dimen/hundred_seventy_dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/ten_dp"
+                    android:gravity="left"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/ten_dp"
+                    android:paddingRight="@dimen/ten_dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="Taken date"
+                        android:textColor="@color/colorBlue"
+                        android:textSize="@dimen/sixteen_dp" />
+
+                    <ImageView
+                        android:id="@+id/ivTakenDateSort"
+                        android:layout_width="@dimen/twelve_dp"
+                        android:layout_height="@dimen/ten_dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/ten_dp"
+                        android:src="@drawable/sorting"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llDebtAmount"
+                    android:layout_width="@dimen/hundred_seventy_dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/ten_dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/ten_dp"
+                    android:paddingRight="@dimen/ten_dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/debt_amount"
+                        android:textColor="@color/colorBlue"
+                        android:textSize="@dimen/sixteen_dp" />
+
+                    <ImageView
+                        android:id="@+id/ivDebtAmountSort"
+                        android:layout_width="@dimen/twelve_dp"
+                        android:layout_height="@dimen/ten_dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/ten_dp"
+                        android:src="@drawable/sorting"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/llStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/ten_dp"
+                    android:paddingRight="@dimen/ten_dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/status"
+                        android:textColor="@color/colorBlue"
+                        android:textSize="@dimen/sixteen_dp" />
+
+                    <ImageView
+                        android:id="@+id/ivStatusSort"
+                        android:layout_width="@dimen/twelve_dp"
+                        android:layout_height="@dimen/ten_dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/ten_dp"
+                        android:src="@drawable/sorting"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/colorTextHint" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/hundred_eighty_dp">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvDebtsList"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorBackground" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/colorTextHint" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingRight="@dimen/thirty_dp">
+
+            <com.jim.mpviews.MpButton
+                android:id="@+id/btnBack"
+                android:layout_width="@dimen/hundred_sixty_dp"
+                android:layout_height="@dimen/sixty_dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/back"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="@dimen/sixteen_dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

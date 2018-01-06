@@ -105,13 +105,13 @@ public class CustomerPayment {
     private transient DaoSession daoSession;
     @Generated(hash = 1989546530)
     private transient Long debt__resolvedKey;
-    public double getDebtDue() {
+    public Double getDebtDue() {
         return this.debtDue;
     }
     public void setDebtDue(double debtDue) {
         this.debtDue = debtDue;
     }
-    public double getPaymentAmount() {
+    public Double getPaymentAmount() {
         return this.paymentAmount;
     }
     public void setPaymentAmount(double paymentAmount) {
@@ -123,7 +123,7 @@ public class CustomerPayment {
     public void setPaymentTypeId(Long paymentTypeId) {
         this.paymentTypeId = paymentTypeId;
     }
-    public long getPaymentDate() {
+    public Long getPaymentDate() {
         return this.paymentDate;
     }
     public void setPaymentDate(long paymentDate) {

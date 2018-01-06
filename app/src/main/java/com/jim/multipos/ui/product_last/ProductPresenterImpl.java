@@ -1350,7 +1350,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                             }
                             result.setDescription(description);
                             databaseManager.replaceProduct(ProductPresenterImpl.this.product).subscribe();
-                            databaseManager.removeVendorProductConnectionByProductId(ProductPresenterImpl.this.product.getId()).subscribe();
+//                            databaseManager.removeVendorProductConnectionByProductId(ProductPresenterImpl.this.product.getId()).subscribe();
                             if (deletedStatesList.size() > 0){
                                 for (InventoryState state: deletedStatesList) {
                                     databaseManager.deleteInventoryState(state).blockingGet();
@@ -1360,8 +1360,8 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                                 for (int i = 0; i < vendors.size(); i++) {
                                     vendorProductConnectionsList.get(i).setProductId(result.getId());
                                     inventoryStates.get(i).setProduct(result);
-                                    databaseManager.insertInventoryState(inventoryStates.get(i)).subscribe();
-                                    databaseManager.addVendorProductConnection(vendorProductConnectionsList.get(i)).subscribe();
+                                    databaseManager.insertInventoryState(inventoryStates.get(i)).blockingSingle();
+                                    databaseManager.addVendorProductConnection(vendorProductConnectionsList.get(i)).blockingSingle();
                                 }
                                 view.editProduct(result);
                                 view.sendEvent(PRODUCT_UPDATE);
@@ -1376,6 +1376,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     public void onNegativeButtonClicked() {
 
                     }
+
                 });
                 break;
         }
@@ -1456,8 +1457,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                         inventoryStates.add(inventoryState);
                     }
                 }
-
-
             }
         } else {
             this.vendors.clear(); // если нет, то значения листа возвращается в первоначальный вид

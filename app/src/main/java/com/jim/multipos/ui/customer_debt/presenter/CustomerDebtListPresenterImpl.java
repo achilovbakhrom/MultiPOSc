@@ -5,14 +5,17 @@ import android.content.Context;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
+import com.jim.multipos.data.db.model.consignment.Consignment;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.Debt;
+import com.jim.multipos.ui.customer_debt.view.CustomerDebtListFragment;
 import com.jim.multipos.ui.customer_debt.view.CustomerDebtListView;
 import com.jim.multipos.utils.CommonUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -29,6 +32,8 @@ public class CustomerDebtListPresenterImpl extends BasePresenterImpl<CustomerDeb
     private DatabaseManager databaseManager;
     private Context context;
     private Debt debt;
+    private CustomerDebtListFragment.DebtSortingStates sortMode = CustomerDebtListFragment.DebtSortingStates.SORTED_BY_TAKEN_DATE;
+    private int sorting = 1;
 
     @Inject
     protected CustomerDebtListPresenterImpl(CustomerDebtListView view, DatabaseManager databaseManager, Context context) {
@@ -42,7 +47,9 @@ public class CustomerDebtListPresenterImpl extends BasePresenterImpl<CustomerDeb
     public void initData(Customer customer) {
         currency = databaseManager.getMainCurrency();
         databaseManager.getDebtsByCustomerId(customer.getId()).subscribe((debts, throwable) -> {
-            debtList = debts;
+            debtList.clear();
+            debtList.addAll(debts);
+            sortList();
             view.fillRecyclerView(debtList, currency);
         });
     }
@@ -50,6 +57,17 @@ public class CustomerDebtListPresenterImpl extends BasePresenterImpl<CustomerDeb
     @Override
     public void initDebtDetails(Debt item, int position) {
         this.debt = item;
+        double feeAmount = item.getFee() * item.getDebtAmount() / 100;
+        double total = item.getDebtAmount() + feeAmount;
+        double paidAmount = 0;
+        double dueAmount = total;
+        if (item.getCustomerPayments().size() > 0) {
+            for (int i = 0; i < item.getCustomerPayments().size(); i++) {
+                dueAmount -= item.getCustomerPayments().get(i).getPaymentAmount();
+                paidAmount += item.getCustomerPayments().get(i).getPaymentAmount();
+            }
+        }
+
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         Date today = new Date(System.currentTimeMillis());
         Date endDate = new Date(item.getEndDate());
@@ -91,40 +109,61 @@ public class CustomerDebtListPresenterImpl extends BasePresenterImpl<CustomerDeb
 
             }
         }
-        String status;
-        if (item.getStatus() == Debt.ACTIVE) {
-            status = "Active";
-        } else status = "Closed";
 
-        String debtType;
-        if (item.getDebtType() == Debt.PARTICIPLE)
-            debtType = "Can participle";
-        else debtType = "All in once";
-//        double feeAmount = item.getFee() * item.getOrder().getSubTotalValue()/100;
-//        double total = item.getOrder().getSubTotalValue() + feeAmount;
-        double feeAmount = item.getFee() * 50000 / 100;
-        double total = 50000 + feeAmount;
-        double paidAmount = 0;
-        double dueAmount = 0;
-        if (item.getCustomerPayments().size() > 0){
-            for (int i = 0; i < item.getCustomerPayments().size(); i++) {
-                dueAmount += item.getCustomerPayments().get(i).getDebtDue();
-                paidAmount += item.getCustomerPayments().get(i).getPaymentAmount();
-            }
-        }
-
-        if (dueAmount == 0)
-            dueAmount = total;
-
-//        view.fillDebtInfo(item.getOrder().getId(), simpleDateFormat.format(item.getTakenDate()), simpleDateFormat.format(item.getEndDate()),
-//                leftDate, debtType, item.getFee(), status, item.getOrder().getSubTotalValue(), feeAmount, total, paidAmount, feeAmount, dueAmount, databaseManager.getMainCurrency());
-
-        view.fillDebtInfo(5462L, simpleDateFormat.format(item.getTakenDate()), simpleDateFormat.format(item.getEndDate()),
-                leftDate, debtType, item.getFee(), status, 50000, feeAmount, total, paidAmount, feeAmount, dueAmount, databaseManager.getMainCurrency());
+        view.fillDebtInfo(item.getOrder().getId(), simpleDateFormat.format(item.getTakenDate()), simpleDateFormat.format(item.getEndDate()),
+                leftDate, item.getDebtType(), item.getFee(), feeAmount, total, paidAmount,
+                dueAmount, currency, item.getDebtAmount());
     }
 
     @Override
     public void onPayToDebt() {
-        view.openPayToDebt(debt, databaseManager);
+        view.openPayToDebt(debt, databaseManager, false);
+    }
+
+    @Override
+    public void onPaymentHistoryClicked() {
+        view.openPaymentHistoryDialog(debt, databaseManager);
+    }
+
+    @Override
+    public void onCustomerDebtsHistoryClicked() {
+        view.openCustomerDebtsHistoryDialog(debt.getCustomer(), databaseManager);
+    }
+
+    @Override
+    public void closeDebtWithPayingAllAmount(Debt item) {
+        view.openPayToDebt(item, databaseManager, true);
+    }
+
+    @Override
+    public void filterBy(CustomerDebtListFragment.DebtSortingStates sortMode) {
+        this.sortMode = sortMode;
+        sorting = 1;
+        sortList();
+        view.notifyList();
+    }
+
+    @Override
+    public void filterInvert() {
+        sorting *= -1;
+        sortList();
+        view.notifyList();
+    }
+
+    private void sortList() {
+        switch (sortMode) {
+            case SORTED_BY_TAKEN_DATE:
+                Collections.sort(debtList, (debt, t1) -> debt.getTakenDate().compareTo(t1.getTakenDate()) * sorting);
+                break;
+            case SORTED_BY_ORDER_NUMBER:
+                Collections.sort(debtList, (debt, t1) -> debt.getOrderId().compareTo(t1.getOrderId()) * sorting);
+                break;
+            case SORTED_BY_TOTAL_DEBT:
+                Collections.sort(debtList, (debt, t1) -> debt.getDebtAmount().compareTo(t1.getDebtAmount()) * sorting);
+                break;
+            case SORTED_BY_DUE_DATE:
+                Collections.sort(debtList, (debt, t1) -> debt.getEndDate().compareTo(t1.getEndDate()) * sorting);
+                break;
+        }
     }
 }

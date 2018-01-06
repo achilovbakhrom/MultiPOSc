@@ -3,12 +3,16 @@ package com.jim.multipos.ui.customer_debt.adapter;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.support.v7.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jim.multipos.R;
 import com.jim.multipos.data.db.model.currency.Currency;
@@ -17,6 +21,8 @@ import com.jim.multipos.data.db.model.customer.Debt;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -58,12 +64,21 @@ public class DebtListAdapter extends RecyclerView.Adapter<DebtListAdapter.DebtLi
 
     @Override
     public void onBindViewHolder(DebtListViewHolder holder, int position) {
-//        holder.tvOrderNumber.setText(String.valueOf(items.get(position).getOrder().getId()));
-        holder.tvOrderNumber.setText(String.valueOf(5422));
+        holder.tvOrderNumber.setText(String.valueOf(items.get(position).getOrder().getId()));
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         holder.tvTakenDate.setText(simpleDateFormat.format(items.get(position).getTakenDate()));
         holder.tvEndDate.setText(simpleDateFormat.format(items.get(position).getEndDate()));
-        holder.tvTotalDebt.setText(decimalFormat.format(items.get(position).getDebtAmount()) + " " + currency.getAbbr());
+        double feeAmount = items.get(position).getFee() * items.get(position).getDebtAmount() / 100;
+        double total = items.get(position).getDebtAmount() + feeAmount;
+        holder.tvTotalDebt.setText(decimalFormat.format(total) + " " + currency.getAbbr());
+        GregorianCalendar now = new GregorianCalendar();
+        Date date = new Date(items.get(position).getEndDate());
+        GregorianCalendar calendar = new GregorianCalendar();
+        calendar.setTime(date);
+        if (now.after(calendar) || now.equals(calendar)) {
+            holder.tvEndDate.setTextColor(ContextCompat.getColor(context, R.color.colorRed));
+        } else
+            holder.tvEndDate.setTextColor(ContextCompat.getColor(context, R.color.colorMainText));
         if (isFirstTime) {
             if (position == 0) {
                 selectedPosition = holder.getAdapterPosition();
@@ -72,21 +87,15 @@ public class DebtListAdapter extends RecyclerView.Adapter<DebtListAdapter.DebtLi
                 isFirstTime = false;
             }
         }
-        holder.tvDueSum.setTextColor(ContextCompat.getColor(context, R.color.colorRed));
+        double dueSum = items.get(position).getDebtAmount() + feeAmount;
         if (items.get(position).getCustomerPayments().size() > 0) {
-            int dueSum = 0;
             for (int i = 0; i < items.get(position).getCustomerPayments().size(); i++) {
-                dueSum += items.get(position).getCustomerPayments().get(i).getDebtDue();
+                dueSum -= items.get(position).getCustomerPayments().get(i).getPaymentAmount();
             }
-            if (dueSum != items.get(position).getDebtAmount()) {
-                holder.tvDueSum.setText(0 + " " + currency.getAbbr());
-                holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGreenVeryLight));
-            } else {
-                holder.tvDueSum.setText(decimalFormat.format(dueSum) + " " + currency.getAbbr());
-                holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.colorOrangeLight));
-            }
+            holder.tvDueSum.setText(decimalFormat.format(dueSum) + " " + currency.getAbbr());
+            holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.colorOrangeLight));
         } else {
-            holder.tvDueSum.setText(decimalFormat.format(items.get(position).getDebtAmount()) + " " + currency.getAbbr());
+            holder.tvDueSum.setText(decimalFormat.format(dueSum) + " " + currency.getAbbr());
             holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.colorOrangeLight));
         }
         if (selectedPosition == position) {
@@ -102,6 +111,8 @@ public class DebtListAdapter extends RecyclerView.Adapter<DebtListAdapter.DebtLi
 
     public interface OnDebtClickListener {
         void onItemClicked(Debt item, int position);
+
+        void onCloseDebt(Debt item);
     }
 
     class DebtListViewHolder extends RecyclerView.ViewHolder {
@@ -116,6 +127,8 @@ public class DebtListAdapter extends RecyclerView.Adapter<DebtListAdapter.DebtLi
         TextView tvTotalDebt;
         @BindView(R.id.tvDueSum)
         TextView tvDueSum;
+        @BindView(R.id.llExtraOptions)
+        LinearLayout llExtraOptions;
         @BindView(R.id.ivExtraOptions)
         ImageView ivExtraOptions;
         @BindView(R.id.llBackground)
@@ -134,6 +147,24 @@ public class DebtListAdapter extends RecyclerView.Adapter<DebtListAdapter.DebtLi
                         selectedPosition = getAdapterPosition();
                     }
                 }
+            });
+
+            llExtraOptions.setOnClickListener(view -> {
+                PopupMenu popupMenu = new PopupMenu(context, ivExtraOptions);
+                popupMenu.getMenuInflater().inflate(R.menu.popup, popupMenu.getMenu());
+                popupMenu.setGravity(Gravity.END);
+                popupMenu.setOnMenuItemClickListener(menuItem -> {
+                    switch (menuItem.getItemId()) {
+                        case R.id.returnProduct:
+                            Toast.makeText(context, "Return Product", Toast.LENGTH_SHORT).show();
+                            return true;
+                        case R.id.closeDebt:
+                            listener.onCloseDebt(items.get(getAdapterPosition()));
+                            return true;
+                    }
+                    return true;
+                });
+                popupMenu.show();
             });
         }
     }

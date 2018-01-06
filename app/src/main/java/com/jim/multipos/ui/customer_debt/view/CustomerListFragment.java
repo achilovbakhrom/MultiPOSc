@@ -43,6 +43,7 @@ public class CustomerListFragment extends BaseFragment implements CustomerListVi
 
     @Override
     protected void init(Bundle savedInstanceState) {
+        customerDebtConnection.setCustomerListView(this);
         presenter.initData();
         rvCustomerList.setLayoutManager(new LinearLayoutManager(getContext()));
         rvCustomerList.setAdapter(customerListAdapter);
@@ -63,5 +64,21 @@ public class CustomerListFragment extends BaseFragment implements CustomerListVi
     @Override
     public void initSearchResults(List<Customer> searchResults, String searchText) {
         customerListAdapter.setSearchResult(searchResults, searchText);
+    }
+
+    @Override
+    public void updateList() {
+        presenter.initData();
+    }
+
+    @Override
+    public void setDebtListVisibility(int visibility) {
+       customerDebtConnection.setCustomerDebtListVisibility(visibility);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        customerDebtConnection.setCustomerListView(null);
     }
 }

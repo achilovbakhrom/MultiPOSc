@@ -15,6 +15,10 @@ import java.util.List;
 public interface CustomerDebtListView extends BaseView {
     void initCustomerWithDebt(Customer customer);
     void fillRecyclerView(List<Debt> debtList, Currency currency);
-    void fillDebtInfo(Long orderNumber, String takenDate, String endDate, String leftDate, String debtType, double fee, String status, double orderSum, double feeAmount, double total, double paidAmount, double feeAmount1, double dueAmount, Currency mainCurrency);
-    void openPayToDebt(Debt debt, DatabaseManager databaseManager);
+    void fillDebtInfo(Long orderNumber, String takenDate, String endDate, String leftDate, int debtType, double fee, double feeAmount, double total, double paidAmount, double dueAmount, Currency mainCurrency, Double debtAmount);
+    void openPayToDebt(Debt debt, DatabaseManager databaseManager, boolean payToAll);
+    void openPaymentHistoryDialog(Debt debt, DatabaseManager databaseManager);
+    void openCustomerDebtsHistoryDialog(Customer customer, DatabaseManager databaseManager);
+    void setCustomerDebtListVisibility(int visibility);
+    void notifyList();
 }

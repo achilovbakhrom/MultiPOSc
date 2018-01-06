@@ -41,6 +41,7 @@ import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.CustomerDao;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
 import com.jim.multipos.data.db.model.customer.CustomerGroupDao;
+import com.jim.multipos.data.db.model.customer.CustomerPayment;
 import com.jim.multipos.data.db.model.customer.Debt;
 import com.jim.multipos.data.db.model.customer.DebtDao;
 import com.jim.multipos.data.db.model.customer.JoinCustomerGroupsWithCustomers;
@@ -51,6 +52,7 @@ import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.inventory.InventoryStateDao;
 import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.data.db.model.inventory.WarehouseOperationsDao;
+import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.CategoryDao;
 import com.jim.multipos.data.db.model.products.Product;
@@ -1582,7 +1584,7 @@ public class AppDbHelper implements DbHelper {
                     .build().list();
             List<Customer> newCustomerList = new ArrayList<>();
             for (int i = 0; i < customerList.size(); i++) {
-                if (customerList.get(i).getDebtList().size() > 0)
+                if (customerList.get(i).getActiveDebts().size() > 0)
                     newCustomerList.add(customerList.get(i));
             }
             e.onSuccess(newCustomerList);
@@ -1602,9 +1604,26 @@ public class AppDbHelper implements DbHelper {
         return Single.create(e -> {
             List<Debt> debts = mDaoSession
                     .queryBuilder(Debt.class)
-                    .where(DebtDao.Properties.CustomerId.eq(id))
+                    .where(DebtDao.Properties.CustomerId.eq(id),
+                           DebtDao.Properties.Status.eq(Debt.ACTIVE))
                     .build().list();
             e.onSuccess(debts);
+        });
+    }
+
+    @Override
+    public Single<Order> insertOrder(Order order) {
+        return Single.create(singleSubscriber -> {
+            mDaoSession.getOrderDao().insertOrReplace(order);
+            singleSubscriber.onSuccess(order);
+        });
+    }
+
+    @Override
+    public Single<CustomerPayment> insertCustomerPayment(CustomerPayment payment) {
+        return Single.create(singleSubscriber -> {
+            mDaoSession.getCustomerPaymentDao().insertOrReplace(payment);
+            singleSubscriber.onSuccess(payment);
         });
     }
 }

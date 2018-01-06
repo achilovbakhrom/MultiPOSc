@@ -12,6 +12,7 @@ import com.jim.mpviews.MpEditText;
 import com.jim.multipos.R;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.PaymentType;
+import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.CustomerPayment;
 import com.jim.multipos.data.db.model.customer.Debt;
 import com.jim.multipos.utils.UIUtils;
@@ -39,7 +40,7 @@ public class PayToDebtDialog extends Dialog {
     @BindView(R.id.tvCurrencyAbbr)
     TextView tvCurrencyAbbr;
 
-    public PayToDebtDialog(Context context, Debt debt, DatabaseManager databaseManager) {
+    public PayToDebtDialog(Context context, Debt debt, DatabaseManager databaseManager, boolean payToAll, UpdateCustomerDebtsListCallback callback) {
         super(context);
 
         View dialogView = getLayoutInflater().inflate(R.layout.payment_to_debt, null);
@@ -56,39 +57,63 @@ public class PayToDebtDialog extends Dialog {
         }
         spPaymentType.setAdapter(paymentTypeNames);
 
+        if (payToAll){
+            double feeAmount = debt.getFee() * debt.getDebtAmount() / 100;
+            double dueSum = debt.getDebtAmount() + feeAmount;
+            if (debt.getCustomerPayments().size() > 0) {
+                for (CustomerPayment payment : debt.getCustomerPayments()) {
+                    dueSum -= payment.getPaymentAmount();
+                }
+            }
+            etAmount.setText(String.valueOf(dueSum));
+        }
+
+
         btnBack.setOnClickListener(view -> {
             UIUtils.closeKeyboard(btnBack, context);
             dismiss();
         });
-
+        double feeAmount = debt.getFee() * debt.getDebtAmount() / 100;
+        double total = debt.getDebtAmount() + feeAmount;
+        
         btnPay.setOnClickListener(view -> {
             if (!etAmount.getText().toString().isEmpty()) {
                 double amount = Double.parseDouble(etAmount.getText().toString());
-                double dueAmount = 0;
-                if (debt.getDebtAmount() < amount)
+                if (total < amount)
                     etAmount.setError("Payment amount cannot be bigger than debt amount");
-                else if (debt.getDebtAmount() == amount && debt.getDebtType() == Debt.ALL) {
-                    etAmount.setError("You should all debt at once, you cannot pay in participle");
+                else if (total != amount && debt.getDebtType() == Debt.ALL) {
+                    etAmount.setError("You cannot pay in participle for this debt");
                 } else {
+                    double dueSum = total;
+                    if (debt.getCustomerPayments().size() > 0) {
+                        for (CustomerPayment payment : debt.getCustomerPayments()) {
+                            dueSum -= payment.getPaymentAmount();
+                        }
+                    }
                     CustomerPayment payment = new CustomerPayment();
                     payment.setDebt(debt);
                     payment.setPaymentDate(System.currentTimeMillis());
                     payment.setPaymentType(paymentTypes.get(spPaymentType.getSelectedPosition()));
                     payment.setPaymentAmount(amount);
-
+                    payment.setDebtDue(dueSum - amount);
+                    if (dueSum - amount == 0) {
+                        debt.setStatus(Debt.CLOSED);
+                        databaseManager.addDebt(debt).blockingGet();
+                    }
+                    databaseManager.addCustomerPayment(payment).subscribe();
+                    debt.resetCustomerPayments();
+                    callback.onPay(debt.getCustomer());
                     UIUtils.closeKeyboard(btnPay, context);
                     dismiss();
                 }
-
-
             } else {
                 etAmount.setError(context.getString(R.string.enter_amount));
             }
         });
 
-
-
     }
 
-
+    public interface UpdateCustomerDebtsListCallback {
+        void onPay(Customer customer);
+    }
 }

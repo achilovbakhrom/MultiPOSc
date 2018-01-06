@@ -48,7 +48,7 @@
 
         <TextView
             android:id="@+id/tvDueSum"
-            android:layout_width="@dimen/hundred_thirty_dp"
+            android:layout_width="@dimen/hundred_twenty_dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
@@ -56,13 +56,22 @@
             android:textColor="@color/colorMainText"
             android:textSize="@dimen/sixteen_dp" />
 
-        <ImageView
-            android:id="@+id/ivExtraOptions"
-            android:layout_width="@dimen/twenty_five_dp"
-            android:layout_height="@dimen/twenty_five_dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/three_dots"
-            android:tint="@color/colorTintGrey" />
+
+        <LinearLayout
+            android:gravity="center"
+            android:id="@+id/llExtraOptions"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/ivExtraOptions"
+                android:layout_width="@dimen/twenty_five_dp"
+                android:layout_height="@dimen/twenty_five_dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/three_dots"
+                android:tint="@color/colorTintGrey" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

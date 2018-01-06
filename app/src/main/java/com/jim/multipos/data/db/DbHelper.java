@@ -23,10 +23,12 @@ import com.jim.multipos.data.db.model.Account;
 
 import com.jim.multipos.data.db.model.consignment.Consignment;
 import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
+import com.jim.multipos.data.db.model.customer.CustomerPayment;
 import com.jim.multipos.data.db.model.customer.Debt;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
 import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
+import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
@@ -217,4 +219,8 @@ public interface DbHelper {
     Single<Boolean> insertDebt(Debt debt);
 
     Single<List<Debt>> getDebtsByCustomerId(Long id);
+
+    Single<Order> insertOrder(Order order);
+
+    Single<CustomerPayment> insertCustomerPayment(CustomerPayment payment);
 }

@@ -12,10 +12,12 @@ import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.consignment.Consignment;
 import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
+import com.jim.multipos.data.db.model.customer.CustomerPayment;
 import com.jim.multipos.data.db.model.customer.Debt;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
 import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
+import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.customer.Customer;
@@ -491,6 +493,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
+    public Single<CustomerPayment> addCustomerPayment(CustomerPayment payment) {
+        return dbHelper.insertCustomerPayment(payment);
+    }
+
+    @Override
     public Single<List<ProductClass>> getAllProductClass() {
         return dbHelper.getAllProductClass();
     }
@@ -903,6 +910,10 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Single<Boolean> deleteInventoryState(InventoryState inventoryState) {
         return dbHelper.deleteInventoryState(inventoryState);
+    }
+
+    public Single<Order> addOrder(Order order) {
+        return dbHelper.insertOrder(order);
     }
 }
 

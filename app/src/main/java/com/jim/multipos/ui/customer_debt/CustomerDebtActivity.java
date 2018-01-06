@@ -34,8 +34,8 @@ public class CustomerDebtActivity extends BaseActivity implements CustomerDebtAc
         setContentView(R.layout.customer_debt_layout);
         ButterKnife.bind(this);
         toolbar.setMode(MpToolbar.DEFAULT_MODE);
-        addFragment(R.id.flLeftSide, new CustomerListFragment());
         addFragment(R.id.flRightSide, new CustomerDebtListFragment());
+        addFragment(R.id.flLeftSide, new CustomerListFragment());
 
     }
 }

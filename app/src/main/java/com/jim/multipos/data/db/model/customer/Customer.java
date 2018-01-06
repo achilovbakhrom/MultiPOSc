@@ -7,6 +7,7 @@ import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.JoinEntity;
 import org.greenrobot.greendao.annotation.JoinProperty;
+import org.greenrobot.greendao.annotation.Keep;
 import org.greenrobot.greendao.annotation.ToMany;
 
 import com.jim.multipos.data.db.model.DaoSession;
@@ -306,5 +307,21 @@ public class Customer implements Editable {
             }
         }
         return debtList;
+    }
+
+    @Keep
+    public List<Debt> getActiveDebts() {
+        final DaoSession daoSession = this.daoSession;
+        if (daoSession == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        return daoSession
+                .queryBuilder(Debt.class)
+                .where(
+                        DebtDao.Properties.CustomerId.eq(id),
+                        DebtDao.Properties.Status.eq(Debt.ACTIVE)
+                )
+                .build()
+                .list();
     }
 }
