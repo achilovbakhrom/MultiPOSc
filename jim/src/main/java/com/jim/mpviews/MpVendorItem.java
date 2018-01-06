@@ -7,6 +7,7 @@ import android.os.Parcelable;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -78,7 +79,9 @@ public class MpVendorItem extends RelativeLayout {
     public void setVendorName(String name) {
         mpName.setText(name);
     }
-
+    public void setOnClickItemCustom(OnClickListener onClickItemCustom){
+        findViewById(R.id.llVendor).setOnClickListener(onClickItemCustom);
+    }
     public void setVisibility(int vendor, int item, int name)
     {
         mpVendor.setVisibility(vendor);

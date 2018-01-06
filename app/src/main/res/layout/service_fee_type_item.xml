@@ -24,7 +24,7 @@
 
         <TextView
             android:id="@+id/tvAmount"
-            android:layout_width="@dimen/two_hundred_dp"
+            android:layout_width="@dimen/three_hundred_dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/twelve_dp"
             android:layout_marginLeft="@dimen/five_dp"
@@ -88,7 +88,7 @@
 
         <com.jim.mpviews.MpEditText
             android:id="@+id/etAmount"
-            android:layout_width="@dimen/two_hundred_dp"
+            android:layout_width="@dimen/three_hundred_dp"
             android:layout_height="@dimen/forty_five_dp"
             android:layout_marginRight="@dimen/ten_dp"
             android:hint="@string/value"

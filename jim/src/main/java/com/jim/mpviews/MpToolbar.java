@@ -58,6 +58,8 @@ public class MpToolbar extends RelativeLayout {
     private Calendar to;
     private DataIntervalCallbackToToolbar dataIntervalPicker;
     private TextView tvPeriod;
+    private CallbackSearchFragmentClick onSearchClickListener;
+
     public MpToolbar(Context context) {
         super(context);
         init(context, null);
@@ -226,17 +228,27 @@ public class MpToolbar extends RelativeLayout {
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        if (!pressed) {
-                            VibrateManager.startVibrate(context, 50);
-                            pressed = true;
-                        }
-                        findViewById(R.id.searchLine).setVisibility(GONE);
-                        findViewById(R.id.searchPressed).setVisibility(VISIBLE);
-                        return false;
-                    case MotionEvent.ACTION_UP:
                         pressed = false;
-                        findViewById(R.id.searchLine).setVisibility(VISIBLE);
-                        findViewById(R.id.searchPressed).setVisibility(GONE);
+                        if(!isSearchFragmentOpened){
+                            pressed = true;
+                            VibrateManager.startVibrate(context, 50);
+                            onSearchClickListener.onOpen();
+                            isSearchFragmentOpened = true;
+                            findViewById(R.id.searchLine).setVisibility(GONE);
+                            findViewById(R.id.searchPressed).setVisibility(VISIBLE);
+                        }
+                        return true;
+                    case MotionEvent.ACTION_UP:
+                        if(pressed){
+                            pressed = false;
+                            return false;
+                        }
+                        if(isSearchFragmentOpened){
+                            onSearchClickListener.onClose();
+                            isSearchFragmentOpened = false;
+                            findViewById(R.id.searchLine).setVisibility(VISIBLE);
+                            findViewById(R.id.searchPressed).setVisibility(GONE);
+                        }
                         return false;
                 }
                 return false;
@@ -244,7 +256,7 @@ public class MpToolbar extends RelativeLayout {
         });
         array.recycle();
     }
-
+    boolean isSearchFragmentOpened = false;
     public void setOnProductClickListener(OnClickListener productClickListener) {
         findViewById(R.id.mpProducts).setOnClickListener(productClickListener);
     }
@@ -266,9 +278,13 @@ public class MpToolbar extends RelativeLayout {
     public void setOnOrderClickListener(OnClickListener orderClickListener) {
         mpHorizontalScroller.setOnItemClickListener(orderClickListener);
     }
+    public interface CallbackSearchFragmentClick{
+        void onOpen();
+        void onClose();
+    }
+    public void setOnSearchClickListener(CallbackSearchFragmentClick onSearchClickListener) {
+        this.onSearchClickListener = onSearchClickListener;
 
-    public void setOnSearchClickListener(OnClickListener searchClickListener) {
-        mpSearch.setOnClickListener(searchClickListener);
     }
 
     public void setOnSettingsClickListener(OnClickListener settingsClickListener) {

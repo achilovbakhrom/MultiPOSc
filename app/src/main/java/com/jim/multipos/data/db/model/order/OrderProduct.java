@@ -38,7 +38,7 @@ public class OrderProduct {
 
     private double cost;
     private double price;
-    private int count;
+    private double count;
     private double sum;
     private double discountAmount;
     private double serviceAmount;
@@ -249,10 +249,10 @@ public class OrderProduct {
     public void setSum(double sum) {
         this.sum = sum;
     }
-    public int getCount() {
+    public double getCount() {
         return this.count;
     }
-    public void setCount(int count) {
+    public void setCount(double count) {
         this.count = count;
     }
     public double getPrice() {
@@ -291,11 +291,10 @@ public class OrderProduct {
     public void setId(Long id) {
         this.id = id;
     }
-    @Generated(hash = 768030496)
-    public OrderProduct(Long id, long orderId, Long productId, Long vendorId,
-            double cost, double price, int count, double sum,
-            double discountAmount, double serviceAmount, String discription,
-            Long discountId, Long serviceFeeId) {
+    @Generated(hash = 1587745906)
+    public OrderProduct(Long id, long orderId, Long productId, Long vendorId, double cost,
+            double price, double count, double sum, double discountAmount,
+            double serviceAmount, String discription, Long discountId, Long serviceFeeId) {
         this.id = id;
         this.orderId = orderId;
         this.productId = productId;

@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
+    android:background="#fafafa"
     android:orientation="horizontal">
-
+    <ImageView
+        android:layout_width="@dimen/ten_dp"
+        android:layout_height="match_parent"
+        android:src="@drawable/from_right_to_left_shadow" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,30 +30,43 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/fifty_dp"
+                android:layout_marginLeft="@dimen/thirty_dp"
                 android:layout_marginRight="@dimen/thirty_dp"
+                android:layout_marginTop="@dimen/twenty_dp"
+                android:layout_marginBottom="@dimen/twenty_dp"
                 android:orientation="horizontal">
 
-
+                <RelativeLayout
+                    android:layout_width="@dimen/hundred_dp"
+                    android:layout_height="@dimen/hundred_dp">
                     <ImageView
                         android:id="@+id/ivProductImage"
-                        android:layout_width="@dimen/hundred_seventy_dp"
-                        android:layout_height="@dimen/hundred_seventy_dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:adjustViewBounds="true"
                         android:scaleType="fitCenter"
                         android:src="@drawable/default_product_image" />
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/photo_frame"/>
+                </RelativeLayout>
+
 
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/fifty_five_dp"
+                    android:layout_marginLeft="@dimen/thirty_dp"
                     android:layout_weight="1"
+                    android:gravity="center_vertical"
                     android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
                         android:orientation="horizontal">
 
                         <TextView
@@ -97,22 +113,12 @@
                         android:gravity="left"
                         android:maxLines="2"
                         android:paddingBottom="@dimen/five_dp"
-                        android:paddingTop="@dimen/five_dp"
                         android:textColor="@color/colorSecondaryText"
                         android:textSize="@dimen/eighteen_dp"
                         android:textStyle="italic"
                         tools:text="Bell and Bobs" />
 
-                    <TextView
-                        android:id="@+id/tvDescription"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:paddingBottom="@dimen/five_dp"
-                        android:paddingTop="@dimen/five_dp"
-                        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam porttitor, libero quis luctus molestie, velit nunc aliquet lacus, congue posuere "
-                        android:textColor="@color/colorBlue"
-                        android:textSize="@dimen/eighteen_dp" />
+
                 </LinearLayout>
             </LinearLayout>
 
@@ -193,11 +199,13 @@
                 android:background="#e9e9e9" />
 
             <LinearLayout
+                android:id="@+id/llVendorPicker"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/sixty_dp"
                 android:layout_marginRight="@dimen/twenty_five_dp"
                 android:layout_marginTop="@dimen/twenty_dp"
+
                 android:orientation="horizontal">
 
                 <TextView
@@ -275,38 +283,45 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/fifty_dp"
+                android:layout_height="@dimen/sixty_five_dp"
+                android:layout_marginLeft="@dimen/thirty_dp"
                 android:layout_marginRight="@dimen/twenty_five_dp"
                 android:layout_marginTop="@dimen/twenty_dp"
                 android:orientation="horizontal">
 
                 <com.jim.mpviews.MpButton
                     android:id="@+id/btnServiceFee"
-                    android:layout_width="@dimen/hundred_eighty_dp"
-                    android:layout_height="@dimen/sixty_dp"
-                    android:layout_marginRight="@dimen/twenty_dp"
-                    android:text="@string/service_fee"
+                    android:layout_width="@dimen/hundred_fifty_five_dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="@dimen/five_dp"
+                    android:text="Remove \nService Fee"
                     android:textColor="@color/colorBlue"
                     android:textSize="@dimen/sixteen_dp"
-                    app:isLong="true" />
+                    />
 
                 <com.jim.mpviews.MpButton
                     android:id="@+id/btnDiscountItem"
-                    android:layout_width="@dimen/hundred_eighty_dp"
-                    android:layout_height="@dimen/sixty_dp"
-                    android:layout_marginRight="@dimen/twenty_dp"
-                    android:text="@string/discount_item"
+                    android:layout_width="@dimen/hundred_fifty_five_dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="@dimen/five_dp"
+                    android:text="Remove \nDiscount"
                     android:textColor="@color/colorBlue"
                     android:textSize="@dimen/sixteen_dp"
-                    app:isLong="true" />
-
+                    />
+                <com.jim.mpviews.MpButton
+                    android:id="@+id/btnRemove"
+                    android:layout_width="@dimen/hundred_fifty_five_dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="@dimen/five_dp"
+                    android:text="Remove"
+                    android:textColor="@color/colorBlue"
+                    android:textSize="@dimen/sixteen_dp"
+                    />
                 <com.jim.mpviews.MpButton
                     android:id="@+id/btnClose"
-                    android:layout_width="@dimen/hundred_eighty_dp"
-                    android:layout_height="@dimen/sixty_dp"
+                    android:layout_width="@dimen/hundred_fifty_five_dp"
+                    android:layout_height="match_parent"
                     android:text="@string/close"
-                    app:isLong="true"
                     android:textColor="@color/colorBlue"
                     android:textSize="@dimen/sixteen_dp" />
 
@@ -341,4 +356,4 @@
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</RelativeLayout>

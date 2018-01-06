@@ -18,6 +18,7 @@ import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.mpviews.MpButton;
 import com.jim.multipos.R;
 import com.jim.multipos.data.DatabaseManager;
+import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.ui.mainpospage.adapter.ServiceFeeAdapter;
 
@@ -45,11 +46,21 @@ public class ServiceFeeDialog extends Dialog implements ServiceFeeAdapter.OnClic
     private List<ServiceFee> serviceFees;
     private String caption;
     private DatabaseManager databaseManager;
+    private CallbackServiceFeeDialog callbackServiceFeeDialog;
+    private double orginalAmount;
+    private int serviceFeeApplyType;
 
-    public ServiceFeeDialog(@NonNull Context context, DatabaseManager databaseManager) {
+    public interface CallbackServiceFeeDialog{
+        void choiseStaticServiceFee(ServiceFee serviceFee);
+        void choiseManualServiceFee(ServiceFee serviceFee);
+    }
+    public ServiceFeeDialog(@NonNull Context context, DatabaseManager databaseManager , CallbackServiceFeeDialog callbackServiceFeeDialog, double orginalAmount, int serviceFeeApplyType) {
         super(context);
         this.databaseManager = databaseManager;
         this.databaseManager = databaseManager;
+        this.callbackServiceFeeDialog = callbackServiceFeeDialog;
+        this.orginalAmount = orginalAmount;
+        this.serviceFeeApplyType = serviceFeeApplyType;
         View dialogView = getLayoutInflater().inflate(R.layout.service_fee_dialog, null);
         ButterKnife.bind(this, dialogView);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -65,15 +76,13 @@ public class ServiceFeeDialog extends Dialog implements ServiceFeeAdapter.OnClic
         recyclerView.setAdapter(adapter);
         RxView.clicks(btnBack).subscribe(o -> dismiss());
         RxView.clicks(btnAdd).subscribe(o -> {
-            AddServiceFeeDialog dialog = new AddServiceFeeDialog(getContext(), databaseManager, 30000, ServiceFee.ORDER);
+            AddServiceFeeDialog dialog = new AddServiceFeeDialog(getContext(), databaseManager, orginalAmount, serviceFeeApplyType,callbackServiceFeeDialog);
             dialog.show();
             dismiss();
         });
     }
 
-    public void setServiceFee(List<ServiceFee> serviceFees) {
-        this.serviceFees = serviceFees;
-    }
+
 
     public void setCaption(String caption) {
         this.caption = caption;
@@ -81,7 +90,7 @@ public class ServiceFeeDialog extends Dialog implements ServiceFeeAdapter.OnClic
 
     @Override
     public void onItemClicked(ServiceFee serviceFee) {
-        //TODO
+        callbackServiceFeeDialog.choiseStaticServiceFee(serviceFee);
         dismiss();
     }
 }

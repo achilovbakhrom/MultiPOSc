@@ -47,7 +47,7 @@
                         android:layout_gravity="center_vertical"
                         android:src="@drawable/left_arrow"
                         android:layout_marginTop="@dimen/five_dp"
-                        android:layout_marginLeft="@dimen/ten_dp"
+                        android:layout_marginLeft="@dimen/five_dp"
                         android:layout_marginBottom="@dimen/five_dp"
                         />
                     <TextView
@@ -66,7 +66,7 @@
                         android:src="@drawable/right_arrow"
                         android:layout_gravity="center_vertical"
                         android:layout_marginTop="@dimen/five_dp"
-                        android:layout_marginRight="@dimen/ten_dp"
+                        android:layout_marginRight="@dimen/five_dp"
                         android:layout_marginBottom="@dimen/five_dp"
                         />
 
@@ -274,7 +274,8 @@
             android:layout_width="match_parent"
             android:layout_height="4dp"
             android:layerType="software"
-            android:src="@drawable/dot_line" />
+            android:src="@drawable/dot_line"
+            />
     </RelativeLayout>
 
 </LinearLayout>

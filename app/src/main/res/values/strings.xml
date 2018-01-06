@@ -578,9 +578,12 @@
     <string name="paid_sum">Paid sum:</string>
     <string name="due">Due:</string>
     <string name="service_fee_amount">Service fee amount</string>
-    <string name="enter_service_fee_name">Enter service fee name</string>
+    <string name="enter_service_fee_name">Enter service fee reason</string>
     <string name="service_fee_percent">Service fee %</string>
     <string name="billing_price_cannot_be_lower">Billing price cannot be lower than original price</string>
+    <string name="enter_discount_reason">Enter discount reason</string>
+    <string name="disc_reacon_cant_empty">Discount reason can\'t be empty</string>
+    <string name="service_fee_reason_cant_be_empty">Service Fee reason cant empty</string>
     <string name="year">year</string>
     <string name="years">years</string>
     <string name="months">months</string>
@@ -588,6 +591,7 @@
     <string name="day">day</string>
     <string name="days">days</string>
     <string name="payment_type">Payment type</string>
+    <string name="customer_choice">Customer choice</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>

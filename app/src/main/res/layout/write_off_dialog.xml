@@ -151,7 +151,6 @@
                         android:textSize="@dimen/eighteen_dp"
                         android:textColor="#414141"
                         android:singleLine="true"
-
                         android:inputType="numberDecimal"
                         android:paddingLeft="@dimen/eighteen_dp"
                         android:background="@drawable/edit_text_bg_transparent"/>

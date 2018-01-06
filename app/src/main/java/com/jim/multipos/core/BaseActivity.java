@@ -75,7 +75,13 @@ public abstract class BaseActivity extends AppCompatActivity implements HasSuppo
                 .addToBackStack(null)
                 .commit();
     }
+    protected final void addFragmentWithTagStatic(@IdRes int containerViewId, Fragment fragment, String tag) {
+        if (fragment.isAdded()) return;
 
+        activityFragmentManager.beginTransaction()
+                .add(containerViewId, fragment, tag)
+                .commit();
+    }
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return fragmentInjector;

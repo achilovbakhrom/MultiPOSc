@@ -12,14 +12,11 @@ import android.widget.LinearLayout;
 
 import com.jim.mpviews.MpButton;
 import com.jim.mpviews.MpSearchView;
-import com.jim.mpviews.RecyclerViewWithMaxHeight;
 import com.jim.multipos.R;
 import com.jim.multipos.data.DatabaseManager;
-import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.customer.Customer;
-import com.jim.multipos.data.db.model.inventory.BillingOperations;
-import com.jim.multipos.ui.billing_vendor.adapter.BillingInfoAdapter;
 import com.jim.multipos.ui.mainpospage.adapter.CustomersListAdapter;
+import com.jim.multipos.ui.mainpospage.connection.MainPageConnection;
 import com.jim.multipos.utils.TextWatcherOnTextChange;
 import com.jim.multipos.utils.UIUtils;
 import com.jim.multipos.utils.managers.NotifyManager;
@@ -28,12 +25,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.jim.multipos.ui.consignment_list.view.ConsignmentListFragment.SortingStates.FILTERED_BY_CONSIGNMENT;
-import static com.jim.multipos.ui.consignment_list.view.ConsignmentListFragment.SortingStates.FILTERED_BY_DATE;
 import static com.jim.multipos.ui.mainpospage.dialogs.CustomerDialog.CustomerSortingStates.SORTED_BY_ADDRESS;
 import static com.jim.multipos.ui.mainpospage.dialogs.CustomerDialog.CustomerSortingStates.SORTED_BY_ADDRESS_INVERT;
 import static com.jim.multipos.ui.mainpospage.dialogs.CustomerDialog.CustomerSortingStates.SORTED_BY_ID;
@@ -80,7 +77,7 @@ public class CustomerDialog extends Dialog {
 
     private CustomerSortingStates filterMode = SORTED_BY_ID;
 
-    public CustomerDialog(@NonNull Context context, DatabaseManager databaseManager, NotifyManager notifyManager) {
+    public CustomerDialog(@NonNull Context context, DatabaseManager databaseManager, NotifyManager notifyManager,MainPageConnection mainPageConnection) {
         super(context);
         View dialogView = getLayoutInflater().inflate(R.layout.choose_customers_dialog, null);
         ButterKnife.bind(this, dialogView);
@@ -99,7 +96,7 @@ public class CustomerDialog extends Dialog {
         customersListAdapter.setCallback(new CustomersListAdapter.OnCustomerListItemCallback() {
             @Override
             public void onItemEdit(Customer customer) {
-                AddCustomerDialog addCustomerDialog = new AddCustomerDialog(context, customer, databaseManager, () -> {
+                AddCustomerDialog addCustomerDialog = new AddCustomerDialog(context, customer, databaseManager, (Customer newCustomer) -> {
                     customerList = databaseManager.getAllCustomers().blockingSingle();
                     sortList();
                     customersListAdapter.setData(customerList);
@@ -110,15 +107,19 @@ public class CustomerDialog extends Dialog {
             @Override
             public void onItemSelect(Customer customer) {
                 notifyManager.notifyView(customer);
+                mainPageConnection.changeCustomer(customer);
                 dismiss();
             }
         });
 
         btnAddNewCustomer.setOnClickListener(view -> {
-            AddCustomerDialog addCustomerDialog = new AddCustomerDialog(context, null, databaseManager, () -> {
+            AddCustomerDialog addCustomerDialog = new AddCustomerDialog(context, null, databaseManager, (Customer customer) -> {
                 customerList = databaseManager.getAllCustomers().blockingSingle();
                 sortList();
                 customersListAdapter.setData(customerList);
+                if (customer != null){
+
+                }
             });
             addCustomerDialog.show();
         });

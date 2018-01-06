@@ -2,9 +2,12 @@ package com.jim.multipos.ui.mainpospage.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -93,12 +96,13 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holderMain, int position) {
+        Log.d("test001", "onBindViewHolder: "+position);
         if(holderMain instanceof OrderProductViewHolder) {
             OrderProductViewHolder holder = (OrderProductViewHolder) holderMain;
             OrderProductItem orderProductItem = (OrderProductItem) adapterItem.get(position);
-            holder.tvCountProduct.setText(String.valueOf(orderProductItem.getOrderProduct().getCount()));
-            holder.tvEach.setText(decimalFormat.format(orderProductItem.getOrderProduct().getCost()));
-            holder.tvSum.setText(decimalFormat.format(orderProductItem.getOrderProduct().getCost() * orderProductItem.getOrderProduct().getCount()));
+            holder.tvCountProduct.setText(decimalFormat.format(orderProductItem.getOrderProduct().getCount()));
+            holder.tvEach.setText(decimalFormat.format(orderProductItem.getOrderProduct().getPrice()));
+            holder.tvSum.setText(decimalFormat.format(orderProductItem.getOrderProduct().getPrice() * orderProductItem.getOrderProduct().getCount()));
             holder.tvProductName.setText(orderProductItem.getOrderProduct().getProduct().getName());
 
 
@@ -148,8 +152,8 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if(holderMain instanceof OrderServiceFeeViewHolder){
             OrderServiceFeeViewHolder holder = (OrderServiceFeeViewHolder) holderMain;
             ServiceFeeItem serviceFeeItem = (ServiceFeeItem) adapterItem.get(position);
-            holder.tvServiceFeeName.setText(serviceFeeItem.getServiceFee().getName());
-            holder.tvServiceFeeAmount.setText("+"+decimalFormat.format(serviceFeeItem.getAmmount())+" (order service fee)");
+            holder.tvServiceFeeName.setText(serviceFeeItem.getServiceFee().getName()+" (order service fee)");
+            holder.tvServiceFeeAmount.setText("+"+decimalFormat.format(serviceFeeItem.getAmmount()));
             if(position==adapterItem.size()-1){
                 holder.isLastItemGone.setVisibility(View.GONE);
             }else {
@@ -211,6 +215,9 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                  callback.onOrderProductClick(getAdapterPosition());
              });
          }
+         public void clearAnimation(){
+             llProduct.clearAnimation();
+         }
      }
 
     class OrderDiscountViewHolder extends RecyclerView.ViewHolder{
@@ -229,6 +236,21 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 callback.onOrderDiscountClick();
             });
         }
+        public void clearAnimation(){
+            llDiscount.clearAnimation();
+        }
+    }
+
+
+    @Override
+    public void onViewDetachedFromWindow(final RecyclerView.ViewHolder holder)
+    {
+        if(holder instanceof OrderProductViewHolder)
+        ((OrderProductViewHolder)holder).clearAnimation();
+        else if(holder instanceof OrderDiscountViewHolder)
+            ((OrderDiscountViewHolder)holder).clearAnimation();
+        else if(holder instanceof OrderServiceFeeViewHolder)
+            ((OrderServiceFeeViewHolder)holder).clearAnimation();
     }
 
     class OrderServiceFeeViewHolder extends RecyclerView.ViewHolder{
@@ -246,6 +268,9 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             llServiceFee.setOnClickListener(view -> {
                 callback.onOrderServiceFeeClick();
             });
+        }
+        public void clearAnimation(){
+            llServiceFee.clearAnimation();
         }
     }
 }

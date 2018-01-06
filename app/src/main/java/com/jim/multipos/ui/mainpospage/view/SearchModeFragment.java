@@ -16,6 +16,7 @@ import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.ui.mainpospage.adapter.SearchResultsAdapter;
+import com.jim.multipos.ui.mainpospage.connection.MainPageConnection;
 import com.jim.multipos.ui.mainpospage.presenter.SearchModePresenter;
 import com.jim.multipos.utils.TextWatcherOnTextChange;
 
@@ -53,7 +54,8 @@ public class SearchModeFragment  extends BaseFragment implements SearchModeView 
     MpKeyBoard mpKeyBoard;
     SearchResultsAdapter searchResultsAdapter;
     List<Product> productList;
-
+    @Inject
+    MainPageConnection mainPageConnection;
     boolean barcodeMode = true;
     boolean nameMode = true;
     boolean skuMode = true;
@@ -118,7 +120,9 @@ public class SearchModeFragment  extends BaseFragment implements SearchModeView 
             }
         });
         productList = new ArrayList<>();
-        searchResultsAdapter = new SearchResultsAdapter(productList);
+        searchResultsAdapter = new SearchResultsAdapter(productList,position -> {
+            mainPageConnection.addProductToOrder(productList.get(position).getId());
+        });
         rvSearchResults.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false));
         rvSearchResults.setAdapter(searchResultsAdapter);
         tvSearchTextPlace.setRawInputType(InputType.TYPE_CLASS_TEXT);
@@ -160,6 +164,7 @@ public class SearchModeFragment  extends BaseFragment implements SearchModeView 
     public void setResultsList(List<Product> resultsList,String searchText) {
         tvSearchResultsCount.setText(getString(R.string.search_results)+" - "+resultsList.size());
         searchResultsAdapter.setItems(resultsList,searchText);
+        productList = resultsList;
         searchResultsAdapter.notifyDataSetChanged();
 
     }

@@ -1,22 +1,22 @@
 package com.jim.multipos.ui.mainpospage.view;
 
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.mpviews.MpButton;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
-import com.jim.multipos.data.db.model.order.OrderProduct;
-import com.jim.multipos.data.db.model.products.Product;
+import com.jim.multipos.data.db.model.inventory.InventoryState;
+import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivity;
 import com.jim.multipos.ui.mainpospage.connection.MainPageConnection;
 import com.jim.multipos.ui.mainpospage.dialogs.ChooseVendorDialog;
@@ -27,16 +27,15 @@ import com.jim.multipos.ui.mainpospage.model.OrderProductItem;
 import com.jim.multipos.ui.mainpospage.presenter.ProductInfoPresenter;
 import com.jim.multipos.utils.GlideApp;
 import com.jim.multipos.utils.RxBus;
-import com.jim.multipos.utils.UIUtils;
-import com.jim.multipos.utils.rxevents.MessageEvent;
+import com.jim.multipos.utils.TextWatcherOnTextChange;
+import com.jim.multipos.utils.WarningDialog;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
-
-import static com.jim.multipos.ui.consignment.ConsignmentActivity.PRODUCT_ID;
 
 /**
  * Created by developer on 24.08.2017.
@@ -45,14 +44,15 @@ import static com.jim.multipos.ui.consignment.ConsignmentActivity.PRODUCT_ID;
 public class ProductInfoFragment extends BaseFragment implements ProductInfoView {
     @Inject
     ProductInfoPresenter presenter;
+    @Inject
+    DecimalFormat decimalFormat;
     @BindView(R.id.ivProductImage)
     ImageView ivProductImage;
     @BindView(R.id.tvProductName)
     TextView tvProductName;
     @BindView(R.id.tvCompanyName)
     TextView tvCompanyName;
-    @BindView(R.id.tvDescription)
-    TextView tvDescription;
+
     @BindView(R.id.tvQuantity)
     TextView tvQuantity;
     @BindView(R.id.ivMinus)
@@ -81,6 +81,10 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
     EditText etSpecialRequest;
     @BindView(R.id.ivAlert)
     ImageView ivAlert;
+    @BindView(R.id.btnRemove)
+    MpButton btnRemove;
+    @BindView(R.id.llVendorPicker)
+    LinearLayout llVendorPicker;
     @Inject
     RxBus rxBus;
     @Inject
@@ -92,40 +96,18 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
     protected int getLayout() {
         return R.layout.product_info_fragment;
     }
-
+    int currentVendorPosition = 0;
     @Override
     protected void init(Bundle savedInstanceState) {
         mainPageConnection.setProductInfoView(this);
         mainPageConnection.giveToProductInfoFragmentProductItem();
 
-
-        RxView.clicks(ivArrowLeft).subscribe(o -> {
-            tvVendorName.setText(presenter.getPrevVendor().getName());
-        });
-
-        RxView.clicks(ivArrowRight).subscribe(o -> {
-            tvVendorName.setText(presenter.getNextVendor().getName());
-        });
-
-        RxView.clicks(btnClose).subscribe(o -> {
-            UIUtils.closeKeyboard(btnClose, getContext());
-        });
-
-        RxView.clicks(btnServiceFee).subscribe(o -> {
-            ServiceFeeDialog dialog = new ServiceFeeDialog(getContext(), databaseManager);
-            dialog.setCaption(getString(R.string.choose_for_product));
-            dialog.setServiceFee(presenter.getServiceFees());
-            dialog.show();
-        });
-
-        RxView.clicks(btnDiscountItem).subscribe(o -> {
-            DiscountDialog dialog = new DiscountDialog(getContext(), databaseManager);
-            dialog.show();
-            dialog.setCaption(getString(R.string.choose_for_product));
-        });
     }
 
-
+    public void refreshData(){
+        mainPageConnection.setProductInfoView(this);
+        mainPageConnection.giveToProductInfoFragmentProductItem();
+    }
     @Override
     public void initProductData(OrderProductItem orderProductItem) {
 
@@ -134,52 +116,160 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .thumbnail(0.2f)
                 .centerCrop()
-                .transform(new RoundedCorners(20))
                 .placeholder(R.drawable.default_product_image)
                 .error(R.drawable.default_product_image)
                 .into(ivProductImage);
-
+        tvCompanyName.setPaintFlags(tvCompanyName.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
         tvProductName.setText(orderProductItem.getOrderProduct().getProduct().getName());
-        tvDescription.setText(orderProductItem.getOrderProduct().getProduct().getDescription());
-        tvVendorName.setText(orderProductItem.getOrderProduct().getProduct().getVendor().get(0).getName());
-        tvQuantity.setText((orderProductItem.getOrderProduct().getCount() - 1) + " " + orderProductItem.getOrderProduct().getProduct().getMainUnit().getAbbr());
-        tvOrderQuantity.setText(String.valueOf(presenter.getCurrentProductQuantity()));
 
-        for (int i = 0; i < orderProductItem.getOrderProduct().getProduct().getVendor().size(); i++) {
-            tvCompanyName.append(orderProductItem.getOrderProduct().getProduct().getVendor().get(i).getName());
-
-            if (i < orderProductItem.getOrderProduct().getProduct().getVendor().size() - 1) {
-                tvCompanyName.append(", ");
+        tvVendorName.setText(orderProductItem.getOrderProduct().getVendor().getName());
+        List<InventoryState> inventoryStates = databaseManager.getInventoryStatesByProductId(orderProductItem.getOrderProduct().getProductId()).blockingFirst();
+        InventoryState inventoryState = null;
+        for (int i = 0; i < inventoryStates.size(); i++) {
+            if(inventoryStates.get(i).getVendor().getId().equals(orderProductItem.getOrderProduct().getVendor().getId())){
+                inventoryState = inventoryStates.get(i);
+                break;
             }
         }
+        tvQuantity.setText(decimalFormat.format(inventoryState.getValue() - orderProductItem.getOrderProduct().getCount()) + " " + orderProductItem.getOrderProduct().getProduct().getMainUnit().getAbbr());
+        tvOrderQuantity.setText(decimalFormat.format(orderProductItem.getOrderProduct().getCount()));
 
-        RxView.clicks(ivMinus).subscribe(o -> {
+        String vendorName = "";
+        for (Vendor vn:orderProductItem.getOrderProduct().getProduct().getVendor()) {
+            if(!vendorName.equals("")) vendorName += ", ";
+            vendorName += vn.getName();
+        }
+        tvCompanyName.setText(vendorName);
+        ivMinus.setOnClickListener(view -> {
             mainPageConnection.minusProductCount();
             mainPageConnection.giveToProductInfoFragmentProductItem();
         });
-
-        RxView.clicks(ivPlus).subscribe(o -> {
+        ivPlus.setOnClickListener(view -> {
             mainPageConnection.plusProductCount();
             mainPageConnection.giveToProductInfoFragmentProductItem();
-
         });
-
-        RxView.clicks(btnSetQuantity).subscribe(o -> {
+        btnSetQuantity.setOnClickListener(view -> {
             SetQuantityDialog dialog = new SetQuantityDialog(getContext(), value -> {
-                presenter.setCurrentQuantity(value);
-                tvQuantity.setText(String.valueOf(presenter.getProductQuantity()) + " " + orderProductItem.getOrderProduct().getProduct().getMainUnit().getAbbr());
-                tvOrderQuantity.setText(String.valueOf(presenter.getCurrentProductQuantity()));
+                mainPageConnection.setCount(value);
+                mainPageConnection.giveToProductInfoFragmentProductItem();
             });
-
             dialog.show();
         });
 
-        RxView.clicks(btnChooseVendor).subscribe(o -> {
-            ChooseVendorDialog dialog = new ChooseVendorDialog(getContext(), orderProductItem.getOrderProduct().getProduct().getVendor(), vendor -> {
-                tvVendorName.setText(vendor.getName());
+
+        if(orderProductItem.getOrderProduct().getProduct().getVendor().size()==1){
+            llVendorPicker.setVisibility(View.GONE);
+        }else {
+            btnChooseVendor.setOnClickListener(view -> {
+                ChooseVendorDialog dialog = new ChooseVendorDialog(getContext(), orderProductItem.getOrderProduct().getProduct().getVendor(), vendor -> {
+                    mainPageConnection.changeProductVendor(vendor);
+                    mainPageConnection.giveToProductInfoFragmentProductItem();
+                });
+                dialog.show();
+            });
+            List<Vendor> vendors = orderProductItem.getOrderProduct().getProduct().getVendor();
+            Vendor currentVendor = orderProductItem.getOrderProduct().getVendor();
+
+            for (int i = 0; i < vendors.size(); i++) {
+                if(currentVendor.getId().equals(vendors.get(i).getId())){
+                    currentVendorPosition = i;
+                    break;
+                }
+            }
+            ivArrowLeft.setOnClickListener(view -> {
+                currentVendorPosition--;
+                if(currentVendorPosition < 0 ) currentVendorPosition = vendors.size()-1;
+                mainPageConnection.changeProductVendor(vendors.get(currentVendorPosition));
+                mainPageConnection.giveToProductInfoFragmentProductItem();
+            });
+            ivArrowRight.setOnClickListener(view -> {
+                mainPageConnection.changeProductVendor(vendors.get((++currentVendorPosition)%vendors.size()));
+                mainPageConnection.giveToProductInfoFragmentProductItem();
             });
 
-            dialog.show();
+        }
+        etSpecialRequest.setText(orderProductItem.getOrderProduct().getDiscription());
+        etSpecialRequest.addTextChangedListener(new TextWatcherOnTextChange() {
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                mainPageConnection.changeDiscription(etSpecialRequest.getText().toString());
+            }
+        });
+        if(orderProductItem.getDiscount() == null){
+            btnDiscountItem.setText("Discount");
+        }else {
+            btnDiscountItem.setText("Remove\nDiscount");
+        }
+        if(orderProductItem.getServiceFee() == null){
+            btnServiceFee.setText("Service Fee");
+        }else {
+            btnServiceFee.setText("Remove\nService Fee");
+        }
+
+        btnRemove.setOnClickListener(view -> {
+            WarningDialog warningDialog = new WarningDialog(getActivity());
+            warningDialog.setWarningMessage("Are you sure delete product from order?");
+            warningDialog.setOnYesClickListener(view1 -> {
+                warningDialog.dismiss();
+                mainPageConnection.removeOrderProducts();
+                ((MainPosPageActivity)getActivity()).hideProductInfoFragment();
+            });
+            warningDialog.setOnNoClickListener(view1 -> {
+                warningDialog.dismiss();
+            });
+            warningDialog.setPositiveButtonText(getString(R.string.yes));
+            warningDialog.setNegativeButtonText(getString(R.string.cancel));
+            warningDialog.show();
+
+        });
+        btnClose.setOnClickListener(view -> {
+            ((MainPosPageActivity)getActivity()).hideProductInfoFragment();
+        });
+        btnServiceFee.setOnClickListener(view -> {
+            if(orderProductItem.getServiceFee() !=null){
+                mainPageConnection.setServiceFeeProduct(null);
+                mainPageConnection.giveToProductInfoFragmentProductItem();
+            }else {
+                ServiceFeeDialog.CallbackServiceFeeDialog callbackServiceFeeDialog = new ServiceFeeDialog.CallbackServiceFeeDialog() {
+                    @Override
+                    public void choiseStaticServiceFee(ServiceFee serviceFee) {
+                        mainPageConnection.setServiceFeeProduct(serviceFee);
+                        mainPageConnection.giveToProductInfoFragmentProductItem();
+                    }
+
+                    @Override
+                    public void choiseManualServiceFee(ServiceFee serviceFee) {
+                        mainPageConnection.setServiceFeeProduct(serviceFee);
+                        mainPageConnection.giveToProductInfoFragmentProductItem();
+                    }
+                };
+                ServiceFeeDialog serviceFeeDialog = new ServiceFeeDialog(getContext(),databaseManager,callbackServiceFeeDialog,orderProductItem.getOrderProduct().getPrice(),ServiceFee.ITEM);
+                serviceFeeDialog.show();
+            }
+        });
+        btnDiscountItem.setOnClickListener(view -> {
+            if(orderProductItem.getDiscount()!=null){
+                mainPageConnection.setDiscountToProduct(null);
+                mainPageConnection.giveToProductInfoFragmentProductItem();
+            }else {
+                DiscountDialog.CallbackDiscountDialog callbackDiscountDialog = new DiscountDialog.CallbackDiscountDialog() {
+                    @Override
+                    public void choiseStaticDiscount(Discount discount) {
+                        mainPageConnection.setDiscountToProduct(discount);
+                        mainPageConnection.giveToProductInfoFragmentProductItem();
+
+                    }
+
+                    @Override
+                    public void choiseManualDiscount(Discount discount) {
+                        mainPageConnection.setDiscountToProduct(discount);
+                        mainPageConnection.giveToProductInfoFragmentProductItem();
+
+                    }
+                };
+                DiscountDialog discountDialog = new DiscountDialog(getContext(), databaseManager, callbackDiscountDialog, orderProductItem.getOrderProduct().getPrice(), Discount.ITEM);
+                discountDialog.show();
+            }
         });
     }
 

@@ -72,7 +72,7 @@
                 android:textColor="@color/colorBlue"
                 android:textSize="@dimen/eighteen_dp"
                 android:layout_marginRight="@dimen/thirty_dp"
-                android:textStyle="bold" />
+                />
 
             <com.jim.mpviews.MpButton
                 android:id="@+id/btnBack"

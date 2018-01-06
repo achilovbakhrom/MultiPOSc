@@ -137,6 +137,7 @@ public class DiscountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 case Default:
                     break;
             }
+
         }else if(holder1 instanceof ItemDiscountViewHolder){
             ItemDiscountViewHolder holder = (ItemDiscountViewHolder) holder1;
             Discount discount = null;
@@ -277,7 +278,6 @@ public class DiscountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         return;
                     }
                 } else etAmmount.setError(null);
-                etAmmount.requestFocus();
             });
             spUsed.setItemSelectionListener((view, position) -> {
                 addingState.setNewUsedType(position);
@@ -336,7 +336,7 @@ public class DiscountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     onDiscountCallback.onAddPressed(addingState.getActualyAmmount(),addingState.getActualyAmmountType(),addingState.getActualDiscription(),addingState.getActualyUsedType(),addingState.getActualyActive());
                     addingState.setChangedObject(null);
                     notifyItemChanged(0);
-                    etAmmount.requestFocus();
+                    etName.requestFocus();
                 }
             });
         }

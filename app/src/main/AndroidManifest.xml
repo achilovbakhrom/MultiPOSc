@@ -30,7 +30,7 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ui.mainpospage.MainPosPageActivity"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

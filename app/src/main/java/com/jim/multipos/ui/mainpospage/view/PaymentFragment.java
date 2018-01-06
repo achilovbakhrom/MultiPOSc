@@ -68,7 +68,9 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
     protected int getLayout() {
         return 0;
     }
+    public void refreshData(){
 
+    }
     @Override
     protected void init(Bundle savedInstanceState) {
 

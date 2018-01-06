@@ -1,6 +1,7 @@
 package com.jim.multipos.ui.mainpospage.adapter;
 
 import android.graphics.Color;
+import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.BackgroundColorSpan;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jim.mpviews.MPListItemView;
@@ -21,29 +23,30 @@ import com.jim.multipos.data.db.model.products.Product;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by developer on 08.11.2017.
  */
 
-public class SearchResultsAdapter extends ClickableBaseAdapter<Product, SearchResultsAdapter.SearchResultHolder> {
+public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdapter.SearchResultHolder> {
 
     private String textSearched;
-
-    public SearchResultsAdapter(List<Product> items) {
-        super(items);
+    private CallbackSearchResult callbackSearchResult;
+    List<Product> items;
+    public interface CallbackSearchResult{
+        void onItemClick(int position);
+    }
+    public SearchResultsAdapter(List<Product> items,CallbackSearchResult callbackSearchResult) {
+        this.items = items;
+        this.callbackSearchResult = callbackSearchResult;
     }
 
     public void setItems(List<Product> items,String textSearched) {
         this.textSearched = textSearched;
-        super.setItems(items);
-
+        this.items = items;
     }
 
-    @Override
-    protected void onItemClicked(SearchResultHolder holder, int position) {
-
-    }
 
     @Override
     public SearchResultHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -53,19 +56,28 @@ public class SearchResultsAdapter extends ClickableBaseAdapter<Product, SearchRe
 
     @Override
     public void onBindViewHolder(SearchResultHolder holder, int position) {
-        super.onBindViewHolder(holder, position);
        colorSubSeq(items.get(position).getName(),textSearched,Color.parseColor("#95ccee"),holder.mpSquareItem.getVendorTv());
        colorSubSeq("Sku: "+items.get(position).getSku(),textSearched,Color.parseColor("#95ccee"),holder.mpSquareItem.getVendorItemTv());
        colorSubSeq("Barcode: "+items.get(position).getBarcode(),textSearched,Color.parseColor("#95ccee"),holder.mpSquareItem.getVendorNameTv());
 
     }
 
-    public class SearchResultHolder extends BaseViewHolder {
+    @Override
+    public int getItemCount() {
+        return items.size();
+    }
+
+    public class SearchResultHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.mpSquareItem)
         MpVendorItem mpSquareItem;
-
+        @BindView(R.id.mainView)
+        RelativeLayout mainView;
         public SearchResultHolder(View itemView) {
             super(itemView);
+            ButterKnife.bind(this, itemView);
+            mpSquareItem.setOnClickItemCustom(view1 -> {
+                callbackSearchResult.onItemClick(getAdapterPosition());
+            });
         }
     }
 

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.R;
 import com.jim.multipos.core.DoubleSideActivity;
+import com.jim.multipos.core.MainPageDoubleSideActivity;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.ui.main_menu.customers_menu.CustomersMenuActivity;
@@ -37,7 +38,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import lombok.Getter;
 
-public class MainPosPageActivity extends DoubleSideActivity implements MainPosPageActivityView {
+public class MainPosPageActivity extends MainPageDoubleSideActivity implements MainPosPageActivityView {
     @Inject
     @Getter
     MainPosPageActivityPresenter presenter;
@@ -65,11 +66,9 @@ public class MainPosPageActivity extends DoubleSideActivity implements MainPosPa
         ButterKnife.bind(this);
         TestUtils.createCurrencies(databaseManager, this);
         TestUtils.createAccount(databaseManager);
-        addFragmentToLeft(new OrderListFragment());
-//        posFragmentManager.displayFragmentWithoutBackStack(new PaymentFragment(), R.id.rightLowContainer);
-        addFragmentToRight(new ProductPickerFragment());
+        initOrderListFragmentToLeft();
+        initProductPickerFragmentToRight();
         addFragmentToTopRight(new CustomerNotificationsFragment());
-//        addFragmentWithTagToRight(new ProductInfoFragment(), "ProductInfoFragment");
         notifyManager.setView(this);
         handler = new Handler();
         handler.post(timerUpdate);
@@ -97,27 +96,23 @@ public class MainPosPageActivity extends DoubleSideActivity implements MainPosPa
         });
         toolbar.setOnReportClickListener(view -> {
         });
-        toolbar.setOnSearchClickListener(view -> {
-            addFragmentToRight(new SearchModeFragment());
+        toolbar.setOnSearchClickListener(new MpToolbar.CallbackSearchFragmentClick() {
+            @Override
+            public void onOpen() {
+                showSearchFragment();
+            }
 
+            @Override
+            public void onClose() {
+                hideSearchFragment();
+            }
         });
 
         toolbar.setOnOrderClickListener(view -> {
             OrderMenuDialog orderMenuDialog = new OrderMenuDialog(this);
             orderMenuDialog.show();
         });
-//        ArrayList<Contact>  contactsTemp = new ArrayList<>();
-//        for(int i=0;i<1000000;i++) {
-//            contactsTemp.add( new Contact(String.valueOf(System.currentTimeMillis() + Math.random()), "phone2", "islomov49@gmail.com"));
-//        }
-//        databaseManager.addContact(contactsTemp).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
-//
-//        });
-//
-//        databaseManager.getAllContacts().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(contacts -> {
-//            Log.d("testDatabaseManager", "onCreate: "+contacts.size());
-//            Toast.makeText(MainPosPageActivity.this,contacts.size()+"",Toast.LENGTH_SHORT).show();
-//        });
+
     }
 
     @Override
@@ -132,9 +127,7 @@ public class MainPosPageActivity extends DoubleSideActivity implements MainPosPa
             handler.postDelayed(timerUpdate, 30000);
         }
     };
-    public void openRightFragment(Fragment fragment){
-        addFragmentToRight(fragment);
-    }
+
     public void closeProductInfoFragment() {
         activityFragmentManager.popBackStack();
     }
@@ -146,15 +139,20 @@ public class MainPosPageActivity extends DoubleSideActivity implements MainPosPa
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
+    @Override
     public void notifyView(Customer customer) {
 //        Bundle bundle = new Bundle();
 //        bundle.putLong("CUSTOMER_ID", customer.getId());
 //        CustomerNotificationsFragment fragment = new CustomerNotificationsFragment();
 //        fragment.setArguments(bundle);
 //        addFragmentToTopRight(fragment);
-        CustomerNotificationsFragment fragment = (CustomerNotificationsFragment) getCurrentFragmentRightTop();
-        if (fragment != null){
-            fragment.addDataToCustomerList(customer);
-        }
+//        CustomerNotificationsFragment fragment = (CustomerNotificationsFragment) getCurrentFragmentRightTop();
+//        if (fragment != null){
+//            fragment.addDataToCustomerList(customer);
+//        }
     }
 }

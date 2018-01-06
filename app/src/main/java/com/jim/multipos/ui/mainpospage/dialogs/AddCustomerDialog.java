@@ -72,7 +72,7 @@ public class AddCustomerDialog extends Dialog {
                     this.customer.setPhoneNumber(etCustomerContact.getText().toString());
                     this.customer.setAddress(etCustomerAddress.getText().toString());
                     databaseManager.addCustomer(this.customer).subscribe();
-                    callback.onUpdate();
+                    callback.onUpdate(null);
                     dismiss();
                 }
             } else {
@@ -83,7 +83,7 @@ public class AddCustomerDialog extends Dialog {
                     newCustomer.setAddress(etCustomerAddress.getText().toString());
                     newCustomer.setClientId(id);
                     databaseManager.addCustomer(newCustomer).subscribe();
-                    callback.onUpdate();
+                    callback.onUpdate(newCustomer);
                     dismiss();
                 }
             }
@@ -92,7 +92,7 @@ public class AddCustomerDialog extends Dialog {
     }
 
     public interface UpdateCustomerCallback {
-        void onUpdate();
+        void onUpdate(Customer newCustomer);
     }
 
     @OnClick(R.id.btnBack)

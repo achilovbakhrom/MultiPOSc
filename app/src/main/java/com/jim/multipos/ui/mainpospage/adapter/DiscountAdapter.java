@@ -62,7 +62,7 @@ public class DiscountAdapter extends BaseAdapter<Discount, DiscountAdapter.Disco
         holder.tvDiscount.setText(decimalFormat.format(getItem(position).getAmount()));
         holder.tvCreatedDate.setText(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(getItem(position).getCreatedDate()));
 
-        if (getItem(position).getAmountType().equals(amountTypes[0])) {
+        if (getItem(position).getAmountType() == Discount.PERCENT) {
             holder.tvDiscount.append(" %");
         } else {
             holder.tvDiscount.append(" UZS");

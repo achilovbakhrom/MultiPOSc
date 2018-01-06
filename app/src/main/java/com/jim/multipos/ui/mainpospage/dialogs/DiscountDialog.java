@@ -15,6 +15,7 @@ import com.jim.multipos.R;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.ui.mainpospage.adapter.DiscountAdapter;
+import com.jim.multipos.utils.UIUtils;
 
 import java.util.List;
 
@@ -39,10 +40,20 @@ public class DiscountDialog extends Dialog implements DiscountAdapter.OnClickLis
     private List<Discount> discounts;
     private String caption;
     private DatabaseManager databaseManager;
+    private CallbackDiscountDialog callbackDiscountDialog;
+    private double orginalAmount;
+    private int discountApplyType;
 
-    public DiscountDialog(@NonNull Context context, DatabaseManager databaseManager) {
+    public interface CallbackDiscountDialog{
+        void choiseStaticDiscount(Discount discount);
+        void choiseManualDiscount(Discount discount);
+    }
+    public DiscountDialog(@NonNull Context context, DatabaseManager databaseManager, CallbackDiscountDialog callbackDiscountDialog,double orginalAmount, int discountApplyType) {
         super(context);
         this.databaseManager = databaseManager;
+        this.callbackDiscountDialog = callbackDiscountDialog;
+        this.orginalAmount = orginalAmount;
+        this.discountApplyType = discountApplyType;
         View dialogView = getLayoutInflater().inflate(R.layout.discount_dialog_new, null);
         ButterKnife.bind(this, dialogView);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -61,7 +72,8 @@ public class DiscountDialog extends Dialog implements DiscountAdapter.OnClickLis
         RxView.clicks(btnBack).subscribe(o -> dismiss());
 
         RxView.clicks(btnAdd).subscribe(o -> {
-            AddDiscountDialog dialog = new AddDiscountDialog(getContext(), databaseManager, 120000, Discount.ORDER);
+            AddDiscountDialog dialog = new AddDiscountDialog(getContext(), databaseManager, orginalAmount, discountApplyType,callbackDiscountDialog);
+
             dialog.show();
             dismiss();
         });
@@ -73,7 +85,7 @@ public class DiscountDialog extends Dialog implements DiscountAdapter.OnClickLis
 
     @Override
     public void onItemClicked(Discount discount) {
-        //TODO
+        callbackDiscountDialog.choiseStaticDiscount(discount);
         dismiss();
     }
 }

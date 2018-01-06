@@ -15,6 +15,7 @@ import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.utils.TextWatcherOnTextChange;
+import com.jim.multipos.utils.UIUtils;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -49,12 +50,14 @@ public class AddServiceFeeDialog extends Dialog {
     TextView tvServiceAmountType;
     private int serviceAmountType;
     private int serviceType;
+    private ServiceFeeDialog.CallbackServiceFeeDialog callbackServiceFeeDialog;
     private double resultPrice = 0;
     private double serviceAmount = 0;
 
-    public AddServiceFeeDialog(@NonNull Context context, DatabaseManager databaseManager, double price, int serviceType) {
+    public AddServiceFeeDialog(@NonNull Context context, DatabaseManager databaseManager, double price, int serviceType,ServiceFeeDialog.CallbackServiceFeeDialog callbackServiceFeeDialog) {
         super(context);
         this.serviceType = serviceType;
+        this.callbackServiceFeeDialog = callbackServiceFeeDialog;
         View dialogView = getLayoutInflater().inflate(R.layout.service_fee_manual_dialog, null);
         ButterKnife.bind(this, dialogView);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -158,16 +161,19 @@ public class AddServiceFeeDialog extends Dialog {
             } else if (resultPrice < price) {
                 etResultPrice.setError(context.getString(R.string.billing_price_cannot_be_lower));
             } else if (etServiceFeeName.getText().toString().isEmpty()) {
-                etServiceFeeName.setError(context.getString(R.string.enter_service_fee_name));
+                etServiceFeeName.setError(context.getString(R.string.service_fee_reason_cant_be_empty));
             } else {
-                ServiceFee serviceFee = new ServiceFee();
-                serviceFee.setAmount(serviceAmount);
-                serviceFee.setApplyingType(serviceType);
-                serviceFee.setType(serviceAmountType);
-                serviceFee.setCreatedDate(System.currentTimeMillis());
-                serviceFee.setName(etServiceFeeName.getText().toString());
-                //TODO
-                dismiss();
+                new android.os.Handler().postDelayed(() -> {
+                    ServiceFee serviceFee = new ServiceFee();
+                    serviceFee.setAmount(serviceAmount);
+                    serviceFee.setApplyingType(serviceType);
+                    serviceFee.setType(serviceAmountType);
+                    serviceFee.setCreatedDate(System.currentTimeMillis());
+                    serviceFee.setName(etServiceFeeName.getText().toString());
+                    callbackServiceFeeDialog.choiseManualServiceFee(serviceFee);
+                    dismiss();
+                },300);
+                UIUtils.closeKeyboard(etServiceFeeName,getContext());
             }
         });
 

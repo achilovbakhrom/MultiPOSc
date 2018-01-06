@@ -14,6 +14,7 @@ import com.jim.mpviews.MpSwitcher;
 import com.jim.multipos.R;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Discount;
+import com.jim.multipos.utils.CommonUtils;
 import com.jim.multipos.utils.TextWatcherOnTextChange;
 import com.jim.multipos.utils.UIUtils;
 
@@ -21,6 +22,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.logging.Handler;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,13 +53,15 @@ public class AddDiscountDialog extends Dialog {
     TextView tvDiscountAmountType;
     private int discountAmountType;
     private int discountType;
+    private DiscountDialog.CallbackDiscountDialog callbackDiscountDialog;
     private double resultPrice = 0;
     private double discountValue = 0;
     private boolean on = false;
 
-    public AddDiscountDialog(@NonNull Context context, DatabaseManager databaseManager, double price, int discountType) {
+    public AddDiscountDialog(@NonNull Context context, DatabaseManager databaseManager, double price, int discountType,DiscountDialog.CallbackDiscountDialog callbackDiscountDialog) {
         super(context);
         this.discountType = discountType;
+        this.callbackDiscountDialog = callbackDiscountDialog;
         View dialogView = getLayoutInflater().inflate(R.layout.discount_manual_dialog, null);
         ButterKnife.bind(this, dialogView);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -170,17 +174,21 @@ public class AddDiscountDialog extends Dialog {
                 etDiscountAmount.setError(context.getString(R.string.enter_amount));
                 etResultPrice.setError(context.getString(R.string.enter_amount));
             } else if (etDiscountName.getText().toString().isEmpty()) {
-                etDiscountName.setError(context.getString(R.string.enter_discount_name));
+                etDiscountName.setError(context.getString(R.string.disc_reacon_cant_empty));
             } else {
-                Discount discount = new Discount();
-                discount.setIsManual(true);
-                discount.setAmount(discountValue);
-                discount.setCreatedDate(System.currentTimeMillis());
-                discount.setName(etDiscountName.getText().toString());
-                discount.setAmountType(discountAmountType);
-                discount.setUsedType(discountType);
-                //TODO
-                dismiss();
+                new android.os.Handler().postDelayed(() -> {
+                    Discount discount = new Discount();
+                    discount.setIsManual(true);
+                    discount.setAmount(discountValue);
+                    discount.setCreatedDate(System.currentTimeMillis());
+                    discount.setName(etDiscountName.getText().toString());
+                    discount.setAmountType(discountAmountType);
+                    discount.setUsedType(discountType);
+                    this.callbackDiscountDialog.choiseManualDiscount(discount);
+                    dismiss();
+
+                },300);
+                UIUtils.closeKeyboard(etDiscountName,getContext());
             }
         });
 

@@ -1042,64 +1042,7 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public Single<List<Product>> getSearchProducts(String searchText, boolean skuMode, boolean barcodeMode, boolean nameMode) {
-        if (mDaoSession.getProductDao().loadAll().size() == 0) {
-            List<Product> products = new ArrayList<>();
 
-            Product product = new Product();
-            product.setName("Coca Cola");
-            product.setBarcode("123456789");
-            product.setSku("cc777");
-            product.setCreatedDate(System.currentTimeMillis());
-            products.add(product);
-
-            Product product1 = new Product();
-            product1.setName("Колбаса");
-            product1.setBarcode("777444888");
-            product1.setSku("колБ123");
-            product1.setCreatedDate(System.currentTimeMillis());
-            products.add(product1);
-
-
-            Product product2 = new Product();
-            product2.setName("Яицо");
-            product2.setBarcode("7887878787");
-            product2.setSku("Тт15");
-            product2.setCreatedDate(System.currentTimeMillis());
-            products.add(product2);
-
-
-            Product product3 = new Product();
-            product3.setName("Анти Хайп");
-            product3.setBarcode("");
-            product3.setSku("");
-            product3.setCreatedDate(System.currentTimeMillis());
-            products.add(product3);
-
-
-            Product product4 = new Product();
-            product4.setName("58йй2");
-            product4.setBarcode("фывйа");
-            product4.setSku("фывййаыа");
-            product4.setCreatedDate(System.currentTimeMillis());
-            products.add(product4);
-
-
-            Product product5 = new Product();
-            product5.setName("5884878613");
-            product5.setBarcode("777889961");
-            product5.setSku("cc777");
-            product5.setCreatedDate(System.currentTimeMillis());
-            products.add(product5);
-
-
-            Product product6 = new Product();
-            product6.setName("Сардор");
-            product6.setBarcode("234023");
-            product6.setSku("сс144458");
-            product6.setCreatedDate(System.currentTimeMillis());
-            products.add(product6);
-            mDaoSession.getProductDao().insertOrReplaceInTx(products);
-        }
         return Single.create(e -> {
 
             QueryBuilder<Product> queryBuilderCred = mDaoSession.getProductDao().queryBuilder();
@@ -1109,7 +1052,7 @@ public class AppDbHelper implements DbHelper {
                     ProductDao.Properties.Barcode.like("%" + searchText.toUpperCase() + "%"),
                     ProductDao.Properties.Barcode.like("%" + searchText.toUpperCase() + "%"),
                     ProductDao.Properties.Sku.like("%" + searchText.toUpperCase() + "%"),
-                    ProductDao.Properties.Sku.like("%" + searchText.toUpperCase() + "%"));
+                    ProductDao.Properties.Sku.like("%" + searchText.toUpperCase() + "%")).where(ProductDao.Properties.IsNotModified.eq(true),ProductDao.Properties.IsDeleted.eq(false));
             List<Product> list = queryBuilderCred.build().list();
             for (int i = list.size() - 1; i >= 0; i--) {
                 if (list.get(i).getIsDeleted()) list.remove(i);
@@ -1557,7 +1500,16 @@ public class AppDbHelper implements DbHelper {
         List<Currency> currencies = mDaoSession.queryBuilder(Currency.class)
                 .where(CurrencyDao.Properties.IsMain.eq(true))
                 .build().list();
-        return currencies.get(0);
+        //TODO FAKE
+//        if(currencies.get(0) == null){
+            Currency currency = new Currency();
+            currency.setAbbr("uzs");
+            currency.setIsMain(true);
+            currency.setActive(true);
+            currency.setName("Uzb");
+            return currency;
+//        }
+//        return currencies.get(0);
     }
 
     @Override

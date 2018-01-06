@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.jim.mpviews.MpVendorItem xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/mpSquareItem"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainView"
     android:layout_width="@dimen/two_hundred_fifty_dp"
     android:layout_height="@dimen/hundred_twenty_dp"
-    />
+    >
+    <com.jim.mpviews.MpVendorItem xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/mpSquareItem"
+        android:layout_width="@dimen/two_hundred_fifty_dp"
+        android:layout_height="@dimen/hundred_twenty_dp"
+        />
+</RelativeLayout>

@@ -154,7 +154,7 @@ public class ProductFolderViewFragment extends BaseFragment implements ProductFo
 
     @Override
     public void setSelectedProduct(Product product) {
-        rxBusLocal.send(new ProductEvent(product, OPEN_PRODUCT));
+        mainPageConnection.addProductToOrder(product.getId());
     }
 
     @Override
