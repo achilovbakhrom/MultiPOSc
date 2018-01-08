@@ -6,6 +6,7 @@ import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.ToOne;
 
 import java.io.Serializable;
 
@@ -22,6 +23,8 @@ public class Unit implements Serializable{
     private String subUnitAbbr;
     private Long rootId;
     private Long unitCategoryId;
+    @ToOne(joinProperty = "unitCategoryId")
+    UnitCategory unitCategory;
     private Long productId;
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
@@ -68,6 +71,8 @@ public class Unit implements Serializable{
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
+    @Generated(hash = 269968744)
+    private transient Long unitCategory__resolvedKey;
     public Long getUnitCategoryId() {
         return this.unitCategoryId;
     }
@@ -127,6 +132,33 @@ public class Unit implements Serializable{
     }
     public void setProductId(Long productId) {
         this.productId = productId;
+    }
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 428484225)
+    public void setUnitCategory(UnitCategory unitCategory) {
+        synchronized (this) {
+            this.unitCategory = unitCategory;
+            unitCategoryId = unitCategory == null ? null : unitCategory.getId();
+            unitCategory__resolvedKey = unitCategoryId;
+        }
+    }
+    /** To-one relationship, resolved on first access. */
+    @Generated(hash = 194593972)
+    public UnitCategory getUnitCategory() {
+        Long __key = this.unitCategoryId;
+        if (unitCategory__resolvedKey == null || !unitCategory__resolvedKey.equals(__key)) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            UnitCategoryDao targetDao = daoSession.getUnitCategoryDao();
+            UnitCategory unitCategoryNew = targetDao.load(__key);
+            synchronized (this) {
+                unitCategory = unitCategoryNew;
+                unitCategory__resolvedKey = __key;
+            }
+        }
+        return unitCategory;
     }
     @Generated(hash = 1570457876)
     public Unit(Long id, String name, String abbr, float factorRoot, boolean isActive,
