@@ -21,6 +21,12 @@ public class UnitUtils {
     public static List<UnitCategory> generateUnitCategories(Context context, DatabaseManager databaseManager) {
         List<UnitCategory> result = new ArrayList<>();
         int unitCategoriesId = R.array.unit_categories;
+        List<Integer> unitTypes = new ArrayList<>();
+        unitTypes.add(UnitCategory.PIECE);
+        unitTypes.add(UnitCategory.WEIGHT);
+        unitTypes.add(UnitCategory.LENGTH);
+        unitTypes.add(UnitCategory.AREA);
+        unitTypes.add(UnitCategory.VOLUME);
         Map<Integer, Integer> titles = new HashMap<>();
         titles.put(0, R.array.piece_title);
         titles.put(1, R.array.weight_title);
@@ -43,6 +49,7 @@ public class UnitUtils {
         for (int i = 0; i < unitCategories.length; i++) {
             UnitCategory category = new UnitCategory();
             category.setName(unitCategories[i]);
+            category.setUnitType(unitTypes.get(i));
             databaseManager.addUnitCategory(category).subscribe();
             String[] unitTitles = context.getResources().getStringArray(titles.get(i));
             String[] unitAbbrs = context.getResources().getStringArray(abbrs.get(i));

@@ -28,6 +28,7 @@ import com.jim.multipos.utils.RxBusLocal;
 import com.jim.multipos.utils.TestUtils;
 import com.jim.multipos.utils.managers.NotifyManager;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -53,7 +54,8 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
     DatabaseManager databaseManager;
     @Inject
     NotifyManager notifyManager;
-
+    @Inject
+    DecimalFormat decimalFormat;
     @Inject
     @Getter
     RxBusLocal rxBusLocal;
@@ -78,7 +80,7 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
         });
 
         toolbar.setOnSettingsClickListener(view -> {
-            MainMenuDialog mainMenuDialog = new MainMenuDialog(this);
+            MainMenuDialog mainMenuDialog = new MainMenuDialog(this, databaseManager, decimalFormat);
             mainMenuDialog.show();
         });
         toolbar.setOnCustomerClickListener(view -> {

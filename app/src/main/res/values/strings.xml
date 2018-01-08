@@ -600,6 +600,7 @@
     <string name="return_products">Return products</string>
     <string name="remove_if_only_not_closed_till">Remove(if only not closed till)</string>
     <string name="debt_amount">Debt amount</string>
+    <string name="enter_return_amount">Please, enter return amount</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>

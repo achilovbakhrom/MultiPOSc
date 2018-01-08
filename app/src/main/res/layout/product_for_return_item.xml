@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/btn_txt_color"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/llProductItem"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/seventy_five_dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="@dimen/eighty_five_dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/ten_dp"
+            android:paddingLeft="@dimen/thirty_dp">
+
+            <TextView
+                android:id="@+id/tvProductName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:textColor="@color/colorMainText"
+                android:textSize="@dimen/eighteen_dp" />
+
+            <TextView
+                android:id="@+id/tvProductBarcode"
+                android:layout_width="@dimen/three_hundred_dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="@dimen/sixteen_dp" />
+
+            <TextView
+                android:id="@+id/tvProductSKU"
+                android:layout_width="@dimen/three_hundred_dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="@dimen/sixteen_dp" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="@dimen/thirty_dp"
+            android:layout_height="@dimen/forty_dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="@dimen/thirty_dp"
+            android:src="@drawable/right_arrow_2" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/colorTextHint" />
+
+</LinearLayout>

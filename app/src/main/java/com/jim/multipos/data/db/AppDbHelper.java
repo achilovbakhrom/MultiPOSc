@@ -337,7 +337,12 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public Observable<List<Product>> getAllProducts() {
-        return Observable.fromCallable(() -> mDaoSession.getProductDao().loadAll());
+        return Observable.fromCallable(() ->
+               mDaoSession.getProductDao().queryBuilder()
+                .where(ProductDao.Properties.IsDeleted.eq(false),
+                        ProductDao.Properties.IsActive.eq(true),
+                        ProductDao.Properties.IsNotModified.eq(true))
+                .list());
     }
 
     @Override

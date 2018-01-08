@@ -22,7 +22,9 @@ import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
 import com.jim.multipos.ui.billing_vendor.adapter.BillingInfoAdapter;
+import com.jim.multipos.ui.mainpospage.dialogs.ReturnsDialog;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +50,7 @@ public class MainMenuDialog extends Dialog {
     @BindView(R.id.tvClose)
     TextView tvClose;
 
-    public MainMenuDialog(Context context) {
+    public MainMenuDialog(Context context, DatabaseManager databaseManager, DecimalFormat decimalFormat) {
         super(context);
         View dialogView = getLayoutInflater().inflate(R.layout.settings_dialog, null);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -65,7 +67,9 @@ public class MainMenuDialog extends Dialog {
         setContentView(dialogView);
         llSettingsMenu.setOnClickListener(view -> dismiss());
         tvReturns.setOnClickListener(view -> {
-            Toast.makeText(context, tvReturns.getText().toString(), Toast.LENGTH_SHORT).show();
+            ReturnsDialog dialog = new ReturnsDialog(getContext(), databaseManager, decimalFormat);
+            dialog.show();
+            dismiss();
         });
         tvCashManagement.setOnClickListener(view -> {
             Toast.makeText(context, tvCashManagement.getText().toString(), Toast.LENGTH_SHORT).show();

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#30000000"
+    android:focusableInTouchMode="true"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -24,8 +24,7 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/thirty_dp"
-                android:paddingLeft="@dimen/thirty_dp"
-                android:text="Return"
+                android:text="Returns"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/twenty_dp"
                 android:textStyle="bold" />
@@ -35,24 +34,37 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/four_hundred_fifty_dp"
+            android:layout_height="@dimen/five_hundred_dp"
             android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="@dimen/three_hundred_twenty_dp"
+                android:layout_width="@dimen/two_hundred_seventy_dp"
                 android:layout_height="match_parent"
+                android:background="@color/colorBackground"
                 android:orientation="vertical"
-                android:paddingLeft="@dimen/thirty_dp"
-                android:paddingRight="@dimen/thirty_dp"
-                android:paddingTop="@dimen/twenty_dp">
+                android:paddingTop="@dimen/fifteen_dp">
 
-                <com.jim.mpviews.MpEditText
+
+                <com.jim.mpviews.MpSearchView
+                    android:id="@+id/svProductSearch"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/hundred_fifteen_dp"
-                    android:gravity="top"
-                    android:hint="Description"
-                    android:paddingLeft="@dimen/ten_dp"
-                    android:textColorHint="@color/colorTextHint" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/fifteen_dp"
+                    android:layout_marginLeft="@dimen/thirty_dp"
+                    android:layout_marginRight="@dimen/thirty_dp"
+                    app:barcode_visibility="false"
+                    app:hint_text="Name or barcode" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/colorTextHint" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvProducts"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorWhite" />
 
             </LinearLayout>
 
@@ -63,55 +75,77 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/five_hundred_dp"
+                android:layout_height="@dimen/four_hundred_eighty_dp"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/thirty_five_dp"
+                    android:layout_height="@dimen/forty_dp"
                     android:orientation="horizontal">
 
 
                     <TextView
-                        android:layout_width="@dimen/two_hundred_thirty_dp"
+                        android:layout_width="@dimen/two_hundred_dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginLeft="@dimen/thirty_dp"
-                        android:text="Returned items"
+                        android:paddingLeft="@dimen/thirty_dp"
+                        android:text="Returned item(s)"
                         android:textColor="@color/colorMainText"
-                        android:textSize="@dimen/eighteen_dp" />
+                        android:textSize="@dimen/sixteen_dp" />
 
                     <TextView
-                        android:layout_width="@dimen/hundred_sixty_dp"
+                        android:layout_width="@dimen/hundred_thirty_five_dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:gravity="center"
                         android:text="Price"
                         android:textColor="@color/colorMainText"
-                        android:textSize="@dimen/eighteen_dp" />
+                        android:textSize="@dimen/sixteen_dp" />
 
                     <TextView
-                        android:layout_width="@dimen/hundred_fifty_dp"
+                        android:layout_width="@dimen/hundred_thirty_dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="Amount"
+                        android:gravity="center"
+                        android:text="Return"
                         android:textColor="@color/colorMainText"
-                        android:textSize="@dimen/eighteen_dp" />
+                        android:textSize="@dimen/sixteen_dp" />
 
                     <TextView
-                        android:layout_width="@dimen/hundred_forty_dp"
+                        android:layout_width="@dimen/eighty_five_dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:gravity="center"
                         android:text="Qty."
                         android:textColor="@color/colorMainText"
-                        android:textSize="@dimen/eighteen_dp" />
+                        android:textSize="@dimen/sixteen_dp" />
 
+                    <TextView
+                        android:layout_width="@dimen/fifty_dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="Unit"
+                        android:textColor="@color/colorMainText"
+                        android:textSize="@dimen/sixteen_dp" />
+
+                    <TextView
+                        android:layout_width="@dimen/two_hundred_dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="Vendor"
+                        android:textColor="@color/colorMainText"
+                        android:textSize="@dimen/sixteen_dp" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="Total"
+                        android:gravity="center"
+                        android:text="Remove"
                         android:textColor="@color/colorMainText"
-                        android:textSize="@dimen/eighteen_dp" />
+                        android:textSize="@dimen/sixteen_dp" />
+
 
                 </LinearLayout>
 
@@ -121,109 +155,12 @@
                     android:background="@color/colorTextHint" />
 
                 <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvReturnProducts"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/three_hundred_thirty_dp" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-
-                    <LinearLayout
-                        android:layout_width="@dimen/five_hundred_fifty_dp"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="@dimen/thirty_dp"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/colorGreyDark"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginLeft="@dimen/ten_dp"
-                                android:text="Sub Total:"
-                                android:textColor="@color/colorMainText"
-                                android:textSize="@dimen/eighteen_dp" />
-
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginRight="@dimen/ten_dp"
-                                android:layout_weight="1"
-                                android:gravity="right"
-                                android:text="100 000,00 uzs"
-                                android:textColor="@color/colorMainText"
-                                android:textSize="@dimen/eighteen_dp" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginLeft="@dimen/ten_dp"
-                                android:text="Discount:"
-                                android:textColor="@color/colorMainText"
-                                android:textSize="@dimen/eighteen_dp" />
-
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginRight="@dimen/ten_dp"
-                                android:layout_weight="1"
-                                android:gravity="right"
-                                android:text="- 500,00 uzs"
-                                android:textColor="@color/colorMainText"
-                                android:textSize="@dimen/eighteen_dp" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/colorGreyDark"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginLeft="@dimen/ten_dp"
-                                android:text="Grand Total:"
-                                android:textColor="@color/colorMainText"
-                                android:textSize="@dimen/eighteen_dp" />
-
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginRight="@dimen/ten_dp"
-                                android:layout_weight="1"
-                                android:gravity="right"
-                                android:text="99 500,00 uzs"
-                                android:textColor="@color/colorMainText"
-                                android:textSize="@dimen/eighteen_dp" />
-                        </LinearLayout>
-
-
-                    </LinearLayout>
-
-
-                </RelativeLayout>
+                    android:layout_height="match_parent"
+                    android:background="@color/colorBackground" />
 
             </LinearLayout>
-
 
         </LinearLayout>
 
@@ -239,24 +176,16 @@
             android:orientation="horizontal"
             android:paddingRight="@dimen/thirty_dp">
 
+
             <com.jim.mpviews.MpButton
+                android:id="@+id/btnNext"
                 android:layout_width="@dimen/hundred_eighty_dp"
                 android:layout_height="@dimen/sixty_dp"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Back"
-                android:textColor="@color/colorSecondaryText"
-                android:textSize="@dimen/eighteen_dp" />
-
-
-            <com.jim.mpviews.MpButton
-                android:layout_width="@dimen/hundred_eighty_dp"
-                android:layout_height="@dimen/sixty_dp"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="Next"
+                android:text="@string/next"
                 android:textColor="@color/colorBlue"
-                android:textSize="@dimen/eighteen_dp"
+                android:textSize="@dimen/sixteen_dp"
                 android:textStyle="bold" />
 
         </LinearLayout>

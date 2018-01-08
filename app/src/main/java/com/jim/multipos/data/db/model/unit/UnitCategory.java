@@ -14,10 +14,18 @@ import java.util.List;
 
 @Entity(nameInDb = "UNIT_CATEGORY", active = true)
 public class UnitCategory {
+
+    public static final int PIECE = 0;
+    public static final int WEIGHT = 1;
+    public static final int LENGTH = 2;
+    public static final int AREA = 3;
+    public static final int VOLUME = 4;
+
     @Id
     private Long id;
     private String name;
     private String abbr;
+    private int unitType;
     @ToMany(referencedJoinProperty = "unitCategoryId")
     private List<Unit> units;
     /**
@@ -109,11 +117,18 @@ public class UnitCategory {
     public void setId(Long id) {
         this.id = id;
     }
-    @Generated(hash = 129417560)
-    public UnitCategory(Long id, String name, String abbr) {
+    public int getUnitType() {
+        return this.unitType;
+    }
+    public void setUnitType(int unitType) {
+        this.unitType = unitType;
+    }
+    @Generated(hash = 1052123019)
+    public UnitCategory(Long id, String name, String abbr, int unitType) {
         this.id = id;
         this.name = name;
         this.abbr = abbr;
+        this.unitType = unitType;
     }
     @Generated(hash = 1454197395)
     public UnitCategory() {
