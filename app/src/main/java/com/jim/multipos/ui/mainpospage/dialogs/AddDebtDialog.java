@@ -123,8 +123,8 @@ public class AddDebtDialog extends Dialog {
 
             }
         });
-        etFee.setText(String.valueOf(0));
         String[] debtTypes = context.getResources().getStringArray(R.array.debt_type);
+        etFee.setText(String.valueOf(0));
         spDebtType.setAdapter(debtTypes);
         tvDueDate.setText(simpleDateFormat.format(calendar.getTime()));
         GregorianCalendar now = new GregorianCalendar();
@@ -168,7 +168,6 @@ public class AddDebtDialog extends Dialog {
                 debt.setDebtType(spDebtType.getSelectedPosition());
                 debt.setOrder(order);
                 listener.onDebtSave(debt);
-//                databaseManager.addDebt(debt).blockingGet();
                 UIUtils.closeKeyboard(btnSave, context);
                 dismiss();
             }

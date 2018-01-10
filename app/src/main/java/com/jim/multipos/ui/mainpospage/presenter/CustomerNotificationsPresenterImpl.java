@@ -19,24 +19,21 @@ import javax.inject.Inject;
 public class CustomerNotificationsPresenterImpl extends BasePresenterImpl<CustomerNotificationsView> implements CustomerNotificationsPresenter {
 
     private DatabaseManager databaseManager;
-    List<NotificationData> notificationData;
 
     @Inject
     protected CustomerNotificationsPresenterImpl(CustomerNotificationsView customerNotificationsView, DatabaseManager databaseManager) {
         super(customerNotificationsView);
         this.databaseManager = databaseManager;
-        notificationData = new ArrayList<>();
     }
 
     @Override
-    public void setData(Customer customer) {
-//        Customer customer = databaseManager.getCustomerById(customerId).blockingGet();
+    public void setData(Long customerId) {
+        Customer customer = databaseManager.getCustomerById(customerId).blockingGet();
         NotificationData data = new NotificationData();
         data.setCustomer(customer);
         data.setTotalDiscounts(2500);
         data.setTotalPayments(3000);
         data.setAbbr(databaseManager.getMainCurrency().getAbbr());
-        notificationData.add(data);
-        view.fillNotificationData(notificationData);
+        view.fillNotificationData(data);
     }
 }

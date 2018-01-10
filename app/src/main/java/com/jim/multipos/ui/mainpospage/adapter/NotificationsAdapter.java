@@ -1,5 +1,6 @@
 package com.jim.multipos.ui.mainpospage.adapter;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -36,9 +37,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
         items = new ArrayList<>();
     }
 
-    public void setData(List<NotificationData> items) {
-//        this.items.add(0, item);
-        this.items = items;
+    public void setData(NotificationData item) {
+        this.items.add(0, item);
         notifyDataSetChanged();
     }
 
@@ -69,11 +69,17 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
     private void runEnterAnimation(View view, int position) {
         if (position > lastPosition) {
             lastPosition = position;
-            view.setTranslationY(Utils.getScreenHeight(context));
+
+//            ObjectAnimator objectAnimator
+//                    = ObjectAnimator.ofFloat(view, "translationX", 1000f, 0f);
+//            objectAnimator.setDuration(1000);
+//            objectAnimator.setInterpolator(new DecelerateInterpolator(3f));
+//            objectAnimator.start();
+            view.setTranslationX(Utils.getScreenWidth(context));
             view.animate()
-                    .translationY(0)
+                    .translationX(0)
                     .setInterpolator(new DecelerateInterpolator(3.f))
-                    .setDuration(700)
+                    .setDuration(1000)
                     .start();
         }
 
@@ -112,15 +118,4 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
 
         }
     }
-
-//    private void setAnimation(View viewToAnimate, int position)
-//    {
-//        // If the bound view wasn't previously displayed on screen, it's animated
-//        if (position > lastPosition)
-//        {
-//            Animation animation = AnimationUtils.loadAnimation(context, R.anim.slide_in_from_right);
-//            viewToAnimate.startAnimation(animation);
-//            lastPosition = position;
-//        }
-//    }
 }

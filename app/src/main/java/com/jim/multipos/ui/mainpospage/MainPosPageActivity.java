@@ -70,7 +70,6 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
         TestUtils.createAccount(databaseManager);
         initOrderListFragmentToLeft();
         initProductPickerFragmentToRight();
-        addFragmentToTopRight(new CustomerNotificationsFragment());
         notifyManager.setView(this);
         handler = new Handler();
         handler.post(timerUpdate);
@@ -152,9 +151,5 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
 //        CustomerNotificationsFragment fragment = new CustomerNotificationsFragment();
 //        fragment.setArguments(bundle);
 //        addFragmentToTopRight(fragment);
-//        CustomerNotificationsFragment fragment = (CustomerNotificationsFragment) getCurrentFragmentRightTop();
-//        if (fragment != null){
-//            fragment.addDataToCustomerList(customer);
-//        }
     }
 }
