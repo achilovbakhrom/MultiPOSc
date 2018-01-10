@@ -22,6 +22,7 @@ public class Return {
     private Vendor vendor;
     private double quantity;
     private double returnAmount;
+    private String description = "";
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
      * Entity must attached to an entity context.
@@ -155,15 +156,23 @@ public class Return {
     public void setVendorId(Long vendorId) {
         this.vendorId = vendorId;
     }
+    public String getDescription() {
+        return this.description;
+    }
+    public void setDescription(String description) {
+        this.description = description;
+    }
     @Generated(hash = 221520427)
     public Return() {
     }
-    @Generated(hash = 445162463)
-    public Return(Long id, Long productId, Long vendorId, double quantity, double returnAmount) {
+    @Generated(hash = 1504523836)
+    public Return(Long id, Long productId, Long vendorId, double quantity, double returnAmount,
+            String description) {
         this.id = id;
         this.productId = productId;
         this.vendorId = vendorId;
         this.quantity = quantity;
         this.returnAmount = returnAmount;
+        this.description = description;
     }
 }

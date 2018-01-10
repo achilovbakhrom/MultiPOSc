@@ -54,11 +54,6 @@ public class Product implements Editable, Serializable {
     @ToOne(joinProperty = "mainUnitId")
     private Unit mainUnit;
     @ToMany
-    @JoinEntity(entity = SubUnitsList.class,
-            sourceProperty = "productId",
-            targetProperty = "unitId")
-    private List<Unit> subUnits;
-    @ToMany
     @JoinEntity(entity = VendorProductCon.class,
             sourceProperty = "productId",
             targetProperty = "vendorId")
@@ -534,34 +529,6 @@ public class Product implements Editable, Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
-    @Generated(hash = 622239219)
-    public synchronized void resetSubUnits() {
-        subUnits = null;
-    }
-
-    /**
-     * To-many relationship, resolved on first access (and after reset).
-     * Changes to to-many relations are not persisted, make changes to the target entity.
-     */
-    @Generated(hash = 1537469223)
-    public List<Unit> getSubUnits() {
-        if (subUnits == null) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            UnitDao targetDao = daoSession.getUnitDao();
-            List<Unit> subUnitsNew = targetDao._queryProduct_SubUnits(id);
-            synchronized (this) {
-                if(subUnits == null) {
-                    subUnits = subUnitsNew;
-                }
-            }
-        }
-        return subUnits;
     }
 
     public Double getPrice() {

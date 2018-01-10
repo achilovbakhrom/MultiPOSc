@@ -27,6 +27,7 @@ public class ProductSquareViewPresenterImpl extends BasePresenterImpl<ProductSqu
     private ProductOperations productOperations;
     private PreferencesHelper preferencesHelper;
     private static final String SUBCATEGORY_TITLE = "subcategory_title";
+    private static final String CATEGORY_TITLE = "category_title";
 
     @Inject
     protected ProductSquareViewPresenterImpl(ProductSquareView view, DatabaseManager databaseManager, PreferencesHelper preferencesHelper) {
@@ -92,6 +93,12 @@ public class ProductSquareViewPresenterImpl extends BasePresenterImpl<ProductSqu
     }
 
     @Override
+    public void updateTitles() {
+        view.sendEvent(parentCategory, CATEGORY_TITLE);
+        view.sendEvent(parentSubCategory, SUBCATEGORY_TITLE);
+    }
+
+    @Override
     public void refreshCategories() {
         categoryOperations.getAllActiveCategories().subscribe(categories -> {
             categoryList.clear();
@@ -107,7 +114,7 @@ public class ProductSquareViewPresenterImpl extends BasePresenterImpl<ProductSqu
             subcategoryList.addAll(subCategories);
             view.refreshSubCategories(subcategoryList);
         });
-        view.setSelectedSubCategory(preferencesHelper.getLastPositionSubCategory(String.valueOf(parentCategory.getId())));
+            view.setSelectedSubCategory(preferencesHelper.getLastPositionSubCategory(String.valueOf(parentCategory.getId())));
         if (!subcategoryList.isEmpty()) {
             view.sendEvent(subcategoryList.get(preferencesHelper.getLastPositionSubCategory(String.valueOf(parentCategory.getId()))), SUBCATEGORY_TITLE);
             setSelectedSubCategory(preferencesHelper.getLastPositionSubCategory(String.valueOf(parentCategory.getId())));

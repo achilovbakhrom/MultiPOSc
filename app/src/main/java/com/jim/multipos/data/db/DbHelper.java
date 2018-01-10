@@ -29,6 +29,7 @@ import com.jim.multipos.data.db.model.inventory.BillingOperations;
 import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.data.db.model.order.Order;
+import com.jim.multipos.data.db.model.products.Return;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
@@ -213,14 +214,14 @@ public interface DbHelper {
     Single<List<Consignment>> getConsignmentsInInterval(Long vendorId, Calendar fromDate, Calendar toDate);
 
     Single<Customer> getCustomerById(Long customerId);
-
     Single<List<Customer>> getCustomersWithDebt();
-
     Single<Boolean> insertDebt(Debt debt);
-
     Single<List<Debt>> getDebtsByCustomerId(Long id);
+    Single<CustomerPayment> insertCustomerPayment(CustomerPayment payment);
 
     Single<Order> insertOrder(Order order);
 
-    Single<CustomerPayment> insertCustomerPayment(CustomerPayment payment);
+    Single<Boolean> insertReturns(List<Return> returnsList);
+
+    Single<List<VendorProductCon>> getVendorProductConnectionByVendorId(Long vendorId);
 }

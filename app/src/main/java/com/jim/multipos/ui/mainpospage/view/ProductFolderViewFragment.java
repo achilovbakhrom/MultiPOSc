@@ -161,4 +161,8 @@ public class ProductFolderViewFragment extends BaseFragment implements ProductFo
     public void sendCategoryEvent(Category category, String key) {
         mainPageConnection.sendSelectedCategory(category, key);
     }
+
+    public void onShow() {
+        presenter.updateTitles();
+    }
 }

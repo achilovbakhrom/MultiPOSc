@@ -246,20 +246,7 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
                     ((VendorAddEditActivity) getContext()).showCantDeleteActiveItemMessage(() -> {
                     });
                 } else {
-                    UIUtils.showAlert(getContext(), getString(R.string.yes), getString(R.string.no),
-                            getString(R.string.deleting_vendor_title), getString(R.string.warning_deleting_vendor),
-                            new UIUtils.AlertListener() {
-                                @Override
-                                public void onPositiveButtonClicked() {
-                                    detectChange(false);
-                                    presenter.removeVendor();
-                                    presenter.setMode(AddingMode.ADD, null);
-                                }
-
-                                @Override
-                                public void onNegativeButtonClicked() {
-                                }
-                            });
+                    presenter.checkVendorInventoryState();
                 }
 
                 break;
@@ -448,6 +435,28 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
                     @Override
                     public void onPositiveButtonClicked() {
                         ((VendorAddEditActivity) getContext()).getPresenter().removeContact(item);
+                    }
+
+                    @Override
+                    public void onNegativeButtonClicked() {
+                    }
+                });
+    }
+
+    public void showVendorHasProductsMessage() {
+        UIUtils.showAlert(getContext(), getString(R.string.ok), getString(R.string.warning), "This vendor have active products in inventory", () -> {});
+    }
+
+    public void showDeleteDialog() {
+        VendorAddEditPresenter presenter = ((VendorAddEditActivity) getContext()).getPresenter();
+        UIUtils.showAlert(getContext(), getString(R.string.yes), getString(R.string.no),
+                getString(R.string.deleting_vendor_title), getString(R.string.warning_deleting_vendor),
+                new UIUtils.AlertListener() {
+                    @Override
+                    public void onPositiveButtonClicked() {
+                        detectChange(false);
+                        presenter.removeVendor();
+                        presenter.setMode(AddingMode.ADD, null);
                     }
 
                     @Override

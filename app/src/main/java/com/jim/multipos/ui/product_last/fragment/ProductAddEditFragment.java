@@ -151,28 +151,28 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
         View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.choose_vendor_dialog, null, false);
         dialog.getWindow().getDecorView().setBackgroundResource(android.R.color.transparent);
         dialog.setContentView(dialogView);
-        vendorDialogList = (RecyclerView) dialogView.findViewById(R.id.rvVendors);
+        vendorDialogList = dialogView.findViewById(R.id.rvVendors);
         vendorDialogList.setLayoutManager(new LinearLayoutManager(getContext()));
-        vendorDialogBack = (MpButton) dialogView.findViewById(R.id.btnBack);
+        vendorDialogBack = dialogView.findViewById(R.id.btnBack);
         vendorDialogBack.setOnClickListener(this);
-        vendorDialogOk = (MpButton) dialogView.findViewById(R.id.btnOk);
+        vendorDialogOk = dialogView.findViewById(R.id.btnOk);
         vendorDialogOk.setOnClickListener(this);
 
         costDialog = new Dialog(getContext());
         View costView = LayoutInflater.from(getContext()).inflate(R.layout.choose_product_cost, null, false);
         costDialog.getWindow().getDecorView().setBackgroundResource(android.R.color.transparent);
         costDialog.setContentView(costView);
-        productCostList = (RecyclerView) costView.findViewById(R.id.rvProductCostList);
+        productCostList = costView.findViewById(R.id.rvProductCostList);
         productCostList.setLayoutManager(new LinearLayoutManager(getContext()));
-        btnBackToAddProduct = (MpButton) costView.findViewById(R.id.btnBackToAddProduct);
+        btnBackToAddProduct = costView.findViewById(R.id.btnBackToAddProduct);
         btnBackToAddProduct.setOnClickListener(this);
-        btnSaveCosts = (MpButton) costView.findViewById(R.id.btnSaveCosts);
+        btnSaveCosts = costView.findViewById(R.id.btnSaveCosts);
         btnSaveCosts.setOnClickListener(this);
 
         classDialog = new Dialog(getContext());
         View classView = LayoutInflater.from(getContext()).inflate(R.layout.vendor_product_list_dialog, null, false);
-        classList = (RecyclerView) classView.findViewById(R.id.rvProductList);
-        TextView title = (TextView) classView.findViewById(R.id.tvDialogTitle);
+        classList = classView.findViewById(R.id.rvProductList);
+        TextView title = classView.findViewById(R.id.tvDialogTitle);
         title.setText(R.string.choose_product_class);
         classList.setLayoutManager(new LinearLayoutManager(getContext()));
         classListAdapter = new ProductClassListAdapter(getContext());
@@ -206,6 +206,7 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
         unitsCategory.setAdapter(unitCategoryList);
         unitsCategory.setItemSelectionListener((view, position) -> {
             ((ProductActivity) getContext()).getPresenter().unitCategorySelected(position);
+             isUnitSetted = false;
         });
         units.setAdapter(unitList);
         classListAdapter.setData(productClasses);
@@ -354,6 +355,8 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
 
     }
 
+    private boolean isUnitSetted = false;
+
     public void openAddMode() {
         vendors = new ArrayList<>();
         name.setText("");
@@ -419,6 +422,7 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
         if (units != null) {
             this.units.setAdapter(units);
             this.units.setSelectedPosition(unitPos);
+            isUnitSetted = true;
         }
         ((ProductActivity) getContext()).getPresenter().setVendorName(vendors);
         this.save.setText(R.string.update);
@@ -450,6 +454,7 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
     }
 
     public void setUnits(String[] units) {
+        if (!isUnitSetted)
         this.units.setAdapter(units);
     }
 

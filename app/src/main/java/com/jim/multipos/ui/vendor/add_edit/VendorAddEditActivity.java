@@ -165,4 +165,20 @@ public class VendorAddEditActivity extends DoubleSideActivity implements VendorA
         rxBus.send(new MessageWithIdEvent(vendorId, state));
     }
 
+    @Override
+    public void showVendorHasProductsMessage() {
+        VendorAddEditFragment fragment = (VendorAddEditFragment) getCurrentFragmentLeft();
+        if (fragment != null) {
+            fragment.showVendorHasProductsMessage();
+        }
+    }
+
+    @Override
+    public void showDeleteDialog() {
+        VendorAddEditFragment fragment = (VendorAddEditFragment) getCurrentFragmentLeft();
+        if (fragment != null) {
+            fragment.showDeleteDialog();
+        }
+    }
+
 }

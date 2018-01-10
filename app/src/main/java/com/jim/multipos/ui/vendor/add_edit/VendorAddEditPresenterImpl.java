@@ -6,7 +6,10 @@ import android.util.Log;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Contact;
+import com.jim.multipos.data.db.model.inventory.InventoryState;
+import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
+import com.jim.multipos.data.db.model.products.VendorProductCon;
 import com.jim.multipos.ui.vendor.AddingMode;
 import com.jim.multipos.utils.UIUtils;
 
@@ -25,7 +28,7 @@ import lombok.Setter;
  * Created by Achilov Bakhrom on 10/21/17.
  */
 
-public class VendorAddEditPresenterImpl extends BasePresenterImpl<VendorAddEditView> implements VendorAddEditPresenter{
+public class VendorAddEditPresenterImpl extends BasePresenterImpl<VendorAddEditView> implements VendorAddEditPresenter {
 
     private final VendorAddEditView view;
 
@@ -167,24 +170,24 @@ public class VendorAddEditPresenterImpl extends BasePresenterImpl<VendorAddEditV
         } else {
             if (view.isChangeDetected()) {
                 view.showAddEditChangeMessage(new UIUtils.AlertListener() {
-                      @Override
-                      public void onPositiveButtonClicked() {
-                          VendorAddEditPresenterImpl.this.vendorId = vendorId;
-                          Vendor vendor = databaseManager.getVendorById(vendorId).blockingSingle();
-                          if (vendor != null) {
-                              contacts = vendor.getContacts();
-                              vendor.resetContacts();
-                              view.prepareEditMode(vendor);
-                              VendorAddEditPresenterImpl.this.mode = mode;
-                          }
-                      }
+                    @Override
+                    public void onPositiveButtonClicked() {
+                        VendorAddEditPresenterImpl.this.vendorId = vendorId;
+                        Vendor vendor = databaseManager.getVendorById(vendorId).blockingSingle();
+                        if (vendor != null) {
+                            contacts = vendor.getContacts();
+                            vendor.resetContacts();
+                            view.prepareEditMode(vendor);
+                            VendorAddEditPresenterImpl.this.mode = mode;
+                        }
+                    }
 
-                      @Override
-                      public void onNegativeButtonClicked() {
-                          view.discardChanges();
-                      }
+                    @Override
+                    public void onNegativeButtonClicked() {
+                        view.discardChanges();
+                    }
                 });
-            } else  {
+            } else {
                 this.vendorId = vendorId;
                 Vendor vendor = databaseManager.getVendorById(vendorId).blockingSingle();
                 if (vendor != null) {
@@ -202,11 +205,12 @@ public class VendorAddEditPresenterImpl extends BasePresenterImpl<VendorAddEditV
     @Override
     public void removeVendor() {
         if (vendorId != -1) {
-            databaseManager.deleteVendor(vendorId).subscribe(isDeleted -> {
-                if (isDeleted) {
-                    view.refreshVendorsList();
-                    view.sendEvent(VENDOR_DELETE, vendorId);
-                }
+
+            Vendor vendor = databaseManager.getVendorById(vendorId).blockingSingle();
+            vendor.setDeleted(true);
+            databaseManager.addVendor(vendor).subscribe(aLong -> {
+                view.refreshVendorsList();
+                view.sendEvent(VENDOR_DELETE, vendorId);
             });
         }
     }
@@ -238,6 +242,21 @@ public class VendorAddEditPresenterImpl extends BasePresenterImpl<VendorAddEditV
         }
         view.changeSelectedPosition();
         this.mode = mode;
+    }
+
+    @Override
+    public void checkVendorInventoryState() {
+        Vendor vendor = databaseManager.getVendorById(vendorId).blockingSingle();
+        int size = 0;
+        for (int i = 0; i < vendor.getProducts().size(); i++) {
+            Product product = vendor.getProducts().get(i);
+            if (product.getIsDeleted().equals(false) && product.getIsNotModified().equals(true))
+                size++;
+        }
+        if (size != 0)
+            view.showVendorHasProductsMessage();
+        else
+            view.showDeleteDialog();
     }
 
 }

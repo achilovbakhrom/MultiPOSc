@@ -11,12 +11,14 @@ import android.widget.Toast;
 import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.R;
 import com.jim.multipos.core.DoubleSideActivity;
+import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.ui.first_configure_last.fragment.AccountFragment;
 import com.jim.multipos.ui.first_configure_last.fragment.CurrencyFragment;
 import com.jim.multipos.ui.first_configure_last.fragment.FirstConfigureListFragment;
 import com.jim.multipos.ui.first_configure_last.fragment.POSDetailsFragment;
 import com.jim.multipos.ui.first_configure_last.fragment.PaymentTypeFragment;
 import com.jim.multipos.ui.lock_screen.LockScreenActivity;
+import com.jim.multipos.utils.TestUtils;
 import com.jim.multipos.utils.UIUtils;
 
 import javax.inject.Inject;
@@ -37,6 +39,8 @@ public class FirstConfigureActivity extends DoubleSideActivity implements FirstC
     @Inject
     @Getter
     protected FirstConfigurePresenter presenter;
+    @Inject
+    DatabaseManager databaseManager;
 
     @Override
     protected int getToolbarMode() {
@@ -49,6 +53,7 @@ public class FirstConfigureActivity extends DoubleSideActivity implements FirstC
         presenter.onCreateView(savedInstanceState);
         addFragmentToLeft(new FirstConfigureListFragment());
         addFragmentWithTagToRight(new POSDetailsFragment(), POSDetailsFragment.class.getName());
+        TestUtils.createUnits(databaseManager, this);
     }
 
     @Override

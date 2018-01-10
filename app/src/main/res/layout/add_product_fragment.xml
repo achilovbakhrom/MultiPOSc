@@ -156,32 +156,6 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/ten_dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="@dimen/hundred_dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginRight="@dimen/sixteen_dp"
-                    android:gravity="right"
-                    android:text="@string/vendors"
-                    android:textSize="@dimen/sixteen_dp" />
-
-                <TextView
-                    android:id="@+id/tvVendor"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/fourty_dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/edit_text_bg"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="@dimen/ten_dp"
-                    android:text="@string/vendor_are_not_choosed" />
-
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -222,6 +196,34 @@
                     android:layout_weight="1" />
 
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="@dimen/hundred_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/sixteen_dp"
+                    android:gravity="right"
+                    android:text="@string/vendors"
+                    android:textSize="@dimen/sixteen_dp" />
+
+                <TextView
+                    android:id="@+id/tvVendor"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/fourty_dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/edit_text_bg"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/ten_dp"
+                    android:text="@string/vendor_are_not_choosed" />
+
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"

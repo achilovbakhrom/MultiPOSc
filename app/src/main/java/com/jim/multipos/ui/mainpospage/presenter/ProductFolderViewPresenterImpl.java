@@ -151,7 +151,7 @@ public class ProductFolderViewPresenterImpl extends BasePresenterImpl<ProductFol
 
     @Override
     public void updateProducts() {
-        if (mode == PRODUCT){
+        if (mode == PRODUCT) {
             folderItems.clear();
             view.sendCategoryEvent(folderItem.getCategory(), SUBCATEGORY_TITLE);
             productOperations.getAllActiveProducts(folderItem.getCategory()).subscribe(products -> {
@@ -169,6 +169,24 @@ public class ProductFolderViewPresenterImpl extends BasePresenterImpl<ProductFol
                 view.refreshProductList(folderItems, PRODUCT);
                 view.setBackItemVisibility(true);
             });
+        }
+    }
+
+    @Override
+    public void updateTitles() {
+        switch (this.mode) {
+            case CATEGORY:
+                view.sendCategoryEvent(null, CATEGORY_TITLE);
+                view.sendCategoryEvent(null, SUBCATEGORY_TITLE);
+                break;
+            case SUBCATEGORY:
+                view.sendCategoryEvent(category, CATEGORY_TITLE);
+                view.sendCategoryEvent(null, SUBCATEGORY_TITLE);
+                break;
+            case PRODUCT:
+                view.sendCategoryEvent(category, CATEGORY_TITLE);
+                view.sendCategoryEvent(folderItem.getCategory(), SUBCATEGORY_TITLE);
+                break;
         }
     }
 }

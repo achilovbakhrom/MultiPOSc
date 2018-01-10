@@ -17,6 +17,7 @@ import com.jim.multipos.data.db.model.products.Return;
 import com.jim.multipos.ui.mainpospage.adapter.ProductSearchResultsAdapter;
 import com.jim.multipos.ui.mainpospage.adapter.ReturnsAdapter;
 import com.jim.multipos.utils.TextWatcherOnTextChange;
+import com.jim.multipos.utils.UIUtils;
 import com.jim.multipos.utils.WarningDialog;
 
 import java.text.DecimalFormat;
@@ -40,12 +41,14 @@ public class ReturnsDialog extends Dialog {
     RecyclerView rvReturnProducts;
     @BindView(R.id.btnNext)
     MpButton btnNext;
+    @BindView(R.id.btnClose)
+    MpButton btnClose;
     private List<Product> productList, searchResults;
     private List<Return> returnsList;
     private ProductSearchResultsAdapter searchResultsAdapter;
     private ReturnsAdapter returnsAdapter;
 
-    public ReturnsDialog(@NonNull Context context, DatabaseManager databaseManager, DecimalFormat decimalFormat) {
+    public ReturnsDialog(@NonNull Context context, DatabaseManager databaseManager, DecimalFormat decimalFormat, List<Return> returnsList) {
         super(context);
         View dialogView = getLayoutInflater().inflate(R.layout.return_dialog, null);
         ButterKnife.bind(this, dialogView);
@@ -53,19 +56,23 @@ public class ReturnsDialog extends Dialog {
         setContentView(dialogView);
         View v = getWindow().getDecorView();
         v.setBackgroundResource(android.R.color.transparent);
-        returnsList = new ArrayList<>();
+
         productList = databaseManager.getAllProducts().blockingSingle();
         returnsAdapter = new ReturnsAdapter(decimalFormat, getContext(), item -> {
             WarningDialog warningDialog = new WarningDialog(context);
             warningDialog.setWarningMessage(context.getString(R.string.do_you_want_delete));
             warningDialog.setOnYesClickListener(view1 -> {
-                returnsList.remove(item);
+                this.returnsList.remove(item);
                 returnsAdapter.notifyDataSetChanged();
                 warningDialog.dismiss();
             });
             warningDialog.setOnNoClickListener(view -> warningDialog.dismiss());
             warningDialog.show();
         });
+        if (returnsList != null) {
+            this.returnsList = returnsList;
+            returnsAdapter.setData(returnsList);
+        } else this.returnsList = new ArrayList<>();
         searchResultsAdapter = new ProductSearchResultsAdapter();
         rvProducts.setLayoutManager(new LinearLayoutManager(context));
         rvProducts.setAdapter(searchResultsAdapter);
@@ -103,14 +110,29 @@ public class ReturnsDialog extends Dialog {
             returnProduct.setProduct(product);
             returnProduct.setQuantity(1);
             returnProduct.setReturnAmount(product.getPrice());
-            returnsList.add(returnProduct);
-            returnsAdapter.setData(returnsList);
+            this.returnsList.add(returnProduct);
+            returnsAdapter.setData(this.returnsList);
         });
 
         btnNext.setOnClickListener(view -> {
-
+            UIUtils.closeKeyboard(btnNext, context);
+            if (!this.returnsList.isEmpty()) {
+                ReturnsConfirmDialog confirmDialog = new ReturnsConfirmDialog(getContext(), this.returnsList, databaseManager, decimalFormat);
+                confirmDialog.show();
+                dismiss();
+            } else {
+                WarningDialog warningDialog = new WarningDialog(context);
+                warningDialog.setWarningMessage("Products were not chose for return");
+                warningDialog.onlyText(true);
+                warningDialog.setOnYesClickListener(view1 -> warningDialog.dismiss());
+                warningDialog.show();
+            }
         });
 
+        btnClose.setOnClickListener(view -> {
+            UIUtils.closeKeyboard(btnClose, context);
+            dismiss();
+        });
 
     }
 }

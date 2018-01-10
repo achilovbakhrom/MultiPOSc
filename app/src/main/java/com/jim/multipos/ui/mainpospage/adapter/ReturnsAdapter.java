@@ -34,7 +34,6 @@ public class ReturnsAdapter extends RecyclerView.Adapter<ReturnsAdapter.ProductS
     private DecimalFormat decimalFormat;
     private Context context;
     private onReturnItemCallback callback;
-    private List<Vendor> vendorList;
 
 
     public ReturnsAdapter(DecimalFormat decimalFormat, Context context, onReturnItemCallback callback) {
@@ -42,7 +41,6 @@ public class ReturnsAdapter extends RecyclerView.Adapter<ReturnsAdapter.ProductS
         this.context = context;
         this.callback = callback;
         items = new ArrayList<>();
-        vendorList = new ArrayList<>();
     }
 
     @Override
@@ -53,18 +51,16 @@ public class ReturnsAdapter extends RecyclerView.Adapter<ReturnsAdapter.ProductS
 
     @Override
     public void onBindViewHolder(ProductSearchViewHolder holder, int position) {
-        vendorList = items.get(position).getProduct().getVendor();
         holder.tvProductName.setText(items.get(position).getProduct().getName());
         holder.tvProductPrice.setText(decimalFormat.format(items.get(position).getProduct().getPrice()));
-        holder.etReturnPrice.setText(decimalFormat.format(items.get(position).getReturnAmount()));
+        holder.etReturnPrice.setText(String.valueOf(items.get(position).getReturnAmount()));
         holder.etQuantity.setText(String.valueOf(items.get(position).getQuantity()));
         holder.tvUnit.setText(items.get(position).getProduct().getMainUnit().getAbbr());
         List<String> vendorNames = new ArrayList<>();
-        for (Vendor vendor : vendorList) {
+        for (Vendor vendor : items.get(position).getProduct().getVendor()) {
             vendorNames.add(vendor.getName());
         }
         holder.spVendors.setAdapter(vendorNames);
-        items.get(position).setVendor(vendorList.get(0));
     }
 
     @Override
@@ -114,8 +110,9 @@ public class ReturnsAdapter extends RecyclerView.Adapter<ReturnsAdapter.ProductS
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                     if (charSequence.length() != 0) {
+                        double amount;
                         try {
-                            double amount = Double.parseDouble(etReturnPrice.getText().toString());
+                            amount = Double.parseDouble(etReturnPrice.getText().toString());
                             items.get(getAdapterPosition()).setReturnAmount(amount);
                         } catch (Exception e) {
                             etReturnPrice.setError(context.getString(R.string.invalid));
@@ -130,9 +127,10 @@ public class ReturnsAdapter extends RecyclerView.Adapter<ReturnsAdapter.ProductS
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                     if (charSequence.length() != 0) {
+                        double qty;
                         try {
-                            double amount = Double.parseDouble(etQuantity.getText().toString());
-                            items.get(getAdapterPosition()).setReturnAmount(amount);
+                            qty = Double.parseDouble(etQuantity.getText().toString());
+                            items.get(getAdapterPosition()).setQuantity(qty);
                         } catch (Exception e) {
                             etQuantity.setError(context.getString(R.string.invalid));
                         }
@@ -142,7 +140,12 @@ public class ReturnsAdapter extends RecyclerView.Adapter<ReturnsAdapter.ProductS
                 }
             });
 
-            spVendors.setItemSelectionListener((view, position) -> items.get(position).setVendor(vendorList.get(position)));
+            spVendors.setItemSelectionListener(new MPosSpinner.ItemSelectionListener() {
+                @Override
+                public void onItemSelected(View view, int position) {
+                    items.get(getAdapterPosition()).setVendor(items.get(getAdapterPosition()).getProduct().getVendor().get(position));
+                }
+            });
 
         }
     }

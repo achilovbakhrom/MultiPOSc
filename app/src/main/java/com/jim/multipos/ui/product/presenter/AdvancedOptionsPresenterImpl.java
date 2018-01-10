@@ -49,7 +49,7 @@ public class AdvancedOptionsPresenterImpl extends AdvancedOptionConnector implem
     }
 
     private void getSubUnits() {
-        unitList = product.getSubUnits();
+//        unitList = product.getSubUnits();
         view.setSubUnitsRecyclerView(unitList);
     }
 

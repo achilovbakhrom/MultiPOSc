@@ -18,6 +18,7 @@ import com.jim.multipos.data.db.model.inventory.BillingOperations;
 import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.data.db.model.order.Order;
+import com.jim.multipos.data.db.model.products.Return;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.customer.Customer;
@@ -852,6 +853,16 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Observable<VendorProductCon> getVendorProductConnectionById(Long productId, Long vendorId) {
         return dbHelper.getVendorProductConnectionById(productId, vendorId);
+    }
+
+    @Override
+    public Single<Boolean> insertReturns(List<Return> returnsList) {
+        return dbHelper.insertReturns(returnsList);
+    }
+
+    @Override
+    public Single<List<VendorProductCon>> getVendorProductConnectionByVendorId(Long vendorId) {
+        return dbHelper.getVendorProductConnectionByVendorId(vendorId);
     }
 
     @Override

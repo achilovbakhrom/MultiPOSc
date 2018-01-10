@@ -8,8 +8,11 @@ import com.jim.mpviews.MpLongItemWithList;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseViewHolder;
 import com.jim.multipos.core.ClickableBaseAdapter;
+import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
+import com.jim.multipos.data.db.model.products.VendorProductCon;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -45,7 +48,13 @@ public class VendorsListAdapter extends ClickableBaseAdapter<Vendor, BaseViewHol
         super.onBindViewHolder(holder, position);
         if (holder instanceof VendorViewHolder) {
             ((VendorViewHolder) holder).item.setFirstItemText(items.get(position).getName());
-            ((VendorViewHolder) holder).item.setSecondItemText("Items: " + items.get(position).getProducts().size());
+            int size = 0;
+            for (int i = 0; i < items.get(position).getProducts().size(); i++) {
+                Product product = items.get(position).getProducts().get(i);
+                if (product.getIsDeleted().equals(false) && product.getIsNotModified().equals(true))
+                    size++;
+            }
+            ((VendorViewHolder) holder).item.setSecondItemText("Items: " + size);
             ((VendorViewHolder) holder).item.setThirdItemText(items.get(position).getContactName());
             ((VendorViewHolder) holder).item.setTextSize(12);
             ((VendorViewHolder) holder).item.setActivate(position == selectedPosition);
