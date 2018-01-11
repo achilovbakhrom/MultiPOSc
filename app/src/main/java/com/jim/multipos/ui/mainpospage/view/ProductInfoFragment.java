@@ -17,12 +17,14 @@ import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.products.Vendor;
+import com.jim.multipos.data.db.model.unit.UnitCategory;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivity;
 import com.jim.multipos.ui.mainpospage.connection.MainPageConnection;
 import com.jim.multipos.ui.mainpospage.dialogs.ChooseVendorDialog;
 import com.jim.multipos.ui.mainpospage.dialogs.DiscountDialog;
 import com.jim.multipos.ui.mainpospage.dialogs.ServiceFeeDialog;
 import com.jim.multipos.ui.mainpospage.dialogs.SetQuantityDialog;
+import com.jim.multipos.ui.mainpospage.dialogs.UnitValuePicker;
 import com.jim.multipos.ui.mainpospage.model.OrderProductItem;
 import com.jim.multipos.ui.mainpospage.presenter.ProductInfoPresenter;
 import com.jim.multipos.utils.GlideApp;
@@ -31,6 +33,8 @@ import com.jim.multipos.utils.TextWatcherOnTextChange;
 import com.jim.multipos.utils.WarningDialog;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -44,8 +48,8 @@ import butterknife.BindView;
 public class ProductInfoFragment extends BaseFragment implements ProductInfoView {
     @Inject
     ProductInfoPresenter presenter;
-    @Inject
     DecimalFormat decimalFormat;
+    DecimalFormat decimalFormatLocal;
     @BindView(R.id.ivProductImage)
     ImageView ivProductImage;
     @BindView(R.id.tvProductName)
@@ -85,6 +89,9 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
     MpButton btnRemove;
     @BindView(R.id.llVendorPicker)
     LinearLayout llVendorPicker;
+    @BindView(R.id.tvUnitName)
+    TextView tvUnitName;
+
     @Inject
     RxBus rxBus;
     @Inject
@@ -110,6 +117,23 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
     }
     @Override
     public void initProductData(OrderProductItem orderProductItem) {
+        DecimalFormat formatter;
+        NumberFormat numberFormat = NumberFormat.getNumberInstance();
+        numberFormat.setMaximumFractionDigits(6);
+        formatter = (DecimalFormat) numberFormat;
+        DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
+        symbols.setGroupingSeparator(' ');
+        formatter.setDecimalFormatSymbols(symbols);
+        decimalFormatLocal =  formatter;
+
+        DecimalFormat formatter2;
+        NumberFormat numberFormat2 = NumberFormat.getNumberInstance();
+        numberFormat2.setMaximumFractionDigits(3);
+        formatter2 = (DecimalFormat) numberFormat2;
+        DecimalFormatSymbols symbols2 = formatter2.getDecimalFormatSymbols();
+        symbols2.setGroupingSeparator(' ');
+        formatter2.setDecimalFormatSymbols(symbols2);
+        decimalFormat =  formatter2;
 
         GlideApp.with(this)
                 .load(orderProductItem.getOrderProduct().getProduct().getPhotoPath())
@@ -132,7 +156,32 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
             }
         }
         tvQuantity.setText(decimalFormat.format(inventoryState.getValue() - orderProductItem.getOrderProduct().getCount()) + " " + orderProductItem.getOrderProduct().getProduct().getMainUnit().getAbbr());
-        tvOrderQuantity.setText(decimalFormat.format(orderProductItem.getOrderProduct().getCount()));
+
+        if(orderProductItem.getOrderProduct().getProduct().getMainUnit().getUnitCategory().getUnitType() == UnitCategory.PIECE){
+            tvOrderQuantity.setText(decimalFormat.format(orderProductItem.getOrderProduct().getCount()));
+            tvOrderQuantity.setBackground(null);
+            tvUnitName.setText("Quantity");
+            btnSetQuantity.setText("Set Quantity");
+            ivMinus.setVisibility(View.VISIBLE);
+            ivPlus.setVisibility(View.VISIBLE);
+        }
+        else {
+
+            double count = orderProductItem.getOrderProduct().getCount();
+
+            DecimalFormat df = null;
+            if(count<0.001){
+                df = decimalFormatLocal;
+            }else df = decimalFormat;
+
+            tvOrderQuantity.setText(df.format(count) + " " + orderProductItem.getOrderProduct().getProduct().getMainUnit().getAbbr());
+            btnSetQuantity.setText("Set "+orderProductItem.getOrderProduct().getProduct().getMainUnit().getUnitCategory().getName());
+            tvOrderQuantity.setBackgroundResource(R.drawable.order_list_weight_product_item_deactive);
+            tvUnitName.setText(orderProductItem.getOrderProduct().getProduct().getMainUnit().getUnitCategory().getName());
+            ivMinus.setVisibility(View.GONE);
+            ivPlus.setVisibility(View.GONE);
+        }
+
 
         String vendorName = "";
         for (Vendor vn:orderProductItem.getOrderProduct().getProduct().getVendor()) {
@@ -149,11 +198,21 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
             mainPageConnection.giveToProductInfoFragmentProductItem();
         });
         btnSetQuantity.setOnClickListener(view -> {
-            SetQuantityDialog dialog = new SetQuantityDialog(getContext(), value -> {
-                mainPageConnection.setCount(value);
-                mainPageConnection.giveToProductInfoFragmentProductItem();
-            });
-            dialog.show();
+            if(orderProductItem.getOrderProduct().getProduct().getMainUnit().getUnitCategory().getUnitType() == UnitCategory.PIECE) {
+                SetQuantityDialog dialog = new SetQuantityDialog(getContext(), value -> {
+                    mainPageConnection.setCount(value);
+                    mainPageConnection.giveToProductInfoFragmentProductItem();
+                });
+                dialog.show();
+            }else {
+                UnitValuePicker unitValuePicker = new UnitValuePicker(getContext(), orderProductItem.getOrderProduct().getProduct(), weight -> {
+                    mainPageConnection.addProductWithWeightToListEdit(weight);
+                    mainPageConnection.giveToProductInfoFragmentProductItem();
+                },orderProductItem.getOrderProduct().getCount());
+                unitValuePicker.show();
+            }
+
+
         });
 
 

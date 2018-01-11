@@ -61,7 +61,7 @@ import dagger.android.support.AndroidSupportInjectionModule;
  */
 
 @Module(includes = AndroidSupportInjectionModule.class)
-abstract class AppModule {
+abstract class  AppModule {
     abstract Application application(MultiPosApp app);
 
     @PerActivity

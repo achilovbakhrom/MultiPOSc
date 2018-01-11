@@ -157,7 +157,6 @@ public class ProductSquareViewFragment extends BaseFragment implements ProductSq
 
             @Override
             public void onItemClicked(Product item) {
-//                if(item.getMainUnit().getUnitCategoryId())
                 mainPageConnection.addProductToOrder(item.getId());
             }
         });

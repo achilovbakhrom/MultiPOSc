@@ -9,7 +9,9 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jim.multipos.R;
@@ -20,11 +22,14 @@ import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.OrderProduct;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.VendorProductCon;
+import com.jim.multipos.data.db.model.unit.UnitCategory;
 import com.jim.multipos.ui.mainpospage.model.DiscountItem;
 import com.jim.multipos.ui.mainpospage.model.OrderProductItem;
 import com.jim.multipos.ui.mainpospage.model.ServiceFeeItem;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,13 +51,32 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private final int PRODUCT_ITEM = 1;
     private final int DISCOUNT_ITEM = 2;
     private final int SERVICE_FEE_ITEM = 3;
+    DecimalFormat decimalFormatLocal;
     @Inject
-    public OrderProductAdapter(DecimalFormat decimalFormat, DatabaseManager databaseManager, Context context){
+    public OrderProductAdapter( DatabaseManager databaseManager, Context context){
         this.databaseManager = databaseManager;
         this.context = context;
         adapterItem = new ArrayList<>();
         //FAKE DATA
-       this.decimalFormat = decimalFormat;
+        DecimalFormat formatter;
+        NumberFormat numberFormat = NumberFormat.getNumberInstance();
+        numberFormat.setMaximumFractionDigits(6);
+        formatter = (DecimalFormat) numberFormat;
+        DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
+        symbols.setGroupingSeparator(' ');
+        formatter.setDecimalFormatSymbols(symbols);
+        decimalFormatLocal =  formatter;
+
+        DecimalFormat formatter2;
+        NumberFormat numberFormat2 = NumberFormat.getNumberInstance();
+        numberFormat2.setMaximumFractionDigits(3);
+        formatter2 = (DecimalFormat) numberFormat2;
+        DecimalFormatSymbols symbols2 = formatter2.getDecimalFormatSymbols();
+        symbols2.setGroupingSeparator(' ');
+        formatter2.setDecimalFormatSymbols(symbols2);
+        decimalFormat =  formatter2;
+
+
     }
     public void setData(List<Object> data, CallbackOrderProductList callbackOrderProductList){
         adapterItem = data;
@@ -65,6 +89,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         void onOrderProductClick(int position);
         void onOrderDiscountClick();
         void onOrderServiceFeeClick();
+        void onCountWeigtClick(int position);
     }
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -96,11 +121,29 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holderMain, int position) {
-        Log.d("test001", "onBindViewHolder: "+position);
+
         if(holderMain instanceof OrderProductViewHolder) {
             OrderProductViewHolder holder = (OrderProductViewHolder) holderMain;
             OrderProductItem orderProductItem = (OrderProductItem) adapterItem.get(position);
-            holder.tvCountProduct.setText(decimalFormat.format(orderProductItem.getOrderProduct().getCount()));
+
+            if(orderProductItem.getOrderProduct().getProduct().getMainUnit().getUnitCategory().getUnitType() == UnitCategory.PIECE){
+                holder.tvCountProduct.setText(decimalFormat.format(orderProductItem.getOrderProduct().getCount()));
+                holder.ivLeftMinus.setVisibility(View.VISIBLE);
+                holder.ivRightPlus.setVisibility(View.VISIBLE);
+                holder.rlUnitQty.setBackground(null);
+            }
+            else {
+                double count = orderProductItem.getOrderProduct().getCount();
+                DecimalFormat df = null;
+                if(count<0.001){
+                    df = decimalFormatLocal;
+                }else df = decimalFormat;
+                holder.tvCountProduct.setText(df.format(count) + " " + orderProductItem.getOrderProduct().getProduct().getMainUnit().getAbbr());
+                holder.ivLeftMinus.setVisibility(View.GONE);
+                holder.ivRightPlus.setVisibility(View.GONE);
+                holder.rlUnitQty.setBackgroundResource(R.drawable.order_list_weight_product_item);
+            }
+
             holder.tvEach.setText(decimalFormat.format(orderProductItem.getOrderProduct().getPrice()));
             holder.tvSum.setText(decimalFormat.format(orderProductItem.getOrderProduct().getPrice() * orderProductItem.getOrderProduct().getCount()));
             holder.tvProductName.setText(orderProductItem.getOrderProduct().getProduct().getName());
@@ -137,6 +180,8 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }else {
                 holder.isLastItemGone.setVisibility(View.VISIBLE);
             }
+
+
         }
         if(holderMain instanceof OrderDiscountViewHolder){
             OrderDiscountViewHolder holder = (OrderDiscountViewHolder) holderMain;
@@ -202,18 +247,36 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         FrameLayout isLastItemGone;
         @BindView(R.id.llProduct)
         LinearLayout llProduct;
+        @BindView(R.id.rlUnitQty)
+        RelativeLayout rlUnitQty;
+        @BindView(R.id.ivLeftMinus)
+        ImageView ivLeftMinus;
+        @BindView(R.id.ivRightPlus)
+        ImageView ivRightPlus;
+
         public OrderProductViewHolder(View itemView) {
              super(itemView);
              ButterKnife.bind(this, itemView);
              flLeftMinus.setOnClickListener(view -> {
-                 callback.onMinusCount(getAdapterPosition());
+                 OrderProductItem orderProductItem = (OrderProductItem) adapterItem.get(getAdapterPosition());
+                 if(orderProductItem.getOrderProduct().getProduct().getMainUnit().getUnitCategory().getUnitType() == UnitCategory.PIECE) {
+                     callback.onMinusCount(getAdapterPosition());
+                 }else {
+                     callback.onCountWeigtClick(getAdapterPosition());
+                 }
              });
              flRightPlus.setOnClickListener(view -> {
-                 callback.onPlusCount(getAdapterPosition());
+                 OrderProductItem orderProductItem = (OrderProductItem) adapterItem.get(getAdapterPosition());
+                 if(orderProductItem.getOrderProduct().getProduct().getMainUnit().getUnitCategory().getUnitType() == UnitCategory.PIECE) {
+                     callback.onPlusCount(getAdapterPosition());
+                 }else {
+                     callback.onCountWeigtClick(getAdapterPosition());
+                 }
              });
              llProduct.setOnClickListener(view -> {
                  callback.onOrderProductClick(getAdapterPosition());
              });
+
          }
          public void clearAnimation(){
              llProduct.clearAnimation();

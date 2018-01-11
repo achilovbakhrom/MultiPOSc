@@ -5,6 +5,7 @@ import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.order.Order;
+import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.mainpospage.dialogs.DiscountDialog;
 import com.jim.multipos.ui.mainpospage.dialogs.ServiceFeeDialog;
@@ -47,4 +48,8 @@ public interface  OrderListView extends BaseView {
     void setServiceFeeProduct(ServiceFee serviceFeeProduct);
     void changeCustomer(Customer customer);
     void openCustomerDialog();
+    void openUnitValuePicker(Product product);
+    void openUnitValuePickerEdit(Product product, double weight);
+    void addProductWithWeightToListEdit(double weight);
+
 }

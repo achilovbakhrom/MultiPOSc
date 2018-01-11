@@ -159,50 +159,35 @@
         <item>Kilogram</item>
         <item>Gram</item>
         <item>Ton</item>
-        <item>Centner</item>
-        <item>Carat</item>
     </string-array>
     <string-array name="weight_abbr">
         <item>kg</item>
         <item>gr</item>
         <item>tn</item>
-        <item>st</item>
-        <item>c.</item>
     </string-array>
     <string-array name="weight_factor">
         <item>1</item>
         <item>0.001</item>
         <item>1000</item>
-        <item>100</item>
-        <item>0.0023</item>
     </string-array>
 
     <string-array name="length_title">
         <item>Meter</item>
-        <item>Decimeter</item>
-        <item>Centimeter</item>
         <item>Millimeter</item>
+        <item>Centimeter</item>
         <item>Kilometer</item>
-        <item>Inch</item>
-        <item>Fot</item>
     </string-array>
     <string-array name="length_abbr">
         <item>m</item>
-        <item>dm</item>
-        <item>cm</item>
         <item>mm</item>
+        <item>cm</item>
         <item>km</item>
-        <item>inc</item>
-        <item>ft</item>
     </string-array>
     <string-array name="length_factor">
         <item>1</item>
-        <item>0.1</item>
-        <item>0.01</item>
         <item>0.001</item>
+        <item>0.01</item>
         <item>1000</item>
-        <item>0.0254</item>
-        <item>0.3048</item>
     </string-array>
 
     <string-array name="piece_title">
@@ -238,22 +223,16 @@
     <string-array name="volume_title">
         <item>M3</item>
         <item>Liter</item>
-        <item>Barrel</item>
-        <item>Gallon</item>
         <item>Milliliter</item>
     </string-array>
     <string-array name="volume_abbr">
         <item>m3</item>
         <item>l</item>
-        <item>brr</item>
-        <item>gl</item>
         <item>ml</item>
     </string-array>
     <string-array name="volume_factor">
         <item>1</item>
         <item>0.001</item>
-        <item>0.158</item>
-        <item>0.00378</item>
         <item>0.000001</item>
     </string-array>
 

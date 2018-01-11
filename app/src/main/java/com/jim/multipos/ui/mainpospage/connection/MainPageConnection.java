@@ -6,6 +6,7 @@ import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.products.Category;
+import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.mainpospage.model.OrderProductItem;
 import com.jim.multipos.ui.mainpospage.view.OrderListView;
@@ -26,6 +27,13 @@ public class MainPageConnection {
     public MainPageConnection(Context context){
         this.context = context;
     }
+
+    public void  addProductWithWeightToListEdit(double weight){
+        if(orderListView!=null){
+            orderListView.addProductWithWeightToListEdit(weight);
+        }
+    }
+
     public void setCount(double count){
         if(orderListView!=null){
             orderListView.setCount(count);

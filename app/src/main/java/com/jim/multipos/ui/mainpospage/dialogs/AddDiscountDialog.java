@@ -22,6 +22,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.Locale;
 import java.util.logging.Handler;
 
 import butterknife.BindView;
@@ -69,7 +70,7 @@ public class AddDiscountDialog extends Dialog {
         View v = getWindow().getDecorView();
         v.setBackgroundResource(android.R.color.transparent);
         DecimalFormat formatter;
-        NumberFormat numberFormat = NumberFormat.getNumberInstance();
+        NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
         numberFormat.setMaximumFractionDigits(2);
         formatter = (DecimalFormat) numberFormat;
         DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();

@@ -64,6 +64,7 @@ public class Discount implements Editable {
         this.isManual = isManual;
         this.rootId = rootId;
         this.createdDate = createdDate;
+
     }
 
 

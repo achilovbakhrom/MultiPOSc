@@ -14,6 +14,7 @@ import com.jim.multipos.data.db.model.order.PayedPartitions;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.products.VendorProductCon;
+import com.jim.multipos.data.db.model.unit.UnitCategory;
 import com.jim.multipos.ui.mainpospage.dialogs.DiscountDialog;
 import com.jim.multipos.ui.mainpospage.dialogs.ServiceFeeDialog;
 import com.jim.multipos.ui.mainpospage.model.DiscountItem;
@@ -141,6 +142,11 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
 
     @Override
     public void addProductToList(Long productId) {
+        Product product = databaseManager.getProductById(productId).blockingFirst();
+        if(product.getMainUnit().getUnitCategory().getUnitType() != UnitCategory.PIECE){
+            view.openUnitValuePicker(product);
+            return;
+        }
         //TODO
         for (int i = 0; i < list.size(); i++) {
             if(list.get(i) instanceof  OrderProductItem){
@@ -157,7 +163,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
                 }
             }
         }
-        Product product = databaseManager.getProductById(productId).blockingFirst();
+
         OrderProductItem orderProductItem = new OrderProductItem();
         OrderProduct orderProduct = new OrderProduct();
         VendorProductCon productCon = databaseManager.getVendorProductConnectionById(product.getId(), product.getVendor().get(0).getId()).blockingSingle();
@@ -349,6 +355,53 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         }else{
             view.openCustomerDialog();
         }
+    }
+
+    @Override
+    public void addProductWithWeightToList(Product product, double weight) {
+        OrderProductItem orderProductItem = new OrderProductItem();
+        OrderProduct orderProduct = new OrderProduct();
+        VendorProductCon productCon = databaseManager.getVendorProductConnectionById(product.getId(), product.getVendor().get(0).getId()).blockingSingle();
+        orderProduct.setCost(productCon.getCost());
+        orderProduct.setPrice(product.getPrice());
+        orderProduct.setCount(weight);
+        orderProduct.setProduct(product);
+        //TODO LAST CHOISEN VENDOR
+        orderProduct.setVendor(product.getVendor().get(0));
+        orderProductItem.setOrderProduct(orderProduct);
+        int positionToAdd = findPositionToAdd();
+        list.add(positionToAdd,orderProductItem);
+        updateDetials();
+        view.updateOrderDetials(order,customer);
+        view.notifyItemAdded(positionToAdd,list.size(),updateOrderDiscountServiceFee());
+    }
+
+    @Override
+    public void addProductWithWeightToListEdit(Product product, double weight) {
+        OrderProductItem orderProductItem   = (OrderProductItem) list.get(positionOfWeightItem);
+        orderProductItem.getOrderProduct().setCount(weight);
+        list.set(positionOfWeightItem,orderProductItem);
+        updateDetials();
+        view.updateOrderDetials(order,customer);
+        view.notifyItemChanged(positionOfWeightItem,list.size(),updateOrderDiscountServiceFee());
+    }
+
+    @Override
+    public void addProductWithWeightToListEditFromInfo(int currentPosition, double weight) {
+        OrderProductItem orderProductItem   = (OrderProductItem) list.get(currentPosition);
+        orderProductItem.getOrderProduct().setCount(weight);
+        list.set(currentPosition,orderProductItem);
+        updateDetials();
+        view.updateOrderDetials(order,customer);
+        view.notifyItemChanged(currentPosition,list.size(),updateOrderDiscountServiceFee());
+    }
+
+    int positionOfWeightItem = -1;
+    @Override
+    public void onCountWeigtClick(int position) {
+        positionOfWeightItem = position;
+        OrderProductItem orderProductItem   = (OrderProductItem) list.get(position);
+        view.openUnitValuePickerEdit(orderProductItem.getOrderProduct().getProduct(),orderProductItem.getOrderProduct().getCount());
     }
 
     private void updateDetials(){

@@ -4,6 +4,7 @@ import com.jim.multipos.core.Presenter;
 import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.customer.Customer;
+import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
 
 import java.util.List;
@@ -35,4 +36,8 @@ public interface OrderListPresenter extends Presenter {
     void setServiceFeeProduct(ServiceFee serviceFeeProduct,int currentPosition);
     void changeCustomer(Customer customer);
     void onClickChooseCustomerButton();
+    void addProductWithWeightToList(Product product,double weight);
+    void addProductWithWeightToListEdit(Product product,double weight);
+    void addProductWithWeightToListEditFromInfo(int currentPosition,double weight);
+    void onCountWeigtClick(int position);
 }

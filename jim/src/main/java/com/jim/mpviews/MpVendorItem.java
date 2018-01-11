@@ -53,6 +53,7 @@ public class MpVendorItem extends RelativeLayout {
         mpItem = (TextView) findViewById(R.id.tvItemQty);
         mpName = (TextView) findViewById(R.id.tvVendorName);
         llVendor = (LinearLayout) findViewById(R.id.llVendor);
+
         mpVendor.setTextColor(context.getResources().getColorStateList(R.color.item_txt_color));
         mpItem.setTextColor(context.getResources().getColorStateList(R.color.item_txt_second_color));
         mpName.setTextColor(context.getResources().getColorStateList(R.color.item_txt_second_color));

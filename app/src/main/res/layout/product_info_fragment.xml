@@ -132,6 +132,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/tvUnitName"
                     android:layout_width="@dimen/eighty_dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -162,14 +163,17 @@
                     <TextView
                         android:id="@+id/tvOrderQuantity"
                         android:layout_width="@dimen/hundred_twenty_five_dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/ten_dp"
+                        android:layout_marginBottom="@dimen/ten_dp"
                         android:layout_gravity="center_vertical"
                         android:gravity="center"
                         android:paddingLeft="@dimen/five_dp"
                         android:paddingRight="@dimen/five_dp"
                         android:text="2"
+                        android:background="@drawable/order_list_weight_product_item"
                         android:textColor="@color/colorMainText"
-                        android:textSize="@dimen/twenty_five_dp"
+                        android:textSize="@dimen/twenty_dp"
                         android:textStyle="bold" />
 
                     <ImageView

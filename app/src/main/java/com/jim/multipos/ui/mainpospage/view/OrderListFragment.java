@@ -15,6 +15,7 @@ import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.order.Order;
+import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivity;
 import com.jim.multipos.ui.mainpospage.adapter.OrderProductAdapter;
@@ -22,6 +23,7 @@ import com.jim.multipos.ui.mainpospage.connection.MainPageConnection;
 import com.jim.multipos.ui.mainpospage.dialogs.CustomerDialog;
 import com.jim.multipos.ui.mainpospage.dialogs.DiscountDialog;
 import com.jim.multipos.ui.mainpospage.dialogs.ServiceFeeDialog;
+import com.jim.multipos.ui.mainpospage.dialogs.UnitValuePicker;
 import com.jim.multipos.ui.mainpospage.model.OrderProductItem;
 import com.jim.multipos.ui.mainpospage.presenter.OrderListPresenter;
 import com.jim.multipos.utils.LinearLayoutManagerWithSmoothScroller;
@@ -117,7 +119,6 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
                 isPaymentOpen = true;
             }
         });
-
     }
     LinearLayoutManagerWithSmoothScroller linearLayoutManager;
     @Override
@@ -150,6 +151,11 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
             @Override
             public void onOrderServiceFeeClick() {
                 presenter.onOrderServiceFeeClick();
+            }
+
+            @Override
+            public void onCountWeigtClick(int position) {
+                presenter.onCountWeigtClick(position);
             }
         });
     }
@@ -327,6 +333,29 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
         CustomerDialog customerDialog = new CustomerDialog(getContext(), databaseManager, notifyManager,mainPageConnection);
         customerDialog.show();
     }
+
+    @Override
+    public void openUnitValuePicker(Product product) {
+        UnitValuePicker unitValuePicker = new UnitValuePicker(getContext(), product, weight -> {
+            presenter.addProductWithWeightToList(product,weight);
+        },0);
+        unitValuePicker.show();
+    }
+
+    @Override
+    public void openUnitValuePickerEdit(Product product, double weightOld) {
+        UnitValuePicker unitValuePicker = new UnitValuePicker(getContext(), product, weight -> {
+            presenter.addProductWithWeightToListEdit(product,weight);
+        },weightOld);
+        unitValuePicker.show();
+    }
+
+    @Override
+    public void addProductWithWeightToListEdit(double weight) {
+        presenter.addProductWithWeightToListEditFromInfo(currentPosition,weight);
+
+    }
+
 
     @Override
     public void updateOrderDetials(Order order,Customer customer) {
