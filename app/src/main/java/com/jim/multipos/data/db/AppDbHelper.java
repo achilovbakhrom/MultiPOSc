@@ -57,6 +57,7 @@ import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.CategoryDao;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.ProductDao;
+import com.jim.multipos.data.db.model.products.Return;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.products.VendorDao;
 import com.jim.multipos.data.db.model.products.VendorProductCon;
@@ -338,11 +339,11 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Observable<List<Product>> getAllProducts() {
         return Observable.fromCallable(() ->
-               mDaoSession.getProductDao().queryBuilder()
-                .where(ProductDao.Properties.IsDeleted.eq(false),
-                        ProductDao.Properties.IsActive.eq(true),
-                        ProductDao.Properties.IsNotModified.eq(true))
-                .list());
+                mDaoSession.getProductDao().queryBuilder()
+                        .where(ProductDao.Properties.IsDeleted.eq(false),
+                                ProductDao.Properties.IsActive.eq(true),
+                                ProductDao.Properties.IsNotModified.eq(true))
+                        .list());
     }
 
     @Override
@@ -509,7 +510,6 @@ public class AppDbHelper implements DbHelper {
     public Observable<List<Currency>> getAllCurrencies() {
         return Observable.fromCallable(() -> mDaoSession.getCurrencyDao().loadAll());
     }
-
 
 
     @Override
@@ -1036,7 +1036,10 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public Observable<List<Vendor>> getVendors() {
-        return Observable.fromCallable(() -> mDaoSession.getVendorDao().loadAll());
+        return Observable.fromCallable(() ->
+                mDaoSession.getVendorDao().queryBuilder()
+                .where(VendorDao.Properties.IsDeleted.eq(false))
+                .list());
     }
 
     @Override
@@ -1059,7 +1062,7 @@ public class AppDbHelper implements DbHelper {
                     ProductDao.Properties.Barcode.like("%" + searchText.toUpperCase() + "%"),
                     ProductDao.Properties.Barcode.like("%" + searchText.toUpperCase() + "%"),
                     ProductDao.Properties.Sku.like("%" + searchText.toUpperCase() + "%"),
-                    ProductDao.Properties.Sku.like("%" + searchText.toUpperCase() + "%")).where(ProductDao.Properties.IsNotModified.eq(true),ProductDao.Properties.IsDeleted.eq(false));
+                    ProductDao.Properties.Sku.like("%" + searchText.toUpperCase() + "%")).where(ProductDao.Properties.IsNotModified.eq(true), ProductDao.Properties.IsDeleted.eq(false));
             List<Product> list = queryBuilderCred.build().list();
             for (int i = list.size() - 1; i >= 0; i--) {
                 if (list.get(i).getIsDeleted()) list.remove(i);
@@ -1227,8 +1230,8 @@ public class AppDbHelper implements DbHelper {
         return Single.create(e -> {
             List<Consignment> consignmentList = mDaoSession.queryBuilder(Consignment.class)
                     .where(ConsignmentDao.Properties.VendorId.eq(vendorId),
-                           ConsignmentDao.Properties.IsNotModified.eq(true),
-                           ConsignmentDao.Properties.IsDeleted.eq(false))
+                            ConsignmentDao.Properties.IsNotModified.eq(true),
+                            ConsignmentDao.Properties.IsDeleted.eq(false))
                     .build()
                     .list();
             e.onSuccess(consignmentList);
@@ -1276,7 +1279,7 @@ public class AppDbHelper implements DbHelper {
                 VendorWithDebt vendorWithDebt = new VendorWithDebt();
                 vendorWithDebt.setVendor(vendor);
                 vendor.resetProducts();
-                String query = "SELECT  SUM(AMOUNT) AS AMOUNT FROM BILLING_OPERATION WHERE IS_NOT_MODIFIED == " + 1 + " AND IS_DELETED == " + 0 +  " GROUP BY VENDOR_ID HAVING VENDOR_ID=?";
+                String query = "SELECT  SUM(AMOUNT) AS AMOUNT FROM BILLING_OPERATION WHERE IS_NOT_MODIFIED == " + 1 + " AND IS_DELETED == " + 0 + " GROUP BY VENDOR_ID HAVING VENDOR_ID=?";
                 Cursor cursor = mDaoSession.getDatabase().rawQuery(query, new String[]{String.valueOf(vendor.getId())});
 
                 if (cursor.getCount() > 0) {
@@ -1297,13 +1300,13 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Single<Double> getVendorDebt(Long vendorId) {
         return Single.create(e -> {
-            double debt=0;
+            double debt = 0;
             String query = "SELECT  SUM(AMOUNT) AS AMOUNT FROM BILLING_OPERATION WHERE IS_NOT_MODIFIED == " + 1 + " AND IS_DELETED == " + 0 + " GROUP BY VENDOR_ID HAVING VENDOR_ID=?";
-            Cursor cursor = mDaoSession.getDatabase().rawQuery(query,  new String[]{String.valueOf(vendorId)});
+            Cursor cursor = mDaoSession.getDatabase().rawQuery(query, new String[]{String.valueOf(vendorId)});
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 debt = cursor.getDouble(cursor.getColumnIndex("AMOUNT"));
-            }else {
+            } else {
                 debt = 0;
             }
             e.onSuccess(debt);
@@ -1326,7 +1329,7 @@ public class AppDbHelper implements DbHelper {
     public Observable<List<BillingOperations>> getBillingOperations() {
         return Observable.fromCallable(() -> mDaoSession.queryBuilder(BillingOperations.class)
                 .where(BillingOperationsDao.Properties.IsDeleted.eq(false),
-                       BillingOperationsDao.Properties.IsNotModified.eq(true))
+                        BillingOperationsDao.Properties.IsNotModified.eq(true))
                 .build()
                 .list());
     }
@@ -1336,8 +1339,8 @@ public class AppDbHelper implements DbHelper {
         return Single.create(e -> {
             List<BillingOperations> billingOperations = mDaoSession.queryBuilder(BillingOperations.class)
                     .where(BillingOperationsDao.Properties.ConsignmentId.eq(consignmentId),
-                           BillingOperationsDao.Properties.IsNotModified.eq(true),
-                           BillingOperationsDao.Properties.IsDeleted.eq(false))
+                            BillingOperationsDao.Properties.IsNotModified.eq(true),
+                            BillingOperationsDao.Properties.IsDeleted.eq(false))
                     .build()
                     .list();
             e.onSuccess(billingOperations.get(0));
@@ -1349,8 +1352,8 @@ public class AppDbHelper implements DbHelper {
         return Single.create(e -> {
             List<BillingOperations> billingOperations = mDaoSession.queryBuilder(BillingOperations.class)
                     .where(BillingOperationsDao.Properties.Id.eq(firstPayId),
-                           BillingOperationsDao.Properties.IsNotModified.eq(true),
-                           BillingOperationsDao.Properties.IsDeleted.eq(false))
+                            BillingOperationsDao.Properties.IsNotModified.eq(true),
+                            BillingOperationsDao.Properties.IsDeleted.eq(false))
                     .build()
                     .list();
             e.onSuccess(billingOperations.get(0));
@@ -1387,15 +1390,15 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Single<List<BillingOperations>> getBillingOperationInteval(Long vendorId, Calendar fromDate, Calendar toDate) {
         return Single.create(e -> {
-            fromDate.set(Calendar.HOUR_OF_DAY,0);
-            fromDate.set(Calendar.MINUTE,0);
-            fromDate.set(Calendar.SECOND,0);
-            fromDate.set(Calendar.MILLISECOND,0);
+            fromDate.set(Calendar.HOUR_OF_DAY, 0);
+            fromDate.set(Calendar.MINUTE, 0);
+            fromDate.set(Calendar.SECOND, 0);
+            fromDate.set(Calendar.MILLISECOND, 0);
 
-            toDate.set(Calendar.HOUR_OF_DAY,23);
-            toDate.set(Calendar.MINUTE,59);
-            toDate.set(Calendar.SECOND,59);
-            toDate.set(Calendar.MILLISECOND,9999);
+            toDate.set(Calendar.HOUR_OF_DAY, 23);
+            toDate.set(Calendar.MINUTE, 59);
+            toDate.set(Calendar.SECOND, 59);
+            toDate.set(Calendar.MILLISECOND, 9999);
 
             List<BillingOperations> billingOperations = mDaoSession.getBillingOperationsDao().queryBuilder()
                     .where(BillingOperationsDao.Properties.PaymentDate.ge(fromDate.getTimeInMillis()),
@@ -1509,12 +1512,12 @@ public class AppDbHelper implements DbHelper {
                 .build().list();
         //TODO FAKE
 //        if(currencies.get(0) == null){
-            Currency currency = new Currency();
-            currency.setAbbr("uzs");
-            currency.setIsMain(true);
-            currency.setActive(true);
-            currency.setName("Uzb");
-            return currency;
+        Currency currency = new Currency();
+        currency.setAbbr("uzs");
+        currency.setIsMain(true);
+        currency.setActive(true);
+        currency.setName("Uzb");
+        return currency;
 //        }
 //        return currencies.get(0);
     }
@@ -1546,15 +1549,15 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Single<List<Consignment>> getConsignmentsInInterval(Long vendorId, Calendar fromDate, Calendar toDate) {
         return Single.create(e -> {
-            fromDate.set(Calendar.HOUR_OF_DAY,0);
-            fromDate.set(Calendar.MINUTE,0);
-            fromDate.set(Calendar.SECOND,0);
-            fromDate.set(Calendar.MILLISECOND,0);
+            fromDate.set(Calendar.HOUR_OF_DAY, 0);
+            fromDate.set(Calendar.MINUTE, 0);
+            fromDate.set(Calendar.SECOND, 0);
+            fromDate.set(Calendar.MILLISECOND, 0);
 
-            toDate.set(Calendar.HOUR_OF_DAY,23);
-            toDate.set(Calendar.MINUTE,59);
-            toDate.set(Calendar.SECOND,59);
-            toDate.set(Calendar.MILLISECOND,9999);
+            toDate.set(Calendar.HOUR_OF_DAY, 23);
+            toDate.set(Calendar.MINUTE, 59);
+            toDate.set(Calendar.SECOND, 59);
+            toDate.set(Calendar.MILLISECOND, 9999);
 
             List<Consignment> consignments = mDaoSession.getConsignmentDao().queryBuilder()
                     .where(ConsignmentDao.Properties.CreatedDate.ge(fromDate.getTimeInMillis()),
@@ -1584,8 +1587,8 @@ public class AppDbHelper implements DbHelper {
             List<Customer> customerList = mDaoSession
                     .queryBuilder(Customer.class)
                     .where(CustomerDao.Properties.IsNotModifyted.eq(true),
-                           CustomerDao.Properties.IsDeleted.eq(false),
-                           CustomerDao.Properties.IsActive.eq(true))
+                            CustomerDao.Properties.IsDeleted.eq(false),
+                            CustomerDao.Properties.IsActive.eq(true))
                     .build().list();
             List<Customer> newCustomerList = new ArrayList<>();
             for (int i = 0; i < customerList.size(); i++) {
@@ -1599,8 +1602,8 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Single<Boolean> insertDebt(Debt debt) {
         return Single.create(singleSubscriber -> {
-                mDaoSession.getDebtDao().insertOrReplace(debt);
-                singleSubscriber.onSuccess(true);
+            mDaoSession.getDebtDao().insertOrReplace(debt);
+            singleSubscriber.onSuccess(true);
         });
     }
 
@@ -1610,7 +1613,7 @@ public class AppDbHelper implements DbHelper {
             List<Debt> debts = mDaoSession
                     .queryBuilder(Debt.class)
                     .where(DebtDao.Properties.CustomerId.eq(id),
-                           DebtDao.Properties.Status.eq(Debt.ACTIVE))
+                            DebtDao.Properties.Status.eq(Debt.ACTIVE))
                     .build().list();
             e.onSuccess(debts);
         });
@@ -1629,6 +1632,23 @@ public class AppDbHelper implements DbHelper {
         return Single.create(singleSubscriber -> {
             mDaoSession.getCustomerPaymentDao().insertOrReplace(payment);
             singleSubscriber.onSuccess(payment);
+        });
+    }
+
+    @Override
+    public Single<Boolean> insertReturns(List<Return> returnsList) {
+        return Single.create(singleSubscriber -> {
+            mDaoSession.getReturnDao().insertOrReplaceInTx(returnsList);
+            singleSubscriber.onSuccess(true);
+        });
+    }
+
+    @Override
+    public Single<List<VendorProductCon>> getVendorProductConnectionByVendorId(Long vendorId) {
+        return Single.create(singleSubscriber -> {
+           List<VendorProductCon>  list = mDaoSession.queryBuilder(VendorProductCon.class)
+                    .where(VendorProductConDao.Properties.VendorId.eq(vendorId)).list();
+            singleSubscriber.onSuccess(list);
         });
     }
 }

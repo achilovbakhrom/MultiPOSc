@@ -18,10 +18,9 @@ import com.jim.multipos.ui.mainpospage.view.ProductPickerView;
  */
 
 public class MainPageConnection {
-    OrderListView orderListView;
-    ProductInfoView productInfoView;
-
-    ProductPickerView productPickerView;
+    private OrderListView orderListView;
+    private ProductInfoView productInfoView;
+    private ProductPickerView productPickerView;
 
     private Context context;
     public MainPageConnection(Context context){

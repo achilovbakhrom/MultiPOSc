@@ -18,4 +18,5 @@ public interface ProductSquareViewPresenter extends Presenter {
     void refreshProducts();
     void setSelectedCategory(int lastPositionCategory);
     void setSelectedSubCategory(int lastPositionSubCategory);
+    void updateTitles();
 }

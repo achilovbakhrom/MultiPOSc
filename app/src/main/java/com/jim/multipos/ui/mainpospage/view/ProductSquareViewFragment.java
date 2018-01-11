@@ -194,4 +194,8 @@ public class ProductSquareViewFragment extends BaseFragment implements ProductSq
     public void sendEvent(Category category, String subcategoryTitle) {
         mainPageConnection.sendSelectedCategory(category, subcategoryTitle);
     }
+
+    public void onShow() {
+        presenter.updateTitles();
+    }
 }

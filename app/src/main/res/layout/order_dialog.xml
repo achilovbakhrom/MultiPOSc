@@ -9,9 +9,7 @@
     <TextView
         android:id="@+id/tvHeldOrders"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/ten_dp"
-        android:layout_marginTop="@dimen/twenty_dp"
+        android:layout_height="@dimen/forty_dp"
         android:gravity="center"
         android:text="Held Orders" />
 
@@ -25,9 +23,7 @@
     <TextView
         android:id="@+id/tvTodayOrders"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/ten_dp"
-        android:layout_marginTop="@dimen/ten_dp"
+        android:layout_height="@dimen/forty_dp"
         android:gravity="center"
         android:text="Today's Orders" />
 
@@ -41,9 +37,7 @@
     <TextView
         android:id="@+id/tvClose"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/ten_dp"
-        android:layout_marginTop="@dimen/ten_dp"
+        android:layout_height="@dimen/forty_dp"
         android:gravity="center"
         android:text="Close" />
 </LinearLayout>

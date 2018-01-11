@@ -8,5 +8,5 @@ import com.jim.multipos.data.db.model.customer.Customer;
  */
 
 public interface CustomerNotificationsPresenter extends Presenter {
-    void setData(Customer customerId);
+    void setData(Long customerId);
 }

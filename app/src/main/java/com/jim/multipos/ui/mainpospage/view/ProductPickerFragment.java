@@ -2,6 +2,7 @@ package com.jim.multipos.ui.mainpospage.view;
 
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
@@ -15,9 +16,6 @@ import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.ui.mainpospage.connection.MainPageConnection;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.RxBusLocal;
-import com.jim.multipos.utils.rxevents.CategoryEvent;
-import com.jim.multipos.utils.rxevents.MessageEvent;
-import com.jim.multipos.utils.rxevents.MessageWithIdEvent;
 import com.jim.multipos.utils.rxevents.OrderProductAddEvent;
 import com.jim.multipos.utils.rxevents.ProductEvent;
 
@@ -28,8 +26,6 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.disposables.Disposable;
-
-import static com.jim.multipos.ui.consignment.ConsignmentActivity.PRODUCT_ID;
 
 public class ProductPickerFragment extends BaseFragment implements ProductPickerView {
 
@@ -75,7 +71,7 @@ public class ProductPickerFragment extends BaseFragment implements ProductPicker
                         ProductEvent event = (ProductEvent) o;
                         if (event.getEventType().equals(OPEN_PRODUCT)) {
                             Long id = event.getProduct().getId();
-                            rxBusLocal.send(new OrderProductAddEvent(id,OrderListFragment.PRODUCT_ADD_TO_ORDER));
+                            rxBusLocal.send(new OrderProductAddEvent(id, OrderListFragment.PRODUCT_ADD_TO_ORDER));
                         }
                     }
 
@@ -90,40 +86,78 @@ public class ProductPickerFragment extends BaseFragment implements ProductPicker
         changeViewTypeIcon(viewType);
         switch (viewType) {
             case SQUARE_VIEW:
-                replaceViewFragments(new ProductSquareViewFragment(), String.valueOf(SQUARE_VIEW));
+                showProductSquareViewFragment();
                 break;
             case FOLDER_VIEW:
-                replaceViewFragments(new ProductFolderViewFragment(), String.valueOf(FOLDER_VIEW));
+                showProductFolderViewFragment();
                 break;
         }
     }
 
     @OnClick(R.id.flFolderView)
     void onFolderViewClick() {
-        ProductFolderViewFragment fragment = (ProductFolderViewFragment) fragmentManager.findFragmentByTag(String.valueOf(FOLDER_VIEW));
-        if (fragment == null) {
-            fragment = new ProductFolderViewFragment();
-            replaceViewFragments(fragment, String.valueOf(FOLDER_VIEW));
-            preferencesHelper.setProductListViewType(FOLDER_VIEW);
-            changeViewTypeIcon(FOLDER_VIEW);
-            tvCategory.setText(getResources().getString(R.string.category));
+        ProductSquareViewFragment squareViewFragment = (ProductSquareViewFragment) fragmentManager.findFragmentByTag(String.valueOf(SQUARE_VIEW));
+        if (squareViewFragment != null && squareViewFragment.isVisible()) {
+            hideProductSquareViewFragment();
         }
+        showProductFolderViewFragment();
+        preferencesHelper.setProductListViewType(FOLDER_VIEW);
+        changeViewTypeIcon(FOLDER_VIEW);
     }
 
     @OnClick(R.id.flSquareView)
     void onSquareViewClick() {
-        ProductSquareViewFragment fragment = (ProductSquareViewFragment) fragmentManager.findFragmentByTag(String.valueOf(SQUARE_VIEW));
-        if (fragment == null) {
-            fragment = new ProductSquareViewFragment();
-            replaceViewFragments(fragment, String.valueOf(SQUARE_VIEW));
-            preferencesHelper.setProductListViewType(SQUARE_VIEW);
-            changeViewTypeIcon(SQUARE_VIEW);
+        ProductFolderViewFragment folderViewFragment = (ProductFolderViewFragment) fragmentManager.findFragmentByTag(String.valueOf(FOLDER_VIEW));
+        if (folderViewFragment != null && folderViewFragment.isVisible()) {
+            hideProductFolderViewFragment();
+        }
+        showProductSquareViewFragment();
+        preferencesHelper.setProductListViewType(SQUARE_VIEW);
+        changeViewTypeIcon(SQUARE_VIEW);
+    }
+
+    public void showProductSquareViewFragment() {
+        ProductSquareViewFragment squareViewFragment = (ProductSquareViewFragment) fragmentManager.findFragmentByTag(String.valueOf(SQUARE_VIEW));
+        if (squareViewFragment == null) {
+            squareViewFragment = new ProductSquareViewFragment();
+            addFragmentWithTagStatic(R.id.flProductListContainer, squareViewFragment, String.valueOf(SQUARE_VIEW));
+        } else {
+            fragmentManager.beginTransaction().show(squareViewFragment).commit();
+            squareViewFragment.onShow();
         }
     }
 
-    private void replaceViewFragments(Fragment fragment, String tag) {
+    public void showProductFolderViewFragment() {
+        ProductFolderViewFragment folderViewFragment = (ProductFolderViewFragment) fragmentManager.findFragmentByTag(String.valueOf(FOLDER_VIEW));
+        if (folderViewFragment == null) {
+            folderViewFragment = new ProductFolderViewFragment();
+            addFragmentWithTagStatic(R.id.flProductListContainer, folderViewFragment, String.valueOf(FOLDER_VIEW));
+            tvCategory.setText(getResources().getString(R.string.category));
+        } else {
+            fragmentManager.beginTransaction().show(folderViewFragment).commit();
+            folderViewFragment.onShow();
+        }
+    }
+
+    public void hideProductSquareViewFragment() {
+        ProductSquareViewFragment squareViewFragment = (ProductSquareViewFragment) fragmentManager.findFragmentByTag(String.valueOf(SQUARE_VIEW));
+        if (squareViewFragment != null) {
+            fragmentManager.beginTransaction().hide(squareViewFragment).commit();
+        }
+    }
+
+    public void hideProductFolderViewFragment() {
+        ProductFolderViewFragment folderViewFragment = (ProductFolderViewFragment) fragmentManager.findFragmentByTag(String.valueOf(FOLDER_VIEW));
+        if (folderViewFragment != null) {
+            fragmentManager.beginTransaction().hide(folderViewFragment).commit();
+        }
+    }
+
+
+    private void addFragmentWithTagStatic(@IdRes int containerViewId, Fragment fragment, String tag) {
+        if (fragment.isAdded()) return;
         fragmentManager.beginTransaction()
-                .replace(R.id.flProductListContainer, fragment, tag)
+                .add(containerViewId, fragment, tag)
                 .commit();
     }
 

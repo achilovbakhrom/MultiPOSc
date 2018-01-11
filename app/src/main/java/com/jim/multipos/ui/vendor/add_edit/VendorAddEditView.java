@@ -23,4 +23,6 @@ public interface VendorAddEditView extends BaseView{
     void discardChanges();
     void changeSelectedPosition();
     void sendEvent(String state, Long vendorId);
+    void showVendorHasProductsMessage();
+    void showDeleteDialog();
 }

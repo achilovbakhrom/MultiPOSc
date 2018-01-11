@@ -67,7 +67,7 @@ public class MainMenuDialog extends Dialog {
         setContentView(dialogView);
         llSettingsMenu.setOnClickListener(view -> dismiss());
         tvReturns.setOnClickListener(view -> {
-            ReturnsDialog dialog = new ReturnsDialog(getContext(), databaseManager, decimalFormat);
+            ReturnsDialog dialog = new ReturnsDialog(getContext(), databaseManager, decimalFormat, null);
             dialog.show();
             dismiss();
         });

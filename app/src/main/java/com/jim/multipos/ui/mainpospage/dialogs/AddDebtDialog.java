@@ -96,6 +96,10 @@ public class AddDebtDialog extends Dialog {
                 for (int j = 0; j < suggestionsList.size(); j++) {
                     if (suggestionsList.get(j).getBody().toUpperCase().contains(newQuery.toUpperCase())) {
                         foundSuggestions.add(suggestionsList.get(j));
+                        continue;
+                    }
+                    if (suggestionsList.get(j).getCustomer().getClientId().toString().toUpperCase().contains(newQuery.toUpperCase())) {
+                        foundSuggestions.add(suggestionsList.get(j));
                     }
                 }
                 searchText = newQuery;
@@ -119,8 +123,8 @@ public class AddDebtDialog extends Dialog {
 
             }
         });
-        etFee.setText(String.valueOf(0));
         String[] debtTypes = context.getResources().getStringArray(R.array.debt_type);
+        etFee.setText(String.valueOf(0));
         spDebtType.setAdapter(debtTypes);
         tvDueDate.setText(simpleDateFormat.format(calendar.getTime()));
         GregorianCalendar now = new GregorianCalendar();
@@ -150,9 +154,10 @@ public class AddDebtDialog extends Dialog {
                 flSearchView.setQueryError("Please, choose customer");
             } else if (etAmount.getText().toString().isEmpty()) {
                 etAmount.setError("Please, enter debt amount");
-            } else if (etFee.getText().toString().isEmpty()) {
-                etFee.setError("Please, enter fee amount");
             } else {
+                if (etFee.getText().toString().isEmpty()) {
+                    etFee.setText(String.valueOf(0));
+                }
                 Debt debt = new Debt();
                 debt.setCustomer(customer);
                 debt.setStatus(Debt.ACTIVE);
@@ -163,7 +168,6 @@ public class AddDebtDialog extends Dialog {
                 debt.setDebtType(spDebtType.getSelectedPosition());
                 debt.setOrder(order);
                 listener.onDebtSave(debt);
-//                databaseManager.addDebt(debt).blockingGet();
                 UIUtils.closeKeyboard(btnSave, context);
                 dismiss();
             }

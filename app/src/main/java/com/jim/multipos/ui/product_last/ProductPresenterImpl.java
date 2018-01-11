@@ -477,9 +477,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
                         public void onPositiveButtonClicked() {
-//                            for (int i = 0; i < vendorProductConnectionsList.size(); i++) {
-//                                vendorProductConnectionsList.get(i).setCost(tempCostList.get(i).getCost());
-//                            }
                             vendorProductConnectionsList.clear();
                             vendorProductConnectionsList.addAll(tempCostList);
                             view.setCostValue(savedCosts);
@@ -1115,6 +1112,9 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                         product.setActive(false);
                         product.setDeleted(true);
                         product.setNotModifyted(false);
+                        for (int i = 0; i < inventoryStates.size(); i++) {
+                            databaseManager.deleteInventoryState(inventoryStates.get(i)).subscribe();
+                        }
                         databaseManager.replaceProduct(product).subscribe(aLong -> {
                             if (subcategory != null) {
                                 subcategory.resetProducts();
@@ -1327,7 +1327,8 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                             result.setCategoryId(subcategory.getId());
                             if (ProductPresenterImpl.this.product.getRootId() == null)
                                 result.setRootId(ProductPresenterImpl.this.product.getId());
-                            else result.setRootId(ProductPresenterImpl.this.product.getRootId());
+                            else
+                                result.setRootId(ProductPresenterImpl.this.product.getRootId());
                             ProductPresenterImpl.this.product.setActive(false);
                             ProductPresenterImpl.this.product.setNotModifyted(false);
                             List<Currency> tempCurrencies = databaseManager.getAllCurrencies().blockingSingle();
@@ -1350,18 +1351,21 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                             }
                             result.setDescription(description);
                             databaseManager.replaceProduct(ProductPresenterImpl.this.product).subscribe();
-//                            databaseManager.removeVendorProductConnectionByProductId(ProductPresenterImpl.this.product.getId()).subscribe();
-                            if (deletedStatesList.size() > 0){
-                                for (InventoryState state: deletedStatesList) {
+                            if (deletedStatesList.size() > 0) {
+                                for (InventoryState state : deletedStatesList) {
                                     databaseManager.deleteInventoryState(state).blockingGet();
                                 }
                             }
                             databaseManager.addProduct(result).subscribe(id -> {
                                 for (int i = 0; i < vendors.size(); i++) {
-                                    vendorProductConnectionsList.get(i).setProductId(result.getId());
+//                                    vendorProductConnectionsList.get(i).setProductId(result.getId());
+                                    VendorProductCon productCon = new VendorProductCon();
+                                    productCon.setCost(vendorProductConnectionsList.get(i).getCost());
+                                    productCon.setVendorId(vendorProductConnectionsList.get(i).getVendorId());
+                                    productCon.setProductId(result.getId());
                                     inventoryStates.get(i).setProduct(result);
                                     databaseManager.insertInventoryState(inventoryStates.get(i)).blockingSingle();
-                                    databaseManager.addVendorProductConnection(vendorProductConnectionsList.get(i)).blockingSingle();
+                                    databaseManager.addVendorProductConnection(productCon).blockingSingle();
                                 }
                                 view.editProduct(result);
                                 view.sendEvent(PRODUCT_UPDATE);
@@ -1369,7 +1373,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                                 openProduct(result);
                             });
                         }
-
                     }
 
                     @Override
@@ -1410,11 +1413,11 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
         String result = "";
         int count = 0;
         boolean isAllowed = true; // если vendor не имеет продуктов на складе, то isAllowed true
-        boolean isFirstTime = true; // true, когда добавляется новый продукт
+        boolean isNewProduct = true; // true, когда добавляется новый продукт
         List<Long> tempExistIds = new ArrayList<>();
         for (int i = 0; i < this.vendorProductConnectionsList.size(); i++) {
             Long vendorId = this.vendorProductConnectionsList.get(i).getVendorId();
-            isFirstTime = false;
+            isNewProduct = false;
             if (!vendors.contains(vendorId)) { // проверка на измениия листа поставщиков
                 for (int j = 0; j < inventoryStates.size(); j++) {
                     if (vendorId.equals(inventoryStates.get(j).getVendorId())) {
@@ -1426,7 +1429,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 numberFormat.setMaximumFractionDigits(2);
                 numberFormat.setMinimumFractionDigits(2);
                 // если какой-то поставщик был убран из листа, то проверяется есть ли у него продукты на складе, при наличии выходить предупреждение и все изменения возвращаются назад
-                if (!numberFormat.format(inventoryState.getValue()).replace(',','.').equals("0.00")) {
+                if (!numberFormat.format(inventoryState.getValue()).replace(',', '.').equals("0.00")) {
                     isAllowed = false;
                     view.showInventoryStateShouldBeEmptyDialog();
                     break;
@@ -1442,7 +1445,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 tempExistIds.add(vendorId); // добавления существующих в новый лист для дальнейшой проверки
             }
         }
-        if (isAllowed || isFirstTime) {
+        if (isAllowed || isNewProduct) {
             for (int i = 0; i < vendors.size(); i++) {
                 if (!tempExistIds.contains(vendors.get(i))) { // если есть новые элементы листа, то для них создается связь с продуктом, со складом
                     VendorProductCon vendorProductCon = new VendorProductCon();
@@ -1450,7 +1453,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     this.vendorProductConnectionsList.add(vendorProductCon);
                     count++;
                     Vendor vendor = databaseManager.getVendorById(vendors.get(i)).blockingSingle();
-                    if (!isFirstTime) { // для новых продуктов не создается связь со складом, так как она делается при записи в БД
+                    if (!isNewProduct) { // для новых продуктов не создается связь со складом, так как она делается при записи в БД
                         InventoryState inventoryState = new InventoryState();
                         inventoryState.setVendor(vendor);
                         inventoryState.setValue(0d);

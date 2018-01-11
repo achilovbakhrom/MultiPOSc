@@ -12,4 +12,5 @@ public interface ProductFolderViewPresenter extends Presenter {
     void selectedItem(FolderItem item);
     void returnBack(int mode);
     void updateProducts();
+    void updateTitles();
 }

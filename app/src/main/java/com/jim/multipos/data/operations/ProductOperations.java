@@ -2,6 +2,7 @@ package com.jim.multipos.data.operations;
 
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.Product;
+import com.jim.multipos.data.db.model.products.Return;
 import com.jim.multipos.data.db.model.products.VendorProductCon;
 
 import java.util.List;
@@ -30,4 +31,6 @@ public interface ProductOperations {
     Observable<Boolean> removeVendorProductConnectionByProductId(Long productId);
     Observable<List<VendorProductCon>> getVendorProductConnectionByProductId(Long productId);
     Observable<VendorProductCon> getVendorProductConnectionById(Long productId, Long vendorId);
+    Single<Boolean> insertReturns(List<Return> returnsList);
+    Single<List<VendorProductCon>> getVendorProductConnectionByVendorId(Long vendorId);
 }

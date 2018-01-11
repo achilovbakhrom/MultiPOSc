@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.jim.mpviews.adapters.SpinnerAdapter;
 import com.jim.mpviews.utils.Utils;
 
 import java.util.ArrayList;
@@ -126,10 +127,12 @@ public class MPosSpinner extends FrameLayout {
     }
 
     public void setAdapter(String[] items) {
-        ArrayAdapter arrayAdapter = new ArrayAdapter<>(getContext(), R.layout.simple_spinner_item, items);
-        ((AppCompatSpinner) findViewById(R.id.spinner))
-                .setAdapter(arrayAdapter);
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        ArrayAdapter arrayAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_gravity_left, items);
+//        ((AppCompatSpinner) findViewById(R.id.spinner))
+//                .setAdapter(arrayAdapter);
+//        arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        SpinnerAdapter adapter = new SpinnerAdapter(getContext(), items);
+        ((AppCompatSpinner) findViewById(R.id.spinner)).setAdapter(adapter);
     }
 
     public void setArrowTint(int color) {

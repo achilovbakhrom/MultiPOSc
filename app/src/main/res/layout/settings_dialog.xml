@@ -9,8 +9,7 @@
     <TextView
         android:id="@+id/tvCashManagement"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/ten_dp"
+        android:layout_height="@dimen/forty_dp"
         android:layout_marginTop="@dimen/twenty_dp"
         android:gravity="center"
         android:text="Cash management" />
@@ -25,9 +24,7 @@
     <TextView
         android:id="@+id/tvReturns"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/ten_dp"
-        android:layout_marginTop="@dimen/ten_dp"
+        android:layout_height="@dimen/forty_dp"
         android:gravity="center"
         android:text="Returns" />
 
@@ -41,9 +38,7 @@
     <TextView
         android:id="@+id/tvSettings"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/ten_dp"
-        android:layout_marginTop="@dimen/ten_dp"
+        android:layout_height="@dimen/forty_dp"
         android:gravity="center"
         android:text="Settings" />
 
@@ -57,9 +52,7 @@
     <TextView
         android:id="@+id/tvLogOut"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/ten_dp"
-        android:layout_marginTop="@dimen/ten_dp"
+        android:layout_height="@dimen/forty_dp"
         android:gravity="center"
         android:text="Log out" />
 
@@ -73,10 +66,8 @@
     <TextView
         android:id="@+id/tvClose"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/ten_dp"
-        android:layout_marginTop="@dimen/ten_dp"
+        android:layout_height="@dimen/forty_dp"
         android:gravity="center"
-        android:text="Close" />
+        android:text="@string/close" />
 
 </LinearLayout>

@@ -46,12 +46,14 @@ public class VendorItemAdapter extends ClickableBaseAdapter<VendorWithDebt, Vend
         this.context = context;
         this.decimalFormat = decimalFormat;
     }
-    public void setSearchResult(List<VendorWithDebt> searchResult,String searchText){
+
+    public void setSearchResult(List<VendorWithDebt> searchResult, String searchText) {
         this.searchText = searchText;
         searchMode = true;
         items = searchResult;
     }
-    public void setData(List<VendorWithDebt> items){
+
+    public void setData(List<VendorWithDebt> items) {
         this.items = items;
         searchMode = false;
     }
@@ -65,10 +67,10 @@ public class VendorItemAdapter extends ClickableBaseAdapter<VendorWithDebt, Vend
     @Override
     public void onBindViewHolder(VendorItemViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
-        if(position%2==0) holder.llBackground.setBackgroundColor(Color.parseColor("#f9f9f9"));
+        if (position % 2 == 0) holder.llBackground.setBackgroundColor(Color.parseColor("#f9f9f9"));
         else holder.llBackground.setBackgroundColor(Color.parseColor("#f0f0f0"));
         VendorWithDebt vendorWithDebt = items.get(position);
-        if(!searchMode) {
+        if (!searchMode) {
             setUnderlineText(holder.tvVendorName, vendorWithDebt.getVendor().getName());
 
             holder.tvContactName.setText(context.getString(R.string.contact_name_two_dots) + " " + vendorWithDebt.getVendor().getContactName());
@@ -97,20 +99,22 @@ public class VendorItemAdapter extends ClickableBaseAdapter<VendorWithDebt, Vend
 
 
             StringBuilder builder = new StringBuilder();
-            for (Product product:vendorWithDebt.getVendor().getProducts()) {
-                builder.append(product.getName());
-                builder.append(" | ");
+            for (Product product : vendorWithDebt.getVendor().getProducts()) {
+                if (product.getIsDeleted().equals(false) && product.getIsNotModified().equals(true)) {
+                    builder.append(product.getName());
+                    builder.append(" | ");
+                }
 
             }
-            if(builder.toString().length()>2) {
+            if (builder.toString().length() > 2) {
                 builder.deleteCharAt(builder.length() - 1);
                 builder.deleteCharAt(builder.length() - 1);
             }
             holder.tvProductNames.setMaxLines(5);
             holder.tvProductNames.setText(builder.toString());
-        }else {
-            colorSubSeqUnderLine(vendorWithDebt.getVendor().getName(),searchText,Color.parseColor("#95ccee"),holder.tvVendorName);
-            colorSubSeq(context.getString(R.string.contact_name_two_dots) + " " + vendorWithDebt.getVendor().getContactName(),searchText,Color.parseColor("#95ccee"),holder.tvContactName);
+        } else {
+            colorSubSeqUnderLine(vendorWithDebt.getVendor().getName(), searchText, Color.parseColor("#95ccee"), holder.tvVendorName);
+            colorSubSeq(context.getString(R.string.contact_name_two_dots) + " " + vendorWithDebt.getVendor().getContactName(), searchText, Color.parseColor("#95ccee"), holder.tvContactName);
 
             if (vendorWithDebt.getVendor().getContacts().size() == 0) {
                 holder.tvTel.setVisibility(View.GONE);
@@ -130,30 +134,38 @@ public class VendorItemAdapter extends ClickableBaseAdapter<VendorWithDebt, Vend
                     }
                 }
                 builder.deleteCharAt(builder.length() - 1);
-                colorSubSeq(builder.toString(),searchText,Color.parseColor("#95ccee"),holder.tvTel);
+                colorSubSeq(builder.toString(), searchText, Color.parseColor("#95ccee"), holder.tvTel);
 
             }
 
             boolean haveContains = false;
-            for (Product product:vendorWithDebt.getVendor().getProducts()){
+            for (Product product : vendorWithDebt.getVendor().getProducts()) {
                 haveContains = product.getName().toUpperCase().contains(searchText.toUpperCase());
-                if(haveContains) break;
+                if (haveContains) break;
             }
 
             StringBuilder builder = new StringBuilder();
-            for (Product product:vendorWithDebt.getVendor().getProducts()) {
-                if(haveContains  && (!product.getName().toUpperCase().contains(searchText.toUpperCase()))) continue;
-                builder.append(product.getName());
-                builder.append(" | ");
+            for (Product product : vendorWithDebt.getVendor().getProducts()) {
+                if (haveContains && (!product.getName().toUpperCase().contains(searchText.toUpperCase())))
+                    continue;
+                if (product.getIsDeleted().equals(false) && product.getIsNotModified().equals(true)) {
+                    builder.append(product.getName());
+                    builder.append(" | ");
+                }
             }
-            if(builder.toString().length()>2) {
+            if (builder.toString().length() > 2) {
                 builder.deleteCharAt(builder.length() - 1);
                 builder.deleteCharAt(builder.length() - 1);
             }
-            colorSubSeq(builder.toString(),searchText,Color.parseColor("#95ccee"),holder.tvProductNames);
+            colorSubSeq(builder.toString(), searchText, Color.parseColor("#95ccee"), holder.tvProductNames);
         }
-
-        holder.tvProductCount.setText(context.getString(R.string.product_count_two_dots) + " " + decimalFormat.format(vendorWithDebt.getVendor().getProducts().size()));
+        int size = 0;
+        for (int i = 0; i < vendorWithDebt.getVendor().getProducts().size(); i++) {
+            Product product = vendorWithDebt.getVendor().getProducts().get(i);
+            if (product.getIsDeleted().equals(false) && product.getIsNotModified().equals(true))
+                size++;
+        }
+        holder.tvProductCount.setText(context.getString(R.string.product_count_two_dots) + " " + decimalFormat.format(size));
         holder.tvDebtAmmount.setText(decimalFormat.format(vendorWithDebt.getDebt()));
     }
 
@@ -163,12 +175,17 @@ public class VendorItemAdapter extends ClickableBaseAdapter<VendorWithDebt, Vend
         return new VendorItemViewHolder(view);
     }
 
-    public interface OnVendorAdapterCallback{
+    public interface OnVendorAdapterCallback {
         void onIncomeProduct(VendorWithDebt vendorWithDebt);
+
         void onWriteOff(VendorWithDebt vendorWithDebt);
+
         void onConsigmentStory(VendorWithDebt vendorWithDebt);
+
         void onPay(VendorWithDebt vendorWithDebt);
-        void onPayStory(VendorWithDebt vendorWithDebt,Double totalDebt);
+
+        void onPayStory(VendorWithDebt vendorWithDebt, Double totalDebt);
+
         void onMore(VendorWithDebt vendorWithDebt);
     }
 
@@ -202,22 +219,25 @@ public class VendorItemAdapter extends ClickableBaseAdapter<VendorWithDebt, Vend
 
         @BindView(R.id.llBackground)
         LinearLayout llBackground;
+
         public VendorItemViewHolder(View itemView) {
             super(itemView);
             ivPayment.setOnClickListener(view1 -> onVendorAdapterCallback.onPay(items.get(getAdapterPosition())));
-            ivPaymentsStory.setOnClickListener(view1 -> onVendorAdapterCallback.onPayStory(items.get(getAdapterPosition()),items.get(getAdapterPosition()).getDebt()));
+            ivPaymentsStory.setOnClickListener(view1 -> onVendorAdapterCallback.onPayStory(items.get(getAdapterPosition()), items.get(getAdapterPosition()).getDebt()));
             ivBackReturn.setOnClickListener(view1 -> onVendorAdapterCallback.onWriteOff(items.get(getAdapterPosition())));
             ivIncome.setOnClickListener(view1 -> onVendorAdapterCallback.onIncomeProduct(items.get(getAdapterPosition())));
             tvMore.setOnClickListener(view1 -> onVendorAdapterCallback.onMore(items.get(getAdapterPosition())));
             ivStoryConsigment.setOnClickListener(view1 -> onVendorAdapterCallback.onConsigmentStory(items.get(getAdapterPosition())));
         }
     }
-    public void setUnderlineText(TextView textView, String text){
+
+    public void setUnderlineText(TextView textView, String text) {
         SpannableString content = new SpannableString(text);
         content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
         textView.setText(content);
     }
-    public  void  colorSubSeq(String text, String whichWordColor, int colorCode, TextView textView) {
+
+    public void colorSubSeq(String text, String whichWordColor, int colorCode, TextView textView) {
         String textUpper = text.toUpperCase();
         String whichWordColorUpper = whichWordColor.toUpperCase();
         SpannableString ss = new SpannableString(text);
