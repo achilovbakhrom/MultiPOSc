@@ -14,14 +14,14 @@
                 android:layout_width="@dimen/twenty_dp"
                 android:layout_height="@dimen/twenty_dp"
                 android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/fifteen_dp"
+                android:layout_marginLeft="@dimen/twenty_dp"
+                android:layout_marginRight="@dimen/ten_dp"
                 android:gravity="left"
                 android:tint="@color/colorBlue" />
 
             <FrameLayout
                 android:layout_width="1px"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/four_dp"
                 android:layout_marginRight="@dimen/ten_dp"
                 android:background="@color/colorTextHint" />
 

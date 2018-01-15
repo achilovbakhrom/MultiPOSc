@@ -2,7 +2,45 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorBackground"
     android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/ten_dp"
+        android:paddingLeft="@dimen/thirty_dp"
+        android:paddingRight="@dimen/thirty_dp"
+        android:paddingTop="@dimen/ten_dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:paddingBottom="@dimen/five_dp"
+            android:paddingRight="@dimen/ten_dp"
+            android:paddingTop="@dimen/five_dp"
+            android:text="Account: "
+            android:textColor="@color/colorBlue"
+            android:textSize="@dimen/eighteen_dp" />
+
+        <com.jim.mpviews.MPosSpinner
+            android:id="@+id/spAccounts"
+            android:layout_width="@dimen/hundred_eighty_dp"
+            android:layout_height="@dimen/forty_dp" />
+
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginBottom="@dimen/twenty_dp"
+        android:background="@color/colorTextHint" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,180 +58,120 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Total Starting cash:"
-                android:textColor="@color/colorMainText" />
+                android:layout_gravity="center"
+                android:text="Date Opened: "
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/sixteen_dp" />
 
-            <LinearLayout
+            <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="4/12/2018"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/sixteen_dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="Date Closed: "
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/sixteen_dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="N/A"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/sixteen_dp" />
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/ten_dp"
+            android:layout_marginBottom="@dimen/fifteen_dp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pay - Outs:"
-                android:textColor="@color/colorMainText" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/ten_dp"
-            android:orientation="horizontal">
+                android:layout_gravity="center"
+                android:text="Time Opened: "
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/sixteen_dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pay - Ins:"
-                android:textColor="@color/colorMainText" />
+                android:layout_gravity="center"
+                android:text="3:22 PM"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/sixteen_dp" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/ten_dp"
-            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="Time Closed: "
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/sixteen_dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pay to Vendors:"
-                android:textColor="@color/colorMainText" />
+                android:layout_gravity="center"
+                android:text="N/A"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/sixteen_dp" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/ten_dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Bank Drops:"
-                android:textColor="@color/colorMainText" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <FrameLayout
+            android:id="@+id/flCashDetails"
             android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_marginBottom="@dimen/ten_dp"
-            android:layout_marginTop="@dimen/ten_dp"
-            android:background="@color/colorTextHint" />
+            android:layout_height="@dimen/three_hundred_fifty_dp" />
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/ten_dp"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content">
 
-            <TextView
+            <ImageView
+                android:id="@+id/ivLeft"
+                android:clickable="true"
+                android:layout_width="@dimen/forty_five_dp"
+                android:layout_height="@dimen/forty_five_dp"
+                android:src="@drawable/btn_with_left_arrow_selector" />
+
+            <ImageView
+                android:id="@+id/ivRight"
+                android:clickable="true"
+                android:layout_width="@dimen/forty_five_dp"
+                android:layout_height="@dimen/forty_five_dp"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/btn_with_right_arrow_selector" />
+
+            <com.jim.mpviews.CircleIndicator
+                android:id="@+id/ciAccountsIndicator"
+                android:layout_centerInParent="true"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Cash transactions:"
-                android:textColor="@color/colorMainText" />
+                android:layout_height="@dimen/thirty_dp" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+        </RelativeLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/ten_dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Debt Sales:"
-                android:textColor="@color/colorMainText" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/ten_dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Coins Dispensed:"
-                android:textColor="@color/colorMainText" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/ten_dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Expected cash in Till:"
-                android:textColor="@color/colorMainText" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_marginBottom="@dimen/ten_dp"
-            android:layout_marginTop="@dimen/ten_dp"
-            android:background="@color/colorTextHint" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/ten_dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Difference:"
-                android:textColor="@color/colorMainText" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
     </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginBottom="@dimen/ten_dp"
+        android:layout_marginTop="@dimen/ten_dp"
+        android:background="@color/colorTextHint" />
 
 </LinearLayout>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <com.jim.mpviews.MpSwitcher
+        android:id="@+id/swCloseTill"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/fifty_dp"
+        android:layout_marginBottom="@dimen/fifteen_dp"
+        android:layout_marginLeft="@dimen/thirty_dp"
+        android:layout_marginTop="@dimen/twenty_three_dp"
+        android:gravity="left"
+        app:text_left="Zero in till"
+        app:text_right="Hold in till" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/forty_dp"
+        android:background="@color/colorBlue"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="@dimen/hundred_eighty_dp"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/thirty_dp"
+            android:text="Account"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/sixteen_dp" />
+
+        <TextView
+            android:layout_width="@dimen/two_hundred_fifty_dp"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|right"
+            android:paddingRight="@dimen/ten_dp"
+            android:text="Total closed"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/sixteen_dp" />
+
+        <TextView
+            android:layout_width="@dimen/hundred_thirty_five_dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Currency"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/sixteen_dp" />
+
+        <TextView
+            android:layout_width="@dimen/two_hundred_ten_dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="@dimen/thirty_dp"
+            android:gravity="center"
+            android:text="@string/description"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/sixteen_dp" />
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:background="@color/colorBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

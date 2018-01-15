@@ -15,6 +15,7 @@ import com.jim.multipos.core.DoubleSideActivity;
 import com.jim.multipos.core.MainPageDoubleSideActivity;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.customer.Customer;
+import com.jim.multipos.ui.cash_management.CashManagementActivity;
 import com.jim.multipos.ui.main_menu.customers_menu.CustomersMenuActivity;
 import com.jim.multipos.ui.main_menu.inventory_menu.InventoryMenuActivity;
 import com.jim.multipos.ui.main_menu.product_menu.ProductMenuActivity;
@@ -79,7 +80,13 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
         });
 
         toolbar.setOnSettingsClickListener(view -> {
-            MainMenuDialog mainMenuDialog = new MainMenuDialog(this, databaseManager, decimalFormat);
+            MainMenuDialog mainMenuDialog = new MainMenuDialog(this, databaseManager, decimalFormat, new MainMenuDialog.onMenuItemClickListener() {
+                @Override
+                public void onCashManagement() {
+                    Intent intent = new Intent(getBaseContext(), CashManagementActivity.class);
+                    startActivity(intent);
+                }
+            });
             mainMenuDialog.show();
         });
         toolbar.setOnCustomerClickListener(view -> {

@@ -258,13 +258,13 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
 
     @Override
     public void openDiscountDialog(DiscountDialog.CallbackDiscountDialog callbackDiscountDialog, double orginalAmount) {
-        DiscountDialog discountDialog = new DiscountDialog(getContext(), databaseManager,callbackDiscountDialog,orginalAmount,Discount.ORDER);
+        DiscountDialog discountDialog = new DiscountDialog(getContext(), databaseManager,callbackDiscountDialog,orginalAmount,Discount.ORDER, decimalFormat);
         discountDialog.show();
     }
 
     @Override
     public void openSericeFeeDialog(ServiceFeeDialog.CallbackServiceFeeDialog callbackServiceFeeDialog, double orginalAmount) {
-        ServiceFeeDialog serviceFeeDialog = new ServiceFeeDialog(getContext(),databaseManager,callbackServiceFeeDialog,orginalAmount,ServiceFee.ORDER);
+        ServiceFeeDialog serviceFeeDialog = new ServiceFeeDialog(getContext(),databaseManager,callbackServiceFeeDialog,orginalAmount,ServiceFee.ORDER, decimalFormat);
         serviceFeeDialog.show();
     }
 

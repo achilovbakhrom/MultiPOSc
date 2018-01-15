@@ -54,7 +54,7 @@ public class AddServiceFeeDialog extends Dialog {
     private double resultPrice = 0;
     private double serviceAmount = 0;
 
-    public AddServiceFeeDialog(@NonNull Context context, DatabaseManager databaseManager, double price, int serviceType,ServiceFeeDialog.CallbackServiceFeeDialog callbackServiceFeeDialog) {
+    public AddServiceFeeDialog(@NonNull Context context, DatabaseManager databaseManager, double price, int serviceType, ServiceFeeDialog.CallbackServiceFeeDialog callbackServiceFeeDialog, DecimalFormat formatter) {
         super(context);
         this.serviceType = serviceType;
         this.callbackServiceFeeDialog = callbackServiceFeeDialog;
@@ -64,13 +64,6 @@ public class AddServiceFeeDialog extends Dialog {
         setContentView(dialogView);
         View v = getWindow().getDecorView();
         v.setBackgroundResource(android.R.color.transparent);
-        DecimalFormat formatter;
-        NumberFormat numberFormat = NumberFormat.getNumberInstance();
-        numberFormat.setMaximumFractionDigits(2);
-        formatter = (DecimalFormat) numberFormat;
-        DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
-        symbols.setGroupingSeparator(' ');
-        formatter.setDecimalFormatSymbols(symbols);
 
         tvPrice.setText(formatter.format(price));
         String abbr = databaseManager.getMainCurrency().getAbbr();

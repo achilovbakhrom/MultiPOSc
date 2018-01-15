@@ -22,7 +22,6 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.util.Locale;
 import java.util.logging.Handler;
 
 import butterknife.BindView;
@@ -59,7 +58,7 @@ public class AddDiscountDialog extends Dialog {
     private double discountValue = 0;
     private boolean on = false;
 
-    public AddDiscountDialog(@NonNull Context context, DatabaseManager databaseManager, double price, int discountType,DiscountDialog.CallbackDiscountDialog callbackDiscountDialog) {
+    public AddDiscountDialog(@NonNull Context context, DatabaseManager databaseManager, double price, int discountType,DiscountDialog.CallbackDiscountDialog callbackDiscountDialog, DecimalFormat formatter) {
         super(context);
         this.discountType = discountType;
         this.callbackDiscountDialog = callbackDiscountDialog;
@@ -69,13 +68,6 @@ public class AddDiscountDialog extends Dialog {
         setContentView(dialogView);
         View v = getWindow().getDecorView();
         v.setBackgroundResource(android.R.color.transparent);
-        DecimalFormat formatter;
-        NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
-        numberFormat.setMaximumFractionDigits(2);
-        formatter = (DecimalFormat) numberFormat;
-        DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
-        symbols.setGroupingSeparator(' ');
-        formatter.setDecimalFormatSymbols(symbols);
 
         tvPrice.setText(formatter.format(price));
         String abbr = databaseManager.getMainCurrency().getAbbr();

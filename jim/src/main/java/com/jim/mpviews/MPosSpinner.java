@@ -3,6 +3,7 @@ package com.jim.mpviews;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatSpinner;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.jim.mpviews.adapters.ListSpinnerAdapter;
 import com.jim.mpviews.adapters.SpinnerAdapter;
 import com.jim.mpviews.utils.Utils;
 
@@ -58,6 +60,7 @@ public class MPosSpinner extends FrameLayout {
         setBackgroundResource(R.drawable.edit_text_bg);
         AppCompatSpinner spinner = new AppCompatSpinner(context);
         spinner.setId(R.id.spinner);
+        spinner.setBackground(null);
         LayoutParams lp = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         lp.topMargin = Utils.dpToPx(2);
         lp.bottomMargin = Utils.dpToPx(2);
@@ -86,8 +89,10 @@ public class MPosSpinner extends FrameLayout {
 
         ImageView imageView = new ImageView(context);
         imageView.setId(R.id.spinner_arrow);
-        LayoutParams ivLp = new LayoutParams(Utils.dpToPx(20), Utils.dpToPx(20));
-        ivLp.rightMargin = Utils.dpToPx(4);
+        imageView.setImageDrawable(getResources().getDrawable(R.drawable.triangle));
+        imageView.setImageTintList(ContextCompat.getColorStateList(getContext(), android.R.color.black));
+        LayoutParams ivLp = new LayoutParams(Utils.dpToPx(10), Utils.dpToPx(8));
+        ivLp.rightMargin = Utils.dpToPx(10);
         ivLp.gravity = Gravity.RIGHT | Gravity.CENTER_VERTICAL;
         imageView.setLayoutParams(ivLp);
         addView(imageView);
@@ -122,28 +127,30 @@ public class MPosSpinner extends FrameLayout {
         setAdapter(items);
     }
 
+    public Integer getCount(){
+        return ((AppCompatSpinner) findViewById(R.id.spinner)).getAdapter().getCount();
+    }
+
     public void setAdapter(BaseAdapter adapter) {
         ((AppCompatSpinner) findViewById(R.id.spinner)).setAdapter(adapter);
     }
 
     public void setAdapter(String[] items) {
-//        ArrayAdapter arrayAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_gravity_left, items);
-//        ((AppCompatSpinner) findViewById(R.id.spinner))
-//                .setAdapter(arrayAdapter);
-//        arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         SpinnerAdapter adapter = new SpinnerAdapter(getContext(), items);
         ((AppCompatSpinner) findViewById(R.id.spinner)).setAdapter(adapter);
     }
 
+    public void setSpinnerBackground(int res){
+        setBackgroundResource(res);
+    }
+
     public void setArrowTint(int color) {
-        ((ImageView) findViewById(R.id.spinner_arrow)).setColorFilter(color);
+        ((ImageView) findViewById(R.id.spinner_arrow)).setImageTintList(ContextCompat.getColorStateList(getContext(), color));
     }
 
     public void setAdapter(List<String> items) {
-        ArrayAdapter arrayAdapter = new ArrayAdapter<>(getContext(), R.layout.simple_spinner_item, items);
-        ((AppCompatSpinner) findViewById(R.id.spinner))
-                .setAdapter(arrayAdapter);
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ListSpinnerAdapter adapter = new ListSpinnerAdapter(getContext(), items);
+        ((AppCompatSpinner) findViewById(R.id.spinner)).setAdapter(adapter);
     }
 
     public interface ItemSelectionListener {

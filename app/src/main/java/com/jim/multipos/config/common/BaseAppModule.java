@@ -21,6 +21,7 @@ import org.greenrobot.greendao.database.Database;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
+import java.util.Locale;
 
 import javax.inject.Singleton;
 
@@ -70,7 +71,7 @@ public abstract class BaseAppModule {
     @Singleton
     static DecimalFormat getFormatter() {
         DecimalFormat formatter;
-        NumberFormat numberFormat = NumberFormat.getNumberInstance();
+        NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
         numberFormat.setMaximumFractionDigits(2);
         formatter = (DecimalFormat) numberFormat;
         DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();

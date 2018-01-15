@@ -15,9 +15,10 @@ import com.jim.multipos.R;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.ui.mainpospage.adapter.DiscountAdapter;
-import com.jim.multipos.utils.UIUtils;
 
+import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,7 +49,7 @@ public class DiscountDialog extends Dialog implements DiscountAdapter.OnClickLis
         void choiseStaticDiscount(Discount discount);
         void choiseManualDiscount(Discount discount);
     }
-    public DiscountDialog(@NonNull Context context, DatabaseManager databaseManager, CallbackDiscountDialog callbackDiscountDialog,double orginalAmount, int discountApplyType) {
+    public DiscountDialog(@NonNull Context context, DatabaseManager databaseManager, CallbackDiscountDialog callbackDiscountDialog, double orginalAmount, int discountApplyType, DecimalFormat decimalFormat) {
         super(context);
         this.databaseManager = databaseManager;
         this.callbackDiscountDialog = callbackDiscountDialog;
@@ -68,11 +69,10 @@ public class DiscountDialog extends Dialog implements DiscountAdapter.OnClickLis
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new DiscountAdapter(getContext(), this, discounts, discountTypes);
         recyclerView.setAdapter(adapter);
-
         RxView.clicks(btnBack).subscribe(o -> dismiss());
 
         RxView.clicks(btnAdd).subscribe(o -> {
-            AddDiscountDialog dialog = new AddDiscountDialog(getContext(), databaseManager, orginalAmount, discountApplyType,callbackDiscountDialog);
+            AddDiscountDialog dialog = new AddDiscountDialog(getContext(), databaseManager, orginalAmount, discountApplyType,callbackDiscountDialog, decimalFormat);
 
             dialog.show();
             dismiss();

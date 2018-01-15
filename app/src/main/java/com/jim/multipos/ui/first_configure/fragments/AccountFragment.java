@@ -1,29 +1,5 @@
 package com.jim.multipos.ui.first_configure.fragments;
 
-import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Toast;
-
-import com.jakewharton.rxbinding2.view.RxView;
-import com.jim.mpviews.MpButton;
-import com.jim.mpviews.MpSpinner;
-import com.jim.multipos.R;
-import com.jim.multipos.core.BaseFragment;
-import com.jim.multipos.data.db.model.Account;
-import com.jim.multipos.ui.first_configure.FirstConfigureActivity;
-import com.jim.multipos.ui.first_configure.adapters.SystemAccountsAdapter;
-import com.jim.multipos.utils.RxBusLocal;
-
-import javax.inject.Inject;
-
-import butterknife.BindView;
-import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
-
-import static com.jim.multipos.ui.first_configure.Constants.ACCOUNT_FRAGMENT_ID;
-
 /**
  * Created by user on 07.10.17.
  */

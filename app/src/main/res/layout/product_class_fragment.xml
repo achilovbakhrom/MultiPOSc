@@ -89,7 +89,7 @@
                 android:textColor="@color/colorMainText"
                 android:textSize="@dimen/sixteen_dp" />
 
-            <com.jim.mpviews.MpSpinner
+            <com.jim.mpviews.MPosSpinner
                 android:id="@+id/spParent"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/forty_dp"

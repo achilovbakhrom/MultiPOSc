@@ -2,6 +2,7 @@ package com.jim.multipos.utils;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.GestureDetector;
@@ -22,6 +23,7 @@ import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
 import com.jim.multipos.ui.billing_vendor.adapter.BillingInfoAdapter;
+import com.jim.multipos.ui.cash_management.CashManagementActivity;
 import com.jim.multipos.ui.mainpospage.dialogs.ReturnsDialog;
 
 import java.text.DecimalFormat;
@@ -50,7 +52,7 @@ public class MainMenuDialog extends Dialog {
     @BindView(R.id.tvClose)
     TextView tvClose;
 
-    public MainMenuDialog(Context context, DatabaseManager databaseManager, DecimalFormat decimalFormat) {
+    public MainMenuDialog(Context context, DatabaseManager databaseManager, DecimalFormat decimalFormat, onMenuItemClickListener listener) {
         super(context);
         View dialogView = getLayoutInflater().inflate(R.layout.settings_dialog, null);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -72,7 +74,8 @@ public class MainMenuDialog extends Dialog {
             dismiss();
         });
         tvCashManagement.setOnClickListener(view -> {
-            Toast.makeText(context, tvCashManagement.getText().toString(), Toast.LENGTH_SHORT).show();
+            listener.onCashManagement();
+            dismiss();
         });
         tvLogOut.setOnClickListener(view -> {
             Toast.makeText(context, tvLogOut.getText().toString(), Toast.LENGTH_SHORT).show();
@@ -83,6 +86,10 @@ public class MainMenuDialog extends Dialog {
         tvClose.setOnClickListener(view -> {
             dismiss();
         });
+    }
+
+    public interface onMenuItemClickListener{
+        void onCashManagement();
     }
 
 }

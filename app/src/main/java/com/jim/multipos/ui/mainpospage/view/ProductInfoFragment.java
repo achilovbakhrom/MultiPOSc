@@ -302,7 +302,7 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
                         mainPageConnection.giveToProductInfoFragmentProductItem();
                     }
                 };
-                ServiceFeeDialog serviceFeeDialog = new ServiceFeeDialog(getContext(),databaseManager,callbackServiceFeeDialog,orderProductItem.getOrderProduct().getPrice(),ServiceFee.ITEM);
+                ServiceFeeDialog serviceFeeDialog = new ServiceFeeDialog(getContext(),databaseManager,callbackServiceFeeDialog,orderProductItem.getOrderProduct().getPrice(),ServiceFee.ITEM, decimalFormat);
                 serviceFeeDialog.show();
             }
         });
@@ -326,7 +326,7 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
 
                     }
                 };
-                DiscountDialog discountDialog = new DiscountDialog(getContext(), databaseManager, callbackDiscountDialog, orderProductItem.getOrderProduct().getPrice(), Discount.ITEM);
+                DiscountDialog discountDialog = new DiscountDialog(getContext(), databaseManager, callbackDiscountDialog, orderProductItem.getOrderProduct().getPrice(), Discount.ITEM, decimalFormat);
                 discountDialog.show();
             }
         });

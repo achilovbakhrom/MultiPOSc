@@ -44,12 +44,6 @@ public class MpButtonWithIcon extends RelativeLayout {
         init(context, attrs);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public MpButtonWithIcon(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        init(context, attrs);
-    }
-
     public void init(Context context, AttributeSet attrs) {
         LayoutInflater.from(context).inflate(R.layout.mp_btn_with_icon, this);
         LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);

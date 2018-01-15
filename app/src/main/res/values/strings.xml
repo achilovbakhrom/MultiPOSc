@@ -82,13 +82,11 @@
         <item>Customers Add&amp;Edit</item>
         <item>Customer Groups</item>
         <item>Debt Clients</item>
-        <item>Credit Clients</item>
     </string-array>
     <string-array name="customers_menu_description">
         <item>Add and edit customers</item>
         <item>Add customers to the groups</item>
         <item>Debtors list</item>
-        <item>Creditors list</item>
     </string-array>
     <string-array name="employer_menu_title">
         <item>Schedule List</item>

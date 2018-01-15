@@ -4,14 +4,12 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.InputType;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 
 import com.jim.mpviews.MPosSpinner;
-import com.jim.mpviews.MpSpinner;
 import com.jim.multipos.R;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;

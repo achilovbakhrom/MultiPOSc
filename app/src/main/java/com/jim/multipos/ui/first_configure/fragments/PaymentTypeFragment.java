@@ -1,32 +1,5 @@
 package com.jim.multipos.ui.first_configure.fragments;
 
-import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.jakewharton.rxbinding2.view.RxView;
-import com.jim.mpviews.MpButton;
-import com.jim.mpviews.MpSpinner;
-import com.jim.multipos.R;
-import com.jim.multipos.core.BaseFragment;
-import com.jim.multipos.data.db.model.Account;
-import com.jim.multipos.data.db.model.PaymentType;
-import com.jim.multipos.data.db.model.currency.Currency;
-import com.jim.multipos.ui.first_configure.FirstConfigureActivity;
-import com.jim.multipos.ui.first_configure.adapters.AccountSpinnerAdapter;
-import com.jim.multipos.ui.first_configure.adapters.SystemPaymentTypesAdapter;
-
-import java.util.List;
-
-import butterknife.BindView;
-import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
-
-import static com.jim.multipos.ui.first_configure.Constants.PAYMENT_TYPE_FRAGMENT_ID;
-
 /**
  * Created by user on 10.10.17.
  */

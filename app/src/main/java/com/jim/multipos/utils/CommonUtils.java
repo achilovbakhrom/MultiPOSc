@@ -1,13 +1,11 @@
 package com.jim.multipos.utils;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 
-import com.jim.mpviews.MpSpinner;
 import com.jim.multipos.R;
 import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
@@ -18,12 +16,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import io.reactivex.Observable;
-import io.reactivex.Single;
-import io.reactivex.functions.Function;
 
 /**
  * Created by Developer on 5/25/17.

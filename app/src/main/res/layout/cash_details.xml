@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/ten_dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/fifty_dp"
+            android:text="Total starting cash:"
+            android:textColor="@color/colorMainText" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="5px"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/three_dp"
+            android:layout_weight="1"
+            android:layerType="software"
+            android:src="@drawable/dash" />
+
+        <TextView
+            android:id="@+id/tvStartingCash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/five_dp"
+            android:text="0"
+            android:textColor="@color/colorMainText" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/ten_dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/fifty_dp"
+            android:text="Pay - Outs:"
+            android:textColor="@color/colorMainText" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="5px"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/three_dp"
+            android:layout_weight="1"
+            android:layerType="software"
+            android:src="@drawable/dash" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/five_dp"
+            android:text="0"
+            android:textColor="@color/colorMainText" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/ten_dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/fifty_dp"
+            android:text="Pay - Ins:"
+            android:textColor="@color/colorMainText" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="5px"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/three_dp"
+            android:layout_weight="1"
+            android:layerType="software"
+            android:src="@drawable/dash" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/five_dp"
+            android:text="0"
+            android:textColor="@color/colorMainText" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/ten_dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/fifty_dp"
+            android:text="Pay to Vendors:"
+            android:textColor="@color/colorMainText" />
+
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="5px"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/three_dp"
+            android:layout_weight="1"
+            android:layerType="software"
+            android:src="@drawable/dash" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/five_dp"
+            android:text="0"
+            android:textColor="@color/colorMainText" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/ten_dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/fifty_dp"
+            android:text="Income debt: "
+            android:textColor="@color/colorMainText" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="5px"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/three_dp"
+            android:layout_weight="1"
+            android:layerType="software"
+            android:src="@drawable/dash" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/five_dp"
+            android:text="0"
+            android:textColor="@color/colorMainText" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/twenty_dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/fifty_dp"
+            android:text="Bank drops:"
+            android:textColor="@color/colorMainText" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="5px"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/three_dp"
+            android:layout_weight="1"
+            android:layerType="software"
+            android:src="@drawable/dash" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/five_dp"
+            android:text="0"
+            android:textColor="@color/colorMainText" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/ten_dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/fifty_dp"
+            android:text="Cash transactions:"
+            android:textColor="@color/colorMainText" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="5px"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/three_dp"
+            android:layout_weight="1"
+            android:layerType="software"
+            android:src="@drawable/dash" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/five_dp"
+            android:text="0"
+            android:textColor="@color/colorMainText" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/ten_dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/fifty_dp"
+            android:text="Coins dispensed:"
+            android:textColor="@color/colorMainText" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="5px"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/three_dp"
+            android:layout_weight="1"
+            android:layerType="software"
+            android:src="@drawable/dash" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/five_dp"
+            android:text="0"
+            android:textColor="@color/colorMainText" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/ten_dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/fifty_dp"
+            android:text="Expected cash in Till:"
+            android:textColor="@color/colorMainText" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="5px"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/three_dp"
+            android:layout_weight="1"
+            android:layerType="software"
+            android:src="@drawable/dash" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/five_dp"
+            android:text="0"
+            android:textColor="@color/colorMainText" />
+    </LinearLayout>
+
+</LinearLayout>

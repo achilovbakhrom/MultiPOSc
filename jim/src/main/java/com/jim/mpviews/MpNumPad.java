@@ -11,6 +11,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -26,7 +27,8 @@ import static com.jim.mpviews.utils.Utils.convertDpToPixel;
 public class MpNumPad extends FrameLayout {
 
     private TextView textView;
-    private LinearLayout layout;
+    private RelativeLayout layout;
+    private ImageView mpNumPadImg;
     private int mode;
     private final int NUMBER_MODE = 0;
     private final int ACTION_MODE = 1;
@@ -53,9 +55,11 @@ public class MpNumPad extends FrameLayout {
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         setLayoutParams(layoutParams);
         textView = (TextView) findViewById(R.id.mpNumPadText);
-        layout = (LinearLayout) findViewById(R.id.mpNumPadBg);
+        layout = (RelativeLayout) findViewById(R.id.mpNumPadBg);
+        mpNumPadImg = (ImageView) findViewById(R.id.mpNumPadImg);
         TypedArray attributeArray = context.obtainStyledAttributes(attributeSet, R.styleable.MpNumPad);
         textView.setText(attributeArray.getText(R.styleable.MpNumPad_value));
+        mpNumPadImg.setImageDrawable(attributeArray.getDrawable(R.styleable.MpNumPad_img));
         mode = attributeArray.getInt(R.styleable.MpNumPad_mode, NUMBER_MODE);
         switch (mode) {
             case NUMBER_MODE:
@@ -98,6 +102,8 @@ public class MpNumPad extends FrameLayout {
         attributeArray.recycle();
     }
 
+    public ImageView getNumPadImageView(){ return mpNumPadImg;}
+    public TextView getNumPadTextView(){return textView;}
 
     @Override
     public void onRestoreInstanceState(Parcelable state) {

@@ -1,11 +1,10 @@
 package com.jim.multipos.ui.product.view;
 
 import android.os.Bundle;
-import android.widget.TextView;
 
+import com.jim.mpviews.MPosSpinner;
 import com.jim.mpviews.MpCheckbox;
 import com.jim.mpviews.MpEditText;
-import com.jim.mpviews.MpSpinner;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.db.model.ProductClass;
@@ -52,7 +51,7 @@ public class AddProductFragment extends BaseFragment implements ProductsView {
     @BindView(R.id.etSKU)
     MpEditText etSKU;
     @BindView(R.id.spUnit)
-    MpSpinner spUnit;
+    MPosSpinner spUnit;
     @BindView(R.id.etProductPrice)
     MpEditText etProductPrice;
     @BindView(R.id.etProductCost)

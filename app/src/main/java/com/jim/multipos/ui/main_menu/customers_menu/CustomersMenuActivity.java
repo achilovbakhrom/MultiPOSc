@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.google.zxing.integration.android.IntentResult;
 import com.jim.mpviews.MpButton;
 import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.R;

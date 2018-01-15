@@ -54,7 +54,7 @@ public class MpCheckbox extends LinearLayout {
     @Override
     protected void onRestoreInstanceState(Parcelable state) {
         super.onRestoreInstanceState(state);
-        if(!(state instanceof MpSpinner.SavedState)) {
+        if(!(state instanceof SavedState)) {
             super.onRestoreInstanceState(state);
             return;
         }

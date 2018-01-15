@@ -1,23 +1,5 @@
 package com.jim.multipos.ui.first_configure.fragments;
 
-import android.os.Bundle;
-
-import com.jakewharton.rxbinding2.view.RxView;
-import com.jim.mpviews.MpButton;
-import com.jim.mpviews.MpCompletedStateView;
-import com.jim.mpviews.MpSpinner;
-import com.jim.multipos.R;
-import com.jim.multipos.core.BaseFragment;
-import com.jim.multipos.data.db.model.currency.Currency;
-import com.jim.multipos.ui.first_configure.FirstConfigureActivity;
-import com.jim.multipos.ui.first_configure.adapters.CurrencySpinnerAdapter;
-
-import java.util.List;
-
-import butterknife.BindView;
-
-import static com.jim.multipos.ui.first_configure.Constants.CURRENCY_FRAGMENT_ID;
-
 /**
  * Created by user on 10.10.17.
  */

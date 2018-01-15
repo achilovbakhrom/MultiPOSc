@@ -8,9 +8,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.jakewharton.rxbinding2.view.RxView;
+import com.jim.mpviews.MPosSpinner;
 import com.jim.mpviews.MpButton;
 import com.jim.mpviews.MpCheckbox;
-import com.jim.mpviews.MpSpinner;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.db.model.ProductClass;
@@ -40,7 +40,7 @@ public class AddProductClassFragment extends BaseFragment implements AddProductC
     @BindView(R.id.etClassName)
     EditText etClassName;
     @BindView(R.id.spParent)
-    MpSpinner spParent;
+    MPosSpinner spParent;
     @BindView(R.id.cbActive)
     MpCheckbox cbActive;
     @BindView(R.id.btnCancel)
@@ -67,7 +67,7 @@ public class AddProductClassFragment extends BaseFragment implements AddProductC
         RxView.clicks(btnSave).subscribe(aVoid -> {
             if(isValid()) {
                 String className = etClassName.getText().toString();
-                int pos = spParent.selectedItemPosition();
+                int pos = spParent.getSelectedPosition();
                 boolean active = cbActive.isChecked();
                 presenter.onSaveButtonPress(className, pos, active);
             }
@@ -134,8 +134,7 @@ public class AddProductClassFragment extends BaseFragment implements AddProductC
 
     @Override
     public void setParentSpinnerItems(ArrayList<String> productClasses) {
-        spParent.setItems(productClasses);
-        spParent.setAdapter();
+        spParent.setAdapter(productClasses);
     }
 
     @Override

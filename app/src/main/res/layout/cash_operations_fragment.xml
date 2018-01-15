@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
+    android:background="@color/colorBackground"
+    android:orientation="horizontal">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBackgroundGrey"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/ten_dp"
+            android:paddingTop="@dimen/ten_dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/fifteen_dp"
+                android:paddingBottom="@dimen/five_dp"
+                android:paddingLeft="@dimen/ten_dp"
+                android:paddingRight="@dimen/ten_dp"
+                android:paddingTop="@dimen/five_dp"
+                android:text="Operations with Cash"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/eighteen_dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="15px"
+            android:background="@drawable/top_fade" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/ten_dp"
+            android:layout_marginLeft="@dimen/fifteen_dp"
+            android:layout_marginRight="@dimen/fifteen_dp"
+            android:layout_marginTop="@dimen/five_dp"
+            android:background="@drawable/edit_text_bg"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/twenty_five_dp"
+            android:paddingRight="@dimen/fifteen_dp"
+            android:paddingTop="@dimen/thirty_dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="70"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/hundred_dp"
+                    android:layout_marginBottom="@dimen/thirty_dp"
+                    android:background="@drawable/num_pad_bg"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/ten_dp"
+                    android:paddingRight="@dimen/twenty_five_dp"
+                    android:paddingTop="@dimen/fifteen_dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="@string/amount"
+                        android:paddingRight="@dimen/five_dp"
+                        android:textColor="@color/colorSecondaryText"
+                        android:textSize="@dimen/sixteen_dp" />
+
+                    <EditText
+                        android:id="@+id/etPaymentAmount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="right"
+                        android:longClickable="false"
+                        android:maxLength="15"
+                        android:selectAllOnFocus="true"
+                        android:paddingLeft="@dimen/ten_dp"
+                        android:paddingTop="@dimen/five_dp"
+                        android:paddingBottom="@dimen/five_dp"
+                        android:backgroundTint="@color/transparent"
+                        android:textColor="@color/colorBlue"
+                        android:textSize="@dimen/forty_dp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/five_dp"
+                    android:orientation="horizontal">
+
+                    <com.jim.mpviews.MpNumPad
+                        android:id="@+id/btnSeven"
+                        android:layout_width="@dimen/hundred_dp"
+                        android:layout_height="@dimen/hundred_dp"
+                        android:layout_marginRight="@dimen/ten_dp"
+                        app:value="7" />
+
+                    <com.jim.mpviews.MpNumPad
+                        android:id="@+id/btnEight"
+                        android:layout_width="@dimen/hundred_dp"
+                        android:layout_height="@dimen/hundred_dp"
+                        android:layout_marginRight="@dimen/ten_dp"
+                        app:value="8" />
+
+                    <com.jim.mpviews.MpNumPad
+                        android:id="@+id/btnNine"
+                        android:layout_width="@dimen/hundred_dp"
+                        android:layout_height="@dimen/hundred_dp"
+                        android:layout_marginRight="@dimen/ten_dp"
+                        app:value="9" />
+
+                    <com.jim.mpviews.MpNumPad
+                        android:id="@+id/btnBackSpace"
+                        android:layout_width="@dimen/hundred_dp"
+                        android:layout_height="@dimen/hundred_dp"
+                        app:img="@drawable/backspace_1" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/five_dp"
+                    android:orientation="horizontal">
+
+                    <com.jim.mpviews.MpNumPad
+                        android:id="@+id/btnFour"
+                        android:layout_width="@dimen/hundred_dp"
+                        android:layout_height="@dimen/hundred_dp"
+                        android:layout_marginRight="@dimen/ten_dp"
+                        app:value="4" />
+
+                    <com.jim.mpviews.MpNumPad
+                        android:id="@+id/btnFive"
+                        android:layout_width="@dimen/hundred_dp"
+                        android:layout_height="@dimen/hundred_dp"
+                        android:layout_marginRight="@dimen/ten_dp"
+                        app:value="5" />
+
+                    <com.jim.mpviews.MpNumPad
+                        android:id="@+id/btnSix"
+                        android:layout_width="@dimen/hundred_dp"
+                        android:layout_height="@dimen/hundred_dp"
+                        android:layout_marginRight="@dimen/ten_dp"
+                        app:value="6" />
+
+                    <com.jim.mpviews.MpNumPad
+                        android:id="@+id/btnClear"
+                        android:layout_width="@dimen/hundred_dp"
+                        android:layout_height="@dimen/hundred_dp"
+                        app:value="C" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/five_dp"
+                    android:orientation="horizontal">
+
+                    <com.jim.mpviews.MpNumPad
+                        android:id="@+id/btnOne"
+                        android:layout_width="@dimen/hundred_dp"
+                        android:layout_height="@dimen/hundred_dp"
+                        android:layout_marginRight="@dimen/ten_dp"
+                        app:value="1" />
+
+                    <com.jim.mpviews.MpNumPad
+                        android:id="@+id/btnTwo"
+                        android:layout_width="@dimen/hundred_dp"
+                        android:layout_height="@dimen/hundred_dp"
+                        android:layout_marginRight="@dimen/ten_dp"
+                        app:value="2" />
+
+                    <com.jim.mpviews.MpNumPad
+                        android:id="@+id/btnThree"
+                        android:layout_width="@dimen/hundred_dp"
+                        android:layout_height="@dimen/hundred_dp"
+                        android:layout_marginRight="@dimen/ten_dp"
+                        app:value="3" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/five_dp"
+                    android:orientation="horizontal">
+
+                    <com.jim.mpviews.MpNumPad
+                        android:id="@+id/btnDoubleZero"
+                        android:layout_width="@dimen/hundred_dp"
+                        android:layout_height="@dimen/hundred_dp"
+                        android:layout_marginRight="@dimen/ten_dp"
+                        app:value="00" />
+
+                    <com.jim.mpviews.MpNumPad
+                        android:id="@+id/btnZero"
+                        android:layout_width="@dimen/hundred_dp"
+                        android:layout_height="@dimen/hundred_dp"
+                        android:layout_marginRight="@dimen/ten_dp"
+                        app:value="0" />
+
+                    <com.jim.mpviews.MpNumPad
+                        android:id="@+id/btnDot"
+                        android:layout_width="@dimen/hundred_dp"
+                        android:layout_height="@dimen/hundred_dp"
+                        android:layout_marginRight="@dimen/ten_dp"
+                        app:value="," />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/fifty_dp"
+                android:layout_marginLeft="@dimen/twenty_dp"
+                android:layout_marginRight="@dimen/fifteen_dp"
+                android:background="@color/colorTextHint" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="29"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/ten_dp"
+                    android:layout_marginTop="@dimen/hundred_dp"
+                    android:gravity="left"
+                    android:paddingLeft="@dimen/ten_dp"
+                    android:text="Operations"
+                    android:textColor="@color/colorBlue" />
+
+                <com.jim.mpviews.MpButtonWithIcon
+                    android:id="@+id/btnPayIn"
+                    android:layout_width="@dimen/hundred_eighty_dp"
+                    android:layout_height="@dimen/sixty_dp"
+                    android:layout_marginBottom="@dimen/five_dp"
+                    app:btn_text="Pay in"
+                    app:src="@drawable/pay_in"
+                    app:tint_color="#56ce06" />
+
+                <com.jim.mpviews.MpButtonWithIcon
+                    android:id="@+id/btnPayOut"
+                    android:layout_width="@dimen/hundred_eighty_dp"
+                    android:layout_height="@dimen/sixty_dp"
+                    android:layout_marginBottom="@dimen/five_dp"
+                    app:btn_text="Pay out"
+                    app:src="@drawable/pay_out"
+                    app:tint_color="#e15a5a" />
+
+                <com.jim.mpviews.MpButtonWithIcon
+                    android:id="@+id/btnBankDrop"
+                    android:layout_width="@dimen/hundred_eighty_dp"
+                    android:layout_height="@dimen/sixty_dp"
+                    android:layout_marginBottom="@dimen/five_dp"
+                    app:btn_text="Bank Drop"
+                    app:src="@drawable/bank" />
+
+                <com.jim.mpviews.MpButtonWithIcon
+                    android:id="@+id/btnCloseTill"
+                    android:layout_width="@dimen/hundred_eighty_dp"
+                    android:layout_height="@dimen/sixty_dp"
+                    android:layout_marginBottom="@dimen/five_dp"
+                    app:btn_text="Close Till"
+                    app:src="@drawable/casher" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

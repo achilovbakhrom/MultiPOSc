@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.jim.mpviews.MPosSpinner;
 import com.jim.mpviews.MpEditText;
-import com.jim.mpviews.MpSpinner;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.db.model.Contact;
@@ -46,7 +46,7 @@ public class SignUpFragment extends BaseFragment implements SignUpView {
     @BindView(R.id.rvContacts)
     RecyclerView contactsList;
     @BindView(R.id.spContacts)
-    MpSpinner contactsSpinner;
+    MPosSpinner contactsSpinner;
     @Inject
     SignUpPresenter presenter;
 
@@ -56,9 +56,8 @@ public class SignUpFragment extends BaseFragment implements SignUpView {
     protected void init(Bundle savedInstanceState) {
         contactTypes = new String[]{ getResources().getString(R.string.phone), getResources().getString(R.string.email)};
         contactText.setInputType(InputType.TYPE_CLASS_PHONE);
-        contactsSpinner.setItems(contactTypes);
-        contactsSpinner.setAdapter();
-        contactsSpinner.setOnItemSelectedListener((adapterView, view, position, l) -> {
+        contactsSpinner.setAdapter(contactTypes);
+        contactsSpinner.setItemSelectionListener((view, position) -> {
             switch (position) {
                 case 0:
                     contactText.setInputType(InputType.TYPE_CLASS_PHONE);
@@ -132,7 +131,7 @@ public class SignUpFragment extends BaseFragment implements SignUpView {
     @Override
     public void addContactButtonClicked() {
         int type = -1;
-        switch (contactsSpinner.selectedItemPosition()) {
+        switch (contactsSpinner.getSelectedPosition()) {
             case 0:
                 type = Contact.PHONE;
                 break;
