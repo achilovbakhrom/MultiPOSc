@@ -37,7 +37,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/thirty_dp"
-                app:barcode_visibility="false" />
+                app:barcode_visibility="true" />
         </RelativeLayout>
 
         <LinearLayout
@@ -81,7 +81,7 @@
 
                 <LinearLayout
                     android:id="@+id/llCustomerName"
-                    android:layout_width="@dimen/two_hundred_fifty_dp"
+                    android:layout_width="@dimen/two_hundred_dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:orientation="horizontal"
@@ -136,7 +136,7 @@
 
                 <LinearLayout
                     android:id="@+id/llCustomerAddress"
-                    android:layout_width="@dimen/two_hundred_fifty_dp"
+                    android:layout_width="@dimen/two_hundred_dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:orientation="horizontal"
@@ -153,6 +153,33 @@
 
                     <ImageView
                         android:id="@+id/ivAddressSort"
+                        android:layout_width="@dimen/twelve_dp"
+                        android:layout_height="@dimen/ten_dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/ten_dp"
+                        android:src="@drawable/sorting"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llCustomerQrCode"
+                    android:layout_width="@dimen/hundred_fifty_dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/ten_dp"
+                    android:paddingRight="@dimen/ten_dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/barcode"
+                        android:textColor="@color/colorBlue"
+                        android:textSize="@dimen/sixteen_dp" />
+
+                    <ImageView
+                        android:id="@+id/ivQrCodeSort"
                         android:layout_width="@dimen/twelve_dp"
                         android:layout_height="@dimen/ten_dp"
                         android:layout_gravity="center"

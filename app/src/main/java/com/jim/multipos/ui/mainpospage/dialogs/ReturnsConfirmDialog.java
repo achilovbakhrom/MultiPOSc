@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
@@ -62,6 +63,7 @@ public class ReturnsConfirmDialog extends Dialog {
         rvReturnProducts.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new ReturnsListAdapter(decimalFormat, context);
         rvReturnProducts.setAdapter(adapter);
+        ((SimpleItemAnimator) rvReturnProducts.getItemAnimator()).setSupportsChangeAnimations(false);
         adapter.setData(returnsList);
         double totalAmount = 0;
         for (int i = 0; i < returnsList.size(); i++) {

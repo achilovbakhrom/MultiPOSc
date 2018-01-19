@@ -18,4 +18,6 @@ public interface CustomerDebtListPresenter extends Presenter {
     void closeDebtWithPayingAllAmount(Debt item);
     void filterBy(CustomerDebtListFragment.DebtSortingStates sortMode);
     void filterInvert();
+    void initTotalDataOfCustomer();
+    void openPayToAllDialog();
 }

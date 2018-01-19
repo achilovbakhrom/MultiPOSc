@@ -1,9 +1,12 @@
 package com.jim.multipos.ui.customers_edit_new;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.mpviews.MpButton;
 import com.jim.mpviews.MpToolbar;
@@ -36,6 +39,8 @@ public class CustomersEditActivity extends BaseActivity implements CustomersEdit
     private CustomerAdapter adapter;
     private int position;
     private CustomerGroupDialog dialog;
+    private boolean isAdd = false;
+    private int pos = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -182,7 +187,33 @@ public class CustomersEditActivity extends BaseActivity implements CustomersEdit
     }
 
     @Override
+    public void scanBarcode() {
+        new IntentIntegrator(this).initiateScan();
+        isAdd = true;
+    }
+
+    @Override
+    public void scanBarcode(int position) {
+        new IntentIntegrator(this).initiateScan();
+        isAdd = false;
+        this.pos = position;
+    }
+
+    @Override
     public void onOkClicked(Customer customer, boolean isModified) {
         adapter.updateItem(customer, isModified);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (intentResult != null) {
+            if (intentResult.getContents() != null) {
+                if (isAdd)
+                adapter.setBarcode(intentResult.getContents());
+                else adapter.setBarcode(intentResult.getContents(),pos);
+            }
+        }
     }
 }

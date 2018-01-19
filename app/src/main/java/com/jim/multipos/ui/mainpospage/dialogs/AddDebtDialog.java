@@ -17,6 +17,7 @@ import com.jim.mpviews.suggestions.model.SearchSuggestion;
 import com.jim.multipos.R;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.customer.Customer;
+import com.jim.multipos.data.db.model.customer.CustomerPayment;
 import com.jim.multipos.data.db.model.customer.Debt;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.ui.mainpospage.model.CustomerSuggestion;
@@ -51,15 +52,21 @@ public class AddDebtDialog extends Dialog {
     MpButton btnSave;
     @BindView(R.id.etFee)
     MpEditText etFee;
+    @BindView(R.id.tvError)
+    TextView tvError;
+    @BindView(R.id.tvCurrency)
+    TextView tvCurrency;
     private List<Customer> customerList;
     private List<CustomerSuggestion> suggestionsList, foundSuggestions;
     private Customer customer;
+    private DatabaseManager databaseManager;
     private onDebtSaveClickListener listener;
     private String searchText;
 
     public AddDebtDialog(@NonNull Context context, Customer item, DatabaseManager databaseManager, Order order, onDebtSaveClickListener listener) {
         super(context);
         this.customer = item;
+        this.databaseManager = databaseManager;
         this.listener = listener;
         View dialogView = getLayoutInflater().inflate(R.layout.debt_details_dialog, null);
         ButterKnife.bind(this, dialogView);
@@ -67,6 +74,7 @@ public class AddDebtDialog extends Dialog {
         setContentView(dialogView);
         View v = getWindow().getDecorView();
         v.setBackgroundResource(android.R.color.transparent);
+        tvCurrency.setText(databaseManager.getMainCurrency().getAbbr());
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Calendar calendar = Calendar.getInstance();
         suggestionsList = new ArrayList<>();
@@ -116,6 +124,7 @@ public class AddDebtDialog extends Dialog {
                 customer = customerSuggestion.getCustomer();
                 flSearchView.clearSuggestions();
                 etAmount.requestFocus();
+                checkCustomer();
             }
 
             @Override
@@ -123,6 +132,7 @@ public class AddDebtDialog extends Dialog {
 
             }
         });
+        checkCustomer();
         String[] debtTypes = context.getResources().getStringArray(R.array.debt_type);
         etFee.setText(String.valueOf(0));
         spDebtType.setAdapter(debtTypes);
@@ -176,6 +186,31 @@ public class AddDebtDialog extends Dialog {
 
     public interface onDebtSaveClickListener {
         void onDebtSave(Debt debt);
+    }
+
+    private void checkCustomer() {
+        if (customer != null) {
+            if (customer.getDebtList().size() > 0) {
+                List<Debt> debts = new ArrayList<>();
+                for (Debt debt : customer.getDebtList()) {
+                    if (debt.getStatus() == Debt.ACTIVE)
+                        debts.add(debt);
+                }
+                double debtSum = 0;
+                for (int i = 0; i < debts.size(); i++) {
+                    Debt debt = debts.get(i);
+                    debtSum += debt.getDebtAmount() + debt.getFee() * debt.getDebtAmount() / 100;
+                    if (debt.getCustomerPayments().size() > 0) {
+                        for (CustomerPayment payment : debt.getCustomerPayments()) {
+                            debtSum -= payment.getPaymentAmount();
+                        }
+                    }
+                }
+                if (debtSum != 0)
+                    tvError.setText("This customer already has debt: " + debtSum + " " + databaseManager.getMainCurrency().getAbbr());
+                else tvError.setText("");
+            }
+        }
     }
 
 }

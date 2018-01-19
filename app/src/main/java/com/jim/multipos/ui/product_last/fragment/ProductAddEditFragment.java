@@ -20,6 +20,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.jim.mpviews.MPosSpinner;
 import com.jim.mpviews.MpButton;
 import com.jim.mpviews.MpCheckbox;
@@ -110,6 +112,9 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
     @BindView(R.id.tvVendor)
     TextView vendor;
 
+    @BindView(R.id.ivScanBarcode)
+    ImageView ivScanBarcode;
+
     private static final String VENDOR_LIST_COUNT = "VENDOR_LIST_COUNT";
     private static final String VENDOR_ID = "VENDOR_ID_";
     private Uri photoSelected;
@@ -130,7 +135,6 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
     private MpButton vendorDialogBack, btnBackToAddProduct, btnSaveCosts;
     private MpButton vendorDialogOk;
     private ProductClassListAdapter classListAdapter;
-
     private List<Long> vendors;
 
     @Override
@@ -187,6 +191,11 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
             classDialog.dismiss();
         });
         ((ProductActivity) getContext()).getPresenter().initDataForProduct();
+        ivScanBarcode.setOnClickListener(view -> scan());
+    }
+
+    private void scan() {
+        IntentIntegrator.forSupportFragment(this).initiateScan();
     }
 
     @Override
@@ -206,7 +215,7 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
         unitsCategory.setAdapter(unitCategoryList);
         unitsCategory.setItemSelectionListener((view, position) -> {
             ((ProductActivity) getContext()).getPresenter().unitCategorySelected(position);
-             isUnitSetted = false;
+            isUnitSetted = false;
         });
         units.setAdapter(unitList);
         classListAdapter.setData(productClasses);
@@ -353,6 +362,12 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
 
         }
 
+        IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (intentResult != null) {
+            if (intentResult.getContents() != null) {
+                barcode.setText(intentResult.getContents());
+            }
+        }
     }
 
     private boolean isUnitSetted = false;
@@ -455,7 +470,7 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
 
     public void setUnits(String[] units) {
         if (!isUnitSetted)
-        this.units.setAdapter(units);
+            this.units.setAdapter(units);
     }
 
     public String getProductName() {

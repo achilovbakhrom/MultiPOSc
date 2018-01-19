@@ -3,6 +3,7 @@ package com.jim.multipos.ui.customer_debt.view;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 
 import com.jim.mpviews.MpSearchView;
 import com.jim.multipos.R;
@@ -47,6 +48,7 @@ public class CustomerListFragment extends BaseFragment implements CustomerListVi
         presenter.initData();
         rvCustomerList.setLayoutManager(new LinearLayoutManager(getContext()));
         rvCustomerList.setAdapter(customerListAdapter);
+        ((SimpleItemAnimator) rvCustomerList.getItemAnimator()).setSupportsChangeAnimations(false);
         customerListAdapter.setListener((item, position) -> customerDebtConnection.sendCustomerWithDebt(item));
     }
 

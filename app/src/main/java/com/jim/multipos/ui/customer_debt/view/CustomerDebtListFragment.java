@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -82,6 +83,8 @@ public class CustomerDebtListFragment extends BaseFragment implements CustomerDe
     TextView btnPayToDebt;
     @BindView(R.id.llLowGround)
     LinearLayout llLowGround;
+    @BindView(R.id.llTopGround)
+    LinearLayout llTopGround;
     @BindView(R.id.flSeparateLine)
     FrameLayout flSeparateLine;
     @BindView(R.id.tvNoDebts)
@@ -102,6 +105,13 @@ public class CustomerDebtListFragment extends BaseFragment implements CustomerDe
     ImageView ivDueDateSort;
     @BindView(R.id.ivTotalDebtSort)
     ImageView ivTotalDebtSort;
+    @BindView(R.id.llPay)
+    LinearLayout llPay;
+    @BindView(R.id.tvCustomerTotalDebt)
+    TextView tvCustomerTotalDebt;
+
+    private boolean payToAll = false;
+    private int selectedPosition = 0;
 
     public enum DebtSortingStates {
         SORTED_BY_ORDER_NUMBER, SORTED_BY_ORDER_NUMBER_INVERT, SORTED_BY_TAKEN_DATE, SORTED_BY_TAKEN_DATE_INVERT,
@@ -120,10 +130,29 @@ public class CustomerDebtListFragment extends BaseFragment implements CustomerDe
         customerDebtConnection.setDebtListView(this);
         rvDebts.setLayoutManager(new LinearLayoutManager(getContext()));
         rvDebts.setAdapter(debtListAdapter);
+        ((SimpleItemAnimator) rvDebts.getItemAnimator()).setSupportsChangeAnimations(false);
         debtListAdapter.setListener(new DebtListAdapter.OnDebtClickListener() {
             @Override
             public void onItemClicked(Debt item, int position) {
-                presenter.initDebtDetails(item, position);
+                if (selectedPosition == position) {
+                    if (payToAll) {
+                        llLowGround.setVisibility(View.GONE);
+                        llTopGround.setVisibility(View.VISIBLE);
+                        payToAll = false;
+                        presenter.initTotalDataOfCustomer();
+                    } else {
+                        llLowGround.setVisibility(View.VISIBLE);
+                        llTopGround.setVisibility(View.GONE);
+                        payToAll = true;
+                        presenter.initDebtDetails(item, position);
+                    }
+                } else {
+                    selectedPosition = position;
+                    llLowGround.setVisibility(View.VISIBLE);
+                    llTopGround.setVisibility(View.GONE);
+                    payToAll = true;
+                    presenter.initDebtDetails(item, position);
+                }
             }
 
             @Override
@@ -188,6 +217,8 @@ public class CustomerDebtListFragment extends BaseFragment implements CustomerDe
                 presenter.filterInvert();
             }
         });
+
+        llPay.setOnClickListener(view -> presenter.openPayToAllDialog());
     }
 
     @Override
@@ -198,6 +229,7 @@ public class CustomerDebtListFragment extends BaseFragment implements CustomerDe
     @Override
     public void fillRecyclerView(List<Debt> debtList, Currency currency) {
         debtListAdapter.setItems(debtList, currency);
+        debtListAdapter.setSelectedPosition(-1);
     }
 
     @Override
@@ -221,8 +253,8 @@ public class CustomerDebtListFragment extends BaseFragment implements CustomerDe
     }
 
     @Override
-    public void openPayToDebt(Debt debt, DatabaseManager databaseManager, boolean payToAll) {
-        PayToDebtDialog dialog = new PayToDebtDialog(getContext(), debt, databaseManager, payToAll, customer -> {
+    public void openPayToDebt(Debt debt, DatabaseManager databaseManager,boolean closeDebt, boolean payToAll) {
+        PayToDebtDialog dialog = new PayToDebtDialog(getContext(), debt, databaseManager, closeDebt, payToAll, customer -> {
             presenter.initData(customer);
             customerDebtConnection.updateCustomersList();
         });
@@ -244,6 +276,7 @@ public class CustomerDebtListFragment extends BaseFragment implements CustomerDe
     @Override
     public void setCustomerDebtListVisibility(int visibility) {
         llLowGround.setVisibility(visibility);
+        llTopGround.setVisibility(visibility);
         flSeparateLine.setVisibility(visibility);
         if (visibility == View.GONE)
             tvNoDebts.setVisibility(View.VISIBLE);
@@ -253,6 +286,13 @@ public class CustomerDebtListFragment extends BaseFragment implements CustomerDe
     @Override
     public void notifyList() {
         debtListAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void fillTotalInfo(double total, Currency currency) {
+        tvCustomerTotalDebt.setText(decimalFormat.format(total) + " " + currency.getAbbr());
+        llLowGround.setVisibility(View.GONE);
+        llTopGround.setVisibility(View.VISIBLE);
     }
 
     @Override

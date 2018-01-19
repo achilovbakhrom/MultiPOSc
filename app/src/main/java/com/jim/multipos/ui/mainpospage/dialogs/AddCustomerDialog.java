@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jim.mpviews.MpButton;
@@ -12,6 +13,7 @@ import com.jim.mpviews.MpEditText;
 import com.jim.multipos.R;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.customer.Customer;
+import com.jim.multipos.ui.mainpospage.connection.MainPageConnection;
 import com.jim.multipos.utils.UIUtils;
 
 import butterknife.BindView;
@@ -34,6 +36,10 @@ public class AddCustomerDialog extends Dialog {
     MpEditText etCustomerAddress;
     @BindView(R.id.btnAddSave)
     MpButton btnAddSave;
+    @BindView(R.id.etCustomerBarcode)
+    MpEditText etCustomerBarcode;
+    @BindView(R.id.ivScanBarcode)
+    ImageView ivScanBarcode;
     @BindView(R.id.tvDialogTitle)
     TextView tvDialogTitle;
     private Context context;
@@ -41,7 +47,7 @@ public class AddCustomerDialog extends Dialog {
     private UpdateCustomerCallback callback;
     long id = 0L;
 
-    public AddCustomerDialog(@NonNull Context context, Customer customer, DatabaseManager databaseManager, UpdateCustomerCallback callback) {
+    public AddCustomerDialog(@NonNull Context context, Customer customer, DatabaseManager databaseManager, UpdateCustomerCallback callback, MainPageConnection mainPageConnection) {
         super(context);
         this.context = context;
         this.customer = customer;
@@ -57,6 +63,7 @@ public class AddCustomerDialog extends Dialog {
             etCustomerName.setText(customer.getName());
             etCustomerContact.setText(customer.getPhoneNumber());
             etCustomerAddress.setText(customer.getAddress());
+            etCustomerBarcode.setText(customer.getQrCode());
             btnAddSave.setText(context.getString(R.string.update));
             tvDialogTitle.setText(context.getString(R.string.update_customer));
         } else {
@@ -65,12 +72,16 @@ public class AddCustomerDialog extends Dialog {
             tvClientId.setText(String.valueOf(id));
             tvDialogTitle.setText(context.getString(R.string.add_customer));
         }
+
+        ivScanBarcode.setOnClickListener(view -> mainPageConnection.scanBarcode(true));
+
         btnAddSave.setOnClickListener(view -> {
             if (this.customer != null) {
                 if (isValid()) {
                     this.customer.setName(etCustomerName.getText().toString());
                     this.customer.setPhoneNumber(etCustomerContact.getText().toString());
                     this.customer.setAddress(etCustomerAddress.getText().toString());
+                    this.customer.setQrCode(etCustomerBarcode.getText().toString());
                     databaseManager.addCustomer(this.customer).subscribe();
                     callback.onUpdate(null);
                     dismiss();
@@ -79,8 +90,18 @@ public class AddCustomerDialog extends Dialog {
                 if (isValid()) {
                     Customer newCustomer = new Customer();
                     newCustomer.setName(etCustomerName.getText().toString());
-                    newCustomer.setPhoneNumber(etCustomerContact.getText().toString());
-                    newCustomer.setAddress(etCustomerAddress.getText().toString());
+                    if (etCustomerContact.getText().toString().isEmpty())
+                        newCustomer.setPhoneNumber("-");
+                    else
+                        newCustomer.setPhoneNumber(etCustomerContact.getText().toString());
+                    if (etCustomerAddress.getText().toString().isEmpty())
+                        newCustomer.setAddress("-");
+                    else
+                        newCustomer.setAddress(etCustomerAddress.getText().toString());
+                    if (etCustomerBarcode.getText().toString().isEmpty())
+                        newCustomer.setQrCode("-");
+                    else
+                        newCustomer.setQrCode(etCustomerBarcode.getText().toString());
                     newCustomer.setClientId(id);
                     databaseManager.addCustomer(newCustomer).subscribe();
                     callback.onUpdate(newCustomer);
@@ -89,6 +110,10 @@ public class AddCustomerDialog extends Dialog {
             }
             UIUtils.closeKeyboard(etCustomerAddress, context);
         });
+    }
+
+    public void setBarcode(String barcode) {
+       etCustomerBarcode.setText(barcode);
     }
 
     public interface UpdateCustomerCallback {
@@ -106,6 +131,6 @@ public class AddCustomerDialog extends Dialog {
         if (etCustomerName.getText().toString().isEmpty()) {
             etCustomerName.setError(context.getString(R.string.enter_name));
             return false;
-        } else  return true;
+        } else return true;
     }
 }

@@ -21,6 +21,7 @@ import com.jim.mpviews.utils.Utils;
 public class MpSearchView extends RelativeLayout {
     private MpEditText mpSearchEditText;
     private boolean visibility_status = true;
+    private ImageView mpBarcodeImage;
 
     public MpSearchView(Context context) {
         super(context);
@@ -48,7 +49,7 @@ public class MpSearchView extends RelativeLayout {
         setLayoutParams(layoutParams);
         setBackgroundResource(R.drawable.edit_text_bg);
         TypedArray attributeArray = context.obtainStyledAttributes(attributeSet, R.styleable.MpSearchView);
-        ImageView mpBarcodeImage = (ImageView) findViewById(R.id.mpBarcodeImage);
+        mpBarcodeImage = (ImageView) findViewById(R.id.mpBarcodeImage);
         mpSearchEditText = (MpEditText) findViewById(R.id.mpSearchEditText);
         mpSearchEditText.setLines(1);
         mpSearchEditText.setMaxLines(1);
@@ -68,6 +69,10 @@ public class MpSearchView extends RelativeLayout {
 
     public EditText getSearchView() {
         return mpSearchEditText;
+    }
+
+    public ImageView getBarcodeView() {
+        return mpBarcodeImage;
     }
 
     @Override

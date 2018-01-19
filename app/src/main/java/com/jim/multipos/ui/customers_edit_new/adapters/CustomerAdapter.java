@@ -37,6 +37,16 @@ public class CustomerAdapter extends BaseAdapter<Customer, BaseViewHolder> {
     public static final int CUSTOMER_ADD_ITEM = 0;
     public static final int CUSTOMER_ITEM = 1;
 
+    public void setBarcode(String contents) {
+        addCustomer.setQrCode(contents);
+        notifyDataSetChanged();
+    }
+
+    public void setBarcode(String contents, int pos) {
+        getItem(pos).setQrCode(contents);
+        notifyDataSetChanged();
+    }
+
     public interface OnClickListener {
         void onAddClicked(String clientId, String fullName, String phone, String address, String qrCode, List<CustomerGroup> customerGroups);
 
@@ -63,6 +73,10 @@ public class CustomerAdapter extends BaseAdapter<Customer, BaseViewHolder> {
         void showItemCustomerGroupsDialog(int position);
 
         void showAddCustomerGroupDialog(Customer customer);
+
+        void scanBarcode();
+
+        void scanBarcode(int position);
     }
 
     private OnClickListener listener;
@@ -228,7 +242,7 @@ public class CustomerAdapter extends BaseAdapter<Customer, BaseViewHolder> {
             ButterKnife.bind(this, itemView);
 
             addCustomer.setClientId(listener.getClientId());
-            addCustomer.setQrCode(listener.getQrCode().toString());
+            addCustomer.setQrCode("");
 
             RxView.clicks(btnAdd).subscribe(o -> {
                 UIUtils.closeKeyboard(btnAdd, context);
@@ -247,7 +261,7 @@ public class CustomerAdapter extends BaseAdapter<Customer, BaseViewHolder> {
                         addCustomer.setPhoneNumber("");
                         addCustomer.setAddress("");
                         addCustomer.setClientId(listener.getClientId());
-                        addCustomer.setQrCode(listener.getQrCode().toString());
+                        addCustomer.setQrCode("");
                         addCustomer.getCustomerGroups().clear();
                         tvId.setText(addCustomer.getClientId().toString());
                         etFullName.setText("");
@@ -258,11 +272,6 @@ public class CustomerAdapter extends BaseAdapter<Customer, BaseViewHolder> {
                         etFullName.requestFocus();
                     }
                 }
-            });
-
-            RxView.clicks(ivRefreshQrCode).subscribe(o -> {
-                addCustomer.setQrCode(listener.getQrCode().toString());
-                tvQrCode.setText(addCustomer.getQrCode());
             });
 
             RxView.clicks(tvClientId).subscribe(o -> {
@@ -358,8 +367,7 @@ public class CustomerAdapter extends BaseAdapter<Customer, BaseViewHolder> {
             });
 
             RxView.clicks(ivRefreshQrCode).subscribe(o -> {
-                addCustomer.setQrCode(listener.getQrCode().toString());
-                tvQrCodeInAdd.setText(addCustomer.getQrCode());
+                listener.scanBarcode();
             });
 
             RxView.clicks(tvCustomerGroup).subscribe(o -> {
@@ -419,7 +427,7 @@ public class CustomerAdapter extends BaseAdapter<Customer, BaseViewHolder> {
         @BindView(R.id.etAddress)
         MpEditText etAddress;
         @BindView(R.id.tvQrCode)
-        TextView tvQrCode;
+        MpEditText tvQrCode;
         @BindView(R.id.ivRefreshQrCode)
         ImageView ivRefreshQrCode;
         @BindView(R.id.tvCustomerGroup)
@@ -451,8 +459,7 @@ public class CustomerAdapter extends BaseAdapter<Customer, BaseViewHolder> {
             });
 
             RxView.clicks(ivRefreshQrCode).subscribe(o -> {
-                getItem(getAdapterPosition() - 1).setQrCode(listener.getQrCode().toString());
-                tvQrCode.setText(getItem(getAdapterPosition() - 1).getQrCode());
+                listener.scanBarcode(getAdapterPosition() - 1);
                 notSavedItems.add(getItem(getAdapterPosition() - 1));
                 btnSave.enable();
             });
@@ -464,6 +471,7 @@ public class CustomerAdapter extends BaseAdapter<Customer, BaseViewHolder> {
             initTextWatcher(etFullName);
             initTextWatcher(etPhone);
             initTextWatcher(etAddress);
+            initTextWatcher(tvQrCode);
         }
 
         private void initTextWatcher(EditText editText) {
@@ -501,6 +509,14 @@ public class CustomerAdapter extends BaseAdapter<Customer, BaseViewHolder> {
                                 btnSave.enable();
                             }
                             break;
+                        case R.id.tvQrCode:
+                            if (!tvQrCode.getText().toString().equals(getItem(getAdapterPosition() - 1).getQrCode())) {
+                                getItem(getAdapterPosition() - 1).setQrCode(editText.getText().toString());
+                                notSavedItems.add(getItem(getAdapterPosition() - 1));
+                                btnSave.enable();
+                            }
+                            break;
+
                     }
                 }
             });

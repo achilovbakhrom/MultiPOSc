@@ -40,7 +40,9 @@ public class PayToDebtDialog extends Dialog {
     @BindView(R.id.tvCurrencyAbbr)
     TextView tvCurrencyAbbr;
 
-    public PayToDebtDialog(Context context, Debt debt, DatabaseManager databaseManager, boolean payToAll, UpdateCustomerDebtsListCallback callback) {
+    private List<Debt> debtList;
+    private double allDebt;
+    public PayToDebtDialog(Context context, Debt debt, DatabaseManager databaseManager, boolean closeDebt, boolean payToAll, UpdateCustomerDebtsListCallback callback) {
         super(context);
 
         View dialogView = getLayoutInflater().inflate(R.layout.payment_to_debt, null);
@@ -57,7 +59,7 @@ public class PayToDebtDialog extends Dialog {
         }
         spPaymentType.setAdapter(paymentTypeNames);
 
-        if (payToAll){
+        if (closeDebt) {
             double feeAmount = debt.getFee() * debt.getDebtAmount() / 100;
             double dueSum = debt.getDebtAmount() + feeAmount;
             if (debt.getCustomerPayments().size() > 0) {
@@ -67,6 +69,22 @@ public class PayToDebtDialog extends Dialog {
             }
             etAmount.setText(String.valueOf(dueSum));
         }
+        allDebt = 0;
+        if (payToAll) {
+            databaseManager.getDebtsByCustomerId(debt.getCustomer().getId()).subscribe((debts, throwable) -> {
+                debtList = debts;
+                for (Debt item : debtList) {
+                    double feeAmount = item.getFee() * item.getDebtAmount() / 100;
+                    allDebt += item.getDebtAmount() + feeAmount;
+                    if (item.getCustomerPayments().size() > 0)
+                        for (int i = 0; i < item.getCustomerPayments().size(); i++) {
+                            allDebt -= item.getCustomerPayments().get(i).getPaymentAmount();
+                        }
+                }
+                etAmount.setText(String.valueOf(allDebt));
+            });
+
+        }
 
 
         btnBack.setOnClickListener(view -> {
@@ -75,36 +93,91 @@ public class PayToDebtDialog extends Dialog {
         });
         double feeAmount = debt.getFee() * debt.getDebtAmount() / 100;
         double total = debt.getDebtAmount() + feeAmount;
-        
+
         btnPay.setOnClickListener(view -> {
             if (!etAmount.getText().toString().isEmpty()) {
-                double amount = Double.parseDouble(etAmount.getText().toString());
-                if (total < amount)
-                    etAmount.setError("Payment amount cannot be bigger than debt amount");
-                else if (total != amount && debt.getDebtType() == Debt.ALL) {
-                    etAmount.setError("You cannot pay in participle for this debt");
-                } else {
-                    double dueSum = total;
-                    if (debt.getCustomerPayments().size() > 0) {
-                        for (CustomerPayment payment : debt.getCustomerPayments()) {
-                            dueSum -= payment.getPaymentAmount();
+                if (debtList != null && debtList.size() > 0) {
+                    double amount = Double.parseDouble(etAmount.getText().toString());
+                    if (allDebt < amount)
+                        etAmount.setError("Payment amount cannot be bigger than debt amount");
+                    else {
+                        for (int i = 0; i < debtList.size(); i++) {
+                            Debt item = debtList.get(i);
+                            double totalDebt = item.getDebtAmount() + item.getFee() * item.getDebtAmount() / 100;
+                            if (item.getCustomerPayments().size() > 0) {
+                                for (CustomerPayment payment : item.getCustomerPayments()) {
+                                    totalDebt -= payment.getPaymentAmount();
+                                }
+                            }
+                            if (amount > totalDebt) {
+                                CustomerPayment payment = new CustomerPayment();
+                                payment.setDebt(item);
+                                payment.setPaymentDate(System.currentTimeMillis());
+                                payment.setPaymentType(paymentTypes.get(spPaymentType.getSelectedPosition()));
+                                payment.setPaymentAmount(totalDebt);
+                                payment.setDebtDue(0);
+                                item.setStatus(Debt.CLOSED);
+                                databaseManager.addDebt(item).blockingGet();
+                                databaseManager.addCustomerPayment(payment).subscribe();
+                                item.resetCustomerPayments();
+                                amount -= totalDebt;
+                            } else if (amount == totalDebt) {
+                                CustomerPayment payment = new CustomerPayment();
+                                payment.setDebt(item);
+                                payment.setPaymentDate(System.currentTimeMillis());
+                                payment.setPaymentType(paymentTypes.get(spPaymentType.getSelectedPosition()));
+                                payment.setPaymentAmount(amount);
+                                payment.setDebtDue(0);
+                                item.setStatus(Debt.CLOSED);
+                                databaseManager.addDebt(item).blockingGet();
+                                databaseManager.addCustomerPayment(payment).subscribe();
+                                item.resetCustomerPayments();
+                                break;
+                            } else {
+                                CustomerPayment payment = new CustomerPayment();
+                                payment.setDebt(item);
+                                payment.setPaymentDate(System.currentTimeMillis());
+                                payment.setPaymentType(paymentTypes.get(spPaymentType.getSelectedPosition()));
+                                payment.setPaymentAmount(amount);
+                                payment.setDebtDue(totalDebt - amount);
+                                databaseManager.addCustomerPayment(payment).subscribe();
+                                item.resetCustomerPayments();
+                                break;
+                            }
                         }
+                        callback.onPay(debt.getCustomer());
+                        UIUtils.closeKeyboard(btnPay, context);
+                        dismiss();
                     }
-                    CustomerPayment payment = new CustomerPayment();
-                    payment.setDebt(debt);
-                    payment.setPaymentDate(System.currentTimeMillis());
-                    payment.setPaymentType(paymentTypes.get(spPaymentType.getSelectedPosition()));
-                    payment.setPaymentAmount(amount);
-                    payment.setDebtDue(dueSum - amount);
-                    if (dueSum - amount == 0) {
-                        debt.setStatus(Debt.CLOSED);
-                        databaseManager.addDebt(debt).blockingGet();
+                } else {
+                    double amount = Double.parseDouble(etAmount.getText().toString());
+                    if (total < amount)
+                        etAmount.setError("Payment amount cannot be bigger than debt amount");
+                    else if (total != amount && debt.getDebtType() == Debt.ALL) {
+                        etAmount.setError("You cannot pay in participle for this debt");
+                    } else {
+                        double dueSum = total;
+                        if (debt.getCustomerPayments().size() > 0) {
+                            for (CustomerPayment payment : debt.getCustomerPayments()) {
+                                dueSum -= payment.getPaymentAmount();
+                            }
+                        }
+                        CustomerPayment payment = new CustomerPayment();
+                        payment.setDebt(debt);
+                        payment.setPaymentDate(System.currentTimeMillis());
+                        payment.setPaymentType(paymentTypes.get(spPaymentType.getSelectedPosition()));
+                        payment.setPaymentAmount(amount);
+                        payment.setDebtDue(dueSum - amount);
+                        if (dueSum - amount == 0) {
+                            debt.setStatus(Debt.CLOSED);
+                            databaseManager.addDebt(debt).blockingGet();
+                        }
+                        databaseManager.addCustomerPayment(payment).subscribe();
+                        debt.resetCustomerPayments();
+                        callback.onPay(debt.getCustomer());
+                        UIUtils.closeKeyboard(btnPay, context);
+                        dismiss();
                     }
-                    databaseManager.addCustomerPayment(payment).subscribe();
-                    debt.resetCustomerPayments();
-                    callback.onPay(debt.getCustomer());
-                    UIUtils.closeKeyboard(btnPay, context);
-                    dismiss();
                 }
             } else {
                 etAmount.setError(context.getString(R.string.enter_amount));

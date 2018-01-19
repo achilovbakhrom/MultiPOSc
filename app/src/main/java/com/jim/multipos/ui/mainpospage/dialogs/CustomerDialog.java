@@ -5,11 +5,13 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.google.zxing.integration.android.IntentIntegrator;
 import com.jim.mpviews.MpButton;
 import com.jim.mpviews.MpSearchView;
 import com.jim.multipos.R;
@@ -39,6 +41,8 @@ import static com.jim.multipos.ui.mainpospage.dialogs.CustomerDialog.CustomerSor
 import static com.jim.multipos.ui.mainpospage.dialogs.CustomerDialog.CustomerSortingStates.SORTED_BY_NAME_INVERT;
 import static com.jim.multipos.ui.mainpospage.dialogs.CustomerDialog.CustomerSortingStates.SORTED_BY_PHONE;
 import static com.jim.multipos.ui.mainpospage.dialogs.CustomerDialog.CustomerSortingStates.SORTED_BY_PHONE_INVERT;
+import static com.jim.multipos.ui.mainpospage.dialogs.CustomerDialog.CustomerSortingStates.SORTED_BY_QR;
+import static com.jim.multipos.ui.mainpospage.dialogs.CustomerDialog.CustomerSortingStates.SORTED_BY_QR_INVERT;
 
 /**
  * Created by developer on 04.12.2017.
@@ -58,6 +62,10 @@ public class CustomerDialog extends Dialog {
     LinearLayout llCustomerAddress;
     @BindView(R.id.llCustomerContacts)
     LinearLayout llCustomerContacts;
+    @BindView(R.id.llCustomerQrCode)
+    LinearLayout llCustomerQrCode;
+    @BindView(R.id.ivQrCodeSort)
+    ImageView ivQrCodeSort;
     @BindView(R.id.ivIdSort)
     ImageView ivIdSort;
     @BindView(R.id.ivCustomerNameSort)
@@ -70,9 +78,11 @@ public class CustomerDialog extends Dialog {
     MpButton btnAddNewCustomer;
     private CustomersListAdapter customersListAdapter;
     private List<Customer> customerList, searchResults;
+    private onBarcodeClickListener listener;
+    private AddCustomerDialog addCustomerDialog;
 
     public enum CustomerSortingStates {
-        SORTED_BY_ID, SORTED_BY_ID_INVERT, SORTED_BY_NAME, SORTED_BY_NAME_INVERT, SORTED_BY_PHONE, SORTED_BY_PHONE_INVERT, SORTED_BY_ADDRESS, SORTED_BY_ADDRESS_INVERT
+        SORTED_BY_ID, SORTED_BY_ID_INVERT, SORTED_BY_NAME, SORTED_BY_NAME_INVERT, SORTED_BY_PHONE, SORTED_BY_PHONE_INVERT, SORTED_BY_ADDRESS, SORTED_BY_ADDRESS_INVERT, SORTED_BY_QR, SORTED_BY_QR_INVERT
     }
 
     private CustomerSortingStates filterMode = SORTED_BY_ID;
@@ -89,6 +99,7 @@ public class CustomerDialog extends Dialog {
         customerList = new ArrayList<>();
         customerList = databaseManager.getAllCustomers().blockingSingle();
         rvCustomersList.setLayoutManager(new LinearLayoutManager(context));
+        ((SimpleItemAnimator) rvCustomersList.getItemAnimator()).setSupportsChangeAnimations(false);
         customersListAdapter = new CustomersListAdapter();
         sortList();
         rvCustomersList.setAdapter(customersListAdapter);
@@ -96,11 +107,11 @@ public class CustomerDialog extends Dialog {
         customersListAdapter.setCallback(new CustomersListAdapter.OnCustomerListItemCallback() {
             @Override
             public void onItemEdit(Customer customer) {
-                AddCustomerDialog addCustomerDialog = new AddCustomerDialog(context, customer, databaseManager, (Customer newCustomer) -> {
+                addCustomerDialog = new AddCustomerDialog(context, customer, databaseManager, (Customer newCustomer) -> {
                     customerList = databaseManager.getAllCustomers().blockingSingle();
                     sortList();
                     customersListAdapter.setData(customerList);
-                });
+                }, mainPageConnection);
                 addCustomerDialog.show();
             }
 
@@ -113,14 +124,14 @@ public class CustomerDialog extends Dialog {
         });
 
         btnAddNewCustomer.setOnClickListener(view -> {
-            AddCustomerDialog addCustomerDialog = new AddCustomerDialog(context, null, databaseManager, (Customer customer) -> {
+            addCustomerDialog = new AddCustomerDialog(context, null, databaseManager, (Customer customer) -> {
                 customerList = databaseManager.getAllCustomers().blockingSingle();
                 sortList();
                 customersListAdapter.setData(customerList);
                 if (customer != null){
 
                 }
-            });
+            }, mainPageConnection);
             addCustomerDialog.show();
         });
 
@@ -181,6 +192,21 @@ public class CustomerDialog extends Dialog {
             }
         });
 
+        llCustomerQrCode.setOnClickListener(view -> {
+            deselectAll();
+            if (filterMode != SORTED_BY_QR) {
+                filterMode = SORTED_BY_QR;
+                sortList();
+                ivQrCodeSort.setVisibility(View.VISIBLE);
+                ivQrCodeSort.setImageResource(R.drawable.sorting);
+            } else {
+                filterMode = SORTED_BY_QR_INVERT;
+                ivQrCodeSort.setVisibility(View.VISIBLE);
+                ivQrCodeSort.setImageResource(R.drawable.sorting_invert);
+                sortList();
+            }
+        });
+
         svCustomerSearch.getSearchView().addTextChangedListener(new TextWatcherOnTextChange() {
             @Override
             public void onTextChanged(CharSequence charSequence, int position, int i1, int i2) {
@@ -207,17 +233,38 @@ public class CustomerDialog extends Dialog {
                         if (customerList.get(i).getAddress().toUpperCase().contains(searchText.toUpperCase())) {
                             searchResults.add(customerList.get(i));
                         }
+                        if (customerList.get(i).getQrCode().toUpperCase().contains(searchText.toUpperCase())){
+                            searchResults.add(customerList.get(i));
+                        }
                     }
                     sortList();
                     customersListAdapter.setSearchResult(searchResults, searchText);
                 }
             }
         });
+
+        svCustomerSearch.getBarcodeView().setOnClickListener(view -> listener.onBarcodeClick());
+    }
+
+    public void setBarcode(String contents) {
+        svCustomerSearch.getSearchView().setText(contents);
+    }
+
+    public void setBarcodeForAddCustomerDialog(String contents) {
+        addCustomerDialog.setBarcode(contents);
     }
 
     @OnClick(R.id.btnBack)
     public void onBackPressed() {
         dismiss();
+    }
+
+    public interface onBarcodeClickListener{
+        void onBarcodeClick();
+    }
+
+    public void setListener(onBarcodeClickListener listener){
+        this.listener = listener;
     }
 
     private void deselectAll() {
@@ -256,6 +303,12 @@ public class CustomerDialog extends Dialog {
                 break;
             case SORTED_BY_PHONE_INVERT:
                 Collections.sort(customerListTemp, (customer, t1) -> customer.getPhoneNumber().compareTo(t1.getPhoneNumber()) * -1);
+                break;
+            case SORTED_BY_QR:
+                Collections.sort(customerListTemp, (customer, t1) -> customer.getQrCode().toUpperCase().compareTo(t1.getQrCode().toUpperCase()) * -1);
+                break;
+            case SORTED_BY_QR_INVERT:
+                Collections.sort(customerListTemp, (customer, t1) -> customer.getQrCode().toUpperCase().compareTo(t1.getQrCode().toUpperCase()) * -1);
                 break;
         }
         customersListAdapter.notifyDataSetChanged();

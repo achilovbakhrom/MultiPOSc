@@ -162,23 +162,24 @@
             android:paddingRight="@dimen/ten_dp"
             android:paddingTop="@dimen/five_dp">
 
-            <TextView
+            <com.jim.mpviews.MpEditText
+                android:backgroundTint="@color/transparent"
                 android:id="@+id/tvQrCodeInAdd"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
+                android:hint="@string/barcode"
                 android:background="@color/colorWhite"
-                android:hint="789456123"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/eighteen_dp" />
 
             <ImageView
                 android:id="@+id/ivRefreshQrCode"
-                android:layout_width="@dimen/forty_five_dp"
-                android:layout_height="@dimen/forty_five_dp"
+                android:layout_width="@dimen/thirty_dp"
+                android:layout_height="@dimen/thirty_dp"
                 android:layout_gravity="center"
-                android:src="@drawable/refresh"
+                android:src="@drawable/barcode"
                 android:tint="@color/colorBlue" />
         </LinearLayout>
 

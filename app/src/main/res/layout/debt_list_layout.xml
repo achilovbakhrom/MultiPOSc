@@ -184,6 +184,70 @@
         android:background="@color/colorTextHint" />
 
     <LinearLayout
+        android:id="@+id/llTopGround"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/thirty_dp"
+        android:paddingRight="@dimen/thirty_dp"
+        android:paddingTop="@dimen/twenty_five_dp">
+
+        <LinearLayout
+            android:layout_width="@dimen/two_hundred_eighty_dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginBottom="@dimen/forty_five_dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/total_debt_two_dots"
+                android:textColor="@color/colorMainText" />
+
+            <TextView
+                android:id="@+id/tvCustomerTotalDebt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:textColor="@color/colorMainText" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llPay"
+            android:layout_width="@dimen/two_hundred_eighty_dp"
+            android:layout_height="@dimen/hundred_ten_dp"
+            android:layout_gravity="right"
+            android:background="@drawable/big_btn"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="PAY"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/thirty_dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Automatic delivery payment"
+                android:textColor="@color/colorBlue" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/llLowGround"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -191,14 +255,15 @@
         android:orientation="horizontal"
         android:paddingLeft="@dimen/thirty_dp"
         android:paddingRight="@dimen/thirty_dp"
-        android:paddingTop="@dimen/twenty_five_dp">
+        android:paddingTop="@dimen/twenty_five_dp"
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="@dimen/two_hundred_fifty_dp"
             android:layout_marginRight="@dimen/fifteen_dp"
             android:layout_weight="1"
-            android:background="@drawable/big_edit_text_bg"
+            android:background="@drawable/rounded_edit_text_bg"
             android:orientation="vertical"
             android:padding="@dimen/fifteen_dp">
 
@@ -341,7 +406,7 @@
             android:layout_height="@dimen/two_hundred_fifty_dp"
             android:layout_marginRight="@dimen/fifteen_dp"
             android:layout_weight="1"
-            android:background="@drawable/big_edit_text_bg"
+            android:background="@drawable/rounded_edit_text_bg"
             android:orientation="vertical"
             android:padding="@dimen/fifteen_dp">
 
@@ -489,14 +554,14 @@
 
             <TextView
                 android:id="@+id/btnPayToDebt"
-                android:background="@drawable/big_btn"
-                android:text="PAY"
-                android:gravity="center"
-                android:textStyle="bold"
-                android:textSize="@dimen/thirty_dp"
-                android:textColor="@color/colorBlue"
                 android:layout_width="@dimen/hundred_eighty_dp"
-                android:layout_height="@dimen/hundred_fifty_dp" />
+                android:layout_height="@dimen/hundred_eighty_dp"
+                android:background="@drawable/big_btn"
+                android:gravity="center"
+                android:text="PAY"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/thirty_dp"
+                android:textStyle="bold" />
 
         </LinearLayout>
 

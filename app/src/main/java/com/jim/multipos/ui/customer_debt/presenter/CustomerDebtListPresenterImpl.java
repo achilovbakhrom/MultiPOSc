@@ -52,6 +52,7 @@ public class CustomerDebtListPresenterImpl extends BasePresenterImpl<CustomerDeb
             sortList();
             view.fillRecyclerView(debtList, currency);
         });
+        initTotalDataOfCustomer();
     }
 
     @Override
@@ -117,7 +118,7 @@ public class CustomerDebtListPresenterImpl extends BasePresenterImpl<CustomerDeb
 
     @Override
     public void onPayToDebt() {
-        view.openPayToDebt(debt, databaseManager, false);
+        view.openPayToDebt(debt, databaseManager, false, false);
     }
 
     @Override
@@ -132,7 +133,7 @@ public class CustomerDebtListPresenterImpl extends BasePresenterImpl<CustomerDeb
 
     @Override
     public void closeDebtWithPayingAllAmount(Debt item) {
-        view.openPayToDebt(item, databaseManager, true);
+        view.openPayToDebt(item, databaseManager, true, false);
     }
 
     @Override
@@ -148,6 +149,26 @@ public class CustomerDebtListPresenterImpl extends BasePresenterImpl<CustomerDeb
         sorting *= -1;
         sortList();
         view.notifyList();
+    }
+
+    @Override
+    public void initTotalDataOfCustomer() {
+        double total = 0;
+        for (Debt debt : debtList) {
+            double feeAmount = debt.getFee() * debt.getDebtAmount() / 100;
+            total += debt.getDebtAmount() + feeAmount;
+            if (debt.getCustomerPayments().size() > 0)
+                for (int i = 0; i < debt.getCustomerPayments().size(); i++) {
+                    total -= debt.getCustomerPayments().get(i).getPaymentAmount();
+                }
+        }
+        view.fillTotalInfo(total, currency);
+
+    }
+
+    @Override
+    public void openPayToAllDialog() {
+        view.openPayToDebt(debtList.get(0), databaseManager, false, true);
     }
 
     private void sortList() {

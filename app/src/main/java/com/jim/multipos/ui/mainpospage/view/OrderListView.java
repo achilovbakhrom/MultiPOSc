@@ -51,5 +51,7 @@ public interface  OrderListView extends BaseView {
     void openUnitValuePicker(Product product);
     void openUnitValuePickerEdit(Product product, double weight);
     void addProductWithWeightToListEdit(double weight);
+    void initScan();
 
+    void scanBarcodeFor(boolean fromAddCustomer);
 }

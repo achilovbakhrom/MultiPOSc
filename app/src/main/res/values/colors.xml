@@ -35,4 +35,5 @@
     <color name="colorGreenLight">#4fc82b</color>
     <color name="colorGreenVeryLight">#f3feee</color>
     <color name="colorOrangeLight">#fef9eb</color>
+    <color name="colorDiscount">#d3d3d3</color>
 </resources>

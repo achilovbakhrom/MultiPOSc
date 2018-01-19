@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.view.View;
 import android.view.Window;
 
@@ -76,8 +77,10 @@ public class ReturnsDialog extends Dialog {
         searchResultsAdapter = new ProductSearchResultsAdapter();
         rvProducts.setLayoutManager(new LinearLayoutManager(context));
         rvProducts.setAdapter(searchResultsAdapter);
+        ((SimpleItemAnimator) rvProducts.getItemAnimator()).setSupportsChangeAnimations(false);
         rvReturnProducts.setLayoutManager(new LinearLayoutManager(context));
         rvReturnProducts.setAdapter(returnsAdapter);
+        ((SimpleItemAnimator) rvReturnProducts.getItemAnimator()).setSupportsChangeAnimations(false);
         searchResultsAdapter.setData(productList);
         svProductSearch.getSearchView().addTextChangedListener(new TextWatcherOnTextChange() {
             @Override

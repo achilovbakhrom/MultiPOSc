@@ -1,6 +1,7 @@
 package com.jim.multipos.ui.customer_debt.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -41,7 +42,7 @@ public class DebtListAdapter extends RecyclerView.Adapter<DebtListAdapter.DebtLi
     private Context context;
     private DecimalFormat decimalFormat;
     protected int selectedPosition = -1;
-    private boolean isFirstTime = false;
+    private boolean payToAll = false;
 
     public DebtListAdapter(Context context, DecimalFormat decimalFormat) {
         this.context = context;
@@ -53,7 +54,6 @@ public class DebtListAdapter extends RecyclerView.Adapter<DebtListAdapter.DebtLi
         this.items = items;
         this.currency = currency;
         notifyDataSetChanged();
-        isFirstTime = true;
     }
 
     @Override
@@ -79,14 +79,6 @@ public class DebtListAdapter extends RecyclerView.Adapter<DebtListAdapter.DebtLi
             holder.tvEndDate.setTextColor(ContextCompat.getColor(context, R.color.colorRed));
         } else
             holder.tvEndDate.setTextColor(ContextCompat.getColor(context, R.color.colorMainText));
-        if (isFirstTime) {
-            if (position == 0) {
-                selectedPosition = holder.getAdapterPosition();
-                holder.llBackground.setBackground(ContextCompat.getDrawable(context, R.drawable.yellow_rect));
-                listener.onItemClicked(items.get(position), position);
-                isFirstTime = false;
-            }
-        }
         double dueSum = items.get(position).getDebtAmount() + feeAmount;
         if (items.get(position).getCustomerPayments().size() > 0) {
             for (int i = 0; i < items.get(position).getCustomerPayments().size(); i++) {
@@ -101,12 +93,16 @@ public class DebtListAdapter extends RecyclerView.Adapter<DebtListAdapter.DebtLi
         if (selectedPosition == position) {
             holder.llBackground.setBackground(ContextCompat.getDrawable(context, R.drawable.yellow_rect));
         } else holder.llBackground.setBackground(null);
-
     }
 
     @Override
     public int getItemCount() {
         return items.size();
+    }
+
+    public void setSelectedPosition(int selectedPosition) {
+        this.selectedPosition = selectedPosition;
+        this.payToAll = true;
     }
 
     public interface OnDebtClickListener {
@@ -139,12 +135,21 @@ public class DebtListAdapter extends RecyclerView.Adapter<DebtListAdapter.DebtLi
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(view -> {
                 if (selectedPosition != getAdapterPosition()) {
-                    isFirstTime = false;
                     if (listener != null) {
                         notifyItemChanged(selectedPosition);
                         notifyItemChanged(getAdapterPosition());
                         listener.onItemClicked(items.get(getAdapterPosition()), getAdapterPosition());
                         selectedPosition = getAdapterPosition();
+                        payToAll = false;
+                    }
+                } else {
+                    listener.onItemClicked(items.get(getAdapterPosition()), getAdapterPosition());
+                    if (payToAll){
+                        llBackground.setBackground(ContextCompat.getDrawable(context, R.drawable.yellow_rect));
+                        payToAll = false;
+                    } else {
+                        llBackground.setBackground(null);
+                        payToAll = true;
                     }
                 }
             });
@@ -155,9 +160,6 @@ public class DebtListAdapter extends RecyclerView.Adapter<DebtListAdapter.DebtLi
                 popupMenu.setGravity(Gravity.END);
                 popupMenu.setOnMenuItemClickListener(menuItem -> {
                     switch (menuItem.getItemId()) {
-                        case R.id.returnProduct:
-                            Toast.makeText(context, "Return Product", Toast.LENGTH_SHORT).show();
-                            return true;
                         case R.id.closeDebt:
                             listener.onCloseDebt(items.get(getAdapterPosition()));
                             return true;

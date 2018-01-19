@@ -114,6 +114,7 @@
                         android:textSize="@dimen/sixteen_dp" />
 
                     <ImageView
+                        android:id="@+id/ivScanBarcode"
                         android:scaleType="centerInside"
                         android:layout_width="@dimen/twenty_five_dp"
                         android:layout_height="@dimen/twenty_five_dp"

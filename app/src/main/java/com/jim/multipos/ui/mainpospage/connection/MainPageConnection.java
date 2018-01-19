@@ -38,6 +38,14 @@ public class MainPageConnection {
             orderListView.setCount(count);
         }
     }
+
+    public void scanBarcode(boolean fromAddCustomer){
+        if (orderListView != null){
+            orderListView.initScan();
+            orderListView.scanBarcodeFor(fromAddCustomer);
+        }
+    }
+
     public void changeCustomer(Customer customer){
         if(orderListView!=null){
             orderListView.changeCustomer(customer);
@@ -107,8 +115,6 @@ public class MainPageConnection {
     public OrderListView getOrderListView() {
         return orderListView;
     }
-
-
 
     public void setOrderListView(OrderListView orderListView) {
         this.orderListView = orderListView;

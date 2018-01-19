@@ -47,11 +47,13 @@ public class CustomersListAdapter extends RecyclerView.Adapter<CustomersListAdap
             holder.tvCustomerName.setText(items.get(position).getName());
             holder.tvCustomerAddress.setText(items.get(position).getAddress());
             holder.tvCustomerContact.setText(items.get(position).getPhoneNumber());
+            holder.tvCustomerQrCode.setText(items.get(position).getQrCode());
         } else {
             colorSubSeq(String.valueOf(items.get(position).getClientId()), searchText, Color.parseColor("#95ccee"), holder.tvCustomerId);
             colorSubSeq(items.get(position).getName(), searchText, Color.parseColor("#95ccee"), holder.tvCustomerName);
             colorSubSeq(items.get(position).getAddress(), searchText, Color.parseColor("#95ccee"), holder.tvCustomerAddress);
             colorSubSeq(items.get(position).getPhoneNumber(), searchText, Color.parseColor("#95ccee"), holder.tvCustomerContact);
+            colorSubSeq(items.get(position).getQrCode(), searchText, Color.parseColor("#95ccee"), holder.tvCustomerQrCode);
         }
     }
 
@@ -100,6 +102,8 @@ public class CustomersListAdapter extends RecyclerView.Adapter<CustomersListAdap
         MpActionButton btnAddToOrder;
         @BindView(R.id.llBackground)
         LinearLayout llBackground;
+        @BindView(R.id.tvCustomerQrCode)
+        TextView tvCustomerQrCode;
 
         public CustomerListViewHolder(View itemView) {
             super(itemView);
