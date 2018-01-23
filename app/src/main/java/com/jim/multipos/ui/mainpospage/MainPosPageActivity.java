@@ -19,6 +19,7 @@ import com.jim.multipos.ui.cash_management.CashManagementActivity;
 import com.jim.multipos.ui.main_menu.customers_menu.CustomersMenuActivity;
 import com.jim.multipos.ui.main_menu.inventory_menu.InventoryMenuActivity;
 import com.jim.multipos.ui.main_menu.product_menu.ProductMenuActivity;
+import com.jim.multipos.ui.mainpospage.view.BarcodeScannerFragment;
 import com.jim.multipos.ui.mainpospage.view.CustomerNotificationsFragment;
 import com.jim.multipos.ui.mainpospage.view.OrderListFragment;
 import com.jim.multipos.ui.mainpospage.view.ProductPickerFragment;
@@ -79,14 +80,27 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
         toolbar.setOnClickListener(view -> {
         });
 
-        toolbar.setBarcodeClickListener(view -> showBarcodeScannerFragment());
-
         toolbar.setOnSettingsClickListener(view -> {
-            MainMenuDialog mainMenuDialog = new MainMenuDialog(this, databaseManager, decimalFormat, new MainMenuDialog.onMenuItemClickListener() {
+            boolean isBarcodeShown = false;
+            BarcodeScannerFragment barcodeScannerFragment = (BarcodeScannerFragment) getSupportFragmentManager().findFragmentByTag(BarcodeScannerFragment.class.getName());
+            if (barcodeScannerFragment != null && barcodeScannerFragment.isVisible())
+                isBarcodeShown = true;
+
+            MainMenuDialog mainMenuDialog = new MainMenuDialog(this, databaseManager, decimalFormat, isBarcodeShown, new MainMenuDialog.onMenuItemClickListener() {
                 @Override
                 public void onCashManagement() {
                     Intent intent = new Intent(getBaseContext(), CashManagementActivity.class);
                     startActivity(intent);
+                }
+
+                @Override
+                public void onTurnOnBarcodeScanner() {
+                    showBarcodeScannerFragment();
+                }
+
+                @Override
+                public void onTurnOffBarcodeScanner() {
+                    hideBarcodeScannerFragment();
                 }
             });
             mainMenuDialog.show();

@@ -180,6 +180,7 @@ public abstract class MainPageDoubleSideActivity extends BaseActivity{
     }
 
     protected final void addFragmentToTopRight(Fragment fragment){addFragment(R.id.flRightTop,fragment);}
+
     public void showBarcodeScannerFragment() {
         BarcodeScannerFragment barcodeScannerFragment = (BarcodeScannerFragment) getSupportFragmentManager().findFragmentByTag(BarcodeScannerFragment.class.getName());
         if (barcodeScannerFragment == null) {
@@ -187,6 +188,13 @@ public abstract class MainPageDoubleSideActivity extends BaseActivity{
             addFragmentWithTagStatic(R.id.flFullContainer, barcodeScannerFragment, BarcodeScannerFragment.class.getName());
         } else {
             getSupportFragmentManager().beginTransaction().show(barcodeScannerFragment).commit();
+        }
+    }
+
+    public void hideBarcodeScannerFragment() {
+        BarcodeScannerFragment barcodeScannerFragment = (BarcodeScannerFragment) getSupportFragmentManager().findFragmentByTag(BarcodeScannerFragment.class.getName());
+        if (barcodeScannerFragment != null) {
+            getSupportFragmentManager().beginTransaction().hide(barcodeScannerFragment).commit();
         }
     }
 }

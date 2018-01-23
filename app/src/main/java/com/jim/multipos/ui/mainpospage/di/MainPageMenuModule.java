@@ -35,6 +35,7 @@ import com.jim.multipos.ui.mainpospage.view.ProductSquareViewFragment;
 import com.jim.multipos.ui.mainpospage.view.SearchModeFragment;
 import com.jim.multipos.ui.mainpospage.view.SearchModeFragmentModule;
 import com.jim.multipos.utils.RxBusLocal;
+import com.jim.multipos.utils.managers.NotifyManager;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -128,4 +129,9 @@ public abstract class MainPageMenuModule {
     @ContributesAndroidInjector(modules = BarcodeScannerFragmentModule.class)
     abstract BarcodeScannerFragment provideBarcodeScannerFragmentInjector();
 
+    @PerActivity
+    @Provides
+    static NotifyManager getNotifyManager() {
+        return new NotifyManager();
+    }
 }

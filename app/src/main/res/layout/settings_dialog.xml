@@ -50,6 +50,20 @@
         android:background="@color/colorTextHint" />
 
     <TextView
+        android:id="@+id/tvBarcodeScanner"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/forty_dp"
+        android:gravity="center"
+        android:text="Turn on scanner" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="@dimen/twenty_dp"
+        android:layout_marginRight="@dimen/twenty_dp"
+        android:background="@color/colorTextHint" />
+
+    <TextView
         android:id="@+id/tvLogOut"
         android:layout_width="match_parent"
         android:layout_height="@dimen/forty_dp"

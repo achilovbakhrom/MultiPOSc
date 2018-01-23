@@ -81,10 +81,4 @@ public abstract class BaseAppModule {
 
     }
 
-    @Provides
-    @Singleton
-    static NotifyManager getNotifyManager() {
-        return new NotifyManager();
-    }
-
 }

@@ -51,8 +51,10 @@ public class MainMenuDialog extends Dialog {
     TextView tvSettings;
     @BindView(R.id.tvClose)
     TextView tvClose;
+    @BindView(R.id.tvBarcodeScanner)
+    TextView tvBarcodeScanner;
 
-    public MainMenuDialog(Context context, DatabaseManager databaseManager, DecimalFormat decimalFormat, onMenuItemClickListener listener) {
+    public MainMenuDialog(Context context, DatabaseManager databaseManager, DecimalFormat decimalFormat, boolean isBarcodeShown, onMenuItemClickListener listener) {
         super(context);
         View dialogView = getLayoutInflater().inflate(R.layout.settings_dialog, null);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -86,10 +88,23 @@ public class MainMenuDialog extends Dialog {
         tvClose.setOnClickListener(view -> {
             dismiss();
         });
+
+        if (isBarcodeShown)
+            tvBarcodeScanner.setText("Turn on barcode scanner");
+        else tvBarcodeScanner.setText("Turn off barcode scanner");
+
+        tvBarcodeScanner.setOnClickListener(view -> {
+            if (isBarcodeShown)
+            listener.onTurnOnBarcodeScanner();
+            else listener.onTurnOffBarcodeScanner();
+            dismiss();
+        });
     }
 
     public interface onMenuItemClickListener{
         void onCashManagement();
+        void onTurnOnBarcodeScanner();
+        void onTurnOffBarcodeScanner();
     }
 
 }
