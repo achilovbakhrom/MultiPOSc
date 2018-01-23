@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
@@ -208,10 +209,12 @@ public class InventoryFragment extends BaseFragment implements InventoryView{
 
         dialog = new Dialog(getContext());
         View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.vendor_product_list_dialog, null, false);
-        RecyclerView rvProductList = (RecyclerView) dialogView.findViewById(R.id.rvProductList);
+        RecyclerView rvProductList = dialogView.findViewById(R.id.rvProductList);
         rvProductList.setLayoutManager(new LinearLayoutManager(getContext()));
         vendorListAdapter = new VendorListAdapter();
         rvProductList.setAdapter(vendorListAdapter);
+        TextView textView = dialogView.findViewById(R.id.tvDialogTitle);
+        textView.setText("Vendor list");
         dialog.setContentView(dialogView);
         dialog.getWindow().getDecorView().setBackgroundResource(android.R.color.transparent);
         vendorListAdapter.setListener(vendor -> {

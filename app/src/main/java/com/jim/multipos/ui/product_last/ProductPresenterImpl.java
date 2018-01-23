@@ -26,6 +26,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 
+import dagger.Lazy;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -80,7 +81,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
         if (bundle != null) {
             category = (Category) bundle.getSerializable(CATEGORY_KEY);
             subcategory = (Category) bundle.getSerializable(SUBCATEGORY_KEY);
-            product = (Product) bundle.getSerializable(PRODUCT_KEY);
             isNew = bundle.getBoolean(STATE_KEY);
         }
     }
@@ -230,9 +230,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             }
             if (subcategory != null) {
                 bundle.putSerializable(SUBCATEGORY_KEY, subcategory);
-            }
-            if (product != null) {
-                bundle.putSerializable(PRODUCT_KEY, product);
             }
             bundle.putBoolean(STATE_KEY, isNew);
         }
@@ -614,19 +611,23 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
         }
     }
 
-
-    private void openProduct(Product product) {
+    public void openProduct(Product product) {
         if (product == null) {
             this.product = null;
             this.productClass = null;
             this.vendors.clear();
             this.vendorProductConnectionsList.clear();
+            this.inventoryStates.clear();
             mode = CategoryAddEditMode.PRODUCT_ADD_MODE;
             view.unselectProductsList();
             view.openProductAddMode();
         } else {
             this.product = product;
-            inventoryStates = databaseManager.getInventoryStatesByProductId(ProductPresenterImpl.this.product.getId()).blockingSingle();
+//            inventoryStates = databaseManager.getInventoryStatesByProductId(ProductPresenterImpl.this.product.getId()).blockingSingle();
+            databaseManager.getInventoryStatesByProductId(ProductPresenterImpl.this.product.getId()).subscribe(inventoryStates1 -> {
+                inventoryStates.clear();
+                inventoryStates.addAll(inventoryStates1);
+            });
             view.selectProductListItem(this.product.getId());
             mode = CategoryAddEditMode.PRODUCT_EDIT_MODE;
             List<UnitCategory> unitCategories = databaseManager.getAllUnitCategories().blockingSingle();
@@ -711,8 +712,8 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     @Override
     public void setProductCostDialog() {
         List<String> result = new ArrayList<>();
-        for (int i = 0; i < vendors.size(); i++) {
-            Vendor vendor = databaseManager.getVendorById(vendors.get(i)).blockingSingle();
+        for (int i = 0; i < vendorProductConnectionsList.size(); i++) {
+            Vendor vendor = databaseManager.getVendorById(vendorProductConnectionsList.get(i).getVendorId()).blockingSingle();
             if (vendor != null) {
                 result.add(vendor.getName());
             }
@@ -1406,6 +1407,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
 
     private InventoryState inventoryState;
     private List<InventoryState> deletedStatesList;
+    boolean isNewProduct = true; // true, когда добавляется новый продукт
 
     @Override
     public void setVendorName(List<Long> vendors) {
@@ -1413,15 +1415,16 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
         String result = "";
         int count = 0;
         boolean isAllowed = true; // если vendor не имеет продуктов на складе, то isAllowed true
-        boolean isNewProduct = true; // true, когда добавляется новый продукт
         List<Long> tempExistIds = new ArrayList<>();
         for (int i = 0; i < this.vendorProductConnectionsList.size(); i++) {
-            Long vendorId = this.vendorProductConnectionsList.get(i).getVendorId();
             isNewProduct = false;
+            Long vendorId = this.vendorProductConnectionsList.get(i).getVendorId();
             if (!vendors.contains(vendorId)) { // проверка на измениия листа поставщиков
+                int pos = -1;
                 for (int j = 0; j < inventoryStates.size(); j++) {
                     if (vendorId.equals(inventoryStates.get(j).getVendorId())) {
                         inventoryState = inventoryStates.get(j);
+                        pos = j;
                         break;
                     }
                 }
@@ -1434,12 +1437,14 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     view.showInventoryStateShouldBeEmptyDialog();
                     break;
                 } else {
-                    inventoryStates.remove(inventoryState);
-                    deletedStatesList.add(inventoryState);
+                    if (pos != -1) {
+                        inventoryStates.remove(pos);
+                        deletedStatesList.add(inventoryState);
 //                    databaseManager.deleteInventoryState(inventoryState).blockingGet();
-                    this.vendorProductConnectionsList.remove(i);
-                    isAllowed = true;
-                    i--;
+                        this.vendorProductConnectionsList.remove(i);
+                        isAllowed = true;
+                        i--;
+                    }
                 }
             } else {
                 tempExistIds.add(vendorId); // добавления существующих в новый лист для дальнейшой проверки

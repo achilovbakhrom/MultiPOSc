@@ -5,6 +5,7 @@ import com.jim.multipos.data.db.model.products.Vendor;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Property;
 import org.greenrobot.greendao.annotation.ToOne;
 
 import lombok.Data;
@@ -24,6 +25,7 @@ public class InventoryState {
     private Long id;
 
     private Long productId;
+
     @ToOne(joinProperty = "productId")
     private Product product;
     private Long vendorId;

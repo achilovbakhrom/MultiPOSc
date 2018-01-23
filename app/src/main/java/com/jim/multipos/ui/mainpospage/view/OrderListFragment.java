@@ -1,20 +1,12 @@
 package com.jim.multipos.ui.mainpospage.view;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.zxing.ResultPoint;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.jim.mpviews.MpLightButton;
@@ -28,7 +20,6 @@ import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
-import com.jim.multipos.ui.inventory.adapters.VendorListAdapter;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivity;
 import com.jim.multipos.ui.mainpospage.adapter.OrderProductAdapter;
 import com.jim.multipos.ui.mainpospage.connection.MainPageConnection;
@@ -40,10 +31,6 @@ import com.jim.multipos.ui.mainpospage.model.OrderProductItem;
 import com.jim.multipos.ui.mainpospage.presenter.OrderListPresenter;
 import com.jim.multipos.utils.LinearLayoutManagerWithSmoothScroller;
 import com.jim.multipos.utils.managers.NotifyManager;
-import com.journeyapps.barcodescanner.BarcodeCallback;
-import com.journeyapps.barcodescanner.BarcodeResult;
-import com.journeyapps.barcodescanner.BarcodeView;
-import com.journeyapps.barcodescanner.CompoundBarcodeView;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -103,58 +90,17 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
     public static final String PRODUCT_ADD_TO_ORDER = "addorderproduct";
     private CustomerDialog customerDialog;
     private boolean fromAddCustomer = false;
-    private CompoundBarcodeView barcodeView;
 
     @Override
     protected int getLayout() {
         return R.layout.fragment_order_list;
     }
 
-    float dX;
-    float dY;
-    int lastAction;
-
     @Override
     protected void init(Bundle savedInstanceState) {
         mainPageConnection.setOrderListView(this);
         currency = databaseManager.getMainCurrency();
         presenter.onCreateView(savedInstanceState);
-        Dialog dialog = new Dialog(getContext());
-        View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.barcode_scanner_dialog, null, false);
-        dialog.setContentView(dialogView);
-        dialogView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent event) {
-                switch (event.getActionMasked()) {
-                    case MotionEvent.ACTION_DOWN:
-                        dX = view.getX() - event.getRawX();
-                        dY = view.getY() - event.getRawY();
-                        lastAction = MotionEvent.ACTION_DOWN;
-                        break;
-
-                    case MotionEvent.ACTION_MOVE:
-                        view.setY(event.getRawY() + dY);
-                        view.setX(event.getRawX() + dX);
-                        lastAction = MotionEvent.ACTION_MOVE;
-                        break;
-
-                    case MotionEvent.ACTION_UP:
-                        if (lastAction == MotionEvent.ACTION_DOWN)
-                            Toast.makeText(getContext(), "Clicked!", Toast.LENGTH_SHORT).show();
-                        break;
-
-                    default:
-                        return false;
-                }
-                return true;
-            }
-        });
-        barcodeView = dialogView.findViewById(R.id.barcode);
-        barcodeView.decodeContinuous(barcodeCallback);
-        WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();
-        lp.dimAmount = 0.0f;
-        dialog.getWindow().setAttributes(lp);
-        dialog.getWindow().getDecorView().setBackgroundResource(android.R.color.transparent);
         lbChooseCustomer.setOnLightButtonClickListener(view1 -> {
             presenter.onClickChooseCustomerButton();
 
@@ -168,7 +114,6 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
 
         });
         llPrintCheck.setOnClickListener(view -> {
-//            dialog.show();
         });
         llPay.setOnClickListener(view -> {
             if(isPaymentOpen){
@@ -180,19 +125,6 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
             }
         });
     }
-
-    @Override
-    public void onResume() {
-        barcodeView.resume();
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        barcodeView.pause();
-        super.onPause();
-    }
-
     LinearLayoutManagerWithSmoothScroller linearLayoutManager;
     @Override
     public void initOrderList(List<Object> objectList) {
@@ -232,20 +164,6 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
             }
         });
     }
-
-    private BarcodeCallback barcodeCallback = new BarcodeCallback() {
-        @Override
-        public void barcodeResult(BarcodeResult result) {
-            if (result.getText() != null) {
-                barcodeView.setStatusText(result.getText());
-            }
-        }
-
-        @Override
-        public void possibleResultPoints(List<ResultPoint> resultPoints) {
-
-        }
-    };
 
     @Override
     public void notifyList() {

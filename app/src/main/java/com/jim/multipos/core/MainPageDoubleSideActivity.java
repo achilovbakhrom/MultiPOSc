@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 
 import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.R;
+import com.jim.multipos.ui.mainpospage.view.BarcodeScannerFragment;
 import com.jim.multipos.ui.mainpospage.view.OrderListFragment;
 import com.jim.multipos.ui.mainpospage.view.PaymentFragment;
 import com.jim.multipos.ui.mainpospage.view.ProductInfoFragment;
@@ -179,5 +180,13 @@ public abstract class MainPageDoubleSideActivity extends BaseActivity{
     }
 
     protected final void addFragmentToTopRight(Fragment fragment){addFragment(R.id.flRightTop,fragment);}
-
+    public void showBarcodeScannerFragment() {
+        BarcodeScannerFragment barcodeScannerFragment = (BarcodeScannerFragment) getSupportFragmentManager().findFragmentByTag(BarcodeScannerFragment.class.getName());
+        if (barcodeScannerFragment == null) {
+            barcodeScannerFragment = new BarcodeScannerFragment();
+            addFragmentWithTagStatic(R.id.flFullContainer, barcodeScannerFragment, BarcodeScannerFragment.class.getName());
+        } else {
+            getSupportFragmentManager().beginTransaction().show(barcodeScannerFragment).commit();
+        }
+    }
 }

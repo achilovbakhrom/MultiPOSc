@@ -28,7 +28,7 @@ import com.jim.multipos.data.db.model.DaoSession;
  * Created by DEV on 26.08.2017.
  */
 @Entity(nameInDb = "PRODUCT", active = true)
-public class Product implements Editable, Serializable {
+public class Product implements Editable {
     @Id(autoincrement = true)
     private Long id;
     private String name;

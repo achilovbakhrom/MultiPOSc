@@ -49,4 +49,5 @@ public interface ProductPresenter extends Presenter {
     void initDataForProduct();
     void initDataForList();
     void finishActivity();
+    void openProduct(Product product);
 }

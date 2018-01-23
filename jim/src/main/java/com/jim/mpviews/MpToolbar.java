@@ -51,7 +51,7 @@ public class MpToolbar extends RelativeLayout {
     private LinearLayout mpMainMenu, llEmployer,llDateIntervalPicker;
     private RelativeLayout mpSearch;
     private RelativeLayout mpLeftSide, mpRightSide,rlBackgroun;
-    private ImageView mpSettings;
+    private ImageView mpSettings, ivBarcodeScanner;
     private MpHorizontalScroller mpHorizontalScroller;
     private MpSearchView mpSearchView;
     private Calendar from;
@@ -93,6 +93,7 @@ public class MpToolbar extends RelativeLayout {
         llDateIntervalPicker = (LinearLayout) findViewById(R.id.llDateIntervalPicker);
         mpSearch = (RelativeLayout) findViewById(R.id.mpSearch);
         mpSettings = (ImageView) findViewById(R.id.mpSettings);
+        ivBarcodeScanner = (ImageView) findViewById(R.id.ivBarcodeScanner);
         mpHorizontalScroller = (MpHorizontalScroller) findViewById(R.id.mpHorRoller);
         mpSearchView = (MpSearchView) findViewById(R.id.mpSearchView);
         mpLeftSide = (RelativeLayout) findViewById(R.id.mpLeftSide);
@@ -297,6 +298,10 @@ public class MpToolbar extends RelativeLayout {
 
     public void setInfoClickListener(OnClickListener infoClickListener) {
         findViewById(R.id.mpInfo).setOnClickListener(infoClickListener);
+    }
+
+    public void setBarcodeClickListener(OnClickListener barcodeClickListener) {
+        findViewById(R.id.ivBarcodeScanner).setOnClickListener(barcodeClickListener);
     }
 
     public void setMode(int mode) {

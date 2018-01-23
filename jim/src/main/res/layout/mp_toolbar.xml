@@ -92,23 +92,22 @@
                                 android:textColor="@color/colorWhite"
                                 android:textSize="@dimen/twenty_dp" />
 
-                            <!--<TextView
-                                android:id="@+id/tvTime"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Somebody"
-                                android:textSize="@dimen/twenty_dp"
-                                android:textColor="@color/colorWhite" />-->
-
                             <TextView
                                 android:id="@+id/tvDate"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Some role"
                                 android:textColor="@color/colorGrey"
                                 android:textSize="@dimen/sixteen_dp" />
 
                         </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/ivBarcodeScanner"
+                            android:src="@drawable/barcode_icon"
+                            android:tint="@color/colorWhite"
+                            android:layout_gravity="center_vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/forty_dp" />
 
                     </LinearLayout>
 

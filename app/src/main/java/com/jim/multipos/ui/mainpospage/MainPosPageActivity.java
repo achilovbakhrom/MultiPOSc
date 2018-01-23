@@ -23,6 +23,7 @@ import com.jim.multipos.ui.mainpospage.view.CustomerNotificationsFragment;
 import com.jim.multipos.ui.mainpospage.view.OrderListFragment;
 import com.jim.multipos.ui.mainpospage.view.ProductPickerFragment;
 import com.jim.multipos.ui.mainpospage.view.SearchModeFragment;
+import com.jim.multipos.ui.product_last.ProductActivity;
 import com.jim.multipos.utils.MainMenuDialog;
 import com.jim.multipos.utils.OrderMenuDialog;
 import com.jim.multipos.utils.RxBusLocal;
@@ -76,8 +77,9 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
         handler.post(timerUpdate);
 
         toolbar.setOnClickListener(view -> {
-
         });
+
+        toolbar.setBarcodeClickListener(view -> showBarcodeScannerFragment());
 
         toolbar.setOnSettingsClickListener(view -> {
             MainMenuDialog mainMenuDialog = new MainMenuDialog(this, databaseManager, decimalFormat, new MainMenuDialog.onMenuItemClickListener() {
@@ -158,5 +160,10 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
 //        CustomerNotificationsFragment fragment = new CustomerNotificationsFragment();
 //        fragment.setArguments(bundle);
 //        addFragmentToTopRight(fragment);
+    }
+
+    public void openAddProductActivity() {
+        Intent intent = new Intent(this, ProductActivity.class);
+        startActivity(intent);
     }
 }

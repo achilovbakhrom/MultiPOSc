@@ -16,6 +16,8 @@ import com.jim.multipos.ui.mainpospage.MainPosPageActivityImpl;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivityPresenter;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivityView;
 import com.jim.multipos.ui.mainpospage.connection.MainPageConnection;
+import com.jim.multipos.ui.mainpospage.view.BarcodeScannerFragment;
+import com.jim.multipos.ui.mainpospage.view.BarcodeScannerFragmentModule;
 import com.jim.multipos.ui.mainpospage.view.CustomerNotificationsFragment;
 import com.jim.multipos.ui.mainpospage.view.CustomerNotificationsFragmentModule;
 import com.jim.multipos.ui.mainpospage.view.OrderListFragment;
@@ -121,5 +123,9 @@ public abstract class MainPageMenuModule {
     static MainPageConnection provideMainPageConnection(Context context){
         return new MainPageConnection(context);
     }
+
+    @PerFragment
+    @ContributesAndroidInjector(modules = BarcodeScannerFragmentModule.class)
+    abstract BarcodeScannerFragment provideBarcodeScannerFragmentInjector();
 
 }

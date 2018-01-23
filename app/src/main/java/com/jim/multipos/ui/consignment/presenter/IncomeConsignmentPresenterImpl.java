@@ -399,13 +399,16 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
         view.closeFragment(this.vendor.getId());
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void loadVendorProducts() {
         this.vendor.resetProducts();
         List<Product> productList = this.vendor.getProducts();
-        productList.sort((product1, t1) -> product1.getIsActive().compareTo(true));
-        productList.sort((product1, t1) -> product1.getIsDeleted().compareTo(false));
-        view.fillDialogItems(productList);
+        List<Product> sortedProductList = new ArrayList<>();
+        for (int i = 0; i < productList.size(); i++) {
+            Product product = productList.get(i);
+            if (product.getIsDeleted().equals(false) && product.getIsNotModified().equals(true) && product.getIsActive().equals(true))
+                sortedProductList.add(product);
+        }
+        view.fillDialogItems(sortedProductList);
     }
 }

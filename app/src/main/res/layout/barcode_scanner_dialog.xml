@@ -1,15 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:background="@drawable/rounded_bg"
-    android:paddingRight="@dimen/thirty_dp"
-    android:paddingLeft="@dimen/thirty_dp"
-    android:layout_height="wrap_content">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/llScanner"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="#00000000"
+    android:gravity="center"
+    android:orientation="vertical">
 
-    <com.journeyapps.barcodescanner.CompoundBarcodeView
-        android:id="@+id/barcode"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/hundred_fifty_dp" />
+    <LinearLayout
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_edit_text_bg"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/fifty_dp"
+            android:background="@drawable/rounded_blue_bg">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/thirty_dp"
+                android:text="Scan barcode"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/twenty_dp" />
+
+
+            <ImageView
+                android:id="@+id/ivHide"
+                android:layout_width="@dimen/thirty_dp"
+                android:layout_height="@dimen/thirty_dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/thirty_dp"
+                android:src="@drawable/cancel_extras"
+                android:tint="@color/colorWhite" />
+
+        </RelativeLayout>
+
+        <com.journeyapps.barcodescanner.CompoundBarcodeView
+            android:id="@+id/barcode"
+            android:layout_width="@dimen/four_hundred_dp"
+            android:layout_height="@dimen/hundred_fifty_dp"
+            android:layout_margin="@dimen/twenty_dp"
+            app:zxing_preview_scaling_strategy="fitXY"
+            app:zxing_framing_rect_height="@dimen/hundred_fifty_dp"
+            app:zxing_framing_rect_width="@dimen/three_hundred_eighty_dp" />
+
+    </LinearLayout>
 
 </LinearLayout>

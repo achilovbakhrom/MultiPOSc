@@ -44,6 +44,12 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     @Inject
     @Getter
+
+
+
+
+
+
     RxPermissions permissions;
 
     @Inject
@@ -54,12 +60,11 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
         super.onCreate(savedInstanceState);
         TestUtils.createUnits(presenter.getDatabaseManager(), this);
         TestUtils.createCurrencies(presenter.getDatabaseManager(), this);
-//        TestUtils.createProductClasses(presenter.getDatabaseManager());
-//        TestUtils.createVendord(presenter.getDatabaseManager());
         addCategoryListFragment();
         addProductAddEditFragment();
         addCategoryAddEditFragment();
         presenter.onCreateView(savedInstanceState);
+        Bundle bundle = getIntent().getExtras();
     }
 
     @Override
