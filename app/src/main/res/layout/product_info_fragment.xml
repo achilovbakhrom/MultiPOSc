@@ -85,8 +85,8 @@
 
                         <ImageView
                             android:id="@+id/ivAlert"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="@dimen/twenty_dp"
+                            android:layout_height="@dimen/twenty_dp"
                             android:layout_gravity="center"
                             android:layout_marginRight="@dimen/ten_dp"
                             android:src="@drawable/alert"

@@ -5,13 +5,19 @@ import android.content.Context;
 import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.customer.Customer;
+import com.jim.multipos.data.db.model.order.Order;
+import com.jim.multipos.data.db.model.order.PayedPartitions;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.mainpospage.model.OrderProductItem;
 import com.jim.multipos.ui.mainpospage.view.OrderListView;
+import com.jim.multipos.ui.mainpospage.view.PaymentFragment;
+import com.jim.multipos.ui.mainpospage.view.PaymentView;
 import com.jim.multipos.ui.mainpospage.view.ProductInfoView;
 import com.jim.multipos.ui.mainpospage.view.ProductPickerView;
+
+import java.util.List;
 
 /**
  * Created by developer on 27.12.2017.
@@ -21,12 +27,17 @@ public class MainPageConnection {
     private OrderListView orderListView;
     private ProductInfoView productInfoView;
     private ProductPickerView productPickerView;
+    private PaymentView paymentView;
 
     private Context context;
     public MainPageConnection(Context context){
         this.context = context;
     }
-
+    public void onPayedPartition(){
+        if(orderListView!=null){
+           orderListView.onPayedPartition();
+        }
+    }
     public void  addProductWithWeightToListEdit(double weight){
         if(orderListView!=null){
             orderListView.addProductWithWeightToListEdit(weight);
@@ -81,9 +92,19 @@ public class MainPageConnection {
             orderListView.changeDiscription(discription);
         }
     }
+    public void sendDataToPaymentFragment(Order order, List<PayedPartitions> payedPartitions){
+        if(paymentView!=null){
+            paymentView.getDataFromListOrder(order,payedPartitions);
+        }
+    }
     public void giveToProductInfoFragmentProductItem(){
         if(orderListView !=null){
             orderListView.sendToProductInfoProductItem();
+        }
+    }
+    public void giveToPaymentFragmentOrderAndPaymentsList(){
+        if(orderListView!=null){
+            orderListView.sendToPaymentFragmentOrderAndPaymentsList();
         }
     }
     public void changeProductVendor(Vendor vendor){
@@ -134,6 +155,14 @@ public class MainPageConnection {
 
     public ProductPickerView getProductPickerView() {
         return productPickerView;
+    }
+
+    public PaymentView getPaymentView() {
+        return paymentView;
+    }
+
+    public void setPaymentView(PaymentView paymentView) {
+        this.paymentView = paymentView;
     }
 
     public void sendSelectedCategory(Category category, String type){

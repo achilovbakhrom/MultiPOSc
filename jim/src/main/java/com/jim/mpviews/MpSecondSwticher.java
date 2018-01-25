@@ -25,6 +25,7 @@ public class MpSecondSwticher extends LinearLayout {
     private TextView mpLeftText, mpRightText;
     private boolean right = false;
     private boolean left = false;
+    private CallbackFromMpSecondSwitcher clickListner;
 
     public MpSecondSwticher(Context context) {
         super(context);
@@ -45,7 +46,13 @@ public class MpSecondSwticher extends LinearLayout {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs);
     }
-
+    public interface CallbackFromMpSecondSwitcher{
+        void onLeftSideClick();
+        void onRightSideClick();
+    }
+    public void setClickListner(CallbackFromMpSecondSwitcher clickListner){
+        this.clickListner = clickListner;
+    }
     public void init(Context context, AttributeSet attrs) {
         LayoutInflater.from(context).inflate(R.layout.mp_second_switch_btn, this);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -61,26 +68,22 @@ public class MpSecondSwticher extends LinearLayout {
         mpLeftText.setText(attributeArray.getText(R.styleable.MpSwitcher_text_left));
         mpRightText.setText(attributeArray.getText(R.styleable.MpSwitcher_text_right));
 
-        mpLeftBtn.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                VibrateManager.startVibrate(context, 50);
-                mpLeftBtn.setBackgroundResource(R.drawable.left_side_pressed);
-                mpRightBtn.setBackgroundResource(R.drawable.right_side);
-                right = false;
-                left = true;
-            }
+        mpLeftBtn.setOnClickListener(view -> {
+            VibrateManager.startVibrate(context, 50);
+            mpLeftBtn.setBackgroundResource(R.drawable.left_side_pressed);
+            mpRightBtn.setBackgroundResource(R.drawable.right_side);
+            right = false;
+            left = true;
+            clickListner.onLeftSideClick();
         });
 
-        mpRightBtn.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                VibrateManager.startVibrate(context, 50);
-                mpLeftBtn.setBackgroundResource(R.drawable.left_side);
-                mpRightBtn.setBackgroundResource(R.drawable.right_side_pressed);
-                right = true;
-                left = false;
-            }
+        mpRightBtn.setOnClickListener(view -> {
+            VibrateManager.startVibrate(context, 50);
+            mpLeftBtn.setBackgroundResource(R.drawable.left_side);
+            mpRightBtn.setBackgroundResource(R.drawable.right_side_pressed);
+            right = true;
+            left = false;
+            clickListner.onRightSideClick();
         });
         attributeArray.recycle();
 

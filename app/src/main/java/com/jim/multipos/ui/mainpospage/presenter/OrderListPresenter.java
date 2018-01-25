@@ -40,4 +40,7 @@ public interface OrderListPresenter extends Presenter {
     void addProductWithWeightToListEdit(Product product,double weight);
     void addProductWithWeightToListEditFromInfo(int currentPosition,double weight);
     void onCountWeigtClick(int position);
+    void sendToPaymentFragmentOrderAndPaymentsList();
+    void onPayedPartition();
+    void cleanOrder();
 }

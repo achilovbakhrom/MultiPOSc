@@ -67,6 +67,12 @@ public class Order {
     })
     private List<PayedPartitions> payedPartitions;
 
+
+    public double getBalanceDue(){
+        return subTotalValue + discountTotalValue+ serviceTotalValue;
+    }
+
+
 /**
  * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
  * Entity must attached to an entity context.

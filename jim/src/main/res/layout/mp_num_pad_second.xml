@@ -10,7 +10,6 @@
         android:background="@drawable/num_pad_blue_selector"
         android:layout_weight="1"
         android:gravity="center"
-        android:clickable="true"
         android:orientation="vertical"
         android:paddingRight="@dimen/ten_dp">
 

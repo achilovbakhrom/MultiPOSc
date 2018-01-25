@@ -108,15 +108,6 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
     protected void init(Bundle savedInstanceState) {
         mainPageConnection.setProductInfoView(this);
         mainPageConnection.giveToProductInfoFragmentProductItem();
-
-    }
-
-    public void refreshData(){
-        mainPageConnection.setProductInfoView(this);
-        mainPageConnection.giveToProductInfoFragmentProductItem();
-    }
-    @Override
-    public void initProductData(OrderProductItem orderProductItem) {
         DecimalFormat formatter;
         NumberFormat numberFormat = NumberFormat.getNumberInstance();
         numberFormat.setMaximumFractionDigits(6);
@@ -125,6 +116,7 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
         symbols.setGroupingSeparator(' ');
         formatter.setDecimalFormatSymbols(symbols);
         decimalFormatLocal =  formatter;
+
 
         DecimalFormat formatter2;
         NumberFormat numberFormat2 = NumberFormat.getNumberInstance();
@@ -135,60 +127,9 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
         formatter2.setDecimalFormatSymbols(symbols2);
         decimalFormat =  formatter2;
 
-        GlideApp.with(this)
-                .load(orderProductItem.getOrderProduct().getProduct().getPhotoPath())
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                .thumbnail(0.2f)
-                .centerCrop()
-                .placeholder(R.drawable.default_product_image)
-                .error(R.drawable.default_product_image)
-                .into(ivProductImage);
         tvCompanyName.setPaintFlags(tvCompanyName.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
-        tvProductName.setText(orderProductItem.getOrderProduct().getProduct().getName());
-
-        tvVendorName.setText(orderProductItem.getOrderProduct().getVendor().getName());
-        List<InventoryState> inventoryStates = databaseManager.getInventoryStatesByProductId(orderProductItem.getOrderProduct().getProductId()).blockingFirst();
-        InventoryState inventoryState = null;
-        for (int i = 0; i < inventoryStates.size(); i++) {
-            if(inventoryStates.get(i).getVendor().getId().equals(orderProductItem.getOrderProduct().getVendor().getId())){
-                inventoryState = inventoryStates.get(i);
-                break;
-            }
-        }
-        tvQuantity.setText(decimalFormat.format(inventoryState.getValue() - orderProductItem.getOrderProduct().getCount()) + " " + orderProductItem.getOrderProduct().getProduct().getMainUnit().getAbbr());
-
-        if(orderProductItem.getOrderProduct().getProduct().getMainUnit().getUnitCategory().getUnitType() == UnitCategory.PIECE){
-            tvOrderQuantity.setText(decimalFormat.format(orderProductItem.getOrderProduct().getCount()));
-            tvOrderQuantity.setBackground(null);
-            tvUnitName.setText("Quantity");
-            btnSetQuantity.setText("Set Quantity");
-            ivMinus.setVisibility(View.VISIBLE);
-            ivPlus.setVisibility(View.VISIBLE);
-        }
-        else {
-
-            double count = orderProductItem.getOrderProduct().getCount();
-
-            DecimalFormat df = null;
-            if(count<0.001){
-                df = decimalFormatLocal;
-            }else df = decimalFormat;
-
-            tvOrderQuantity.setText(df.format(count) + " " + orderProductItem.getOrderProduct().getProduct().getMainUnit().getAbbr());
-            btnSetQuantity.setText("Set "+orderProductItem.getOrderProduct().getProduct().getMainUnit().getUnitCategory().getName());
-            tvOrderQuantity.setBackgroundResource(R.drawable.order_list_weight_product_item_deactive);
-            tvUnitName.setText(orderProductItem.getOrderProduct().getProduct().getMainUnit().getUnitCategory().getName());
-            ivMinus.setVisibility(View.GONE);
-            ivPlus.setVisibility(View.GONE);
-        }
 
 
-        String vendorName = "";
-        for (Vendor vn:orderProductItem.getOrderProduct().getProduct().getVendor()) {
-            if(!vendorName.equals("")) vendorName += ", ";
-            vendorName += vn.getName();
-        }
-        tvCompanyName.setText(vendorName);
         ivMinus.setOnClickListener(view -> {
             mainPageConnection.minusProductCount();
             mainPageConnection.giveToProductInfoFragmentProductItem();
@@ -214,57 +155,6 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
 
 
         });
-
-
-        if(orderProductItem.getOrderProduct().getProduct().getVendor().size()==1){
-            llVendorPicker.setVisibility(View.GONE);
-        }else {
-            btnChooseVendor.setOnClickListener(view -> {
-                ChooseVendorDialog dialog = new ChooseVendorDialog(getContext(), orderProductItem.getOrderProduct().getProduct().getVendor(), vendor -> {
-                    mainPageConnection.changeProductVendor(vendor);
-                    mainPageConnection.giveToProductInfoFragmentProductItem();
-                });
-                dialog.show();
-            });
-            List<Vendor> vendors = orderProductItem.getOrderProduct().getProduct().getVendor();
-            Vendor currentVendor = orderProductItem.getOrderProduct().getVendor();
-
-            for (int i = 0; i < vendors.size(); i++) {
-                if(currentVendor.getId().equals(vendors.get(i).getId())){
-                    currentVendorPosition = i;
-                    break;
-                }
-            }
-            ivArrowLeft.setOnClickListener(view -> {
-                currentVendorPosition--;
-                if(currentVendorPosition < 0 ) currentVendorPosition = vendors.size()-1;
-                mainPageConnection.changeProductVendor(vendors.get(currentVendorPosition));
-                mainPageConnection.giveToProductInfoFragmentProductItem();
-            });
-            ivArrowRight.setOnClickListener(view -> {
-                mainPageConnection.changeProductVendor(vendors.get((++currentVendorPosition)%vendors.size()));
-                mainPageConnection.giveToProductInfoFragmentProductItem();
-            });
-
-        }
-        etSpecialRequest.setText(orderProductItem.getOrderProduct().getDiscription());
-        etSpecialRequest.addTextChangedListener(new TextWatcherOnTextChange() {
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                mainPageConnection.changeDiscription(etSpecialRequest.getText().toString());
-            }
-        });
-        if(orderProductItem.getDiscount() == null){
-            btnDiscountItem.setText("Discount");
-        }else {
-            btnDiscountItem.setText("Remove\nDiscount");
-        }
-        if(orderProductItem.getServiceFee() == null){
-            btnServiceFee.setText("Service Fee");
-        }else {
-            btnServiceFee.setText("Remove\nService Fee");
-        }
-
         btnRemove.setOnClickListener(view -> {
             WarningDialog warningDialog = new WarningDialog(getActivity());
             warningDialog.setWarningMessage("Are you sure delete product from order?");
@@ -330,6 +220,129 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
                 discountDialog.show();
             }
         });
+
+
+    }
+
+    public void refreshData(){
+        mainPageConnection.setProductInfoView(this);
+        mainPageConnection.giveToProductInfoFragmentProductItem();
+    }
+    OrderProductItem orderProductItem;
+    @Override
+    public void initProductData(OrderProductItem orderProductItem) {
+       this.orderProductItem = orderProductItem;
+
+        GlideApp.with(this)
+                .load(orderProductItem.getOrderProduct().getProduct().getPhotoPath())
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .thumbnail(0.2f)
+                .centerCrop()
+                .placeholder(R.drawable.default_product_image)
+                .error(R.drawable.default_product_image)
+                .into(ivProductImage);
+
+        tvProductName.setText(orderProductItem.getOrderProduct().getProduct().getName());
+
+        tvVendorName.setText(orderProductItem.getOrderProduct().getVendor().getName());
+
+        List<InventoryState> inventoryStates = databaseManager.getInventoryStatesByProductId(orderProductItem.getOrderProduct().getProductId()).blockingFirst();
+        InventoryState inventoryState = null;
+        for (int i = 0; i < inventoryStates.size(); i++) {
+            if(inventoryStates.get(i).getVendor().getId().equals(orderProductItem.getOrderProduct().getVendor().getId())){
+                inventoryState = inventoryStates.get(i);
+                break;
+            }
+        }
+        if((inventoryState.getValue() - orderProductItem.getOrderProduct().getCount())<0){
+            showAlert();
+        }else hideAlert();
+        tvQuantity.setText(decimalFormat.format(inventoryState.getValue() - orderProductItem.getOrderProduct().getCount()) + " " + orderProductItem.getOrderProduct().getProduct().getMainUnit().getAbbr());
+
+        if(orderProductItem.getOrderProduct().getProduct().getMainUnit().getUnitCategory().getUnitType() == UnitCategory.PIECE){
+            tvOrderQuantity.setText(decimalFormat.format(orderProductItem.getOrderProduct().getCount()));
+            tvOrderQuantity.setBackground(null);
+            tvUnitName.setText("Quantity");
+            btnSetQuantity.setText("Set Quantity");
+            ivMinus.setVisibility(View.VISIBLE);
+            ivPlus.setVisibility(View.VISIBLE);
+        }
+        else {
+
+            double count = orderProductItem.getOrderProduct().getCount();
+
+            DecimalFormat df = null;
+            if(count<0.001){
+                df = decimalFormatLocal;
+            }else df = decimalFormat;
+
+            tvOrderQuantity.setText(df.format(count) + " " + orderProductItem.getOrderProduct().getProduct().getMainUnit().getAbbr());
+            btnSetQuantity.setText("Set "+orderProductItem.getOrderProduct().getProduct().getMainUnit().getUnitCategory().getName());
+            tvOrderQuantity.setBackgroundResource(R.drawable.order_list_weight_product_item_deactive);
+            tvUnitName.setText(orderProductItem.getOrderProduct().getProduct().getMainUnit().getUnitCategory().getName());
+            ivMinus.setVisibility(View.GONE);
+            ivPlus.setVisibility(View.GONE);
+        }
+
+
+        String vendorName = "";
+        for (Vendor vn:orderProductItem.getOrderProduct().getProduct().getVendor()) {
+            if(!vendorName.equals("")) vendorName += ", ";
+            vendorName += vn.getName();
+        }
+        tvCompanyName.setText(vendorName);
+
+
+        if(orderProductItem.getOrderProduct().getProduct().getVendor().size()==1){
+            llVendorPicker.setVisibility(View.GONE);
+        }else {
+            btnChooseVendor.setOnClickListener(view -> {
+                ChooseVendorDialog dialog = new ChooseVendorDialog(getContext(), orderProductItem.getOrderProduct().getProduct().getVendor(), vendor -> {
+                    mainPageConnection.changeProductVendor(vendor);
+                    mainPageConnection.giveToProductInfoFragmentProductItem();
+                });
+                dialog.show();
+            });
+            List<Vendor> vendors = orderProductItem.getOrderProduct().getProduct().getVendor();
+            Vendor currentVendor = orderProductItem.getOrderProduct().getVendor();
+
+            for (int i = 0; i < vendors.size(); i++) {
+                if(currentVendor.getId().equals(vendors.get(i).getId())){
+                    currentVendorPosition = i;
+                    break;
+                }
+            }
+            ivArrowLeft.setOnClickListener(view -> {
+                currentVendorPosition--;
+                if(currentVendorPosition < 0 ) currentVendorPosition = vendors.size()-1;
+                mainPageConnection.changeProductVendor(vendors.get(currentVendorPosition));
+                mainPageConnection.giveToProductInfoFragmentProductItem();
+            });
+            ivArrowRight.setOnClickListener(view -> {
+                mainPageConnection.changeProductVendor(vendors.get((++currentVendorPosition)%vendors.size()));
+                mainPageConnection.giveToProductInfoFragmentProductItem();
+            });
+
+        }
+        etSpecialRequest.setText(orderProductItem.getOrderProduct().getDiscription());
+        etSpecialRequest.addTextChangedListener(new TextWatcherOnTextChange() {
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                mainPageConnection.changeDiscription(etSpecialRequest.getText().toString());
+            }
+        });
+        if(orderProductItem.getDiscount() == null){
+            btnDiscountItem.setText("Discount");
+        }else {
+            btnDiscountItem.setText("Remove\nDiscount");
+        }
+        if(orderProductItem.getServiceFee() == null){
+            btnServiceFee.setText("Service Fee");
+        }else {
+            btnServiceFee.setText("Remove\nService Fee");
+        }
+
+
     }
 
     @Override

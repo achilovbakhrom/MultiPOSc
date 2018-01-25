@@ -111,7 +111,6 @@ public class MpLightButton extends FrameLayout {
     @Override
     public Parcelable onSaveInstanceState() {
         Parcelable superState = super.onSaveInstanceState();
-
         SavedState savedState = new SavedState(superState);
         savedState.boolValue = this.isPressed;
         savedState.intValue = this.mode;

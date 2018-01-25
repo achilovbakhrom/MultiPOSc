@@ -20,6 +20,7 @@ import butterknife.ButterKnife;
  * Created by developer on 05.10.2017.
  */
 
+
 public abstract class MainPageDoubleSideActivity extends BaseActivity{
 
     @BindView(R.id.toolbar)
@@ -31,6 +32,17 @@ public abstract class MainPageDoubleSideActivity extends BaseActivity{
         setContentView(R.layout.base_double_activity_layout);
         ButterKnife.bind(this);
         toolbar.setMode(getToolbarMode());
+
+
+        PaymentFragment fragment = new PaymentFragment();
+        addFragmentWithTagStatic(R.id.flRightTop, fragment,PaymentFragment.class.getName());
+        ProductInfoFragment fragment1 = new ProductInfoFragment();
+        addFragmentWithTagStatic(R.id.flRightTop, fragment1,ProductInfoFragment.class.getName());
+
+        getSupportFragmentManager().beginTransaction().hide(fragment).commit();
+        getSupportFragmentManager().beginTransaction().hide(fragment1).commit();
+
+
     }
 
     protected abstract int getToolbarMode();
@@ -52,6 +64,10 @@ public abstract class MainPageDoubleSideActivity extends BaseActivity{
         }else {
             getSupportFragmentManager().beginTransaction().show(productPickerFragment).commit();
         }
+        SearchModeFragment fragment2 = new SearchModeFragment();
+        addFragmentWithTagStatic(R.id.flRightContainer, fragment2,SearchModeFragment.class.getName());
+        getSupportFragmentManager().beginTransaction().hide(fragment2).commit();
+
     }
     public void showSearchFragment(){
         SearchModeFragment searchModeFragment = (SearchModeFragment) getSupportFragmentManager().findFragmentByTag(SearchModeFragment.class.getName());
@@ -61,7 +77,6 @@ public abstract class MainPageDoubleSideActivity extends BaseActivity{
             if(orderListFragment!=null && orderListFragment.isVisible()){
                     orderListFragment.hideInfoProduct();
             }
-
             getSupportFragmentManager().beginTransaction().hide(productInfoFragment).commit();
         }
         PaymentFragment paymentFragment = (PaymentFragment) getSupportFragmentManager().findFragmentByTag(PaymentFragment.class.getName());
@@ -69,6 +84,7 @@ public abstract class MainPageDoubleSideActivity extends BaseActivity{
             OrderListFragment orderListFragment = (OrderListFragment) getSupportFragmentManager().findFragmentByTag(OrderListFragment.class.getName());
             if(orderListFragment!=null && orderListFragment.isVisible()){
                 orderListFragment.hidePaymentFragment();
+                orderListFragment.visiblePayButton();
             }
             getSupportFragmentManager().beginTransaction().hide(paymentFragment).commit();
         }
@@ -85,27 +101,16 @@ public abstract class MainPageDoubleSideActivity extends BaseActivity{
             getSupportFragmentManager().beginTransaction().hide(searchModeFragment).commit();
         }
     }
-    public void showHideProductInfoFragment(){
-        ProductInfoFragment productInfoFragment = (ProductInfoFragment) getSupportFragmentManager().findFragmentByTag(ProductInfoFragment.class.getName());
-        if(productInfoFragment ==null){
-            productInfoFragment = new ProductInfoFragment();
-            addFragmentWithTagStatic(R.id.flRightContainer,productInfoFragment,ProductInfoFragment.class.getName());
-        }else {
-            if(productInfoFragment.isVisible()){
-                getSupportFragmentManager().beginTransaction().hide(productInfoFragment).commit();
-            }else {
-                getSupportFragmentManager().beginTransaction().show(productInfoFragment).commit();
-                productInfoFragment.refreshData();
-            }
-        }
-    }
+
     public void showProductInfoFragment(){
         ProductInfoFragment productInfoFragment = (ProductInfoFragment) getSupportFragmentManager().findFragmentByTag(ProductInfoFragment.class.getName());
         PaymentFragment paymentFragment = (PaymentFragment) getSupportFragmentManager().findFragmentByTag(PaymentFragment.class.getName());
+        OrderListFragment orderListFragment = (OrderListFragment) getSupportFragmentManager().findFragmentByTag(OrderListFragment.class.getName());
+
         if(paymentFragment !=null && paymentFragment.isVisible()){
-            OrderListFragment orderListFragment = (OrderListFragment) getSupportFragmentManager().findFragmentByTag(OrderListFragment.class.getName());
             if(orderListFragment!=null && orderListFragment.isVisible()){
                 orderListFragment.hidePaymentFragment();
+                orderListFragment.visiblePayButton();
             }
             getSupportFragmentManager().beginTransaction().hide(paymentFragment).commit();
         }
@@ -130,12 +135,16 @@ public abstract class MainPageDoubleSideActivity extends BaseActivity{
     public void showPaymentFragment(){
         PaymentFragment paymentFragment = (PaymentFragment) getSupportFragmentManager().findFragmentByTag(PaymentFragment.class.getName());
         ProductInfoFragment productInfoFragment = (ProductInfoFragment) getSupportFragmentManager().findFragmentByTag(ProductInfoFragment.class.getName());
+        OrderListFragment orderListFragment = (OrderListFragment) getSupportFragmentManager().findFragmentByTag(OrderListFragment.class.getName());
+
         if(productInfoFragment !=null && productInfoFragment.isVisible()){
-            OrderListFragment orderListFragment = (OrderListFragment) getSupportFragmentManager().findFragmentByTag(OrderListFragment.class.getName());
             if(orderListFragment!=null && orderListFragment.isVisible()){
                 orderListFragment.hideInfoProduct();
             }
             getSupportFragmentManager().beginTransaction().hide(productInfoFragment).commit();
+        }
+        if(orderListFragment!=null && orderListFragment.isVisible()) {
+            orderListFragment.visibleBackButton();
         }
         if(paymentFragment == null){
             paymentFragment = new PaymentFragment();
@@ -151,6 +160,11 @@ public abstract class MainPageDoubleSideActivity extends BaseActivity{
     }
     public void hidePaymentFragment(){
         PaymentFragment paymentFragment = (PaymentFragment) getSupportFragmentManager().findFragmentByTag(PaymentFragment.class.getName());
+        OrderListFragment orderListFragment = (OrderListFragment) getSupportFragmentManager().findFragmentByTag(OrderListFragment.class.getName());
+        if(orderListFragment!=null && orderListFragment.isVisible()) {
+            orderListFragment.visiblePayButton();
+            orderListFragment.hidePaymentFragment();
+        }
         if(paymentFragment !=null) {
             getSupportFragmentManager().beginTransaction().hide(paymentFragment).commit();
         }
@@ -163,6 +177,7 @@ public abstract class MainPageDoubleSideActivity extends BaseActivity{
             OrderListFragment orderListFragment = (OrderListFragment) getSupportFragmentManager().findFragmentByTag(OrderListFragment.class.getName());
             if(orderListFragment!=null && orderListFragment.isVisible()){
                 orderListFragment.hidePaymentFragment();
+                orderListFragment.visiblePayButton();
             }
             getSupportFragmentManager().beginTransaction().hide(paymentFragment).commit();
             return;

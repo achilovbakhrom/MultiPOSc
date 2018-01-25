@@ -39,11 +39,15 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
     DiscountItem discountItem;
     ServiceFeeItem serviceFeeItem;
     Customer customer;
+
+    List<PayedPartitions> payedPartitions;
+
     @Inject
     public OrderListPresenterImpl(OrderListView orderListView, DatabaseManager databaseManager) {
         super(orderListView);
         list = new ArrayList<>();
         order = new Order();
+        payedPartitions = new ArrayList<>();
         this.databaseManager = databaseManager;
     }
 
@@ -60,7 +64,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
     @Override
     public void onCreateView(Bundle bundle) {
         super.onCreateView(bundle);
-        view.updateOrderDetials(order,customer);
+        view.updateOrderDetials(order,customer,payedPartitions);
         updateDetials();
         view.initOrderList(list);
     }
@@ -97,8 +101,9 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         orderProductItem.getOrderProduct().setCount(orderProductItem.getOrderProduct().getCount()+1);
         list.set(position,orderProductItem);
         updateDetials();
-        view.updateOrderDetials(order,customer);
+        view.updateOrderDetials(order,customer,payedPartitions);
         view.notifyItemChanged(position,list.size(),updateOrderDiscountServiceFee());
+        view.sendToProductInfoProductItem();
     }
 
     @Override
@@ -109,8 +114,9 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         }
         list.set(position,orderProductItem);
         updateDetials();
-        view.updateOrderDetials(order,customer);
+        view.updateOrderDetials(order,customer,payedPartitions);
         view.notifyItemChanged(position,list.size(),updateOrderDiscountServiceFee());
+        view.sendToProductInfoProductItem();
 
     }
 
@@ -120,7 +126,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         orderProductItem.getOrderProduct().setCount(count);
         list.set(position,orderProductItem);
         updateDetials();
-        view.updateOrderDetials(order,customer);
+        view.updateOrderDetials(order,customer,payedPartitions);
         view.notifyItemChanged(position,list.size(),updateOrderDiscountServiceFee());
     }
 
@@ -156,7 +162,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
                         orderProductItem.getOrderProduct().setCount(orderProductItem.getOrderProduct().getCount()+1);
                         list.set(i,orderProductItem);
                         updateDetials();
-                        view.updateOrderDetials(order,customer);
+                        view.updateOrderDetials(order,customer,payedPartitions);
                         view.notifyItemChanged(i,list.size(),updateOrderDiscountServiceFee());
                         return;
                     }
@@ -177,7 +183,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         int positionToAdd = findPositionToAdd();
         list.add(positionToAdd,orderProductItem);
         updateDetials();
-        view.updateOrderDetials(order,customer);
+        view.updateOrderDetials(order,customer,payedPartitions);
         view.notifyItemAdded(positionToAdd,list.size(),updateOrderDiscountServiceFee());
 
     }
@@ -208,7 +214,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
             if(q!=-1) {
                 discountItem = null;
                 updateDetials();
-                view.updateOrderDetials(order,customer);
+                view.updateOrderDetials(order,customer,payedPartitions);
                 view.notifyItemRemove(q,list.size(),updateOrderDiscountServiceFee());
                 view.enableDiscountButton();
             }else {
@@ -223,7 +229,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
                     list.add(discountItem);
                     view.disableDiscountButton(discount.getName());
                     updateDetials();
-                    view.updateOrderDetials(order,customer);
+                    view.updateOrderDetials(order,customer,payedPartitions);
                     view.notifyItemAdded(list.size()-1,list.size(),updateOrderDiscountServiceFee());
 
                 }
@@ -235,7 +241,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
                     list.add(discountItem);
                     view.disableDiscountButton(discount.getName());
                     updateDetials();
-                    view.updateOrderDetials(order,customer);
+                    view.updateOrderDetials(order,customer,payedPartitions);
                     view.notifyItemAdded(list.size()-1,list.size(),updateOrderDiscountServiceFee());
 
                 }
@@ -259,7 +265,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
             if(q!=-1) {
                 serviceFeeItem = null;
                 updateDetials();
-                view.updateOrderDetials(order,customer);
+                view.updateOrderDetials(order,customer,payedPartitions);
                 view.notifyItemRemove(q,list.size(),updateOrderDiscountServiceFee());
                 view.enableServiceFeeButton();
             }else {
@@ -274,7 +280,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
                     list.add(serviceFeeItem);
                     view.disableServiceFeeButton(serviceFee.getName());
                     updateDetials();
-                    view.updateOrderDetials(order,customer);
+                    view.updateOrderDetials(order,customer,payedPartitions);
                     view.notifyItemAdded(list.size()-1,list.size(),updateOrderDiscountServiceFee());
                 }
 
@@ -285,7 +291,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
                     list.add(serviceFeeItem);
                     view.disableServiceFeeButton(serviceFee.getName());
                     updateDetials();
-                    view.updateOrderDetials(order,customer);
+                    view.updateOrderDetials(order,customer,payedPartitions);
                     view.notifyItemAdded(list.size()-1,list.size(),updateOrderDiscountServiceFee());
                 }
             };
@@ -299,35 +305,54 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         orderProductItem.getOrderProduct().setVendor(vendor);
         list.set(position,orderProductItem);
         updateDetials();
-        view.updateOrderDetials(order,customer);
+        view.updateOrderDetials(order,customer,payedPartitions);
         view.notifyItemChanged(position,list.size(),updateOrderDiscountServiceFee());
     }
 
     @Override
     public void changeDiscription(String discription, int position) {
+        if(position == -1) return;
         OrderProductItem orderProductItem   = (OrderProductItem) list.get(position);
         orderProductItem.getOrderProduct().setDiscription(discription);
         list.set(position,orderProductItem);
         updateDetials();
-        view.updateOrderDetials(order,customer);
+        view.updateOrderDetials(order,customer,payedPartitions);
         view.notifyItemChanged(position,list.size(),updateOrderDiscountServiceFee());
     }
 
     @Override
     public void removeOrderProducts(int removePosition) {
         list.remove(removePosition);
-        updateDetials();
-        view.updateOrderDetials(order,customer);
-        view.notifyItemRemove(removePosition,list.size(),updateOrderDiscountServiceFee());
-    }
+        if(!isListHaveProducts()){
+            cleanOrder();
 
+        }else {
+            updateDetials();
+            view.updateOrderDetials(order, customer, payedPartitions);
+            view.notifyItemRemove(removePosition, list.size(), updateOrderDiscountServiceFee());
+        }
+
+    }
+    private boolean isListHaveProducts(){
+        if(list.size()==0){
+            return false;
+        }
+        int productCount = 0;
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i) instanceof OrderProductItem) {
+                productCount ++;
+            }
+        }
+        if(productCount == 0) return false;
+        else return true;
+    }
     @Override
     public void setDiscountToProduct(Discount discountToProduct, int currentPosition) {
         OrderProductItem orderProductItem   = (OrderProductItem) list.get(currentPosition);
         orderProductItem.setDiscount(discountToProduct);
         list.set(currentPosition,orderProductItem);
         updateDetials();
-        view.updateOrderDetials(order,customer);
+        view.updateOrderDetials(order,customer,payedPartitions);
         view.notifyItemChanged(currentPosition,list.size(),updateOrderDiscountServiceFee());
     }
 
@@ -337,21 +362,21 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         orderProductItem.setServiceFee(serviceFeeProduct);
         list.set(currentPosition,orderProductItem);
         updateDetials();
-        view.updateOrderDetials(order,customer);
+        view.updateOrderDetials(order,customer,payedPartitions);
         view.notifyItemChanged(currentPosition,list.size(),updateOrderDiscountServiceFee());
     }
 
     @Override
     public void changeCustomer(Customer customer) {
         this.customer = customer;
-        view.updateOrderDetials(order,customer);
+        view.updateOrderDetials(order,customer,payedPartitions);
     }
 
     @Override
     public void onClickChooseCustomerButton() {
         if(customer !=null){
             customer = null;
-            view.updateOrderDetials(order,customer);
+            view.updateOrderDetials(order,customer,payedPartitions);
         }else{
             view.openCustomerDialog();
         }
@@ -372,7 +397,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         int positionToAdd = findPositionToAdd();
         list.add(positionToAdd,orderProductItem);
         updateDetials();
-        view.updateOrderDetials(order,customer);
+        view.updateOrderDetials(order,customer,payedPartitions);
         view.notifyItemAdded(positionToAdd,list.size(),updateOrderDiscountServiceFee());
     }
 
@@ -382,7 +407,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         orderProductItem.getOrderProduct().setCount(weight);
         list.set(positionOfWeightItem,orderProductItem);
         updateDetials();
-        view.updateOrderDetials(order,customer);
+        view.updateOrderDetials(order,customer,payedPartitions);
         view.notifyItemChanged(positionOfWeightItem,list.size(),updateOrderDiscountServiceFee());
     }
 
@@ -392,7 +417,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         orderProductItem.getOrderProduct().setCount(weight);
         list.set(currentPosition,orderProductItem);
         updateDetials();
-        view.updateOrderDetials(order,customer);
+        view.updateOrderDetials(order,customer,payedPartitions);
         view.notifyItemChanged(currentPosition,list.size(),updateOrderDiscountServiceFee());
     }
 
@@ -402,6 +427,29 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         positionOfWeightItem = position;
         OrderProductItem orderProductItem   = (OrderProductItem) list.get(position);
         view.openUnitValuePickerEdit(orderProductItem.getOrderProduct().getProduct(),orderProductItem.getOrderProduct().getCount());
+    }
+
+    @Override
+    public void sendToPaymentFragmentOrderAndPaymentsList() {
+        view.sendDataToPaymentFragment(order,payedPartitions);
+    }
+
+    @Override
+    public void onPayedPartition() {
+        view.updateOrderDetials(order,customer,payedPartitions);
+    }
+
+    @Override
+    public void cleanOrder() {
+        payedPartitions.clear();
+        list.clear();
+        discountItem = null;
+        serviceFeeItem = null;
+        view.enableServiceFeeButton();
+        view.enableDiscountButton();
+        updateDetials();
+        view.updateOrderDetials(order, customer, payedPartitions);
+        view.notifyList();
     }
 
     private void updateDetials(){

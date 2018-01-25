@@ -48,4 +48,8 @@ public interface PreferencesHelper {
     int getProductListViewType();
     void setActiveItemVisibility(boolean isActive);
     boolean getActiveItemVisibility();
+    double getFirstOptionalPaymentButton();
+    void setFirstOptionalPaymentButton(double firstOptionalPaymentButton);
+    double getSecondOptionalPaymentButton();
+    void setSecondOptionalPaymentButton(double secondOptionalPaymentButton);
 }

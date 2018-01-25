@@ -5,6 +5,7 @@ import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.order.Order;
+import com.jim.multipos.data.db.model.order.PayedPartitions;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.mainpospage.dialogs.DiscountDialog;
@@ -29,7 +30,7 @@ public interface  OrderListView extends BaseView {
     void sendToProductInfoProductItem();
     void plusProductCount();
     void minusProductCount();
-    void updateOrderDetials(Order order, Customer customer);
+    void updateOrderDetials(Order order, Customer customer,List<PayedPartitions> payedPartitions);
     void scrollToPosition(int pos);
     void addProductToOrder(Long productId);
     void addDiscountToProduct(Long productId, Discount discount, boolean isManual);
@@ -51,7 +52,14 @@ public interface  OrderListView extends BaseView {
     void openUnitValuePicker(Product product);
     void openUnitValuePickerEdit(Product product, double weight);
     void addProductWithWeightToListEdit(double weight);
+    void sendToPaymentFragmentOrderAndPaymentsList();
+    void sendDataToPaymentFragment(Order order, List<PayedPartitions> payedPartitions);
+    void visiblePayButton();
+    void visibleBackButton();
+    void onPayedPartition();
     void initScan();
+    void isPaymentOpen();
+    void isPaymentClose();
 
     void scanBarcodeFor(boolean fromAddCustomer);
 }

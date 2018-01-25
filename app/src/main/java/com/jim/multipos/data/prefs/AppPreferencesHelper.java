@@ -40,6 +40,8 @@ public class AppPreferencesHelper implements PreferencesHelper {
     private static final String FIRST_CONFIGURED = "FIRST_CONFIGURED";
     private static final String ACTIVE_ITEM_VISIBILITY = "ACTIVE_ITEM_VISIBILITY";
     private static final String PRODUCT_LIST_VIEW_TYPE = "PRODUCT_LIST_VIEW_TYPE";
+    private static final String FIRST_OPTIONAL_PAYMENT_BUTTON = "FIRST_OPT";
+    private static final String SECOND_OPTIONAL_PAYMENT_BUTTON = "SECOND_OPT";
 
     private final SharedPreferences mPrefs;
 
@@ -176,5 +178,25 @@ public class AppPreferencesHelper implements PreferencesHelper {
     @Override
     public boolean getActiveItemVisibility() {
         return mPrefs.getBoolean(ACTIVE_ITEM_VISIBILITY, false);
+    }
+
+    @Override
+    public double getFirstOptionalPaymentButton() {
+        return mPrefs.getFloat(FIRST_OPTIONAL_PAYMENT_BUTTON,10000);
+    }
+
+    @Override
+    public void setFirstOptionalPaymentButton(double firstOptionalPaymentButton) {
+        mPrefs.edit().putFloat(FIRST_OPTIONAL_PAYMENT_BUTTON, (float) firstOptionalPaymentButton).apply();
+    }
+
+    @Override
+    public double getSecondOptionalPaymentButton() {
+        return mPrefs.getFloat(SECOND_OPTIONAL_PAYMENT_BUTTON,5000);
+    }
+
+    @Override
+    public void setSecondOptionalPaymentButton(double secondOptionalPaymentButton) {
+        mPrefs.edit().putFloat(SECOND_OPTIONAL_PAYMENT_BUTTON, (float) secondOptionalPaymentButton).apply();
     }
 }

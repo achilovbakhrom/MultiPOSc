@@ -67,15 +67,94 @@
                     android:layout_marginRight="@dimen/fifteen_dp"
                     android:orientation="vertical">
 
-                    <com.jim.mpviews.MpPaymentField
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/seventy_five_dp"
-                        android:layout_marginBottom="@dimen/ten_dp" />
+                        android:layout_marginBottom="@dimen/ten_dp"
+                        android:background="@drawable/num_pad_change"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Balance Due"
+                            android:gravity="right"
+                            android:layout_marginRight="@dimen/fourteen_dp"
+                            android:layout_marginTop="@dimen/twelve_dp"
+                            android:textSize="@dimen/sixteen_dp"
+                            android:textColor="#df595a"
+                            />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/sixteen_dp"
+                            android:layout_marginRight="@dimen/sixteen_dp"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text="uzs"
+                                android:textStyle="bold"
+                                android:textColor="#419fd9"
+                                android:textSize="@dimen/fourteen_dp"/>
+                            <TextView
+                                android:id="@+id/tvBalanceDue"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginBottom="@dimen/twelve_dp"
+                                android:text="23 990"
+                                android:gravity="right"
+                                android:textColor="#df595a"
+                                android:textSize="@dimen/twenty_five_dp"
+                                android:textStyle="bold"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/seventy_five_dp"
+                        android:layout_marginBottom="@dimen/ten_dp"
+                        android:background="@drawable/num_pad_change"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Payment"
+                            android:gravity="right"
+                            android:layout_marginRight="@dimen/fourteen_dp"
+                            android:layout_marginTop="@dimen/twelve_dp"
+                            android:textSize="@dimen/sixteen_dp"
+                            android:textColor="#d99941"
+                            />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/sixteen_dp"
+                            android:layout_marginRight="@dimen/sixteen_dp"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text="uzs"
+                                android:textStyle="bold"
+                                android:textColor="#419fd9"
+                                android:textSize="@dimen/fourteen_dp"/>
+                            <EditText
+                                android:id="@+id/etPaymentAmount"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginBottom="@dimen/twelve_dp"
+                                android:gravity="right"
+                                android:background="#00ffffff"
+                                android:longClickable="false"
+                                android:maxLength="15"
+                                android:selectAllOnFocus="true"
+                                android:singleLine="true"
+                                android:ellipsize="end"
+                                android:textColor="#d99941"
+                                android:textSize="@dimen/twenty_five_dp"
+                                android:textStyle="bold"/>
+                        </LinearLayout>
+                    </LinearLayout>
 
-                    <com.jim.mpviews.MpPaymentField
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/seventy_five_dp"
-                        android:layout_marginBottom="@dimen/ten_dp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -84,6 +163,7 @@
                         android:orientation="horizontal">
 
                         <com.jim.mpviews.MpNumPad
+                            android:id="@+id/btnSeven"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="@dimen/five_dp"
@@ -95,6 +175,7 @@
                             app:value="7" />
 
                         <com.jim.mpviews.MpNumPad
+                            android:id="@+id/btnEight"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="@dimen/five_dp"
@@ -106,6 +187,7 @@
                             app:value="8" />
 
                         <com.jim.mpviews.MpNumPad
+                            android:id="@+id/btnNine"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="@dimen/five_dp"
@@ -117,6 +199,7 @@
                             app:value="9" />
 
                         <com.jim.mpviews.MpNumPadSecond
+                            android:id="@+id/btnFirstOptional"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -132,6 +215,7 @@
                         android:orientation="horizontal">
 
                         <com.jim.mpviews.MpNumPad
+                            android:id="@+id/btnFour"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="@dimen/five_dp"
@@ -143,6 +227,7 @@
                             app:value="4" />
 
                         <com.jim.mpviews.MpNumPad
+                            android:id="@+id/btnFive"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="@dimen/five_dp"
@@ -154,6 +239,7 @@
                             app:value="5" />
 
                         <com.jim.mpviews.MpNumPad
+                            android:id="@+id/btnSix"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="@dimen/five_dp"
@@ -165,6 +251,7 @@
                             app:value="6" />
 
                         <com.jim.mpviews.MpNumPadSecond
+                            android:id="@+id/btnSecondOptional"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -179,6 +266,7 @@
                         android:orientation="horizontal">
 
                         <com.jim.mpviews.MpNumPad
+                            android:id="@+id/btnOne"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="@dimen/five_dp"
@@ -190,6 +278,7 @@
                             app:value="1" />
 
                         <com.jim.mpviews.MpNumPad
+                            android:id="@+id/btnTwo"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="@dimen/five_dp"
@@ -201,6 +290,7 @@
                             app:value="2" />
 
                         <com.jim.mpviews.MpNumPad
+                            android:id="@+id/btnThree"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="@dimen/five_dp"
@@ -212,11 +302,12 @@
                             app:value="3" />
 
                         <com.jim.mpviews.MpNumPadSecond
+                            android:id="@+id/btnAllInOne"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            app:currency="uzs"
-                            app:values="500" />
+                            app:currency="Amount"
+                            app:values="All" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -226,6 +317,7 @@
                         android:orientation="horizontal">
 
                         <com.jim.mpviews.MpNumPad
+                            android:id="@+id/btnDoubleZero"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="@dimen/five_dp"
@@ -237,6 +329,7 @@
                             app:value="00" />
 
                         <com.jim.mpviews.MpNumPad
+                            android:id="@+id/btnZero"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="@dimen/five_dp"
@@ -248,6 +341,7 @@
                             app:value="0" />
 
                         <com.jim.mpviews.MpNumPad
+                            android:id="@+id/btnDot"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="@dimen/five_dp"
@@ -259,10 +353,12 @@
                             app:value="," />
 
                         <LinearLayout
+                            android:id="@+id/btnBackSpace"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:background="@drawable/num_pad_btn"
+                            android:clickable="true"
+                            android:background="@drawable/num_pad_white"
                             android:gravity="center"
                             android:orientation="vertical">
 
@@ -307,34 +403,8 @@
                                 android:textSize="@dimen/twelve_dp" />
 
                         </LinearLayout>
-
                         <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="@dimen/twenty_five_dp"
-                                android:layout_height="@dimen/twenty_five_dp"
-                                android:layout_gravity="center"
-                                android:layout_marginBottom="@dimen/five_dp"
-                                android:src="@drawable/credit"
-                                android:tint="@color/colorBlue" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:text="Credit"
-                                android:textColor="@color/colorBlue"
-
-                                android:textSize="@dimen/twelve_dp" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
+                            android:id="@+id/llPrintCheck"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -366,24 +436,20 @@
                             android:layout_weight="1"
                             android:orientation="vertical">
 
-                            <ImageView
-                                android:layout_width="@dimen/twenty_five_dp"
-                                android:layout_height="@dimen/twenty_five_dp"
-                                android:layout_gravity="center"
-                                android:layout_marginBottom="@dimen/five_dp"
-                                android:src="@drawable/employers"
-                                android:tint="@color/colorBlue" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:text="Some"
-                                android:textColor="@color/colorBlue"
-
-                                android:textSize="@dimen/twelve_dp" />
 
                         </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+
+
+                        </LinearLayout>
+
 
                     </LinearLayout>
 
@@ -393,101 +459,116 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/seventy_five_dp"
-                        android:layout_marginBottom="@dimen/eight_dp"
+                        android:layout_marginBottom="@dimen/ten_dp"
                         android:background="@drawable/num_pad_bg_two"
-                        android:orientation="horizontal">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/tvBalanceOrChange"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:orientation="vertical"
-                            android:paddingLeft="@dimen/sixteen_dp">
-
-
+                            android:text="Change"
+                            android:gravity="right"
+                            android:layout_marginRight="@dimen/fourteen_dp"
+                            android:layout_marginTop="@dimen/twelve_dp"
+                            android:textSize="@dimen/sixteen_dp"
+                            android:textColor="#d99941"
+                            />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/sixteen_dp"
+                            android:layout_marginRight="@dimen/sixteen_dp"
+                            android:orientation="horizontal">
                             <TextView
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="usd"
-                                android:textColor="#dbdbdb"
-                                android:textSize="@dimen/twelve_dp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:text="uzs"
-                                android:textColor="@color/colorBlue"
-                                android:textSize="@dimen/twelve_dp"
-                                android:textStyle="bold" />
-
+                                android:textStyle="bold"
+                                android:textColor="#419fd9"
+                                android:textSize="@dimen/fourteen_dp"/>
+                            <TextView
+                                android:id="@+id/tvChange"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginBottom="@dimen/twelve_dp"
+                                android:text="1 110"
+                                android:gravity="right"
+                                android:textColor="#d99941"
+                                android:textSize="@dimen/twenty_five_dp"
+                                android:textStyle="bold"/>
                         </LinearLayout>
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/three_hundred_fifty_three_dp"
+                        android:layout_marginBottom="@dimen/five_dp"
+                        >
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/payment_type_frame"
+                            android:layout_marginTop="@dimen/thirty_five_dp"
+                            android:layout_marginBottom="@dimen/five_dp"
+                            />
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="@dimen/ten_dp"
-                            android:orientation="vertical"
-                            android:paddingRight="@dimen/fifteen_dp">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="right"
-                                android:text="Change"
-                                android:textColor="@color/colorDirtyOrange"
-                                android:textSize="@dimen/twelve_dp" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:gravity="right"
-                                android:text="1 100"
-                                android:textColor="@color/colorDirtyOrange"
-                                android:textSize="@dimen/twenty_six_dp"
-                                android:textStyle="bold" />
-
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/three_hundred_fifty_three_dp"
-                        android:layout_marginBottom="@dimen/ten_dp"
-                        android:background="@drawable/payment_type_frame"
-                        android:orientation="vertical">
-
-
-                        <com.jim.mpviews.MpSecondSwticher
-                            android:layout_width="wrap_content"
-                            android:layout_height="@dimen/seventy_dp"
-                            android:layout_gravity="center"
-                            android:layout_marginBottom="@dimen/five_dp"
-                            android:layout_marginTop="@dimen/fifteen_dp"
-                            app:text_left="Payment \n Types"
-                            app:text_right="Payment \n List" />
-
-                        <com.jim.mpviews.MpList
-                            android:id="@+id/mpLPaymentList"
-                            android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_gravity="center"
-                            android:layout_margin="@dimen/five_dp" />
+                            android:orientation="vertical">
+
+                            <com.jim.mpviews.MpSecondSwticher
+                                android:id="@+id/mpSSwitcher"
+                                android:layout_width="wrap_content"
+                                android:layout_height="@dimen/seventy_dp"
+                                android:layout_gravity="center"
+                                android:layout_marginBottom="@dimen/five_dp"
+                                app:text_left="Payment \nTypes"
+                                app:text_right="Payment \nList" />
+
+                            <com.jim.mpviews.MpList
+                                android:id="@+id/mpLPaymentTypeList"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:layout_margin="@dimen/five_dp"
+                                android:visibility="visible" />
+
+                            <FrameLayout
+                                android:id="@+id/flPaymentList"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginBottom="@dimen/fourteen_dp"
+                                android:layout_marginLeft="@dimen/fourteen_dp"
+                                android:layout_marginRight="@dimen/fourteen_dp"
+                                android:layout_marginTop="@dimen/five_dp"
+                                android:visibility="gone">
+
+                                <android.support.v7.widget.RecyclerView
+                                    android:id="@+id/rvPaymentsListHistory"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent" />
+
+                                <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/mask_for_payment_list" />
+                            </FrameLayout>
+                        </LinearLayout>
 
 
-                    </LinearLayout>
+
+                    </RelativeLayout>
 
                     <TextView
                         android:id="@+id/tvPay"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/big_btn"
+                        android:background="@drawable/pay_btn_payment"
                         android:gravity="center"
                         android:text="PAY"
                         android:textColor="@color/colorBlue"

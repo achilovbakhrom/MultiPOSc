@@ -53,24 +53,21 @@ public class MpNumPadSecond extends FrameLayout {
         TypedArray attributeArray = context.obtainStyledAttributes(attributeSet, R.styleable.MpNumPadSecond);
         mpCurr.setText(attributeArray.getText(R.styleable.MpNumPadSecond_currency));
         mpValue.setText(attributeArray.getText(R.styleable.MpNumPadSecond_values));
-        setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch (motionEvent.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        if (!pressed) {
-                            VibrateManager.startVibrate(context, 50);
-                            pressed = true;
-                        }
-                        mpNumPadbg.setBackgroundResource(R.drawable.num_pad_blue_pressed);
-                        return false;
-                    case MotionEvent.ACTION_UP:
-                        pressed = false;
-                        mpNumPadbg.setBackgroundResource(R.drawable.num_pad_blue);
-                        return false;
-                }
-                return false;
+        setOnTouchListener((view, motionEvent) -> {
+            switch (motionEvent.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    if (!pressed) {
+                        VibrateManager.startVibrate(context, 50);
+                        pressed = true;
+                    }
+                    mpNumPadbg.setBackgroundResource(R.drawable.num_pad_blue_pressed);
+                    return false;
+                case MotionEvent.ACTION_UP:
+                    pressed = false;
+                    mpNumPadbg.setBackgroundResource(R.drawable.num_pad_blue);
+                    return false;
             }
+            return false;
         });
         attributeArray.recycle();
     }
@@ -78,7 +75,9 @@ public class MpNumPadSecond extends FrameLayout {
     public void setCurrency(String currency) {
         mpCurr.setText(currency);
     }
-
+    public void setValue(String value){
+        mpValue.setText(value);
+    }
     @Override
     public void onRestoreInstanceState(Parcelable state) {
         if (!(state instanceof MpButton.SavedState)) {
