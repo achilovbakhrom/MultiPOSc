@@ -119,6 +119,7 @@ public class CustomerDialog extends Dialog {
             public void onItemSelect(Customer customer) {
                 notifyManager.notifyView(customer);
                 mainPageConnection.changeCustomer(customer);
+                mainPageConnection.setCustomer(customer);
                 dismiss();
             }
         });

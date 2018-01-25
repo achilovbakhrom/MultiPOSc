@@ -27,4 +27,5 @@ public interface PaymentView extends BaseView {
     void updateCloseText();
     void closeSelf();
     void onPayedPartition();
+    void setCustomer(Customer customer);
 }

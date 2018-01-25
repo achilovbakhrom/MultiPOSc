@@ -89,12 +89,12 @@ public class MainMenuDialog extends Dialog {
             dismiss();
         });
 
-        if (isBarcodeShown)
+        if (!isBarcodeShown)
             tvBarcodeScanner.setText("Turn on barcode scanner");
         else tvBarcodeScanner.setText("Turn off barcode scanner");
 
         tvBarcodeScanner.setOnClickListener(view -> {
-            if (isBarcodeShown)
+            if (!isBarcodeShown)
             listener.onTurnOnBarcodeScanner();
             else listener.onTurnOffBarcodeScanner();
             dismiss();

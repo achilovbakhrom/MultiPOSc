@@ -6,6 +6,7 @@ import com.jim.mpviews.model.PaymentTypeWithService;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.PaymentType;
+import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.PayedPartitions;
 import com.jim.multipos.data.prefs.PreferencesHelper;
@@ -29,6 +30,7 @@ public class PaymentPresenterImpl extends BasePresenterImpl<PaymentView> impleme
     List<PayedPartitions> payedPartitions;
     private Order order;
     double lastPaymentAmountState = 0;
+    private Customer customer = null;
 
     @Inject
     public PaymentPresenterImpl(PaymentView paymentView, DatabaseManager databaseManager, PreferencesHelper preferencesHelper) {
@@ -44,7 +46,7 @@ public class PaymentPresenterImpl extends BasePresenterImpl<PaymentView> impleme
     */
     @Override
     public void onDebtBorrowClicked() {
-        view.openAddDebtDialog(databaseManager,order,null);
+        view.openAddDebtDialog(databaseManager, order, customer);
     }
 
     /**
@@ -190,6 +192,11 @@ public class PaymentPresenterImpl extends BasePresenterImpl<PaymentView> impleme
             //it is done operation for close order. Because payment amount enough for close order
 
         }
+    }
+
+    @Override
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     /**

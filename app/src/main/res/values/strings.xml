@@ -578,6 +578,10 @@
     <string name="remove_if_only_not_closed_till">Remove(if only not closed till)</string>
     <string name="debt_amount">Debt amount</string>
     <string name="enter_return_amount">Please, enter return amount</string>
+    <string name="percentage">Percentage</string>
+    <string name="fee">Fee</string>
+    <string name="due_date">Due Date</string>
+    <string name="debt_details">Debt details</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>

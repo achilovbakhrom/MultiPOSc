@@ -258,7 +258,7 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
      * */
     @Override
     public void openAddDebtDialog(DatabaseManager databaseManager, Order order, Customer customer) {
-        AddDebtDialog dialog = new AddDebtDialog(getContext(),null, databaseManager, order, debt -> {});
+        AddDebtDialog dialog = new AddDebtDialog(getContext(),customer, databaseManager, order, debt -> {});
         dialog.show();
     }
 
@@ -391,6 +391,11 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
     public void onPayedPartition() {
         etPaymentAmount.setText("");
         mainPageConnection.onPayedPartition();
+    }
+
+    @Override
+    public void setCustomer(Customer customer) {
+        presenter.setCustomer(customer);
     }
 
     /**

@@ -462,6 +462,7 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
         }else {
             tvCustomerName.setText(getString(R.string.customer_choice));
             lbChooseCustomer.setImage(R.drawable.add_customer);
+            mainPageConnection.setCustomer(null);
         }
         presenter.sendToPaymentFragmentOrderAndPaymentsList();
 

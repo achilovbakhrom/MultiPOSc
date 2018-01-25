@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,6 +25,7 @@ import com.jim.multipos.utils.UIUtils;
 import com.journeyapps.barcodescanner.BarcodeCallback;
 import com.journeyapps.barcodescanner.BarcodeResult;
 import com.journeyapps.barcodescanner.CompoundBarcodeView;
+import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 
 import java.util.List;
 
@@ -42,7 +44,7 @@ public class BarcodeScannerFragment extends BaseFragment implements BarcodeScann
     @BindView(R.id.llScanner)
     LinearLayout llScanner;
     @BindView(R.id.barcode)
-    CompoundBarcodeView barcodeView;
+    DecoratedBarcodeView barcodeView;
     @BindView(R.id.ivHide)
     ImageView ivHide;
 
@@ -74,19 +76,19 @@ public class BarcodeScannerFragment extends BaseFragment implements BarcodeScann
                     dY = view.getY() - motionEvent.getRawY();
                     break;
                 case MotionEvent.ACTION_MOVE:
-
                     newX = motionEvent.getRawX() + dX;
                     newY = motionEvent.getRawY() + dY;
                     if (newY < 5f)
                         view.setY(5f);
-                    else if (newY > 710f)
-                        view.setY(710f);
+                    else if (newY > 700f)
+                        view.setY(700f);
                     else view.setY(newY);
                     if (newX < 5f)
                         view.setX(5f);
-                    else if (newX > 1240f)
-                        view.setX(1240f);
+                    else if (newX > 1380f)
+                        view.setX(1380f);
                     else view.setX(newX);
+                    Log.d("barcode", "newX: " + newX + " , newY: " + newY);
                     break;
                 case MotionEvent.ACTION_UP:
                     view.performClick();
@@ -171,7 +173,7 @@ public class BarcodeScannerFragment extends BaseFragment implements BarcodeScann
 
     @Override
     public void openAddNewProductNotificationDialog() {
-        UIUtils.showAlert(getContext(), getContext().getString(R.string.yes), getContext().getString(R.string.no), "Notification", "There is no product wuth such barcode. Do you want add it?", new UIUtils.AlertListener() {
+        UIUtils.showAlert(getContext(), getContext().getString(R.string.yes), getContext().getString(R.string.no), "Notification", "There is no product with such barcode. Do you want add it?", new UIUtils.AlertListener() {
             @Override
             public void onPositiveButtonClicked() {
                 openProductActivity();

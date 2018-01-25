@@ -86,7 +86,12 @@ public class AddDebtDialog extends Dialog {
         }
         if (customer != null) {
             flSearchView.setSearchText(customer.getName());
+        } else flSearchView.setSearchText("");
+
+        if (order != null){
+            etAmount.setText(String.valueOf(order.getBalanceDue()));
         }
+
         flSearchView.setBackground(context.getDrawable(R.drawable.edit_text_bg));
         flSearchView.setDimBackground(false);
         flSearchView.setQueryTextSize(16);

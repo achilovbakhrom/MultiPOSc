@@ -62,6 +62,12 @@ public class MainPageConnection {
             orderListView.changeCustomer(customer);
         }
     }
+
+    public void setCustomer(Customer customer){
+        if (paymentView != null){
+            paymentView.setCustomer(customer);
+        }
+    }
     public void plusProductCount(){
         if(orderListView!=null){
             orderListView.plusProductCount();
