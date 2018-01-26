@@ -23,6 +23,7 @@ public class PaymentType {
     private Long currencyId;
     @ToOne(joinProperty = "currencyId")
     private Currency currency;
+    private boolean isVisible = true;
     private Long accountId;
     @ToOne(joinProperty = "accountId")
     private Account account;
@@ -153,11 +154,19 @@ public class PaymentType {
     public void setId(Long id) {
         this.id = id;
     }
-    @Generated(hash = 1964465360)
-    public PaymentType(Long id, String name, Long currencyId, Long accountId) {
+    public boolean getIsVisible() {
+        return this.isVisible;
+    }
+    public void setIsVisible(boolean isVisible) {
+        this.isVisible = isVisible;
+    }
+    @Generated(hash = 1383648293)
+    public PaymentType(Long id, String name, Long currencyId, boolean isVisible,
+            Long accountId) {
         this.id = id;
         this.name = name;
         this.currencyId = currencyId;
+        this.isVisible = isVisible;
         this.accountId = accountId;
     }
     @Generated(hash = 479868900)

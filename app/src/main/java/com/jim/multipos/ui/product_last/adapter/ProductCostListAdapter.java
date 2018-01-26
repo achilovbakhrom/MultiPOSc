@@ -15,6 +15,7 @@ import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.products.VendorProductCon;
 import com.jim.multipos.utils.TextWatcherOnTextChange;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import butterknife.BindView;
@@ -30,9 +31,11 @@ public class ProductCostListAdapter extends RecyclerView.Adapter<ProductCostList
     private List<String> vendors;
     private List<VendorProductCon> costs;
     private Context context;
+    private DecimalFormat decimalFormat;
 
-    public ProductCostListAdapter(Context context) {
+    public ProductCostListAdapter(Context context, DecimalFormat decimalFormat) {
         this.context = context;
+        this.decimalFormat = decimalFormat;
     }
 
     public void setData(List<String> vendors, List<VendorProductCon> costs) {
@@ -51,7 +54,7 @@ public class ProductCostListAdapter extends RecyclerView.Adapter<ProductCostList
     public void onBindViewHolder(ProductCostViewHolder holder, int position) {
         holder.tvProductName.setText(vendors.get(position));
         if (costs.get(position).getCost() != null)
-            holder.etProductCost.setText(String.valueOf(costs.get(position).getCost()));
+            holder.etProductCost.setText(decimalFormat.format(costs.get(position).getCost()));
     }
 
     public List<VendorProductCon> getCosts() {
@@ -88,7 +91,7 @@ public class ProductCostListAdapter extends RecyclerView.Adapter<ProductCostList
                     if (charSequence.length() != 0) {
                         double cost = 0;
                         try {
-                            cost = Double.parseDouble(etProductCost.getText().toString());
+                            cost = decimalFormat.parse(etProductCost.getText().toString()).doubleValue();
                             costs.get(getAdapterPosition()).setCost(cost);
                         } catch (Exception e) {
                             etProductCost.setError(context.getString(R.string.invalid));

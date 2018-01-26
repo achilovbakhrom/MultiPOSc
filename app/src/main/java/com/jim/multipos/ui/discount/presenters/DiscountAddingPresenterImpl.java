@@ -51,7 +51,7 @@ public class DiscountAddingPresenterImpl extends BasePresenterImpl<DiscountAddin
     @Override
     public void onAddPressed(double amount, int amountTypeAbbr, String discription, int usedTypeAbbr, boolean active) {
         Discount discount = new Discount();
-        discount.setAmount(amount);
+        discount.setAmount(amount * -1);
         discount.setAmountType(amountTypeAbbr);
         discount.setName(discription);
         discount.setUsedType(usedTypeAbbr);

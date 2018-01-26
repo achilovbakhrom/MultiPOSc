@@ -45,6 +45,10 @@ import com.jim.multipos.utils.UIUtils;
 
 import java.io.File;
 import java.io.Serializable;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -136,6 +140,7 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
     private MpButton vendorDialogOk;
     private ProductClassListAdapter classListAdapter;
     private List<Long> vendors;
+    private DecimalFormat formatter;
 
     @Override
     protected void init(Bundle savedInstanceState) {
@@ -149,6 +154,7 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
                 }
             }
         }
+        formatter = new DecimalFormat("#.##");
 
         dialog = new Dialog(getContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -231,7 +237,11 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
         switch (view.getId()) {
             case R.id.btnSave:
                 if (isValid())
-                    ((ProductActivity) getContext()).getPresenter().comparePriceWithCost(Double.parseDouble(this.price.getText().toString()));
+                    try {
+                        ((ProductActivity) getContext()).getPresenter().comparePriceWithCost(formatter.parse(this.price.getText().toString()).doubleValue());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                 break;
             case R.id.tvVendor:
                 ((ProductActivity) getContext()).getPresenter().openVendorChooserDialog();
@@ -301,7 +311,12 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
                                 return;
                             }
                             String tempPrice = price.getText().toString().replace(",", ".");
-                            Double resultPrice = tempPrice.isEmpty() ? 0.0d : Double.parseDouble(tempPrice);
+                            Double resultPrice = null;
+                            try {
+                                resultPrice = tempPrice.isEmpty() ? 0.0d : formatter.parse(tempPrice).doubleValue();
+                            } catch (ParseException e) {
+                                resultPrice = 0.0d;
+                            }
                             ((ProductActivity) getContext()).getPresenter().addProduct(
                                     name.getText().toString(),
                                     barcode.getText().toString(),
@@ -329,7 +344,12 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
                 return;
             }
             String tempPrice = price.getText().toString().replace(",", ".");
-            Double resultPrice = tempPrice.isEmpty() ? 0.0d : Double.parseDouble(tempPrice);
+            Double resultPrice;
+            try {
+                resultPrice = tempPrice.isEmpty() ? 0.0d : formatter.parse(tempPrice).doubleValue();
+            } catch (ParseException e) {
+                resultPrice = 0.0d;
+            }
             ((ProductActivity) getContext()).getPresenter().addProduct(
                     name.getText().toString(),
                     barcode.getText().toString(),
@@ -408,7 +428,7 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
                              double price) {
         this.name.setText(name);
         this.name.setError(null);
-        this.price.setText(String.valueOf(price));
+        this.price.setText(formatter.format(price));
         this.barcode.setText(barCode);
         this.sku.setText(sku);
         this.isActive.setChecked(isActive);
@@ -459,7 +479,7 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
 
     public void openChooseProductCostDialog(List<String> vendors, List<VendorProductCon> costs) {
         if (vendors.size() != 0) {
-            ProductCostListAdapter adapter = new ProductCostListAdapter(getContext());
+            ProductCostListAdapter adapter = new ProductCostListAdapter(getContext(), formatter);
             adapter.setData(vendors, costs);
             productCostList.setAdapter(adapter);
             costDialog.show();
@@ -496,7 +516,11 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
     public Double getPrice() {
         String temp = price.getText().toString();
         if (!temp.isEmpty()) {
-            return Double.parseDouble(temp);
+            try {
+                return formatter.parse(temp).doubleValue();
+            } catch (ParseException e) {
+                return 0.0d;
+            }
         }
         return 0.0d;
     }
@@ -571,7 +595,7 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
     }
 
     public void setCostValue(String result) {
-        cost.setText(result);
+        cost.setText(formatter.format(result));
     }
 
     public String getPhotoPath() {

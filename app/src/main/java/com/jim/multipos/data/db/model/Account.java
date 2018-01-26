@@ -17,6 +17,7 @@ public class Account {
     private String name;
     private int type;
     private int circulation;
+    private boolean isVisible = true;
     /** Used for active entity operations. */
     @Generated(hash = 335469827)
     private transient AccountDao myDao;
@@ -24,12 +25,13 @@ public class Account {
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
 
-    @Generated(hash = 1815890724)
-    public Account(Long id, String name, int type, int circulation) {
+    @Generated(hash = 1957998684)
+    public Account(Long id, String name, int type, int circulation, boolean isVisible) {
         this.id = id;
         this.name = name;
         this.type = type;
         this.circulation = circulation;
+        this.isVisible = isVisible;
     }
 
     @Generated(hash = 882125521)
@@ -109,5 +111,13 @@ public class Account {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public boolean getIsVisible() {
+        return this.isVisible;
+    }
+
+    public void setIsVisible(boolean isVisible) {
+        this.isVisible = isVisible;
     }
 }

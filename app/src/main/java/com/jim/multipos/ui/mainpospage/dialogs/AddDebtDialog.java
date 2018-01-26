@@ -89,6 +89,7 @@ public class AddDebtDialog extends Dialog {
         }
         if (customer != null) {
             flSearchView.setSearchText(customer.getName());
+            searchText = customer.getName();
         } else flSearchView.setSearchText("");
 
         if (order != null) {

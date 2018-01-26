@@ -397,7 +397,9 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Observable<List<Account>> getAllAccounts() {
         return Observable.fromCallable(() -> {
-                    List<Account> accounts = mDaoSession.getAccountDao().loadAll();
+                    List<Account> accounts = mDaoSession.getAccountDao().queryBuilder()
+                            .where(AccountDao.Properties.IsVisible.eq(true))
+                            .build().list();
                     Collections.reverse(accounts);
 
                     return accounts;
@@ -621,7 +623,9 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Observable<List<PaymentType>> getAllPaymentTypes() {
         return Observable.fromCallable(() -> {
-            List<PaymentType> paymentTypes = mDaoSession.getPaymentTypeDao().loadAll();
+            List<PaymentType> paymentTypes = mDaoSession.getPaymentTypeDao().queryBuilder()
+                    .where(PaymentTypeDao.Properties.IsVisible.eq(true))
+                    .build().list();
             Collections.reverse(paymentTypes);
 
             return paymentTypes;
