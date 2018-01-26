@@ -67,6 +67,20 @@ public class TestUtils {
     }
     public static void createAccount(DatabaseManager databaseManager){
         if(databaseManager.getAccounts().isEmpty()){
+
+            Account debt = new Account();
+            debt.setName("DebtAccount");
+            debt.setCirculation(0);
+            debt.setType(0);
+            debt.setIsVisible(false);
+            databaseManager.addAccount(debt).blockingSingle();
+            PaymentType debtPayment = new PaymentType();
+            debtPayment.setAccount(debt);
+            debtPayment.setName("ToDebt");
+            debtPayment.setCurrency(databaseManager.getMainCurrency());
+            debtPayment.setIsVisible(false);
+            databaseManager.addPaymentType(debtPayment).blockingSingle();
+
             Account account = new Account();
             account.setName("Bank");
             account.setCirculation(1);
