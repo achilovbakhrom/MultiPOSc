@@ -89,14 +89,13 @@ public class ProductCostListAdapter extends RecyclerView.Adapter<ProductCostList
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                     if (charSequence.length() != 0) {
-                        double cost = 0;
+                        double cost;
                         try {
                             cost = decimalFormat.parse(etProductCost.getText().toString()).doubleValue();
                             costs.get(getAdapterPosition()).setCost(cost);
                         } catch (Exception e) {
                             etProductCost.setError(context.getString(R.string.invalid));
                             costs.get(getAdapterPosition()).setCost(null);
-                            return;
                         }
                     } else {
                         etProductCost.setError(context.getString(R.string.enter_product_cost));

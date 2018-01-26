@@ -595,7 +595,7 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
     }
 
     public void setCostValue(String result) {
-        cost.setText(formatter.format(result));
+        cost.setText(result);
     }
 
     public String getPhotoPath() {

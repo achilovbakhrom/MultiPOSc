@@ -18,6 +18,7 @@ import com.jim.multipos.data.db.model.unit.UnitCategory;
 import com.jim.multipos.ui.product_last.helpers.CategoryAddEditMode;
 import com.jim.multipos.utils.UIUtils;
 
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -1587,13 +1588,14 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     public void setProductCosts(List<VendorProductCon> productConList) {
         this.vendorProductConnectionsList = productConList;
         String result = "";
+        DecimalFormat formatter = new DecimalFormat("#.##");
         for (VendorProductCon cost : vendorProductConnectionsList) {
             if (cost != null) {
                 if (cost.getCost() != null)
-                    result += cost.getCost();
+                    result += formatter.format(cost.getCost());
                 else {
                     cost.setCost(0d);
-                    result += cost.getCost();
+                    result += formatter.format(cost.getCost());
                 }
             }
             if (vendorProductConnectionsList.indexOf(cost) != vendorProductConnectionsList.size() - 1) {
