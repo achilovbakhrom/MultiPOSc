@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jim.mpviews.FloatingSearchView;
@@ -56,6 +57,8 @@ public class AddDebtDialog extends Dialog {
     TextView tvError;
     @BindView(R.id.tvCurrency)
     TextView tvCurrency;
+    @BindView(R.id.ivScanBarcode)
+    ImageView ivScanBarcode;
     private List<Customer> customerList;
     private List<CustomerSuggestion> suggestionsList, foundSuggestions;
     private Customer customer;
@@ -88,9 +91,11 @@ public class AddDebtDialog extends Dialog {
             flSearchView.setSearchText(customer.getName());
         } else flSearchView.setSearchText("");
 
-        if (order != null){
+        if (order != null) {
             etAmount.setText(String.valueOf(order.getBalanceDue()));
         }
+
+        ivScanBarcode.setOnClickListener(view -> listener.onScanBarcode());
 
         flSearchView.setBackground(context.getDrawable(R.drawable.edit_text_bg));
         flSearchView.setDimBackground(false);
@@ -103,6 +108,7 @@ public class AddDebtDialog extends Dialog {
                 flSearchView.clearSuggestions();
                 foundSuggestions = null;
                 customer = null;
+                checkCustomer();
             } else {
                 flSearchView.showProgress();
                 foundSuggestions = new ArrayList<>();
@@ -112,6 +118,10 @@ public class AddDebtDialog extends Dialog {
                         continue;
                     }
                     if (suggestionsList.get(j).getCustomer().getClientId().toString().toUpperCase().contains(newQuery.toUpperCase())) {
+                        foundSuggestions.add(suggestionsList.get(j));
+                        continue;
+                    }
+                    if (suggestionsList.get(j).getCustomer().getQrCode().toUpperCase().contains(newQuery.toUpperCase())) {
                         foundSuggestions.add(suggestionsList.get(j));
                     }
                 }
@@ -139,7 +149,6 @@ public class AddDebtDialog extends Dialog {
         });
         checkCustomer();
         String[] debtTypes = context.getResources().getStringArray(R.array.debt_type);
-        etFee.setText(String.valueOf(0));
         spDebtType.setAdapter(debtTypes);
         tvDueDate.setText(simpleDateFormat.format(calendar.getTime()));
         GregorianCalendar now = new GregorianCalendar();
@@ -164,20 +173,19 @@ public class AddDebtDialog extends Dialog {
 
         btnSave.setOnClickListener(view -> {
             if (customer == null) {
-                flSearchView.setQueryError("Please, choose customer");
+                flSearchView.setQueryError(context.getString(R.string.please_choose_customer));
             } else if (!customer.getName().equals(searchText)) {
-                flSearchView.setQueryError("Please, choose customer");
+                flSearchView.setQueryError(context.getString(R.string.please_choose_customer));
             } else if (etAmount.getText().toString().isEmpty()) {
-                etAmount.setError("Please, enter debt amount");
+                etAmount.setError(context.getString(R.string.enter_debt_amount));
             } else {
-                if (etFee.getText().toString().isEmpty()) {
-                    etFee.setText(String.valueOf(0));
-                }
                 Debt debt = new Debt();
                 debt.setCustomer(customer);
                 debt.setStatus(Debt.ACTIVE);
                 debt.setTakenDate(now.getTimeInMillis());
-                debt.setFee(Double.parseDouble(etFee.getText().toString()));
+                if (etFee.getText().toString().isEmpty()) {
+                    debt.setFee(0);
+                } else debt.setFee(Double.parseDouble(etFee.getText().toString()));
                 debt.setDebtAmount(Double.parseDouble(etAmount.getText().toString()));
                 debt.setEndDate(calendar.getTimeInMillis());
                 debt.setDebtType(spDebtType.getSelectedPosition());
@@ -189,8 +197,24 @@ public class AddDebtDialog extends Dialog {
         });
     }
 
+    public void setScanResult(String contents) {
+        databaseManager.getAllCustomers().subscribe(customers -> {
+            for (Customer customer : customers) {
+                if (customer.getQrCode().equals(contents)) {
+                    this.customer = customer;
+                    searchText = customer.getName();
+                    flSearchView.setSearchText(customer.getName());
+                    checkCustomer();
+                    break;
+                }
+            }
+        });
+
+    }
+
     public interface onDebtSaveClickListener {
         void onDebtSave(Debt debt);
+        void onScanBarcode();
     }
 
     private void checkCustomer() {
@@ -215,7 +239,7 @@ public class AddDebtDialog extends Dialog {
                     tvError.setText("This customer already has debt: " + debtSum + " " + databaseManager.getMainCurrency().getAbbr());
                 else tvError.setText("");
             }
-        }
+        } else tvError.setText("");
     }
 
 }

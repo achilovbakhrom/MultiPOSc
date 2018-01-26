@@ -24,7 +24,7 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/thirty_dp"
                 android:paddingLeft="@dimen/thirty_dp"
-                android:text="Toady's Orders"
+                android:text="Hold Orders"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/twenty_dp"
                 android:textStyle="bold" />
@@ -158,7 +158,7 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:gravity="right"
-                        android:text="Action"
+                        android:text="@string/action"
                         android:textColor="@color/colorMainText"
                         android:textSize="@dimen/eighteen_dp" />
 

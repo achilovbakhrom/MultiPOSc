@@ -1,5 +1,6 @@
 package com.jim.multipos.ui.mainpospage.view;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -20,6 +21,8 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.jim.mpviews.MpList;
 import com.jim.mpviews.MpNumPad;
 import com.jim.mpviews.MpNumPadSecond;
@@ -31,6 +34,7 @@ import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.PaymentType;
 import com.jim.multipos.data.db.model.customer.Customer;
+import com.jim.multipos.data.db.model.customer.Debt;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.PayedPartitions;
 import com.jim.multipos.data.prefs.PreferencesHelper;
@@ -94,6 +98,8 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
     DecimalFormat df;
     DecimalFormat dfnd;
     PaymentPartsAdapter paymentPartsAdapter;
+    private AddDebtDialog dialog;
+
     @Override
     protected int getLayout() {
         return R.layout.main_page_payment_fragment;
@@ -258,8 +264,40 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
      * */
     @Override
     public void openAddDebtDialog(DatabaseManager databaseManager, Order order, Customer customer) {
-        AddDebtDialog dialog = new AddDebtDialog(getContext(),customer, databaseManager, order, debt -> {});
+        dialog = new AddDebtDialog(getContext(), customer, databaseManager, order, new AddDebtDialog.onDebtSaveClickListener() {
+            @Override
+            public void onDebtSave(Debt debt) {
+
+            }
+
+            @Override
+            public void onScanBarcode() {
+                initScan();
+            }
+        });
         dialog.show();
+    }
+
+    /**
+     this method for scanning barcode
+     */
+    public void initScan(){
+        IntentIntegrator.forSupportFragment(this).initiateScan();
+    }
+
+    /**
+     * in this method we will take scan result
+    **/
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (intentResult != null) {
+            if (intentResult.getContents() != null) {
+                if (dialog != null)
+                    dialog.setScanResult(intentResult.getContents());
+            }
+        }
     }
 
     /**
