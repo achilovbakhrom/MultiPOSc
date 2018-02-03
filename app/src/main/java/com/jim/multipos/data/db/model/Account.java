@@ -7,15 +7,23 @@ import java.util.UUID;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 
+import lombok.Data;
+
 /**
  * Created by DEV on 17.08.2017.
  */
 @Entity(nameInDb = "ACCOUNTS", active = true)
+@Data
 public class Account {
+    public static final int DEBT_ACCOUNT = 7;
+    public static final int CASH_ACCOUNT = 1;
+    public static final int CUSTOM_ACCOUNT = 0;
+
     @Id(autoincrement = true)
     private Long id;
     private String name;
     private int type;
+    private int typeStaticAccountType = CUSTOM_ACCOUNT;
     private int circulation;
     private boolean isVisible = true;
     /** Used for active entity operations. */
@@ -25,11 +33,13 @@ public class Account {
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
 
-    @Generated(hash = 1957998684)
-    public Account(Long id, String name, int type, int circulation, boolean isVisible) {
+    @Generated(hash = 1433131989)
+    public Account(Long id, String name, int type, int typeStaticAccountType,
+            int circulation, boolean isVisible) {
         this.id = id;
         this.name = name;
         this.type = type;
+        this.typeStaticAccountType = typeStaticAccountType;
         this.circulation = circulation;
         this.isVisible = isVisible;
     }
@@ -119,5 +129,13 @@ public class Account {
 
     public void setIsVisible(boolean isVisible) {
         this.isVisible = isVisible;
+    }
+
+    public int getTypeStaticAccountType() {
+        return this.typeStaticAccountType;
+    }
+
+    public void setTypeStaticAccountType(int typeStaticAccountType) {
+        this.typeStaticAccountType = typeStaticAccountType;
     }
 }

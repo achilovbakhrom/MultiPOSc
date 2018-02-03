@@ -4,6 +4,7 @@ import com.jim.multipos.core.BaseView;
 import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.customer.Customer;
+import com.jim.multipos.data.db.model.customer.Debt;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.PayedPartitions;
 import com.jim.multipos.data.db.model.products.Product;
@@ -60,6 +61,9 @@ public interface  OrderListView extends BaseView {
     void initScan();
     void isPaymentOpen();
     void isPaymentClose();
-
+    void onCloseOrder(Order order, List<PayedPartitions> payedPartitions, Debt debt);
+    void updateCustomer(Customer customer);
     void scanBarcodeFor(boolean fromAddCustomer);
+    void updateViewCustomer(Customer customer);
+    void sendCustomerToPaymentFragment(Customer customer);
 }

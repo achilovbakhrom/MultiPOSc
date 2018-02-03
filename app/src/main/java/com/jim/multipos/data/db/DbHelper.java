@@ -29,6 +29,8 @@ import com.jim.multipos.data.db.model.inventory.BillingOperations;
 import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.data.db.model.order.Order;
+import com.jim.multipos.data.db.model.order.OrderProduct;
+import com.jim.multipos.data.db.model.order.PayedPartitions;
 import com.jim.multipos.data.db.model.products.Return;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.customer.Customer;
@@ -43,6 +45,7 @@ import com.jim.multipos.data.db.model.stock.Stock;
 import com.jim.multipos.data.db.model.unit.SubUnitsList;
 import com.jim.multipos.data.db.model.unit.Unit;
 import com.jim.multipos.data.db.model.unit.UnitCategory;
+import com.jim.multipos.data.operations.PayedPartitionOperations;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
 import com.jim.multipos.ui.vendor_item_managment.model.VendorWithDebt;
 
@@ -224,4 +227,12 @@ public interface DbHelper {
     Single<Boolean> insertReturns(List<Return> returnsList);
 
     Single<List<VendorProductCon>> getVendorProductConnectionByVendorId(Long vendorId);
+    Single<PaymentType> getDebtPaymentType();
+    Single<List<PayedPartitions>> insertPayedPartitions(List<PayedPartitions> payedPartitions);
+    Single<List<OrderProduct>> insertOrderProducts(List<OrderProduct> orderProducts);
+    Single<List<Order>> getAllTillOrders();
+    Single<Order> getLastAddedOrder();
+    Single<Order> getFirstAddedOrder();
+
+
 }

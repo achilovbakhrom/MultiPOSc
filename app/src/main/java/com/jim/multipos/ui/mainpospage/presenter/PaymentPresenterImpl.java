@@ -7,6 +7,7 @@ import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.PaymentType;
 import com.jim.multipos.data.db.model.customer.Customer;
+import com.jim.multipos.data.db.model.customer.Debt;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.PayedPartitions;
 import com.jim.multipos.data.prefs.PreferencesHelper;
@@ -31,13 +32,14 @@ public class PaymentPresenterImpl extends BasePresenterImpl<PaymentView> impleme
     private Order order;
     double lastPaymentAmountState = 0;
     private Customer customer = null;
-
+    private PaymentType debtPayment;
     @Inject
     public PaymentPresenterImpl(PaymentView paymentView, DatabaseManager databaseManager, PreferencesHelper preferencesHelper) {
         super(paymentView);
         this.databaseManager = databaseManager;
         paymentTypes = databaseManager.getPaymentTypes();
         this.preferencesHelper = preferencesHelper;
+        debtPayment = databaseManager.getDebtPaymentType().blockingGet();
     }
 
 
@@ -46,7 +48,12 @@ public class PaymentPresenterImpl extends BasePresenterImpl<PaymentView> impleme
     */
     @Override
     public void onDebtBorrowClicked() {
-        view.openAddDebtDialog(databaseManager, order, customer);
+        if(debt==null){
+            view.openAddDebtDialog(databaseManager, order, customer,order.getForPayAmmount() - totalPayed());
+        }else {
+            debt = null;
+            view.showDebtDialog();
+        }
     }
 
     /**
@@ -62,6 +69,10 @@ public class PaymentPresenterImpl extends BasePresenterImpl<PaymentView> impleme
      */
     @Override
     public void removePayedPart(int removedPayedPart) {
+        if(payedPartitions.get(removedPayedPart).getPaymentType().getTypeStaticPaymentType() == PaymentType.DEBT_PAYMENT_TYPE){
+            debt = null;
+            view.showDebtDialog();
+        }
         payedPartitions.remove(removedPayedPart);
         view.updatePaymentList();
         view.updateViews(order,totalPayed());
@@ -111,7 +122,7 @@ public class PaymentPresenterImpl extends BasePresenterImpl<PaymentView> impleme
      */
     private void updateChange(){
 
-        double change = order.getBalanceDue() - totalPayed() - lastPaymentAmountState;
+        double change = order.getForPayAmmount() - totalPayed() - lastPaymentAmountState;
         change *=-1;
         if(order.getSubTotalValue() == 0){
             isPay = false;
@@ -157,7 +168,7 @@ public class PaymentPresenterImpl extends BasePresenterImpl<PaymentView> impleme
      */
     @Override
     public void pressAllAmount() {
-        view.updatePaymentText(order.getBalanceDue()-totalPayed());
+        view.updatePaymentText(order.getForPayAmmount()-totalPayed());
     }
 
     @Override
@@ -190,13 +201,87 @@ public class PaymentPresenterImpl extends BasePresenterImpl<PaymentView> impleme
         }else {
             //DONE
             //it is done operation for close order. Because payment amount enough for close order
+            if(order.getForPayAmmount() - totalPayed()<=0){
+                view.updateViews(order,totalPayed());
+                view.updatePaymentList();
+                view.onPayedPartition();
+                view.closeOrder(order,payedPartitions,debt);
+                return;
+            }
+            if(order.getForPayAmmount()==0){
+                //TODO FREE ORDER
+                view.updateViews(order,totalPayed());
+                view.updatePaymentList();
+                view.onPayedPartition();
+                view.closeOrder(order,payedPartitions,debt);
+                return;
+            }
 
+            for (PayedPartitions payedPartition:payedPartitions) {
+                if(payedPartition.getPaymentType().getId().equals(currentPayment.getId())){
+                    payedPartition.setValue(payedPartition.getValue()+lastPaymentAmountState);
+                    view.updateViews(order,totalPayed());
+                    view.updatePaymentList();
+                    view.onPayedPartition();
+                    view.closeOrder(order,payedPartitions,debt);
+                    return;
+                }
+            }
+
+            PayedPartitions payedPartition = new PayedPartitions();
+            payedPartition.setPaymentType(currentPayment);
+            payedPartition.setValue(lastPaymentAmountState);
+            payedPartitions.add(payedPartition);
+            view.updateViews(order,totalPayed());
+            view.updatePaymentList();
+            view.onPayedPartition();
+            view.closeOrder(order,payedPartitions,debt);
         }
     }
 
     @Override
     public void setCustomer(Customer customer) {
         this.customer = customer;
+        if(customer == null){
+            //DELETE DEBT
+            debt = null;
+            view.showDebtDialog();
+        }
+    }
+    Debt debt;
+    @Override
+    public void onDebtSave(Debt debt) {
+        //TODO add Debt To order
+        customer = debt.getCustomer();
+        this.debt = debt;
+
+        PayedPartitions payedPartition = new PayedPartitions();
+        payedPartition.setPaymentType(debtPayment);
+        payedPartition.setValue(debt.getDebtAmount());
+        payedPartitions.add(payedPartition);
+        view.updateViews(order,totalPayed());
+        view.updatePaymentList();
+        view.onPayedPartition();
+        view.updateCustomer(debt.getCustomer());
+        view.hideDebtDialog();
+
+    }
+
+    @Override
+    public void onClickedTips() {
+        if(order.getTips() == 0){
+            view.openTipsDialog(value -> {
+                order.setTips(value);
+                view.updateViews(order,totalPayed());
+                view.updateOrderListDetialsPanel();
+                view.disableTipsButton();
+            },((order.getForPayAmmount()-totalPayed()-lastPaymentAmountState)>0)?0:(order.getForPayAmmount()-totalPayed()-lastPaymentAmountState)*-1);
+        }else {
+            order.setTips(0);
+            view.updateViews(order,totalPayed());
+            view.updateOrderListDetialsPanel();
+            view.enableTipsButton();
+        }
     }
 
     /**

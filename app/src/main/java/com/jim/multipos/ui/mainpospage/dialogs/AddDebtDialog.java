@@ -24,6 +24,7 @@ import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.ui.mainpospage.model.CustomerSuggestion;
 import com.jim.multipos.utils.UIUtils;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -66,7 +67,7 @@ public class AddDebtDialog extends Dialog {
     private onDebtSaveClickListener listener;
     private String searchText;
 
-    public AddDebtDialog(@NonNull Context context, Customer item, DatabaseManager databaseManager, Order order, onDebtSaveClickListener listener) {
+    public AddDebtDialog(@NonNull Context context, Customer item, DatabaseManager databaseManager, Order order, onDebtSaveClickListener listener, double toPay, DecimalFormat decimalFormat) {
         super(context);
         this.customer = item;
         this.databaseManager = databaseManager;
@@ -93,7 +94,7 @@ public class AddDebtDialog extends Dialog {
         } else flSearchView.setSearchText("");
 
         if (order != null) {
-            etAmount.setText(String.valueOf(order.getBalanceDue()));
+            etAmount.setText(decimalFormat.format(toPay));
         }
 
         ivScanBarcode.setOnClickListener(view -> listener.onScanBarcode());

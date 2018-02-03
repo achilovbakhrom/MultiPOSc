@@ -53,6 +53,8 @@ import com.jim.multipos.data.db.model.inventory.InventoryStateDao;
 import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.data.db.model.inventory.WarehouseOperationsDao;
 import com.jim.multipos.data.db.model.order.Order;
+import com.jim.multipos.data.db.model.order.OrderProduct;
+import com.jim.multipos.data.db.model.order.PayedPartitions;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.CategoryDao;
 import com.jim.multipos.data.db.model.products.Product;
@@ -67,6 +69,7 @@ import com.jim.multipos.data.db.model.unit.SubUnitsList;
 import com.jim.multipos.data.db.model.unit.Unit;
 import com.jim.multipos.data.db.model.unit.UnitCategory;
 import com.jim.multipos.data.db.model.unit.UnitDao;
+import com.jim.multipos.data.operations.PayedPartitionOperations;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
 import com.jim.multipos.ui.vendor_item_managment.model.VendorWithDebt;
 
@@ -564,7 +567,8 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public List<PaymentType> getPaymentTypes() {
-        return mDaoSession.getPaymentTypeDao().loadAll();
+        return mDaoSession.getPaymentTypeDao().queryBuilder()
+                .where(PaymentTypeDao.Properties.IsVisible.eq(true)).build().list();
     }
 
     @Override
@@ -960,7 +964,9 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public List<Account> getAccounts() {
-        return mDaoSession.getAccountDao().loadAll();
+        return mDaoSession.getAccountDao().queryBuilder()
+                .where(AccountDao.Properties.IsVisible.eq(true))
+                .build().list();
     }
 
     @Override
@@ -1653,6 +1659,53 @@ public class AppDbHelper implements DbHelper {
            List<VendorProductCon>  list = mDaoSession.queryBuilder(VendorProductCon.class)
                     .where(VendorProductConDao.Properties.VendorId.eq(vendorId)).list();
             singleSubscriber.onSuccess(list);
+        });
+    }
+
+    @Override
+    public Single<PaymentType> getDebtPaymentType() {
+        return Single.create(e -> {
+            List<PaymentType> paymentTypes = mDaoSession.getPaymentTypeDao().queryBuilder()
+                    .where(PaymentTypeDao.Properties.IsVisible.eq(false))
+                    .build().list();
+            e.onSuccess(paymentTypes.get(0));
+        });
+    }
+
+    @Override
+    public Single<List<PayedPartitions>> insertPayedPartitions(List<PayedPartitions> payedPartitions) {
+        return Single.create(e -> {
+            mDaoSession.getPayedPartitionsDao().insertOrReplaceInTx(payedPartitions);
+            e.onSuccess(payedPartitions);
+        });
+    }
+
+    @Override
+    public Single<List<OrderProduct>> insertOrderProducts(List<OrderProduct> orderProducts) {
+        return Single.create(e -> {
+            mDaoSession.getOrderProductDao().insertOrReplaceInTx(orderProducts);
+            e.onSuccess(orderProducts);
+        });
+    }
+
+    @Override
+    public Single<List<Order>> getAllTillOrders() {
+        return Single.create(e -> {
+            e.onSuccess(mDaoSession.getOrderDao().loadAll());
+        });
+    }
+
+    @Override
+    public Single<Order> getLastAddedOrder() {
+        return Single.create(e -> {
+
+        });
+    }
+
+    @Override
+    public Single<Order> getFirstAddedOrder() {
+        return Single.create(e -> {
+
         });
     }
 }

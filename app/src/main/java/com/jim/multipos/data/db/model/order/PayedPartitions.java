@@ -20,10 +20,10 @@ import org.greenrobot.greendao.annotation.NotNull;
 @Entity(nameInDb = "PAYEDPARTITIONS", active = true)
 @Data
 public class PayedPartitions {
+
     @Id(autoincrement = true)
     private Long id;
     private long orderId;
-
     private long paymentId;
     @ToOne(joinProperty = "paymentId")
     private PaymentType paymentType;
@@ -149,15 +149,16 @@ public class PayedPartitions {
         this.id = id;
     }
 
+
+    @Generated(hash = 2134620745)
+    public PayedPartitions() {
+    }
+
     @Generated(hash = 1777274461)
     public PayedPartitions(Long id, long orderId, long paymentId, double value) {
         this.id = id;
         this.orderId = orderId;
         this.paymentId = paymentId;
         this.value = value;
-    }
-
-    @Generated(hash = 2134620745)
-    public PayedPartitions() {
     }
 }

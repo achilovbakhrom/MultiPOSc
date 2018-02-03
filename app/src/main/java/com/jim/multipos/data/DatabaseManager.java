@@ -18,6 +18,8 @@ import com.jim.multipos.data.db.model.inventory.BillingOperations;
 import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.data.db.model.order.Order;
+import com.jim.multipos.data.db.model.order.OrderProduct;
+import com.jim.multipos.data.db.model.order.PayedPartitions;
 import com.jim.multipos.data.db.model.products.Return;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.currency.Currency;
@@ -32,6 +34,8 @@ import com.jim.multipos.data.db.model.unit.Unit;
 import com.jim.multipos.data.db.model.unit.UnitCategory;
 import com.jim.multipos.data.operations.AccountOperations;
 import com.jim.multipos.data.operations.BillingTransactionOperations;
+import com.jim.multipos.data.operations.OrderOperations;
+import com.jim.multipos.data.operations.PayedPartitionOperations;
 import com.jim.multipos.data.operations.PaymentOperations;
 import com.jim.multipos.data.operations.CategoryOperations;
 import com.jim.multipos.data.operations.ConsignmentOperations;
@@ -70,7 +74,7 @@ import io.reactivex.Single;
  */
 
 public class DatabaseManager implements ContactOperations, CategoryOperations, ProductOperations, AccountOperations, CurrencyOperations, StockOperations, UnitCategoryOperations, UnitOperations, PaymentTypeOperations, ServiceFeeOperations, ProductClassOperations, CustomerOperations, CustomerGroupOperations, SubUnitOperations, JoinCustomerGroupWithCustomerOperations, DiscountOperations,
-        VendorOperations, SearchOperations, ConsignmentOperations, InventoryOperations, VendorItemManagmentOperations, PaymentOperations, BillingTransactionOperations {
+        VendorOperations, SearchOperations, ConsignmentOperations, InventoryOperations, VendorItemManagmentOperations, PaymentOperations, BillingTransactionOperations, OrderOperations, PayedPartitionOperations {
     private Context context;
     private PreferencesHelper preferencesHelper;
     private DbHelper dbHelper;
@@ -386,6 +390,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public List<PaymentType> getPaymentTypes() {
         return dbHelper.getPaymentTypes();
+    }
+
+    @Override
+    public Single<PaymentType> getDebtPaymentType() {
+        return dbHelper.getDebtPaymentType();
     }
 
     @Override
@@ -922,9 +931,34 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     public Single<Boolean> deleteInventoryState(InventoryState inventoryState) {
         return dbHelper.deleteInventoryState(inventoryState);
     }
-
-    public Single<Order> addOrder(Order order) {
+    @Override
+    public Single<Order> insertOrder(Order order) {
         return dbHelper.insertOrder(order);
+    }
+
+    @Override
+    public Single<List<OrderProduct>> insertOrderProducts(List<OrderProduct> orderProducts) {
+        return dbHelper.insertOrderProducts(orderProducts);
+    }
+
+    @Override
+    public Single<List<Order>> getAllTillOrders() {
+        return dbHelper.getAllTillOrders();
+    }
+
+    @Override
+    public Single<Order> getLastAddedOrder() {
+        return dbHelper.getLastAddedOrder();
+    }
+
+    @Override
+    public Single<Order> getFirstAddedOrder() {
+        return dbHelper.getFirstAddedOrder();
+    }
+
+    @Override
+    public Single<List<PayedPartitions>> insertPayedPartitions(List<PayedPartitions> payedPartitions) {
+        return dbHelper.insertPayedPartitions(payedPartitions);
     }
 }
 

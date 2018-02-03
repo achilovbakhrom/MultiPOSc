@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.customer.Customer;
+import com.jim.multipos.data.db.model.customer.Debt;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.PayedPartitions;
 import com.jim.multipos.data.db.model.products.Product;
@@ -54,6 +56,14 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
     @Inject
     MainPageConnection mainPageConnection;
     Currency currency;
+    @BindView(R.id.tvBalanceDueLabel)
+    TextView tvBalanceDueLabel;
+    @BindView(R.id.llDiscountGroup)
+    LinearLayout llDiscountGroup;
+    @BindView(R.id.llServiceFeeGroup)
+    LinearLayout llServiceFeeGroup;
+    @BindView(R.id.tvPayed)
+    TextView tvPayed;
     @BindView(R.id.llPay)
     LinearLayout llPay;
     @BindView(R.id.llDiscount)
@@ -94,7 +104,10 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
     ImageView ivPay;
     @BindView(R.id.tvPay)
     TextView tvPay;
-
+    @BindView(R.id.llTipsGroup)
+    LinearLayout llTipsGroup;
+    @BindView(R.id.tvTips)
+    TextView tvTips;
     private OrderProductItem orderProductItem;
     private int currentPosition;
     public static final String PRODUCT_ADD_TO_ORDER = "addorderproduct";
@@ -111,6 +124,10 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
         mainPageConnection.setOrderListView(this);
         currency = databaseManager.getMainCurrency();
         presenter.onCreateView(savedInstanceState);
+
+        llServiceFeeGroup.setVisibility(View.GONE);
+        llDiscountGroup.setVisibility(View.GONE);
+
         lbChooseCustomer.setOnLightButtonClickListener(view1 -> {
             presenter.onClickChooseCustomerButton();
 
@@ -162,6 +179,15 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
         isPaymentOpen = false;
     }
 
+    @Override
+    public void onCloseOrder(Order order, List<PayedPartitions> payedPartitions, Debt debt) {
+        presenter.onCloseOrder(order,payedPartitions,debt);
+    }
+
+    @Override
+    public void updateCustomer(Customer customer) {
+        presenter.updateCustomer(customer);
+    }
 
 
     LinearLayoutManagerWithSmoothScroller linearLayoutManager;
@@ -399,6 +425,16 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
     }
 
     @Override
+    public void updateViewCustomer(Customer customer) {
+        tvCustomerName.setText(customer.getName());
+    }
+
+    @Override
+    public void sendCustomerToPaymentFragment(Customer customer) {
+        mainPageConnection.setCustomer(customer);
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
@@ -447,22 +483,52 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
     @Override
     public void updateOrderDetials(Order order,Customer customer,List<PayedPartitions> payedPartitions) {
         tvSubTotal.setText(decimalFormat.format(order.getSubTotalValue())+" "+currency.getAbbr());
-        tvDiscountAmount.setText(decimalFormat.format(order.getDiscountTotalValue())+" "+currency.getAbbr());
-        tvServiceAmount.setText(((order.getServiceTotalValue()!=0)?"+":"")+decimalFormat.format(order.getServiceTotalValue())+" "+currency.getAbbr());
+
+        if(order.getDiscountTotalValue()!=0) {
+            tvDiscountAmount.setText(decimalFormat.format(order.getDiscountTotalValue()) + " " + currency.getAbbr());
+            llDiscountGroup.setVisibility(View.VISIBLE);
+        }
+        else llDiscountGroup.setVisibility(View.GONE);
+
+        if(order.getServiceTotalValue()!=0){
+            tvServiceAmount.setText(((order.getServiceTotalValue()!=0)?"+":"")+decimalFormat.format(order.getServiceTotalValue())+" "+currency.getAbbr());
+            llServiceFeeGroup.setVisibility(View.VISIBLE);
+        }else llServiceFeeGroup.setVisibility(View.GONE);
+
+
+
         tvTotal.setText(decimalFormat.format(order.getSubTotalValue()+order.getDiscountTotalValue()+order.getServiceTotalValue())+" "+currency.getAbbr());
         double totalPayed = 0;
         for (PayedPartitions payedPartitions1:payedPartitions) {
             totalPayed += payedPartitions1.getValue();
         }
+        tvPayed.setText(decimalFormat.format(totalPayed)+" " + currency.getAbbr());
+        double number = order.getForPayAmmount() - totalPayed;
+        if(number<0) {
+            tvBalanceDueLabel.setText("Change:");
+            tvBalanceDue.setText(decimalFormat.format(number*-1)+" "+currency.getAbbr());
+            tvBalanceDue.setTextColor(Color.parseColor("#4ac21b"));
+        }else {
+            tvBalanceDueLabel.setText("Balance Due:");
+            tvBalanceDue.setText(decimalFormat.format(number) + " " + currency.getAbbr());
+            tvBalanceDue.setTextColor(Color.parseColor("#ff5e52"));
 
-        tvBalanceDue.setText(decimalFormat.format(order.getBalanceDue()-totalPayed)+" "+currency.getAbbr());
+        }
+
+        if(order.getTips()>0){
+            llTipsGroup.setVisibility(View.VISIBLE);
+            tvTips.setText(decimalFormat.format(order.getTips()) + " " + currency.getAbbr());
+        }else {
+            llTipsGroup.setVisibility(View.GONE);
+        }
+
         if(customer !=null){
             tvCustomerName.setText(customer.getName());
             lbChooseCustomer.setImage(R.drawable.cancel_customer);
         }else {
             tvCustomerName.setText(getString(R.string.customer_choice));
             lbChooseCustomer.setImage(R.drawable.add_customer);
-            mainPageConnection.setCustomer(null);
+
         }
         presenter.sendToPaymentFragmentOrderAndPaymentsList();
 
@@ -502,5 +568,9 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    public void historyOpened(){
+
     }
 }

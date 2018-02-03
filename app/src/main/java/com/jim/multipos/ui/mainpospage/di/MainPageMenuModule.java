@@ -22,6 +22,8 @@ import com.jim.multipos.ui.mainpospage.view.CustomerNotificationsFragment;
 import com.jim.multipos.ui.mainpospage.view.CustomerNotificationsFragmentModule;
 import com.jim.multipos.ui.mainpospage.view.OrderListFragment;
 import com.jim.multipos.ui.mainpospage.view.OrderListFragmentModule;
+import com.jim.multipos.ui.mainpospage.view.OrderListHistoryFragment;
+import com.jim.multipos.ui.mainpospage.view.OrderListHistoryFragmentModule;
 import com.jim.multipos.ui.mainpospage.view.PaymentFragment;
 import com.jim.multipos.ui.mainpospage.view.PaymentFragmentModule;
 import com.jim.multipos.ui.mainpospage.view.ProductFolderFragmentModule;
@@ -99,6 +101,11 @@ public abstract class MainPageMenuModule {
     @PerFragment
     @ContributesAndroidInjector(modules = CustomerNotificationsFragmentModule.class)
     abstract CustomerNotificationsFragment provideCustomerNotificationsFragment();
+
+    @PerFragment
+    @ContributesAndroidInjector(modules = OrderListHistoryFragmentModule.class)
+    abstract OrderListHistoryFragment provideOrderListHistoryFragment();
+
 
     @PerActivity
     @Provides

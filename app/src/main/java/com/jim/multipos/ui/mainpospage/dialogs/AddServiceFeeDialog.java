@@ -161,6 +161,7 @@ public class AddServiceFeeDialog extends Dialog {
                     serviceFee.setAmount(serviceAmount);
                     serviceFee.setApplyingType(serviceType);
                     serviceFee.setType(serviceAmountType);
+                    serviceFee.setIsManual(true);
                     serviceFee.setCreatedDate(System.currentTimeMillis());
                     serviceFee.setName(etServiceFeeName.getText().toString());
                     callbackServiceFeeDialog.choiseManualServiceFee(serviceFee);

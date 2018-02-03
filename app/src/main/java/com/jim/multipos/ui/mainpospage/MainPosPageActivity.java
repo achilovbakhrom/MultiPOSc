@@ -22,6 +22,7 @@ import com.jim.multipos.ui.main_menu.product_menu.ProductMenuActivity;
 import com.jim.multipos.ui.mainpospage.view.BarcodeScannerFragment;
 import com.jim.multipos.ui.mainpospage.view.CustomerNotificationsFragment;
 import com.jim.multipos.ui.mainpospage.view.OrderListFragment;
+import com.jim.multipos.ui.mainpospage.view.OrderListHistoryFragment;
 import com.jim.multipos.ui.mainpospage.view.ProductPickerFragment;
 import com.jim.multipos.ui.mainpospage.view.SearchModeFragment;
 import com.jim.multipos.ui.product_last.ProductActivity;
@@ -136,9 +137,31 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
             OrderMenuDialog orderMenuDialog = new OrderMenuDialog(this);
             orderMenuDialog.show();
         });
+        toolbar.setOnRightOrderClickListner(view -> {
+            OrderListHistoryFragment orderListHistoryFragment = (OrderListHistoryFragment) getSupportFragmentManager().findFragmentByTag(OrderListHistoryFragment.class.getName());
+            if(orderListHistoryFragment !=null && orderListHistoryFragment.isVisible()){
+                orderListHistoryFragment.onNextOrder();
+            }else
+                showOrderListHistoryFragment();
+
+        });
+        toolbar.setOnLeftOrderClickListner(view -> {
+            OrderListHistoryFragment orderListHistoryFragment = (OrderListHistoryFragment) getSupportFragmentManager().findFragmentByTag(OrderListHistoryFragment.class.getName());
+            if(orderListHistoryFragment !=null && orderListHistoryFragment.isVisible()){
+                orderListHistoryFragment.onPrevOrder();
+            }else
+                showOrderListHistoryFragment();
+        });
 
     }
 
+    public void showOrderListFragmentWhenOrderHistoryEnds(){
+        hideOrderListHistoryFragment();
+    }
+
+    public void setOrderNo(int orderId){
+        toolbar.setOrderNumber("Order:  " + String.valueOf(orderId));
+    }
     @Override
     protected int getToolbarMode() {
         return MpToolbar.MAIN_PAGE_TYPE;

@@ -68,8 +68,8 @@ public class Order {
     private List<PayedPartitions> payedPartitions;
 
 
-    public double getBalanceDue(){
-        return subTotalValue + discountTotalValue+ serviceTotalValue;
+    public double getForPayAmmount(){
+        return subTotalValue + discountTotalValue+ serviceTotalValue + tips;
     }
 
 

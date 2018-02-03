@@ -4,8 +4,10 @@ import com.jim.mpviews.model.PaymentTypeWithService;
 import com.jim.multipos.core.BaseView;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.customer.Customer;
+import com.jim.multipos.data.db.model.customer.Debt;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.PayedPartitions;
+import com.jim.multipos.ui.mainpospage.dialogs.TipsDialog;
 
 import java.util.List;
 
@@ -14,7 +16,7 @@ import java.util.List;
  */
 
 public interface PaymentView extends BaseView {
-    void openAddDebtDialog(DatabaseManager databaseManager, Order order, Customer customer);
+    void openAddDebtDialog(DatabaseManager databaseManager, Order order, Customer customer,double toPay);
     void initPaymentTypes(List<PaymentTypeWithService> paymentTypeWithServices);
     void updatePaymentList(List<PayedPartitions> payedPartitions);
     void updatePaymentList();
@@ -28,4 +30,12 @@ public interface PaymentView extends BaseView {
     void closeSelf();
     void onPayedPartition();
     void setCustomer(Customer customer);
+    void closeOrder(Order order, List<PayedPartitions> payedPartitions, Debt debt);
+    void updateCustomer(Customer customer);
+    void showDebtDialog();
+    void hideDebtDialog();
+    void openTipsDialog(TipsDialog.OnClickListener listener,double change);
+    void enableTipsButton();
+    void disableTipsButton();
+    void updateOrderListDetialsPanel();
 }

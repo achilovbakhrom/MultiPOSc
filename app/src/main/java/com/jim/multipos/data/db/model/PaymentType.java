@@ -12,13 +12,21 @@ import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 import com.jim.multipos.data.db.model.currency.CurrencyDao;
 
+import lombok.Data;
+
 /**
  * Created by DEV on 17.08.2017.
  */
+@Data
 @Entity(nameInDb = "PAYMENT_TYPE", active = true)
 public class PaymentType {
+
+    public static final int DEBT_PAYMENT_TYPE = 7;
+    public static final int CUSTOM_PAYMENT_TYPE = 0;
+
     @Id(autoincrement = true)
     private Long id;
+    private int typeStaticPaymentType = CUSTOM_PAYMENT_TYPE;
     private String name;
     private Long currencyId;
     @ToOne(joinProperty = "currencyId")
@@ -160,10 +168,17 @@ public class PaymentType {
     public void setIsVisible(boolean isVisible) {
         this.isVisible = isVisible;
     }
-    @Generated(hash = 1383648293)
-    public PaymentType(Long id, String name, Long currencyId, boolean isVisible,
-            Long accountId) {
+    public int getTypeStaticPaymentType() {
+        return this.typeStaticPaymentType;
+    }
+    public void setTypeStaticPaymentType(int typeStaticPaymentType) {
+        this.typeStaticPaymentType = typeStaticPaymentType;
+    }
+    @Generated(hash = 1681781634)
+    public PaymentType(Long id, int typeStaticPaymentType, String name, Long currencyId,
+            boolean isVisible, Long accountId) {
         this.id = id;
+        this.typeStaticPaymentType = typeStaticPaymentType;
         this.name = name;
         this.currencyId = currencyId;
         this.isVisible = isVisible;

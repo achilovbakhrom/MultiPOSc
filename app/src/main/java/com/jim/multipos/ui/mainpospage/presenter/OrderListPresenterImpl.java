@@ -1,13 +1,13 @@
 package com.jim.multipos.ui.mainpospage.presenter;
 
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.customer.Customer;
+import com.jim.multipos.data.db.model.customer.Debt;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.OrderProduct;
 import com.jim.multipos.data.db.model.order.PayedPartitions;
@@ -377,8 +377,10 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         if(customer !=null){
             customer = null;
             view.updateOrderDetials(order,customer,payedPartitions);
+            view.sendCustomerToPaymentFragment(customer);
         }else{
             view.openCustomerDialog();
+
         }
     }
 
@@ -451,7 +453,85 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         view.updateOrderDetials(order, customer, payedPartitions);
         view.notifyList();
     }
+    List<OrderProduct> orderProductItems;
+    @Override
+    public void onCloseOrder(Order order, List<PayedPartitions> payedPartitions, Debt debt) {
 
+        if(discountItem != null && discountItem.getDiscount() !=null && discountItem.getDiscount().getIsManual() ){
+            databaseManager.insertDiscount(discountItem.getDiscount()).blockingGet();
+        }
+        if(discountItem != null && discountItem.getDiscount() !=null ){
+            order.setDiscount(discountItem.getDiscount());
+        }
+
+        if(serviceFeeItem != null && serviceFeeItem.getServiceFee() !=null && serviceFeeItem.getServiceFee().getIsManual()){
+            databaseManager.addServiceFee(serviceFeeItem.getServiceFee()).blockingFirst();
+        }
+        if(serviceFeeItem != null && serviceFeeItem.getServiceFee() !=null){
+            order.setServiceFee(serviceFeeItem.getServiceFee());
+        }
+
+        orderProductItems = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            if(list.get(i) instanceof OrderProductItem){
+                OrderProductItem orderProductItem = (OrderProductItem) list.get(i);
+
+                if(orderProductItem.getDiscount()!=null && orderProductItem.getDiscount().getIsManual()){
+                    databaseManager.insertDiscount(orderProductItem.getDiscount()).blockingGet();
+                }
+                if(orderProductItem.getDiscount() !=null){
+                    orderProductItem.getOrderProduct().setDiscount(orderProductItem.getDiscount());
+                    orderProductItem.getOrderProduct().setDiscountAmount(orderProductItem.getDiscountAmmount());
+                }
+
+                if(orderProductItem.getServiceFee()!=null && orderProductItem.getServiceFee().getIsManual()){
+                    databaseManager.addServiceFee(orderProductItem.getServiceFee()).blockingFirst();
+                }
+
+                if(orderProductItem.getServiceFee() !=null){
+                    orderProductItem.getOrderProduct().setServiceFee(orderProductItem.getServiceFee());
+                    orderProductItem.getOrderProduct().setServiceAmount(orderProductItem.getServiceFeeAmmount());
+                }
+
+                orderProductItems.add(orderProductItem.getOrderProduct());
+            }
+        }
+
+
+
+        if(customer!=null)
+            order.setCustomer(customer);
+        if(debt!=null)
+            order.setToDebtValue(debt.getDebtAmount());
+        order.setCreateAt(System.currentTimeMillis());
+        databaseManager.insertOrder(order).subscribe((order1, throwable) -> {
+            for (int i = 0; i < orderProductItems.size(); i++) {
+                orderProductItems.get(i).setOrderId(order1.getId());
+            }
+            databaseManager.insertOrderProducts(orderProductItems).blockingGet();
+
+            for (int i = 0; i < payedPartitions.size(); i++) {
+                payedPartitions.get(i).setOrderId(order1.getId());
+            }
+            databaseManager.insertPayedPartitions(payedPartitions).blockingGet();
+
+            if(debt !=null){
+                debt.setOrder(order);
+                databaseManager.addDebt(debt).blockingGet();
+            }
+            initNewOrder();
+        });
+        //TODO SAVE ORDER
+    }
+
+    @Override
+    public void updateCustomer(Customer customer) {
+        this.customer = customer;
+        view.updateOrderDetials(order, customer, payedPartitions);
+    }
+    private void initNewOrder(){
+
+    }
     private void updateDetials(){
             double totalSubTotal = 0;
             double totalDiscount = 0;
@@ -465,7 +545,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
                         if (orderProductItem.getDiscount().getAmountType() == Discount.PERCENT) {
                             orderProductItem.setDiscountAmmount((orderProductItem.getOrderProduct().getProduct().getPrice() * orderProductItem.getDiscount().getAmount() / 100) * -1);
                         } else if (orderProductItem.getDiscount().getAmountType() == Discount.VALUE) {
-                            orderProductItem.setDiscountAmmount((orderProductItem.getDiscount().getAmount()));
+                            orderProductItem.setDiscountAmmount((orderProductItem.getDiscount().getAmount()*-1));
                         }
                         totalDiscount += orderProductItem.getDiscountAmmount() * orderProductItem.getOrderProduct().getCount();
                     }

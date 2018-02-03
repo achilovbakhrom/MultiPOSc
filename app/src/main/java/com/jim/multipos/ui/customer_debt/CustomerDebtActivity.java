@@ -30,7 +30,7 @@ public class CustomerDebtActivity extends BaseActivity implements CustomerDebtAc
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        TestUtils.createCustomersWithDebt(databaseManager);
+//        TestUtils.createCustomersWithDebt(databaseManager);
         setContentView(R.layout.customer_debt_layout);
         ButterKnife.bind(this);
         toolbar.setMode(MpToolbar.DEFAULT_MODE);

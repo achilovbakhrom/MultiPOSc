@@ -4,6 +4,9 @@ import com.jim.multipos.core.Presenter;
 import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.customer.Customer;
+import com.jim.multipos.data.db.model.customer.Debt;
+import com.jim.multipos.data.db.model.order.Order;
+import com.jim.multipos.data.db.model.order.PayedPartitions;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
 
@@ -43,4 +46,6 @@ public interface OrderListPresenter extends Presenter {
     void sendToPaymentFragmentOrderAndPaymentsList();
     void onPayedPartition();
     void cleanOrder();
+    void onCloseOrder(Order order, List<PayedPartitions> payedPartitions, Debt debt);
+    void updateCustomer(Customer customer);
 }

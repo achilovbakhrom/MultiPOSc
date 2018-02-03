@@ -5,12 +5,14 @@ import android.content.Context;
 import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.customer.Customer;
+import com.jim.multipos.data.db.model.customer.Debt;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.PayedPartitions;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.mainpospage.model.OrderProductItem;
+import com.jim.multipos.ui.mainpospage.view.OrderListHistoryView;
 import com.jim.multipos.ui.mainpospage.view.OrderListView;
 import com.jim.multipos.ui.mainpospage.view.PaymentFragment;
 import com.jim.multipos.ui.mainpospage.view.PaymentView;
@@ -28,17 +30,29 @@ public class MainPageConnection {
     private ProductInfoView productInfoView;
     private ProductPickerView productPickerView;
     private PaymentView paymentView;
-
+    private OrderListHistoryView orderListHistoryView;
     private Context context;
     public MainPageConnection(Context context){
         this.context = context;
+    }
+
+
+    public void updateCustomer(Customer customer){
+        if(orderListView!=null){
+            orderListView.updateCustomer(customer);
+        }
     }
     public void onPayedPartition(){
         if(orderListView!=null){
            orderListView.onPayedPartition();
         }
     }
-    public void  addProductWithWeightToListEdit(double weight){
+    public void onCloseOrder(Order order, List<PayedPartitions> payedPartitions, Debt debt){
+        if(orderListView!=null){
+            orderListView.onCloseOrder(order,payedPartitions,debt);
+        }
+    }
+    public void addProductWithWeightToListEdit(double weight){
         if(orderListView!=null){
             orderListView.addProductWithWeightToListEdit(weight);
         }
@@ -175,5 +189,13 @@ public class MainPageConnection {
         if (productPickerView != null){
             productPickerView.updateCategoryTitles(category, type);
         }
+    }
+
+    public OrderListHistoryView getOrderListHistoryView() {
+        return orderListHistoryView;
+    }
+
+    public void setOrderListHistoryView(OrderListHistoryView orderListHistoryView) {
+        this.orderListHistoryView = orderListHistoryView;
     }
 }

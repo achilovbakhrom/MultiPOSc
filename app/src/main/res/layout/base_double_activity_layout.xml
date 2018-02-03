@@ -25,12 +25,22 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-                <FrameLayout
-                    android:id="@+id/flLeftContainer"
+
+                <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="43" />
-
+                    android:layout_weight="43">
+                    <FrameLayout
+                        android:id="@+id/flLeftContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        />
+                    <FrameLayout
+                        android:id="@+id/flLeftContainerTop"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        />
+                </RelativeLayout>
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"

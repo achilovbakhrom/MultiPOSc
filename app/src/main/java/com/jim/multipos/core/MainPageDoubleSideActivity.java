@@ -6,8 +6,10 @@ import android.support.v4.app.Fragment;
 
 import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.R;
+import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.ui.mainpospage.view.BarcodeScannerFragment;
 import com.jim.multipos.ui.mainpospage.view.OrderListFragment;
+import com.jim.multipos.ui.mainpospage.view.OrderListHistoryFragment;
 import com.jim.multipos.ui.mainpospage.view.PaymentFragment;
 import com.jim.multipos.ui.mainpospage.view.ProductInfoFragment;
 import com.jim.multipos.ui.mainpospage.view.ProductPickerFragment;
@@ -30,6 +32,7 @@ public abstract class MainPageDoubleSideActivity extends BaseActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.base_double_activity_layout);
+
         ButterKnife.bind(this);
         toolbar.setMode(getToolbarMode());
 
@@ -38,9 +41,12 @@ public abstract class MainPageDoubleSideActivity extends BaseActivity{
         addFragmentWithTagStatic(R.id.flRightTop, fragment,PaymentFragment.class.getName());
         ProductInfoFragment fragment1 = new ProductInfoFragment();
         addFragmentWithTagStatic(R.id.flRightTop, fragment1,ProductInfoFragment.class.getName());
+        OrderListHistoryFragment fragment2 = new OrderListHistoryFragment();
+        addFragmentWithTagStatic(R.id.flLeftContainerTop, fragment2,OrderListHistoryFragment.class.getName());
 
         getSupportFragmentManager().beginTransaction().hide(fragment).commit();
         getSupportFragmentManager().beginTransaction().hide(fragment1).commit();
+        getSupportFragmentManager().beginTransaction().hide(fragment2).commit();
 
 
     }
@@ -130,6 +136,54 @@ public abstract class MainPageDoubleSideActivity extends BaseActivity{
         ProductInfoFragment productInfoFragment = (ProductInfoFragment) getSupportFragmentManager().findFragmentByTag(ProductInfoFragment.class.getName());
         if(productInfoFragment !=null) {
             getSupportFragmentManager().beginTransaction().hide(productInfoFragment).commit();
+        }
+    }
+    public void showOrderListHistoryFragment(){
+        OrderListHistoryFragment orderListHistoryFragment = (OrderListHistoryFragment) getSupportFragmentManager().findFragmentByTag(OrderListHistoryFragment.class.getName());
+
+        ProductInfoFragment productInfoFragment = (ProductInfoFragment) getSupportFragmentManager().findFragmentByTag(ProductInfoFragment.class.getName());
+        PaymentFragment paymentFragment = (PaymentFragment) getSupportFragmentManager().findFragmentByTag(PaymentFragment.class.getName());
+
+        OrderListFragment orderListFragment = (OrderListFragment) getSupportFragmentManager().findFragmentByTag(OrderListFragment.class.getName());
+
+
+        if(paymentFragment !=null && paymentFragment.isVisible()){
+            if(orderListFragment!=null && orderListFragment.isVisible()){
+                orderListFragment.hidePaymentFragment();
+                orderListFragment.visiblePayButton();
+            }
+            getSupportFragmentManager().beginTransaction().hide(paymentFragment).commit();
+        }
+
+        if(productInfoFragment !=null && productInfoFragment.isVisible()){
+            if(orderListFragment!=null && orderListFragment.isVisible()){
+                orderListFragment.hideInfoProduct();
+            }
+            getSupportFragmentManager().beginTransaction().hide(productInfoFragment).commit();
+        }
+
+        if(orderListFragment!=null /*&& orderListFragment.isVisible()*/){
+            orderListFragment.historyOpened();
+        }
+
+        if(orderListHistoryFragment ==null){
+            orderListHistoryFragment = new OrderListHistoryFragment();
+            addFragmentWithTagStatic(R.id.flLeftContainerTop,orderListHistoryFragment,OrderListHistoryFragment.class.getName());
+
+        }else {
+            if(orderListHistoryFragment.isVisible()){
+                orderListHistoryFragment.refreshData();
+            }else {
+                getSupportFragmentManager().beginTransaction().show(orderListHistoryFragment).commit();
+                orderListHistoryFragment.refreshData();
+            }
+        }
+
+    }
+    public void hideOrderListHistoryFragment(){
+        OrderListHistoryFragment orderListHistoryFragment = (OrderListHistoryFragment) getSupportFragmentManager().findFragmentByTag(OrderListHistoryFragment.class.getName());
+        if(orderListHistoryFragment !=null) {
+            getSupportFragmentManager().beginTransaction().hide(orderListHistoryFragment).commit();
         }
     }
     public void showPaymentFragment(){

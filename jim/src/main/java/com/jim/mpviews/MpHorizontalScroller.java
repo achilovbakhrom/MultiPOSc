@@ -28,7 +28,6 @@ public class MpHorizontalScroller extends LinearLayout {
 
     private TextView mpCenterText, mpCounter;
     private ImageView mpCenter;
-    private List<String> arrayList;
     int counter = 0;
     private ImageView mpLeftArrow, mpRightArrow;
     boolean pressed = false;
@@ -57,7 +56,6 @@ public class MpHorizontalScroller extends LinearLayout {
         LayoutInflater.from(context).inflate(R.layout.mp_horizontal_scroller, this);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         setLayoutParams(layoutParams);
-        arrayList = new ArrayList<>();
         mpCenterText = (TextView) findViewById(R.id.mpCenterText);
         mpCounter = (TextView) findViewById(R.id.mpCounter);
         mpCounter.setText("0000");
@@ -107,19 +105,18 @@ public class MpHorizontalScroller extends LinearLayout {
 //        });
     }
 
-    public void setItems(ArrayList<String> items) {
-        arrayList = items;
-        mpCounter.setText(arrayList.get(0));
-        invalidate();
-    }
-
-    public void setItems(String[] items) {
-        arrayList.addAll(Arrays.asList(items));
-        mpCounter.setText(arrayList.get(0));
+    public void setOrderNumber(String orderNumber) {
+        mpCounter.setText(orderNumber);
         invalidate();
     }
 
 
+    public void setOnLeftArrowClickListner(OnClickListener onLeftArrowClickListner){
+        mpLeftArrow.setOnClickListener(onLeftArrowClickListner);
+    }
+    public void setOnRightArrowClickListner(OnClickListener onRightArrowClickListner){
+        mpRightArrow.setOnClickListener(onRightArrowClickListner);
+    }
     public void setOnItemClickListener(OnClickListener onItemClickListener) {
         mpCenter.setOnClickListener(onItemClickListener);
     }
@@ -133,7 +130,6 @@ public class MpHorizontalScroller extends LinearLayout {
         SavedState savedState = (SavedState) state;
         super.onRestoreInstanceState(savedState.getSuperState());
 
-        this.arrayList = savedState.list;
         this.pressed = savedState.boolValue;
     }
 
@@ -142,7 +138,6 @@ public class MpHorizontalScroller extends LinearLayout {
         Parcelable superState = super.onSaveInstanceState();
 
         SavedState savedState = new SavedState(superState);
-        savedState.list = this.arrayList;
         savedState.boolValue = this.pressed;
         return savedState;
     }

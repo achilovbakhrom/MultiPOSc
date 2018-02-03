@@ -172,7 +172,7 @@ public class AddDiscountDialog extends Dialog {
                 new android.os.Handler().postDelayed(() -> {
                     Discount discount = new Discount();
                     discount.setIsManual(true);
-                    discount.setAmount(discountValue);
+                    discount.setAmount(discountValue );
                     discount.setCreatedDate(System.currentTimeMillis());
                     discount.setName(etDiscountName.getText().toString());
                     discount.setAmountType(discountAmountType);

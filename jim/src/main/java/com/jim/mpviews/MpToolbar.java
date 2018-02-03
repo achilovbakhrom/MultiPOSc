@@ -278,6 +278,12 @@ public class MpToolbar extends RelativeLayout {
     public void setOnOrderClickListener(OnClickListener orderClickListener) {
         mpHorizontalScroller.setOnItemClickListener(orderClickListener);
     }
+    public void setOnLeftOrderClickListner(OnClickListener onLeftOrderClickListner){
+        mpHorizontalScroller.setOnLeftArrowClickListner(onLeftOrderClickListner);
+    }
+    public void setOnRightOrderClickListner(OnClickListener onRightOrderClickListner){
+        mpHorizontalScroller.setOnRightArrowClickListner(onRightOrderClickListner);
+    }
     public interface CallbackSearchFragmentClick{
         void onOpen();
         void onClose();
@@ -406,13 +412,11 @@ public class MpToolbar extends RelativeLayout {
         tvPeriod.setText(builder.toString());
     }
 
-    public void setOrders(ArrayList<String> orders) {
-        mpHorizontalScroller.setItems(orders);
+    public void setOrderNumber(String orderNumber) {
+        mpHorizontalScroller.setOrderNumber(orderNumber);
     }
 
-    public void setOrders(String[] orders) {
-        mpHorizontalScroller.setItems(orders);
-    }
+
 
     @Override
     public void onRestoreInstanceState(Parcelable state) {
