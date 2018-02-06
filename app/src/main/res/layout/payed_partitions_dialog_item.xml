@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/llListContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="@dimen/fifteen_dp"
+        android:paddingLeft="@dimen/thirty_dp"
+        android:paddingRight="@dimen/thirty_dp"
+        android:paddingTop="@dimen/fifteen_dp">
+
+
+        <TextView
+            android:id="@+id/tvPaymentName"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/colorMainText"
+            android:text="Naqt"
+            android:textSize="@dimen/twenty_dp" />
+
+        <TextView
+            android:id="@+id/tvAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/colorMainText"
+            android:text="18 000 uzs"
+            android:textSize="@dimen/twenty_dp" />
+    </LinearLayout>
+
+    <ImageView
+        android:layerType="software"
+        android:layout_width="match_parent"
+        android:src="@drawable/dash"
+        android:layout_height="5px" />
+
+</LinearLayout>

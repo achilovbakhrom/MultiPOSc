@@ -40,6 +40,8 @@ public class Order {
     private double tips;
     private double totalPayed;
     private double toDebtValue;
+    private double discountAmount;
+    private double serviceAmount;
 
     private long customer_id;
     @ToOne(joinProperty = "customer_id")
@@ -389,11 +391,30 @@ public void setId(Long id) {
         this.id = id;
 }
 
-@Generated(hash = 1635484533)
-public Order(Long id, long createAt, int status, double subTotalValue,
-                double serviceTotalValue, double discountTotalValue,
-                double tips, double totalPayed, double toDebtValue,
-                long customer_id, long serviceFeeId, long discountId) {
+
+public double getServiceAmount() {
+        return this.serviceAmount;
+}
+
+
+public void setServiceAmount(double serviceAmount) {
+        this.serviceAmount = serviceAmount;
+}
+
+
+public double getDiscountAmount() {
+        return this.discountAmount;
+}
+
+
+public void setDiscountAmount(double discountAmount) {
+        this.discountAmount = discountAmount;
+}
+
+@Generated(hash = 234231037)
+public Order(Long id, long createAt, int status, double subTotalValue, double serviceTotalValue,
+                double discountTotalValue, double tips, double totalPayed, double toDebtValue, double discountAmount,
+                double serviceAmount, long customer_id, long serviceFeeId, long discountId) {
         this.id = id;
         this.createAt = createAt;
         this.status = status;
@@ -403,10 +424,13 @@ public Order(Long id, long createAt, int status, double subTotalValue,
         this.tips = tips;
         this.totalPayed = totalPayed;
         this.toDebtValue = toDebtValue;
+        this.discountAmount = discountAmount;
+        this.serviceAmount = serviceAmount;
         this.customer_id = customer_id;
         this.serviceFeeId = serviceFeeId;
         this.discountId = discountId;
 }
+
 
 @Generated(hash = 1105174599)
 public Order() {

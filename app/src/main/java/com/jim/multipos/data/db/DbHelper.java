@@ -49,6 +49,8 @@ import com.jim.multipos.data.operations.PayedPartitionOperations;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
 import com.jim.multipos.ui.vendor_item_managment.model.VendorWithDebt;
 
+import org.greenrobot.greendao.query.LazyList;
+
 import java.util.Calendar;
 import java.util.List;
 
@@ -231,8 +233,8 @@ public interface DbHelper {
     Single<List<PayedPartitions>> insertPayedPartitions(List<PayedPartitions> payedPartitions);
     Single<List<OrderProduct>> insertOrderProducts(List<OrderProduct> orderProducts);
     Single<List<Order>> getAllTillOrders();
-    Single<Order> getLastAddedOrder();
-    Single<Order> getFirstAddedOrder();
+    Single<LazyList<Order>> getAllTillLazzyOrders();
+
 
 
 }

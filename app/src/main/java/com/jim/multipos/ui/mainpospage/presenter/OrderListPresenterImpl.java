@@ -462,6 +462,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         }
         if(discountItem != null && discountItem.getDiscount() !=null ){
             order.setDiscount(discountItem.getDiscount());
+            order.setDiscountAmount(discountItem.getAmmount());
         }
 
         if(serviceFeeItem != null && serviceFeeItem.getServiceFee() !=null && serviceFeeItem.getServiceFee().getIsManual()){
@@ -469,6 +470,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         }
         if(serviceFeeItem != null && serviceFeeItem.getServiceFee() !=null){
             order.setServiceFee(serviceFeeItem.getServiceFee());
+            order.setServiceAmount(serviceFeeItem.getAmmount());
         }
 
         orderProductItems = new ArrayList<>();
@@ -504,6 +506,11 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         if(debt!=null)
             order.setToDebtValue(debt.getDebtAmount());
         order.setCreateAt(System.currentTimeMillis());
+        double totalPayedSum = 0;
+        for (PayedPartitions payedPartitions1:payedPartitions) {
+            totalPayedSum += payedPartitions1.getValue();
+        }
+        order.setTotalPayed(totalPayedSum);
         databaseManager.insertOrder(order).subscribe((order1, throwable) -> {
             for (int i = 0; i < orderProductItems.size(); i++) {
                 orderProductItems.get(i).setOrderId(order1.getId());

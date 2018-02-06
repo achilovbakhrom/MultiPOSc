@@ -74,6 +74,7 @@ import com.jim.multipos.ui.inventory.model.InventoryItem;
 import com.jim.multipos.ui.vendor_item_managment.model.VendorWithDebt;
 
 import org.greenrobot.greendao.database.Database;
+import org.greenrobot.greendao.query.LazyList;
 import org.greenrobot.greendao.query.Query;
 import org.greenrobot.greendao.query.QueryBuilder;
 
@@ -1696,16 +1697,10 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
-    public Single<Order> getLastAddedOrder() {
+    public Single<LazyList<Order>> getAllTillLazzyOrders() {
         return Single.create(e -> {
-
+            e.onSuccess(mDaoSession.getOrderDao().queryBuilder().listLazy());
         });
     }
 
-    @Override
-    public Single<Order> getFirstAddedOrder() {
-        return Single.create(e -> {
-
-        });
-    }
 }

@@ -10,6 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clickable="true"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -158,7 +159,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="To discount :"
+                            android:text="Discount :"
                             android:textColor="@color/colorMainText"
                             android:textSize="@dimen/fourteen_dp" />
 
@@ -184,7 +185,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="To service:"
+                            android:text="Service Fee:"
                             android:textColor="@color/colorMainText"
                             android:textSize="@dimen/fourteen_dp" />
 
@@ -376,7 +377,7 @@
                             android:textSize="@dimen/fourteen_dp" />
 
                         <TextView
-                            android:id="@+id/tvPayed"
+                            android:id="@+id/tvChange"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -425,7 +426,7 @@
                     android:background="#dddddd"/>
 
                 <LinearLayout
-                    android:id="@+id/llServiceFee"
+                    android:id="@+id/llPaymentDetials"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:gravity="center"
@@ -435,12 +436,12 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:id="@+id/ivServiceFee"
+                        android:id="@+id/ivPaymentDetials"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/thirty_dp"
                         android:layout_gravity="center"
                         android:layout_marginBottom="@dimen/ten_dp"
-                        android:padding="@dimen/three_dp"
+                        android:padding="@dimen/two_dp"
                         android:src="@drawable/payments_history"
                         />
 
@@ -450,7 +451,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:text="Payments" />
+                        android:text="Payment details" />
 
                 </LinearLayout>
                 <FrameLayout
@@ -489,7 +490,7 @@
                     android:layout_height="match_parent"
                     android:background="#dddddd"/>
                 <LinearLayout
-                    android:id="@+id/llPay"
+                    android:id="@+id/llEdit"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
@@ -500,7 +501,7 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:id="@+id/ivPay"
+                        android:id="@+id/ivEdit"
                         android:layout_width="@dimen/thirty_dp"
                         android:padding="@dimen/three_dp"
                         android:layout_height="@dimen/thirty_dp"

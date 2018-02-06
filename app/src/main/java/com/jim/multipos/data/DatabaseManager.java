@@ -61,6 +61,8 @@ import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
 import com.jim.multipos.ui.vendor_item_managment.model.VendorWithDebt;
 
+import org.greenrobot.greendao.query.LazyList;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -947,14 +949,10 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
-    public Single<Order> getLastAddedOrder() {
-        return dbHelper.getLastAddedOrder();
+    public Single<LazyList<Order>> getAllTillLazyOrders() {
+        return dbHelper.getAllTillLazzyOrders();
     }
 
-    @Override
-    public Single<Order> getFirstAddedOrder() {
-        return dbHelper.getFirstAddedOrder();
-    }
 
     @Override
     public Single<List<PayedPartitions>> insertPayedPartitions(List<PayedPartitions> payedPartitions) {

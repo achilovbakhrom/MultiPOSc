@@ -139,10 +139,9 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
         });
         toolbar.setOnRightOrderClickListner(view -> {
             OrderListHistoryFragment orderListHistoryFragment = (OrderListHistoryFragment) getSupportFragmentManager().findFragmentByTag(OrderListHistoryFragment.class.getName());
-            if(orderListHistoryFragment !=null && orderListHistoryFragment.isVisible()){
+            if(orderListHistoryFragment !=null && orderListHistoryFragment.isVisible())
                 orderListHistoryFragment.onNextOrder();
-            }else
-                showOrderListHistoryFragment();
+
 
         });
         toolbar.setOnLeftOrderClickListner(view -> {
@@ -159,8 +158,8 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
         hideOrderListHistoryFragment();
     }
 
-    public void setOrderNo(int orderId){
-        toolbar.setOrderNumber("Order:  " + String.valueOf(orderId));
+    public void setOrderNo(Long orderId){
+        toolbar.setOrderNumber(String.valueOf(orderId));
     }
     @Override
     protected int getToolbarMode() {

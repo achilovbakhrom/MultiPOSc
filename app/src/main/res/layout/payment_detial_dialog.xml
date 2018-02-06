@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:recyclerviewfastscroller="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00000000"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="@dimen/five_hundred_dp"
+        android:layout_height="@dimen/four_hundred_dp"
+        android:background="@drawable/rounded_edit_text_bg"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/ten_dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/fifty_dp"
+            android:background="@drawable/rounded_blue_bg">
+
+            <TextView
+                android:id="@+id/tvDialogTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/thirty_dp"
+                android:text="@string/payment_detials"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/twenty_dp" />
+
+        </RelativeLayout>
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvPaymentDetailList"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#f9f9f9"
+
+            android:overScrollMode="never" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/colorTextHint" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/ten_dp"
+            />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/ten_dp"
+            android:orientation="horizontal">
+
+
+            <com.jim.mpviews.MpButton
+                android:id="@+id/btnBack"
+                android:layout_width="@dimen/hundred_eighty_dp"
+                android:layout_height="@dimen/sixty_dp"
+                android:text="@string/back"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/eighteen_dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+</LinearLayout>

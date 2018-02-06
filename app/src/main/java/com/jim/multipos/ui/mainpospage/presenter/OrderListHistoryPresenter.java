@@ -9,4 +9,6 @@ import com.jim.multipos.core.Presenter;
 public interface OrderListHistoryPresenter extends Presenter {
      void onNextOrder();
      void onPrevOrder();
+     void refreshData();
+     void onClickPaymentDetials();
 }

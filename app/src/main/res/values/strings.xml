@@ -584,6 +584,7 @@
     <string name="debt_details">Debt details</string>
     <string name="please_choose_customer">Please, choose customer</string>
     <string name="enter_debt_amount">Please, enter debt amount</string>
+    <string name="payment_detials">Payment details</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>
