@@ -5,4 +5,5 @@ package com.jim.multipos.core;
  */
 
 public interface BaseView {
+    void onBarcodeScan(String barcode);
 }

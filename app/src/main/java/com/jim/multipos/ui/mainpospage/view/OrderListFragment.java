@@ -3,6 +3,7 @@ package com.jim.multipos.ui.mainpospage.view;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -35,7 +36,9 @@ import com.jim.multipos.ui.mainpospage.model.OrderProductItem;
 import com.jim.multipos.ui.mainpospage.presenter.OrderListPresenter;
 import com.jim.multipos.utils.LinearLayoutManagerWithSmoothScroller;
 import com.jim.multipos.utils.WarningDialog;
+import com.jim.multipos.utils.managers.BarcodeScannerManager;
 import com.jim.multipos.utils.managers.NotifyManager;
+import com.jim.multipos.utils.printer.CheckPrinter;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -113,6 +116,7 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
     public static final String PRODUCT_ADD_TO_ORDER = "addorderproduct";
     private CustomerDialog customerDialog;
     private boolean fromAddCustomer = false;
+    private CheckPrinter printer;
 
     @Override
     protected int getLayout() {
@@ -121,6 +125,8 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
 
     @Override
     protected void init(Bundle savedInstanceState) {
+        printer = new CheckPrinter(getActivity());
+        printer.connectDevice();
         mainPageConnection.setOrderListView(this);
         currency = databaseManager.getMainCurrency();
         presenter.onCreateView(savedInstanceState);
@@ -141,7 +147,7 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
 
         });
         llPrintCheck.setOnClickListener(view -> {
-//            dialog.show();
+            printer.printCheck();
         });
         llPay.setOnClickListener(view -> {
             if(isPaymentOpen){
@@ -568,6 +574,12 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        printer.closeController();
+    }
+
+    @Override
+    public void onBarcodeScan(String barcode) {
+        super.onBarcodeScan(barcode);
     }
 
     public void historyOpened(){

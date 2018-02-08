@@ -14,17 +14,18 @@ import android.widget.TextView;
 
 import com.google.zxing.ResultPoint;
 import com.google.zxing.client.android.BeepManager;
+import com.jim.mpviews.MpButton;
+import com.jim.mpviews.MpCheckbox;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.db.model.products.Product;
+import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.ui.consignment.adapter.VendorItemsListAdapter;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivity;
 import com.jim.multipos.ui.mainpospage.connection.MainPageConnection;
 import com.jim.multipos.ui.mainpospage.presenter.BarcodeScannerPresenter;
-import com.jim.multipos.utils.UIUtils;
 import com.journeyapps.barcodescanner.BarcodeCallback;
 import com.journeyapps.barcodescanner.BarcodeResult;
-import com.journeyapps.barcodescanner.CompoundBarcodeView;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 
 import java.util.List;
@@ -54,9 +55,12 @@ public class BarcodeScannerFragment extends BaseFragment implements BarcodeScann
     BarcodeScannerPresenter presenter;
     @Inject
     VendorItemsListAdapter vendorItemsListAdapter;
+    @Inject
+    PreferencesHelper preferencesHelper;
 
-    private Dialog dialog;
+    private Dialog dialog, addProductDialog;
     private BeepManager beepManager;
+
 
     @Override
     protected int getLayout() {
@@ -113,6 +117,22 @@ public class BarcodeScannerFragment extends BaseFragment implements BarcodeScann
             mainPageConnection.addProductToOrder(product.getId());
             dialog.dismiss();
         });
+
+        addProductDialog = new Dialog(getContext());
+        View productView = LayoutInflater.from(getContext()).inflate(R.layout.add_new_product_dialog, null, false);
+        TextView title = productView.findViewById(R.id.tvDialogTitle);
+        title.setText("Notification");
+        TextView warningText = productView.findViewById(R.id.tvWarningText);
+        warningText.setText("There is no product with such barcode. Do you want add it?");
+        MpCheckbox chbShowMode = productView.findViewById(R.id.chbDontShowAgain);
+        chbShowMode.setCheckedChangeListener(isChecked -> preferencesHelper.setShowMode(isChecked));
+        MpButton btnNo = productView.findViewById(R.id.btnWarningNO);
+        MpButton btnYes = productView.findViewById(R.id.btnWarningYES);
+        btnYes.setOnClickListener(view -> openProductActivity());
+        btnNo.setOnClickListener(view -> addProductDialog.dismiss());
+        addProductDialog.setContentView(productView);
+        addProductDialog.getWindow().getDecorView().setBackgroundResource(android.R.color.transparent);
+
         beepManager = new BeepManager(getActivity());
     }
 
@@ -173,16 +193,6 @@ public class BarcodeScannerFragment extends BaseFragment implements BarcodeScann
 
     @Override
     public void openAddNewProductNotificationDialog() {
-        UIUtils.showAlert(getContext(), getContext().getString(R.string.yes), getContext().getString(R.string.no), "Notification", "There is no product with such barcode. Do you want add it?", new UIUtils.AlertListener() {
-            @Override
-            public void onPositiveButtonClicked() {
-                openProductActivity();
-            }
-
-            @Override
-            public void onNegativeButtonClicked() {
-
-            }
-        });
+        addProductDialog.show();
     }
 }

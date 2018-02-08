@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextClock;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.R;
@@ -30,6 +33,7 @@ import com.jim.multipos.utils.MainMenuDialog;
 import com.jim.multipos.utils.OrderMenuDialog;
 import com.jim.multipos.utils.RxBusLocal;
 import com.jim.multipos.utils.TestUtils;
+import com.jim.multipos.utils.managers.BarcodeScannerManager;
 import com.jim.multipos.utils.managers.NotifyManager;
 
 import java.text.DecimalFormat;
@@ -63,6 +67,8 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
     @Inject
     @Getter
     RxBusLocal rxBusLocal;
+    @Inject
+    BarcodeScannerManager barcodeScannerManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -201,5 +207,17 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
     public void openAddProductActivity() {
         Intent intent = new Intent(this, ProductActivity.class);
         startActivity(intent);
+    }
+
+    String barcode = "";
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        char pressedKey = (char) event.getUnicodeChar();
+        barcode += pressedKey;
+        if (keyCode == KeyEvent.KEYCODE_ENTER){
+            barcodeScannerManager.onKeyDown(event, barcode);
+            barcode = "";
+        }
+        return true;
     }
 }

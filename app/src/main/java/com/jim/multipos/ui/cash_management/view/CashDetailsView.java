@@ -7,4 +7,6 @@ import com.jim.multipos.core.BaseView;
  */
 
 public interface CashDetailsView extends BaseView {
+    void fillTillDetails(double payOut, double payIn, double payToVendor, double incomeDebt, double bankDrop, double expectedCash, double tips, double cashTransactions);
+    void updateDetails();
 }

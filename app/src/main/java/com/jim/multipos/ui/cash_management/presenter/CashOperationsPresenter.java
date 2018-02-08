@@ -7,4 +7,12 @@ import com.jim.multipos.core.Presenter;
  */
 
 public interface CashOperationsPresenter extends Presenter {
+    void changePayment(int position);
+    void initData();
+    void doPayIn(double payInAmount);
+    void doPayOut(double payOutAmount);
+    void doBankDrop(double bankDropAmount);
+    void executeOperation(double amount, int operationType, String description);
+    void showCloseTillDialog();
+    void showOpenTillDialog();
 }

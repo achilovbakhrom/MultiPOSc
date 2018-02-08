@@ -58,6 +58,7 @@
             android:src="@drawable/dash" />
 
         <TextView
+            android:id="@+id/tvPayOuts"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/five_dp"
@@ -88,6 +89,7 @@
             android:src="@drawable/dash" />
 
         <TextView
+            android:id="@+id/tvPayIns"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/five_dp"
@@ -119,6 +121,7 @@
             android:src="@drawable/dash" />
 
         <TextView
+            android:id="@+id/tvPayToVendors"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/five_dp"
@@ -150,6 +153,7 @@
             android:src="@drawable/dash" />
 
         <TextView
+            android:id="@+id/tvIncomeDebt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/five_dp"
@@ -180,6 +184,7 @@
             android:src="@drawable/dash" />
 
         <TextView
+            android:id="@+id/tvBankDrops"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/five_dp"
@@ -210,6 +215,7 @@
             android:src="@drawable/dash" />
 
         <TextView
+            android:id="@+id/tvCashTransactions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/five_dp"
@@ -240,6 +246,7 @@
             android:src="@drawable/dash" />
 
         <TextView
+            android:id="@+id/tvTips"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/five_dp"
@@ -270,6 +277,7 @@
             android:src="@drawable/dash" />
 
         <TextView
+            android:id="@+id/tvExpectedCash"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/five_dp"

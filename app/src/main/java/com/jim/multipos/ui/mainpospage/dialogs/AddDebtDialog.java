@@ -94,7 +94,7 @@ public class AddDebtDialog extends Dialog {
         } else flSearchView.setSearchText("");
 
         if (order != null) {
-            etAmount.setText(decimalFormat.format(toPay));
+            etAmount.setText(String.valueOf(toPay));
         }
 
         ivScanBarcode.setOnClickListener(view -> listener.onScanBarcode());

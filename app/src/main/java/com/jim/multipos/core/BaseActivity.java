@@ -87,4 +87,5 @@ public abstract class BaseActivity extends AppCompatActivity implements HasSuppo
         return fragmentInjector;
     }
 
+    public void onBarcodeScan(String barcode){}
 }

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00ffffff"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="@dimen/four_hundred_sixty_dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_edit_text_bg"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/fifty_dp"
+            android:background="@drawable/rounded_blue_bg">
+
+            <TextView
+                android:id="@+id/tvDialogTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:paddingLeft="@dimen/thirty_dp"
+                android:text="@string/warning"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/twenty_dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvWarningText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/fifteen_dp"
+            android:layout_marginLeft="@dimen/thirty_dp"
+            android:layout_marginRight="@dimen/thirty_dp"
+            android:layout_marginTop="@dimen/fifteen_dp"
+            android:gravity="center"
+            android:paddingBottom="@dimen/five_dp"
+            android:paddingLeft="@dimen/ten_dp"
+            android:paddingRight="@dimen/ten_dp"
+            android:paddingTop="@dimen/five_dp"
+            android:text=""
+            android:textColor="@color/colorMainText"
+            android:textSize="@dimen/eighteen_dp" />
+
+        <com.jim.mpviews.MpCheckbox
+            android:id="@+id/chbDontShowAgain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/fifteen_dp"
+            android:layout_marginLeft="@dimen/thirty_dp"
+            app:chb_type="2"
+            app:checked="true"
+            app:text="Don't show again" />
+
+        <LinearLayout
+            android:id="@+id/llBtnContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/ten_dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.jim.mpviews.MpButton
+                android:id="@+id/btnWarningNO"
+                android:layout_width="@dimen/hundred_eighty_dp"
+                android:layout_height="@dimen/sixty_dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/fifteen_dp"
+                android:gravity="center"
+                android:text="@string/no"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/eighteen_dp"
+                android:textStyle="bold" />
+
+            <com.jim.mpviews.MpButton
+                android:id="@+id/btnWarningYES"
+                android:layout_width="@dimen/hundred_eighty_dp"
+                android:layout_height="@dimen/sixty_dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/yes"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/eighteen_dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

@@ -52,4 +52,6 @@ public interface PreferencesHelper {
     void setFirstOptionalPaymentButton(double firstOptionalPaymentButton);
     double getSecondOptionalPaymentButton();
     void setSecondOptionalPaymentButton(double secondOptionalPaymentButton);
+    boolean isShown();
+    void setShowMode(boolean showMode);
 }

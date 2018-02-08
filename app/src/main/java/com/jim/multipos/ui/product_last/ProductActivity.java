@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.KeyEvent;
 
 import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.R;
@@ -29,6 +30,8 @@ import javax.inject.Inject;
 
 import lombok.Getter;
 
+import static com.jim.multipos.utils.managers.BarcodeScannerManager.DEVICE_NAME;
+
 /**
  * Created by Achilov Bakhrom on 10/26/17.
  */
@@ -44,10 +47,6 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     @Inject
     @Getter
-
-
-
-
 
 
     RxPermissions permissions;
@@ -817,5 +816,23 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    String barcode = "";
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (event.getDevice().getName().equals(DEVICE_NAME)) {
+            char pressedKey = (char) event.getUnicodeChar();
+            barcode += pressedKey;
+            if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                ProductAddEditFragment fragment = getProductAddEditFragment();
+                if (fragment != null) {
+                    fragment.setBarcode(barcode);
+                }
+                barcode = "";
+            }
+        }
+        return true;
     }
 }

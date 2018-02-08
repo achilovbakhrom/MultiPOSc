@@ -31,11 +31,13 @@ import java.util.List;
 public class MpList extends FrameLayout {
     private Context context;
     private OnPaymentChangeListner onPaymentClickListner;
-    public interface OnPaymentChangeListner{
+
+    public interface OnPaymentChangeListner {
         void paymentSelected(int position);
     }
-    private MpPayments mpFirstPayment, mpSecondPayment, mpThirdPayment ,mpFourPayment;
-    private LinearLayout mpPrev, mpNext, mpIndicatorContainer,llNextPrev;
+
+    private MpPayments mpFirstPayment, mpSecondPayment, mpThirdPayment, mpFourPayment;
+    private LinearLayout mpPrev, mpNext, mpIndicatorContainer, llNextPrev;
     private List<PaymentTypeWithService> paymentTypes;
 
     public MpList(@NonNull Context context) {
@@ -52,7 +54,8 @@ public class MpList extends FrameLayout {
         super(context, attrs, defStyleAttr);
         init(context);
     }
-    public void setOnPaymentClickListner(OnPaymentChangeListner onPaymentClickListner){
+
+    public void setOnPaymentClickListner(OnPaymentChangeListner onPaymentClickListner) {
         this.onPaymentClickListner = onPaymentClickListner;
         mpFirstPayment.setTouchCustom(() -> {
             mpSecondPayment.setChecked(false);
@@ -111,28 +114,28 @@ public class MpList extends FrameLayout {
         });
 
         mpFirstPayment.setOnClickListener(view -> {
-            if(onPaymentClickListner!=null)
-                onPaymentClickListner.paymentSelected(currentIndicator*3);
+            if (onPaymentClickListner != null)
+                onPaymentClickListner.paymentSelected(currentIndicator * 3);
             currentButtonState = 0;
             currentPageState = currentIndicator;
         });
         mpSecondPayment.setOnClickListener(view -> {
-            if(onPaymentClickListner!=null)
-                onPaymentClickListner.paymentSelected(currentIndicator*3+1);
+            if (onPaymentClickListner != null)
+                onPaymentClickListner.paymentSelected(currentIndicator * 3 + 1);
             currentButtonState = 1;
             currentPageState = currentIndicator;
 
         });
         mpThirdPayment.setOnClickListener(view -> {
-            if(onPaymentClickListner!=null)
-                onPaymentClickListner.paymentSelected(currentIndicator*3+2);
+            if (onPaymentClickListner != null)
+                onPaymentClickListner.paymentSelected(currentIndicator * 3 + 2);
             currentButtonState = 2;
             currentPageState = currentIndicator;
 
         });
         mpFourPayment.setOnClickListener(view -> {
-            if(onPaymentClickListner!=null)
-                onPaymentClickListner.paymentSelected(currentIndicator*3+3);
+            if (onPaymentClickListner != null)
+                onPaymentClickListner.paymentSelected(currentIndicator * 3 + 3);
             currentButtonState = 3;
             currentPageState = currentIndicator;
 
@@ -140,15 +143,17 @@ public class MpList extends FrameLayout {
         onPaymentClickListner.paymentSelected(0);
 
     }
-    public void setPayments(List<PaymentTypeWithService> paymentTypes){
+
+    public void setPayments(List<PaymentTypeWithService> paymentTypes) {
         this.paymentTypes = paymentTypes;
 
-        if(paymentTypes.size()<=4)
+        if (paymentTypes.size() <= 4)
             singleMode();
         else
             addIndicators();
         mpFirstPayment.setChecked(true);
     }
+
     public void init(Context context) {
         this.context = context;
         LayoutInflater.from(context).inflate(R.layout.mp_list_layout, this);
@@ -166,13 +171,15 @@ public class MpList extends FrameLayout {
         mpNext = (LinearLayout) findViewById(R.id.mpNext);
 
     }
-    int currentButtonState =0;
-    int currentPageState =0;
-    public void changePayments(){
+
+    int currentButtonState = 0;
+    int currentPageState = 0;
+
+    public void changePayments() {
         int pages = indecators.length;
-        int position = currentIndicator*3;
-        if(currentIndicator == currentPageState){
-            switch (currentButtonState){
+        int position = currentIndicator * 3;
+        if (currentIndicator == currentPageState) {
+            switch (currentButtonState) {
                 case 0:
                     mpFirstPayment.setChecked(true);
                     mpSecondPayment.setChecked(false);
@@ -198,24 +205,24 @@ public class MpList extends FrameLayout {
                     mpSecondPayment.setChecked(false);
                     break;
             }
-        }else{
+        } else {
             mpFirstPayment.setChecked(false);
             mpSecondPayment.setChecked(false);
             mpThirdPayment.setChecked(false);
             mpFourPayment.setChecked(false);
         }
-        if(pages-1 == currentIndicator){
-            switch (paymentTypes.size()%3){
+        if (pages - 1 == currentIndicator) {
+            switch (paymentTypes.size() % 3) {
                 case 0:
-                    setFirstText(paymentTypes.get(position).getPaymentType(),paymentTypes.get(position).getServiceAbr());
-                    setSecondText(paymentTypes.get(position+1).getPaymentType(),paymentTypes.get(position+1).getServiceAbr());
-                    setThirdText(paymentTypes.get(position+2).getPaymentType(),paymentTypes.get(position+2).getServiceAbr());
+                    setFirstText(paymentTypes.get(position).getPaymentType(), paymentTypes.get(position).getServiceAbr());
+                    setSecondText(paymentTypes.get(position + 1).getPaymentType(), paymentTypes.get(position + 1).getServiceAbr());
+                    setThirdText(paymentTypes.get(position + 2).getPaymentType(), paymentTypes.get(position + 2).getServiceAbr());
                     mpFirstPayment.setVisibility(VISIBLE);
                     mpSecondPayment.setVisibility(VISIBLE);
                     mpThirdPayment.setVisibility(VISIBLE);
                     break;
                 case 1:
-                    setFirstText(paymentTypes.get(position).getPaymentType(),paymentTypes.get(position).getServiceAbr());
+                    setFirstText(paymentTypes.get(position).getPaymentType(), paymentTypes.get(position).getServiceAbr());
 
                     mpFirstPayment.setVisibility(VISIBLE);
                     mpSecondPayment.setVisibility(INVISIBLE);
@@ -223,24 +230,23 @@ public class MpList extends FrameLayout {
 
                     break;
                 case 2:
-                    setFirstText(paymentTypes.get(position).getPaymentType(),paymentTypes.get(position).getServiceAbr());
-                    setSecondText(paymentTypes.get(position+1).getPaymentType(),paymentTypes.get(position+1).getServiceAbr());
+                    setFirstText(paymentTypes.get(position).getPaymentType(), paymentTypes.get(position).getServiceAbr());
+                    setSecondText(paymentTypes.get(position + 1).getPaymentType(), paymentTypes.get(position + 1).getServiceAbr());
 
                     mpFirstPayment.setVisibility(VISIBLE);
                     mpSecondPayment.setVisibility(VISIBLE);
                     mpThirdPayment.setVisibility(INVISIBLE);
                     break;
             }
-        }
-        else {
-            setFirstText(paymentTypes.get(position).getPaymentType(),paymentTypes.get(position).getServiceAbr());
-            setSecondText(paymentTypes.get(position+1).getPaymentType(),paymentTypes.get(position+1).getServiceAbr());
-            setThirdText(paymentTypes.get(position+2).getPaymentType(),paymentTypes.get(position+2).getServiceAbr());
+        } else {
+            setFirstText(paymentTypes.get(position).getPaymentType(), paymentTypes.get(position).getServiceAbr());
+            setSecondText(paymentTypes.get(position + 1).getPaymentType(), paymentTypes.get(position + 1).getServiceAbr());
+            setThirdText(paymentTypes.get(position + 2).getPaymentType(), paymentTypes.get(position + 2).getServiceAbr());
             mpFirstPayment.setVisibility(VISIBLE);
             mpSecondPayment.setVisibility(VISIBLE);
             mpThirdPayment.setVisibility(VISIBLE);
         }
-        }
+    }
 
 
     public void setItems(List<PaymentTypeWithService> paymentTypes) {
@@ -261,28 +267,31 @@ public class MpList extends FrameLayout {
         mpThirdPayment.setType(type);
         mpThirdPayment.setPercent(percent);
     }
+
     public void setFourText(String type, String percent) {
         mpFourPayment.setType(type);
         mpFourPayment.setPercent(percent);
     }
-    ImageView [] indecators;
-    int currentIndicator = 0;
-    private void singleMode(){
-        if(paymentTypes.size()<=3){
-        llNextPrev.setVisibility(GONE);
-        mpFourPayment.setVisibility(GONE);
 
-            switch (paymentTypes.size()%3){
+    ImageView[] indecators;
+    int currentIndicator = 0;
+
+    private void singleMode() {
+        if (paymentTypes.size() <= 3) {
+            llNextPrev.setVisibility(GONE);
+            mpFourPayment.setVisibility(GONE);
+
+            switch (paymentTypes.size() % 3) {
                 case 0:
-                    setFirstText(paymentTypes.get(0).getPaymentType(),paymentTypes.get(0).getServiceAbr());
-                    setSecondText(paymentTypes.get(1).getPaymentType(),paymentTypes.get(1).getServiceAbr());
-                    setThirdText(paymentTypes.get(2).getPaymentType(),paymentTypes.get(2).getServiceAbr());
+                    setFirstText(paymentTypes.get(0).getPaymentType(), paymentTypes.get(0).getServiceAbr());
+                    setSecondText(paymentTypes.get(1).getPaymentType(), paymentTypes.get(1).getServiceAbr());
+                    setThirdText(paymentTypes.get(2).getPaymentType(), paymentTypes.get(2).getServiceAbr());
                     mpFirstPayment.setVisibility(VISIBLE);
                     mpSecondPayment.setVisibility(VISIBLE);
                     mpThirdPayment.setVisibility(VISIBLE);
                     break;
                 case 1:
-                    setFirstText(paymentTypes.get(0).getPaymentType(),paymentTypes.get(0).getServiceAbr());
+                    setFirstText(paymentTypes.get(0).getPaymentType(), paymentTypes.get(0).getServiceAbr());
 
                     mpFirstPayment.setVisibility(VISIBLE);
                     mpSecondPayment.setVisibility(INVISIBLE);
@@ -290,28 +299,28 @@ public class MpList extends FrameLayout {
 
                     break;
                 case 2:
-                    setFirstText(paymentTypes.get(0).getPaymentType(),paymentTypes.get(0).getServiceAbr());
-                    setSecondText(paymentTypes.get(1).getPaymentType(),paymentTypes.get(1).getServiceAbr());
+                    setFirstText(paymentTypes.get(0).getPaymentType(), paymentTypes.get(0).getServiceAbr());
+                    setSecondText(paymentTypes.get(1).getPaymentType(), paymentTypes.get(1).getServiceAbr());
 
                     mpFirstPayment.setVisibility(VISIBLE);
                     mpSecondPayment.setVisibility(VISIBLE);
                     mpThirdPayment.setVisibility(INVISIBLE);
                     break;
             }
-        }
-        else if(paymentTypes.size()==4){
+        } else if (paymentTypes.size() == 4) {
             llNextPrev.setVisibility(GONE);
             mpFourPayment.setVisibility(VISIBLE);
-            setFirstText(paymentTypes.get(0).getPaymentType(),paymentTypes.get(0).getServiceAbr());
-            setSecondText(paymentTypes.get(1).getPaymentType(),paymentTypes.get(1).getServiceAbr());
-            setThirdText(paymentTypes.get(2).getPaymentType(),paymentTypes.get(2).getServiceAbr());
-            setFourText(paymentTypes.get(3).getPaymentType(),paymentTypes.get(3).getServiceAbr());
+            setFirstText(paymentTypes.get(0).getPaymentType(), paymentTypes.get(0).getServiceAbr());
+            setSecondText(paymentTypes.get(1).getPaymentType(), paymentTypes.get(1).getServiceAbr());
+            setThirdText(paymentTypes.get(2).getPaymentType(), paymentTypes.get(2).getServiceAbr());
+            setFourText(paymentTypes.get(3).getPaymentType(), paymentTypes.get(3).getServiceAbr());
             mpFirstPayment.setVisibility(VISIBLE);
             mpSecondPayment.setVisibility(VISIBLE);
             mpThirdPayment.setVisibility(VISIBLE);
             mpFourPayment.setVisibility(VISIBLE);
         }
     }
+
     private void addIndicators() {
         int size = paymentTypes.size();
         int length = (int) Math.ceil(size / 3.0);
@@ -331,7 +340,7 @@ public class MpList extends FrameLayout {
             mpIndicatorContainer.addView(indecators[i]);
         }
         for (int i = 0; i < length; i++) {
-            if(i==0)
+            if (i == 0)
                 indecators[i].animate().setDuration(150).scaleX(1.2f).scaleY(1.2f).setInterpolator(new AccelerateInterpolator()).start();
             else {
                 indecators[i].animate().setDuration(100).scaleX(0.83333f).scaleY(0.83333f).setInterpolator(new DecelerateInterpolator()).start();
@@ -341,22 +350,24 @@ public class MpList extends FrameLayout {
         changePayments();
 
     }
-    private void toNextPageIndecatior(){
-        int buttosLength  = indecators.length;
-        int prevPosition  = currentIndicator;
+
+    private void toNextPageIndecatior() {
+        int buttosLength = indecators.length;
+        int prevPosition = currentIndicator;
         currentIndicator++;
-        currentIndicator%=buttosLength;
+        currentIndicator %= buttosLength;
         indecators[currentIndicator].animate().setDuration(150).scaleX(1.2f).scaleY(1.2f).setInterpolator(new AccelerateInterpolator()).start();
         indecators[prevPosition].animate().setDuration(100).scaleX(0.83333f).scaleY(0.83333f).setInterpolator(new DecelerateInterpolator()).start();
         indecators[currentIndicator].setImageResource(R.drawable.payment_ellipse);
         indecators[prevPosition].setImageResource(R.drawable.payment_ellipse_white);
         changePayments();
     }
-    private void toPrevPageIndecatior(){
-        int buttosLength  = indecators.length;
-        int prevPosition  = currentIndicator;
+
+    private void toPrevPageIndecatior() {
+        int buttosLength = indecators.length;
+        int prevPosition = currentIndicator;
         currentIndicator--;
-        currentIndicator=(currentIndicator<0)?buttosLength-1:currentIndicator;
+        currentIndicator = (currentIndicator < 0) ? buttosLength - 1 : currentIndicator;
 
         indecators[currentIndicator].animate().setDuration(150).scaleX(1.2f).scaleY(1.2f).setInterpolator(new AccelerateInterpolator()).start();
         indecators[prevPosition].animate().setDuration(100).scaleX(0.83333f).scaleY(0.83333f).setInterpolator(new DecelerateInterpolator()).start();
@@ -364,5 +375,20 @@ public class MpList extends FrameLayout {
         indecators[currentIndicator].setImageResource(R.drawable.payment_ellipse);
         indecators[prevPosition].setImageResource(R.drawable.payment_ellipse_white);
         changePayments();
+    }
+
+    public void setPaymentViewWidth(int width) {
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) mpFirstPayment.getLayoutParams();
+        layoutParams.width = Utils.dpToPx(width);
+        mpFirstPayment.setLayoutParams(layoutParams);
+        mpSecondPayment.setLayoutParams(layoutParams);
+        mpThirdPayment.setLayoutParams(layoutParams);
+        mpFourPayment.setLayoutParams(layoutParams);
+        llNextPrev.setLayoutParams(layoutParams);
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mpNext.getLayoutParams();
+        params.width = Utils.dpToPx(width/2);
+        mpNext.setLayoutParams(params);
+        mpPrev.setLayoutParams(params);
+
     }
 }

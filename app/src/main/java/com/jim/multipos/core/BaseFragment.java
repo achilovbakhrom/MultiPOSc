@@ -107,4 +107,8 @@ public abstract class BaseFragment extends Fragment implements HasSupportFragmen
     public boolean isValid() {
         return FormValidator.validate(this, new MultipleCallback());
     }
+
+    public void onBarcodeScan(String barcode){
+
+    }
 }

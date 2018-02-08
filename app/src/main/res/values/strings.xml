@@ -435,7 +435,7 @@
     <string name="do_you_want_to_save_the_change">Do you want to save the change?</string>
     <string name="you_can_only_delete_inactive_customer_groups">You can only delete inactive customer groups.</string>
     <string name="add_category">+Add\n Category</string>
-    <string name="add_subcategory">+Add\n Subategory</string>
+    <string name="add_subcategory">+Add\n Subcategory</string>
     <string name="add_product">+Add\n Product</string>
 
     <string name="warning_such_category_name_exists">Such category name exists</string>
@@ -505,20 +505,20 @@
     <string name="set_quantity">Set quantity</string>
     <string name="choose_vendor_dialog">Choose vendor</string>
     <string name="choose_for_product">Choose for product</string>
-    <string name="consigment_income">Consigment Income</string>
-    <string name="consigment_return">Consigment Return</string>
+    <string name="consigment_income">Consignment Income</string>
+    <string name="consigment_return">Consignment Return</string>
     <string name="payment_vendor">Payment to Vendor</string>
     <string name="take_money_vendor">Take Debt from Vendor</string>
     <string name="pay">Pay</string>
-    <string name="ammount_is_empty">Ammount is empty</string>
-    <string name="ammount_cant_be_zero">Ammount can\'t be zero</string>
+    <string name="ammount_is_empty">Amount is empty</string>
+    <string name="ammount_cant_be_zero">Amount can\'t be zero</string>
     <string name="overpaid">Overpaid: </string>
     <string name="debt">Debt: </string>
     <string name="cannot_be_empty">This value cannot be empty</string>
     <string name="vendor_details">Vendor details</string>
     <string name="state_details">State details</string>
 
-    <string name="payed_in_this_month">Payed in this month:</string>
+    <string name="payed_in_this_month">Paid in this month:</string>
     <string name="paid">Paid:</string>
     <string name="select_date">Select Date Interval</string>
     <string name="warning_till_account">You must create at least one to till account</string>
@@ -560,7 +560,7 @@
     <string name="billing_price_cannot_be_lower">Billing price cannot be lower than original price</string>
     <string name="enter_discount_reason">Enter discount reason</string>
     <string name="disc_reacon_cant_empty">Discount reason can\'t be empty</string>
-    <string name="service_fee_reason_cant_be_empty">Service Fee reason cant empty</string>
+    <string name="service_fee_reason_cant_be_empty">Service Fee reason can\'t empty</string>
     <string name="year">year</string>
     <string name="years">years</string>
     <string name="months">months</string>
@@ -585,6 +585,8 @@
     <string name="please_choose_customer">Please, choose customer</string>
     <string name="enter_debt_amount">Please, enter debt amount</string>
     <string name="payment_detials">Payment details</string>
+    <string name="close_till">Close till</string>
+    <string name="open_till">Open till</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>

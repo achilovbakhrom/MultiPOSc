@@ -42,6 +42,7 @@ public class AppPreferencesHelper implements PreferencesHelper {
     private static final String PRODUCT_LIST_VIEW_TYPE = "PRODUCT_LIST_VIEW_TYPE";
     private static final String FIRST_OPTIONAL_PAYMENT_BUTTON = "FIRST_OPT";
     private static final String SECOND_OPTIONAL_PAYMENT_BUTTON = "SECOND_OPT";
+    private static final String IS_SHOWN = "IS_SHOWN";
 
     private final SharedPreferences mPrefs;
 
@@ -198,5 +199,15 @@ public class AppPreferencesHelper implements PreferencesHelper {
     @Override
     public void setSecondOptionalPaymentButton(double secondOptionalPaymentButton) {
         mPrefs.edit().putFloat(SECOND_OPTIONAL_PAYMENT_BUTTON, (float) secondOptionalPaymentButton).apply();
+    }
+
+    @Override
+    public boolean isShown() {
+        return mPrefs.getBoolean(IS_SHOWN, false);
+    }
+
+    @Override
+    public void setShowMode(boolean showMode) {
+        mPrefs.edit().putBoolean(IS_SHOWN, showMode).apply();
     }
 }

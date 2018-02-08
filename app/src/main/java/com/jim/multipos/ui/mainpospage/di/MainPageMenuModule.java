@@ -37,6 +37,7 @@ import com.jim.multipos.ui.mainpospage.view.ProductSquareViewFragment;
 import com.jim.multipos.ui.mainpospage.view.SearchModeFragment;
 import com.jim.multipos.ui.mainpospage.view.SearchModeFragmentModule;
 import com.jim.multipos.utils.RxBusLocal;
+import com.jim.multipos.utils.managers.BarcodeScannerManager;
 import com.jim.multipos.utils.managers.NotifyManager;
 
 import java.text.DecimalFormat;
@@ -140,5 +141,11 @@ public abstract class MainPageMenuModule {
     @Provides
     static NotifyManager getNotifyManager() {
         return new NotifyManager();
+    }
+
+    @PerActivity
+    @Provides
+    static BarcodeScannerManager getBarcodeScannerManager(MainPosPageActivity mainPosPageActivity) {
+        return new BarcodeScannerManager(mainPosPageActivity);
     }
 }

@@ -42,6 +42,9 @@ import com.jim.multipos.data.db.model.Contact;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.VendorProductCon;
 import com.jim.multipos.data.db.model.stock.Stock;
+import com.jim.multipos.data.db.model.till.Till;
+import com.jim.multipos.data.db.model.till.TillDetails;
+import com.jim.multipos.data.db.model.till.TillOperation;
 import com.jim.multipos.data.db.model.unit.SubUnitsList;
 import com.jim.multipos.data.db.model.unit.Unit;
 import com.jim.multipos.data.db.model.unit.UnitCategory;
@@ -208,6 +211,7 @@ public interface DbHelper {
     Observable<List<InventoryState>> getInventoryStates();
     Observable<List<InventoryState>> getInventoryStatesByProductId(Long productId);
     Single<List<BillingOperations>> getBillingOperationInteval(Long vendorId, Calendar fromDate, Calendar toDate);
+    Single<List<BillingOperations>> getBillingOperationsByInterval(Calendar fromDate, Calendar toDate);
 
     Observable<Boolean> removeProductFromInventoryState(Long productId);
     Observable<List<InventoryState>> getInventoryStatesByVendorId(Long vendorId);
@@ -222,8 +226,9 @@ public interface DbHelper {
     Single<List<Customer>> getCustomersWithDebt();
     Single<Boolean> insertDebt(Debt debt);
     Single<List<Debt>> getDebtsByCustomerId(Long id);
+    Single<List<Debt>> getAllActiveDebts();
     Single<CustomerPayment> insertCustomerPayment(CustomerPayment payment);
-
+    Single<List<CustomerPayment>> getCustomerPaymentsByInterval(Calendar fromDate, Calendar toDate);
     Single<Order> insertOrder(Order order);
 
     Single<Boolean> insertReturns(List<Return> returnsList);
@@ -234,7 +239,13 @@ public interface DbHelper {
     Single<List<OrderProduct>> insertOrderProducts(List<OrderProduct> orderProducts);
     Single<List<Order>> getAllTillOrders();
     Single<LazyList<Order>> getAllTillLazzyOrders();
-
-
-
+    //till operations
+    Single<TillOperation> insertTillOperation(TillOperation tillOperation);
+    Single<TillDetails> insertTillDetails(TillDetails tillDetails);
+    Single<Till> insertTill(Till till);
+    Single<List<TillOperation>> getTillOperationsByAccountId(Long id, Long tillId);
+    Single<Till> getOpenTill();
+    Single<Boolean> isHaveOpenTill();
+    Single<Boolean> isNoTills();
+    Single<Till> getLastClosedTill();
 }

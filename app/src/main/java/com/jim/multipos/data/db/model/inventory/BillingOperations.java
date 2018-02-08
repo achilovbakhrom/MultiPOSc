@@ -28,7 +28,6 @@ BillingOperations implements Editable {
     public static final int DEBT_CONSIGNMENT = 100;
     public static final int PAID_TO_CONSIGNMENT = 101;
     public static final int RETURN_TO_VENDOR = 102;
-    public static final int TAKE_MONEY = 114;
 
     @Id(autoincrement = true)
     private Long id;

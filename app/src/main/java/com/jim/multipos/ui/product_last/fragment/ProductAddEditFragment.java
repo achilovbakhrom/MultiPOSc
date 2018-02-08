@@ -10,7 +10,10 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.method.KeyListener;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,6 +61,7 @@ import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 
 import static android.app.Activity.RESULT_OK;
 import static com.jim.multipos.utils.OpenPickPhotoUtils.RESULT_PICK_IMAGE;
+import static com.jim.multipos.utils.managers.BarcodeScannerManager.DEVICE_NAME;
 
 /**
  * Created by Achilov Bakhrom on 10/26/17.
@@ -610,6 +614,10 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
     public void showCannotDeleteItemWithMinusValue(double value) {
         UIUtils.showAlert(getContext(), getString(R.string.ok), getString(R.string.warning),
                 "You have " + value + " item in the inventory. You can't delete product with negative inventory state", () -> Log.d("sss", "onButtonClicked: "));
+    }
+
+    public void setBarcode(String barcode) {
+        this.barcode.setText(barcode);
     }
 
     class VendorChooseAdapter extends BaseAdapter<VendorWithCheckedPosition, VendorChooseAdapter.VendorChooseItemHolder> {

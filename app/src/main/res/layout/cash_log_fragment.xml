@@ -64,10 +64,10 @@
                 android:textSize="@dimen/sixteen_dp" />
 
             <TextView
+                android:id="@+id/tvOpenedDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="4/12/2018"
                 android:textColor="@color/colorBlue"
                 android:textSize="@dimen/sixteen_dp" />
 
@@ -82,6 +82,7 @@
                 android:textSize="@dimen/sixteen_dp" />
 
             <TextView
+                android:id="@+id/tvClosedDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -106,10 +107,10 @@
                 android:textSize="@dimen/sixteen_dp" />
 
             <TextView
+                android:id="@+id/tvOpenedTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="3:22 PM"
                 android:textColor="@color/colorBlue"
                 android:textSize="@dimen/sixteen_dp" />
 
@@ -124,6 +125,7 @@
                 android:textSize="@dimen/sixteen_dp" />
 
             <TextView
+                android:id="@+id/tvClosedTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -173,5 +175,26 @@
         android:layout_marginBottom="@dimen/ten_dp"
         android:layout_marginTop="@dimen/ten_dp"
         android:background="@color/colorTextHint" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="right"
+        android:orientation="horizontal"
+        android:paddingRight="@dimen/thirty_dp"
+        android:paddingBottom="@dimen/ten_dp">
+
+        <com.jim.mpviews.MpButton
+            android:id="@+id/btnBack"
+            android:layout_width="@dimen/hundred_fifty_dp"
+            android:layout_height="@dimen/sixty_dp"
+            android:layout_gravity="bottom"
+            android:gravity="center"
+            android:text="@string/back"
+            android:textColor="@color/colorSecondaryText"
+            android:textSize="@dimen/eighteen_dp" />
+
+
+    </LinearLayout>
 
 </LinearLayout>

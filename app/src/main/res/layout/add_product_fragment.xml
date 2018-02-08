@@ -110,7 +110,6 @@
                         android:layout_weight="1"
                         android:backgroundTint="@color/colorTransparent"
                         android:hint="@string/barcode"
-                        android:inputType="numberDecimal"
                         android:textSize="@dimen/sixteen_dp" />
 
                     <ImageView

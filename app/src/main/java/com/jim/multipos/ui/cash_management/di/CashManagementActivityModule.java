@@ -1,5 +1,6 @@
 package com.jim.multipos.ui.cash_management.di;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 
 import com.jim.multipos.config.scope.PerActivity;
@@ -9,6 +10,7 @@ import com.jim.multipos.ui.cash_management.CashManagementActivity;
 import com.jim.multipos.ui.cash_management.CashManagementActivityPresenter;
 import com.jim.multipos.ui.cash_management.CashManagementActivityPresenterImpl;
 import com.jim.multipos.ui.cash_management.CashManagementActivityView;
+import com.jim.multipos.ui.cash_management.connection.CashManagementConnection;
 import com.jim.multipos.ui.cash_management.view.CashDetailsFragment;
 import com.jim.multipos.ui.cash_management.view.CashDetailsFragmentModule;
 import com.jim.multipos.ui.cash_management.view.CashLogFragment;
@@ -24,6 +26,7 @@ import com.jim.multipos.ui.cash_management.view.CloseTillThirdStepFragmentModule
 
 import dagger.Binds;
 import dagger.Module;
+import dagger.Provides;
 import dagger.android.ContributesAndroidInjector;
 
 /**
@@ -67,4 +70,10 @@ public abstract class CashManagementActivityModule {
     @PerFragment
     @ContributesAndroidInjector(modules = CloseTillThirdStepFragmentModule.class)
     abstract CloseTillThirdStepFragment provideCloseTillThirdStepFragmentInjector();
+
+    @PerActivity
+    @Provides
+    static CashManagementConnection provideMainPageConnection(Context context){
+        return new CashManagementConnection(context);
+    }
 }

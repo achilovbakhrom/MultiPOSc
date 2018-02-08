@@ -662,6 +662,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             }
 
             databaseManager.getVendorProductConnectionByProductId(this.product.getId()).subscribe(productConList -> {
+                DecimalFormat formatter = new DecimalFormat("#.##");
                 vendorProductConnectionsList.clear();
                 this.vendorProductConnectionsList = productConList;
                 setProductCosts(vendorProductConnectionsList);
@@ -673,13 +674,13 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                             VendorProductCon productCon = new VendorProductCon();
                             productCon.setCost(cost.getCost());
                             tempCostList.add(productCon);
-                            savedCosts += cost.getCost();
+                            savedCosts += formatter.format(cost.getCost());
                         } else {
                             cost.setCost(0d);
                             VendorProductCon productCon = new VendorProductCon();
                             productCon.setCost(0.0d);
                             tempCostList.add(productCon);
-                            savedCosts += cost.getCost();
+                            savedCosts += formatter.format(cost.getCost());
                         }
                     }
                     if (vendorProductConnectionsList.indexOf(cost) != vendorProductConnectionsList.size() - 1) {

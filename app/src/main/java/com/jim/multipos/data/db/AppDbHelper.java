@@ -42,6 +42,7 @@ import com.jim.multipos.data.db.model.customer.CustomerDao;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
 import com.jim.multipos.data.db.model.customer.CustomerGroupDao;
 import com.jim.multipos.data.db.model.customer.CustomerPayment;
+import com.jim.multipos.data.db.model.customer.CustomerPaymentDao;
 import com.jim.multipos.data.db.model.customer.Debt;
 import com.jim.multipos.data.db.model.customer.DebtDao;
 import com.jim.multipos.data.db.model.customer.JoinCustomerGroupsWithCustomers;
@@ -65,6 +66,10 @@ import com.jim.multipos.data.db.model.products.VendorDao;
 import com.jim.multipos.data.db.model.products.VendorProductCon;
 import com.jim.multipos.data.db.model.products.VendorProductConDao;
 import com.jim.multipos.data.db.model.stock.Stock;
+import com.jim.multipos.data.db.model.till.Till;
+import com.jim.multipos.data.db.model.till.TillDetails;
+import com.jim.multipos.data.db.model.till.TillOperation;
+import com.jim.multipos.data.db.model.till.TillOperationDao;
 import com.jim.multipos.data.db.model.unit.SubUnitsList;
 import com.jim.multipos.data.db.model.unit.Unit;
 import com.jim.multipos.data.db.model.unit.UnitCategory;
@@ -1423,6 +1428,30 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
+    public Single<List<BillingOperations>> getBillingOperationsByInterval(Calendar fromDate, Calendar toDate) {
+        return Single.create(e -> {
+            fromDate.set(Calendar.HOUR_OF_DAY, 0);
+            fromDate.set(Calendar.MINUTE, 0);
+            fromDate.set(Calendar.SECOND, 0);
+            fromDate.set(Calendar.MILLISECOND, 0);
+
+            toDate.set(Calendar.HOUR_OF_DAY, 23);
+            toDate.set(Calendar.MINUTE, 59);
+            toDate.set(Calendar.SECOND, 59);
+            toDate.set(Calendar.MILLISECOND, 9999);
+
+            List<BillingOperations> billingOperations = mDaoSession.getBillingOperationsDao().queryBuilder()
+                    .where(BillingOperationsDao.Properties.PaymentDate.ge(fromDate.getTimeInMillis()),
+                            BillingOperationsDao.Properties.PaymentDate.le(toDate.getTimeInMillis()),
+                            BillingOperationsDao.Properties.OperationType.eq(BillingOperations.PAID_TO_CONSIGNMENT),
+                            BillingOperationsDao.Properties.IsNotModified.eq(true))
+                    .build().list();
+
+            e.onSuccess(billingOperations);
+        });
+    }
+
+    @Override
     public Single<Long> insertWarehouseOperation(WarehouseOperations warehouseOperations) {
         return Single.create(e -> {
             Database database = mDaoSession.getDatabase();
@@ -1631,6 +1660,17 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
+    public Single<List<Debt>> getAllActiveDebts() {
+        return Single.create(e -> {
+            List<Debt> debts = mDaoSession
+                    .queryBuilder(Debt.class)
+                    .where(DebtDao.Properties.Status.eq(Debt.ACTIVE))
+                    .build().list();
+            e.onSuccess(debts);
+        });
+    }
+
+    @Override
     public Single<Order> insertOrder(Order order) {
         return Single.create(singleSubscriber -> {
             mDaoSession.getOrderDao().insertOrReplace(order);
@@ -1643,6 +1683,27 @@ public class AppDbHelper implements DbHelper {
         return Single.create(singleSubscriber -> {
             mDaoSession.getCustomerPaymentDao().insertOrReplace(payment);
             singleSubscriber.onSuccess(payment);
+        });
+    }
+
+    @Override
+    public Single<List<CustomerPayment>> getCustomerPaymentsByInterval(Calendar fromDate, Calendar toDate) {
+        return Single.create(e -> {
+            fromDate.set(Calendar.HOUR_OF_DAY, 0);
+            fromDate.set(Calendar.MINUTE, 0);
+            fromDate.set(Calendar.SECOND, 0);
+            fromDate.set(Calendar.MILLISECOND, 0);
+
+            toDate.set(Calendar.HOUR_OF_DAY, 23);
+            toDate.set(Calendar.MINUTE, 59);
+            toDate.set(Calendar.SECOND, 59);
+            toDate.set(Calendar.MILLISECOND, 9999);
+
+            List<CustomerPayment> customerPayments = mDaoSession.getCustomerPaymentDao().queryBuilder()
+                    .where(CustomerPaymentDao.Properties.PaymentDate.ge(fromDate.getTimeInMillis()),
+                            CustomerPaymentDao.Properties.PaymentDate.le(toDate.getTimeInMillis()))
+                    .build().list();
+            e.onSuccess(customerPayments);
         });
     }
 
@@ -1703,4 +1764,109 @@ public class AppDbHelper implements DbHelper {
         });
     }
 
+
+    @Override
+    public Single<TillOperation> insertTillOperation(TillOperation tillOperation) {
+        return Single.create(singleSubscriber -> {
+            mDaoSession.getTillOperationDao().insertOrReplace(tillOperation);
+            singleSubscriber.onSuccess(tillOperation);
+        });
+    }
+
+    @Override
+    public Single<TillDetails> insertTillDetails(TillDetails tillDetails) {
+        return Single.create(singleSubscriber -> {
+            mDaoSession.getTillDetailsDao().insertOrReplace(tillDetails);
+            singleSubscriber.onSuccess(tillDetails);
+        });
+    }
+
+    @Override
+    public Single<Till> insertTill(Till till) {
+        return Single.create(singleSubscriber -> {
+            mDaoSession.getTillDao().insertOrReplace(till);
+            singleSubscriber.onSuccess(till);
+        });
+    }
+
+    @Override
+    public Single<List<TillOperation>> getTillOperationsByAccountId(Long id, Long tillId) {
+        return Single.create(e -> {
+            List<TillOperation> tillOperationList = new ArrayList<>();
+            String query = "SELECT a.* FROM TILL_OPERATIONS a INNER JOIN PAYMENT_TYPE b ON a.PAYMENT_TYPE_ID = b._id WHERE b.ACCOUNT_ID = " + id + " AND a.TILL_ID = " + tillId;
+            Cursor cursor = mDaoSession.getDatabase().rawQuery(query, null);
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()){
+                TillOperation tillOperation = new TillOperation();
+                tillOperation.setId(cursor.getLong(cursor.getColumnIndex("_id")));
+                tillOperation.setPaymentType(mDaoSession.getPaymentTypeDao().load(cursor.getLong(cursor.getColumnIndex("PAYMENT_TYPE_ID"))));
+                tillOperation.setTill(mDaoSession.getTillDao().load(cursor.getLong(cursor.getColumnIndex("TILL_ID"))));
+                tillOperation.setAmount(cursor.getDouble(cursor.getColumnIndex("AMOUNT")));
+                tillOperation.setType(cursor.getInt(cursor.getColumnIndex("TYPE")));
+                tillOperation.setPaymentTypeId(mDaoSession.getPaymentTypeDao().load(cursor.getLong(cursor.getColumnIndex("PAYMENT_TYPE_ID"))).getId());
+                tillOperation.setTillId(mDaoSession.getTillDao().load(cursor.getLong(cursor.getColumnIndex("TILL_ID"))).getId());
+                tillOperationList.add(tillOperation);
+                cursor.moveToNext();
+            }
+            e.onSuccess(tillOperationList);
+        });
+    }
+
+    @Override
+    public Single<Till> getOpenTill() {
+        return Single.create(e -> {
+            Till till;
+            String query = "SELECT * FROM TILL WHERE STATUS = " + Till.OPEN;
+            Cursor cursor = mDaoSession.getDatabase().rawQuery(query, null);
+            cursor.moveToFirst();
+            till = new Till();
+            till.setId(cursor.getLong(cursor.getColumnIndex("_id")));
+            till.setStatus(Till.OPEN);
+            till.setOpenDate(cursor.getLong(cursor.getColumnIndex("OPEN_DATE")));
+            till.setCloseDate(cursor.getLong(cursor.getColumnIndex("CLOSE_DATE")));
+            till.setDebtSales(cursor.getDouble(cursor.getColumnIndex("DEBT_SALES")));
+            e.onSuccess(till);
+        });
+    }
+
+    @Override
+    public Single<Boolean> isHaveOpenTill() {
+        return Single.create(e -> {
+            String query = "SELECT * FROM TILL WHERE STATUS = " + Till.OPEN;
+            Cursor cursor = mDaoSession.getDatabase().rawQuery(query, null);
+            if (cursor.getCount() == 1) {
+              e.onSuccess(true);
+            }  else if (cursor.getCount() == 0){
+                e.onSuccess(false);
+            } else {
+                e.onError(new Throwable("MORE THAN ONE TILLS WERE OPENED"));
+            }
+        });
+    }
+
+    @Override
+    public Single<Boolean> isNoTills() {
+        return Single.create(e -> {
+            String query = "SELECT * FROM TILL WHERE STATUS = " + Till.CLOSED;
+            Cursor cursor = mDaoSession.getDatabase().rawQuery(query, null);
+            e.onSuccess(cursor.getCount() > 0);
+        });
+    }
+
+    @Override
+    public Single<Till> getLastClosedTill() {
+        return Single.create(e -> {
+            Till till;
+            String newQuery = "SELECT * FROM TILL WHERE STATUS = " + Till.CLOSED;
+            Cursor newCursor = mDaoSession.getDatabase().rawQuery(newQuery, null);
+            newCursor.moveToLast();
+            till = new Till();
+            till.setId(newCursor.getLong(newCursor.getColumnIndex("_id")));
+            till.setStatus(Till.CLOSED);
+            till.setOpenDate(newCursor.getLong(newCursor.getColumnIndex("OPEN_DATE")));
+            till.setCloseDate(newCursor.getLong(newCursor.getColumnIndex("CLOSE_DATE")));
+            till.setDebtSales(newCursor.getDouble(newCursor.getColumnIndex("DEBT_SALES")));
+            e.onSuccess(till);
+        });
+    }
 }

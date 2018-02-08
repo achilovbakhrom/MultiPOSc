@@ -100,96 +100,11 @@ public class TestUtils {
                 databaseManager.addPaymentType(paymentType).subscribe();
                 PaymentType paymentType1 = new PaymentType();
                 paymentType1.setName("Plastik");
-                paymentType.setAccount(account);
-                paymentType.setCurrency(databaseManager.getMainCurrency());
+                paymentType1.setAccount(account);
+                paymentType1.setCurrency(databaseManager.getMainCurrency());
                 databaseManager.addPaymentType(paymentType1).subscribe();
             }
         }
     }
 
-//    public static void createCustomersWithDebt(DatabaseManager databaseManager){
-////        if (databaseManager.getAllCustomers().blockingSingle().isEmpty()){
-////            Customer customer = new Customer();
-////            customer.setAddress("Tashkent, 5A");
-////            customer.setClientId(1L);
-////            customer.setPhoneNumber("998901532653");
-////            customer.setCreatedDate(System.currentTimeMillis());
-////            customer.setName("Ketmonbek Toshpulatov");
-////            customer.setQrCode("48454846454");
-////            databaseManager.addCustomer(customer).subscribe(aLong -> {
-////                Order order = new Order();
-////                order.setCustomer(customer);
-////                order.setCreateAt(System.currentTimeMillis());
-////                order.setSubTotalValue(30000);
-////                databaseManager.addOrder(order).blockingGet();
-////                Debt debt = new Debt();
-////                debt.setCustomer(customer);
-////                debt.setOrder(order);
-////                debt.setDebtAmount(order.getSubTotalValue() + 5 * order.getSubTotalValue()/100);
-////                debt.setFee(5);
-////                debt.setDebtType(Debt.ALL);
-////                debt.setTakenDate(System.currentTimeMillis());
-////                GregorianCalendar calendar = new GregorianCalendar(2018, 1, 15);
-////                debt.setEndDate(calendar.getTimeInMillis());
-////                debt.setStatus(Debt.ACTIVE);
-////                databaseManager.addDebt(debt).subscribe();
-////                Order order1 = new Order();
-////                order1.setCustomer(customer);
-////                order1.setCreateAt(System.currentTimeMillis());
-////                order1.setSubTotalValue(25000);
-////                databaseManager.addOrder(order1).blockingGet();
-////                Debt debt1 = new Debt();
-////                debt1.setCustomer(customer);
-////                debt1.setDebtAmount(order1.getSubTotalValue() + 15 * order1.getSubTotalValue()/100);
-////                debt1.setFee(15);
-////                debt1.setDebtType(Debt.PARTICIPLE);
-////                debt1.setOrder(order1);
-////                debt1.setStatus(Debt.ACTIVE);
-////                debt1.setTakenDate(System.currentTimeMillis());
-////                GregorianCalendar calendar1 = new GregorianCalendar(2018, 0, 15);
-////                debt1.setEndDate(calendar1.getTimeInMillis());
-////                databaseManager.addDebt(debt1).subscribe();
-////            });
-////            Customer customer1 = new Customer();
-////            customer1.setAddress("Tashkent, QoraSuv 2 - A");
-////            customer1.setClientId(2L);
-////            customer1.setPhoneNumber("99890154453");
-////            customer1.setCreatedDate(System.currentTimeMillis());
-////            customer1.setName("Avaz Oxun");
-////            customer1.setQrCode("168432135");
-////            databaseManager.addCustomer(customer1).subscribe(aLong -> {
-////                Order order = new Order();
-////                order.setCustomer(customer1);
-////                order.setCreateAt(System.currentTimeMillis());
-////                order.setSubTotalValue(30000);
-////                databaseManager.addOrder(order).blockingGet();
-////                Debt debt = new Debt();
-////                debt.setCustomer(customer1);
-////                debt.setOrder(order);
-////                debt.setDebtAmount(order.getSubTotalValue() + 5 * order.getSubTotalValue()/100);
-////                debt.setFee(5);
-////                debt.setTakenDate(System.currentTimeMillis());
-////                GregorianCalendar calendar = new GregorianCalendar(2018, 0, 3);
-////                debt.setEndDate(calendar.getTimeInMillis());
-////                debt.setStatus(Debt.ACTIVE);
-////                databaseManager.addDebt(debt).subscribe();
-////                Order order1 = new Order();
-////                order1.setCustomer(customer1);
-////                order1.setCreateAt(System.currentTimeMillis());
-////                order1.setSubTotalValue(25000);
-////                databaseManager.addOrder(order1).blockingGet();
-////                Debt debt1 = new Debt();
-////                debt1.setCustomer(customer1);
-////                debt1.setDebtAmount(order1.getSubTotalValue() + 15 * order1.getSubTotalValue()/100);
-////                debt1.setFee(15);
-////                debt1.setOrder(order1);
-////                debt1.setStatus(Debt.ACTIVE);
-////                debt1.setTakenDate(System.currentTimeMillis());
-////                GregorianCalendar calendar1 = new GregorianCalendar(2018, 0, 15);
-////                debt1.setEndDate(calendar1.getTimeInMillis());
-////                databaseManager.addDebt(debt1).subscribe();
-////            });
-////
-////        }
-//    }
 }

@@ -86,13 +86,6 @@ public class BillingOperartionsAdapter extends RecyclerView.Adapter<BillingOpera
             if(billingOperations.getDescription()!=null && !billingOperations.getDescription().isEmpty())
             holder.tvDiscription.setText(billingOperations.getDescription());
             else holder.tvDiscription.setText("-");
-        }else if(BillingOperations.TAKE_MONEY == billingOperations.getOperationType()){
-            holder.ivBillingIcon.setImageResource(R.drawable.take_money_from_vendor_billing);
-            holder.tvType.setText(R.string.take_money_vendor);
-            holder.tvExtra.setText("-");
-            if(billingOperations.getDescription()!=null && !billingOperations.getDescription().isEmpty())
-                holder.tvDiscription.setText(billingOperations.getDescription());
-            else holder.tvDiscription.setText("-");
         }
         holder.tvDate.setText(simpleDateFormat.format(billingOperations.getPaymentDate()));
 

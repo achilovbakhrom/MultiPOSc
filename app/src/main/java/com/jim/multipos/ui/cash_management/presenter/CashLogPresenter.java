@@ -7,4 +7,7 @@ import com.jim.multipos.core.Presenter;
  */
 
 public interface CashLogPresenter extends Presenter {
+    void initData();
+    void setDataToDetailsFragment(int position);
+    void changeAccount(Long accountId);
 }

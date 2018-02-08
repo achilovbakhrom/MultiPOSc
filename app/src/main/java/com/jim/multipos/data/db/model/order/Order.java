@@ -74,6 +74,10 @@ public class Order {
         return subTotalValue + discountTotalValue+ serviceTotalValue + tips;
     }
 
+    public double getChange(){
+        return totalPayed - getForPayAmmount();
+    }
+
 
 /**
  * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.

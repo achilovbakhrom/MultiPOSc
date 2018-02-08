@@ -5,6 +5,7 @@ import com.jim.multipos.data.db.model.customer.CustomerGroup;
 import com.jim.multipos.data.db.model.customer.CustomerPayment;
 import com.jim.multipos.data.db.model.customer.Debt;
 
+import java.util.Calendar;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -28,5 +29,7 @@ public interface CustomerOperations {
     //Debts
     Single<Boolean> addDebt(Debt debt);
     Single<List<Debt>> getDebtsByCustomerId(Long id);
+    Single<List<Debt>> getAllActiveDebts();
     Single<CustomerPayment> addCustomerPayment(CustomerPayment payment);
+    Single<List<CustomerPayment>> getCustomerPaymentsByInterval(Calendar fromDate, Calendar toDate);
 }

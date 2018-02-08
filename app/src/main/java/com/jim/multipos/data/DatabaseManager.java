@@ -29,6 +29,9 @@ import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.VendorProductCon;
 import com.jim.multipos.data.db.model.stock.Stock;
+import com.jim.multipos.data.db.model.till.Till;
+import com.jim.multipos.data.db.model.till.TillDetails;
+import com.jim.multipos.data.db.model.till.TillOperation;
 import com.jim.multipos.data.db.model.unit.SubUnitsList;
 import com.jim.multipos.data.db.model.unit.Unit;
 import com.jim.multipos.data.db.model.unit.UnitCategory;
@@ -53,6 +56,7 @@ import com.jim.multipos.data.operations.SearchOperations;
 import com.jim.multipos.data.operations.ServiceFeeOperations;
 import com.jim.multipos.data.operations.StockOperations;
 import com.jim.multipos.data.operations.SubUnitOperations;
+import com.jim.multipos.data.operations.TillOperations;
 import com.jim.multipos.data.operations.UnitCategoryOperations;
 import com.jim.multipos.data.operations.UnitOperations;
 import com.jim.multipos.data.operations.VendorItemManagmentOperations;
@@ -76,7 +80,7 @@ import io.reactivex.Single;
  */
 
 public class DatabaseManager implements ContactOperations, CategoryOperations, ProductOperations, AccountOperations, CurrencyOperations, StockOperations, UnitCategoryOperations, UnitOperations, PaymentTypeOperations, ServiceFeeOperations, ProductClassOperations, CustomerOperations, CustomerGroupOperations, SubUnitOperations, JoinCustomerGroupWithCustomerOperations, DiscountOperations,
-        VendorOperations, SearchOperations, ConsignmentOperations, InventoryOperations, VendorItemManagmentOperations, PaymentOperations, BillingTransactionOperations, OrderOperations, PayedPartitionOperations {
+        VendorOperations, SearchOperations, ConsignmentOperations, InventoryOperations, VendorItemManagmentOperations, PaymentOperations, BillingTransactionOperations, OrderOperations, PayedPartitionOperations, TillOperations {
     private Context context;
     private PreferencesHelper preferencesHelper;
     private DbHelper dbHelper;
@@ -505,8 +509,18 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
+    public Single<List<Debt>> getAllActiveDebts() {
+        return dbHelper.getAllActiveDebts();
+    }
+
+    @Override
     public Single<CustomerPayment> addCustomerPayment(CustomerPayment payment) {
         return dbHelper.insertCustomerPayment(payment);
+    }
+
+    @Override
+    public Single<List<CustomerPayment>> getCustomerPaymentsByInterval(Calendar fromDate, Calendar toDate) {
+        return dbHelper.getCustomerPaymentsByInterval(fromDate, toDate);
     }
 
     @Override
@@ -930,6 +944,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
+    public Single<List<BillingOperations>> getBillingOperationsByInterval(Calendar fromDate, Calendar toDate) {
+        return dbHelper.getBillingOperationsByInterval(fromDate, toDate);
+    }
+
+    @Override
     public Single<Boolean> deleteInventoryState(InventoryState inventoryState) {
         return dbHelper.deleteInventoryState(inventoryState);
     }
@@ -957,6 +976,46 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Single<List<PayedPartitions>> insertPayedPartitions(List<PayedPartitions> payedPartitions) {
         return dbHelper.insertPayedPartitions(payedPartitions);
+    }
+
+    @Override
+    public Single<TillOperation> insertTillOperation(TillOperation tillOperation) {
+        return dbHelper.insertTillOperation(tillOperation);
+    }
+
+    @Override
+    public Single<TillDetails> insertTillDetails(TillDetails tillDetails) {
+        return dbHelper.insertTillDetails(tillDetails);
+    }
+
+    @Override
+    public Single<Till> insertTill(Till till) {
+        return dbHelper.insertTill(till);
+    }
+
+    @Override
+    public Single<List<TillOperation>> getTillOperationsByAccountId(Long accountId, Long tillId) {
+        return dbHelper.getTillOperationsByAccountId(accountId, tillId);
+    }
+
+    @Override
+    public Single<Till> getOpenTill() {
+        return dbHelper.getOpenTill();
+    }
+
+    @Override
+    public Single<Boolean> hasOpenTill() {
+        return dbHelper.isHaveOpenTill();
+    }
+
+    @Override
+    public Single<Boolean> isNoTills() {
+        return dbHelper.isNoTills();
+    }
+
+    @Override
+    public Single<Till> getLastClosedTill() {
+        return dbHelper.getLastClosedTill();
     }
 }
 
