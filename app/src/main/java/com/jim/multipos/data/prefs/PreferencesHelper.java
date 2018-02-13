@@ -52,6 +52,8 @@ public interface PreferencesHelper {
     void setFirstOptionalPaymentButton(double firstOptionalPaymentButton);
     double getSecondOptionalPaymentButton();
     void setSecondOptionalPaymentButton(double secondOptionalPaymentButton);
+    boolean checkEditOrderPassword(String md5Password);
+    void setNewEditOrderPassword(String md5Password);
     boolean isShown();
     void setShowMode(boolean showMode);
 }

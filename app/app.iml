@@ -125,6 +125,7 @@
     <orderEntry type="library" name="zxing-android-embedded-3.5.0" level="project" />
     <orderEntry type="library" name="viewpropertyobjectanimator-1.4.5" level="project" />
     <orderEntry type="library" name="transition-26.1.0" level="project" />
+    <orderEntry type="library" name="usbsdk" level="project" />
     <orderEntry type="library" name="glide-transformations-2.0.2" level="project" />
     <orderEntry type="library" name="easyrecyclerview-4.4.0" level="project" />
     <orderEntry type="library" name="reactive-streams-1.0.0" level="project" />
@@ -134,6 +135,7 @@
     <orderEntry type="library" name="support-v4-26.1.0" level="project" />
     <orderEntry type="library" name="dagger-android-support-2.11" level="project" />
     <orderEntry type="library" name="support-fragment-26.1.0" level="project" />
+    <orderEntry type="library" name="btsdk" level="project" />
     <orderEntry type="library" name="common-1.0.0" level="project" />
     <orderEntry type="library" name="1_common-1.0.0" level="project" />
     <orderEntry type="library" name="logging-interceptor-3.5.0" level="project" />

@@ -19,379 +19,442 @@
             android:layout_weight="43"
             android:orientation="vertical">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/sixty_dp"
-                android:orientation="horizontal">
+                >
 
-
-                <TextView
-                    android:id="@+id/tvCustomerName"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="@string/customer_choice"
-                    android:textColor="@color/colorBlue"
-                    android:textSize="@dimen/eighteen_dp"
-                    android:textStyle="bold"/>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/forty_dp"
-                android:background="@color/colorBlue"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/textView3"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/twenty_dp"
-                    android:layout_weight="5"
-                    android:text="Name"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="@dimen/eighteen_dp" />
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/tvOrderNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="Order #27"
+                        android:textColor="@color/colorBlue"
+                        android:textSize="@dimen/eighteen_dp"
+                        android:textStyle="bold"/>
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="3"
-                    android:text="Qty"
-                    android:gravity="center_horizontal"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="@dimen/eighteen_dp" />
+                    <TextView
+                        android:id="@+id/tvCustomerName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="Customer: asdasdasd"
+                        android:textColor="@color/colorBlue"
+                        android:textSize="@dimen/fourteen_dp"
+                        />
+                </LinearLayout>
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="3"
-                    android:text="Each"
-                    android:gravity="right|center_vertical"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="@dimen/eighteen_dp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="4"
-                    android:text="Sum"
-                    android:layout_marginRight="@dimen/thirty_dp"
-                    android:gravity="center_vertical|right"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="@dimen/eighteen_dp" />
-
-            </LinearLayout>
-
-            <LinearLayout
+            </RelativeLayout>
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rvOrderProducts"
+                android:layout_weight="1">
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    />
-
-            </LinearLayout>
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="2px"
-                android:background="#ebebeb" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorWhite"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
                     android:orientation="vertical">
-
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/thirty_dp"
-                        android:layout_marginTop="@dimen/twelve_dp"
+                        android:layout_height="@dimen/forty_dp"
+                        android:background="@color/colorBlue"
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/textView3"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Sub total :"
-                            android:textColor="@color/colorMainText"
-                            android:textSize="@dimen/fourteen_dp" />
-
-                        <TextView
-                            android:id="@+id/tvSubTotal"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="right"
-                            android:text="31 600 uzs"
-                            android:textColor="@color/colorMainText"
-                            android:textSize="@dimen/fourteen_dp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/llDiscountGroup"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/thirty_dp"
-                        android:orientation="horizontal">
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="@dimen/twenty_dp"
+                            android:layout_weight="5"
+                            android:text="Name"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/eighteen_dp" />
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Discount :"
-                            android:textColor="@color/colorMainText"
-                            android:textSize="@dimen/fourteen_dp" />
-
-                        <TextView
-                            android:id="@+id/tvDiscountAmount"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="right"
-                            android:text="316 uzs"
-                            android:textColor="@color/colorMainText"
-                            android:textSize="@dimen/fourteen_dp" />
-
-                    </LinearLayout>
-                    <LinearLayout
-                        android:id="@+id/llServiceFeeGroup"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/thirty_dp"
-                        android:orientation="horizontal">
+                            android:layout_gravity="center"
+                            android:layout_weight="3"
+                            android:text="Qty"
+                            android:gravity="center_horizontal"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/eighteen_dp" />
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Service Fee:"
-                            android:textColor="@color/colorMainText"
-                            android:textSize="@dimen/fourteen_dp" />
-
-                        <TextView
-                            android:id="@+id/tvServiceAmount"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="right"
-                            android:text="316 uzs"
-                            android:textColor="@color/colorMainText"
-                            android:textSize="@dimen/fourteen_dp" />
-
-                    </LinearLayout>
-                    <LinearLayout
-                        android:id="@+id/llTipsGroup"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/thirty_dp"
-                        android:orientation="horizontal">
+                            android:layout_gravity="center"
+                            android:layout_weight="3"
+                            android:text="Each"
+                            android:gravity="right|center_vertical"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/eighteen_dp" />
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Tips:"
-                            android:textColor="@color/colorMainText"
-                            android:textSize="@dimen/fourteen_dp" />
-
-                        <TextView
-                            android:id="@+id/tvTips"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="right"
-                            android:text="2 284 uzs"
-                            android:textColor="@color/colorMainText"
-                            android:textSize="@dimen/fourteen_dp" />
+                            android:layout_gravity="center"
+                            android:layout_weight="4"
+                            android:text="Sum"
+                            android:layout_marginRight="@dimen/thirty_dp"
+                            android:gravity="center_vertical|right"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/eighteen_dp" />
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/rvOrderProducts"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            />
+
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="2px"
+                        android:background="#ebebeb" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/thirty_dp"
-                        android:layout_marginBottom="@dimen/twelve_dp"
+                        android:background="@color/colorWhite"
                         android:orientation="horizontal">
 
-                        <TextView
+                        <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
                             android:layout_weight="1"
-                            android:text="Total to pay:"
-                            android:textStyle="bold"
-                            android:textColor="@color/colorMainText"
-                            android:textSize="@dimen/fourteen_dp" />
+                            android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/tvTotalToPay"
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/thirty_dp"
+                                android:layout_marginTop="@dimen/twelve_dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Sub total :"
+                                    android:textColor="@color/colorMainText"
+                                    android:textSize="@dimen/fourteen_dp" />
+
+                                <TextView
+                                    android:id="@+id/tvSubTotal"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="right"
+                                    android:text="31 600 uzs"
+                                    android:textColor="@color/colorMainText"
+                                    android:textSize="@dimen/fourteen_dp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/llDiscountGroup"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/thirty_dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Discount :"
+                                    android:textColor="@color/colorMainText"
+                                    android:textSize="@dimen/fourteen_dp" />
+
+                                <TextView
+                                    android:id="@+id/tvDiscountAmount"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="right"
+                                    android:text="316 uzs"
+                                    android:textColor="@color/colorMainText"
+                                    android:textSize="@dimen/fourteen_dp" />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:id="@+id/llServiceFeeGroup"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/thirty_dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Service Fee:"
+                                    android:textColor="@color/colorMainText"
+                                    android:textSize="@dimen/fourteen_dp" />
+
+                                <TextView
+                                    android:id="@+id/tvServiceAmount"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="right"
+                                    android:text="316 uzs"
+                                    android:textColor="@color/colorMainText"
+                                    android:textSize="@dimen/fourteen_dp" />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:id="@+id/llTipsGroup"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/thirty_dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Tips:"
+                                    android:textColor="@color/colorMainText"
+                                    android:textSize="@dimen/fourteen_dp" />
+
+                                <TextView
+                                    android:id="@+id/tvTips"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="right"
+                                    android:text="2 284 uzs"
+                                    android:textColor="@color/colorMainText"
+                                    android:textSize="@dimen/fourteen_dp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/thirty_dp"
+                                android:layout_marginBottom="@dimen/twelve_dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Total to pay:"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/colorMainText"
+                                    android:textSize="@dimen/fourteen_dp" />
+
+                                <TextView
+                                    android:id="@+id/tvTotalToPay"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="right"
+                                    android:text="31 284 uzs"
+                                    android:textColor="@color/colorMainText"
+                                    android:textStyle="bold"
+                                    android:textSize="@dimen/fourteen_dp" />
+
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:gravity="right"
-                            android:text="31 284 uzs"
-                            android:textColor="@color/colorMainText"
-                            android:textStyle="bold"
-                            android:textSize="@dimen/fourteen_dp" />
+                            android:layout_marginRight="@dimen/twenty_dp"
+                            android:layout_marginLeft="@dimen/sixteen_dp"
+                            android:gravity="center_vertical"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Created Date:"
+                                    android:textColor="@color/colorMainText"
+                                    android:textSize="@dimen/fourteen_dp" />
+
+                                <TextView
+                                    android:id="@+id/tvCreatedDate"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="right"
+                                    android:text="24/10/2018"
+                                    android:textColor="@color/colorMainText"
+                                    android:textSize="@dimen/fourteen_dp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Created Time:"
+                                    android:textColor="@color/colorMainText"
+                                    android:textSize="@dimen/fourteen_dp" />
+
+                                <TextView
+                                    android:id="@+id/tvCreatedTime"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="right"
+                                    android:text="316 uzs"
+                                    android:textColor="@color/colorMainText"
+                                    android:textSize="@dimen/fourteen_dp" />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Debt:"
+                                    android:textColor="@color/colorMainText"
+                                    android:textSize="@dimen/fourteen_dp" />
+
+                                <TextView
+                                    android:id="@+id/tvDebtAmmount"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="right"
+                                    android:text="20:58"
+                                    android:textColor="@color/colorMainText"
+                                    android:textSize="@dimen/fourteen_dp" />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Total payed:"
+                                    android:textColor="@color/colorMainText"
+                                    android:textSize="@dimen/fourteen_dp" />
+
+                                <TextView
+                                    android:id="@+id/tvTotalPayed"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="right"
+                                    android:text="28 000 uzs"
+                                    android:textColor="@color/colorMainText"
+                                    android:textSize="@dimen/fourteen_dp" />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Change:"
+                                    android:textColor="@color/colorMainText"
+                                    android:textSize="@dimen/fourteen_dp" />
+
+                                <TextView
+                                    android:id="@+id/tvChange"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="right"
+                                    android:text="5 000 uzs"
+                                    android:textColor="#4ac21b"
+                                    android:textSize="@dimen/fourteen_dp" />
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
 
                     </LinearLayout>
                 </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
+                <RelativeLayout
+                    android:id="@+id/rvDeleteCurtain"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:layout_marginRight="@dimen/twenty_dp"
-                    android:layout_marginLeft="@dimen/sixteen_dp"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical">
-
+                    android:visibility="visible"
+                    android:clickable="true"
+                    android:background="#2d000000">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
+                        android:gravity="center_horizontal"
+                        android:layout_centerInParent="true"
+                        android:orientation="vertical">
+                        <ImageView
+                            android:layout_width="@dimen/hundred_dp"
+                            android:layout_height="@dimen/hundred_dp"
+                            android:src="@drawable/cancel_certain"
+                            android:visibility="gone"
+                            />
                         <TextView
-                            android:layout_width="0dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Created Date:"
-                            android:textColor="@color/colorMainText"
-                            android:textSize="@dimen/fourteen_dp" />
-
+                            android:text="Order canceled"
+                            android:textStyle="bold"
+                            android:textColor="#fff"
+                            android:textSize="@dimen/twenty_eight_dp"
+                            android:layout_marginTop="@dimen/twenty_dp"/>
                         <TextView
-                            android:id="@+id/tvCreatedDate"
-                            android:layout_width="0dp"
+                            android:id="@+id/tvCauseDelete"
+                            android:layout_width="@dimen/three_hundred_dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="right"
-                            android:text="24/10/2018"
-                            android:textColor="@color/colorMainText"
-                            android:textSize="@dimen/fourteen_dp" />
+                            android:text="Cause: Nimadiram nito bo’gan"
+                            android:gravity="center_horizontal"
+                            android:textColor="#fff"
+                            android:textSize="@dimen/twenty_dp"
+                            android:layout_marginBottom="@dimen/hundred_dp"
+                            />
 
                     </LinearLayout>
+                </RelativeLayout>
+            </RelativeLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Created Time:"
-                            android:textColor="@color/colorMainText"
-                            android:textSize="@dimen/fourteen_dp" />
-
-                        <TextView
-                            android:id="@+id/tvCreatedTime"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="right"
-                            android:text="316 uzs"
-                            android:textColor="@color/colorMainText"
-                            android:textSize="@dimen/fourteen_dp" />
-
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Debt:"
-                            android:textColor="@color/colorMainText"
-                            android:textSize="@dimen/fourteen_dp" />
-
-                        <TextView
-                            android:id="@+id/tvDebtAmmount"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="right"
-                            android:text="20:58"
-                            android:textColor="@color/colorMainText"
-                            android:textSize="@dimen/fourteen_dp" />
-
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Total payed:"
-                            android:textColor="@color/colorMainText"
-                            android:textSize="@dimen/fourteen_dp" />
-
-                        <TextView
-                            android:id="@+id/tvTotalPayed"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="right"
-                            android:text="28 000 uzs"
-                            android:textColor="@color/colorMainText"
-                            android:textSize="@dimen/fourteen_dp" />
-
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Change:"
-                            android:textColor="@color/colorMainText"
-                            android:textSize="@dimen/fourteen_dp" />
-
-                        <TextView
-                            android:id="@+id/tvChange"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="right"
-                            android:text="5 000 uzs"
-                            android:textColor="#4ac21b"
-                            android:textSize="@dimen/fourteen_dp" />
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
-
-            </LinearLayout>
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -409,16 +472,33 @@
 
 
                 <LinearLayout
-                    android:id="@+id/llDiscount"
+                    android:id="@+id/llCancelOrder"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:layout_weight="1"
                     android:clickable="true"
-                    android:visibility="invisible"
                     android:background="@drawable/main_page_rect_selector"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    >
 
+                    <ImageView
+                        android:id="@+id/ivDeactivateCancel"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/thirty_dp"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="@dimen/ten_dp"
+                        android:padding="@dimen/two_dp"
+                        android:src="@drawable/deactive_order"
+                        />
+
+                    <TextView
+                        android:id="@+id/tvCancelOrder"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="@string/cancel_order" />
                 </LinearLayout>
                 <FrameLayout
                     android:layout_width="2px"

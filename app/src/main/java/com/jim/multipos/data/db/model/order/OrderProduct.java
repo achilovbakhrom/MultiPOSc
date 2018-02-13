@@ -2,6 +2,7 @@ package com.jim.multipos.data.db.model.order;
 
 import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
+import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
 
@@ -17,6 +18,7 @@ import com.jim.multipos.data.db.model.products.ProductDao;
 import com.jim.multipos.data.db.model.products.VendorDao;
 import com.jim.multipos.data.db.model.DiscountDao;
 import com.jim.multipos.data.db.model.ServiceFeeDao;
+import com.jim.multipos.data.db.model.inventory.WarehouseOperationsDao;
 
 /**
  * Created by developer on 20.12.2017.
@@ -51,6 +53,16 @@ public class OrderProduct {
     private Long serviceFeeId;
     @ToOne(joinProperty = "serviceFeeId")
     private ServiceFee serviceFee;
+
+    private Long warehouseGetId;
+    @ToOne(joinProperty = "warehouseGetId")
+    WarehouseOperations warehouseGet;
+
+    private Long warehouseReturnId;
+    @ToOne(joinProperty = "warehouseReturnId")
+    WarehouseOperations warehouseReturn;
+
+
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
      * Entity must attached to an entity context.
@@ -213,6 +225,10 @@ public class OrderProduct {
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
+    @Generated(hash = 667520458)
+    private transient Long warehouseReturn__resolvedKey;
+    @Generated(hash = 1872662047)
+    private transient Long warehouseGet__resolvedKey;
     public Long getServiceFeeId() {
         return this.serviceFeeId;
     }
@@ -291,10 +307,78 @@ public class OrderProduct {
     public void setId(Long id) {
         this.id = id;
     }
-    @Generated(hash = 1587745906)
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 218199277)
+    public void setWarehouseReturn(WarehouseOperations warehouseReturn) {
+        synchronized (this) {
+            this.warehouseReturn = warehouseReturn;
+            warehouseReturnId = warehouseReturn == null ? null : warehouseReturn.getId();
+            warehouseReturn__resolvedKey = warehouseReturnId;
+        }
+    }
+    /** To-one relationship, resolved on first access. */
+    @Generated(hash = 1937446373)
+    public WarehouseOperations getWarehouseReturn() {
+        Long __key = this.warehouseReturnId;
+        if (warehouseReturn__resolvedKey == null
+                || !warehouseReturn__resolvedKey.equals(__key)) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            WarehouseOperationsDao targetDao = daoSession.getWarehouseOperationsDao();
+            WarehouseOperations warehouseReturnNew = targetDao.load(__key);
+            synchronized (this) {
+                warehouseReturn = warehouseReturnNew;
+                warehouseReturn__resolvedKey = __key;
+            }
+        }
+        return warehouseReturn;
+    }
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 96141712)
+    public void setWarehouseGet(WarehouseOperations warehouseGet) {
+        synchronized (this) {
+            this.warehouseGet = warehouseGet;
+            warehouseGetId = warehouseGet == null ? null : warehouseGet.getId();
+            warehouseGet__resolvedKey = warehouseGetId;
+        }
+    }
+    /** To-one relationship, resolved on first access. */
+    @Generated(hash = 1393798737)
+    public WarehouseOperations getWarehouseGet() {
+        Long __key = this.warehouseGetId;
+        if (warehouseGet__resolvedKey == null || !warehouseGet__resolvedKey.equals(__key)) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            WarehouseOperationsDao targetDao = daoSession.getWarehouseOperationsDao();
+            WarehouseOperations warehouseGetNew = targetDao.load(__key);
+            synchronized (this) {
+                warehouseGet = warehouseGetNew;
+                warehouseGet__resolvedKey = __key;
+            }
+        }
+        return warehouseGet;
+    }
+    public Long getWarehouseReturnId() {
+        return this.warehouseReturnId;
+    }
+    public void setWarehouseReturnId(Long warehouseReturnId) {
+        this.warehouseReturnId = warehouseReturnId;
+    }
+    public Long getWarehouseGetId() {
+        return this.warehouseGetId;
+    }
+    public void setWarehouseGetId(Long warehouseGetId) {
+        this.warehouseGetId = warehouseGetId;
+    }
+    @Generated(hash = 1853748004)
     public OrderProduct(Long id, long orderId, Long productId, Long vendorId, double cost,
             double price, double count, double sum, double discountAmount,
-            double serviceAmount, String discription, Long discountId, Long serviceFeeId) {
+            double serviceAmount, String discription, Long discountId, Long serviceFeeId,
+            Long warehouseGetId, Long warehouseReturnId) {
         this.id = id;
         this.orderId = orderId;
         this.productId = productId;
@@ -308,6 +392,8 @@ public class OrderProduct {
         this.discription = discription;
         this.discountId = discountId;
         this.serviceFeeId = serviceFeeId;
+        this.warehouseGetId = warehouseGetId;
+        this.warehouseReturnId = warehouseReturnId;
     }
     @Generated(hash = 1818552344)
     public OrderProduct() {

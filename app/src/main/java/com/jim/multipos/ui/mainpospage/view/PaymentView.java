@@ -38,4 +38,6 @@ public interface PaymentView extends BaseView {
     void enableTipsButton();
     void disableTipsButton();
     void updateOrderListDetialsPanel();
+    void onNewOrder();
+    void sendDataToPaymentFragmentWhenEdit(Order order, List<PayedPartitions> payedPartitions,Debt debt);
 }

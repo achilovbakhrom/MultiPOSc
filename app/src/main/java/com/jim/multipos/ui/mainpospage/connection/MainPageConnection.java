@@ -36,7 +36,22 @@ public class MainPageConnection {
         this.context = context;
     }
 
+    public void sendDataToPaymentFragmentWhenEdit(Order order, List<PayedPartitions> payedPartitions,Debt debt){
+        if(paymentView != null){
+            paymentView.sendDataToPaymentFragmentWhenEdit(order,payedPartitions,debt);
+        }
+    }
+    public void openEditFragment(String reason, Order order){
+        if(orderListView!=null){
+            orderListView.onEditOrder(reason,order);
+        }
+    }
 
+    public void onNewOrderPaymentFragment(){
+        if(paymentView!=null){
+            paymentView.onNewOrder();
+        }
+    }
     public void updateCustomer(Customer customer){
         if(orderListView!=null){
             orderListView.updateCustomer(customer);

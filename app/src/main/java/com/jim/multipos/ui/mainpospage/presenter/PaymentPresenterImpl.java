@@ -52,6 +52,7 @@ public class PaymentPresenterImpl extends BasePresenterImpl<PaymentView> impleme
             view.openAddDebtDialog(databaseManager, order, customer,order.getForPayAmmount() - totalPayed());
         }else {
             debt = null;
+            removeDebtPaymentPartition();
             view.showDebtDialog();
         }
     }
@@ -266,7 +267,16 @@ public class PaymentPresenterImpl extends BasePresenterImpl<PaymentView> impleme
         view.hideDebtDialog();
 
     }
-
+    private void removeDebtPaymentPartition(){
+        for (int i = 0; i < payedPartitions.size(); i++) {
+            if(payedPartitions.get(i).getPaymentType().getTypeStaticPaymentType() == PaymentType.DEBT_PAYMENT_TYPE){
+                payedPartitions.remove(i);
+            }
+        }
+        view.updateViews(order,totalPayed());
+        view.updatePaymentList();
+        view.onPayedPartition();
+    }
     @Override
     public void onClickedTips() {
         if(order.getTips() == 0){
@@ -283,6 +293,35 @@ public class PaymentPresenterImpl extends BasePresenterImpl<PaymentView> impleme
             view.enableTipsButton();
         }
     }
+
+    @Override
+        public void onNewOrder() {
+        debt = null;
+        customer = null;
+        view.disableTipsButton();
+        view.showDebtDialog();
+    }
+
+    @Override
+    public void sendDataToPaymentFragmentWhenEdit(Order order, List<PayedPartitions> payedPartitions, Debt debt) {
+        this.payedPartitions = payedPartitions;
+        this.debt = debt;
+
+        if(debt==null)
+            view.showDebtDialog();
+        else view.hideDebtDialog();
+
+        if(order.getTips() == 0) {
+            view.enableTipsButton();
+        }else {
+            view.disableTipsButton();
+        }
+
+        view.updatePaymentList(payedPartitions);
+        view.updateViews(order,totalPayed());
+        updateChange();
+    }
+
 
     /**
      method for sum payed partitions

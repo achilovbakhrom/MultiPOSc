@@ -55,6 +55,7 @@ public interface  OrderListView extends BaseView {
     void addProductWithWeightToListEdit(double weight);
     void sendToPaymentFragmentOrderAndPaymentsList();
     void sendDataToPaymentFragment(Order order, List<PayedPartitions> payedPartitions);
+    void sendDataToPaymentFragmentWhenEdit(Order order, List<PayedPartitions> payedPartitions,Debt debt);
     void visiblePayButton();
     void visibleBackButton();
     void onPayedPartition();
@@ -66,4 +67,10 @@ public interface  OrderListView extends BaseView {
     void scanBarcodeFor(boolean fromAddCustomer);
     void updateViewCustomer(Customer customer);
     void sendCustomerToPaymentFragment(Customer customer);
+    void setOrderNumberToToolbar(Long orderNumber);
+    void sendEventGoToPrevOrders();
+    void fistufulCloseOrder();
+    void goToPrevOrders();
+    void onNewOrderPaymentFragment();
+    void onEditOrder(String reason,Order order);
 }

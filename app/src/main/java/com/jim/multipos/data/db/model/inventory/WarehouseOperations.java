@@ -2,6 +2,7 @@ package com.jim.multipos.data.db.model.inventory;
 
 import com.jim.multipos.data.db.model.DaoSession;
 import com.jim.multipos.data.db.model.intosystem.Editable;
+import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.ProductDao;
 import com.jim.multipos.data.db.model.products.Vendor;
@@ -14,6 +15,7 @@ import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.ToOne;
 
 import lombok.Data;
+import com.jim.multipos.data.db.model.order.OrderDao;
 
 /**
  * Created by developer on 27.11.2017.
@@ -30,6 +32,7 @@ public class WarehouseOperations implements Editable{
     public static final int VOID_INCOME = 6;
     public static final int WASTE = 7;
     public static final int CONSIGNMENT_DELETED = 8;
+    public static final int CANCELED_SOLD = 9;
 
     @Id(autoincrement = true)
     private Long id;
@@ -46,6 +49,10 @@ public class WarehouseOperations implements Editable{
     private boolean isDeleted = false;
     private boolean isNotModified = true;
     private Long rootId;
+    //if it is Sale
+    private Long orderId;
+    @ToOne(joinProperty = "orderId")
+    private Order order;
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
      * Entity must attached to an entity context.
@@ -149,6 +156,8 @@ public class WarehouseOperations implements Editable{
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
+    @Generated(hash = 219913283)
+    private transient Long order__resolvedKey;
     public Long getCreateAt() {
         return this.createAt;
     }
@@ -254,10 +263,43 @@ public class WarehouseOperations implements Editable{
     public void setIsActive(boolean isActive) {
         this.isActive = isActive;
     }
-    @Generated(hash = 317766689)
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 1275275852)
+    public void setOrder(Order order) {
+        synchronized (this) {
+            this.order = order;
+            orderId = order == null ? null : order.getId();
+            order__resolvedKey = orderId;
+        }
+    }
+    /** To-one relationship, resolved on first access. */
+    @Generated(hash = 352034325)
+    public Order getOrder() {
+        Long __key = this.orderId;
+        if (order__resolvedKey == null || !order__resolvedKey.equals(__key)) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            OrderDao targetDao = daoSession.getOrderDao();
+            Order orderNew = targetDao.load(__key);
+            synchronized (this) {
+                order = orderNew;
+                order__resolvedKey = __key;
+            }
+        }
+        return order;
+    }
+    public Long getOrderId() {
+        return this.orderId;
+    }
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
+    }
+    @Generated(hash = 2141555472)
     public WarehouseOperations(Long id, Long productId, Long vendorId, double value,
             int type, Long createAt, boolean isActive, boolean isDeleted,
-            boolean isNotModified, Long rootId) {
+            boolean isNotModified, Long rootId, Long orderId) {
         this.id = id;
         this.productId = productId;
         this.vendorId = vendorId;
@@ -268,6 +310,7 @@ public class WarehouseOperations implements Editable{
         this.isDeleted = isDeleted;
         this.isNotModified = isNotModified;
         this.rootId = rootId;
+        this.orderId = orderId;
     }
     @Generated(hash = 266239327)
     public WarehouseOperations() {

@@ -154,14 +154,22 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
             OrderListHistoryFragment orderListHistoryFragment = (OrderListHistoryFragment) getSupportFragmentManager().findFragmentByTag(OrderListHistoryFragment.class.getName());
             if(orderListHistoryFragment !=null && orderListHistoryFragment.isVisible()){
                 orderListHistoryFragment.onPrevOrder();
-            }else
-                showOrderListHistoryFragment();
+            }else{
+                OrderListFragment orderListFragment = (OrderListFragment) getSupportFragmentManager().findFragmentByTag(OrderListFragment.class.getName());
+                if(orderListFragment !=null && orderListFragment.isVisible())
+                    orderListFragment.sendEventGoToPrevOrders();
+            }
         });
 
     }
 
     public void showOrderListFragmentWhenOrderHistoryEnds(){
         hideOrderListHistoryFragment();
+        OrderListFragment orderListFragment = (OrderListFragment) getSupportFragmentManager().findFragmentByTag(OrderListFragment.class.getName());
+        if(orderListFragment!=null){
+            orderListFragment.sendOrderNumberToMainPosPageActivity();
+        }
+
     }
 
     public void setOrderNo(Long orderId){

@@ -1,9 +1,14 @@
 package com.jim.multipos.ui.mainpospage.view;
 
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jim.multipos.R;
@@ -11,9 +16,13 @@ import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.PayedPartitions;
+import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivity;
 import com.jim.multipos.ui.mainpospage.adapter.OrderProductHistoryAdapter;
 import com.jim.multipos.ui.mainpospage.connection.MainPageConnection;
+import com.jim.multipos.ui.mainpospage.dialogs.AccessToCancelDialog;
+import com.jim.multipos.ui.mainpospage.dialogs.AccessToEditDialog;
+import com.jim.multipos.ui.mainpospage.dialogs.AccessWithEditPasswordDialog;
 import com.jim.multipos.ui.mainpospage.dialogs.PaymentDetialDialog;
 import com.jim.multipos.ui.mainpospage.presenter.OrderListHistoryPresenter;
 
@@ -35,6 +44,8 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
     OrderListHistoryPresenter presenter;
     @Inject
     MainPageConnection mainPageConnection;
+    @Inject
+    PreferencesHelper preferencesHelper;
 
     @BindView(R.id.tvSubTotal)
     TextView tvSubTotal;
@@ -62,7 +73,20 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
     LinearLayout llEdit;
     @BindView(R.id.llPaymentDetials)
     LinearLayout llPaymentDetials;
-
+    @BindView(R.id.tvCustomerName)
+    TextView tvCustomerName;
+    @BindView(R.id.tvOrderNumber)
+    TextView tvOrderNumber;
+    @BindView(R.id.llCancelOrder)
+    LinearLayout llCancelOrder;
+    @BindView(R.id.ivDeactivateCancel)
+    ImageView ivDeactivateCancel;
+    @BindView(R.id.tvCancelOrder)
+    TextView tvCancelOrder;
+    @BindView(R.id.tvCauseDelete)
+    TextView tvCauseDelete;
+    @BindView(R.id.rvDeleteCurtain)
+    RelativeLayout rvDeleteCurtain;
 
 
     OrderProductHistoryAdapter orderProductHistoryAdapter;
@@ -82,12 +106,15 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
         sdfDate = new SimpleDateFormat("dd/MM/yyyy");
         sdfTime = new SimpleDateFormat("HH:mm");
         llEdit.setOnClickListener(view -> {
-            //TODO ON EDIT BUTTON CLICKED
+            presenter.onEditClicked();
         });
         llPaymentDetials.setOnClickListener(view -> {
             presenter.onClickPaymentDetials();
         });
 
+        llCancelOrder.setOnClickListener(view -> {
+           presenter.onCancelClicked();
+        });
     }
 
     public void refreshData(){
@@ -128,6 +155,28 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
         tvDebtAmmount.setText(decimalFormat.format(order.getToDebtValue()));
         tvTotalPayed.setText(decimalFormat.format(order.getTotalPayed()));
         tvChange.setText(decimalFormat.format(order.getForPayAmmount()-order.getTotalPayed()));
+        if(order.getCustomer() != null) {
+            tvCustomerName.setVisibility(View.VISIBLE);
+            tvCustomerName.setText("Customer: " + order.getCustomer().getName());
+        }
+        else tvCustomerName.setVisibility(View.GONE);
+        tvOrderNumber.setText("Order #"+String.valueOf(order.getId()));
+        if(order.getIsDeleted()){
+            llEdit.setVisibility(View.INVISIBLE);
+            llEdit.setEnabled(false);
+            ivDeactivateCancel.setImageResource(R.drawable.recive_order);
+            tvCancelOrder.setText("Restore order");
+            tvOrderNumber.setText("Canceled: Order #"+String.valueOf(order.getId()));
+            rvDeleteCurtain.setVisibility(View.VISIBLE);
+            tvCauseDelete.setText("Cause: "+order.getDeleteCause());
+
+        }else {
+            llEdit.setVisibility(View.VISIBLE);
+            llEdit.setEnabled(true);
+            ivDeactivateCancel.setImageResource(R.drawable.deactive_order);
+            tvCancelOrder.setText(getContext().getString(R.string.cancel_order));
+            rvDeleteCurtain.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -148,4 +197,58 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
         PaymentDetialDialog paymentDetialDialog = new PaymentDetialDialog(getContext(),payedPartitions,decimalFormat,mainCurrency);
         paymentDetialDialog.show();
     }
+
+    @Override
+    public void openEditFragment(String reason, Order order) {
+        mainPageConnection.openEditFragment(reason,order);
+    }
+
+    @Override
+    public void openEditAccsessDialog() {
+        AccessToEditDialog accessToEditDialog = new AccessToEditDialog(getContext(), new AccessToEditDialog.OnAccsessListner() {
+            @Override
+            public void accsessSuccess(String reason) {
+                presenter.onEditOrder(reason);
+            }
+
+            @Override
+            public void onBruteForce() {
+                presenter.onBruteForce();
+            }
+        },preferencesHelper);
+        accessToEditDialog.show();
+    }
+
+    @Override
+    public void openCancelAccsessDialog() {
+        AccessToCancelDialog accessToCancelDialog = new AccessToCancelDialog(getContext(), new AccessToCancelDialog.OnAccsessListner() {
+            @Override
+            public void accsessSuccess(String reason) {
+                presenter.onDeleteOrder(reason);
+            }
+            @Override
+            public void onBruteForce() {
+                presenter.onBruteForce();
+            }
+        },preferencesHelper);
+        accessToCancelDialog.show();
+    }
+
+    @Override
+    public void openRestoreAccsessDialog() {
+        AccessWithEditPasswordDialog accessWithEditPasswordDialog = new AccessWithEditPasswordDialog(getContext(), new AccessWithEditPasswordDialog.OnAccsessListner() {
+            @Override
+            public void accsessSuccess() {
+                presenter.onRestoreDialog();
+            }
+
+            @Override
+            public void onBruteForce() {
+
+            }
+        },preferencesHelper);
+        accessWithEditPasswordDialog.show();
+    }
+
+
 }

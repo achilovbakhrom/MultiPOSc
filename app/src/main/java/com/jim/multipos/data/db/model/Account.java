@@ -138,4 +138,5 @@ public class Account {
     public void setTypeStaticAccountType(int typeStaticAccountType) {
         this.typeStaticAccountType = typeStaticAccountType;
     }
+
 }

@@ -164,6 +164,7 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
             warningDialog.setOnYesClickListener(view1 -> {
                 warningDialog.dismiss();
                 presenter.cleanOrder();
+                mainPageConnection.onNewOrderPaymentFragment();
                 ((MainPosPageActivity) getActivity()).hideProductInfoFragment();
             });
             warningDialog.setOnNoClickListener(view1 -> {
@@ -485,6 +486,11 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
         mainPageConnection.sendDataToPaymentFragment(order,payedPartitions);
     }
 
+    @Override
+    public void sendDataToPaymentFragmentWhenEdit(Order order, List<PayedPartitions> payedPartitions, Debt debt) {
+        mainPageConnection.sendDataToPaymentFragmentWhenEdit(order,payedPartitions,debt);
+    }
+
 
     @Override
     public void updateOrderDetials(Order order,Customer customer,List<PayedPartitions> payedPartitions) {
@@ -585,4 +591,52 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
     public void historyOpened(){
 
     }
+
+    @Override
+    public void setOrderNumberToToolbar(Long orderNumber) {
+        ((MainPosPageActivity)getActivity()).setOrderNo(orderNumber);
+    }
+
+    @Override
+    public void sendEventGoToPrevOrders() {
+        presenter.sendEventGoToPrevOrders();
+    }
+
+    @Override
+    public void fistufulCloseOrder() {
+        WarningDialog warningDialog = new WarningDialog(getActivity());
+        warningDialog.setWarningMessage("Are you sure discard order?");
+        warningDialog.setOnYesClickListener(view1 -> {
+            warningDialog.dismiss();
+            presenter.cleanOrder();
+            ((MainPosPageActivity)getActivity()).showOrderListHistoryFragment();
+        });
+        warningDialog.setOnNoClickListener(view1 -> {
+            warningDialog.dismiss();
+        });
+        warningDialog.setPositiveButtonText(getString(R.string.discard));
+        warningDialog.setNegativeButtonText(getString(R.string.cancel));
+        warningDialog.show();
+    }
+
+    @Override
+    public void goToPrevOrders() {
+        ((MainPosPageActivity)getActivity()).showOrderListHistoryFragment();
+    }
+
+    @Override
+    public void onNewOrderPaymentFragment() {
+        mainPageConnection.onNewOrderPaymentFragment();
+    }
+
+    @Override
+    public void onEditOrder(String reason, Order order) {
+        presenter.onEditOrder(reason,order);
+    }
+
+    public void sendOrderNumberToMainPosPageActivity(){
+        presenter.sendOrderNumberToMainPosPageActivity();
+    }
+
+
 }

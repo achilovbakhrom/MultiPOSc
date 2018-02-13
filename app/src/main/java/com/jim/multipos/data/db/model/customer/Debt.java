@@ -15,9 +15,12 @@ import com.jim.multipos.data.db.model.order.OrderDao;
 
 import java.util.List;
 
+import lombok.Data;
+
 /**
  * Created by Sirojiddin on 29.12.2017.
  */
+@Data
 @Entity(active = true)
 public class Debt {
     public static final int PARTICIPLE = 0;
@@ -39,8 +42,22 @@ public class Debt {
     private double fee;
     private double debtAmount;
     private int status;
+    private boolean isDeleted;
     @ToMany(joinProperties = {@JoinProperty(name = "id", referencedName = "debtId")})
     private List<CustomerPayment> customerPayments;
+
+    public Debt clone(){
+        Debt debt = new Debt();
+//        debt.setTakenDate(takenDate);
+        debt.setTakenDate(System.currentTimeMillis());
+        debt.setEndDate(endDate);
+        debt.setCustomerId(getCustomerId());
+        debt.setOrderId(getOrderId());
+        debt.setDebtType(getDebtType());
+        debt.setFee(getFee());
+        debt.setStatus(getStatus());
+        return debt;
+    }
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
      * Entity must attached to an entity context.
@@ -224,6 +241,12 @@ public class Debt {
         }
         return customerPayments;
     }
+    public boolean getIsDeleted() {
+        return this.isDeleted;
+    }
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
     @Keep
     public Debt(Long id, long takenDate, long endDate, Long customerId,
             Long orderId, int debtType, double fee, double debtAmount, int status) {
@@ -239,5 +262,19 @@ public class Debt {
     }
     @Generated(hash = 488411483)
     public Debt() {
+    }
+    @Generated(hash = 718958123)
+    public Debt(Long id, long takenDate, long endDate, Long customerId, Long orderId, int debtType,
+            double fee, double debtAmount, int status, boolean isDeleted) {
+        this.id = id;
+        this.takenDate = takenDate;
+        this.endDate = endDate;
+        this.customerId = customerId;
+        this.orderId = orderId;
+        this.debtType = debtType;
+        this.fee = fee;
+        this.debtAmount = debtAmount;
+        this.status = status;
+        this.isDeleted = isDeleted;
     }
 }

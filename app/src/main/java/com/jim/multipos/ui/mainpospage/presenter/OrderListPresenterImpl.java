@@ -8,6 +8,7 @@ import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.Debt;
+import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.OrderProduct;
 import com.jim.multipos.data.db.model.order.PayedPartitions;
@@ -21,6 +22,8 @@ import com.jim.multipos.ui.mainpospage.model.DiscountItem;
 import com.jim.multipos.ui.mainpospage.model.OrderProductItem;
 import com.jim.multipos.ui.mainpospage.model.ServiceFeeItem;
 import com.jim.multipos.ui.mainpospage.view.OrderListView;
+
+import org.greenrobot.greendao.query.LazyList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,9 +42,9 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
     DiscountItem discountItem;
     ServiceFeeItem serviceFeeItem;
     Customer customer;
-
+    long nextOrderNumber = -1;
     List<PayedPartitions> payedPartitions;
-
+    LazyList<Order> ordersList;
     @Inject
     public OrderListPresenterImpl(OrderListView orderListView, DatabaseManager databaseManager) {
         super(orderListView);
@@ -49,6 +52,10 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         order = new Order();
         payedPartitions = new ArrayList<>();
         this.databaseManager = databaseManager;
+        ordersList = databaseManager.getAllTillLazyOrders().blockingGet();
+        if(ordersList.size()!=0)
+        nextOrderNumber = ordersList.get(ordersList.size()-1).getId() +1;
+        else nextOrderNumber = 0;
     }
 
     @Override
@@ -67,6 +74,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         view.updateOrderDetials(order,customer,payedPartitions);
         updateDetials();
         view.initOrderList(list);
+        view.setOrderNumberToToolbar(nextOrderNumber);
     }
 
     @Override
@@ -514,8 +522,21 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         databaseManager.insertOrder(order).subscribe((order1, throwable) -> {
             for (int i = 0; i < orderProductItems.size(); i++) {
                 orderProductItems.get(i).setOrderId(order1.getId());
+                //Warehouse Operation
+                WarehouseOperations warehouseOperations = new WarehouseOperations();
+                warehouseOperations.setValue(orderProductItems.get(i).getCount()*-1);
+                warehouseOperations.setProduct(orderProductItems.get(i).getProduct());
+                warehouseOperations.setCreateAt(System.currentTimeMillis());
+                warehouseOperations.setActive(true);
+                warehouseOperations.setIsNotModified(true);
+                warehouseOperations.setType(WarehouseOperations.SOLD);
+                warehouseOperations.setOrderId(order1.getId());
+                warehouseOperations.setVendorId(orderProductItems.get(i).getVendorId());
+                databaseManager.insertWarehouseOperation(warehouseOperations).blockingGet();
+                orderProductItems.get(i).setWarehouseGetId(warehouseOperations.getId());
             }
             databaseManager.insertOrderProducts(orderProductItems).blockingGet();
+
 
             for (int i = 0; i < payedPartitions.size(); i++) {
                 payedPartitions.get(i).setOrderId(order1.getId());
@@ -525,6 +546,8 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
             if(debt !=null){
                 debt.setOrder(order);
                 databaseManager.addDebt(debt).blockingGet();
+                order.setDebt(debt);
+                databaseManager.insertOrder(order).blockingGet();
             }
             initNewOrder();
         });
@@ -537,7 +560,21 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         view.updateOrderDetials(order, customer, payedPartitions);
     }
     private void initNewOrder(){
-
+        list.clear();
+        order = new Order();
+        payedPartitions.clear();
+        discountItem = null;
+        serviceFeeItem = null;
+        customer = null;
+        ordersList = databaseManager.getAllTillLazyOrders().blockingGet();
+        nextOrderNumber = ordersList.get(ordersList.size()-1).getId() +1;
+        view.setOrderNumberToToolbar(nextOrderNumber);
+        view.enableServiceFeeButton();
+        view.enableDiscountButton();
+        updateDetials();
+        view.updateOrderDetials(order, customer, payedPartitions);
+        view.onNewOrderPaymentFragment();
+        view.notifyList();
     }
     private void updateDetials(){
             double totalSubTotal = 0;
@@ -615,5 +652,64 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         if(serviceFeeItem!=null)
             position-=1;
         return position;
+    }
+    @Override
+    public void sendOrderNumberToMainPosPageActivity() {
+
+        view.setOrderNumberToToolbar(nextOrderNumber);
+    }
+
+    @Override
+    public void sendEventGoToPrevOrders() {
+        boolean isItEmptyOrder = true;
+        if(list.size()!=0) isItEmptyOrder = false;
+        if(order.getSubTotalValue() != 0) isItEmptyOrder = false;
+        if(discountItem != null) isItEmptyOrder = false;
+        if(serviceFeeItem !=null) isItEmptyOrder = false;
+        if(payedPartitions.size()!=0) isItEmptyOrder = false;
+
+        if(isItEmptyOrder){
+            if(ordersList.size()!=0)
+            view.goToPrevOrders();
+        }
+        else  view.fistufulCloseOrder();
+    }
+
+    @Override
+    public void onEditOrder(String reason,Order order) {
+        this.order = order.clone();
+        this.list.clear();
+        this.customer = order.getCustomer();
+        list.addAll(order.getListObject());
+        payedPartitions.clear();
+        payedPartitions.addAll(order.getOrderPayedPartitionsClone());
+        discountItem = order.getDiscountItem();
+        serviceFeeItem = order.getServiceFeeItem();
+
+
+        if(discountItem == null)
+            view.enableDiscountButton();
+        else
+            view.disableDiscountButton(discountItem.getDiscount().getName());
+
+        if(serviceFeeItem == null)
+            view.enableServiceFeeButton();
+        else
+            view.disableServiceFeeButton(serviceFeeItem.getServiceFee().getName());
+
+        if(customer == null)
+            view.updateCustomer(customer);
+
+        ordersList = databaseManager.getAllTillLazyOrders().blockingGet();
+        nextOrderNumber = ordersList.get(ordersList.size()-1).getId() +1;
+        view.setOrderNumberToToolbar(nextOrderNumber);
+
+        updateDetials();
+        view.updateOrderDetials(this.order, customer, payedPartitions);
+
+        view.sendDataToPaymentFragmentWhenEdit(this.order,payedPartitions,order.getDebtClone());
+        view.notifyList();
+
+
     }
 }

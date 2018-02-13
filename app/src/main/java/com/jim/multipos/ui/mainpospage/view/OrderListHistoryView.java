@@ -17,4 +17,8 @@ public interface OrderListHistoryView extends BaseView {
     void initOrderListRecycler(List<Object> productList);
     void notifyList();
     void openPaymentDetailDialog(List<PayedPartitions> payedPartitions, Currency mainCurrency);
+    void openEditFragment(String reason,Order order);
+    void openEditAccsessDialog();
+    void openCancelAccsessDialog();
+    void openRestoreAccsessDialog();
 }

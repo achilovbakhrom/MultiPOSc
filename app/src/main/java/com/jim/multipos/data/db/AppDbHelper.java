@@ -1513,7 +1513,7 @@ public class AppDbHelper implements DbHelper {
                 }
 
                 InventoryState inventoryState = inventoryStates.get(0);
-                inventoryState.setValue(inventoryState.getValue() + warehouseOperations.getValue() * -1);
+                inventoryState.setValue(inventoryState.getValue() + warehouseOperations.getValue() * 0-1);
                 inventoryState.update();
 
                 database.setTransactionSuccessful();

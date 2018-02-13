@@ -19,6 +19,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.jim.multipos.utils.AppConstants;
+import com.jim.multipos.utils.SecurityTools;
 
 /**
  * Created by janisharali on 27/01/17.
@@ -42,6 +43,7 @@ public class AppPreferencesHelper implements PreferencesHelper {
     private static final String PRODUCT_LIST_VIEW_TYPE = "PRODUCT_LIST_VIEW_TYPE";
     private static final String FIRST_OPTIONAL_PAYMENT_BUTTON = "FIRST_OPT";
     private static final String SECOND_OPTIONAL_PAYMENT_BUTTON = "SECOND_OPT";
+    private static final String EDIT_ORDER_PASSWORD = "count_id";
     private static final String IS_SHOWN = "IS_SHOWN";
 
     private final SharedPreferences mPrefs;
@@ -199,6 +201,19 @@ public class AppPreferencesHelper implements PreferencesHelper {
     @Override
     public void setSecondOptionalPaymentButton(double secondOptionalPaymentButton) {
         mPrefs.edit().putFloat(SECOND_OPTIONAL_PAYMENT_BUTTON, (float) secondOptionalPaymentButton).apply();
+    }
+
+    @Override
+    public boolean checkEditOrderPassword(String md5Password) {
+        String md5OldPassword = mPrefs.getString(EDIT_ORDER_PASSWORD, SecurityTools.md5("12345"));
+//        String md5OldPassword = mPrefs.getString(EDIT_ORDER_PASSWORD,"");
+        if(md5OldPassword.equals("")) return false;
+        return md5OldPassword.equals(md5Password);
+    }
+
+    @Override
+    public void setNewEditOrderPassword(String md5Password) {
+        mPrefs.edit().putString(EDIT_ORDER_PASSWORD, md5Password).apply();
     }
 
     @Override

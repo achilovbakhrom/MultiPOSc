@@ -1,28 +1,31 @@
 package com.jim.multipos.data.db.model.order;
 
-import android.app.Service;
-
+import com.jim.multipos.data.db.model.DaoSession;
 import com.jim.multipos.data.db.model.Discount;
+import com.jim.multipos.data.db.model.DiscountDao;
 import com.jim.multipos.data.db.model.ServiceFee;
+import com.jim.multipos.data.db.model.ServiceFeeDao;
 import com.jim.multipos.data.db.model.customer.Customer;
+import com.jim.multipos.data.db.model.customer.CustomerDao;
+import com.jim.multipos.data.db.model.customer.Debt;
 
+import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.JoinProperty;
+import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.ToMany;
 import org.greenrobot.greendao.annotation.ToOne;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Data;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.DaoException;
-import com.jim.multipos.data.db.model.DaoSession;
-import com.jim.multipos.data.db.model.customer.CustomerDao;
-import org.greenrobot.greendao.annotation.NotNull;
-
-import com.jim.multipos.data.db.model.ServiceFeeDao;
-import com.jim.multipos.data.db.model.DiscountDao;
+import com.jim.multipos.data.db.model.customer.DebtDao;
+import com.jim.multipos.ui.mainpospage.model.DiscountItem;
+import com.jim.multipos.ui.mainpospage.model.OrderProductItem;
+import com.jim.multipos.ui.mainpospage.model.ServiceFeeItem;
 
 /**
  * Created by developer on 20.12.2017.
@@ -30,6 +33,9 @@ import com.jim.multipos.data.db.model.DiscountDao;
 @Entity(nameInDb = "ORDER", active = true)
 @Data
 public class Order {
+    public static final int EDITED_ORDER = 1;
+    public static final int SIMPLE_ORDER = 0;
+
     @Id(autoincrement = true)
     private Long id;
     private long createAt;
@@ -42,14 +48,20 @@ public class Order {
     private double toDebtValue;
     private double discountAmount;
     private double serviceAmount;
-
+    private boolean isDeleted;
+    private String deleteCause;
     private long customer_id;
     @ToOne(joinProperty = "customer_id")
     private Customer customer;
-
+    private long deleteAt;
+    private long editAt;
     private long serviceFeeId;
     @ToOne(joinProperty = "serviceFeeId")
     private ServiceFee serviceFee;
+
+    private long debtId;
+    @ToOne(joinProperty = "debtId")
+    private Debt debt;
 
     private long discountId;
     @ToOne(joinProperty = "discountId")
@@ -78,6 +90,90 @@ public class Order {
         return totalPayed - getForPayAmmount();
     }
 
+    public Order clone(){
+        Order order = new Order();
+        order.setTips(tips);
+        order.setTotalPayed(totalPayed);
+        return order;
+    }
+    public List<Object> getListObject(){
+        List<Object> list = new ArrayList<>();
+        getOrderProducts();
+        for (int i = 0; i < orderProducts.size(); i++) {
+            OrderProductItem orderProductItem = new OrderProductItem();
+            OrderProduct orderProduct = new OrderProduct();
+            orderProduct.setCost(orderProducts.get(i).getCost());
+            orderProduct.setPrice(orderProducts.get(i).getPrice());
+            orderProduct.setCount(orderProducts.get(i).getCount());
+            orderProduct.setProduct(orderProducts.get(i).getProduct());
+            orderProduct.setVendor(orderProducts.get(i).getVendor());
+            orderProductItem.setOrderProduct(orderProduct);
+            if(orderProducts.get(i).getServiceFee()!=null) {
+                orderProductItem.setServiceFee(orderProducts.get(i).getServiceFee());
+                orderProductItem.setServiceFeeAmmount(orderProducts.get(i).getServiceAmount());
+            }
+            if(orderProducts.get(i).getDiscount()!=null) {
+                orderProductItem.setDiscount(orderProducts.get(i).getDiscount());
+                orderProductItem.setDiscountAmmount(orderProducts.get(i).getDiscountAmount());
+            }
+            list.add(orderProductItem);
+        }
+        if(getDiscount() != null){
+            DiscountItem discountItem = new DiscountItem();
+            discountItem.setDiscount(getDiscount());
+            discountItem.setAmmount(getDiscountAmount());
+            list.add(discountItem);
+        }
+        if(getServiceFee() != null){
+            ServiceFeeItem serviceFeeItem = new ServiceFeeItem();
+            serviceFeeItem.setServiceFee(getServiceFee());
+            serviceFeeItem.setAmmount(getServiceAmount());
+            list.add(serviceFeeItem);
+        }
+       return list;
+    }
+    public DiscountItem getDiscountItem(){
+        if(getDiscount()!=null) {
+            DiscountItem discountItem = new DiscountItem();
+            discountItem.setDiscount(getDiscount());
+            discountItem.setAmmount(getDiscountAmount());
+            return discountItem;
+        }
+        return null;
+    }
+    public ServiceFeeItem getServiceFeeItem(){
+        if(getServiceFee()!=null){
+            ServiceFeeItem serviceFeeItem = new ServiceFeeItem();
+            serviceFeeItem.setServiceFee(getServiceFee());
+            serviceFeeItem.setAmmount(getServiceAmount());
+            return serviceFeeItem;
+        }
+        return null;
+    }
+    public Customer getOrderCustomer(){
+        return getCustomer();
+    }
+
+    public List<PayedPartitions> getOrderPayedPartitionsClone(){
+        List<PayedPartitions> payedPartitions = new ArrayList<>();
+        if(getPayedPartitions().size() >=0){
+            for (int i = 0; i < getPayedPartitions().size(); i++) {
+                PayedPartitions payedPartition = new PayedPartitions();
+                payedPartition.setPaymentType(getPayedPartitions().get(i).getPaymentType());
+                payedPartition.setValue(getPayedPartitions().get(i).getValue());
+                payedPartitions.add(payedPartition);
+            }
+        }
+        return payedPartitions;
+    }
+
+    public Debt getDebtClone(){
+        Debt debt = getDebt();
+        if(debt == null)
+            return null;
+        else
+        return debt.clone();
+    }
 
 /**
  * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
@@ -298,6 +394,8 @@ private transient OrderDao myDao;
 /** Used to resolve relations */
 @Generated(hash = 2040040024)
 private transient DaoSession daoSession;
+@Generated(hash = 1989546530)
+private transient Long debt__resolvedKey;
 
 public long getDiscountId() {
         return this.discountId;
@@ -415,10 +513,95 @@ public void setDiscountAmount(double discountAmount) {
         this.discountAmount = discountAmount;
 }
 
-@Generated(hash = 234231037)
+
+public boolean getIsDeleted() {
+        return this.isDeleted;
+}
+
+
+public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
+}
+
+
+public String getDeleteCause() {
+        return this.deleteCause;
+}
+
+
+public void setDeleteCause(String deleteCause) {
+        this.deleteCause = deleteCause;
+}
+
+
+/** called by internal mechanisms, do not call yourself. */
+@Generated(hash = 936904513)
+public void setDebt(@NotNull Debt debt) {
+        if (debt == null) {
+                throw new DaoException("To-one property 'debtId' has not-null constraint; cannot set to-one to null");
+        }
+        synchronized (this) {
+                this.debt = debt;
+                debtId = debt.getId();
+                debt__resolvedKey = debtId;
+        }
+}
+
+
+/** To-one relationship, resolved on first access. */
+@Generated(hash = 280466444)
+public Debt getDebt() {
+        long __key = this.debtId;
+        if (debt__resolvedKey == null || !debt__resolvedKey.equals(__key)) {
+                final DaoSession daoSession = this.daoSession;
+                if (daoSession == null) {
+                        throw new DaoException("Entity is detached from DAO context");
+                }
+                DebtDao targetDao = daoSession.getDebtDao();
+                Debt debtNew = targetDao.load(__key);
+                synchronized (this) {
+                        debt = debtNew;
+                        debt__resolvedKey = __key;
+                }
+        }
+        return debt;
+}
+
+
+public long getDebtId() {
+        return this.debtId;
+}
+
+
+public void setDebtId(long debtId) {
+        this.debtId = debtId;
+}
+
+
+public long getEditAt() {
+        return this.editAt;
+}
+
+
+public void setEditAt(long editAt) {
+        this.editAt = editAt;
+}
+
+
+public long getDeleteAt() {
+        return this.deleteAt;
+}
+
+
+public void setDeleteAt(long deleteAt) {
+        this.deleteAt = deleteAt;
+}
+
+@Generated(hash = 1039407432)
 public Order(Long id, long createAt, int status, double subTotalValue, double serviceTotalValue,
                 double discountTotalValue, double tips, double totalPayed, double toDebtValue, double discountAmount,
-                double serviceAmount, long customer_id, long serviceFeeId, long discountId) {
+                double serviceAmount, boolean isDeleted, String deleteCause, long customer_id, long deleteAt,
+                long editAt, long serviceFeeId, long debtId, long discountId) {
         this.id = id;
         this.createAt = createAt;
         this.status = status;
@@ -430,8 +613,13 @@ public Order(Long id, long createAt, int status, double subTotalValue, double se
         this.toDebtValue = toDebtValue;
         this.discountAmount = discountAmount;
         this.serviceAmount = serviceAmount;
+        this.isDeleted = isDeleted;
+        this.deleteCause = deleteCause;
         this.customer_id = customer_id;
+        this.deleteAt = deleteAt;
+        this.editAt = editAt;
         this.serviceFeeId = serviceFeeId;
+        this.debtId = debtId;
         this.discountId = discountId;
 }
 
