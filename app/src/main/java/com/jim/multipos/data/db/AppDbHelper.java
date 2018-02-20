@@ -54,6 +54,7 @@ import com.jim.multipos.data.db.model.inventory.InventoryStateDao;
 import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.data.db.model.inventory.WarehouseOperationsDao;
 import com.jim.multipos.data.db.model.order.Order;
+import com.jim.multipos.data.db.model.order.OrderChangesLog;
 import com.jim.multipos.data.db.model.order.OrderProduct;
 import com.jim.multipos.data.db.model.order.PayedPartitions;
 import com.jim.multipos.data.db.model.products.Category;
@@ -1867,6 +1868,22 @@ public class AppDbHelper implements DbHelper {
             till.setCloseDate(newCursor.getLong(newCursor.getColumnIndex("CLOSE_DATE")));
             till.setDebtSales(newCursor.getDouble(newCursor.getColumnIndex("DEBT_SALES")));
             e.onSuccess(till);
+        });
+    }
+
+    @Override
+    public Single<Integer> removeAllOrders() {
+        return Single.create(e -> {
+            mDaoSession.getOrderDao().deleteAll();
+            e.onSuccess(1);
+        });
+    }
+
+    @Override
+    public Single<Long> insertOrderChangeLog(OrderChangesLog orderChangesLog) {
+        return Single.create(e -> {
+            long l = mDaoSession.insertOrReplace(orderChangesLog);
+            e.onSuccess(l);
         });
     }
 }

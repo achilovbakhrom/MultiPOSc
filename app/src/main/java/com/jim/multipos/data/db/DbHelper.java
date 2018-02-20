@@ -29,6 +29,7 @@ import com.jim.multipos.data.db.model.inventory.BillingOperations;
 import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.data.db.model.order.Order;
+import com.jim.multipos.data.db.model.order.OrderChangesLog;
 import com.jim.multipos.data.db.model.order.OrderProduct;
 import com.jim.multipos.data.db.model.order.PayedPartitions;
 import com.jim.multipos.data.db.model.products.Return;
@@ -248,4 +249,7 @@ public interface DbHelper {
     Single<Boolean> isHaveOpenTill();
     Single<Boolean> isNoTills();
     Single<Till> getLastClosedTill();
+    Single<Integer> removeAllOrders();
+    Single<Long> insertOrderChangeLog(OrderChangesLog orderChangesLog);
+
 }

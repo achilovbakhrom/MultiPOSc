@@ -25,14 +25,13 @@
 
                 <com.jim.mpviews.MpLightButton
                     android:id="@+id/lbChoiseCustomer"
-                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/twenty_dp"
                     app:btn_mode="0"
-                    app:text_content="H"
                     app:image_content="@drawable/add_customer"
-                    />
+                    app:text_content="H" />
 
                 <TextView
                     android:id="@+id/tvCustomerName"
@@ -43,27 +42,25 @@
                     android:text="@string/customer_choice"
                     android:textColor="@color/colorBlue"
                     android:textSize="@dimen/eighteen_dp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <com.jim.mpviews.MpLightButton
                     android:id="@+id/lbHoldOrder"
-                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_marginRight="@dimen/ten_dp"
-                    app:btn_mode="1"
-                    app:text_content="H"
-                    />
+                    app:btn_mode="0"
+                    app:image_content="@drawable/hold_order" />
 
                 <com.jim.mpviews.MpLightButton
                     android:id="@+id/lbCancelOrder"
-                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:btn_mode="1"
-                    app:text_content="C"
+                    android:layout_gravity="center"
                     android:layout_marginRight="@dimen/twenty_dp"
-                    />
+                    app:btn_mode="1"
+                    app:text_content="C" />
             </LinearLayout>
 
             <LinearLayout

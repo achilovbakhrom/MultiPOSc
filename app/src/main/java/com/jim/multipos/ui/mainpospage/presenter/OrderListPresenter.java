@@ -50,6 +50,6 @@ public interface OrderListPresenter extends Presenter {
     void updateCustomer(Customer customer);
     void sendOrderNumberToMainPosPageActivity();
     void sendEventGoToPrevOrders();
-
     void onEditOrder(String reason,Order order);
+    void onHoldOrderSendingData(Order order, List<PayedPartitions> payedPartitions,Debt debt);
 }

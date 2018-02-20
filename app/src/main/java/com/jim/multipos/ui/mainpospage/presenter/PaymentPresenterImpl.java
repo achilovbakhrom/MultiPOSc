@@ -322,6 +322,12 @@ public class PaymentPresenterImpl extends BasePresenterImpl<PaymentView> impleme
         updateChange();
     }
 
+    @Override
+    public void onHoldOrderClicked() {
+        //TODO IF WANT: PUL KIRITGANDA HOLDNI BOSSA KRIITILGAN PULAM MAYMENT BOB KETISHINI HOHLASA LOGIKANI SHU YERGA DOPISAVAT QILISH KERE
+        view.onHoldOrderSendingData(order,payedPartitions,debt);
+    }
+
 
     /**
      method for sum payed partitions

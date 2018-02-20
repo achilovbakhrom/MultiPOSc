@@ -1,6 +1,7 @@
 package com.jim.multipos.data.operations;
 
 import com.jim.multipos.data.db.model.order.Order;
+import com.jim.multipos.data.db.model.order.OrderChangesLog;
 import com.jim.multipos.data.db.model.order.OrderProduct;
 
 import org.greenrobot.greendao.query.LazyList;
@@ -18,5 +19,6 @@ public interface OrderOperations {
     Single<List<OrderProduct>> insertOrderProducts(List<OrderProduct> orderProducts);
     Single<List<Order>> getAllTillOrders();
     Single<LazyList<Order>> getAllTillLazyOrders();
-
+    Single<Integer> removeAllOrders();
+    Single<Long> insertOrderChangeLog(OrderChangesLog orderChangesLog);
 }

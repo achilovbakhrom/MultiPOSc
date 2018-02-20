@@ -40,4 +40,6 @@ public interface PaymentView extends BaseView {
     void updateOrderListDetialsPanel();
     void onNewOrder();
     void sendDataToPaymentFragmentWhenEdit(Order order, List<PayedPartitions> payedPartitions,Debt debt);
+    void onHoldOrderClicked();
+    void onHoldOrderSendingData(Order order, List<PayedPartitions> payedPartitions,Debt debt);
 }

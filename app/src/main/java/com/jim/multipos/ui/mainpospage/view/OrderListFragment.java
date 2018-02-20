@@ -16,6 +16,8 @@ import com.jim.mpviews.MpLightButton;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.DatabaseManager;
+import com.jim.multipos.data.db.model.DaoMaster;
+import com.jim.multipos.data.db.model.DaoSession;
 import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.currency.Currency;
@@ -58,6 +60,7 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
     NotifyManager notifyManager;
     @Inject
     MainPageConnection mainPageConnection;
+
     Currency currency;
     @BindView(R.id.tvBalanceDueLabel)
     TextView tvBalanceDueLabel;
@@ -99,6 +102,8 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
     ImageView ivServiceFee;
     @BindView(R.id.lbCancelOrder)
     MpLightButton lbCancelOrder;
+    @BindView(R.id.lbHoldOrder)
+    MpLightButton lbHoldOrder;
     @Inject
     OrderProductAdapter orderProductAdapter;
     @BindView(R.id.lbChoiseCustomer)
@@ -125,6 +130,7 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
 
     @Override
     protected void init(Bundle savedInstanceState) {
+        databaseManager.removeAllOrders().subscribe();
         printer = new CheckPrinter(getActivity());
         printer.connectDevice();
         mainPageConnection.setOrderListView(this);
@@ -157,6 +163,9 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
                 ((MainPosPageActivity) getActivity()).showPaymentFragment();
                 isPaymentOpen = true;
             }
+        });
+        lbHoldOrder.setOnLightButtonClickListener(view -> {
+            mainPageConnection.onHoldOrderClicked();
         });
         lbCancelOrder.setOnLightButtonClickListener(view -> {
             WarningDialog warningDialog = new WarningDialog(getActivity());
@@ -632,6 +641,16 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
     @Override
     public void onEditOrder(String reason, Order order) {
         presenter.onEditOrder(reason,order);
+    }
+
+    @Override
+    public void onEditComplete(String reason,Long orderId) {
+        mainPageConnection.onEditComplete(reason,orderId);
+    }
+
+    @Override
+    public void onHoldOrderSendingData(Order order, List<PayedPartitions> payedPartitions, Debt debt) {
+        presenter.onHoldOrderSendingData(order,payedPartitions,debt);
     }
 
     public void sendOrderNumberToMainPosPageActivity(){

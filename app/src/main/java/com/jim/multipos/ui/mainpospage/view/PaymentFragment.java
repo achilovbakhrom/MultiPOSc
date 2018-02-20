@@ -465,6 +465,16 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
         presenter.sendDataToPaymentFragmentWhenEdit(order,payedPartitions,debt);
     }
 
+    @Override
+    public void onHoldOrderClicked() {
+        presenter.onHoldOrderClicked();
+    }
+
+    @Override
+    public void onHoldOrderSendingData(Order order, List<PayedPartitions> payedPartitions, Debt debt) {
+        mainPageConnection.onHoldOrderSendingData(order,payedPartitions,debt);
+    }
+
 
     @Override
     public void setCustomer(Customer customer) {

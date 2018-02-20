@@ -21,4 +21,5 @@ public interface OrderListHistoryView extends BaseView {
     void openEditAccsessDialog();
     void openCancelAccsessDialog();
     void openRestoreAccsessDialog();
+    void onEditComplete(String reason, Long orderId);
 }

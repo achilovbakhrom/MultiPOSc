@@ -10,6 +10,7 @@ import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.Debt;
 import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.data.db.model.order.Order;
+import com.jim.multipos.data.db.model.order.OrderChangesLog;
 import com.jim.multipos.data.db.model.order.OrderProduct;
 import com.jim.multipos.data.db.model.order.PayedPartitions;
 import com.jim.multipos.data.db.model.products.Product;
@@ -56,6 +57,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         if(ordersList.size()!=0)
         nextOrderNumber = ordersList.get(ordersList.size()-1).getId() +1;
         else nextOrderNumber = 0;
+        fromEdit = false;
     }
 
     @Override
@@ -413,7 +415,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
 
     @Override
     public void addProductWithWeightToListEdit(Product product, double weight) {
-        OrderProductItem orderProductItem   = (OrderProductItem) list.get(positionOfWeightItem);
+        OrderProductItem orderProductItem  = (OrderProductItem) list.get(positionOfWeightItem);
         orderProductItem.getOrderProduct().setCount(weight);
         list.set(positionOfWeightItem,orderProductItem);
         updateDetials();
@@ -451,32 +453,43 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
 
     @Override
     public void cleanOrder() {
+        // agar clean knopkasini bosganda edit rejim otmena bo'lishi mumkun bo'lsa unda: fromEdit = false
+        // agar otmena bomasdan shunchaki polotno clean bolishi kerak bolsa unda: fromEdit ni o'chirib yuborish kerak
+        fromEdit = false;
+
         payedPartitions.clear();
         list.clear();
         discountItem = null;
         serviceFeeItem = null;
+        customer = null;
         view.enableServiceFeeButton();
         view.enableDiscountButton();
         updateDetials();
         view.updateOrderDetials(order, customer, payedPartitions);
         view.notifyList();
     }
+
     List<OrderProduct> orderProductItems;
+
+
+    /**
+     * onCloseOrder(): ushbu metod yangi orderni sozdat qilib yangi ID bilan bazaga qo'shish
+     * **/
+    OrderChangesLog orderChangesLog=null;
     @Override
     public void onCloseOrder(Order order, List<PayedPartitions> payedPartitions, Debt debt) {
 
-        if(discountItem != null && discountItem.getDiscount() !=null && discountItem.getDiscount().getIsManual() ){
-            databaseManager.insertDiscount(discountItem.getDiscount()).blockingGet();
-        }
         if(discountItem != null && discountItem.getDiscount() !=null ){
+            if(discountItem.getDiscount().getIsManual()){
+                databaseManager.insertDiscount(discountItem.getDiscount()).blockingGet();}
             order.setDiscount(discountItem.getDiscount());
             order.setDiscountAmount(discountItem.getAmmount());
         }
 
-        if(serviceFeeItem != null && serviceFeeItem.getServiceFee() !=null && serviceFeeItem.getServiceFee().getIsManual()){
-            databaseManager.addServiceFee(serviceFeeItem.getServiceFee()).blockingFirst();
-        }
+
         if(serviceFeeItem != null && serviceFeeItem.getServiceFee() !=null){
+            if(serviceFeeItem.getServiceFee().getIsManual()){
+                databaseManager.addServiceFee(serviceFeeItem.getServiceFee()).blockingFirst();}
             order.setServiceFee(serviceFeeItem.getServiceFee());
             order.setServiceAmount(serviceFeeItem.getAmmount());
         }
@@ -485,24 +498,18 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         for (int i = 0; i < list.size(); i++) {
             if(list.get(i) instanceof OrderProductItem){
                 OrderProductItem orderProductItem = (OrderProductItem) list.get(i);
-
-                if(orderProductItem.getDiscount()!=null && orderProductItem.getDiscount().getIsManual()){
-                    databaseManager.insertDiscount(orderProductItem.getDiscount()).blockingGet();
-                }
-                if(orderProductItem.getDiscount() !=null){
+                if(orderProductItem.getDiscount()!=null ){
+                    if(orderProductItem.getDiscount().getIsManual())
+                        databaseManager.insertDiscount(orderProductItem.getDiscount()).blockingGet();
                     orderProductItem.getOrderProduct().setDiscount(orderProductItem.getDiscount());
                     orderProductItem.getOrderProduct().setDiscountAmount(orderProductItem.getDiscountAmmount());
                 }
-
-                if(orderProductItem.getServiceFee()!=null && orderProductItem.getServiceFee().getIsManual()){
-                    databaseManager.addServiceFee(orderProductItem.getServiceFee()).blockingFirst();
-                }
-
-                if(orderProductItem.getServiceFee() !=null){
+                if(orderProductItem.getServiceFee()!=null ){
+                    if(orderProductItem.getServiceFee().getIsManual())
+                        databaseManager.addServiceFee(orderProductItem.getServiceFee()).blockingFirst();
                     orderProductItem.getOrderProduct().setServiceFee(orderProductItem.getServiceFee());
                     orderProductItem.getOrderProduct().setServiceAmount(orderProductItem.getServiceFeeAmmount());
                 }
-
                 orderProductItems.add(orderProductItem.getOrderProduct());
             }
         }
@@ -511,14 +518,43 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
 
         if(customer!=null)
             order.setCustomer(customer);
+
         if(debt!=null)
             order.setToDebtValue(debt.getDebtAmount());
+
         order.setCreateAt(System.currentTimeMillis());
+
         double totalPayedSum = 0;
         for (PayedPartitions payedPartitions1:payedPartitions) {
             totalPayedSum += payedPartitions1.getValue();
         }
         order.setTotalPayed(totalPayedSum);
+
+        if(fromEdit) {
+                orderChangesLog = new OrderChangesLog();
+                orderChangesLog.setToStatus(Order.CLOSED_ORDER);
+                orderChangesLog.setChangedAt(System.currentTimeMillis());
+                orderChangesLog.setReason(reason);
+                orderChangesLog.setChangedCauseType(OrderChangesLog.EDITED);
+                orderChangesLog.setRelationshipOrderId(beforeOrderID);
+        }else {
+                orderChangesLog = new OrderChangesLog();
+                orderChangesLog.setToStatus(Order.CLOSED_ORDER);
+                orderChangesLog.setChangedAt(System.currentTimeMillis());
+                orderChangesLog.setReason("");
+                orderChangesLog.setChangedCauseType(OrderChangesLog.PAYED);
+        }
+        order.setStatus(Order.CLOSED_ORDER);
+        order.setIsArchive(false);
+        databaseManager.insertOrderChangeLog(orderChangesLog).blockingGet();
+
+        order.setLastChangeLogId(orderChangesLog.getId());
+
+        if(debt !=null){
+            databaseManager.addDebt(debt).blockingGet();
+            order.setDebtId(debt.getId());
+        }
+
         databaseManager.insertOrder(order).subscribe((order1, throwable) -> {
             for (int i = 0; i < orderProductItems.size(); i++) {
                 orderProductItems.get(i).setOrderId(order1.getId());
@@ -537,6 +573,8 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
             }
             databaseManager.insertOrderProducts(orderProductItems).blockingGet();
 
+            orderChangesLog.setOrderId(order1.getId());
+            databaseManager.insertOrderChangeLog(orderChangesLog).blockingGet();
 
             for (int i = 0; i < payedPartitions.size(); i++) {
                 payedPartitions.get(i).setOrderId(order1.getId());
@@ -544,11 +582,13 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
             databaseManager.insertPayedPartitions(payedPartitions).blockingGet();
 
             if(debt !=null){
-                debt.setOrder(order);
+                debt.setOrderId(order1.getId());
                 databaseManager.addDebt(debt).blockingGet();
-                order.setDebt(debt);
-                databaseManager.insertOrder(order).blockingGet();
             }
+            if(fromEdit) {
+                view.onEditComplete(reason,order.getId());
+            }
+
             initNewOrder();
         });
         //TODO SAVE ORDER
@@ -560,6 +600,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         view.updateOrderDetials(order, customer, payedPartitions);
     }
     private void initNewOrder(){
+        fromEdit = false;
         list.clear();
         order = new Order();
         payedPartitions.clear();
@@ -675,9 +716,18 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         else  view.fistufulCloseOrder();
     }
 
+
+
+    //edit params
+    boolean fromEdit = false;
+    String reason;
+    long beforeOrderID;
     @Override
     public void onEditOrder(String reason,Order order) {
+        this.fromEdit = true;
+        this.reason = reason;
         this.order = order.clone();
+        this.beforeOrderID = order.getId();
         this.list.clear();
         this.customer = order.getCustomer();
         list.addAll(order.getListObject());
@@ -711,5 +761,123 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         view.notifyList();
 
 
+    }
+
+    @Override
+    public void onHoldOrderSendingData(Order order, List<PayedPartitions> payedPartitions, Debt debt) {
+
+        if(discountItem != null && discountItem.getDiscount() !=null ){
+            if(discountItem.getDiscount().getIsManual()){
+                databaseManager.insertDiscount(discountItem.getDiscount()).blockingGet();}
+            order.setDiscount(discountItem.getDiscount());
+            order.setDiscountAmount(discountItem.getAmmount());
+        }
+
+
+        if(serviceFeeItem != null && serviceFeeItem.getServiceFee() !=null){
+            if(serviceFeeItem.getServiceFee().getIsManual()){
+                databaseManager.addServiceFee(serviceFeeItem.getServiceFee()).blockingFirst();}
+            order.setServiceFee(serviceFeeItem.getServiceFee());
+            order.setServiceAmount(serviceFeeItem.getAmmount());
+        }
+
+        orderProductItems = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            if(list.get(i) instanceof OrderProductItem){
+                OrderProductItem orderProductItem = (OrderProductItem) list.get(i);
+                if(orderProductItem.getDiscount()!=null ){
+                    if(orderProductItem.getDiscount().getIsManual())
+                        databaseManager.insertDiscount(orderProductItem.getDiscount()).blockingGet();
+                    orderProductItem.getOrderProduct().setDiscount(orderProductItem.getDiscount());
+                    orderProductItem.getOrderProduct().setDiscountAmount(orderProductItem.getDiscountAmmount());
+                }
+                if(orderProductItem.getServiceFee()!=null ){
+                    if(orderProductItem.getServiceFee().getIsManual())
+                        databaseManager.addServiceFee(orderProductItem.getServiceFee()).blockingFirst();
+                    orderProductItem.getOrderProduct().setServiceFee(orderProductItem.getServiceFee());
+                    orderProductItem.getOrderProduct().setServiceAmount(orderProductItem.getServiceFeeAmmount());
+                }
+                orderProductItems.add(orderProductItem.getOrderProduct());
+            }
+        }
+
+
+
+        if(customer!=null)
+            order.setCustomer(customer);
+
+        if(debt!=null)
+            order.setToDebtValue(debt.getDebtAmount());
+
+        order.setCreateAt(System.currentTimeMillis());
+
+        double totalPayedSum = 0;
+        for (PayedPartitions payedPartitions1:payedPartitions) {
+            totalPayedSum += payedPartitions1.getValue();
+        }
+        order.setTotalPayed(totalPayedSum);
+
+        if(fromEdit) {
+            orderChangesLog = new OrderChangesLog();
+            orderChangesLog.setToStatus(Order.HOLD_ORDER);
+            orderChangesLog.setChangedAt(System.currentTimeMillis());
+            orderChangesLog.setReason(reason);
+            orderChangesLog.setChangedCauseType(OrderChangesLog.EDITED);
+            orderChangesLog.setRelationshipOrderId(beforeOrderID);
+        }else {
+            orderChangesLog = new OrderChangesLog();
+            orderChangesLog.setToStatus(Order.HOLD_ORDER);
+            orderChangesLog.setChangedAt(System.currentTimeMillis());
+            orderChangesLog.setReason("");
+            orderChangesLog.setChangedCauseType(OrderChangesLog.PAYED);
+        }
+        order.setStatus(Order.HOLD_ORDER);
+        order.setIsArchive(false);
+
+        databaseManager.insertOrderChangeLog(orderChangesLog).blockingGet();
+
+        order.setLastChangeLogId(orderChangesLog.getId());
+
+        if(debt !=null){
+            databaseManager.addDebt(debt).blockingGet();
+            order.setDebtId(debt.getId());
+        }
+
+        databaseManager.insertOrder(order).subscribe((order1, throwable) -> {
+            for (int i = 0; i < orderProductItems.size(); i++) {
+                orderProductItems.get(i).setOrderId(order1.getId());
+                //Warehouse Operation
+                WarehouseOperations warehouseOperations = new WarehouseOperations();
+                warehouseOperations.setValue(orderProductItems.get(i).getCount()*-1);
+                warehouseOperations.setProduct(orderProductItems.get(i).getProduct());
+                warehouseOperations.setCreateAt(System.currentTimeMillis());
+                warehouseOperations.setActive(true);
+                warehouseOperations.setIsNotModified(true);
+                warehouseOperations.setType(WarehouseOperations.SOLD);
+                warehouseOperations.setOrderId(order1.getId());
+                warehouseOperations.setVendorId(orderProductItems.get(i).getVendorId());
+                databaseManager.insertWarehouseOperation(warehouseOperations).blockingGet();
+                orderProductItems.get(i).setWarehouseGetId(warehouseOperations.getId());
+            }
+            databaseManager.insertOrderProducts(orderProductItems).blockingGet();
+
+            orderChangesLog.setOrderId(order1.getId());
+            databaseManager.insertOrderChangeLog(orderChangesLog).blockingGet();
+
+            for (int i = 0; i < payedPartitions.size(); i++) {
+                payedPartitions.get(i).setOrderId(order1.getId());
+            }
+            databaseManager.insertPayedPartitions(payedPartitions).blockingGet();
+
+            if(debt !=null){
+                debt.setOrderId(order1.getId());
+                databaseManager.addDebt(debt).blockingGet();
+            }
+            if(fromEdit) {
+                view.onEditComplete(reason,order.getId());
+            }
+
+            initNewOrder();
+        });
     }
 }

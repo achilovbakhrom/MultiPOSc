@@ -18,6 +18,7 @@ import com.jim.multipos.data.db.model.inventory.BillingOperations;
 import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.data.db.model.order.Order;
+import com.jim.multipos.data.db.model.order.OrderChangesLog;
 import com.jim.multipos.data.db.model.order.OrderProduct;
 import com.jim.multipos.data.db.model.order.PayedPartitions;
 import com.jim.multipos.data.db.model.products.Return;
@@ -970,6 +971,16 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Single<LazyList<Order>> getAllTillLazyOrders() {
         return dbHelper.getAllTillLazzyOrders();
+    }
+
+    @Override
+    public Single<Integer> removeAllOrders() {
+        return dbHelper.removeAllOrders();
+    }
+
+    @Override
+    public Single<Long> insertOrderChangeLog(OrderChangesLog orderChangesLog) {
+        return dbHelper.insertOrderChangeLog(orderChangesLog);
     }
 
 

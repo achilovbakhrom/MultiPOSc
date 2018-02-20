@@ -73,4 +73,6 @@ public interface  OrderListView extends BaseView {
     void goToPrevOrders();
     void onNewOrderPaymentFragment();
     void onEditOrder(String reason,Order order);
+    void onEditComplete(String reason,Long orderId);
+    void onHoldOrderSendingData(Order order, List<PayedPartitions> payedPartitions,Debt debt);
 }

@@ -12,9 +12,10 @@ public interface OrderListHistoryPresenter extends Presenter {
      void refreshData();
      void onClickPaymentDetials();
      void onEditOrder(String reason);
-     void onDeleteOrder(String reason);
+     void onCancelOrder(String reason);
      void onRestoreDialog();
      void onBruteForce();
      void onEditClicked();
      void onCancelClicked();
+     void onEditComplete(String reason,Long orderId);
 }

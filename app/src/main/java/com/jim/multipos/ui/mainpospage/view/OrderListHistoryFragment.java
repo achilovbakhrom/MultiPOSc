@@ -15,6 +15,7 @@ import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.order.Order;
+import com.jim.multipos.data.db.model.order.OrderChangesLog;
 import com.jim.multipos.data.db.model.order.PayedPartitions;
 import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivity;
@@ -87,7 +88,8 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
     TextView tvCauseDelete;
     @BindView(R.id.rvDeleteCurtain)
     RelativeLayout rvDeleteCurtain;
-
+    @BindView(R.id.tvOrderCancelLable)
+    TextView tvOrderCancelLable;
 
     OrderProductHistoryAdapter orderProductHistoryAdapter;
     DecimalFormat decimalFormat;
@@ -161,15 +163,26 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
         }
         else tvCustomerName.setVisibility(View.GONE);
         tvOrderNumber.setText("Order #"+String.valueOf(order.getId()));
-        if(order.getIsDeleted()){
-            llEdit.setVisibility(View.INVISIBLE);
-            llEdit.setEnabled(false);
-            ivDeactivateCancel.setImageResource(R.drawable.recive_order);
-            tvCancelOrder.setText("Restore order");
-            tvOrderNumber.setText("Canceled: Order #"+String.valueOf(order.getId()));
-            rvDeleteCurtain.setVisibility(View.VISIBLE);
-            tvCauseDelete.setText("Cause: "+order.getDeleteCause());
-
+        if(order.getStatus()==Order.CANCELED_ORDER ){
+            if(order.getLastChangeLog().getChangedCauseType() == OrderChangesLog.EDITED){
+                llEdit.setVisibility(View.INVISIBLE);
+                llEdit.setEnabled(false);
+                ivDeactivateCancel.setImageResource(R.drawable.recive_order);
+                tvCancelOrder.setText("Restore order");
+                tvOrderCancelLable.setText("Order Edited to #"+String.valueOf(order.getLastChangeLog().getRelationOrder().getId()));
+                tvOrderNumber.setText("Canceled: Order #" + String.valueOf(order.getId()));
+                rvDeleteCurtain.setVisibility(View.VISIBLE);
+                tvCauseDelete.setText("Cause: " + order.getLastChangeLog().getReason());
+            }else {
+                llEdit.setVisibility(View.INVISIBLE);
+                llEdit.setEnabled(false);
+                ivDeactivateCancel.setImageResource(R.drawable.recive_order);
+                tvCancelOrder.setText("Restore order");
+                tvOrderNumber.setText("Canceled: Order #" + String.valueOf(order.getId()));
+                tvOrderCancelLable.setText("Order canceled");
+                rvDeleteCurtain.setVisibility(View.VISIBLE);
+                tvCauseDelete.setText("Cause: " + order.getLastChangeLog().getReason());
+            }
         }else {
             llEdit.setVisibility(View.VISIBLE);
             llEdit.setEnabled(true);
@@ -224,7 +237,7 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
         AccessToCancelDialog accessToCancelDialog = new AccessToCancelDialog(getContext(), new AccessToCancelDialog.OnAccsessListner() {
             @Override
             public void accsessSuccess(String reason) {
-                presenter.onDeleteOrder(reason);
+                presenter.onCancelOrder(reason);
             }
             @Override
             public void onBruteForce() {
@@ -248,6 +261,11 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
             }
         },preferencesHelper);
         accessWithEditPasswordDialog.show();
+    }
+
+    @Override
+    public void onEditComplete(String reason,Long orderId) {
+        presenter.onEditComplete(reason,orderId);
     }
 
 

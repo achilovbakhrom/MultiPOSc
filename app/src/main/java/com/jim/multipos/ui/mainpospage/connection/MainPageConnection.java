@@ -35,7 +35,22 @@ public class MainPageConnection {
     public MainPageConnection(Context context){
         this.context = context;
     }
+    public void onHoldOrderSendingData(Order order, List<PayedPartitions> payedPartitions,Debt debt){
+        if(orderListView!=null){
+            orderListView.onHoldOrderSendingData(order,payedPartitions,debt);
+        }
+    }
+    public void onHoldOrderClicked(){
+        if(paymentView != null){
+            paymentView.onHoldOrderClicked();
+        }
+    }
 
+    public void onEditComplete(String reason,Long orderId){
+        if(orderListHistoryView!=null){
+            orderListHistoryView.onEditComplete(reason,orderId);
+        }
+    }
     public void sendDataToPaymentFragmentWhenEdit(Order order, List<PayedPartitions> payedPartitions,Debt debt){
         if(paymentView != null){
             paymentView.sendDataToPaymentFragmentWhenEdit(order,payedPartitions,debt);

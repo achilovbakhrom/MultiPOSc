@@ -27,4 +27,5 @@ public interface PaymentPresenter extends Presenter {
     void onClickedTips();
     void onNewOrder();
     void sendDataToPaymentFragmentWhenEdit(Order order, List<PayedPartitions> payedPartitions,Debt debt);
+    void onHoldOrderClicked();
 }
