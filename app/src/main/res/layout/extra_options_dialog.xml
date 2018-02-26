@@ -43,7 +43,7 @@
             android:paddingBottom="@dimen/ten_dp"
             android:paddingLeft="@dimen/thirty_dp"
             android:paddingTop="@dimen/ten_dp"
-            android:text="Return"
+            android:text="Cancel order"
             android:textColor="@color/colorMainText"
             android:textSize="@dimen/sixteen_dp" />
 
@@ -64,26 +64,6 @@
             android:paddingLeft="@dimen/thirty_dp"
             android:paddingTop="@dimen/ten_dp"
             android:text="Close order"
-            android:textColor="@color/colorMainText"
-            android:textSize="@dimen/sixteen_dp" />
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/colorTextHint" />
-
-        <TextView
-            android:id="@+id/tvGoToOrder"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/fifty_dp"
-            android:background="@drawable/btn_txt_color"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center_vertical"
-            android:paddingBottom="@dimen/ten_dp"
-            android:paddingLeft="@dimen/thirty_dp"
-            android:paddingTop="@dimen/ten_dp"
-            android:text="Go to Order"
             android:textColor="@color/colorMainText"
             android:textSize="@dimen/sixteen_dp" />
 

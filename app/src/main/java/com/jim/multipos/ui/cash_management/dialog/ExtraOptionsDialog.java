@@ -23,8 +23,6 @@ public class ExtraOptionsDialog extends Dialog {
     TextView tvReturn;
     @BindView(R.id.tvCloseOrder)
     TextView tvCloseOrder;
-    @BindView(R.id.tvGoToOrder)
-    TextView tvGoToOrder;
     @BindView(R.id.btnBack)
     MpButton btnBack;
     private ExtraOptionsDialog.onExtraOptionClicked onExtraOptionClicked;
@@ -45,11 +43,6 @@ public class ExtraOptionsDialog extends Dialog {
             dismiss();
         });
 
-        tvGoToOrder.setOnClickListener(view -> {
-            onExtraOptionClicked.onGoToOrder();
-            dismiss();
-        });
-
         tvReturn.setOnClickListener(view -> {
         onExtraOptionClicked.onReturn();
             dismiss();
@@ -59,6 +52,5 @@ public class ExtraOptionsDialog extends Dialog {
     public interface onExtraOptionClicked{
         void onReturn();
         void onClose();
-        void onGoToOrder();
     }
 }

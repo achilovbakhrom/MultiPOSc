@@ -3,6 +3,8 @@ package com.jim.multipos.ui.cash_management.view;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.TextView;
 
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
@@ -27,6 +29,8 @@ public class CloseTillFirstStepFragment extends BaseFragment implements CloseTil
 
     @BindView(R.id.rvReconcileOrders)
     RecyclerView rvReconcileOrders;
+    @BindView(R.id.tvEmptyText)
+    TextView tvEmptyText;
 
     @Inject
     CloseTillFirstStepPresenter presenter;
@@ -56,12 +60,8 @@ public class CloseTillFirstStepFragment extends BaseFragment implements CloseTil
                 CloseOrderWithPayDialog dialog = new CloseOrderWithPayDialog(getContext(), databaseManager, order, () -> presenter.onClose(order, position));
                 dialog.show();
             }
-
-            @Override
-            public void onGoToOrder(Order order) {
-                presenter.onGoToOrder(order);
-            }
         });
+
         rvReconcileOrders.setAdapter(adapter);
         presenter.initAdapterData();
     }
@@ -69,6 +69,13 @@ public class CloseTillFirstStepFragment extends BaseFragment implements CloseTil
     @Override
     public void setAdapterList(List<Order> orderList) {
         adapter.setData(orderList);
+        if (orderList.size() > 0) {
+            tvEmptyText.setVisibility(View.GONE);
+            rvReconcileOrders.setVisibility(View.VISIBLE);
+        } else {
+            tvEmptyText.setVisibility(View.VISIBLE);
+            rvReconcileOrders.setVisibility(View.GONE);
+        }
     }
 
     @Override

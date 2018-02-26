@@ -105,11 +105,6 @@ public class ReconcileOrdersAdapter extends RecyclerView.Adapter<ReconcileOrders
                     public void onClose() {
                         onExtraOptionItemClicked.onClose(items.get(getAdapterPosition()), getAdapterPosition());
                     }
-
-                    @Override
-                    public void onGoToOrder() {
-                        onExtraOptionItemClicked.onGoToOrder(items.get(getAdapterPosition()));
-                    }
                 });
                 extraOptionsDialog.show();
             });
@@ -120,6 +115,5 @@ public class ReconcileOrdersAdapter extends RecyclerView.Adapter<ReconcileOrders
     public interface onExtraOptionItemClicked{
         void onReturn(Order order, int position);
         void onClose(Order order, int position);
-        void onGoToOrder(Order order);
     }
 }

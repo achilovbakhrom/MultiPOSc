@@ -588,6 +588,7 @@
     <string name="cancel_order">Cancel order</string>
     <string name="close_till">Close till</string>
     <string name="open_till">Open till</string>
+    <string name="there_is_no_held_orders">There is no held orders</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>
