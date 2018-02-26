@@ -20,6 +20,8 @@ public class OrderChangesLog {
     public static final int HAND = 1;
     public static final int EDITED = 2;
     public static final int PAYED = 3;
+    public static final int CONTINUE = 4;
+    public static final int HAND_AT_CLOSE_TILL = 5;
 
     @Id(autoincrement = true)
     private Long id;

@@ -18,6 +18,7 @@ import com.jim.multipos.core.DoubleSideActivity;
 import com.jim.multipos.core.MainPageDoubleSideActivity;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.customer.Customer;
+import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.ui.cash_management.CashManagementActivity;
 import com.jim.multipos.ui.main_menu.customers_menu.CustomersMenuActivity;
 import com.jim.multipos.ui.main_menu.inventory_menu.InventoryMenuActivity;
@@ -76,16 +77,19 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         ButterKnife.bind(this);
+
+        //test dataset
         TestUtils.createCurrencies(databaseManager, this);
         TestUtils.createAccount(databaseManager);
-        initOrderListFragmentToLeft();
+
         initProductPickerFragmentToRight();
         notifyManager.setView(this);
+
+        //timer
         handler = new Handler();
         handler.post(timerUpdate);
 
-        toolbar.setOnClickListener(view -> {
-        });
+
 
         toolbar.setOnSettingsClickListener(view -> {
             boolean isBarcodeShown = false;
@@ -126,6 +130,7 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
             startActivity(intent);
         });
         toolbar.setOnReportClickListener(view -> {
+            //TODO REPORT
         });
         toolbar.setOnSearchClickListener(new MpToolbar.CallbackSearchFragmentClick() {
             @Override
@@ -144,37 +149,17 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
             orderMenuDialog.show();
         });
         toolbar.setOnRightOrderClickListner(view -> {
-            OrderListHistoryFragment orderListHistoryFragment = (OrderListHistoryFragment) getSupportFragmentManager().findFragmentByTag(OrderListHistoryFragment.class.getName());
-            if(orderListHistoryFragment !=null && orderListHistoryFragment.isVisible())
-                orderListHistoryFragment.onNextOrder();
-
+            presenter.onNextClick();
 
         });
         toolbar.setOnLeftOrderClickListner(view -> {
-            OrderListHistoryFragment orderListHistoryFragment = (OrderListHistoryFragment) getSupportFragmentManager().findFragmentByTag(OrderListHistoryFragment.class.getName());
-            if(orderListHistoryFragment !=null && orderListHistoryFragment.isVisible()){
-                orderListHistoryFragment.onPrevOrder();
-            }else{
-                OrderListFragment orderListFragment = (OrderListFragment) getSupportFragmentManager().findFragmentByTag(OrderListFragment.class.getName());
-                if(orderListFragment !=null && orderListFragment.isVisible())
-                    orderListFragment.sendEventGoToPrevOrders();
-            }
+            presenter.onPrevClick();
         });
-
+        presenter.onCreateView(savedInstanceState);
     }
 
-    public void showOrderListFragmentWhenOrderHistoryEnds(){
-        hideOrderListHistoryFragment();
-        OrderListFragment orderListFragment = (OrderListFragment) getSupportFragmentManager().findFragmentByTag(OrderListFragment.class.getName());
-        if(orderListFragment!=null){
-            orderListFragment.sendOrderNumberToMainPosPageActivity();
-        }
 
-    }
 
-    public void setOrderNo(Long orderId){
-        toolbar.setOrderNumber(String.valueOf(orderId));
-    }
     @Override
     protected int getToolbarMode() {
         return MpToolbar.MAIN_PAGE_TYPE;
@@ -188,9 +173,6 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
         }
     };
 
-    public void closeProductInfoFragment() {
-        activityFragmentManager.popBackStack();
-    }
 
     @Override
     protected void onDestroy() {
@@ -212,6 +194,8 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
 //        addFragmentToTopRight(fragment);
     }
 
+
+
     public void openAddProductActivity() {
         Intent intent = new Intent(this, ProductActivity.class);
         startActivity(intent);
@@ -228,4 +212,82 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
         }
         return true;
     }
+
+
+
+    /**
+     *
+     * ***********************/
+    @Override
+    public void openNewOrderFrame(Long newOrderId) {
+        hideOrderListHistoryFragment();
+        OrderListFragment orderListFragment = (OrderListFragment) getSupportFragmentManager().findFragmentByTag(OrderListFragment.class.getName());
+        if(orderListFragment!=null){
+            orderListFragment.initNewOrderWithNumber(newOrderId);
+        }else {
+            initOrderListFragmentToLeft(newOrderId);
+        }
+    }
+
+    @Override
+    public void updateIndicator(Long orderId) {
+        toolbar.setOrderNumber(String.valueOf(orderId));
+    }
+
+    @Override
+    public void openOrUpdateOrderHistory(Order order) {
+        showOrderListHistoryFragment(order);
+    }
+
+    @Override
+    public void openOrderForEdit(String reason, Order order, Long newOrderId) {
+        hideOrderListHistoryFragment();
+        OrderListFragment orderListFragment = (OrderListFragment) getSupportFragmentManager().findFragmentByTag(OrderListFragment.class.getName());
+        if(orderListFragment!=null){
+            orderListFragment.onEditOrder(reason,order,newOrderId);
+        }
+    }
+
+
+    public void onEditComplete(String reason,Order order){
+        presenter.onEditComplete(reason,order);
+    }
+
+    public void orderAdded(Order order){
+        presenter.orderAdded(order);
+    }
+
+
+    public void onEditOrder(String reason){
+        presenter.onEditOrder(reason);
+    }
+    public void onCancelOrder(String reason){
+        presenter.onCancelOrder(reason);
+    }
+    public void onRestoreOrder(){
+        presenter.onRestoreOrder();
+    }
+
+    public void onContinueOrder(Order order){
+        hideOrderListHistoryFragment();
+        OrderListFragment orderListFragment = (OrderListFragment) getSupportFragmentManager().findFragmentByTag(OrderListFragment.class.getName());
+        if(orderListFragment!=null){
+            orderListFragment.onHoldOrderCountined(order);
+        }
+    }
+
+    public void holdOrderClosed(Order order){
+        presenter.holdOrderClosed(order);
+    };
+    public void newOrderHolded(Order order){
+        presenter.newOrderHolded(order);
+    };
+    public void holdOrderHolded(Order order){
+        presenter.holdOrderHolded(order);
+    };
+    public void editedOrderHolded(String reason, Order order){
+        presenter.editedOrderHolded(reason,order);
+    };
+
+
 }

@@ -52,7 +52,7 @@ public class CloseTillFirstStepPresenterImpl extends BasePresenterImpl<CloseTill
         orderChangesLog.setToStatus(Order.CANCELED_ORDER);
         orderChangesLog.setChangedAt(System.currentTimeMillis());
         orderChangesLog.setReason("");
-        orderChangesLog.setChangedCauseType(OrderChangesLog.HAND);
+        orderChangesLog.setChangedCauseType(OrderChangesLog.HAND_AT_CLOSE_TILL);
         orderChangesLog.setOrderId(order.getId());
         databaseManager.insertOrderChangeLog(orderChangesLog).blockingGet();
         order.setLastChangeLogId(orderChangesLog.getId());
@@ -94,6 +94,7 @@ public class CloseTillFirstStepPresenterImpl extends BasePresenterImpl<CloseTill
         databaseManager.insertOrderChangeLog(orderChangesLog).blockingGet();
         order.setLastChangeLogId(orderChangesLog.getId());
         double totalPayedSum = 0;
+        order.resetPayedPartitions();
         for (int i = 0; i < order.getPayedPartitions().size(); i++) {
             totalPayedSum += order.getPayedPartitions().get(i).getValue();
         }

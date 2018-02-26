@@ -33,7 +33,7 @@ import com.jim.multipos.data.db.model.till.TillDao;
  * Created by developer on 20.12.2017.
  */
 @Data
-@Entity(nameInDb = "ORDER", active = true)
+@Entity(nameInDb = "ALL_ORDER", active = true)
 public class Order {
     //Order status
     public static final int CANCELED_ORDER = 3;

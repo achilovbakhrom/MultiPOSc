@@ -15,8 +15,6 @@ import com.jim.multipos.ui.mainpospage.model.OrderProductItem;
 
 import java.util.List;
 
-import eu.inmite.android.lib.validations.form.annotations.Custom;
-
 /**
  * Created by Portable-Acer on 27.10.2017.
  */
@@ -68,11 +66,15 @@ public interface  OrderListView extends BaseView {
     void updateViewCustomer(Customer customer);
     void sendCustomerToPaymentFragment(Customer customer);
     void setOrderNumberToToolbar(Long orderNumber);
-    void sendEventGoToPrevOrders();
     void fistufulCloseOrder();
-    void goToPrevOrders();
     void onNewOrderPaymentFragment();
-    void onEditOrder(String reason,Order order);
-    void onEditComplete(String reason,Long orderId);
+    void onEditOrder(String reason,Order order,Long newOrderId);
+    void onEditComplete(String reason,Order order);
     void onHoldOrderSendingData(Order order, List<PayedPartitions> payedPartitions,Debt debt);
+    void orderAdded(Order order);
+    void holdOrderClosed(Order order);
+    void newOrderHolded(Order order);
+    void holdOrderHolded(Order order);
+    void editedOrderHolded(String reason, Order order);
+    void openWarningDialog(String text);
 }

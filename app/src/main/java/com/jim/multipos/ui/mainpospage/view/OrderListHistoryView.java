@@ -12,14 +12,13 @@ import java.util.List;
  */
 
 public interface OrderListHistoryView extends BaseView {
-    void hideMeAndShowOrderList();
     void updateDetials(Order order);
     void initOrderListRecycler(List<Object> productList);
     void notifyList();
     void openPaymentDetailDialog(List<PayedPartitions> payedPartitions, Currency mainCurrency);
-    void openEditFragment(String reason,Order order);
     void openEditAccsessDialog();
     void openCancelAccsessDialog();
     void openRestoreAccsessDialog();
-    void onEditComplete(String reason, Long orderId);
+    void setOrderNumberToToolbar(Long orderNumber);
+    void onContinuePressed(Order order);
 }

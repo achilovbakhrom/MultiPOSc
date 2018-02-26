@@ -264,4 +264,10 @@ public interface DbHelper {
 
     Single<List<Order>> getAllHoldOrders();
     Single<Long> insertOrderChangeLog(OrderChangesLog orderChangesLog);
+    Single<Long> getLastOrderId();
+    Single<Long> getLastArchiveOrderId();
+    Single<Order> getOrder(Long orderId);
+    Single<Boolean> deleteDebt(Debt debt);
+    Single<Long> deleteOrderProductsOnHold(List<OrderProduct> orderProducts);
+    Single<Long> deletePayedPartitions(List<PayedPartitions> payedPartitions);
 }

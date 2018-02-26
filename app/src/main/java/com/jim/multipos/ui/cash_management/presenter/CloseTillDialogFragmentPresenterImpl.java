@@ -130,7 +130,7 @@ public class CloseTillDialogFragmentPresenterImpl extends BasePresenterImpl<Clos
     public void closeTill() {
         till.setCloseDate(System.currentTimeMillis());
         till.setStatus(Till.CLOSED);
-        List<Order> orders = databaseManager.getAllTillOrders().blockingGet();
+        List<Order> orders = databaseManager.getOrdersByTillId(till.getId()).blockingGet();
         for (int i = 0; i < orders.size(); i++) {
             orders.get(i).setIsArchive(true);
             databaseManager.insertOrder(orders.get(i)).blockingGet();

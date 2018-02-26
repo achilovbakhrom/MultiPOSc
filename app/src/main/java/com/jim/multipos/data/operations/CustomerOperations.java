@@ -28,6 +28,7 @@ public interface CustomerOperations {
     Single<List<Customer>> getCustomersWithDebt();
     //Debts
     Single<Boolean> addDebt(Debt debt);
+    Single<Boolean> deleteDebt(Debt debt);
     Single<List<Debt>> getDebtsByCustomerId(Long id);
     Single<List<Debt>> getAllActiveDebts();
     Single<CustomerPayment> addCustomerPayment(CustomerPayment payment);

@@ -3,7 +3,6 @@ package com.jim.multipos.ui.mainpospage.view;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,8 +15,6 @@ import com.jim.mpviews.MpLightButton;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.DatabaseManager;
-import com.jim.multipos.data.db.model.DaoMaster;
-import com.jim.multipos.data.db.model.DaoSession;
 import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.currency.Currency;
@@ -37,8 +34,8 @@ import com.jim.multipos.ui.mainpospage.dialogs.UnitValuePicker;
 import com.jim.multipos.ui.mainpospage.model.OrderProductItem;
 import com.jim.multipos.ui.mainpospage.presenter.OrderListPresenter;
 import com.jim.multipos.utils.LinearLayoutManagerWithSmoothScroller;
+import com.jim.multipos.utils.UIUtils;
 import com.jim.multipos.utils.WarningDialog;
-import com.jim.multipos.utils.managers.BarcodeScannerManager;
 import com.jim.multipos.utils.managers.NotifyManager;
 import com.jim.multipos.utils.printer.CheckPrinter;
 
@@ -50,6 +47,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 
 public class OrderListFragment extends BaseFragment implements OrderListView {
+    public static final String NEW_ORDER_ID = "new_order_id";
     @Inject
     OrderListPresenter presenter;
     @Inject
@@ -130,12 +128,11 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        databaseManager.removeAllOrders().subscribe();
+//        databaseManager.removeAllOrders().subscribe();
         printer = new CheckPrinter(getActivity());
         printer.connectDevice();
         mainPageConnection.setOrderListView(this);
         currency = databaseManager.getMainCurrency();
-        presenter.onCreateView(savedInstanceState);
 
         llServiceFeeGroup.setVisibility(View.GONE);
         llDiscountGroup.setVisibility(View.GONE);
@@ -183,6 +180,8 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
             warningDialog.setNegativeButtonText(getString(R.string.cancel));
             warningDialog.show();
         });
+        presenter.onCreateView(getArguments());
+
     }
 
     @Override
@@ -603,13 +602,10 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
 
     @Override
     public void setOrderNumberToToolbar(Long orderNumber) {
-        ((MainPosPageActivity)getActivity()).setOrderNo(orderNumber);
+        ((MainPosPageActivity)getActivity()).updateIndicator(orderNumber);
     }
 
-    @Override
-    public void sendEventGoToPrevOrders() {
-        presenter.sendEventGoToPrevOrders();
-    }
+
 
     @Override
     public void fistufulCloseOrder() {
@@ -618,7 +614,8 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
         warningDialog.setOnYesClickListener(view1 -> {
             warningDialog.dismiss();
             presenter.cleanOrder();
-            ((MainPosPageActivity)getActivity()).showOrderListHistoryFragment();
+            //TODO
+//            ((MainPosPageActivity)getActivity()).showOrderListHistoryFragment();
         });
         warningDialog.setOnNoClickListener(view1 -> {
             warningDialog.dismiss();
@@ -628,10 +625,6 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
         warningDialog.show();
     }
 
-    @Override
-    public void goToPrevOrders() {
-        ((MainPosPageActivity)getActivity()).showOrderListHistoryFragment();
-    }
 
     @Override
     public void onNewOrderPaymentFragment() {
@@ -639,23 +632,57 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
     }
 
     @Override
-    public void onEditOrder(String reason, Order order) {
-        presenter.onEditOrder(reason,order);
+    public void onEditOrder(String reason, Order order,Long newOrderId) {
+        presenter.onEditOrder(reason,order,newOrderId);
     }
 
-    @Override
-    public void onEditComplete(String reason,Long orderId) {
-        mainPageConnection.onEditComplete(reason,orderId);
-    }
 
     @Override
     public void onHoldOrderSendingData(Order order, List<PayedPartitions> payedPartitions, Debt debt) {
         presenter.onHoldOrderSendingData(order,payedPartitions,debt);
     }
 
-    public void sendOrderNumberToMainPosPageActivity(){
-        presenter.sendOrderNumberToMainPosPageActivity();
+    @Override
+    public void orderAdded(Order order) {
+        ((MainPosPageActivity) getActivity()).orderAdded(order);
     }
 
 
+    @Override
+    public void holdOrderClosed(Order order) {
+        ((MainPosPageActivity) getActivity()).holdOrderClosed(order);
+    }
+
+    @Override
+    public void newOrderHolded(Order order) {
+        ((MainPosPageActivity) getActivity()).newOrderHolded(order);
+    }
+
+    @Override
+    public void holdOrderHolded(Order order) {
+        ((MainPosPageActivity) getActivity()).holdOrderHolded(order);
+    }
+
+    @Override
+    public void editedOrderHolded(String reason, Order order) {
+        ((MainPosPageActivity) getActivity()).editedOrderHolded(reason,order);
+    }
+
+    @Override
+    public void openWarningDialog(String text) {
+        UIUtils.showAlert(getContext(), getContext().getString(R.string.ok), getString(R.string.warning), text, () -> {});
+    }
+
+
+    @Override
+    public void onEditComplete(String reason,Order order) {
+        ((MainPosPageActivity) getActivity()).onEditComplete(reason,order);
+    }
+
+    public void initNewOrderWithNumber(Long orderId){
+        presenter.initNewOrderWithId(orderId);
+    }
+    public void onHoldOrderCountined(Order order){
+        presenter.onHoldOrderCountined(order);
+    }
 }

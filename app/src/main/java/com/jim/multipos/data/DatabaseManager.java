@@ -506,6 +506,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
+    public Single<Boolean> deleteDebt(Debt debt) {
+        return dbHelper.deleteDebt(debt);
+    }
+
+    @Override
     public Single<List<Debt>> getDebtsByCustomerId(Long id) {
         return dbHelper.getDebtsByCustomerId(id);
     }
@@ -1004,10 +1009,36 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
         return dbHelper.getOrdersByTillId(id);
     }
 
+    @Override
+    public Single<Long> getLastOrderId() {
+        return dbHelper.getLastOrderId();
+    }
+
+    @Override
+    public Single<Long> getLastArchiveOrderId() {
+        return dbHelper.getLastArchiveOrderId();
+    }
+
+    @Override
+    public Single<Order> getOrder(Long orderId) {
+        return dbHelper.getOrder(orderId);
+    }
+
+    @Override
+    public Single<Long> deleteOrderProductsOnHold(List<OrderProduct> orderProducts) {
+        return dbHelper.deleteOrderProductsOnHold(orderProducts);
+
+    }
+
 
     @Override
     public Single<List<PayedPartitions>> insertPayedPartitions(List<PayedPartitions> payedPartitions) {
         return dbHelper.insertPayedPartitions(payedPartitions);
+    }
+
+    @Override
+    public Single<Long> deletePayedPartitions(List<PayedPartitions> payedPartitions) {
+        return dbHelper.deletePayedPartitions(payedPartitions);
     }
 
     @Override

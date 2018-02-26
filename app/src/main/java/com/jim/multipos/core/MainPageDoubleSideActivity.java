@@ -18,13 +18,15 @@ import com.jim.multipos.ui.mainpospage.view.SearchModeFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.jim.multipos.ui.mainpospage.view.OrderListFragment.NEW_ORDER_ID;
+
 /**
  * Created by developer on 05.10.2017.
  */
 
 
 public abstract class MainPageDoubleSideActivity extends BaseActivity{
-
+    public static final String INIT_ORDER = "INIT_ORDER";
     @BindView(R.id.toolbar)
     MpToolbar toolbar;
 
@@ -60,6 +62,19 @@ public abstract class MainPageDoubleSideActivity extends BaseActivity{
             addFragmentWithTagStatic(R.id.flLeftContainer,orderListFragment,OrderListFragment.class.getName());
         }else {
             getSupportFragmentManager().beginTransaction().show(orderListFragment).commit();
+        }
+    }
+    public void initOrderListFragmentToLeft(Long newOrderId){
+        OrderListFragment orderListFragment  =  (OrderListFragment) getSupportFragmentManager().findFragmentByTag(OrderListFragment.class.getName());
+        if(orderListFragment==null){
+            orderListFragment = new OrderListFragment();
+            Bundle bundle= new Bundle();
+            bundle.putLong(NEW_ORDER_ID,newOrderId);
+            orderListFragment.setArguments(bundle);
+            addFragmentWithTagStatic(R.id.flLeftContainer,orderListFragment,OrderListFragment.class.getName());
+        }else {
+            getSupportFragmentManager().beginTransaction().show(orderListFragment).commit();
+            orderListFragment.initNewOrderWithNumber(newOrderId);
         }
     }
     public void initProductPickerFragmentToRight(){
@@ -138,7 +153,7 @@ public abstract class MainPageDoubleSideActivity extends BaseActivity{
             getSupportFragmentManager().beginTransaction().hide(productInfoFragment).commit();
         }
     }
-    public void showOrderListHistoryFragment(){
+    public void showOrderListHistoryFragment(Order order){
         OrderListHistoryFragment orderListHistoryFragment = (OrderListHistoryFragment) getSupportFragmentManager().findFragmentByTag(OrderListHistoryFragment.class.getName());
 
         ProductInfoFragment productInfoFragment = (ProductInfoFragment) getSupportFragmentManager().findFragmentByTag(ProductInfoFragment.class.getName());
@@ -168,14 +183,17 @@ public abstract class MainPageDoubleSideActivity extends BaseActivity{
 
         if(orderListHistoryFragment ==null){
             orderListHistoryFragment = new OrderListHistoryFragment();
+            Bundle bundle = new Bundle();
+            bundle.putLong(INIT_ORDER,order.getId());
+            orderListHistoryFragment.setArguments(bundle);
             addFragmentWithTagStatic(R.id.flLeftContainerTop,orderListHistoryFragment,OrderListHistoryFragment.class.getName());
 
         }else {
             if(orderListHistoryFragment.isVisible()){
-                orderListHistoryFragment.refreshData();
+                orderListHistoryFragment.refreshData(order);
             }else {
                 getSupportFragmentManager().beginTransaction().show(orderListHistoryFragment).commit();
-                orderListHistoryFragment.refreshData();
+                orderListHistoryFragment.refreshData(order);
             }
         }
 

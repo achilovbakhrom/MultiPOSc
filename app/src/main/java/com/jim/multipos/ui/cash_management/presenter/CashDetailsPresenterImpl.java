@@ -77,7 +77,7 @@ public class CashDetailsPresenterImpl extends BasePresenterImpl<CashDetailsView>
                 bankDrop = tillDetails.getTotalBankDrops();
                 payToVendor = tillDetails.getTotalPayToVendors();
                 incomeDebt = tillDetails.getTotalDebtIncome();
-                cashTransactions = tillDetails.getTotalStartingCash();
+                cashTransactions = tillDetails.getTotalSales();
                 tips = tillDetails.getTips();
                 totalStartingCash = tillDetails.getTotalStartingCash();
             }

@@ -5,11 +5,13 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
@@ -90,6 +92,10 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
     RelativeLayout rvDeleteCurtain;
     @BindView(R.id.tvOrderCancelLable)
     TextView tvOrderCancelLable;
+    @BindView(R.id.ivEdit)
+    ImageView ivEdit;
+    @BindView(R.id.tvPay)
+    TextView tvPay;
 
     OrderProductHistoryAdapter orderProductHistoryAdapter;
     DecimalFormat decimalFormat;
@@ -103,7 +109,7 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
     @Override
     protected void init(Bundle savedInstanceState) {
         mainPageConnection.setOrderListHistoryView(this);
-        presenter.onCreateView(savedInstanceState);
+        presenter.onCreateView(getArguments());
         decimalFormat = new DecimalFormat("#,###.##");
         sdfDate = new SimpleDateFormat("dd/MM/yyyy");
         sdfTime = new SimpleDateFormat("HH:mm");
@@ -119,15 +125,10 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
         });
     }
 
-    public void refreshData(){
-        presenter.refreshData();
+    public void refreshData(Order order){
+        presenter.refreshData(order);
     }
-    public void onNextOrder(){
-        presenter.onNextOrder();
-    }
-    public void onPrevOrder(){
-        presenter.onPrevOrder();
-    }
+
     @Override
     public void onDetach() {
         mainPageConnection.setOrderListHistoryView(null);
@@ -135,14 +136,9 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
         super.onDetach();
     }
 
-    @Override
-    public void hideMeAndShowOrderList() {
-        ((MainPosPageActivity)getActivity()).showOrderListFragmentWhenOrderHistoryEnds();
-    }
 
     @Override
     public void updateDetials(Order order) {
-        ((MainPosPageActivity)getActivity()).setOrderNo(order.getId());
         tvSubTotal.setText(decimalFormat.format(order.getSubTotalValue()));
         tvDiscountAmount.setText(decimalFormat.format(order.getDiscountTotalValue()));
         if(order.getServiceTotalValue()!=0)
@@ -150,6 +146,10 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
         else
             tvServiceAmount.setText("0");
 
+        //bundo qiganimi sababi UI chizilganda tepadigi indecatorni ozgariwi
+        rvDeleteCurtain.post(() -> {
+            ((MainPosPageActivity) getActivity()).updateIndicator(order.getId());
+        });
         tvTips.setText(decimalFormat.format(order.getTips()));
         tvTotalToPay.setText(decimalFormat.format(order.getForPayAmmount()));
         tvCreatedDate.setText(sdfDate.format(order.getCreateAt()));
@@ -183,7 +183,19 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
                 rvDeleteCurtain.setVisibility(View.VISIBLE);
                 tvCauseDelete.setText("Cause: " + order.getLastChangeLog().getReason());
             }
-        }else {
+        }else if(order.getStatus() == Order.HOLD_ORDER){
+            ivEdit.setImageResource(R.drawable.contunie);
+            tvPay.setText("Continue");
+            tvOrderNumber.setText("Held: Order #" + String.valueOf(order.getId()));
+            llEdit.setVisibility(View.VISIBLE);
+            llEdit.setEnabled(true);
+            ivDeactivateCancel.setImageResource(R.drawable.deactive_order);
+            tvCancelOrder.setText(getContext().getString(R.string.cancel_order));
+            rvDeleteCurtain.setVisibility(View.GONE);
+        }
+        else {
+            ivEdit.setImageResource(R.drawable.edit);
+            tvPay.setText("Edit");
             llEdit.setVisibility(View.VISIBLE);
             llEdit.setEnabled(true);
             ivDeactivateCancel.setImageResource(R.drawable.deactive_order);
@@ -211,17 +223,13 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
         paymentDetialDialog.show();
     }
 
-    @Override
-    public void openEditFragment(String reason, Order order) {
-        mainPageConnection.openEditFragment(reason,order);
-    }
 
     @Override
     public void openEditAccsessDialog() {
         AccessToEditDialog accessToEditDialog = new AccessToEditDialog(getContext(), new AccessToEditDialog.OnAccsessListner() {
             @Override
             public void accsessSuccess(String reason) {
-                presenter.onEditOrder(reason);
+                ((MainPosPageActivity)getActivity()).onEditOrder(reason);
             }
 
             @Override
@@ -237,7 +245,7 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
         AccessToCancelDialog accessToCancelDialog = new AccessToCancelDialog(getContext(), new AccessToCancelDialog.OnAccsessListner() {
             @Override
             public void accsessSuccess(String reason) {
-                presenter.onCancelOrder(reason);
+                ((MainPosPageActivity)getActivity()).onCancelOrder(reason);
             }
             @Override
             public void onBruteForce() {
@@ -252,7 +260,7 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
         AccessWithEditPasswordDialog accessWithEditPasswordDialog = new AccessWithEditPasswordDialog(getContext(), new AccessWithEditPasswordDialog.OnAccsessListner() {
             @Override
             public void accsessSuccess() {
-                presenter.onRestoreDialog();
+                ((MainPosPageActivity)getActivity()).onRestoreOrder();
             }
 
             @Override
@@ -264,8 +272,13 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
     }
 
     @Override
-    public void onEditComplete(String reason,Long orderId) {
-        presenter.onEditComplete(reason,orderId);
+    public void setOrderNumberToToolbar(Long orderNumber) {
+        ((MainPosPageActivity) getActivity()).updateIndicator(orderNumber);
+    }
+
+    @Override
+    public void onContinuePressed(Order order) {
+        ((MainPosPageActivity) getActivity()).onContinueOrder(order);
     }
 
 

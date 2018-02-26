@@ -33,6 +33,7 @@ public class WarehouseOperations implements Editable{
     public static final int WASTE = 7;
     public static final int CONSIGNMENT_DELETED = 8;
     public static final int CANCELED_SOLD = 9;
+    public static final int RETURN_HOLDED = 10;
 
     @Id(autoincrement = true)
     private Long id;

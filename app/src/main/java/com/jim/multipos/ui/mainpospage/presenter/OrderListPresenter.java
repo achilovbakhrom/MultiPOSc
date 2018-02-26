@@ -48,8 +48,8 @@ public interface OrderListPresenter extends Presenter {
     void cleanOrder();
     void onCloseOrder(Order order, List<PayedPartitions> payedPartitions, Debt debt);
     void updateCustomer(Customer customer);
-    void sendOrderNumberToMainPosPageActivity();
-    void sendEventGoToPrevOrders();
-    void onEditOrder(String reason,Order order);
+    void onEditOrder(String reason,Order order,Long newOrderId);
     void onHoldOrderSendingData(Order order, List<PayedPartitions> payedPartitions,Debt debt);
+    void initNewOrderWithId(Long orderId);
+    void onHoldOrderCountined(Order order);
 }

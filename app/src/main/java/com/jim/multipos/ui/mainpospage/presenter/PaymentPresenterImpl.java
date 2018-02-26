@@ -174,6 +174,12 @@ public class PaymentPresenterImpl extends BasePresenterImpl<PaymentView> impleme
 
     @Override
     public void payButtonPressed() {
+        boolean hasOpenTill = databaseManager.hasOpenTill().blockingGet();
+        if (!hasOpenTill){
+            view.openWarningDialog("Opened till wasn't found. Please, open till");
+            return;
+        }
+
         if(order.getSubTotalValue() == 0){
             view.closeSelf();
             return;
@@ -200,6 +206,7 @@ public class PaymentPresenterImpl extends BasePresenterImpl<PaymentView> impleme
             view.updatePaymentList();
             view.onPayedPartition();
         }else {
+
             //DONE
             //it is done operation for close order. Because payment amount enough for close order
             if(order.getForPayAmmount() - totalPayed()<=0){

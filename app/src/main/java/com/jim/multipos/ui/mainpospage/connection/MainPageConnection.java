@@ -46,21 +46,17 @@ public class MainPageConnection {
         }
     }
 
-    public void onEditComplete(String reason,Long orderId){
-        if(orderListHistoryView!=null){
-            orderListHistoryView.onEditComplete(reason,orderId);
-        }
-    }
+
     public void sendDataToPaymentFragmentWhenEdit(Order order, List<PayedPartitions> payedPartitions,Debt debt){
         if(paymentView != null){
             paymentView.sendDataToPaymentFragmentWhenEdit(order,payedPartitions,debt);
         }
     }
-    public void openEditFragment(String reason, Order order){
-        if(orderListView!=null){
-            orderListView.onEditOrder(reason,order);
-        }
-    }
+//    public void openEditFragment(String reason, Order order){
+//        if(orderListView!=null){
+//            orderListView.onEditOrder(reason,order);
+//        }
+//    }
 
     public void onNewOrderPaymentFragment(){
         if(paymentView!=null){

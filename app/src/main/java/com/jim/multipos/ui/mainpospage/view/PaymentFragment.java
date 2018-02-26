@@ -37,6 +37,7 @@ import com.jim.multipos.ui.mainpospage.connection.MainPageConnection;
 import com.jim.multipos.ui.mainpospage.dialogs.AddDebtDialog;
 import com.jim.multipos.ui.mainpospage.dialogs.TipsDialog;
 import com.jim.multipos.ui.mainpospage.presenter.PaymentPresenter;
+import com.jim.multipos.utils.UIUtils;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -474,6 +475,11 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
     @Override
     public void onHoldOrderSendingData(Order order, List<PayedPartitions> payedPartitions, Debt debt) {
         mainPageConnection.onHoldOrderSendingData(order,payedPartitions,debt);
+    }
+
+    @Override
+    public void openWarningDialog(String text) {
+        UIUtils.showAlert(getContext(), getContext().getString(R.string.ok), getString(R.string.warning), text, () -> {});
     }
 
 

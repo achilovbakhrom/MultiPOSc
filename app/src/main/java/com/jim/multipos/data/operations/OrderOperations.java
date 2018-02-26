@@ -21,6 +21,10 @@ public interface OrderOperations {
     Single<LazyList<Order>> getAllTillLazyOrders();
     Single<Integer> removeAllOrders();
     Single<Long> insertOrderChangeLog(OrderChangesLog orderChangesLog);
+    Single<Long> getLastOrderId();
+    Single<Long> getLastArchiveOrderId();
+    Single<Order> getOrder(Long orderId);
+    Single<Long> deleteOrderProductsOnHold(List<OrderProduct> orderProducts);
     Single<List<Order>> getAllHoldOrders();
     Single<List<Order>> getOrdersByTillId(Long id);
 }

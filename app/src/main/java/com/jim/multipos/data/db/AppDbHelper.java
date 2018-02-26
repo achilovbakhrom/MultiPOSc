@@ -74,10 +74,12 @@ import com.jim.multipos.data.db.model.till.TillManagementOperation;
 import com.jim.multipos.data.db.model.till.TillDetails;
 import com.jim.multipos.data.db.model.till.TillManagementOperationDao;
 import com.jim.multipos.data.db.model.till.TillOperation;
+import com.jim.multipos.data.db.model.till.TillOperationDao;
 import com.jim.multipos.data.db.model.unit.SubUnitsList;
 import com.jim.multipos.data.db.model.unit.Unit;
 import com.jim.multipos.data.db.model.unit.UnitCategory;
 import com.jim.multipos.data.db.model.unit.UnitDao;
+import com.jim.multipos.data.operations.PayedPartitionOperations;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
 import com.jim.multipos.ui.vendor_item_managment.model.VendorWithDebt;
 
@@ -1767,7 +1769,7 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Single<LazyList<Order>> getAllTillLazzyOrders() {
         return Single.create(e -> {
-            e.onSuccess(mDaoSession.getOrderDao().queryBuilder().listLazy());
+            e.onSuccess(mDaoSession.getOrderDao().queryBuilder().where(OrderDao.Properties.IsArchive.eq(false)).listLazy());
         });
     }
 
@@ -2061,6 +2063,59 @@ public class AppDbHelper implements DbHelper {
         return Single.create(e -> {
             long l = mDaoSession.insertOrReplace(orderChangesLog);
             e.onSuccess(l);
+        });
+    }
+
+    @Override
+    public Single<Long> getLastOrderId() {
+        return Single.create(e -> {
+            String query = "SELECT MAX(_id) as MAX FROM ALL_ORDER";
+            Cursor cursor = mDaoSession.getDatabase().rawQuery(query, null);
+            cursor.moveToFirst();
+            long max = cursor.getLong(cursor.getColumnIndex("MAX"));
+            e.onSuccess(max);
+        });
+    }
+
+    @Override
+    public Single<Long> getLastArchiveOrderId() {
+        return Single.create(e -> {
+            String query = "SELECT MAX(_id) as MAX FROM ALL_ORDER WHERE IS_ARCHIVE";
+            Cursor cursor = mDaoSession.getDatabase().rawQuery(query, null);
+            cursor.moveToFirst();
+            long max = cursor.getLong(cursor.getColumnIndex("MAX"));
+            e.onSuccess(max);
+        });
+    }
+
+    @Override
+    public Single<Order> getOrder(Long orderId) {
+        return Single.create(e -> {
+            e.onSuccess(mDaoSession.getOrderDao().load(orderId));
+        });
+    }
+
+    @Override
+    public Single<Boolean> deleteDebt(Debt debt) {
+        return Single.create(e -> {
+            mDaoSession.getDebtDao().delete(debt);
+            e.onSuccess(true);
+        });
+    }
+
+    @Override
+    public Single<Long> deleteOrderProductsOnHold(List<OrderProduct> orderProducts) {
+        return Single.create(e -> {
+            mDaoSession.getOrderProductDao().deleteInTx(orderProducts);
+            e.onSuccess(1l);
+        });
+    }
+
+    @Override
+    public Single<Long> deletePayedPartitions(List<PayedPartitions> payedPartitions) {
+        return Single.create(e -> {
+            mDaoSession.getPayedPartitionsDao().deleteInTx(payedPartitions);
+            e.onSuccess(1l);
         });
     }
 }
