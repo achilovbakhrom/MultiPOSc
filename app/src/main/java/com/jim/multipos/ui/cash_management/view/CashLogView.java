@@ -16,4 +16,8 @@ public interface CashLogView extends BaseView {
     void setTillOpenDateTime(Long date);
     void changeAccount(Long accountId);
     void setAccountSelection(int position);
+    void setTillClosedDateTime(Long closeDate);
+    void setTillStatus(int status);
+    void setNoTillDate();
+    void setDebtSales(String debtSales);
 }

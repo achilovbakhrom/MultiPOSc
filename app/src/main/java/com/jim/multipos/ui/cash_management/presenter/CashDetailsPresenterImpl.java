@@ -3,12 +3,11 @@ package com.jim.multipos.ui.cash_management.presenter;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Account;
-import com.jim.multipos.data.db.model.currency.Currency;
-import com.jim.multipos.data.db.model.customer.CustomerPayment;
-import com.jim.multipos.data.db.model.inventory.BillingOperations;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.PayedPartitions;
 import com.jim.multipos.data.db.model.till.Till;
+import com.jim.multipos.data.db.model.till.TillDetails;
+import com.jim.multipos.data.db.model.till.TillManagementOperation;
 import com.jim.multipos.data.db.model.till.TillOperation;
 import com.jim.multipos.ui.cash_management.view.CashDetailsView;
 
@@ -42,37 +41,20 @@ public class CashDetailsPresenterImpl extends BasePresenterImpl<CashDetailsView>
     public void calculateCashDetails(Account account, Till till) {
         this.account = account;
         this.till = till;
-        double payIn = 0, payOut = 0, bankDrop = 0, payToVendor = 0, incomeDebt = 0, cashTransactions = 0, tips = 0;
+        double payIn, payOut, bankDrop, payToVendor, incomeDebt, cashTransactions = 0, tips = 0, totalStartingCash;
         if (till != null) {
-            allOperations = databaseManager.getTillOperationsByAccountId(account.getId(), till.getId()).blockingGet();
-
-            if (!allOperations.isEmpty()) {
-                for (int i = 0; i < allOperations.size(); i++) {
-                    if (allOperations.get(i).getType() == TillOperation.PAY_IN)
-                        payIn += allOperations.get(i).getAmount();
-                    if (allOperations.get(i).getType() == TillOperation.PAY_OUT)
-                        payOut += allOperations.get(i).getAmount();
-                    if (allOperations.get(i).getType() == TillOperation.BANK_DROP)
-                        bankDrop += allOperations.get(i).getAmount();
-                }
-            }
-            Calendar fromDate = new GregorianCalendar(), toDate = new GregorianCalendar();
             if (till.getStatus() == Till.OPEN) {
+                totalStartingCash = databaseManager.getTotalTillManagementOperationsAmount(account.getId(), till.getId(), TillManagementOperation.OPENED_WITH).blockingGet();
+                payIn = databaseManager.getTotalTillOperationsAmount(account.getId(), till.getId(), TillOperation.PAY_IN).blockingGet();
+                payOut = databaseManager.getTotalTillOperationsAmount(account.getId(), till.getId(), TillOperation.PAY_OUT).blockingGet();
+                bankDrop = databaseManager.getTotalTillOperationsAmount(account.getId(), till.getId(), TillOperation.BANK_DROP).blockingGet();
+
+                Calendar fromDate = new GregorianCalendar(), toDate = new GregorianCalendar();
                 fromDate.setTimeInMillis(till.getOpenDate());
                 toDate.setTimeInMillis(System.currentTimeMillis());
-                List<BillingOperations> billingOperationsList = databaseManager.getBillingOperationsByInterval(fromDate, toDate).blockingGet();
-                for (int i = 0; i < billingOperationsList.size(); i++) {
-                    if (billingOperationsList.get(i).getAccount() != null && billingOperationsList.get(i).getAccount().getId().equals(account.getId()))
-                        payToVendor += billingOperationsList.get(i).getAmount();
-                }
-
-                List<CustomerPayment> customerPayments = databaseManager.getCustomerPaymentsByInterval(fromDate, toDate).blockingGet();
-                for (int i = 0; i < customerPayments.size(); i++) {
-                    if (customerPayments.get(i).getPaymentType().getAccount().getId().equals(account.getId()))
-                        incomeDebt += customerPayments.get(i).getPaymentAmount();
-                }
-
-                List<Order> ordersList = databaseManager.getAllTillOrders().blockingGet();
+                payToVendor = databaseManager.getBillingOperationsAmountInInterval(account.getId(), fromDate, toDate).blockingGet();
+                incomeDebt = databaseManager.getCustomerPaymentsInInterval(account.getId(), fromDate, toDate).blockingGet();
+                List<Order> ordersList = databaseManager.getOrdersByTillId(till.getId()).blockingGet();
                 for (int i = 0; i < ordersList.size(); i++) {
                     Order order = ordersList.get(i);
                     for (int j = 0; j < order.getPayedPartitions().size(); j++) {
@@ -83,31 +65,24 @@ public class CashDetailsPresenterImpl extends BasePresenterImpl<CashDetailsView>
                     }
                     double change = order.getChange();
                     if (change > 0) {
-                        if (account.getCirculation() == 0)
+                        if (account.getStaticAccountType() == 1)
                             cashTransactions -= change;
                     }
                     tips += order.getTips();
                 }
-
             } else {
-                fromDate.setTimeInMillis(till.getOpenDate());
-                toDate.setTimeInMillis(till.getCloseDate());
-                List<BillingOperations> billingOperationsList = databaseManager.getBillingOperationsByInterval(fromDate, toDate).blockingGet();
-                for (int i = 0; i < billingOperationsList.size(); i++) {
-                    if (billingOperationsList.get(i).getAccount().getId().equals(account.getId()))
-                        payToVendor += billingOperationsList.get(i).getAmount();
-                }
-
-                List<CustomerPayment> customerPayments = databaseManager.getCustomerPaymentsByInterval(fromDate, toDate).blockingGet();
-                for (int i = 0; i < customerPayments.size(); i++) {
-                    if (customerPayments.get(i).getPaymentType().getAccount().getId().equals(account.getId()))
-                        incomeDebt += customerPayments.get(i).getPaymentAmount();
-                }
+                TillDetails tillDetails = databaseManager.getTillDetailsByAccountId(account.getId(), till.getId()).blockingGet();
+                payIn = tillDetails.getTotalPayIns();
+                payOut = tillDetails.getTotalPayOuts();
+                bankDrop = tillDetails.getTotalBankDrops();
+                payToVendor = tillDetails.getTotalPayToVendors();
+                incomeDebt = tillDetails.getTotalDebtIncome();
+                cashTransactions = tillDetails.getTotalStartingCash();
+                tips = tillDetails.getTips();
+                totalStartingCash = tillDetails.getTotalStartingCash();
             }
-
-            double expectedCash = payIn - payOut - payToVendor + incomeDebt - bankDrop + cashTransactions;
-
-            view.fillTillDetails(payOut, payIn, payToVendor, incomeDebt, bankDrop, expectedCash, tips, cashTransactions);
+            double expectedCash = payIn - payOut - payToVendor + incomeDebt - bankDrop + cashTransactions + totalStartingCash;
+            view.fillTillDetails(totalStartingCash, payOut, payIn, payToVendor, incomeDebt, bankDrop, expectedCash, tips, cashTransactions);
         }
 
     }

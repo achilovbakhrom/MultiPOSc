@@ -1,6 +1,7 @@
 package com.jim.multipos.ui.discount.fragments;
 
 import com.jim.multipos.core.BaseView;
+import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.ui.discount.model.DiscountApaterDetials;
 
 import java.util.List;
@@ -20,5 +21,6 @@ public interface DiscountAddingView extends BaseView {
     void closeAction();
     void closeDiscountActivity();
     void openWarning();
-
+    void sendEvent(String event, Discount discount);
+    void sendChangeEvent(String event, Long oldId, Long newId);
 }

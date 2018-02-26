@@ -91,10 +91,6 @@ public class InventoryMenuActivity extends BaseActivity implements  InventoryMen
                 Intent intent2 = new Intent(this, VendorItemsActivity.class);
                 startActivity(intent2);
                 break;
-            case 2:
-                Intent intent = new Intent(this, VendorAddEditActivity.class);
-                startActivity(intent);
-                break;
         }
     }
 }

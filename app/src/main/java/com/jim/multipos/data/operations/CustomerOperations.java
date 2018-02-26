@@ -32,4 +32,5 @@ public interface CustomerOperations {
     Single<List<Debt>> getAllActiveDebts();
     Single<CustomerPayment> addCustomerPayment(CustomerPayment payment);
     Single<List<CustomerPayment>> getCustomerPaymentsByInterval(Calendar fromDate, Calendar toDate);
+    Single<Double> getCustomerPaymentsInInterval(Long id, Calendar fromDate, Calendar toDate);
 }

@@ -42,7 +42,7 @@ public class Debt {
     private double fee;
     private double debtAmount;
     private int status;
-    private boolean isDeleted;
+    private boolean isDeleted = false;
     @ToMany(joinProperties = {@JoinProperty(name = "id", referencedName = "debtId")})
     private List<CustomerPayment> customerPayments;
 

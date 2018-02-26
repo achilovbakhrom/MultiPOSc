@@ -126,7 +126,7 @@ public class PaymentTypeFragment extends BaseFragment implements ChangeableConte
                 UIUtils.closeKeyboard(view, getContext());
                 if (isValid()) {
                     FirstConfigurePresenter presenter = ((FirstConfigureActivity) getContext()).getPresenter();
-                    if (!presenter.isPayemntTypeNameExists(paymentTypeName.getText().toString())) {
+                    if (!presenter.isPaymentTypeNameExists(paymentTypeName.getText().toString())) {
                         PaymentType paymentType = ((FirstConfigureActivity) getContext())
                                 .getPresenter()
                                 .addPaymentType(paymentTypeName.getText().toString(),

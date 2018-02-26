@@ -25,6 +25,12 @@ public class DiscountAddingPresenterImpl extends BasePresenterImpl<DiscountAddin
     private AppCompatActivity context;
     private DatabaseManager databaseManager;
     public enum DiscountSortTypes {Ammount,Type,Discription,Used,Active,Default}
+
+    public static final String DISCOUNT_ADD = "discount is added";
+    public static final String DISCOUNT_UPDATE = "discount is updated";
+    public static final String DISCOUNT_DELETE = "discount is deleted";
+
+
     @Inject
     protected DiscountAddingPresenterImpl(AppCompatActivity context, DatabaseManager databaseManager, DiscountAddingView view) {
         super(view);
@@ -64,6 +70,7 @@ public class DiscountAddingPresenterImpl extends BasePresenterImpl<DiscountAddin
             discountApaterDetials.setObject(discount);
             items.add(1, discountApaterDetials);
             view.notifyItemAdd(1);
+            view.sendEvent(DISCOUNT_ADD, discount);
         });
     }
 
@@ -93,6 +100,7 @@ public class DiscountAddingPresenterImpl extends BasePresenterImpl<DiscountAddin
                         return;
                     }
                 }
+                view.sendChangeEvent(DISCOUNT_UPDATE, discount.getId(), discount1.getId());
             });
         });
     }
@@ -108,6 +116,7 @@ public class DiscountAddingPresenterImpl extends BasePresenterImpl<DiscountAddin
                     break;
                 }
             }
+            view.sendEvent(DISCOUNT_DELETE, discount);
         });
     }
 

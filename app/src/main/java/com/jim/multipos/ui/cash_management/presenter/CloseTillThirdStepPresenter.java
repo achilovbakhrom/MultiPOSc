@@ -7,4 +7,7 @@ import com.jim.multipos.core.Presenter;
  */
 
 public interface CloseTillThirdStepPresenter extends Presenter {
+    void initData();
+    void checkCompletion(boolean left);
+    void collectData();
 }

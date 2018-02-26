@@ -71,12 +71,14 @@
         <item>Classes</item>
         <item>Discounts</item>
         <item>Service Fee</item>
+        <item>Vendors Add&amp;Edit</item>
     </string-array>
     <string-array name="products_menu_description">
         <item>Add and change products</item>
         <item>Add and change product classes</item>
         <item>Manage discounts</item>
         <item>Manage service fees</item>
+        <item>Add and edit vendors</item>
     </string-array>
     <string-array name="customers_menu_title">
         <item>Customers Add&amp;Edit</item>
@@ -103,12 +105,10 @@
     <string-array name="inventory_menu_title">
         <item>Inventory</item>
         <item>Vendors item management</item>
-        <item>Vendors Add&amp;Edit</item>
     </string-array>
     <string-array name="inventory_menu_description">
         <item>Manage inventory</item>
         <item>Manage vendor items</item>
-        <item>Add and edit vendors</item>
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

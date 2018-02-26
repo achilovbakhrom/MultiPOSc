@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.jim.mpviews.MpButtonWithIcon;
 import com.jim.mpviews.MpList;
+import com.jim.mpviews.MpMiniList;
 import com.jim.mpviews.MpNumPad;
 import com.jim.mpviews.model.PaymentTypeWithService;
 import com.jim.multipos.R;
@@ -15,9 +16,9 @@ import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.PaymentType;
 import com.jim.multipos.data.db.model.till.Till;
+import com.jim.multipos.ui.cash_management.CashManagementActivity;
 import com.jim.multipos.ui.cash_management.connection.CashManagementConnection;
 import com.jim.multipos.ui.cash_management.dialog.CashOperationDialog;
-import com.jim.multipos.ui.cash_management.dialog.CloseTillDialog;
 import com.jim.multipos.ui.cash_management.dialog.OpenTillDialog;
 import com.jim.multipos.ui.cash_management.presenter.CashOperationsPresenter;
 import com.jim.multipos.utils.UIUtils;
@@ -75,7 +76,7 @@ public class CashOperationsFragment extends BaseFragment implements CashOperatio
     @BindView(R.id.btnCloseTill)
     TextView btnCloseTill;
     @BindView(R.id.mpPaymentTypesList)
-    MpList mpPaymentTypesList;
+    MpMiniList mpPaymentTypesList;
 
     @Inject
     CashOperationsPresenter presenter;
@@ -95,37 +96,37 @@ public class CashOperationsFragment extends BaseFragment implements CashOperatio
     @Override
     protected void init(Bundle savedInstanceState) {
         presenter.initData();
-        mpPaymentTypesList.setPaymentViewWidth(180);
+        connection.setCashOperationsView(this);
         btnClear.getNumPadTextView().setTextColor(ContextCompat.getColor(getContext(), R.color.colorTintGrey));
         etPaymentAmount.setRawInputType(InputType.TYPE_CLASS_TEXT);
         etPaymentAmount.setTextIsSelectable(true);
         initButtons();
         btnPayIn.setOnClickListener(view -> {
-            try {
-                presenter.doPayIn(decimalFormat.parse(etPaymentAmount.getText().toString()).doubleValue());
-                etPaymentAmount.setText("");
-            } catch (ParseException e) {
-                e.printStackTrace();
-                etPaymentAmount.setError(getContext().getString(R.string.ammount_is_empty));
-            }
+                try {
+                    presenter.doPayIn(decimalFormat.parse(etPaymentAmount.getText().toString()).doubleValue());
+                    etPaymentAmount.setText("");
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    etPaymentAmount.setError(getContext().getString(R.string.ammount_is_empty));
+                }
         });
         btnPayOut.setOnClickListener(view -> {
-            try {
-                presenter.doPayOut(decimalFormat.parse(etPaymentAmount.getText().toString()).doubleValue());
-                etPaymentAmount.setText("");
-            } catch (ParseException e) {
-                e.printStackTrace();
-                etPaymentAmount.setError(getContext().getString(R.string.ammount_is_empty));
-            }
+                try {
+                    presenter.doPayOut(decimalFormat.parse(etPaymentAmount.getText().toString()).doubleValue());
+                    etPaymentAmount.setText("");
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    etPaymentAmount.setError(getContext().getString(R.string.ammount_is_empty));
+                }
         });
         btnBankDrop.setOnClickListener(view -> {
-            try {
-                presenter.doBankDrop(decimalFormat.parse(etPaymentAmount.getText().toString()).doubleValue());
-                etPaymentAmount.setText("");
-            } catch (ParseException e) {
-                e.printStackTrace();
-                etPaymentAmount.setError(getContext().getString(R.string.ammount_is_empty));
-            }
+                try {
+                    presenter.doBankDrop(decimalFormat.parse(etPaymentAmount.getText().toString()).doubleValue());
+                    etPaymentAmount.setText("");
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    etPaymentAmount.setError(getContext().getString(R.string.ammount_is_empty));
+                }
         });
         btnCloseTill.setOnClickListener(view -> {
             if (tillStatus == Till.OPEN) {
@@ -171,7 +172,7 @@ public class CashOperationsFragment extends BaseFragment implements CashOperatio
     }
 
     @Override
-    public void getTillStatus(int status) {
+    public void applyTillStatus(int status) {
         tillStatus = status;
         if (status == Till.OPEN)
             btnCloseTill.setText(getContext().getString(R.string.close_till));
@@ -179,15 +180,24 @@ public class CashOperationsFragment extends BaseFragment implements CashOperatio
     }
 
     @Override
-    public void showCloseTillDialog() {
-        CloseTillDialog closeTillDialog = new CloseTillDialog();
-        closeTillDialog.show(getFragmentManager(), "CloseTillDialog");
+    public void showCloseTillDialog(Long tillId) {
+        ((CashManagementActivity) getActivity()).openCloseTillDialog(tillId);
     }
+
 
     @Override
     public void showOpenTillDialog() {
-        OpenTillDialog openTillDialog = new OpenTillDialog();
-        openTillDialog.show(getFragmentManager(), "OpenTillDialog");
+        OpenTillDialog openTillDialog = new OpenTillDialog(getContext(), databaseManager, status -> {
+            connection.setTillStatus(status);
+            applyTillStatus(status);
+        });
+        openTillDialog.show();
+    }
+
+    @Override
+    public void setTillStatus(int status) {
+        presenter.initData();
+        applyTillStatus(status);
     }
 
     private void initButtons() {
@@ -226,5 +236,11 @@ public class CashOperationsFragment extends BaseFragment implements CashOperatio
             etPaymentAmount.getText().clear();
         }
         etPaymentAmount.getText().insert(etPaymentAmount.getSelectionStart(), key);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        connection.setCashOperationsView(null);
     }
 }

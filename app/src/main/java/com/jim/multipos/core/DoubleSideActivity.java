@@ -40,6 +40,7 @@ public abstract class DoubleSideActivity extends BaseActivity{
     protected final void addFragmentWithBackStackToTopRight(Fragment fragment) {addFragmentWithBackStack(R.id.flRightTop,fragment);}
     protected final void addFragmentToFull(Fragment fragment){addFragment(R.id.flFullContainer,fragment);}
     protected final void addFragmentWithTagToFull(Fragment fragment, String tag){addFragmentWithTag(R.id.flFullContainer,fragment, tag);}
+    protected final void addFragmentWithTagToFullWindow(Fragment fragment, String tag){addFragmentWithTag(R.id.flFull,fragment, tag);}
     protected final void addFragmentWithBackStackToFull(Fragment fragment) {addFragmentWithBackStack(R.id.flFullContainer,fragment);}
 
     protected final void replaceFragmentToLeft(Fragment fragment){replaceFragment(R.id.flLeftContainer,fragment);}

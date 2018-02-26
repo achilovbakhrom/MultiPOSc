@@ -13,7 +13,7 @@
         <TextView
             android:id="@+id/tvProductName"
             android:layout_width="@dimen/two_hundred_dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/forty_dp"
             android:layout_gravity="center"
             android:paddingLeft="@dimen/thirty_dp"
             android:textColor="@color/colorMainText"
@@ -22,7 +22,7 @@
         <TextView
             android:id="@+id/tvProductPrice"
             android:layout_width="@dimen/hundred_thirty_dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/forty_dp"
             android:layout_gravity="center"
             android:gravity="center"
             android:textColor="@color/colorMainText"
@@ -32,7 +32,7 @@
             android:id="@+id/etReturnPrice"
             android:layout_width="@dimen/hundred_thirty_dp"
             android:layout_marginRight="@dimen/ten_dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/forty_dp"
             android:layout_gravity="center"
             android:gravity="center"
             android:inputType="numberDecimal"
@@ -44,7 +44,7 @@
         <com.jim.mpviews.MpEditText
             android:id="@+id/etQuantity"
             android:layout_width="@dimen/eighty_five_dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/forty_dp"
             android:layout_gravity="center"
             android:gravity="center"
             android:inputType="numberDecimal"
@@ -56,7 +56,7 @@
         <TextView
             android:id="@+id/tvUnit"
             android:layout_width="@dimen/fifty_dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/forty_dp"
             android:layout_gravity="center"
             android:layout_marginRight="@dimen/ten_dp"
             android:gravity="center"
@@ -67,7 +67,7 @@
             android:id="@+id/spVendors"
             android:layout_width="@dimen/hundred_eighty_dp"
             android:layout_marginRight="@dimen/ten_dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/forty_dp"
             android:layout_gravity="center"
             android:gravity="center"
             android:textColor="@color/colorMainText"

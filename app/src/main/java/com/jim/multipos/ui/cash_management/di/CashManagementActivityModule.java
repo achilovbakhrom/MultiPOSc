@@ -17,6 +17,8 @@ import com.jim.multipos.ui.cash_management.view.CashLogFragment;
 import com.jim.multipos.ui.cash_management.view.CashLogFragmentModule;
 import com.jim.multipos.ui.cash_management.view.CashOperationsFragmentModule;
 import com.jim.multipos.ui.cash_management.view.CashOperationsFragment;
+import com.jim.multipos.ui.cash_management.view.CloseTillDialogFragment;
+import com.jim.multipos.ui.cash_management.view.CloseTillDialogFragmentModule;
 import com.jim.multipos.ui.cash_management.view.CloseTillFirstStepFragment;
 import com.jim.multipos.ui.cash_management.view.CloseTillFirstStepFragmentModule;
 import com.jim.multipos.ui.cash_management.view.CloseTillSecondStepFragment;
@@ -70,6 +72,10 @@ public abstract class CashManagementActivityModule {
     @PerFragment
     @ContributesAndroidInjector(modules = CloseTillThirdStepFragmentModule.class)
     abstract CloseTillThirdStepFragment provideCloseTillThirdStepFragmentInjector();
+
+    @PerFragment
+    @ContributesAndroidInjector(modules = CloseTillDialogFragmentModule.class)
+    abstract CloseTillDialogFragment provideCloseTillDialogFragmentInjector();
 
     @PerActivity
     @Provides

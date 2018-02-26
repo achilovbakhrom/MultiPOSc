@@ -52,7 +52,7 @@
 
                 <LinearLayout
                     android:id="@+id/llClientId"
-                    android:layout_width="@dimen/sixty_dp"
+                    android:layout_width="@dimen/forty_dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/thirty_dp"
@@ -180,6 +180,34 @@
 
                     <ImageView
                         android:id="@+id/ivQrCodeSort"
+                        android:layout_width="@dimen/twelve_dp"
+                        android:layout_height="@dimen/ten_dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/ten_dp"
+                        android:src="@drawable/sorting"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/llCustomerDebt"
+                    android:layout_width="@dimen/hundred_thirty_five_dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/ten_dp"
+                    android:paddingRight="@dimen/ten_dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/debt_amount"
+                        android:textColor="@color/colorBlue"
+                        android:textSize="@dimen/sixteen_dp" />
+
+                    <ImageView
+                        android:id="@+id/ivCustomerDebtSort"
                         android:layout_width="@dimen/twelve_dp"
                         android:layout_height="@dimen/ten_dp"
                         android:layout_gravity="center"

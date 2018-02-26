@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
@@ -20,9 +19,8 @@ import com.jim.multipos.ui.mainpospage.connection.MainPageConnection;
 import com.jim.multipos.ui.mainpospage.presenter.ProductFolderViewPresenterImpl;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.RxBusLocal;
-import com.jim.multipos.utils.rxevents.CategoryEvent;
 import com.jim.multipos.utils.rxevents.MessageEvent;
-import com.jim.multipos.utils.rxevents.ProductEvent;
+import com.jim.multipos.utils.rxevents.EditEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +32,9 @@ import butterknife.OnClick;
 import io.reactivex.disposables.Disposable;
 
 import static com.jim.multipos.ui.consignment.view.IncomeConsignmentFragment.INVENTORY_STATE_UPDATE;
-import static com.jim.multipos.ui.mainpospage.view.ProductSquareViewFragment.OPEN_PRODUCT;
+import static com.jim.multipos.ui.product_last.ProductPresenterImpl.CATEGORY_ADD;
+import static com.jim.multipos.ui.product_last.ProductPresenterImpl.CATEGORY_DELETE;
+import static com.jim.multipos.ui.product_last.ProductPresenterImpl.CATEGORY_UPDATE;
 import static com.jim.multipos.ui.product_last.ProductPresenterImpl.PRODUCT_ADD;
 import static com.jim.multipos.ui.product_last.ProductPresenterImpl.PRODUCT_DELETE;
 import static com.jim.multipos.ui.product_last.ProductPresenterImpl.PRODUCT_UPDATE;
@@ -80,15 +80,26 @@ public class ProductFolderViewFragment extends BaseFragment implements ProductFo
                     if (o instanceof MessageEvent) {
                         MessageEvent event = (MessageEvent) o;
                         switch (event.getMessage()) {
-                            case PRODUCT_ADD:
-                            case PRODUCT_DELETE:
-                            case PRODUCT_UPDATE: {
+                            case CATEGORY_ADD:
+                            case CATEGORY_DELETE:
+                            case CATEGORY_UPDATE: {
                                 presenter.setFolderItemsRecyclerView();
                                 break;
                             }
                             case INVENTORY_STATE_UPDATE:
                                 presenter.updateProducts();
                                 break;
+                        }
+                    }
+                    if (o instanceof EditEvent) {
+                        EditEvent event = (EditEvent) o;
+                        switch (event.getMessage()) {
+                            case PRODUCT_ADD:
+                            case PRODUCT_DELETE:
+                            case PRODUCT_UPDATE: {
+                                presenter.setFolderItemsRecyclerView();
+                                break;
+                            }
                         }
                     }
                 }));

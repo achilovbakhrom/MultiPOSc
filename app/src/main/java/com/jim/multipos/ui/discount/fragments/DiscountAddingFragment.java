@@ -13,7 +13,10 @@ import com.jim.multipos.ui.discount.adapters.DiscountListAdapter;
 import com.jim.multipos.ui.discount.model.DiscountApaterDetials;
 import com.jim.multipos.ui.discount.presenters.DiscountAddingPresenter;
 import com.jim.multipos.ui.discount.presenters.DiscountAddingPresenterImpl;
+import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.WarningDialog;
+import com.jim.multipos.utils.rxevents.DiscountEvent;
+import com.jim.multipos.utils.rxevents.EditEvent;
 
 import java.util.List;
 
@@ -30,6 +33,8 @@ public class DiscountAddingFragment  extends BaseFragment implements DiscountAdd
     DiscountListAdapter discountListAdapter;
     @Inject
     DiscountAddingPresenter presenter;
+    @Inject
+    RxBus rxBus;
 
     @BindView(R.id.rvDiscounts)
     RecyclerView rvDiscounts;
@@ -128,6 +133,16 @@ public class DiscountAddingFragment  extends BaseFragment implements DiscountAdd
         warningDialog.setPositiveButtonText(getString(R.string.cancel));
         warningDialog.setNegativeButtonText(getString(R.string.discard));
         warningDialog.show();
+    }
+
+    @Override
+    public void sendEvent(String event, Discount discount) {
+       rxBus.send(new DiscountEvent(discount, event));
+    }
+
+    @Override
+    public void sendChangeEvent(String event, Long oldId, Long newId) {
+       rxBus.send(new EditEvent(oldId, newId, event));
     }
 
 }

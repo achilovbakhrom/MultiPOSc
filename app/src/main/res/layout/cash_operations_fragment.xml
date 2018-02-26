@@ -253,17 +253,13 @@
                     android:text="Payment Types"
                     android:textColor="@color/colorBlue" />
 
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
 
-                    <com.jim.mpviews.MpList
-                        android:id="@+id/mpPaymentTypesList"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/five_dp" />
+                <com.jim.mpviews.MpMiniList
+                    android:id="@+id/mpPaymentTypesList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/five_dp" />
 
-                </RelativeLayout>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -311,12 +307,12 @@
                     <TextView
                         android:id="@+id/btnCloseTill"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/hundred_fifteen_dp"
+                        android:layout_height="@dimen/hundred_dp"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:background="@drawable/pay_btn_payment"
                         android:gravity="center"
-                        android:text="Close Till"
+                        android:text="@string/close_till"
                         android:textColor="@color/colorBlue"
                         android:textSize="@dimen/twenty_five_dp"
                         android:textStyle="bold" />

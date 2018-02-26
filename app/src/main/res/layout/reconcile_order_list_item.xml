@@ -12,63 +12,62 @@
 
 
         <TextView
+            android:id="@+id/tvOrderNumber"
             android:layout_width="@dimen/eighty_dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="@dimen/thirty_dp"
-            android:gravity="center"
             android:textColor="@color/colorMainText"
             android:textSize="@dimen/sixteen_dp" />
 
 
         <TextView
+            android:id="@+id/tvCustomer"
             android:layout_width="@dimen/hundred_thirty_five_dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/ten_dp"
             android:gravity="center"
             android:textColor="@color/colorMainText"
             android:textSize="@dimen/sixteen_dp" />
 
 
         <TextView
+            android:id="@+id/tvDateOpened"
             android:layout_width="@dimen/hundred_thirty_five_dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/ten_dp"
             android:gravity="center"
             android:textColor="@color/colorMainText"
             android:textSize="@dimen/sixteen_dp" />
 
 
         <TextView
+            android:id="@+id/tvTotal"
             android:layout_width="@dimen/hundred_fifty_dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/ten_dp"
             android:gravity="center"
-            android:text="Total"
             android:textColor="@color/colorMainText"
             android:textSize="@dimen/sixteen_dp" />
 
         <TextView
+            android:id="@+id/tvDueSum"
             android:layout_width="@dimen/hundred_fifty_dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/ten_dp"
             android:gravity="center"
-            android:text="Due"
             android:textColor="@color/colorMainText"
             android:textSize="@dimen/sixteen_dp" />
 
         <LinearLayout
+            android:id="@+id/llExtraOptions"
             android:layout_width="match_parent"
+            android:gravity="center"
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/ivExtraOptions"
                 android:layout_width="@dimen/twenty_five_dp"
-                android:layout_height="@dimen/twenty_five_dp"
+                android:layout_height="@dimen/twenty_dp"
                 android:layout_gravity="center_vertical"
                 android:src="@drawable/three_dots"
                 android:tint="@color/colorBlue" />

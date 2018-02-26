@@ -1,7 +1,5 @@
 package com.jim.multipos.ui.service_fee_new;
 
-import android.support.v7.widget.RecyclerView;
-
 import com.jim.multipos.core.Presenter;
 import com.jim.multipos.data.db.model.ServiceFee;
 
@@ -12,15 +10,10 @@ import java.util.List;
  */
 
 public interface ServiceFeePresenter extends Presenter {
-    List<ServiceFee> getServiceFees();
-    void addServiceFee(ServiceFee serviceFee);
-    void saveServiceFee(ServiceFee serviceFee);
-    void updateServiceFee(ServiceFee serviceFee);
+    void initDataToServiceFee();
     void deleteServiceFee(ServiceFee serviceFee);
-    void sortByAmount(List<ServiceFee> items);
-    void sortByType(List<ServiceFee> items);
-    void sortByReason(List<ServiceFee> items);
-    void sortByAppType(List<ServiceFee> items);
-    void sortByActive(List<ServiceFee> items);
-    void sortByDefault(List<ServiceFee> items);
+    void addServiceFee(double amount, int type, String reason, int appType, boolean checked);
+    void onSave(double amount, int type, String description, int appType, boolean active, ServiceFee serviceFee);
+    void sortList(ServiceFeePresenterImpl.ServiceFeeSortTypes serviceFeeSortTypes);
+    void onClose();
 }

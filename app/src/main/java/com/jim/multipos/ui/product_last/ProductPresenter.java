@@ -50,4 +50,6 @@ public interface ProductPresenter extends Presenter {
     void initDataForList();
     void finishActivity();
     void openProduct(Product product);
+
+    void unitCategorySelectedWithPosition(int position, int unitPos);
 }

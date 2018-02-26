@@ -13,7 +13,7 @@
 
         <TextView
             android:id="@+id/tvCustomerId"
-            android:layout_width="@dimen/sixty_dp"
+            android:layout_width="@dimen/forty_dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="@dimen/thirty_dp"
@@ -63,6 +63,16 @@
             android:textColor="@color/colorMainText"
             android:textSize="@dimen/sixteen_dp" />
 
+        <TextView
+            android:id="@+id/tvDebtSum"
+            android:layout_width="@dimen/hundred_thirty_five_dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingLeft="@dimen/ten_dp"
+            android:paddingRight="@dimen/ten_dp"
+            android:textColor="@color/colorMainText"
+            android:textSize="@dimen/sixteen_dp" />
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -73,7 +83,7 @@
 
             <com.jim.mpviews.MpActionButton
                 android:id="@+id/btnEdit"
-                android:layout_width="@dimen/hundred_fifty_dp"
+                android:layout_width="@dimen/hundred_dp"
                 android:layout_height="@dimen/forty_dp"
                 android:layout_gravity="center"
                 android:gravity="center"
@@ -94,7 +104,7 @@
 
             <com.jim.mpviews.MpActionButton
                 android:id="@+id/btnAddToOrder"
-                android:layout_width="@dimen/hundred_fifty_dp"
+                android:layout_width="@dimen/hundred_dp"
                 android:layout_height="@dimen/forty_dp"
                 android:layout_gravity="center"
                 android:gravity="center"

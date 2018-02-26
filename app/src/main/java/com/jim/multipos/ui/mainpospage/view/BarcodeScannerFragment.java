@@ -1,7 +1,11 @@
 package com.jim.multipos.ui.mainpospage.view;
 
+import android.Manifest;
 import android.app.Dialog;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -42,6 +46,7 @@ public class BarcodeScannerFragment extends BaseFragment implements BarcodeScann
 
     private float dX;
     private float dY;
+    public static final int CAMER_REQUEST_CODE = 1010;
     @BindView(R.id.llScanner)
     LinearLayout llScanner;
     @BindView(R.id.barcode)
@@ -69,7 +74,9 @@ public class BarcodeScannerFragment extends BaseFragment implements BarcodeScann
 
     @Override
     protected void init(Bundle savedInstanceState) {
-
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED){
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, CAMER_REQUEST_CODE);
+        }
         barcodeView.decodeContinuous(barcodeCallback);
 
         llScanner.setOnTouchListener((view, motionEvent) -> {
@@ -168,10 +175,7 @@ public class BarcodeScannerFragment extends BaseFragment implements BarcodeScann
     }
 
     public void hideBarcodeScannerFragment() {
-        BarcodeScannerFragment barcodeScannerFragment = (BarcodeScannerFragment) getActivity().getSupportFragmentManager().findFragmentByTag(BarcodeScannerFragment.class.getName());
-        if (barcodeScannerFragment != null) {
-            getActivity().getSupportFragmentManager().beginTransaction().hide(barcodeScannerFragment).commit();
-        }
+        getActivity().getSupportFragmentManager().popBackStack();
     }
 
     @Override

@@ -56,7 +56,6 @@ public class AddDiscountDialog extends Dialog {
     private DiscountDialog.CallbackDiscountDialog callbackDiscountDialog;
     private double resultPrice = 0;
     private double discountValue = 0;
-    private boolean on = false;
 
     public AddDiscountDialog(@NonNull Context context, DatabaseManager databaseManager, double price, int discountType,DiscountDialog.CallbackDiscountDialog callbackDiscountDialog, DecimalFormat formatter) {
         super(context);
@@ -78,7 +77,6 @@ public class AddDiscountDialog extends Dialog {
             discountAmountType = Discount.PERCENT;
             tvType.setText("%");
         }
-
         swDiscountType.setSwitcherStateChangedListener((isRight, isLeft) -> {
             if (isLeft) {
                 discountAmountType = Discount.VALUE;
@@ -114,7 +112,7 @@ public class AddDiscountDialog extends Dialog {
                             double result = 0;
                             if (discountAmountType == Discount.VALUE) {
                                 if (discountValue > price) {
-                                    etDiscountAmount.setError("Discount discountValue cannot be bigger than price");
+                                    etDiscountAmount.setError("Discount value cannot be bigger than price");
                                 } else {
                                     result = price - discountValue;
                                     resultPrice = result;

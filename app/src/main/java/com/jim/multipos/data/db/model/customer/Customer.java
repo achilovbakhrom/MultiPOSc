@@ -319,7 +319,8 @@ public class Customer implements Editable {
                 .queryBuilder(Debt.class)
                 .where(
                         DebtDao.Properties.CustomerId.eq(id),
-                        DebtDao.Properties.Status.eq(Debt.ACTIVE)
+                        DebtDao.Properties.Status.eq(Debt.ACTIVE),
+                        DebtDao.Properties.IsDeleted.eq(false)
                 )
                 .build()
                 .list();

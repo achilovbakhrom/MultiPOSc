@@ -55,6 +55,7 @@ import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.data.db.model.inventory.WarehouseOperationsDao;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.OrderChangesLog;
+import com.jim.multipos.data.db.model.order.OrderDao;
 import com.jim.multipos.data.db.model.order.OrderProduct;
 import com.jim.multipos.data.db.model.order.PayedPartitions;
 import com.jim.multipos.data.db.model.products.Category;
@@ -68,14 +69,15 @@ import com.jim.multipos.data.db.model.products.VendorProductCon;
 import com.jim.multipos.data.db.model.products.VendorProductConDao;
 import com.jim.multipos.data.db.model.stock.Stock;
 import com.jim.multipos.data.db.model.till.Till;
+import com.jim.multipos.data.db.model.till.TillDetailsDao;
+import com.jim.multipos.data.db.model.till.TillManagementOperation;
 import com.jim.multipos.data.db.model.till.TillDetails;
+import com.jim.multipos.data.db.model.till.TillManagementOperationDao;
 import com.jim.multipos.data.db.model.till.TillOperation;
-import com.jim.multipos.data.db.model.till.TillOperationDao;
 import com.jim.multipos.data.db.model.unit.SubUnitsList;
 import com.jim.multipos.data.db.model.unit.Unit;
 import com.jim.multipos.data.db.model.unit.UnitCategory;
 import com.jim.multipos.data.db.model.unit.UnitDao;
-import com.jim.multipos.data.operations.PayedPartitionOperations;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
 import com.jim.multipos.ui.vendor_item_managment.model.VendorWithDebt;
 
@@ -84,6 +86,7 @@ import org.greenrobot.greendao.query.LazyList;
 import org.greenrobot.greendao.query.Query;
 import org.greenrobot.greendao.query.QueryBuilder;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -1654,7 +1657,8 @@ public class AppDbHelper implements DbHelper {
             List<Debt> debts = mDaoSession
                     .queryBuilder(Debt.class)
                     .where(DebtDao.Properties.CustomerId.eq(id),
-                            DebtDao.Properties.Status.eq(Debt.ACTIVE))
+                           DebtDao.Properties.Status.eq(Debt.ACTIVE),
+                           DebtDao.Properties.IsDeleted.eq(false))
                     .build().list();
             e.onSuccess(debts);
         });
@@ -1754,7 +1758,9 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Single<List<Order>> getAllTillOrders() {
         return Single.create(e -> {
-            e.onSuccess(mDaoSession.getOrderDao().loadAll());
+            e.onSuccess(mDaoSession.getOrderDao().queryBuilder()
+                        .where(OrderDao.Properties.IsArchive.eq(false))
+                        .build().list());
         });
     }
 
@@ -1831,6 +1837,23 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
+    public Single<Long> getCurrentOpenTillId() {
+        return Single.create(e -> {
+            Till till;
+            String query = "SELECT * FROM TILL WHERE STATUS = " + Till.OPEN;
+            Cursor cursor = mDaoSession.getDatabase().rawQuery(query, null);
+            cursor.moveToFirst();
+            till = new Till();
+            till.setId(cursor.getLong(cursor.getColumnIndex("_id")));
+            till.setStatus(Till.OPEN);
+            till.setOpenDate(cursor.getLong(cursor.getColumnIndex("OPEN_DATE")));
+            till.setCloseDate(cursor.getLong(cursor.getColumnIndex("CLOSE_DATE")));
+            till.setDebtSales(cursor.getDouble(cursor.getColumnIndex("DEBT_SALES")));
+            e.onSuccess(till.getId());
+        });
+    }
+
+    @Override
     public Single<Boolean> isHaveOpenTill() {
         return Single.create(e -> {
             String query = "SELECT * FROM TILL WHERE STATUS = " + Till.OPEN;
@@ -1868,6 +1891,160 @@ public class AppDbHelper implements DbHelper {
             till.setCloseDate(newCursor.getLong(newCursor.getColumnIndex("CLOSE_DATE")));
             till.setDebtSales(newCursor.getDouble(newCursor.getColumnIndex("DEBT_SALES")));
             e.onSuccess(till);
+        });
+    }
+
+    @Override
+    public Single<TillManagementOperation> insertTillCloseOperation(TillManagementOperation tillCloseOperation) {
+        return Single.create(singleSubscriber -> {
+            mDaoSession .getTillManagementOperationDao().insertOrReplace(tillCloseOperation);
+            singleSubscriber.onSuccess(tillCloseOperation);
+        });
+    }
+
+    @Override
+    public Single<Till> getTillById(Long tillId) {
+        return Single.create(singleSubscriber -> {
+            Till till = mDaoSession.getTillDao().load(tillId);
+            singleSubscriber.onSuccess(till);
+        });
+    }
+
+    @Override
+    public Single<List<TillManagementOperation>> insertTillCloseOperationList(List<TillManagementOperation> tillCloseOperations) {
+        return Single.create(singleSubscriber -> {
+            mDaoSession.getTillManagementOperationDao().insertOrReplaceInTx(tillCloseOperations);
+            singleSubscriber.onSuccess(tillCloseOperations);
+        });
+    }
+
+    @Override
+    public Single<List<TillManagementOperation>> getTillManagementOperationsByTillId(Long id) {
+        return Single.create(e -> {
+            List<TillManagementOperation> operations = mDaoSession.getTillManagementOperationDao().queryBuilder()
+                    .where(TillManagementOperationDao.Properties.TillId.eq(id))
+                    .build()
+                    .list();
+            e.onSuccess(operations);
+        });
+    }
+
+    @Override
+    public Single<Double> getTotalTillOperationsAmount(Long accountId, Long tillId, int type) {
+        return Single.create(singleSubscriber -> {
+            String query = "SELECT SUM(a.AMOUNT) AS TOTAL FROM TILL_OPERATIONS a INNER JOIN PAYMENT_TYPE b ON a.PAYMENT_TYPE_ID = b._id" +
+                    " WHERE b.ACCOUNT_ID = " + accountId + " AND a.TILL_ID = " + tillId + " AND a.TYPE =" + type;
+            Cursor cursor = mDaoSession.getDatabase().rawQuery(query, null);
+            cursor.moveToFirst();
+            double operationAmount = 0;
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+                    operationAmount += cursor.getDouble(cursor.getColumnIndex("TOTAL"));
+                    cursor.moveToNext();
+                }
+            }
+            singleSubscriber.onSuccess(operationAmount);
+        });
+    }
+
+    @Override
+    public Single<Double> getTotalTillManagementOperationsAmount(Long accountId, Long tillId, int type) {
+        return Single.create(singleSubscriber -> {
+            String query = "SELECT SUM(AMOUNT) AS TOTAL FROM TILL_MANAGEMENT_OPERATION  WHERE ACCOUNT_ID = " + accountId + " AND TILL_ID = " + tillId + " AND TYPE =" + type;
+            Cursor cursor = mDaoSession.getDatabase().rawQuery(query, null);
+            cursor.moveToFirst();
+            double operationAmount = 0;
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+                    operationAmount += cursor.getDouble(cursor.getColumnIndex("TOTAL"));
+                    cursor.moveToNext();
+                }
+            }
+            singleSubscriber.onSuccess(operationAmount);
+        });
+    }
+
+    @Override
+    public Single<Double> getBillingOperationsAmountInInterval(Long accountId, Calendar fromDate, Calendar toDate) {
+        return Single.create(e -> {
+            String query = "SELECT SUM(AMOUNT) AS TOTAL FROM BILLING_OPERATION " +
+                    "WHERE ACCOUNT_ID IS NOT NULL AND ACCOUNT_ID = " + accountId + " AND PAYMENT_DATE BETWEEN " + fromDate.getTimeInMillis() + " AND " + toDate.getTimeInMillis();
+            Cursor cursor = mDaoSession.getDatabase().rawQuery(query, null);
+            cursor.moveToFirst();
+            double operationAmount = 0;
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+                    operationAmount += cursor.getDouble(cursor.getColumnIndex("TOTAL"));
+                    cursor.moveToNext();
+                }
+            }
+            e.onSuccess(operationAmount);
+        });
+    }
+
+    @Override
+    public Single<Double> getCustomerPaymentsInInterval(Long id, Calendar fromDate, Calendar toDate) {
+        return Single.create(e -> {
+            String query = "SELECT SUM(a.PAYMENT_AMOUNT) AS TOTAL FROM CUSTOMER_PAYMENT a INNER JOIN PAYMENT_TYPE b ON a.PAYMENT_TYPE_ID = b._id" +
+                    " WHERE b.ACCOUNT_ID = " + id + " AND PAYMENT_DATE BETWEEN " + fromDate.getTimeInMillis() + " AND " + toDate.getTimeInMillis();
+            Cursor cursor = mDaoSession.getDatabase().rawQuery(query, null);
+            cursor.moveToFirst();
+            double operationAmount = 0;
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+                    operationAmount += cursor.getDouble(cursor.getColumnIndex("TOTAL"));
+                    cursor.moveToNext();
+                }
+            }
+            e.onSuccess(operationAmount);
+        });
+    }
+
+    @Override
+    public Single<List<Order>> getOrdersByTillId(Long id) {
+        return Single.create(e -> {
+            e.onSuccess(mDaoSession.getOrderDao().queryBuilder()
+                    .where(OrderDao.Properties.TillId.eq(id))
+                    .build().list());
+        });
+    }
+
+    @Override
+    public Single<TillDetails> getTillDetailsByAccountId(Long accountId, Long tillId) {
+        return Single.create(e -> {
+            String query = "SELECT * FROM TILL_DETAILS WHERE ACCOUNT_ID = " + accountId + " AND TILL_ID = " + tillId;
+            Cursor cursor = mDaoSession.getDatabase().rawQuery(query, null);
+            cursor.moveToFirst();
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                TillDetails details = new TillDetails();
+                details.setId(cursor.getLong(cursor.getColumnIndex("_id")));
+                details.setTips(cursor.getDouble(cursor.getColumnIndex("TIPS")));
+                details.setTotalStartingCash(cursor.getDouble(cursor.getColumnIndex("TOTAL_STARTING_CASH")));
+                details.setTotalSales(cursor.getDouble(cursor.getColumnIndex("TOTAL_SALES")));
+                details.setTotalPayToVendors(cursor.getDouble(cursor.getColumnIndex("TOTAL_PAY_TO_VENDORS")));
+                details.setTotalPayIns(cursor.getDouble(cursor.getColumnIndex("TOTAL_PAY_INS")));
+                details.setTotalPayOuts(cursor.getDouble(cursor.getColumnIndex("TOTAL_PAY_OUTS")));
+                details.setTotalDebtIncome(cursor.getDouble(cursor.getColumnIndex("TOTAL_DEBT_INCOME")));
+                details.setTotalBankDrops(cursor.getDouble(cursor.getColumnIndex("TOTAL_BANK_DROPS")));
+                details.setAccount(mDaoSession.getAccountDao().load(cursor.getLong(cursor.getColumnIndex("ACCOUNT_ID"))));
+                details.setTillId(cursor.getLong(cursor.getColumnIndex("TILL_ID")));
+                e.onSuccess(details);
+            }
+        });
+    }
+
+    @Override
+    public Single<List<Order>> getAllHoldOrders() {
+        return Single.create(e -> {
+            e.onSuccess(mDaoSession.getOrderDao().queryBuilder()
+                    .where(OrderDao.Properties.Status.eq(Order.HOLD_ORDER),
+                    OrderDao.Properties.IsArchive.eq(false))
+                    .build().list());
         });
     }
 

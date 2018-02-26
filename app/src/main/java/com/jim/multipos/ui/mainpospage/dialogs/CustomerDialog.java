@@ -35,6 +35,8 @@ import butterknife.OnClick;
 
 import static com.jim.multipos.ui.mainpospage.dialogs.CustomerDialog.CustomerSortingStates.SORTED_BY_ADDRESS;
 import static com.jim.multipos.ui.mainpospage.dialogs.CustomerDialog.CustomerSortingStates.SORTED_BY_ADDRESS_INVERT;
+import static com.jim.multipos.ui.mainpospage.dialogs.CustomerDialog.CustomerSortingStates.SORTED_BY_DEBT;
+import static com.jim.multipos.ui.mainpospage.dialogs.CustomerDialog.CustomerSortingStates.SORTED_BY_DEBT_INVERT;
 import static com.jim.multipos.ui.mainpospage.dialogs.CustomerDialog.CustomerSortingStates.SORTED_BY_ID;
 import static com.jim.multipos.ui.mainpospage.dialogs.CustomerDialog.CustomerSortingStates.SORTED_BY_ID_INVERT;
 import static com.jim.multipos.ui.mainpospage.dialogs.CustomerDialog.CustomerSortingStates.SORTED_BY_NAME;
@@ -64,6 +66,8 @@ public class CustomerDialog extends Dialog {
     LinearLayout llCustomerContacts;
     @BindView(R.id.llCustomerQrCode)
     LinearLayout llCustomerQrCode;
+    @BindView(R.id.llCustomerDebt)
+    LinearLayout llCustomerDebt;
     @BindView(R.id.ivQrCodeSort)
     ImageView ivQrCodeSort;
     @BindView(R.id.ivIdSort)
@@ -74,6 +78,8 @@ public class CustomerDialog extends Dialog {
     ImageView ivAddressSort;
     @BindView(R.id.ivContactsSort)
     ImageView ivContactsSort;
+    @BindView(R.id.ivCustomerDebtSort)
+    ImageView ivCustomerDebtSort;
     @BindView(R.id.btnAddNewCustomer)
     MpButton btnAddNewCustomer;
     private CustomersListAdapter customersListAdapter;
@@ -82,12 +88,13 @@ public class CustomerDialog extends Dialog {
     private AddCustomerDialog addCustomerDialog;
 
     public enum CustomerSortingStates {
-        SORTED_BY_ID, SORTED_BY_ID_INVERT, SORTED_BY_NAME, SORTED_BY_NAME_INVERT, SORTED_BY_PHONE, SORTED_BY_PHONE_INVERT, SORTED_BY_ADDRESS, SORTED_BY_ADDRESS_INVERT, SORTED_BY_QR, SORTED_BY_QR_INVERT
+        SORTED_BY_ID, SORTED_BY_ID_INVERT, SORTED_BY_NAME, SORTED_BY_NAME_INVERT, SORTED_BY_PHONE, SORTED_BY_PHONE_INVERT, SORTED_BY_ADDRESS, SORTED_BY_ADDRESS_INVERT, SORTED_BY_QR, SORTED_BY_QR_INVERT,
+        SORTED_BY_DEBT, SORTED_BY_DEBT_INVERT
     }
 
     private CustomerSortingStates filterMode = SORTED_BY_ID;
 
-    public CustomerDialog(@NonNull Context context, DatabaseManager databaseManager, NotifyManager notifyManager,MainPageConnection mainPageConnection) {
+    public CustomerDialog(@NonNull Context context, DatabaseManager databaseManager, NotifyManager notifyManager, MainPageConnection mainPageConnection) {
         super(context);
         View dialogView = getLayoutInflater().inflate(R.layout.choose_customers_dialog, null);
         ButterKnife.bind(this, dialogView);
@@ -100,7 +107,7 @@ public class CustomerDialog extends Dialog {
         customerList = databaseManager.getAllCustomers().blockingSingle();
         rvCustomersList.setLayoutManager(new LinearLayoutManager(context));
         ((SimpleItemAnimator) rvCustomersList.getItemAnimator()).setSupportsChangeAnimations(false);
-        customersListAdapter = new CustomersListAdapter();
+        customersListAdapter = new CustomersListAdapter(getContext(), databaseManager.getMainCurrency());
         sortList();
         rvCustomersList.setAdapter(customersListAdapter);
         customersListAdapter.setData(customerList);
@@ -129,7 +136,7 @@ public class CustomerDialog extends Dialog {
                 customerList = databaseManager.getAllCustomers().blockingSingle();
                 sortList();
                 customersListAdapter.setData(customerList);
-                if (customer != null){
+                if (customer != null) {
 
                 }
             }, mainPageConnection);
@@ -208,6 +215,21 @@ public class CustomerDialog extends Dialog {
             }
         });
 
+        llCustomerDebt.setOnClickListener(view -> {
+            deselectAll();
+            if (filterMode != SORTED_BY_DEBT) {
+                filterMode = SORTED_BY_DEBT;
+                sortList();
+                ivCustomerDebtSort.setVisibility(View.VISIBLE);
+                ivCustomerDebtSort.setImageResource(R.drawable.sorting);
+            } else {
+                filterMode = SORTED_BY_DEBT_INVERT;
+                ivCustomerDebtSort.setVisibility(View.VISIBLE);
+                ivCustomerDebtSort.setImageResource(R.drawable.sorting_invert);
+                sortList();
+            }
+        });
+
         svCustomerSearch.getSearchView().addTextChangedListener(new TextWatcherOnTextChange() {
             @Override
             public void onTextChanged(CharSequence charSequence, int position, int i1, int i2) {
@@ -233,8 +255,9 @@ public class CustomerDialog extends Dialog {
                         }
                         if (customerList.get(i).getAddress().toUpperCase().contains(searchText.toUpperCase())) {
                             searchResults.add(customerList.get(i));
+                            continue;
                         }
-                        if (customerList.get(i).getQrCode().toUpperCase().contains(searchText.toUpperCase())){
+                        if (customerList.get(i).getQrCode().toUpperCase().contains(searchText.toUpperCase())) {
                             searchResults.add(customerList.get(i));
                         }
                     }
@@ -260,11 +283,11 @@ public class CustomerDialog extends Dialog {
         dismiss();
     }
 
-    public interface onBarcodeClickListener{
+    public interface onBarcodeClickListener {
         void onBarcodeClick();
     }
 
-    public void setListener(onBarcodeClickListener listener){
+    public void setListener(onBarcodeClickListener listener) {
         this.listener = listener;
     }
 

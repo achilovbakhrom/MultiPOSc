@@ -10,10 +10,7 @@ import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Account;
 import com.jim.multipos.data.db.model.PaymentType;
 import com.jim.multipos.data.db.model.currency.Currency;
-import com.jim.multipos.data.db.model.unit.Unit;
-import com.jim.multipos.data.db.model.unit.UnitCategory;
 import com.jim.multipos.data.prefs.PreferencesHelper;
-import com.jim.multipos.ui.first_configure.fragments.UnitsFragment;
 import com.jim.multipos.ui.first_configure_last.adapter.FirstConfigureListItem;
 import com.jim.multipos.ui.first_configure_last.fragment.AccountFragment;
 import com.jim.multipos.ui.first_configure_last.fragment.CurrencyFragment;
@@ -49,10 +46,6 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
     @Getter
     private int[] completedFragments = null;
     private final DatabaseManager databaseManager;
-    @Getter
-    private final String[] types;
-    @Getter
-    private final String[] circulations;
 
     private final String[] currencyName;
     private final String[] currencyAbbr;
@@ -65,8 +58,6 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
     public FirstConfigurePresenterImpl(FirstConfigureView view,
                                        DatabaseManager databaseManager,
                                        PreferencesHelper preferencesHelper,
-                                       @Named(value = "account_circulations") String[] circulations,
-                                       @Named(value = "account_types") String[] types,
                                        @Named(value = "currency_name") String[] currencyName,
                                        @Named(value = "currency_abbr") String[] currencyAbbr,
                                        @Named(value = "first_configure_items") String[] firstConfigureListItems,
@@ -76,8 +67,6 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
         this.databaseManager = databaseManager;
         this.view = view;
         this.completedFragments = new int[5];
-        this.types = types;
-        this.circulations = circulations;
         this.currencyName = currencyName;
         this.currencyAbbr = currencyAbbr;
         this.firstConfigureListItems = firstConfigureListItems;
@@ -102,10 +91,13 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
 
         Account account = new Account();
         account.setName("DebtAccount");
-        account.setCirculation(0);
-        account.setType(0);
+        account.setStaticAccountType(Account.DEBT_ACCOUNT);
         account.setIsVisible(false);
         databaseManager.addAccount(account).blockingSingle();
+        Account account1 = new Account();
+        account1.setName("Cash");
+        account1.setStaticAccountType(Account.CASH_ACCOUNT);
+        databaseManager.addAccount(account1).blockingSingle();
         PaymentType paymentType = new PaymentType();
         paymentType.setAccount(account);
         paymentType.setName("ToDebt");
@@ -137,7 +129,7 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
     }
 
     @Override
-    public void savePOSDetials(String posId, String alias, String address, String password) {
+    public void savePOSDetails(String posId, String alias, String address, String password) {
         preferences.setPosDetailPosId(posId);
         preferences.setPosDetailAlias(alias);
         preferences.setPosDetailAddress(address);
@@ -170,11 +162,9 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
     }
 
     @Override
-    public Account addAccount(String name, int type, int circulation) {
+    public Account addAccount(String name) {
         Account account = new Account();
         account.setName(name);
-        account.setType(type);
-        account.setCirculation(circulation);
         return databaseManager.getAccountOperations().addAccount(account).blockingSingle();
     }
 
@@ -355,7 +345,7 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
         } else {
             completion.put(POS_DETAILS_KEY, true);
             view.changeState(POS_DETAILS_POSITION, MpCompletedStateView.COMPLETED_STATE);
-            savePOSDetials(posId, alias, address, password);
+            savePOSDetails(posId, alias, address, password);
         }
 
     }
@@ -370,13 +360,8 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
                 view.changeState(PAYMENT_TYPE_POSITION, MpCompletedStateView.WARNING_STATE);
             }
         } else {
-            if (checkAccountTypes()) {
-                completion.put(ACCOUNT_KEY, true);
-                view.changeState(ACCOUNT_POSITION, MpCompletedStateView.COMPLETED_STATE);
-            } else {
-                completion.put(ACCOUNT_KEY, false);
-                view.changeState(ACCOUNT_POSITION, MpCompletedStateView.WARNING_STATE);
-            }
+            completion.put(ACCOUNT_KEY, true);
+            view.changeState(ACCOUNT_POSITION, MpCompletedStateView.COMPLETED_STATE);
         }
     }
 
@@ -459,17 +444,7 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
     }
 
     @Override
-    public boolean isPayemntTypeNameExists(String name) {
+    public boolean isPaymentTypeNameExists(String name) {
         return databaseManager.isPaymentTypeNameExists(name).blockingSingle();
-    }
-
-    @Override
-    public boolean checkAccountTypes() {
-        List<Account> accountList = getAccounts();
-        for (Account account : accountList) {
-            if (account.getCirculation() == 0)
-                return true;
-        }
-        return false;
     }
 }

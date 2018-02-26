@@ -46,6 +46,10 @@ public class MpCompletedStateView extends AppCompatImageView {
         this.state = state;
     }
 
+    public int getState(){
+        return this.state;
+    }
+
     @Nullable
     @Override
     protected Parcelable onSaveInstanceState() {

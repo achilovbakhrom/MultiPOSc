@@ -22,7 +22,6 @@ public class TillOperation {
 
     @Id(autoincrement = true)
     private Long id;
-    private String name;
     private int type;
     private double amount;
     private String description;
@@ -148,23 +147,11 @@ public class TillOperation {
     public void setTillId(Long tillId) {
         this.tillId = tillId;
     }
-    public int getType() {
-        return this.type;
+    public String getDescription() {
+        return this.description;
     }
-    public void setType(int type) {
-        this.type = type;
-    }
-    public String getName() {
-        return this.name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-    public Long getId() {
-        return this.id;
-    }
-    public void setId(Long id) {
-        this.id = id;
+    public void setDescription(String description) {
+        this.description = description;
     }
     public double getAmount() {
         return this.amount;
@@ -172,17 +159,22 @@ public class TillOperation {
     public void setAmount(double amount) {
         this.amount = amount;
     }
-    public String getDescription() {
-        return this.description;
+    public int getType() {
+        return this.type;
     }
-    public void setDescription(String description) {
-        this.description = description;
+    public void setType(int type) {
+        this.type = type;
     }
-    @Generated(hash = 780886893)
-    public TillOperation(Long id, String name, int type, double amount, String description,
+    public Long getId() {
+        return this.id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
+    @Generated(hash = 616046231)
+    public TillOperation(Long id, int type, double amount, String description,
             Long tillId, Long paymentTypeId) {
         this.id = id;
-        this.name = name;
         this.type = type;
         this.amount = amount;
         this.description = description;

@@ -254,4 +254,17 @@ public class ServiceFee implements Editable {
         this.isManual = isManual;
     }
 
+    public ServiceFee copy(){
+        ServiceFee serviceFee = new ServiceFee();
+        serviceFee.setId(id);
+        serviceFee.setAmount(amount);
+        serviceFee.setName(name);
+        serviceFee.setType(type);
+        serviceFee.setApplyingType(applyingType);
+        serviceFee.setActive(isActive);
+        serviceFee.setNotModifyted(notModifyted);
+        serviceFee.setRootId(rootId);
+        serviceFee.setCreatedDate(createdDate);
+        return serviceFee;
+    }
 }

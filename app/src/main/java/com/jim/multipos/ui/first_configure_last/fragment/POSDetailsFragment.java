@@ -3,9 +3,7 @@ package com.jim.multipos.ui.first_configure_last.fragment;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import com.jim.mpviews.MpButton;
 import com.jim.mpviews.MpCompletedStateView;
@@ -16,7 +14,6 @@ import com.jim.multipos.ui.first_configure_last.CompletionMode;
 import com.jim.multipos.ui.first_configure_last.ChangeableContent;
 import com.jim.multipos.ui.first_configure_last.FirstConfigureActivity;
 import com.jim.multipos.ui.first_configure_last.FirstConfigurePresenter;
-import com.jim.multipos.utils.UIUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -127,7 +124,7 @@ public class POSDetailsFragment extends BaseFragment implements ChangeableConten
                 if (isValid()) {
                     if (mode == CompletionMode.NEXT) {
                         FirstConfigureActivity activity = (FirstConfigureActivity) getContext();
-                        activity.getPresenter().savePOSDetials(posId.getText().toString(),
+                        activity.getPresenter().savePOSDetails(posId.getText().toString(),
                                 alias.getText().toString(),
                                 address.getText().toString(),
                                 password.getText().toString());

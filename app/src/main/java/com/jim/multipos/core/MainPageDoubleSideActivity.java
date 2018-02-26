@@ -254,16 +254,13 @@ public abstract class MainPageDoubleSideActivity extends BaseActivity{
         BarcodeScannerFragment barcodeScannerFragment = (BarcodeScannerFragment) getSupportFragmentManager().findFragmentByTag(BarcodeScannerFragment.class.getName());
         if (barcodeScannerFragment == null) {
             barcodeScannerFragment = new BarcodeScannerFragment();
-            addFragmentWithTagStatic(R.id.flFullContainer, barcodeScannerFragment, BarcodeScannerFragment.class.getName());
+            addFragmentWithTag(R.id.flFullContainer, barcodeScannerFragment, BarcodeScannerFragment.class.getName());
         } else {
             getSupportFragmentManager().beginTransaction().show(barcodeScannerFragment).commit();
         }
     }
 
     public void hideBarcodeScannerFragment() {
-        BarcodeScannerFragment barcodeScannerFragment = (BarcodeScannerFragment) getSupportFragmentManager().findFragmentByTag(BarcodeScannerFragment.class.getName());
-        if (barcodeScannerFragment != null) {
-            getSupportFragmentManager().beginTransaction().hide(barcodeScannerFragment).commit();
-        }
+        getSupportFragmentManager().popBackStack();
     }
 }

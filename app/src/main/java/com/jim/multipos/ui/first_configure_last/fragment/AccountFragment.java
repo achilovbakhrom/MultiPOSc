@@ -35,10 +35,6 @@ public class AccountFragment extends BaseFragment implements ChangeableContent {
     @NotEmpty(messageId = R.string.enter_account_name)
     @BindView(R.id.etAccountName)
     EditText accountName;
-    @BindView(R.id.spType)
-    MPosSpinner type;
-    @BindView(R.id.spCirculation)
-    MPosSpinner circulation;
     @BindView(R.id.btnNext)
     MpButton next;
     @BindView(R.id.btnRevert)
@@ -70,11 +66,9 @@ public class AccountFragment extends BaseFragment implements ChangeableContent {
             setMode((CompletionMode) getArguments().getSerializable(FirstConfigureActivity.CONFIRM_BUTTON_KEY));
         }
         FirstConfigurePresenter presenter = ((FirstConfigureActivity) getContext()).getPresenter();
-        type.setAdapter(presenter.getTypes());
-        circulation.setAdapter(presenter.getCirculations());
         accounts.setLayoutManager(new LinearLayoutManager(getContext()));
         presenter.getObservableAccounts().subscribe(accounts -> {
-            adapter = new AccountAdapter(accounts, presenter.getTypes(), presenter.getCirculations());
+            adapter = new AccountAdapter(accounts);
             AccountFragment.this.accounts.setAdapter(adapter);
             adapter.setItemRemoveListener((position, item) -> {
                 Context context = AccountFragment.this.getContext();
@@ -101,12 +95,7 @@ public class AccountFragment extends BaseFragment implements ChangeableContent {
         super.onHiddenChanged(hidden);
         if (hidden) {
             if (hasAnyAccount()) {
-                if (hasTillCirculationType())
-                    warning.setVisibility(View.GONE);
-                else {
-                    warning.setVisibility(View.VISIBLE);
-                    tvWarningText.setText(R.string.warning_till_account);
-                }
+                warning.setVisibility(View.GONE);
             } else {
                 warning.setVisibility(View.VISIBLE);
                 tvWarningText.setText(getString(R.string.warning_account_add));
@@ -131,9 +120,7 @@ public class AccountFragment extends BaseFragment implements ChangeableContent {
                     if (!presenter.isAccountNameExists(accountName.getText().toString())) {
                         ((AccountAdapter) accounts.getAdapter()).addItem(
                                 ((FirstConfigureActivity) getContext()).getPresenter().addAccount(
-                                        accountName.getText().toString(),
-                                        type.getSelectedPosition(),
-                                        circulation.getSelectedPosition()
+                                        accountName.getText().toString()
                                 )
                         );
                     } else {
@@ -147,23 +134,15 @@ public class AccountFragment extends BaseFragment implements ChangeableContent {
                 break;
             case R.id.btnNext:
                 if (hasAnyAccount()) {
-                    if (hasTillCirculationType()) {
-                        if (mode == CompletionMode.NEXT) {
-                            warning.setVisibility(View.GONE);
-                            FirstConfigureActivity activity = (FirstConfigureActivity) getContext();
-                            activity.getPresenter().setCompletedForFragment(getClass().getName(), true);
-                            activity.getPresenter().openCurrency();
-                            activity.changeState(FirstConfigurePresenter.ACCOUNT_POSITION, MpCompletedStateView.COMPLETED_STATE);
-                        } else {
-                            getActivity().finish();
-                        }
+                    if (mode == CompletionMode.NEXT) {
+                        warning.setVisibility(View.GONE);
+                        FirstConfigureActivity activity = (FirstConfigureActivity) getContext();
+                        activity.getPresenter().setCompletedForFragment(getClass().getName(), true);
+                        activity.getPresenter().openCurrency();
+                        activity.changeState(FirstConfigurePresenter.ACCOUNT_POSITION, MpCompletedStateView.COMPLETED_STATE);
                     } else {
-                        tvWarningText.setText(R.string.warning_till_account);
-                        warning.setVisibility(View.VISIBLE);
-                        ((FirstConfigureActivity) getContext())
-                                .changeState(FirstConfigurePresenter.ACCOUNT_POSITION, MpCompletedStateView.WARNING_STATE);
+                        getActivity().finish();
                     }
-
                 } else {
                     tvWarningText.setText(R.string.warning_account_add);
                     warning.setVisibility(View.VISIBLE);
@@ -176,10 +155,6 @@ public class AccountFragment extends BaseFragment implements ChangeableContent {
 
     public boolean hasAnyAccount() {
         return !((FirstConfigureActivity) getContext()).getPresenter().getAccounts().isEmpty();
-    }
-
-    public boolean hasTillCirculationType() {
-        return ((FirstConfigureActivity) getContext()).getPresenter().checkAccountTypes();
     }
 
     /**

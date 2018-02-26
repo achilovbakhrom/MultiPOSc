@@ -554,7 +554,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
             databaseManager.addDebt(debt).blockingGet();
             order.setDebtId(debt.getId());
         }
-
+        order.setTillId(databaseManager.getCurrentOpenTillId().blockingGet());
         databaseManager.insertOrder(order).subscribe((order1, throwable) -> {
             for (int i = 0; i < orderProductItems.size(); i++) {
                 orderProductItems.get(i).setOrderId(order1.getId());

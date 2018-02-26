@@ -18,7 +18,8 @@ public interface CashOperationsView extends BaseView{
     void openCashOperationDialog(Till till, PaymentType currentPaymentType, int type, double amount);
     void changeAccount(Long accountId);
     void setBankDropVisibility(int visibility);
-    void getTillStatus(int status);
-    void showCloseTillDialog();
+    void applyTillStatus(int status);
+    void showCloseTillDialog(Long id);
     void showOpenTillDialog();
+    void setTillStatus(int status);
 }

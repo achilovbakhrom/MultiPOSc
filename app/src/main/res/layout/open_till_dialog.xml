@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#00000000"
+    android:focusableInTouchMode="true"
     android:gravity="center">
 
 
@@ -31,7 +32,7 @@
         </LinearLayout>
 
         <com.jim.mpviews.MpSwitcher
-            android:id="@+id/swOpenTill"
+            android:id="@+id/swConfirmModifyTill"
             android:layout_width="match_parent"
             android:layout_height="@dimen/fifty_dp"
             android:layout_marginBottom="@dimen/fifteen_dp"
@@ -42,12 +43,13 @@
             app:text_right="Modify" />
 
         <TextView
+            android:id="@+id/tvModification"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginBottom="@dimen/ten_dp"
             android:layout_marginLeft="@dimen/thirty_dp"
-            android:text="Description about some mistake"
+            android:text="Reason of doing modification"
             android:textColor="@color/colorBlue"
             android:textSize="@dimen/sixteen_dp" />
 
@@ -118,10 +120,12 @@
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvOpenAmount"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="@color/colorBackground" />
+            android:background="@color/colorBackground"
+            android:paddingTop="@dimen/ten_dp" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -131,7 +135,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorWhite"
             android:gravity="right"
             android:orientation="horizontal"
             android:paddingBottom="@dimen/fifteen_dp"

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
+import android.view.View;
 
 import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.mpviews.MpButton;
@@ -12,7 +13,11 @@ import com.jim.multipos.R;
 import com.jim.multipos.core.BaseActivity;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.ui.service_fee_new.adapters.ServiceFeeAdapter;
+import com.jim.multipos.ui.service_fee_new.model.ServiceFeeAdapterDetails;
+import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.WarningDialog;
+import com.jim.multipos.utils.rxevents.EditEvent;
+import com.jim.multipos.utils.rxevents.ServiceFeeEvent;
 
 import java.util.List;
 
@@ -22,9 +27,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class ServiceFeeActivity extends BaseActivity implements ServiceFeeView, ServiceFeeAdapter.OnClickListener {
+public class ServiceFeeActivity extends BaseActivity implements ServiceFeeView {
     @Inject
     ServiceFeePresenter presenter;
+    @Inject
+    RxBus rxBus;
     @BindView(R.id.toolbar)
     MpToolbar toolbar;
     @BindView(R.id.rvItems)
@@ -32,15 +39,14 @@ public class ServiceFeeActivity extends BaseActivity implements ServiceFeeView, 
     @BindView(R.id.btnBack)
     MpButton btnBack;
     Unbinder unbinder;
+    private ServiceFeeAdapter serviceFeeAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_service_fee_fragment);
-
         unbinder = ButterKnife.bind(this);
         toolbar.setMode(MpToolbar.DEFAULT_TYPE);
-
         init();
     }
 
@@ -54,98 +60,83 @@ public class ServiceFeeActivity extends BaseActivity implements ServiceFeeView, 
     private void init() {
         rvItems.setLayoutManager(new LinearLayoutManager(this));
         ((SimpleItemAnimator) rvItems.getItemAnimator()).setSupportsChangeAnimations(false);
-        rvItems.setAdapter(new ServiceFeeAdapter(this, this, presenter.getServiceFees(),
-                getResources().getStringArray(R.array.service_fee_type),
-                getResources().getStringArray(R.array.service_fee_app_type)));
+        serviceFeeAdapter = new ServiceFeeAdapter(this);
+        presenter.initDataToServiceFee();
+        rvItems.setAdapter(serviceFeeAdapter);
+        serviceFeeAdapter.setListners(new ServiceFeeAdapter.OnDiscountCallback() {
+            @Override
+            public void onAddPressed(double amount, int type, String description, int appType, boolean active) {
+                presenter.addServiceFee(amount, type, description, appType, active);
+            }
 
-        RxView.clicks(btnBack).subscribe(o -> {
-            if (((ServiceFeeAdapter) rvItems.getAdapter()).getChangedItems().size() == 0) {
-                finish();
-            } else {
-                WarningDialog warningDialog = new WarningDialog(this);
-                warningDialog.setWarningMessage(getString(R.string.you_have_unsaved_service_fee, ((ServiceFeeAdapter) rvItems.getAdapter()).getChangedItems().size()));
-                warningDialog.setOnYesClickListener(view -> finish());
-                warningDialog.setOnNoClickListener(view -> warningDialog.dismiss());
-                warningDialog.show();
+            @Override
+            public void onSave(double amount, int type, String description, int appType, boolean active, ServiceFee serviceFee) {
+                presenter.onSave(amount, type, description, appType, active, serviceFee);
+            }
+
+            @Override
+            public void onDelete(ServiceFee serviceFee) {
+                presenter.deleteServiceFee(serviceFee);
+            }
+
+            @Override
+            public void sortList(ServiceFeePresenterImpl.ServiceFeeSortTypes serviceFeeSortTypes) {
+                presenter.sortList(serviceFeeSortTypes);
             }
         });
+        btnBack.setOnClickListener(view -> presenter.onClose());
+    }
+
+
+    @Override
+    public void refreshList(List<ServiceFeeAdapterDetails> detailsList) {
+        serviceFeeAdapter.setData(detailsList);
+        serviceFeeAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void onAddClicked(ServiceFee serviceFee) {
-        presenter.addServiceFee(serviceFee);
+    public void notifyItemAdd(int position) {
+        serviceFeeAdapter.notifyItemInserted(position);
     }
 
     @Override
-    public void onSaveClicked(ServiceFee serviceFee) {
-        presenter.updateServiceFee(serviceFee);
+    public void refreshList() {
+        serviceFeeAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void onDeleteClicked(ServiceFee serviceFee) {
-        WarningDialog removeWarningDialog = new WarningDialog(this);
-        removeWarningDialog.setWarningMessage(getString(R.string.do_you_want_delete));
-        removeWarningDialog.setOnYesClickListener(view -> {
-            presenter.deleteServiceFee(serviceFee);
-            removeWarningDialog.dismiss();
-        });
-        removeWarningDialog.setOnNoClickListener(view -> {
-            removeWarningDialog.dismiss();
-        });
-        removeWarningDialog.show();
+    public void notifyItemChanged(int pos) {
+        serviceFeeAdapter.notifyItemChanged(pos);
     }
 
     @Override
-    public void showActiveItemWarningDialog() {
+    public void sendEvent(String event, ServiceFee serviceFee) {
+        rxBus.send(new ServiceFeeEvent(serviceFee, event));
+    }
+
+    @Override
+    public void sendChangeEvent(String event, Long oldId, Long newId) {
+        rxBus.send(new EditEvent(oldId, newId, event));
+    }
+
+    @Override
+    public void notifyItemRemove(int position) {
+        serviceFeeAdapter.notifyItemRemoved(position);
+    }
+
+    @Override
+    public void closeActivity() {
+        finish();
+    }
+
+    @Override
+    public void openWarning() {
         WarningDialog warningDialog = new WarningDialog(this);
-        warningDialog.onlyText(true);
-        warningDialog.setWarningMessage(getString(R.string.change_to_not_delete_when_not_active));
-        warningDialog.setOnYesClickListener(view -> warningDialog.dismiss());
+        warningDialog.setWarningMessage(getString(R.string.warning_discard_changes));
+        warningDialog.setOnYesClickListener(view1 -> warningDialog.dismiss());
+        warningDialog.setOnNoClickListener(view1 -> closeActivity());
+        warningDialog.setPositiveButtonText(getString(R.string.cancel));
+        warningDialog.setNegativeButtonText(getString(R.string.discard));
         warningDialog.show();
-    }
-
-    @Override
-    public void onSortByAmountClicked(List<ServiceFee> items) {
-        presenter.sortByAmount(items);
-    }
-
-    @Override
-    public void onSortByTypeClicked(List<ServiceFee> items) {
-        presenter.sortByType(items);
-    }
-
-    @Override
-    public void onSortByReasonClicked(List<ServiceFee> items) {
-        presenter.sortByReason(items);
-    }
-
-    @Override
-    public void onSortByAppTypeClicked(List<ServiceFee> items) {
-        presenter.sortByAppType(items);
-    }
-
-    @Override
-    public void onSortByActiveClicked(List<ServiceFee> items) {
-        presenter.sortByActive(items);
-    }
-
-    @Override
-    public void onSortByDefaultClicked(List<ServiceFee> items) {
-        presenter.sortByDefault(items);
-    }
-
-    @Override
-    public void addServiceFee(ServiceFee serviceFee) {
-        ((ServiceFeeAdapter) rvItems.getAdapter()).addItem(serviceFee);
-    }
-
-    @Override
-    public void removeServiceFee(ServiceFee serviceFee) {
-        ((ServiceFeeAdapter) rvItems.getAdapter()).removeItem(serviceFee);
-    }
-
-    @Override
-    public void updateRecyclerView(List<ServiceFee> items) {
-        ((ServiceFeeAdapter) rvItems.getAdapter()).setItems(items);
     }
 }

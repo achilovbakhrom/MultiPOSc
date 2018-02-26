@@ -25,15 +25,13 @@ public interface FirstConfigurePresenter extends Presenter {
     public static final int UNITS_POSITION = 4;
 
     List<FirstConfigureListItem> getFirstConfigureListItems();
-    void savePOSDetials(String posId, String alias, String address, String password);
+    void savePOSDetails(String posId, String alias, String address, String password);
     String getPOSId();
     String getPOSAlias();
     String getPOSAddress();
     String getPassword();
     void setCompletedForFragment(String fragmentName, boolean completed);
-    String[] getCirculations();
-    String[] getTypes();
-    Account addAccount(String name, int type, int circulation);
+    Account addAccount(String name);
     void removeAccount(Account account);
     Observable<List<Account>> getObservableAccounts();
     List<Currency> getCurrencies();
@@ -64,7 +62,5 @@ public interface FirstConfigurePresenter extends Presenter {
     void deletePaymentType(PaymentType paymentType);
 
     boolean isAccountNameExists(String name);
-    boolean isPayemntTypeNameExists(String name);
-
-    boolean checkAccountTypes();
+    boolean isPaymentTypeNameExists(String name);
 }

@@ -3,6 +3,7 @@ package com.jim.multipos.ui.service_fee_new;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.ServiceFee;
+import com.jim.multipos.ui.service_fee_new.model.ServiceFeeAdapterDetails;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,6 +17,12 @@ import javax.inject.Inject;
 
 public class ServiceFeePresenterImpl extends BasePresenterImpl<ServiceFeeView> implements ServiceFeePresenter {
     private DatabaseManager databaseManager;
+    private List<ServiceFeeAdapterDetails> items;
+    public static final String SERVICE_FEE_ADD = "service fee is added";
+    public static final String SERVICE_FEE_UPDATE = "service fee is updated";
+    public static final String SERVICE_FEE_DELETE = "service fee is deleted";
+
+    public enum ServiceFeeSortTypes {Amount, Type, Description, AppType, Active, Default}
 
     @Inject
     public ServiceFeePresenterImpl(ServiceFeeView serviceFeeView, DatabaseManager databaseManager) {
@@ -24,88 +31,125 @@ public class ServiceFeePresenterImpl extends BasePresenterImpl<ServiceFeeView> i
     }
 
     @Override
-    public List<ServiceFee> getServiceFees() {
-        return new ArrayList<>(databaseManager.getServiceFeeOperations().getAllServiceFees().blockingSingle());
-
-
-        /*for (ServiceFee sf : serviceFees) {
-            ServiceFee serviceFee = new ServiceFee();
-            serviceFee.setIsActive(sf.getIsActive());
-            serviceFee.setApplyingType(sf.getApplyingType());
-            serviceFee.setType(sf.getType());
-            serviceFee.setName(sf.getName());
-            serviceFee.setAmount(sf.getAmount());
-            serviceFee.setCreatedDate(sf.getCreatedDate());
-            serviceFee.setId(sf.getId());
-
-            temp.add(serviceFee);
-        }*/
-    }
-
-    @Override
-    public void addServiceFee(ServiceFee serviceFee) {
-        databaseManager.getServiceFeeOperations().addServiceFee(serviceFee).subscribe(aLong -> {
-            view.addServiceFee(serviceFee);
+    public void initDataToServiceFee() {
+        items = new ArrayList<>();
+        databaseManager.getServiceFeeOperations().getAllServiceFees().subscribe(serviceFees -> {
+            items.add(null);
+            for (int i = 0; i < serviceFees.size(); i++) {
+                ServiceFeeAdapterDetails details = new ServiceFeeAdapterDetails();
+                details.setObject(serviceFees.get(i));
+                items.add(details);
+            }
+            view.refreshList(items);
         });
     }
 
     @Override
-    public void saveServiceFee(ServiceFee serviceFee) {
-        databaseManager.getServiceFeeOperations().removeServiceFee(serviceFee).subscribe();
+    public void addServiceFee(double amount, int type, String reason, int appType, boolean checked) {
+        ServiceFee serviceFee = new ServiceFee();
+        serviceFee.setAmount(amount);
+        serviceFee.setType(type);
+        serviceFee.setName(reason);
+        serviceFee.setApplyingType(appType);
+        serviceFee.setIsActive(checked);
+        serviceFee.setCreatedDate(System.currentTimeMillis());
+        serviceFee.setNotModifyted(true);
+        serviceFee.setDeleted(false);
+        databaseManager.addServiceFee(serviceFee).subscribe(aLong -> {
+            ServiceFeeAdapterDetails serviceFeeAdapterDetails = new ServiceFeeAdapterDetails();
+            serviceFeeAdapterDetails.setObject(serviceFee);
+            items.add(1, serviceFeeAdapterDetails);
+            view.notifyItemAdd(1);
+            view.sendEvent(SERVICE_FEE_ADD, serviceFee);
+        });
     }
 
     @Override
-    public void updateServiceFee(ServiceFee serviceFee) {
-        databaseManager.getServiceFeeOperations().addServiceFee(serviceFee).subscribe();
+    public void onSave(double amount, int type, String description, int appType, boolean active, ServiceFee serviceFee) {
+        serviceFee.setNotModifyted(false);
+        databaseManager.addServiceFee(serviceFee).subscribe(aLong -> {
+            ServiceFee newServiceFee = new ServiceFee();
+            newServiceFee.setAmount(amount);
+            newServiceFee.setType(type);
+            newServiceFee.setName(description);
+            newServiceFee.setApplyingType(appType);
+            newServiceFee.setIsActive(active);
+            newServiceFee.setCreatedDate(System.currentTimeMillis());
+            newServiceFee.setNotModifyted(true);
+            newServiceFee.setDeleted(false);
+            if (serviceFee.getRootId() != null)
+                newServiceFee.setRootId(serviceFee.getId());
+            else newServiceFee.setRootId(serviceFee.getRootId());
+            databaseManager.addServiceFee(serviceFee).subscribe(aLong1 -> {
+                for (int i = 1; i < items.size(); i++) {
+                    if (items.get(i).getObject().getId().equals(serviceFee.getId())) {
+                        ServiceFeeAdapterDetails serviceFeeAdapterDetails = new ServiceFeeAdapterDetails();
+                        serviceFeeAdapterDetails.setObject(newServiceFee);
+                        items.set(i, serviceFeeAdapterDetails);
+                        view.notifyItemChanged(i);
+                        return;
+                    }
+                }
+                view.sendChangeEvent(SERVICE_FEE_UPDATE, serviceFee.getId(), newServiceFee.getId());
+            });
+        });
     }
 
     @Override
     public void deleteServiceFee(ServiceFee serviceFee) {
-        databaseManager.getServiceFeeOperations().removeServiceFee(serviceFee).subscribe(aBoolean -> {
-            view.removeServiceFee(serviceFee);
+        serviceFee.setDeleted(true);
+        databaseManager.addServiceFee(serviceFee).subscribe(aLong -> {
+            for (int i = 1; i < items.size(); i++) {
+                if (items.get(i).getObject().getId().equals(serviceFee.getId())) {
+                    items.remove(i);
+                    view.notifyItemRemove(i);
+                    break;
+                }
+            }
+            view.sendEvent(SERVICE_FEE_DELETE, serviceFee);
         });
     }
 
+
     @Override
-    public void sortByAmount(List<ServiceFee> items) {
-        Collections.sort(items, (serviceFee, t1) -> t1.getAmount().compareTo(serviceFee.getAmount()));
-        view.updateRecyclerView(items);
+    public void sortList(ServiceFeeSortTypes serviceFeeSortTypes) {
+        items.remove(0);
+        switch (serviceFeeSortTypes) {
+            case Amount:
+                Collections.sort(items, (services, t1) -> t1.getObject().getAmount().compareTo(services.getObject().getAmount()));
+                break;
+            case Type:
+                Collections.sort(items, (services, t1) -> t1.getObject().getType().compareTo(services.getObject().getType()));
+                break;
+            case AppType:
+                Collections.sort(items, (services, t1) -> t1.getObject().getApplyingType().compareTo(services.getObject().getApplyingType()));
+                break;
+            case Active:
+                Collections.sort(items, (services, t1) -> t1.getObject().getIsActive().compareTo(services.getObject().getIsActive()));
+                break;
+            case Description:
+                Collections.sort(items, (services, t1) -> t1.getObject().getName().compareTo(services.getObject().getName()));
+                break;
+            case Default:
+                Collections.sort(items, (services, t1) -> t1.getObject().getCreatedDate().compareTo(services.getObject().getCreatedDate()));
+                break;
+        }
+        items.add(0, null);
+        view.refreshList();
     }
 
     @Override
-    public void sortByType(List<ServiceFee> items) {
-        Collections.sort(items, (serviceFee, t1) -> t1.getType().compareTo(serviceFee.getType()));
-        view.updateRecyclerView(items);
+    public void onClose() {
+        boolean weCanClose = true;
+        for (int i = 1; i < items.size(); i++) {
+            if (items.get(i).isChanged())
+                weCanClose = false;
+        }
+        if (weCanClose) {
+            view.closeActivity();
+        } else {
+            view.openWarning();
+        }
     }
 
-    @Override
-    public void sortByReason(List<ServiceFee> items) {
-        Collections.sort(items, (serviceFee, t1) -> serviceFee.getName().compareTo(t1.getName()));
-        view.updateRecyclerView(items);
-    }
-
-    @Override
-    public void sortByAppType(List<ServiceFee> items) {
-        Collections.sort(items, (serviceFee, t1) -> t1.getApplyingType().compareTo(serviceFee.getApplyingType()));
-        view.updateRecyclerView(items);
-    }
-
-    @Override
-    public void sortByActive(List<ServiceFee> items) {
-        Collections.sort(items, (serviceFee, t1) -> t1.getIsActive().compareTo(serviceFee.getIsActive()));
-        view.updateRecyclerView(items);
-    }
-
-    @Override
-    public void sortByDefault(List<ServiceFee> items) {
-        Collections.sort(items, (serviceFee, t1) -> t1.getCreatedDate().compareTo(serviceFee.getCreatedDate()));
-        view.updateRecyclerView(items);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-        databaseManager.getDaoSession().clear();
-    }
 }

@@ -31,6 +31,7 @@ import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.VendorProductCon;
 import com.jim.multipos.data.db.model.stock.Stock;
 import com.jim.multipos.data.db.model.till.Till;
+import com.jim.multipos.data.db.model.till.TillManagementOperation;
 import com.jim.multipos.data.db.model.till.TillDetails;
 import com.jim.multipos.data.db.model.till.TillOperation;
 import com.jim.multipos.data.db.model.unit.SubUnitsList;
@@ -525,6 +526,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
+    public Single<Double> getCustomerPaymentsInInterval(Long id, Calendar fromDate, Calendar toDate) {
+        return dbHelper.getCustomerPaymentsInInterval(id, fromDate, toDate);
+    }
+
+    @Override
     public Single<List<ProductClass>> getAllProductClass() {
         return dbHelper.getAllProductClass();
     }
@@ -945,8 +951,13 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
-    public Single<List<BillingOperations>> getBillingOperationsByInterval(Calendar fromDate, Calendar toDate) {
+    public Single<List<BillingOperations>> getBillingOperationsInInterval(Calendar fromDate, Calendar toDate) {
         return dbHelper.getBillingOperationsByInterval(fromDate, toDate);
+    }
+
+    @Override
+    public Single<Double> getBillingOperationsAmountInInterval(Long accountId, Calendar fromDate, Calendar toDate) {
+        return dbHelper.getBillingOperationsAmountInInterval(accountId, fromDate, toDate);
     }
 
     @Override
@@ -983,6 +994,16 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
         return dbHelper.insertOrderChangeLog(orderChangesLog);
     }
 
+    @Override
+    public Single<List<Order>> getAllHoldOrders() {
+        return dbHelper.getAllHoldOrders();
+    }
+
+    @Override
+    public Single<List<Order>> getOrdersByTillId(Long id) {
+        return dbHelper.getOrdersByTillId(id);
+    }
+
 
     @Override
     public Single<List<PayedPartitions>> insertPayedPartitions(List<PayedPartitions> payedPartitions) {
@@ -997,6 +1018,16 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Single<TillDetails> insertTillDetails(TillDetails tillDetails) {
         return dbHelper.insertTillDetails(tillDetails);
+    }
+
+    @Override
+    public Single<Double> getTotalTillOperationsAmount(Long accountId, Long tillId, int type) {
+        return dbHelper.getTotalTillOperationsAmount(accountId, tillId, type);
+    }
+
+    @Override
+    public Single<Double> getTotalTillManagementOperationsAmount(Long accountId, Long tillId, int type) {
+        return dbHelper.getTotalTillManagementOperationsAmount(accountId, tillId, type);
     }
 
     @Override
@@ -1027,6 +1058,36 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Single<Till> getLastClosedTill() {
         return dbHelper.getLastClosedTill();
+    }
+
+    @Override
+    public Single<TillManagementOperation> insertTillManagementOperation(TillManagementOperation tillCloseOperation) {
+        return dbHelper.insertTillCloseOperation(tillCloseOperation);
+    }
+
+    @Override
+    public Single<Till> getTillById(Long tillId) {
+        return dbHelper.getTillById(tillId);
+    }
+
+    @Override
+    public Single<List<TillManagementOperation>> insertTillCloseOperationList(List<TillManagementOperation> tillCloseOperations) {
+        return dbHelper.insertTillCloseOperationList(tillCloseOperations);
+    }
+
+    @Override
+    public Single<Long> getCurrentOpenTillId() {
+        return dbHelper.getCurrentOpenTillId();
+    }
+
+    @Override
+    public Single<List<TillManagementOperation>> getTillManagementOperationsByTillId(Long id) {
+        return dbHelper.getTillManagementOperationsByTillId(id);
+    }
+
+    @Override
+    public Single<TillDetails> getTillDetailsByAccountId(Long accountId, Long tillId) {
+        return dbHelper.getTillDetailsByAccountId(accountId, tillId);
     }
 }
 

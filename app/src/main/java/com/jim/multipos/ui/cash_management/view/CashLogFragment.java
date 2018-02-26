@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -51,6 +50,8 @@ public class CashLogFragment extends BaseFragment implements CashLogView {
     TextView tvClosedTime;
     @BindView(R.id.btnBack)
     MpButton btnBack;
+    @BindView(R.id.tvDebtSales)
+    TextView tvDebtSales;
 
     @Inject
     DatabaseManager databaseManager;
@@ -62,7 +63,8 @@ public class CashLogFragment extends BaseFragment implements CashLogView {
     private FragmentManager fragmentManager;
     private int position = 0;
     private int maxCount = 0;
-
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
     public static final String CASH_DETAILS = "Cash Details";
 
     @Override
@@ -125,8 +127,6 @@ public class CashLogFragment extends BaseFragment implements CashLogView {
 
     @Override
     public void setTillOpenDateTime(Long date) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
         tvOpenedDate.setText(dateFormat.format(date));
         tvOpenedTime.setText(timeFormat.format(date));
     }
@@ -139,6 +139,30 @@ public class CashLogFragment extends BaseFragment implements CashLogView {
     @Override
     public void setAccountSelection(int position) {
         spAccounts.setSelectedPosition(position);
+    }
+
+    @Override
+    public void setTillClosedDateTime(Long closeDate) {
+        tvClosedDate.setText(dateFormat.format(closeDate));
+        tvClosedTime.setText(timeFormat.format(closeDate));
+    }
+
+    @Override
+    public void setTillStatus(int status) {
+        presenter.setTillStatus(status);
+    }
+
+    @Override
+    public void setNoTillDate() {
+        tvClosedDate.setText("N/A");
+        tvClosedTime.setText("N/A");
+        tvOpenedDate.setText("N/A");
+        tvOpenedTime.setText("N/A");
+    }
+
+    @Override
+    public void setDebtSales(String debtSales) {
+        tvDebtSales.setText(debtSales);
     }
 
     @Override

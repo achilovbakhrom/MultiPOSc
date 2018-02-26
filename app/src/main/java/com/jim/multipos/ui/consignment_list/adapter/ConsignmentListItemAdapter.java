@@ -322,10 +322,10 @@ public class ConsignmentListItemAdapter extends RecyclerView.Adapter<Consignment
     public class ConsignmentListViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.llBackground)
         LinearLayout llBackground;
-        @BindView(R.id.llDeleteConsignment)
-        LinearLayout llDeleteConsignment;
-        @BindView(R.id.llEditConsignment)
-        LinearLayout llEditConsignment;
+        @BindView(R.id.ivDeleteConsignment)
+        ImageView ivDeleteConsignment;
+        @BindView(R.id.ivEditConsignment)
+        ImageView ivEditConsignment;
         @BindView(R.id.llConsignmentProducts)
         LinearLayout llConsignmentProducts;
         @BindView(R.id.llConsignmentNumber)
@@ -344,8 +344,8 @@ public class ConsignmentListItemAdapter extends RecyclerView.Adapter<Consignment
         public ConsignmentListViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            llEditConsignment.setOnClickListener(view -> callback.onItemClick(items.get(getAdapterPosition())));
-            llDeleteConsignment.setOnClickListener(view -> callback.onItemDelete(items.get(getAdapterPosition())));
+            ivEditConsignment.setOnClickListener(view -> callback.onItemClick(items.get(getAdapterPosition())));
+            ivDeleteConsignment.setOnClickListener(view -> callback.onItemDelete(items.get(getAdapterPosition())));
         }
     }
 }

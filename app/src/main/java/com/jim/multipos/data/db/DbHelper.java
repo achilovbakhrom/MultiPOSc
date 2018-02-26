@@ -44,12 +44,12 @@ import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.VendorProductCon;
 import com.jim.multipos.data.db.model.stock.Stock;
 import com.jim.multipos.data.db.model.till.Till;
+import com.jim.multipos.data.db.model.till.TillManagementOperation;
 import com.jim.multipos.data.db.model.till.TillDetails;
 import com.jim.multipos.data.db.model.till.TillOperation;
 import com.jim.multipos.data.db.model.unit.SubUnitsList;
 import com.jim.multipos.data.db.model.unit.Unit;
 import com.jim.multipos.data.db.model.unit.UnitCategory;
-import com.jim.multipos.data.operations.PayedPartitionOperations;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
 import com.jim.multipos.ui.vendor_item_managment.model.VendorWithDebt;
 
@@ -240,16 +240,28 @@ public interface DbHelper {
     Single<List<OrderProduct>> insertOrderProducts(List<OrderProduct> orderProducts);
     Single<List<Order>> getAllTillOrders();
     Single<LazyList<Order>> getAllTillLazzyOrders();
-    //till operations
+    //till management operations
     Single<TillOperation> insertTillOperation(TillOperation tillOperation);
     Single<TillDetails> insertTillDetails(TillDetails tillDetails);
     Single<Till> insertTill(Till till);
     Single<List<TillOperation>> getTillOperationsByAccountId(Long id, Long tillId);
     Single<Till> getOpenTill();
+    Single<Long> getCurrentOpenTillId();
     Single<Boolean> isHaveOpenTill();
     Single<Boolean> isNoTills();
     Single<Till> getLastClosedTill();
     Single<Integer> removeAllOrders();
-    Single<Long> insertOrderChangeLog(OrderChangesLog orderChangesLog);
+    Single<TillManagementOperation> insertTillCloseOperation(TillManagementOperation tillCloseOperation);
+    Single<Till> getTillById(Long tillId);
+    Single<List<TillManagementOperation>> insertTillCloseOperationList(List<TillManagementOperation> tillCloseOperations);
+    Single<List<TillManagementOperation>> getTillManagementOperationsByTillId(Long id);
+    Single<Double> getTotalTillOperationsAmount(Long accountId, Long tillId, int type);
+    Single<Double> getTotalTillManagementOperationsAmount(Long accountId, Long tillId, int type);
+    Single<Double> getBillingOperationsAmountInInterval(Long accountId, Calendar fromDate, Calendar toDate);
+    Single<Double> getCustomerPaymentsInInterval(Long id, Calendar fromDate, Calendar toDate);
+    Single<List<Order>> getOrdersByTillId(Long id);
+    Single<TillDetails> getTillDetailsByAccountId(Long accountId, Long tillId);
 
+    Single<List<Order>> getAllHoldOrders();
+    Single<Long> insertOrderChangeLog(OrderChangesLog orderChangesLog);
 }

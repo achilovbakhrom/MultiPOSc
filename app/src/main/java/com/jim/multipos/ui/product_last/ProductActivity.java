@@ -21,6 +21,7 @@ import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.TestUtils;
 import com.jim.multipos.utils.UIUtils;
 import com.jim.multipos.utils.rxevents.MessageEvent;
+import com.jim.multipos.utils.rxevents.EditEvent;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.ArrayList;
@@ -586,10 +587,10 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
     }
 
     @Override
-    public void setUnitsToProductsAddEdit(String[] units) {
+    public void setUnitsToProductsAddEdit(String[] units, int unitPos) {
         ProductAddEditFragment fragment = getProductAddEditFragment();
         if (fragment != null) {
-            fragment.setUnits(units);
+            fragment.setUnits(units, unitPos);
         }
     }
 
@@ -792,6 +793,11 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
     }
 
     @Override
+    public void sendProductEvent(Long id, Long newId, String message) {
+        rxBus.send(new EditEvent(id, newId, message));
+    }
+
+    @Override
     public void showCannotDeleteItemWithPlusValue(double value) {
         ProductAddEditFragment fragment = getProductAddEditFragment();
         if (fragment != null) {
@@ -808,9 +814,19 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
     }
 
     @Override
+    public boolean onKeyUp(int keyCode, KeyEvent objEvent) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            onBackPressed();
+            return true;
+        }
+        return super.onKeyUp(keyCode, objEvent);
+    }
+
+
     public void onBackPressed() {
         if (presenter.backPressFinish())
             finish();
+
     }
 
     @Override

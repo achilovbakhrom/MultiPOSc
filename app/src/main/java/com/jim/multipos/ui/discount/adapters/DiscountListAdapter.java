@@ -1,7 +1,6 @@
 package com.jim.multipos.ui.discount.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -176,9 +175,6 @@ public class DiscountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 holder.spUsed.setSelectedPosition(1);
             }else if(discount.getUsedType() == Discount.ALL)
                 holder.spUsed.setSelectedPosition(2);
-
-
-
 
         }
 
@@ -363,11 +359,11 @@ public class DiscountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         public ItemDiscountViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            spTypeAmount.setArrowTint(Color.parseColor("#d3d3d3"));
-            spUsed.setArrowTint(Color.parseColor("#d3d3d3"));
+            spTypeAmount.setArrowTint(R.color.colorDiscount);
+            spUsed.setArrowTint(R.color.colorDiscount);
             spTypeAmount.setAdapter(discountAmountType);
             spUsed.setAdapter(discountUsedType);
-            Log.d("recycc", "ItemDiscountViewHolder: "+getAdapterPosition());
+            Log.d("recycc", "ItemServiceFeeViewHolder: "+getAdapterPosition());
             spUsed.setItemSelectionListenerWithPos((view, position2) -> {
                 if(items.get(getAdapterPosition()).setNewUsedType(position2)){
 
@@ -448,7 +444,7 @@ public class DiscountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             btnDelete.setOnClickListener(view -> {
                 UIUtils.closeKeyboard(etName,context);
-                Discount discount = (Discount) items.get(getAdapterPosition()).getObject();
+                Discount discount = items.get(getAdapterPosition()).getObject();
                 if(discount.getActive()){
                     WarningDialog warningDialog = new WarningDialog(context);
                     warningDialog.onlyText(true);

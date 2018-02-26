@@ -28,6 +28,8 @@
     <string name="saturday">Saturday</string>
     <string name="payment">Payment</string>
     <string name="balance_due">Balance Due</string>
+    <string name="prev">Prev</string>
+    <string name="next">Next</string>
 
     <string-array name="days_sunday_array">
         <item>Sun</item>

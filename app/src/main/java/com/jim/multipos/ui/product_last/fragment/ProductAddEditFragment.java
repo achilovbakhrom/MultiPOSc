@@ -218,18 +218,26 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
         }
     }
 
+    int unitPosition = 0;
+
     public void initProductAddEditFragment(String[] unitCategoryList,
                                            String[] unitList,
                                            List<ProductClass> productClasses,
                                            String currencyAbbr) {
         unitsCategory.setAdapter(unitCategoryList);
         unitsCategory.setItemSelectionListener((view, position) -> {
-            ((ProductActivity) getContext()).getPresenter().unitCategorySelected(position);
-            isUnitSetted = false;
+            if (categoryPos != position) {
+                ((ProductActivity) getContext()).getPresenter().unitCategorySelected(position);
+            } else {
+                ((ProductActivity) getContext()).getPresenter().unitCategorySelectedWithPosition(position, unitPosition);
+                unitPosition = 0;
+            }
         });
         units.setAdapter(unitList);
         classListAdapter.setData(productClasses);
         classList.setAdapter(classListAdapter);
+
+
         priceCurrency.setText(currencyAbbr);
         costCurrency.setText(currencyAbbr);
     }
@@ -394,8 +402,6 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
         }
     }
 
-    private boolean isUnitSetted = false;
-
     public void openAddMode() {
         vendors = new ArrayList<>();
         name.setText("");
@@ -416,6 +422,8 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
         photoButton.setImageResource(R.drawable.camera);
     }
 
+    int categoryPos = 0;
+
     public void openEditMode(String name,
                              String barCode,
                              String sku,
@@ -430,6 +438,8 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
                              String description,
                              String url,
                              double price) {
+        categoryPos = unitCategoryPos;
+
         this.name.setText(name);
         this.name.setError(null);
         this.price.setText(formatter.format(price));
@@ -461,7 +471,7 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
         if (units != null) {
             this.units.setAdapter(units);
             this.units.setSelectedPosition(unitPos);
-            isUnitSetted = true;
+            unitPosition = unitPos;
         }
         ((ProductActivity) getContext()).getPresenter().setVendorName(vendors);
         this.save.setText(R.string.update);
@@ -492,9 +502,9 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
             });
     }
 
-    public void setUnits(String[] units) {
-        if (!isUnitSetted)
-            this.units.setAdapter(units);
+    public void setUnits(String[] units, int unitPos) {
+        this.units.setAdapter(units);
+        this.units.setSelectedPosition(unitPos);
     }
 
     public String getProductName() {

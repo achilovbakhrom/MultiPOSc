@@ -87,7 +87,7 @@ public interface ProductView extends BaseView {
     void showListMustBeEmptyDialog();
     void showDeleteDialog(UIUtils.AlertListener listener);
     void showEditDialog(UIUtils.AlertListener listener);
-    void setUnitsToProductsAddEdit(String[] units);
+    void setUnitsToProductsAddEdit(String[] units, int unitPos);
 
     String getProductName();
     String getBarCode();
@@ -112,4 +112,5 @@ public interface ProductView extends BaseView {
     void showCannotDeleteItemWithPlusValue(double value);
     void showCannotDeleteItemWithMinusValue(double value);
     void showInventoryStateShouldBeEmptyDialog();
+    void sendProductEvent(Long id, Long newId, String message);
 }

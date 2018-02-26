@@ -104,7 +104,7 @@ public class PaymentToVendorDialog extends Dialog {
         spAccount.setAdapter(accountsString);
 
         spAccount.setItemSelectionListener((view, position) -> {
-            if (accounts.get(position).getCirculation() == 0) {
+            if (accounts.get(position).getStaticAccountType() == 1) {
                 etDate.setEnabled(false);
             } else {
                 etDate.setEnabled(true);
@@ -135,7 +135,7 @@ public class PaymentToVendorDialog extends Dialog {
                 for (int i = 0; i < accounts.size(); i++) {
                     if (accounts.get(i).getId().equals(operations.getAccountId())) {
                         spAccount.setSelectedPosition(i);
-                        if (accounts.get(i).getCirculation() == 0)
+                        if (accounts.get(i).getStaticAccountType() == 1)
                             etDate.setEnabled(false);
                         else etDate.setEnabled(true);
                     }

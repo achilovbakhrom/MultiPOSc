@@ -24,6 +24,7 @@ import com.jim.multipos.ui.product_class_new.ProductsClassActivity;
 import com.jim.multipos.ui.product_class_new.fragments.ProductsClassFragment;
 import com.jim.multipos.ui.product_last.ProductActivity;
 import com.jim.multipos.ui.service_fee_new.ServiceFeeActivity;
+import com.jim.multipos.ui.vendor.add_edit.VendorAddEditActivity;
 
 import java.util.ArrayList;
 
@@ -103,9 +104,11 @@ public class ProductMenuActivity extends BaseActivity implements ProductMenuView
             case 3:
                 Intent intentServiceFee = new Intent(this, ServiceFeeActivity.class);
                 startActivity(intentServiceFee);
-
                 break;
-
+            case 4:
+                Intent intentVendor = new Intent(this, VendorAddEditActivity.class);
+                startActivity(intentVendor);
+                break;
         }
     }
 }

@@ -24,6 +24,7 @@ public class TillDetails {
     private double totalDebtIncome;
     private double totalBankDrops;
     private double totalSales;
+    private double tips;
     private Long accountId;
     @ToOne(joinProperty = "accountId")
     private Account account;
@@ -162,10 +163,16 @@ public class TillDetails {
     public void setId(Long id) {
         this.id = id;
     }
-    @Generated(hash = 2051134310)
+    public double getTips() {
+        return this.tips;
+    }
+    public void setTips(double tips) {
+        this.tips = tips;
+    }
+    @Generated(hash = 273079378)
     public TillDetails(Long id, double totalStartingCash, double totalPayOuts,
             double totalPayIns, double totalPayToVendors, double totalDebtIncome,
-            double totalBankDrops, double totalSales, Long accountId, Long tillId) {
+            double totalBankDrops, double totalSales, double tips, Long accountId, Long tillId) {
         this.id = id;
         this.totalStartingCash = totalStartingCash;
         this.totalPayOuts = totalPayOuts;
@@ -174,6 +181,7 @@ public class TillDetails {
         this.totalDebtIncome = totalDebtIncome;
         this.totalBankDrops = totalBankDrops;
         this.totalSales = totalSales;
+        this.tips = tips;
         this.accountId = accountId;
         this.tillId = tillId;
     }

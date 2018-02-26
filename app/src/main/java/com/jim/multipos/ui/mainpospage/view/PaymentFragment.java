@@ -44,6 +44,7 @@ import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -122,13 +123,13 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
 
         //decimal format with space
         DecimalFormat formatter;
-        NumberFormat numberFormat = NumberFormat.getNumberInstance();
+        NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
         numberFormat.setMaximumFractionDigits(2);
         formatter = (DecimalFormat) numberFormat;
         DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
         symbols.setGroupingSeparator(' ');
         formatter.setDecimalFormatSymbols(symbols);
-        decimalFormat =  formatter;
+        decimalFormat = formatter;
         //edit text for input with custom buttons
         etPaymentAmount.setRawInputType(InputType.TYPE_CLASS_TEXT);
         etPaymentAmount.setTextIsSelectable(true);

@@ -22,14 +22,10 @@ import butterknife.ButterKnife;
 
 public class SystemAccountsAdapter extends RecyclerView.Adapter<SystemAccountsAdapter.ViewHolder> {
     private List<Account> accounts;
-    private String[] accountTypes;
-    private String[] circulations;
     private OnClickListener onClickListener;
 
     public SystemAccountsAdapter(List<Account> accounts, String[] accountTypes, String[] circulations, OnClickListener onClickListener) {
         this.accounts = accounts;
-        this.accountTypes = accountTypes;
-        this.circulations = circulations;
         this.onClickListener = onClickListener;
     }
 
@@ -45,32 +41,6 @@ public class SystemAccountsAdapter extends RecyclerView.Adapter<SystemAccountsAd
         Account account = accounts.get(position);
 
         holder.tvAccountName.setText(account.getName());
-        holder.tvType.setText(getAccountType(account));
-        holder.tvCirculation.setText(getCirculation(account));
-    }
-
-    private String getAccountType(Account account) {
-        String type;
-
-        if (account.getType() == 0) {
-            type = accountTypes[0];
-        } else {
-            type = accountTypes[1];
-        }
-
-        return type;
-    }
-
-    private String getCirculation(Account account) {
-        String circulation;
-
-        if (account.getCirculation() == 0) {
-            circulation = circulations[0];
-        } else {
-            circulation = circulations[1];
-        }
-
-        return circulation;
     }
 
     public void addItem(Account account) {
@@ -95,10 +65,6 @@ public class SystemAccountsAdapter extends RecyclerView.Adapter<SystemAccountsAd
     class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tvAccountName)
         TextView tvAccountName;
-        @BindView(R.id.tvType)
-        TextView tvType;
-        @BindView(R.id.tvCirculation)
-        TextView tvCirculation;
         @BindView(R.id.ivRemove)
         ImageView ivRemove;
 

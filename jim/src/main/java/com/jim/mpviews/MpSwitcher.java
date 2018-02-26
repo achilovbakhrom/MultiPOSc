@@ -96,7 +96,7 @@ public class MpSwitcher extends LinearLayout {
         attributeArray.recycle();
     }
 
-    public interface OnSwitcherStateChangedListener{
+    public interface OnSwitcherStateChangedListener {
         void onStateChange(boolean isRight, boolean isLeft);
     }
 
@@ -110,17 +110,41 @@ public class MpSwitcher extends LinearLayout {
 
     public void setRight(boolean right) {
         this.right = right;
+        this.left = !right;
+        if (right) {
+            mpLeftBtn.setBackgroundResource(R.drawable.matrix_left_bg);
+            mpLeftImage.setImageResource(R.drawable.ellipse_not_active);
+            mpRightBtn.setBackgroundResource(R.drawable.matrix_right_pressed_bg);
+            mpRightImage.setImageResource(R.drawable.ellipse);
+        } else {
+            mpLeftBtn.setBackgroundResource(R.drawable.matrix_left_pressed_bg);
+            mpLeftImage.setImageResource(R.drawable.ellipse);
+            mpRightBtn.setBackgroundResource(R.drawable.matrix_right_bg);
+            mpRightImage.setImageResource(R.drawable.ellipse_not_active);
+        }
     }
 
     public void setLeft(boolean left) {
         this.left = left;
+        this.right = !left;
+        if (left) {
+            mpLeftBtn.setBackgroundResource(R.drawable.matrix_left_pressed_bg);
+            mpLeftImage.setImageResource(R.drawable.ellipse);
+            mpRightBtn.setBackgroundResource(R.drawable.matrix_right_bg);
+            mpRightImage.setImageResource(R.drawable.ellipse_not_active);
+        } else {
+            mpLeftBtn.setBackgroundResource(R.drawable.matrix_left_bg);
+            mpLeftImage.setImageResource(R.drawable.ellipse_not_active);
+            mpRightBtn.setBackgroundResource(R.drawable.matrix_right_pressed_bg);
+            mpRightImage.setImageResource(R.drawable.ellipse);
+        }
     }
 
-    public LinearLayout getMpLeftBtn(){
+    public LinearLayout getMpLeftBtn() {
         return mpLeftBtn;
     }
 
-    public LinearLayout getMpRightBtn(){
+    public LinearLayout getMpRightBtn() {
         return mpRightBtn;
     }
 

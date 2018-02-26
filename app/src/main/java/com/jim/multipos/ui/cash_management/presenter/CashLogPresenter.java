@@ -10,4 +10,5 @@ public interface CashLogPresenter extends Presenter {
     void initData();
     void setDataToDetailsFragment(int position);
     void changeAccount(Long accountId);
+    void setTillStatus(int status);
 }

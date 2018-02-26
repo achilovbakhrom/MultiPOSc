@@ -7,12 +7,8 @@ import com.jim.multipos.data.db.model.Account;
 import com.jim.multipos.data.db.model.PaymentType;
 import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.currency.Currency;
-import com.jim.multipos.data.db.model.customer.Customer;
-import com.jim.multipos.data.db.model.customer.Debt;
-import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.products.Vendor;
 
-import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -70,20 +66,16 @@ public class TestUtils {
 
             Account debt = new Account();
             debt.setName("DebtAccount");
-            debt.setCirculation(0);
-            debt.setType(0);
             debt.setIsVisible(false);
-            debt.setTypeStaticAccountType(Account.DEBT_ACCOUNT);
+            debt.setStaticAccountType(Account.DEBT_ACCOUNT);
             databaseManager.addAccount(debt).blockingSingle();
             Account account = new Account();
             account.setName("Bank");
-            account.setCirculation(1);
-            account.setType(1);
+            account.setStaticAccountType(Account.CUSTOM_ACCOUNT);
             databaseManager.addAccount(account).subscribe();
             Account account1 = new Account();
             account1.setName("Cashbox");
-            account1.setCirculation(0);
-            account1.setType(0);
+            account1.setStaticAccountType(Account.CASH_ACCOUNT);
             databaseManager.addAccount(account1).subscribe();
             if(databaseManager.getPaymentTypes().isEmpty()){
                 PaymentType debtPayment = new PaymentType();

@@ -63,7 +63,8 @@ public class CashDetailsFragment extends BaseFragment implements CashDetailsView
     }
 
     @Override
-    public void fillTillDetails(double payOut, double payIn, double payToVendor, double incomeDebt, double bankDrop, double expectedCash, double tips, double cashTransactions) {
+    public void fillTillDetails(double totalStartingCash, double payOut, double payIn, double payToVendor, double incomeDebt, double bankDrop, double expectedCash, double tips, double cashTransactions) {
+        tvStartingCash.setText(decimalFormat.format(totalStartingCash));
         tvPayOuts.setText(decimalFormat.format(payOut));
         tvPayIns.setText(decimalFormat.format(payIn));
         tvPayToVendors.setText(decimalFormat.format(payToVendor));
