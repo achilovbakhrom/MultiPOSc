@@ -34,17 +34,33 @@ import com.jim.multipos.ui.mainpospage.dialogs.UnitValuePicker;
 import com.jim.multipos.ui.mainpospage.model.OrderProductItem;
 import com.jim.multipos.ui.mainpospage.presenter.OrderListPresenter;
 import com.jim.multipos.utils.LinearLayoutManagerWithSmoothScroller;
+import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.UIUtils;
 import com.jim.multipos.utils.WarningDialog;
 import com.jim.multipos.utils.managers.NotifyManager;
 import com.jim.multipos.utils.printer.CheckPrinter;
+import com.jim.multipos.utils.rxevents.MessageEvent;
+import com.jim.multipos.utils.rxevents.MessageWithIdEvent;
+import com.jim.multipos.utils.rxevents.main_order_events.ConsigmentEvent;
+import com.jim.multipos.utils.rxevents.main_order_events.CustomerEvent;
+import com.jim.multipos.utils.rxevents.main_order_events.DebtEvent;
+import com.jim.multipos.utils.rxevents.main_order_events.DiscountEvent;
+import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstans;
+import com.jim.multipos.utils.rxevents.main_order_events.ProductEvent;
+import com.jim.multipos.utils.rxevents.main_order_events.ServiceFeeEvent;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import io.reactivex.disposables.Disposable;
+
+import static com.jim.multipos.ui.cash_management.presenter.CloseTillFirstStepPresenterImpl.ORDER_CANCELED;
+import static com.jim.multipos.ui.cash_management.presenter.CloseTillFirstStepPresenterImpl.ORDER_CLOSED;
+import static com.jim.multipos.ui.cash_management.view.CashLogFragment.TILL_CLOSED;
 
 public class OrderListFragment extends BaseFragment implements OrderListView {
     public static final String NEW_ORDER_ID = "new_order_id";
@@ -58,6 +74,9 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
     NotifyManager notifyManager;
     @Inject
     MainPageConnection mainPageConnection;
+    @Inject
+    RxBus rxBus;
+    private ArrayList<Disposable> subscriptions;
 
     Currency currency;
     @BindView(R.id.tvBalanceDueLabel)
@@ -129,6 +148,7 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
     @Override
     protected void init(Bundle savedInstanceState) {
 //        databaseManager.removeAllOrders().subscribe();
+        subscriptions = new ArrayList<>();
         printer = new CheckPrinter(getActivity());
         printer.connectDevice();
         mainPageConnection.setOrderListView(this);
@@ -181,7 +201,52 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
             warningDialog.show();
         });
         presenter.onCreateView(getArguments());
+        subscriptions.add(
+                rxBus.toObservable().subscribe(o -> {
+                       if(o instanceof ProductEvent){
+                           ProductEvent productEvent = (ProductEvent) o;
+                           if(productEvent.getType() == GlobalEventConstans.UPDATE){
+                                presenter.eventProductUpdate(productEvent.getProduct(),productEvent.getNewProduct());
+                           }else if(productEvent.getType() == GlobalEventConstans.DELETE){
+                               presenter.eventProductDelete(productEvent.getProduct());
+                           }
+                       }else if(o instanceof CustomerEvent){
+                           CustomerEvent customerEvent = (CustomerEvent) o;
+                            if(customerEvent.getType() == GlobalEventConstans.UPDATE){
+                                presenter.eventCustomerUpdate(customerEvent.getCustomer(),customerEvent.getNewCustomer());
+                            }else if(customerEvent.getType() == GlobalEventConstans.DELETE){
+                                presenter.eventCustomerDelete(customerEvent.getCustomer());
+                            }
+                       }else if(o instanceof DebtEvent){
+                           DebtEvent debtEvent = (DebtEvent) o;
+                           if(debtEvent.getType() == GlobalEventConstans.UPDATE){
+                               presenter.eventDebtUpdate(debtEvent.getDebt(),debtEvent.getNewDebt());
+                           }else if(debtEvent.getType() == GlobalEventConstans.DELETE){
+                               presenter.eventDebtDelete(debtEvent.getDebt());
+                           }
+                       }else if(o instanceof DiscountEvent){
+                           DiscountEvent discountEvent = (DiscountEvent) o;
+                           if(discountEvent.getType() == GlobalEventConstans.UPDATE){
+                               presenter.eventDiscountUpdate(discountEvent.getDiscount(),discountEvent.getNewDiscount());
+                           }else if(discountEvent.getType() == GlobalEventConstans.DELETE){
+                               presenter.eventDiscountDelete(discountEvent.getDiscount());
+                           }
+                       }else if(o instanceof ServiceFeeEvent){
+                           ServiceFeeEvent serviceFeeEvent = (ServiceFeeEvent) o;
+                           if(serviceFeeEvent.getType() == GlobalEventConstans.UPDATE){
+                                presenter.eventServiceFeeUpdate(serviceFeeEvent.getServiceFee(),serviceFeeEvent.getNewServiceFee());
+                           }else if(serviceFeeEvent.getType() == GlobalEventConstans.DELETE){
+                               presenter.eventServiceFeeDelete(serviceFeeEvent.getServiceFee());
+                           }
+                       }else if(o instanceof ConsigmentEvent){
+                           ConsigmentEvent consigmentEvent = (ConsigmentEvent) o;
+                           if(consigmentEvent.getType() == GlobalEventConstans.UPDATE){
+                               presenter.eventConsigmentUpdate();
+                           }
+                       }
 
+                })
+        );
     }
 
     @Override
@@ -564,6 +629,7 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
     @Override
     public void onDetach() {
         mainPageConnection.setOrderListView(null);
+        RxBus.removeListners(subscriptions);
         super.onDetach();
     }
     @Override

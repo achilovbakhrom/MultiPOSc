@@ -10,5 +10,6 @@ import lombok.Data;
 @Data
 public class DiscountEvent {
     private Discount discount;
+    private Discount newDiscount;
     private int type;
 }

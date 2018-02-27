@@ -10,5 +10,6 @@ import lombok.Data;
 @Data
 public class DebtEvent {
     private Debt debt;
+    private Debt newDebt;
     private int type;
 }

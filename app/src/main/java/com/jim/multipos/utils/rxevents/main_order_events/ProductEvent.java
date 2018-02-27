@@ -10,6 +10,7 @@ import lombok.Data;
 @Data
 public class ProductEvent {
     private Product product;
+    private Product newProduct;
     private int type;
     public ProductEvent(Product product, int type) {
         this.product = product;

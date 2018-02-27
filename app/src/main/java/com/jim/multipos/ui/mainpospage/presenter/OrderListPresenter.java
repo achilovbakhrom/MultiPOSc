@@ -52,4 +52,16 @@ public interface OrderListPresenter extends Presenter {
     void onHoldOrderSendingData(Order order, List<PayedPartitions> payedPartitions,Debt debt);
     void initNewOrderWithId(Long orderId);
     void onHoldOrderCountined(Order order);
+
+    void eventProductUpdate(Product product,Product newProduct);
+    void eventProductDelete(Product product);
+    void eventCustomerUpdate(Customer customer,Customer newCustomer);
+    void eventCustomerDelete(Customer customer);
+    void eventDebtUpdate(Debt debt,Debt newDebt);
+    void eventDebtDelete(Debt debt);
+    void eventDiscountUpdate(Discount discount,Discount newDiscount);
+    void eventDiscountDelete(Discount discount);
+    void eventServiceFeeUpdate(ServiceFee serviceFee,ServiceFee newServiceFee);
+    void eventServiceFeeDelete(ServiceFee serviceFee);
+    void eventConsigmentUpdate();
 }

@@ -10,5 +10,6 @@ import lombok.Data;
 @Data
 public class CustomerEvent {
     private Customer customer;
+    private Customer newCustomer;
     private int type;
 }

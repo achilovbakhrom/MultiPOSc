@@ -10,5 +10,6 @@ import lombok.Data;
 @Data
 public class ServiceFeeEvent {
     private ServiceFee serviceFee;
+    private ServiceFee newServiceFee;
     private int type;
 }

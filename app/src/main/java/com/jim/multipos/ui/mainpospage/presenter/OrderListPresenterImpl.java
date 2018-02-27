@@ -995,4 +995,78 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         view.notifyList();
 
     }
+
+
+    @Override
+    public void eventProductUpdate(Product product, Product newProduct) {
+        for (int i = 0; i < list.size(); i++) {
+            if(list.get(i) instanceof  OrderProductItem){
+                OrderProductItem orderProductItem = (OrderProductItem) list.get(i);
+                if(orderProductItem.getOrderProduct().getProduct().getId().equals(product.getId())){
+                    VendorProductCon productCon = databaseManager.getVendorProductConnectionById(newProduct.getId(), newProduct.getVendor().get(0).getId()).blockingSingle();
+                    orderProductItem.getOrderProduct().setProduct(newProduct);
+                    orderProductItem.getOrderProduct().setPrice(newProduct.getPrice());
+                    orderProductItem.getOrderProduct().setCost(productCon.getCost());
+                    orderProductItem.getOrderProduct().setVendor(newProduct.getVendor().get(0));
+                    list.set(i,orderProductItem);
+                    updateDetials();
+                    view.updateOrderDetials(order,customer,payedPartitions);
+                    view.notifyItemChanged(i,list.size(),updateOrderDiscountServiceFee());
+                    return;
+                }
+            }
+        }
+    }
+
+    @Override
+    public void eventProductDelete(Product product) {
+
+    }
+
+    @Override
+    public void eventCustomerUpdate(Customer customer, Customer newCustomer) {
+
+    }
+
+    @Override
+    public void eventCustomerDelete(Customer customer) {
+
+    }
+
+    @Override
+    public void eventDebtUpdate(Debt debt, Debt newDebt) {
+
+    }
+
+    @Override
+    public void eventDebtDelete(Debt debt) {
+
+    }
+
+    @Override
+    public void eventDiscountUpdate(Discount discount, Discount newDiscount) {
+
+    }
+
+    @Override
+    public void eventDiscountDelete(Discount discount) {
+
+    }
+
+    @Override
+    public void eventServiceFeeUpdate(ServiceFee serviceFee, ServiceFee newServiceFee) {
+
+    }
+
+    @Override
+    public void eventServiceFeeDelete(ServiceFee serviceFee) {
+
+    }
+
+    @Override
+    public void eventConsigmentUpdate() {
+
+    }
+
+
 }

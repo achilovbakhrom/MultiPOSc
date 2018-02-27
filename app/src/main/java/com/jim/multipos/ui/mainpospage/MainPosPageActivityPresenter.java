@@ -4,6 +4,8 @@ import com.jim.multipos.core.Presenter;
 import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.order.Order;
+import com.jim.multipos.data.db.model.products.Product;
+import com.jim.multipos.data.db.model.products.Vendor;
 
 import java.util.List;
 
@@ -32,4 +34,7 @@ public interface MainPosPageActivityPresenter extends Presenter{
     void onTillClose();
     void onOrderCanceledFromOutSide(Long orderId);
     void onOrderClosedFromOutSide(Long orderId);
+
+
+
 }
