@@ -281,5 +281,4 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
         ((MainPosPageActivity) getActivity()).onContinueOrder(order);
     }
 
-
 }

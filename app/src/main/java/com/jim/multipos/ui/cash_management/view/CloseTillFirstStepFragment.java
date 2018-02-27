@@ -14,6 +14,9 @@ import com.jim.multipos.ui.cash_management.adapter.ReconcileOrdersAdapter;
 import com.jim.multipos.ui.cash_management.connection.CashManagementConnection;
 import com.jim.multipos.ui.cash_management.dialog.CloseOrderWithPayDialog;
 import com.jim.multipos.ui.cash_management.presenter.CloseTillFirstStepPresenter;
+import com.jim.multipos.utils.RxBus;
+import com.jim.multipos.utils.rxevents.MessageEvent;
+import com.jim.multipos.utils.rxevents.MessageWithIdEvent;
 
 import java.util.List;
 
@@ -38,6 +41,8 @@ public class CloseTillFirstStepFragment extends BaseFragment implements CloseTil
     CashManagementConnection connection;
     @Inject
     DatabaseManager databaseManager;
+    @Inject
+    RxBus rxBus;
     private ReconcileOrdersAdapter adapter;
 
     @Override
@@ -96,6 +101,11 @@ public class CloseTillFirstStepFragment extends BaseFragment implements CloseTil
     @Override
     public void updateOrderList() {
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void sendEvent(String event, Long id) {
+        rxBus.send(new MessageWithIdEvent(id, event));
     }
 
     @Override

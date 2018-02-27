@@ -101,6 +101,7 @@ public class CashLogPresenterImpl extends BasePresenterImpl<CashLogView> impleme
             view.setTillOpenDateTime(till.getOpenDate());
             view.setTillClosedDateTime(till.getCloseDate());
             saveTillDetails();
+            view.sendEvent();
         } else if (status == Till.OPEN) {
             till = databaseManager.getOpenTill().blockingGet();
             view.setNoTillDate();

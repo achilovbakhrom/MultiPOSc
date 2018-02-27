@@ -18,6 +18,8 @@ import com.jim.multipos.data.db.model.till.Till;
 import com.jim.multipos.ui.cash_management.adapter.AccountsSpinnerAdapter;
 import com.jim.multipos.ui.cash_management.connection.CashManagementConnection;
 import com.jim.multipos.ui.cash_management.presenter.CashLogPresenter;
+import com.jim.multipos.utils.RxBus;
+import com.jim.multipos.utils.rxevents.MessageEvent;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -59,6 +61,8 @@ public class CashLogFragment extends BaseFragment implements CashLogView {
     CashLogPresenter presenter;
     @Inject
     CashManagementConnection connection;
+    @Inject
+    RxBus rxBus;
 
     private FragmentManager fragmentManager;
     private int position = 0;
@@ -66,6 +70,7 @@ public class CashLogFragment extends BaseFragment implements CashLogView {
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
     public static final String CASH_DETAILS = "Cash Details";
+    public static final String TILL_CLOSED = "Closed details";
 
     @Override
     protected int getLayout() {
@@ -163,6 +168,11 @@ public class CashLogFragment extends BaseFragment implements CashLogView {
     @Override
     public void setDebtSales(String debtSales) {
         tvDebtSales.setText(debtSales);
+    }
+
+    @Override
+    public void sendEvent() {
+        rxBus.send(new MessageEvent(TILL_CLOSED));
     }
 
     @Override

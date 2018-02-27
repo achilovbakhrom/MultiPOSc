@@ -32,13 +32,17 @@ import com.jim.multipos.ui.mainpospage.view.SearchModeFragment;
 import com.jim.multipos.ui.product_last.ProductActivity;
 import com.jim.multipos.utils.MainMenuDialog;
 import com.jim.multipos.utils.OrderMenuDialog;
+import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.RxBusLocal;
 import com.jim.multipos.utils.TestUtils;
 import com.jim.multipos.utils.managers.BarcodeScannerManager;
 import com.jim.multipos.utils.managers.NotifyManager;
+import com.jim.multipos.utils.rxevents.MessageEvent;
+import com.jim.multipos.utils.rxevents.MessageWithIdEvent;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -46,7 +50,13 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.disposables.Disposable;
 import lombok.Getter;
+
+import static com.jim.multipos.ui.cash_management.presenter.CloseTillFirstStepPresenterImpl.ORDER_CANCELED;
+import static com.jim.multipos.ui.cash_management.presenter.CloseTillFirstStepPresenterImpl.ORDER_CLOSED;
+import static com.jim.multipos.ui.cash_management.view.CashLogFragment.TILL_CLOSED;
+import static com.jim.multipos.ui.consignment.view.IncomeConsignmentFragment.CONSIGNMENT_UPDATE;
 
 public class MainPosPageActivity extends MainPageDoubleSideActivity implements MainPosPageActivityView {
     @Inject
@@ -70,6 +80,11 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
     RxBusLocal rxBusLocal;
     @Inject
     BarcodeScannerManager barcodeScannerManager;
+    @Inject
+    RxBus rxBus;
+    private ArrayList<Disposable> subscriptions;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,6 +171,32 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
             presenter.onPrevClick();
         });
         presenter.onCreateView(savedInstanceState);
+
+        subscriptions = new ArrayList<>();
+        subscriptions.add(
+                rxBus.toObservable().subscribe(o -> {
+                    if (o instanceof MessageEvent) {
+                        MessageEvent event = (MessageEvent) o;
+                        switch (event.getMessage()) {
+                            case TILL_CLOSED: {
+                                presenter.onTillClose();
+                                break;
+                            }
+
+                        }
+                    }else if(o instanceof  MessageWithIdEvent){
+                        MessageWithIdEvent messageWithIdEvent = (MessageWithIdEvent) o;
+                        switch (messageWithIdEvent.getMessage()){
+                            case ORDER_CANCELED:
+                                presenter.onOrderCanceledFromOutSide(messageWithIdEvent.getId());
+                                break;
+                            case ORDER_CLOSED:
+                                presenter.onOrderClosedFromOutSide(messageWithIdEvent.getId());
+                                break;
+                        }
+                    }
+                }));
+
     }
 
 
@@ -176,6 +217,7 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
 
     @Override
     protected void onDestroy() {
+        RxBus.removeListners(subscriptions);
         super.onDestroy();
         notifyManager.setView(null);
     }
@@ -288,6 +330,5 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
     public void editedOrderHolded(String reason, Order order){
         presenter.editedOrderHolded(reason,order);
     };
-
 
 }

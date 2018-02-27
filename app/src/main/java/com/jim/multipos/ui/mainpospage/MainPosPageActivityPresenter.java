@@ -28,4 +28,8 @@ public interface MainPosPageActivityPresenter extends Presenter{
     void newOrderHolded(Order order);
     void holdOrderHolded(Order order);
     void editedOrderHolded(String reason, Order order);
+
+    void onTillClose();
+    void onOrderCanceledFromOutSide(Long orderId);
+    void onOrderClosedFromOutSide(Long orderId);
 }

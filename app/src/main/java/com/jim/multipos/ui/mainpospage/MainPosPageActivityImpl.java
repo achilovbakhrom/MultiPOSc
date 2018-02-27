@@ -293,6 +293,42 @@ public class MainPosPageActivityImpl extends BasePresenterImpl<MainPosPageActivi
         view.openOrUpdateOrderHistory(orderList.get(current));
     }
 
+    @Override
+    public void onTillClose() {
+        updateToLastOrderId();
+        openNewOrder();
+    }
+
+    @Override
+    public void onOrderCanceledFromOutSide(Long orderId) {
+        for (int i = 0; i < orderList.size(); i++) {
+            if(orderList.get(i).getId().equals(orderId)){
+                orderList.get(i).refresh();
+                orderList.get(i).resetOrderProducts();
+                orderList.get(i).resetOrderChangesLogsHistory();
+                orderList.get(i).resetPayedPartitions();
+                if(current == i){
+                    view.openOrUpdateOrderHistory(orderList.get(current));
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onOrderClosedFromOutSide(Long orderId) {
+        for (int i = 0; i < orderList.size(); i++) {
+            if(orderList.get(i).getId().equals(orderId)){
+                orderList.get(i).refresh();
+                orderList.get(i).resetOrderProducts();
+                orderList.get(i).resetOrderChangesLogsHistory();
+                orderList.get(i).resetPayedPartitions();
+                if(current == i){
+                    view.openOrUpdateOrderHistory(orderList.get(current));
+                }
+            }
+        }
+    }
+
 
     @Override
     public void orderAdded(Order order) {

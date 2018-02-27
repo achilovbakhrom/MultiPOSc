@@ -5,9 +5,7 @@ import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.OrderChangesLog;
-import com.jim.multipos.data.db.model.order.PayedPartitions;
 import com.jim.multipos.ui.cash_management.view.CloseTillFirstStepView;
-import com.jim.multipos.ui.mainpospage.view.OrderListHistoryFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +20,8 @@ public class CloseTillFirstStepPresenterImpl extends BasePresenterImpl<CloseTill
 
     private final DatabaseManager databaseManager;
     private List<Order> orderList;
+    public static final String ORDER_CLOSED = "Order closed";
+    public static final String ORDER_CANCELED = "Order canceled";
 
     @Inject
     protected CloseTillFirstStepPresenterImpl(CloseTillFirstStepView view, DatabaseManager databaseManager) {
@@ -79,6 +79,7 @@ public class CloseTillFirstStepPresenterImpl extends BasePresenterImpl<CloseTill
         databaseManager.insertOrder(order).blockingGet();
         orderList.remove(position);
         view.updateOrderList();
+        view.sendEvent(ORDER_CANCELED, order.getId());
     }
 
     @Override
@@ -102,10 +103,6 @@ public class CloseTillFirstStepPresenterImpl extends BasePresenterImpl<CloseTill
         databaseManager.insertOrder(order).blockingGet();
         orderList.remove(position);
         view.updateOrderList();
-    }
-
-    @Override
-    public void onGoToOrder(Order order) {
-
+        view.sendEvent(ORDER_CLOSED, order.getId());
     }
 }

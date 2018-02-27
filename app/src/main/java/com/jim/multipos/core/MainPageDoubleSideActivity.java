@@ -167,14 +167,14 @@ public abstract class MainPageDoubleSideActivity extends BaseActivity{
                 orderListFragment.hidePaymentFragment();
                 orderListFragment.visiblePayButton();
             }
-            getSupportFragmentManager().beginTransaction().hide(paymentFragment).commit();
+            getSupportFragmentManager().beginTransaction().hide(paymentFragment).commitAllowingStateLoss();
         }
 
         if(productInfoFragment !=null && productInfoFragment.isVisible()){
             if(orderListFragment!=null && orderListFragment.isVisible()){
                 orderListFragment.hideInfoProduct();
             }
-            getSupportFragmentManager().beginTransaction().hide(productInfoFragment).commit();
+            getSupportFragmentManager().beginTransaction().hide(productInfoFragment).commitAllowingStateLoss();
         }
 
         if(orderListFragment!=null /*&& orderListFragment.isVisible()*/){
@@ -192,7 +192,7 @@ public abstract class MainPageDoubleSideActivity extends BaseActivity{
             if(orderListHistoryFragment.isVisible()){
                 orderListHistoryFragment.refreshData(order);
             }else {
-                getSupportFragmentManager().beginTransaction().show(orderListHistoryFragment).commit();
+                getSupportFragmentManager().beginTransaction().show(orderListHistoryFragment).commitAllowingStateLoss();
                 orderListHistoryFragment.refreshData(order);
             }
         }
@@ -200,8 +200,8 @@ public abstract class MainPageDoubleSideActivity extends BaseActivity{
     }
     public void hideOrderListHistoryFragment(){
         OrderListHistoryFragment orderListHistoryFragment = (OrderListHistoryFragment) getSupportFragmentManager().findFragmentByTag(OrderListHistoryFragment.class.getName());
-        if(orderListHistoryFragment !=null) {
-            getSupportFragmentManager().beginTransaction().hide(orderListHistoryFragment).commit();
+        if(orderListHistoryFragment !=null && orderListHistoryFragment.isVisible()) {
+            getSupportFragmentManager().beginTransaction().hide(orderListHistoryFragment).commitAllowingStateLoss();
         }
     }
     public void showPaymentFragment(){

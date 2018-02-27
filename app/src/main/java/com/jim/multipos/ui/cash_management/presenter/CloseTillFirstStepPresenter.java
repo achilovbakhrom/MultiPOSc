@@ -12,5 +12,4 @@ public interface CloseTillFirstStepPresenter extends Presenter {
     void checkCompletion();
     void onReturn(Order order, int position);
     void onClose(Order order, int position);
-    void onGoToOrder(Order order);
 }

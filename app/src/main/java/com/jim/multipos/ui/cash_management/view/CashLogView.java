@@ -20,4 +20,5 @@ public interface CashLogView extends BaseView {
     void setTillStatus(int status);
     void setNoTillDate();
     void setDebtSales(String debtSales);
+    void sendEvent();
 }
