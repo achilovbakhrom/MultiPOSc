@@ -964,7 +964,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
     public void onHoldOrderCountined(Order order) {
         this.fromHold = true;
         this.order = order;
-        this.list.clear();
+        this.list.clear();  
         list.addAll(order.getListObject());
         this.customer = order.getCustomer();
         payedPartitions.clear();

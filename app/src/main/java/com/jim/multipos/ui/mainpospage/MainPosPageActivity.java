@@ -166,7 +166,7 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
                 @Override
                 public void onHeldOrderClick() {
                     HeldOrdersDialog dialog = new HeldOrdersDialog(MainPosPageActivity.this, databaseManager, order -> {
-
+                        presenter.onHeldOrderSelected(order);
                     }, preferencesHelper, rxBus);
                     dialog.show();
                 }
@@ -344,12 +344,12 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
         presenter.holdOrderHolded(order);
     }
 
-    ;
+
 
     public void editedOrderHolded(String reason, Order order) {
         presenter.editedOrderHolded(reason, order);
     }
 
-    ;
+
 
 }
