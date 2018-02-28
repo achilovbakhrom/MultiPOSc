@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.jim.mpviews.MpActionButton;
 import com.jim.multipos.R;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.order.Order;
@@ -29,9 +30,11 @@ public class TodayOrdersAdapter extends RecyclerView.Adapter<TodayOrdersAdapter.
 
     private List<Order> items;
     private Currency mainCurrency;
+    private onOrderListItemSelect listener;
 
-    public TodayOrdersAdapter(Currency mainCurrency) {
+    public TodayOrdersAdapter(Currency mainCurrency, onOrderListItemSelect listener) {
         this.mainCurrency = mainCurrency;
+        this.listener = listener;
         items = new ArrayList<>();
     }
 
@@ -80,10 +83,17 @@ public class TodayOrdersAdapter extends RecyclerView.Adapter<TodayOrdersAdapter.
         TextView tvDateOpened;
         @BindView(R.id.tvTotal)
         TextView tvTotal;
+        @BindView(R.id.btnSelect)
+        MpActionButton btnSelect;
 
         public TodayOrdersViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            btnSelect.setOnClickListener(view -> listener.onSelect(items.get(getAdapterPosition())));
         }
+    }
+
+    public interface onOrderListItemSelect{
+        void onSelect(Order order);
     }
 }

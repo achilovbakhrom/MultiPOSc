@@ -74,7 +74,7 @@ public class TodayOrdersDialog extends Dialog {
     private List<Order> orderList;
     private TodayOrderSortingState filterMode = SORTED_BY_ORDER_NUMBER;
 
-    public TodayOrdersDialog(Context context, DatabaseManager databaseManager) {
+    public TodayOrdersDialog(Context context, DatabaseManager databaseManager, onOrderSelect callback) {
         super(context);
         View dialogView = getLayoutInflater().inflate(R.layout.today_order_dialog, null);
         ButterKnife.bind(this, dialogView);
@@ -86,7 +86,10 @@ public class TodayOrdersDialog extends Dialog {
         orderList = databaseManager.getAllTillClosedOrders().blockingGet();
 
         rvTodayOrders.setLayoutManager(new LinearLayoutManager(context));
-        adapter = new TodayOrdersAdapter(databaseManager.getMainCurrency());
+        adapter = new TodayOrdersAdapter(databaseManager.getMainCurrency(), order -> {
+            callback.onSelect(order);
+            dismiss();
+        });
         adapter.setData(orderList);
         rvTodayOrders.setAdapter(adapter);
 
@@ -204,5 +207,9 @@ public class TodayOrdersDialog extends Dialog {
                 break;
         }
         adapter.notifyDataSetChanged();
+    }
+
+    public interface onOrderSelect{
+        void onSelect(Order order);
     }
 }

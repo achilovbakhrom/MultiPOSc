@@ -7,7 +7,7 @@
     <LinearLayout
         android:id="@+id/llBackground"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/forty_dp"
+        android:layout_height="@dimen/fifty_dp"
         android:orientation="horizontal">
 
 
@@ -24,7 +24,7 @@
 
         <TextView
             android:id="@+id/tvCustomer"
-            android:layout_width="@dimen/three_hundred_dp"
+            android:layout_width="@dimen/two_hundred_dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:gravity="center_vertical"
@@ -46,14 +46,32 @@
 
         <TextView
             android:id="@+id/tvTotal"
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/two_hundred_dp"
             android:layout_height="match_parent"
-            android:paddingRight="@dimen/thirty_dp"
             android:paddingLeft="@dimen/five_dp"
             android:layout_gravity="center"
             android:gravity="right|center_vertical"
             android:textColor="@color/colorMainText"
             android:textSize="@dimen/sixteen_dp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <com.jim.mpviews.MpActionButton
+                android:id="@+id/btnSelect"
+                android:layout_width="@dimen/hundred_dp"
+                android:layout_height="@dimen/forty_dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/select"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/sixteen_dp" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

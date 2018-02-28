@@ -159,7 +159,12 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
             OrderMenuDialog orderMenuDialog = new OrderMenuDialog(this, new OrderMenuDialog.onOrderMenuItemClickListener() {
                 @Override
                 public void onTodayOrderClick() {
-                    TodayOrdersDialog dialog = new TodayOrdersDialog(MainPosPageActivity.this, databaseManager);
+                    TodayOrdersDialog dialog = new TodayOrdersDialog(MainPosPageActivity.this, databaseManager, new TodayOrdersDialog.onOrderSelect() {
+                        @Override
+                        public void onSelect(Order order) {
+
+                        }
+                    });
                     dialog.show();
                 }
 
