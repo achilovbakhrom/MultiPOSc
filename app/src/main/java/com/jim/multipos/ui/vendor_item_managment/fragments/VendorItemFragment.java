@@ -1,6 +1,5 @@
 package com.jim.multipos.ui.vendor_item_managment.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,7 +11,6 @@ import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.products.Vendor;
-import com.jim.multipos.ui.billing_vendor.BillingOperationsActivity;
 import com.jim.multipos.ui.vendor_item_managment.VendorItemsActivity;
 import com.jim.multipos.ui.vendor_item_managment.adapters.VendorItemAdapter;
 import com.jim.multipos.ui.vendor_item_managment.model.VendorWithDebt;
@@ -20,7 +18,10 @@ import com.jim.multipos.ui.vendor_item_managment.presenter.VendorItemPresenter;
 import com.jim.multipos.utils.PaymentToVendorDialog;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.UIUtils;
-import com.jim.multipos.utils.rxevents.MessageEvent;
+import com.jim.multipos.utils.rxevents.inventory_events.BillingOperationEvent;
+import com.jim.multipos.utils.rxevents.main_order_events.ConsignmentEvent;
+import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
+import com.jim.multipos.utils.rxevents.main_order_events.ProductEvent;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.text.DecimalFormat;
@@ -32,8 +33,6 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import io.reactivex.disposables.Disposable;
 
-import static com.jim.multipos.ui.consignment.view.IncomeConsignmentFragment.CONSIGNMENT_UPDATE;
-import static com.jim.multipos.ui.product_last.ProductPresenterImpl.PRODUCT_UPDATE;
 import static com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemFragment.SortModes.DEBT;
 import static com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemFragment.SortModes.DEBT_INVENTORY;
 import static com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemFragment.SortModes.PRODUCTS;
@@ -171,23 +170,23 @@ public class VendorItemFragment extends BaseFragment implements VendorItemView {
         subscriptions = new ArrayList<>();
         subscriptions.add(
                 rxBus.toObservable().subscribe(o -> {
-                    if (o instanceof MessageEvent) {
-                        MessageEvent event = (MessageEvent) o;
-                        switch (event.getMessage()) {
-                            case BILLINGS_UPDATE: {
-                                presenter.updateData();
-                                break;
-                            }
+                    if (o instanceof BillingOperationEvent) {
+                        BillingOperationEvent event = (BillingOperationEvent) o;
+                        if (event.getType() == GlobalEventConstants.BILLING_IS_DONE) {
+                            presenter.updateData();
                         }
                     }
-                    if (o instanceof MessageEvent) {
-                        MessageEvent event = (MessageEvent) o;
-                        switch (event.getMessage()) {
-                            case CONSIGNMENT_UPDATE: {
-                                presenter.updateData();
-                                break;
-                            }
-                            case PRODUCT_UPDATE: {
+                    if (o instanceof ConsignmentEvent) {
+                        ConsignmentEvent event = (ConsignmentEvent) o;
+                        if (event.getType() == GlobalEventConstants.UPDATE) {
+                            presenter.updateData();
+                        }
+                    }
+
+                    if (o instanceof ProductEvent) {
+                        ProductEvent event = (ProductEvent) o;
+                        switch (event.getType()) {
+                            case GlobalEventConstants.UPDATE: {
                                 presenter.updateData();
                                 break;
                             }

@@ -21,9 +21,12 @@ import com.jim.multipos.data.db.model.products.Return;
 import com.jim.multipos.ui.mainpospage.adapter.ProductSearchResultsAdapter;
 import com.jim.multipos.ui.mainpospage.adapter.ReturnsAdapter;
 import com.jim.multipos.ui.mainpospage.adapter.ReturnsListAdapter;
+import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.TextWatcherOnTextChange;
 import com.jim.multipos.utils.UIUtils;
 import com.jim.multipos.utils.WarningDialog;
+import com.jim.multipos.utils.rxevents.inventory_events.InventoryStateEvent;
+import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -51,7 +54,7 @@ public class ReturnsConfirmDialog extends Dialog {
     private List<Return> returnsList;
     private ReturnsListAdapter adapter;
 
-    public ReturnsConfirmDialog(Context context, List<Return> returnsList, DatabaseManager databaseManager, DecimalFormat decimalFormat) {
+    public ReturnsConfirmDialog(Context context, List<Return> returnsList, DatabaseManager databaseManager, DecimalFormat decimalFormat, RxBus rxBus) {
         super(context);
         this.returnsList = returnsList;
         View dialogView = getLayoutInflater().inflate(R.layout.return_second_dialog, null);
@@ -72,7 +75,7 @@ public class ReturnsConfirmDialog extends Dialog {
         tvTotalReturnSum.setText(decimalFormat.format(totalAmount) + " " + databaseManager.getMainCurrency().getAbbr());
         btnBack.setOnClickListener(view -> {
             UIUtils.closeKeyboard(btnBack, context);
-            ReturnsDialog dialog = new ReturnsDialog(context, databaseManager, decimalFormat, returnsList);
+            ReturnsDialog dialog = new ReturnsDialog(context, databaseManager, decimalFormat, returnsList, rxBus);
             dialog.show();
             dismiss();
         });
@@ -94,6 +97,7 @@ public class ReturnsConfirmDialog extends Dialog {
                 operations.setVendor(returnsList.get(i).getVendor());
                 databaseManager.insertWarehouseOperation(operations).subscribe();
             }
+            rxBus.send(new InventoryStateEvent(GlobalEventConstants.UPDATE));
             dismiss();
         });
     }

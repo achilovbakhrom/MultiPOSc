@@ -3,33 +3,27 @@ package com.jim.multipos.ui.mainpospage;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.KeyEvent;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextClock;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.R;
-import com.jim.multipos.core.DoubleSideActivity;
 import com.jim.multipos.core.MainPageDoubleSideActivity;
 import com.jim.multipos.data.DatabaseManager;
-import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.order.Order;
+import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.ui.cash_management.CashManagementActivity;
 import com.jim.multipos.ui.main_menu.customers_menu.CustomersMenuActivity;
 import com.jim.multipos.ui.main_menu.inventory_menu.InventoryMenuActivity;
 import com.jim.multipos.ui.main_menu.product_menu.ProductMenuActivity;
+import com.jim.multipos.ui.mainpospage.dialogs.HeldOrdersDialog;
+import com.jim.multipos.ui.mainpospage.dialogs.ReturnsDialog;
+import com.jim.multipos.ui.mainpospage.dialogs.TodayOrdersDialog;
 import com.jim.multipos.ui.mainpospage.view.BarcodeScannerFragment;
-import com.jim.multipos.ui.mainpospage.view.CustomerNotificationsFragment;
 import com.jim.multipos.ui.mainpospage.view.OrderListFragment;
-import com.jim.multipos.ui.mainpospage.view.OrderListHistoryFragment;
-import com.jim.multipos.ui.mainpospage.view.ProductPickerFragment;
-import com.jim.multipos.ui.mainpospage.view.SearchModeFragment;
 import com.jim.multipos.ui.product_last.ProductActivity;
 import com.jim.multipos.utils.MainMenuDialog;
 import com.jim.multipos.utils.OrderMenuDialog;
@@ -38,14 +32,9 @@ import com.jim.multipos.utils.RxBusLocal;
 import com.jim.multipos.utils.TestUtils;
 import com.jim.multipos.utils.managers.BarcodeScannerManager;
 import com.jim.multipos.utils.managers.NotifyManager;
-import com.jim.multipos.utils.rxevents.MessageEvent;
-import com.jim.multipos.utils.rxevents.MessageWithIdEvent;
-import com.jim.multipos.utils.rxevents.main_order_events.ConsigmentEvent;
-import com.jim.multipos.utils.rxevents.main_order_events.CustomerEvent;
-import com.jim.multipos.utils.rxevents.main_order_events.DebtEvent;
-import com.jim.multipos.utils.rxevents.main_order_events.DiscountEvent;
-import com.jim.multipos.utils.rxevents.main_order_events.ProductEvent;
-import com.jim.multipos.utils.rxevents.main_order_events.ServiceFeeEvent;
+import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
+import com.jim.multipos.utils.rxevents.main_order_events.OrderEvent;
+import com.jim.multipos.utils.rxevents.till_management_events.TillEvent;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -59,11 +48,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
 import lombok.Getter;
-
-import static com.jim.multipos.ui.cash_management.presenter.CloseTillFirstStepPresenterImpl.ORDER_CANCELED;
-import static com.jim.multipos.ui.cash_management.presenter.CloseTillFirstStepPresenterImpl.ORDER_CLOSED;
-import static com.jim.multipos.ui.cash_management.view.CashLogFragment.TILL_CLOSED;
-import static com.jim.multipos.ui.consignment.view.IncomeConsignmentFragment.CONSIGNMENT_UPDATE;
 
 public class MainPosPageActivity extends MainPageDoubleSideActivity implements MainPosPageActivityView {
     @Inject
@@ -89,9 +73,9 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
     BarcodeScannerManager barcodeScannerManager;
     @Inject
     RxBus rxBus;
+    @Inject
+    PreferencesHelper preferencesHelper;
     private ArrayList<Disposable> subscriptions;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +96,6 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
         handler.post(timerUpdate);
 
 
-
         toolbar.setOnSettingsClickListener(view -> {
             boolean isBarcodeShown = false;
             BarcodeScannerFragment barcodeScannerFragment = (BarcodeScannerFragment) getSupportFragmentManager().findFragmentByTag(BarcodeScannerFragment.class.getName());
@@ -122,7 +105,7 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
             MainMenuDialog mainMenuDialog = new MainMenuDialog(this, databaseManager, decimalFormat, isBarcodeShown, new MainMenuDialog.onMenuItemClickListener() {
                 @Override
                 public void onCashManagement() {
-                    Intent intent = new Intent(getBaseContext(), CashManagementActivity.class);
+                    Intent intent = new Intent(MainPosPageActivity.this, CashManagementActivity.class);
                     startActivity(intent);
                 }
 
@@ -134,6 +117,12 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
                 @Override
                 public void onTurnOffBarcodeScanner() {
                     hideBarcodeScannerFragment();
+                }
+
+                @Override
+                public void onReturn() {
+                    ReturnsDialog dialog = new ReturnsDialog(MainPosPageActivity.this, databaseManager, decimalFormat, null, rxBus);
+                    dialog.show();
                 }
             });
             mainMenuDialog.show();
@@ -167,7 +156,21 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
         });
 
         toolbar.setOnOrderClickListener(view -> {
-            OrderMenuDialog orderMenuDialog = new OrderMenuDialog(this);
+            OrderMenuDialog orderMenuDialog = new OrderMenuDialog(this, new OrderMenuDialog.onOrderMenuItemClickListener() {
+                @Override
+                public void onTodayOrderClick() {
+                    TodayOrdersDialog dialog = new TodayOrdersDialog(MainPosPageActivity.this, databaseManager);
+                    dialog.show();
+                }
+
+                @Override
+                public void onHeldOrderClick() {
+                    HeldOrdersDialog dialog = new HeldOrdersDialog(MainPosPageActivity.this, databaseManager, order -> {
+
+                    }, preferencesHelper, rxBus);
+                    dialog.show();
+                }
+            });
             orderMenuDialog.show();
         });
         toolbar.setOnRightOrderClickListner(view -> {
@@ -182,30 +185,29 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
         subscriptions = new ArrayList<>();
         subscriptions.add(
                 rxBus.toObservable().subscribe(o -> {
-                    if (o instanceof MessageEvent) {
-                        MessageEvent event = (MessageEvent) o;
-                        switch (event.getMessage()) {
-                            case TILL_CLOSED: {
+                    if (o instanceof TillEvent) {
+                        TillEvent event = (TillEvent) o;
+                        switch (event.getType()) {
+                            case GlobalEventConstants.CLOSE: {
                                 presenter.onTillClose();
                                 break;
                             }
 
                         }
-                    }else if(o instanceof  MessageWithIdEvent){
-                        MessageWithIdEvent messageWithIdEvent = (MessageWithIdEvent) o;
-                        switch (messageWithIdEvent.getMessage()){
-                            case ORDER_CANCELED:
-                                presenter.onOrderCanceledFromOutSide(messageWithIdEvent.getId());
+                    }else if(o instanceof OrderEvent){
+                        OrderEvent event = (OrderEvent) o;
+                        switch (event.getType()){
+                            case GlobalEventConstants.CANCEL:
+                                presenter.onOrderCanceledFromOutSide(event.getOrder().getId());
                                 break;
-                            case ORDER_CLOSED:
-                                presenter.onOrderClosedFromOutSide(messageWithIdEvent.getId());
+                            case GlobalEventConstants.CLOSE:
+                                presenter.onOrderClosedFromOutSide(event.getOrder().getId());
                                 break;
                         }
                     }
                 }));
 
     }
-
 
 
     @Override
@@ -244,24 +246,23 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
     }
 
 
-
     public void openAddProductActivity() {
         Intent intent = new Intent(this, ProductActivity.class);
         startActivity(intent);
     }
 
     String barcode = "";
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         char pressedKey = (char) event.getUnicodeChar();
         barcode += pressedKey;
-        if (keyCode == KeyEvent.KEYCODE_ENTER){
+        if (keyCode == KeyEvent.KEYCODE_ENTER) {
             barcodeScannerManager.onKeyDown(event, barcode);
             barcode = "";
         }
         return true;
     }
-
 
 
     /**
@@ -271,9 +272,9 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
     public void openNewOrderFrame(Long newOrderId) {
         hideOrderListHistoryFragment();
         OrderListFragment orderListFragment = (OrderListFragment) getSupportFragmentManager().findFragmentByTag(OrderListFragment.class.getName());
-        if(orderListFragment!=null){
+        if (orderListFragment != null) {
             orderListFragment.initNewOrderWithNumber(newOrderId);
-        }else {
+        } else {
             initOrderListFragmentToLeft(newOrderId);
         }
     }
@@ -292,50 +293,63 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
     public void openOrderForEdit(String reason, Order order, Long newOrderId) {
         hideOrderListHistoryFragment();
         OrderListFragment orderListFragment = (OrderListFragment) getSupportFragmentManager().findFragmentByTag(OrderListFragment.class.getName());
-        if(orderListFragment!=null){
-            orderListFragment.onEditOrder(reason,order,newOrderId);
+        if (orderListFragment != null) {
+            orderListFragment.onEditOrder(reason, order, newOrderId);
         }
     }
 
 
-    public void onEditComplete(String reason,Order order){
-        presenter.onEditComplete(reason,order);
+    public void onEditComplete(String reason, Order order) {
+        presenter.onEditComplete(reason, order);
     }
 
-    public void orderAdded(Order order){
+    public void orderAdded(Order order) {
         presenter.orderAdded(order);
     }
 
 
-    public void onEditOrder(String reason){
+    public void onEditOrder(String reason) {
         presenter.onEditOrder(reason);
     }
-    public void onCancelOrder(String reason){
+
+    public void onCancelOrder(String reason) {
         presenter.onCancelOrder(reason);
     }
-    public void onRestoreOrder(){
+
+    public void onRestoreOrder() {
         presenter.onRestoreOrder();
     }
 
-    public void onContinueOrder(Order order){
+    public void onContinueOrder(Order order) {
         hideOrderListHistoryFragment();
         OrderListFragment orderListFragment = (OrderListFragment) getSupportFragmentManager().findFragmentByTag(OrderListFragment.class.getName());
-        if(orderListFragment!=null){
+        if (orderListFragment != null) {
             orderListFragment.onHoldOrderCountined(order);
         }
     }
 
-    public void holdOrderClosed(Order order){
+    public void holdOrderClosed(Order order) {
         presenter.holdOrderClosed(order);
-    };
-    public void newOrderHolded(Order order){
+    }
+
+    ;
+
+    public void newOrderHolded(Order order) {
         presenter.newOrderHolded(order);
-    };
-    public void holdOrderHolded(Order order){
+    }
+
+    ;
+
+    public void holdOrderHolded(Order order) {
         presenter.holdOrderHolded(order);
-    };
-    public void editedOrderHolded(String reason, Order order){
-        presenter.editedOrderHolded(reason,order);
-    };
+    }
+
+    ;
+
+    public void editedOrderHolded(String reason, Order order) {
+        presenter.editedOrderHolded(reason, order);
+    }
+
+    ;
 
 }

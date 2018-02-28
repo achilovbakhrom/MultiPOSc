@@ -23,6 +23,9 @@ import com.jim.multipos.ui.customer_debt.dialog.CustomerHistoryDialog;
 import com.jim.multipos.ui.customer_debt.dialog.PayToDebtDialog;
 import com.jim.multipos.ui.customer_debt.dialog.PaymentHistoryDialog;
 import com.jim.multipos.ui.customer_debt.presenter.CustomerDebtListPresenter;
+import com.jim.multipos.utils.RxBus;
+import com.jim.multipos.utils.rxevents.main_order_events.DebtEvent;
+import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -55,6 +58,8 @@ public class CustomerDebtListFragment extends BaseFragment implements CustomerDe
     CustomerDebtConnection customerDebtConnection;
     @Inject
     DecimalFormat decimalFormat;
+    @Inject
+    RxBus rxBus;
     @BindView(R.id.rvDebts)
     RecyclerView rvDebts;
     @BindView(R.id.tvOrderNumber)
@@ -257,6 +262,7 @@ public class CustomerDebtListFragment extends BaseFragment implements CustomerDe
         PayToDebtDialog dialog = new PayToDebtDialog(getContext(), debt, databaseManager, closeDebt, payToAll, customer -> {
             presenter.initData(customer);
             customerDebtConnection.updateCustomersList();
+            rxBus.send(new DebtEvent(debt, GlobalEventConstants.UPDATE));
         });
         dialog.show();
     }

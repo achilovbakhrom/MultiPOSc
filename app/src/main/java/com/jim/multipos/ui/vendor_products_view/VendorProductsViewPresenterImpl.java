@@ -9,6 +9,7 @@ import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
+import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -154,7 +155,7 @@ public class VendorProductsViewPresenterImpl extends BasePresenterImpl<VendorPro
         warehouseOperations.setValue(shortage);
         databaseManager.insertWarehouseOperation(warehouseOperations).subscribe((aLong, throwable) -> {
            updateInventoryItems();
-           view.sendEvent(INVENTORY_STATE_UPDATE);
+           view.sendEvent(GlobalEventConstants.UPDATE);
         });
     }
 

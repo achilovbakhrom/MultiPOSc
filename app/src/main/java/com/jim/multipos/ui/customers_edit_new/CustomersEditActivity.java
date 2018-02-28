@@ -16,7 +16,9 @@ import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
 import com.jim.multipos.ui.customers_edit_new.adapters.CustomerAdapter;
 import com.jim.multipos.ui.customers_edit_new.dialogs.CustomerGroupDialog;
+import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.WarningDialog;
+import com.jim.multipos.utils.rxevents.main_order_events.CustomerEvent;
 
 import java.util.List;
 
@@ -29,6 +31,8 @@ import butterknife.Unbinder;
 public class CustomersEditActivity extends BaseActivity implements CustomersEditView, CustomerAdapter.OnClickListener, CustomerGroupDialog.DialogOnClickListener {
     @Inject
     CustomersEditPresenter presenter;
+    @Inject
+    RxBus rxBus;
     @BindView(R.id.toolbar)
     MpToolbar toolbar;
     @BindView(R.id.rvItems)
@@ -170,6 +174,11 @@ public class CustomersEditActivity extends BaseActivity implements CustomersEdit
     @Override
     public void updateRecyclerView() {
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void sendEvent(int type, Customer customer) {
+        rxBus.send(new CustomerEvent(customer, type));
     }
 
     @Override

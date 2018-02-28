@@ -3,6 +3,7 @@ package com.jim.multipos.ui.consignment.view;
 import com.jim.multipos.core.BaseView;
 import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
 import com.jim.multipos.data.db.model.products.Product;
+import com.jim.multipos.data.db.model.products.Vendor;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public interface IncomeConsignmentView extends BaseView {
     void setError(String s);
     void openDiscardDialog();
     void openSaveChangesDialog();
-    void closeFragment(Long id);
+    void closeFragment(Vendor vendor);
     void fillConsignmentData(String consignmentNumber, String description, Boolean isFromAccount, double amount);
     void setAccountSpinnerSelection(int selectedAccount);
 }

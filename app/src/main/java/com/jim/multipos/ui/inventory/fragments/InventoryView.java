@@ -22,5 +22,5 @@ public interface InventoryView extends BaseView {
     void openAddDialog(InventoryItem inventoryItem, SurplusProductDialog.SurplusCallback surplusCallback);
     void openChooseVendorDialog(List<Vendor> vendorList);
     void sendDataToConsignment(Long productId, Long vendorId, int consignment_type);
-    void sendEvent(String inventoryStateUpdate);
+    void sendInventoryStateEvent(int event);
 }

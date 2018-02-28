@@ -17,8 +17,10 @@ import com.jim.multipos.ui.consignment_list.adapter.ConsignmentListItemAdapter;
 import com.jim.multipos.ui.consignment_list.presenter.ConsignmentListPresenter;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.WarningDialog;
-import com.jim.multipos.utils.rxevents.MessageWithIdEvent;
-import com.jim.multipos.utils.rxevents.MessageEvent;
+import com.jim.multipos.utils.rxevents.inventory_events.ConsignmentWithVendorEvent;
+import com.jim.multipos.utils.rxevents.inventory_events.InventoryStateEvent;
+import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
+import com.jim.multipos.utils.rxevents.main_order_events.ConsignmentEvent;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -30,7 +32,6 @@ import butterknife.BindView;
 import io.reactivex.disposables.Disposable;
 
 import static com.jim.multipos.ui.consignment.ConsignmentActivity.VENDOR_ID;
-import static com.jim.multipos.ui.consignment.view.IncomeConsignmentFragment.CONSIGNMENT_UPDATE;
 import static com.jim.multipos.ui.consignment_list.view.ConsignmentListFragment.SortingStates.FILTERED_BY_CONSIGNMENT;
 import static com.jim.multipos.ui.consignment_list.view.ConsignmentListFragment.SortingStates.FILTERED_BY_CONSIGNMENT_INVERT;
 import static com.jim.multipos.ui.consignment_list.view.ConsignmentListFragment.SortingStates.FILTERED_BY_DATE;
@@ -92,11 +93,11 @@ public class ConsignmentListFragment extends BaseFragment implements Consignment
         subscriptions = new ArrayList<>();
         subscriptions.add(
                 rxBus.toObservable().subscribe(o -> {
-                    if (o instanceof MessageWithIdEvent) {
-                        MessageWithIdEvent event = (MessageWithIdEvent) o;
-                        switch (event.getMessage()) {
-                            case CONSIGNMENT_UPDATE: {
-                                presenter.initConsignmentListRecyclerViewData(event.getId());
+                    if (o instanceof ConsignmentWithVendorEvent) {
+                        ConsignmentWithVendorEvent event = (ConsignmentWithVendorEvent) o;
+                        switch (event.getType()) {
+                            case GlobalEventConstants.UPDATE: {
+                                presenter.initConsignmentListRecyclerViewData(event.getVendor().getId());
                                 break;
                             }
                         }
@@ -220,8 +221,8 @@ public class ConsignmentListFragment extends BaseFragment implements Consignment
     }
 
     @Override
-    public void sendEvent(String event) {
-        rxBus.send(new MessageEvent(event));
+    public void sendConsignmentEvent(int event) {
+        rxBus.send(new ConsignmentEvent(event));
     }
 
     @Override
@@ -237,6 +238,11 @@ public class ConsignmentListFragment extends BaseFragment implements Consignment
     @Override
     public void clearInterval() {
         presenter.clearIntervals();
+    }
+
+    @Override
+    public void sendInventoryStateEvent(int event) {
+        rxBus.send(new InventoryStateEvent(event));
     }
 
     public void setSearchText(String searchText) {

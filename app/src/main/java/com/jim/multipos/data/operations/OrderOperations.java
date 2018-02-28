@@ -27,4 +27,5 @@ public interface OrderOperations {
     Single<Long> deleteOrderProductsOnHold(List<OrderProduct> orderProducts);
     Single<List<Order>> getAllHoldOrders();
     Single<List<Order>> getOrdersByTillId(Long id);
+    Single<List<Order>> getAllTillClosedOrders();
 }

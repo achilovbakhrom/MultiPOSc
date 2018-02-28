@@ -39,13 +39,12 @@ import com.jim.multipos.utils.UIUtils;
 import com.jim.multipos.utils.WarningDialog;
 import com.jim.multipos.utils.managers.NotifyManager;
 import com.jim.multipos.utils.printer.CheckPrinter;
-import com.jim.multipos.utils.rxevents.MessageEvent;
-import com.jim.multipos.utils.rxevents.MessageWithIdEvent;
-import com.jim.multipos.utils.rxevents.main_order_events.ConsigmentEvent;
+import com.jim.multipos.utils.rxevents.inventory_events.InventoryStateEvent;
+import com.jim.multipos.utils.rxevents.main_order_events.ConsignmentEvent;
 import com.jim.multipos.utils.rxevents.main_order_events.CustomerEvent;
 import com.jim.multipos.utils.rxevents.main_order_events.DebtEvent;
 import com.jim.multipos.utils.rxevents.main_order_events.DiscountEvent;
-import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstans;
+import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
 import com.jim.multipos.utils.rxevents.main_order_events.ProductEvent;
 import com.jim.multipos.utils.rxevents.main_order_events.ServiceFeeEvent;
 
@@ -205,42 +204,42 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
                 rxBus.toObservable().subscribe(o -> {
                        if(o instanceof ProductEvent){
                            ProductEvent productEvent = (ProductEvent) o;
-                           if(productEvent.getType() == GlobalEventConstans.UPDATE){
+                           if(productEvent.getType() == GlobalEventConstants.UPDATE){
                                 presenter.eventProductUpdate(productEvent.getProduct(),productEvent.getNewProduct());
-                           }else if(productEvent.getType() == GlobalEventConstans.DELETE){
+                           }else if(productEvent.getType() == GlobalEventConstants.DELETE){
                                presenter.eventProductDelete(productEvent.getProduct());
                            }
                        }else if(o instanceof CustomerEvent){
                            CustomerEvent customerEvent = (CustomerEvent) o;
-                            if(customerEvent.getType() == GlobalEventConstans.UPDATE){
+                            if(customerEvent.getType() == GlobalEventConstants.UPDATE){
                                 presenter.eventCustomerUpdate(customerEvent.getCustomer(),customerEvent.getNewCustomer());
-                            }else if(customerEvent.getType() == GlobalEventConstans.DELETE){
+                            }else if(customerEvent.getType() == GlobalEventConstants.DELETE){
                                 presenter.eventCustomerDelete(customerEvent.getCustomer());
                             }
                        }else if(o instanceof DebtEvent){
                            DebtEvent debtEvent = (DebtEvent) o;
-                           if(debtEvent.getType() == GlobalEventConstans.UPDATE){
+                           if(debtEvent.getType() == GlobalEventConstants.UPDATE){
                                presenter.eventDebtUpdate(debtEvent.getDebt(),debtEvent.getNewDebt());
-                           }else if(debtEvent.getType() == GlobalEventConstans.DELETE){
+                           }else if(debtEvent.getType() == GlobalEventConstants.DELETE){
                                presenter.eventDebtDelete(debtEvent.getDebt());
                            }
                        }else if(o instanceof DiscountEvent){
                            DiscountEvent discountEvent = (DiscountEvent) o;
-                           if(discountEvent.getType() == GlobalEventConstans.UPDATE){
+                           if(discountEvent.getType() == GlobalEventConstants.UPDATE){
                                presenter.eventDiscountUpdate(discountEvent.getDiscount(),discountEvent.getNewDiscount());
-                           }else if(discountEvent.getType() == GlobalEventConstans.DELETE){
+                           }else if(discountEvent.getType() == GlobalEventConstants.DELETE){
                                presenter.eventDiscountDelete(discountEvent.getDiscount());
                            }
                        }else if(o instanceof ServiceFeeEvent){
                            ServiceFeeEvent serviceFeeEvent = (ServiceFeeEvent) o;
-                           if(serviceFeeEvent.getType() == GlobalEventConstans.UPDATE){
+                           if(serviceFeeEvent.getType() == GlobalEventConstants.UPDATE){
                                 presenter.eventServiceFeeUpdate(serviceFeeEvent.getServiceFee(),serviceFeeEvent.getNewServiceFee());
-                           }else if(serviceFeeEvent.getType() == GlobalEventConstans.DELETE){
+                           }else if(serviceFeeEvent.getType() == GlobalEventConstants.DELETE){
                                presenter.eventServiceFeeDelete(serviceFeeEvent.getServiceFee());
                            }
-                       }else if(o instanceof ConsigmentEvent){
-                           ConsigmentEvent consigmentEvent = (ConsigmentEvent) o;
-                           if(consigmentEvent.getType() == GlobalEventConstans.UPDATE){
+                       }else if(o instanceof InventoryStateEvent){
+                           InventoryStateEvent consigmentEvent = (InventoryStateEvent) o;
+                           if(consigmentEvent.getType() == GlobalEventConstants.UPDATE){
                                presenter.eventConsigmentUpdate();
                            }
                        }
@@ -366,6 +365,7 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
         isPaymentOpen = false;
     }
     boolean isPaymentOpen = false;
+
     @Override
     public void openProductInfoFragment(OrderProductItem orderProductItem,int position) {
         this.orderProductItem = orderProductItem;
@@ -737,6 +737,12 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
     @Override
     public void openWarningDialog(String text) {
         UIUtils.showAlert(getContext(), getContext().getString(R.string.ok), getString(R.string.warning), text, () -> {});
+    }
+
+    @Override
+    public void hideProductInfoFragment() {
+        currentPosition = -1;
+        ((MainPosPageActivity) getActivity()).hideProductInfoFragment();
     }
 
 

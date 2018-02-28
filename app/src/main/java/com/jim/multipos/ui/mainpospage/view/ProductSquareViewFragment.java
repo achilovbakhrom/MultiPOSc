@@ -17,8 +17,9 @@ import com.jim.multipos.ui.mainpospage.connection.MainPageConnection;
 import com.jim.multipos.ui.mainpospage.presenter.ProductSquareViewPresenter;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.RxBusLocal;
-import com.jim.multipos.utils.rxevents.MessageEvent;
-import com.jim.multipos.utils.rxevents.EditEvent;
+import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
+import com.jim.multipos.utils.rxevents.main_order_events.ProductEvent;
+import com.jim.multipos.utils.rxevents.product_events.CategoryEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,13 +28,6 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import io.reactivex.disposables.Disposable;
-
-import static com.jim.multipos.ui.product_last.ProductPresenterImpl.CATEGORY_ADD;
-import static com.jim.multipos.ui.product_last.ProductPresenterImpl.CATEGORY_DELETE;
-import static com.jim.multipos.ui.product_last.ProductPresenterImpl.CATEGORY_UPDATE;
-import static com.jim.multipos.ui.product_last.ProductPresenterImpl.PRODUCT_ADD;
-import static com.jim.multipos.ui.product_last.ProductPresenterImpl.PRODUCT_DELETE;
-import static com.jim.multipos.ui.product_last.ProductPresenterImpl.PRODUCT_UPDATE;
 
 /**
  * Created by Sirojiddin on 27.10.2017.
@@ -79,23 +73,23 @@ public class ProductSquareViewFragment extends BaseFragment implements ProductSq
         subscriptions = new ArrayList<>();
         subscriptions.add(
                 rxBus.toObservable().subscribe(o -> {
-                    if (o instanceof MessageEvent) {
-                        MessageEvent event = (MessageEvent) o;
-                        switch (event.getMessage()) {
-                            case CATEGORY_ADD:
-                            case CATEGORY_DELETE:
-                            case CATEGORY_UPDATE: {
+                    if (o instanceof CategoryEvent) {
+                        CategoryEvent event = (CategoryEvent) o;
+                        switch (event.getType()) {
+                            case GlobalEventConstants.ADD:
+                            case GlobalEventConstants.DELETE:
+                            case GlobalEventConstants.UPDATE: {
                                 presenter.setCategoryRecyclerView();
                                 break;
                             }
                         }
                     }
-                    if (o instanceof EditEvent) {
-                        EditEvent event = (EditEvent) o;
-                        switch (event.getMessage()) {
-                            case PRODUCT_ADD:
-                            case PRODUCT_DELETE:
-                            case PRODUCT_UPDATE: {
+                    if (o instanceof ProductEvent) {
+                        ProductEvent event = (ProductEvent) o;
+                        switch (event.getType()) {
+                            case GlobalEventConstants.ADD:
+                            case GlobalEventConstants.DELETE:
+                            case GlobalEventConstants.UPDATE: {
                                 presenter.setCategoryRecyclerView();
                                 break;
                             }

@@ -12,4 +12,9 @@ public class CustomerEvent {
     private Customer customer;
     private Customer newCustomer;
     private int type;
+
+    public CustomerEvent(Customer customer, int type) {
+        this.customer = customer;
+        this.type = type;
+    }
 }

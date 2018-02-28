@@ -1176,7 +1176,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
 
     @Override
     public void eventConsigmentUpdate() {
-
+        view.hideProductInfoFragment();
     }
 
 

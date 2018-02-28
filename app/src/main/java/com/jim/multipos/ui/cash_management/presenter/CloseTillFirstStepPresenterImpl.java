@@ -6,6 +6,7 @@ import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.OrderChangesLog;
 import com.jim.multipos.ui.cash_management.view.CloseTillFirstStepView;
+import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,12 +47,12 @@ public class CloseTillFirstStepPresenterImpl extends BasePresenterImpl<CloseTill
     }
 
     @Override
-    public void onReturn(Order order, int position) {
+    public void onReturn(Order order, int position, String reason) {
         order.setStatus(Order.CANCELED_ORDER);
         OrderChangesLog orderChangesLog = new OrderChangesLog();
         orderChangesLog.setToStatus(Order.CANCELED_ORDER);
         orderChangesLog.setChangedAt(System.currentTimeMillis());
-        orderChangesLog.setReason("");
+        orderChangesLog.setReason(reason);
         orderChangesLog.setChangedCauseType(OrderChangesLog.HAND_AT_CLOSE_TILL);
         orderChangesLog.setOrderId(order.getId());
         databaseManager.insertOrderChangeLog(orderChangesLog).blockingGet();
@@ -79,7 +80,8 @@ public class CloseTillFirstStepPresenterImpl extends BasePresenterImpl<CloseTill
         databaseManager.insertOrder(order).blockingGet();
         orderList.remove(position);
         view.updateOrderList();
-        view.sendEvent(ORDER_CANCELED, order.getId());
+        view.sendEvent(GlobalEventConstants.CANCEL, order);
+        view.sendInventoryStateChangeEvent(GlobalEventConstants.UPDATE);
     }
 
     @Override
@@ -103,6 +105,6 @@ public class CloseTillFirstStepPresenterImpl extends BasePresenterImpl<CloseTill
         databaseManager.insertOrder(order).blockingGet();
         orderList.remove(position);
         view.updateOrderList();
-        view.sendEvent(ORDER_CLOSED, order.getId());
+        view.sendEvent(GlobalEventConstants.CLOSE, order);
     }
 }

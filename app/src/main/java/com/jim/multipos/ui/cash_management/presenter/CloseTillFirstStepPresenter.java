@@ -10,6 +10,6 @@ import com.jim.multipos.data.db.model.order.Order;
 public interface CloseTillFirstStepPresenter extends Presenter {
     void initAdapterData();
     void checkCompletion();
-    void onReturn(Order order, int position);
+    void onReturn(Order order, int position, String reason);
     void onClose(Order order, int position);
 }

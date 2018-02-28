@@ -3,7 +3,6 @@ package com.jim.multipos.ui.main_menu.customers_menu.presenters;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.db.model.intosystem.TitleDescription;
 import com.jim.multipos.ui.main_menu.customers_menu.CustomersMenuView;
-import com.jim.multipos.ui.product_class.fragments.AddProductClassView;
 
 import java.util.ArrayList;
 

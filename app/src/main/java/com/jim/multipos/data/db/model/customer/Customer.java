@@ -22,10 +22,10 @@ public class Customer implements Editable {
     @Id(autoincrement = true)
     private Long id;
     private Long clientId;
-    private String name;
+    private String name = "";
     private String phoneNumber = "";
     private String address = "";
-    private String qrCode;
+    private String qrCode = "";
     private Long createdDate;
     private Long modifiedDate;
     private boolean isActive = true;

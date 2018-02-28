@@ -270,4 +270,5 @@ public interface DbHelper {
     Single<Boolean> deleteDebt(Debt debt);
     Single<Long> deleteOrderProductsOnHold(List<OrderProduct> orderProducts);
     Single<Long> deletePayedPartitions(List<PayedPartitions> payedPartitions);
+    Single<List<Order>> getAllTillClosedOrders();
 }

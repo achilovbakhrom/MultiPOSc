@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,8 +22,9 @@ import com.jim.multipos.ui.billing_vendor.presenter.BillingOperationPresenter;
 import com.jim.multipos.utils.BillingInfoDialog;
 import com.jim.multipos.utils.PaymentToVendorDialog;
 import com.jim.multipos.utils.RxBus;
-import com.jim.multipos.utils.rxevents.MessageEvent;
-import com.jim.multipos.utils.rxevents.MessageWithIdEvent;
+import com.jim.multipos.utils.rxevents.inventory_events.BillingOperationEvent;
+import com.jim.multipos.utils.rxevents.inventory_events.ConsignmentWithVendorEvent;
+import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -50,8 +50,6 @@ import static com.jim.multipos.ui.billing_vendor.fragments.BillingOperationFragm
 import static com.jim.multipos.ui.billing_vendor.fragments.BillingOperationFragment.SortModes.PAYMENT_INVERT;
 import static com.jim.multipos.ui.billing_vendor.fragments.BillingOperationFragment.SortModes.TIME;
 import static com.jim.multipos.ui.billing_vendor.fragments.BillingOperationFragment.SortModes.TIME_INVERT;
-import static com.jim.multipos.ui.consignment.view.IncomeConsignmentFragment.CONSIGNMENT_UPDATE;
-import static com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemFragment.BILLINGS_UPDATE;
 
 /**
  * Created by developer on 30.11.2017.
@@ -116,10 +114,10 @@ public class BillingOperationFragment extends BaseFragment implements BillingOpe
         subscriptions = new ArrayList<>();
         subscriptions.add(
                 rxBus.toObservable().subscribe(o -> {
-                    if (o instanceof MessageWithIdEvent) {
-                        MessageWithIdEvent event = (MessageWithIdEvent) o;
-                        switch (event.getMessage()) {
-                            case CONSIGNMENT_UPDATE: {
+                    if (o instanceof ConsignmentWithVendorEvent) {
+                        ConsignmentWithVendorEvent event = (ConsignmentWithVendorEvent) o;
+                        switch (event.getType()) {
+                            case GlobalEventConstants.UPDATE: {
                                 presenter.updateBillings();
                                 break;
                             }
@@ -235,7 +233,7 @@ public class BillingOperationFragment extends BaseFragment implements BillingOpe
 
     @Override
     public void sendEvent() {
-        rxBus.send(new MessageEvent(BILLINGS_UPDATE));
+        rxBus.send(new BillingOperationEvent(GlobalEventConstants.BILLING_IS_DONE));
     }
 
     public enum SortModes{

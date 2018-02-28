@@ -7,9 +7,9 @@ import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
 import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
-import com.jim.multipos.ui.consignment_list.model.ConsignmentListItem;
 import com.jim.multipos.ui.consignment_list.view.ConsignmentListFragment;
 import com.jim.multipos.ui.consignment_list.view.ConsignmentListView;
+import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,7 +21,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import static com.jim.multipos.data.db.model.consignment.Consignment.INCOME_CONSIGNMENT;
 import static com.jim.multipos.ui.consignment.view.IncomeConsignmentFragment.CONSIGNMENT_UPDATE;
 import static com.jim.multipos.ui.consignment.view.IncomeConsignmentFragment.INVENTORY_STATE_UPDATE;
 
@@ -145,8 +144,8 @@ public class ConsignmentListPresenterImpl extends BasePresenterImpl<ConsignmentL
         databaseManager.insertConsignment(consignment, null, null, null).subscribe();
         consignmentList.remove(consignment);
         view.notifyList();
-        view.sendEvent(CONSIGNMENT_UPDATE);
-        view.sendEvent(INVENTORY_STATE_UPDATE);
+        view.sendConsignmentEvent(GlobalEventConstants.UPDATE);
+        view.sendInventoryStateEvent(GlobalEventConstants.UPDATE);
     }
 
     @Override

@@ -1010,6 +1010,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
+    public Single<List<Order>> getAllTillClosedOrders() {
+        return dbHelper.getAllTillClosedOrders();
+    }
+
+    @Override
     public Single<Long> getLastOrderId() {
         return dbHelper.getLastOrderId();
     }

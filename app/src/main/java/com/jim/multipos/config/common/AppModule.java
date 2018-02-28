@@ -8,6 +8,7 @@ import com.jim.multipos.ui.billing_vendor.BillingOperationsActivity;
 import com.jim.multipos.ui.billing_vendor.di.BillingOperationActivityModule;
 import com.jim.multipos.ui.cash_management.CashManagementActivity;
 import com.jim.multipos.ui.cash_management.di.CashManagementActivityModule;
+import com.jim.multipos.ui.consignment.ConsignmentActivity;
 import com.jim.multipos.ui.consignment.di.ConsignmentActivityModule;
 import com.jim.multipos.ui.consignment_list.ConsignmentListActivity;
 import com.jim.multipos.ui.consignment_list.di.ConsignmentListActivityModule;
@@ -20,9 +21,7 @@ import com.jim.multipos.ui.customers_edit_new.di.CustomersEditActivityModule;
 import com.jim.multipos.ui.discount.DiscountAddingActivity;
 import com.jim.multipos.ui.discount.di.DiscountAddingModule;
 import com.jim.multipos.ui.first_configure_last.FirstConfigureActivity;
-
 import com.jim.multipos.ui.first_configure_last.di.FirstConfigureActivityModule;
-import com.jim.multipos.ui.consignment.ConsignmentActivity;
 import com.jim.multipos.ui.inventory.InventoryActivity;
 import com.jim.multipos.ui.inventory.di.InventoryModule;
 import com.jim.multipos.ui.lock_screen.LockScreenActivity;
@@ -35,24 +34,20 @@ import com.jim.multipos.ui.main_menu.product_menu.ProductMenuActivity;
 import com.jim.multipos.ui.main_menu.product_menu.di.ProductMenuModule;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivity;
 import com.jim.multipos.ui.mainpospage.di.MainPageMenuModule;
-import com.jim.multipos.ui.product.ProductsActivity;
-import com.jim.multipos.ui.product.di.ProductsModule;
-import com.jim.multipos.ui.product_class.ProductClassActivity;
-import com.jim.multipos.ui.product_class.di.ProductClassModule;
-import com.jim.multipos.ui.product_last.ProductActivity;
-import com.jim.multipos.ui.product_last.di.ProductModule;
 import com.jim.multipos.ui.product_class_new.ProductsClassActivity;
 import com.jim.multipos.ui.product_class_new.di.ProductsClassModule;
+import com.jim.multipos.ui.product_last.ProductActivity;
+import com.jim.multipos.ui.product_last.di.ProductModule;
 import com.jim.multipos.ui.service_fee_new.ServiceFeeActivity;
 import com.jim.multipos.ui.service_fee_new.di.ServiceFeeActivityModule;
 import com.jim.multipos.ui.signing.SignActivity;
 import com.jim.multipos.ui.signing.di.SignActivityModule;
 import com.jim.multipos.ui.vendor.add_edit.VendorAddEditActivity;
 import com.jim.multipos.ui.vendor.add_edit.di.VendorAddEditActivityModule;
-import com.jim.multipos.ui.vendor_products_view.VendorProductsViewActivity;
-import com.jim.multipos.ui.vendor_products_view.di.VendorProductsViewActivityModule;
 import com.jim.multipos.ui.vendor_item_managment.VendorItemsActivity;
 import com.jim.multipos.ui.vendor_item_managment.di.VendorItemMainModule;
+import com.jim.multipos.ui.vendor_products_view.VendorProductsViewActivity;
+import com.jim.multipos.ui.vendor_products_view.di.VendorProductsViewActivityModule;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -69,14 +64,6 @@ abstract class  AppModule {
     @PerActivity
     @ContributesAndroidInjector(modules = SignActivityModule.class)
     abstract SignActivity provideSignActivity();
-
-    @PerActivity
-    @ContributesAndroidInjector(modules = ProductsModule.class)
-    abstract ProductsActivity provideProductsActivity();
-
-    @PerActivity
-    @ContributesAndroidInjector(modules = ProductClassModule.class)
-    abstract ProductClassActivity provideProductClassActivity();
 
     @PerActivity
     @ContributesAndroidInjector(modules = FirstConfigureActivityModule.class)

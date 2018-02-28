@@ -10,18 +10,18 @@ import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.R;
 import com.jim.multipos.core.DoubleSideActivity;
 import com.jim.multipos.data.db.model.ProductClass;
-import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.Product;
+import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.products.VendorProductCon;
 import com.jim.multipos.ui.product_last.fragment.CategoryAddEditFragment;
-import com.jim.multipos.ui.product_last.fragment.ProductListFragment;
 import com.jim.multipos.ui.product_last.fragment.ProductAddEditFragment;
+import com.jim.multipos.ui.product_last.fragment.ProductListFragment;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.TestUtils;
 import com.jim.multipos.utils.UIUtils;
-import com.jim.multipos.utils.rxevents.MessageEvent;
-import com.jim.multipos.utils.rxevents.EditEvent;
+import com.jim.multipos.utils.rxevents.main_order_events.ProductEvent;
+import com.jim.multipos.utils.rxevents.product_events.CategoryEvent;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.ArrayList;
@@ -201,6 +201,18 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
     public void showInventoryStateShouldBeEmptyDialog() {
         UIUtils.showAlert(this, getString(R.string.ok), getString(R.string.warning),
                 "You can not change the vendor who has products available", () -> Log.d("sss", "onButtonClicked: "));
+    }
+
+    @Override
+    public void sendProductChangeEvent(int type, Product oldProduct, Product newProduct) {
+        ProductEvent event = new ProductEvent(oldProduct, type);
+        event.setNewProduct(newProduct);
+        rxBus.send(event);
+    }
+
+    @Override
+    public void sendProductEvent(int type, Product product) {
+        rxBus.send(new ProductEvent(product, type));
     }
 
     @Override
@@ -788,13 +800,8 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
     }
 
     @Override
-    public void sendEvent(String event) {
-        rxBus.send(new MessageEvent(event));
-    }
-
-    @Override
-    public void sendProductEvent(Long id, Long newId, String message) {
-        rxBus.send(new EditEvent(id, newId, message));
+    public void sendCategoryEvent(Category category, int event) {
+        rxBus.send(new CategoryEvent(category, event));
     }
 
     @Override

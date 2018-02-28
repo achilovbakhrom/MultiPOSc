@@ -115,9 +115,9 @@ public class ConsignmentListActivity extends SimpleActivity implements Consignme
             String format = simpleDateFormat.format(fromDate.getTime());
             date = format.substring(0, 1).toUpperCase() + format.substring(1);
         } else if (fromDateCurrent && toDateCurrent) {
-            long indecatorTo = toDate.get(Calendar.YEAR) * 365 + toDate.get(Calendar.MONTH) * 30 + toDate.get(Calendar.DAY_OF_MONTH);
-            long indecatorFrom = fromDate.get(Calendar.YEAR) * 365 + fromDate.get(Calendar.MONTH) * 30 + fromDate.get(Calendar.DAY_OF_MONTH);
-            if (indecatorTo == indecatorFrom) {
+            long indicatorTo = toDate.get(Calendar.YEAR) * 365 + toDate.get(Calendar.MONTH) * 30 + toDate.get(Calendar.DAY_OF_MONTH);
+            long indicatorFrom = fromDate.get(Calendar.YEAR) * 365 + fromDate.get(Calendar.MONTH) * 30 + fromDate.get(Calendar.DAY_OF_MONTH);
+            if (indicatorTo == indicatorFrom) {
                 String format = simpleDateFormat.format(fromDate.getTime());
                 date = format.substring(0, 1).toUpperCase() + format.substring(1);
             } else {

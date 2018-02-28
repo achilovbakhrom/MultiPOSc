@@ -16,8 +16,9 @@ public interface ConsignmentListView extends BaseView{
     void notifyList();
     void initSearchResults(List<Consignment> searchResults, String searchText, Currency currency);
     void openConsignment(Long consignmentId, Integer consignmentType);
-    void sendEvent(String event);
+    void sendConsignmentEvent(int event);
     void dateIntervalPicked(Calendar fromDate, Calendar toDate);
     void datePicked(Calendar pickedDate);
     void clearInterval();
+    void sendInventoryStateEvent(int event);
 }

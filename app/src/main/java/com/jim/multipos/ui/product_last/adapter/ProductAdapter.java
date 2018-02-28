@@ -21,7 +21,7 @@ import butterknife.BindView;
  */
 public class ProductAdapter extends MovableBaseAdapter<Product, BaseViewHolder> {
 
-    private static final int ADD = 0, ITEM = 1;
+    public static final int ADD = 0, ITEM = 1;
 
     public ProductAdapter(List<Product> items) {
         super(items);

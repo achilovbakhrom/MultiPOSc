@@ -108,9 +108,10 @@ public interface ProductView extends BaseView {
     String getPhotoPath();
     void finishActivity();
     void openCategoryFragment();
-    void sendEvent(String event);
+    void sendCategoryEvent(Category category, int event);
     void showCannotDeleteItemWithPlusValue(double value);
     void showCannotDeleteItemWithMinusValue(double value);
     void showInventoryStateShouldBeEmptyDialog();
-    void sendProductEvent(Long id, Long newId, String message);
+    void sendProductChangeEvent(int type, Product oldProduct, Product newProduct);
+    void sendProductEvent(int type, Product product);
 }

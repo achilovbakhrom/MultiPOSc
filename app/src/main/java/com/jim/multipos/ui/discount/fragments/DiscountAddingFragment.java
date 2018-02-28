@@ -15,8 +15,7 @@ import com.jim.multipos.ui.discount.presenters.DiscountAddingPresenter;
 import com.jim.multipos.ui.discount.presenters.DiscountAddingPresenterImpl;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.WarningDialog;
-import com.jim.multipos.utils.rxevents.DiscountEvent;
-import com.jim.multipos.utils.rxevents.EditEvent;
+import com.jim.multipos.utils.rxevents.main_order_events.DiscountEvent;
 
 import java.util.List;
 
@@ -136,13 +135,15 @@ public class DiscountAddingFragment  extends BaseFragment implements DiscountAdd
     }
 
     @Override
-    public void sendEvent(String event, Discount discount) {
+    public void sendEvent(int event, Discount discount) {
        rxBus.send(new DiscountEvent(discount, event));
     }
 
     @Override
-    public void sendChangeEvent(String event, Long oldId, Long newId) {
-       rxBus.send(new EditEvent(oldId, newId, event));
+    public void sendChangeEvent(int event, Discount oldDiscount, Discount newDiscount) {
+       DiscountEvent discountEvent = new DiscountEvent(oldDiscount, event);
+       discountEvent.setNewDiscount(newDiscount);
+       rxBus.send(discountEvent);
     }
 
 }

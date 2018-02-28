@@ -196,7 +196,7 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
                     warehouseOperationsList.add(warehouseOperations);
                 }
                 databaseManager.insertConsignment(consignment, billingOperationsList, consignmentProductList, warehouseOperationsList).subscribe();
-                view.closeFragment(this.vendor.getId());
+                view.closeFragment(this.vendor);
             } else {
                 view.openSaveChangesDialog();
             }
@@ -250,9 +250,9 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
                 }
                 if (count != ids.size()) {
                     view.openDiscardDialog();
-                } else view.closeFragment(this.vendor.getId());
+                } else view.closeFragment(this.vendor);
             }
-        } else view.closeFragment(this.vendor.getId());
+        } else view.closeFragment(this.vendor);
     }
 
     @Override
@@ -396,7 +396,7 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
         }
         databaseManager.insertConsignment(consignment, null, null, null).blockingGet();
         databaseManager.insertConsignment(consignmentNew, billingOperationsList, newConsignmentProductList, warehouseOperationsList).subscribe();
-        view.closeFragment(this.vendor.getId());
+        view.closeFragment(this.vendor);
     }
 
     @Override

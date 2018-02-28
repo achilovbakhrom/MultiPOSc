@@ -4,9 +4,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
-import android.view.View;
 
-import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.mpviews.MpButton;
 import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.R;
@@ -16,8 +14,7 @@ import com.jim.multipos.ui.service_fee_new.adapters.ServiceFeeAdapter;
 import com.jim.multipos.ui.service_fee_new.model.ServiceFeeAdapterDetails;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.WarningDialog;
-import com.jim.multipos.utils.rxevents.EditEvent;
-import com.jim.multipos.utils.rxevents.ServiceFeeEvent;
+import com.jim.multipos.utils.rxevents.main_order_events.ServiceFeeEvent;
 
 import java.util.List;
 
@@ -110,13 +107,15 @@ public class ServiceFeeActivity extends BaseActivity implements ServiceFeeView {
     }
 
     @Override
-    public void sendEvent(String event, ServiceFee serviceFee) {
+    public void sendEvent(int event, ServiceFee serviceFee) {
         rxBus.send(new ServiceFeeEvent(serviceFee, event));
     }
 
     @Override
-    public void sendChangeEvent(String event, Long oldId, Long newId) {
-        rxBus.send(new EditEvent(oldId, newId, event));
+    public void sendChangeEvent(int event, ServiceFee oldServiceFee, ServiceFee newServiceFee) {
+        ServiceFeeEvent serviceFeeEvent = new ServiceFeeEvent(oldServiceFee, event);
+        serviceFeeEvent.setNewServiceFee(newServiceFee);
+        rxBus.send(serviceFeeEvent);
     }
 
     @Override

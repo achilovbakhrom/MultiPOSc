@@ -21,7 +21,8 @@ import com.jim.multipos.ui.vendor_products_view.adapters.ProductAdapter;
 import com.jim.multipos.ui.vendor_products_view.dialogs.MinusInventoryDialog;
 import com.jim.multipos.ui.vendor_products_view.dialogs.PlusInventoryDialog;
 import com.jim.multipos.utils.RxBus;
-import com.jim.multipos.utils.rxevents.MessageWithIdEvent;
+import com.jim.multipos.utils.rxevents.inventory_events.ConsignmentWithVendorEvent;
+import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,10 +68,10 @@ public class VendorDetailsList extends BaseFragment implements ProductAdapter.Pr
         subscriptions = new ArrayList<>();
         subscriptions.add(
                 ((VendorProductsViewActivity) getContext()).getRxBus().toObservable().subscribe(o -> {
-                    if (o instanceof MessageWithIdEvent) {
-                        MessageWithIdEvent event = (MessageWithIdEvent) o;
-                        switch (event.getMessage()) {
-                            case CONSIGNMENT_UPDATE: {
+                    if (o instanceof ConsignmentWithVendorEvent) {
+                        ConsignmentWithVendorEvent event = (ConsignmentWithVendorEvent) o;
+                        switch (event.getType()) {
+                            case GlobalEventConstants.UPDATE: {
                                 ((VendorProductsViewActivity) getContext()).getPresenter().updateInventoryItems();
                                 break;
                             }

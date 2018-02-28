@@ -15,13 +15,16 @@ import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
 import com.jim.multipos.data.db.model.products.Product;
+import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.consignment.adapter.IncomeItemsListAdapter;
 import com.jim.multipos.ui.consignment.adapter.VendorItemsListAdapter;
 import com.jim.multipos.ui.consignment.presenter.ReturnConsignmentPresenter;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.WarningDialog;
-import com.jim.multipos.utils.rxevents.MessageEvent;
-import com.jim.multipos.utils.rxevents.MessageWithIdEvent;
+import com.jim.multipos.utils.rxevents.inventory_events.BillingOperationEvent;
+import com.jim.multipos.utils.rxevents.inventory_events.ConsignmentWithVendorEvent;
+import com.jim.multipos.utils.rxevents.inventory_events.InventoryStateEvent;
+import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -35,9 +38,6 @@ import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 import static com.jim.multipos.ui.consignment.ConsignmentActivity.CONSIGNMENT_ID;
 import static com.jim.multipos.ui.consignment.ConsignmentActivity.PRODUCT_ID;
 import static com.jim.multipos.ui.consignment.ConsignmentActivity.VENDOR_ID;
-import static com.jim.multipos.ui.consignment.view.IncomeConsignmentFragment.CONSIGNMENT_UPDATE;
-import static com.jim.multipos.ui.consignment.view.IncomeConsignmentFragment.INVENTORY_STATE_UPDATE;
-import static com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemFragment.BILLINGS_UPDATE;
 
 /**
  * Created by Sirojiddin on 24.11.2017.
@@ -179,10 +179,10 @@ public class ReturnConsignmentFragment extends BaseFragment implements ReturnCon
     }
 
     @Override
-    public void closeFragment(Long id) {
-        rxBus.send(new MessageWithIdEvent(id, CONSIGNMENT_UPDATE));
-        rxBus.send(new MessageEvent(BILLINGS_UPDATE));
-        rxBus.send(new MessageEvent(INVENTORY_STATE_UPDATE));
+    public void closeFragment(Vendor vendor) {
+        rxBus.send(new ConsignmentWithVendorEvent(vendor, GlobalEventConstants.UPDATE));
+        rxBus.send(new BillingOperationEvent(GlobalEventConstants.BILLING_IS_DONE));
+        rxBus.send(new InventoryStateEvent(GlobalEventConstants.UPDATE));
         getActivity().finish();
     }
 

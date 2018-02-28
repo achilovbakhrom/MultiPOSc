@@ -13,7 +13,7 @@ import com.jim.multipos.ui.vendor.add_edit.fragment.VendorAddEditFragment;
 import com.jim.multipos.ui.vendor.add_edit.fragment.VendorsListFragment;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.UIUtils;
-import com.jim.multipos.utils.rxevents.MessageWithIdEvent;
+import com.jim.multipos.utils.rxevents.inventory_events.VendorEvent;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import javax.inject.Inject;
@@ -161,8 +161,8 @@ public class VendorAddEditActivity extends DoubleSideActivity implements VendorA
     }
 
     @Override
-    public void sendEvent(String state, Long vendorId) {
-        rxBus.send(new MessageWithIdEvent(vendorId, state));
+    public void sendEvent(int state, Vendor vendor) {
+        rxBus.send(new VendorEvent(vendor, state));
     }
 
     @Override

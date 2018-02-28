@@ -12,4 +12,9 @@ public class DebtEvent {
     private Debt debt;
     private Debt newDebt;
     private int type;
+
+    public DebtEvent(Debt debt, int type) {
+        this.debt = debt;
+        this.type = type;
+    }
 }

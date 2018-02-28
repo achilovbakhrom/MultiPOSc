@@ -16,8 +16,6 @@ import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.ui.mainpospage.connection.MainPageConnection;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.RxBusLocal;
-import com.jim.multipos.utils.rxevents.OrderProductAddEvent;
-import com.jim.multipos.utils.rxevents.ProductEvent;
 
 import java.util.ArrayList;
 
@@ -67,13 +65,13 @@ public class ProductPickerFragment extends BaseFragment implements ProductPicker
         subscriptions = new ArrayList<>();
         subscriptions.add(
                 rxBusLocal.toObservable().subscribe(o -> {
-                    if (o instanceof ProductEvent) {
-                        ProductEvent event = (ProductEvent) o;
-                        if (event.getEventType().equals(OPEN_PRODUCT)) {
-                            Long id = event.getProduct().getId();
-                            rxBusLocal.send(new OrderProductAddEvent(id, OrderListFragment.PRODUCT_ADD_TO_ORDER));
-                        }
-                    }
+//                    if (o instanceof ProductEvent) {
+//                        ProductEvent event = (ProductEvent) o;
+//                        if (event.getEventType().equals(OPEN_PRODUCT)) {
+//                            Long id = event.getProduct().getId();
+//                            rxBusLocal.send(new OrderProductAddEvent(id, OrderListFragment.PRODUCT_ADD_TO_ORDER));
+//                        }
+//                    }
 
                 }));
     }

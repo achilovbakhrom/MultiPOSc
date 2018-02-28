@@ -35,7 +35,7 @@ public class OrderMenuDialog extends Dialog {
     LinearLayout llSettingsMenu;
 
 
-    public OrderMenuDialog(Context context) {
+    public OrderMenuDialog(Context context, onOrderMenuItemClickListener listener) {
         super(context);
         View dialogView = getLayoutInflater().inflate(R.layout.order_dialog, null);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -53,14 +53,20 @@ public class OrderMenuDialog extends Dialog {
 
         llSettingsMenu.setOnClickListener(view -> dismiss());
         tvTodayOrders.setOnClickListener(view -> {
-
+            listener.onTodayOrderClick();
             dismiss();
         });
         tvHeldOrders.setOnClickListener(view -> {
-            Toast.makeText(context, tvHeldOrders.getText().toString(), Toast.LENGTH_SHORT).show();
+            listener.onHeldOrderClick();
+            dismiss();
         });
         tvClose.setOnClickListener(view -> {
             dismiss();
         });
+    }
+
+    public interface onOrderMenuItemClickListener{
+        void onTodayOrderClick();
+        void onHeldOrderClick();
     }
 }

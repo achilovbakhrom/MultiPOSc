@@ -17,6 +17,7 @@ import com.jim.multipos.data.db.model.unit.Unit;
 import com.jim.multipos.data.db.model.unit.UnitCategory;
 import com.jim.multipos.ui.product_last.helpers.CategoryAddEditMode;
 import com.jim.multipos.utils.UIUtils;
+import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -27,7 +28,6 @@ import java.util.List;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 
-import dagger.Lazy;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -933,7 +933,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             result.setIsActive(isActive);
             databaseManager.addCategory(result).subscribe(id -> {
                 view.addToCategoryList(result);
-                view.sendEvent(CATEGORY_ADD);
+                view.sendCategoryEvent(result, GlobalEventConstants.ADD);
                 view.setCategoryPath(null);
                 openCategory(null);
             });
@@ -944,7 +944,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             result.setActive(isActive);
             databaseManager.addCategory(result).subscribe(id -> {
                 view.addToSubcategoryList(result);
-                view.sendEvent(CATEGORY_ADD);
+                view.sendCategoryEvent(result, GlobalEventConstants.ADD);
                 view.setSubcategoryPath(null);
                 openSubcategory(null);
             });
@@ -960,7 +960,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                         view.editCategory(category);
                         category.refresh();
                         view.setCategoryPath(category.getName());
-                        view.sendEvent(CATEGORY_UPDATE);
+                        view.sendCategoryEvent(category, GlobalEventConstants.UPDATE);
                     });
                 }
 
@@ -980,7 +980,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     databaseManager.replaceCategory(subcategory).subscribe(aLong -> {
                         view.editSubcategory(subcategory);
                         subcategory.refresh();
-                        view.sendEvent(CATEGORY_UPDATE);
+                        view.sendCategoryEvent(category, GlobalEventConstants.UPDATE);
                         category.resetSubCategories();
                         view.setSubcategoryPath(subcategory.getName());
                     });
@@ -1105,7 +1105,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                         databaseManager.replaceProduct(product).subscribe(aLong -> {
                             if (subcategory != null) {
                                 subcategory.resetProducts();
-                                view.sendProductEvent(product.getId(), null, PRODUCT_DELETE);
+                                view.sendProductEvent(GlobalEventConstants.DELETE, product);
                                 openSubcategory(subcategory);
                                 openProduct(null);
 //                                List<Product> list = new ArrayList<>();
@@ -1157,7 +1157,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                             subcategory.setActive(false);
                             subcategory.setDeleted(true);
                             databaseManager.replaceCategory(subcategory).subscribe(isDeleted -> {
-                                view.sendEvent(CATEGORY_DELETE);
+                                view.sendCategoryEvent(category, GlobalEventConstants.DELETE);
                                 Log.d("sss", "deleteCategory: ");
                                 category.resetSubCategories();
                                 openCategory(category);
@@ -1202,7 +1202,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                                     Collections.sort(categories, (o1, o2) -> -((Boolean) o1.isActive()).compareTo(o2.isActive()));
                                 }
                                 categories.add(0, null);
-                                view.sendEvent(CATEGORY_DELETE);
+                                view.sendCategoryEvent(category, GlobalEventConstants.DELETE);
                                 view.setListToCategoryList(categories);
                                 view.unselectSubcategoryList();
                                 view.unselectProductsList();
@@ -1293,7 +1293,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                         databaseManager.addVendorProductConnection(vendorProductConnectionsList.get(i)).subscribe();
                     }
                     view.addToProductList(product);
-                    view.sendProductEvent(product.getId(), null, PRODUCT_ADD);
+                    view.sendProductEvent(GlobalEventConstants.ADD, product);
                     openProduct(null);
                 });
                 break;
@@ -1355,7 +1355,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                                     databaseManager.addVendorProductConnection(productCon).blockingSingle();
                                 }
                                 view.editProduct(result);
-                                view.sendProductEvent(ProductPresenterImpl.this.product.getId(), result.getId(), PRODUCT_UPDATE);
+                                view.sendProductChangeEvent(GlobalEventConstants.UPDATE, ProductPresenterImpl.this.product, result);
                                 openSubcategory(subcategory);
                                 openProduct(result);
                             });

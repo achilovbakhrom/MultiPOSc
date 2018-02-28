@@ -11,4 +11,5 @@ public interface CustomersEditView extends BaseView {
     void customerAdded(Customer customer);
     void customerRemoved(Customer customer);
     void updateRecyclerView();
+    void sendEvent(int type, Customer customer);
 }

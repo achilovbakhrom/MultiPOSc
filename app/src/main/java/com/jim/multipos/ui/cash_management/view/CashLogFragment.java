@@ -19,7 +19,8 @@ import com.jim.multipos.ui.cash_management.adapter.AccountsSpinnerAdapter;
 import com.jim.multipos.ui.cash_management.connection.CashManagementConnection;
 import com.jim.multipos.ui.cash_management.presenter.CashLogPresenter;
 import com.jim.multipos.utils.RxBus;
-import com.jim.multipos.utils.rxevents.MessageEvent;
+import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
+import com.jim.multipos.utils.rxevents.till_management_events.TillEvent;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -172,7 +173,7 @@ public class CashLogFragment extends BaseFragment implements CashLogView {
 
     @Override
     public void sendEvent() {
-        rxBus.send(new MessageEvent(TILL_CLOSED));
+        rxBus.send(new TillEvent(GlobalEventConstants.CLOSE));
     }
 
     @Override

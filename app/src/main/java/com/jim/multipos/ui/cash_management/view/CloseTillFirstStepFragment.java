@@ -10,13 +10,15 @@ import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.order.Order;
+import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.ui.cash_management.adapter.ReconcileOrdersAdapter;
 import com.jim.multipos.ui.cash_management.connection.CashManagementConnection;
 import com.jim.multipos.ui.cash_management.dialog.CloseOrderWithPayDialog;
 import com.jim.multipos.ui.cash_management.presenter.CloseTillFirstStepPresenter;
+import com.jim.multipos.ui.mainpospage.dialogs.AccessToCancelDialog;
 import com.jim.multipos.utils.RxBus;
-import com.jim.multipos.utils.rxevents.MessageEvent;
-import com.jim.multipos.utils.rxevents.MessageWithIdEvent;
+import com.jim.multipos.utils.rxevents.inventory_events.InventoryStateEvent;
+import com.jim.multipos.utils.rxevents.main_order_events.OrderEvent;
 
 import java.util.List;
 
@@ -42,6 +44,8 @@ public class CloseTillFirstStepFragment extends BaseFragment implements CloseTil
     @Inject
     DatabaseManager databaseManager;
     @Inject
+    PreferencesHelper preferencesHelper;
+    @Inject
     RxBus rxBus;
     private ReconcileOrdersAdapter adapter;
 
@@ -57,7 +61,18 @@ public class CloseTillFirstStepFragment extends BaseFragment implements CloseTil
         adapter = new ReconcileOrdersAdapter(getContext(), new ReconcileOrdersAdapter.onExtraOptionItemClicked() {
             @Override
             public void onReturn(Order order, int position) {
-                presenter.onReturn(order, position);
+                AccessToCancelDialog dialog = new AccessToCancelDialog(getContext(), new AccessToCancelDialog.OnAccsessListner() {
+                    @Override
+                    public void accsessSuccess(String reason) {
+                        presenter.onReturn(order, position, reason);
+                    }
+
+                    @Override
+                    public void onBruteForce() {
+
+                    }
+                }, preferencesHelper);
+                dialog.show();
             }
 
             @Override
@@ -104,8 +119,13 @@ public class CloseTillFirstStepFragment extends BaseFragment implements CloseTil
     }
 
     @Override
-    public void sendEvent(String event, Long id) {
-        rxBus.send(new MessageWithIdEvent(id, event));
+    public void sendEvent(int event, Order order) {
+        rxBus.send(new OrderEvent(event, order));
+    }
+
+    @Override
+    public void sendInventoryStateChangeEvent(int type) {
+        rxBus.send(new InventoryStateEvent(type));
     }
 
     @Override

@@ -17,6 +17,7 @@ import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Return;
 import com.jim.multipos.ui.mainpospage.adapter.ProductSearchResultsAdapter;
 import com.jim.multipos.ui.mainpospage.adapter.ReturnsAdapter;
+import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.TextWatcherOnTextChange;
 import com.jim.multipos.utils.UIUtils;
 import com.jim.multipos.utils.WarningDialog;
@@ -49,7 +50,7 @@ public class ReturnsDialog extends Dialog {
     private ProductSearchResultsAdapter searchResultsAdapter;
     private ReturnsAdapter returnsAdapter;
 
-    public ReturnsDialog(@NonNull Context context, DatabaseManager databaseManager, DecimalFormat decimalFormat, List<Return> returnsList) {
+    public ReturnsDialog(@NonNull Context context, DatabaseManager databaseManager, DecimalFormat decimalFormat, List<Return> returnsList, RxBus rxBus) {
         super(context);
         View dialogView = getLayoutInflater().inflate(R.layout.return_dialog, null);
         ButterKnife.bind(this, dialogView);
@@ -120,7 +121,7 @@ public class ReturnsDialog extends Dialog {
         btnNext.setOnClickListener(view -> {
             UIUtils.closeKeyboard(btnNext, context);
             if (!this.returnsList.isEmpty()) {
-                ReturnsConfirmDialog confirmDialog = new ReturnsConfirmDialog(getContext(), this.returnsList, databaseManager, decimalFormat);
+                ReturnsConfirmDialog confirmDialog = new ReturnsConfirmDialog(getContext(), this.returnsList, databaseManager, decimalFormat, rxBus);
                 confirmDialog.show();
                 dismiss();
             } else {

@@ -13,8 +13,8 @@ import java.util.List;
 public interface ServiceFeeView extends BaseView {
     void refreshList(List<ServiceFeeAdapterDetails> detailsList);
     void notifyItemAdd(int position);
-    void sendEvent(String message, ServiceFee serviceFee);
-    void sendChangeEvent(String message, Long oldId, Long newId);
+    void sendEvent(int type, ServiceFee serviceFee);
+    void sendChangeEvent(int type, ServiceFee oldServiceFee, ServiceFee newServiceFee);
     void notifyItemRemove(int position);
     void refreshList();
     void closeActivity();

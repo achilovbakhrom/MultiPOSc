@@ -4,6 +4,7 @@ import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.ui.service_fee_new.model.ServiceFeeAdapterDetails;
+import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -60,7 +61,7 @@ public class ServiceFeePresenterImpl extends BasePresenterImpl<ServiceFeeView> i
             serviceFeeAdapterDetails.setObject(serviceFee);
             items.add(1, serviceFeeAdapterDetails);
             view.notifyItemAdd(1);
-            view.sendEvent(SERVICE_FEE_ADD, serviceFee);
+            view.sendEvent(GlobalEventConstants.ADD, serviceFee);
         });
     }
 
@@ -90,7 +91,7 @@ public class ServiceFeePresenterImpl extends BasePresenterImpl<ServiceFeeView> i
                         return;
                     }
                 }
-                view.sendChangeEvent(SERVICE_FEE_UPDATE, serviceFee.getId(), newServiceFee.getId());
+                view.sendChangeEvent(GlobalEventConstants.UPDATE, serviceFee, newServiceFee);
             });
         });
     }
@@ -106,7 +107,7 @@ public class ServiceFeePresenterImpl extends BasePresenterImpl<ServiceFeeView> i
                     break;
                 }
             }
-            view.sendEvent(SERVICE_FEE_DELETE, serviceFee);
+            view.sendEvent(GlobalEventConstants.DELETE, serviceFee);
         });
     }
 

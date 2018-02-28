@@ -4,6 +4,7 @@ import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
+import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -68,6 +69,7 @@ public class CustomersEditPresenterImpl extends BasePresenterImpl<CustomersEditV
             }
 
             view.customerAdded(customer);
+            view.sendEvent(GlobalEventConstants.ADD, customer);
         });
     }
 
@@ -78,14 +80,18 @@ public class CustomersEditPresenterImpl extends BasePresenterImpl<CustomersEditV
                 for (CustomerGroup cg : customer.getCustomerGroups()) {
                     databaseManager.getJoinCustomerGroupWithCustomerOperations().addCustomerToCustomerGroup(customer.getId(), cg.getId()).subscribe();
                 }
+                view.sendEvent(GlobalEventConstants.UPDATE, customer);
             });
         });
     }
 
     @Override
     public void removeCustomer(Customer customer) {
-        databaseManager.getCustomerOperations().removeCustomer(customer).subscribe(aBoolean -> {
+        customer.setActive(false);
+        customer.setDeleted(true);
+        databaseManager.getCustomerOperations().addCustomer(customer).subscribe(aBoolean -> {
             view.customerRemoved(customer);
+            view.sendEvent(GlobalEventConstants.DELETE, customer);
         });
     }
 

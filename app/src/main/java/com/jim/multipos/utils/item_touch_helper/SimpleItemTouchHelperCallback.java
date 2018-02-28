@@ -5,10 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
 import com.jim.multipos.core.ItemMoveListener;
-import com.jim.multipos.ui.product.adapter.ProductsListAdapter;
+import com.jim.multipos.ui.product_last.adapter.ProductAdapter;
 
 
-/**
+/**0
  * Created by DEV on 22.08.2017.
  */
 
@@ -35,11 +35,11 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
         if (recyclerView.getLayoutManager() instanceof GridLayoutManager) {
             final int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT;
             final int swipeFlags = 0;
-            return viewHolder.getItemViewType() == ProductsListAdapter.ADD_ITEM ? 0 : makeMovementFlags(dragFlags, swipeFlags);
+            return viewHolder.getItemViewType() == ProductAdapter.ADD ? 0 : makeMovementFlags(dragFlags, swipeFlags);
         } else {
             final int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
             final int swipeFlags = 0;
-            return viewHolder.getItemViewType() == ProductsListAdapter.ADD_ITEM ? 0 : makeMovementFlags(dragFlags, swipeFlags);
+            return viewHolder.getItemViewType() == ProductAdapter.ADD ? 0 : makeMovementFlags(dragFlags, swipeFlags);
         }
     }
 

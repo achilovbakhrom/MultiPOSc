@@ -12,6 +12,7 @@ import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.products.VendorProductCon;
 import com.jim.multipos.ui.vendor.AddingMode;
 import com.jim.multipos.utils.UIUtils;
+import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -74,7 +75,7 @@ public class VendorAddEditPresenterImpl extends BasePresenterImpl<VendorAddEditV
                         contact.setVendorId(id);
                         databaseManager.addContact(contact).subscribe(contactId -> Log.d("sss", "addVendor: " + contactId));
                     }
-                    view.sendEvent(VENDOR_ADD, vendorId);
+                    view.sendEvent(GlobalEventConstants.ADD, vendor);
                 });
                 break;
             case EDIT:
@@ -91,7 +92,7 @@ public class VendorAddEditPresenterImpl extends BasePresenterImpl<VendorAddEditV
                         databaseManager.addContact(contact).subscribe(contactId -> Log.d("sss", "addVendor: " + contactId));
                     }
                     databaseManager.updateContacts(id, contacts);
-                    view.sendEvent(VENDOR_UPDATE, vendorId);
+                    view.sendEvent(GlobalEventConstants.UPDATE, vendor);
                 });
                 break;
         }
@@ -210,7 +211,7 @@ public class VendorAddEditPresenterImpl extends BasePresenterImpl<VendorAddEditV
             vendor.setDeleted(true);
             databaseManager.addVendor(vendor).subscribe(aLong -> {
                 view.refreshVendorsList();
-                view.sendEvent(VENDOR_DELETE, vendorId);
+                view.sendEvent(GlobalEventConstants.DELETE, vendor);
             });
         }
     }

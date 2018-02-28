@@ -6,9 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Discount;
-import com.jim.multipos.ui.discount.adapters.DiscountListAdapter;
 import com.jim.multipos.ui.discount.fragments.DiscountAddingView;
 import com.jim.multipos.ui.discount.model.DiscountApaterDetials;
+import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -70,7 +70,7 @@ public class DiscountAddingPresenterImpl extends BasePresenterImpl<DiscountAddin
             discountApaterDetials.setObject(discount);
             items.add(1, discountApaterDetials);
             view.notifyItemAdd(1);
-            view.sendEvent(DISCOUNT_ADD, discount);
+            view.sendEvent(GlobalEventConstants.ADD, discount);
         });
     }
 
@@ -100,7 +100,7 @@ public class DiscountAddingPresenterImpl extends BasePresenterImpl<DiscountAddin
                         return;
                     }
                 }
-                view.sendChangeEvent(DISCOUNT_UPDATE, discount.getId(), discount1.getId());
+                view.sendChangeEvent(GlobalEventConstants.UPDATE, discount, discount1);
             });
         });
     }
@@ -116,7 +116,7 @@ public class DiscountAddingPresenterImpl extends BasePresenterImpl<DiscountAddin
                     break;
                 }
             }
-            view.sendEvent(DISCOUNT_DELETE, discount);
+            view.sendEvent(GlobalEventConstants.DELETE, discount);
         });
     }
 

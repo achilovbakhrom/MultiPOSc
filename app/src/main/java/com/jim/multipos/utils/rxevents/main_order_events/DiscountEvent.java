@@ -12,4 +12,9 @@ public class DiscountEvent {
     private Discount discount;
     private Discount newDiscount;
     private int type;
+
+    public DiscountEvent(Discount discount, int type) {
+        this.discount = discount;
+        this.type = type;
+    }
 }

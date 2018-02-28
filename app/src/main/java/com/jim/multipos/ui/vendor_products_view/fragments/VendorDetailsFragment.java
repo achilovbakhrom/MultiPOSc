@@ -18,13 +18,12 @@ import com.jim.mpviews.MpButtonWithIcon;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.db.model.Contact;
-import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.vendor_products_view.VendorProductsViewActivity;
 import com.jim.multipos.utils.GlideApp;
-import com.jim.multipos.utils.PaymentToVendorDialog;
 import com.jim.multipos.utils.RxBus;
-import com.jim.multipos.utils.rxevents.MessageEvent;
-import com.jim.multipos.utils.rxevents.MessageWithIdEvent;
+import com.jim.multipos.utils.rxevents.inventory_events.BillingOperationEvent;
+import com.jim.multipos.utils.rxevents.inventory_events.VendorEvent;
+import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -32,9 +31,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import io.reactivex.disposables.Disposable;
-
-import static com.jim.multipos.ui.vendor.add_edit.VendorAddEditPresenterImpl.VENDOR_UPDATE;
-import static com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemFragment.BILLINGS_UPDATE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -83,11 +79,11 @@ public class VendorDetailsFragment extends BaseFragment {
         subscriptions = new ArrayList<>();
         subscriptions.add(
                 rxBus.toObservable().subscribe(o -> {
-                    if (o instanceof MessageWithIdEvent) {
-                        MessageWithIdEvent event = (MessageWithIdEvent) o;
-                        switch (event.getMessage()) {
-                            case VENDOR_UPDATE: {
-                                ((VendorProductsViewActivity) getContext()).getPresenter().setVendorId(event.getId());
+                    if (o instanceof VendorEvent) {
+                        VendorEvent event = (VendorEvent) o;
+                        switch (event.getType()) {
+                            case GlobalEventConstants.UPDATE: {
+                                ((VendorProductsViewActivity) getContext()).getPresenter().setVendorId(event.getVendor().getId());
                                 ((VendorProductsViewActivity) getContext()).getPresenter().initVendorDetails();
                                 break;
                             }
@@ -184,6 +180,6 @@ public class VendorDetailsFragment extends BaseFragment {
         DecimalFormat decimalFormat = ((VendorProductsViewActivity) getContext()).getDecimalFormat();
         tvVendorDebt.setText(decimalFormat.format(debt) + " " + abbr);
         tvPaidSum.setText(decimalFormat.format(paid) + " " + abbr);
-        ((VendorProductsViewActivity) getContext()).getRxBus().send(new MessageEvent(BILLINGS_UPDATE));
+        ((VendorProductsViewActivity) getContext()).getRxBus().send(new BillingOperationEvent(GlobalEventConstants.BILLING_IS_DONE));
     }
 }

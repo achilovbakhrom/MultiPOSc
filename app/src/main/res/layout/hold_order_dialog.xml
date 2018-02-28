@@ -23,7 +23,6 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/thirty_dp"
-                android:paddingLeft="@dimen/thirty_dp"
                 android:text="Hold Orders"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/twenty_dp"
@@ -38,12 +37,13 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/fifty_dp"
+                android:layout_height="@dimen/forty_dp"
                 android:orientation="horizontal">
 
 
                 <LinearLayout
-                    android:layout_width="@dimen/two_hundred_dp"
+                    android:id="@+id/llOrderNumber"
+                    android:layout_width="@dimen/hundred_thirty_dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:orientation="horizontal">
@@ -69,7 +69,8 @@
 
 
                 <LinearLayout
-                    android:layout_width="@dimen/two_hundred_seventy_dp"
+                    android:id="@+id/llCustomerName"
+                    android:layout_width="@dimen/hundred_fifty_dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:orientation="horizontal">
@@ -93,7 +94,8 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="@dimen/two_hundred_dp"
+                    android:id="@+id/llDateOpened"
+                    android:layout_width="@dimen/hundred_seventy_dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
@@ -120,12 +122,12 @@
 
 
                 <LinearLayout
-                    android:layout_width="@dimen/two_hundred_dp"
+                    android:id="@+id/llDueAmount"
+                    android:layout_width="@dimen/hundred_seventy_dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="right"
-                    android:orientation="horizontal"
-                    android:paddingRight="@dimen/five_dp">
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -137,6 +139,7 @@
                         android:textSize="@dimen/eighteen_dp" />
 
                     <ImageView
+                        android:id="@+id/ivDueAmountSort"
                         android:layout_width="@dimen/twelve_dp"
                         android:layout_height="@dimen/ten_dp"
                         android:layout_gravity="center"
@@ -149,15 +152,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:gravity="right"
-                    android:orientation="horizontal"
-                    android:paddingRight="@dimen/thirty_dp">
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
-                        android:gravity="right"
+                        android:gravity="center"
                         android:text="@string/action"
                         android:textColor="@color/colorMainText"
                         android:textSize="@dimen/eighteen_dp" />
@@ -172,6 +174,7 @@
                 android:background="@color/colorTextHint" />
 
             <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvHoldOrders"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
@@ -189,12 +192,13 @@
             android:layout_height="wrap_content"
             android:gravity="right"
             android:orientation="horizontal"
-            android:paddingBottom="@dimen/fifteen_dp"
+            android:paddingBottom="@dimen/five_dp"
             android:paddingRight="@dimen/thirty_dp"
-            android:paddingTop="@dimen/fifteen_dp">
+            android:paddingTop="@dimen/five_dp">
 
             <com.jim.mpviews.MpButton
-                android:layout_width="@dimen/hundred_eighty_dp"
+                android:id="@+id/btnBack"
+                android:layout_width="@dimen/hundred_fifty_dp"
                 android:layout_height="@dimen/sixty_dp"
                 android:layout_gravity="center"
                 android:gravity="center"

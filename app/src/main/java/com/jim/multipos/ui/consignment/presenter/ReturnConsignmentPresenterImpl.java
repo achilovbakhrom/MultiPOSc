@@ -190,7 +190,7 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
                     warehouseOperationsList.add(warehouseOperations);
                 }
                 databaseManager.insertConsignment(this.returnConsignment, billingOperationsList, consignmentProductList, warehouseOperationsList).subscribe();
-                view.closeFragment(this.vendor.getId());
+                view.closeFragment(this.vendor);
             } else {
                 view.openSaveChangesDialog();
             }
@@ -211,9 +211,9 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
                 }
                 if (count != ids.size()) {
                     view.openDiscardDialog();
-                } else view.closeFragment(this.vendor.getId());
+                } else view.closeFragment(this.vendor);
             }
-        } else view.closeFragment(this.vendor.getId());
+        } else view.closeFragment(this.vendor);
     }
 
     @Override
@@ -321,6 +321,6 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
         }
         databaseManager.insertConsignment(this.returnConsignment, null, null, null).blockingGet();
         databaseManager.insertConsignment(consignmentNew, billingOperationsList, newConsignmentProductList, warehouseOperationsList).subscribe();
-        view.closeFragment(this.vendor.getId());
+        view.closeFragment(this.vendor);
     }
 }

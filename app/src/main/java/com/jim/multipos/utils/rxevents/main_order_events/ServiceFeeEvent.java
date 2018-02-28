@@ -12,4 +12,9 @@ public class ServiceFeeEvent {
     private ServiceFee serviceFee;
     private ServiceFee newServiceFee;
     private int type;
+
+    public ServiceFeeEvent(ServiceFee serviceFee, int type) {
+        this.serviceFee = serviceFee;
+        this.type = type;
+    }
 }

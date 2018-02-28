@@ -15,5 +15,6 @@ public interface CloseTillFirstStepView extends BaseView {
     void firstStepCompletionStatus(boolean status);
     void collectData();
     void updateOrderList();
-    void sendEvent(String event, Long id);
+    void sendEvent(int event, Order order);
+    void sendInventoryStateChangeEvent(int type);
 }

@@ -21,6 +21,6 @@ public interface DiscountAddingView extends BaseView {
     void closeAction();
     void closeDiscountActivity();
     void openWarning();
-    void sendEvent(String event, Discount discount);
-    void sendChangeEvent(String event, Long oldId, Long newId);
+    void sendEvent(int event, Discount discount);
+    void sendChangeEvent(int event, Discount oldDiscount, Discount newDiscount);
 }

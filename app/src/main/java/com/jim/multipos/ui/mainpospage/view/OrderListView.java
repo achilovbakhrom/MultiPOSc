@@ -77,4 +77,5 @@ public interface  OrderListView extends BaseView {
     void holdOrderHolded(Order order);
     void editedOrderHolded(String reason, Order order);
     void openWarningDialog(String text);
+    void hideProductInfoFragment();
 }

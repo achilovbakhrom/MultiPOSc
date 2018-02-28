@@ -71,23 +71,16 @@ public class MainMenuDialog extends Dialog {
         setContentView(dialogView);
         llSettingsMenu.setOnClickListener(view -> dismiss());
         tvReturns.setOnClickListener(view -> {
-            ReturnsDialog dialog = new ReturnsDialog(getContext(), databaseManager, decimalFormat, null);
-            dialog.show();
+            listener.onReturn();
             dismiss();
         });
         tvCashManagement.setOnClickListener(view -> {
             listener.onCashManagement();
             dismiss();
         });
-        tvLogOut.setOnClickListener(view -> {
-            Toast.makeText(context, tvLogOut.getText().toString(), Toast.LENGTH_SHORT).show();
-        });
-        tvSettings.setOnClickListener(view -> {
-            Toast.makeText(context, tvSettings.getText().toString(), Toast.LENGTH_SHORT).show();
-        });
-        tvClose.setOnClickListener(view -> {
-            dismiss();
-        });
+        tvLogOut.setOnClickListener(view -> dismiss());
+        tvSettings.setOnClickListener(view -> dismiss());
+        tvClose.setOnClickListener(view -> dismiss());
 
         if (!isBarcodeShown)
             tvBarcodeScanner.setText("Turn on barcode scanner");
@@ -105,6 +98,7 @@ public class MainMenuDialog extends Dialog {
         void onCashManagement();
         void onTurnOnBarcodeScanner();
         void onTurnOffBarcodeScanner();
+        void onReturn();
     }
 
 }

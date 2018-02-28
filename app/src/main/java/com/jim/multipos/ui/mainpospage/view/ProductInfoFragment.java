@@ -28,24 +28,17 @@ import com.jim.multipos.ui.mainpospage.dialogs.UnitValuePicker;
 import com.jim.multipos.ui.mainpospage.model.OrderProductItem;
 import com.jim.multipos.ui.mainpospage.presenter.ProductInfoPresenter;
 import com.jim.multipos.utils.GlideApp;
-import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.TextWatcherOnTextChange;
 import com.jim.multipos.utils.WarningDialog;
-import com.jim.multipos.utils.rxevents.main_order_events.ConsigmentEvent;
-import com.jim.multipos.utils.rxevents.main_order_events.DiscountEvent;
-import com.jim.multipos.utils.rxevents.main_order_events.ProductEvent;
-import com.jim.multipos.utils.rxevents.main_order_events.ServiceFeeEvent;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import io.reactivex.disposables.Disposable;
 
 /**
  * Created by developer on 24.08.2017.

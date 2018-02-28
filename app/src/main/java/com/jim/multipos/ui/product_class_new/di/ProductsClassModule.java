@@ -6,10 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import com.jim.multipos.config.scope.PerActivity;
 import com.jim.multipos.config.scope.PerFragment;
 import com.jim.multipos.core.BaseActivityModule;
-import com.jim.multipos.ui.product_class.fragments.AddProductClassFragment;
 import com.jim.multipos.ui.product_class_new.ProductsClassActivity;
 import com.jim.multipos.ui.product_class_new.fragments.ProductsClassFragment;
-import com.jim.multipos.ui.product_class_new.fragments.ProductsClassPresenterModule;
 import com.jim.multipos.ui.product_class_new.presenters.ProductsClassFragmentModule;
 
 import dagger.Binds;

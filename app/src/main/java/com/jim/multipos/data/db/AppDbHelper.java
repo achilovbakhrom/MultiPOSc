@@ -2118,4 +2118,14 @@ public class AppDbHelper implements DbHelper {
             e.onSuccess(1l);
         });
     }
+
+    @Override
+    public Single<List<Order>> getAllTillClosedOrders() {
+        return Single.create(e -> {
+            e.onSuccess(mDaoSession.getOrderDao().queryBuilder()
+                    .where(OrderDao.Properties.Status.eq(Order.CLOSED_ORDER),
+                            OrderDao.Properties.IsArchive.eq(false))
+                    .build().list());
+        });
+    }
 }

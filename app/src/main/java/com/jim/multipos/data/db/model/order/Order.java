@@ -619,7 +619,7 @@ public class Order {
         this.toDebtValue = toDebtValue;
     }
 
-    public double getTotalPayed() {
+    public Double getTotalPayed() {
         return this.totalPayed;
     }
 
@@ -659,7 +659,7 @@ public class Order {
         this.subTotalValue = subTotalValue;
     }
 
-    public long getCreateAt() {
+    public Long getCreateAt() {
         return this.createAt;
     }
 
