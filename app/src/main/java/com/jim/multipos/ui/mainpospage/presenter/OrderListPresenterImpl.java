@@ -1020,47 +1020,158 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
 
     @Override
     public void eventProductDelete(Product product) {
-
+        for (int i = 0; i < list.size(); i++) {
+            if(list.get(i) instanceof  OrderProductItem){
+                OrderProductItem orderProductItem = (OrderProductItem) list.get(i);
+                if(orderProductItem.getOrderProduct().getProduct().getId().equals(product.getId())){
+                    list.remove(i);
+                    updateDetials();
+                    view.updateOrderDetials(order,customer,payedPartitions);
+                    view.notifyItemRemove(i,list.size(),updateOrderDiscountServiceFee());
+                    return;
+                }
+            }
+        }
     }
 
     @Override
     public void eventCustomerUpdate(Customer customer, Customer newCustomer) {
-
+        if(customer!=null && this.customer.getId().equals(customer.getId())) {
+            this.customer = newCustomer;
+            view.updateOrderDetials(order, customer, payedPartitions);
+            view.sendCustomerToPaymentFragment(customer);
+        }
     }
 
     @Override
     public void eventCustomerDelete(Customer customer) {
-
+        if(customer!=null && this.customer.getId().equals(customer.getId())){
+            this.customer = null;
+            view.updateOrderDetials(order,this.customer,payedPartitions);
+            view.sendCustomerToPaymentFragment(customer);
+        }
     }
 
     @Override
     public void eventDebtUpdate(Debt debt, Debt newDebt) {
-
+        //TODO DEBT TO CUSTOMER DILAOG
     }
 
     @Override
     public void eventDebtDelete(Debt debt) {
-
+        //TODO DEBT DIALOG
     }
 
     @Override
     public void eventDiscountUpdate(Discount discount, Discount newDiscount) {
-
+        for (int i = 0; i < list.size(); i++) {
+            if(list.get(i) instanceof  OrderProductItem){
+                OrderProductItem orderProductItem = (OrderProductItem) list.get(i);
+                if(orderProductItem.getDiscount() != null && orderProductItem.getDiscount().getId().equals(discount.getId())){
+                    orderProductItem.setDiscount(newDiscount);
+                    list.set(i,orderProductItem);
+                    updateDetials();
+                    view.updateOrderDetials(order,customer,payedPartitions);
+                    view.notifyItemChanged(i,list.size(),updateOrderDiscountServiceFee());
+                    return;
+                }
+            }else if(list.get(i) instanceof DiscountItem){
+                DiscountItem discountItem = (DiscountItem) list.get(i);
+                if(discountItem.getDiscount() != null && discountItem.getDiscount().getId().equals(discount.getId())){
+                    discountItem.setDiscount(newDiscount);
+                    list.set(i,discountItem);
+                    view.disableDiscountButton(discountItem.getDiscount().getName());
+                    updateDetials();
+                    view.updateOrderDetials(order,customer,payedPartitions);
+                    view.notifyItemChanged(i,list.size(),updateOrderDiscountServiceFee());
+                    return;
+                }
+            }
+        }
     }
 
     @Override
     public void eventDiscountDelete(Discount discount) {
-
+        for (int i = 0; i < list.size(); i++) {
+            if(list.get(i) instanceof  OrderProductItem){
+                OrderProductItem orderProductItem = (OrderProductItem) list.get(i);
+                if(orderProductItem.getDiscount() != null && orderProductItem.getDiscount().getId().equals(discount.getId())){
+                    orderProductItem.setDiscount(null);
+                    orderProductItem.setDiscountAmmount(0);
+                    list.set(i,orderProductItem);
+                    updateDetials();
+                    view.updateOrderDetials(order,customer,payedPartitions);
+                    view.notifyItemChanged(i,list.size(),updateOrderDiscountServiceFee());
+                    return;
+                }
+            }else if(list.get(i) instanceof DiscountItem){
+                DiscountItem discountItem = (DiscountItem) list.get(i);
+                if(discountItem.getDiscount() != null && discountItem.getDiscount().getId().equals(discount.getId())){
+                    list.remove(i);
+                    view.enableDiscountButton();
+                    updateDetials();
+                    view.updateOrderDetials(order,customer,payedPartitions);
+                    view.notifyItemRemove(i,list.size(),updateOrderDiscountServiceFee());
+                    return;
+                }
+            }
+        }
     }
 
     @Override
     public void eventServiceFeeUpdate(ServiceFee serviceFee, ServiceFee newServiceFee) {
-
+        for (int i = 0; i < list.size(); i++) {
+            if(list.get(i) instanceof  OrderProductItem){
+                OrderProductItem orderProductItem = (OrderProductItem) list.get(i);
+                if(orderProductItem.getServiceFee() != null && orderProductItem.getServiceFee().getId().equals(serviceFee.getId())){
+                    orderProductItem.setServiceFee(newServiceFee);
+                    list.set(i,orderProductItem);
+                    updateDetials();
+                    view.updateOrderDetials(order,customer,payedPartitions);
+                    view.notifyItemChanged(i,list.size(),updateOrderDiscountServiceFee());
+                    return;
+                }
+            }else if(list.get(i) instanceof ServiceFeeItem){
+                ServiceFeeItem serviceFeeItem = (ServiceFeeItem) list.get(i);
+                if(serviceFeeItem.getServiceFee() != null && serviceFeeItem.getServiceFee().getId().equals(serviceFee.getId())){
+                    serviceFeeItem.setServiceFee(newServiceFee);
+                    list.set(i,serviceFeeItem);
+                    view.disableServiceFeeButton(serviceFeeItem.getServiceFee().getName());
+                    updateDetials();
+                    view.updateOrderDetials(order,customer,payedPartitions);
+                    view.notifyItemChanged(i,list.size(),updateOrderDiscountServiceFee());
+                    return;
+                }
+            }
+        }
     }
 
     @Override
     public void eventServiceFeeDelete(ServiceFee serviceFee) {
-
+        for (int i = 0; i < list.size(); i++) {
+            if(list.get(i) instanceof  OrderProductItem){
+                OrderProductItem orderProductItem = (OrderProductItem) list.get(i);
+                if(orderProductItem.getServiceFee() != null && orderProductItem.getServiceFee().getId().equals(serviceFee.getId())){
+                    orderProductItem.setServiceFee(null);
+                    orderProductItem.setServiceFeeAmmount(0);
+                    list.set(i,orderProductItem);
+                    updateDetials();
+                    view.updateOrderDetials(order,customer,payedPartitions);
+                    view.notifyItemChanged(i,list.size(),updateOrderDiscountServiceFee());
+                    return;
+                }
+            }else if(list.get(i) instanceof ServiceFeeItem){
+                ServiceFeeItem serviceFeeItem = (ServiceFeeItem) list.get(i);
+                if(serviceFeeItem.getServiceFee() != null && serviceFeeItem.getServiceFee().getId().equals(serviceFee.getId())){
+                    list.remove(i);
+                    view.enableServiceFeeButton();
+                    updateDetials();
+                    view.updateOrderDetials(order,customer,payedPartitions);
+                    view.notifyItemRemove(i,list.size(),updateOrderDiscountServiceFee());
+                    return;
+                }
+            }
+        }
     }
 
     @Override
