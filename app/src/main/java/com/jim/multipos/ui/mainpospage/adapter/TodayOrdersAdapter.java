@@ -1,6 +1,8 @@
 package com.jim.multipos.ui.mainpospage.adapter;
 
+import android.content.Context;
 import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,10 +31,12 @@ import butterknife.ButterKnife;
 public class TodayOrdersAdapter extends RecyclerView.Adapter<TodayOrdersAdapter.TodayOrdersViewHolder> {
 
     private List<Order> items;
+    private Context context;
     private Currency mainCurrency;
     private onOrderListItemSelect listener;
 
-    public TodayOrdersAdapter(Currency mainCurrency, onOrderListItemSelect listener) {
+    public TodayOrdersAdapter(Context context, Currency mainCurrency, onOrderListItemSelect listener) {
+        this.context = context;
         this.mainCurrency = mainCurrency;
         this.listener = listener;
         items = new ArrayList<>();
@@ -65,6 +69,20 @@ public class TodayOrdersAdapter extends RecyclerView.Adapter<TodayOrdersAdapter.
         symbols.setDecimalSeparator(' ');
         decimalFormat.setDecimalFormatSymbols(symbols);
         holder.tvTotal.setText(decimalFormat.format(order.getForPayAmmount()) + " " + mainCurrency.getAbbr());
+        switch (order.getStatus()) {
+            case Order.HOLD_ORDER:
+                holder.tvStatus.setText("Hold");
+                holder.tvStatus.setTextColor(ContextCompat.getColor(context, R.color.colorBlue));
+                break;
+            case Order.CANCELED_ORDER:
+                holder.tvStatus.setText("Canceled");
+                holder.tvStatus.setTextColor(ContextCompat.getColor(context, R.color.colorSecondaryText));
+                break;
+            case Order.CLOSED_ORDER:
+                holder.tvStatus.setText("Closed");
+                holder.tvStatus.setTextColor(ContextCompat.getColor(context, R.color.colorGreen));
+                break;
+        }
     }
 
     @Override
@@ -83,6 +101,8 @@ public class TodayOrdersAdapter extends RecyclerView.Adapter<TodayOrdersAdapter.
         TextView tvDateOpened;
         @BindView(R.id.tvTotal)
         TextView tvTotal;
+        @BindView(R.id.tvStatus)
+        TextView tvStatus;
         @BindView(R.id.btnSelect)
         MpActionButton btnSelect;
 
@@ -93,7 +113,7 @@ public class TodayOrdersAdapter extends RecyclerView.Adapter<TodayOrdersAdapter.
         }
     }
 
-    public interface onOrderListItemSelect{
+    public interface onOrderListItemSelect {
         void onSelect(Order order);
     }
 }

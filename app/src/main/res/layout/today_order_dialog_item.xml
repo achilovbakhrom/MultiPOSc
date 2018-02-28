@@ -13,7 +13,17 @@
 
         <TextView
             android:id="@+id/tvOrderNumber"
-            android:layout_width="@dimen/two_hundred_dp"
+            android:layout_width="@dimen/seventy_dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/thirty_dp"
+            android:gravity="center_vertical"
+            android:textColor="@color/colorMainText"
+            android:textSize="@dimen/sixteen_dp" />
+
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="@dimen/hundred_thirty_dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_marginLeft="@dimen/thirty_dp"

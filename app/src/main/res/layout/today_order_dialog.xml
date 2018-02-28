@@ -44,7 +44,7 @@
 
                 <LinearLayout
                     android:id="@+id/llOrderNumber"
-                    android:layout_width="@dimen/two_hundred_thirty_dp"
+                    android:layout_width="@dimen/hundred_dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:orientation="horizontal">
@@ -60,6 +60,32 @@
 
                     <ImageView
                         android:id="@+id/ivOrderSort"
+                        android:layout_width="@dimen/twelve_dp"
+                        android:layout_height="@dimen/ten_dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/ten_dp"
+                        android:src="@drawable/sorting"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llStatus"
+                    android:layout_width="@dimen/hundred_sixty_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/thirty_dp"
+                        android:text="Status"
+                        android:textColor="@color/colorMainText"
+                        android:textSize="@dimen/eighteen_dp" />
+
+                    <ImageView
+                        android:id="@+id/ivStatusSort"
                         android:layout_width="@dimen/twelve_dp"
                         android:layout_height="@dimen/ten_dp"
                         android:layout_gravity="center"

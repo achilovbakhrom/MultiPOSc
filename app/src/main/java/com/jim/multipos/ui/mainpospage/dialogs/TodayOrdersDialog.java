@@ -83,10 +83,10 @@ public class TodayOrdersDialog extends Dialog {
         View v = getWindow().getDecorView();
         v.setBackgroundResource(android.R.color.transparent);
 
-        orderList = databaseManager.getAllTillClosedOrders().blockingGet();
+        orderList = databaseManager.getAllTillOrders().blockingGet();
 
         rvTodayOrders.setLayoutManager(new LinearLayoutManager(context));
-        adapter = new TodayOrdersAdapter(databaseManager.getMainCurrency(), order -> {
+        adapter = new TodayOrdersAdapter(context, databaseManager.getMainCurrency(), order -> {
             callback.onSelect(order);
             dismiss();
         });
