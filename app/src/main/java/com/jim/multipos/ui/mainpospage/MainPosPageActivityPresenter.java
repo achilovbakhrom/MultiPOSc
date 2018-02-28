@@ -35,6 +35,7 @@ public interface MainPosPageActivityPresenter extends Presenter{
     void onOrderCanceledFromOutSide(Long orderId);
     void onOrderClosedFromOutSide(Long orderId);
     void onHeldOrderSelected(Order selectedOrder);
+    void onTodayOrderSelected(Order selectedOrder);
 
 
 

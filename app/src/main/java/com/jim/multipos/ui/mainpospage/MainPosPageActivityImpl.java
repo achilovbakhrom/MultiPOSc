@@ -340,6 +340,17 @@ public class MainPosPageActivityImpl extends BasePresenterImpl<MainPosPageActivi
         }
     }
 
+    @Override
+    public void onTodayOrderSelected(Order selectedOrder) {
+        for(int i = 0; i<orderList.size();i++){
+            if(orderList.get(i).getId().equals(selectedOrder.getId())){
+                current = i;
+                view.openOrUpdateOrderHistory(orderList.get(current));
+                return;
+            }
+        }
+    }
+
 
     @Override
     public void orderAdded(Order order) {

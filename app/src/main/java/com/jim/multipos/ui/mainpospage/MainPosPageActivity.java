@@ -162,7 +162,7 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
                     TodayOrdersDialog dialog = new TodayOrdersDialog(MainPosPageActivity.this, databaseManager, new TodayOrdersDialog.onOrderSelect() {
                         @Override
                         public void onSelect(Order order) {
-
+                            presenter.onTodayOrderSelected(order);
                         }
                     });
                     dialog.show();
