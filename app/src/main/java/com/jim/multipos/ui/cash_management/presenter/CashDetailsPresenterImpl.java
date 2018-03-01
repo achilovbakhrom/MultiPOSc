@@ -57,18 +57,28 @@ public class CashDetailsPresenterImpl extends BasePresenterImpl<CashDetailsView>
                 List<Order> ordersList = databaseManager.getOrdersByTillId(till.getId()).blockingGet();
                 for (int i = 0; i < ordersList.size(); i++) {
                     Order order = ordersList.get(i);
-                    for (int j = 0; j < order.getPayedPartitions().size(); j++) {
-                        PayedPartitions payedPartitions = order.getPayedPartitions().get(j);
-                        if (payedPartitions.getPaymentType().getAccount().getId().equals(account.getId())) {
-                            cashTransactions += payedPartitions.getValue();
+                    if (order.getStatus() == Order.CLOSED_ORDER) {
+                        for (int j = 0; j < order.getPayedPartitions().size(); j++) {
+                            PayedPartitions payedPartitions = order.getPayedPartitions().get(j);
+                            if (payedPartitions.getPaymentType().getAccount().getId().equals(account.getId())) {
+                                cashTransactions += payedPartitions.getValue();
+                            }
                         }
+                        double change = order.getChange();
+                        if (change > 0) {
+                            if (account.getStaticAccountType() == 1)
+                                cashTransactions -= change;
+                        }
+                        tips += order.getTips();
+                    } else if (order.getStatus() == Order.HOLD_ORDER) {
+                        for (int j = 0; j < order.getPayedPartitions().size(); j++) {
+                            PayedPartitions payedPartitions = order.getPayedPartitions().get(j);
+                            if (payedPartitions.getPaymentType().getAccount().getId().equals(account.getId())) {
+                                cashTransactions += payedPartitions.getValue();
+                            }
+                        }
+                        tips += order.getTips();
                     }
-                    double change = order.getChange();
-                    if (change > 0) {
-                        if (account.getStaticAccountType() == 1)
-                            cashTransactions -= change;
-                    }
-                    tips += order.getTips();
                 }
             } else {
                 TillDetails tillDetails = databaseManager.getTillDetailsByAccountId(account.getId(), till.getId()).blockingGet();

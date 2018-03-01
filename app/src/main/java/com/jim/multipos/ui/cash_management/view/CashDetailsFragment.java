@@ -9,12 +9,18 @@ import com.jim.multipos.data.db.model.Account;
 import com.jim.multipos.data.db.model.till.Till;
 import com.jim.multipos.ui.cash_management.connection.CashManagementConnection;
 import com.jim.multipos.ui.cash_management.presenter.CashDetailsPresenter;
+import com.jim.multipos.utils.RxBus;
+import com.jim.multipos.utils.rxevents.inventory_events.ConsignmentWithVendorEvent;
+import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
+import com.jim.multipos.utils.rxevents.main_order_events.OrderEvent;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by Sirojiddin on 12.01.2018.
@@ -47,6 +53,10 @@ public class CashDetailsFragment extends BaseFragment implements CashDetailsView
     DecimalFormat decimalFormat;
     @Inject
     CashManagementConnection connection;
+    @Inject
+    RxBus rxBus;
+
+    private ArrayList<Disposable> subscriptions;
 
     @Override
     protected int getLayout() {
@@ -56,6 +66,21 @@ public class CashDetailsFragment extends BaseFragment implements CashDetailsView
     @Override
     protected void init(Bundle savedInstanceState) {
         connection.setCashDetailsView(this);
+        subscriptions = new ArrayList<>();
+        subscriptions.add(
+                rxBus.toObservable().subscribe(o -> {
+                    if (o instanceof OrderEvent) {
+                        OrderEvent event = (OrderEvent) o;
+                        switch (event.getType()) {
+                            case GlobalEventConstants.CANCEL:
+                                presenter.updateDetails();
+                                break;
+                            case GlobalEventConstants.CLOSE:
+                                presenter.updateDetails();
+                                break;
+                        }
+                    }
+                }));
     }
 
     public void setData(Account account, Till till) {
@@ -84,5 +109,6 @@ public class CashDetailsFragment extends BaseFragment implements CashDetailsView
     public void onDetach() {
         super.onDetach();
         connection.setCashDetailsView(null);
+        RxBus.removeListners(subscriptions);
     }
 }

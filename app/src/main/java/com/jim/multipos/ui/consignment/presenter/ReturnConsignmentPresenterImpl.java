@@ -43,6 +43,7 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
     public static final int ADD = 0;
     public static final int EDIT = 1;
     private int viewType = ADD;
+    private Long productId;
 
     @Inject
     protected ReturnConsignmentPresenterImpl(ReturnConsignmentView view, DatabaseManager databaseManager) {
@@ -57,6 +58,7 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
 
     @Override
     public void setData(Long productId, Long vendorId, Long consignmentId) {
+        this.productId = productId;
         if (consignmentId != null) {
             this.returnConsignment = databaseManager.getConsignmentById(consignmentId).blockingGet();
             consignmentProductList = this.returnConsignment.getAllConsignmentProducts();
@@ -199,21 +201,39 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
 
     @Override
     public void checkChanges(String number, String des) {
-        int count = 0;
-        if (!number.equals("") || !des.equals("")) {
-            if (ids.size() != consignmentProductList.size()) {
+        if (viewType == ADD) {
+            if (!number.equals("") || !des.equals("")) {
                 view.openDiscardDialog();
             } else {
-                for (int i = 0; i < consignmentProductList.size(); i++) {
-                    if (ids.contains(consignmentProductList.get(i).getId())) {
-                        count++;
-                    }
+                if (productId != null) {
+                    if (consignmentProductList.size() > 1)
+                        view.openDiscardDialog();
+                    else view.closeFragment(this.vendor);
+                } else {
+                    if (consignmentProductList.size() > 0)
+                        view.openDiscardDialog();
+                    else view.closeFragment(this.vendor);
                 }
-                if (count != ids.size()) {
-                    view.openDiscardDialog();
-                } else view.closeFragment(this.vendor);
             }
-        } else view.closeFragment(this.vendor);
+        } else {
+            int count = 0;
+            if (!number.equals("") || !des.equals("")) {
+                view.openDiscardDialog();
+            } else {
+                if (ids.size() != consignmentProductList.size()) {
+                    view.openDiscardDialog();
+                } else {
+                    for (int i = 0; i < consignmentProductList.size(); i++) {
+                        if (ids.contains(consignmentProductList.get(i).getId())) {
+                            count++;
+                        }
+                    }
+                    if (count != ids.size()) {
+                        view.openDiscardDialog();
+                    } else view.closeFragment(this.vendor);
+                }
+            }
+        }
     }
 
     @Override

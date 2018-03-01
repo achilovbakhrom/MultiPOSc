@@ -70,6 +70,7 @@ public class CloseTillDialogFragment extends BaseFragment implements CloseTillDi
     private FragmentManager fragmentManager;
     private int currentFragment = FIRST_STEP;
     private CompletionMode mode = CompletionMode.NEXT;
+    private int currentPosition = 0, lastPosition = 0;
 
     @Override
     protected int getLayout() {
@@ -85,20 +86,30 @@ public class CloseTillDialogFragment extends BaseFragment implements CloseTillDi
         fragmentManager = getChildFragmentManager();
         presenter.initData();
         showFirstStep();
+        currentPosition = 1;
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMMM dd, yyyy HH:mm");
         tvDateAndTime.setText(simpleDateFormat.format(System.currentTimeMillis()));
         llReconcileOrder.setOnClickListener(view1 -> {
-            connection.checkFirstStepCompletion();
+            lastPosition = currentPosition;
+            currentPosition = 1;
+            checkCompletionByPosition(lastPosition);
+            checkCompletionByPosition(currentPosition);
             presenter.showFirstStep();
         });
 
         llCloseAmount.setOnClickListener(view2 -> {
-            connection.checkSecondStepCompletion();
+            lastPosition = currentPosition;
+            currentPosition = 2;
+            checkCompletionByPosition(lastPosition);
+            checkCompletionByPosition(currentPosition);
             presenter.showSecondStep();
         });
 
         llToNext.setOnClickListener(view3 -> {
-            connection.checkThirdStepCompletion();
+            lastPosition = currentPosition;
+            currentPosition = 3;
+            checkCompletionByPosition(lastPosition);
+            checkCompletionByPosition(currentPosition);
             presenter.showThirdStep();
         });
 
@@ -114,7 +125,6 @@ public class CloseTillDialogFragment extends BaseFragment implements CloseTillDi
                     connection.checkThirdStepCompletion();
                     break;
             }
-
             if (this.mode == CompletionMode.NEXT) {
                 switch (currentFragment) {
                     case FIRST_STEP:
@@ -133,6 +143,21 @@ public class CloseTillDialogFragment extends BaseFragment implements CloseTillDi
         });
 
         btnRevert.setOnClickListener(view -> closeTillDialog());
+    }
+
+    private void checkCompletionByPosition(int position){
+        switch (position){
+            case 1:
+                connection.checkFirstStepCompletion();
+                break;
+            case 2:
+                connection.checkSecondStepCompletion();
+                break;
+            case 3:
+                connection.checkThirdStepCompletion();
+                break;
+        }
+
     }
 
     @Override
