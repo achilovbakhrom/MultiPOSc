@@ -903,6 +903,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
+    public Single<Product> getProductByRootId(Long rootId) {
+        return dbHelper.getProductByRootId(rootId);
+    }
+
+    @Override
     public Observable<List<Category>> getActiveCategories() {
         return dbHelper.getActiveCategories();
     }

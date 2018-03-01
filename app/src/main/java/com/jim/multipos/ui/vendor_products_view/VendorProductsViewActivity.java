@@ -8,7 +8,6 @@ import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.core.DoubleSideActivity;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Contact;
-import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.billing_vendor.BillingOperationsActivity;
 import com.jim.multipos.ui.consignment.ConsignmentActivity;
@@ -16,6 +15,7 @@ import com.jim.multipos.ui.consignment_list.ConsignmentListActivity;
 import com.jim.multipos.ui.vendor.add_edit.VendorAddEditActivity;
 import com.jim.multipos.ui.vendor_products_view.fragments.VendorDetailsFragment;
 import com.jim.multipos.ui.vendor_products_view.fragments.VendorDetailsList;
+import com.jim.multipos.ui.vendor_products_view.model.ProductState;
 import com.jim.multipos.utils.PaymentToVendorDialog;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.rxevents.inventory_events.InventoryStateEvent;
@@ -91,7 +91,7 @@ public class VendorProductsViewActivity extends DoubleSideActivity implements Ve
     }
 
     @Override
-    public void updateAdapterItems(List<InventoryState> inventoryStates) {
+    public void updateAdapterItems(List<ProductState> inventoryStates) {
         VendorDetailsList fragment = (VendorDetailsList) getCurrentFragmentRight();
         if (fragment != null) {
             fragment.updateAdapterItems(inventoryStates);

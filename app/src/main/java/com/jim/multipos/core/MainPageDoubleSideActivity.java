@@ -149,8 +149,8 @@ public abstract class MainPageDoubleSideActivity extends BaseActivity{
     }
     public void hideProductInfoFragment(){
         ProductInfoFragment productInfoFragment = (ProductInfoFragment) getSupportFragmentManager().findFragmentByTag(ProductInfoFragment.class.getName());
-        if(productInfoFragment !=null) {
-            getSupportFragmentManager().beginTransaction().hide(productInfoFragment).commit();
+        if(productInfoFragment !=null && productInfoFragment.isVisible()) {
+            getSupportFragmentManager().beginTransaction().hide(productInfoFragment).commitAllowingStateLoss();
         }
     }
     public void showOrderListHistoryFragment(Order order){

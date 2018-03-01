@@ -73,7 +73,7 @@ public class ProductFolderViewPresenterImpl extends BasePresenterImpl<ProductFol
                     for (Product product : products) {
                         FolderItem folderItem = new FolderItem();
                         folderItem.setProduct(product);
-                        List<InventoryState> inventoryStates = databaseManager.getInventoryStatesByProductId(product.getId()).blockingSingle();
+                        List<InventoryState> inventoryStates = databaseManager.getInventoryStatesByProductId(product.getRootId()).blockingSingle();
                         int count = 0;
                         for (InventoryState inventoryState : inventoryStates) {
                             count += inventoryState.getValue();

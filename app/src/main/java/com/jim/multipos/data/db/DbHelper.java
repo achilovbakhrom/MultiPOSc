@@ -271,4 +271,6 @@ public interface DbHelper {
     Single<Long> deleteOrderProductsOnHold(List<OrderProduct> orderProducts);
     Single<Long> deletePayedPartitions(List<PayedPartitions> payedPartitions);
     Single<List<Order>> getAllTillClosedOrders();
+
+    Single<Product> getProductByRootId(Long rootId);
 }

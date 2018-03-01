@@ -20,6 +20,7 @@ import com.jim.multipos.ui.vendor_products_view.VendorProductsViewActivity;
 import com.jim.multipos.ui.vendor_products_view.adapters.ProductAdapter;
 import com.jim.multipos.ui.vendor_products_view.dialogs.MinusInventoryDialog;
 import com.jim.multipos.ui.vendor_products_view.dialogs.PlusInventoryDialog;
+import com.jim.multipos.ui.vendor_products_view.model.ProductState;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.rxevents.inventory_events.ConsignmentWithVendorEvent;
 import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
@@ -27,12 +28,8 @@ import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import io.reactivex.disposables.Disposable;
-
-import static com.jim.multipos.ui.consignment.view.IncomeConsignmentFragment.CONSIGNMENT_UPDATE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -90,7 +87,8 @@ public class VendorDetailsList extends BaseFragment implements ProductAdapter.Pr
     protected void init(Bundle savedInstanceState) {
         rvProduct.setLayoutManager(new LinearLayoutManager(getContext()));
         ((SimpleItemAnimator) rvProduct.getItemAnimator()).setSupportsChangeAnimations(false);
-        rvProduct.setAdapter(new ProductAdapter(getContext(), ((VendorProductsViewActivity) getActivity()).getDecimalFormat(), this, ((VendorProductsViewActivity) getActivity()).getPresenter().getInventoryStates()));
+        rvProduct.setAdapter(new ProductAdapter(getContext(), ((VendorProductsViewActivity) getActivity()).getDecimalFormat(),
+                this, ((VendorProductsViewActivity) getActivity()).getPresenter().getProductStates()));
 
         showProductArrowDown();
         isSortedByProduct = true;
@@ -180,7 +178,7 @@ public class VendorDetailsList extends BaseFragment implements ProductAdapter.Pr
     }
 
     @Override
-    public void getInventoryItem(InventoryState state, int consignmentType) {
+    public void getInventoryItem(ProductState state, int consignmentType) {
         ((VendorProductsViewActivity) getActivity()).getPresenter().openIncomeConsignmentToProduct(state, consignmentType);
     }
 
@@ -242,7 +240,7 @@ public class VendorDetailsList extends BaseFragment implements ProductAdapter.Pr
         tvUnit.setTypeface(Typeface.create(tvUnit.getTypeface(), Typeface.BOLD));
     }
 
-    public void updateAdapterItems(List<InventoryState> inventoryStates) {
-        ((ProductAdapter) rvProduct.getAdapter()).setData(inventoryStates);
+    public void updateAdapterItems(List<ProductState> states) {
+        ((ProductAdapter) rvProduct.getAdapter()).setData(states);
     }
 }

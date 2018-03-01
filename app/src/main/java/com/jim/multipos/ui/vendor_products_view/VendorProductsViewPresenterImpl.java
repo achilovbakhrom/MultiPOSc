@@ -9,6 +9,7 @@ import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
+import com.jim.multipos.ui.vendor_products_view.model.ProductState;
 import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
 
 import java.util.ArrayList;
@@ -20,7 +21,6 @@ import javax.inject.Inject;
 import static com.jim.multipos.data.db.model.consignment.Consignment.INCOME_CONSIGNMENT;
 import static com.jim.multipos.data.db.model.consignment.Consignment.RETURN_CONSIGNMENT;
 import static com.jim.multipos.data.db.model.inventory.BillingOperations.PAID_TO_CONSIGNMENT;
-import static com.jim.multipos.ui.consignment.view.IncomeConsignmentFragment.INVENTORY_STATE_UPDATE;
 
 /**
  * Created by Portable-Acer on 17.11.2017.
@@ -30,6 +30,7 @@ public class VendorProductsViewPresenterImpl extends BasePresenterImpl<VendorPro
     private DatabaseManager databaseManager;
     private long vendorId;
     private List<InventoryState> inventoryStates;
+    private List<ProductState> productStateList;
     private Vendor vendor;
     private Double debt;
     private List<BillingOperations> billingOperations;
@@ -40,6 +41,7 @@ public class VendorProductsViewPresenterImpl extends BasePresenterImpl<VendorPro
         super(vendorProductsView);
         this.databaseManager = databaseManager;
         billingOperations = new ArrayList<>();
+        productStateList = new ArrayList<>();
     }
 
     @Override
@@ -72,50 +74,59 @@ public class VendorProductsViewPresenterImpl extends BasePresenterImpl<VendorPro
     }
 
     @Override
-    public List<InventoryState> getInventoryStates() {
+    public List<ProductState> getProductStates() {
         inventoryStates = databaseManager.getInventoryStatesByVendorId(vendorId).blockingSingle();
+        productStateList.clear();
+        for (InventoryState inventoryState: inventoryStates){
+            Product product = databaseManager.getProductByRootId(inventoryState.getProduct().getId()).blockingGet();
+            ProductState productState = new ProductState();
+            productState.setProduct(product);
+            productState.setVendor(inventoryState.getVendor());
+            productState.setValue(inventoryState.getValue());
+            productStateList.add(productState);
+        }
         sortByProductAsc();
-        return inventoryStates;
+        return productStateList;
     }
 
     @Override
-    public InventoryState getInventoryState(int position) {
-        return inventoryStates.get(position);
+    public ProductState getProductState(int position) {
+        return productStateList.get(position);
     }
 
     @Override
     public void sortByProductAsc() {
-        Collections.sort(inventoryStates, (o1, o2) -> o1.getProduct().getName().compareTo(o2.getProduct().getName()));
+        Collections.sort(productStateList, (o1, o2) -> o1.getProduct().getName().compareTo(o2.getProduct().getName()));
     }
 
     @Override
     public void sortByProductDesc() {
-        Collections.sort(inventoryStates, (o1, o2) -> o2.getProduct().getName().compareTo(o1.getProduct().getName()));
+        Collections.sort(productStateList, (o1, o2) -> o2.getProduct().getName().compareTo(o1.getProduct().getName()));
     }
 
     @Override
     public void sortByInventoryAsc() {
-        Collections.sort(inventoryStates, (o1, o2) -> o1.getValue().compareTo(o2.getValue()));
+        Collections.sort(productStateList, (o1, o2) -> o1.getValue().compareTo(o2.getValue()));
     }
 
     @Override
     public void sortByInventoryDesc() {
-        Collections.sort(inventoryStates, (o1, o2) -> o2.getValue().compareTo(o1.getValue()));
+        Collections.sort(productStateList, (o1, o2) -> o2.getValue().compareTo(o1.getValue()));
     }
 
     @Override
     public void sortByUnitAsc() {
-        Collections.sort(inventoryStates, (o1, o2) -> o1.getProduct().getMainUnit().getAbbr().compareTo(o2.getProduct().getMainUnit().getAbbr()));
+        Collections.sort(productStateList, (o1, o2) -> o1.getProduct().getMainUnit().getAbbr().compareTo(o2.getProduct().getMainUnit().getAbbr()));
     }
 
     @Override
     public void sortByUnitDesc() {
-        Collections.sort(inventoryStates, (o1, o2) -> o2.getProduct().getMainUnit().getAbbr().compareTo(o1.getProduct().getMainUnit().getAbbr()));
+        Collections.sort(productStateList, (o1, o2) -> o2.getProduct().getMainUnit().getAbbr().compareTo(o1.getProduct().getMainUnit().getAbbr()));
     }
 
     @Override
     public void sortByCreatedDate() {
-        Collections.sort(inventoryStates, (o1, o2) -> o2.getProduct().getCreatedDate().compareTo(o1.getProduct().getCreatedDate()));
+        Collections.sort(productStateList, (o1, o2) -> o2.getProduct().getCreatedDate().compareTo(o1.getProduct().getCreatedDate()));
     }
 
     @Override
@@ -134,7 +145,7 @@ public class VendorProductsViewPresenterImpl extends BasePresenterImpl<VendorPro
     }
 
     @Override
-    public void openIncomeConsignmentToProduct(InventoryState state, int consignmentType) {
+    public void openIncomeConsignmentToProduct(ProductState state, int consignmentType) {
         view.openIncomeConsignmentToProduct(consignmentType, vendorId, state.getProduct().getId());
     }
 
@@ -144,10 +155,10 @@ public class VendorProductsViewPresenterImpl extends BasePresenterImpl<VendorPro
     }
 
     @Override
-    public void insertNewWarehouseOperation(InventoryState inventory, double shortage) {
+    public void insertNewWarehouseOperation(ProductState inventory, double shortage) {
         WarehouseOperations warehouseOperations = new WarehouseOperations();
         warehouseOperations.setProduct(inventory.getProduct());
-        warehouseOperations.setVendor(inventory.getVendor());
+        warehouseOperations.setVendor(this.vendor);
         warehouseOperations.setCreateAt(System.currentTimeMillis());
         if (shortage > 0)
             warehouseOperations.setValue(WarehouseOperations.VOID_INCOME);
@@ -184,8 +195,17 @@ public class VendorProductsViewPresenterImpl extends BasePresenterImpl<VendorPro
     @Override
     public void updateInventoryItems() {
         inventoryStates = databaseManager.getInventoryStatesByVendorId(vendorId).blockingSingle();
+        productStateList.clear();
+        for (InventoryState inventoryState: inventoryStates){
+            Product product = databaseManager.getProductByRootId(inventoryState.getProduct().getId()).blockingGet();
+            ProductState productState = new ProductState();
+            productState.setProduct(product);
+            productState.setVendor(inventoryState.getVendor());
+            productState.setValue(inventoryState.getValue());
+            productStateList.add(productState);
+        }
         sortByProductAsc();
-        view.updateAdapterItems(inventoryStates);
+        view.updateAdapterItems(productStateList);
     }
 
     @Override

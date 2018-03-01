@@ -2,9 +2,9 @@ package com.jim.multipos.ui.vendor_products_view;
 
 import com.jim.multipos.core.Presenter;
 import com.jim.multipos.data.db.model.ProductClass;
-import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
+import com.jim.multipos.ui.vendor_products_view.model.ProductState;
 
 import java.util.List;
 
@@ -17,8 +17,8 @@ public interface VendorProductsViewPresenter extends Presenter {
     List<Product> getProducts();
     void setVendorId(long vendorId);
     void initVendorDetails();
-    List<InventoryState> getInventoryStates();
-    InventoryState getInventoryState(int position);
+    List<ProductState> getProductStates();
+    ProductState getProductState(int position);
     ProductClass getProductClassById(Long id);
     void sortByProductAsc();
     void sortByProductDesc();
@@ -30,9 +30,9 @@ public interface VendorProductsViewPresenter extends Presenter {
     void openIncomeConsignment();
     void openReturnConsignment();
     void openConsignmentList();
-    void openIncomeConsignmentToProduct(InventoryState state, int consignmentType);
+    void openIncomeConsignmentToProduct(ProductState state, int consignmentType);
     void openVendorEditing();
-    void insertNewWarehouseOperation(InventoryState inventory, double shortage);
+    void insertNewWarehouseOperation(ProductState inventory, double shortage);
     void openPaymentsList();
     void openPayDialog();
     void updateBillings();

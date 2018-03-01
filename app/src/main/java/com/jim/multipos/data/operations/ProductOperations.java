@@ -33,4 +33,5 @@ public interface ProductOperations {
     Observable<VendorProductCon> getVendorProductConnectionById(Long productId, Long vendorId);
     Single<Boolean> insertReturns(List<Return> returnsList);
     Single<List<VendorProductCon>> getVendorProductConnectionByVendorId(Long vendorId);
+    Single<Product> getProductByRootId(Long rootId);
 }

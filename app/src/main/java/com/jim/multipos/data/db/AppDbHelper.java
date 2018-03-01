@@ -1156,7 +1156,8 @@ public class AppDbHelper implements DbHelper {
                 while (!cursor.isAfterLast()) {
                     InventoryItem inventoryItem = new InventoryItem();
                     inventoryItem.setId(cursor.getLong(cursor.getColumnIndex("_id")));
-                    inventoryItem.setProduct(mDaoSession.getProductDao().load(cursor.getLong(cursor.getColumnIndex("PRODUCT_ID"))));
+                    List<Product> productList = mDaoSession.getProductDao().queryBuilder().where(ProductDao.Properties.RootId.eq(cursor.getLong(cursor.getColumnIndex("PRODUCT_ID")))).build().list();
+                    inventoryItem.setProduct(productList.get(productList.size() - 1));
                     inventoryItem.setVendor(mDaoSession.getVendorDao().load(cursor.getLong(cursor.getColumnIndex("VENDOR_ID"))));
                     inventoryItem.setInventory(cursor.getDouble(cursor.getColumnIndex("INVENTORY")));
                     inventoryItem.setLowStockAlert(cursor.getDouble(cursor.getColumnIndex("LOW_STOCK_ALERT")));
@@ -1466,7 +1467,7 @@ public class AppDbHelper implements DbHelper {
                 mDaoSession.getWarehouseOperationsDao().insertOrReplace(warehouseOperations);
 
                 List<InventoryState> inventoryStates = mDaoSession.getInventoryStateDao().queryBuilder()
-                        .where(InventoryStateDao.Properties.ProductId.eq(warehouseOperations.getProductId()), InventoryStateDao.Properties.VendorId.eq(warehouseOperations.getVendorId()))
+                        .where(InventoryStateDao.Properties.ProductId.eq(warehouseOperations.getProduct().getRootId()), InventoryStateDao.Properties.VendorId.eq(warehouseOperations.getVendorId()))
                         .build().list();
 
                 if (inventoryStates.size() != 1) {
@@ -1510,7 +1511,7 @@ public class AppDbHelper implements DbHelper {
                 mDaoSession.getWarehouseOperationsDao().insertOrReplace(warehouseOperations);
 
                 List<InventoryState> inventoryStates = mDaoSession.getInventoryStateDao().queryBuilder()
-                        .where(InventoryStateDao.Properties.ProductId.eq(warehouseOperations.getProductId()), InventoryStateDao.Properties.VendorId.eq(warehouseOperations.getVendorId()))
+                        .where(InventoryStateDao.Properties.ProductId.eq(warehouseOperations.getProduct().getRootId()), InventoryStateDao.Properties.VendorId.eq(warehouseOperations.getVendorId()))
                         .build().list();
 
                 if (inventoryStates.size() != 1) {
@@ -2126,6 +2127,16 @@ public class AppDbHelper implements DbHelper {
                     .where(OrderDao.Properties.Status.eq(Order.CLOSED_ORDER),
                             OrderDao.Properties.IsArchive.eq(false))
                     .build().list());
+        });
+    }
+
+    @Override
+    public Single<Product> getProductByRootId(Long rootId) {
+        return Single.create(e -> {
+            List<Product> productList = mDaoSession.getProductDao().queryBuilder()
+                    .where(ProductDao.Properties.RootId.eq(rootId))
+                    .build().list();
+            e.onSuccess(productList.get(productList.size() - 1));
         });
     }
 }

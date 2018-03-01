@@ -3,8 +3,8 @@ package com.jim.multipos.ui.vendor_products_view;
 import com.jim.multipos.core.BaseView;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Contact;
-import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.products.Vendor;
+import com.jim.multipos.ui.vendor_products_view.model.ProductState;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ public interface VendorProductsView extends BaseView {
     void sendDataToConsignmentList(long vendorId);
     void openIncomeConsignmentToProduct(int incomeConsignment, long vendorId, Long productId);
     void openVendorEditing(long vendorId);
-    void updateAdapterItems(List<InventoryState> inventoryStates);
+    void updateAdapterItems(List<ProductState> inventoryStates);
     void initVendorDetails(String name, String photoPath, String address, String contactName, List<Contact> contacts, Double debt, double paid, String abbr);
     void openPaymentsList(long vendorId, Double debt);
     void openPayDialog(Vendor vendor, DatabaseManager databaseManager);

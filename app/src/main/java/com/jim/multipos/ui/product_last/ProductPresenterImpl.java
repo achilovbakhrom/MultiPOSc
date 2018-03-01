@@ -7,11 +7,11 @@ import com.jim.multipos.config.scope.PerActivity;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.ProductClass;
-import com.jim.multipos.data.db.model.inventory.InventoryState;
-import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.currency.Currency;
+import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.Product;
+import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.products.VendorProductCon;
 import com.jim.multipos.data.db.model.unit.Unit;
 import com.jim.multipos.data.db.model.unit.UnitCategory;
@@ -39,12 +39,6 @@ import lombok.Setter;
 public class ProductPresenterImpl extends BasePresenterImpl<ProductView> implements ProductPresenter {
 
     private final String CATEGORY_KEY = "CATEGORY_KEY", SUBCATEGORY_KEY = "SUBCATEGORY_KEY", PRODUCT_KEY = "PRODUCT_KEY", STATE_KEY = "STATE_KEY";
-    public static final String PRODUCT_ADD = "PRODUCT_ADD";
-    public static final String PRODUCT_DELETE = "PRODUCT_DELETE";
-    public static final String PRODUCT_UPDATE = "PRODUCT_UPDATE";
-    public static final String CATEGORY_ADD = "CATEGORY_ADD";
-    public static final String CATEGORY_UPDATE = "CATEGORY_UPDATE";
-    public static final String CATEGORY_DELETE = "CATEGORY_DELETE";
 
     @Setter
     @Getter
@@ -627,8 +621,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             view.openProductAddMode();
         } else {
             this.product = product;
-//            inventoryStates = databaseManager.getInventoryStatesByProductId(ProductPresenterImpl.this.product.getId()).blockingSingle();
-            databaseManager.getInventoryStatesByProductId(ProductPresenterImpl.this.product.getId()).subscribe(inventoryStates1 -> {
+            databaseManager.getInventoryStatesByProductId(this.product.getRootId()).subscribe(inventoryStates1 -> {
                 inventoryStates.clear();
                 inventoryStates.addAll(inventoryStates1);
             });
@@ -667,7 +660,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             databaseManager.getVendorProductConnectionByProductId(this.product.getId()).subscribe(productConList -> {
                 DecimalFormat formatter = new DecimalFormat("#.##");
                 vendorProductConnectionsList.clear();
-                this.vendorProductConnectionsList = productConList;
+                this.vendorProductConnectionsList.addAll(productConList);
                 setProductCosts(vendorProductConnectionsList);
                 savedCosts = "";
                 tempCostList.clear();
@@ -1081,7 +1074,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     @Override
     public void deleteProduct() {
         if (product != null) {
-            List<InventoryState> inventoryStates = databaseManager.getInventoryStatesByProductId(product.getId()).blockingSingle();
+            List<InventoryState> inventoryStates = databaseManager.getInventoryStatesByProductId(product.getRootId()).blockingSingle();
             double summary = 0;
             for (InventoryState inventoryState : inventoryStates) {
                 summary += inventoryState.getValue();
@@ -1282,11 +1275,13 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 }
                 product.setDescription(description);
                 databaseManager.addProduct(product).subscribe(aLong -> {
+                    product.setRootId(product.getId());
+                    databaseManager.replaceProduct(product).blockingSingle();
                     for (int i = 0; i < vendors.size(); i++) {
                         vendorProductConnectionsList.get(i).setProductId(product.getId());
                         Vendor vendor = databaseManager.getVendorById(vendors.get(i)).blockingSingle();
                         InventoryState inventoryState = new InventoryState();
-                        inventoryState.setProduct(product);
+                        inventoryState.setProductId(product.getRootId());
                         inventoryState.setVendor(vendor);
                         inventoryState.setValue(0d);
                         databaseManager.insertInventoryState(inventoryState).subscribe();
@@ -1312,10 +1307,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                             result.setCategory(subcategory);
                             result.setCreatedDate(System.currentTimeMillis());
                             result.setCategoryId(subcategory.getId());
-                            if (ProductPresenterImpl.this.product.getRootId() == null)
-                                result.setRootId(ProductPresenterImpl.this.product.getId());
-                            else
-                                result.setRootId(ProductPresenterImpl.this.product.getRootId());
+                            result.setRootId(ProductPresenterImpl.this.product.getRootId());
                             ProductPresenterImpl.this.product.setActive(false);
                             ProductPresenterImpl.this.product.setNotModifyted(false);
                             List<Currency> tempCurrencies = databaseManager.getAllCurrencies().blockingSingle();
@@ -1345,12 +1337,11 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                             }
                             databaseManager.addProduct(result).subscribe(id -> {
                                 for (int i = 0; i < vendors.size(); i++) {
-//                                    vendorProductConnectionsList.get(i).setProductId(result.getId());
                                     VendorProductCon productCon = new VendorProductCon();
                                     productCon.setCost(vendorProductConnectionsList.get(i).getCost());
                                     productCon.setVendorId(vendorProductConnectionsList.get(i).getVendorId());
                                     productCon.setProductId(result.getId());
-                                    inventoryStates.get(i).setProduct(result);
+                                    inventoryStates.get(i).setProductId(result.getRootId());
                                     databaseManager.insertInventoryState(inventoryStates.get(i)).blockingSingle();
                                     databaseManager.addVendorProductConnection(productCon).blockingSingle();
                                 }
@@ -1443,7 +1434,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     if (pos != -1) {
                         inventoryStates.remove(pos);
                         deletedStatesList.add(inventoryState);
-//                    databaseManager.deleteInventoryState(inventoryState).blockingGet();
                         this.vendorProductConnectionsList.remove(i);
                         isAllowed = true;
                         i--;

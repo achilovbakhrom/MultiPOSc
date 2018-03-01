@@ -247,7 +247,7 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
 
         tvVendorName.setText(orderProductItem.getOrderProduct().getVendor().getName());
 
-        List<InventoryState> inventoryStates = databaseManager.getInventoryStatesByProductId(orderProductItem.getOrderProduct().getProductId()).blockingFirst();
+        List<InventoryState> inventoryStates = databaseManager.getInventoryStatesByProductId(orderProductItem.getOrderProduct().getProduct().getRootId()).blockingFirst();
         InventoryState inventoryState = null;
         for (int i = 0; i < inventoryStates.size(); i++) {
             if(inventoryStates.get(i).getVendor().getId().equals(orderProductItem.getOrderProduct().getVendor().getId())){
@@ -297,6 +297,7 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
         if(orderProductItem.getOrderProduct().getProduct().getVendor().size()==1){
             llVendorPicker.setVisibility(View.GONE);
         }else {
+            llVendorPicker.setVisibility(View.VISIBLE);
             btnChooseVendor.setOnClickListener(view -> {
                 ChooseVendorDialog dialog = new ChooseVendorDialog(getContext(), orderProductItem.getOrderProduct().getProduct().getVendor(), vendor -> {
                     mainPageConnection.changeProductVendor(vendor);

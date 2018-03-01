@@ -15,6 +15,7 @@ import com.jim.multipos.core.BaseAdapter;
 import com.jim.multipos.core.BaseViewHolder;
 import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.inventory.InventoryState;
+import com.jim.multipos.ui.vendor_products_view.model.ProductState;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -29,13 +30,13 @@ import static com.jim.multipos.data.db.model.consignment.Consignment.RETURN_CONS
  * Created by Portable-Acer on 18.11.2017.
  */
 
-public class ProductAdapter extends BaseAdapter<InventoryState, ProductAdapter.ProductViewHolder> {
+public class ProductAdapter extends BaseAdapter<ProductState, ProductAdapter.ProductViewHolder> {
     public interface ProductAdapterListener {
         void showMinusDialog(int position);
 
         void showPlusDialog(int position);
 
-        void getInventoryItem(InventoryState state, int consignmentType);
+        void getInventoryItem(ProductState state, int consignmentType);
 
         ProductClass getProductClass(Long id);
     }
@@ -44,7 +45,7 @@ public class ProductAdapter extends BaseAdapter<InventoryState, ProductAdapter.P
     private ProductAdapterListener listener;
     private DecimalFormat decimalFormat;
 
-    public ProductAdapter(Context context, DecimalFormat decimalFormat, ProductAdapterListener listener, List<InventoryState> items) {
+    public ProductAdapter(Context context, DecimalFormat decimalFormat, ProductAdapterListener listener, List<ProductState> items) {
         super(items);
         this.context = context;
         this.listener = listener;
@@ -109,7 +110,7 @@ public class ProductAdapter extends BaseAdapter<InventoryState, ProductAdapter.P
         }
     }
 
-    public void setData(List<InventoryState> stateList){
+    public void setData(List<ProductState> stateList){
         items = stateList;
         notifyDataSetChanged();
     }
