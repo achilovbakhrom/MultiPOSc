@@ -8,6 +8,7 @@ import android.widget.EditText;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.mpviews.MpButton;
 import com.jim.mpviews.MpCheckbox;
+import com.jim.mpviews.MpEditText;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
@@ -25,7 +26,7 @@ import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 public class AddCustomerGroupFragment extends BaseFragment {
     @NotEmpty(messageId = R.string.enter_group_name)
     @BindView(R.id.etGroupName)
-    EditText etGroupName;
+    MpEditText etGroupName;
     @BindView(R.id.chbActive)
     MpCheckbox chbActive;
     @BindView(R.id.btnBack)

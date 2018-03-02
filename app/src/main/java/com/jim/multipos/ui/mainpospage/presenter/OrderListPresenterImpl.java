@@ -25,8 +25,6 @@ import com.jim.multipos.ui.mainpospage.model.ServiceFeeItem;
 import com.jim.multipos.ui.mainpospage.view.OrderListFragment;
 import com.jim.multipos.ui.mainpospage.view.OrderListView;
 
-import org.greenrobot.greendao.query.LazyList;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -1035,9 +1033,9 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
     }
 
     @Override
-    public void eventCustomerUpdate(Customer customer, Customer newCustomer) {
-        if(customer!=null && this.customer.getId().equals(customer.getId())) {
-            this.customer = newCustomer;
+    public void eventCustomerUpdate(Customer customer) {
+        if(customer!=null  && this.customer != null &&  this.customer.getId().equals(customer.getId())) {
+            this.customer = customer;
             view.updateOrderDetials(order, customer, payedPartitions);
             view.sendCustomerToPaymentFragment(customer);
         }
@@ -1045,7 +1043,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
 
     @Override
     public void eventCustomerDelete(Customer customer) {
-        if(customer!=null && this.customer.getId().equals(customer.getId())){
+        if(customer!=null && this.customer != null && this.customer.getId().equals(customer.getId())){
             this.customer = null;
             view.updateOrderDetials(order,this.customer,payedPartitions);
             view.sendCustomerToPaymentFragment(customer);

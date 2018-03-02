@@ -212,7 +212,7 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
                        }else if(o instanceof CustomerEvent){
                            CustomerEvent customerEvent = (CustomerEvent) o;
                             if(customerEvent.getType() == GlobalEventConstants.UPDATE){
-                                presenter.eventCustomerUpdate(customerEvent.getCustomer(),customerEvent.getNewCustomer());
+                                presenter.eventCustomerUpdate(customerEvent.getCustomer());
                             }else if(customerEvent.getType() == GlobalEventConstants.DELETE){
                                 presenter.eventCustomerDelete(customerEvent.getCustomer());
                             }

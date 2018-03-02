@@ -80,8 +80,8 @@ public class CustomersEditPresenterImpl extends BasePresenterImpl<CustomersEditV
                 for (CustomerGroup cg : customer.getCustomerGroups()) {
                     databaseManager.getJoinCustomerGroupWithCustomerOperations().addCustomerToCustomerGroup(customer.getId(), cg.getId()).subscribe();
                 }
-                view.sendEvent(GlobalEventConstants.UPDATE, customer);
             });
+            view.sendEvent(GlobalEventConstants.UPDATE, customer);
         });
     }
 

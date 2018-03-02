@@ -1348,7 +1348,9 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                                 view.editProduct(result);
                                 view.sendProductChangeEvent(GlobalEventConstants.UPDATE, ProductPresenterImpl.this.product, result);
                                 openSubcategory(subcategory);
-                                openProduct(result);
+                                if (result.getIsActive())
+                                    openProduct(result);
+                                else openProduct(null);
                             });
                         }
                     }
@@ -1548,8 +1550,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     openSubcategory(tempSubcategory);
                     if (!tempProduct.isActive()) {
                         openProduct(null);
-                    }
-                    openProduct(tempProduct);
+                    } else openProduct(tempProduct);
                 }
                 break;
         }
