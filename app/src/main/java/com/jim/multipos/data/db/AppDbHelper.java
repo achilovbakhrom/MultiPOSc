@@ -163,10 +163,11 @@ public class AppDbHelper implements DbHelper {
     }*/
 
     @Override
-    public Observable<Long> insertCustomerToCustomerGroup(Long customerGroupId, Long customerId) {
-        JoinCustomerGroupsWithCustomers entity = new JoinCustomerGroupsWithCustomers(customerId, customerGroupId);
-
-        return Observable.fromCallable(() -> mDaoSession.getJoinCustomerGroupsWithCustomersDao().insertOrReplace(entity));
+    public Observable<Long> insertCustomerToCustomerGroup(Long customerId, Long customerGroupId) {
+        return Observable.fromCallable(() -> {
+            JoinCustomerGroupsWithCustomers entity = new JoinCustomerGroupsWithCustomers(customerId, customerGroupId);
+            return mDaoSession.getJoinCustomerGroupsWithCustomersDao().insertOrReplace(entity);
+        });
     }
 
     @Override
@@ -181,8 +182,8 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Observable<Boolean> deleteJoinCustomerGroupWithCustomer(Long customerId) {
         return Observable.fromCallable(() -> {
-            mDaoSession.getDatabase().execSQL("DELETE FROM JOIN_CUSTOMER_GROUPS_WITH_CUSTOMERS WHERE CUSTOMER_ID=?", new String[]{String.valueOf(customerId)});
-
+            mDaoSession.getJoinCustomerGroupsWithCustomersDao().queryBuilder().where(JoinCustomerGroupsWithCustomersDao.Properties.CustomerId.eq(customerId)).buildDelete().executeDeleteWithoutDetachingEntities();
+//          mDaoSession.getDatabase().execSQL("DELETE FROM JOIN_CUSTOMER_GROUPS_WITH_CUSTOMERS WHERE CUSTOMER_ID=?", new String[]{String.valueOf(customerId)});
             return true;
         });
     }

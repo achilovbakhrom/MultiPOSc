@@ -37,7 +37,7 @@ public class CustomersEditPresenterImpl extends BasePresenterImpl<CustomersEditV
 
     @Override
     public List<Customer> getCustomers() {
-        this.customers = new ArrayList<>(databaseManager.getAllCustomers().blockingSingle());
+        this.customers = databaseManager.getAllCustomers().blockingSingle();
 
         return customers;
     }
@@ -61,7 +61,7 @@ public class CustomersEditPresenterImpl extends BasePresenterImpl<CustomersEditV
         customer.setAddress(address);
         customer.setQrCode(qrCode);
         customer.setCreatedDate(System.currentTimeMillis());
-        customer.setCustomerGroups(new ArrayList<>(customerGroups));
+        customer.setCustomerGroups(customerGroups);
 
         databaseManager.getCustomerOperations().addCustomer(customer).subscribe(aLong -> {
             for (CustomerGroup cg : customerGroups) {

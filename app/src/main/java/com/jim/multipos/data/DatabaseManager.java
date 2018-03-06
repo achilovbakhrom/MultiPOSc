@@ -150,8 +150,8 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
-    public Observable<Long> addCustomerToCustomerGroup(Long customerGroupId, Long customerId) {
-        return dbHelper.insertCustomerToCustomerGroup(customerGroupId, customerId);
+    public Observable<Long> addCustomerToCustomerGroup(Long customerId, Long customerGroupId) {
+        return dbHelper.insertCustomerToCustomerGroup(customerId, customerGroupId);
     }
 
     @Override

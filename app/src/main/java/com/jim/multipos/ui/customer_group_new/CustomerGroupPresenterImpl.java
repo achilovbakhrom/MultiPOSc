@@ -100,7 +100,7 @@ public class CustomerGroupPresenterImpl extends BasePresenterImpl<CustomerGroupV
             addCustomers.add(customer);
             view.addedCustomerToCustomerGroup(customer);
         } else {
-            databaseManager.getJoinCustomerGroupWithCustomerOperations().addCustomerToCustomerGroup(customerGroup.getId(), customer.getId()).subscribe(aLong -> {
+            databaseManager.getJoinCustomerGroupWithCustomerOperations().addCustomerToCustomerGroup(customer.getId(), customerGroup.getId()).subscribe(aLong -> {
                 view.addedCustomerToCustomerGroup(customer);
             });
         }

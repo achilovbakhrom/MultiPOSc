@@ -141,7 +141,6 @@ public class CustomerAdapter extends BaseAdapter<Customer, BaseViewHolder> {
             } else {
                 ((CustomerItemViewHolder) holder).btnSave.disable();
             }
-
             if (getItem(position - 1).getCustomerGroups().isEmpty()) {
                 ((CustomerItemViewHolder) holder).tvCustomerGroup.setText(context.getString(R.string.not_selected));
             } else {

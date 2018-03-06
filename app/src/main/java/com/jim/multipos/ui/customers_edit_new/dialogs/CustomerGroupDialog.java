@@ -60,6 +60,7 @@ public class CustomerGroupDialog extends Dialog {
         rvCustomerGroups.setAdapter(new CustomerGroupAdapter(customerGroups, customer.getCustomerGroups()));
 
         RxView.clicks(btnOK).subscribe(o -> {
+            customer.setCustomerGroups(((CustomerGroupAdapter) rvCustomerGroups.getAdapter()).getSelectedCustomerGroups());
             listener.onOkClicked(customer, ((CustomerGroupAdapter) rvCustomerGroups.getAdapter()).isModified());
             dismiss();
         });

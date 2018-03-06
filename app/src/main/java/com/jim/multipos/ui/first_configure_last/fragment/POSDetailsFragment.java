@@ -151,6 +151,10 @@ public class POSDetailsFragment extends BaseFragment implements ChangeableConten
         if (!passwordCorrect) {
             confirmPassword.setError(getString(R.string.passwords_different));
         }
+        if (password.length() == 0){
+            password.setError(getString(R.string.password_length));
+            passwordCorrect = false;
+        }
         return passwordCorrect && temp;
     }
 

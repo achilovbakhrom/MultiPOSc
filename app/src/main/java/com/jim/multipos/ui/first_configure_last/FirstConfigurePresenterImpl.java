@@ -89,21 +89,23 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
             completion.put(PAYMENT_TYPE_KEY, false);
         }
 
-        Account account = new Account();
-        account.setName("DebtAccount");
-        account.setStaticAccountType(Account.DEBT_ACCOUNT);
-        account.setIsVisible(false);
-        databaseManager.addAccount(account).blockingSingle();
-        Account account1 = new Account();
-        account1.setName("Cash");
-        account1.setStaticAccountType(Account.CASH_ACCOUNT);
-        databaseManager.addAccount(account1).blockingSingle();
-        PaymentType paymentType = new PaymentType();
-        paymentType.setAccount(account);
-        paymentType.setName("ToDebt");
-        paymentType.setCurrency(databaseManager.getMainCurrency());
-        paymentType.setIsVisible(false);
-        databaseManager.addPaymentType(paymentType).blockingSingle();
+        if (databaseManager.getAccounts().isEmpty()){
+            Account account1 = new Account();
+            account1.setName("Cash");
+            account1.setStaticAccountType(Account.CASH_ACCOUNT);
+            databaseManager.addAccount(account1).blockingSingle();
+            Account account = new Account();
+            account.setName("DebtAccount");
+            account.setStaticAccountType(Account.DEBT_ACCOUNT);
+            account.setIsVisible(false);
+            databaseManager.addAccount(account).blockingSingle();
+            PaymentType paymentType = new PaymentType();
+            paymentType.setAccount(account);
+            paymentType.setName("ToDebt");
+            paymentType.setCurrency(databaseManager.getMainCurrency());
+            paymentType.setIsVisible(false);
+            databaseManager.addPaymentType(paymentType).blockingSingle();
+        }
     }
 
     @Override
