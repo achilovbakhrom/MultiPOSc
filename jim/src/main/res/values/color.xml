@@ -28,4 +28,8 @@
     <color name="colorTransparent">#00ffffff</color>
     <color name="colorGreen">#2fd215</color>
     <color name="colorGreenSecond">#27af27</color>
+    <color name="colorReportTitleBackGround">#eaeaea</color>
+    <color name="colorReportText">#212121</color>
+    <color name="colorReportBorderLine">#d6d6d6</color>
+    <color name="colorReportItemBackground">#f9f9f9</color>
 </resources>

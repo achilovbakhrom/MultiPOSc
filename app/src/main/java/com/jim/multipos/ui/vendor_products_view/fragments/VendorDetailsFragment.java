@@ -22,7 +22,9 @@ import com.jim.multipos.ui.vendor_products_view.VendorProductsViewActivity;
 import com.jim.multipos.utils.GlideApp;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.rxevents.inventory_events.BillingOperationEvent;
+import com.jim.multipos.utils.rxevents.inventory_events.InventoryStateEvent;
 import com.jim.multipos.utils.rxevents.inventory_events.VendorEvent;
+import com.jim.multipos.utils.rxevents.main_order_events.ConsignmentEvent;
 import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
 
 import java.text.DecimalFormat;
@@ -87,6 +89,12 @@ public class VendorDetailsFragment extends BaseFragment {
                                 ((VendorProductsViewActivity) getContext()).getPresenter().initVendorDetails();
                                 break;
                             }
+                        }
+                    }
+                    if (o instanceof InventoryStateEvent){
+                        InventoryStateEvent event = (InventoryStateEvent) o;
+                        if (event.getType() == GlobalEventConstants.UPDATE) {
+                            ((VendorProductsViewActivity) getContext()).getPresenter().updateBillings();
                         }
                     }
                 }));

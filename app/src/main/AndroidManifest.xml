@@ -47,8 +47,7 @@
         <activity
             android:name=".ui.main_menu.product_menu.ProductMenuActivity"
             android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".ui.main_menu.customers_menu.CustomersMenuActivity"/>
+        <activity android:name=".ui.main_menu.customers_menu.CustomersMenuActivity" />
         <activity
             android:name=".ui.main_menu.inventory_menu.InventoryMenuActivity"
             android:windowSoftInputMode="stateHidden" />
@@ -69,7 +68,8 @@
         <activity android:name=".ui.consignment.ConsignmentActivity">
 
         </activity>
-        <activity android:name=".ui.billing_vendor.BillingOperationsActivity"
+        <activity
+            android:name=".ui.billing_vendor.BillingOperationsActivity"
             android:windowSoftInputMode="stateHidden">
 
         </activity>
@@ -79,14 +79,17 @@
 
         </activity>
 
-        <activity android:name=".ui.vendor_products_view.VendorProductsViewActivity" >
+        <activity android:name=".ui.vendor_products_view.VendorProductsViewActivity">
 
         </activity>
-        <activity android:name=".ui.vendor_item_managment.VendorItemsActivity"
+        <activity
+            android:name=".ui.vendor_item_managment.VendorItemsActivity"
             android:windowSoftInputMode="stateHidden">
 
         </activity>
-        <activity android:name=".ui.consignment_list.ConsignmentListActivity" android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".ui.consignment_list.ConsignmentListActivity"
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".ui.customer_debt.CustomerDebtActivity" />
         <activity android:name=".ui.cash_management.CashManagementActivity" />
     </application>

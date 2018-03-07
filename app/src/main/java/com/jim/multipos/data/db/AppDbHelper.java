@@ -183,7 +183,6 @@ public class AppDbHelper implements DbHelper {
     public Observable<Boolean> deleteJoinCustomerGroupWithCustomer(Long customerId) {
         return Observable.fromCallable(() -> {
             mDaoSession.getJoinCustomerGroupsWithCustomersDao().queryBuilder().where(JoinCustomerGroupsWithCustomersDao.Properties.CustomerId.eq(customerId)).buildDelete().executeDeleteWithoutDetachingEntities();
-//          mDaoSession.getDatabase().execSQL("DELETE FROM JOIN_CUSTOMER_GROUPS_WITH_CUSTOMERS WHERE CUSTOMER_ID=?", new String[]{String.valueOf(customerId)});
             return true;
         });
     }

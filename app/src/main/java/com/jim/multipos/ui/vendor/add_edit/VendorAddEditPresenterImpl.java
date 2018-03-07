@@ -45,9 +45,6 @@ public class VendorAddEditPresenterImpl extends BasePresenterImpl<VendorAddEditV
     @Getter
     private List<Contact> contacts;
 
-    public static final String VENDOR_ADD = "VENDOR_ADD";
-    public static final String VENDOR_UPDATE = "VENDOR_UPDATE";
-    public static final String VENDOR_DELETE = "VENDOR_DELETE";
 
     @Inject
     VendorAddEditPresenterImpl(VendorAddEditView vendorAddEditView, DatabaseManager databaseManager,
@@ -91,7 +88,8 @@ public class VendorAddEditPresenterImpl extends BasePresenterImpl<VendorAddEditV
                         contact.setVendorId(id);
                         databaseManager.addContact(contact).subscribe(contactId -> Log.d("sss", "addVendor: " + contactId));
                     }
-                    databaseManager.updateContacts(id, contacts);
+                    vendor.resetContacts();
+                    databaseManager.updateContacts(id, contacts).subscribe();
                     view.sendEvent(GlobalEventConstants.UPDATE, vendor);
                 });
                 break;
