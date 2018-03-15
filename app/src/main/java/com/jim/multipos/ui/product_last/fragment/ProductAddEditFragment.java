@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,6 +26,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.mpviews.MPosSpinner;
 import com.jim.mpviews.MpButton;
 import com.jim.mpviews.MpCheckbox;
@@ -40,6 +42,7 @@ import com.jim.multipos.ui.product_last.ProductActivity;
 import com.jim.multipos.ui.product_last.ProductPresenter;
 import com.jim.multipos.ui.product_last.adapter.ProductClassListAdapter;
 import com.jim.multipos.ui.product_last.adapter.ProductCostListAdapter;
+import com.jim.multipos.ui.vendor.add_edit.VendorAddEditActivity;
 import com.jim.multipos.utils.CommonUtils;
 import com.jim.multipos.utils.GlideApp;
 import com.jim.multipos.utils.OpenPickPhotoUtils;
@@ -142,6 +145,7 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
     private RecyclerView vendorDialogList, productCostList, classList;
     private MpButton vendorDialogBack, btnBackToAddProduct, btnSaveCosts;
     private MpButton vendorDialogOk;
+    private Button btnAddVendor;
     private ProductClassListAdapter classListAdapter;
     private List<Long> vendors;
     private DecimalFormat formatter;
@@ -171,6 +175,10 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
         vendorDialogBack.setOnClickListener(this);
         vendorDialogOk = dialogView.findViewById(R.id.btnOk);
         vendorDialogOk.setOnClickListener(this);
+        btnAddVendor = dialogView.findViewById(R.id.btnAdd);
+        RxView.clicks(btnAddVendor).subscribe(o -> {
+            getContext().startActivity(new Intent(getContext(), VendorAddEditActivity.class));
+        });
 
         costDialog = new Dialog(getContext());
         View costView = LayoutInflater.from(getContext()).inflate(R.layout.choose_product_cost, null, false);
@@ -249,6 +257,10 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
         switch (view.getId()) {
             case R.id.btnSave:
                 if (isValid())
+                    if (presenter.isProductNameExists(name.getText().toString())){
+                        name.setError("Such product name exists");
+                        return;
+                    }
                     try {
                         ((ProductActivity) getContext()).getPresenter().comparePriceWithCost(formatter.parse(this.price.getText().toString()).doubleValue());
                     } catch (ParseException e) {
@@ -307,7 +319,6 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
                         else photoPickDialog.showDialog();
                     }
                 });
-                break;
         }
 
     }

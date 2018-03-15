@@ -88,21 +88,22 @@ public class ProductMenuActivity extends BaseActivity implements ProductMenuView
                 startActivity(intent);
                 break;
             case 1:
-                Intent intentProdActivity = new Intent(this, ProductsClassActivity.class);
-                startActivity(intentProdActivity);
-                break;
-            case 2:
-                Intent intentDiscount = new Intent(this, DiscountAddingActivity.class);
-                startActivity(intentDiscount);
-                break;
-            case 3:
-                Intent intentServiceFee = new Intent(this, ServiceFeeActivity.class);
-                startActivity(intentServiceFee);
-                break;
-            case 4:
                 Intent intentVendor = new Intent(this, VendorAddEditActivity.class);
                 startActivity(intentVendor);
                 break;
+            case 2:
+                Intent intentProdActivity = new Intent(this, ProductsClassActivity.class);
+                startActivity(intentProdActivity);
+                break;
+            case 3:
+                Intent intentDiscount = new Intent(this, DiscountAddingActivity.class);
+                startActivity(intentDiscount);
+                break;
+            case 4:
+                Intent intentServiceFee = new Intent(this, ServiceFeeActivity.class);
+                startActivity(intentServiceFee);
+                break;
+
         }
     }
 }

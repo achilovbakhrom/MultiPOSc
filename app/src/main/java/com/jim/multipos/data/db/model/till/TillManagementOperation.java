@@ -24,6 +24,7 @@ public class TillManagementOperation {
     @Id(autoincrement = true)
     private Long id;
     private int type;
+    private boolean isModified;
     private Double amount;
     private String description = "";
     private Long accountId;
@@ -172,11 +173,18 @@ public class TillManagementOperation {
     public void setId(Long id) {
         this.id = id;
     }
-    @Generated(hash = 1986922026)
-    public TillManagementOperation(Long id, int type, Double amount,
+    public boolean getIsModified() {
+        return this.isModified;
+    }
+    public void setIsModified(boolean isModified) {
+        this.isModified = isModified;
+    }
+    @Generated(hash = 892697434)
+    public TillManagementOperation(Long id, int type, boolean isModified, Double amount,
             String description, Long accountId, Long tillId) {
         this.id = id;
         this.type = type;
+        this.isModified = isModified;
         this.amount = amount;
         this.description = description;
         this.accountId = accountId;

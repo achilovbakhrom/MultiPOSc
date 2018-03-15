@@ -124,7 +124,7 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
 
         //decimal format with space
         DecimalFormat formatter;
-        NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
+        NumberFormat numberFormat = NumberFormat.getNumberInstance(new Locale("RU"));
         numberFormat.setMaximumFractionDigits(2);
         formatter = (DecimalFormat) numberFormat;
         DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
@@ -436,7 +436,7 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
 
     @Override
     public void openTipsDialog(TipsDialog.OnClickListener listener,double change) {
-        TipsDialog tipsDialog = new TipsDialog(getContext(),listener,change);
+        TipsDialog tipsDialog = new TipsDialog(getContext(),listener,change, databaseManager);
         tipsDialog.show();
     }
 

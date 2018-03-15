@@ -11,9 +11,12 @@ import com.jim.mpviews.MpEditText;
 import com.jim.multipos.R;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.till.TillManagementOperation;
+import com.jim.multipos.utils.NumberTextWatcher;
 import com.jim.multipos.utils.TextWatcherOnTextChange;
 
-import java.util.ArrayList;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.util.List;
 
 import butterknife.BindView;
@@ -30,11 +33,19 @@ public class OpenTillAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private Currency currency;
     private boolean isLeft = true;
     private static final int ZERO = 0, HOLD = 1;
+    private DecimalFormat decimalFormat;
 
     public OpenTillAdapter(Context context, List<TillManagementOperation> operations, Currency currency) {
         this.context = context;
         this.items = operations;
         this.currency = currency;
+        NumberFormat numberFormat = NumberFormat.getNumberInstance();
+        numberFormat.setMaximumFractionDigits(2);
+        decimalFormat = (DecimalFormat) numberFormat;
+        DecimalFormatSymbols symbols = decimalFormat.getDecimalFormatSymbols();
+        symbols.setDecimalSeparator('.');
+        symbols.setGroupingSeparator(' ');
+        decimalFormat.setDecimalFormatSymbols(symbols);
     }
 
     public void setData(List<TillManagementOperation> data){
@@ -53,11 +64,11 @@ public class OpenTillAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         switch (viewType) {
             case ZERO:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.open_till_confirm_item, parent, false);
-                holder = new ZeroInTillViewHolder(view);
+                holder = new ConfirmViewHolder(view);
                 break;
             case HOLD:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.open_till_modify_item, parent, false);
-                holder = new ToNextViewHolder(view);
+                holder = new ModifyViewHolder(view);
                 break;
         }
         return holder;
@@ -65,16 +76,17 @@ public class OpenTillAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof ToNextViewHolder) {
-            ToNextViewHolder item = (ToNextViewHolder) holder;
+        if (holder instanceof ModifyViewHolder) {
+            ModifyViewHolder item = (ModifyViewHolder) holder;
             item.tvAccount.setText(items.get(position).getAccount().getName());
             item.tvCurrency.setText(currency.getAbbr());
-            item.etModifyAmount.setText(String.valueOf(items.get(position).getAmount()));
-        } else if (holder instanceof ZeroInTillViewHolder) {
-            ZeroInTillViewHolder item = (ZeroInTillViewHolder) holder;
+            item.etModifyAmount.setText(decimalFormat.format(items.get(position).getAmount()));
+            item.etModifyAmount.addTextChangedListener(new NumberTextWatcher(item.etModifyAmount));
+        } else if (holder instanceof ConfirmViewHolder) {
+            ConfirmViewHolder item = (ConfirmViewHolder) holder;
             item.tvAccount.setText(items.get(position).getAccount().getName());
             item.tvCurrency.setText(currency.getAbbr());
-            item.tvConfirmAmount.setText(String.valueOf(items.get(position).getAmount()));
+            item.tvConfirmAmount.setText(decimalFormat.format(items.get(position).getAmount()));
         }
     }
 
@@ -90,7 +102,7 @@ public class OpenTillAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     }
 
-    class ToNextViewHolder extends RecyclerView.ViewHolder {
+    class ModifyViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.tvAccount)
         TextView tvAccount;
@@ -99,7 +111,7 @@ public class OpenTillAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         @BindView(R.id.tvCurrency)
         TextView tvCurrency;
 
-        public ToNextViewHolder(View itemView) {
+        ModifyViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             etModifyAmount.addTextChangedListener(new TextWatcherOnTextChange() {
@@ -108,7 +120,7 @@ public class OpenTillAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     if (charSequence.length() != 0) {
                         double amount = 0;
                         try {
-                            amount = Double.parseDouble(etModifyAmount.getText().toString());
+                            amount = decimalFormat.parse(etModifyAmount.getText().toString()).doubleValue();
                             items.get(getAdapterPosition()).setAmount(amount);
                         } catch (Exception e) {
                             etModifyAmount.setError(context.getString(R.string.invalid));
@@ -123,7 +135,7 @@ public class OpenTillAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
-    class ZeroInTillViewHolder extends RecyclerView.ViewHolder {
+    class ConfirmViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.tvAccount)
         TextView tvAccount;
@@ -132,7 +144,7 @@ public class OpenTillAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         @BindView(R.id.tvConfirmAmount)
         TextView tvConfirmAmount;
 
-        public ZeroInTillViewHolder(View itemView) {
+        ConfirmViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

@@ -3,6 +3,7 @@ package com.jim.multipos.ui.consignment_list;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.View;
 
 import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.R;
@@ -63,6 +64,8 @@ public class ConsignmentListActivity extends SimpleActivity implements Consignme
                     fragment.setSearchText(toolbar.getSearchEditText().getText().toString());
                 }
             });
+
+            toolbar.getBarcodeView().setVisibility(View.GONE);
 
             toolbar.setDataIntervalPicker(from, to, new MpToolbar.DataIntervalCallbackToToolbar() {
                 @Override

@@ -24,11 +24,8 @@ public class DiscountAddingPresenterImpl extends BasePresenterImpl<DiscountAddin
     List<DiscountApaterDetials> items;
     private AppCompatActivity context;
     private DatabaseManager databaseManager;
-    public enum DiscountSortTypes {Ammount,Type,Discription,Used,Active,Default}
 
-    public static final String DISCOUNT_ADD = "discount is added";
-    public static final String DISCOUNT_UPDATE = "discount is updated";
-    public static final String DISCOUNT_DELETE = "discount is deleted";
+    public enum DiscountSortTypes {Ammount, Type, Discription, Used, Active, Default}
 
 
     @Inject
@@ -57,7 +54,7 @@ public class DiscountAddingPresenterImpl extends BasePresenterImpl<DiscountAddin
     @Override
     public void onAddPressed(double amount, int amountTypeAbbr, String discription, int usedTypeAbbr, boolean active) {
         Discount discount = new Discount();
-        discount.setAmount(amount * -1);
+        discount.setAmount(amount);
         discount.setAmountType(amountTypeAbbr);
         discount.setName(discription);
         discount.setUsedType(usedTypeAbbr);
@@ -121,31 +118,30 @@ public class DiscountAddingPresenterImpl extends BasePresenterImpl<DiscountAddin
     }
 
 
-
     @Override
-    public void sortList(DiscountSortTypes discountSortTypes){
+    public void sortList(DiscountSortTypes discountSortTypes) {
         items.remove(0);
-        switch (discountSortTypes){
+        switch (discountSortTypes) {
             case Ammount:
-                Collections.sort(items,(discounts, t1) -> t1.getObject().getAmount().compareTo(discounts.getObject().getAmount()));
+                Collections.sort(items, (discounts, t1) -> t1.getObject().getAmount().compareTo(discounts.getObject().getAmount()));
                 break;
             case Type:
-                Collections.sort(items,(discounts, t1) -> t1.getObject().getAmountType().compareTo(discounts.getObject().getAmountType()));
+                Collections.sort(items, (discounts, t1) -> t1.getObject().getAmountType().compareTo(discounts.getObject().getAmountType()));
                 break;
             case Used:
-                Collections.sort(items,(discounts, t1) -> t1.getObject().getUsedType().compareTo(discounts.getObject().getUsedType()));
+                Collections.sort(items, (discounts, t1) -> t1.getObject().getUsedType().compareTo(discounts.getObject().getUsedType()));
                 break;
             case Active:
-                Collections.sort(items,(discounts, t1) -> t1.getObject().getActive().compareTo(discounts.getObject().getActive()));
+                Collections.sort(items, (discounts, t1) -> t1.getObject().getActive().compareTo(discounts.getObject().getActive()));
                 break;
             case Discription:
-                Collections.sort(items,(discounts, t1) -> t1.getObject().getName().compareTo(discounts.getObject().getName()));
+                Collections.sort(items, (discounts, t1) -> t1.getObject().getName().compareTo(discounts.getObject().getName()));
                 break;
             case Default:
-                Collections.sort(items,(discounts, t1) -> t1.getObject().getCreatedDate().compareTo(discounts.getObject().getCreatedDate()));
+                Collections.sort(items, (discounts, t1) -> t1.getObject().getCreatedDate().compareTo(discounts.getObject().getCreatedDate()));
                 break;
         }
-        items.add(0,null);
+        items.add(0, null);
         view.refreshList();
     }
 
@@ -153,12 +149,12 @@ public class DiscountAddingPresenterImpl extends BasePresenterImpl<DiscountAddin
     public void onCloseAction() {
         boolean weCanClose = true;
         for (int i = 1; i < items.size(); i++) {
-            if(items.get(i).isChanged())
-                weCanClose  = false;
+            if (items.get(i).isChanged())
+                weCanClose = false;
         }
-        if(weCanClose){
+        if (weCanClose) {
             view.closeDiscountActivity();
-        }else {
+        } else {
             view.openWarning();
         }
     }

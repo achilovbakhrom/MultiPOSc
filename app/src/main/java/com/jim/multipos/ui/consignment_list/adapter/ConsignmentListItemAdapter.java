@@ -24,9 +24,13 @@ import com.jim.multipos.data.db.model.consignment.Consignment;
 import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
 import com.jim.multipos.data.db.model.currency.Currency;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,9 +48,16 @@ public class ConsignmentListItemAdapter extends RecyclerView.Adapter<Consignment
     private Context context;
     private boolean searchMode = false;
     private boolean isExpended = false;
+    private DecimalFormat decimalFormat;
 
     public ConsignmentListItemAdapter(Context context) {
         this.context = context;
+        NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
+        numberFormat.setMaximumFractionDigits(2);
+        decimalFormat = (DecimalFormat) numberFormat;
+        DecimalFormatSymbols symbols = decimalFormat.getDecimalFormatSymbols();
+        symbols.setGroupingSeparator(' ');
+        decimalFormat.setDecimalFormatSymbols(symbols);
     }
 
     public void setSearchResult(List<Consignment> searchResults, Currency currency, String searchText) {
@@ -98,9 +109,9 @@ public class ConsignmentListItemAdapter extends RecyclerView.Adapter<Consignment
         if (!searchMode) {
             setUnderlineText(holder.tvConsignmentNumber, consignment.getConsignmentNumber());
             if (consignment.getConsignmentType() == Consignment.INCOME_CONSIGNMENT)
-                holder.tvDebtAmount.setText(String.valueOf(-1 * consignment.getTotalAmount()) + " " + this.currency.getAbbr());
+                holder.tvDebtAmount.setText(decimalFormat.format(-1 * consignment.getTotalAmount()) + " " + this.currency.getAbbr());
             else
-                holder.tvDebtAmount.setText(String.valueOf(consignment.getTotalAmount()) + " " + this.currency.getAbbr());
+                holder.tvDebtAmount.setText(decimalFormat.format(consignment.getTotalAmount()) + " " + this.currency.getAbbr());
             Date date = new Date(consignment.getCreatedDate());
             holder.tvDate.setText(formatter.format(date));
             if (productList.size() > 3) {
@@ -219,9 +230,9 @@ public class ConsignmentListItemAdapter extends RecyclerView.Adapter<Consignment
         } else {
             colorSubSeqUnderLine(consignment.getConsignmentNumber(), searchText, Color.parseColor("#95ccee"), holder.tvConsignmentNumber);
             if (consignment.getConsignmentType() == Consignment.INCOME_CONSIGNMENT)
-                colorSubSeq(String.valueOf(-1 * consignment.getTotalAmount()) + " " + this.currency.getAbbr(), searchText, Color.parseColor("#95ccee"), holder.tvDebtAmount);
+                colorSubSeq(decimalFormat.format(-1 * consignment.getTotalAmount()) + " " + this.currency.getAbbr(), searchText, Color.parseColor("#95ccee"), holder.tvDebtAmount);
             else
-                colorSubSeq(String.valueOf(consignment.getTotalAmount()) + " " + this.currency.getAbbr(), searchText, Color.parseColor("#95ccee"), holder.tvDebtAmount);
+                colorSubSeq(decimalFormat.format(consignment.getTotalAmount()) + " " + this.currency.getAbbr(), searchText, Color.parseColor("#95ccee"), holder.tvDebtAmount);
             Date date = new Date(consignment.getCreatedDate());
             colorSubSeq(formatter.format(date), searchText, Color.parseColor("#95ccee"), holder.tvDate);
             for (int i = 0; i < holder.llConsignmentProducts.getChildCount(); i++) {

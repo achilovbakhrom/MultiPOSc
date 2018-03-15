@@ -3,7 +3,10 @@ package com.jim.multipos.ui.inventory;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.View;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.core.SimpleActivity;
 import com.jim.multipos.data.db.model.consignment.Consignment;
@@ -31,6 +34,11 @@ public class InventoryActivity extends SimpleActivity {
                 fragment.searchText(toolbar.getSearchEditText().getText().toString());
             }
         });
+
+        toolbar.getBarcodeView().setOnClickListener(view -> {
+            IntentIntegrator intentIntegrator = new IntentIntegrator(InventoryActivity.this);
+            intentIntegrator.initiateScan();
+        });
     }
 
     @Override
@@ -51,4 +59,16 @@ public class InventoryActivity extends SimpleActivity {
         startActivity(intent);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (intentResult != null) {
+            if (intentResult.getContents() != null) {
+                InventoryFragment fragment = (InventoryFragment) getCurrentFragment();
+                if (fragment != null && fragment.isVisible())
+                    fragment.searchText(intentResult.getContents());
+            }
+        }
+    }
 }

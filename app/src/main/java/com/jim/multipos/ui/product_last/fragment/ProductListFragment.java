@@ -403,7 +403,7 @@ public class ProductListFragment extends BaseFragment {
     }
 
     public void showCannotDeleteActiveItemDialog() {
-        UIUtils.showAlert(getContext(), getString(R.string.ok), getString(R.string.warning_deletion_of_active_elements),
+        UIUtils.showAlert(getContext(), getString(R.string.ok), getString(R.string.warning),
                 getString(R.string.cannot_delete_active_item), () -> Log.d("sss", "onButtonClicked: "));
     }
 }

@@ -17,6 +17,7 @@ import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.ui.mainpospage.adapter.DiscountAdapter;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -45,10 +46,12 @@ public class DiscountDialog extends Dialog implements DiscountAdapter.OnClickLis
     private double orginalAmount;
     private int discountApplyType;
 
-    public interface CallbackDiscountDialog{
+    public interface CallbackDiscountDialog {
         void choiseStaticDiscount(Discount discount);
+
         void choiseManualDiscount(Discount discount);
     }
+
     public DiscountDialog(@NonNull Context context, DatabaseManager databaseManager, CallbackDiscountDialog callbackDiscountDialog, double orginalAmount, int discountApplyType, DecimalFormat decimalFormat) {
         super(context);
         this.databaseManager = databaseManager;
@@ -61,7 +64,13 @@ public class DiscountDialog extends Dialog implements DiscountAdapter.OnClickLis
         setContentView(dialogView);
         View v = getWindow().getDecorView();
         v.setBackgroundResource(android.R.color.transparent);
-        discounts = databaseManager.getAllDiscounts().blockingGet();
+        discounts = new ArrayList<>();
+        databaseManager.getAllDiscounts().subscribe(discounts1 -> {
+            for (Discount discount : discounts1) {
+                if (discount.getUsedType() == discountApplyType || discount.getUsedType() == Discount.ALL)
+                    discounts.add(discount);
+            }
+        });
         if (caption != null) {
             tvCaption.setText(caption);
         }
@@ -72,7 +81,7 @@ public class DiscountDialog extends Dialog implements DiscountAdapter.OnClickLis
         RxView.clicks(btnBack).subscribe(o -> dismiss());
 
         RxView.clicks(btnAdd).subscribe(o -> {
-            AddDiscountDialog dialog = new AddDiscountDialog(getContext(), databaseManager, orginalAmount, discountApplyType,callbackDiscountDialog, decimalFormat);
+            AddDiscountDialog dialog = new AddDiscountDialog(getContext(), databaseManager, orginalAmount, discountApplyType, callbackDiscountDialog, decimalFormat);
 
             dialog.show();
             dismiss();

@@ -7,10 +7,16 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 
 import com.jakewharton.rxbinding2.view.RxView;
+import com.jim.mpviews.MPosSpinner;
 import com.jim.mpviews.MpButton;
 import com.jim.mpviews.MpEditText;
 import com.jim.multipos.R;
+import com.jim.multipos.data.DatabaseManager;
+import com.jim.multipos.data.db.model.Account;
 import com.jim.multipos.utils.UIUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,7 +27,7 @@ import butterknife.ButterKnife;
 
 public class TipsDialog extends Dialog {
     public interface OnClickListener {
-        void onOkClick(double value);
+        void onOkClick(double value, Account account);
     }
 
     @BindView(R.id.btnCancel)
@@ -30,13 +36,18 @@ public class TipsDialog extends Dialog {
     MpButton btnOK;
     @BindView(R.id.etTipAmount)
     MpEditText etTipAmount;
+    @BindView(R.id.spTipAccount)
+    MPosSpinner spTipAccount;
+
     private OnClickListener listener;
     private double change;
+    private final DatabaseManager databaseManager;
 
-    public TipsDialog(@NonNull Context context, OnClickListener listener,double change) {
+    public TipsDialog(@NonNull Context context, OnClickListener listener, double change, DatabaseManager databaseManager) {
         super(context);
         this.listener = listener;
         this.change = change;
+        this.databaseManager = databaseManager;
     }
     double value = 0;
 
@@ -48,6 +59,13 @@ public class TipsDialog extends Dialog {
         getWindow().getDecorView().setBackgroundResource(R.color.colorTransparent);
 
         ButterKnife.bind(this);
+
+        List<Account> accountList = databaseManager.getAccounts();
+        List<String> strings = new ArrayList<>();
+        for(Account account: accountList){
+            strings.add(account.getName());
+        }
+        spTipAccount.setAdapter(strings);
         etTipAmount.setText(Double.toString(change));
         RxView.clicks(btnCancel).subscribe(o -> dismiss());
         RxView.clicks(btnOK).subscribe(o -> {
@@ -69,7 +87,7 @@ public class TipsDialog extends Dialog {
             UIUtils.closeKeyboard(etTipAmount, getContext());
 
             new Handler().postDelayed(() -> {
-                listener.onOkClick(value);
+                listener.onOkClick(value, accountList.get(spTipAccount.getSelectedPosition()));
                 dismiss();
             },200);
 

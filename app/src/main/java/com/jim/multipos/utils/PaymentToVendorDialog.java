@@ -3,9 +3,14 @@ package com.jim.multipos.utils;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,11 +25,17 @@ import com.jim.multipos.data.db.model.Account;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
 import com.jim.multipos.data.db.model.products.Vendor;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.FieldPosition;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -79,6 +90,16 @@ public class PaymentToVendorDialog extends Dialog {
         View dialogView = getLayoutInflater().inflate(R.layout.payment_to_vendor_dialog, null);
         ButterKnife.bind(this, dialogView);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        DecimalFormat decimalFormat;
+        NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
+        numberFormat.setMaximumFractionDigits(2);
+        decimalFormat = (DecimalFormat) numberFormat;
+        DecimalFormatSymbols symbols = decimalFormat.getDecimalFormatSymbols();
+        symbols.setGroupingSeparator(' ');
+        decimalFormat.setDecimalFormatSymbols(symbols);
+
+
         llFromAccount.setOnClickListener(view -> {
             chbFromAccount.setChecked(!chbFromAccount.isChecked());
         });
@@ -124,7 +145,7 @@ public class PaymentToVendorDialog extends Dialog {
             datePickerDialog.show();
         });
         if (operations != null) {
-            etAmmount.setText(String.valueOf(operations.getAmount()));
+            etAmmount.setText(decimalFormat.format(operations.getAmount()));
             Date date = new Date(operations.getPaymentDate());
             etDate.setText(simpleDateFormat.format(date));
             etDisc.setText(operations.getDescription());
@@ -142,6 +163,7 @@ public class PaymentToVendorDialog extends Dialog {
                 }
             }
         }
+        etAmmount.addTextChangedListener(new NumberTextWatcher(etAmmount));
 
         btnWarningYES.setOnClickListener(view -> {
             double ammount = 0;
@@ -151,7 +173,7 @@ public class PaymentToVendorDialog extends Dialog {
                 return;
             }
             try {
-                ammount = Double.parseDouble(etAmmount.getText().toString());
+                ammount = decimalFormat.parse(etAmmount.getText().toString()).doubleValue();
             } catch (Exception o) {
                 etAmmount.setError(context.getString(R.string.invalid));
                 return;
@@ -160,43 +182,54 @@ public class PaymentToVendorDialog extends Dialog {
                 etAmmount.setError(context.getString(R.string.ammount_cant_be_zero));
                 return;
             }
-            BillingOperations billingOperations = new BillingOperations();
-            billingOperations.setAmount(ammount);
 
-            if (chbFromAccount.isChecked()) {
-                billingOperations.setAccount(accounts.get(spAccount.getSelectedPosition()));
-            } else billingOperations.setAccount(null);
-            if (operations != null) {
-                Date date = new Date(operations.getPaymentDate());
-                if (simpleDateFormat.format(date).equals(etDate.getText().toString())) {
-                    billingOperations.setPaymentDate(operations.getPaymentDate());
+            boolean hasOpenTill = databaseManager.hasOpenTill().blockingGet();
+            if (!hasOpenTill && chbFromAccount.isChecked()) {
+                WarningDialog warningDialog = new WarningDialog(getContext());
+                warningDialog.onlyText(true);
+                warningDialog.setWarningMessage("Opened till wasn't found. Please, open till");
+                warningDialog.setOnYesClickListener(view1 -> warningDialog.dismiss());
+                warningDialog.show();
+            } else {
+                BillingOperations billingOperations = new BillingOperations();
+                billingOperations.setAmount(ammount);
+
+                if (chbFromAccount.isChecked()) {
+                    billingOperations.setAccount(accounts.get(spAccount.getSelectedPosition()));
+                } else billingOperations.setAccount(null);
+                if (operations != null) {
+                    Date date = new Date(operations.getPaymentDate());
+                    if (simpleDateFormat.format(date).equals(etDate.getText().toString())) {
+                        billingOperations.setPaymentDate(operations.getPaymentDate());
+                    } else billingOperations.setPaymentDate(calendar.getTimeInMillis());
                 } else billingOperations.setPaymentDate(calendar.getTimeInMillis());
-            } else billingOperations.setPaymentDate(calendar.getTimeInMillis());
-            billingOperations.setCreateAt(System.currentTimeMillis());
-            billingOperations.setIsActive(true);
-            billingOperations.setIsNotModified(true);
-            billingOperations.setVendor(vendor);
-            billingOperations.setDescription(etDisc.getText().toString());
-            billingOperations.setOperationType(BillingOperations.PAID_TO_CONSIGNMENT);
-            if (operations != null) {
-                if (operations.getRootId() != null)
-                    billingOperations.setRootId(operations.getRootId());
-                else billingOperations.setRootId(operations.getId());
-                operations.setNotModifyted(false);
-                databaseManager.insertBillingOperation(operations).subscribe();
+                billingOperations.setCreateAt(System.currentTimeMillis());
+                billingOperations.setIsActive(true);
+                billingOperations.setIsNotModified(true);
+                billingOperations.setVendor(vendor);
+                billingOperations.setDescription(etDisc.getText().toString());
+                billingOperations.setOperationType(BillingOperations.PAID_TO_CONSIGNMENT);
+                if (operations != null) {
+                    if (operations.getRootId() != null)
+                        billingOperations.setRootId(operations.getRootId());
+                    else billingOperations.setRootId(operations.getId());
+                    operations.setNotModifyted(false);
+                    databaseManager.insertBillingOperation(operations).subscribe();
+                }
+                databaseManager.insertBillingOperation(billingOperations).subscribe();
+                paymentToVendorCallback.onChanged();
+                UIUtils.closeKeyboard(btnWarningYES, context);
+                dismiss();
             }
-            databaseManager.insertBillingOperation(billingOperations).subscribe();
-            paymentToVendorCallback.onChanged();
-            dismiss();
         });
         btnWarningNO.setOnClickListener(view -> {
             paymentToVendorCallback.onCancel();
+            UIUtils.closeKeyboard(btnWarningNO, context);
             dismiss();
         });
 
         setContentView(dialogView);
         View v = getWindow().getDecorView();
         v.setBackgroundResource(android.R.color.transparent);
-
     }
 }

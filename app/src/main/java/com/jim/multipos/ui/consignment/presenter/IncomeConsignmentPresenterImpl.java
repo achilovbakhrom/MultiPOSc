@@ -15,7 +15,10 @@ import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.products.VendorProductCon;
 import com.jim.multipos.ui.consignment.model.TempProduct;
 import com.jim.multipos.ui.consignment.view.IncomeConsignmentView;
+import com.jim.multipos.utils.rxevents.inventory_events.BillingOperationEvent;
 
+import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,10 +41,12 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
     private List<TempProduct> tempProductList;
     private List<BillingOperations> billingOperations;
     private DatabaseManager databaseManager;
+    private DecimalFormat decimalFormat;
     private double sum = 0;
     private List<Account> accountList;
-    private String number, description, paidSum, totalAmount;
+    private String number, description, totalAmount;
     private boolean checked;
+    private double paidSum = 0;
     private int selectedPosition;
     public static final int ADD = 0;
     public static final int EDIT = 1;
@@ -49,9 +54,10 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
     private Long productId;
 
     @Inject
-    protected IncomeConsignmentPresenterImpl(IncomeConsignmentView incomeConsignmentView, DatabaseManager databaseManager) {
+    protected IncomeConsignmentPresenterImpl(IncomeConsignmentView incomeConsignmentView, DatabaseManager databaseManager, DecimalFormat decimalFormat) {
         super(incomeConsignmentView);
         this.databaseManager = databaseManager;
+        this.decimalFormat = decimalFormat;
         consignmentProductList = new ArrayList<>();
         accountList = new ArrayList<>();
         deletedProductsList = new ArrayList<>();
@@ -140,10 +146,18 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
         this.number = number;
         this.description = description;
         this.totalAmount = totalAmount;
-        this.paidSum = paidSum;
+        try {
+            this.paidSum = decimalFormat.parse(paidSum).doubleValue();
+        } catch (ParseException e) {
+            this.paidSum = 0;
+            e.printStackTrace();
+        }
         this.checked = checked;
         this.selectedPosition = selectedPosition;
-        if (consignmentProductList.isEmpty()) {
+        boolean hasOpenTill = databaseManager.hasOpenTill().blockingGet();
+        if (!hasOpenTill && checked) {
+            view.setError("Opened till wasn't found. Please, open till");
+        } else if (consignmentProductList.isEmpty()) {
             view.setError("Please, add product to consignment");
         } else {
             int countPos = consignmentProductList.size(), costPos = consignmentProductList.size();
@@ -175,9 +189,9 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
                 operationDebt.setPaymentDate(System.currentTimeMillis());
                 operationDebt.setOperationType(BillingOperations.DEBT_CONSIGNMENT);
                 billingOperationsList.add(operationDebt);
-                if (Double.parseDouble(paidSum) != 0) {
+                if (this.paidSum != 0) {
                     BillingOperations operationPaid = new BillingOperations();
-                    operationPaid.setAmount(Double.parseDouble(paidSum));
+                    operationPaid.setAmount(this.paidSum);
                     operationPaid.setCreateAt(System.currentTimeMillis());
                     operationPaid.setVendor(this.vendor);
                     operationPaid.setPaymentDate(System.currentTimeMillis());
@@ -256,21 +270,33 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
                 }
             }
         } else {
-            int count = 0;
-            if (!number.equals("") || !description.equals("") || !totalPaid.equals("0") || !checked || selectedPosition != 0) {
+            if (!number.equals(consignment.getConsignmentNumber()) || !description.equals(consignment.getDescription()) || !checked || selectedPosition != 0) {
                 view.openDiscardDialog();
-            } else {
-                if (ids.size() != consignmentProductList.size()) {
-                    view.openDiscardDialog();
-                } else {
-                    for (int i = 0; i < consignmentProductList.size(); i++) {
-                        if (ids.contains(consignmentProductList.get(i).getId())) {
-                            count++;
+            } else if (this.consignment.getFirstPayId() != null) {
+                BillingOperations operation = databaseManager.getBillingOperationsById(this.consignment.getFirstPayId()).blockingGet();
+                try {
+                    double firstPay = decimalFormat.parse(totalPaid).doubleValue();
+                    if (firstPay != operation.getAmount())
+                        view.openDiscardDialog();
+                    else if (!totalPaid.equals("0")) {
+                        view.openDiscardDialog();
+                    } else {
+                        int count = 0;
+                        if (ids.size() != consignmentProductList.size()) {
+                            view.openDiscardDialog();
+                        } else {
+                            for (int i = 0; i < consignmentProductList.size(); i++) {
+                                if (ids.contains(consignmentProductList.get(i).getId())) {
+                                    count++;
+                                }
+                            }
+                            if (count != ids.size()) {
+                                view.openDiscardDialog();
+                            } else view.closeFragment(this.vendor);
                         }
                     }
-                    if (count != ids.size()) {
-                        view.openDiscardDialog();
-                    } else view.closeFragment(this.vendor);
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
             }
         }
@@ -307,9 +333,9 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
                 billingOperations.get(i).setNotModifyted(false);
                 databaseManager.insertBillingOperation(billingOperations.get(i)).blockingGet();
 
-            } else if (Double.parseDouble(paidSum) != 0) {
+            } else if (this.paidSum != 0) {
                 BillingOperations operationPaid = new BillingOperations();
-                operationPaid.setAmount(Double.parseDouble(paidSum));
+                operationPaid.setAmount(this.paidSum);
                 operationPaid.setCreateAt(System.currentTimeMillis());
                 operationPaid.setVendor(this.vendor);
                 operationPaid.setOperationType(PAID_TO_CONSIGNMENT);
@@ -326,9 +352,9 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
                 firstPayConfirmed = true;
             }
         }
-        if (!firstPayConfirmed && (Double.parseDouble(paidSum) != 0)) {
+        if (!firstPayConfirmed && (this.paidSum != 0)) {
             BillingOperations operationPaid = new BillingOperations();
-            operationPaid.setAmount(Double.parseDouble(paidSum));
+            operationPaid.setAmount(this.paidSum);
             operationPaid.setCreateAt(System.currentTimeMillis());
             operationPaid.setVendor(this.vendor);
             operationPaid.setOperationType(PAID_TO_CONSIGNMENT);

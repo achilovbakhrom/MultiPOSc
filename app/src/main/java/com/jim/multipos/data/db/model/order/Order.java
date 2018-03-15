@@ -1,5 +1,6 @@
 package com.jim.multipos.data.db.model.order;
 
+import com.jim.multipos.data.db.model.Account;
 import com.jim.multipos.data.db.model.DaoSession;
 import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.DiscountDao;
@@ -28,6 +29,7 @@ import com.jim.multipos.ui.mainpospage.model.DiscountItem;
 import com.jim.multipos.ui.mainpospage.model.OrderProductItem;
 import com.jim.multipos.ui.mainpospage.model.ServiceFeeItem;
 import com.jim.multipos.data.db.model.till.TillDao;
+import com.jim.multipos.data.db.model.AccountDao;
 
 /**
  * Created by developer on 20.12.2017.
@@ -82,6 +84,10 @@ public class Order {
     @ToOne(joinProperty = "tillId")
     private Till till;
 
+    private Long accountId;
+    @ToOne(joinProperty = "accountId")
+    private Account tipsAccount;
+
     @ToMany(joinProperties = {
             @JoinProperty(
                     name = "id", referencedName = "orderId"
@@ -122,13 +128,15 @@ public class Order {
     private transient DaoSession daoSession;
     @Generated(hash = 1584262592)
     private transient Long till__resolvedKey;
+    @Generated(hash = 1584231970)
+    private transient Long tipsAccount__resolvedKey;
 
 
-    @Generated(hash = 1397236009)
+    @Generated(hash = 1617461157)
     public Order(Long id, long createAt, double subTotalValue, double serviceTotalValue,
             double discountTotalValue, double tips, double totalPayed, double toDebtValue, double discountAmount,
             double serviceAmount, int status, boolean isArchive, long lastChangeLogId, long customer_id,
-            long serviceFeeId, long debtId, long discountId, Long tillId) {
+            long serviceFeeId, long debtId, long discountId, Long tillId, Long accountId) {
         this.id = id;
         this.createAt = createAt;
         this.subTotalValue = subTotalValue;
@@ -147,6 +155,7 @@ public class Order {
         this.debtId = debtId;
         this.discountId = discountId;
         this.tillId = tillId;
+        this.accountId = accountId;
     }
 
     @Generated(hash = 1105174599)
@@ -710,5 +719,42 @@ public class Order {
 
     public void setTillId(Long tillId) {
         this.tillId = tillId;
+    }
+
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 1768327602)
+    public void setTipsAccount(Account tipsAccount) {
+        synchronized (this) {
+            this.tipsAccount = tipsAccount;
+            accountId = tipsAccount == null ? null : tipsAccount.getId();
+            tipsAccount__resolvedKey = accountId;
+        }
+    }
+
+    /** To-one relationship, resolved on first access. */
+    @Generated(hash = 446638339)
+    public Account getTipsAccount() {
+        Long __key = this.accountId;
+        if (tipsAccount__resolvedKey == null || !tipsAccount__resolvedKey.equals(__key)) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            AccountDao targetDao = daoSession.getAccountDao();
+            Account tipsAccountNew = targetDao.load(__key);
+            synchronized (this) {
+                tipsAccount = tipsAccountNew;
+                tipsAccount__resolvedKey = __key;
+            }
+        }
+        return tipsAccount;
+    }
+
+    public Long getAccountId() {
+        return this.accountId;
+    }
+
+    public void setAccountId(Long accountId) {
+        this.accountId = accountId;
     }
 }

@@ -10,7 +10,7 @@
 
     <LinearLayout
         android:layout_width="@dimen/four_hundred_dp"
-        android:layout_height="@dimen/two_hundred_thirty_dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/rounded_edit_text_bg"
         android:orientation="vertical"
         android:paddingBottom="@dimen/ten_dp">
@@ -49,6 +49,24 @@
             android:paddingLeft="@dimen/eighteen_dp"
             android:textColor="#414141"
             android:textSize="@dimen/eighteen_dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/five_dp"
+            android:layout_marginLeft="@dimen/thirty_dp"
+            android:text="@string/account"
+            android:textColor="@color/colorMainText"
+            android:textSize="@dimen/sixteen_dp" />
+
+
+        <com.jim.mpviews.MPosSpinner
+            android:id="@+id/spTipAccount"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/forty_dp"
+            android:layout_marginBottom="@dimen/fifteen_dp"
+            android:layout_marginLeft="@dimen/thirty_dp"
+            android:layout_marginRight="@dimen/thirty_dp" />
 
         <LinearLayout
             android:layout_width="match_parent"

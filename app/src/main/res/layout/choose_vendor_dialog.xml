@@ -14,18 +14,34 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/fifty_dp"
+            android:layout_height="@dimen/sixty_dp"
             android:background="@drawable/rounded_blue_bg">
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:paddingLeft="@dimen/thirty_dp"
+                android:gravity="center_vertical"
                 android:text="Choose Vendor"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/twenty_dp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnAdd"
+                android:layout_width="@dimen/eighty_dp"
+                android:layout_height="@dimen/forty_dp"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/thirty_dp"
+                android:background="@drawable/customer_dialog_button_selector"
+                android:clickable="true"
+                android:textAllCaps="false"
+                android:padding="@dimen/ten_dp"
+                android:text="@string/add_plus"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/sixteen_dp"
                 android:textStyle="bold" />
 
         </LinearLayout>

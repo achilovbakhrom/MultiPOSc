@@ -2,6 +2,8 @@ package com.jim.multipos.ui.cash_management.presenter;
 
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
+import com.jim.multipos.data.db.model.inventory.HistoryInventoryState;
+import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.till.Till;
 import com.jim.multipos.data.db.model.till.TillManagementOperation;
@@ -135,6 +137,17 @@ public class CloseTillDialogFragmentPresenterImpl extends BasePresenterImpl<Clos
             orders.get(i).setIsArchive(true);
             databaseManager.insertOrder(orders.get(i)).blockingGet();
         }
+        databaseManager.getInventoryStates().subscribe(inventoryStates -> {
+            for (InventoryState inventoryState: inventoryStates) {
+                HistoryInventoryState state = new HistoryInventoryState();
+                state.setLowStockAlert(inventoryState.getLowStockAlert());
+                state.setProduct(inventoryState.getProduct());
+                state.setTill(till);
+                state.setValue(inventoryState.getValue());
+                state.setVendor(inventoryState.getVendor());
+                databaseManager.insertHistoryInventoryState(state).blockingGet();
+            }
+        });
         databaseManager.insertTill(till).blockingGet();
         view.setTillStatus(Till.CLOSED);
         view.closeTillDialog();

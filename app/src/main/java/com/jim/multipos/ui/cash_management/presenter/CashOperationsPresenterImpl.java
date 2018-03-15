@@ -162,10 +162,12 @@ public class CashOperationsPresenterImpl extends BasePresenterImpl<CashOperation
                 if (account.getStaticAccountType() == 1)
                     cashTransactions -= change;
             }
-            tips += order.getTips();
+            if (order.getTipsAccount() != null && account.getStaticAccountType() == order.getTipsAccount().getStaticAccountType()){
+                tips += order.getTips();
+            }
         }
 
-        double cash = payIn - payOut - payToVendor + incomeDebt - bankDrop + cashTransactions + totalStartingCash;
+        double cash = payIn - payOut - payToVendor + incomeDebt - bankDrop + cashTransactions + totalStartingCash - tips;
 
         return cash >= 0;
     }

@@ -16,6 +16,7 @@ import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.ui.cash_management.CashManagementActivity;
+import com.jim.multipos.ui.lock_screen.LockScreenActivity;
 import com.jim.multipos.ui.main_menu.customers_menu.CustomersMenuActivity;
 import com.jim.multipos.ui.main_menu.inventory_menu.InventoryMenuActivity;
 import com.jim.multipos.ui.main_menu.product_menu.ProductMenuActivity;
@@ -59,7 +60,6 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
     TextClock tvTime;
     @BindView(R.id.tvDate)
     TextView tvDate;
-    private Handler handler;
     @Inject
     DatabaseManager databaseManager;
     @Inject
@@ -76,6 +76,7 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
     @Inject
     PreferencesHelper preferencesHelper;
     private ArrayList<Disposable> subscriptions;
+    private Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +124,16 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
                 public void onReturn() {
                     ReturnsDialog dialog = new ReturnsDialog(MainPosPageActivity.this, databaseManager, decimalFormat, null, rxBus);
                     dialog.show();
+                }
+
+                @Override
+                public void onSettings() {
+
+                }
+
+                @Override
+                public void onLogOut() {
+                    startActivity(new Intent(MainPosPageActivity.this, LockScreenActivity.class));
                 }
             });
             mainMenuDialog.show();

@@ -499,19 +499,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                             }
                         });
                     else openProduct(product);
-                } else if ((this.productClass != null && this.product.getProductClass() == null) || (this.productClass == null && this.product.getProductClass() != null)) {
-                    view.showDiscardChangesDialog(new UIUtils.AlertListener() {
-                        @Override
-                        public void onPositiveButtonClicked() {
-                            openProduct(product);
-                        }
-
-                        @Override
-                        public void onNegativeButtonClicked() {
-                            view.selectProductListItem(ProductPresenterImpl.this.product.getId());
-                            mode = CategoryAddEditMode.PRODUCT_EDIT_MODE;
-                        }
-                    });
                 } else {
                     openProduct(product);
                 }
@@ -1252,7 +1239,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             case PRODUCT_ADD_MODE:
                 Product product = new Product();
                 product.setName(name);
-                product.setBarcode(barcode);
+                product.setBarcode(barcode.replace(" ", ""));
                 product.setSku(sku);
                 product.setPhotoPath(photoPath);
                 product.setIsActive(isActive);
@@ -1299,7 +1286,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                         if (ProductPresenterImpl.this.product != null) {
                             Product result = new Product();
                             result.setName(name);
-                            result.setBarcode(barcode);
+                            result.setBarcode(barcode.replace(" ", ""));
                             result.setSku(sku);
                             result.setPhotoPath(photoPath);
                             result.setIsActive(isActive);
@@ -1398,6 +1385,16 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 view.setUnitsToProductsAddEdit(result, unitPos);
             }
         }
+    }
+
+    @Override
+    public boolean isProductNameExists(String name) {
+        if (mode == CategoryAddEditMode.PRODUCT_EDIT_MODE){
+            if (ProductPresenterImpl.this.product.getName().equals(name)){
+                return false;
+            }
+        }
+        return databaseManager.isProductNameExists(name, subcategory.getId()).blockingSingle();
     }
 
 
@@ -1778,19 +1775,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                             }
                         });
                     else view.finishActivity();
-                } else if ((this.productClass != null && this.product.getProductClass() == null) || (this.productClass == null && this.product.getProductClass() != null)) {
-                    view.showDiscardChangesDialog(new UIUtils.AlertListener() {
-                        @Override
-                        public void onPositiveButtonClicked() {
-                            openProduct(product);
-                        }
-
-                        @Override
-                        public void onNegativeButtonClicked() {
-                            view.selectProductListItem(ProductPresenterImpl.this.product.getId());
-                            mode = CategoryAddEditMode.PRODUCT_EDIT_MODE;
-                        }
-                    });
                 } else {
                     view.finishActivity();
                 }

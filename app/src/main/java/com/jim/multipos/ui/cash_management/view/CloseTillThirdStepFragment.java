@@ -43,7 +43,7 @@ public class CloseTillThirdStepFragment extends BaseFragment implements CloseTil
     @Override
     protected void init(Bundle savedInstanceState) {
         connection.setCloseTillThirdStepView(this);
-        swCloseTill.setRight(true);
+        swCloseTill.setLeft(true);
         rvHoldAmount.setLayoutManager(new LinearLayoutManager(getContext()));
         presenter.initData();
         swCloseTill.setSwitcherStateChangedListener((isRight, isLeft) -> {

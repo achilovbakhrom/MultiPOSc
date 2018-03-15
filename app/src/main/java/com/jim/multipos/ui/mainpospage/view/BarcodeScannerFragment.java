@@ -132,6 +132,7 @@ public class BarcodeScannerFragment extends BaseFragment implements BarcodeScann
         TextView warningText = productView.findViewById(R.id.tvWarningText);
         warningText.setText("There is no product with such barcode. Do you want add it?");
         MpCheckbox chbShowMode = productView.findViewById(R.id.chbDontShowAgain);
+        chbShowMode.setChecked(false);
         chbShowMode.setCheckedChangeListener(isChecked -> preferencesHelper.setShowMode(isChecked));
         MpButton btnNo = productView.findViewById(R.id.btnWarningNO);
         MpButton btnYes = productView.findViewById(R.id.btnWarningYES);

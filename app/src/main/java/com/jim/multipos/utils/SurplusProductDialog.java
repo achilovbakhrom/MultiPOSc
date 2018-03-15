@@ -95,16 +95,12 @@ public class SurplusProductDialog extends Dialog {
             }
         });
         btnNext.setOnClickListener(view -> {
-            if(aDouble!=0) {
                 UIUtils.closeKeyboard(etShortage,context);
                 Handler handler = new Handler();
                 handler.postDelayed(() -> {
                     surplus.surplus(inventoryItem, inventoryItem.getProduct().getVendor().get(spVenders.getSelectedPosition()), aDouble, etReason.getText().toString(), v1);
                     dismiss();
                 },300);
-
-            }
-            else etShortage.setError(context.getString(R.string.write_of_zero));
         });
         btnCancel.setOnClickListener(view -> {
             dismiss();

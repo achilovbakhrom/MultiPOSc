@@ -66,10 +66,13 @@ public class CashDetailsPresenterImpl extends BasePresenterImpl<CashDetailsView>
                         }
                         double change = order.getChange();
                         if (change > 0) {
-                            if (account.getStaticAccountType() == 1)
+                            if (account.getStaticAccountType() == 1){
                                 cashTransactions -= change;
+                            }
                         }
-                        tips += order.getTips();
+                        if (order.getTipsAccount() != null && account.getStaticAccountType() == order.getTipsAccount().getStaticAccountType()){
+                            tips += order.getTips();
+                        }
                     } else if (order.getStatus() == Order.HOLD_ORDER) {
                         for (int j = 0; j < order.getPayedPartitions().size(); j++) {
                             PayedPartitions payedPartitions = order.getPayedPartitions().get(j);
@@ -77,7 +80,9 @@ public class CashDetailsPresenterImpl extends BasePresenterImpl<CashDetailsView>
                                 cashTransactions += payedPartitions.getValue();
                             }
                         }
-                        tips += order.getTips();
+                        if (order.getTipsAccount() != null && account.getStaticAccountType() == order.getTipsAccount().getStaticAccountType()){
+                            tips += order.getTips();
+                        }
                     }
                 }
             } else {
@@ -91,7 +96,7 @@ public class CashDetailsPresenterImpl extends BasePresenterImpl<CashDetailsView>
                 tips = tillDetails.getTips();
                 totalStartingCash = tillDetails.getTotalStartingCash();
             }
-            double expectedCash = payIn - payOut - payToVendor + incomeDebt - bankDrop + cashTransactions + totalStartingCash;
+            double expectedCash = payIn - payOut - payToVendor + incomeDebt - bankDrop + cashTransactions + totalStartingCash - tips;
             view.fillTillDetails(totalStartingCash, payOut, payIn, payToVendor, incomeDebt, bankDrop, expectedCash, tips, cashTransactions);
         }
 

@@ -45,12 +45,12 @@ public class MpToolbar extends RelativeLayout {
     public static final int PAYMENT_MODE = 14;
     public static final int BALANCE_MODE = 15;
 
-    private SimpleDateFormat simpleDateFormat ;
+    private SimpleDateFormat simpleDateFormat;
     private int mode;
     boolean pressed = false;
-    private LinearLayout mpMainMenu, llEmployer,llDateIntervalPicker;
+    private LinearLayout mpMainMenu, llEmployer, llDateIntervalPicker;
     private RelativeLayout mpSearch;
-    private RelativeLayout mpLeftSide, mpRightSide,rlBackgroun;
+    private RelativeLayout mpLeftSide, mpRightSide, rlBackgroun;
     private ImageView mpSettings;
     private MpHorizontalScroller mpHorizontalScroller;
     private MpSearchView mpSearchView;
@@ -79,8 +79,13 @@ public class MpToolbar extends RelativeLayout {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs);
     }
-    public EditText getSearchEditText(){
+
+    public EditText getSearchEditText() {
         return mpSearchView.getSearchView();
+    }
+
+    public ImageView getBarcodeView() {
+        return mpSearchView.getBarcodeView();
     }
 
     public void init(Context context, AttributeSet attributeSet) {
@@ -101,7 +106,7 @@ public class MpToolbar extends RelativeLayout {
         rlBackgroun = (RelativeLayout) findViewById(R.id.rlBackgroun);
         mode = array.getInt(R.styleable.MpToolbar_view_mode, DEFAULT_MODE);
         setMode(mode);
-        simpleDateFormat =  new SimpleDateFormat(" MMM dd, yyyy");
+        simpleDateFormat = new SimpleDateFormat(" MMM dd, yyyy");
         mpSettings.setOnTouchListener((view, motionEvent) -> {
             switch (motionEvent.getAction()) {
                 case MotionEvent.ACTION_DOWN:
@@ -229,7 +234,7 @@ public class MpToolbar extends RelativeLayout {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         pressed = false;
-                        if(!isSearchFragmentOpened){
+                        if (!isSearchFragmentOpened) {
                             pressed = true;
                             VibrateManager.startVibrate(context, 50);
                             onSearchClickListener.onOpen();
@@ -239,11 +244,11 @@ public class MpToolbar extends RelativeLayout {
                         }
                         return true;
                     case MotionEvent.ACTION_UP:
-                        if(pressed){
+                        if (pressed) {
                             pressed = false;
                             return false;
                         }
-                        if(isSearchFragmentOpened){
+                        if (isSearchFragmentOpened) {
                             onSearchClickListener.onClose();
                             isSearchFragmentOpened = false;
                             findViewById(R.id.searchLine).setVisibility(VISIBLE);
@@ -256,11 +261,12 @@ public class MpToolbar extends RelativeLayout {
         });
         array.recycle();
     }
+
     boolean isSearchFragmentOpened = false;
+
     public void setOnProductClickListener(OnClickListener productClickListener) {
         findViewById(R.id.mpProducts).setOnClickListener(productClickListener);
     }
-
 
 
     public void setOnInventoryClickListener(OnClickListener inventoryClickListener) {
@@ -278,16 +284,21 @@ public class MpToolbar extends RelativeLayout {
     public void setOnOrderClickListener(OnClickListener orderClickListener) {
         mpHorizontalScroller.setOnItemClickListener(orderClickListener);
     }
-    public void setOnLeftOrderClickListner(OnClickListener onLeftOrderClickListner){
+
+    public void setOnLeftOrderClickListner(OnClickListener onLeftOrderClickListner) {
         mpHorizontalScroller.setOnLeftArrowClickListner(onLeftOrderClickListner);
     }
-    public void setOnRightOrderClickListner(OnClickListener onRightOrderClickListner){
+
+    public void setOnRightOrderClickListner(OnClickListener onRightOrderClickListner) {
         mpHorizontalScroller.setOnRightArrowClickListner(onRightOrderClickListner);
     }
-    public interface CallbackSearchFragmentClick{
+
+    public interface CallbackSearchFragmentClick {
         void onOpen();
+
         void onClose();
     }
+
     public void setOnSearchClickListener(CallbackSearchFragmentClick onSearchClickListener) {
         this.onSearchClickListener = onSearchClickListener;
 
@@ -350,7 +361,7 @@ public class MpToolbar extends RelativeLayout {
                 findViewById(R.id.blackLine).setVisibility(GONE);
                 break;
             }
-            case WITH_CALENDAR_TYPE:{
+            case WITH_CALENDAR_TYPE: {
                 mpRightSide.setVisibility(GONE);
                 mpMainMenu.setVisibility(GONE);
                 mpSettings.setVisibility(GONE);
@@ -362,7 +373,7 @@ public class MpToolbar extends RelativeLayout {
                 findViewById(R.id.blackLine).setVisibility(GONE);
                 break;
             }
-            case WITH_SEARCH_CALENDAR_TYPE:{
+            case WITH_SEARCH_CALENDAR_TYPE: {
                 mpRightSide.setVisibility(GONE);
                 mpMainMenu.setVisibility(GONE);
                 mpSettings.setVisibility(GONE);
@@ -376,14 +387,18 @@ public class MpToolbar extends RelativeLayout {
 
         }
     }
-    public void setDatePickerIntervalText(String intervalText){
+
+    public void setDatePickerIntervalText(String intervalText) {
         tvPeriod.setText(intervalText);
     }
-    public interface DataIntervalCallbackToToolbar{
+
+    public interface DataIntervalCallbackToToolbar {
         void onDataIntervalPickerPressed();
+
         void clearInterval();
     }
-    public void setDataIntervalPicker(Calendar from, Calendar to,DataIntervalCallbackToToolbar dataIntervalPicker){
+
+    public void setDataIntervalPicker(Calendar from, Calendar to, DataIntervalCallbackToToolbar dataIntervalPicker) {
         this.from = from;
         this.to = to;
         setCurrentIntervalToView();
@@ -396,15 +411,16 @@ public class MpToolbar extends RelativeLayout {
         });
 
     }
-    public void changeInterval (Calendar from,Calendar to){
+
+    public void changeInterval(Calendar from, Calendar to) {
         this.from = from;
         this.to = to;
         setCurrentIntervalToView();
 
     }
 
-    private void setCurrentIntervalToView(){
-        if(from == null && to == null) return;
+    private void setCurrentIntervalToView() {
+        if (from == null && to == null) return;
         StringBuilder builder = new StringBuilder();
         builder.append(simpleDateFormat.format(from.getTime()));
         builder.append(" - ");
@@ -415,7 +431,6 @@ public class MpToolbar extends RelativeLayout {
     public void setOrderNumber(String orderNumber) {
         mpHorizontalScroller.setOrderNumber(orderNumber);
     }
-
 
 
     @Override
@@ -475,16 +490,18 @@ public class MpToolbar extends RelativeLayout {
             }
         };
     }
-    public void changeToCloseImgIntervalPick(){
-        ((ImageView)findViewById(R.id.ivClearInterval)).setImageResource(R.drawable.interval_close);
-        ((ImageView)findViewById(R.id.ivClearInterval)).setEnabled(true);
-        ((ImageView)findViewById(R.id.ivClearInterval)).setOnClickListener(view -> {
-            if(dataIntervalPicker!=null)
+
+    public void changeToCloseImgIntervalPick() {
+        ((ImageView) findViewById(R.id.ivClearInterval)).setImageResource(R.drawable.interval_close);
+        ((ImageView) findViewById(R.id.ivClearInterval)).setEnabled(true);
+        ((ImageView) findViewById(R.id.ivClearInterval)).setOnClickListener(view -> {
+            if (dataIntervalPicker != null)
                 dataIntervalPicker.clearInterval();
         });
     }
-    public void changeToCalendarImgIntervalPick(){
-        ((ImageView)findViewById(R.id.ivClearInterval)).setImageResource(R.drawable.calendar_icon);
+
+    public void changeToCalendarImgIntervalPick() {
+        ((ImageView) findViewById(R.id.ivClearInterval)).setImageResource(R.drawable.calendar_icon);
         findViewById(R.id.ivClearInterval).setOnClickListener(view -> {
             dataIntervalPicker.onDataIntervalPickerPressed();
         });

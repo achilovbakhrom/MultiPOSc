@@ -78,8 +78,14 @@ public class MainMenuDialog extends Dialog {
             listener.onCashManagement();
             dismiss();
         });
-        tvLogOut.setOnClickListener(view -> dismiss());
-        tvSettings.setOnClickListener(view -> dismiss());
+        tvLogOut.setOnClickListener(view -> {
+            listener.onLogOut();
+            dismiss();
+        });
+        tvSettings.setOnClickListener(view -> {
+            listener.onSettings();
+            dismiss();
+        });
         tvClose.setOnClickListener(view -> dismiss());
 
         if (!isBarcodeShown)
@@ -88,17 +94,19 @@ public class MainMenuDialog extends Dialog {
 
         tvBarcodeScanner.setOnClickListener(view -> {
             if (!isBarcodeShown)
-            listener.onTurnOnBarcodeScanner();
+                listener.onTurnOnBarcodeScanner();
             else listener.onTurnOffBarcodeScanner();
             dismiss();
         });
     }
 
-    public interface onMenuItemClickListener{
+    public interface onMenuItemClickListener {
         void onCashManagement();
         void onTurnOnBarcodeScanner();
         void onTurnOffBarcodeScanner();
         void onReturn();
+        void onSettings();
+        void onLogOut();
     }
 
 }

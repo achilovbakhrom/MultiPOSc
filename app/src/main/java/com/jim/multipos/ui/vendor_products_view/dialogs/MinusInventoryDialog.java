@@ -94,7 +94,6 @@ public class MinusInventoryDialog extends DialogFragment {
         RxView.clicks(btnNext).subscribe(o -> {
             if (!etShortage.getText().toString().isEmpty()) {
                 shortage = Double.parseDouble(etShortage.getText().toString()) * -1;
-//                inventory.setValue(Double.parseDouble(tvActual.getText().toString()));
                 listener.updateInventory(inventory, shortage);
             }
             dismiss();

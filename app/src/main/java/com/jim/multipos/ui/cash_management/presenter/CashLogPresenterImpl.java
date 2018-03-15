@@ -139,7 +139,9 @@ public class CashLogPresenterImpl extends BasePresenterImpl<CashLogView> impleme
                     if (account.getStaticAccountType() == 1)
                         cashTransactions -= change;
                 }
-                tips += order.getTips();
+                if (order.getTipsAccount() != null && account.getStaticAccountType() == order.getTipsAccount().getStaticAccountType()){
+                    tips += order.getTips();
+                }
             }
             TillDetails details = new TillDetails();
             details.setAccount(account);

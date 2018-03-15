@@ -217,7 +217,7 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
             }
         } else {
             int count = 0;
-            if (!number.equals("") || !des.equals("")) {
+            if (!number.equals(this.returnConsignment.getConsignmentNumber()) || !des.equals(this.returnConsignment.getDescription())) {
                 view.openDiscardDialog();
             } else {
                 if (ids.size() != consignmentProductList.size()) {

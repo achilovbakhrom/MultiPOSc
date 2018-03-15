@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.jim.multipos.R;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -88,4 +90,9 @@ public abstract class BaseActivity extends AppCompatActivity implements HasSuppo
     }
 
     public void onBarcodeScan(String barcode){}
+
+    public final Fragment getCurrentFragment(){
+        return  activityFragmentManager.findFragmentById(R.id.flMain);
+
+    }
 }

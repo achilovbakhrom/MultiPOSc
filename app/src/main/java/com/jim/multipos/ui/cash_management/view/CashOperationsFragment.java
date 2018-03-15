@@ -2,7 +2,9 @@ package com.jim.multipos.ui.cash_management.view;
 
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -23,9 +25,13 @@ import com.jim.multipos.ui.cash_management.dialog.OpenTillDialog;
 import com.jim.multipos.ui.cash_management.presenter.CashOperationsPresenter;
 import com.jim.multipos.utils.UIUtils;
 
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -81,12 +87,13 @@ public class CashOperationsFragment extends BaseFragment implements CashOperatio
     @Inject
     CashOperationsPresenter presenter;
     @Inject
-    DecimalFormat decimalFormat;
-    @Inject
     CashManagementConnection connection;
     @Inject
     DatabaseManager databaseManager;
     private int tillStatus;
+    private DecimalFormat df, decimalFormat, dfnd;
+    private TextWatcher watcher;
+    private boolean hasFractionalPart = false;
 
     @Override
     protected int getLayout() {
@@ -95,6 +102,23 @@ public class CashOperationsFragment extends BaseFragment implements CashOperatio
 
     @Override
     protected void init(Bundle savedInstanceState) {
+
+        df = new DecimalFormat("#,###.##");
+        df.setRoundingMode(RoundingMode.DOWN);
+        df.setDecimalSeparatorAlwaysShown(true);
+
+        dfnd = new DecimalFormat("#,###");
+        dfnd.setRoundingMode(RoundingMode.DOWN);
+
+        DecimalFormat formatter;
+        NumberFormat numberFormat = NumberFormat.getNumberInstance(new Locale("RU"));
+        numberFormat.setMaximumFractionDigits(2);
+        formatter = (DecimalFormat) numberFormat;
+        DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
+        symbols.setGroupingSeparator(' ');
+        formatter.setDecimalFormatSymbols(symbols);
+        decimalFormat = formatter;
+
         presenter.initData();
         connection.setCashOperationsView(this);
         btnClear.getNumPadTextView().setTextColor(ContextCompat.getColor(getContext(), R.color.colorTintGrey));
@@ -102,31 +126,31 @@ public class CashOperationsFragment extends BaseFragment implements CashOperatio
         etPaymentAmount.setTextIsSelectable(true);
         initButtons();
         btnPayIn.setOnClickListener(view -> {
-                try {
-                    presenter.doPayIn(decimalFormat.parse(etPaymentAmount.getText().toString()).doubleValue());
-                    etPaymentAmount.setText("");
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                    etPaymentAmount.setError(getContext().getString(R.string.ammount_is_empty));
-                }
+            try {
+                presenter.doPayIn(decimalFormat.parse(etPaymentAmount.getText().toString()).doubleValue());
+                etPaymentAmount.setText("");
+            } catch (ParseException e) {
+                e.printStackTrace();
+                etPaymentAmount.setError(getContext().getString(R.string.ammount_is_empty));
+            }
         });
         btnPayOut.setOnClickListener(view -> {
-                try {
-                    presenter.doPayOut(decimalFormat.parse(etPaymentAmount.getText().toString()).doubleValue());
-                    etPaymentAmount.setText("");
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                    etPaymentAmount.setError(getContext().getString(R.string.ammount_is_empty));
-                }
+            try {
+                presenter.doPayOut(decimalFormat.parse(etPaymentAmount.getText().toString()).doubleValue());
+                etPaymentAmount.setText("");
+            } catch (ParseException e) {
+                e.printStackTrace();
+                etPaymentAmount.setError(getContext().getString(R.string.ammount_is_empty));
+            }
         });
         btnBankDrop.setOnClickListener(view -> {
-                try {
-                    presenter.doBankDrop(decimalFormat.parse(etPaymentAmount.getText().toString()).doubleValue());
-                    etPaymentAmount.setText("");
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                    etPaymentAmount.setError(getContext().getString(R.string.ammount_is_empty));
-                }
+            try {
+                presenter.doBankDrop(decimalFormat.parse(etPaymentAmount.getText().toString()).doubleValue());
+                etPaymentAmount.setText("");
+            } catch (ParseException e) {
+                e.printStackTrace();
+                etPaymentAmount.setError(getContext().getString(R.string.ammount_is_empty));
+            }
         });
         btnCloseTill.setOnClickListener(view -> {
             if (tillStatus == Till.OPEN) {
@@ -135,6 +159,62 @@ public class CashOperationsFragment extends BaseFragment implements CashOperatio
                 presenter.showOpenTillDialog();
             }
         });
+
+        watcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.toString().contains(String.valueOf(df.getDecimalFormatSymbols().getDecimalSeparator()))) {
+                    hasFractionalPart = true;
+                } else {
+                    hasFractionalPart = false;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                etPaymentAmount.removeTextChangedListener(this);
+
+
+                int inilen, endlen;
+                inilen = etPaymentAmount.getText().length();
+
+                String v = editable.toString().replace(String.valueOf(df.getDecimalFormatSymbols().getGroupingSeparator()), "");
+
+                Number n = 0;
+                try {
+                    n = df.parse(v);
+                } catch (ParseException e) {
+                    // do nothing?
+                }
+                n = roundTwoDecimals(n.doubleValue());
+                int cp = etPaymentAmount.getSelectionStart();
+                if (n.doubleValue() == 0 && v.isEmpty()) {
+                    etPaymentAmount.setText("");
+                } else if (hasFractionalPart) {
+                    etPaymentAmount.setText(df.format(n));
+                } else {
+                    etPaymentAmount.setText(dfnd.format(n));
+                }
+                endlen = etPaymentAmount.getText().length();
+                int sel = (cp + (endlen - inilen));
+                if (sel > 0 && sel <= etPaymentAmount.getText().length()) {
+                    etPaymentAmount.setSelection(sel);
+                } else {
+                    // place cursor at the end?
+                    int index = etPaymentAmount.getText().length();
+                    if (index < 0) index = 0;
+                    etPaymentAmount.setSelection(index);
+                }
+                etPaymentAmount.addTextChangedListener(this);
+            }
+        };
+
+        etPaymentAmount.addTextChangedListener(watcher);
     }
 
     @Override
@@ -212,24 +292,76 @@ public class CashOperationsFragment extends BaseFragment implements CashOperatio
         btnNine.setOnClickListener(view -> pressedKey("9"));
         btnZero.setOnClickListener(view -> pressedKey("0"));
         btnDoubleZero.setOnClickListener(view -> pressedKey("00"));
-        btnDot.setOnClickListener(view -> pressedKey(","));
-
+        btnDot.setOnClickListener(view -> pressedKey(decimalFormat.getDecimalFormatSymbols().getDecimalSeparator() + ""));
+        btnBackSpace.setOnLongClickListener(view -> {
+            etPaymentAmount.getText().clear();
+            return true;
+        });
         btnBackSpace.setOnClickListener(view -> {
-            StringBuilder builder = new StringBuilder();
-            builder.append(etPaymentAmount.getText().toString());
-            int selectionStart = etPaymentAmount.getSelectionStart();
-            if (selectionStart == 0) return;
-            builder.deleteCharAt(selectionStart - 1);
-            etPaymentAmount.setText(builder.toString());
-            etPaymentAmount.setSelection(selectionStart - 1);
+            if (etPaymentAmount.getSelectionStart() != etPaymentAmount.getSelectionEnd()) {
+                etPaymentAmount.getText().clear();
+            } else {
+                etPaymentAmount.removeTextChangedListener(watcher);
+
+                StringBuilder builder = new StringBuilder();
+                builder.append(etPaymentAmount.getText().toString());
+                int selectionStart = etPaymentAmount.getSelectionStart();
+                if (selectionStart <= 0) {
+                    etPaymentAmount.addTextChangedListener(watcher);
+                    return;
+                }
+                for (int i = selectionStart - 1; i >= 0; i--) {
+                    if (df.getDecimalFormatSymbols().getGroupingSeparator() != builder.charAt(i)) {
+                        builder.deleteCharAt(i);
+                        break;
+                    }
+                }
+
+                if (builder.toString().contains(String.valueOf(df.getDecimalFormatSymbols().getDecimalSeparator()))) {
+                    hasFractionalPart = true;
+                } else {
+                    hasFractionalPart = false;
+                }
+
+                int inilen, endlen;
+                inilen = builder.length();
+
+                String v = builder.toString().replace(String.valueOf(df.getDecimalFormatSymbols().getGroupingSeparator()), "");
+                Number n = 0;
+                try {
+                    n = df.parse(v);
+                } catch (NumberFormatException nfe) {
+                    // do nothing?
+                } catch (ParseException e) {
+                    // do nothing?
+                }
+                n = roundTwoDecimals(n.doubleValue());
+                int cp = selectionStart - 1;
+                if (n.doubleValue() == 0 && v.isEmpty()) {
+                    etPaymentAmount.setText("");
+                } else if (hasFractionalPart) {
+                    etPaymentAmount.setText(df.format(n));
+                } else {
+                    etPaymentAmount.setText(dfnd.format(n));
+                }
+                endlen = etPaymentAmount.getText().length();
+                int sel = (cp - (inilen - endlen));
+                if (sel > 0 && sel <= etPaymentAmount.getText().length()) {
+                    etPaymentAmount.setSelection(sel);
+                } else {
+                    etPaymentAmount.setSelection(0);
+                }
+                etPaymentAmount.addTextChangedListener(watcher);
+
+            }
         });
 
         btnClear.setOnClickListener(view -> etPaymentAmount.setText(""));
     }
 
     private void pressedKey(String key) {
-        if (key.equals(",")) {
-            if (etPaymentAmount.getText().toString().contains(","))
+        if (key.equals(decimalFormat.getDecimalFormatSymbols().getDecimalSeparator() + "")) {
+            if (etPaymentAmount.getText().toString().contains(decimalFormat.getDecimalFormatSymbols().getDecimalSeparator()+""))
                 return;
         }
         if (etPaymentAmount.getSelectionStart() != etPaymentAmount.getSelectionEnd()) {
@@ -242,5 +374,10 @@ public class CashOperationsFragment extends BaseFragment implements CashOperatio
     public void onDetach() {
         super.onDetach();
         connection.setCashOperationsView(null);
+    }
+
+    double roundTwoDecimals(double d)
+    {
+        return (double)Math.floor(d * 100) / 100;
     }
 }

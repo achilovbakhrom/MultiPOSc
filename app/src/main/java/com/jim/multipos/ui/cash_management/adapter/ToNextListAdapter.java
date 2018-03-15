@@ -11,8 +11,12 @@ import com.jim.mpviews.MpEditText;
 import com.jim.multipos.R;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.till.TillManagementOperation;
+import com.jim.multipos.utils.NumberTextWatcher;
 import com.jim.multipos.utils.TextWatcherOnTextChange;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.util.List;
 
 import butterknife.BindView;
@@ -24,6 +28,7 @@ import butterknife.ButterKnife;
 
 public class ToNextListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private final DecimalFormat decimalFormat;
     private Context context;
     private final List<TillManagementOperation> items;
     private final Currency currency;
@@ -34,6 +39,13 @@ public class ToNextListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         this.context = context;
         this.items = operations;
         this.currency = currency;
+        NumberFormat numberFormat = NumberFormat.getNumberInstance();
+        numberFormat.setMaximumFractionDigits(2);
+        decimalFormat = (DecimalFormat) numberFormat;
+        DecimalFormatSymbols symbols = decimalFormat.getDecimalFormatSymbols();
+        symbols.setDecimalSeparator('.');
+        symbols.setGroupingSeparator(' ');
+        decimalFormat.setDecimalFormatSymbols(symbols);
     }
 
     @Override
@@ -64,6 +76,7 @@ public class ToNextListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             ToNextViewHolder item = (ToNextViewHolder) holder;
             item.tvAccount.setText(items.get(position).getAccount().getName());
             item.tvCurrency.setText(currency.getAbbr());
+            item.etTotalClosed.addTextChangedListener(new NumberTextWatcher(item.etTotalClosed));
         } else if (holder instanceof ZeroInTillViewHolder) {
             ZeroInTillViewHolder item = (ZeroInTillViewHolder) holder;
             item.tvAccount.setText(items.get(position).getAccount().getName());
@@ -94,7 +107,7 @@ public class ToNextListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         @BindView(R.id.etDescription)
         MpEditText etDescription;
 
-        public ToNextViewHolder(View itemView) {
+        ToNextViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             etTotalClosed.addTextChangedListener(new TextWatcherOnTextChange() {
@@ -103,7 +116,7 @@ public class ToNextListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     if (charSequence.length() != 0) {
                         double amount = 0;
                         try {
-                            amount = Double.parseDouble(etTotalClosed.getText().toString());
+                            amount = decimalFormat.parse(etTotalClosed.getText().toString()).doubleValue();
                             items.get(getAdapterPosition()).setAmount(amount);
                         } catch (Exception e) {
                             etTotalClosed.setError(context.getString(R.string.invalid));
@@ -133,7 +146,7 @@ public class ToNextListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         @BindView(R.id.tvCurrency)
         TextView tvCurrency;
 
-        public ZeroInTillViewHolder(View itemView) {
+        ZeroInTillViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

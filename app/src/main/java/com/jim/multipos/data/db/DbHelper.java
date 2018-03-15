@@ -26,6 +26,7 @@ import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
 import com.jim.multipos.data.db.model.customer.CustomerPayment;
 import com.jim.multipos.data.db.model.customer.Debt;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
+import com.jim.multipos.data.db.model.inventory.HistoryInventoryState;
 import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.data.db.model.order.Order;
@@ -273,4 +274,6 @@ public interface DbHelper {
     Single<List<Order>> getAllTillClosedOrders();
 
     Single<Product> getProductByRootId(Long rootId);
+
+    Single<HistoryInventoryState> insertHistoryInventoryState(HistoryInventoryState state);
 }

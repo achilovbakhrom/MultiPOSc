@@ -141,7 +141,7 @@ public class AccountFragment extends BaseFragment implements ChangeableContent {
                         activity.getPresenter().openCurrency();
                         activity.changeState(FirstConfigurePresenter.ACCOUNT_POSITION, MpCompletedStateView.COMPLETED_STATE);
                     } else {
-                        getActivity().finish();
+                        ((FirstConfigureActivity) getActivity()).openLockScreen();
                     }
                 } else {
                     tvWarningText.setText(R.string.warning_account_add);

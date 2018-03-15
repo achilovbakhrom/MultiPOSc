@@ -14,7 +14,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/fifty_dp"
-            android:text="Total starting cash:"
+            android:text="Total starting amount:"
             android:textColor="@color/colorMainText" />
 
         <ImageView
@@ -202,7 +202,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/fifty_dp"
-            android:text="Cash transactions:"
+            android:text="Real product sales"
             android:textColor="@color/colorMainText" />
 
         <ImageView
@@ -233,7 +233,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/fifty_dp"
-            android:text="Coins dispensed:"
+            android:text="Tips dispensed:"
             android:textColor="@color/colorMainText" />
 
         <ImageView
@@ -264,7 +264,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/fifty_dp"
-            android:text="Expected cash in Till:"
+            android:text="Expected amount in Till:"
             android:textColor="@color/colorMainText" />
 
         <ImageView

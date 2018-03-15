@@ -115,12 +115,21 @@ public class OpenTillDialog extends Dialog {
                 }
             } else {
                 operations.clear();
-                for (int i = 0; i < tempList.size(); i++) {
-                    TillManagementOperation operation = new TillManagementOperation();
-                    operation.setAccount(tempList.get(i).getAccount());
-                    operation.setType(TillManagementOperation.OPENED_WITH);
-                    operation.setAmount(tempList.get(i).getAmount());
-                    operations.add(operation);
+                if (!isNoTill) {
+                    for (int i = 0; i < accountList.size(); i++) {
+                        TillManagementOperation operation = new TillManagementOperation();
+                        operation.setAccount(accountList.get(i));
+                        operation.setAmount(0.d);
+                        operations.add(operation);
+                    }
+                } else {
+                    for (int i = 0; i < tempList.size(); i++) {
+                        TillManagementOperation operation = new TillManagementOperation();
+                        operation.setAccount(tempList.get(i).getAccount());
+                        operation.setType(TillManagementOperation.OPENED_WITH);
+                        operation.setAmount(tempList.get(i).getAmount());
+                        operations.add(operation);
+                    }
                 }
                 tvModification.setVisibility(View.GONE);
                 etDescription.setVisibility(View.GONE);
@@ -145,6 +154,7 @@ public class OpenTillDialog extends Dialog {
                         operation.setAccount(managementOperation.getAccount());
                         operation.setType(TillManagementOperation.OPENED_WITH);
                         operation.setAmount(managementOperation.getAmount());
+                        operation.setIsModified(swConfirmModifyTill.isRight());
                         operation.setTill(till);
                         operation.setDescription(etDescription.getText().toString());
                         databaseManager.insertTillManagementOperation(operation).subscribe();

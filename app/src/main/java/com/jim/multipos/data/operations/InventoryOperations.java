@@ -1,5 +1,6 @@
 package com.jim.multipos.data.operations;
 
+import com.jim.multipos.data.db.model.inventory.HistoryInventoryState;
 import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
@@ -23,4 +24,5 @@ public interface InventoryOperations {
     Single<Long> insertWarehouseOperation(WarehouseOperations warehouseOperations);
     Single<WarehouseOperations> getWarehouseOperationById(Long warehouseId);
     Single<Long> replaceWarehouseOperation(WarehouseOperations warehouseOperations);
+    Single<HistoryInventoryState> insertHistoryInventoryState(HistoryInventoryState state);
 }

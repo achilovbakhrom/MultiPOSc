@@ -1,5 +1,6 @@
 package com.jim.multipos.ui.product_last;
 
+import com.jim.mpviews.MpEditText;
 import com.jim.multipos.core.Presenter;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.ProductClass;
@@ -50,6 +51,6 @@ public interface ProductPresenter extends Presenter {
     void initDataForList();
     void finishActivity();
     void openProduct(Product product);
-
     void unitCategorySelectedWithPosition(int position, int unitPos);
+    boolean isProductNameExists(String name);
 }

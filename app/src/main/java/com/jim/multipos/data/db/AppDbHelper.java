@@ -49,6 +49,7 @@ import com.jim.multipos.data.db.model.customer.JoinCustomerGroupsWithCustomers;
 import com.jim.multipos.data.db.model.customer.JoinCustomerGroupsWithCustomersDao;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
 import com.jim.multipos.data.db.model.inventory.BillingOperationsDao;
+import com.jim.multipos.data.db.model.inventory.HistoryInventoryState;
 import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.inventory.InventoryStateDao;
 import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
@@ -848,7 +849,7 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public Observable<List<ServiceFee>> getAllServiceFees() {
-        return Observable.fromCallable(() -> mDaoSession.getServiceFeeDao().queryBuilder().where(ServiceFeeDao.Properties.IsDeleted.eq(false)).orderDesc(ServiceFeeDao.Properties.CreatedDate).build().list());
+        return Observable.fromCallable(() -> mDaoSession.getServiceFeeDao().queryBuilder().where(ServiceFeeDao.Properties.IsDeleted.eq(false), ServiceFeeDao.Properties.NotModifyted.eq(true)).orderDesc(ServiceFeeDao.Properties.CreatedDate).build().list());
     }
 
     @Override
@@ -1029,7 +1030,7 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public Observable<Boolean> isVendorNameExist(String name) {
-        return Observable.fromCallable(() -> !mDaoSession.getVendorDao().queryBuilder().where(VendorDao.Properties.Name.eq(name)).list().isEmpty());
+        return Observable.fromCallable(() -> !mDaoSession.getVendorDao().queryBuilder().where(VendorDao.Properties.Name.eq(name), VendorDao.Properties.IsDeleted.eq(false), VendorDao.Properties.IsNotModified.eq(true)).list().isEmpty());
     }
 
     @Override
@@ -1060,8 +1061,8 @@ public class AppDbHelper implements DbHelper {
     public Observable<List<Vendor>> getVendors() {
         return Observable.fromCallable(() ->
                 mDaoSession.getVendorDao().queryBuilder()
-                .where(VendorDao.Properties.IsDeleted.eq(false))
-                .list());
+                        .where(VendorDao.Properties.IsDeleted.eq(false))
+                        .list());
     }
 
     @Override
@@ -1129,7 +1130,7 @@ public class AppDbHelper implements DbHelper {
     public Observable<Boolean> isProductNameExists(String productName, Long categoryId) {
         return Observable.fromCallable(() -> !mDaoSession
                 .queryBuilder(Product.class)
-                .where(ProductDao.Properties.CategoryId.eq(categoryId), ProductDao.Properties.Name.eq(productName))
+                .where(ProductDao.Properties.CategoryId.eq(categoryId), ProductDao.Properties.Name.eq(productName), ProductDao.Properties.IsDeleted.eq(false), ProductDao.Properties.IsNotModified.eq(true))
                 .list()
                 .isEmpty());
     }
@@ -1296,7 +1297,7 @@ public class AppDbHelper implements DbHelper {
     public Single<List<VendorWithDebt>> getVendorWirhDebt() {
 
         return Single.create(e -> {
-            List<Vendor> vendors = mDaoSession.getVendorDao().loadAll();
+            List<Vendor> vendors = mDaoSession.getVendorDao().queryBuilder().where(VendorDao.Properties.IsDeleted.eq(false), VendorDao.Properties.IsActive.eq(true)).build().list();
             List<VendorWithDebt> vendorWithDebts = new ArrayList<>();
             for (Vendor vendor : vendors) {
                 VendorWithDebt vendorWithDebt = new VendorWithDebt();
@@ -1520,7 +1521,7 @@ public class AppDbHelper implements DbHelper {
                 }
 
                 InventoryState inventoryState = inventoryStates.get(0);
-                inventoryState.setValue(inventoryState.getValue() + warehouseOperations.getValue() * 0-1);
+                inventoryState.setValue(inventoryState.getValue() + warehouseOperations.getValue() * -1);
                 inventoryState.update();
 
                 database.setTransactionSuccessful();
@@ -1660,8 +1661,8 @@ public class AppDbHelper implements DbHelper {
             List<Debt> debts = mDaoSession
                     .queryBuilder(Debt.class)
                     .where(DebtDao.Properties.CustomerId.eq(id),
-                           DebtDao.Properties.Status.eq(Debt.ACTIVE),
-                           DebtDao.Properties.IsDeleted.eq(false))
+                            DebtDao.Properties.Status.eq(Debt.ACTIVE),
+                            DebtDao.Properties.IsDeleted.eq(false))
                     .build().list();
             e.onSuccess(debts);
         });
@@ -1726,7 +1727,7 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Single<List<VendorProductCon>> getVendorProductConnectionByVendorId(Long vendorId) {
         return Single.create(singleSubscriber -> {
-           List<VendorProductCon>  list = mDaoSession.queryBuilder(VendorProductCon.class)
+            List<VendorProductCon> list = mDaoSession.queryBuilder(VendorProductCon.class)
                     .where(VendorProductConDao.Properties.VendorId.eq(vendorId)).list();
             singleSubscriber.onSuccess(list);
         });
@@ -1762,8 +1763,8 @@ public class AppDbHelper implements DbHelper {
     public Single<List<Order>> getAllTillOrders() {
         return Single.create(e -> {
             e.onSuccess(mDaoSession.getOrderDao().queryBuilder()
-                        .where(OrderDao.Properties.IsArchive.eq(false))
-                        .build().list());
+                    .where(OrderDao.Properties.IsArchive.eq(false))
+                    .build().list());
         });
     }
 
@@ -1806,7 +1807,7 @@ public class AppDbHelper implements DbHelper {
             String query = "SELECT a.* FROM TILL_OPERATIONS a INNER JOIN PAYMENT_TYPE b ON a.PAYMENT_TYPE_ID = b._id WHERE b.ACCOUNT_ID = " + id + " AND a.TILL_ID = " + tillId;
             Cursor cursor = mDaoSession.getDatabase().rawQuery(query, null);
             cursor.moveToFirst();
-            while (!cursor.isAfterLast()){
+            while (!cursor.isAfterLast()) {
                 TillOperation tillOperation = new TillOperation();
                 tillOperation.setId(cursor.getLong(cursor.getColumnIndex("_id")));
                 tillOperation.setPaymentType(mDaoSession.getPaymentTypeDao().load(cursor.getLong(cursor.getColumnIndex("PAYMENT_TYPE_ID"))));
@@ -1862,8 +1863,8 @@ public class AppDbHelper implements DbHelper {
             String query = "SELECT * FROM TILL WHERE STATUS = " + Till.OPEN;
             Cursor cursor = mDaoSession.getDatabase().rawQuery(query, null);
             if (cursor.getCount() == 1) {
-              e.onSuccess(true);
-            }  else if (cursor.getCount() == 0){
+                e.onSuccess(true);
+            } else if (cursor.getCount() == 0) {
                 e.onSuccess(false);
             } else {
                 e.onError(new Throwable("MORE THAN ONE TILLS WERE OPENED"));
@@ -1900,7 +1901,7 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Single<TillManagementOperation> insertTillCloseOperation(TillManagementOperation tillCloseOperation) {
         return Single.create(singleSubscriber -> {
-            mDaoSession .getTillManagementOperationDao().insertOrReplace(tillCloseOperation);
+            mDaoSession.getTillManagementOperationDao().insertOrReplace(tillCloseOperation);
             singleSubscriber.onSuccess(tillCloseOperation);
         });
     }
@@ -2046,7 +2047,7 @@ public class AppDbHelper implements DbHelper {
         return Single.create(e -> {
             e.onSuccess(mDaoSession.getOrderDao().queryBuilder()
                     .where(OrderDao.Properties.Status.eq(Order.HOLD_ORDER),
-                    OrderDao.Properties.IsArchive.eq(false))
+                            OrderDao.Properties.IsArchive.eq(false))
                     .build().list());
         });
     }
@@ -2137,6 +2138,14 @@ public class AppDbHelper implements DbHelper {
                     .where(ProductDao.Properties.RootId.eq(rootId))
                     .build().list();
             e.onSuccess(productList.get(productList.size() - 1));
+        });
+    }
+
+    @Override
+    public Single<HistoryInventoryState> insertHistoryInventoryState(HistoryInventoryState state) {
+        return Single.create(e -> {
+            mDaoSession.getHistoryInventoryStateDao().insertOrReplace(state);
+            e.onSuccess(state);
         });
     }
 }

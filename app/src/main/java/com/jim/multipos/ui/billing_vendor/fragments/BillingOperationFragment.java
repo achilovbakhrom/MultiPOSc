@@ -39,6 +39,7 @@ import io.reactivex.disposables.Disposable;
 import static com.jim.multipos.data.db.model.consignment.Consignment.INCOME_CONSIGNMENT;
 import static com.jim.multipos.data.db.model.consignment.Consignment.RETURN_CONSIGNMENT;
 import static com.jim.multipos.data.db.model.inventory.BillingOperations.DEBT_CONSIGNMENT;
+import static com.jim.multipos.data.db.model.inventory.BillingOperations.PAID_TO_CONSIGNMENT;
 import static com.jim.multipos.data.db.model.inventory.BillingOperations.RETURN_TO_VENDOR;
 import static com.jim.multipos.ui.billing_vendor.fragments.BillingOperationFragment.SortModes.DESCRIPTION;
 import static com.jim.multipos.ui.billing_vendor.fragments.BillingOperationFragment.SortModes.DESCRIPTION_INVERT;
@@ -182,6 +183,8 @@ public class BillingOperationFragment extends BaseFragment implements BillingOpe
                     ((BillingOperationsActivity) getActivity()).openConsignment(operations.getConsignmentId(), INCOME_CONSIGNMENT);
                 } else if (operations.getOperationType().equals(RETURN_TO_VENDOR)) {
                     ((BillingOperationsActivity) getActivity()).openConsignment(operations.getConsignmentId(), RETURN_CONSIGNMENT);
+                } else if (operations.getConsignmentId() != null && operations.getOperationType().equals(PAID_TO_CONSIGNMENT)){
+                    ((BillingOperationsActivity) getActivity()).openConsignment(operations.getConsignmentId(), INCOME_CONSIGNMENT);
                 } else {
                     PaymentToVendorDialog paymentToVendorDialog = new PaymentToVendorDialog(getContext(), operations.getVendor(), new PaymentToVendorDialog.PaymentToVendorCallback() {
                         @Override

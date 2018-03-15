@@ -3,12 +3,17 @@ package com.jim.multipos.ui.vendor_item_managment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.View;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.core.SimpleActivity;
 import com.jim.multipos.ui.billing_vendor.BillingOperationsActivity;
 import com.jim.multipos.ui.consignment.ConsignmentActivity;
 import com.jim.multipos.ui.consignment_list.ConsignmentListActivity;
+import com.jim.multipos.ui.inventory.InventoryActivity;
+import com.jim.multipos.ui.inventory.fragments.InventoryFragment;
 import com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemFragment;
 import com.jim.multipos.ui.vendor_products_view.VendorProductsViewActivity;
 import com.jim.multipos.utils.TextWatcherOnTextChange;
@@ -33,6 +38,8 @@ public class VendorItemsActivity extends SimpleActivity {
                     fragment.searchText(toolbar.getSearchEditText().getText().toString());
             }
         });
+
+        toolbar.getBarcodeView().setVisibility(View.GONE);
     }
 
     @Override

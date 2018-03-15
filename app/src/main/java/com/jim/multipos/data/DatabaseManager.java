@@ -15,6 +15,7 @@ import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
 import com.jim.multipos.data.db.model.customer.CustomerPayment;
 import com.jim.multipos.data.db.model.customer.Debt;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
+import com.jim.multipos.data.db.model.inventory.HistoryInventoryState;
 import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.data.db.model.order.Order;
@@ -567,8 +568,7 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
 
     @Override
     public Observable<Boolean> isProductNameExists(String productName, Long categoryId) {
-        dbHelper.isProductNameExists(productName, categoryId);
-        return null;
+        return dbHelper.isProductNameExists(productName, categoryId);
     }
 
     @Override
@@ -750,11 +750,12 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
                             billingOperations.get(i).setConsignmentId(consignment.getId());
                             insertBillingOperation(billingOperations.get(i)).subscribe();
                         } else if (billingOperations.get(i).getOperationType().equals(BillingOperations.PAID_TO_CONSIGNMENT)) {
+                            billingOperations.get(i).setConsignment(consignment);
+                            billingOperations.get(i).setConsignmentId(consignment.getId());
                             insertBillingOperation(billingOperations.get(i)).subscribe(operations -> {
                                 consignment.setFirstPayId(operations.getId());
                                 dbHelper.insertConsignment(consignment).blockingGet();
                             });
-                            continue;
                         }
                     }
                 singleSubscriber.onSuccess(consignment);
@@ -840,6 +841,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Single<Long> replaceWarehouseOperation(WarehouseOperations warehouseOperations) {
         return dbHelper.replaceWarehouseOperation(warehouseOperations);
+    }
+
+    @Override
+    public Single<HistoryInventoryState> insertHistoryInventoryState(HistoryInventoryState state) {
+        return dbHelper.insertHistoryInventoryState(state);
     }
 
     @Override

@@ -134,7 +134,7 @@ public class POSDetailsFragment extends BaseFragment implements ChangeableConten
                                 MpCompletedStateView.COMPLETED_STATE);
                     }
                     else {
-                        getActivity().finish();
+                        ((FirstConfigureActivity) getActivity()).openLockScreen();
                     }
                 } else {
                     ((FirstConfigureActivity) getContext())

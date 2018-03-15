@@ -5,6 +5,7 @@ import android.os.Bundle;
 import com.jim.mpviews.model.PaymentTypeWithService;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
+import com.jim.multipos.data.db.model.Account;
 import com.jim.multipos.data.db.model.PaymentType;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.Debt;
@@ -174,17 +175,16 @@ public class PaymentPresenterImpl extends BasePresenterImpl<PaymentView> impleme
 
     @Override
     public void payButtonPressed() {
-        boolean hasOpenTill = databaseManager.hasOpenTill().blockingGet();
-        if (!hasOpenTill){
-            view.openWarningDialog("Opened till wasn't found. Please, open till");
-            return;
-        }
-
         if(order.getSubTotalValue() == 0){
             view.closeSelf();
             return;
         }
         if(isPay){
+            boolean hasOpenTill = databaseManager.hasOpenTill().blockingGet();
+            if (!hasOpenTill){
+                view.openWarningDialog("Opened till wasn't found. Please, open till");
+                return;
+            }
             //PAY
             //it is pay operation, because payment amount not enough for close order
             if(lastPaymentAmountState <=0)return;
@@ -206,7 +206,11 @@ public class PaymentPresenterImpl extends BasePresenterImpl<PaymentView> impleme
             view.updatePaymentList();
             view.onPayedPartition();
         }else {
-
+            boolean hasOpenTill = databaseManager.hasOpenTill().blockingGet();
+            if (!hasOpenTill){
+                view.openWarningDialog("Opened till wasn't found. Please, open till");
+                return;
+            }
             //DONE
             //it is done operation for close order. Because payment amount enough for close order
             if(order.getForPayAmmount() - totalPayed()<=0){
@@ -287,7 +291,8 @@ public class PaymentPresenterImpl extends BasePresenterImpl<PaymentView> impleme
     @Override
     public void onClickedTips() {
         if(order.getTips() == 0){
-            view.openTipsDialog(value -> {
+            view.openTipsDialog((value, account) ->  {
+                order.setTipsAccount(account);
                 order.setTips(value);
                 view.updateViews(order,totalPayed());
                 view.updateOrderListDetialsPanel();

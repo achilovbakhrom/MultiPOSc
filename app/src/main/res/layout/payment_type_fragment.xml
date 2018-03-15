@@ -116,7 +116,6 @@
                 android:layout_gravity="center_horizontal"/>
         </LinearLayout>
 
-
         <TextView
             android:id="@+id/tvCurrency"
             android:layout_width="@dimen/hundred_fifty_dp"

@@ -66,8 +66,8 @@ public class IncomeItemsListAdapter extends RecyclerView.Adapter<IncomeItemsList
         } else {
             holder.etProductCost.setText(String.valueOf(items.get(position).getCostValue()));
             if (items.get(position).getCountValue() != null)
-                holder.tvProductSum.setText(String.valueOf(items.get(position).getCostValue() * items.get(position).getCountValue()));
-            else holder.tvProductSum.setText(String.valueOf(0));
+                holder.tvProductSum.setText(decimalFormat.format(items.get(position).getCostValue() * items.get(position).getCountValue()));
+            else holder.tvProductSum.setText(decimalFormat.format(0));
         }
         holder.tvProductUnit.setText(items.get(position).getProduct().getMainUnit().getAbbr());
         if (items.get(position).getProduct().getMainUnit().getAbbr().equals("pcs"))

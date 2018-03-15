@@ -11,8 +11,12 @@ import com.jim.mpviews.MpEditText;
 import com.jim.multipos.R;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.till.TillManagementOperation;
+import com.jim.multipos.utils.NumberTextWatcher;
 import com.jim.multipos.utils.TextWatcherOnTextChange;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.util.List;
 
 import butterknife.BindView;
@@ -24,6 +28,7 @@ import butterknife.ButterKnife;
 
 public class CloseAmountAdapter extends RecyclerView.Adapter<CloseAmountAdapter.CloseAmountViewHolder> {
 
+    private final DecimalFormat decimalFormat;
     private Context context;
     private final List<TillManagementOperation> items;
     private final Currency currency;
@@ -32,6 +37,13 @@ public class CloseAmountAdapter extends RecyclerView.Adapter<CloseAmountAdapter.
         this.context = context;
         this.items = operations;
         this.currency = currency;
+        NumberFormat numberFormat = NumberFormat.getNumberInstance();
+        numberFormat.setMaximumFractionDigits(2);
+        decimalFormat = (DecimalFormat) numberFormat;
+        DecimalFormatSymbols symbols = decimalFormat.getDecimalFormatSymbols();
+        symbols.setDecimalSeparator('.');
+        symbols.setGroupingSeparator(' ');
+        decimalFormat.setDecimalFormatSymbols(symbols);
     }
 
     @Override
@@ -44,6 +56,7 @@ public class CloseAmountAdapter extends RecyclerView.Adapter<CloseAmountAdapter.
     public void onBindViewHolder(CloseAmountViewHolder holder, int position) {
         holder.tvAccount.setText(items.get(position).getAccount().getName());
         holder.tvCurrency.setText(currency.getAbbr());
+        holder.etTotalClosed.addTextChangedListener(new NumberTextWatcher(holder.etTotalClosed));
     }
 
     @Override
@@ -62,7 +75,7 @@ public class CloseAmountAdapter extends RecyclerView.Adapter<CloseAmountAdapter.
         @BindView(R.id.etDescription)
         MpEditText etDescription;
 
-        public CloseAmountViewHolder(View itemView) {
+        CloseAmountViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             etTotalClosed.addTextChangedListener(new TextWatcherOnTextChange() {
@@ -71,7 +84,7 @@ public class CloseAmountAdapter extends RecyclerView.Adapter<CloseAmountAdapter.
                     if (charSequence.length() != 0) {
                         double amount = 0;
                         try {
-                            amount = Double.parseDouble(etTotalClosed.getText().toString());
+                            amount = decimalFormat.parse(etTotalClosed.getText().toString()).doubleValue();
                             items.get(getAdapterPosition()).setAmount(amount);
                         } catch (Exception e) {
                             etTotalClosed.setError(context.getString(R.string.invalid));

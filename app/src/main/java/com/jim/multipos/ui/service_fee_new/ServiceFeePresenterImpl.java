@@ -19,9 +19,6 @@ import javax.inject.Inject;
 public class ServiceFeePresenterImpl extends BasePresenterImpl<ServiceFeeView> implements ServiceFeePresenter {
     private DatabaseManager databaseManager;
     private List<ServiceFeeAdapterDetails> items;
-    public static final String SERVICE_FEE_ADD = "service fee is added";
-    public static final String SERVICE_FEE_UPDATE = "service fee is updated";
-    public static final String SERVICE_FEE_DELETE = "service fee is deleted";
 
     public enum ServiceFeeSortTypes {Amount, Type, Description, AppType, Active, Default}
 
@@ -81,14 +78,16 @@ public class ServiceFeePresenterImpl extends BasePresenterImpl<ServiceFeeView> i
             if (serviceFee.getRootId() != null)
                 newServiceFee.setRootId(serviceFee.getId());
             else newServiceFee.setRootId(serviceFee.getRootId());
-            databaseManager.addServiceFee(serviceFee).subscribe(aLong1 -> {
+            databaseManager.addServiceFee(newServiceFee).subscribe(aLong1 -> {
                 for (int i = 1; i < items.size(); i++) {
-                    if (items.get(i).getObject().getId().equals(serviceFee.getId())) {
-                        ServiceFeeAdapterDetails serviceFeeAdapterDetails = new ServiceFeeAdapterDetails();
-                        serviceFeeAdapterDetails.setObject(newServiceFee);
-                        items.set(i, serviceFeeAdapterDetails);
-                        view.notifyItemChanged(i);
-                        return;
+                    if (items.get(i) != null) {
+                        if (items.get(i).getObject().getId().equals(serviceFee.getId())) {
+                            ServiceFeeAdapterDetails serviceFeeAdapterDetails = new ServiceFeeAdapterDetails();
+                            serviceFeeAdapterDetails.setObject(newServiceFee);
+                            items.set(i, serviceFeeAdapterDetails);
+                            view.notifyItemChanged(i);
+                            return;
+                        }
                     }
                 }
                 view.sendChangeEvent(GlobalEventConstants.UPDATE, serviceFee, newServiceFee);

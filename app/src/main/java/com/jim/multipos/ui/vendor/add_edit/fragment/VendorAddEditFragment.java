@@ -174,7 +174,7 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() != 0){
+                if (s.length() != 0) {
                     detectChange(true);
                 }
             }
@@ -210,24 +210,31 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
         switch (view.getId()) {
             case R.id.btnSave:
                 if (presenter.getMode() == AddingMode.EDIT) {
-                    UIUtils.showAlert(getContext(), getString(R.string.yes), getString(R.string.no),
-                            getString(R.string.vendor_data_upate_title), getString(R.string.vendor_data_update_message),
-                            new UIUtils.AlertListener() {
-                                @Override
-                                public void onPositiveButtonClicked() {
-                                    detectChange(false);
-                                    presenter.addVendor(vendorName.getText().toString(),
-                                            vendorContact.getText().toString(),
-                                            address.getText().toString(),
-                                            (photoSelected != null) ? CommonUtils.getRealPathFromURI(getContext(), photoSelected) : "",
-                                            active.isChecked());
-                                    presenter.setMode(AddingMode.ADD, null);
-                                }
+                    if (isValid()) {
+                        if (presenter.isVendorNameExists(vendorName.getText().toString())) {
+                            vendorName.setError(getString(R.string.warning_vendor_name_exist));
+                            return;
+                        }
+                        UIUtils.showAlert(getContext(), getString(R.string.yes), getString(R.string.no),
+                                getString(R.string.vendor_data_upate_title), getString(R.string.vendor_data_update_message),
+                                new UIUtils.AlertListener() {
+                                    @Override
+                                    public void onPositiveButtonClicked() {
 
-                                @Override
-                                public void onNegativeButtonClicked() {
-                                }
-                            });
+                                        detectChange(false);
+                                        presenter.addVendor(vendorName.getText().toString(),
+                                                vendorContact.getText().toString(),
+                                                address.getText().toString(),
+                                                (photoSelected != null) ? CommonUtils.getRealPathFromURI(getContext(), photoSelected) : "",
+                                                active.isChecked());
+                                        presenter.setMode(AddingMode.ADD, null);
+                                    }
+
+                                    @Override
+                                    public void onNegativeButtonClicked() {
+                                    }
+                                });
+                    }
                 } else {
                     if (presenter.isVendorNameExists(vendorName.getText().toString())) {
                         vendorName.setError(getString(R.string.warning_vendor_name_exist));
@@ -449,7 +456,7 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
     }
 
     public void showVendorHasProductsMessage() {
-        UIUtils.showAlert(getContext(), getString(R.string.ok), getString(R.string.warning), "This vendor have active products in inventory", () -> {
+        UIUtils.showAlert(getContext(), getString(R.string.ok), getString(R.string.warning), "This vendor have products connected with him", () -> {
         });
     }
 

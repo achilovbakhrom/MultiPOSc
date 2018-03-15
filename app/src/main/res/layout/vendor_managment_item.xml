@@ -97,8 +97,7 @@
             android:layout_width="@dimen/two_hundred_twenty_dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:gravity="right"
-            android:paddingRight="@dimen/twenty_dp"
+            android:gravity="center"
             android:textColor="@color/colorMainText"
             android:textSize="@dimen/sixteen_dp"/>
 

@@ -7,8 +7,12 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,6 +28,7 @@ import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.consignment.adapter.IncomeItemsListAdapter;
 import com.jim.multipos.ui.consignment.adapter.VendorItemsListAdapter;
 import com.jim.multipos.ui.consignment.presenter.IncomeConsignmentPresenter;
+import com.jim.multipos.utils.NumberTextWatcher;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.TextWatcherOnTextChange;
 import com.jim.multipos.utils.WarningDialog;
@@ -33,6 +38,7 @@ import com.jim.multipos.utils.rxevents.inventory_events.InventoryStateEvent;
 import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
 
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -85,7 +91,6 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
     private double sum = 0;
     public static final String CONSIGNMENT_UPDATE = "CONSIGNMENT_UPDATE";
     public static final String INVENTORY_STATE_UPDATE = "INVENTORY_STATE_UPDATE";
-
 
     @Override
     protected int getLayout() {
@@ -142,23 +147,8 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
                 llAccounts.setVisibility(View.VISIBLE);
             } else llAccounts.setVisibility(View.GONE);
         });
-        etTotalPaid.addTextChangedListener(new TextWatcherOnTextChange() {
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (charSequence.length() != 0) {
-                    double paid_sum = 0;
-                    try {
-                        paid_sum = Double.parseDouble(etTotalPaid.getText().toString());
-                    } catch (Exception e) {
-                        etTotalPaid.setError(getContext().getString(R.string.invalid));
-                        return;
-                    }
-                    if (paid_sum > sum) {
-                        etTotalPaid.setError(getString(R.string.total_paid_sum_warning));
-                    }
-                }
-            }
-        });
+
+        etTotalPaid.addTextChangedListener(new NumberTextWatcher(etTotalPaid));
     }
 
     @OnClick(R.id.btnBack)
@@ -257,7 +247,7 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
         if (isFromAccount) {
             llAccounts.setVisibility(View.VISIBLE);
         } else llAccounts.setVisibility(View.GONE);
-        etTotalPaid.setText(String.valueOf(amount));
+        etTotalPaid.setText(decimalFormat.format(amount));
     }
 
     @Override

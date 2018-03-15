@@ -37,7 +37,7 @@
                 android:id="@+id/tvProductSku"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:gravity="center_vertical|left"
                 android:paddingLeft="@dimen/forty_five_dp"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="@dimen/sixteen_dp"
@@ -47,7 +47,7 @@
                 android:id="@+id/tvProductBarcode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:gravity="center_vertical|left"
                 android:paddingLeft="@dimen/forty_five_dp"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="@dimen/sixteen_dp"
@@ -57,8 +57,8 @@
                 android:id="@+id/tvProductClassName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:paddingLeft="@dimen/fifty_dp"
+                android:gravity="center_vertical|left"
+                android:paddingLeft="@dimen/forty_five_dp"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="@dimen/sixteen_dp"
                 android:textStyle="italic"/>
@@ -76,8 +76,7 @@
             android:layout_width="@dimen/three_hundred_dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:gravity="left"
-            android:paddingLeft="@dimen/twenty_dp"
+            android:gravity="center"
             android:textColor="@color/colorMainText"
             android:textSize="@dimen/sixteen_dp"/>
 
@@ -115,8 +114,7 @@
             android:layout_width="@dimen/hundred_sixty_dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:gravity="right"
-            android:paddingRight="@dimen/twenty_dp"
+            android:gravity="center"
             android:textColor="@color/colorMainText"
             android:textSize="@dimen/sixteen_dp"/>
 

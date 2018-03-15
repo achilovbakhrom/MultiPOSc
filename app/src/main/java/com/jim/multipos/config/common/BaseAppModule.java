@@ -76,9 +76,8 @@ public abstract class BaseAppModule {
         formatter = (DecimalFormat) numberFormat;
         DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
         symbols.setGroupingSeparator(' ');
+        symbols.setDecimalSeparator('.');
         formatter.setDecimalFormatSymbols(symbols);
         return formatter;
-
     }
-
 }

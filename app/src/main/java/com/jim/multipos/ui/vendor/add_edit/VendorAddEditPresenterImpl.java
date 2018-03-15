@@ -99,6 +99,12 @@ public class VendorAddEditPresenterImpl extends BasePresenterImpl<VendorAddEditV
 
     @Override
     public Boolean isVendorNameExists(String name) {
+        if (mode == AddingMode.EDIT) {
+            Vendor vendor = databaseManager.getVendorById(vendorId).blockingSingle();
+            if (vendor.getName().equals(name)) {
+                return false;
+            }
+        }
         return databaseManager.isVendorNameExist(name).blockingSingle();
     }
 
@@ -204,7 +210,6 @@ public class VendorAddEditPresenterImpl extends BasePresenterImpl<VendorAddEditV
     @Override
     public void removeVendor() {
         if (vendorId != -1) {
-
             Vendor vendor = databaseManager.getVendorById(vendorId).blockingSingle();
             vendor.setDeleted(true);
             databaseManager.addVendor(vendor).subscribe(aLong -> {
@@ -218,8 +223,9 @@ public class VendorAddEditPresenterImpl extends BasePresenterImpl<VendorAddEditV
     public void removeContact(Contact contact) {
         if (contacts != null && !contacts.isEmpty()) {
             contacts.remove(contact);
+            view.removeContact(contact);
         }
-        view.removeContact(contact);
+
     }
 
     @Override
@@ -247,6 +253,7 @@ public class VendorAddEditPresenterImpl extends BasePresenterImpl<VendorAddEditV
     public void checkVendorInventoryState() {
         Vendor vendor = databaseManager.getVendorById(vendorId).blockingSingle();
         int size = 0;
+        vendor.resetProducts();
         for (int i = 0; i < vendor.getProducts().size(); i++) {
             Product product = vendor.getProducts().get(i);
             if (product.getIsDeleted().equals(false) && product.getIsNotModified().equals(true))

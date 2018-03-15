@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
+import android.view.Gravity;
 
 /**
  * Created by developer on 18.10.2017.
@@ -31,6 +32,8 @@ public class MpListItem extends android.support.v7.widget.AppCompatButton {
         buttonDrawable.mutate();
         setBackgroundDrawable(buttonDrawable);
         setAllCaps(false);
+        setPadding(8,0,8,0);
+        setGravity(Gravity.CENTER);
         setLines(4);
         setTextColor(context.getResources().getColorStateList(R.color.item_txt_color));
     }

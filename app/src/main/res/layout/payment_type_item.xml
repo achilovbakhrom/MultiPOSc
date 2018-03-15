@@ -23,7 +23,7 @@
 
     <TextView
         android:id="@+id/tvAccount"
-        android:layout_width="@dimen/hundred_seventy_five_dp"
+        android:layout_width="@dimen/hundred_fifty_five_dp"
         android:layout_height="@dimen/forty_dp"
         android:layout_gravity="center_vertical"
         android:layout_marginRight="@dimen/twenty_dp"

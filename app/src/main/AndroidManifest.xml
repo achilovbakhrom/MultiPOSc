@@ -56,10 +56,6 @@
             android:windowSoftInputMode="stateHidden">
 
         </activity>
-        <activity
-            android:name=".ui.product_class.ProductClassActivity"
-            android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".ui.product.ProductsActivity" />
         <activity android:name=".ui.product_class_new.ProductsClassActivity" />
         <activity android:name=".ui.discount.DiscountAddingActivity" />
         <activity android:name=".ui.service_fee_new.ServiceFeeActivity" />
@@ -92,6 +88,7 @@
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".ui.customer_debt.CustomerDebtActivity" />
         <activity android:name=".ui.cash_management.CashManagementActivity" />
+        <activity android:name=".ui.reports.ReportsActivity" />
     </application>
 
 </manifest>
