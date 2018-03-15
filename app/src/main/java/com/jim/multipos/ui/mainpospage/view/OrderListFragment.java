@@ -40,7 +40,6 @@ import com.jim.multipos.utils.WarningDialog;
 import com.jim.multipos.utils.managers.NotifyManager;
 import com.jim.multipos.utils.printer.CheckPrinter;
 import com.jim.multipos.utils.rxevents.inventory_events.InventoryStateEvent;
-import com.jim.multipos.utils.rxevents.main_order_events.ConsignmentEvent;
 import com.jim.multipos.utils.rxevents.main_order_events.CustomerEvent;
 import com.jim.multipos.utils.rxevents.main_order_events.DebtEvent;
 import com.jim.multipos.utils.rxevents.main_order_events.DiscountEvent;
@@ -56,10 +55,6 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import io.reactivex.disposables.Disposable;
-
-import static com.jim.multipos.ui.cash_management.presenter.CloseTillFirstStepPresenterImpl.ORDER_CANCELED;
-import static com.jim.multipos.ui.cash_management.presenter.CloseTillFirstStepPresenterImpl.ORDER_CLOSED;
-import static com.jim.multipos.ui.cash_management.view.CashLogFragment.TILL_CLOSED;
 
 public class OrderListFragment extends BaseFragment implements OrderListView {
     public static final String NEW_ORDER_ID = "new_order_id";
@@ -238,9 +233,9 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
                                presenter.eventServiceFeeDelete(serviceFeeEvent.getServiceFee());
                            }
                        }else if(o instanceof InventoryStateEvent){
-                           InventoryStateEvent consigmentEvent = (InventoryStateEvent) o;
-                           if(consigmentEvent.getType() == GlobalEventConstants.UPDATE){
-                               presenter.eventConsigmentUpdate();
+                           InventoryStateEvent event = (InventoryStateEvent) o;
+                           if(event.getType() == GlobalEventConstants.UPDATE){
+                               presenter.eventConsignmentUpdate();
                            }
                        }
 

@@ -63,5 +63,5 @@ public interface OrderListPresenter extends Presenter {
     void eventDiscountDelete(Discount discount);
     void eventServiceFeeUpdate(ServiceFee serviceFee,ServiceFee newServiceFee);
     void eventServiceFeeDelete(ServiceFee serviceFee);
-    void eventConsigmentUpdate();
+    void eventConsignmentUpdate();
 }

@@ -11,13 +11,17 @@ import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.jim.mpviews.MPosSpinner;
 import com.jim.mpviews.MpButton;
 import com.jim.mpviews.MpSearchView;
 import com.jim.multipos.R;
 import com.jim.multipos.data.DatabaseManager;
+import com.jim.multipos.data.db.model.PaymentType;
 import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Return;
+import com.jim.multipos.data.db.model.till.Till;
+import com.jim.multipos.data.db.model.till.TillOperation;
 import com.jim.multipos.ui.mainpospage.adapter.ProductSearchResultsAdapter;
 import com.jim.multipos.ui.mainpospage.adapter.ReturnsAdapter;
 import com.jim.multipos.ui.mainpospage.adapter.ReturnsListAdapter;
@@ -51,6 +55,8 @@ public class ReturnsConfirmDialog extends Dialog {
     TextView tvTotalReturnSum;
     @BindView(R.id.etDescription)
     EditText etDescription;
+    @BindView(R.id.spReturnPaymentType)
+    MPosSpinner spReturnPaymentType;
     private List<Return> returnsList;
     private ReturnsListAdapter adapter;
 
@@ -63,6 +69,12 @@ public class ReturnsConfirmDialog extends Dialog {
         setContentView(dialogView);
         View v = getWindow().getDecorView();
         v.setBackgroundResource(android.R.color.transparent);
+        List<PaymentType> paymentTypeList = databaseManager.getPaymentTypes();
+        List<String> strings = new ArrayList<>();
+        for (PaymentType paymentType: paymentTypeList){
+            strings.add(paymentType.getName());
+        }
+        spReturnPaymentType.setAdapter(strings);
         rvReturnProducts.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new ReturnsListAdapter(decimalFormat, context);
         rvReturnProducts.setAdapter(adapter);
@@ -81,24 +93,39 @@ public class ReturnsConfirmDialog extends Dialog {
         });
 
         btnConfirm.setOnClickListener(view -> {
-            UIUtils.closeKeyboard(btnConfirm, context);
-            if (!etDescription.getText().toString().isEmpty()) {
-                for (int i = 0; i < returnsList.size(); i++) {
-                    returnsList.get(i).setDescription(etDescription.getText().toString());
+            boolean hasOpenTill = databaseManager.hasOpenTill().blockingGet();
+            if (!hasOpenTill){
+                UIUtils.showAlert(getContext(), getContext().getString(R.string.ok), context.getString(R.string.warning), "Opened till wasn't found. Please, open till", () -> {});
+            } else {
+                Till till = databaseManager.getOpenTill().blockingGet();
+                UIUtils.closeKeyboard(btnConfirm, context);
+                if (!etDescription.getText().toString().isEmpty()) {
+                    for (int i = 0; i < returnsList.size(); i++) {
+                        returnsList.get(i).setDescription(etDescription.getText().toString());
+                    }
                 }
+                databaseManager.insertReturns(returnsList).subscribe();
+
+                for (int i = 0; i < returnsList.size(); i++) {
+                    WarehouseOperations operations = new WarehouseOperations();
+                    operations.setType(WarehouseOperations.RETURN_SOLD);
+                    operations.setValue(returnsList.get(i).getQuantity());
+                    operations.setCreateAt(System.currentTimeMillis());
+                    operations.setProduct(returnsList.get(i).getProduct());
+                    operations.setVendor(returnsList.get(i).getVendor());
+                    databaseManager.insertWarehouseOperation(operations).subscribe();
+                    TillOperation tillOperation = new TillOperation();
+                    tillOperation.setAmount(returnsList.get(i).getReturnAmount() * returnsList.get(i).getQuantity());
+                    tillOperation.setType(TillOperation.PAY_OUT);
+                    tillOperation.setPaymentType(paymentTypeList.get(spReturnPaymentType.getSelectedPosition()));
+                    tillOperation.setTill(till);
+                    tillOperation.setDescription(etDescription.getText().toString());
+                    databaseManager.insertTillOperation(tillOperation).subscribe();
+                }
+                rxBus.send(new InventoryStateEvent(GlobalEventConstants.UPDATE));
+                dismiss();
             }
-            databaseManager.insertReturns(returnsList).subscribe();
-            for (int i = 0; i < returnsList.size(); i++) {
-                WarehouseOperations operations = new WarehouseOperations();
-                operations.setType(WarehouseOperations.RETURN_SOLD);
-                operations.setValue(returnsList.get(i).getQuantity());
-                operations.setCreateAt(System.currentTimeMillis());
-                operations.setProduct(returnsList.get(i).getProduct());
-                operations.setVendor(returnsList.get(i).getVendor());
-                databaseManager.insertWarehouseOperation(operations).subscribe();
-            }
-            rxBus.send(new InventoryStateEvent(GlobalEventConstants.UPDATE));
-            dismiss();
+
         });
     }
 }

@@ -23,6 +23,7 @@ import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.ui.mainpospage.adapter.ServiceFeeAdapter;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -71,7 +72,13 @@ public class ServiceFeeDialog extends Dialog implements ServiceFeeAdapter.OnClic
         if (caption != null) {
             tvCaption.setText(caption);
         }
-        serviceFees = databaseManager.getAllServiceFees().blockingSingle();
+        serviceFees = new ArrayList<>();
+        databaseManager.getAllServiceFees().subscribe(serviceFees1 -> {
+            for (ServiceFee serviceFee: serviceFees1){
+                if (serviceFee.getApplyingType() == ServiceFee.ALL || serviceFee.getApplyingType() == serviceFeeApplyType)
+                    serviceFees.add(serviceFee);
+            }
+        });
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new ServiceFeeAdapter(getContext(), this, serviceFees);
         recyclerView.setAdapter(adapter);
@@ -82,8 +89,6 @@ public class ServiceFeeDialog extends Dialog implements ServiceFeeAdapter.OnClic
             dismiss();
         });
     }
-
-
 
     public void setCaption(String caption) {
         this.caption = caption;
