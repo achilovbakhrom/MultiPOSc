@@ -305,7 +305,7 @@ public class PaymentPresenterImpl extends BasePresenterImpl<PaymentView> impleme
         public void onNewOrder() {
         debt = null;
         customer = null;
-        view.disableTipsButton();
+        view.enableTipsButton();
         view.showDebtDialog();
     }
 

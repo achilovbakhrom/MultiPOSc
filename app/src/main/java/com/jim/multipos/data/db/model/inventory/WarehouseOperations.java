@@ -22,11 +22,10 @@ import com.jim.multipos.data.db.model.order.OrderDao;
  */
 @Entity(nameInDb = "WAREHOUSE_OPERATION", active = true)
 @Data
-public class WarehouseOperations implements Editable{
-
+    public class WarehouseOperations implements Editable{
+    //Inventory Log report "reason" field add
     public static final int INCOME_FROM_VENDOR = 1;
     public static final int RETURN_TO_VENDOR = 2;
-    public static final int RETURN_FROM_CUSTOMER = 3;
     public static final int SOLD = 4;
     public static final int RETURN_SOLD = 5;
     public static final int VOID_INCOME = 6;
