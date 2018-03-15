@@ -78,7 +78,6 @@ public class VendorItemAdapter extends ClickableBaseAdapter<VendorWithDebt, Vend
                 holder.tvTel.setVisibility(View.GONE);
             } else {
                 holder.tvTel.setVisibility(View.VISIBLE);
-
                 StringBuilder builder = new StringBuilder();
                 for (Contact contact : vendorWithDebt.getVendor().getContacts()) {
                     if (contact.getType() == Contact.E_MAIL) {

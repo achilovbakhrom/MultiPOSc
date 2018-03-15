@@ -19,6 +19,7 @@ import com.jim.multipos.utils.PaymentToVendorDialog;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.UIUtils;
 import com.jim.multipos.utils.rxevents.inventory_events.BillingOperationEvent;
+import com.jim.multipos.utils.rxevents.inventory_events.VendorEvent;
 import com.jim.multipos.utils.rxevents.main_order_events.ConsignmentEvent;
 import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
 import com.jim.multipos.utils.rxevents.main_order_events.ProductEvent;
@@ -178,6 +179,13 @@ public class VendorItemFragment extends BaseFragment implements VendorItemView {
                     }
                     if (o instanceof ConsignmentEvent) {
                         ConsignmentEvent event = (ConsignmentEvent) o;
+                        if (event.getType() == GlobalEventConstants.UPDATE) {
+                            presenter.updateData();
+                        }
+                    }
+
+                    if (o instanceof VendorEvent) {
+                        VendorEvent event = (VendorEvent) o;
                         if (event.getType() == GlobalEventConstants.UPDATE) {
                             presenter.updateData();
                         }

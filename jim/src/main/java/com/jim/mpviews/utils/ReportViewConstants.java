@@ -10,4 +10,6 @@ public class ReportViewConstants {
     public static final int QUANTITY = 2;
     public static final int AMOUNT = 3;
     public static final int ID = 4;
+    public static final int ACTION = 5;
+    public static final int STATUS = 6;
 }

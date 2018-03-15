@@ -95,6 +95,7 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
 
     @Getter
     private boolean isChangeDetected = false;
+    private boolean isFirstTime = false;
     private Uri photoSelected;
 
     @Override
@@ -112,11 +113,13 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
         adapter.setListener(this);
         contacts.setAdapter(adapter);
         contactType.setItemSelectionListener((view, position) -> {
-            contactData.setText("");
-            if (position == 0)
-                contactData.setInputType(InputType.TYPE_CLASS_PHONE);
-            else
-                contactData.setInputType(InputType.TYPE_CLASS_TEXT);
+            if (isFirstTime) {
+                contactData.setText("");
+                if (position == 0)
+                    contactData.setInputType(InputType.TYPE_CLASS_PHONE);
+                else
+                    contactData.setInputType(InputType.TYPE_CLASS_TEXT);
+            } else isFirstTime = true;
         });
         vendorName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -171,7 +174,9 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                detectChange(true);
+                if (s.length() != 0){
+                    detectChange(true);
+                }
             }
 
             @Override
@@ -444,7 +449,8 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
     }
 
     public void showVendorHasProductsMessage() {
-        UIUtils.showAlert(getContext(), getString(R.string.ok), getString(R.string.warning), "This vendor have active products in inventory", () -> {});
+        UIUtils.showAlert(getContext(), getString(R.string.ok), getString(R.string.warning), "This vendor have active products in inventory", () -> {
+        });
     }
 
     public void showDeleteDialog() {
