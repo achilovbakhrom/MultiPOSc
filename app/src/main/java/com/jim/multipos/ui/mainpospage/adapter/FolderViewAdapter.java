@@ -18,6 +18,9 @@ import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.utils.GlideApp;
 
 import java.io.File;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.util.List;
 
 import butterknife.BindView;
@@ -28,6 +31,7 @@ import butterknife.BindView;
 
 public class FolderViewAdapter extends ClickableBaseAdapter<FolderItem, BaseViewHolder> {
 
+    private final DecimalFormat decimalFormat;
     private int mode = 0;
     private Context context;
     private static final int CATEGORY = 0;
@@ -38,6 +42,13 @@ public class FolderViewAdapter extends ClickableBaseAdapter<FolderItem, BaseView
         super(items);
         this.mode = mode;
         this.context = context;
+        NumberFormat numberFormat = NumberFormat.getNumberInstance();
+        numberFormat.setMaximumFractionDigits(2);
+        decimalFormat = (DecimalFormat) numberFormat;
+        DecimalFormatSymbols symbols = decimalFormat.getDecimalFormatSymbols();
+        symbols.setDecimalSeparator('.');
+        symbols.setGroupingSeparator(' ');
+        decimalFormat.setDecimalFormatSymbols(symbols);
     }
 
     @Override
@@ -54,7 +65,7 @@ public class FolderViewAdapter extends ClickableBaseAdapter<FolderItem, BaseView
             productViewHolder.tvProductName.setText(product.getName());
             productViewHolder.tvProductSKU.setText("SKU: " + product.getSku());
             productViewHolder.tvProductQty.setText(items.get(position).getCount() + " " + product.getMainUnit().getAbbr());
-            productViewHolder.tvProductPrice.setText(product.getPrice() + " " + product.getPriceCurrency().getAbbr());
+            productViewHolder.tvProductPrice.setText(decimalFormat.format(product.getPrice()) + " " + product.getPriceCurrency().getAbbr());
             if (!product.getPhotoPath().equals("")){
                 Uri photoSelected = Uri.fromFile(new File(product.getPhotoPath()));
                 GlideApp.with(context).load(photoSelected).diskCacheStrategy(DiskCacheStrategy.RESOURCE).thumbnail(0.2f).centerCrop().transform(new RoundedCorners(20)).into(productViewHolder.ivProductImage);

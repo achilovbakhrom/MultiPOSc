@@ -23,4 +23,5 @@ public interface CustomerGroupPresenter extends Presenter {
     void addCustomerToCustomerGroup(CustomerGroup customerGroup, Customer customer);
     void removeCustomerFromCustomerGroup(CustomerGroup customerGroup, Customer customer);
     List<Customer> getTempCustomers();
+    boolean hasChanges();
 }

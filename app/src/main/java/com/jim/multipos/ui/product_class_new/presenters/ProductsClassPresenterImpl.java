@@ -11,6 +11,7 @@ import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.ui.product_class_new.adapters.ProductsClassListAdapter;
 import com.jim.multipos.ui.product_class_new.fragments.ProductsClassView;
 import com.jim.multipos.ui.product_class_new.model.ProductsClassAdapterDetials;
+import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,6 +66,7 @@ public class ProductsClassPresenterImpl extends BasePresenterImpl<ProductsClassV
             items.add(1,productsClassAdapterDetials);
             items.add(2,productsClassAdapterDetials1);
             view.notifyItemAddRange(1,2);
+            view.sendEvent(productClass, GlobalEventConstants.ADD);
         });
     }
 
@@ -94,6 +96,7 @@ public class ProductsClassPresenterImpl extends BasePresenterImpl<ProductsClassV
                     break;
                 }
             }
+            view.sendEvent(productClass, GlobalEventConstants.ADD);
         });
     }
 
@@ -116,6 +119,7 @@ public class ProductsClassPresenterImpl extends BasePresenterImpl<ProductsClassV
                     }
                 }
             }
+            view.sendEvent(productClass, GlobalEventConstants.UPDATE);
         });
     }
     int from = 0, to = 0;
@@ -159,6 +163,7 @@ public class ProductsClassPresenterImpl extends BasePresenterImpl<ProductsClassV
                 }
                 view.notifyItemRemoveRange(from,to);
             }
+            view.sendEvent(productClass, GlobalEventConstants.DELETE);
         });
     }
 

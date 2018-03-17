@@ -1,6 +1,7 @@
 package com.jim.multipos.ui.product_class_new.fragments;
 
 import com.jim.multipos.core.BaseView;
+import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.ui.product_class_new.model.ProductsClassAdapterDetials;
 
 import java.util.List;
@@ -19,5 +20,5 @@ public interface ProductsClassView extends BaseView {
     void closeDiscountActivity();
     void openWarning();
     void closeAction();
-
+    void sendEvent(ProductClass productClass, int eventType);
 }

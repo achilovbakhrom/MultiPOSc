@@ -74,7 +74,7 @@ public class BarcodeScannerFragment extends BaseFragment implements BarcodeScann
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED){
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, CAMER_REQUEST_CODE);
         }
         barcodeView.decodeContinuous(barcodeCallback);
@@ -136,7 +136,10 @@ public class BarcodeScannerFragment extends BaseFragment implements BarcodeScann
         chbShowMode.setCheckedChangeListener(isChecked -> preferencesHelper.setShowMode(isChecked));
         MpButton btnNo = productView.findViewById(R.id.btnWarningNO);
         MpButton btnYes = productView.findViewById(R.id.btnWarningYES);
-        btnYes.setOnClickListener(view -> openProductActivity());
+        btnYes.setOnClickListener(view -> {
+            addProductDialog.dismiss();
+            openProductActivity();
+        });
         btnNo.setOnClickListener(view -> addProductDialog.dismiss());
         addProductDialog.setContentView(productView);
         addProductDialog.getWindow().getDecorView().setBackgroundResource(android.R.color.transparent);
@@ -186,7 +189,7 @@ public class BarcodeScannerFragment extends BaseFragment implements BarcodeScann
 
     @Override
     public void openProductActivity() {
-        ((MainPosPageActivity) getActivity()).openAddProductActivity();
+        ((MainPosPageActivity) getActivity()).openAddProductActivity(lastResult);
     }
 
     @Override

@@ -74,6 +74,7 @@ public class CurrencyFragment extends BaseFragment implements ChangeableContent 
                         activity.getPresenter().openPaymentType();
                         activity.changeState(FirstConfigurePresenter.CURRENCY_POSITION, MpCompletedStateView.COMPLETED_STATE);
                     } else {
+                        ((FirstConfigureActivity) getContext()).getPreferencesHelper().setAppRunFirstTimeValue(false);
                         ((FirstConfigureActivity) getActivity()).openLockScreen();
                     }
                 } else {

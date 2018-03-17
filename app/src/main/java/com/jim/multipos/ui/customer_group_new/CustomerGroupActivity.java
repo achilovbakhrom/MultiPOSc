@@ -132,4 +132,9 @@ public class CustomerGroupActivity extends DoubleSideActivity implements Custome
         });
         warningDialog.show();
     }
+
+    @Override
+    public String getCustomerGroupName() {
+       return  ((AddCustomerGroupFragment) getCurrentFragmentLeft()).getCustomerGroupName();
+    }
 }

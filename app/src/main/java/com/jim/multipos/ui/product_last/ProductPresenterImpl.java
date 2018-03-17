@@ -20,6 +20,7 @@ import com.jim.multipos.utils.UIUtils;
 import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -55,6 +56,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     private List<Long> vendors;
     private List<VendorProductCon> vendorProductConnectionsList;
     private List<VendorProductCon> tempCostList;
+    private DecimalFormat formatter;
 
     @Getter
     DatabaseManager databaseManager;
@@ -62,7 +64,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     private String savedCosts = "";
 
     @Inject
-    ProductPresenterImpl(ProductView productView, DatabaseManager databaseManager) {
+    ProductPresenterImpl(ProductView productView, DatabaseManager databaseManager, DecimalFormat decimalFormat) {
         super(productView);
         this.databaseManager = databaseManager;
         vendors = new ArrayList<>();
@@ -71,6 +73,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
         inventoryStates = new ArrayList<>();
         deletedStatesList = new ArrayList<>();
         productClass = null;
+        this.formatter = decimalFormat;
     }
 
     @Override
@@ -354,8 +357,8 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 }
                 if (!view.getProductName().equals(this.product.getName()) || !view.getBarCode().equals(this.product.getBarcode()) || !view.getSku().equals(this.product.getSku()) ||
                         (unitCategory != null && !unitCategory.getUnits().get(view.getUnitSelectedPos()).getId().equals(this.product.getMainUnitId())) ||
-                        !view.getPhotoPath().equals(this.product.getPhotoPath()) ||
-                        view.getProductIsActive() != this.product.getIsActive() || hasChanged || !view.getCost().equals(savedCosts)) {
+                        !view.getPhotoPath().equals(this.product.getPhotoPath()) || !view.getPrice().equals(this.product.getPrice()) ||
+                view.getProductIsActive() != this.product.getIsActive() || hasChanged || !view.getCost().equals(savedCosts)) {
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
                         public void onPositiveButtonClicked() {
@@ -467,7 +470,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
 
                 if (!view.getProductName().equals(this.product.getName()) || !view.getBarCode().equals(this.product.getBarcode()) || !view.getSku().equals(this.product.getSku()) ||
                         (unitCategory != null && !unitCategory.getUnits().get(view.getUnitSelectedPos()).getId().equals(this.product.getMainUnitId())) ||
-                        !view.getPhotoPath().equals(this.product.getPhotoPath()) ||
+                        !view.getPhotoPath().equals(this.product.getPhotoPath()) || !view.getPrice().equals(this.product.getPrice()) ||
                         !view.getCost().equals(savedCosts) || view.getProductIsActive() != this.product.getIsActive() || hasChanged) {
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
@@ -645,7 +648,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             }
 
             databaseManager.getVendorProductConnectionByProductId(this.product.getId()).subscribe(productConList -> {
-                DecimalFormat formatter = new DecimalFormat("#.##");
                 vendorProductConnectionsList.clear();
                 this.vendorProductConnectionsList.addAll(productConList);
                 setProductCosts(vendorProductConnectionsList);
@@ -827,7 +829,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 }
                 if (!view.getProductName().equals(this.product.getName()) || !view.getBarCode().equals(this.product.getBarcode()) || !view.getSku().equals(this.product.getSku()) ||
                         (unitCategory != null && !unitCategory.getUnits().get(view.getUnitSelectedPos()).getId().equals(this.product.getMainUnitId())) ||
-                        !view.getPhotoPath().equals(this.product.getPhotoPath()) ||
+                        !view.getPhotoPath().equals(this.product.getPhotoPath()) || !view.getPrice().equals(this.product.getPrice()) ||
                         view.getProductIsActive() != this.product.getIsActive() || hasChanged || !view.getCost().equals(savedCosts)) {
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
@@ -1397,6 +1399,11 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
         return databaseManager.isProductNameExists(name, subcategory.getId()).blockingSingle();
     }
 
+    @Override
+    public List<ProductClass> updateProductClass() {
+        return provideProductClassList();
+    }
+
 
     private InventoryState inventoryState;
     private List<InventoryState> deletedStatesList;
@@ -1578,7 +1585,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     public void setProductCosts(List<VendorProductCon> productConList) {
         this.vendorProductConnectionsList = productConList;
         String result = "";
-        DecimalFormat formatter = new DecimalFormat("#.##");
         for (VendorProductCon cost : vendorProductConnectionsList) {
             if (cost != null) {
                 if (cost.getCost() != null)
@@ -1742,7 +1748,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
 
                 if (!view.getProductName().equals(this.product.getName()) || !view.getBarCode().equals(this.product.getBarcode()) || !view.getSku().equals(this.product.getSku()) ||
                         (unitCategory != null && !unitCategory.getUnits().get(view.getUnitSelectedPos()).getId().equals(this.product.getMainUnitId())) ||
-                        !view.getPhotoPath().equals(this.product.getPhotoPath()) ||
+                        !view.getPhotoPath().equals(this.product.getPhotoPath()) || !view.getPrice().equals(this.product.getPrice()) ||
                         view.getProductIsActive() != this.product.getIsActive() || hasChanged || !view.getCost().equals(savedCosts)) {
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override

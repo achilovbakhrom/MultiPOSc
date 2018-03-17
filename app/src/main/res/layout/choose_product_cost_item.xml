@@ -22,7 +22,7 @@
         android:id="@+id/etProductCost"
         android:layout_width="@dimen/hundred_seventy_dp"
         android:layout_height="@dimen/forty_dp"
-        android:maxLength="15"
+        android:maxLength="10"
         android:inputType="numberDecimal"
         android:hint="@string/value"
         android:textSize="@dimen/sixteen_dp"

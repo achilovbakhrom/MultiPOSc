@@ -48,11 +48,10 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     @Inject
     @Getter
-
-
     RxPermissions permissions;
 
     @Inject
+    @Getter
     RxBus rxBus;
 
     @Override
@@ -64,7 +63,6 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
         addProductAddEditFragment();
         addCategoryAddEditFragment();
         presenter.onCreateView(savedInstanceState);
-        Bundle bundle = getIntent().getExtras();
     }
 
     @Override
@@ -80,7 +78,13 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
     }
 
     private void addProductAddEditFragment() {
-        addFragmentWithTagToLeft(new ProductAddEditFragment(), PRODUCT_FRAGMENT);
+        ProductAddEditFragment fragment = new ProductAddEditFragment();
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null){
+            bundle.getString("PRODUCT_BARCODE");
+            fragment.setArguments(bundle);
+        }
+        addFragmentWithTagToLeft(fragment, PRODUCT_FRAGMENT);
     }
 
     private void addCategoryAddEditFragment() {

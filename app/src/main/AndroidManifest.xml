@@ -23,7 +23,6 @@
         <activity
             android:name=".ui.first_configure_last.FirstConfigureActivity"
             android:windowSoftInputMode="stateHidden">
-
         </activity>
         <activity
             android:name=".ui.vendor.add_edit.VendorAddEditActivity"

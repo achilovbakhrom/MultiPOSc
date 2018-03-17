@@ -45,6 +45,7 @@ public class AppPreferencesHelper implements PreferencesHelper {
     private static final String SECOND_OPTIONAL_PAYMENT_BUTTON = "SECOND_OPT";
     private static final String EDIT_ORDER_PASSWORD = "count_id";
     private static final String IS_SHOWN = "IS_SHOWN";
+    private static final String IS_APP_RUN_FIRST_TIME = "IS_APP_RUN_FIRST_TIME";
 
     private final SharedPreferences mPrefs;
 
@@ -224,5 +225,15 @@ public class AppPreferencesHelper implements PreferencesHelper {
     @Override
     public void setShowMode(boolean showMode) {
         mPrefs.edit().putBoolean(IS_SHOWN, showMode).apply();
+    }
+
+    @Override
+    public boolean isAppRunFirstTime() {
+        return mPrefs.getBoolean(IS_APP_RUN_FIRST_TIME, true);
+    }
+
+    @Override
+    public void setAppRunFirstTimeValue(boolean value) {
+        mPrefs.edit().putBoolean(IS_APP_RUN_FIRST_TIME, value).apply();
     }
 }

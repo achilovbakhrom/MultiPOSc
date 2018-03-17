@@ -3,6 +3,7 @@ package com.jim.multipos.ui.first_configure_last.fragment;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 
 import com.jim.mpviews.MpButton;
@@ -56,6 +57,7 @@ public class POSDetailsFragment extends BaseFragment implements ChangeableConten
     /**
      * For decision, will the fragment use the dagger 2
      * in the content
+     *
      * @return true - dagger included, false - dagger will be not used
      */
     @Override
@@ -77,16 +79,39 @@ public class POSDetailsFragment extends BaseFragment implements ChangeableConten
             }
         });
 
+        password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        confirmPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        password.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (isConfirmationPasswordChanged && confirmPassword.length() != 0)
+                    isValid();
+            }
+        });
         confirmPassword.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (!isConfirmationPasswordChanged)
                     isConfirmationPasswordChanged = true;
             }
+
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
         });
         confirmPassword.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
@@ -132,8 +157,8 @@ public class POSDetailsFragment extends BaseFragment implements ChangeableConten
                         activity.getPresenter().openAccount();
                         activity.changeState(FirstConfigurePresenter.POS_DETAILS_POSITION,
                                 MpCompletedStateView.COMPLETED_STATE);
-                    }
-                    else {
+                    } else {
+                        ((FirstConfigureActivity) getContext()).getPreferencesHelper().setAppRunFirstTimeValue(false);
                         ((FirstConfigureActivity) getActivity()).openLockScreen();
                     }
                 } else {
@@ -150,11 +175,16 @@ public class POSDetailsFragment extends BaseFragment implements ChangeableConten
         boolean passwordCorrect = password.getText().toString().equals(confirmPassword.getText().toString());
         if (!passwordCorrect) {
             confirmPassword.setError(getString(R.string.passwords_different));
+        } else {
+            confirmPassword.setError(null);
         }
-        if (password.length() == 0){
+        if (password.length() == 0) {
             password.setError(getString(R.string.password_length));
             passwordCorrect = false;
-        }
+        } else if (password.length() != 6) {
+            password.setError("The password must contain 6 characters");
+            passwordCorrect = false;
+        } else password.setError(null);
         return passwordCorrect && temp;
     }
 
@@ -167,6 +197,7 @@ public class POSDetailsFragment extends BaseFragment implements ChangeableConten
     /**
      * setter for type of next button, which allowed
      * two type: NEXT and FINISH
+     *
      * @param mode - for the button, which type of CompletionMode
      */
     @Override

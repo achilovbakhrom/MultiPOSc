@@ -11,6 +11,7 @@ import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
 import com.jim.multipos.ui.customer_group_new.CustomerGroupActivity;
 import com.jim.multipos.ui.customer_group_new.adapters.CustomerGroupsAdapter;
+import com.jim.multipos.utils.UIUtils;
 
 import butterknife.BindView;
 
@@ -39,12 +40,42 @@ public class CustomerGroupsFragment extends BaseFragment {
                 new CustomerGroupsAdapter.OnItemClickListener() {
                     @Override
                     public void onAddButtonPressed() {
-                        ((CustomerGroupActivity) getActivity()).getPresenter().clearAddFragment();
+                        if (((CustomerGroupActivity) getActivity()).getPresenter().hasChanges()) {
+                            UIUtils.showAlert(getContext(), getString(R.string.yes), getString(R.string.no), getString(R.string.discard_changes),
+                                    getString(R.string.warning_discard_changes), new UIUtils.AlertListener() {
+                                        @Override
+                                        public void onPositiveButtonClicked() {
+                                            ((CustomerGroupActivity) getActivity()).getPresenter().clearAddFragment();
+                                        }
+
+                                        @Override
+                                        public void onNegativeButtonClicked() {
+
+                                        }
+                                    });
+
+                        } else
+                            ((CustomerGroupActivity) getActivity()).getPresenter().clearAddFragment();
                     }
 
                     @Override
                     public void onItemPressed(int t) {
-                        ((CustomerGroupActivity) getActivity()).getPresenter().showSelectedCustomerGroup(t - 1);
+                        if (((CustomerGroupActivity) getActivity()).getPresenter().hasChanges()) {
+                            UIUtils.showAlert(getContext(), getString(R.string.yes), getString(R.string.no), getString(R.string.discard_changes),
+                                    getString(R.string.warning_discard_changes), new UIUtils.AlertListener() {
+                                        @Override
+                                        public void onPositiveButtonClicked() {
+                                            ((CustomerGroupActivity) getActivity()).getPresenter().showSelectedCustomerGroup(t - 1);
+                                        }
+
+                                        @Override
+                                        public void onNegativeButtonClicked() {
+
+                                        }
+                                    });
+
+                        } else
+                            ((CustomerGroupActivity) getActivity()).getPresenter().showSelectedCustomerGroup(t - 1);
                     }
                 }, 0));
     }

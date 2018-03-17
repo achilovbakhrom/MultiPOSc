@@ -38,16 +38,22 @@ import com.jim.multipos.core.BaseViewHolder;
 import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.products.VendorProductCon;
+import com.jim.multipos.ui.product_class_new.ProductsClassActivity;
 import com.jim.multipos.ui.product_last.ProductActivity;
 import com.jim.multipos.ui.product_last.ProductPresenter;
 import com.jim.multipos.ui.product_last.adapter.ProductClassListAdapter;
 import com.jim.multipos.ui.product_last.adapter.ProductCostListAdapter;
+import com.jim.multipos.ui.product_last.helpers.CategoryAddEditMode;
 import com.jim.multipos.ui.vendor.add_edit.VendorAddEditActivity;
 import com.jim.multipos.utils.CommonUtils;
 import com.jim.multipos.utils.GlideApp;
+import com.jim.multipos.utils.NumberTextWatcher;
 import com.jim.multipos.utils.OpenPickPhotoUtils;
 import com.jim.multipos.utils.PhotoPickDialog;
+import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.UIUtils;
+import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
+import com.jim.multipos.utils.rxevents.product_events.ProductClassEvent;
 
 import java.io.File;
 import java.io.Serializable;
@@ -61,6 +67,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
+import io.reactivex.disposables.Disposable;
 
 import static android.app.Activity.RESULT_OK;
 import static com.jim.multipos.utils.OpenPickPhotoUtils.RESULT_PICK_IMAGE;
@@ -129,6 +136,7 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
     private static final String VENDOR_LIST_COUNT = "VENDOR_LIST_COUNT";
     private static final String VENDOR_ID = "VENDOR_ID_";
     private Uri photoSelected;
+    private ArrayList<Disposable> subscriptions;
 
     @Override
     protected int getLayout() {
@@ -152,6 +160,7 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
 
     @Override
     protected void init(Bundle savedInstanceState) {
+        argumentsRead = true;
         vendors = new ArrayList<>();
         if (savedInstanceState != null) {
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
@@ -162,8 +171,14 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
                 }
             }
         }
-        formatter = new DecimalFormat("#.##");
-
+        NumberFormat numberFormat = NumberFormat.getNumberInstance();
+        numberFormat.setMaximumFractionDigits(2);
+        formatter = (DecimalFormat) numberFormat;
+        DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
+        symbols.setDecimalSeparator('.');
+        symbols.setGroupingSeparator(' ');
+        formatter.setDecimalFormatSymbols(symbols);
+        price.addTextChangedListener(new NumberTextWatcher(price));
         dialog = new Dialog(getContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.choose_vendor_dialog, null, false);
@@ -178,6 +193,7 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
         btnAddVendor = dialogView.findViewById(R.id.btnAdd);
         RxView.clicks(btnAddVendor).subscribe(o -> {
             getContext().startActivity(new Intent(getContext(), VendorAddEditActivity.class));
+            dialog.dismiss();
         });
 
         costDialog = new Dialog(getContext());
@@ -196,6 +212,12 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
         classList = classView.findViewById(R.id.rvProductList);
         TextView title = classView.findViewById(R.id.tvDialogTitle);
         title.setText(R.string.choose_product_class);
+        Button btnAddClass = classView.findViewById(R.id.btnAdd);
+        btnAddClass.setVisibility(View.VISIBLE);
+        RxView.clicks(btnAddClass).subscribe(o -> {
+            getContext().startActivity(new Intent(getContext(), ProductsClassActivity.class));
+            classDialog.dismiss();
+        });
         classList.setLayoutManager(new LinearLayoutManager(getContext()));
         classListAdapter = new ProductClassListAdapter(getContext());
         classList.setAdapter(classListAdapter);
@@ -210,6 +232,27 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
         });
         ((ProductActivity) getContext()).getPresenter().initDataForProduct();
         ivScanBarcode.setOnClickListener(view -> scan());
+    }
+
+    @Override
+    protected void rxConnections() {
+        super.rxConnections();
+        subscriptions = new ArrayList<>();
+        subscriptions.add(
+                ((ProductActivity) getContext()).getRxBus().toObservable().subscribe(o -> {
+                    if (o instanceof ProductClassEvent) {
+                        ProductClassEvent event = (ProductClassEvent) o;
+                        switch (event.getType()) {
+                            case GlobalEventConstants.DELETE:
+                            case GlobalEventConstants.UPDATE:
+                            case GlobalEventConstants.ADD: {
+                                classListAdapter.setData(((ProductActivity) getContext()).getPresenter().updateProductClass());
+                                classList.setAdapter(classListAdapter);
+                                break;
+                            }
+                        }
+                    }
+                }));
     }
 
     private void scan() {
@@ -257,15 +300,15 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
         switch (view.getId()) {
             case R.id.btnSave:
                 if (isValid())
-                    if (presenter.isProductNameExists(name.getText().toString())){
+                    if (presenter.isProductNameExists(name.getText().toString())) {
                         name.setError("Such product name exists");
                         return;
                     }
-                    try {
-                        ((ProductActivity) getContext()).getPresenter().comparePriceWithCost(formatter.parse(this.price.getText().toString()).doubleValue());
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
+                try {
+                    ((ProductActivity) getContext()).getPresenter().comparePriceWithCost(formatter.parse(this.price.getText().toString()).doubleValue());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 break;
             case R.id.tvVendor:
                 ((ProductActivity) getContext()).getPresenter().openVendorChooserDialog();
@@ -413,6 +456,8 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
         }
     }
 
+    boolean argumentsRead = true;
+
     public void openAddMode() {
         vendors = new ArrayList<>();
         name.setText("");
@@ -431,6 +476,11 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
         save.setText(R.string.save);
         photoSelected = null;
         photoButton.setImageResource(R.drawable.camera);
+        if (getArguments() != null && argumentsRead) {
+            String barcodeText = getArguments().getString("PRODUCT_BARCODE");
+            barcode.setText(barcodeText);
+            argumentsRead = false;
+        }
     }
 
     int categoryPos = 0;
@@ -613,6 +663,12 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
             }
         }
         return false;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        RxBus.removeListners(subscriptions);
     }
 
     public List<Long> getVendors() {

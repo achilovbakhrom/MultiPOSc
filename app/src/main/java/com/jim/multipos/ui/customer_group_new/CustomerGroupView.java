@@ -19,4 +19,5 @@ public interface CustomerGroupView extends BaseView {
     void removedCustomerFromCustomerGroup(Customer customer);
     void setDefaultValueCustomerGroupRV();
     void showActiveCustomerGroupWarningDialog();
+    String getCustomerGroupName();
 }

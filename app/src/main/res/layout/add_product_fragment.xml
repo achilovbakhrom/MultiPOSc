@@ -290,6 +290,7 @@
                     android:layout_marginRight="@dimen/sixteen_dp"
                     android:layout_weight="1"
                     android:hint="@string/value"
+                    android:maxLength="10"
                     android:inputType="numberDecimal"
                     android:textColorHint="@color/colorTextHint"
                     android:textSize="@dimen/sixteen_dp" />

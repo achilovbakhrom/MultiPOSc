@@ -87,7 +87,7 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
             }
             WarehouseOperations warehouseOperations = new WarehouseOperations();
             warehouseOperations.setProduct(inventoryItem.getProduct());
-            warehouseOperations.setVendor(inventoryItem.getVendor());
+            warehouseOperations.setVendor(vendor);
             warehouseOperations.setCreateAt(System.currentTimeMillis());
             warehouseOperations.setValue(WarehouseOperations.VOID_INCOME);
             warehouseOperations.setValue(shortage);
@@ -113,9 +113,9 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
             }
             WarehouseOperations warehouseOperations = new WarehouseOperations();
             warehouseOperations.setProduct(inventoryItem.getProduct());
-            warehouseOperations.setVendor(inventoryItem.getVendor());
+            warehouseOperations.setVendor(vendor);
             warehouseOperations.setCreateAt(System.currentTimeMillis());
-            warehouseOperations.setValue(WarehouseOperations.VOID_INCOME);
+            warehouseOperations.setValue(WarehouseOperations.WASTE);
             warehouseOperations.setValue(shortage * -1);
             databaseManager.insertWarehouseOperation(warehouseOperations).subscribe(aLong -> view.notifyList());
             view.sendInventoryStateEvent(GlobalEventConstants.UPDATE);

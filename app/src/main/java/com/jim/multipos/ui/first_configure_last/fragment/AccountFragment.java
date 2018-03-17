@@ -141,6 +141,7 @@ public class AccountFragment extends BaseFragment implements ChangeableContent {
                         activity.getPresenter().openCurrency();
                         activity.changeState(FirstConfigurePresenter.ACCOUNT_POSITION, MpCompletedStateView.COMPLETED_STATE);
                     } else {
+                        ((FirstConfigureActivity) getContext()).getPreferencesHelper().setAppRunFirstTimeValue(false);
                         ((FirstConfigureActivity) getActivity()).openLockScreen();
                     }
                 } else {

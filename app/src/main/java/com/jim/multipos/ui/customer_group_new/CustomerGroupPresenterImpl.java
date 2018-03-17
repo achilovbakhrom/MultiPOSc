@@ -10,8 +10,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import io.reactivex.functions.Consumer;
-
 /**
  * Created by Portable-Acer on 03.11.2017.
  */
@@ -19,6 +17,7 @@ import io.reactivex.functions.Consumer;
 public class CustomerGroupPresenterImpl extends BasePresenterImpl<CustomerGroupView> implements CustomerGroupPresenter {
     private DatabaseManager databaseManager;
     private List<Customer> addCustomers;
+    private CustomerGroup currentCustomerGroup = null;
 
     @Inject
     public CustomerGroupPresenterImpl(CustomerGroupView customerGroupView, DatabaseManager databaseManager) {
@@ -46,12 +45,16 @@ public class CustomerGroupPresenterImpl extends BasePresenterImpl<CustomerGroupV
 
     @Override
     public void clearAddFragment() {
+        currentCustomerGroup = null;
         view.clearAddFragment();
     }
 
     @Override
     public void showSelectedCustomerGroup(int position) {
-        databaseManager.getCustomerGroupOperations().getAllCustomerGroups().subscribe(customerGroups -> view.showSelectedCustomerGroup(customerGroups.get(position)));
+        databaseManager.getCustomerGroupOperations().getAllCustomerGroups().subscribe(customerGroups -> {
+            view.showSelectedCustomerGroup(customerGroups.get(position));
+            currentCustomerGroup = customerGroups.get(position);
+        });
     }
 
     @Override
@@ -121,5 +124,14 @@ public class CustomerGroupPresenterImpl extends BasePresenterImpl<CustomerGroupV
     @Override
     public List<Customer> getTempCustomers() {
         return addCustomers;
+    }
+
+    @Override
+    public boolean hasChanges() {
+        if (currentCustomerGroup != null) {
+            return !currentCustomerGroup.getName().equals(view.getCustomerGroupName());
+        } else {
+            return !view.getCustomerGroupName().isEmpty();
+        }
     }
 }

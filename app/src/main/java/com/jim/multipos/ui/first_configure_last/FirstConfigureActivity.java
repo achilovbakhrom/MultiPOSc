@@ -12,6 +12,7 @@ import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.R;
 import com.jim.multipos.core.DoubleSideActivity;
 import com.jim.multipos.data.DatabaseManager;
+import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.ui.first_configure_last.fragment.AccountFragment;
 import com.jim.multipos.ui.first_configure_last.fragment.CurrencyFragment;
 import com.jim.multipos.ui.first_configure_last.fragment.FirstConfigureListFragment;
@@ -41,6 +42,9 @@ public class FirstConfigureActivity extends DoubleSideActivity implements FirstC
     protected FirstConfigurePresenter presenter;
     @Inject
     DatabaseManager databaseManager;
+    @Inject
+    @Getter
+    PreferencesHelper preferencesHelper;
 
     @Override
     protected int getToolbarMode() {

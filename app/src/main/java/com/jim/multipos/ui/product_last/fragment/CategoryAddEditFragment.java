@@ -72,6 +72,8 @@ public class CategoryAddEditFragment extends BaseFragment {
         save.setText(R.string.save);
         name.setText("");
         name.setError(null);
+        description.clearFocus();
+        name.requestFocus();
         categoryChoose.setText("");
         description.setText("");
         active.setChecked(true);
@@ -88,6 +90,8 @@ public class CategoryAddEditFragment extends BaseFragment {
         save.setText(R.string.save);
         name.setText("");
         name.setError(null);
+        description.clearFocus();
+        name.requestFocus();
         categoryChoose.setText(parentName);
         description.setText("");
         active.setChecked(true);

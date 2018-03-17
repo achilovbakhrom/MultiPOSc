@@ -25,6 +25,7 @@ import com.jim.multipos.ui.mainpospage.model.CustomerSuggestion;
 import com.jim.multipos.utils.UIUtils;
 
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -94,7 +95,7 @@ public class AddDebtDialog extends Dialog {
         } else flSearchView.setSearchText("");
 
         if (order != null) {
-            etAmount.setText(String.valueOf(toPay));
+            etAmount.setText(decimalFormat.format(toPay));
         }
 
         ivScanBarcode.setOnClickListener(view -> listener.onScanBarcode());
@@ -188,7 +189,13 @@ public class AddDebtDialog extends Dialog {
                 if (etFee.getText().toString().isEmpty()) {
                     debt.setFee(0);
                 } else debt.setFee(Double.parseDouble(etFee.getText().toString()));
-                debt.setDebtAmount(Double.parseDouble(etAmount.getText().toString()));
+                double debtAmount = 0;
+                try {
+                    debtAmount = (decimalFormat.parse(etAmount.getText().toString()).doubleValue());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                debt.setDebtAmount(debtAmount);
                 debt.setEndDate(calendar.getTimeInMillis());
                 debt.setDebtType(spDebtType.getSelectedPosition());
                 debt.setOrder(order);
@@ -216,6 +223,7 @@ public class AddDebtDialog extends Dialog {
 
     public interface onDebtSaveClickListener {
         void onDebtSave(Debt debt);
+
         void onScanBarcode();
     }
 

@@ -56,4 +56,6 @@ public interface PreferencesHelper {
     void setNewEditOrderPassword(String md5Password);
     boolean isShown();
     void setShowMode(boolean showMode);
+    boolean isAppRunFirstTime();
+    void setAppRunFirstTimeValue(boolean value);
 }

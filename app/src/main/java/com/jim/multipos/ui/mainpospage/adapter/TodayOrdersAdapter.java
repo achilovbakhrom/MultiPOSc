@@ -76,7 +76,7 @@ public class TodayOrdersAdapter extends RecyclerView.Adapter<TodayOrdersAdapter.
                 break;
             case Order.CANCELED_ORDER:
                 holder.tvStatus.setText("Canceled");
-                holder.tvStatus.setTextColor(ContextCompat.getColor(context, R.color.colorSecondaryText));
+                holder.tvStatus.setTextColor(ContextCompat.getColor(context, R.color.colorRed));
                 break;
             case Order.CLOSED_ORDER:
                 holder.tvStatus.setText("Closed");

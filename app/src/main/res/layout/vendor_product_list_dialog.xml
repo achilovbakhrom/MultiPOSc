@@ -15,31 +15,48 @@
         android:orientation="vertical"
         android:paddingBottom="@dimen/ten_dp">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/seventy_dp"
             android:background="@drawable/rounded_blue_bg">
 
             <TextView
                 android:id="@+id/tvDialogTitle"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/thirty_dp"
+                android:layout_weight="1"
                 android:text="Vendor product list"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/twenty_dp" />
 
-        </RelativeLayout>
+            <Button
+                android:id="@+id/btnAdd"
+                android:layout_width="@dimen/eighty_dp"
+                android:layout_height="@dimen/forty_dp"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/thirty_dp"
+                android:background="@drawable/customer_dialog_button_selector"
+                android:clickable="true"
+                android:padding="@dimen/ten_dp"
+                android:text="@string/add_plus"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/sixteen_dp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+        </LinearLayout>
 
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvProductList"
-            android:overScrollMode="never"
-            android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="0dp" />
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:overScrollMode="never" />
 
         <FrameLayout
             android:layout_width="match_parent"

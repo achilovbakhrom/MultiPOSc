@@ -16,6 +16,7 @@ import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.ui.cash_management.CashManagementActivity;
+import com.jim.multipos.ui.first_configure_last.FirstConfigureActivity;
 import com.jim.multipos.ui.lock_screen.LockScreenActivity;
 import com.jim.multipos.ui.main_menu.customers_menu.CustomersMenuActivity;
 import com.jim.multipos.ui.main_menu.inventory_menu.InventoryMenuActivity;
@@ -85,10 +86,16 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         ButterKnife.bind(this);
 
-        //test dataset
-        TestUtils.createCurrencies(databaseManager, this);
-        TestUtils.createAccount(databaseManager);
+        if (preferencesHelper.isAppRunFirstTime()){
+            try {
+                Intent intro = new Intent(this, FirstConfigureActivity.class);
+                startActivity(intro);
+            } catch (Exception o) {
+            }
+            finish();
+        }
 
+        //test dataset
         initProductPickerFragmentToRight();
         notifyManager.setView(this);
 
@@ -170,12 +177,7 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
             OrderMenuDialog orderMenuDialog = new OrderMenuDialog(this, new OrderMenuDialog.onOrderMenuItemClickListener() {
                 @Override
                 public void onTodayOrderClick() {
-                    TodayOrdersDialog dialog = new TodayOrdersDialog(MainPosPageActivity.this, databaseManager, new TodayOrdersDialog.onOrderSelect() {
-                        @Override
-                        public void onSelect(Order order) {
-                            presenter.onTodayOrderSelected(order);
-                        }
-                    });
+                    TodayOrdersDialog dialog = new TodayOrdersDialog(MainPosPageActivity.this, databaseManager, order -> presenter.onTodayOrderSelected(order));
                     dialog.show();
                 }
 
@@ -262,8 +264,9 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
     }
 
 
-    public void openAddProductActivity() {
+    public void openAddProductActivity(String lastResult) {
         Intent intent = new Intent(this, ProductActivity.class);
+        intent.putExtra("PRODUCT_BARCODE", lastResult);
         startActivity(intent);
     }
 

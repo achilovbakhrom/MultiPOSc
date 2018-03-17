@@ -130,8 +130,9 @@
                 android:layout_marginRight="@dimen/twenty_dp"
                 android:fontFamily="roboto"
                 android:gravity="left|center_vertical"
-                android:hint="@string/admin_password"
-                android:inputType="number"
+                android:hint="@string/password"
+                android:maxLength="6"
+                android:inputType="numberPassword"
                 android:textColor="@color/colorMainText"
                 android:textSize="@dimen/eighteen_dp" />
 
@@ -161,8 +162,9 @@
                 android:layout_marginRight="@dimen/twenty_dp"
                 android:fontFamily="roboto"
                 android:gravity="left|center_vertical"
+                android:maxLength="6"
                 android:hint="@string/repeat_password"
-                android:inputType="number"
+                android:inputType="numberPassword"
                 android:textColor="@color/colorMainText"
                 android:textSize="@dimen/eighteen_dp" />
         </LinearLayout>

@@ -12,7 +12,9 @@ import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.ui.product_class_new.adapters.ProductsClassListAdapter;
 import com.jim.multipos.ui.product_class_new.model.ProductsClassAdapterDetials;
 import com.jim.multipos.ui.product_class_new.presenters.ProductsClassPresenter;
+import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.WarningDialog;
+import com.jim.multipos.utils.rxevents.product_events.ProductClassEvent;
 
 import java.util.List;
 
@@ -38,6 +40,8 @@ public class ProductsClassFragment  extends BaseFragment implements ProductsClas
     ProductsClassListAdapter productsClassListAdapter;
     @Inject
     ProductsClassPresenter presenter;
+    @Inject
+    RxBus rxBus;
     @Override
     protected int getLayout() {
         return R.layout.product_class_list;
@@ -141,6 +145,11 @@ public class ProductsClassFragment  extends BaseFragment implements ProductsClas
     @Override
     public void closeAction() {
         presenter.onCloseAction();
+    }
+
+    @Override
+    public void sendEvent(ProductClass productClass, int eventType) {
+        rxBus.send(new ProductClassEvent(productClass, eventType));
     }
 
 

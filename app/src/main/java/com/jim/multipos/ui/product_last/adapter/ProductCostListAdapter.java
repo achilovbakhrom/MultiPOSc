@@ -13,9 +13,12 @@ import com.jim.multipos.R;
 import com.jim.multipos.data.db.model.intosystem.ProductCost;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.products.VendorProductCon;
+import com.jim.multipos.utils.NumberTextWatcher;
 import com.jim.multipos.utils.TextWatcherOnTextChange;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.util.List;
 
 import butterknife.BindView;
@@ -35,7 +38,13 @@ public class ProductCostListAdapter extends RecyclerView.Adapter<ProductCostList
 
     public ProductCostListAdapter(Context context, DecimalFormat decimalFormat) {
         this.context = context;
-        this.decimalFormat = decimalFormat;
+        NumberFormat numberFormat = NumberFormat.getNumberInstance();
+        numberFormat.setMaximumFractionDigits(2);
+        this.decimalFormat = (DecimalFormat) numberFormat;
+        DecimalFormatSymbols symbols = this.decimalFormat.getDecimalFormatSymbols();
+        symbols.setDecimalSeparator('.');
+        symbols.setGroupingSeparator(' ');
+        this.decimalFormat.setDecimalFormatSymbols(symbols);
     }
 
     public void setData(List<String> vendors, List<VendorProductCon> costs) {
@@ -55,6 +64,8 @@ public class ProductCostListAdapter extends RecyclerView.Adapter<ProductCostList
         holder.tvProductName.setText(vendors.get(position));
         if (costs.get(position).getCost() != null)
             holder.etProductCost.setText(decimalFormat.format(costs.get(position).getCost()));
+
+        holder.etProductCost.addTextChangedListener(new NumberTextWatcher(holder.etProductCost));
     }
 
     public List<VendorProductCon> getCosts() {

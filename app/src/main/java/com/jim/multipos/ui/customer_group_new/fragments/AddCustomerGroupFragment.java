@@ -13,6 +13,7 @@ import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
 import com.jim.multipos.ui.customer_group_new.CustomerGroupActivity;
+import com.jim.multipos.utils.UIUtils;
 import com.jim.multipos.utils.WarningDialog;
 import com.jim.multipos.utils.validator.MultipleCallback;
 
@@ -55,7 +56,21 @@ public class AddCustomerGroupFragment extends BaseFragment {
         btnSave.setText(R.string.add);
         btnDelete.setVisibility(View.GONE);
         RxView.clicks(btnBack).subscribe(o -> {
-            getActivity().onBackPressed();
+            if (((CustomerGroupActivity) getActivity()).getPresenter().hasChanges()){
+                UIUtils.showAlert(getContext(), getString(R.string.yes), getString(R.string.no), getString(R.string.discard_changes),
+                        getString(R.string.warning_discard_changes), new UIUtils.AlertListener() {
+                            @Override
+                            public void onPositiveButtonClicked() {
+                                getActivity().onBackPressed();
+                            }
+
+                            @Override
+                            public void onNegativeButtonClicked() {
+
+                            }
+                        });
+            } else getActivity().onBackPressed();
+
         });
         RxView.clicks(btnMembers).subscribe(o -> {
             if (isEditMode) {
@@ -139,5 +154,9 @@ public class AddCustomerGroupFragment extends BaseFragment {
         }
 
         etGroupName.setSelection(etGroupName.getText().length());
+    }
+
+    public String getCustomerGroupName() {
+        return etGroupName.getText().toString();
     }
 }

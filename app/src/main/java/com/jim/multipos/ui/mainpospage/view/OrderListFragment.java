@@ -649,7 +649,8 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        printer.closeController();
+        if (printer != null)
+            printer.closeController();
     }
 
     @Override
