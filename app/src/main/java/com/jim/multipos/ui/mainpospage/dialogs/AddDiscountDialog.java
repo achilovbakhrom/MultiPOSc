@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.NonNull;
+import android.text.InputFilter;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;

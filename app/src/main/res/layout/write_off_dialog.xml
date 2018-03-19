@@ -58,6 +58,7 @@
                android:textSize="@dimen/eighteen_dp"
                android:textColor="#414141"
                android:paddingLeft="@dimen/eighteen_dp"
+               android:paddingRight="@dimen/eighteen_dp"
                />
        </LinearLayout>
         <LinearLayout
@@ -80,6 +81,7 @@
                 android:id="@+id/spVenders"
                 android:layout_width="@dimen/five_hundred_dp"
                 android:layout_height="@dimen/forty_five_dp"
+                android:paddingRight="@dimen/eighteen_dp"
 
                 />
         </LinearLayout>
@@ -151,6 +153,7 @@
                         android:textSize="@dimen/eighteen_dp"
                         android:textColor="#414141"
                         android:singleLine="true"
+                        android:maxLength="10"
                         android:inputType="numberDecimal"
                         android:paddingLeft="@dimen/eighteen_dp"
                         android:background="@drawable/edit_text_bg_transparent"/>
@@ -223,6 +226,7 @@
                 android:layout_marginLeft="@dimen/thirty_dp"
                 android:hint="Enter Reason"
                 android:textSize="@dimen/eighteen_dp"
+                android:maxLength="100"
                 android:gravity="top"/>
             <FrameLayout
                 android:layout_width="match_parent"

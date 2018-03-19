@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="@dimen/five_hundred_dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/white_rect_corners">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/forty_dp"
+        android:orientation="horizontal"
+        android:background="@drawable/grey_top_corners">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="Choise Hour / Minute"
+            android:textColor="#414141"
+            android:layout_marginRight="@dimen/fifty_dp"
+            android:layout_marginLeft="@dimen/thirty_dp"
+            android:gravity="center_vertical"/>
+        <ImageView
+            android:id="@+id/cancel_btn"
+            android:layout_width="@dimen/sixty_dp"
+            android:paddingLeft="@dimen/ten_dp"
+            android:layout_marginLeft="@dimen/twenty_dp"
+            android:paddingRight="@dimen/thirty_five_dp"
+            android:layout_height="match_parent"
+            android:tint="#414141"
+            android:src="@drawable/close_dialog"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/pickers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/thirty_dp"
+        android:layout_marginLeft="@dimen/thirty_dp"
+        android:layout_marginTop="@dimen/twenty_dp"
+        android:layout_marginBottom="@dimen/ten_dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <TimePicker
+            android:id="@+id/tpHourTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:timePickerMode="spinner"
+
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llBtnContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/twenty_dp"
+        android:layout_marginTop="@dimen/ten_dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        >
+
+        <com.jim.mpviews.MpButton
+            android:layout_width="@dimen/hundred_ten_dp"
+            android:layout_height="@dimen/fifty_five_dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="@dimen/ten_dp"
+            android:gravity="center"
+            android:text="Cancel"
+            android:textColor="@color/colorSecondaryText"
+            android:textSize="@dimen/sixteen_dp"
+            android:textStyle="bold"
+            android:id="@+id/btnBack"/>
+
+        <com.jim.mpviews.MpButton
+            android:layout_width="@dimen/hundred_ten_dp"
+            android:layout_height="@dimen/fifty_five_dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Confirm"
+            android:textColor="@color/colorBlue"
+            android:textSize="@dimen/sixteen_dp"
+            android:textStyle="bold"
+            android:id="@+id/btnOk" />
+    </LinearLayout>
+</LinearLayout>

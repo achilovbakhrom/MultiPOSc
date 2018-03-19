@@ -22,7 +22,7 @@
             android:inputType="textCapWords|textNoSuggestions"
             android:hint="Reason Name"
             android:textSize="@dimen/sixteen_dp"
-            android:maxLength="40"
+            android:maxLength="35"
             />
         <com.jim.mpviews.MpEditText
             android:id="@+id/etAmmount"

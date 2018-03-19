@@ -88,13 +88,14 @@
             android:inputType="textCapWords|textNoSuggestions"
             android:hint="Reason Name"
             android:textSize="@dimen/sixteen_dp"
-            android:maxLength="40"
+            android:maxLength="35"
 
             />
         <com.jim.mpviews.MpEditText
             android:id="@+id/etAmmount"
             android:layout_width="@dimen/three_hundred_dp"
             android:layout_height="@dimen/forty_five_dp"
+            android:maxLength="10"
             android:layout_marginRight="@dimen/ten_dp"
             android:paddingRight="@dimen/ten_dp"
             android:paddingLeft="@dimen/sixteen_dp"

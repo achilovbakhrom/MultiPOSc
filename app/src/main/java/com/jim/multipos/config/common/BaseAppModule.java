@@ -23,6 +23,7 @@ import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.util.Locale;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -79,5 +80,41 @@ public abstract class BaseAppModule {
         symbols.setDecimalSeparator('.');
         formatter.setDecimalFormatSymbols(symbols);
         return formatter;
+    }
+
+    @Provides
+    @Singleton
+    @Named(value = "without_grouping_four_decimal")
+    public static DecimalFormat getFormatterWithoutGroupingFourDecimal(){
+        DecimalFormat decimalFormat1 = new DecimalFormat("0.####");
+        DecimalFormatSymbols decimalFormatSymbols = decimalFormat1.getDecimalFormatSymbols();
+        decimalFormatSymbols.setDecimalSeparator('.');
+        decimalFormat1.setDecimalFormatSymbols(decimalFormatSymbols);
+        return decimalFormat1;
+    }
+
+    @Provides
+    @Singleton
+    @Named(value = "without_grouping_two_decimal")
+    public static DecimalFormat getFormatterWithoutGroupingTwoDecimal(){
+        DecimalFormat decimalFormat1 = new DecimalFormat("0.##");
+        DecimalFormatSymbols decimalFormatSymbols = decimalFormat1.getDecimalFormatSymbols();
+        decimalFormatSymbols.setDecimalSeparator('.');
+        decimalFormat1.setDecimalFormatSymbols(decimalFormatSymbols);
+        return decimalFormat1;
+    }
+
+
+    @Provides
+    @Singleton
+    @Named(value = "grouping_two_decimal")
+    public static DecimalFormat getFormatterGrouping(){
+        DecimalFormat decimalFormat1 = new DecimalFormat("0.##");
+        DecimalFormatSymbols decimalFormatSymbols = decimalFormat1.getDecimalFormatSymbols();
+        decimalFormatSymbols.setDecimalSeparator('.');
+        decimalFormatSymbols.setGroupingSeparator(' ');
+        decimalFormat1.setDecimalFormatSymbols(decimalFormatSymbols);
+        decimalFormat1.setGroupingSize(3);
+        return decimalFormat1;
     }
 }

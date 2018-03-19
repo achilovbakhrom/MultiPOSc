@@ -127,6 +127,7 @@
                         android:hint="@string/value"
                         android:inputType="numberDecimal"
                         android:singleLine="true"
+                        android:maxLength="10"
                         android:textColor="#414141"
                         android:textSize="@dimen/eighteen_dp" />
                 </LinearLayout>
@@ -170,6 +171,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/forty_five_dp"
                         android:layout_marginTop="@dimen/ten_dp"
+                        android:maxLength="12"
                         android:background="@drawable/edit_text_bg_transparent"
                         android:gravity="center_vertical|right"
                         android:inputType="numberDecimal"
@@ -185,6 +187,7 @@
                 android:layout_height="@dimen/ninety_dp"
                 android:layout_marginBottom="@dimen/twenty_dp"
                 android:gravity="top"
+                android:maxLength="50"
                 android:hint="@string/enter_discount_reason"
                 android:textSize="@dimen/eighteen_dp" />
 

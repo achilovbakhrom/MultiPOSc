@@ -44,14 +44,28 @@ public class DateIntervalPicker extends Dialog {
     MpButtonLong btnThisMonth;
     @BindView(R.id.btnLastYear)
     MpButtonLong btnLastYear;
-    @BindView(R.id.tvCurrentInterval)
-    TextView tvCurrentInterval;
+
+    @BindView(R.id.tvFromTime)
+    TextView tvFromTime;
+    @BindView(R.id.tvCurrentIntervalFrom)
+    TextView tvCurrentIntervalFrom;
+    @BindView(R.id.divider)
+    TextView divider;
+    @BindView(R.id.tvToTime)
+    TextView tvToTime;
+    @BindView(R.id.tvCurrentIntervalTo)
+    TextView tvCurrentIntervalTo;
+
     boolean fromDateCurrent  = false, toDateCurrent = false;
     Calendar fromDate;
     Calendar toDate ;
+    Calendar fromTime;
+    Calendar toTime;
+
     int clicked = 0;
     Date currentDate;
     private CallbackIntervalPicker callbackIntervalPicker;
+    SimpleDateFormat  timeSimple = new SimpleDateFormat("HH:mm");
 
     public interface CallbackIntervalPicker{
         void dateIntervalPicked(Calendar fromDate,Calendar toDate);
@@ -68,6 +82,18 @@ public class DateIntervalPicker extends Dialog {
         currentDate = new Date();
         fromDate =  new GregorianCalendar();
         toDate = new GregorianCalendar();
+
+        fromTime = new GregorianCalendar();
+        toTime = new GregorianCalendar();
+
+        fromTime.set(Calendar.HOUR_OF_DAY, 0);
+        fromTime.set(Calendar.MINUTE, 0);
+        fromTime.set(Calendar.SECOND, 0);
+
+        toTime.set(Calendar.HOUR_OF_DAY,23);
+        toTime.set(Calendar.MINUTE,59);
+        toTime.set(Calendar.SECOND,59);
+
         if(fromDateInstance == null && toDateInstance == null){
 
 
@@ -81,6 +107,8 @@ public class DateIntervalPicker extends Dialog {
         }else if(fromDateInstance != null && toDateInstance == null){
             fromDate.setTimeInMillis(fromDateInstance.getTimeInMillis());
             toDate.setTimeInMillis(fromDateInstance.getTimeInMillis());
+
+
             setDatas();
             updateCalendars();
             fromDateCurrent = true;
@@ -88,6 +116,10 @@ public class DateIntervalPicker extends Dialog {
         }else {
             fromDate.setTimeInMillis(fromDateInstance.getTimeInMillis());
             toDate.setTimeInMillis(toDateInstance.getTimeInMillis());
+
+            fromTime.setTimeInMillis(fromDateInstance.getTimeInMillis());
+            toTime.setTimeInMillis(toDateInstance.getTimeInMillis());
+
             setDatas();
             updateCalendars();
             fromDateCurrent = true;
@@ -287,22 +319,38 @@ public class DateIntervalPicker extends Dialog {
         if(fromDateCurrent && !toDateCurrent){
             String format = simpleDateFormat.format(fromDate.getTime());
             date =  format.substring(0, 1).toUpperCase() + format.substring(1);
+            tvCurrentIntervalTo.setText(date);
+            tvCurrentIntervalFrom.setText(date);
+            setUnderlineText(tvFromTime,timeSimple.format(fromDate.getTime()));
+            setUnderlineText(tvToTime,timeSimple.format(toDate.getTime()));
         }else if(fromDateCurrent && toDateCurrent){
             long indecatorTo = toDate.get(Calendar.YEAR) * 365 + toDate.get(Calendar.MONTH) * 30 + toDate.get(Calendar.DAY_OF_MONTH);
             long indecatorFrom = fromDate.get(Calendar.YEAR) * 365 + fromDate.get(Calendar.MONTH) * 30 + fromDate.get(Calendar.DAY_OF_MONTH);
             if(indecatorTo == indecatorFrom){
                 String format = simpleDateFormat.format(fromDate.getTime());
                 date =  format.substring(0, 1).toUpperCase() + format.substring(1);
+                tvCurrentIntervalTo.setText(date);
+                tvCurrentIntervalFrom.setText(date);
+                setUnderlineText(tvFromTime,timeSimple.format(fromTime.getTime()));
+                setUnderlineText(tvToTime,timeSimple.format(toTime.getTime()));
+
             }else {
 
                 String format = simpleDateFormat.format(fromDate.getTime());
                 String format1 = simpleDateFormat.format(toDate.getTime());
 
-                date = format.substring(0, 1).toUpperCase() + format.substring(1) + " - " + format1.substring(0, 1).toUpperCase() + format1.substring(1);
+                tvCurrentIntervalTo.setText(format.substring(0, 1).toUpperCase() + format.substring(1) );
+                tvCurrentIntervalFrom.setText(format1.substring(0, 1).toUpperCase() + format1.substring(1));
+                setUnderlineText(tvFromTime,timeSimple.format(fromTime.getTime()));
+                setUnderlineText(tvToTime,timeSimple.format(toTime.getTime()));
             }
 
         }
-        tvCurrentInterval.setText(date);
 
+    }
+    public void setUnderlineText(TextView textView, String text){
+        SpannableString content = new SpannableString(text);
+        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+        textView.setText(content);
     }
 }

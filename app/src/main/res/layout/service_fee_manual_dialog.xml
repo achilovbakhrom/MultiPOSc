@@ -125,6 +125,7 @@
                         android:background="@drawable/edit_text_bg_transparent"
                         android:gravity="center_vertical|right"
                         android:hint="@string/value"
+                        android:maxLength="10"
                         android:inputType="numberDecimal"
                         android:focusableInTouchMode="true"
                         android:singleLine="true"
@@ -175,6 +176,7 @@
                         android:gravity="center_vertical|right"
                         android:inputType="numberDecimal"
                         android:singleLine="true"
+                        android:maxLength="12"
                         android:focusableInTouchMode="true"
                         android:textColor="#414141"
                         android:textSize="@dimen/eighteen_dp" />
@@ -187,6 +189,7 @@
                 android:layout_height="@dimen/ninety_dp"
                 android:layout_marginBottom="@dimen/twenty_dp"
                 android:gravity="top"
+                android:maxLength="50"
                 android:hint="@string/enter_service_fee_name"
                 android:textSize="@dimen/eighteen_dp" />
 

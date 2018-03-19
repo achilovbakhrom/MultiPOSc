@@ -15,6 +15,7 @@ import com.jim.mpviews.MpCheckbox;
 import com.jim.mpviews.MpEditText;
 import com.jim.mpviews.MpMiniActionButton;
 import com.jim.multipos.R;
+import com.jim.multipos.config.common.BaseAppModule;
 import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.ui.discount.model.DiscountApaterDetials;
 import com.jim.multipos.ui.discount.presenters.DiscountAddingPresenterImpl;
@@ -23,6 +24,7 @@ import com.jim.multipos.utils.UIUtils;
 import com.jim.multipos.utils.WarningDialog;
 import com.jim.multipos.utils.validator.MultipleCallback;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import butterknife.BindView;
@@ -43,11 +45,12 @@ public class DiscountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private Context context;
     String[] discountUsedType;
     String[] discountAmountType;
-
+    DecimalFormat decimalFormat;
     DiscountAddingPresenterImpl.DiscountSortTypes currentDiscountSortTypes = DiscountAddingPresenterImpl.DiscountSortTypes.Default;
 
     public DiscountListAdapter(Context context) {
         this.context = context;
+        decimalFormat = BaseAppModule.getFormatterWithoutGroupingFourDecimal();
         discountUsedType = context.getResources().getStringArray(R.array.discount_used_types);
         discountAmountType = context.getResources().getStringArray(R.array.discount_amount_types);
         addingState = new DiscountApaterDetials();
@@ -100,7 +103,7 @@ public class DiscountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 holder.spUsed.setSelectedPosition(0);
             }
             else {
-                holder.etAmmount.setText((addingState.getChangedObject().getAmount()==0)?"":String.valueOf(addingState.getChangedObject().getAmount()));
+                holder.etAmmount.setText((addingState.getChangedObject().getAmount()==0)?"":decimalFormat.format(addingState.getChangedObject().getAmount()));
                 holder.etName.setText((addingState.getChangedObject().getName()==null)?"":addingState.getChangedObject().getName());
                 holder.chbActive.setChecked(addingState.getChangedObject().getActive());
                 int a =0;
@@ -150,7 +153,7 @@ public class DiscountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
 
             holder.etName.setText(discount.getName());
-            holder.etAmmount.setText(String.valueOf(discount.getAmount()));
+            holder.etAmmount.setText(decimalFormat.format(discount.getAmount()));
             holder.chbActive.setChecked(discount.getActive());
             if(!discount.getActive()){
                 holder.etName.setAlpha(0.5f);
@@ -294,7 +297,7 @@ public class DiscountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     if(addingState.getActualyAmmountType()==Discount.PERCENT){
                         double percent = 0;
                         try{
-                            percent = Double.parseDouble(etAmmount.getText().toString());
+                            percent = decimalFormat.parse(etAmmount.getText().toString().replace(',','.')).doubleValue();
                         }catch (Exception e){
                             etAmmount.setError(context.getString(R.string.invalid));
                             return;
@@ -307,7 +310,7 @@ public class DiscountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     }else {
                         double percent = 0;
                         try{
-                            percent = Double.parseDouble(etAmmount.getText().toString());
+                            percent = decimalFormat.parse(etAmmount.getText().toString().replace(',','.')).doubleValue();
                         }catch (Exception e){
                             etAmmount.setError(context.getString(R.string.invalid));
                             return;
@@ -399,7 +402,7 @@ public class DiscountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     if(items.get(getAdapterPosition()).getActualyAmmountType() == Discount.PERCENT){
                         double percent = 0;
                         try{
-                            percent = Double.parseDouble(etAmmount.getText().toString());
+                            percent = decimalFormat.parse(etAmmount.getText().toString().replace(',','.')).doubleValue();
                         }catch (Exception e){
                             etAmmount.setError(context.getString(R.string.invalid));
                             return;
@@ -413,7 +416,7 @@ public class DiscountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     }else {
                         double percent = 0;
                         try{
-                            percent = Double.parseDouble(etAmmount.getText().toString());
+                            percent = decimalFormat.parse(etAmmount.getText().toString().replace(',','.')).doubleValue();
                         }catch (Exception e){
                             etAmmount.setError(context.getString(R.string.invalid));
                             return;
@@ -458,7 +461,7 @@ public class DiscountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 if(discount.getAmountType()==Discount.PERCENT){
                     type = "%";
                 }
-                warningDialog.setWarningMessage(context.getString(R.string.do_you_want_delete_item)+discount.getName()+" "+String.valueOf(discount.getAmount())+type+" "+"?");
+                warningDialog.setWarningMessage(context.getString(R.string.do_you_want_delete_item)+discount.getName()+" "+decimalFormat.format(discount.getAmount())+type+" "+"?");
                 warningDialog.setOnNoClickListener(view1 -> {
                     warningDialog.dismiss();
                 });

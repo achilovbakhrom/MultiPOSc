@@ -71,7 +71,7 @@ public class SimpleDatePickerDelegate {
 
         // month
         mMonthSpinner = (NumberPicker) parent.findViewById(R.id.month);
-        setDividerColor(mMonthSpinner, Color.parseColor("#41b3d9"));
+//        setDividerColor(mMonthSpinner, Color.parseColor("#41b3d9"));
         mMonthSpinner.setMinValue(0);
         mMonthSpinner.setMaxValue(mNumberOfMonths - 1);
         mMonthSpinner.setDisplayedValues(mShortMonths);
@@ -80,7 +80,7 @@ public class SimpleDatePickerDelegate {
 
         // year
         mYearSpinner = (NumberPicker) parent.findViewById(R.id.year);
-        setDividerColor(mYearSpinner, Color.parseColor("#41b3d9"));
+//        setDividerColor(mYearSpinner, Color.parseColor("#41b3d9"));
         mYearSpinner.setOnLongPressUpdateInterval(100);
         mYearSpinner.setOnValueChangedListener(onChangeListener);
 
