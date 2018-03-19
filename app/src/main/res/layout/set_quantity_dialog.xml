@@ -45,6 +45,7 @@
             android:gravity="center_vertical"
             android:hint="@string/enter_quantity"
             android:inputType="number"
+            android:maxLength="6"
             android:paddingLeft="@dimen/eighteen_dp"
             android:textColor="#414141"
             android:textSize="@dimen/eighteen_dp" />

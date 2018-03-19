@@ -180,7 +180,7 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
         });
         lbCancelOrder.setOnLightButtonClickListener(view -> {
             WarningDialog warningDialog = new WarningDialog(getActivity());
-            warningDialog.setWarningMessage("Are you sure clear order?");
+            warningDialog.setWarningMessage("Are you sure cancel order?");
             warningDialog.setOnYesClickListener(view1 -> {
                 warningDialog.dismiss();
                 presenter.cleanOrder();
@@ -672,7 +672,7 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
     @Override
     public void fistufulCloseOrder() {
         WarningDialog warningDialog = new WarningDialog(getActivity());
-        warningDialog.setWarningMessage("Are you sure discard order?");
+        warningDialog.setWarningMessage("Are you sure cancel order?");
         warningDialog.setOnYesClickListener(view1 -> {
             warningDialog.dismiss();
             presenter.cleanOrder();

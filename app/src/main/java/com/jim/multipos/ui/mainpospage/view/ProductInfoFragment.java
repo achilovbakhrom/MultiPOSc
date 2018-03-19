@@ -131,11 +131,9 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
 
         ivMinus.setOnClickListener(view -> {
             mainPageConnection.minusProductCount();
-            mainPageConnection.giveToProductInfoFragmentProductItem();
         });
         ivPlus.setOnClickListener(view -> {
             mainPageConnection.plusProductCount();
-            mainPageConnection.giveToProductInfoFragmentProductItem();
         });
         btnSetQuantity.setOnClickListener(view -> {
             if(orderProductItem.getOrderProduct().getProduct().getMainUnit().getUnitCategory().getUnitType() == UnitCategory.PIECE) {

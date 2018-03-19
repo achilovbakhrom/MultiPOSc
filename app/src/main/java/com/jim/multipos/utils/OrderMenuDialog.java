@@ -33,6 +33,8 @@ public class OrderMenuDialog extends Dialog {
     TextView tvClose;
     @BindView(R.id.llSettingsMenu)
     LinearLayout llSettingsMenu;
+    @BindView(R.id.tvNewOrders)
+    TextView tvNewOrders;
 
 
     public OrderMenuDialog(Context context, onOrderMenuItemClickListener listener) {
@@ -45,7 +47,7 @@ public class OrderMenuDialog extends Dialog {
         wlp.y = CommonUtils.dpToPx(30);
         wlp.x = CommonUtils.dpToPx(210);
         wlp.width = CommonUtils.dpToPx(300);
-        wlp.height = CommonUtils.dpToPx(220);
+        wlp.height = CommonUtils.dpToPx(250);
         wlp.gravity = Gravity.TOP | Gravity.LEFT;
         window.setAttributes(wlp);
         ButterKnife.bind(this, dialogView);
@@ -60,6 +62,10 @@ public class OrderMenuDialog extends Dialog {
             listener.onHeldOrderClick();
             dismiss();
         });
+        tvNewOrders.setOnClickListener(view -> {
+           listener.onNewOrderClick();
+           dismiss();
+        });
         tvClose.setOnClickListener(view -> {
             dismiss();
         });
@@ -68,5 +74,6 @@ public class OrderMenuDialog extends Dialog {
     public interface onOrderMenuItemClickListener{
         void onTodayOrderClick();
         void onHeldOrderClick();
+        void onNewOrderClick();
     }
 }

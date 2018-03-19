@@ -727,6 +727,15 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         return position;
     }
 
+    public boolean isEmptyOrder(){
+        boolean isItEmptyOrder = true;
+        if(list.size()!=0) isItEmptyOrder = false;
+        if(order.getSubTotalValue() != 0) isItEmptyOrder = false;
+        if(discountItem != null) isItEmptyOrder = false;
+        if(serviceFeeItem !=null) isItEmptyOrder = false;
+        if(payedPartitions.size()!=0) isItEmptyOrder = false;
+        return isItEmptyOrder;
+    }
     public void sendEventGoToPrevOrders() {
         boolean isItEmptyOrder = true;
         if(list.size()!=0) isItEmptyOrder = false;
@@ -795,6 +804,10 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         boolean hasOpenTill = databaseManager.hasOpenTill().blockingGet();
         if (!hasOpenTill){
             view.openWarningDialog("Opened till wasn't found. Please, open till");
+            return;
+        }
+        if(isEmptyOrder()){
+            view.openWarningDialog("Empty Till can't be hold");
             return;
         }
 
@@ -1010,6 +1023,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
                     updateDetials();
                     view.updateOrderDetials(order,customer,payedPartitions);
                     view.notifyItemChanged(i,list.size(),updateOrderDiscountServiceFee());
+                    view.hideProductInfoFragment();
                     return;
                 }
             }
@@ -1026,6 +1040,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
                     updateDetials();
                     view.updateOrderDetials(order,customer,payedPartitions);
                     view.notifyItemRemove(i,list.size(),updateOrderDiscountServiceFee());
+                    view.hideProductInfoFragment();
                     return;
                 }
             }

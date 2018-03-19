@@ -44,6 +44,7 @@
             android:background="@drawable/edit_text_bg"
             android:gravity="center_vertical"
             android:hint="0.00"
+            android:maxLength="7"
             android:selectAllOnFocus="true"
             android:inputType="numberDecimal"
             android:paddingLeft="@dimen/eighteen_dp"

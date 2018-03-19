@@ -27,6 +27,7 @@ import com.jim.multipos.ui.mainpospage.dialogs.TodayOrdersDialog;
 import com.jim.multipos.ui.mainpospage.view.BarcodeScannerFragment;
 import com.jim.multipos.ui.mainpospage.view.OrderListFragment;
 import com.jim.multipos.ui.product_last.ProductActivity;
+import com.jim.multipos.ui.reports.ReportsActivity;
 import com.jim.multipos.utils.MainMenuDialog;
 import com.jim.multipos.utils.OrderMenuDialog;
 import com.jim.multipos.utils.RxBus;
@@ -159,7 +160,8 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
             startActivity(intent);
         });
         toolbar.setOnReportClickListener(view -> {
-            //TODO REPORT
+            Intent intent = new Intent(this, ReportsActivity.class);
+            startActivity(intent);
         });
         toolbar.setOnSearchClickListener(new MpToolbar.CallbackSearchFragmentClick() {
             @Override
@@ -187,6 +189,11 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
                         presenter.onHeldOrderSelected(order);
                     }, preferencesHelper, rxBus);
                     dialog.show();
+                }
+
+                @Override
+                public void onNewOrderClick() {
+                    presenter.openNewOrder();
                 }
             });
             orderMenuDialog.show();
