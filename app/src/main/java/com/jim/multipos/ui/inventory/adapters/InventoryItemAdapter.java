@@ -15,12 +15,14 @@ import android.widget.TextView;
 
 import com.jim.mpviews.MpEditText;
 import com.jim.multipos.R;
+import com.jim.multipos.config.common.BaseAppModule;
 import com.jim.multipos.core.BaseViewHolder;
 import com.jim.multipos.core.ClickableBaseAdapter;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
 import com.jim.multipos.utils.TextWatcherOnTextChange;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -31,31 +33,37 @@ import butterknife.BindView;
  * Created by developer on 10.11.2017.
  */
 
-public class InventoryItemAdapter  extends ClickableBaseAdapter<InventoryItem, InventoryItemAdapter.InventoryItemViewHolder> {
+public class InventoryItemAdapter extends ClickableBaseAdapter<InventoryItem, InventoryItemAdapter.InventoryItemViewHolder> {
     OnInvendoryAdapterCallback callback;
     private Context context;
     boolean searchMode = false;
     private String searchText;
+    private DecimalFormat decimalFormat;
 
     @Inject
     public InventoryItemAdapter(List<InventoryItem> items, OnInvendoryAdapterCallback callback, Context context) {
         super(items);
         this.callback = callback;
         this.context = context;
+        decimalFormat = BaseAppModule.getFormatter();
     }
-    public void setSearchResult(List<InventoryItem> searchResult,String searchText){
+
+    public void setSearchResult(List<InventoryItem> searchResult, String searchText) {
         this.searchText = searchText;
         searchMode = true;
         items = searchResult;
     }
-    public void setData(List<InventoryItem> items){
+
+    public void setData(List<InventoryItem> items) {
         this.items = items;
         searchMode = false;
     }
+
     @Override
     protected void onItemClicked(InventoryItemViewHolder holder, int position) {
 
     }
+
     @Override
     public InventoryItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.inventory_item, parent, false);
@@ -65,11 +73,11 @@ public class InventoryItemAdapter  extends ClickableBaseAdapter<InventoryItem, I
     @Override
     public void onBindViewHolder(InventoryItemViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
-        if(position%2==0) holder.llBackground.setBackgroundColor(Color.parseColor("#f9f9f9"));
+        if (position % 2 == 0) holder.llBackground.setBackgroundColor(Color.parseColor("#f9f9f9"));
         else holder.llBackground.setBackgroundColor(Color.parseColor("#f0f0f0"));
         InventoryItem inventoryItem = items.get(position);
 
-        if(!searchMode) {
+        if (!searchMode) {
             setUnderlineText(holder.tvProductName, inventoryItem.getProduct().getName());
             holder.tvProductSku.setText("Sku: " + inventoryItem.getProduct().getSku());
             holder.tvProductBarcode.setText("Barcode: " + inventoryItem.getProduct().getBarcode());
@@ -84,14 +92,13 @@ public class InventoryItemAdapter  extends ClickableBaseAdapter<InventoryItem, I
             }
             holder.tvVendorNames.setText(vendorsName.toString());
 
-        }else {
-            colorSubSeqUnderLine(inventoryItem.getProduct().getName(),searchText,Color.parseColor("#95ccee"),holder.tvProductName);
-            colorSubSeq("Sku: " + inventoryItem.getProduct().getSku(),searchText,Color.parseColor("#95ccee"),holder.tvProductSku);
-            colorSubSeq("Barcode: " + inventoryItem.getProduct().getBarcode(),searchText,Color.parseColor("#95ccee"),holder.tvProductBarcode);
-            if (inventoryItem.getProduct().getProductClass() != null){
-                colorSubSeq("Product Class: " + inventoryItem.getProduct().getProductClass().getName(),searchText,Color.parseColor("#95ccee"),holder.tvProductClassName);
-            }
-            else holder.tvProductClassName.setVisibility(View.GONE);
+        } else {
+            colorSubSeqUnderLine(inventoryItem.getProduct().getName(), searchText, Color.parseColor("#95ccee"), holder.tvProductName);
+            colorSubSeq("Sku: " + inventoryItem.getProduct().getSku(), searchText, Color.parseColor("#95ccee"), holder.tvProductSku);
+            colorSubSeq("Barcode: " + inventoryItem.getProduct().getBarcode(), searchText, Color.parseColor("#95ccee"), holder.tvProductBarcode);
+            if (inventoryItem.getProduct().getProductClass() != null) {
+                colorSubSeq("Product Class: " + inventoryItem.getProduct().getProductClass().getName(), searchText, Color.parseColor("#95ccee"), holder.tvProductClassName);
+            } else holder.tvProductClassName.setVisibility(View.GONE);
 
             StringBuilder vendorsName = new StringBuilder();
             for (Vendor vendor : items.get(position).getProduct().getVendor()) {
@@ -99,24 +106,30 @@ public class InventoryItemAdapter  extends ClickableBaseAdapter<InventoryItem, I
                     vendorsName = new StringBuilder(vendor.getName());
                 else vendorsName.append(", ").append(vendor.getName());
             }
-            colorSubSeq(vendorsName.toString(),searchText,Color.parseColor("#95ccee"),holder.tvVendorNames);
+            colorSubSeq(vendorsName.toString(), searchText, Color.parseColor("#95ccee"), holder.tvVendorNames);
         }
         holder.tvUnitAbr.setText(inventoryItem.getProduct().getMainUnit().getAbbr());
-        holder.tvInventoryCount.setText(String.valueOf(inventoryItem.getInventory()));
+        holder.tvInventoryCount.setText(decimalFormat.format(inventoryItem.getInventory()));
         if (inventoryItem.getLowStockAlert() == -1)
             holder.etStockAlert.setText("");
         else
             holder.etStockAlert.setText(String.valueOf(inventoryItem.getLowStockAlert()));
     }
 
-    public interface OnInvendoryAdapterCallback{
+    public interface OnInvendoryAdapterCallback {
         void onStockAlertChange(double newAlertCount, InventoryItem inventoryItem);
+
         void onIncomeProduct(InventoryItem inventoryItem);
+
         void onWriteOff(InventoryItem inventoryItem);
+
         void onSetActually(InventoryItem inventoryItem);
+
         void onConsigmentIn(InventoryItem inventoryItem);
+
         void onConsigmentOut(InventoryItem inventoryItem);
     }
+
     public class InventoryItemViewHolder extends BaseViewHolder {
         @BindView(R.id.tvProductName)
         TextView tvProductName;
@@ -144,6 +157,7 @@ public class InventoryItemAdapter  extends ClickableBaseAdapter<InventoryItem, I
         ImageView ivWriteOff;
         @BindView(R.id.llBackground)
         LinearLayout llBackground;
+
         public InventoryItemViewHolder(View itemView) {
             super(itemView);
             ivIncome.setOnClickListener(view1 -> {
@@ -158,29 +172,30 @@ public class InventoryItemAdapter  extends ClickableBaseAdapter<InventoryItem, I
             ivWriteOff.setOnClickListener(view1 -> {
                 callback.onWriteOff(items.get(getAdapterPosition()));
             });
-            
+
             etStockAlert.addTextChangedListener(new TextWatcherOnTextChange() {
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                     double percent = 0;
-                    if(etStockAlert.getText().toString().isEmpty()){
-                        callback.onStockAlertChange(-1,items.get(getAdapterPosition()));
+                    if (etStockAlert.getText().toString().isEmpty()) {
+                        callback.onStockAlertChange(-1, items.get(getAdapterPosition()));
                         return;
                     }
-                    try{
+                    try {
                         percent = Double.parseDouble(etStockAlert.getText().toString());
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         etStockAlert.setError(context.getString(R.string.invalid));
                         return;
                     }
-                    if(items.get(getAdapterPosition()).getLowStockAlert()!=percent)
-                    callback.onStockAlertChange(percent,items.get(getAdapterPosition()));
+                    if (items.get(getAdapterPosition()).getLowStockAlert() != percent)
+                        callback.onStockAlertChange(percent, items.get(getAdapterPosition()));
                 }
             });
 
         }
     }
-    public void setUnderlineText(TextView textView, String text){
+
+    public void setUnderlineText(TextView textView, String text) {
         SpannableString content = new SpannableString(text);
         content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
         textView.setText(content);
@@ -198,6 +213,7 @@ public class InventoryItemAdapter  extends ClickableBaseAdapter<InventoryItem, I
         }
         textView.setText(ss);
     }
+
     public void colorSubSeqUnderLine(String text, String whichWordColor, int colorCode, TextView textView) {
         String textUpper = text.toUpperCase();
         String whichWordColorUpper = whichWordColor.toUpperCase();

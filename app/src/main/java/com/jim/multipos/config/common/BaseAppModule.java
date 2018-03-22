@@ -70,9 +70,9 @@ public abstract class BaseAppModule {
 
     @Provides
     @Singleton
-    static DecimalFormat getFormatter() {
+    public static DecimalFormat getFormatter() {
         DecimalFormat formatter;
-        NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
+        NumberFormat numberFormat = NumberFormat.getNumberInstance();
         numberFormat.setMaximumFractionDigits(2);
         formatter = (DecimalFormat) numberFormat;
         DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();

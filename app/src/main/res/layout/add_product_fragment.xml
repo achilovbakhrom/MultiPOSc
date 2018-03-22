@@ -67,7 +67,9 @@
                     android:layout_width="0dp"
                     android:layout_height="@dimen/forty_dp"
                     android:layout_gravity="center"
+                    android:maxLength="50"
                     android:layout_weight="1"
+                    android:inputType="text|textCapSentences"
                     android:hint="@string/name"
                     android:textSize="@dimen/sixteen_dp" />
 
@@ -108,6 +110,7 @@
                         android:layout_height="@dimen/forty_dp"
                         android:layout_gravity="center"
                         android:layout_weight="1"
+                        android:maxLength="50"
                         android:backgroundTint="@color/colorTransparent"
                         android:hint="@string/barcode"
                         android:textSize="@dimen/sixteen_dp" />
@@ -149,6 +152,7 @@
                     android:layout_width="0dp"
                     android:layout_height="@dimen/forty_dp"
                     android:layout_gravity="center"
+                    android:maxLength="50"
                     android:layout_weight="1"
                     android:hint="SKU number"
                     android:textSize="@dimen/sixteen_dp" />

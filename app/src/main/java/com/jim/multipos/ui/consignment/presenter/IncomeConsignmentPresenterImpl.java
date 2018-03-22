@@ -1,8 +1,5 @@
 package com.jim.multipos.ui.consignment.presenter;
 
-import android.os.Build;
-import android.support.annotation.RequiresApi;
-
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Account;
@@ -15,7 +12,6 @@ import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.products.VendorProductCon;
 import com.jim.multipos.ui.consignment.model.TempProduct;
 import com.jim.multipos.ui.consignment.view.IncomeConsignmentView;
-import com.jim.multipos.utils.rxevents.inventory_events.BillingOperationEvent;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -270,7 +266,7 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
                 }
             }
         } else {
-            if (!number.equals(consignment.getConsignmentNumber()) || !description.equals(consignment.getDescription()) || !checked || selectedPosition != 0) {
+            if (!number.equals(consignment.getConsignmentNumber()) || !description.equals(consignment.getDescription())) {
                 view.openDiscardDialog();
             } else if (this.consignment.getFirstPayId() != null) {
                 BillingOperations operation = databaseManager.getBillingOperationsById(this.consignment.getFirstPayId()).blockingGet();
@@ -278,9 +274,7 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
                     double firstPay = decimalFormat.parse(totalPaid).doubleValue();
                     if (firstPay != operation.getAmount())
                         view.openDiscardDialog();
-                    else if (!totalPaid.equals("0")) {
-                        view.openDiscardDialog();
-                    } else {
+                    else {
                         int count = 0;
                         if (ids.size() != consignmentProductList.size()) {
                             view.openDiscardDialog();
@@ -297,6 +291,24 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
                     }
                 } catch (ParseException e) {
                     e.printStackTrace();
+                }
+            } else {
+                if (!totalPaid.equals("0")) {
+                    view.openDiscardDialog();
+                } else {
+                    int count = 0;
+                    if (ids.size() != consignmentProductList.size()) {
+                        view.openDiscardDialog();
+                    } else {
+                        for (int i = 0; i < consignmentProductList.size(); i++) {
+                            if (ids.contains(consignmentProductList.get(i).getId())) {
+                                count++;
+                            }
+                        }
+                        if (count != ids.size()) {
+                            view.openDiscardDialog();
+                        } else view.closeFragment(this.vendor);
+                    }
                 }
             }
         }

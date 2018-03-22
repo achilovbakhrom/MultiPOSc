@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.text.InputFilter;
 import android.text.InputType;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -57,12 +58,12 @@ public class MpEditText extends android.support.v7.widget.AppCompatEditText {
             setBackgroundResource(R.drawable.edit_text_bg);
         }
         //check attributes you need, for example all paddings
-        int[] attributes = new int[]{android.R.attr.paddingLeft, android.R.attr.paddingTop, android.R.attr.paddingBottom, android.R.attr.paddingRight};
+        int[] attributes = new int[]{android.R.attr.paddingLeft, android.R.attr.paddingTop, android.R.attr.paddingBottom, android.R.attr.paddingRight, android.R.attr.inputType};
 
         //then obtain typed array
         TypedArray arr = context.obtainStyledAttributes(attrs, attributes);
 
-        //You can check if attribute exists (in this examle checking paddingRight)
+        //You can check if attribute exists (in this example checking paddingRight)
         //int paddingRight = arr.hasValue(3) ? arr.getDimensionPixelOffset(3, -1) : 10;
 
         Resources r = getResources();

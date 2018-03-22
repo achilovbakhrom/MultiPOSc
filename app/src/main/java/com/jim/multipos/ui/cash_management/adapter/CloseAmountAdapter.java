@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.jim.mpviews.MpEditText;
 import com.jim.multipos.R;
+import com.jim.multipos.config.common.BaseAppModule;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.till.TillManagementOperation;
 import com.jim.multipos.utils.NumberTextWatcher;
@@ -37,13 +38,7 @@ public class CloseAmountAdapter extends RecyclerView.Adapter<CloseAmountAdapter.
         this.context = context;
         this.items = operations;
         this.currency = currency;
-        NumberFormat numberFormat = NumberFormat.getNumberInstance();
-        numberFormat.setMaximumFractionDigits(2);
-        decimalFormat = (DecimalFormat) numberFormat;
-        DecimalFormatSymbols symbols = decimalFormat.getDecimalFormatSymbols();
-        symbols.setDecimalSeparator('.');
-        symbols.setGroupingSeparator(' ');
-        decimalFormat.setDecimalFormatSymbols(symbols);
+        decimalFormat = BaseAppModule.getFormatterGrouping();
     }
 
     @Override
@@ -84,7 +79,7 @@ public class CloseAmountAdapter extends RecyclerView.Adapter<CloseAmountAdapter.
                     if (charSequence.length() != 0) {
                         double amount = 0;
                         try {
-                            amount = decimalFormat.parse(etTotalClosed.getText().toString()).doubleValue();
+                            amount = decimalFormat.parse(etTotalClosed.getText().toString().replace(",", ".")).doubleValue();
                             items.get(getAdapterPosition()).setAmount(amount);
                         } catch (Exception e) {
                             etTotalClosed.setError(context.getString(R.string.invalid));

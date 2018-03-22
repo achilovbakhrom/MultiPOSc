@@ -14,6 +14,7 @@ import com.jim.mpviews.MpMiniList;
 import com.jim.mpviews.MpNumPad;
 import com.jim.mpviews.model.PaymentTypeWithService;
 import com.jim.multipos.R;
+import com.jim.multipos.config.common.BaseAppModule;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.PaymentType;
@@ -110,14 +111,7 @@ public class CashOperationsFragment extends BaseFragment implements CashOperatio
         dfnd = new DecimalFormat("#,###");
         dfnd.setRoundingMode(RoundingMode.DOWN);
 
-        DecimalFormat formatter;
-        NumberFormat numberFormat = NumberFormat.getNumberInstance(new Locale("RU"));
-        numberFormat.setMaximumFractionDigits(2);
-        formatter = (DecimalFormat) numberFormat;
-        DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
-        symbols.setGroupingSeparator(' ');
-        formatter.setDecimalFormatSymbols(symbols);
-        decimalFormat = formatter;
+        decimalFormat = BaseAppModule.getFormatter();
 
         presenter.initData();
         connection.setCashOperationsView(this);

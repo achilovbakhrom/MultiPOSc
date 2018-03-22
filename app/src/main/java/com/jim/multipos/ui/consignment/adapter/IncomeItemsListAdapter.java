@@ -55,7 +55,7 @@ public class IncomeItemsListAdapter extends RecyclerView.Adapter<IncomeItemsList
             holder.etProductCount.post(() -> holder.etProductCount.requestFocus());
         holder.tvProductName.setText(items.get(position).getProduct().getName());
         holder.tvCurrencyAbbr.setText(items.get(position).getProduct().getCostCurrency().getAbbr());
-        holder.etProductCount.setText(String.valueOf(items.get(position).getCountValue()));
+        holder.etProductCount.setText(decimalFormat.format(items.get(position).getCountValue()));
         if (items.get(position).getCountValue() == null) {
             holder.etProductCount.setText("");
             holder.etProductCount.setHint("0.0");
@@ -64,7 +64,7 @@ public class IncomeItemsListAdapter extends RecyclerView.Adapter<IncomeItemsList
             holder.etProductCost.setText(String.valueOf(0.0d));
             holder.tvProductSum.setText(String.valueOf(0.0d));
         } else {
-            holder.etProductCost.setText(String.valueOf(items.get(position).getCostValue()));
+            holder.etProductCost.setText(decimalFormat.format(items.get(position).getCostValue()));
             if (items.get(position).getCountValue() != null)
                 holder.tvProductSum.setText(decimalFormat.format(items.get(position).getCostValue() * items.get(position).getCountValue()));
             else holder.tvProductSum.setText(decimalFormat.format(0));
@@ -134,7 +134,7 @@ public class IncomeItemsListAdapter extends RecyclerView.Adapter<IncomeItemsList
                     if (charSequence.length() != 0) {
                         double count = 0;
                         try {
-                            count = Double.parseDouble(etProductCount.getText().toString());
+                            count = decimalFormat.parse(etProductCount.getText().toString().replace(",", ".")).doubleValue();
                             items.get(getAdapterPosition()).setCountValue(count);
                         } catch (Exception e) {
                             etProductCount.setError(context.getString(R.string.invalid));
@@ -142,7 +142,7 @@ public class IncomeItemsListAdapter extends RecyclerView.Adapter<IncomeItemsList
                         }
                         double cost = 0;
                         try {
-                            cost = Double.parseDouble(etProductCost.getText().toString());
+                            cost = decimalFormat.parse(etProductCost.getText().toString().replace(",", ".")).doubleValue();
                         } catch (Exception e) {
                             return;
                         }
@@ -161,7 +161,7 @@ public class IncomeItemsListAdapter extends RecyclerView.Adapter<IncomeItemsList
                     if (charSequence.length() != 0) {
                         double cost = 0;
                         try {
-                            cost = Double.parseDouble(etProductCost.getText().toString());
+                            cost = decimalFormat.parse(etProductCost.getText().toString().replace(",", ".")).doubleValue();
                             items.get(getAdapterPosition()).setCostValue(cost);
                         } catch (Exception e) {
                             etProductCost.setError(context.getString(R.string.invalid));
@@ -169,7 +169,7 @@ public class IncomeItemsListAdapter extends RecyclerView.Adapter<IncomeItemsList
                         }
                         double count = 0;
                         try {
-                            count = Double.parseDouble(etProductCount.getText().toString());
+                            count = decimalFormat.parse(etProductCount.getText().toString().replace(",", ".")).doubleValue();
                         } catch (Exception e) {
                             return;
                         }

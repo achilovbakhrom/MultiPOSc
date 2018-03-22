@@ -10,6 +10,7 @@ import com.jim.mpviews.MPosSpinner;
 import com.jim.mpviews.MpButton;
 import com.jim.mpviews.MpEditText;
 import com.jim.multipos.R;
+import com.jim.multipos.config.common.BaseAppModule;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.PaymentType;
 import com.jim.multipos.data.db.model.customer.Customer;
@@ -17,6 +18,8 @@ import com.jim.multipos.data.db.model.customer.CustomerPayment;
 import com.jim.multipos.data.db.model.customer.Debt;
 import com.jim.multipos.utils.UIUtils;
 
+import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +42,7 @@ public class PayToDebtDialog extends Dialog {
     MpButton btnPay;
     @BindView(R.id.tvCurrencyAbbr)
     TextView tvCurrencyAbbr;
-
+    private DecimalFormat decimalFormat;
     private List<Debt> debtList;
     private double allDebt;
     public PayToDebtDialog(Context context, Debt debt, DatabaseManager databaseManager, boolean closeDebt, boolean payToAll, UpdateCustomerDebtsListCallback callback) {
@@ -50,6 +53,7 @@ public class PayToDebtDialog extends Dialog {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(dialogView);
         View v = getWindow().getDecorView();
+        decimalFormat = BaseAppModule.getFormatter();
         v.setBackgroundResource(android.R.color.transparent);
         tvCurrencyAbbr.setText(databaseManager.getMainCurrency().getAbbr());
         List<PaymentType> paymentTypes = databaseManager.getPaymentTypes();
@@ -67,7 +71,7 @@ public class PayToDebtDialog extends Dialog {
                     dueSum -= payment.getPaymentAmount();
                 }
             }
-            etAmount.setText(String.valueOf(dueSum));
+            etAmount.setText(decimalFormat.format(dueSum));
         }
         allDebt = 0;
         if (payToAll) {
@@ -81,7 +85,7 @@ public class PayToDebtDialog extends Dialog {
                             allDebt -= item.getCustomerPayments().get(i).getPaymentAmount();
                         }
                 }
-                etAmount.setText(String.valueOf(allDebt));
+                etAmount.setText(decimalFormat.format(allDebt));
             });
 
         }
@@ -97,7 +101,12 @@ public class PayToDebtDialog extends Dialog {
         btnPay.setOnClickListener(view -> {
             if (!etAmount.getText().toString().isEmpty()) {
                 if (debtList != null && debtList.size() > 0) {
-                    double amount = Double.parseDouble(etAmount.getText().toString());
+                    double amount = 0;
+                    try {
+                        amount = decimalFormat.parse(etAmount.getText().toString().replace(",", ".")).doubleValue();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                     if (allDebt < amount)
                         etAmount.setError("Payment amount cannot be bigger than debt amount");
                     else {
@@ -150,7 +159,12 @@ public class PayToDebtDialog extends Dialog {
                         dismiss();
                     }
                 } else {
-                    double amount = Double.parseDouble(etAmount.getText().toString());
+                    double amount = 0;
+                    try {
+                        amount = decimalFormat.parse(etAmount.getText().toString().replace(",", ".")).doubleValue();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                     if (total < amount)
                         etAmount.setError("Payment amount cannot be bigger than debt amount");
                     else if (total != amount && debt.getDebtType() == Debt.ALL) {

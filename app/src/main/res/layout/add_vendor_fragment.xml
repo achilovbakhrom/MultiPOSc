@@ -62,6 +62,7 @@
             <com.jim.mpviews.MpEditText
                 android:id="@+id/etVendorName"
                 android:layout_width="0dp"
+                android:maxLength="50"
                 android:layout_height="@dimen/forty_dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
@@ -104,6 +105,7 @@
                 android:layout_marginRight="@dimen/thirty_dp"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
+                android:maxLength="50"
                 android:hint="Name"
                 android:textSize="@dimen/sixteen_dp" />
         </LinearLayout>
@@ -128,6 +130,7 @@
                 android:id="@+id/etAddress"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/forty_dp"
+                android:maxLength="50"
                 android:layout_gravity="center"
                 android:layout_marginRight="@dimen/thirty_dp"
                 android:layout_weight="1"

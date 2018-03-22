@@ -63,6 +63,7 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -304,6 +305,10 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
                         name.setError("Such product name exists");
                         return;
                     }
+                if (presenter.isProductSkuExists(sku.getText().toString())) {
+                    sku.setError("Such product sku exists");
+                    return;
+                }
                 try {
                     ((ProductActivity) getContext()).getPresenter().comparePriceWithCost(formatter.parse(this.price.getText().toString()).doubleValue());
                 } catch (ParseException e) {

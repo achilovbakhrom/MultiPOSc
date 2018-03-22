@@ -63,7 +63,7 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
             if (inventoryItems.get(i).getId() == inventoryItem.getId()) {
                 inventoryItems.get(i).setLowStockAlert(newAlertCount);
                 InventoryItem inventoryItem1 = inventoryItems.get(i);
-                InventoryState inventoryState = new InventoryState(inventoryItem1.getId(),inventoryItem1.getProduct().getId(),inventoryItem1.getVendor().getId(),inventoryItem1.getInventory(),inventoryItem1.getLowStockAlert());
+                InventoryState inventoryState = new InventoryState(inventoryItem1.getId(),inventoryItem1.getProduct().getRootId(),inventoryItem1.getVendor().getId(),inventoryItem1.getInventory(),inventoryItem1.getLowStockAlert());
                 databaseManager.insertInventoryState(inventoryState).subscribe();
                 break;
             }

@@ -54,4 +54,5 @@ public interface ProductPresenter extends Presenter {
     void unitCategorySelectedWithPosition(int position, int unitPos);
     boolean isProductNameExists(String name);
     List<ProductClass> updateProductClass();
+    boolean isProductSkuExists(String sku);
 }

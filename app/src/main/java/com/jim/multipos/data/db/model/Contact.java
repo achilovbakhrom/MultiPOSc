@@ -125,4 +125,13 @@ public class Contact implements Serializable{
     @Generated(hash = 672515148)
     public Contact() {
     }
+
+    public Contact copy(){
+        Contact contact = new Contact();
+        contact.setName(name);
+        contact.setOrganizationId(organizationId);
+        contact.setType(type);
+        contact.setVendorId(vendorId);
+        return contact;
+    }
 }

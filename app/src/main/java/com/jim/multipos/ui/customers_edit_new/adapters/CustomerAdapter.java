@@ -2,6 +2,7 @@ package com.jim.multipos.ui.customers_edit_new.adapters;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -111,11 +112,12 @@ public class CustomerAdapter extends BaseAdapter<Customer, BaseViewHolder> {
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
         if (position == 0) {
-            ((CustomerAddViewHolder) holder).tvId.setText(addCustomer.getClientId().toString());
+            ((CustomerAddViewHolder) holder).tvId.setText(String.valueOf(addCustomer.getClientId()));
             ((CustomerAddViewHolder) holder).etFullName.setText(addCustomer.getName());
             ((CustomerAddViewHolder) holder).etPhone.setText(addCustomer.getPhoneNumber());
             ((CustomerAddViewHolder) holder).etAddress.setText(addCustomer.getAddress());
             ((CustomerAddViewHolder) holder).tvQrCodeInAdd.setText(addCustomer.getQrCode());
+            ((CustomerAddViewHolder) holder).etPhone.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
 
             if (addCustomer.getCustomerGroups().isEmpty()) {
                 ((CustomerAddViewHolder) holder).tvCustomerGroup.setText(context.getString(R.string.not_selected));
@@ -135,6 +137,7 @@ public class CustomerAdapter extends BaseAdapter<Customer, BaseViewHolder> {
             ((CustomerItemViewHolder) holder).etPhone.setText(getItem(position - 1).getPhoneNumber());
             ((CustomerItemViewHolder) holder).etAddress.setText(getItem(position - 1).getAddress());
             ((CustomerItemViewHolder) holder).tvQrCode.setText(getItem(position - 1).getQrCode());
+            ((CustomerItemViewHolder) holder).etPhone.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
 
             if (notSavedItems.contains(getItem(position - 1))) {
                 ((CustomerItemViewHolder) holder).btnSave.enable();

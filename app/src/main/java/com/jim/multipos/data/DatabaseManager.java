@@ -914,6 +914,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
+    public Single<Boolean> isProductSkuExists(String sku, Long subcategoryId) {
+        return dbHelper.isProductSkuExists(sku, subcategoryId);
+    }
+
+    @Override
     public Observable<List<Category>> getActiveCategories() {
         return dbHelper.getActiveCategories();
     }

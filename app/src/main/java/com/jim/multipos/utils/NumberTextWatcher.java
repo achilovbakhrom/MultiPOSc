@@ -4,6 +4,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 
 import com.jim.mpviews.MpEditText;
+import com.jim.multipos.config.common.BaseAppModule;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -23,16 +24,16 @@ public class NumberTextWatcher implements TextWatcher {
     private MpEditText editText;
 
     public NumberTextWatcher(MpEditText et) {
-        NumberFormat numberFormat = NumberFormat.getNumberInstance();
-        numberFormat.setMaximumFractionDigits(2);
-        df = (DecimalFormat) numberFormat;
+        df = BaseAppModule.getFormatter();
+        df.setDecimalSeparatorAlwaysShown(true);
+
+
         DecimalFormatSymbols symbols = df.getDecimalFormatSymbols();
         symbols.setDecimalSeparator('.');
         symbols.setGroupingSeparator(' ');
-        df.setDecimalFormatSymbols(symbols);
-        df.setDecimalSeparatorAlwaysShown(true);
-
-        dfnd = new DecimalFormat("#,###");
+        dfnd = new DecimalFormat();
+        dfnd.setDecimalFormatSymbols(symbols);
+        dfnd.setGroupingSize(3);
         this.editText = et;
         hasFractionalPart = false;
     }

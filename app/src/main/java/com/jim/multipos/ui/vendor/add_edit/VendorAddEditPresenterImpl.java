@@ -194,10 +194,11 @@ public class VendorAddEditPresenterImpl extends BasePresenterImpl<VendorAddEditV
                 });
             } else {
                 this.vendorId = vendorId;
+
                 Vendor vendor = databaseManager.getVendorById(vendorId).blockingSingle();
                 if (vendor != null) {
-                    contacts = vendor.getContacts();
                     vendor.resetContacts();
+                    contacts = vendor.getContacts();
                     view.prepareEditMode(vendor);
                 }
                 view.changeSelectedPosition();

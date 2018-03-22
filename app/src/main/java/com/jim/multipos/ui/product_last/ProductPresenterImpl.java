@@ -1404,6 +1404,16 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
         return provideProductClassList();
     }
 
+    @Override
+    public boolean isProductSkuExists(String sku) {
+        if (mode == CategoryAddEditMode.PRODUCT_EDIT_MODE){
+            if (ProductPresenterImpl.this.product.getSku().equals(sku)){
+                return false;
+            }
+        }
+        return databaseManager.isProductSkuExists(sku, subcategory.getId()).blockingGet();
+    }
+
 
     private InventoryState inventoryState;
     private List<InventoryState> deletedStatesList;

@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -54,7 +55,7 @@ import static com.jim.multipos.utils.OpenPickPhotoUtils.RESULT_PICK_IMAGE;
  * Created by Achilov Bakhrom on 10/21/17.
  */
 
-public class VendorAddEditFragment extends BaseFragment implements ContentChangeable, ItemRemoveListener<Contact> {
+public class VendorAddEditFragment extends BaseFragment implements ContentChangeable {
 
     @NotEmpty(messageId = R.string.warning_ventor_name)
     @BindView(R.id.etVendorName)
@@ -109,8 +110,30 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
         presenter.onCreateView(savedInstanceState);
         contactType.setAdapter(presenter.getContactTypes());
         contacts.setLayoutManager(new LinearLayoutManager(getContext()));
-        ContactAdapter adapter = new ContactAdapter(new ArrayList<>());
-        adapter.setListener(this);
+        ContactAdapter adapter = new ContactAdapter(new ArrayList<>(), getContext());
+        adapter.setListener(new ContactAdapter.OnContactClickListener() {
+            @Override
+            public void onRemove(int position, Contact contact) {
+                UIUtils.showAlert(getContext(), getString(R.string.yes), getString(R.string.no),
+                        getString(R.string.warning_contact_deletion_title),
+                        "Do you really want to delete the contact " + contact.getName() + "?",
+                        new UIUtils.AlertListener() {
+                            @Override
+                            public void onPositiveButtonClicked() {
+                                ((VendorAddEditActivity) getContext()).getPresenter().removeContact(contact);
+                            }
+
+                            @Override
+                            public void onNegativeButtonClicked() {
+                            }
+                        });
+            }
+
+            @Override
+            public void onSave(int position, Contact contact) {
+
+            }
+        });
         contacts.setAdapter(adapter);
         contactType.setItemSelectionListener((view, position) -> {
             if (isFirstTime) {
@@ -167,6 +190,8 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
         active.setCheckedChangeListener(isChecked -> {
             detectChange(true);
         });
+        contactData.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
+
         contactData.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -436,23 +461,6 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
 
     public void removeContact(Contact contact) {
         ((ContactAdapter) contacts.getAdapter()).removeItem(contact);
-    }
-
-    @Override
-    public void onItemRemove(int position, Contact item) {
-        UIUtils.showAlert(getContext(), getString(R.string.yes), getString(R.string.no),
-                getString(R.string.warning_contact_deletion_title),
-                "Do you really want to delete the contact " + item.getName() + "?",
-                new UIUtils.AlertListener() {
-                    @Override
-                    public void onPositiveButtonClicked() {
-                        ((VendorAddEditActivity) getContext()).getPresenter().removeContact(item);
-                    }
-
-                    @Override
-                    public void onNegativeButtonClicked() {
-                    }
-                });
     }
 
     public void showVendorHasProductsMessage() {

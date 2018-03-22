@@ -2,16 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
+    android:layout_marginBottom="@dimen/five_dp"
     android:layout_marginTop="@dimen/five_dp"
-    android:layout_marginBottom="@dimen/five_dp">
+    android:orientation="horizontal">
+
     <TextView
         android:id="@+id/tvContacts"
         android:layout_width="@dimen/hundred_thirty_dp"
         android:layout_height="@dimen/forty_dp"
         android:layout_gravity="center"
+        android:background="@drawable/edit_text_bg"
         android:gravity="center_vertical"
-        android:background="@drawable/text_view_bg"
         android:paddingBottom="@dimen/five_dp"
         android:paddingLeft="@dimen/ten_dp"
         android:paddingRight="@dimen/ten_dp"
@@ -20,21 +21,27 @@
         android:textSize="@dimen/sixteen_dp" />
 
 
-    <TextView
+    <com.jim.mpviews.MpEditText
         android:id="@+id/tvContactsValue"
         android:layout_width="0dp"
         android:layout_height="@dimen/forty_dp"
         android:layout_gravity="center"
-        android:gravity="center_vertical"
         android:layout_marginLeft="@dimen/fifteen_dp"
         android:layout_marginRight="@dimen/fifteen_dp"
         android:layout_weight="1"
-        android:background="@drawable/text_view_bg"
-        android:paddingBottom="@dimen/five_dp"
-        android:paddingLeft="@dimen/ten_dp"
-        android:paddingRight="@dimen/ten_dp"
-        android:paddingTop="@dimen/five_dp"
+        android:gravity="center_vertical"
         android:textColor="@color/colorMainText"
+        android:textSize="@dimen/sixteen_dp" />
+
+    <com.jim.mpviews.MpMiniActionButton
+        android:id="@+id/ivSave"
+        android:layout_width="@dimen/sixty_five_dp"
+        android:layout_height="@dimen/forty_dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="@dimen/fifteen_dp"
+        android:paddingBottom="@dimen/twelve_dp"
+        android:paddingTop="@dimen/twelve_dp"
+        android:src="@drawable/save_mini"
         android:textSize="@dimen/sixteen_dp" />
 
     <com.jim.mpviews.MpMiniActionButton
@@ -42,7 +49,7 @@
         android:layout_width="@dimen/sixty_dp"
         android:layout_height="@dimen/forty_dp"
         android:layout_gravity="center_vertical"
-        android:paddingTop="@dimen/twelve_dp"
         android:paddingBottom="@dimen/twelve_dp"
+        android:paddingTop="@dimen/twelve_dp"
         android:src="@drawable/trash_mini" />
 </LinearLayout>

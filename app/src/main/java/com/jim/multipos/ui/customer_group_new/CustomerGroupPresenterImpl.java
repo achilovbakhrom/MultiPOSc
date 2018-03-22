@@ -62,6 +62,7 @@ public class CustomerGroupPresenterImpl extends BasePresenterImpl<CustomerGroupV
         databaseManager.getCustomerGroupOperations().addCustomerGroup(customerGroup).subscribe(aLong -> {
             view.updateItem(customerGroup);
         });
+        currentCustomerGroup = null;
     }
 
     @Override
@@ -128,7 +129,7 @@ public class CustomerGroupPresenterImpl extends BasePresenterImpl<CustomerGroupV
 
     @Override
     public boolean hasChanges() {
-        if (currentCustomerGroup != null) {
+         if (currentCustomerGroup != null) {
             return !currentCustomerGroup.getName().equals(view.getCustomerGroupName());
         } else {
             return !view.getCustomerGroupName().isEmpty();

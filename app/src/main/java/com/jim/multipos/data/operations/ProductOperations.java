@@ -34,4 +34,5 @@ public interface ProductOperations {
     Single<Boolean> insertReturns(List<Return> returnsList);
     Single<List<VendorProductCon>> getVendorProductConnectionByVendorId(Long vendorId);
     Single<Product> getProductByRootId(Long rootId);
+    Single<Boolean> isProductSkuExists(String sku, Long subcategoryId);
 }

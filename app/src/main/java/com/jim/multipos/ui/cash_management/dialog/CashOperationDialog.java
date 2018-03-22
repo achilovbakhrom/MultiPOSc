@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.jim.mpviews.MpButton;
 import com.jim.multipos.R;
+import com.jim.multipos.config.common.BaseAppModule;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Account;
 import com.jim.multipos.data.db.model.PaymentType;
@@ -76,13 +77,8 @@ public class CashOperationDialog extends Dialog {
         View v = getWindow().getDecorView();
         v.setBackgroundResource(android.R.color.transparent);
 
-        DecimalFormat formatter;
-        NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
-        numberFormat.setMaximumFractionDigits(2);
-        formatter = (DecimalFormat) numberFormat;
-        DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
-        symbols.setGroupingSeparator(' ');
-        formatter.setDecimalFormatSymbols(symbols);
+        DecimalFormat formatter = BaseAppModule.getFormatter();
+
 
         double payIn, payOut, bankDrop, payToVendor, incomeDebt, totalStartingCash, cashTransactions = 0, tips = 0;
         Account account = paymentType.getAccount();

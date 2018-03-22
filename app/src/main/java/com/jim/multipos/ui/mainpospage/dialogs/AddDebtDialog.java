@@ -181,6 +181,8 @@ public class AddDebtDialog extends Dialog {
                 flSearchView.setQueryError(context.getString(R.string.please_choose_customer));
             } else if (etAmount.getText().toString().isEmpty()) {
                 etAmount.setError(context.getString(R.string.enter_debt_amount));
+            } else if (Double.parseDouble(etFee.getText().toString()) > 100) {
+                etFee.setError(context.getString(R.string.percent_can_not_be_more_hunder));
             } else {
                 Debt debt = new Debt();
                 debt.setCustomer(customer);
@@ -208,7 +210,7 @@ public class AddDebtDialog extends Dialog {
 
     public void setScanResult(String contents) {
         databaseManager.getAllCustomers().subscribe(customers -> {
-            for (Customer customer : customers) {
+            for (Customer customer : customers) {   
                 if (customer.getQrCode().equals(contents)) {
                     this.customer = customer;
                     searchText = customer.getName();

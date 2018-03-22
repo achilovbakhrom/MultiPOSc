@@ -2148,4 +2148,16 @@ public class AppDbHelper implements DbHelper {
             e.onSuccess(state);
         });
     }
+
+
+    @Override
+    public Single<Boolean> isProductSkuExists(String sku, Long subcategoryId) {
+        return Single.create(e -> {
+            e.onSuccess(!mDaoSession
+                    .queryBuilder(Product.class)
+                    .where(ProductDao.Properties.CategoryId.eq(subcategoryId), ProductDao.Properties.Sku.eq(sku), ProductDao.Properties.IsDeleted.eq(false), ProductDao.Properties.IsNotModified.eq(true))
+                    .list()
+                    .isEmpty());
+        });
+    }
 }

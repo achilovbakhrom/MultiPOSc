@@ -78,7 +78,7 @@ public class VendorProductsViewPresenterImpl extends BasePresenterImpl<VendorPro
         inventoryStates = databaseManager.getInventoryStatesByVendorId(vendorId).blockingSingle();
         productStateList.clear();
         for (InventoryState inventoryState: inventoryStates){
-            Product product = databaseManager.getProductByRootId(inventoryState.getProduct().getId()).blockingGet();
+            Product product = databaseManager.getProductByRootId(inventoryState.getProduct().getRootId()).blockingGet();
             ProductState productState = new ProductState();
             productState.setProduct(product);
             productState.setVendor(inventoryState.getVendor());

@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jim.multipos.R;
+import com.jim.multipos.config.common.BaseAppModule;
 import com.jim.multipos.core.BaseViewHolder;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.currency.Currency;
@@ -36,6 +37,7 @@ public class BillingInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private Currency currency;
     private SimpleDateFormat simpleDateFormat;
     private List<BillingOperations> items;
+    private DecimalFormat decimalFormat;
 
     public void setData(List<BillingOperations> items) {
         this.items = items;
@@ -46,6 +48,7 @@ public class BillingInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         this.currency = currency;
         items = new ArrayList<>();
         simpleDateFormat = new SimpleDateFormat("HH:mm dd-MM-yyyy");
+        decimalFormat = BaseAppModule.getFormatter();
     }
 
     @Override
@@ -80,7 +83,7 @@ public class BillingInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             else {
                 infoViewHolder.tvAccount.setText("None");
             }
-            infoViewHolder.tvAmount.setText(String.valueOf(items.get(position).getAmount()) + " " + currency.getAbbr());
+            infoViewHolder.tvAmount.setText(decimalFormat.format(items.get(position).getAmount()) + " " + currency.getAbbr());
             if (items.size() > 1) {
                 infoViewHolder.llBackground.setVisibility(View.VISIBLE);
                 if (!items.get(position).getAmount().equals(items.get(position + 1).getAmount())) {
@@ -117,7 +120,7 @@ public class BillingInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             else {
                 infoViewHolder.tvAccount.setText("None");
             }
-            infoViewHolder.tvAmount.setText(String.valueOf(items.get(position).getAmount()) + " " + currency.getAbbr());
+            infoViewHolder.tvAmount.setText(decimalFormat.format(items.get(position).getAmount()) + " " + currency.getAbbr());
             infoViewHolder.tvCount.setText(String.valueOf(position));
             if (position != items.size() - 1) {
                 if (!items.get(position).getAmount().equals(items.get(position + 1).getAmount())) {

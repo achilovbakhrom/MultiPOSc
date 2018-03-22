@@ -145,6 +145,7 @@
                 android:paddingTop="@dimen/five_dp"
                 android:paddingBottom="@dimen/five_dp"
                 android:minLines="2"
+                android:maxLength="300"
                 android:layout_marginLeft="@dimen/twenty_five_dp"
                 android:layout_marginRight="@dimen/twenty_five_dp"
                 />

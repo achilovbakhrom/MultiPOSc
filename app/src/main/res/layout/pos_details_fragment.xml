@@ -9,9 +9,9 @@
         android:layout_width="@dimen/two_hundred_dp"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
+        android:layout_marginBottom="@dimen/twenty_dp"
         android:layout_marginLeft="@dimen/sixty_dp"
         android:layout_marginTop="@dimen/twenty_dp"
-        android:layout_marginBottom="@dimen/twenty_dp"
         android:text="@string/system_accounts"
         android:textColor="@color/colorBlue"
         android:textSize="@dimen/eighteen_dp" />
@@ -19,8 +19,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="vertical"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -28,6 +28,7 @@
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="@dimen/hundred_dp"
                 android:layout_height="wrap_content"
@@ -38,6 +39,7 @@
                 android:text="@string/pos_id"
                 android:textColor="@color/colorMainText"
                 android:textSize="@dimen/eighteen_dp" />
+
             <com.jim.mpviews.MpEditText
                 android:id="@+id/etPosId"
                 android:layout_width="@dimen/four_hundred_fifty_dp"
@@ -56,6 +58,7 @@
             android:layout_marginBottom="@dimen/five_dp"
             android:layout_marginTop="@dimen/five_dp"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="@dimen/hundred_dp"
                 android:layout_height="wrap_content"
@@ -66,6 +69,7 @@
                 android:text="@string/alias"
                 android:textColor="@color/colorMainText"
                 android:textSize="@dimen/eighteen_dp" />
+
             <com.jim.mpviews.MpEditText
                 android:id="@+id/etAlias"
                 android:layout_width="@dimen/four_hundred_fifty_dp"
@@ -84,6 +88,7 @@
             android:layout_marginBottom="@dimen/twenty_dp"
             android:layout_marginTop="@dimen/five_dp"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="@dimen/hundred_dp"
                 android:layout_height="wrap_content"
@@ -94,6 +99,7 @@
                 android:text="@string/address"
                 android:textColor="@color/colorMainText"
                 android:textSize="@dimen/eighteen_dp" />
+
             <com.jim.mpviews.MpEditText
                 android:id="@+id/etAddress"
                 android:layout_width="@dimen/four_hundred_fifty_dp"
@@ -112,6 +118,7 @@
             android:layout_marginBottom="@dimen/five_dp"
             android:layout_marginTop="@dimen/twenty_dp"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="@dimen/hundred_dp"
                 android:layout_height="wrap_content"
@@ -122,6 +129,7 @@
                 android:text="@string/password"
                 android:textColor="@color/colorMainText"
                 android:textSize="@dimen/eighteen_dp" />
+
             <com.jim.mpviews.MpEditText
                 android:id="@+id/etPassword"
                 android:layout_width="@dimen/four_hundred_fifty_dp"
@@ -131,8 +139,8 @@
                 android:fontFamily="roboto"
                 android:gravity="left|center_vertical"
                 android:hint="@string/password"
-                android:maxLength="6"
                 android:inputType="numberPassword"
+                android:maxLength="6"
                 android:textColor="@color/colorMainText"
                 android:textSize="@dimen/eighteen_dp" />
 
@@ -144,6 +152,7 @@
             android:layout_marginBottom="@dimen/five_dp"
             android:layout_marginTop="@dimen/five_dp"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="@dimen/hundred_dp"
                 android:layout_height="wrap_content"
@@ -154,6 +163,7 @@
                 android:text="@string/repeat"
                 android:textColor="@color/colorMainText"
                 android:textSize="@dimen/eighteen_dp" />
+
             <com.jim.mpviews.MpEditText
                 android:id="@+id/etConfirmPassword"
                 android:layout_width="@dimen/four_hundred_fifty_dp"
@@ -162,9 +172,9 @@
                 android:layout_marginRight="@dimen/twenty_dp"
                 android:fontFamily="roboto"
                 android:gravity="left|center_vertical"
-                android:maxLength="6"
                 android:hint="@string/repeat_password"
                 android:inputType="numberPassword"
+                android:maxLength="6"
                 android:textColor="@color/colorMainText"
                 android:textSize="@dimen/eighteen_dp" />
         </LinearLayout>
@@ -178,6 +188,7 @@
         android:orientation="horizontal"
         android:paddingBottom="@dimen/twenty_dp"
         android:paddingRight="@dimen/twenty_dp">
+
         <com.jim.mpviews.MpButton
             android:id="@+id/btnRevert"
             android:layout_width="@dimen/hundred_sixty_dp"
@@ -186,6 +197,7 @@
             android:text="@string/back"
             android:textColor="@color/colorMainText"
             android:textSize="@dimen/eighteen_dp" />
+
         <com.jim.mpviews.MpButton
             android:id="@+id/btnNext"
             android:layout_width="@dimen/hundred_sixty_dp"

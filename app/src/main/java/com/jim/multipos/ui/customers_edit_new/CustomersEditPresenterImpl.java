@@ -31,7 +31,6 @@ public class CustomersEditPresenterImpl extends BasePresenterImpl<CustomersEditV
         if (customers.isEmpty()) {
             return 1L;
         }
-
         return customers.get(0).getClientId() + 1;
     }
 

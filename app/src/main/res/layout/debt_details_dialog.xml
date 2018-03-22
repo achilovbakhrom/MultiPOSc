@@ -133,6 +133,7 @@
                 android:layout_marginLeft="@dimen/thirty_dp"
                 android:layout_marginRight="@dimen/thirty_dp"
                 android:hint="@string/percentage"
+                android:maxLength="3"
                 android:inputType="numberDecimal"
                 android:textColor="@color/colorMainText"
                 android:textColorHint="@color/colorTextHint"
