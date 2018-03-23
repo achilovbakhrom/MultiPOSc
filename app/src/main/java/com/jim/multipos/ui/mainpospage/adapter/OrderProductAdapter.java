@@ -123,9 +123,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             else {
                 double count = orderProductItem.getOrderProduct().getCount();
                 DecimalFormat df = null;
-                if(count<0.001){
-                    df = decimalFormatLocal;
-                }else df = decimalFormat;
+                df = decimalFormatLocal;
                 holder.tvCountProduct.setText(df.format(count) + " " + orderProductItem.getOrderProduct().getProduct().getMainUnit().getAbbr());
                 holder.ivLeftMinus.setVisibility(View.GONE);
                 holder.ivRightPlus.setVisibility(View.GONE);

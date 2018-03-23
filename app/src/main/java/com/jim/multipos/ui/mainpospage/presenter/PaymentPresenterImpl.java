@@ -131,11 +131,11 @@ public class PaymentPresenterImpl extends BasePresenterImpl<PaymentView> impleme
             view.updateCloseText();
             return;
         }
-        if(change<-0.0099999999){
+        if(change<-0.01){
             //it is not enough money
             isPay = true;
             view.updateBalanceView(change*-1);
-        }else if(change>0.0099999999){
+        }else if(change>0.01){
             //it is enough money
             isPay = false;
             view.updateChangeView(change);

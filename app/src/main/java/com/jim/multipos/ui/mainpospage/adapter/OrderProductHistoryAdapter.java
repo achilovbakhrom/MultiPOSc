@@ -98,9 +98,7 @@ public class OrderProductHistoryAdapter extends RecyclerView.Adapter<RecyclerVie
             else {
                 double count = orderProductItem.getCount();
                 DecimalFormat df = null;
-                if(count<0.001){
                     df = decimalFormatLocal;
-                }else df = decimalFormat;
                 holder.tvCountProduct.setText(df.format(count) + " " + orderProductItem.getProduct().getMainUnit().getAbbr());
 
             }

@@ -405,15 +405,25 @@ public class UnitValuePicker extends Dialog {
         });
         btnOk.setOnClickListener(view -> {
             double weight = DecimalUtils.divide(DecimalUtils.multiply(this.weight,units.get(currentUnitPosition).getFactorRoot()), product.getMainUnit().getFactorRoot());
-            if(weight<0.000001){
-                WarningDialog warningDialog = new WarningDialog(getContext());
-                warningDialog.onlyText(true);
-                warningDialog.setWarningMessage("It is very small value of "+product.getMainUnit().getUnitCategory().getName());
-                warningDialog.setOnYesClickListener(view1 -> {
-                    warningDialog.dismiss();
+
+            if(weight<0.001){
+                WarningDialog warningDialog2 = new WarningDialog(getContext());
+                warningDialog2.onlyText(true);
+                warningDialog2.setWarningMessage("It is very small value of "+product.getMainUnit().getUnitCategory().getName());
+                warningDialog2.setOnYesClickListener(view1 -> {
+                    warningDialog2.dismiss();
                 });
-                warningDialog.setPositiveButtonText(getContext().getString(R.string.yes));
-                warningDialog.show();
+                warningDialog2.setPositiveButtonText(getContext().getString(R.string.yes));
+                warningDialog2.show();
+            }else if(DecimalUtils.multiply(product.getPrice() , weight) < 0.01){
+                WarningDialog warningDialog2 = new WarningDialog(getContext());
+                warningDialog2.onlyText(true);
+                warningDialog2.setWarningMessage("It is very small cost for calculating");
+                warningDialog2.setOnYesClickListener(view1 -> {
+                    warningDialog2.dismiss();
+                });
+                warningDialog2.setPositiveButtonText(getContext().getString(R.string.yes));
+                warningDialog2.show();
             }else {
                 callbackUnitPicker.onWeight(weight);
                 dismiss();
