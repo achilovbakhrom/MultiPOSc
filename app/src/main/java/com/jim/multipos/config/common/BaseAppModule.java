@@ -104,12 +104,11 @@ public abstract class BaseAppModule {
         return decimalFormat1;
     }
 
-
     @Provides
     @Singleton
-    @Named(value = "grouping_two_decimal")
-    public static DecimalFormat getFormatterGrouping(){
-        DecimalFormat decimalFormat1 = new DecimalFormat("0.##");
+    @Named(value = "without_grouping_two_decimal_zero")
+    public static DecimalFormat getFormatterWithoutGroupingTwoDecimalWithZeroDecimal(){
+        DecimalFormat decimalFormat1 = new DecimalFormat("#.00");
         DecimalFormatSymbols decimalFormatSymbols = decimalFormat1.getDecimalFormatSymbols();
         decimalFormatSymbols.setDecimalSeparator('.');
         decimalFormatSymbols.setGroupingSeparator(' ');
@@ -117,4 +116,64 @@ public abstract class BaseAppModule {
         decimalFormat1.setGroupingSize(3);
         return decimalFormat1;
     }
+
+    @Provides
+    @Singleton
+    @Named(value = "grouping_two_decimal")
+    public static DecimalFormat getFormatterGrouping(){
+        DecimalFormat decimalFormat1 = new DecimalFormat("#,###.##");
+        DecimalFormatSymbols decimalFormatSymbols = decimalFormat1.getDecimalFormatSymbols();
+        decimalFormatSymbols.setDecimalSeparator('.');
+        decimalFormatSymbols.setGroupingSeparator(' ');
+        decimalFormat1.setDecimalFormatSymbols(decimalFormatSymbols);
+        decimalFormat1.setGroupingSize(3);
+        return decimalFormat1;
+    }
+
+    @Provides
+    @Singleton
+    @Named(value = "grouping_four_decimal")
+    public static DecimalFormat getFormatterFourGrouping(){
+        DecimalFormat decimalFormat1 = new DecimalFormat("#,###.####");
+        DecimalFormatSymbols decimalFormatSymbols = decimalFormat1.getDecimalFormatSymbols();
+        decimalFormatSymbols.setDecimalSeparator('.');
+        decimalFormatSymbols.setGroupingSeparator(' ');
+        decimalFormat1.setDecimalFormatSymbols(decimalFormatSymbols);
+        decimalFormat1.setGroupingSize(3);
+        return decimalFormat1;
+    }
+
+
+    @Provides
+    @Singleton
+    @Named(value = "grouping_two_decimal_with_out_decimal_part")
+    public static DecimalFormat getFormatterGroupingWithoutDecimalPart(){
+        DecimalFormat decimalFormat1 = new DecimalFormat("#,###");
+        DecimalFormatSymbols decimalFormatSymbols = decimalFormat1.getDecimalFormatSymbols();
+        decimalFormatSymbols.setDecimalSeparator('.');
+        decimalFormatSymbols.setGroupingSeparator(' ');
+        decimalFormat1.setDecimalFormatSymbols(decimalFormatSymbols);
+        decimalFormat1.setGroupingSize(3);
+        return decimalFormat1;
+    }
+
+    public static DecimalFormat getFormatterGroupingPattern(String pattern){
+        DecimalFormat decimalFormat1 = new DecimalFormat(pattern);
+        DecimalFormatSymbols decimalFormatSymbols = decimalFormat1.getDecimalFormatSymbols();
+        decimalFormatSymbols.setDecimalSeparator('.');
+        decimalFormatSymbols.setGroupingSeparator(' ');
+        decimalFormat1.setDecimalFormatSymbols(decimalFormatSymbols);
+        decimalFormat1.setGroupingSize(3);
+        return decimalFormat1;
+    }
+
+    public static DecimalFormat getFormatterWithoutGroupingPattern(String pattern){
+        DecimalFormat decimalFormat1 = new DecimalFormat(pattern);
+        DecimalFormatSymbols decimalFormatSymbols = decimalFormat1.getDecimalFormatSymbols();
+        decimalFormatSymbols.setDecimalSeparator('.');
+        decimalFormat1.setDecimalFormatSymbols(decimalFormatSymbols);
+        return decimalFormat1;
+    }
+
+
 }

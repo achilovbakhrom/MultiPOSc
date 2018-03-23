@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jim.multipos.R;
+import com.jim.multipos.config.common.BaseAppModule;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.order.OrderProduct;
 import com.jim.multipos.data.db.model.unit.UnitCategory;
@@ -47,23 +48,10 @@ public class OrderProductHistoryAdapter extends RecyclerView.Adapter<RecyclerVie
         this.context = context;
         adapterItem = objects;
 
-        DecimalFormat formatter;
-        NumberFormat numberFormat = NumberFormat.getNumberInstance();
-        numberFormat.setMaximumFractionDigits(6);
-        formatter = (DecimalFormat) numberFormat;
-        DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
-        symbols.setGroupingSeparator(' ');
-        formatter.setDecimalFormatSymbols(symbols);
-        decimalFormatLocal =  formatter;
+        decimalFormatLocal =  BaseAppModule.getFormatterWithoutGroupingPattern("#.###");
 
-        DecimalFormat formatter2;
-        NumberFormat numberFormat2 = NumberFormat.getNumberInstance();
-        numberFormat2.setMaximumFractionDigits(3);
-        formatter2 = (DecimalFormat) numberFormat2;
-        DecimalFormatSymbols symbols2 = formatter2.getDecimalFormatSymbols();
-        symbols2.setGroupingSeparator(' ');
-        formatter2.setDecimalFormatSymbols(symbols2);
-        decimalFormat =  formatter2;
+
+        decimalFormat = BaseAppModule.getFormatterGroupingPattern("#,###.##");
 
 
     }

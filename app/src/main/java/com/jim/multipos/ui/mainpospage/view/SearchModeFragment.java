@@ -15,6 +15,7 @@ import com.jim.mpviews.MpKeyBoard;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.db.model.products.Product;
+import com.jim.multipos.ui.mainpospage.MainPosPageActivity;
 import com.jim.multipos.ui.mainpospage.adapter.SearchResultsAdapter;
 import com.jim.multipos.ui.mainpospage.connection.MainPageConnection;
 import com.jim.multipos.ui.mainpospage.presenter.SearchModePresenter;
@@ -167,5 +168,12 @@ public class SearchModeFragment  extends BaseFragment implements SearchModeView 
         productList = resultsList;
         searchResultsAdapter.notifyDataSetChanged();
 
+    }
+
+    @Override
+    public void addProductToOrderInCloseSelf() {
+        if(productList != null && productList.size()>0 && productList.get(0)!= null && productList.get(0).getId() !=null)
+            mainPageConnection.addProductToOrder(productList.get(0).getId());
+        ((MainPosPageActivity)getActivity()).hideSearFragmentWithDisableSearchButton();
     }
 }

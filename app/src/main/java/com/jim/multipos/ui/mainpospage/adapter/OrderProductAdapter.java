@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jim.multipos.R;
+import com.jim.multipos.config.common.BaseAppModule;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
@@ -57,24 +58,11 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         this.databaseManager = databaseManager;
         this.context = context;
         adapterItem = new ArrayList<>();
-        //FAKE DATA
-        DecimalFormat formatter;
-        NumberFormat numberFormat = NumberFormat.getNumberInstance();
-        numberFormat.setMaximumFractionDigits(6);
-        formatter = (DecimalFormat) numberFormat;
-        DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
-        symbols.setGroupingSeparator(' ');
-        formatter.setDecimalFormatSymbols(symbols);
-        decimalFormatLocal =  formatter;
 
-        DecimalFormat formatter2;
-        NumberFormat numberFormat2 = NumberFormat.getNumberInstance();
-        numberFormat2.setMaximumFractionDigits(3);
-        formatter2 = (DecimalFormat) numberFormat2;
-        DecimalFormatSymbols symbols2 = formatter2.getDecimalFormatSymbols();
-        symbols2.setGroupingSeparator(' ');
-        formatter2.setDecimalFormatSymbols(symbols2);
-        decimalFormat =  formatter2;
+        decimalFormatLocal =  BaseAppModule.getFormatterWithoutGroupingPattern("#.###");
+
+
+        decimalFormat = BaseAppModule.getFormatterGroupingPattern("#,###.##");
 
 
     }

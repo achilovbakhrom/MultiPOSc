@@ -52,8 +52,7 @@ public class WriteOffProductDialog extends Dialog {
 
     double aDouble = 0;
     double v1 = 0;
-
-    public WriteOffProductDialog(@NonNull Context context, WriteOffCallback writeOffCallback, InventoryItem inventoryItem, DecimalFormat decimalFormat) {
+    public WriteOffProductDialog(@NonNull Context context, WriteOffCallback writeOffCallback, InventoryItem inventoryItem, DecimalFormat decimalFormat){
         super(context);
         this.writeOffCallback = writeOffCallback;
         this.product = product;
@@ -65,31 +64,31 @@ public class WriteOffProductDialog extends Dialog {
         v.setBackgroundResource(android.R.color.transparent);
         tvProductName.setText(inventoryItem.getProduct().getName());
 
-        List<String> vendorsName = new ArrayList<>();
-        for (Vendor vendor : inventoryItem.getProduct().getVendor()) {
+        List<String> vendorsName= new ArrayList<>();
+        for (Vendor vendor:inventoryItem.getProduct().getVendor()) {
             vendorsName.add(vendor.getName());
         }
         spVenders.setAdapter(vendorsName);
         tvStockRecord.setText(decimalFormat.format(inventoryItem.getInventory()));
         tvActual.setText(decimalFormat.format(inventoryItem.getInventory()));
         tvUnit.setText(inventoryItem.getProduct().getMainUnit().getAbbr());
-        if (inventoryItem.getProduct().getMainUnit().getAbbr().equals("pcs"))
-            etShortage.setInputType(InputType.TYPE_CLASS_NUMBER);
+        if(inventoryItem.getProduct().getMainUnit().getAbbr().equals("pcs"))
+        etShortage.setInputType(InputType.TYPE_CLASS_NUMBER );
         else etShortage.setInputType(InputType.TYPE_CLASS_NUMBER |
                 InputType.TYPE_NUMBER_FLAG_DECIMAL);
 
         etShortage.addTextChangedListener(new TextWatcherOnTextChange() {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (!etShortage.getText().toString().isEmpty()) {
+                if(!etShortage.getText().toString().isEmpty()){
                     try {
                         v1 = Double.parseDouble(etShortage.getText().toString());
-                    } catch (Exception e) {
+                    }catch (Exception e){
                         etShortage.setError(context.getString(R.string.invalid));
                         return;
                     }
-                } else {
-                    v1 = 0;
+                }else {
+                    v1= 0;
                 }
                 etShortage.setError(null);
                 aDouble = inventoryItem.getInventory() - v1;
@@ -97,26 +96,38 @@ public class WriteOffProductDialog extends Dialog {
             }
         });
         btnNext.setOnClickListener(view -> {
-            UIUtils.closeKeyboard(etShortage, context);
-            if (etShortage.getText().toString().isEmpty()) {
-                etShortage.setError(context.getString(R.string.cannot_be_empty));
-            } else if (etReason.getText().toString().isEmpty()) {
-                etReason.setError(context.getString(R.string.cannot_be_empty));
-            } else {
+                if(!etShortage.getText().toString().isEmpty()){
+                    try {
+                        v1 = Double.parseDouble(etShortage.getText().toString());
+                    }catch (Exception e){
+                        etShortage.setError(context.getString(R.string.invalid));
+                        return;
+                    }
+                }else {
+                    v1= 0;
+                }
+                if(v1==0 || v1<0){
+                    etShortage.setError(context.getString(R.string.invalid));
+                    return;
+                }
+                if(etReason.getText().toString().isEmpty()){
+                    etReason.setError(context.getString(R.string.please_enter_write_off_reason));
+                    return;
+                }
+                aDouble = inventoryItem.getInventory() - v1;
+                UIUtils.closeKeyboard(etShortage,context);
                 Handler handler = new Handler();
                 handler.postDelayed(() -> {
                     writeOffCallback.writeOff(inventoryItem, inventoryItem.getProduct().getVendor().get(spVenders.getSelectedPosition()), aDouble, etReason.getText().toString(), v1);
                     dismiss();
-                }, 300);
-            }
+                },300);
         });
         btnCancel.setOnClickListener(view -> {
             dismiss();
         });
     }
-
-    public interface WriteOffCallback {
-        void writeOff(InventoryItem inventoryItem, Vendor vendor, double v, String etReason, double shortage);
+    public interface WriteOffCallback{
+        void writeOff(InventoryItem inventoryItem,Vendor vendor, double v,String etReason, double shortage);
     }
 
 

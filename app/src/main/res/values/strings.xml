@@ -592,6 +592,8 @@
     <string name="add_plus">+ Add</string>
     <string name="vendor">Vendor</string>
     <string name="operations">Operations</string>
+    <string name="please_enter_write_off_reason">Please enter Write off reason</string>
+    <string name="please_enter_surplus_reason">Please enter Write off reason</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>

@@ -83,7 +83,7 @@ public class SearchModePresenterImpl extends BasePresenterImpl<SearchModeView> i
 
     @Override
     public void onOkPressed() {
-
+        view.addProductToOrderInCloseSelf();
     }
 
     private void onModeChange(){

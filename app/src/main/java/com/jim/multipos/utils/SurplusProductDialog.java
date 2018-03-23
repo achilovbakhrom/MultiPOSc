@@ -95,6 +95,28 @@ public class SurplusProductDialog extends Dialog {
             }
         });
         btnNext.setOnClickListener(view -> {
+                if(!etShortage.getText().toString().isEmpty()){
+                    try {
+                        v1 = Double.parseDouble(etShortage.getText().toString());
+                    }catch (Exception e){
+                        etShortage.setError(context.getString(R.string.invalid));
+                        return;
+                    }
+                }else {
+                    v1= 0;
+                }
+
+                if(v1==0 || v1<0){
+                    etShortage.setError(context.getString(R.string.invalid));
+                    return;
+                }
+
+                if(etReason.getText().toString().isEmpty()){
+                    etReason.setError(context.getString(R.string.please_enter_surplus_reason));
+                    return;
+                }
+
+                aDouble = inventoryItem.getInventory() - v1;
                 UIUtils.closeKeyboard(etShortage,context);
                 if (etShortage.getText().toString().isEmpty()){
                     etShortage.setError(context.getString(R.string.cannot_be_empty));

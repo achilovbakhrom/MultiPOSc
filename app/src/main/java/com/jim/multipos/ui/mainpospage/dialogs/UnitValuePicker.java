@@ -17,9 +17,11 @@ import android.widget.Toast;
 
 import com.jim.mpviews.MpNumPad;
 import com.jim.multipos.R;
+import com.jim.multipos.config.common.BaseAppModule;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.unit.Unit;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivity;
+import com.jim.multipos.utils.DecimalUtils;
 import com.jim.multipos.utils.TextWatcherOnTextChange;
 import com.jim.multipos.utils.WarningDialog;
 
@@ -101,7 +103,7 @@ public class UnitValuePicker extends Dialog {
         v.setBackgroundResource(android.R.color.transparent);
 
         TextViewCompat.setAutoSizeTextTypeWithDefaults(etCost,AUTO_SIZE_TEXT_TYPE_UNIFORM);
-        decimalFormatWithoutProbel = new DecimalFormat("#.###");
+        decimalFormatWithoutProbel = BaseAppModule.getFormatterWithoutGroupingPattern("#.###");
 
         units = product.getMainUnit().getUnitCategory().getUnits();
         for (int i = 0; i < units.size(); i++) {
@@ -111,7 +113,7 @@ public class UnitValuePicker extends Dialog {
             }
         }
         weight = weightOld;
-        cost = product.getPrice() * weightOld;
+        cost = DecimalUtils.multiply(product.getPrice(),weightOld);
 
         etCost.setRawInputType(InputType.TYPE_CLASS_TEXT);
         etCost.setTextIsSelectable(true);
@@ -120,14 +122,7 @@ public class UnitValuePicker extends Dialog {
         etWeight.requestFocus();
 
 
-        DecimalFormat formatter;
-        NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
-        numberFormat.setMaximumFractionDigits(3);
-        formatter = (DecimalFormat) numberFormat;
-        DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
-        symbols.setGroupingSeparator(' ');
-        formatter.setDecimalFormatSymbols(symbols);
-        decimalFormat =  formatter;
+        decimalFormat =  BaseAppModule.getFormatterGroupingPattern("#,###.###");
 
         etCost.setText(decimalFormat.format(cost));
         etWeight.setText(decimalFormatWithoutProbel.format(weight));
@@ -171,7 +166,7 @@ public class UnitValuePicker extends Dialog {
                         e.printStackTrace();
                     }
                     cost = costTemp;
-                    weight = (cost * product.getMainUnit().getFactorRoot()) / (product.getPrice()*units.get(currentUnitPosition).getFactorRoot());
+                    weight = DecimalUtils.divide(DecimalUtils.multiply(cost , product.getMainUnit().getFactorRoot()),DecimalUtils.multiply(product.getPrice(),units.get(currentUnitPosition).getFactorRoot())) ;
                     etWeight.setText(decimalFormat.format(weight));
                 }
             }
@@ -187,7 +182,7 @@ public class UnitValuePicker extends Dialog {
                         e.printStackTrace();
                     }
                     weight = weightTemp;
-                    cost = product.getPrice() * units.get(currentUnitPosition).getFactorRoot() / product.getMainUnit().getFactorRoot() * weight;
+                    cost = DecimalUtils.multiply(DecimalUtils.divide(DecimalUtils.multiply(product.getPrice() , units.get(currentUnitPosition).getFactorRoot()) , product.getMainUnit().getFactorRoot()), weight);
                     etCost.setText(decimalFormat.format(cost));
                 }
             }
@@ -261,10 +256,10 @@ public class UnitValuePicker extends Dialog {
     }
     private void updateAfterChangeUnit(){
         if(isFocusedInWeight){
-            cost = product.getPrice() * units.get(currentUnitPosition).getFactorRoot() / product.getMainUnit().getFactorRoot() * weight;
+            cost = DecimalUtils.multiply(DecimalUtils.divide(DecimalUtils.multiply(product.getPrice(),units.get(currentUnitPosition).getFactorRoot()),product.getMainUnit().getFactorRoot()),weight);
             etCost.setText(decimalFormat.format(cost));
         }else {
-            weight = (cost * product.getMainUnit().getFactorRoot()) / (product.getPrice()*units.get(currentUnitPosition).getFactorRoot());
+            weight = DecimalUtils.divide(DecimalUtils.multiply(cost , product.getMainUnit().getFactorRoot()) , DecimalUtils.multiply(product.getPrice(),units.get(currentUnitPosition).getFactorRoot()));
             etWeight.setText(decimalFormat.format(weight));
         }
     }
@@ -381,7 +376,7 @@ public class UnitValuePicker extends Dialog {
             pressedKey("00");
         });
         btnDot.setOnClickListener(view -> {
-            pressedKey(",");
+            pressedKey(".");
         });
 
 
@@ -409,7 +404,7 @@ public class UnitValuePicker extends Dialog {
             dismiss();
         });
         btnOk.setOnClickListener(view -> {
-            double weight = this.weight * units.get(currentUnitPosition).getFactorRoot() / product.getMainUnit().getFactorRoot();
+            double weight = DecimalUtils.divide(DecimalUtils.multiply(this.weight,units.get(currentUnitPosition).getFactorRoot()), product.getMainUnit().getFactorRoot());
             if(weight<0.000001){
                 WarningDialog warningDialog = new WarningDialog(getContext());
                 warningDialog.onlyText(true);
@@ -427,25 +422,25 @@ public class UnitValuePicker extends Dialog {
     }
 
     private void pressedKey(String key){
-        if(key.equals(",")){
+        if(key.equals(".")){
             if(isFocusedInWeight){
-                    if(etWeight.getText().toString().contains(","))
-                        return;
+                if(etWeight.getText().toString().contains("."))
+                    return;
             }else {
-                    if(etCost.getText().toString().contains(","))
-                        return;
+                if(etCost.getText().toString().contains("."))
+                    return;
             }
         }
-       if(isFocusedInWeight){
-           if(etWeight.getSelectionStart() != etWeight.getSelectionEnd()){
-               etWeight.getText().clear();
-           }
-           etWeight.getText().insert(etWeight.getSelectionStart(),key);
-       }else{
-           if(etCost.getSelectionStart() != etCost.getSelectionEnd()){
-               etCost.getText().clear();
-           }
-           etCost.getText().insert(etCost.getSelectionStart(),key);
-       }
+        if(isFocusedInWeight){
+            if(etWeight.getSelectionStart() != etWeight.getSelectionEnd()){
+                etWeight.getText().clear();
+            }
+            etWeight.getText().insert(etWeight.getSelectionStart(),key);
+        }else{
+            if(etCost.getSelectionStart() != etCost.getSelectionEnd()){
+                etCost.getText().clear();
+            }
+            etCost.getText().insert(etCost.getSelectionStart(),key);
+        }
     }
 }

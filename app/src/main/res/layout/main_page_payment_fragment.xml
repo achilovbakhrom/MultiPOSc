@@ -350,7 +350,7 @@
                             android:textColor="@color/colorBlue"
                             android:textSize="@dimen/forty_dp"
                             android:textStyle="bold"
-                            app:value="," />
+                            app:value="." />
 
                         <LinearLayout
                             android:id="@+id/btnBackSpace"

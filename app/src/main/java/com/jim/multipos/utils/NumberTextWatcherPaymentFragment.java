@@ -6,6 +6,7 @@ import android.widget.EditText;
 
 import com.jim.mpviews.MpEditText;
 import com.jim.multipos.config.common.BaseAppModule;
+import com.jim.multipos.ui.mainpospage.presenter.PaymentPresenter;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -16,15 +17,17 @@ import java.text.ParseException;
  * Created by Sirojiddin on 14.03.2018.
  */
 
-public class NumberTextWatcher implements TextWatcher {
+public class NumberTextWatcherPaymentFragment implements TextWatcher {
 
     private DecimalFormat df;
     private DecimalFormat dfnd;
     private boolean hasFractionalPart;
 
     private EditText editText;
+    private PaymentPresenter presenter;
 
-    public NumberTextWatcher(EditText et) {
+    public NumberTextWatcherPaymentFragment(EditText et,PaymentPresenter presenter) {
+        this.presenter = presenter;
         df = BaseAppModule.getFormatter();
         df.setDecimalSeparatorAlwaysShown(true);
 
@@ -80,10 +83,11 @@ public class NumberTextWatcher implements TextWatcher {
             if (index < 0) index = 0;
             editText.setSelection(index);
         }
+        presenter.typedPayment(n.doubleValue());
         editText.addTextChangedListener(this);
     }
 
     private double roundTwoDecimals(double d) {
-        return Math.floor(d * 100) / 100;
+        return Math.round(d * 100) / 100d;
     }
 }

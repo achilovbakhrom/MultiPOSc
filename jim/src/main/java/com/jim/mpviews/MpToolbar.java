@@ -264,6 +264,16 @@ public class MpToolbar extends RelativeLayout {
 
     boolean isSearchFragmentOpened = false;
 
+    public void enableSearchButton(){
+        isSearchFragmentOpened = true;
+        findViewById(R.id.searchLine).setVisibility(GONE);
+        findViewById(R.id.searchPressed).setVisibility(VISIBLE);
+    }
+    public void disableSearchButton(){
+        isSearchFragmentOpened = false;
+        findViewById(R.id.searchLine).setVisibility(VISIBLE);
+        findViewById(R.id.searchPressed).setVisibility(GONE);
+    }
     public void setOnProductClickListener(OnClickListener productClickListener) {
         findViewById(R.id.mpProducts).setOnClickListener(productClickListener);
     }

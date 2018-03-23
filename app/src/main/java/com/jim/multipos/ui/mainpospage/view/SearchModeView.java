@@ -12,5 +12,5 @@ import java.util.List;
 public interface SearchModeView  extends BaseView{
     void setTextFrame(String textFrame);
     void setResultsList(List<Product> resultsList,String textSearch);
-
+    void addProductToOrderInCloseSelf();
 }

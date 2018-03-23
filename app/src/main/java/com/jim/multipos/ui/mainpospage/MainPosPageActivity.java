@@ -376,6 +376,9 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
         presenter.editedOrderHolded(reason, order);
     }
 
-
+    public void hideSearFragmentWithDisableSearchButton(){
+        toolbar.disableSearchButton();
+        hideSearchFragment();
+    }
 
 }

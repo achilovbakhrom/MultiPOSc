@@ -242,7 +242,7 @@
                         android:background="#00ffffff"
                         android:gravity="right"
                         android:longClickable="false"
-                        android:maxLength="8"
+                        android:maxLength="12"
                         android:selectAllOnFocus="true"
                         android:singleLine="true"
                         android:ellipsize="end"
@@ -510,7 +510,7 @@
                     android:textColor="@color/colorBlue"
                     android:textSize="@dimen/forty_dp"
                     android:textStyle="bold"
-                    app:value="," />
+                    app:value="." />
 
                 <LinearLayout
                     android:id="@+id/btnOk"

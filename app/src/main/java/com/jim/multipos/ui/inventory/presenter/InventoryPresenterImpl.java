@@ -98,7 +98,7 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
 
     @Override
     public void onWriteOff(InventoryItem inventoryItem) {
-        view.openWriteOffDialog(inventoryItem, (inventoryItem1, vendor, v, etReason, shortage) -> {
+            view.openWriteOffDialog(inventoryItem, (inventoryItem1, vendor, v, etReason, shortage) -> {
             List<InventoryItem> inventoryItemsTemp;
             if (searchResults != null) {
                 inventoryItemsTemp = searchResults;
