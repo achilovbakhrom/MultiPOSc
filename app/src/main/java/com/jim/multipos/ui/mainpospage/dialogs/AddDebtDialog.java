@@ -151,7 +151,7 @@ public class AddDebtDialog extends Dialog {
             }
         });
         checkCustomer();
-        String[] debtTypes = context.getResources().getStringArray(R.array.debt_type);
+            String[] debtTypes = context.getResources().getStringArray(R.array.debt_type);
         spDebtType.setAdapter(debtTypes);
         tvDueDate.setText(simpleDateFormat.format(calendar.getTime()));
         GregorianCalendar now = new GregorianCalendar();

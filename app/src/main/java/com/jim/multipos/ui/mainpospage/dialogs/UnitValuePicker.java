@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.jim.mpviews.MpNumPad;
 import com.jim.multipos.R;
 import com.jim.multipos.config.common.BaseAppModule;
+import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.unit.Unit;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivity;
@@ -403,6 +404,7 @@ public class UnitValuePicker extends Dialog {
         btnBack.setOnClickListener(view -> {
             dismiss();
         });
+        Order order = new Order();
         btnOk.setOnClickListener(view -> {
             double weight = DecimalUtils.divide(DecimalUtils.multiply(this.weight,units.get(currentUnitPosition).getFactorRoot()), product.getMainUnit().getFactorRoot());
 

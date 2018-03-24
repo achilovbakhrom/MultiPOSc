@@ -635,5 +635,18 @@
         <item>Can participle</item>
         <item>All</item>
     </string-array>
-
+    <string-array name="reports_list">
+        <item>Summary</item>
+        <item>Tills</item>
+        <item>Orders</item>
+        <item>Payments</item>
+        <item>Hourly sales</item>
+        <item>Product profit</item>
+        <item>Inventory</item>
+        <item>Customers</item>
+        <item>Vendors</item>
+        <item>Debt</item>
+        <item>Discounts</item>
+        <item>Service Fee\'s</item>
+    </string-array>
 </resources>

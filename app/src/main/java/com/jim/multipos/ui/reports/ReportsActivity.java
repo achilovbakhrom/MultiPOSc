@@ -15,4 +15,66 @@ public class ReportsActivity extends ReportSingleActivity implements ReportsActi
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+
+
+
+    @Override
+    public void openSummaryFragmentAction() {
+
+    }
+
+    @Override
+    public void openTillsFragmentAction() {
+
+    }
+
+    @Override
+    public void openOrdersFragmentAction() {
+
+    }
+
+    @Override
+    public void openPaymentsFragmentAction() {
+
+    }
+
+    @Override
+    public void openHourlySalesFragmentAction() {
+
+    }
+
+    @Override
+    public void openProductProfitFragmentAction() {
+
+    }
+
+    @Override
+    public void openInventoryFragmentAction() {
+
+    }
+
+    @Override
+    public void openCustomersFragmentAction() {
+
+    }
+
+    @Override
+    public void openVendorsFragmentAction() {
+
+    }
+
+    @Override
+    public void openDiscountsFragmentAction() {
+
+    }
+
+    @Override
+    public void openServiceFeesFragmentAction() {
+
+    }
+
+    @Override
+    public void openDebtsFragmentAction() {
+
+    }
 }

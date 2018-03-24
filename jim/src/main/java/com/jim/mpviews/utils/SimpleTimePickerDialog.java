@@ -28,22 +28,31 @@ public class SimpleTimePickerDialog extends Dialog implements DialogInterface
     private View dialogView;
     private TimePicker picker;
     private SimpleDatePickerDelegate mSimpleDatePickerDelegate;
+    private int hour;
+    private int minute;
+    private SimpleDatePickerListner simpleDatePickerListner;
+
     /**
      * @param context The context the dialog is to run in.
      */
     public SimpleTimePickerDialog(Context context, int hour,
-                                  int minute) {
-        this(context, 0, hour, minute);
+                                  int minute,SimpleDatePickerListner simpleDatePickerListner) {
+        this(context, 0, hour, minute,simpleDatePickerListner);
     }
-
+    public interface SimpleDatePickerListner{
+        void onOk(int hour,int minut);
+    }
     /**
      * @param context The context the dialog is to run in.
      * @param theme   the theme to apply to this dialog
      */
     @SuppressLint("InflateParams")
     public SimpleTimePickerDialog(Context context, int theme, int hour,
-                                  int minute) {
+                                  int minute,SimpleDatePickerListner simpleDatePickerListner) {
         super(context, theme);
+        this.hour = hour;
+        this.minute = minute;
+        this.simpleDatePickerListner = simpleDatePickerListner;
 
         dialogView = getLayoutInflater().inflate(R.layout.time_picker, null);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -53,14 +62,18 @@ public class SimpleTimePickerDialog extends Dialog implements DialogInterface
         picker = (TimePicker) dialogView.findViewById(R.id.tpHourTime);
         picker.setIs24HourView(true);
 
+        picker.setCurrentHour(hour);
+        picker.setCurrentMinute(minute);
+
         findViewById(R.id.cancel_btn).setOnClickListener(view -> {
-            cancel();
+            dismiss();
         });
         findViewById(R.id.btnOk).setOnClickListener(view -> {
-
+            simpleDatePickerListner.onOk(picker.getCurrentHour(),picker.getCurrentMinute());
+            dismiss();
         });
         findViewById(R.id.btnBack).setOnClickListener(view -> {
-
+            dismiss();
         });
 
     }
@@ -70,10 +83,10 @@ public class SimpleTimePickerDialog extends Dialog implements DialogInterface
     public void onClick(DialogInterface dialog, int which) {
         switch (which) {
             case BUTTON_POSITIVE:
-
+                simpleDatePickerListner.onOk(picker.getCurrentHour(),picker.getCurrentMinute());
                 break;
             case BUTTON_NEGATIVE:
-                cancel();
+                dismiss();
                 break;
         }
     }
