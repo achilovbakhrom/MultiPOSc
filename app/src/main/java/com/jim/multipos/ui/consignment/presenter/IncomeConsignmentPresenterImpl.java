@@ -113,12 +113,14 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
                 setConsignmentItem(product);
                 view.setVendorName(this.vendor.getName());
             });
+            view.setConsignmentNumber(databaseManager.getConsignments().blockingSingle().size() + 1);
         } else {
             viewType = ADD;
             databaseManager.getVendorById(vendorId).subscribe(vendor -> {
                 this.vendor = vendor;
                 view.setVendorName(this.vendor.getName());
             });
+            view.setConsignmentNumber(databaseManager.getConsignments().blockingSingle().size() + 1);
         }
     }
 
@@ -169,6 +171,10 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
             } else if (costPos != consignmentProductList.size())
                 view.setError("Some costs are empty");
             else if (consignment == null) {
+                if (databaseManager.isConsignmentNumberExists(number).blockingGet()) {
+                    view.setConsignmentNumberError();
+                    return;
+                }
                 consignment = new Consignment();
                 consignment.setConsignmentNumber(number);
                 consignment.setCreatedDate(System.currentTimeMillis());
@@ -210,6 +216,12 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
                 databaseManager.insertConsignment(consignment, billingOperationsList, consignmentProductList, warehouseOperationsList).subscribe();
                 view.closeFragment(this.vendor);
             } else {
+                if (!this.consignment.getConsignmentNumber().equals(number)) {
+                    if (databaseManager.isConsignmentNumberExists(number).blockingGet()) {
+                        view.setConsignmentNumberError();
+                        return;
+                    }
+                }
                 view.openSaveChangesDialog();
             }
         }

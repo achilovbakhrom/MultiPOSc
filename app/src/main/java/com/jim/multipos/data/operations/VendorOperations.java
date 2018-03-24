@@ -6,6 +6,7 @@ import com.jim.multipos.data.db.model.products.Vendor;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
 
 /**
  * Created by bakhrom on 10/23/17.
@@ -20,4 +21,5 @@ public interface VendorOperations {
     Observable<Vendor> getVendorById(Long vendorId);
     Observable<List<Vendor>> getVendors();
     Observable<Boolean> removeAllContacts(Long vendorId);
+    Single<Vendor> detachVendor(Vendor vendor);
 }

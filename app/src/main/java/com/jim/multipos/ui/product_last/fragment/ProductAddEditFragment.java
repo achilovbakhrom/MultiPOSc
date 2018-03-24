@@ -52,6 +52,7 @@ import com.jim.multipos.utils.OpenPickPhotoUtils;
 import com.jim.multipos.utils.PhotoPickDialog;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.UIUtils;
+import com.jim.multipos.utils.rxevents.inventory_events.VendorEvent;
 import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
 import com.jim.multipos.utils.rxevents.product_events.ProductClassEvent;
 
@@ -249,6 +250,18 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
                             case GlobalEventConstants.ADD: {
                                 classListAdapter.setData(((ProductActivity) getContext()).getPresenter().updateProductClass());
                                 classList.setAdapter(classListAdapter);
+                                classDialog.show();
+                                break;
+                            }
+                        }
+                    }
+                     else if (o instanceof VendorEvent) {
+                        VendorEvent event = (VendorEvent) o;
+                        switch (event.getType()) {
+                            case GlobalEventConstants.DELETE:
+                            case GlobalEventConstants.UPDATE:
+                            case GlobalEventConstants.ADD: {
+                                openVendorChooserDialog(((ProductActivity) getContext()).getPresenter().updateVendors());
                                 break;
                             }
                         }

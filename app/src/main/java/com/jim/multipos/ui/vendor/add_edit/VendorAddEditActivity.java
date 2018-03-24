@@ -181,4 +181,12 @@ public class VendorAddEditActivity extends DoubleSideActivity implements VendorA
         }
     }
 
+    @Override
+    public void updateContacts() {
+        VendorAddEditFragment fragment = (VendorAddEditFragment) getCurrentFragmentLeft();
+        if (fragment != null) {
+            fragment.updateContacts();
+        }
+    }
+
 }

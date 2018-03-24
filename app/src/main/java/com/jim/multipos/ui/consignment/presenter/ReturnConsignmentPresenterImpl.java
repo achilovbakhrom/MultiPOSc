@@ -1,8 +1,5 @@
 package com.jim.multipos.ui.consignment.presenter;
 
-import android.os.Build;
-import android.support.annotation.RequiresApi;
-
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.consignment.Consignment;
@@ -19,8 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
-
-import static com.jim.multipos.data.db.model.inventory.BillingOperations.DEBT_CONSIGNMENT;
 
 /**
  * Created by Sirojiddin on 24.11.2017.
@@ -89,12 +84,14 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
                 setReturnItem(product);
                 view.setVendorName(this.vendor.getName());
             });
+            view.setConsignmentNumber(databaseManager.getConsignments().blockingSingle().size() + 1);
         } else {
             viewType = ADD;
             databaseManager.getVendorById(vendorId).subscribe(vendor -> {
                 this.vendor = vendor;
                 view.setVendorName(this.vendor.getName());
             });
+            view.setConsignmentNumber(databaseManager.getConsignments().blockingSingle().size() + 1);
         }
     }
 
@@ -164,6 +161,10 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
             } else if (costPos != consignmentProductList.size())
                 view.setError("Some costs are empty");
             else if (this.returnConsignment == null) {
+                if (databaseManager.isConsignmentNumberExists(number).blockingGet()) {
+                    view.setConsignmentNumberError();
+                    return;
+                }
                 this.returnConsignment = new Consignment();
                 this.returnConsignment.setConsignmentNumber(number);
                 this.returnConsignment.setCreatedDate(System.currentTimeMillis());
@@ -194,6 +195,12 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
                 databaseManager.insertConsignment(this.returnConsignment, billingOperationsList, consignmentProductList, warehouseOperationsList).subscribe();
                 view.closeFragment(this.vendor);
             } else {
+                if (!this.returnConsignment.getConsignmentNumber().equals(number)) {
+                    if (databaseManager.isConsignmentNumberExists(number).blockingGet()) {
+                        view.setConsignmentNumberError();
+                        return;
+                    }
+                }
                 view.openSaveChangesDialog();
             }
         }

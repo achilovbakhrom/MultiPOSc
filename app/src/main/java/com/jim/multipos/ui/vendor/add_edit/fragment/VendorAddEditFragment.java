@@ -397,7 +397,7 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
 
     public void addContact(Contact contact) {
         if (contacts != null && contacts.getAdapter() != null) {
-            ((ContactAdapter) contacts.getAdapter()).addItem(contact);
+            ((ContactAdapter) contacts.getAdapter()).addContactItem(contact, contacts.getAdapter().getItemCount() + 1);
         }
     }
 
@@ -449,6 +449,7 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
                         photoSelected = null;
                         ivVendorImage.setImageResource(R.drawable.camera);
                     }
+                    vendor.resetContacts();
                     if (vendor.getContacts() != null && !vendor.getContacts().isEmpty())
                         ((ContactAdapter) contacts.getAdapter()).setItems(vendor.getContacts());
                     else
@@ -484,5 +485,9 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
                     public void onNegativeButtonClicked() {
                     }
                 });
+    }
+
+    public void updateContacts() {
+        contacts.getAdapter().notifyDataSetChanged();
     }
 }

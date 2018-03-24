@@ -47,6 +47,8 @@ public class MpEditText extends android.support.v7.widget.AppCompatEditText {
         init(context, attrs);
     }
 
+    private int inputType;
+
     private void init(Context context, AttributeSet attrs) {
         setLines(1);
         setMaxLines(1);
@@ -61,19 +63,46 @@ public class MpEditText extends android.support.v7.widget.AppCompatEditText {
         int[] attributes = new int[]{android.R.attr.paddingLeft, android.R.attr.paddingTop, android.R.attr.paddingBottom, android.R.attr.paddingRight, android.R.attr.inputType};
 
         //then obtain typed array
-        TypedArray arr = context.obtainStyledAttributes(attrs, attributes);
+//        TypedArray arr = context.obtainStyledAttributes(attrs, attributes);
 
         //You can check if attribute exists (in this example checking paddingRight)
         //int paddingRight = arr.hasValue(3) ? arr.getDimensionPixelOffset(3, -1) : 10;
-
-        Resources r = getResources();
-        if (!arr.hasValue(0) && !arr.hasValue(1) && !arr.hasValue(2) && !arr.hasValue(3)) {
-            int topPadding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, r.getDisplayMetrics());
-            int sidePadding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, r.getDisplayMetrics());
-            setPadding(sidePadding, topPadding, sidePadding, topPadding);
-        } else {
-            setPadding(arr.getDimensionPixelOffset(0, -1), arr.getDimensionPixelOffset(1, -1), arr.getDimensionPixelOffset(3, -1), arr.getDimensionPixelOffset(2, -1));
+//
+//        Resources r = getResources();
+//        if (!arr.hasValue(0) && !arr.hasValue(1) && !arr.hasValue(2) && !arr.hasValue(3)) {
+//            int topPadding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, r.getDisplayMetrics());
+//            int sidePadding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, r.getDisplayMetrics());
+//            setPadding(sidePadding, topPadding, sidePadding, topPadding);
+//        } else {
+//            setPadding(arr.getDimensionPixelOffset(0, -1), arr.getDimensionPixelOffset(1, -1), arr.getDimensionPixelOffset(3, -1), arr.getDimensionPixelOffset(2, -1));
+//
+        TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.MpEditText);
+        int n = array.getIndexCount();
+        for (int i = 0; i < n; i++) {
+            int attr = array.getIndex(i);
+            if (attr == R.styleable.MpEditText_android_inputType) {
+                inputType = array.getInt(attr, InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+                setInputType(inputType);
+                if (getInputType() == (InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL)) {
+                    InputFilter[] filters = new InputFilter[1];
+                    filters[0] = new InputFilter.LengthFilter(13);
+                    setFilters(filters);
+                } else if (getInputType() == (InputType.TYPE_CLASS_TEXT)) {
+                    setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+                    InputFilter[] filters = new InputFilter[1];
+                    filters[0] = new InputFilter.LengthFilter(50);
+                    setFilters(filters);
+                } else {
+                    InputFilter[] filters = new InputFilter[1];
+                    filters[0] = new InputFilter.LengthFilter(50);
+                    setFilters(filters);
+                }
+            }
         }
+        Resources r = getResources();
+        int topPadding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, r.getDisplayMetrics());
+        int sidePadding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, r.getDisplayMetrics());
+        setPadding(sidePadding, topPadding, sidePadding, topPadding);
         setHintTextColor(ContextCompat.getColor(context, R.color.colorTextHint));
         setTextColor(ContextCompat.getColor(context, R.color.colorMainText));
         setImeOptions(EditorInfo.IME_ACTION_DONE);
@@ -93,5 +122,7 @@ public class MpEditText extends android.support.v7.widget.AppCompatEditText {
             }
             return false;
         });
+
+        array.recycle();
     }
 }

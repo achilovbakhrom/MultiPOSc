@@ -1246,7 +1246,7 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public Observable<List<Consignment>> getConsignments() {
-        return Observable.fromCallable(() -> mDaoSession.getConsignmentDao().loadAll());
+        return Observable.fromCallable(() -> mDaoSession.getConsignmentDao().queryBuilder().where(ConsignmentDao.Properties.IsDeleted.eq(false), ConsignmentDao.Properties.IsNotModified.eq(true)).build().list());
     }
 
     @Override
@@ -1974,7 +1974,7 @@ public class AppDbHelper implements DbHelper {
     public Single<Double> getBillingOperationsAmountInInterval(Long accountId, Calendar fromDate, Calendar toDate) {
         return Single.create(e -> {
             String query = "SELECT SUM(AMOUNT) AS TOTAL FROM BILLING_OPERATION " +
-                    "WHERE ACCOUNT_ID IS NOT NULL AND ACCOUNT_ID = " + accountId + " AND PAYMENT_DATE BETWEEN " + fromDate.getTimeInMillis() + " AND " + toDate.getTimeInMillis();
+                    "WHERE ACCOUNT_ID IS NOT NULL AND ACCOUNT_ID = " + accountId + " AND IS_NOT_MODIFIED = " +  1 + " AND IS_DELETED = " + 0 + " AND PAYMENT_DATE BETWEEN " + fromDate.getTimeInMillis() + " AND " + toDate.getTimeInMillis();
             Cursor cursor = mDaoSession.getDatabase().rawQuery(query, null);
             cursor.moveToFirst();
             double operationAmount = 0;
@@ -2158,6 +2158,25 @@ public class AppDbHelper implements DbHelper {
                     .where(ProductDao.Properties.CategoryId.eq(subcategoryId), ProductDao.Properties.Sku.eq(sku), ProductDao.Properties.IsDeleted.eq(false), ProductDao.Properties.IsNotModified.eq(true))
                     .list()
                     .isEmpty());
+        });
+    }
+
+    @Override
+    public Single<Boolean> isConsignmentNumberExists(String number) {
+        return Single.create(e -> {
+            e.onSuccess(!mDaoSession
+                    .queryBuilder(Consignment.class)
+                    .where(ConsignmentDao.Properties.ConsignmentNumber.eq(number), ConsignmentDao.Properties.IsDeleted.eq(false), ConsignmentDao.Properties.IsNotModified.eq(true))
+                    .list()
+                    .isEmpty());
+        });
+    }
+
+    @Override
+    public Single<Vendor> detachVendor(Vendor vendor) {
+        return Single.create(e -> {
+            mDaoSession.getVendorDao().detachAll();
+            e.onSuccess(vendor);
         });
     }
 }

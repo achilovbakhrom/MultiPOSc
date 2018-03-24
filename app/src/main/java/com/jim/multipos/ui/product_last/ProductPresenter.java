@@ -6,6 +6,7 @@ import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.Product;
+import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.products.VendorProductCon;
 import com.jim.multipos.ui.product_last.helpers.CategoryAddEditMode;
 
@@ -55,4 +56,5 @@ public interface ProductPresenter extends Presenter {
     boolean isProductNameExists(String name);
     List<ProductClass> updateProductClass();
     boolean isProductSkuExists(String sku);
+    List<Vendor> updateVendors();
 }

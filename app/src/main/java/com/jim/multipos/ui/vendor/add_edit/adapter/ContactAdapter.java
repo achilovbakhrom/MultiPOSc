@@ -33,20 +33,21 @@ public class ContactAdapter extends BaseAdapter<Contact, ContactAdapter.ContactV
     @Setter
     private OnContactClickListener listener;
     private Context context;
-    private boolean changes[];
 
     public ContactAdapter(List<Contact> items, Context context) {
         super(items);
         this.context = context;
-        for (int i = 0; i < items.size(); i++) {
-            changes[i] = false;
-        }
     }
 
     @Override
     public ContactViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.contacts_item, parent, false);
         return new ContactViewHolder(view);
+    }
+
+    public void addContactItem(Contact contact, int position) {
+        items.add(contact);
+        notifyItemInserted(position);
     }
 
     @Override
@@ -58,25 +59,10 @@ public class ContactAdapter extends BaseAdapter<Contact, ContactAdapter.ContactV
         } else {
             holder.contactData.setInputType(InputType.TYPE_CLASS_TEXT);
         }
-        holder.contactData.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
         holder.remove.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onRemove(position, items.get(position));
             }
-        });
-
-        holder.save.disable();
-        holder.save.setOnClickListener(view -> {
-            if (listener != null) {
-                if (holder.contactData.getText().toString().isEmpty()) {
-                    holder.contactData.setError(context.getString(R.string.cannot_be_empty));
-                } else {
-                    items.get(position).setName(holder.contactData.getText().toString());
-                    holder.save.disable();
-                }
-
-            }
-
         });
 
     }
@@ -88,12 +74,10 @@ public class ContactAdapter extends BaseAdapter<Contact, ContactAdapter.ContactV
         MpEditText contactData;
         @BindView(R.id.ivRemoveContact)
         MpMiniActionButton remove;
-        @BindView(R.id.ivSave)
-        MpMiniActionButton save;
 
         public ContactViewHolder(View itemView) {
             super(itemView);
-
+            contactData.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
             contactData.addTextChangedListener(new TextWatcherOnTextChange() {
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -103,8 +87,6 @@ public class ContactAdapter extends BaseAdapter<Contact, ContactAdapter.ContactV
                                 contactData.setError("Email address is not valid!!!");
                             }
                         }
-                        if (!items.get(getAdapterPosition()).getName().equals(contactData.getText().toString()))
-                            save.enable();
                     } else contactData.setError(context.getString(R.string.cannot_be_empty));
                 }
             });

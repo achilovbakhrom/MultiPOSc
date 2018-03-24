@@ -254,4 +254,14 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
     public void setAccountSpinnerSelection(int selectedAccount) {
         spAccounts.setSelectedPosition(selectedAccount);
     }
+
+    @Override
+    public void setConsignmentNumberError() {
+        etConsignmentNumber.setError("Consignment with such number exists");
+    }
+
+    @Override
+    public void setConsignmentNumber(int number) {
+        etConsignmentNumber.setText(String.valueOf(number));
+    }
 }

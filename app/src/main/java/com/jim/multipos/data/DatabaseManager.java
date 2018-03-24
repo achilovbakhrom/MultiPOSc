@@ -698,6 +698,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
+    public Single<Vendor> detachVendor(Vendor vendor) {
+        return dbHelper.detachVendor(vendor);
+    }
+
+    @Override
     public Observable<Category> getCategoryById(Long id) {
         return dbHelper.getCategoryById(id);
     }
@@ -818,6 +823,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Single<List<Consignment>> getConsignmentsInInterval(Long vendorId, Calendar fromDate, Calendar toDate) {
         return dbHelper.getConsignmentsInInterval(vendorId, fromDate, toDate);
+    }
+
+    @Override
+    public Single<Boolean> isConsignmentNumberExists(String number) {
+        return dbHelper.isConsignmentNumberExists(number);
     }
 
     @Override

@@ -25,4 +25,5 @@ public interface VendorAddEditView extends BaseView{
     void sendEvent(int state, Vendor vendor);
     void showVendorHasProductsMessage();
     void showDeleteDialog();
+    void updateContacts();
 }

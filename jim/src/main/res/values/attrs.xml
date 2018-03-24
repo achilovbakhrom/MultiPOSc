@@ -6,6 +6,7 @@
             <enum name="left" value="0" />
             <enum name="right" value="1" />
         </attr>
+        <attr name="android:inputType" />
     </declare-styleable>
 
     <declare-styleable name="MpCheckbox">

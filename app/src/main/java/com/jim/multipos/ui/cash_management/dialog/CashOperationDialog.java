@@ -3,6 +3,9 @@ package com.jim.multipos.ui.cash_management.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
@@ -117,21 +120,33 @@ public class CashOperationDialog extends Dialog {
             tips += order.getTips();
         }
 
+        tvPayOuts.setText(formatter.format(payOut));
+        tvPayIns.setText(formatter.format(payIn));
+        tvPayIns.setText(formatter.format(payIn));
 
         switch (type) {
             case TillOperation.PAY_IN:
                 tvOperationTitle.setText("Pay in");
-                tvPayIns.setTextColor(ContextCompat.getColor(context, R.color.colorGreen));
+                String payInResult = formatter.format(amount) + " + " + formatter.format(payIn);
+                Spannable spannable = new SpannableString(payInResult);
+                spannable.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorGreen)), 0, formatter.format(amount).length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                tvPayIns.setText(spannable, TextView.BufferType.SPANNABLE);
                 payIn += amount;
                 break;
             case TillOperation.BANK_DROP:
                 tvOperationTitle.setText("Bank drop");
-                tvBankDrops.setTextColor(ContextCompat.getColor(context, R.color.colorGreen));
+                String bankDropResult = formatter.format(amount) + " + " + formatter.format(bankDrop);
+                Spannable spannable1 = new SpannableString(bankDropResult);
+                spannable1.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorGreen)), 0, formatter.format(amount).length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                tvBankDrops.setText(spannable1, TextView.BufferType.SPANNABLE);
                 bankDrop += amount;
                 break;
             case TillOperation.PAY_OUT:
                 tvOperationTitle.setText("Pay out");
-                tvPayOuts.setTextColor(ContextCompat.getColor(context, R.color.colorGreen));
+                String result = formatter.format(amount) + " + " + formatter.format(payOut);
+                Spannable spannable2 = new SpannableString(result);
+                spannable2.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorGreen)), 0, formatter.format(amount).length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                tvPayOuts.setText(spannable2, TextView.BufferType.SPANNABLE);
                 payOut += amount;
                 break;
         }
@@ -141,9 +156,6 @@ public class CashOperationDialog extends Dialog {
             tvExpectedCash.setTextColor(ContextCompat.getColor(context, R.color.colorGreen));
         else tvExpectedCash.setTextColor(ContextCompat.getColor(context, R.color.colorRed));
 
-        tvPayOuts.setText(formatter.format(payOut));
-        tvPayIns.setText(formatter.format(payIn));
-        tvBankDrops.setText(formatter.format(bankDrop));
         tvCashTransactions.setText(formatter.format(cashTransactions));
         tvTips.setText(formatter.format(tips));
         tvIncomeDebt.setText(formatter.format(incomeDebt));

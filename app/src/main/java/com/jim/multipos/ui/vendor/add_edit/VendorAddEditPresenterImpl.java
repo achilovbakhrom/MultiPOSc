@@ -144,7 +144,9 @@ public class VendorAddEditPresenterImpl extends BasePresenterImpl<VendorAddEditV
         contact.setType(contactType);
         contact.setName(contactData);
         contacts.add(contact);
-        view.addContactToAddEditView(contact);
+        if (mode == AddingMode.ADD)
+            view.addContactToAddEditView(contact);
+        else view.updateContacts();
     }
 
     @Override
@@ -180,8 +182,8 @@ public class VendorAddEditPresenterImpl extends BasePresenterImpl<VendorAddEditV
                         VendorAddEditPresenterImpl.this.vendorId = vendorId;
                         Vendor vendor = databaseManager.getVendorById(vendorId).blockingSingle();
                         if (vendor != null) {
-                            contacts = vendor.getContacts();
                             vendor.resetContacts();
+                            contacts = vendor.getContacts();
                             view.prepareEditMode(vendor);
                             VendorAddEditPresenterImpl.this.mode = mode;
                         }
@@ -194,7 +196,6 @@ public class VendorAddEditPresenterImpl extends BasePresenterImpl<VendorAddEditV
                 });
             } else {
                 this.vendorId = vendorId;
-
                 Vendor vendor = databaseManager.getVendorById(vendorId).blockingSingle();
                 if (vendor != null) {
                     vendor.resetContacts();

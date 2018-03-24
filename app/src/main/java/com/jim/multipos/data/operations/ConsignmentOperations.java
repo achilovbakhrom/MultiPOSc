@@ -24,4 +24,5 @@ public interface ConsignmentOperations {
     Single<List<ConsignmentProduct>> getConsignmentProductsByConsignmentId(Long consignmentId);
     Single<Consignment> getConsignmentById(Long consignmentId);
     Single<List<Consignment>> getConsignmentsInInterval(Long vendorId, Calendar fromDate, Calendar toDate);
+    Single<Boolean> isConsignmentNumberExists(String number);
 }

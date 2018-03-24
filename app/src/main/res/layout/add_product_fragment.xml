@@ -110,6 +110,7 @@
                         android:layout_height="@dimen/forty_dp"
                         android:layout_gravity="center"
                         android:layout_weight="1"
+                        android:inputType="text"
                         android:maxLength="50"
                         android:backgroundTint="@color/colorTransparent"
                         android:hint="@string/barcode"
@@ -153,6 +154,7 @@
                     android:layout_height="@dimen/forty_dp"
                     android:layout_gravity="center"
                     android:maxLength="50"
+                    android:inputType="text"
                     android:layout_weight="1"
                     android:hint="SKU number"
                     android:textSize="@dimen/sixteen_dp" />

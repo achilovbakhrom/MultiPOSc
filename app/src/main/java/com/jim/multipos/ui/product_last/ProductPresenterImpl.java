@@ -362,9 +362,8 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
                         public void onPositiveButtonClicked() {
-                            for (int i = 0; i < vendorProductConnectionsList.size(); i++) {
-                                vendorProductConnectionsList.get(i).setCost(tempCostList.get(i).getCost());
-                            }
+                            vendorProductConnectionsList.clear();
+                            vendorProductConnectionsList.addAll(tempCostList);
                             view.setCostValue(savedCosts);
                             openCategory(category);
                         }
@@ -834,9 +833,8 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
                         public void onPositiveButtonClicked() {
-                            for (int i = 0; i < vendorProductConnectionsList.size(); i++) {
-                                vendorProductConnectionsList.get(i).setCost(tempCostList.get(i).getCost());
-                            }
+                            vendorProductConnectionsList.clear();
+                            vendorProductConnectionsList.addAll(tempCostList);
                             view.setCostValue(savedCosts);
                             openSubcategory(category);
                         }
@@ -1414,6 +1412,11 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
         return databaseManager.isProductSkuExists(sku, subcategory.getId()).blockingGet();
     }
 
+    @Override
+    public List<Vendor> updateVendors() {
+        return databaseManager.getVendors().blockingSingle();
+    }
+
 
     private InventoryState inventoryState;
     private List<InventoryState> deletedStatesList;
@@ -1763,9 +1766,8 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
                         public void onPositiveButtonClicked() {
-                            for (int i = 0; i < vendorProductConnectionsList.size(); i++) {
-                                vendorProductConnectionsList.get(i).setCost(tempCostList.get(i).getCost());
-                            }
+                            vendorProductConnectionsList.clear();
+                            vendorProductConnectionsList.addAll(tempCostList);
                             view.setCostValue(savedCosts);
                             view.finishActivity();
                         }

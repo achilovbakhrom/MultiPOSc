@@ -275,4 +275,6 @@ public interface DbHelper {
     Single<Product> getProductByRootId(Long rootId);
     Single<HistoryInventoryState> insertHistoryInventoryState(HistoryInventoryState state);
     Single<Boolean> isProductSkuExists(String sku, Long subcategoryId);
+    Single<Boolean> isConsignmentNumberExists(String number);
+    Single<Vendor> detachVendor(Vendor vendor);
 }

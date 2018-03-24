@@ -92,11 +92,15 @@ public class MinusInventoryDialog extends DialogFragment {
         });
 
         RxView.clicks(btnNext).subscribe(o -> {
-            if (!etShortage.getText().toString().isEmpty()) {
+            if (etShortage.getText().toString().isEmpty()){
+                etShortage.setError(getContext().getString(R.string.cannot_be_empty));
+            } else if (etReason.getText().toString().isEmpty()){
+                etReason.setError(getContext().getString(R.string.cannot_be_empty));
+            } else {
                 shortage = Double.parseDouble(etShortage.getText().toString()) * -1;
                 listener.updateInventory(inventory, shortage);
+                dismiss();
             }
-            dismiss();
         });
 
         RxView.clicks(btnCancel).subscribe(o -> {

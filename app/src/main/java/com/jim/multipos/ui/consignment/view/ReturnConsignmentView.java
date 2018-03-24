@@ -21,4 +21,6 @@ public interface ReturnConsignmentView extends BaseView {
     void closeFragment(Vendor vendor);
     void fillConsignmentData(String consignmentNumber, String description);
     void openSaveChangesDialog();
+    void setConsignmentNumberError();
+    void setConsignmentNumber(int number);
 }
