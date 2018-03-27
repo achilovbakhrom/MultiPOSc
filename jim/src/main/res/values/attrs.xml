@@ -171,4 +171,11 @@
             <flag name="end" value="0x00800005"/>
         </attr>
     </declare-styleable>
+
+    <declare-styleable name="MpButtonWithImg">
+        <attr name="bwi_text" format="string" />
+        <attr name="bwi_img" format="reference" />
+        <attr name="bwi_img_color" format="color" />
+        <attr name="bwi_txt_color" format="color" />
+    </declare-styleable>
 </resources>

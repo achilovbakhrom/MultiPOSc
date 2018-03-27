@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/thirty_dp"
+        android:paddingRight="@dimen/thirty_dp"
+        android:paddingTop="@dimen/thirty_dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvTillTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left|center_vertical"
+                android:text="Till report"
+                android:textColor="@color/colorMainText"
+                android:textSize="@dimen/twenty_two_dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <com.jim.mpviews.MpSearchView
+            android:layout_width="@dimen/four_hundred_dp"
+            android:layout_height="wrap_content"
+            app:barcode_visibilty="false" />
+
+
+    </LinearLayout>
+
+    <com.jim.mpviews.MpButtonWithImg
+        app:bwi_text="Filters"
+        app:bwi_img="@drawable/calendar"
+        android:layout_width="@dimen/hundred_sixty_dp"
+        android:layout_height="@dimen/fifty_dp"/>
+
+
+</LinearLayout>

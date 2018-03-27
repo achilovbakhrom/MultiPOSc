@@ -10,7 +10,7 @@ import android.util.AttributeSet;
 import com.jim.mpviews.utils.Utils;
 
 /**
- * Created by DEV on 15.09.2017.
+ * Created by Sirojiddin on 15.09.2017.
  */
 
 public class RecyclerViewWithMaxHeight extends RecyclerView {
@@ -41,11 +41,11 @@ public class RecyclerViewWithMaxHeight extends RecyclerView {
 
     @Override
     public void onRestoreInstanceState(Parcelable state) {
-        if (!(state instanceof MpButton.SavedState)) {
+        if (!(state instanceof SavedState)) {
             super.onRestoreInstanceState(state);
             return;
         }
-        MpNumPad.SavedState savedState = (MpNumPad.SavedState) state;
+        SavedState savedState = (SavedState) state;
         super.onRestoreInstanceState(savedState.getSuperState());
 
         this.maxHeight = savedState.intValue;
@@ -56,7 +56,7 @@ public class RecyclerViewWithMaxHeight extends RecyclerView {
     public Parcelable onSaveInstanceState() {
         Parcelable superState = super.onSaveInstanceState();
 
-        MpNumPad.SavedState savedState = new MpNumPad.SavedState(superState);
+        SavedState savedState = new SavedState(superState);
         savedState.intValue = this.maxHeight;
         return savedState;
     }

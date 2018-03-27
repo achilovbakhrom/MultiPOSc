@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
-import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -39,17 +38,12 @@ import com.jim.multipos.ui.mainpospage.connection.MainPageConnection;
 import com.jim.multipos.ui.mainpospage.dialogs.AddDebtDialog;
 import com.jim.multipos.ui.mainpospage.dialogs.TipsDialog;
 import com.jim.multipos.ui.mainpospage.presenter.PaymentPresenter;
-import com.jim.multipos.utils.NumberTextWatcher;
 import com.jim.multipos.utils.NumberTextWatcherPaymentFragment;
 import com.jim.multipos.utils.UIUtils;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.List;
-import java.util.Locale;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -149,7 +143,7 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
             presenter.payButtonPressed();
         });
         //switcher for change views: left PAYMENT TYPES (mpList), right PAYMENT LIST (flPaymentList)
-        mpSSwitcher.setClickListner(new MpSecondSwticher.CallbackFromMpSecondSwitcher() {
+        mpSSwitcher.setClickListener(new MpSecondSwticher.CallbackFromMpSecondSwitcher() {
             @Override
             public void onLeftSideClick() {
                 mpList.setVisibility(View.VISIBLE);

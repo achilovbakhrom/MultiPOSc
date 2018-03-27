@@ -209,7 +209,7 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
     @Override
     public void checkChanges(String number, String des) {
         if (viewType == ADD) {
-            if (!number.equals("") || !des.equals("")) {
+            if (!des.equals("")) {
                 view.openDiscardDialog();
             } else {
                 if (productId != null) {

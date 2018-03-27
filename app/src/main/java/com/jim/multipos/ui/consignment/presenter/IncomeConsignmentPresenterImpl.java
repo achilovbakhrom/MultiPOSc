@@ -264,7 +264,7 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
     public void checkChanges(String number, String description, String totalPaid, boolean checked, int selectedPosition) {
 
         if (viewType == ADD) {
-            if (!number.equals("") || !description.equals("") || !totalPaid.equals("0") || !checked || selectedPosition != 0) {
+            if (!description.equals("") || !totalPaid.equals("0") || !checked || selectedPosition != 0) {
                 view.openDiscardDialog();
             } else {
                 if (productId != null) {

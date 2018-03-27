@@ -181,9 +181,7 @@
         android:layout_marginBottom="@dimen/thirty_dp"
         android:layout_marginRight="@dimen/fifteen_dp"
         android:gravity="right"
-        android:orientation="horizontal"
-
-        >
+        android:orientation="horizontal">
 
         <com.jim.mpviews.MpButton
             android:id="@+id/btnSubCategoryCancel"

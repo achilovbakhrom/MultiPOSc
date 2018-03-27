@@ -6,6 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jim.mpviews.adapters.ReportViewAdapter;
@@ -18,7 +20,6 @@ import java.util.Comparator;
  */
 
 public class ReportView {
-
     public static class Builder {
 
         Context context;
@@ -28,12 +29,15 @@ public class ReportView {
         int[] dataTypes;
         String[] titles;
         RecyclerView recyclerView;
+        RecyclerViewWithMaxHeight recyclerViewWithMaxHeight;
         int[] alignTypes;
         int sorting = -1;
         int defaultSort = 0;
+        int maxHeight = 0;
         ReportViewAdapter adapter;
         Object[][] statusTypes;
-        private OnReportItemActionClicked listener;
+        OnReportViewResponseListener listener;
+        ExpandableView titleView;
 
         public Builder setTitles(String[] titles) {
             this.titles = titles;
@@ -71,43 +75,89 @@ public class ReportView {
             return this;
         }
 
+        public Builder setViewMaxHeight(int maxHeight) {
+            this.maxHeight = maxHeight;
+            return this;
+        }
+
         public Builder setStatusTypes(Object[][] statusTypes) {
             this.statusTypes = statusTypes;
             return this;
         }
 
-        public Builder setListener(OnReportItemActionClicked listener) {
-            this.listener = listener;
+        public Builder setOnReportViewResponseListener(OnReportViewResponseListener onReportViewListener) {
+            this.listener = onReportViewListener;
             return this;
         }
 
         public FrameLayout build() {
-            recyclerView = new RecyclerView(context);
-            recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            adapter = new ReportViewAdapter(context);
-            recyclerView.setAdapter(adapter);
-            recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
-            adapter.setData(objects, weight, dataTypes, titles, alignTypes, statusTypes);
-            sortObjects(defaultSort);
-            adapter.setListener(new ReportViewAdapter.OnItemClickListener() {
-                @Override
-                public void onSort(int position) {
-                    sortObjects(position);
-                }
+            //creating title for view
+            titleView = new ExpandableView(context);
+            titleView.setWeight(weight);
+            titleView.setAlign(alignTypes);
+            titleView.setHasTitle(true);
+            titleView.setSize(titles.length);
+            titleView.create();
 
-                @Override
-                public void onAction(int rowPosition, int colPosition) {
-                    if (listener != null)
-                        listener.onAction(rowPosition, colPosition);
+            //filling data
+            if (titleView.getChildAt(0) instanceof LinearLayout) {
+                LinearLayout row = (LinearLayout) titleView.getChildAt(0);
+                int count = 0;
+                for (int i = 0; i < row.getChildCount(); i++) {
+                    if (row.getChildAt(i) instanceof LinearLayout) {
+                        LinearLayout col = (LinearLayout) row.getChildAt(i);
+                        col.setBackgroundResource(R.color.colorReportTitleBackGround);
+                        final int finalCount = count;
+                        col.setOnClickListener(view -> {
+                            sortObjects(finalCount);
+                            titleView.sorted(sorting, finalCount);
+                        });
+                        for (int j = 0; j < col.getChildCount(); j++) {
+                            if (col.getChildAt(j) instanceof TextView) {
+                                TextView textView = (TextView) col.getChildAt(j);
+                                textView.setText(titles[count]);
+                                count++;
+                            }
+                        }
+                    }
                 }
-            });
+            }
+
+            //creating adapter
+            adapter = new ReportViewAdapter(context);
+            adapter.setData(objects, weight, dataTypes, alignTypes, statusTypes);
+            sortObjects(defaultSort);
+            adapter.setListener((rowPosition, colPosition) -> listener.onAction(rowPosition, colPosition));
+            //creating main view
             view = new FrameLayout(context);
-            FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             view.setLayoutParams(layoutParams);
-            view.addView(recyclerView);
+
+            // creating container for title and recyclerView
+            LinearLayout layout = new LinearLayout(context);
+            layout.setOrientation(LinearLayout.VERTICAL);
+            LinearLayout.LayoutParams linearParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            layout.setLayoutParams(linearParams);
+            layout.addView(titleView);
+
+            //check if recyclerView has max height value
+            if (maxHeight == 0) {
+                recyclerView = new RecyclerView(context);
+                recyclerView.setLayoutManager(new LinearLayoutManager(context));
+                recyclerView.setAdapter(adapter);
+                layout.addView(recyclerView);
+            } else {
+                recyclerViewWithMaxHeight = new RecyclerViewWithMaxHeight(context);
+                recyclerViewWithMaxHeight.setLayoutManager(new LinearLayoutManager(context));
+                recyclerViewWithMaxHeight.setAdapter(adapter);
+                recyclerViewWithMaxHeight.setMaxHeight(maxHeight);
+                layout.addView(recyclerViewWithMaxHeight);
+            }
+            view.addView(layout);
             return view;
         }
 
+        //sorting objects
         private void sortObjects(final int position) {
             sorting *= -1;
             Arrays.sort(objects, (objects, t1) -> {
@@ -137,7 +187,7 @@ public class ReportView {
         }
     }
 
-    public interface OnReportItemActionClicked {
-        void onAction(int rowPosition, int colPosition);
+    public interface OnReportViewResponseListener {
+        void onAction(int row, int column);
     }
 }

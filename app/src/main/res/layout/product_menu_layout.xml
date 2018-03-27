@@ -28,7 +28,7 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvMenu"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/six_hundred_twelve_dp"
+                android:layout_height="wrap_content"
                 android:background="@color/colorBackground"
                 android:overScrollMode="never" />
 
@@ -42,7 +42,7 @@
 
                 <com.jim.mpviews.MpButton
                     android:id="@+id/btnBackToMain"
-                    android:layout_width="@dimen/hundred_sixty_dp"
+                    android:layout_width="@dimen/hundred_fifty_dp"
                     android:layout_height="@dimen/sixty_dp"
                     android:text="@string/back"
                     android:textColor="@color/colorSecondaryText"

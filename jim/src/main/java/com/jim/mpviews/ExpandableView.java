@@ -36,6 +36,7 @@ public class ExpandableView extends LinearLayout {
 
         LinearLayout row = new LinearLayout(context);
         row.setOrientation(HORIZONTAL);
+
         LayoutParams rowParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0);
         rowParams.weight = 1;
         row.setGravity(Gravity.CENTER_VERTICAL);

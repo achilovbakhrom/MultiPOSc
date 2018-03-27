@@ -7,7 +7,6 @@ import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -25,7 +24,7 @@ public class MpSecondSwticher extends LinearLayout {
     private TextView mpLeftText, mpRightText;
     private boolean right = false;
     private boolean left = false;
-    private CallbackFromMpSecondSwitcher clickListner;
+    private CallbackFromMpSecondSwitcher clickListener;
 
     public MpSecondSwticher(Context context) {
         super(context);
@@ -50,8 +49,8 @@ public class MpSecondSwticher extends LinearLayout {
         void onLeftSideClick();
         void onRightSideClick();
     }
-    public void setClickListner(CallbackFromMpSecondSwitcher clickListner){
-        this.clickListner = clickListner;
+    public void setClickListener(CallbackFromMpSecondSwitcher clickListener){
+        this.clickListener = clickListener;
     }
     public void init(Context context, AttributeSet attrs) {
         LayoutInflater.from(context).inflate(R.layout.mp_second_switch_btn, this);
@@ -74,7 +73,7 @@ public class MpSecondSwticher extends LinearLayout {
             mpRightBtn.setBackgroundResource(R.drawable.right_side);
             right = false;
             left = true;
-            clickListner.onLeftSideClick();
+            clickListener.onLeftSideClick();
         });
 
         mpRightBtn.setOnClickListener(view -> {
@@ -83,7 +82,7 @@ public class MpSecondSwticher extends LinearLayout {
             mpRightBtn.setBackgroundResource(R.drawable.right_side_pressed);
             right = true;
             left = false;
-            clickListner.onRightSideClick();
+            clickListener.onRightSideClick();
         });
         attributeArray.recycle();
 
