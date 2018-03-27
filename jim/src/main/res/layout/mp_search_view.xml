@@ -6,27 +6,26 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="horizontal">
 
         <com.jim.mpviews.MpEditText
             android:id="@+id/mpSearchEditText"
             android:layout_width="0dp"
-            android:layout_height="@dimen/forty_dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:paddingLeft="@dimen/twelve_dp"
-            android:paddingTop="@dimen/five_dp"
-            android:paddingBottom="@dimen/five_dp"
-            android:paddingRight="@dimen/twelve_dp"
-            android:textSize="@dimen/sixteen_dp"
             android:backgroundTint="@color/colorTransparent"
-            />
+            android:paddingBottom="@dimen/five_dp"
+            android:paddingLeft="@dimen/twelve_dp"
+            android:paddingRight="@dimen/twelve_dp"
+            android:paddingTop="@dimen/five_dp"
+            android:textSize="@dimen/sixteen_dp" />
 
         <ImageView
             android:id="@+id/mpBarcodeImage"
             android:layout_width="@dimen/twenty_five_dp"
             android:layout_height="@dimen/twenty_five_dp"
-            android:layout_gravity="center"
+            android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/ten_dp"
             android:layout_marginRight="@dimen/ten_dp"
             android:src="@drawable/barcode"
@@ -35,6 +34,7 @@
         <FrameLayout
             android:layout_width="1px"
             android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
             android:layout_marginBottom="@dimen/ten_dp"
             android:layout_marginTop="@dimen/ten_dp"
             android:background="@color/colorTextHint" />
@@ -43,7 +43,7 @@
             android:id="@+id/mpSearchImage"
             android:layout_width="@dimen/twenty_five_dp"
             android:layout_height="@dimen/twenty_five_dp"
-            android:layout_gravity="center"
+            android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/ten_dp"
             android:layout_marginRight="@dimen/ten_dp"
             android:src="@drawable/search"

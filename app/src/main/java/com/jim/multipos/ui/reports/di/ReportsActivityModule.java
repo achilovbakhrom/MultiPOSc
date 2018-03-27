@@ -13,6 +13,8 @@ import com.jim.multipos.ui.reports.order_history.OrderHistoryFragment;
 import com.jim.multipos.ui.reports.order_history.OrderHistoryFragmentModule;
 import com.jim.multipos.ui.reports.sales.SalesReportFragment;
 import com.jim.multipos.ui.reports.sales.SalesReportFragmentModule;
+import com.jim.multipos.ui.reports.tills.TillsReportFragment;
+import com.jim.multipos.ui.reports.tills.TillsReportFragmentModule;
 
 import dagger.Binds;
 import dagger.Module;
@@ -43,4 +45,8 @@ public abstract class ReportsActivityModule {
     @PerFragment
     @ContributesAndroidInjector(modules = OrderHistoryFragmentModule.class)
     abstract OrderHistoryFragment provideOrderHistoryFragment();
+
+    @PerFragment
+    @ContributesAndroidInjector(modules = TillsReportFragmentModule.class)
+    abstract TillsReportFragment provideTillsReportFragment();
 }

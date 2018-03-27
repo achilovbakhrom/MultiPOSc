@@ -10,6 +10,7 @@ import com.jim.multipos.R;
 import com.jim.multipos.ui.reports.adapter.ReportPickerAdapter;
 import com.jim.multipos.ui.reports.order_history.OrderHistoryFragment;
 import com.jim.multipos.ui.reports.sales.SalesReportFragment;
+import com.jim.multipos.ui.reports.tills.TillsReportFragment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -131,6 +132,17 @@ public abstract class ReportSingleActivity extends BaseActivity {
             addFragmentWithTagStatic(R.id.flMain,salesReportFragment,SalesReportFragment.class.getName());
         }else {
             getSupportFragmentManager().beginTransaction().show(salesReportFragment).commit();
+        }
+    }
+
+    public void showTillsReportFragment(/*extra*/){
+        hideAll();
+        TillsReportFragment tillsReportFragment = (TillsReportFragment) getSupportFragmentManager().findFragmentByTag(TillsReportFragment.class.getName());
+        if ( tillsReportFragment == null){
+            tillsReportFragment = new TillsReportFragment();
+            addFragmentWithTagStatic(R.id.flMain, tillsReportFragment, TillsReportFragment.class.getName());
+        }else {
+            getSupportFragmentManager().beginTransaction().show(tillsReportFragment).commit();
         }
     }
 

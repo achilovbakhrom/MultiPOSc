@@ -27,7 +27,7 @@ public class ReportsActivity extends ReportSingleActivity implements ReportsActi
 
     @Override
     public void openTillsFragmentAction() {
-
+        showTillsReportFragment();
     }
 
     @Override
