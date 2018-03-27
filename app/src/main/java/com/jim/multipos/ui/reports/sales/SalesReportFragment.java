@@ -1,7 +1,8 @@
-package com.jim.multipos.ui.reports.view;
+package com.jim.multipos.ui.reports.sales;
 
 import android.os.Bundle;
 
+import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 
 /**
@@ -12,7 +13,7 @@ public class SalesReportFragment extends BaseFragment implements SalesReportView
 
     @Override
     protected int getLayout() {
-        return 0;
+        return R.layout.sales_summary_report;
     }
 
     @Override

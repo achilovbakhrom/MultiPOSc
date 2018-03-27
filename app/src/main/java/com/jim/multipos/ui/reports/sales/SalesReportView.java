@@ -1,4 +1,4 @@
-package com.jim.multipos.ui.reports.view;
+package com.jim.multipos.ui.reports.sales;
 
 import com.jim.multipos.core.BaseView;
 

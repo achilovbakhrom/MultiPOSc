@@ -1,4 +1,4 @@
-package com.jim.multipos.ui.reports.presenter;
+package com.jim.multipos.ui.reports.sales;
 
 import com.jim.multipos.config.scope.PerFragment;
 

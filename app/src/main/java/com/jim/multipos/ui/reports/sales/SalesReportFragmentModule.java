@@ -1,9 +1,8 @@
-package com.jim.multipos.ui.reports.view;
+package com.jim.multipos.ui.reports.sales;
 
 import android.support.v4.app.Fragment;
 
 import com.jim.multipos.config.scope.PerFragment;
-import com.jim.multipos.ui.reports.presenter.SalesReportPresenterModule;
 
 import dagger.Binds;
 import dagger.Module;

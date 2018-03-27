@@ -1,7 +1,6 @@
-package com.jim.multipos.ui.reports.presenter;
+package com.jim.multipos.ui.reports.sales;
 
 import com.jim.multipos.core.BasePresenterImpl;
-import com.jim.multipos.ui.reports.view.SalesReportView;
 
 import javax.inject.Inject;
 

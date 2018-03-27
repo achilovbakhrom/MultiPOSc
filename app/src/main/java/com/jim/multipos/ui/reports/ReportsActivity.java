@@ -14,12 +14,14 @@ public class ReportsActivity extends ReportSingleActivity implements ReportsActi
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        showSalesReportFragment();
     }
 
 
 
     @Override
     public void openSummaryFragmentAction() {
+        showSalesReportFragment();
 
     }
 
@@ -30,7 +32,7 @@ public class ReportsActivity extends ReportSingleActivity implements ReportsActi
 
     @Override
     public void openOrdersFragmentAction() {
-
+        showOrderHistoryFragment();
     }
 
     @Override
