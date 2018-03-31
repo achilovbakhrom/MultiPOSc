@@ -82,17 +82,7 @@ public class ConsignmentListActivity extends SimpleActivity implements Consignme
                             toolbar.changeToCloseImgIntervalPick();
                         }
 
-                        @Override
-                        public void datePicked(Calendar pickedDate) {
-                            ConsignmentListActivity.this.fromDate = pickedDate;
-                            ConsignmentListActivity.this.toDate = null;
-                            fromDateCurrent = true;
-                            toDateCurrent = false;
-                            updateCurrentDate();
-                            fragment.datePicked(pickedDate);
-                            toolbar.changeToCloseImgIntervalPick();
 
-                        }
                     });
                     dateIntervalPicker.show();
                 }

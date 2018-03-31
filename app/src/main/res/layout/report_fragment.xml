@@ -8,7 +8,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/sixteen_dp"
-        android:layout_marginLeft="@dimen/thirty_dp"
         android:layout_marginRight="@dimen/thirty_dp"
         android:orientation="horizontal"
         >
@@ -18,24 +17,105 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <TextView
+                android:id="@+id/tvTitleReport"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:text="Order History"
                 android:textSize="@dimen/twenty_dp"
+                android:layout_marginLeft="@dimen/thirty_dp"
+
                 android:textColor="#212121"
                 />
+            <LinearLayout
+                android:id="@+id/llChoiserPanel"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/fifty_dp"
+                android:visibility="visible"
+                android:layout_marginLeft="@dimen/twenty_five_dp"
+                android:layout_marginBottom="@dimen/five_dp">
+                <TextView
+                    android:id="@+id/tvFirtPanel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="First Panel"
+                    android:textSize="@dimen/sixteen_dp"
+                    android:paddingLeft="@dimen/twenty_five_dp"
+                    android:paddingRight="@dimen/sixteen_dp"
+                    android:textColor="#2e91cc"
+                    android:gravity="center_vertical"
+                    android:layout_marginRight="-2px"
+                    android:background="@drawable/left_switch_title_pressed"/>
+                <TextView
+                    android:id="@+id/tvSecondPanel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Second Panel"
+                    android:textSize="@dimen/sixteen_dp"
+                    android:layout_marginRight="-2px"
+                    android:layout_marginLeft="-2px"
+                    android:paddingLeft="@dimen/sixteen_dp"
+                    android:paddingRight="@dimen/sixteen_dp"
+                    android:gravity="center_vertical"
+                    android:textColor="#999999"
+                    android:background="@drawable/center_switch_title"/>
+                <TextView
+                    android:id="@+id/tvThirdPanel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Third Panel"
+                    android:textSize="@dimen/sixteen_dp"
+                    android:layout_marginRight="-2px"
+                    android:layout_marginLeft="-2px"
+                    android:paddingLeft="@dimen/sixteen_dp"
+                    android:paddingRight="@dimen/sixteen_dp"
+                    android:gravity="center_vertical"
+                    android:textColor="#999999"
+                    android:background="@drawable/center_switch_title"/>
+
+                <TextView
+                    android:id="@+id/tvFourPanel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Four Panel"
+                    android:textSize="@dimen/sixteen_dp"
+                    android:layout_marginRight="-2px"
+                    android:layout_marginLeft="-2px"
+                    android:paddingLeft="@dimen/sixteen_dp"
+                    android:paddingRight="@dimen/sixteen_dp"
+                    android:gravity="center_vertical"
+                    android:textColor="#999999"
+                    android:background="@drawable/center_switch_title"/>
+
+
+                <TextView
+                    android:id="@+id/tvFivePanel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Five Panel"
+                    android:textSize="@dimen/sixteen_dp"
+                    android:paddingLeft="@dimen/sixteen_dp"
+                    android:paddingRight="@dimen/twenty_five_dp"
+                    android:layout_marginLeft="-2px"
+                    android:textColor="#999999"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/right_switch_title"/>
+            </LinearLayout>
             <TextView
                 android:id="@+id/tvDateInterval"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="05/05/2017 20:00 - 05/06/2017 20:00"
                 android:textSize="@dimen/sixteen_dp"
+                android:layout_marginLeft="@dimen/thirty_dp"
+
                 android:textColor="#666666"/>
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/llSearch"
             android:layout_width="@dimen/two_hundred_fifty_dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_marginTop="@dimen/five_dp"
             android:background="@drawable/edit_text_bg"
             android:orientation="horizontal">
 
@@ -90,8 +170,10 @@
             android:layout_width="@dimen/hundred_twenty_dp"
             android:layout_height="@dimen/thirty_eight_dp"
             android:clickable="true"
+            android:visibility="visible"
             android:orientation="horizontal"
             android:gravity="center_vertical"
+            android:layout_marginRight="@dimen/sixteen_dp"
             android:background="@drawable/filter_button_selector">
             <ImageView
                 android:layout_width="@dimen/sixteen_dp"
@@ -112,7 +194,6 @@
             android:layout_height="@dimen/thirty_eight_dp"
             android:clickable="true"
             android:orientation="horizontal"
-            android:layout_marginLeft="@dimen/sixteen_dp"
             android:gravity="center_vertical"
             android:background="@drawable/date_intervale_selector">
             <ImageView

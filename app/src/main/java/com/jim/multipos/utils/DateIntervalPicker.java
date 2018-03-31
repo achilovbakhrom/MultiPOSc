@@ -71,12 +71,11 @@ public class DateIntervalPicker extends Dialog {
 
     public interface CallbackIntervalPicker{
         void dateIntervalPicked(Calendar fromDate,Calendar toDate);
-        void datePicked(Calendar pickedDate);
     }
     public DateIntervalPicker(@NonNull Context context,Calendar fromDateInstance,Calendar toDateInstance,CallbackIntervalPicker callbackIntervalPicker) {
         super(context);
         this.callbackIntervalPicker = callbackIntervalPicker;
-        simpleDateFormat = new SimpleDateFormat("MMM dd, yyyy");
+        simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
         dialogView = getLayoutInflater().inflate(R.layout.date_interval_picker_dialog, null);
         ButterKnife.bind(this, dialogView);
@@ -383,8 +382,8 @@ public class DateIntervalPicker extends Dialog {
                 String format = simpleDateFormat.format(fromDate.getTime());
                 String format1 = simpleDateFormat.format(toDate.getTime());
 
-                tvCurrentIntervalTo.setText(format.substring(0, 1).toUpperCase() + format.substring(1) );
-                tvCurrentIntervalFrom.setText(format1.substring(0, 1).toUpperCase() + format1.substring(1));
+                tvCurrentIntervalTo.setText(format1 );
+                tvCurrentIntervalFrom.setText(format);
                 setUnderlineText(tvFromTime,timeSimple.format(fromTime.getTime()));
                 setUnderlineText(tvToTime,timeSimple.format(toTime.getTime()));
             }

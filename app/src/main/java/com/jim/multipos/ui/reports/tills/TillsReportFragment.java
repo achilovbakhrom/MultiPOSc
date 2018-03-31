@@ -56,18 +56,12 @@ public class TillsReportFragment extends BaseFragment implements TillsReportView
 
         presenter.initTillReportData();
 
-        btnFilter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        btnFilter.setOnClickListener(view -> {
 
-            }
         });
 
-        btnDateInterval.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        btnDateInterval.setOnClickListener(view -> {
 
-            }
         });
     }
 
@@ -81,7 +75,7 @@ public class TillsReportFragment extends BaseFragment implements TillsReportView
                 .setWeight(weights)
                 .setDataAlignTypes(aligns)
                 .setObjects(objects)
-                .setOnReportViewResponseListener((row, column) -> {
+                .setOnReportViewResponseListener((objects1, row , column) -> {
                     presenter.openTillDetailsDialog(row, column);
                 })
                 .build();

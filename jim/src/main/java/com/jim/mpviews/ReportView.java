@@ -127,7 +127,7 @@ public class ReportView {
             adapter = new ReportViewAdapter(context);
             adapter.setData(objects, weight, dataTypes, alignTypes, statusTypes);
             sortObjects(defaultSort);
-            adapter.setListener((rowPosition, colPosition) -> listener.onAction(rowPosition, colPosition));
+            adapter.setListener((rowPosition, colPosition) -> listener.onAction(objects,rowPosition, colPosition));
             //creating main view
             view = new FrameLayout(context);
             FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -188,6 +188,6 @@ public class ReportView {
     }
 
     public interface OnReportViewResponseListener {
-        void onAction(int row, int column);
+        void onAction(Object[][] objects, int row, int column);
     }
 }

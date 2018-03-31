@@ -146,13 +146,13 @@ public class MpCalendarIntervView extends RelativeLayout {
         int currentMonth = calendarToday.get(Calendar.MONTH);
         int currentYear = calendarToday.get(Calendar.YEAR);
 
+        calendar.set(Calendar.DAY_OF_MONTH,1);
         calendar.set(Calendar.MONTH,setMonth);
         calendar.set(Calendar.YEAR,setYear);
 
         setUnderlineText((TextView) findViewById(R.id.tvMonthYear),monthName(calendar.get(Calendar.MONTH))+"  "+ String.valueOf(calendar.get(Calendar.YEAR)));
 
 
-        calendar.set(Calendar.DAY_OF_MONTH,1);
         boolean firtLine = false;
         boolean secondLine = false;
         int currentWeekDate = (calendar.get(Calendar.DAY_OF_WEEK) + 5) % 7;

@@ -1,6 +1,10 @@
 package com.jim.multipos.ui.reports.order_history;
 
+import com.jim.multipos.core.BaseTableReportPresenter;
 import com.jim.multipos.core.Presenter;
 
-public interface OrderHistoryPresenter extends Presenter {
+import java.util.Calendar;
+
+public interface OrderHistoryPresenter extends BaseTableReportPresenter {
+
 }

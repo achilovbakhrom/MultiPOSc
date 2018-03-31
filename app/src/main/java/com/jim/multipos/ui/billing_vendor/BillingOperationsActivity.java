@@ -67,18 +67,6 @@ public class BillingOperationsActivity extends SimpleActivity {
                         billingOperationFragment.dateIntervalPicked(fromDate,toDate);
                         toolbar.changeToCloseImgIntervalPick();
                     }
-
-                    @Override
-                    public void datePicked(Calendar pickedDate) {
-                        BillingOperationsActivity.this.fromDate = pickedDate;
-                        BillingOperationsActivity.this.toDate = null;
-                        fromDateCurrent = true;
-                        toDateCurrent = false;
-                        updateCurrentDate();
-                        billingOperationFragment.datePicked(pickedDate);
-                        toolbar.changeToCloseImgIntervalPick();
-
-                    }
                 });
                 dateIntervalPicker.show();
             }
