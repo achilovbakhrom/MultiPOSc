@@ -7,4 +7,6 @@ import com.jim.multipos.core.Presenter;
  */
 
 public interface TillsReportPresenter extends Presenter {
+    void initTillReportData();
+    void openTillDetailsDialog(int row, int column);
 }

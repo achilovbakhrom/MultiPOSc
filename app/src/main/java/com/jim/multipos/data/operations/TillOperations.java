@@ -30,4 +30,7 @@ public interface TillOperations {
     Single<Long> getCurrentOpenTillId();
     Single<List<TillManagementOperation>> getTillManagementOperationsByTillId(Long id);
     Single<TillDetails> getTillDetailsByAccountId(Long accountId, Long tillId);
+    Single<List<Till>> getAllTills();
+    Single<List<TillDetails>> getTillDetailsByTillId(Long tillId);
+    Single<List<Till>> getAllClosedTills();
 }

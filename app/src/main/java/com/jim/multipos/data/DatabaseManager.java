@@ -1151,5 +1151,20 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     public Single<TillDetails> getTillDetailsByAccountId(Long accountId, Long tillId) {
         return dbHelper.getTillDetailsByAccountId(accountId, tillId);
     }
+
+    @Override
+    public Single<List<Till>> getAllTills() {
+        return dbHelper.getAllTills();
+    }
+
+    @Override
+    public Single<List<TillDetails>> getTillDetailsByTillId(Long tillId) {
+        return dbHelper.getTillDetailsByTillId(tillId);
+    }
+
+    @Override
+    public Single<List<Till>> getAllClosedTills() {
+        return dbHelper.getAllClosedTills();
+    }
 }
 

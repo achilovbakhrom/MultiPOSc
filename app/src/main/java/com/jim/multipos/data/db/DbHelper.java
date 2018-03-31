@@ -277,4 +277,7 @@ public interface DbHelper {
     Single<Boolean> isProductSkuExists(String sku, Long subcategoryId);
     Single<Boolean> isConsignmentNumberExists(String number);
     Single<Vendor> detachVendor(Vendor vendor);
+    Single<List<Till>> getAllTills();
+    Single<List<TillDetails>> getTillDetailsByTillId(Long tillId);
+    Single<List<Till>> getAllClosedTills();
 }

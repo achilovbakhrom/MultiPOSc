@@ -17,14 +17,14 @@ import com.jim.multipos.data.db.model.AccountDao;
 public class TillDetails {
     @Id(autoincrement = true)
     private Long id;
-    private double totalStartingCash;
-    private double totalPayOuts;
-    private double totalPayIns;
-    private double totalPayToVendors;
-    private double totalDebtIncome;
-    private double totalBankDrops;
-    private double totalSales;
-    private double tips;
+    private double totalStartingCash = 0;
+    private double totalPayOuts = 0;
+    private double totalPayIns = 0;
+    private double totalPayToVendors = 0;
+    private double totalDebtIncome = 0;
+    private double totalBankDrops = 0;
+    private double totalSales = 0;
+    private double tips = 0;
     private Long accountId;
     @ToOne(joinProperty = "accountId")
     private Account account;
@@ -187,5 +187,9 @@ public class TillDetails {
     }
     @Generated(hash = 1725934361)
     public TillDetails() {
+    }
+
+    public Double getExpectedTillAmount(){
+        return totalPayIns - totalPayOuts - totalPayToVendors + totalDebtIncome - totalBankDrops + totalSales + totalStartingCash - tips;
     }
 }

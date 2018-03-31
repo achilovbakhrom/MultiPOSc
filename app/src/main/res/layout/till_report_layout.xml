@@ -105,6 +105,11 @@
     </LinearLayout>
 
     <FrameLayout
+        android:background="@color/colorReportBorderLine"
+        android:layout_width="match_parent"
+        android:layout_height="2px" />
+
+    <FrameLayout
         android:id="@+id/flReportContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

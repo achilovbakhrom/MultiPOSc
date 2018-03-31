@@ -70,6 +70,7 @@ import com.jim.multipos.data.db.model.products.VendorProductCon;
 import com.jim.multipos.data.db.model.products.VendorProductConDao;
 import com.jim.multipos.data.db.model.stock.Stock;
 import com.jim.multipos.data.db.model.till.Till;
+import com.jim.multipos.data.db.model.till.TillDao;
 import com.jim.multipos.data.db.model.till.TillDetailsDao;
 import com.jim.multipos.data.db.model.till.TillManagementOperation;
 import com.jim.multipos.data.db.model.till.TillDetails;
@@ -2178,5 +2179,22 @@ public class AppDbHelper implements DbHelper {
             mDaoSession.getVendorDao().detachAll();
             e.onSuccess(vendor);
         });
+    }
+
+    @Override
+    public Single<List<Till>> getAllTills() {
+        return Single.create(e -> {
+            e.onSuccess(mDaoSession.getTillDao().loadAll());
+        });
+    }
+
+    @Override
+    public Single<List<TillDetails>> getTillDetailsByTillId(Long tillId) {
+        return Single.create(e -> e.onSuccess(mDaoSession.getTillDetailsDao().queryBuilder().where(TillDetailsDao.Properties.TillId.eq(tillId)).build().list()));
+    }
+
+    @Override
+    public Single<List<Till>> getAllClosedTills() {
+        return Single.create(e -> e.onSuccess(mDaoSession.getTillDao().queryBuilder().where(TillDao.Properties.Status.eq(Till.CLOSED)).build().list()));
     }
 }

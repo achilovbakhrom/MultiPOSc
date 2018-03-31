@@ -91,7 +91,7 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
 
         if (databaseManager.getAccounts().isEmpty()){
             Account account1 = new Account();
-            account1.setName("Cash");
+            account1.setName("Till");
             account1.setStaticAccountType(Account.CASH_ACCOUNT);
             databaseManager.addAccount(account1).blockingSingle();
             Account account = new Account();
