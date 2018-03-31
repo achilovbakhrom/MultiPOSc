@@ -1,9 +1,11 @@
 package com.jim.mpviews;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Typeface;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.jim.mpviews.utils.Utils;
 
 /**
  * Created by Sirojiddin on 03.03.2018.
@@ -31,14 +35,12 @@ public class ExpandableView extends LinearLayout {
 
     public void create() {
         setOrientation(LinearLayout.VERTICAL);
-        LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 80);
+        LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         setLayoutParams(layoutParams);
-
         LinearLayout row = new LinearLayout(context);
         row.setOrientation(HORIZONTAL);
 
-        LayoutParams rowParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0);
-        rowParams.weight = 1;
+        LayoutParams rowParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         row.setGravity(Gravity.CENTER_VERTICAL);
         row.setLayoutParams(rowParams);
 
@@ -49,6 +51,7 @@ public class ExpandableView extends LinearLayout {
             colParams.weight = weight[i];
             col.setGravity(align == null ? Gravity.CENTER : align[i] | Gravity.CENTER_VERTICAL);
             col.setLayoutParams(colParams);
+            col.setPadding(0,10,0,10);
             row.addView(col);
 
             TextView textView = new TextView(context);
@@ -73,11 +76,12 @@ public class ExpandableView extends LinearLayout {
                     textView.setPadding(0, 0, 0, 0);
                     break;
             }
-            textView.setTextSize(16);
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                    getResources().getDimension(R.dimen.sixteen_dp));
             textView.setTypeface(textView.getTypeface(), Typeface.NORMAL);
             textView.setLayoutParams(textParams);
-            textView.setEllipsize(TextUtils.TruncateAt.END);
-            textView.setMaxLines(1);
+//            textView.setEllipsize(TextUtils.TruncateAt.END);
+//            textView.setMaxLines(1);
             col.addView(textView);
             if (hasTitle) {
                 LayoutParams imageParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -85,6 +89,7 @@ public class ExpandableView extends LinearLayout {
                 imageParams.height = 15;
                 ImageView imageView = new ImageView(context);
                 imageView.setLayoutParams(imageParams);
+                imageView.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.colorTintGrey)));
                 imageView.setImageResource(R.drawable.sorting);
                 imageView.setVisibility(View.GONE);
                 if (align[i] == Gravity.RIGHT && i == size - 1) {

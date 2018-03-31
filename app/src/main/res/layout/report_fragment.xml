@@ -229,7 +229,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Expert"
+                android:text="Export"
                 android:layout_marginLeft="@dimen/twelve_dp"
                 android:textSize="@dimen/sixteen_dp"
                 android:textColor="#2e91cc"/>

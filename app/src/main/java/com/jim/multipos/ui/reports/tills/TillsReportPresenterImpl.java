@@ -1,5 +1,6 @@
 package com.jim.multipos.ui.reports.tills;
 
+import android.os.Bundle;
 import android.view.Gravity;
 
 import com.jim.mpviews.utils.ReportViewConstants;
@@ -11,6 +12,7 @@ import com.jim.multipos.data.db.model.till.TillManagementOperation;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -22,31 +24,25 @@ import javax.inject.Inject;
 public class TillsReportPresenterImpl extends BasePresenterImpl<TillsReportView> implements TillsReportPresenter {
 
     private DatabaseManager databaseManager;
-    private final DecimalFormat decimalFormat;
     private List<Till> tills;
     private  Object[][] objects;
-    private int dataType[] = {
-            ReportViewConstants.ID, ReportViewConstants.DATE, ReportViewConstants.DATE, ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.ACTION};
-    private int weights[] = {1, 2, 2, 2, 2, 1};
-    private int aligns[] = {Gravity.RIGHT, Gravity.CENTER, Gravity.CENTER, Gravity.RIGHT, Gravity.RIGHT, Gravity.CENTER};
-    private String titles[] = {"Till ID", "Opened Time", "Closed Time", "Start Money Variance", "Till Amount Variance", "Action"};
+    private Calendar fromDate;
+    private Calendar toDate;
 
 
     @Inject
-    protected TillsReportPresenterImpl(TillsReportView view, DatabaseManager databaseManager, DecimalFormat decimalFormat) {
+    protected TillsReportPresenterImpl(TillsReportView view, DatabaseManager databaseManager) {
         super(view);
         this.databaseManager = databaseManager;
-        this.decimalFormat = decimalFormat;
         tills = new ArrayList<>();
     }
 
     @Override
-    public void initTillReportData() {
+    public void onCreateView(Bundle bundle) {
+        super.onCreateView(bundle);
         databaseManager.getAllClosedTills().subscribe(tills1 -> {
-            tills.clear();
-            tills.addAll(tills1);
+            tills = tills1;
         });
-        String abbr = databaseManager.getMainCurrency().getAbbr();
         objects = new Object[tills.size()][6];
         for (int i = 0; i < tills.size(); i++) {
             Till till = tills.get(i);
@@ -57,7 +53,7 @@ public class TillsReportPresenterImpl extends BasePresenterImpl<TillsReportView>
             double startMoneyVariance = 0;
             double tillAmountVariance = 0;
             if (till.getId() == 1) {
-                objects[i][3] = decimalFormat.format(startMoneyVariance) + " " + abbr;
+                objects[i][3] = startMoneyVariance;
                 double closedAmount = 0;
                 double expectedAmount = 0;
                 List<TillManagementOperation> thisTillOperations = databaseManager.getTillManagementOperationsByTillId(till.getId()).blockingGet();
@@ -70,7 +66,7 @@ public class TillsReportPresenterImpl extends BasePresenterImpl<TillsReportView>
                     expectedAmount += details.getExpectedTillAmount();
                 }
                 tillAmountVariance = closedAmount - expectedAmount;
-                objects[i][4] = decimalFormat.format(tillAmountVariance) + " " + abbr;
+                objects[i][4] = tillAmountVariance;
 
             } else {
                 double moneyLeftFromPrevTill = 0;
@@ -99,21 +95,58 @@ public class TillsReportPresenterImpl extends BasePresenterImpl<TillsReportView>
                 startMoneyVariance = thisTillStartMoney - moneyLeftFromPrevTill;
                 tillAmountVariance = closedAmount - expectedAmount;
 
-                objects[i][3] = decimalFormat.format(startMoneyVariance) + " " + abbr;
-                objects[i][4] = decimalFormat.format(tillAmountVariance) + " " + abbr;
+                objects[i][3] = startMoneyVariance;
+                objects[i][4] = tillAmountVariance;
             }
         }
 
-        view.fillReportView(objects, dataType, titles, weights, aligns);
+        view.fillReportView(objects);
     }
 
     @Override
-    public void openTillDetailsDialog(int row, int column) {
+    public void openTillDetailsDialog(Object[][] objects, int row, int column) {
         if (objects[row][0] instanceof Long){
             Long id = (Long) objects[row][0];
             Till till = databaseManager.getTillById(id).blockingGet();
             view.openTillDetailsDialog(till);
         }
+
+    }
+
+    @Override
+    public void onChooseDateInterval(Calendar fromDate, Calendar toDate) {
+        this.fromDate = fromDate;
+        this.toDate = toDate;
+        view.updateDateIntervalUi(fromDate, toDate);
+    }
+
+    @Override
+    public void onSearchTyped(String searchText) {
+
+    }
+
+    @Override
+    public void onClickedDateInterval() {
+        view.openDateInterval(fromDate, toDate);
+    }
+
+    @Override
+    public void onClickedExportExcel() {
+
+    }
+
+    @Override
+    public void onClickedExportPDF() {
+
+    }
+
+    @Override
+    public void onClickedFilter() {
+
+    }
+
+    @Override
+    public void onChoisedPanel(int postion) {
 
     }
 }

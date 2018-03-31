@@ -48,7 +48,7 @@ public class ExportDialog extends Dialog {
             callback.onToExcel();
             dismiss();
         });
-        btnToExcel.setOnClickListener(view -> {
+        btnToPdf.setOnClickListener(view -> {
             callback.onToPdf();
             dismiss();
         });

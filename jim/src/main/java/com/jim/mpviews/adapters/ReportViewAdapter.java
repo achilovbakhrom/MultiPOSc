@@ -81,8 +81,8 @@ public class ReportViewAdapter extends RecyclerView.Adapter<ReportViewAdapter.Vi
         if (holder.customView.getChildAt(0) instanceof LinearLayout) {
             LinearLayout row = (LinearLayout) holder.customView.getChildAt(0);
             if (position % 2 == 0)
-                row.setBackgroundResource(R.color.colorGreyLight);
-            else row.setBackgroundResource(R.color.colorWhite);
+                row.setBackgroundResource(R.color.colorWhite);
+            else row.setBackgroundResource(R.color.colorReportItemBackground);
             int count = 0;
             for (int i = 0; i < row.getChildCount(); i++) {
                 if (row.getChildAt(i) instanceof LinearLayout) {
