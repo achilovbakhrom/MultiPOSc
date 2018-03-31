@@ -40,6 +40,7 @@ public class ReportViewAdapter extends RecyclerView.Adapter<ReportViewAdapter.Vi
         this.context = context;
         NumberFormat numberFormat = NumberFormat.getNumberInstance();
         numberFormat.setMaximumFractionDigits(2);
+        numberFormat.setMinimumFractionDigits(2);
         decimalFormat = (DecimalFormat) numberFormat;
         DecimalFormatSymbols symbols = decimalFormat.getDecimalFormatSymbols();
         symbols.setGroupingSeparator(' ');
@@ -66,6 +67,7 @@ public class ReportViewAdapter extends RecyclerView.Adapter<ReportViewAdapter.Vi
         ExpandableView itemView = new ExpandableView(context);
         itemView.setWeight(weight);
         itemView.setAlign(alignTypes);
+        itemView.setSize(data[0].length);
         itemView.create();
         return new ViewHolder(itemView);
     }
@@ -74,9 +76,6 @@ public class ReportViewAdapter extends RecyclerView.Adapter<ReportViewAdapter.Vi
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-        holder.customView.removeAllViews();
-        holder.customView.setSize(data[position].length);
-        holder.customView.create();
 
         if (holder.customView.getChildAt(0) instanceof LinearLayout) {
             LinearLayout row = (LinearLayout) holder.customView.getChildAt(0);
@@ -100,7 +99,7 @@ public class ReportViewAdapter extends RecyclerView.Adapter<ReportViewAdapter.Vi
                                         textView.setText(String.valueOf(item));
                                         break;
                                     case ReportViewConstants.ACTION:
-                                        String span = decimalFormat.format(item);
+                                        String span = String.valueOf(item);
                                         SpannableString content = new SpannableString(span);
                                         content.setSpan(new UnderlineSpan(), 0, span.length(), 0);
                                         textView.setText(content);

@@ -73,7 +73,7 @@ public class ExpandableView extends LinearLayout {
                     }
                     break;
                 case Gravity.CENTER:
-                    textView.setPadding(0, 0, 0, 0);
+                    textView.setPadding(10, 0, 10, 0);
                     break;
             }
             textView.setTextSize(TypedValue.COMPLEX_UNIT_PX,

@@ -240,7 +240,7 @@
         android:layout_width="match_parent"
         android:layout_height="2px"
         android:background="#d6d6d6"
-        android:layout_marginTop="@dimen/sixteen_dp"
+        android:layout_marginTop="@dimen/twenty_dp"
         />
     <FrameLayout
         android:id="@+id/flTable"

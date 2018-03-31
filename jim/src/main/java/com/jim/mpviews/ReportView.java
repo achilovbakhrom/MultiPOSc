@@ -3,6 +3,7 @@ package com.jim.mpviews;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -142,15 +143,19 @@ public class ReportView {
 
             //check if recyclerView has max height value
             if (maxHeight == 0) {
-                recyclerView = new RecyclerView(context);
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
+                recyclerView = (RecyclerView) LayoutInflater.from(context).inflate(R.layout.vertical_recycler_view, null);
+                recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+                recyclerView.hasFixedSize();
                 recyclerView.setAdapter(adapter);
+                recyclerView.setVerticalScrollBarEnabled(true);
                 layout.addView(recyclerView);
             } else {
-                recyclerViewWithMaxHeight = new RecyclerViewWithMaxHeight(context);
-                recyclerViewWithMaxHeight.setLayoutManager(new LinearLayoutManager(context));
+                recyclerViewWithMaxHeight = (RecyclerViewWithMaxHeight) LayoutInflater.from(context).inflate(R.layout.vertical_recycler_view_with_max_height, null);
+                recyclerViewWithMaxHeight.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
                 recyclerViewWithMaxHeight.setAdapter(adapter);
                 recyclerViewWithMaxHeight.setMaxHeight(maxHeight);
+                recyclerViewWithMaxHeight.hasFixedSize();
+                recyclerViewWithMaxHeight.setVerticalScrollBarEnabled(true);
                 layout.addView(recyclerViewWithMaxHeight);
             }
             view.addView(layout);

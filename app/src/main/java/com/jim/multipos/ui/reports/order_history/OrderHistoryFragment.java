@@ -1,5 +1,6 @@
 package com.jim.multipos.ui.reports.order_history;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.widget.FrameLayout;
@@ -21,6 +22,12 @@ public class OrderHistoryFragment extends BaseTableReportFragment implements Ord
     @Inject
     OrderHistoryPresenter presenter;
 
+    int dataType[] = {ReportViewConstants.ID, ReportViewConstants.ACTION, ReportViewConstants.DATE, ReportViewConstants.NAME, ReportViewConstants.STATUS, ReportViewConstants.NAME, ReportViewConstants.AMOUNT,ReportViewConstants.AMOUNT,ReportViewConstants.ACTION};
+    String titles[] = {"Order ID", "Till ID", "Closed time", "Customer", "Status", "Cancel Reason", "Sub Total","To Pay Total","Actions"};
+    int weights[] = {9, 7, 14, 9, 9, 12, 12,12,10};
+    Object[][] statusTypes = {{0, "Closed",R.color.colorGreen }, {1, "Held", R.color.colorBlue}, {2, "Canceled", R.color.colorRed}};
+    int aligns[] = {Gravity.CENTER, Gravity.CENTER, Gravity.CENTER, Gravity.LEFT, Gravity.CENTER, Gravity.LEFT, Gravity.RIGHT,Gravity.RIGHT,Gravity.CENTER};
+
 
     @Override
     protected void init(Bundle savedInstanceState) {
@@ -33,16 +40,10 @@ public class OrderHistoryFragment extends BaseTableReportFragment implements Ord
     @Override
     public void initFakeDataForTable(){
         Object[][] objects = {
-                {1, "Cristiano Ronaldo Da Silva, Real Madrid CF, Madrid, Spain", 253.236d, 3, System.currentTimeMillis(), "#324", 0},
-                {2, "Chris", 6520.08d, 5, System.currentTimeMillis(), "#325", 1},
-                {3, "Adam", 1520.333d, 2, System.currentTimeMillis(), "#326", 2},
-                {4, "Linkin Park", 2365.23d, 2, System.currentTimeMillis(), "#327", 0}};
+                {348,12L, System.currentTimeMillis(), "", 0,"",28050d,28050d,"detials"},
+                {349,12L, System.currentTimeMillis()-24*60*60*60*1000, "Jonisbek Bektim", 2,"Edited to Order #356",48996d,48996d,"detials"},
 
-        int dataType[] = {ReportViewConstants.ID, ReportViewConstants.NAME, ReportViewConstants.AMOUNT, ReportViewConstants.QUANTITY, ReportViewConstants.DATE, ReportViewConstants.ACTION, ReportViewConstants.STATUS};
-        String titles[] = {"Id", "Name", "Amount", "Count", "Date", "Action", "Status"};
-        int weights[] = {1, 3, 2, 2, 3, 2, 2};
-        Object[][] statusTypes = {{0, "Cancel", R.color.colorRed}, {1, "Close", R.color.colorGreen}, {2, "Hold", R.color.colorBlue}};
-        int aligns[] = {Gravity.CENTER, Gravity.LEFT, Gravity.CENTER, Gravity.RIGHT, Gravity.CENTER, Gravity.CENTER, Gravity.CENTER};
+        };
 
 
         FrameLayout fl = new ReportView.Builder()
