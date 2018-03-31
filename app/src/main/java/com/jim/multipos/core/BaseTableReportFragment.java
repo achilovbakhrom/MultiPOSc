@@ -60,7 +60,6 @@ public abstract class BaseTableReportFragment extends BaseFragment {
 
 
     int panelCount=0;
-
     private BaseTableReportPresenter baseTableReportPresenter;
     private SimpleDateFormat simpleDateFormat;
 
@@ -82,7 +81,6 @@ public abstract class BaseTableReportFragment extends BaseFragment {
         flTable.removeAllViews();
         flTable.addView(frameLayout);
     }
-
     public void disableSearch(){
         llSearch.setVisibility(View.GONE);
     }
@@ -96,7 +94,6 @@ public abstract class BaseTableReportFragment extends BaseFragment {
     public void disableExport(){
         llExpert.setVisibility(View.GONE);
     }
-
     public void updateDateIntervalUi(Calendar fromDate,Calendar toDate){
         tvDateInterval.setText(simpleDateFormat.format(fromDate.getTime()) + " - " + simpleDateFormat.format(toDate.getTime()));
     }
@@ -104,32 +101,11 @@ public abstract class BaseTableReportFragment extends BaseFragment {
         DateIntervalPicker dateIntervalPicker = new DateIntervalPicker(getContext(), fromDate, toDate, (fromDate1, toDate1) -> baseTableReportPresenter.onChooseDateInterval(fromDate1, toDate1));
         dateIntervalPicker.show();
     }
-    public void showExportPanel(){
-        ExportDialog exportDialog = new ExportDialog(getContext(), new ExportDialog.OnExportItemClick() {
-            @Override
-            public void onToExcel() {
-                baseTableReportPresenter.onClickedExportExcel();
-            }
-
-            @Override
-            public void onToPdf() {
-                baseTableReportPresenter.onClickedExportPDF();
-            }
-        });
-        exportDialog.show();
-    }
-    public void showFilterPanel(/*getting configs Filter panel*/){
-
-    }
-    public void setTitleReport(String titleReport){
-        tvTitleReport.setText(titleReport);
-        tvTitleReport.setVisibility(View.VISIBLE);
-        panelCount = 1;
-    }
     public void setSingleTitle(String titleReport){
         llChoiserPanel.setVisibility(View.GONE);
         tvTitleReport.setVisibility(View.VISIBLE);
         tvTitleReport.setText(titleReport);
+        panelCount = 1;
     }
     public void setChoiserPanel(String[] titles){
         tvTitleReport.setVisibility(View.GONE);
@@ -319,6 +295,21 @@ public abstract class BaseTableReportFragment extends BaseFragment {
     public void onCleareSearch(){
         if(!mpSearchEditText.getText().toString().isEmpty())
             mpSearchEditText.setText("");
+    }
+    @OnClick(R.id.llExpert)
+    public void showExportPanel(){
+        ExportDialog exportDialog = new ExportDialog(getContext(), new ExportDialog.OnExportItemClick() {
+            @Override
+            public void onToExcel() {
+                baseTableReportPresenter.onClickedExportExcel();
+            }
+
+            @Override
+            public void onToPdf() {
+                baseTableReportPresenter.onClickedExportPDF();
+            }
+        });
+        exportDialog.show();
     }
 
 }

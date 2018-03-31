@@ -65,4 +65,8 @@ public class OrderHistoryFragment extends BaseTableReportFragment implements Ord
 
 
 
+    @Override
+    public void showFilterPanel() {
+
+    }
 }
