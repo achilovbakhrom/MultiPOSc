@@ -63,6 +63,7 @@ public class ReportViewAdapter extends RecyclerView.Adapter<ReportViewAdapter.Vi
         this.dataTypes = dataTypes;
         this.alignTypes = alignTypes;
         this.statusTypes = statusTypes;
+        searchMode = false;
         notifyDataSetChanged();
     }
 
@@ -72,7 +73,7 @@ public class ReportViewAdapter extends RecyclerView.Adapter<ReportViewAdapter.Vi
 
     public void setSearchText(String searchText) {
         this.searchText = searchText;
-        searchMode = !searchText.isEmpty();
+        searchMode = true;
     }
 
 

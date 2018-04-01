@@ -54,7 +54,6 @@ public class TillsReportFragment extends BaseTableReportFragment implements Till
     }
     @Override
     public void fillReportView(Object[][] objects) {
-        reportView.getBuilder().setSearchedText("");
         reportView.getBuilder().update(objects);
         fl = reportView.getBuilder().getView();
         setTable(fl);
@@ -68,8 +67,7 @@ public class TillsReportFragment extends BaseTableReportFragment implements Till
 
     @Override
     public void setSearchResults(Object[][] objects, String searchText) {
-        reportView.getBuilder().setSearchedText(searchText);
-        reportView.getBuilder().update(objects);
+        reportView.getBuilder().searchResults(objects, searchText);
         fl = reportView.getBuilder().getView();
         setTable(fl);
     }

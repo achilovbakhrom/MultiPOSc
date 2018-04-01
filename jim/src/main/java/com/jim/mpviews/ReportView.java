@@ -37,7 +37,6 @@ public class ReportView {
         Object[][] objects;
         int[] dataTypes;
         String[] titles;
-        String searchedText = "";
         RecyclerView recyclerView;
         RecyclerViewWithMaxHeight recyclerViewWithMaxHeight;
         int[] alignTypes;
@@ -51,11 +50,6 @@ public class ReportView {
 
         public Builder setTitles(String[] titles) {
             this.titles = titles;
-            return this;
-        }
-
-        public Builder setSearchedText(String searchedText){
-            this.searchedText = searchedText;
             return this;
         }
 
@@ -179,6 +173,13 @@ public class ReportView {
         }
 
         public Builder update(Object[][] objects) {
+            this.objects = objects;
+            adapter.setData(objects, weight, dataTypes, alignTypes, statusTypes);
+            sortObjects(defaultSort);
+            adapter.notifyDataSetChanged();
+            return this;
+        }
+        public Builder searchResults(Object[][] objects, String searchedText) {
             this.objects = objects;
             adapter.setData(objects, weight, dataTypes, alignTypes, statusTypes);
             adapter.setSearchText(searchedText);
