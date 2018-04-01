@@ -25,20 +25,20 @@ public class TillsReportFragment extends BaseTableReportFragment implements Till
     TillsReportPresenter presenter;
     @Inject
     DatabaseManager databaseManager;
-    FrameLayout fl;
-    ReportView.Builder builder;
-    ReportView reportView;
+    private FrameLayout fl;
+    private ReportView.Builder builder;
+    private ReportView reportView;
+    private int dataType[] = {
+            ReportViewConstants.ID, ReportViewConstants.DATE, ReportViewConstants.DATE, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.ACTION};
+    private int weights[] = {1, 2, 2, 2, 2, 1};
+    private int aligns[] = {Gravity.RIGHT, Gravity.CENTER, Gravity.CENTER, Gravity.RIGHT, Gravity.RIGHT, Gravity.CENTER};
+    private String titles[] = {"Till ID", "Opened Time", "Closed Time", "Start Money Variance", "Till Amount Variance", "Action"};
 
     @Override
     protected void init(Bundle savedInstanceState) {
         init(presenter);
         disableFilter();
         setSingleTitle("Till Reports");
-        int dataType[] = {
-                ReportViewConstants.ID, ReportViewConstants.DATE, ReportViewConstants.DATE, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.ACTION};
-        int weights[] = {1, 2, 2, 2, 2, 1};
-        int aligns[] = {Gravity.RIGHT, Gravity.CENTER, Gravity.CENTER, Gravity.RIGHT, Gravity.RIGHT, Gravity.CENTER};
-        String titles[] = {"Till ID", "Opened Time", "Closed Time", "Start Money Variance", "Till Amount Variance", "Action"};
         builder = new ReportView.Builder()
                 .setContext(getContext())
                 .setTitles(titles)
@@ -54,6 +54,7 @@ public class TillsReportFragment extends BaseTableReportFragment implements Till
     }
     @Override
     public void fillReportView(Object[][] objects) {
+        reportView.getBuilder().setSearchedText("");
         reportView.getBuilder().update(objects);
         fl = reportView.getBuilder().getView();
         setTable(fl);
@@ -66,7 +67,15 @@ public class TillsReportFragment extends BaseTableReportFragment implements Till
     }
 
     @Override
-    public void showFilterPanel() {
+    public void setSearchResults(Object[][] objects, String searchText) {
+        reportView.getBuilder().setSearchedText(searchText);
+        reportView.getBuilder().update(objects);
+        fl = reportView.getBuilder().getView();
+        setTable(fl);
+    }
 
+    @Override
+    public void showFilterPanel() {
+        /*There is no filter fot tills report*/
     }
 }

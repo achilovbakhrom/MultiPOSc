@@ -28,7 +28,7 @@ public class ExportDialog extends Dialog {
     TextView btnCancel;
     private OnExportItemClick callback;
 
-    public ExportDialog(@NonNull Context context, OnExportItemClick onExportItemClick) {
+    public ExportDialog(@NonNull Context context, int panelCount, OnExportItemClick onExportItemClick) {
         super(context);
         this.callback = onExportItemClick;
         View dialogView = getLayoutInflater().inflate(R.layout.export_dialog, null);
@@ -36,8 +36,13 @@ public class ExportDialog extends Dialog {
         getWindow().getDecorView().setBackgroundResource(android.R.color.transparent);
         Window window = getWindow();
         WindowManager.LayoutParams wlp = window.getAttributes();
-        wlp.y = CommonUtils.dpToPx(190);
-        wlp.x = CommonUtils.dpToPx(950);
+        if (panelCount == 1){
+            wlp.y = CommonUtils.dpToPx(160);
+            wlp.x = CommonUtils.dpToPx(950);
+        } else {
+            wlp.y = CommonUtils.dpToPx(190);
+            wlp.x = CommonUtils.dpToPx(950);
+        }
         wlp.width = CommonUtils.dpToPx(170);
         wlp.height = CommonUtils.dpToPx(185);
         wlp.gravity = Gravity.TOP | Gravity.LEFT;

@@ -299,7 +299,7 @@ public abstract class BaseTableReportFragment extends BaseFragment {
     }
     @OnClick(R.id.llExpert)
     public void showExportPanel(){
-        ExportDialog exportDialog = new ExportDialog(getContext(), new ExportDialog.OnExportItemClick() {
+        ExportDialog exportDialog = new ExportDialog(getContext(), panelCount, new ExportDialog.OnExportItemClick() {
             @Override
             public void onToExcel() {
                 baseTableReportPresenter.onClickedExportExcel();

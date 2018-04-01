@@ -11,6 +11,8 @@ import com.jim.multipos.data.db.model.till.TillDetails;
 import com.jim.multipos.data.db.model.till.TillManagementOperation;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -30,12 +32,20 @@ public class TillsReportPresenterImpl extends BasePresenterImpl<TillsReportView>
     private Object[][] objects;
     private Calendar fromDate;
     private Calendar toDate;
-
+    private DecimalFormat decimalFormat;
+    private SimpleDateFormat simpleDateFormat;
+    ;
 
     @Inject
     protected TillsReportPresenterImpl(TillsReportView view, DatabaseManager databaseManager) {
         super(view);
         this.databaseManager = databaseManager;
+        DecimalFormat decimalFormat1 = new DecimalFormat("0.00");
+        DecimalFormatSymbols decimalFormatSymbols = decimalFormat1.getDecimalFormatSymbols();
+        decimalFormatSymbols.setDecimalSeparator('.');
+        decimalFormat1.setDecimalFormatSymbols(decimalFormatSymbols);
+        decimalFormat = decimalFormat1;
+        simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         tills = new ArrayList<>();
     }
 
@@ -43,7 +53,7 @@ public class TillsReportPresenterImpl extends BasePresenterImpl<TillsReportView>
     public void onCreateView(Bundle bundle) {
         super.onCreateView(bundle);
         Date currentDate = new Date();
-        fromDate =  new GregorianCalendar();
+        fromDate = new GregorianCalendar();
         toDate = new GregorianCalendar();
 
         toDate.setTime(currentDate);
@@ -59,7 +69,7 @@ public class TillsReportPresenterImpl extends BasePresenterImpl<TillsReportView>
         initTableView();
     }
 
-    private void initTableView(){
+    private void initTableView() {
         tills = databaseManager.getClosedTillsInInterval(fromDate, toDate).blockingGet();
 
         objects = new Object[tills.size()][6];
@@ -140,8 +150,102 @@ public class TillsReportPresenterImpl extends BasePresenterImpl<TillsReportView>
         initTableView();
     }
 
+    private int prev = -1;
+    private Object[][] searchResultsTemp;
+
     @Override
     public void onSearchTyped(String searchText) {
+        if (searchText.isEmpty()) {
+            view.fillReportView(objects);
+            prev = -1;
+
+        } else {
+            if (searchText.length() <= prev || prev == -1) {
+                int searchRes[] = new int[objects.length];
+                for (int i = 0; i < objects.length; i++) {
+                    if (String.valueOf((long) objects[i][0]).toUpperCase().contains(searchText.toUpperCase())) {
+                        searchRes[i] = 1;
+                        continue;
+                    }
+                    if (simpleDateFormat.format(new Date((long) objects[i][1])).contains(searchText.toUpperCase())) {
+                        searchRes[i] = 1;
+                        continue;
+                    }
+                    if (simpleDateFormat.format(new Date((long) objects[i][2])).contains(searchText.toUpperCase())) {
+                        searchRes[i] = 1;
+                        continue;
+                    }
+                    if (decimalFormat.format((double) objects[i][3]).contains(searchText.toUpperCase())) {
+                        searchRes[i] = 1;
+                        continue;
+                    }
+                    if (decimalFormat.format((double) objects[i][4]).contains(searchText.toUpperCase())) {
+                        searchRes[i] = 1;
+                        continue;
+                    }
+                }
+
+                int sumSize = 0;
+                for (int i = 0; i < objects.length; i++) {
+                    if (searchRes[i] == 1)
+                        sumSize++;
+                }
+                Object[][] objectResults = new Object[sumSize][6];
+
+                int pt = 0;
+                for (int i = 0; i < objects.length; i++) {
+                    if (searchRes[i] == 1) {
+                        objectResults[pt] = objects[i];
+                        pt++;
+                    }
+                }
+                searchResultsTemp = objectResults.clone();
+                view.setSearchResults(objectResults, searchText);
+            } else {
+                int searchRes[] = new int[searchResultsTemp.length];
+                for (int i = 0; i < searchResultsTemp.length; i++) {
+                    if (String.valueOf((long) searchResultsTemp[i][0]).toUpperCase().contains(searchText.toUpperCase())) {
+                        searchRes[i] = 1;
+                        continue;
+                    }
+                    if (simpleDateFormat.format(new Date((long) searchResultsTemp[i][1])).contains(searchText.toUpperCase())) {
+                        searchRes[i] = 1;
+                        continue;
+                    }
+                    if (simpleDateFormat.format(new Date((long) searchResultsTemp[i][2])).contains(searchText.toUpperCase())) {
+                        searchRes[i] = 1;
+                        continue;
+                    }
+                    if (decimalFormat.format((double) searchResultsTemp[i][3]).contains(searchText.toUpperCase())) {
+                        searchRes[i] = 1;
+                        continue;
+                    }
+                    if (decimalFormat.format((double) searchResultsTemp[i][4]).contains(searchText.toUpperCase())) {
+                        searchRes[i] = 1;
+                        continue;
+                    }
+                }
+
+
+                int sumSize = 0;
+                for (int i = 0; i < searchResultsTemp.length; i++) {
+                    if (searchRes[i] == 1)
+                        sumSize++;
+                }
+                Object[][] objectResults = new Object[sumSize][6];
+
+                int pt = 0;
+                for (int i = 0; i < searchResultsTemp.length; i++) {
+                    if (searchRes[i] == 1) {
+                        objectResults[pt] = searchResultsTemp[i];
+                        pt++;
+                    }
+                }
+                searchResultsTemp = objectResults.clone();
+                view.setSearchResults(objectResults, searchText);
+            }
+            prev = searchText.length();
+        }
 
     }
 

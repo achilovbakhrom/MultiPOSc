@@ -11,4 +11,5 @@ import com.jim.multipos.data.db.model.till.Till;
 public interface TillsReportView extends BaseTableReportView {
     void fillReportView(Object[][] objects);
     void openTillDetailsDialog(Till till);
+    void setSearchResults(Object[][] objects, String searchText);
 }

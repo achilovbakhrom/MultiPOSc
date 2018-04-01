@@ -3,18 +3,15 @@ package com.jim.mpviews;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jim.mpviews.adapters.ReportViewAdapter;
 
 import java.util.Arrays;
-import java.util.Comparator;
 
 /**
  * Created by Sirojiddin on 03.03.2018.
@@ -40,6 +37,7 @@ public class ReportView {
         Object[][] objects;
         int[] dataTypes;
         String[] titles;
+        String searchedText = "";
         RecyclerView recyclerView;
         RecyclerViewWithMaxHeight recyclerViewWithMaxHeight;
         int[] alignTypes;
@@ -56,6 +54,11 @@ public class ReportView {
             return this;
         }
 
+        public Builder setSearchedText(String searchedText){
+            this.searchedText = searchedText;
+            return this;
+        }
+
         public Builder setContext(Context context) {
             this.context = context;
             return this;
@@ -65,7 +68,6 @@ public class ReportView {
             this.weight = weight;
             return this;
         }
-
 
         public Builder setObjects(Object[][] objects) {
             this.objects = objects;
@@ -179,8 +181,8 @@ public class ReportView {
         public Builder update(Object[][] objects) {
             this.objects = objects;
             adapter.setData(objects, weight, dataTypes, alignTypes, statusTypes);
+            adapter.setSearchText(searchedText);
             adapter.notifyDataSetChanged();
-            sortObjects(defaultSort);
             return this;
         }
 
