@@ -198,11 +198,8 @@ public class ReportViewAdapter extends RecyclerView.Adapter<ReportViewAdapter.Vi
                                             colorSubSeq(String.valueOf(item), searchText, Color.parseColor("#95ccee"), textView);
                                             break;
                                         case ReportViewConstants.ACTION:
-                                            String span = String.valueOf(item);
-                                            SpannableString content = new SpannableString(span);
-                                            content.setSpan(new UnderlineSpan(), 0, span.length(), 0);
                                             textView.setTextColor(ContextCompat.getColor(context, R.color.colorBlue));
-                                            colorSubSeq(String.valueOf(content), searchText, Color.parseColor("#95ccee"), textView);
+                                            colorSubSeqUnderLine(String.valueOf(item), searchText, Color.parseColor("#95ccee"), textView);
                                             final int finalCount = count;
                                             col.setOnClickListener(view -> listener.onAction(position, finalCount));
                                             break;
@@ -214,10 +211,8 @@ public class ReportViewAdapter extends RecyclerView.Adapter<ReportViewAdapter.Vi
                                             colorSubSeq(item, searchText, Color.parseColor("#95ccee"), textView);
                                             break;
                                         case ReportViewConstants.ACTION:
-                                            SpannableString content = new SpannableString(item);
-                                            content.setSpan(new UnderlineSpan(), 0, item.length(), 0);
                                             textView.setTextColor(ContextCompat.getColor(context, R.color.colorBlue));
-                                            colorSubSeq(String.valueOf(content), searchText, Color.parseColor("#95ccee"), textView);
+                                            colorSubSeqUnderLine(String.valueOf(item), searchText, Color.parseColor("#95ccee"), textView);
                                             final int finalCount = count;
                                             col.setOnClickListener(view -> listener.onAction(position, finalCount));
                                             break;
@@ -284,6 +279,20 @@ public class ReportViewAdapter extends RecyclerView.Adapter<ReportViewAdapter.Vi
         String textUpper = text.toUpperCase();
         String whichWordColorUpper = whichWordColor.toUpperCase();
         SpannableString ss = new SpannableString(text);
+        int strar = 0;
+
+        while (textUpper.indexOf(whichWordColorUpper, strar) >= 0 && whichWordColor.length() != 0) {
+            ss.setSpan(new BackgroundColorSpan(colorCode), textUpper.indexOf(whichWordColorUpper, strar), textUpper.indexOf(whichWordColorUpper, strar) + whichWordColorUpper.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            strar = textUpper.indexOf(whichWordColorUpper, strar) + whichWordColorUpper.length();
+        }
+        textView.setText(ss);
+    }
+
+    public void colorSubSeqUnderLine(String text, String whichWordColor, int colorCode, TextView textView) {
+        String textUpper = text.toUpperCase();
+        String whichWordColorUpper = whichWordColor.toUpperCase();
+        SpannableString ss = new SpannableString(text);
+        ss.setSpan(new UnderlineSpan(), 0, ss.length(), 0);
         int strar = 0;
 
         while (textUpper.indexOf(whichWordColorUpper, strar) >= 0 && whichWordColor.length() != 0) {
