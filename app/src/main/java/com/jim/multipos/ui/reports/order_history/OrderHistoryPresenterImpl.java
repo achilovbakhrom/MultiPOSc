@@ -15,6 +15,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -44,7 +45,7 @@ public class OrderHistoryPresenterImpl extends BasePresenterImpl<OrderHistoryVie
         this.preferencesHelper = preferencesHelper;
         this.context = context;
         simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        filterConfig = new int[3];
+        filterConfig = new int[]{1,1,1};
     }
 
     @Override
@@ -218,19 +219,34 @@ public class OrderHistoryPresenterImpl extends BasePresenterImpl<OrderHistoryVie
         }
     }
     private void updateObejctsForTable(){
-        Object[][] objectsTemp = new Object[orders.size()][9];
-        for (int i = 0; i < orders.size(); i++){
-            objectsTemp[i][0] = orders.get(i).getId();
-            objectsTemp[i][1] = orders.get(i).getTillId();
-            objectsTemp[i][2] = orders.get(i).getCreateAt();
-            if( orders.get(i).getCustomer()!=null)
-                objectsTemp[i][3] = orders.get(i).getCustomer().getName();
+        List<Order> result = new ArrayList<>();
+        for (int i = 0; i < orders.size(); i++) {
+            if(filterConfig[0]==1 && orders.get(i).getStatus() == Order.CLOSED_ORDER) {
+                result.add(orders.get(i));
+                continue;
+            }
+            if(filterConfig[1]==1 && orders.get(i).getStatus() == Order.HOLD_ORDER){
+                result.add(orders.get(i));
+                continue;
+            }
+            if(filterConfig[2]==1 && orders.get(i).getStatus() == Order.CANCELED_ORDER){
+                result.add(orders.get(i));
+                continue;
+            }
+        }
+        Object[][] objectsTemp = new Object[result.size()][9];
+        for (int i = 0; i < result.size(); i++){
+            objectsTemp[i][0] = result.get(i).getId();
+            objectsTemp[i][1] = result.get(i).getTillId();
+            objectsTemp[i][2] = result.get(i).getCreateAt();
+            if( result.get(i).getCustomer()!=null)
+                objectsTemp[i][3] = result.get(i).getCustomer().getName();
             else
                 objectsTemp[i][3] = "";
-            objectsTemp[i][4] = orders.get(i).getStatus();
-            objectsTemp[i][5] = orders.get(i).getLastChangeLog().getReason();
-            objectsTemp[i][6] = orders.get(i).getSubTotalValue();
-            objectsTemp[i][7] = orders.get(i).getForPayAmmount();
+            objectsTemp[i][4] = result.get(i).getStatus();
+            objectsTemp[i][5] = result.get(i).getLastChangeLog().getReason();
+            objectsTemp[i][6] = result.get(i).getSubTotalValue();
+            objectsTemp[i][7] = result.get(i).getForPayAmmount();
             objectsTemp[i][8] = "detials";
         }
         this.objects = objectsTemp;
@@ -256,6 +272,12 @@ public class OrderHistoryPresenterImpl extends BasePresenterImpl<OrderHistoryVie
     }
 
     @Override
+    public void filterConfigsChanged(int[] configs) {
+        filterConfig = configs;
+        updateObejctsForTable();
+    }
+
+    @Override
     public void onClickedExportExcel() {
 
     }
@@ -267,7 +289,7 @@ public class OrderHistoryPresenterImpl extends BasePresenterImpl<OrderHistoryVie
 
     @Override
     public void onClickedFilter() {
-        view.showFilterPanel();
+        view.showFilterPanel(filterConfig);
     }
 
     @Override

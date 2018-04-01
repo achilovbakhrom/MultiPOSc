@@ -2,12 +2,14 @@ package com.jim.multipos.ui.reports.order_history.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.jim.mpviews.MpButton;
 import com.jim.mpviews.MpCheckbox;
 import com.jim.multipos.R;
 import com.jim.multipos.utils.CommonUtils;
@@ -28,21 +30,50 @@ public class OrderHistoryFilterDialog extends Dialog {
     @BindView(R.id.chbCanceled)
     MpCheckbox chbCanceled;
 
+    @BindView(R.id.btnCancel)
+    MpButton btnCancel;
+    @BindView(R.id.btnApply)
+    MpButton btnApply;
+    private OrderHistoryFilterListner orderHistoryFilterListner;
 
-    public OrderHistoryFilterDialog(@NonNull Context context) {
+    public interface OrderHistoryFilterListner{
+        void onApply(int[] config);
+    }
+    public OrderHistoryFilterDialog(@NonNull Context context,int[] filterConfig,OrderHistoryFilterListner orderHistoryFilterListner) {
         super(context);
+        this.orderHistoryFilterListner = orderHistoryFilterListner;
         View dialogView = getLayoutInflater().inflate(R.layout.order_filter_dialog, null);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().getDecorView().setBackgroundResource(android.R.color.transparent);
         Window window = getWindow();
         WindowManager.LayoutParams wlp = window.getAttributes();
-        wlp.y = CommonUtils.dpToPx(170);
+        wlp.y = CommonUtils.dpToPx(160);
         wlp.x = CommonUtils.dpToPx(10);
         wlp.width = CommonUtils.dpToPx(300);
-        wlp.height = CommonUtils.dpToPx(270);
+        wlp.height = CommonUtils.dpToPx(260);
         wlp.gravity = Gravity.TOP | Gravity.LEFT;
         window.setAttributes(wlp);
         ButterKnife.bind(this, dialogView);
         setContentView(dialogView);
+
+        if(filterConfig[0] == 1 ) chbClosedOrders.setChecked(true);
+        else chbClosedOrders.setChecked(false);
+        if(filterConfig[1] == 1 ) chbHeldOrders.setChecked(true);
+        else chbHeldOrders.setChecked(false);
+        if(filterConfig[2] == 1 ) chbCanceled.setChecked(true);
+        else chbCanceled.setChecked(false);
+
+
+        chbClosedOrders.setTextColor(Color.parseColor("#212121"));
+        chbHeldOrders.setTextColor(Color.parseColor("#212121"));
+        chbCanceled.setTextColor(Color.parseColor("#212121"));
+
+        btnApply.setOnClickListener((view -> {
+            orderHistoryFilterListner.onApply(new int[]{chbClosedOrders.isChecked()?1:0,chbHeldOrders.isChecked()?1:0,chbCanceled.isChecked()?1:0});
+            dismiss();
+        }));
+        btnCancel.setOnClickListener((view -> {
+            dismiss();
+        }));
     }
 }

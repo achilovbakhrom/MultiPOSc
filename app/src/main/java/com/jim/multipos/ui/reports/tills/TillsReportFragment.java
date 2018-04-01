@@ -72,7 +72,6 @@ public class TillsReportFragment extends BaseTableReportFragment implements Till
         setTable(fl);
     }
 
-    @Override
     public void showFilterPanel() {
         /*There is no filter fot tills report*/
     }

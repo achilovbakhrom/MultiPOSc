@@ -69,29 +69,18 @@ public class OrderHistoryFragment extends BaseTableReportFragment implements Ord
 
     @Override
     public void setToTableFromSearch(Object[][] toTable, String searchedText) {
-        reportView.getBuilder().update(toTable);
+        reportView.getBuilder().searchResults(toTable, searchedText);
         fl = reportView.getBuilder().getView();
-//        FrameLayout fl = new ReportView.Builder()
-//                .setContext(getContext())
-//                .setTitles(titles)
-//                .setDataTypes(dataType)
-//                .setWeight(weights)
-////                .setSearchedText(searchedText)
-//                .setDataAlignTypes(aligns)
-//                .setObjects(toTable)
-//                .setDefaultSort(0)
-//                .setStatusTypes(statusTypes)
-//                .setOnReportViewResponseListener((relivantObjects,row, column) -> {
-//                    presenter.onActionClicked(relivantObjects,row,column);
-//                })
-//                .build();
         setTable(fl);
     }
 
 
     @Override
-    public void showFilterPanel() {
-        OrderHistoryFilterDialog orderHistoryFilterDialog = new OrderHistoryFilterDialog(getContext());
+    public void showFilterPanel(int[] config) {
+        OrderHistoryFilterDialog orderHistoryFilterDialog = new OrderHistoryFilterDialog(getContext(), config, config1 -> {
+            presenter.filterConfigsChanged(config1);
+            clearSearch();
+        });
         orderHistoryFilterDialog.show();
     }
 

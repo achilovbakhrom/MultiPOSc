@@ -157,8 +157,8 @@ public class MpCheckbox extends LinearLayout {
                 break;
             case RIGHT_TEXT:
                 setOrientation(HORIZONTAL);
-                addImageView(context, 4, 4, 2, 4, Gravity.CENTER_VERTICAL);
-                addTextView(context, 2, 2, 4 , 2, Gravity.CENTER_VERTICAL);
+                addImageView(context, 1, 4, 2, 4, Gravity.CENTER_VERTICAL);
+                addTextView(context, 12, 2, 4 , 2, Gravity.CENTER_VERTICAL);
                 break;
             case TOP_TEXT:
                 setOrientation(VERTICAL);

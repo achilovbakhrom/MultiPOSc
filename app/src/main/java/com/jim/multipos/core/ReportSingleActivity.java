@@ -28,7 +28,7 @@ public abstract class ReportSingleActivity extends BaseActivity {
     RecyclerView tvReportsPicker;
     ReportPickerAdapter reportPickerAdapter;
     List<String> reportNames;
-    String [] reportsFragmentsTags= {SalesReportFragment.class.getName(),OrderHistoryFragment.class.getName()};
+    String [] reportsFragmentsTags= {SalesReportFragment.class.getName(),TillsReportFragment.class.getName(),OrderHistoryFragment.class.getName()};
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

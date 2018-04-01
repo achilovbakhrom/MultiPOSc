@@ -277,8 +277,10 @@ public abstract class BaseTableReportFragment extends BaseFragment {
     }
     @OnTextChanged(R.id.mpSearchEditText)
     protected void handleTextChange(Editable editable) {
-        Runnable runnable = () -> baseTableReportPresenter.onSearchTyped(editable.toString());
-        runnable.run();
+        if(isAllright) {
+            Runnable runnable = () -> baseTableReportPresenter.onSearchTyped(editable.toString());
+            runnable.run();
+        }else isAllright = true;
         if(editable.toString().isEmpty()){
             ivSearchImage.setImageResource(R.drawable.search_app);
         }else {
@@ -288,6 +290,7 @@ public abstract class BaseTableReportFragment extends BaseFragment {
     @OnClick(R.id.llDateInterval)
     public void onClickedDateIntervalButton(){
         llDateInterval.setEnabled(false);
+        clearSearch();
         Runnable runnable = () -> baseTableReportPresenter.onClickedDateInterval();
         llDateInterval.postDelayed(runnable,30);
         llDateInterval.setEnabled(true);
@@ -312,5 +315,10 @@ public abstract class BaseTableReportFragment extends BaseFragment {
         });
         exportDialog.show();
     }
+    boolean isAllright = true;
+    public void clearSearch(){
+        isAllright = false;
+        mpSearchEditText.setText("");
+    };
 
 }

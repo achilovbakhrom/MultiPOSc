@@ -7,4 +7,5 @@ import java.util.Calendar;
 
 public interface OrderHistoryPresenter extends BaseTableReportPresenter {
     void onActionClicked(Object[][] objects, int row, int column);
+    void filterConfigsChanged(int[] configs);
 }

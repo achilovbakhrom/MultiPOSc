@@ -30,8 +30,8 @@
             android:id="@+id/chbClosedOrders"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/fourteen_dp"
-            android:layout_marginLeft="@dimen/fourteen_dp"
+            android:layout_marginRight="@dimen/eighteen_dp"
+            android:layout_marginLeft="@dimen/eighteen_dp"
             android:layout_marginTop="@dimen/ten_dp"
             app:chb_type="2"
             app:checked="true"
@@ -40,8 +40,8 @@
             android:id="@+id/chbHeldOrders"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/fourteen_dp"
-            android:layout_marginLeft="@dimen/fourteen_dp"
+            android:layout_marginRight="@dimen/eighteen_dp"
+            android:layout_marginLeft="@dimen/eighteen_dp"
             android:layout_marginTop="@dimen/ten_dp"
             app:chb_type="2"
             app:checked="true"
@@ -50,8 +50,8 @@
             android:id="@+id/chbCanceled"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/fourteen_dp"
-            android:layout_marginLeft="@dimen/fourteen_dp"
+            android:layout_marginRight="@dimen/eighteen_dp"
+            android:layout_marginLeft="@dimen/eighteen_dp"
             android:layout_marginTop="@dimen/ten_dp"
             app:chb_type="2"
             app:checked="true"
@@ -68,18 +68,20 @@
         android:orientation="horizontal"
         android:gravity="center_horizontal">
         <com.jim.mpviews.MpButton
+            android:id="@+id/btnCancel"
             android:layout_width="@dimen/hundred_twenty_dp"
             android:layout_height="@dimen/fifty_dp"
-            android:layout_marginBottom="@dimen/five_dp"
+            android:layout_marginBottom="@dimen/ten_dp"
             android:text="Cancel"
             android:layout_marginTop="@dimen/five_dp"
             android:textColor="#acacac"/>
         <com.jim.mpviews.MpButton
+            android:id="@+id/btnApply"
             android:layout_width="@dimen/hundred_twenty_dp"
             android:layout_height="@dimen/fifty_dp"
             android:text="Apply"
             android:layout_marginTop="@dimen/five_dp"
-            android:layout_marginBottom="@dimen/five_dp"
+            android:layout_marginBottom="@dimen/ten_dp"
             android:textColor="#419fd9"/>
     </LinearLayout>
 
