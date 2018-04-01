@@ -13,6 +13,8 @@ import com.jim.multipos.data.db.model.till.TillManagementOperation;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -25,7 +27,7 @@ public class TillsReportPresenterImpl extends BasePresenterImpl<TillsReportView>
 
     private DatabaseManager databaseManager;
     private List<Till> tills;
-    private  Object[][] objects;
+    private Object[][] objects;
     private Calendar fromDate;
     private Calendar toDate;
 
@@ -40,9 +42,26 @@ public class TillsReportPresenterImpl extends BasePresenterImpl<TillsReportView>
     @Override
     public void onCreateView(Bundle bundle) {
         super.onCreateView(bundle);
-        databaseManager.getAllClosedTills().subscribe(tills1 -> {
-            tills = tills1;
-        });
+        Date currentDate = new Date();
+        fromDate =  new GregorianCalendar();
+        toDate = new GregorianCalendar();
+
+        toDate.setTime(currentDate);
+        toDate.set(Calendar.HOUR_OF_DAY, 23);
+        toDate.set(Calendar.MINUTE, 59);
+        toDate.set(Calendar.SECOND, 59);
+
+        fromDate.add(Calendar.MONTH, -1);
+        fromDate.set(Calendar.HOUR_OF_DAY, 0);
+        fromDate.set(Calendar.MINUTE, 0);
+        fromDate.set(Calendar.SECOND, 0);
+        view.updateDateIntervalUi(fromDate, toDate);
+        initTableView();
+    }
+
+    private void initTableView(){
+        tills = databaseManager.getClosedTillsInInterval(fromDate, toDate).blockingGet();
+
         objects = new Object[tills.size()][6];
         for (int i = 0; i < tills.size(); i++) {
             Till till = tills.get(i);
@@ -86,7 +105,7 @@ public class TillsReportPresenterImpl extends BasePresenterImpl<TillsReportView>
                 for (TillDetails details : tillDetails) {
                     expectedAmount += details.getExpectedTillAmount();
                 }
-                List<TillManagementOperation> prevTillOperations = databaseManager.getTillManagementOperationsByTillId(tills.get(i - 1).getId()).blockingGet();
+                List<TillManagementOperation> prevTillOperations = databaseManager.getTillManagementOperationsByTillId(tills.get(i).getId() - 1L).blockingGet();
                 for (TillManagementOperation operation : prevTillOperations) {
                     if (operation.getType() == TillManagementOperation.TO_NEW_TILL)
                         moneyLeftFromPrevTill += operation.getAmount();
@@ -105,7 +124,7 @@ public class TillsReportPresenterImpl extends BasePresenterImpl<TillsReportView>
 
     @Override
     public void openTillDetailsDialog(Object[][] objects, int row, int column) {
-        if (objects[row][0] instanceof Long){
+        if (objects[row][0] instanceof Long) {
             Long id = (Long) objects[row][0];
             Till till = databaseManager.getTillById(id).blockingGet();
             view.openTillDetailsDialog(till);
@@ -118,6 +137,7 @@ public class TillsReportPresenterImpl extends BasePresenterImpl<TillsReportView>
         this.fromDate = fromDate;
         this.toDate = toDate;
         view.updateDateIntervalUi(fromDate, toDate);
+        initTableView();
     }
 
     @Override

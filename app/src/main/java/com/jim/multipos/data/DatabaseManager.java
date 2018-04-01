@@ -1166,5 +1166,10 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     public Single<List<Till>> getAllClosedTills() {
         return dbHelper.getAllClosedTills();
     }
+
+    @Override
+    public Single<List<Till>> getClosedTillsInInterval(Calendar fromDate, Calendar toDate) {
+        return dbHelper.getClosedTillsInInterval(fromDate, toDate);
+    }
 }
 

@@ -60,16 +60,16 @@ public class ExpandableView extends LinearLayout {
             switch (align[i]) {
                 case Gravity.LEFT:
                     if (i == 0)
-                        textView.setPadding(30, 0, 0, 0);
+                        textView.setPadding(30, 0, 10, 0);
                     else
-                        textView.setPadding(20, 0, 0, 0);
+                        textView.setPadding(20, 0, 10, 0);
                     break;
                 case Gravity.RIGHT:
                     if (!hasTitle) {
                         if (i == size - 1)
-                            textView.setPadding(0, 0, 30, 0);
+                            textView.setPadding(10, 0, 30, 0);
                         else
-                            textView.setPadding(0, 0, 20, 0);
+                            textView.setPadding(10, 0, 20, 0);
                     }
                     break;
                 case Gravity.CENTER:
@@ -168,9 +168,9 @@ public class ExpandableView extends LinearLayout {
                             } else imageView.setVisibility(GONE);
 
                             if (sorting == 1) {
-                                imageView.setImageResource(R.drawable.sorting_invert);
-                            } else {
                                 imageView.setImageResource(R.drawable.sorting);
+                            } else {
+                                imageView.setImageResource(R.drawable.sorting_invert);
                             }
                             count++;
                         }

@@ -5,6 +5,7 @@ import com.jim.multipos.data.db.model.till.TillManagementOperation;
 import com.jim.multipos.data.db.model.till.TillDetails;
 import com.jim.multipos.data.db.model.till.TillOperation;
 
+import java.util.Calendar;
 import java.util.List;
 
 import io.reactivex.Single;
@@ -33,4 +34,5 @@ public interface TillOperations {
     Single<List<Till>> getAllTills();
     Single<List<TillDetails>> getTillDetailsByTillId(Long tillId);
     Single<List<Till>> getAllClosedTills();
+    Single<List<Till>> getClosedTillsInInterval(Calendar fromDate, Calendar toDate);
 }

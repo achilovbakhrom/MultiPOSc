@@ -8,13 +8,13 @@
 
     <LinearLayout
         android:layout_width="@dimen/five_hundred_twenty_dp"
-        android:layout_height="@dimen/seven_hundred_dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/rounded_edit_text_bg"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/seventy_dp"
             android:background="@drawable/rounded_blue_bg"
             android:paddingBottom="@dimen/ten_dp"
             android:paddingLeft="@dimen/thirty_dp"
@@ -75,6 +75,7 @@
                 android:id="@+id/llExport"
                 android:layout_width="@dimen/hundred_twenty_dp"
                 android:layout_height="@dimen/thirty_eight_dp"
+                android:layout_gravity="center_vertical"
                 android:background="@drawable/customer_dialog_button_selector"
                 android:clickable="true"
                 android:gravity="center_vertical"
@@ -98,26 +99,30 @@
 
         </LinearLayout>
 
-        <ScrollView
+        <HorizontalScrollView
             android:layout_width="match_parent"
-            android:layout_height="@dimen/forty_five_dp">
+            android:layout_height="@dimen/forty_five_dp"
+            android:layout_marginLeft="@dimen/twenty_dp"
+            android:layout_marginRight="@dimen/twenty_dp"
+            android:background="@color/colorWhite"
+            android:scrollbars="none">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:id="@+id/llAccountContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal" />
 
-
-            </LinearLayout>
-
-        </ScrollView>
+        </HorizontalScrollView>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/colorBackground"
             android:orientation="vertical"
             android:paddingLeft="@dimen/thirty_dp"
-            android:paddingRight="@dimen/thirty_dp">
+            android:paddingRight="@dimen/thirty_dp"
+            android:paddingTop="@dimen/thirty_dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -130,7 +135,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/fifty_dp"
                     android:text="Total starting amount:"
-                    android:textColor="@color/colorMainText" />
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/sixteen_dp" />
 
                 <ImageView
                     android:layout_width="0dp"
@@ -146,7 +152,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/five_dp"
-                    android:textColor="@color/colorMainText" />
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/sixteen_dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -160,7 +167,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/fifty_dp"
                     android:text="Pay - Outs:"
-                    android:textColor="@color/colorMainText" />
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/sixteen_dp" />
 
                 <ImageView
                     android:layout_width="0dp"
@@ -176,7 +184,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/five_dp"
-                    android:textColor="@color/colorMainText" />
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/sixteen_dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -190,7 +199,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/fifty_dp"
                     android:text="Pay - Ins:"
-                    android:textColor="@color/colorMainText" />
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/sixteen_dp" />
 
                 <ImageView
                     android:layout_width="0dp"
@@ -206,7 +216,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/five_dp"
-                    android:textColor="@color/colorMainText" />
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/sixteen_dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -220,7 +231,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/fifty_dp"
                     android:text="Pay to Vendors:"
-                    android:textColor="@color/colorMainText" />
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/sixteen_dp" />
 
 
                 <ImageView
@@ -237,7 +249,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/five_dp"
-                    android:textColor="@color/colorMainText" />
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/sixteen_dp" />
 
             </LinearLayout>
 
@@ -252,7 +265,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/fifty_dp"
                     android:text="Income debt: "
-                    android:textColor="@color/colorMainText" />
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/sixteen_dp" />
 
                 <ImageView
                     android:layout_width="0dp"
@@ -268,7 +282,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/five_dp"
-                    android:textColor="@color/colorMainText" />
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/sixteen_dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -282,7 +297,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/fifty_dp"
                     android:text="Bank drops:"
-                    android:textColor="@color/colorMainText" />
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/sixteen_dp" />
 
                 <ImageView
                     android:layout_width="0dp"
@@ -298,7 +314,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/five_dp"
-                    android:textColor="@color/colorMainText" />
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/sixteen_dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -312,7 +329,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/fifty_dp"
                     android:text="Real product sales"
-                    android:textColor="@color/colorMainText" />
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/sixteen_dp" />
 
                 <ImageView
                     android:layout_width="0dp"
@@ -328,7 +346,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/five_dp"
-                    android:textColor="@color/colorMainText" />
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/sixteen_dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -342,7 +361,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/fifty_dp"
                     android:text="Tips dispensed:"
-                    android:textColor="@color/colorMainText" />
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/sixteen_dp" />
 
                 <ImageView
                     android:layout_width="0dp"
@@ -358,12 +378,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/five_dp"
-                    android:textColor="@color/colorMainText" />
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/sixteen_dp" />
             </LinearLayout>
 
             <FrameLayout
                 android:layout_width="@dimen/hundred_fifty_five_dp"
-                android:layout_height="1px"
+                android:layout_height="2px"
                 android:layout_gravity="right"
                 android:layout_marginBottom="@dimen/ten_dp"
                 android:background="@color/colorReportBorderLine" />
@@ -371,7 +392,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/ten_dp"
+                android:layout_marginBottom="@dimen/fifteen_dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -380,7 +401,8 @@
                     android:layout_marginRight="@dimen/thirty_dp"
                     android:gravity="right"
                     android:text="Total for Till: "
-                    android:textColor="@color/colorMainText" />
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/sixteen_dp" />
 
                 <ImageView
                     android:layout_width="0dp"
@@ -396,13 +418,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/five_dp"
-                    android:textColor="@color/colorMainText" />
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/sixteen_dp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/ten_dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -411,7 +433,8 @@
                     android:layout_marginRight="@dimen/thirty_dp"
                     android:gravity="right"
                     android:text="Total closed amount: "
-                    android:textColor="@color/colorMainText" />
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/sixteen_dp" />
 
                 <ImageView
                     android:layout_width="0dp"
@@ -427,10 +450,118 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/five_dp"
-                    android:textColor="@color/colorMainText" />
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/sixteen_dp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvCloseAmountDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginBottom="@dimen/five_dp"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="@dimen/twelve_dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="@dimen/two_hundred_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/thirty_dp"
+                    android:gravity="right"
+                    android:text="To next amount"
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/sixteen_dp" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="5px"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="@dimen/three_dp"
+                    android:layout_weight="1"
+                    android:layerType="software"
+                    android:src="@drawable/dash" />
+
+                <TextView
+                    android:id="@+id/tvToNexTAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/five_dp"
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/sixteen_dp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvToNextAmountDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginBottom="@dimen/five_dp"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="@dimen/twelve_dp" />
+
+            <FrameLayout
+                android:layout_width="@dimen/hundred_fifty_five_dp"
+                android:layout_height="2px"
+                android:layout_gravity="right"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:background="@color/colorReportBorderLine" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/fifteen_dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="@dimen/two_hundred_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/thirty_dp"
+                    android:gravity="right"
+                    android:text="Till amount variance"
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/sixteen_dp" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="5px"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="@dimen/three_dp"
+                    android:layout_weight="1"
+                    android:layerType="software"
+                    android:src="@drawable/dash" />
+
+                <TextView
+                    android:id="@+id/tvTillAmountVariance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/five_dp"
+                    android:textColor="@color/colorMainText"
+                    android:textSize="@dimen/sixteen_dp" />
             </LinearLayout>
 
         </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginBottom="@dimen/twenty_dp"
+            android:background="@color/colorReportBorderLine" />
+
+        <com.jim.mpviews.MpButton
+            android:id="@+id/btnClose"
+            android:layout_width="@dimen/hundred_sixty_dp"
+            android:layout_height="@dimen/sixty_dp"
+            android:layout_gravity="right"
+            android:layout_marginBottom="@dimen/twenty_dp"
+            android:layout_marginRight="@dimen/fifteen_dp"
+            android:text="@string/close"
+            android:textColor="@color/colorSecondaryText" />
+
 
     </LinearLayout>
 

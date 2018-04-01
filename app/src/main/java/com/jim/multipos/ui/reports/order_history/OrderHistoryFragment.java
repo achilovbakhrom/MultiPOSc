@@ -46,21 +46,21 @@ public class OrderHistoryFragment extends BaseTableReportFragment implements Ord
         };
 
 
-        FrameLayout fl = new ReportView.Builder()
-                .setContext(getContext())
-                .setTitles(titles)
-                .setDataTypes(dataType)
-                .setWeight(weights)
-                .setDataAlignTypes(aligns)
-                .setObjects(objects)
-                .setDefaultSort(0)
-                .setStatusTypes(statusTypes)
-                .setOnReportViewResponseListener((relivantObjects,row, column) -> {
-
-                })
-                .build();
-
-        setTable(fl);
+//        FrameLayout fl = new ReportView.Builder()
+//                .setContext(getContext())
+//                .setTitles(titles)
+//                .setDataTypes(dataType)
+//                .setWeight(weights)
+//                .setDataAlignTypes(aligns)
+//                .setObjects(objects)
+//                .setDefaultSort(0)
+//                .setStatusTypes(statusTypes)
+//                .setOnReportViewResponseListener((relivantObjects,row, column) -> {
+//
+//                })
+//                .build();
+//
+//        setTable(fl);
     }
 
 

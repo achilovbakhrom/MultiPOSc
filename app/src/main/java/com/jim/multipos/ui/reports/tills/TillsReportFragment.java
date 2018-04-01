@@ -9,6 +9,7 @@ import com.jim.mpviews.utils.ReportViewConstants;
 import com.jim.multipos.core.BaseTableReportFragment;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.till.Till;
+import com.jim.multipos.ui.reports.tills.dialog.TillDetailsDialog;
 
 import java.text.DecimalFormat;
 
@@ -24,41 +25,44 @@ public class TillsReportFragment extends BaseTableReportFragment implements Till
     TillsReportPresenter presenter;
     @Inject
     DatabaseManager databaseManager;
-    @Inject
-    DecimalFormat decimalFormat;
+    FrameLayout fl;
+    ReportView.Builder builder;
+    ReportView reportView;
 
     @Override
     protected void init(Bundle savedInstanceState) {
         init(presenter);
-        presenter.onCreateView(savedInstanceState);
         disableFilter();
         setSingleTitle("Till Reports");
-    }
-
-    @Override
-    public void fillReportView(Object[][] objects) {
         int dataType[] = {
                 ReportViewConstants.ID, ReportViewConstants.DATE, ReportViewConstants.DATE, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.ACTION};
         int weights[] = {1, 2, 2, 2, 2, 1};
         int aligns[] = {Gravity.RIGHT, Gravity.CENTER, Gravity.CENTER, Gravity.RIGHT, Gravity.RIGHT, Gravity.CENTER};
         String titles[] = {"Till ID", "Opened Time", "Closed Time", "Start Money Variance", "Till Amount Variance", "Action"};
-        FrameLayout fl = new ReportView.Builder()
+        builder = new ReportView.Builder()
                 .setContext(getContext())
                 .setTitles(titles)
                 .setDataTypes(dataType)
                 .setWeight(weights)
                 .setDataAlignTypes(aligns)
-                .setObjects(objects)
                 .setOnReportViewResponseListener((objects1, row, column) -> {
                     presenter.openTillDetailsDialog(objects1, row, column);
                 })
                 .build();
+        reportView = new ReportView(builder);
+        presenter.onCreateView(savedInstanceState);
+    }
+    @Override
+    public void fillReportView(Object[][] objects) {
+        reportView.getBuilder().update(objects);
+        fl = reportView.getBuilder().getView();
         setTable(fl);
     }
 
     @Override
     public void openTillDetailsDialog(Till till) {
-
+        TillDetailsDialog dialog = new TillDetailsDialog(getContext(), databaseManager, till);
+        dialog.show();
     }
 
     @Override

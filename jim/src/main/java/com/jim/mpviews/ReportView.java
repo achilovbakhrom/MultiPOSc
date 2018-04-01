@@ -21,6 +21,17 @@ import java.util.Comparator;
  */
 
 public class ReportView {
+
+    private Builder builder;
+
+    public ReportView(Builder builder) {
+        this.builder = builder;
+    }
+
+    public Builder getBuilder() {
+        return builder;
+    }
+
     public static class Builder {
 
         Context context;
@@ -91,7 +102,7 @@ public class ReportView {
             return this;
         }
 
-        public FrameLayout build() {
+        public Builder build() {
             //creating title for view
             titleView = new ExpandableView(context);
             titleView.setWeight(weight);
@@ -109,9 +120,12 @@ public class ReportView {
                         LinearLayout col = (LinearLayout) row.getChildAt(i);
                         col.setBackgroundResource(R.color.colorReportTitleBackGround);
                         final int finalCount = count;
-                        col.setOnClickListener(view -> {
-                            sortObjects(finalCount);
-                            titleView.sorted(sorting, finalCount);
+                        col.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                sortObjects(finalCount);
+                                titleView.sorted(sorting, finalCount);
+                            }
                         });
                         for (int j = 0; j < col.getChildCount(); j++) {
                             if (col.getChildAt(j) instanceof TextView) {
@@ -127,8 +141,12 @@ public class ReportView {
             //creating adapter
             adapter = new ReportViewAdapter(context);
             adapter.setData(objects, weight, dataTypes, alignTypes, statusTypes);
-            sortObjects(defaultSort);
-            adapter.setListener((rowPosition, colPosition) -> listener.onAction(objects,rowPosition, colPosition));
+            adapter.setListener(new ReportViewAdapter.OnItemClickListener() {
+                @Override
+                public void onAction(int rowPosition, int colPosition) {
+                    listener.onAction(objects, rowPosition, colPosition);
+                }
+            });
             //creating main view
             view = new FrameLayout(context);
             FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -143,22 +161,30 @@ public class ReportView {
 
             //check if recyclerView has max height value
             if (maxHeight == 0) {
-                recyclerView = (RecyclerView) LayoutInflater.from(context).inflate(R.layout.vertical_recycler_view, null);
-                recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
-                recyclerView.hasFixedSize();
+                recyclerView = new RecyclerView(context);
+                recyclerView.setLayoutManager(new LinearLayoutManager(context));
                 recyclerView.setAdapter(adapter);
-                recyclerView.setVerticalScrollBarEnabled(true);
                 layout.addView(recyclerView);
             } else {
-                recyclerViewWithMaxHeight = (RecyclerViewWithMaxHeight) LayoutInflater.from(context).inflate(R.layout.vertical_recycler_view_with_max_height, null);
-                recyclerViewWithMaxHeight.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+                recyclerViewWithMaxHeight = new RecyclerViewWithMaxHeight(context);
+                recyclerViewWithMaxHeight.setLayoutManager(new LinearLayoutManager(context));
                 recyclerViewWithMaxHeight.setAdapter(adapter);
                 recyclerViewWithMaxHeight.setMaxHeight(maxHeight);
-                recyclerViewWithMaxHeight.hasFixedSize();
-                recyclerViewWithMaxHeight.setVerticalScrollBarEnabled(true);
                 layout.addView(recyclerViewWithMaxHeight);
             }
             view.addView(layout);
+            return this;
+        }
+
+        public Builder update(Object[][] objects) {
+            this.objects = objects;
+            adapter.setData(objects, weight, dataTypes, alignTypes, statusTypes);
+            adapter.notifyDataSetChanged();
+            sortObjects(defaultSort);
+            return this;
+        }
+
+        public FrameLayout getView() {
             return view;
         }
 

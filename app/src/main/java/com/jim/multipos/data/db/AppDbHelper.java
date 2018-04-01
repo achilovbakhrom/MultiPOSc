@@ -2197,4 +2197,17 @@ public class AppDbHelper implements DbHelper {
     public Single<List<Till>> getAllClosedTills() {
         return Single.create(e -> e.onSuccess(mDaoSession.getTillDao().queryBuilder().where(TillDao.Properties.Status.eq(Till.CLOSED)).build().list()));
     }
+
+    @Override
+    public Single<List<Till>> getClosedTillsInInterval(Calendar fromDate, Calendar toDate) {
+        return Single.create(e -> {
+            List<Till> tills = mDaoSession.getTillDao().queryBuilder()
+                    .where(TillDao.Properties.CloseDate.ge(fromDate.getTimeInMillis()),
+                            TillDao.Properties.CloseDate.le(toDate.getTimeInMillis()),
+                            TillDao.Properties.Status.eq(Till.CLOSED))
+                    .build().list();
+
+            e.onSuccess(tills);
+        });
+    }
 }
