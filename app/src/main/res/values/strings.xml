@@ -594,6 +594,10 @@
     <string name="operations">Operations</string>
     <string name="please_enter_write_off_reason">Please enter Write off reason</string>
     <string name="please_enter_surplus_reason">Please enter Write off reason</string>
+    <string name="order_history_report_title">Order History</string>
+    <string name="order_status_closed">Closed</string>
+    <string name="order_status_held">Held</string>
+    <string name="order_status_canceled">Canceled</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>

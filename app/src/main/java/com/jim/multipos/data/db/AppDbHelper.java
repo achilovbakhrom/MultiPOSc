@@ -2210,4 +2210,15 @@ public class AppDbHelper implements DbHelper {
             e.onSuccess(tills);
         });
     }
+
+    @Override
+    public Single<List<Order>> getOrdersInIntervalForReport(Calendar fromDate, Calendar toDate) {
+        return Single.create(e -> {
+            List<Order> orderList = mDaoSession.getOrderDao().queryBuilder()
+                    .where(OrderDao.Properties.CreateAt.ge(fromDate.getTimeInMillis()),
+                            OrderDao.Properties.CreateAt.le(toDate.getTimeInMillis()))
+                    .build().list();
+            e.onSuccess(orderList);
+        });
+    }
 }

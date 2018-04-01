@@ -4,5 +4,6 @@ import com.jim.multipos.core.BaseTableReportView;
 import com.jim.multipos.core.BaseView;
 
 public interface OrderHistoryView extends BaseTableReportView {
-    void initFakeDataForTable();
+    void setToTable(Object[][] toTable);
+    void setToTableFromSearch(Object[][] toTable,String searchedText);
 }

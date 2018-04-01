@@ -280,5 +280,7 @@ public interface DbHelper {
     Single<List<Till>> getAllTills();
     Single<List<TillDetails>> getTillDetailsByTillId(Long tillId);
     Single<List<Till>> getAllClosedTills();
+    Single<List<Order>> getOrdersInIntervalForReport(Calendar fromDate,Calendar toDate);
+
     Single<List<Till>> getClosedTillsInInterval(Calendar fromDate, Calendar toDate);
 }

@@ -277,7 +277,8 @@ public abstract class BaseTableReportFragment extends BaseFragment {
     }
     @OnTextChanged(R.id.mpSearchEditText)
     protected void handleTextChange(Editable editable) {
-        baseTableReportPresenter.onSearchTyped(editable.toString());
+        Runnable runnable = () -> baseTableReportPresenter.onSearchTyped(editable.toString());
+        runnable.run();
         if(editable.toString().isEmpty()){
             ivSearchImage.setImageResource(R.drawable.search_app);
         }else {

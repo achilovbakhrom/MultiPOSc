@@ -6,6 +6,7 @@ import com.jim.multipos.data.db.model.order.OrderProduct;
 
 import org.greenrobot.greendao.query.LazyList;
 
+import java.util.Calendar;
 import java.util.List;
 
 import io.reactivex.Single;
@@ -28,4 +29,5 @@ public interface OrderOperations {
     Single<List<Order>> getAllHoldOrders();
     Single<List<Order>> getOrdersByTillId(Long id);
     Single<List<Order>> getAllTillClosedOrders();
+    Single<List<Order>> getOrdersInIntervalForReport(Calendar fromDate,Calendar toDate);
 }

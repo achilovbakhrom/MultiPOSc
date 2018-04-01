@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/three_hundred_dp"
+    android:layout_height="@dimen/two_hundred_seventy_dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/filter_frame"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Inclusions:"
+        android:textSize="@dimen/sixteen_dp"
+        android:layout_marginTop="@dimen/ten_dp"
+        android:layout_marginRight="@dimen/sixteen_dp"
+        android:layout_marginLeft="@dimen/sixteen_dp"
+        android:textColor="#212121"
+        android:layout_marginBottom="@dimen/ten_dp"/>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="#e4e4e4"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        >
+        <com.jim.mpviews.MpCheckbox
+            android:id="@+id/chbClosedOrders"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/fourteen_dp"
+            android:layout_marginLeft="@dimen/fourteen_dp"
+            android:layout_marginTop="@dimen/ten_dp"
+            app:chb_type="2"
+            app:checked="true"
+            app:text="Closed Orders" />
+        <com.jim.mpviews.MpCheckbox
+            android:id="@+id/chbHeldOrders"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/fourteen_dp"
+            android:layout_marginLeft="@dimen/fourteen_dp"
+            android:layout_marginTop="@dimen/ten_dp"
+            app:chb_type="2"
+            app:checked="true"
+            app:text="Held Orders" />
+        <com.jim.mpviews.MpCheckbox
+            android:id="@+id/chbCanceled"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/fourteen_dp"
+            android:layout_marginLeft="@dimen/fourteen_dp"
+            android:layout_marginTop="@dimen/ten_dp"
+            app:chb_type="2"
+            app:checked="true"
+            app:text="Canceled Orders" />
+
+    </LinearLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="#e4e4e4"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal">
+        <com.jim.mpviews.MpButton
+            android:layout_width="@dimen/hundred_twenty_dp"
+            android:layout_height="@dimen/fifty_dp"
+            android:layout_marginBottom="@dimen/five_dp"
+            android:text="Cancel"
+            android:layout_marginTop="@dimen/five_dp"
+            android:textColor="#acacac"/>
+        <com.jim.mpviews.MpButton
+            android:layout_width="@dimen/hundred_twenty_dp"
+            android:layout_height="@dimen/fifty_dp"
+            android:text="Apply"
+            android:layout_marginTop="@dimen/five_dp"
+            android:layout_marginBottom="@dimen/five_dp"
+            android:textColor="#419fd9"/>
+    </LinearLayout>
+
+
+</LinearLayout>
