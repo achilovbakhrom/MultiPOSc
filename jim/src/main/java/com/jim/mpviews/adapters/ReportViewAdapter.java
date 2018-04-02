@@ -33,7 +33,7 @@ public class ReportViewAdapter extends RecyclerView.Adapter<ReportViewAdapter.Vi
     private int[] weight;
     private int[] dataTypes;
     private int[] alignTypes;
-    private Object[][] statusTypes;
+    private Object[][][] statusTypes;
     private Context context;
     private DecimalFormat decimalFormat, decimalFormatWithoutGrouping;
     private SimpleDateFormat simpleDateFormat;
@@ -57,7 +57,7 @@ public class ReportViewAdapter extends RecyclerView.Adapter<ReportViewAdapter.Vi
         simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
     }
 
-    public void setData(Object[][] data, int[] weight, int[] dataTypes, int[] alignTypes, Object[][] statusTypes) {
+    public void setData(Object[][] data, int[] weight, int[] dataTypes, int[] alignTypes, Object[][][] statusTypes) {
         this.data = data;
         this.weight = weight;
         this.dataTypes = dataTypes;
@@ -90,8 +90,8 @@ public class ReportViewAdapter extends RecyclerView.Adapter<ReportViewAdapter.Vi
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-
         if (!searchMode) {
+            int statusCount = 0;
             if (holder.customView.getChildAt(0) instanceof LinearLayout) {
                 LinearLayout row = (LinearLayout) holder.customView.getChildAt(0);
                 if (position % 2 == 0)
@@ -155,13 +155,14 @@ public class ReportViewAdapter extends RecyclerView.Adapter<ReportViewAdapter.Vi
                                         case ReportViewConstants.STATUS:
                                             if (statusTypes != null) {
                                                 for (int k = 0; k < statusTypes.length; k++) {
-                                                    if (item == statusTypes[k][0]) {
-                                                        String status = (String) statusTypes[k][1];
-                                                        Integer color = (Integer) statusTypes[k][2];
+                                                    if (item == statusTypes[statusCount][k][0]) {
+                                                        String status = (String) statusTypes[statusCount][k][1];
+                                                        Integer color = (Integer) statusTypes[statusCount][k][2];
                                                         textView.setText(status);
                                                         textView.setTextColor(ContextCompat.getColor(context, color));
                                                     }
                                                 }
+                                                statusCount++;
                                             }
                                             break;
                                         default:
@@ -176,6 +177,7 @@ public class ReportViewAdapter extends RecyclerView.Adapter<ReportViewAdapter.Vi
                 }
             }
         } else {
+            int statusCount = 0;
             if (holder.customView.getChildAt(0) instanceof LinearLayout) {
                 LinearLayout row = (LinearLayout) holder.customView.getChildAt(0);
                 if (position % 2 == 0)
@@ -234,13 +236,14 @@ public class ReportViewAdapter extends RecyclerView.Adapter<ReportViewAdapter.Vi
                                         case ReportViewConstants.STATUS:
                                             if (statusTypes != null) {
                                                 for (int k = 0; k < statusTypes.length; k++) {
-                                                    if (item == statusTypes[k][0]) {
-                                                        String status = (String) statusTypes[k][1];
-                                                        Integer color = (Integer) statusTypes[k][2];
+                                                    if (item == statusTypes[statusCount][k][0]) {
+                                                        String status = (String) statusTypes[statusCount][k][1];
+                                                        Integer color = (Integer) statusTypes[statusCount][k][2];
                                                         textView.setTextColor(ContextCompat.getColor(context, color));
                                                         colorSubSeq(status, searchText, Color.parseColor("#95ccee"), textView);
                                                     }
                                                 }
+                                                statusCount++;
                                             }
                                             break;
                                         default:

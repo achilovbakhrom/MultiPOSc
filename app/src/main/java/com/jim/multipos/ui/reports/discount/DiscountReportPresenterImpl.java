@@ -11,7 +11,7 @@ import javax.inject.Inject;
 
 public class DiscountReportPresenterImpl extends BasePresenterImpl<DiscountReportView> implements DiscountReportPresenter {
 
-    private Object[][] objects;
+    private Object[][] objects = new Object[][]{};
 
     @Inject
     protected DiscountReportPresenterImpl(DiscountReportView view, DatabaseManager databaseManager) {
@@ -21,7 +21,6 @@ public class DiscountReportPresenterImpl extends BasePresenterImpl<DiscountRepor
     @Override
     public void onCreateView(Bundle bundle) {
         super.onCreateView(bundle);
-
         view.initTable(objects);
     }
 
@@ -59,13 +58,13 @@ public class DiscountReportPresenterImpl extends BasePresenterImpl<DiscountRepor
     public void onChoisedPanel(int postion) {
         switch (postion) {
             case 0:
-                view.initItemDiscount();
+                view.updateTable(objects, postion);
                 break;
             case 1:
-                view.initOrderDiscount();
+                view.updateTable(objects, postion);
                 break;
             case 2:
-                view.initDiscountCreationLog();
+                view.updateTable(objects, postion);
                 break;
         }
     }

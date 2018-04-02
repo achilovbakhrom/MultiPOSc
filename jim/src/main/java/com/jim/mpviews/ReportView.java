@@ -44,7 +44,7 @@ public class ReportView {
         int defaultSort = 0;
         int maxHeight = 0;
         ReportViewAdapter adapter;
-        Object[][] statusTypes;
+        Object[][][] statusTypes;
         OnReportViewResponseListener listener;
         ExpandableView titleView;
 
@@ -88,7 +88,7 @@ public class ReportView {
             return this;
         }
 
-        public Builder setStatusTypes(Object[][] statusTypes) {
+        public Builder setStatusTypes(Object[][][] statusTypes) {
             this.statusTypes = statusTypes;
             return this;
         }
