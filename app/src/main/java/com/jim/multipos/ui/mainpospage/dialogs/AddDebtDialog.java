@@ -1,5 +1,6 @@
 package com.jim.multipos.ui.mainpospage.dialogs;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -151,7 +152,7 @@ public class AddDebtDialog extends Dialog {
             }
         });
         checkCustomer();
-            String[] debtTypes = context.getResources().getStringArray(R.array.debt_type);
+        String[] debtTypes = context.getResources().getStringArray(R.array.debt_type);
         spDebtType.setAdapter(debtTypes);
         tvDueDate.setText(simpleDateFormat.format(calendar.getTime()));
         GregorianCalendar now = new GregorianCalendar();
@@ -175,13 +176,20 @@ public class AddDebtDialog extends Dialog {
         });
 
         btnSave.setOnClickListener(view -> {
+
+            double fee = 0;
+            try {
+                fee = decimalFormat.parse(etFee.getText().toString().replace(",", ".")).doubleValue();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             if (customer == null) {
                 flSearchView.setQueryError(context.getString(R.string.please_choose_customer));
             } else if (!customer.getName().equals(searchText)) {
                 flSearchView.setQueryError(context.getString(R.string.please_choose_customer));
             } else if (etAmount.getText().toString().isEmpty()) {
                 etAmount.setError(context.getString(R.string.enter_debt_amount));
-            } else if (Double.parseDouble(etFee.getText().toString()) > 100) {
+            } else if (fee > 100) {
                 etFee.setError(context.getString(R.string.percent_can_not_be_more_hunder));
             } else {
                 Debt debt = new Debt();
@@ -190,10 +198,10 @@ public class AddDebtDialog extends Dialog {
                 debt.setTakenDate(now.getTimeInMillis());
                 if (etFee.getText().toString().isEmpty()) {
                     debt.setFee(0);
-                } else debt.setFee(Double.parseDouble(etFee.getText().toString()));
+                } else debt.setFee(fee);
                 double debtAmount = 0;
                 try {
-                    debtAmount = (decimalFormat.parse(etAmount.getText().toString()).doubleValue());
+                    debtAmount = (decimalFormat.parse(etAmount.getText().toString().replace(",", ".")).doubleValue());
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -210,7 +218,7 @@ public class AddDebtDialog extends Dialog {
 
     public void setScanResult(String contents) {
         databaseManager.getAllCustomers().subscribe(customers -> {
-            for (Customer customer : customers) {   
+            for (Customer customer : customers) {
                 if (customer.getQrCode().equals(contents)) {
                     this.customer = customer;
                     searchText = customer.getName();

@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.jim.multipos.R;
 import com.jim.multipos.ui.reports.adapter.ReportPickerAdapter;
+import com.jim.multipos.ui.reports.discount.DiscountReportFragment;
 import com.jim.multipos.ui.reports.order_history.OrderHistoryFragment;
 import com.jim.multipos.ui.reports.sales.SalesReportFragment;
 import com.jim.multipos.ui.reports.tills.TillsReportFragment;
@@ -28,7 +29,7 @@ public abstract class ReportSingleActivity extends BaseActivity {
     RecyclerView tvReportsPicker;
     ReportPickerAdapter reportPickerAdapter;
     List<String> reportNames;
-    String [] reportsFragmentsTags= {SalesReportFragment.class.getName(),TillsReportFragment.class.getName(),OrderHistoryFragment.class.getName()};
+    String [] reportsFragmentsTags= {SalesReportFragment.class.getName(),TillsReportFragment.class.getName(),OrderHistoryFragment.class.getName(), DiscountReportFragment.class.getName()};
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -143,6 +144,17 @@ public abstract class ReportSingleActivity extends BaseActivity {
             addFragmentWithTagStatic(R.id.flMain, tillsReportFragment, TillsReportFragment.class.getName());
         }else {
             getSupportFragmentManager().beginTransaction().show(tillsReportFragment).commit();
+        }
+    }
+
+    public void showDiscountReportFragment(/*extra*/){
+        hideAll();
+        DiscountReportFragment discountReportFragment = (DiscountReportFragment) getSupportFragmentManager().findFragmentByTag(DiscountReportFragment.class.getName());
+        if ( discountReportFragment == null){
+            discountReportFragment = new DiscountReportFragment();
+            addFragmentWithTagStatic(R.id.flMain, discountReportFragment, DiscountReportFragment.class.getName());
+        }else {
+            getSupportFragmentManager().beginTransaction().show(discountReportFragment).commit();
         }
     }
 

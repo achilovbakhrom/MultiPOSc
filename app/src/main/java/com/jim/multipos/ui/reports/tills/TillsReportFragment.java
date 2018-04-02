@@ -52,9 +52,10 @@ public class TillsReportFragment extends BaseTableReportFragment implements Till
         reportView = new ReportView(builder);
         presenter.onCreateView(savedInstanceState);
     }
+
     @Override
     public void fillReportView(Object[][] objects) {
-        reportView.getBuilder().update(objects);
+        reportView.getBuilder().init(objects);
         fl = reportView.getBuilder().getView();
         setTable(fl);
     }
@@ -72,7 +73,10 @@ public class TillsReportFragment extends BaseTableReportFragment implements Till
         setTable(fl);
     }
 
-    public void showFilterPanel() {
-        /*There is no filter fot tills report*/
+    @Override
+    public void updateReportView(Object[][] objects) {
+        reportView.getBuilder().update(objects);
+        fl = reportView.getBuilder().getView();
+        setTable(fl);
     }
 }

@@ -12,4 +12,5 @@ public interface TillsReportView extends BaseTableReportView {
     void fillReportView(Object[][] objects);
     void openTillDetailsDialog(Till till);
     void setSearchResults(Object[][] objects, String searchText);
+    void updateReportView(Object[][] objects);
 }

@@ -34,7 +34,7 @@ public class TillsReportPresenterImpl extends BasePresenterImpl<TillsReportView>
     private Calendar toDate;
     private DecimalFormat decimalFormat;
     private SimpleDateFormat simpleDateFormat;
-    ;
+    private boolean isFirstTime = true;
 
     @Inject
     protected TillsReportPresenterImpl(TillsReportView view, DatabaseManager databaseManager) {
@@ -71,7 +71,6 @@ public class TillsReportPresenterImpl extends BasePresenterImpl<TillsReportView>
 
     private void initTableView() {
         tills = databaseManager.getClosedTillsInInterval(fromDate, toDate).blockingGet();
-
         objects = new Object[tills.size()][6];
         for (int i = 0; i < tills.size(); i++) {
             Till till = tills.get(i);
@@ -128,8 +127,10 @@ public class TillsReportPresenterImpl extends BasePresenterImpl<TillsReportView>
                 objects[i][4] = tillAmountVariance;
             }
         }
-
-        view.fillReportView(objects);
+        if (isFirstTime)
+            view.fillReportView(objects);
+        else view.updateReportView(objects);
+        isFirstTime = false;
     }
 
     @Override
@@ -156,7 +157,7 @@ public class TillsReportPresenterImpl extends BasePresenterImpl<TillsReportView>
     @Override
     public void onSearchTyped(String searchText) {
         if (searchText.isEmpty()) {
-            view.fillReportView(objects);
+            view.updateReportView(objects);
             prev = -1;
 
         } else {

@@ -67,7 +67,7 @@ public class ReportsActivity extends ReportSingleActivity implements ReportsActi
 
     @Override
     public void openDiscountsFragmentAction() {
-
+        showDiscountReportFragment();
     }
 
     @Override

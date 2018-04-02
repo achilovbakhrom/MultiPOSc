@@ -172,13 +172,21 @@ public class ReportView {
             return this;
         }
 
-        public Builder update(Object[][] objects) {
+        public Builder init(Object[][] objects) {
             this.objects = objects;
             adapter.setData(objects, weight, dataTypes, alignTypes, statusTypes);
             sortObjects(defaultSort);
             adapter.notifyDataSetChanged();
             return this;
         }
+
+        public Builder update(Object[][] objects) {
+            this.objects = objects;
+            adapter.setData(objects, weight, dataTypes, alignTypes, statusTypes);
+            adapter.notifyDataSetChanged();
+            return this;
+        }
+
         public Builder searchResults(Object[][] objects, String searchedText) {
             this.objects = objects;
             adapter.setData(objects, weight, dataTypes, alignTypes, statusTypes);
