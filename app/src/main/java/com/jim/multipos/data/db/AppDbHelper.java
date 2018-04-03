@@ -58,6 +58,7 @@ import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.OrderChangesLog;
 import com.jim.multipos.data.db.model.order.OrderDao;
 import com.jim.multipos.data.db.model.order.OrderProduct;
+import com.jim.multipos.data.db.model.order.OrderProductDao;
 import com.jim.multipos.data.db.model.order.PayedPartitions;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.CategoryDao;
@@ -2208,6 +2209,18 @@ public class AppDbHelper implements DbHelper {
                     .build().list();
 
             e.onSuccess(tills);
+        });
+    }
+
+    @Override
+    public Single<List<Order>> getClosedOrdersInIntervalForReport(Calendar fromDate, Calendar toDate) {
+        return Single.create(e -> {
+            List<Order> orderList = mDaoSession.getOrderDao().queryBuilder()
+                    .where(OrderDao.Properties.CreateAt.ge(fromDate.getTimeInMillis()),
+                            OrderDao.Properties.CreateAt.le(toDate.getTimeInMillis()),
+                            OrderDao.Properties.Status.eq(Order.CLOSED_ORDER))
+                    .build().list();
+            e.onSuccess(orderList);
         });
     }
 

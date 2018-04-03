@@ -144,7 +144,7 @@ public class TillDetailsDialog extends Dialog {
             }
             tvCloseAmountDescription.setText("");
             tvToNextAmountDescription.setText("");
-            tillAmountVariance = closedAmount - totalAmount;
+            tillAmountVariance = totalAmount - closedAmount - toNextAmount;
         } else {
             Account account = accountList.get(current - 1);
             TillDetails tillDetails = databaseManager.getTillDetailsByAccountId(account.getId(), till.getId()).blockingGet();
@@ -163,20 +163,18 @@ public class TillDetailsDialog extends Dialog {
                     if (operation.getType() == TillManagementOperation.CLOSED_WITH) {
                         closedAmount = operation.getAmount();
                         if (!operation.getDescription().isEmpty()) {
-                            tvCloseAmountDescription.setVisibility(View.VISIBLE);
                             tvCloseAmountDescription.setText("(" + operation.getDescription() + ")");
-                        }
+                        } else tvCloseAmountDescription.setText("");
                     }
                     if (operation.getType() == TillManagementOperation.TO_NEW_TILL) {
                         toNextAmount = operation.getAmount();
                         if (!operation.getDescription().isEmpty()) {
-                            tvToNextAmountDescription.setVisibility(View.VISIBLE);
                             tvToNextAmountDescription.setText("(" + operation.getDescription() + ")");
-                        }
+                        } else tvToNextAmountDescription.setText("");
                     }
                 }
             }
-            tillAmountVariance = closedAmount - totalAmount;
+            tillAmountVariance = totalAmount - closedAmount - toNextAmount;
         }
         tvStartingCash.setText(decimalFormat.format(totalStartingCash));
         tvPayOuts.setText(decimalFormat.format(payOut));

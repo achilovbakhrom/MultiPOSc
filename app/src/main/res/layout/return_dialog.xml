@@ -48,7 +48,7 @@
                 <com.jim.mpviews.MpSearchView
                     android:id="@+id/svProductSearch"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/forty_dp"
                     android:layout_marginBottom="@dimen/fifteen_dp"
                     android:layout_marginLeft="@dimen/thirty_dp"
                     android:layout_marginRight="@dimen/thirty_dp"

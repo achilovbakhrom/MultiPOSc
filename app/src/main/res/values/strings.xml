@@ -598,6 +598,9 @@
     <string name="order_status_closed">Closed</string>
     <string name="order_status_held">Held</string>
     <string name="order_status_canceled">Canceled</string>
+    <string name="static_type">Static</string>
+    <string name="order">Order</string>
+    <string name="item">Item</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>

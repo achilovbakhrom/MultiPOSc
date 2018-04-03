@@ -1046,6 +1046,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
+    public Single<List<Order>> getClosedOrdersInIntervalForReport(Calendar fromDate, Calendar toDate) {
+        return dbHelper.getClosedOrdersInIntervalForReport(fromDate, toDate);
+    }
+
+    @Override
     public Single<Long> getLastOrderId() {
         return dbHelper.getLastOrderId();
     }

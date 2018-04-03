@@ -30,7 +30,7 @@ public class OrderHistoryFragment extends BaseTableReportFragment implements Ord
     int dataType[] = {ReportViewConstants.ID, ReportViewConstants.ACTION, ReportViewConstants.DATE, ReportViewConstants.NAME, ReportViewConstants.STATUS, ReportViewConstants.NAME, ReportViewConstants.AMOUNT,ReportViewConstants.AMOUNT,ReportViewConstants.ACTION};
     String titles[] ;
     int weights[] = {9, 7, 12, 12, 9, 12, 12,12,10};
-    Object[][] statusTypes ;
+    Object[][][] statusTypes ;
     int aligns[] = {Gravity.CENTER, Gravity.CENTER, Gravity.CENTER, Gravity.LEFT, Gravity.CENTER, Gravity.LEFT, Gravity.RIGHT,Gravity.RIGHT,Gravity.CENTER};
     FrameLayout fl;
     ReportView reportView;
@@ -55,7 +55,6 @@ public class OrderHistoryFragment extends BaseTableReportFragment implements Ord
         reportView = new ReportView(builder);
         presenter.onCreateView(savedInstanceState);
         setSingleTitle(getContext().getString(R.string.order_history_report_title));
-
     }
 
 
@@ -85,10 +84,10 @@ public class OrderHistoryFragment extends BaseTableReportFragment implements Ord
     }
 
     private void initDefaults(){
-        statusTypes = new Object[][] {
-                {Order.CLOSED_ORDER, getString(R.string.order_status_closed),R.color.colorGreen },
+        statusTypes = new Object[][][] {
+                {{Order.CLOSED_ORDER, getString(R.string.order_status_closed),R.color.colorGreen },
                 {Order.HOLD_ORDER, getString(R.string.order_status_held), R.color.colorBlue},
-                {Order.CANCELED_ORDER, getString(R.string.order_status_canceled), R.color.colorRed}
+                {Order.CANCELED_ORDER, getString(R.string.order_status_canceled), R.color.colorRed}}
         };
         titles = new String[] {"Order ID", "Till ID", "Closed time", "Customer", "Status", "Cancel Reason", "Sub Total","To Pay Total","Actions"};
     }

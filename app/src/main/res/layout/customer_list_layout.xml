@@ -11,7 +11,7 @@
     <com.jim.mpviews.MpSearchView
         android:id="@+id/svCustomerSearch"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/fifty_dp"
         android:layout_marginBottom="@dimen/twenty_dp"
         android:layout_marginLeft="@dimen/thirty_dp"
         android:layout_marginRight="@dimen/thirty_dp"

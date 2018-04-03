@@ -67,7 +67,7 @@ public class DiscountDialog extends Dialog implements DiscountAdapter.OnClickLis
         discounts = new ArrayList<>();
         databaseManager.getAllDiscounts().subscribe(discounts1 -> {
             for (Discount discount : discounts1) {
-                if (discount.getUsedType() == discountApplyType || discount.getUsedType() == Discount.ALL)
+                if ((discount.getUsedType() == discountApplyType || discount.getUsedType() == Discount.ALL) && !discount.getIsManual())
                     discounts.add(discount);
             }
         });

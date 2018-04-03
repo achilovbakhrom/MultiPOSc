@@ -93,7 +93,7 @@ public class TillsReportPresenterImpl extends BasePresenterImpl<TillsReportView>
                 for (TillDetails details : tillDetails) {
                     expectedAmount += details.getExpectedTillAmount();
                 }
-                tillAmountVariance = closedAmount - expectedAmount;
+                tillAmountVariance = expectedAmount - closedAmount;
                 objects[i][4] = tillAmountVariance;
 
             } else {
@@ -121,7 +121,7 @@ public class TillsReportPresenterImpl extends BasePresenterImpl<TillsReportView>
                 }
 
                 startMoneyVariance = thisTillStartMoney - moneyLeftFromPrevTill;
-                tillAmountVariance = closedAmount - expectedAmount;
+                tillAmountVariance = expectedAmount - closedAmount - moneyLeftFromPrevTill;
 
                 objects[i][3] = startMoneyVariance;
                 objects[i][4] = tillAmountVariance;
