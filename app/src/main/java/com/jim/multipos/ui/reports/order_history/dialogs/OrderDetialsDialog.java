@@ -1,0 +1,370 @@
+package com.jim.multipos.ui.reports.order_history.dialogs;
+
+import android.app.Dialog;
+import android.content.Context;
+import android.graphics.Color;
+import android.support.annotation.NonNull;
+import android.view.Gravity;
+import android.view.View;
+import android.view.Window;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.jim.mpviews.MpButton;
+import com.jim.mpviews.ReportView;
+import com.jim.mpviews.utils.ReportViewConstants;
+import com.jim.mpviews.utils.Utils;
+import com.jim.multipos.R;
+import com.jim.multipos.config.common.BaseAppModule;
+import com.jim.multipos.data.db.model.Account;
+import com.jim.multipos.data.db.model.Discount;
+import com.jim.multipos.data.db.model.order.Order;
+import com.jim.multipos.data.db.model.order.OrderChangesLog;
+import com.jim.multipos.data.db.model.order.OrderProduct;
+import com.jim.multipos.data.db.model.order.PayedPartitions;
+import com.jim.multipos.utils.ReportUtils;
+
+import java.text.DecimalFormat;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+public class OrderDetialsDialog extends Dialog {
+    //max reportView hight 300dp
+    @BindView(R.id.llOrderDetials)
+    LinearLayout llOrderDetials;
+    @BindView(R.id.tvOrderDetials)
+    TextView tvOrderDetials;
+    @BindView(R.id.flBottomLine)
+    FrameLayout flBottomLine;
+
+    @BindView(R.id.llPayments)
+    LinearLayout llPayments;
+    @BindView(R.id.tvPayments)
+    TextView tvPayments;
+    @BindView(R.id.flPaymentButton)
+    FrameLayout flPaymentButton;
+
+    @BindView(R.id.llLifecycle)
+    LinearLayout llLifecycle;
+    @BindView(R.id.tvLifecycle)
+    TextView tvLifecycle;
+    @BindView(R.id.flLifecycleBottom)
+    FrameLayout flLifecycleBottom;
+
+
+
+    @BindView(R.id.llOrderDetialsFrame)
+    LinearLayout llOrderDetialsFrame;
+    @BindView(R.id.llOrderPaymentsFrame)
+    LinearLayout llOrderPaymentsFrame;
+    @BindView(R.id.flTable)
+    FrameLayout flTable;
+    @BindView(R.id.btnClose)
+    MpButton btnClose;
+    @BindView(R.id.llExport)
+    LinearLayout llExport;
+
+    int position = 0;
+
+    /**Order Detials Table Config
+     * */
+    int orderDetialsDataType[] = {ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.NAME, ReportViewConstants.AMOUNT,ReportViewConstants.NAME,ReportViewConstants.AMOUNT};
+    String orderDetialsTitles[] ;
+    int orderDetialsWeights[] = {13, 8, 8, 12, 8, 10, 8,10,12};
+    int orderDetialsAligns[] = {Gravity.LEFT, Gravity.CENTER, Gravity.RIGHT, Gravity.RIGHT, Gravity.RIGHT, Gravity.LEFT, Gravity.RIGHT,Gravity.LEFT,Gravity.RIGHT};
+
+    /**Payments Table Config
+     * */
+    int paymentsDataType[] = {ReportViewConstants.NAME,  ReportViewConstants.NAME, ReportViewConstants.ACTION, ReportViewConstants.AMOUNT};
+    String paymentsTitles[] ;
+    int paymentsWeights[] = {10, 10,  10, 10};
+    int paymentsAligns[] = {Gravity.LEFT,  Gravity.CENTER, Gravity.CENTER, Gravity.RIGHT};
+
+    /**Lifecycle Table Config
+     * */
+    int lifecycleDataType[] = {ReportViewConstants.DATE, ReportViewConstants.STATUS, ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.ACTION};
+    String lifecycleTitles[] ;
+    Object[][][] lifecycleStatusTypes ;
+    int lifecycleWeights[] = {10, 10, 10, 10, 10};
+    int lifecycleAligns[] = {Gravity.LEFT, Gravity.CENTER, Gravity.CENTER, Gravity.LEFT, Gravity.CENTER};
+    private Order order;
+
+
+    private DecimalFormat decimalFormat;
+
+    public OrderDetialsDialog(@NonNull Context context,Order order) {
+        super(context);
+        this.order = order;
+        decimalFormat = BaseAppModule.getFormatterGroupingPattern("#,###.##");
+
+        View dialogView = getLayoutInflater().inflate(R.layout.order_details_dialog, null);
+        ButterKnife.bind(this, dialogView);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(dialogView);
+        View v = getWindow().getDecorView();
+        v.setBackgroundResource(android.R.color.transparent);
+        initTableConfigs(context);
+        enableOrderDetials();
+        initOrderProductTable();
+        fillOrderDetials();
+        llOrderDetials.setOnClickListener((view -> {
+            if(position==0) return;
+            changePanel(position,0);
+        }));
+        llPayments.setOnClickListener((view)->{
+            if(position==1) return;
+            changePanel(position,1);
+        });
+        llLifecycle.setOnClickListener((view)->{
+            if(position==2) return;
+            changePanel(position,2);
+        });
+        btnClose.setOnClickListener((view -> {
+            this.dismiss();
+        }));
+        llExport.setOnClickListener(view -> {
+            //TODO EXPORT
+        });
+
+    }
+
+    private void changePanel(int oldPos,int newPos){
+        switch (oldPos){
+            case 0:
+                disableOrderDetials();
+                llOrderDetialsFrame.setVisibility(View.GONE);
+                break;
+            case 1:
+                disablePayments();
+                llOrderPaymentsFrame.setVisibility(View.GONE);
+                break;
+            case 2:
+                disableLifecycle();
+                break;
+        }
+        switch (newPos){
+            case 0:
+                enableOrderDetials();
+                llOrderDetialsFrame.setVisibility(View.VISIBLE);
+                initOrderProductTable();
+                fillOrderDetials();
+                break;
+            case 1:
+                enablePayments();
+                llOrderPaymentsFrame.setVisibility(View.VISIBLE);
+                initOrderPaymentsTable();
+                fillOrderPayments();
+                break;
+            case 2:
+                enableLifecycle();
+                initOrderLifecycleTable();
+                break;
+        }
+        position = newPos;
+    }
+
+    private void disableOrderDetials(){
+        tvOrderDetials.setTextColor(Color.parseColor("#a9a9a9"));
+        flBottomLine.setVisibility(View.INVISIBLE);
+    }
+    private void disablePayments(){
+        tvPayments.setTextColor(Color.parseColor("#a9a9a9"));
+        flPaymentButton.setVisibility(View.INVISIBLE);
+    }
+    private void disableLifecycle(){
+        tvLifecycle.setTextColor(Color.parseColor("#a9a9a9"));
+        flLifecycleBottom.setVisibility(View.INVISIBLE);
+    }
+
+    private void enableOrderDetials(){
+        tvOrderDetials.setTextColor(Color.parseColor("#2e91cc"));
+        flBottomLine.setVisibility(View.VISIBLE);
+    }
+    private void enablePayments(){
+        tvPayments.setTextColor(Color.parseColor("#2e91cc"));
+        flPaymentButton.setVisibility(View.VISIBLE);
+    }
+    private void enableLifecycle(){
+        tvLifecycle.setTextColor(Color.parseColor("#2e91cc"));
+        flLifecycleBottom.setVisibility(View.VISIBLE);
+    }
+    private void initTableConfigs(Context context){
+        orderDetialsTitles =  context.getResources().getStringArray(R.array.order_products_titles_report);
+        paymentsTitles =  context.getResources().getStringArray(R.array.order_payments_titles_report);
+        lifecycleTitles = context.getResources().getStringArray(R.array.order_lifecycle_titles_report);
+
+        lifecycleStatusTypes = new Object[][][] {
+                {
+                        {Order.CLOSED_ORDER, context.getString(R.string.order_status_closed), R.color.colorGreen},
+                        {Order.HOLD_ORDER, context.getString(R.string.order_status_held), R.color.colorBlue},
+                        {Order.CANCELED_ORDER, context.getString(R.string.order_status_canceled), R.color.colorRed}
+                }
+        };
+    }
+    private void initOrderProductTable(){
+        List<OrderProduct> orderProducts = order.getOrderProducts();
+        Object[][] objects = new Object[orderProducts.size()][9];
+        for (int i = 0; i < orderProducts.size(); i++) {
+            objects[i][0] = ReportUtils.getProductName(orderProducts.get(i).getProduct());
+            objects[i][1] = ReportUtils.getQty(orderProducts.get(i).getCount(),orderProducts.get(i).getProduct(),decimalFormat);
+            objects[i][2] = orderProducts.get(i).getPrice();
+            objects[i][3] = orderProducts.get(i).getPrice() * orderProducts.get(i).getCount();
+            objects[i][4] = orderProducts.get(i).getDiscountAmount();
+            objects[i][5] = orderProducts.get(i).getDiscount()==null?"":orderProducts.get(i).getDiscount().getName();
+            objects[i][6] = orderProducts.get(i).getServiceAmount();
+            objects[i][7] = orderProducts.get(i).getServiceFee()==null?"":orderProducts.get(i).getServiceFee().getName();
+            objects[i][8] = orderProducts.get(i).getPrice() * orderProducts.get(i).getCount() - orderProducts.get(i).getDiscountAmount() + orderProducts.get(i).getServiceAmount();
+        }
+        ReportView.Builder builder = new ReportView.Builder()
+                .setContext(getContext())
+                .setTitles(orderDetialsTitles)
+                .setDataTypes(orderDetialsDataType)
+                .setWeight(orderDetialsWeights)
+                .setDataAlignTypes(orderDetialsAligns)
+                .setDefaultSort(0)
+                .setViewMaxHeight(250)
+                .build();
+        ReportView reportView = new ReportView(builder);
+        reportView.getBuilder().init(objects);
+        flTable.removeAllViews();
+        flTable.addView(reportView.getBuilder().getView());
+    }
+
+    @BindView(R.id.tvSubtTotal)
+    TextView tvSubtTotal;
+    @BindView(R.id.tvSummary)
+    TextView tvSummary;
+    @BindView(R.id.tvOrderDiscountName)
+    TextView tvOrderDiscountName;
+    @BindView(R.id.tvOrderDiscountAmmount)
+    TextView tvOrderDiscountAmmount;
+    @BindView(R.id.tvOrderServiceFeeName)
+    TextView tvOrderServiceFeeName;
+    @BindView(R.id.tvOrderServiceFeeAmmount)
+    TextView tvOrderServiceFeeAmmount;
+    @BindView(R.id.tvTotalToPay)
+    TextView tvTotalToPay;
+    @BindView(R.id.llOrderDiscount)
+    LinearLayout llOrderDiscount;
+    @BindView(R.id.llOrderServiceFee)
+    LinearLayout llOrderServiceFee;
+    private void fillOrderDetials(){
+        tvSubtTotal.setText(decimalFormat.format(order.getSubTotalValue()));
+        double summary = 0;
+        List<OrderProduct> orderProducts = order.getOrderProducts();
+        for (int i = 0; i < orderProducts.size(); i++) {
+            summary += orderProducts.get(i).getPrice() * orderProducts.get(i).getCount() - orderProducts.get(i).getDiscountAmount() + orderProducts.get(i).getServiceAmount();
+        }
+        tvSummary.setText(decimalFormat.format(summary));
+        if(order.getDiscount()==null){
+            llOrderDiscount.setVisibility(View.GONE);
+        }else {
+            tvOrderDiscountName.setText(order.getDiscount().getName()+" ("+decimalFormat.format(order.getDiscount().getAmount())+(order.getDiscount().getAmountType()== Discount.PERCENT?"%":"")+" "+getContext().getString(R.string.discount)+")");
+            tvOrderDiscountAmmount.setText(decimalFormat.format(order.getDiscountAmount()));
+        }
+        if(order.getServiceFee()==null){
+            llOrderServiceFee.setVisibility(View.GONE);
+        }else {
+            tvOrderServiceFeeName.setText(order.getServiceFee().getName()+" ("+decimalFormat.format(order.getServiceFee().getAmount())+(order.getServiceFee().getType()== Discount.PERCENT?"%":"")+" "+getContext().getString(R.string.service_fee)+")");
+            tvOrderServiceFeeAmmount.setText("+"+decimalFormat.format(order.getServiceAmount()));
+        }
+        tvTotalToPay.setText(decimalFormat.format(order.getTotalPayed()));
+    }
+
+
+    private void initOrderPaymentsTable(){
+        List<PayedPartitions> payedPartitions = order.getPayedPartitions();
+        Object[][] objects = new Object[payedPartitions.size()][4];
+        for (int i = 0; i < payedPartitions.size(); i++) {
+            objects[i][0] = payedPartitions.get(i).getPaymentType().getName();
+            objects[i][1] = payedPartitions.get(i).getPaymentType().getAccount().getName();
+            if(payedPartitions.get(i).getPaymentType().getAccount().getStaticAccountType() == Account.DEBT_ACCOUNT)
+            objects[i][2] = order.getDebtId();
+            else objects[i][2] = "";
+            objects[i][3] = payedPartitions.get(i).getValue();
+        }
+        ReportView.Builder builder = new ReportView.Builder()
+                .setContext(getContext())
+                .setTitles(paymentsTitles)
+                .setDataTypes(paymentsDataType)
+                .setWeight(paymentsWeights)
+                .setDataAlignTypes(paymentsAligns)
+                .setDefaultSort(0)
+                .setViewMaxHeight(250)
+                .setOnReportViewResponseListener((relivantObjects,row, column) -> {
+                    //TODO OPEN DEBT ID
+                })
+                .build();
+        ReportView reportView = new ReportView(builder);
+        reportView.getBuilder().init(objects);
+        flTable.removeAllViews();
+        flTable.addView(reportView.getBuilder().getView());
+    }
+
+    @BindView(R.id.tvTotalPayed)
+    TextView tvTotalPayed;
+    @BindView(R.id.tvTotalToPayPayment)
+    TextView tvTotalToPayPayment;
+    @BindView(R.id.tvTips)
+    TextView tvTips;
+    @BindView(R.id.tvChangeFromCash)
+    TextView tvChangeFromCash;
+    private void fillOrderPayments(){
+        tvTotalPayed.setText(decimalFormat.format(order.getTotalPayed()));
+        tvTotalToPayPayment.setText(decimalFormat.format(order.getForPayAmmount()));
+        tvTips.setText(decimalFormat.format(order.getTips()));
+        tvChangeFromCash.setText(decimalFormat.format(order.getChange()));
+    }
+
+
+
+    private void initOrderLifecycleTable(){
+        List<OrderChangesLog> orderChangesLogsHistory = order.getOrderChangesLogsHistory();
+        Object[][] objects = new Object[orderChangesLogsHistory.size()][5];
+        for (int i = 0; i < orderChangesLogsHistory.size(); i++) {
+            objects[i][0] = orderChangesLogsHistory.get(i).getChangedAt();
+            objects[i][1] = orderChangesLogsHistory.get(i).getToStatus();
+            String changeType = "";
+            switch (orderChangesLogsHistory.get(i).getChangedCauseType()){
+                case OrderChangesLog.HAND:
+                    changeType = getContext().getString(R.string.hand_change_type_report);
+                    break;
+                case OrderChangesLog.EDITED:
+                    changeType = getContext().getString(R.string.edited_change_type);
+                    break;
+                case OrderChangesLog.PAYED:
+                    changeType = getContext().getString(R.string.payed_change_type);
+                    break;
+                case OrderChangesLog.CONTINUE:
+                    changeType = getContext().getString(R.string.continue_change_type);
+                    break;
+                case OrderChangesLog.HAND_AT_CLOSE_TILL:
+                    changeType = getContext().getString(R.string.hand_close_till_change_type);
+                    break;
+            }
+            objects[i][2] = changeType;
+            objects[i][3] = orderChangesLogsHistory.get(i).getReason()==null?"":orderChangesLogsHistory.get(i).getReason();
+            objects[i][4] = orderChangesLogsHistory.get(i).getRelationshipOrderId()==0?"":orderChangesLogsHistory.get(i).getRelationshipOrderId();
+        }
+        ReportView.Builder builder = new ReportView.Builder()
+                .setContext(getContext())
+                .setTitles(lifecycleTitles)
+                .setDataTypes(lifecycleDataType)
+                .setWeight(lifecycleWeights)
+                .setDataAlignTypes(lifecycleAligns)
+                .setDefaultSort(0)
+                .setStatusTypes(lifecycleStatusTypes)
+                .setViewMaxHeight(250)
+                .setOnReportViewResponseListener((relivantObjects,row, column) -> {
+                    //TODO OPEN RELATION ORDER DIALOG
+                })
+                .build();
+        ReportView reportView = new ReportView(builder);
+        reportView.getBuilder().init(objects);
+        flTable.removeAllViews();
+        flTable.addView(reportView.getBuilder().getView());
+    }
+}

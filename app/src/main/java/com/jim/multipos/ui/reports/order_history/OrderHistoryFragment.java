@@ -1,26 +1,17 @@
 package com.jim.multipos.ui.reports.order_history;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.Toast;
-
-import com.jim.mpviews.MpCheckbox;
 import com.jim.mpviews.ReportView;
 import com.jim.mpviews.utils.ReportViewConstants;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseTableReportFragment;
 import com.jim.multipos.data.db.model.order.Order;
+import com.jim.multipos.ui.reports.order_history.dialogs.OrderDetialsDialog;
 import com.jim.multipos.ui.reports.order_history.dialogs.OrderHistoryFilterDialog;
-import com.jim.multipos.utils.CustomFilterDialog;
-
-import java.util.Calendar;
 
 import javax.inject.Inject;
-
-import butterknife.BindView;
 
 public class OrderHistoryFragment extends BaseTableReportFragment implements OrderHistoryView {
     @Inject
@@ -32,7 +23,6 @@ public class OrderHistoryFragment extends BaseTableReportFragment implements Ord
     int weights[] = {9, 7, 12, 12, 9, 12, 12,12,10};
     Object[][][] statusTypes ;
     int aligns[] = {Gravity.CENTER, Gravity.CENTER, Gravity.CENTER, Gravity.LEFT, Gravity.CENTER, Gravity.LEFT, Gravity.RIGHT,Gravity.RIGHT,Gravity.CENTER};
-    FrameLayout fl;
     ReportView reportView;
     ReportView.Builder builder;
 
@@ -62,15 +52,13 @@ public class OrderHistoryFragment extends BaseTableReportFragment implements Ord
     @Override
     public void setToTable(Object[][] toTable){
         reportView.getBuilder().update(toTable);
-        fl = reportView.getBuilder().getView();
-        setTable(fl);
+        setTable(reportView.getBuilder().getView());
     }
 
     @Override
     public void setToTableFromSearch(Object[][] toTable, String searchedText) {
         reportView.getBuilder().searchResults(toTable, searchedText);
-        fl = reportView.getBuilder().getView();
-        setTable(fl);
+        setTable(reportView.getBuilder().getView());
     }
 
 
@@ -81,6 +69,18 @@ public class OrderHistoryFragment extends BaseTableReportFragment implements Ord
             clearSearch();
         });
         orderHistoryFilterDialog.show();
+    }
+
+    @Override
+    public void initTable(Object[][] toTable) {
+        reportView.getBuilder().init(toTable);
+        setTable(reportView.getBuilder().getView());
+    }
+
+    @Override
+    public void openOrderDetialsDialog(Order order) {
+        OrderDetialsDialog orderDetialsDialog = new OrderDetialsDialog(getContext(),order);
+        orderDetialsDialog.show();
     }
 
     private void initDefaults(){

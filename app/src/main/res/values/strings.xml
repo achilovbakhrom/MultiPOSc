@@ -601,6 +601,11 @@
     <string name="static_type">Static</string>
     <string name="order">Order</string>
     <string name="item">Item</string>
+    <string name="hand_change_type_report">HAND</string>
+    <string name="edited_change_type">EDITED</string>
+    <string name="payed_change_type">PAYED</string>
+    <string name="continue_change_type">CONTINUE</string>
+    <string name="hand_close_till_change_type">HAND CLOSE TILL</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>
@@ -655,5 +660,29 @@
         <item>Debt</item>
         <item>Discounts</item>
         <item>Service Fee\'s</item>
+    </string-array>
+    <string-array name="order_products_titles_report">
+        <item>Product</item>
+        <item>Qty</item>
+        <item>Each</item>
+        <item>Sum</item>
+        <item>Discount</item>
+        <item>Reason</item>
+        <item>Service Fee</item>
+        <item>Reason</item>
+        <item>Total</item>
+    </string-array>
+    <string-array name="order_payments_titles_report">
+        <item>Payment type</item>
+        <item>To account</item>
+        <item>Debt Id</item>
+        <item>Amount</item>
+    </string-array>
+    <string-array name="order_lifecycle_titles_report">
+        <item>Change data</item>
+        <item>To Status</item>
+        <item>Change Causes</item>
+        <item>Reason</item>
+        <item>Relation order</item>
     </string-array>
 </resources>

@@ -24,6 +24,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.functions.BiConsumer;
+
 public class OrderHistoryPresenterImpl extends BasePresenterImpl<OrderHistoryView> implements OrderHistoryPresenter {
 
 
@@ -56,6 +58,7 @@ public class OrderHistoryPresenterImpl extends BasePresenterImpl<OrderHistoryVie
         databaseManager.getOrdersInIntervalForReport(fromDate,toDate).subscribe((orders1, throwable) -> {
             orders = orders1;
             updateObejctsForTable();
+            view.initTable(objects);
         });
     }
 
@@ -66,6 +69,7 @@ public class OrderHistoryPresenterImpl extends BasePresenterImpl<OrderHistoryVie
         databaseManager.getOrdersInIntervalForReport(this.fromDate,this.toDate).subscribe((orders1, throwable) -> {
             orders = orders1;
             updateObejctsForTable();
+            view.setToTable(objects);
             view.updateDateIntervalUi(fromDate,toDate);
         });
     }
@@ -244,13 +248,13 @@ public class OrderHistoryPresenterImpl extends BasePresenterImpl<OrderHistoryVie
             else
                 objectsTemp[i][3] = "";
             objectsTemp[i][4] = result.get(i).getStatus();
-            objectsTemp[i][5] = result.get(i).getLastChangeLog().getReason();
+            objectsTemp[i][5] = result.get(i).getLastChangeLog().getReason()==null?"":result.get(i).getLastChangeLog().getReason();
             objectsTemp[i][6] = result.get(i).getSubTotalValue();
             objectsTemp[i][7] = result.get(i).getForPayAmmount();
             objectsTemp[i][8] = "details";
         }
         this.objects = objectsTemp;
-        view.setToTable(objects);
+
     }
 
     @Override
@@ -266,8 +270,9 @@ public class OrderHistoryPresenterImpl extends BasePresenterImpl<OrderHistoryVie
 
         }else if(column == 8){
             long orderId = (long) objects[row][0];
-            //TODO OPEN ORDER DIALOG
-
+            databaseManager.getOrder(orderId).subscribe((Order order, Throwable throwable) -> {
+                view.openOrderDetialsDialog(order);
+            });
         }
     }
 
@@ -275,6 +280,7 @@ public class OrderHistoryPresenterImpl extends BasePresenterImpl<OrderHistoryVie
     public void filterConfigsChanged(int[] configs) {
         filterConfig = configs;
         updateObejctsForTable();
+        view.setToTable(objects);
     }
 
     @Override
