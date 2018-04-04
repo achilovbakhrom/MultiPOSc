@@ -25,12 +25,14 @@ import com.jim.multipos.data.db.model.DaoMaster;
 import com.jim.multipos.data.db.model.DaoSession;
 import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.DiscountDao;
+import com.jim.multipos.data.db.model.DiscountLog;
 import com.jim.multipos.data.db.model.PaymentType;
 import com.jim.multipos.data.db.model.PaymentTypeDao;
 import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.ProductClassDao;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.ServiceFeeDao;
+import com.jim.multipos.data.db.model.ServiceFeeLog;
 import com.jim.multipos.data.db.model.consignment.Consignment;
 import com.jim.multipos.data.db.model.consignment.ConsignmentDao;
 import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
@@ -605,11 +607,11 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
-    public Single<Long> insertDiscount(Discount discount) {
+    public Single<Discount> insertDiscount(Discount discount) {
         return Single.create(singleSubscriber -> {
             try {
-                long result = mDaoSession.getDiscountDao().insertOrReplace(discount);
-                singleSubscriber.onSuccess(result);
+               mDaoSession.getDiscountDao().insertOrReplace(discount);
+                singleSubscriber.onSuccess(discount);
             } catch (Exception o) {
                 singleSubscriber.onError(o);
             }
@@ -845,8 +847,11 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
-    public Observable<Long> insertServiceFee(ServiceFee serviceFee) {
-        return Observable.fromCallable(() -> mDaoSession.getServiceFeeDao().insertOrReplace(serviceFee));
+    public Observable<ServiceFee> insertServiceFee(ServiceFee serviceFee) {
+        return Observable.fromCallable(() -> {
+            mDaoSession.getServiceFeeDao().insertOrReplace(serviceFee);
+            return serviceFee;
+        });
     }
 
     @Override
@@ -2221,6 +2226,32 @@ public class AppDbHelper implements DbHelper {
                             OrderDao.Properties.Status.eq(Order.CLOSED_ORDER))
                     .build().list();
             e.onSuccess(orderList);
+        });
+    }
+
+    @Override
+    public Single<List<Discount>> getAllDiscountsWithoutFiltering() {
+        return Single.create(e -> e.onSuccess(mDaoSession.getDiscountDao().loadAll()));
+    }
+
+    @Override
+    public Single<DiscountLog> insertDiscountLog(DiscountLog discountLog) {
+        return Single.create(e -> {
+            mDaoSession.getDiscountLogDao().insertOrReplace(discountLog);
+            e.onSuccess(discountLog);});
+    }
+
+    @Override
+    public Single<ServiceFeeLog> insertServiceFeeLog(ServiceFeeLog serviceFeeLog) {
+        return Single.create(e -> {
+            mDaoSession.getServiceFeeLogDao().insertOrReplace(serviceFeeLog);
+            e.onSuccess(serviceFeeLog);});
+    }
+
+    @Override
+    public Single<List<DiscountLog>> getDiscountLogs() {
+        return Single.create(e -> {
+            e.onSuccess(mDaoSession.getDiscountLogDao().loadAll());
         });
     }
 

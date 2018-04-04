@@ -5,7 +5,9 @@ import android.os.Bundle;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Discount;
+import com.jim.multipos.data.db.model.DiscountLog;
 import com.jim.multipos.data.db.model.ServiceFee;
+import com.jim.multipos.data.db.model.ServiceFeeLog;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.Debt;
 import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
@@ -88,7 +90,13 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         discount.setCreatedDate(System.currentTimeMillis());
         discount.setDeleted(false);
         discount.setNotModifyted(true);
-        databaseManager.insertDiscount(discount).subscribe();
+        databaseManager.insertDiscount(discount).subscribe(discount1 -> {
+            DiscountLog discountLog = new DiscountLog();
+            discountLog.setChangeDate(System.currentTimeMillis());
+            discountLog.setDiscount(discount1);
+            discountLog.setStatus(DiscountLog.DISCOUNT_ADDED);
+            databaseManager.insertDiscountLog(discountLog).subscribe();
+        });
     }
 
     @Override
@@ -101,7 +109,13 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         serviceFee.setCreatedDate(System.currentTimeMillis());
         serviceFee.setDeleted(false);
         serviceFee.setNotModifyted(true);
-        databaseManager.getServiceFeeOperations().addServiceFee(serviceFee).blockingSingle();
+        databaseManager.getServiceFeeOperations().addServiceFee(serviceFee).subscribe(serviceFee1 -> {
+            ServiceFeeLog serviceFeeLog = new ServiceFeeLog();
+            serviceFeeLog.setServiceFee(serviceFee1);
+            serviceFeeLog.setChangeDate(System.currentTimeMillis());
+            serviceFeeLog.setStatus(ServiceFeeLog.SERVICE_FEE_ADDED);
+            databaseManager.insertServiceFeeLog(serviceFeeLog).subscribe();
+        });
     }
 
     @Override
@@ -480,7 +494,13 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
 
             if (discountItem != null && discountItem.getDiscount() != null) {
                 if (discountItem.getDiscount().getIsManual()) {
-                    databaseManager.insertDiscount(discountItem.getDiscount()).blockingGet();
+                    databaseManager.insertDiscount(discountItem.getDiscount()).subscribe(discount -> {
+                        DiscountLog discountLog = new DiscountLog();
+                        discountLog.setChangeDate(System.currentTimeMillis());
+                        discountLog.setDiscount(discount);
+                        discountLog.setStatus(DiscountLog.DISCOUNT_ADDED);
+                        databaseManager.insertDiscountLog(discountLog).subscribe();
+                    });
                 }
                 order.setDiscount(discountItem.getDiscount());
                 order.setDiscountAmount(discountItem.getAmmount());
@@ -489,7 +509,13 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
 
             if (serviceFeeItem != null && serviceFeeItem.getServiceFee() != null) {
                 if (serviceFeeItem.getServiceFee().getIsManual()) {
-                    databaseManager.addServiceFee(serviceFeeItem.getServiceFee()).blockingFirst();
+                    databaseManager.addServiceFee(serviceFeeItem.getServiceFee()).subscribe(serviceFee -> {
+                        ServiceFeeLog serviceFeeLog = new ServiceFeeLog();
+                        serviceFeeLog.setServiceFee(serviceFee);
+                        serviceFeeLog.setChangeDate(System.currentTimeMillis());
+                        serviceFeeLog.setStatus(ServiceFeeLog.SERVICE_FEE_ADDED);
+                        databaseManager.insertServiceFeeLog(serviceFeeLog).subscribe();
+                    });
                 }
                 order.setServiceFee(serviceFeeItem.getServiceFee());
                 order.setServiceAmount(serviceFeeItem.getAmmount());
@@ -813,7 +839,13 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
 
         if(discountItem != null && discountItem.getDiscount() !=null ){
             if(discountItem.getDiscount().getIsManual()){
-                databaseManager.insertDiscount(discountItem.getDiscount()).blockingGet();}
+                databaseManager.insertDiscount(discountItem.getDiscount()).subscribe(discount -> {
+                    DiscountLog discountLog = new DiscountLog();
+                    discountLog.setChangeDate(System.currentTimeMillis());
+                    discountLog.setDiscount(discount);
+                    discountLog.setStatus(DiscountLog.DISCOUNT_ADDED);
+                    databaseManager.insertDiscountLog(discountLog).subscribe();
+                });}
             order.setDiscount(discountItem.getDiscount());
             order.setDiscountAmount(discountItem.getAmmount());
         }
@@ -821,7 +853,13 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
 
         if(serviceFeeItem != null && serviceFeeItem.getServiceFee() !=null){
             if(serviceFeeItem.getServiceFee().getIsManual()){
-                databaseManager.addServiceFee(serviceFeeItem.getServiceFee()).blockingFirst();}
+                databaseManager.addServiceFee(serviceFeeItem.getServiceFee()).subscribe(serviceFee -> {
+                    ServiceFeeLog serviceFeeLog = new ServiceFeeLog();
+                    serviceFeeLog.setServiceFee(serviceFee);
+                    serviceFeeLog.setChangeDate(System.currentTimeMillis());
+                    serviceFeeLog.setStatus(ServiceFeeLog.SERVICE_FEE_ADDED);
+                    databaseManager.insertServiceFeeLog(serviceFeeLog).subscribe();
+                });}
             order.setServiceFee(serviceFeeItem.getServiceFee());
             order.setServiceAmount(serviceFeeItem.getAmmount());
         }

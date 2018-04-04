@@ -606,6 +606,17 @@
     <string name="payed_change_type">PAYED</string>
     <string name="continue_change_type">CONTINUE</string>
     <string name="hand_close_till_change_type">HAND CLOSE TILL</string>
+    <string name="till_number">Till number</string>
+    <string name="qty">Qty</string>
+    <string name="reason">Reason</string>
+    <string name="type">Type</string>
+    <string name="order_subtotal">Order subtotal</string>
+    <string name="customer">Customer</string>
+    <string name="operation">Operation</string>
+    <string name="amount_type">Amount type</string>
+    <string name="order_num">Order#</string>
+    <string name="canceled">Canceled</string>
+    <string name="deleted">Deleted</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>

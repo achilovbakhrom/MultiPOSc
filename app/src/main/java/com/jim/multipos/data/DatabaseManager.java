@@ -7,9 +7,11 @@ import com.jim.multipos.data.db.model.Account;
 import com.jim.multipos.data.db.model.Contact;
 import com.jim.multipos.data.db.model.DaoSession;
 import com.jim.multipos.data.db.model.Discount;
+import com.jim.multipos.data.db.model.DiscountLog;
 import com.jim.multipos.data.db.model.PaymentType;
 import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.ServiceFee;
+import com.jim.multipos.data.db.model.ServiceFeeLog;
 import com.jim.multipos.data.db.model.consignment.Consignment;
 import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
 import com.jim.multipos.data.db.model.customer.CustomerPayment;
@@ -432,7 +434,7 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
-    public Observable<Long> addServiceFee(ServiceFee serviceFee) {
+    public Observable<ServiceFee> addServiceFee(ServiceFee serviceFee) {
         return dbHelper.insertServiceFee(serviceFee);
     }
 
@@ -459,6 +461,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Observable<List<ServiceFee>> getServiceFeesWithAllItemTypes() {
         return dbHelper.getServiceFeesWithAllItemTypes();
+    }
+
+    @Override
+    public Single<ServiceFeeLog> insertServiceFeeLog(ServiceFeeLog serviceFeeLog) {
+        return dbHelper.insertServiceFeeLog(serviceFeeLog);
     }
 
     @Override
@@ -718,13 +725,28 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
-    public Single<Long> insertDiscount(Discount discount) {
+    public Single<Discount> insertDiscount(Discount discount) {
         return dbHelper.insertDiscount(discount);
     }
 
     @Override
     public Observable<List<Discount>> getDiscountsWithAllItemTypes(String[] discountTypes) {
         return dbHelper.getDiscountsWithAllItemTypes(discountTypes);
+    }
+
+    @Override
+    public Single<List<Discount>> getAllDiscountsWithoutFiltering() {
+        return dbHelper.getAllDiscountsWithoutFiltering();
+    }
+
+    @Override
+    public Single<DiscountLog> insertDiscountLog(DiscountLog discountLog) {
+        return dbHelper.insertDiscountLog(discountLog);
+    }
+
+    @Override
+    public Single<List<DiscountLog>> getDiscountLogs() {
+        return dbHelper.getDiscountLogs();
     }
 
     @Override

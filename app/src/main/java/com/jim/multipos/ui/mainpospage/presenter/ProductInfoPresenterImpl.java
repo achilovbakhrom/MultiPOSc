@@ -4,7 +4,9 @@ import com.jim.multipos.R;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Discount;
+import com.jim.multipos.data.db.model.DiscountLog;
 import com.jim.multipos.data.db.model.ServiceFee;
+import com.jim.multipos.data.db.model.ServiceFeeLog;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
@@ -159,8 +161,13 @@ public class ProductInfoPresenterImpl extends BasePresenterImpl<ProductInfoView>
         discount.setCreatedDate(System.currentTimeMillis());
         discount.setDeleted(false);
         discount.setNotModifyted(true);
-
-        databaseManager.insertDiscount(discount).subscribe();
+        databaseManager.insertDiscount(discount).subscribe(discount1 -> {
+            DiscountLog discountLog = new DiscountLog();
+            discountLog.setChangeDate(System.currentTimeMillis());
+            discountLog.setDiscount(discount1);
+            discountLog.setStatus(DiscountLog.DISCOUNT_ADDED);
+            databaseManager.insertDiscountLog(discountLog).subscribe();
+        });
     }
 
     @Override
@@ -174,6 +181,12 @@ public class ProductInfoPresenterImpl extends BasePresenterImpl<ProductInfoView>
         serviceFee.setDeleted(false);
         serviceFee.setNotModifyted(true);
 
-        databaseManager.getServiceFeeOperations().addServiceFee(serviceFee).blockingSingle();
+        databaseManager.getServiceFeeOperations().addServiceFee(serviceFee).subscribe(serviceFee1 -> {
+            ServiceFeeLog serviceFeeLog = new ServiceFeeLog();
+            serviceFeeLog.setServiceFee(serviceFee1);
+            serviceFeeLog.setChangeDate(System.currentTimeMillis());
+            serviceFeeLog.setStatus(ServiceFeeLog.SERVICE_FEE_ADDED);
+            databaseManager.insertServiceFeeLog(serviceFeeLog).subscribe();
+        });
     }
 }

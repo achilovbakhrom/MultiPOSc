@@ -235,7 +235,7 @@ public class ReportViewAdapter extends RecyclerView.Adapter<ReportViewAdapter.Vi
                                     switch (dataTypes[count]) {
                                         case ReportViewConstants.STATUS:
                                             if (statusTypes != null) {
-                                                for (int k = 0; k < statusTypes.length; k++) {
+                                                for (int k = 0; k < statusTypes[statusCount].length; k++) {
                                                     if (item == statusTypes[statusCount][k][0]) {
                                                         String status = (String) statusTypes[statusCount][k][1];
                                                         Integer color = (Integer) statusTypes[statusCount][k][2];

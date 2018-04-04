@@ -3,6 +3,7 @@ package com.jim.multipos.ui.service_fee_new;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.ServiceFee;
+import com.jim.multipos.data.db.model.ServiceFeeLog;
 import com.jim.multipos.ui.service_fee_new.model.ServiceFeeAdapterDetails;
 import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
 
@@ -53,9 +54,14 @@ public class ServiceFeePresenterImpl extends BasePresenterImpl<ServiceFeeView> i
         serviceFee.setCreatedDate(System.currentTimeMillis());
         serviceFee.setNotModifyted(true);
         serviceFee.setDeleted(false);
-        databaseManager.addServiceFee(serviceFee).subscribe(aLong -> {
+        databaseManager.addServiceFee(serviceFee).subscribe(serviceFee1 -> {
             ServiceFeeAdapterDetails serviceFeeAdapterDetails = new ServiceFeeAdapterDetails();
             serviceFeeAdapterDetails.setObject(serviceFee);
+            ServiceFeeLog serviceFeeLog = new ServiceFeeLog();
+            serviceFeeLog.setChangeDate(System.currentTimeMillis());
+            serviceFeeLog.setServiceFee(serviceFee1);
+            serviceFeeLog.setStatus(ServiceFeeLog.SERVICE_FEE_ADDED);
+            databaseManager.insertServiceFeeLog(serviceFeeLog).subscribe();
             items.add(1, serviceFeeAdapterDetails);
             view.notifyItemAdd(1);
             view.sendEvent(GlobalEventConstants.ADD, serviceFee);
@@ -65,7 +71,12 @@ public class ServiceFeePresenterImpl extends BasePresenterImpl<ServiceFeeView> i
     @Override
     public void onSave(double amount, int type, String description, int appType, boolean active, ServiceFee serviceFee) {
         serviceFee.setNotModifyted(false);
-        databaseManager.addServiceFee(serviceFee).subscribe(aLong -> {
+        databaseManager.addServiceFee(serviceFee).subscribe(serviceFee1 -> {
+            ServiceFeeLog serviceFeeLog = new ServiceFeeLog();
+            serviceFeeLog.setChangeDate(System.currentTimeMillis());
+            serviceFeeLog.setServiceFee(serviceFee1);
+            serviceFeeLog.setStatus(ServiceFeeLog.SERVICE_FEE_CANCELED);
+            databaseManager.insertServiceFeeLog(serviceFeeLog).subscribe();
             ServiceFee newServiceFee = new ServiceFee();
             newServiceFee.setAmount(amount);
             newServiceFee.setType(type);
@@ -76,9 +87,9 @@ public class ServiceFeePresenterImpl extends BasePresenterImpl<ServiceFeeView> i
             newServiceFee.setNotModifyted(true);
             newServiceFee.setDeleted(false);
             if (serviceFee.getRootId() != null)
-                newServiceFee.setRootId(serviceFee.getId());
-            else newServiceFee.setRootId(serviceFee.getRootId());
-            databaseManager.addServiceFee(newServiceFee).subscribe(aLong1 -> {
+                newServiceFee.setRootId(serviceFee.getRootId());
+            else newServiceFee.setRootId(serviceFee.getId());
+            databaseManager.addServiceFee(newServiceFee).subscribe(serviceFee2 -> {
                 for (int i = 1; i < items.size(); i++) {
                     if (items.get(i) != null) {
                         if (items.get(i).getObject().getId().equals(serviceFee.getId())) {
@@ -90,6 +101,11 @@ public class ServiceFeePresenterImpl extends BasePresenterImpl<ServiceFeeView> i
                         }
                     }
                 }
+                ServiceFeeLog serviceFeeLog1 = new ServiceFeeLog();
+                serviceFeeLog1.setChangeDate(System.currentTimeMillis());
+                serviceFeeLog1.setServiceFee(serviceFee2);
+                serviceFeeLog1.setStatus(ServiceFeeLog.SERVICE_FEE_ADDED);
+                databaseManager.insertServiceFeeLog(serviceFeeLog).subscribe();
                 view.sendChangeEvent(GlobalEventConstants.UPDATE, serviceFee, newServiceFee);
             });
         });
@@ -98,7 +114,7 @@ public class ServiceFeePresenterImpl extends BasePresenterImpl<ServiceFeeView> i
     @Override
     public void deleteServiceFee(ServiceFee serviceFee) {
         serviceFee.setDeleted(true);
-        databaseManager.addServiceFee(serviceFee).subscribe(aLong -> {
+        databaseManager.addServiceFee(serviceFee).subscribe(serviceFee1 -> {
             for (int i = 1; i < items.size(); i++) {
                 if (items.get(i).getObject().getId().equals(serviceFee.getId())) {
                     items.remove(i);
@@ -106,6 +122,11 @@ public class ServiceFeePresenterImpl extends BasePresenterImpl<ServiceFeeView> i
                     break;
                 }
             }
+            ServiceFeeLog serviceFeeLog = new ServiceFeeLog();
+            serviceFeeLog.setChangeDate(System.currentTimeMillis());
+            serviceFeeLog.setServiceFee(serviceFee1);
+            serviceFeeLog.setStatus(ServiceFeeLog.SERVICE_FEE_DELETED);
+            databaseManager.insertServiceFeeLog(serviceFeeLog).subscribe();
             view.sendEvent(GlobalEventConstants.DELETE, serviceFee);
         });
     }

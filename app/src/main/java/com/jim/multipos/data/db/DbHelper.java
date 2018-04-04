@@ -17,10 +17,12 @@ package com.jim.multipos.data.db;
 
 import com.jim.multipos.data.db.model.DaoSession;
 import com.jim.multipos.data.db.model.Discount;
+import com.jim.multipos.data.db.model.DiscountLog;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.Account;
 
+import com.jim.multipos.data.db.model.ServiceFeeLog;
 import com.jim.multipos.data.db.model.consignment.Consignment;
 import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
 import com.jim.multipos.data.db.model.customer.CustomerPayment;
@@ -123,7 +125,7 @@ public interface DbHelper {
     Observable<List<Unit>> getUnits(Long rootId, String name);
     Observable<Unit> updateUnit(Unit unit);
     Observable<Boolean> insertServiceFees(List<ServiceFee> serviceFees);
-    Observable<Long> insertServiceFee(ServiceFee serviceFee);
+    Observable<ServiceFee> insertServiceFee(ServiceFee serviceFee);
     Observable<List<ServiceFee>> getAllServiceFees();
     Observable<Boolean> deleteAllServiceFees();
     Observable<Boolean> deleteServiceFee(ServiceFee serviceFee);
@@ -157,7 +159,7 @@ public interface DbHelper {
     Observable<Boolean> isPaymentTypeExists(String name);
     List<PaymentType> getPaymentTypes();
     Single<List<Discount>> getAllDiscounts();
-    Single<Long> insertDiscount(Discount discount);
+    Single<Discount> insertDiscount(Discount discount);
     Observable<List<Discount>> getDiscountsWithAllItemTypes(String[] discountTypes);
 
     //Vendor operations
@@ -283,4 +285,8 @@ public interface DbHelper {
     Single<List<Order>> getOrdersInIntervalForReport(Calendar fromDate,Calendar toDate);
     Single<List<Till>> getClosedTillsInInterval(Calendar fromDate, Calendar toDate);
     Single<List<Order>> getClosedOrdersInIntervalForReport(Calendar fromDate, Calendar toDate);
+    Single<List<Discount>> getAllDiscountsWithoutFiltering();
+    Single<DiscountLog> insertDiscountLog(DiscountLog discountLog);
+    Single<ServiceFeeLog> insertServiceFeeLog(ServiceFeeLog serviceFeeLog);
+    Single<List<DiscountLog>> getDiscountLogs();
 }
