@@ -11,6 +11,7 @@ import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.JoinProperty;
 import org.greenrobot.greendao.annotation.Keep;
 import org.greenrobot.greendao.annotation.ToMany;
+import org.greenrobot.greendao.annotation.ToOne;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -30,6 +31,8 @@ public class Category implements Editable, Serializable{
     private Double position = 0d;
     private Long rootId;
     private Long parentId = WITHOUT_PARENT;
+    @ToOne(joinProperty = "parentId")
+    private Category parentCategory;
     @ToMany(joinProperties = {
             @JoinProperty(
                     name = "id", referencedName = "parentId"
@@ -203,6 +206,8 @@ public class Category implements Editable, Serializable{
      */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
+    @Generated(hash = 1138982838)
+    private transient Long parentCategory__resolvedKey;
 
     public Long getParentId() {
         return this.parentId;
@@ -317,6 +322,35 @@ public class Category implements Editable, Serializable{
 
     public void setRootId(Long rootId) {
         this.rootId = rootId;
+    }
+
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 607733206)
+    public void setParentCategory(Category parentCategory) {
+        synchronized (this) {
+            this.parentCategory = parentCategory;
+            parentId = parentCategory == null ? null : parentCategory.getId();
+            parentCategory__resolvedKey = parentId;
+        }
+    }
+
+    /** To-one relationship, resolved on first access. */
+    @Generated(hash = 881343150)
+    public Category getParentCategory() {
+        Long __key = this.parentId;
+        if (parentCategory__resolvedKey == null || !parentCategory__resolvedKey.equals(__key)) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            CategoryDao targetDao = daoSession.getCategoryDao();
+            Category parentCategoryNew = targetDao.load(__key);
+            synchronized (this) {
+                parentCategory = parentCategoryNew;
+                parentCategory__resolvedKey = __key;
+            }
+        }
+        return parentCategory;
     }
 
     @Generated(hash = 1150634039)

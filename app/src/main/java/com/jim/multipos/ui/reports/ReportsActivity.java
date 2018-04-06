@@ -14,7 +14,7 @@ public class ReportsActivity extends ReportSingleActivity implements ReportsActi
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        showOrderHistoryFragment();
+        showProductProfitReportFragment();
     }
 
 
@@ -47,7 +47,7 @@ public class ReportsActivity extends ReportSingleActivity implements ReportsActi
 
     @Override
     public void openProductProfitFragmentAction() {
-
+        showProductProfitReportFragment();
     }
 
     @Override

@@ -17,6 +17,8 @@ import com.jim.multipos.ui.reports.hourly_sales.HourlySalesReportFragment;
 import com.jim.multipos.ui.reports.hourly_sales.HourlySalesReportFragmentModule;
 import com.jim.multipos.ui.reports.order_history.OrderHistoryFragment;
 import com.jim.multipos.ui.reports.order_history.OrderHistoryFragmentModule;
+import com.jim.multipos.ui.reports.product_profit.ProductProfitFragment;
+import com.jim.multipos.ui.reports.product_profit.ProductProfitFragmentModule;
 import com.jim.multipos.ui.reports.sales.SalesReportFragment;
 import com.jim.multipos.ui.reports.sales.SalesReportFragmentModule;
 import com.jim.multipos.ui.reports.service_fee.ServiceFeeReportFragment;
@@ -61,6 +63,11 @@ public abstract class ReportsActivityModule {
     @PerFragment
     @ContributesAndroidInjector(modules = DiscountReportFragmentModule.class)
     abstract DiscountReportFragment provideDiscountReportFragment();
+
+    @PerFragment
+    @ContributesAndroidInjector(modules = ProductProfitFragmentModule.class)
+    abstract ProductProfitFragment provideProductProfitFragment();
+
 
     @PerFragment
     @ContributesAndroidInjector(modules = ServiceFeeReportFragmentModule.class)

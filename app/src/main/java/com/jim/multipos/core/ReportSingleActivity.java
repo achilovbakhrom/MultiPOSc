@@ -12,6 +12,7 @@ import com.jim.multipos.ui.reports.debts.DebtsReportFragment;
 import com.jim.multipos.ui.reports.discount.DiscountReportFragment;
 import com.jim.multipos.ui.reports.hourly_sales.HourlySalesReportFragment;
 import com.jim.multipos.ui.reports.order_history.OrderHistoryFragment;
+import com.jim.multipos.ui.reports.product_profit.ProductProfitFragment;
 import com.jim.multipos.ui.reports.sales.SalesReportFragment;
 import com.jim.multipos.ui.reports.service_fee.ServiceFeeReportFragment;
 import com.jim.multipos.ui.reports.tills.TillsReportFragment;
@@ -34,7 +35,7 @@ public abstract class ReportSingleActivity extends BaseActivity {
     List<String> reportNames;
     String [] reportsFragmentsTags= {SalesReportFragment.class.getName(),TillsReportFragment.class.getName(),OrderHistoryFragment.class.getName(), DiscountReportFragment.class.getName(), ServiceFeeReportFragment.class.getName(), HourlySalesReportFragment.class.getName(),
      DebtsReportFragment.class.getName()};
-    @Override
+   @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.report_activity);
@@ -159,6 +160,17 @@ public abstract class ReportSingleActivity extends BaseActivity {
             addFragmentWithTagStatic(R.id.flMain, discountReportFragment, DiscountReportFragment.class.getName());
         }else {
             getSupportFragmentManager().beginTransaction().show(discountReportFragment).commit();
+        }
+    }
+
+    public void showProductProfitReportFragment(){
+        hideAll();
+        ProductProfitFragment productProfitFragment = (ProductProfitFragment) getSupportFragmentManager().findFragmentByTag(ProductProfitFragment.class.getName());
+        if(productProfitFragment == null){
+            productProfitFragment = new ProductProfitFragment();
+            addFragmentWithTagStatic(R.id.flMain,productProfitFragment,ProductProfitFragment.class.getName());
+        }else {
+            getSupportFragmentManager().beginTransaction().show(productProfitFragment).commit();
         }
     }
 

@@ -606,6 +606,7 @@
     <string name="payed_change_type">PAYED</string>
     <string name="continue_change_type">CONTINUE</string>
     <string name="hand_close_till_change_type">HAND CLOSE TILL</string>
+    <string name="un_classed">UN CLASSED</string>
     <string name="till_number">Till number</string>
     <string name="qty">Qty</string>
     <string name="reason">Reason</string>
@@ -729,5 +730,29 @@
         <item>Change Causes</item>
         <item>Reason</item>
         <item>Relation order</item>
+    </string-array>
+    <string-array name="product_profit_titles">
+        <item>Profit summary</item>
+        <item>Sales log</item>
+    </string-array>
+    <string-array name="product_profit_summary_table_titles">
+        <item>Name</item>
+        <item>Sales count</item>
+        <item>Total cost</item>
+        <item>Total sale</item>
+        <item>Total NET</item>
+        <item>Profit %</item>
+        <item>Total discount</item>
+        <item>Total service Fee</item>
+    </string-array>
+    <string-array name="product_profit_log_table_titles">
+        <item>Product name</item>
+        <item>Date</item>
+        <item>Order id</item>
+        <item>Qty</item>
+        <item>Cost each</item>
+        <item>Price each</item>
+        <item>Total</item>
+        <item>Discription</item>
     </string-array>
 </resources>

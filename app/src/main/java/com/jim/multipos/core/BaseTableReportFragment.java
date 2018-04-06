@@ -87,6 +87,9 @@ public abstract class BaseTableReportFragment extends BaseFragment {
     public void disableFilter(){
         llFilter.setVisibility(View.GONE);
     }
+    public void enableFilter(){
+        llFilter.setVisibility(View.VISIBLE);
+    }
     public void disableDateIntervalPicker(){
         llDateInterval.setVisibility(View.GONE);
         tvDateInterval.setVisibility(View.INVISIBLE);
@@ -98,9 +101,7 @@ public abstract class BaseTableReportFragment extends BaseFragment {
         llDateInterval.setVisibility(View.VISIBLE);
         tvDateInterval.setVisibility(View.VISIBLE);
     }
-    public void enableFilter(){
-        llFilter.setVisibility(View.VISIBLE);
-    }
+
     public void updateDateIntervalUi(Calendar fromDate,Calendar toDate){
         tvDateInterval.setText(simpleDateFormat.format(fromDate.getTime()) + " - " + simpleDateFormat.format(toDate.getTime()));
     }
@@ -134,7 +135,7 @@ public abstract class BaseTableReportFragment extends BaseFragment {
             tvFivePanel.setText(titles[1]);
 
             tvFirtPanel.setBackgroundResource(R.drawable.left_switch_title_pressed);
-            tvFivePanel.setTextColor(Color.parseColor("#2e91cc"));
+            tvFirtPanel.setTextColor(Color.parseColor("#2e91cc"));
 
             tvFirtPanel.setOnClickListener((view)->{
                 disableAllPanelButtons();
