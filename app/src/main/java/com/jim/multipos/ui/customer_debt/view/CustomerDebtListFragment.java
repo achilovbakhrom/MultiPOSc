@@ -24,6 +24,7 @@ import com.jim.multipos.ui.customer_debt.dialog.PayToDebtDialog;
 import com.jim.multipos.ui.customer_debt.dialog.PaymentHistoryDialog;
 import com.jim.multipos.ui.customer_debt.presenter.CustomerDebtListPresenter;
 import com.jim.multipos.utils.RxBus;
+import com.jim.multipos.utils.UIUtils;
 import com.jim.multipos.utils.rxevents.main_order_events.DebtEvent;
 import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
 
@@ -258,9 +259,9 @@ public class CustomerDebtListFragment extends BaseFragment implements CustomerDe
     }
 
     @Override
-    public void openPayToDebt(Debt debt, DatabaseManager databaseManager,boolean closeDebt, boolean payToAll) {
-        PayToDebtDialog dialog = new PayToDebtDialog(getContext(), debt, databaseManager, closeDebt, payToAll, customer -> {
-            presenter.initData(customer);
+    public void openPayToDebt(Debt debt, DatabaseManager databaseManager, boolean closeDebt, boolean payToAll, Customer customer) {
+        PayToDebtDialog dialog = new PayToDebtDialog(getContext(), customer, debt, databaseManager, closeDebt, payToAll, customer1 -> {
+            presenter.initData(customer1);
             customerDebtConnection.updateCustomersList();
             rxBus.send(new DebtEvent(debt, GlobalEventConstants.UPDATE));
         });
@@ -299,6 +300,13 @@ public class CustomerDebtListFragment extends BaseFragment implements CustomerDe
         tvCustomerTotalDebt.setText(decimalFormat.format(total) + " " + currency.getAbbr());
         llLowGround.setVisibility(View.GONE);
         llTopGround.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void openWarningDialog() {
+        UIUtils.showAlert(getContext(), getString(R.string.ok), getString(R.string.warning), getString(R.string.customer_has_not_got_debts), () -> {
+
+        });
     }
 
     @Override

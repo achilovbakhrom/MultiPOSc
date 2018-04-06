@@ -1,4 +1,4 @@
-package com.jim.multipos.ui.reports.discount;
+package com.jim.multipos.ui.reports.service_fee;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -6,8 +6,8 @@ import android.os.Bundle;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
-import com.jim.multipos.data.db.model.Discount;
-import com.jim.multipos.data.db.model.DiscountLog;
+import com.jim.multipos.data.db.model.ServiceFee;
+import com.jim.multipos.data.db.model.ServiceFeeLog;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.OrderProduct;
 
@@ -22,7 +22,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class DiscountReportPresenterImpl extends BasePresenterImpl<DiscountReportView> implements DiscountReportPresenter {
+public class ServiceFeeFeeReportPresenterImpl extends BasePresenterImpl<ServiceFeeReportView> implements ServiceFeeReportPresenter {
 
     private Object[][] firstObjects;
     private Object[][] secondObjects;
@@ -33,11 +33,11 @@ public class DiscountReportPresenterImpl extends BasePresenterImpl<DiscountRepor
     private DecimalFormat decimalFormat;
     private SimpleDateFormat simpleDateFormat;
     private DatabaseManager databaseManager;
-    private final Context context;
+    private Context context;
     private int[] filterConfig;
 
     @Inject
-    protected DiscountReportPresenterImpl(DiscountReportView view, DatabaseManager databaseManager, Context context) {
+    protected ServiceFeeFeeReportPresenterImpl(ServiceFeeReportView view, DatabaseManager databaseManager, Context context) {
         super(view);
         this.databaseManager = databaseManager;
         this.context = context;
@@ -79,14 +79,14 @@ public class DiscountReportPresenterImpl extends BasePresenterImpl<DiscountRepor
             databaseManager.getClosedOrdersInIntervalForReport(fromDate, toDate).subscribe(orders1 -> {
                 for (Order order : orders1) {
                     for (int i = 0; i < order.getOrderProducts().size(); i++) {
-                        if (order.getOrderProducts().get(i).getDiscount() != null) {
-                            if (filterConfig[0] == 1 && !order.getOrderProducts().get(i).getDiscount().getIsManual()) {
+                        if (order.getOrderProducts().get(i).getServiceFee() != null) {
+                            if (filterConfig[0] == 1 && !order.getOrderProducts().get(i).getServiceFee().getIsManual()) {
                                 orderProducts.add(order.getOrderProducts().get(i));
                                 tillIds.add(order.getTillId());
                                 orderDates.add(order.getCreateAt());
                                 continue;
                             }
-                            if (filterConfig[1] == 1 && order.getOrderProducts().get(i).getDiscount().getIsManual()) {
+                            if (filterConfig[1] == 1 && order.getOrderProducts().get(i).getServiceFee().getIsManual()) {
                                 orderProducts.add(order.getOrderProducts().get(i));
                                 tillIds.add(order.getTillId());
                                 orderDates.add(order.getCreateAt());
@@ -105,10 +105,10 @@ public class DiscountReportPresenterImpl extends BasePresenterImpl<DiscountRepor
                 firstObjects[i][2] = orderProduct.getProduct().getName();
                 firstObjects[i][3] = orderProduct.getProduct().getSku();
                 firstObjects[i][4] = orderProduct.getCount();
-                firstObjects[i][5] = orderProduct.getDiscountAmount() * -1;
+                firstObjects[i][5] = orderProduct.getServiceAmount();
                 firstObjects[i][6] = orderDates.get(i);
-                firstObjects[i][7] = orderProduct.getDiscount().getName();
-                firstObjects[i][8] = orderProduct.getDiscount().getIsManual() ? 1 : 0;
+                firstObjects[i][7] = orderProduct.getServiceFee().getName();
+                firstObjects[i][8] = orderProduct.getServiceFee().getIsManual() ? 1 : 0;
             }
             view.updateTable(firstObjects, currentPosition);
 
@@ -116,12 +116,12 @@ public class DiscountReportPresenterImpl extends BasePresenterImpl<DiscountRepor
             List<Order> orders = new ArrayList<>();
             databaseManager.getClosedOrdersInIntervalForReport(fromDate, toDate).subscribe(orders1 -> {
                 for (Order order : orders1) {
-                    if (order.getDiscount() != null) {
-                        if (filterConfig[0] == 1 && !order.getDiscount().getIsManual()) {
+                    if (order.getServiceFee() != null) {
+                        if (filterConfig[0] == 1 && !order.getServiceFee().getIsManual()) {
                             orders.add(order);
                             continue;
                         }
-                        if (filterConfig[1] == 1 && order.getDiscount().getIsManual()) {
+                        if (filterConfig[1] == 1 && order.getServiceFee().getIsManual()) {
                             orders.add(order);
                             continue;
                         }
@@ -135,36 +135,36 @@ public class DiscountReportPresenterImpl extends BasePresenterImpl<DiscountRepor
                 secondObjects[i][1] = "#" + order.getTillId();
                 secondObjects[i][2] = order.getSubTotalValue();
                 secondObjects[i][3] = order.getCustomer() != null ? order.getCustomer().getName() : "";
-                secondObjects[i][4] = order.getDiscountAmount() * -1;
+                secondObjects[i][4] = order.getServiceAmount ();
                 secondObjects[i][5] = order.getCreateAt();
-                secondObjects[i][6] = order.getDiscount().getName();
-                secondObjects[i][7] = order.getDiscount().getIsManual() ? 1 : 0;
+                secondObjects[i][6] = order.getServiceFee().getName();
+                secondObjects[i][7] = order.getServiceFee().getIsManual() ? 1 : 0;
             }
             view.updateTable(secondObjects, currentPosition);
         } else if (currentPosition == 2) {
-            List<DiscountLog> discountLogs = new ArrayList<>();
-            databaseManager.getDiscountLogs().subscribe(discountLogs1 -> {
-                for (DiscountLog log : discountLogs1) {
-                    if (filterConfig[0] == 1 && !log.getDiscount().getIsManual()) {
-                        discountLogs.add(log);
+            List<ServiceFeeLog> serviceFeeLogs = new ArrayList<>();
+            databaseManager.getServiceFeeLogs().subscribe(serviceFeeLogs1 -> {
+                for (ServiceFeeLog log : serviceFeeLogs1) {
+                    if (filterConfig[0] == 1 && !log.getServiceFee().getIsManual()) {
+                        serviceFeeLogs.add(log);
                         continue;
                     }
-                    if (filterConfig[1] == 1 && log.getDiscount().getIsManual()) {
-                        discountLogs.add(log);
+                    if (filterConfig[1] == 1 && log.getServiceFee().getIsManual()) {
+                        serviceFeeLogs.add(log);
                         continue;
                     }
                 }
             });
-            thirdObjects = new Object[discountLogs.size()][7];
-            for (int i = 0; i < discountLogs.size(); i++) {
-                DiscountLog log = discountLogs.get(i);
+            thirdObjects = new Object[serviceFeeLogs.size()][7];
+            for (int i = 0; i < serviceFeeLogs.size(); i++) {
+                ServiceFeeLog log = serviceFeeLogs.get(i);
                 thirdObjects[i][0] = log.getChangeDate();
                 thirdObjects[i][1] = log.getStatus();
-                thirdObjects[i][2] = log.getDiscount().getName();
-                thirdObjects[i][3] = log.getDiscount().getAmount();
-                thirdObjects[i][4] = log.getDiscount().getAmountType();
-                thirdObjects[i][5] = log.getDiscount().getUsedType();
-                thirdObjects[i][6] = log.getDiscount().getIsManual() ? 1 : 0;
+                thirdObjects[i][2] = log.getServiceFee().getName();
+                thirdObjects[i][3] = log.getServiceFee().getAmount();
+                thirdObjects[i][4] = log.getServiceFee().getApplyingType();
+                thirdObjects[i][5] = log.getServiceFee().getType();
+                thirdObjects[i][6] = log.getServiceFee().getIsManual() ? 1 : 0;
             }
             view.updateTable(thirdObjects, currentPosition);
         }
@@ -343,11 +343,11 @@ public class DiscountReportPresenterImpl extends BasePresenterImpl<DiscountRepor
                             }
                             String text = "";
                             int orderStatus = (int) thirdObjects[i][1];
-                            if (orderStatus == DiscountLog.DISCOUNT_ADDED) {
+                            if (orderStatus == ServiceFeeLog.SERVICE_FEE_ADDED) {
                                 text = context.getString(R.string.add);
-                            } else if (orderStatus == DiscountLog.DISCOUNT_CANCELED) {
+                            } else if (orderStatus == ServiceFeeLog.SERVICE_FEE_CANCELED) {
                                 text = context.getString(R.string.canceled);
-                            } else if (orderStatus == DiscountLog.DISCOUNT_DELETED) {
+                            } else if (orderStatus == ServiceFeeLog.SERVICE_FEE_DELETED) {
                                 text = context.getString(R.string.deleted);
                             }
                             if (text.toUpperCase().contains(searchText.toUpperCase())) {
@@ -364,9 +364,9 @@ public class DiscountReportPresenterImpl extends BasePresenterImpl<DiscountRepor
                             }
                             String amountTypeText = "";
                             int amountType = (int) thirdObjects[i][4];
-                            if (amountType == Discount.PERCENT) {
+                            if (amountType == ServiceFee.PERCENT) {
                                 amountTypeText = context.getString(R.string.percentage);
-                            } else if (amountType == Discount.VALUE) {
+                            } else if (amountType == ServiceFee.VALUE) {
                                 amountTypeText = context.getString(R.string.value);
                             }
                             if (amountTypeText.toUpperCase().contains(searchText.toUpperCase())) {
@@ -375,24 +375,24 @@ public class DiscountReportPresenterImpl extends BasePresenterImpl<DiscountRepor
                             }
                             String usageTypeText = "";
                             int usageType = (int) thirdObjects[i][5];
-                            if (usageType == Discount.ORDER) {
+                            if (usageType == ServiceFee.ORDER) {
                                 usageTypeText = context.getString(R.string.order);
-                            } else if (usageType == Discount.ITEM) {
+                            } else if (usageType == ServiceFee.ITEM) {
                                 usageTypeText = context.getString(R.string.item);
                             }
                             if (usageTypeText.toUpperCase().contains(searchText.toUpperCase())) {
                                 searchRes[i] = 1;
                                 continue;
                             }
-                            String discountText = "";
-                            int discountType = (int) thirdObjects[i][6];
-                            if (discountType == 0) {
-                                discountText = context.getString(R.string.static_type);
+                            String typeText = "";
+                            int type = (int) thirdObjects[i][6];
+                            if (type == 0) {
+                                typeText = context.getString(R.string.static_type);
                             }
-                            if (discountType == 1) {
-                                discountText = context.getString(R.string.manual);
+                            if (type == 1) {
+                                typeText = context.getString(R.string.manual);
                             }
-                            if (discountText.toUpperCase().contains(searchText.toUpperCase())) {
+                            if (typeText.toUpperCase().contains(searchText.toUpperCase())) {
                                 searchRes[i] = 1;
                                 continue;
                             }
@@ -423,11 +423,11 @@ public class DiscountReportPresenterImpl extends BasePresenterImpl<DiscountRepor
                             }
                             String text = "";
                             int orderStatus = (int) searchResultsTemp[i][1];
-                            if (orderStatus == DiscountLog.DISCOUNT_ADDED) {
+                            if (orderStatus == ServiceFeeLog.SERVICE_FEE_ADDED) {
                                 text = context.getString(R.string.add);
-                            } else if (orderStatus == DiscountLog.DISCOUNT_CANCELED) {
+                            } else if (orderStatus == ServiceFeeLog.SERVICE_FEE_CANCELED) {
                                 text = context.getString(R.string.canceled);
-                            } else if (orderStatus == DiscountLog.DISCOUNT_DELETED) {
+                            } else if (orderStatus == ServiceFeeLog.SERVICE_FEE_DELETED) {
                                 text = context.getString(R.string.deleted);
                             }
                             if (text.toUpperCase().contains(searchText.toUpperCase())) {
@@ -444,9 +444,9 @@ public class DiscountReportPresenterImpl extends BasePresenterImpl<DiscountRepor
                             }
                             String amountTypeText = "";
                             int amountType = (int) searchResultsTemp[i][4];
-                            if (amountType == Discount.PERCENT) {
+                            if (amountType == ServiceFee.PERCENT) {
                                 amountTypeText = context.getString(R.string.percentage);
-                            } else if (amountType == Discount.VALUE) {
+                            } else if (amountType == ServiceFee.VALUE) {
                                 amountTypeText = context.getString(R.string.value);
                             }
                             if (amountTypeText.toUpperCase().contains(searchText.toUpperCase())) {
@@ -455,9 +455,9 @@ public class DiscountReportPresenterImpl extends BasePresenterImpl<DiscountRepor
                             }
                             String usageTypeText = "";
                             int usageType = (int) searchResultsTemp[i][5];
-                            if (usageType == Discount.ORDER) {
+                            if (usageType == ServiceFee.ORDER) {
                                 usageTypeText = context.getString(R.string.order);
-                            } else if (usageType == Discount.ITEM) {
+                            } else if (usageType == ServiceFee.ITEM) {
                                 usageTypeText = context.getString(R.string.item);
                             }
                             if (usageTypeText.toUpperCase().contains(searchText.toUpperCase())) {

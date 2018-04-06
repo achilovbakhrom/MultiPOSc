@@ -35,9 +35,11 @@ public class ServiceFeePresenterImpl extends BasePresenterImpl<ServiceFeeView> i
         databaseManager.getServiceFeeOperations().getAllServiceFees().subscribe(serviceFees -> {
             items.add(null);
             for (int i = 0; i < serviceFees.size(); i++) {
-                ServiceFeeAdapterDetails details = new ServiceFeeAdapterDetails();
-                details.setObject(serviceFees.get(i));
-                items.add(details);
+                if (!serviceFees.get(i).getIsManual()) {
+                    ServiceFeeAdapterDetails details = new ServiceFeeAdapterDetails();
+                    details.setObject(serviceFees.get(i));
+                    items.add(details);
+                }
             }
             view.refreshList(items);
         });

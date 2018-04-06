@@ -8,9 +8,12 @@ import android.support.v7.widget.RecyclerView;
 
 import com.jim.multipos.R;
 import com.jim.multipos.ui.reports.adapter.ReportPickerAdapter;
+import com.jim.multipos.ui.reports.debts.DebtsReportFragment;
 import com.jim.multipos.ui.reports.discount.DiscountReportFragment;
+import com.jim.multipos.ui.reports.hourly_sales.HourlySalesReportFragment;
 import com.jim.multipos.ui.reports.order_history.OrderHistoryFragment;
 import com.jim.multipos.ui.reports.sales.SalesReportFragment;
+import com.jim.multipos.ui.reports.service_fee.ServiceFeeReportFragment;
 import com.jim.multipos.ui.reports.tills.TillsReportFragment;
 
 import java.util.ArrayList;
@@ -29,7 +32,8 @@ public abstract class ReportSingleActivity extends BaseActivity {
     RecyclerView tvReportsPicker;
     ReportPickerAdapter reportPickerAdapter;
     List<String> reportNames;
-    String [] reportsFragmentsTags= {SalesReportFragment.class.getName(),TillsReportFragment.class.getName(),OrderHistoryFragment.class.getName(), DiscountReportFragment.class.getName()};
+    String [] reportsFragmentsTags= {SalesReportFragment.class.getName(),TillsReportFragment.class.getName(),OrderHistoryFragment.class.getName(), DiscountReportFragment.class.getName(), ServiceFeeReportFragment.class.getName(), HourlySalesReportFragment.class.getName(),
+     DebtsReportFragment.class.getName()};
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -157,6 +161,41 @@ public abstract class ReportSingleActivity extends BaseActivity {
             getSupportFragmentManager().beginTransaction().show(discountReportFragment).commit();
         }
     }
+
+    public void showServiceFeeReportFragment(/*extra*/){
+        hideAll();
+        ServiceFeeReportFragment serviceFeeReportFragment = (ServiceFeeReportFragment) getSupportFragmentManager().findFragmentByTag(ServiceFeeReportFragment.class.getName());
+        if ( serviceFeeReportFragment == null){
+            serviceFeeReportFragment = new ServiceFeeReportFragment();
+            addFragmentWithTagStatic(R.id.flMain, serviceFeeReportFragment, ServiceFeeReportFragment.class.getName());
+        }else {
+            getSupportFragmentManager().beginTransaction().show(serviceFeeReportFragment).commit();
+        }
+    }
+
+    public void showHourlySalesReportFragment(/*extra*/){
+        hideAll();
+        HourlySalesReportFragment hourlySalesReportFragment = (HourlySalesReportFragment) getSupportFragmentManager().findFragmentByTag(HourlySalesReportFragment.class.getName());
+        if ( hourlySalesReportFragment == null){
+            hourlySalesReportFragment = new HourlySalesReportFragment();
+            addFragmentWithTagStatic(R.id.flMain, hourlySalesReportFragment, HourlySalesReportFragment.class.getName());
+        }else {
+            getSupportFragmentManager().beginTransaction().show(hourlySalesReportFragment).commit();
+        }
+    }
+
+    public void showDebtsReportFragment(/*extra*/){
+        hideAll();
+        DebtsReportFragment debtsReportFragment = (DebtsReportFragment) getSupportFragmentManager().findFragmentByTag(DebtsReportFragment.class.getName());
+        if ( debtsReportFragment == null){
+            debtsReportFragment = new DebtsReportFragment();
+            addFragmentWithTagStatic(R.id.flMain, debtsReportFragment, DebtsReportFragment.class.getName());
+        }else {
+            getSupportFragmentManager().beginTransaction().show(debtsReportFragment).commit();
+        }
+    }
+
+
 
     public void hideAll(){
         for (String fragmentName:reportsFragmentsTags){

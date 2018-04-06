@@ -2256,6 +2256,13 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
+    public Single<List<ServiceFeeLog>> getServiceFeeLogs() {
+        return Single.create(e -> {
+            e.onSuccess(mDaoSession.getServiceFeeLogDao().loadAll());
+        });
+    }
+
+    @Override
     public Single<List<Order>> getOrdersInIntervalForReport(Calendar fromDate, Calendar toDate) {
         return Single.create(e -> {
             List<Order> orderList = mDaoSession.getOrderDao().queryBuilder()

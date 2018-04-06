@@ -24,12 +24,11 @@ public class DiscountReportFragment extends BaseTableReportFragment implements D
     @Override
     protected void init(Bundle savedInstanceState) {
         init(presenter);
-        setChoiserPanel(new String[]{"Item discount", "Order discount", "Discount creation log"});
+        setChoiserPanel(new String[]{getString(R.string.item_discount), getString(R.string.order_discount), getString(R.string.discount_creation_log)});
         initValues();
         presenter.onCreateView(savedInstanceState);
     }
 
-    @Override
     public void initValues() {
         initDefaults();
         itemDiscountBuilder = new ReportView.Builder()

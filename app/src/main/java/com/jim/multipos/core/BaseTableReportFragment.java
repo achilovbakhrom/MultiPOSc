@@ -94,6 +94,13 @@ public abstract class BaseTableReportFragment extends BaseFragment {
     public void disableExport(){
         llExpert.setVisibility(View.GONE);
     }
+    public void enableDateIntervalPicker(){
+        llDateInterval.setVisibility(View.VISIBLE);
+        tvDateInterval.setVisibility(View.VISIBLE);
+    }
+    public void enableFilter(){
+        llFilter.setVisibility(View.VISIBLE);
+    }
     public void updateDateIntervalUi(Calendar fromDate,Calendar toDate){
         tvDateInterval.setText(simpleDateFormat.format(fromDate.getTime()) + " - " + simpleDateFormat.format(toDate.getTime()));
     }

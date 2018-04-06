@@ -75,7 +75,7 @@ public class ServiceFeeDialog extends Dialog implements ServiceFeeAdapter.OnClic
         serviceFees = new ArrayList<>();
         databaseManager.getAllServiceFees().subscribe(serviceFees1 -> {
             for (ServiceFee serviceFee: serviceFees1){
-                if (serviceFee.getApplyingType() == ServiceFee.ALL || serviceFee.getApplyingType() == serviceFeeApplyType)
+                if ((serviceFee.getApplyingType() == ServiceFee.ALL || serviceFee.getApplyingType() == serviceFeeApplyType) && !serviceFee.getIsManual())
                     serviceFees.add(serviceFee);
             }
         });

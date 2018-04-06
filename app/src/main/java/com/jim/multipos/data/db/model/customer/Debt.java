@@ -58,6 +58,10 @@ public class Debt {
         debt.setStatus(getStatus());
         return debt;
     }
+
+    public Double getTotalDebtAmount(){
+        return getDebtAmount() + (getFee() * getDebtAmount() / 100);
+    }
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
      * Entity must attached to an entity context.

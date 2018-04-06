@@ -469,6 +469,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
+    public Single<List<ServiceFeeLog>> getServiceFeeLogs() {
+        return dbHelper.getServiceFeeLogs();
+    }
+
+    @Override
     public Observable<Long> addCustomer(Customer customer) {
         return dbHelper.insertCustomer(customer);
     }

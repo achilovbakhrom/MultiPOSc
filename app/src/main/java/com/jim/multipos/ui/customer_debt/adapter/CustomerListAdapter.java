@@ -56,6 +56,7 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
         this.items = searchResults;
         this.searchText = searchText;
         searchMode = true;
+        isFirstTime = true;
         notifyDataSetChanged();
     }
 
@@ -84,6 +85,7 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
             holder.flBlueBar.setVisibility(View.INVISIBLE);
             holder.llBackground.setBackgroundColor(ContextCompat.getColor(context, R.color.colorBackground));
         }
+        holder.ivWarning.setVisibility(View.GONE);
         GregorianCalendar now = new GregorianCalendar();
         for (int i = 0; i < customer.getActiveDebts().size(); i++) {
             Date date = new Date(customer.getActiveDebts().get(i).getEndDate());

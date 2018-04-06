@@ -289,4 +289,5 @@ public interface DbHelper {
     Single<DiscountLog> insertDiscountLog(DiscountLog discountLog);
     Single<ServiceFeeLog> insertServiceFeeLog(ServiceFeeLog serviceFeeLog);
     Single<List<DiscountLog>> getDiscountLogs();
+    Single<List<ServiceFeeLog>> getServiceFeeLogs();
 }

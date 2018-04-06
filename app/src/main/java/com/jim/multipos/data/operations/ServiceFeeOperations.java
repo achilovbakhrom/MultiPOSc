@@ -21,4 +21,5 @@ public interface ServiceFeeOperations {
     Observable<List<Currency>> getAllCurrencies();
     Observable<List<ServiceFee>> getServiceFeesWithAllItemTypes();
     Single<ServiceFeeLog> insertServiceFeeLog(ServiceFeeLog serviceFeeLog);
+    Single<List<ServiceFeeLog>> getServiceFeeLogs();
 }

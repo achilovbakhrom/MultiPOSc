@@ -197,7 +197,7 @@
             android:layout_width="@dimen/two_hundred_eighty_dp"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:layout_marginBottom="@dimen/forty_five_dp"
+            android:layout_marginBottom="@dimen/twenty_dp"
             android:orientation="horizontal">
 
             <TextView
@@ -217,11 +217,34 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/btnDebtsHistory"
+            android:layout_width="@dimen/two_hundred_eighty_dp"
+            android:layout_height="@dimen/eighty_dp"
+            android:layout_gravity="right"
+            android:layout_marginBottom="@dimen/fifteen_dp"
+            android:background="@drawable/pay_btn_payment"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="All debts"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/twenty_five_dp"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/llPay"
             android:layout_width="@dimen/two_hundred_eighty_dp"
             android:layout_height="@dimen/hundred_ten_dp"
             android:layout_gravity="right"
-            android:background="@drawable/big_btn"
+            android:background="@drawable/pay_btn_payment"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -539,18 +562,6 @@
             android:layout_height="@dimen/two_hundred_fifty_dp"
             android:gravity="center_horizontal"
             android:orientation="vertical">
-
-            <com.jim.mpviews.MpButton
-                android:id="@+id/btnDebtsHistory"
-                android:layout_width="@dimen/hundred_eighty_dp"
-                android:layout_height="@dimen/fifty_dp"
-                android:layout_marginBottom="@dimen/fifteen_dp"
-                android:background="@drawable/big_btn"
-                android:gravity="center"
-                android:text="All debts"
-                android:textColor="@color/colorBlue"
-                android:textStyle="bold"
-                app:isLong="true" />
 
             <TextView
                 android:id="@+id/btnPayToDebt"

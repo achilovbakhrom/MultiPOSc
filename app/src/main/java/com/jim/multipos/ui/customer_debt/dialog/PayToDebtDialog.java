@@ -45,7 +45,8 @@ public class PayToDebtDialog extends Dialog {
     private DecimalFormat decimalFormat;
     private List<Debt> debtList;
     private double allDebt;
-    public PayToDebtDialog(Context context, Debt debt, DatabaseManager databaseManager, boolean closeDebt, boolean payToAll, UpdateCustomerDebtsListCallback callback) {
+
+    public PayToDebtDialog(Context context, Customer customer, Debt debt, DatabaseManager databaseManager, boolean closeDebt, boolean payToAll, UpdateCustomerDebtsListCallback callback) {
         super(context);
 
         View dialogView = getLayoutInflater().inflate(R.layout.payment_to_debt, null);
@@ -75,7 +76,7 @@ public class PayToDebtDialog extends Dialog {
         }
         allDebt = 0;
         if (payToAll) {
-            databaseManager.getDebtsByCustomerId(debt.getCustomer().getId()).subscribe((debts, throwable) -> {
+            databaseManager.getDebtsByCustomerId(customer.getId()).subscribe((debts, throwable) -> {
                 debtList = debts;
                 for (Debt item : debtList) {
                     double feeAmount = item.getFee() * item.getDebtAmount() / 100;
@@ -95,8 +96,6 @@ public class PayToDebtDialog extends Dialog {
             UIUtils.closeKeyboard(btnBack, context);
             dismiss();
         });
-        double feeAmount = debt.getFee() * debt.getDebtAmount() / 100;
-        double total = debt.getDebtAmount() + feeAmount;
 
         btnPay.setOnClickListener(view -> {
             if (!etAmount.getText().toString().isEmpty()) {
@@ -109,6 +108,8 @@ public class PayToDebtDialog extends Dialog {
                     }
                     if (allDebt < amount)
                         etAmount.setError("Payment amount cannot be bigger than debt amount");
+                    else if (amount == 0)
+                        etAmount.setError("Payment amount cannot be equal zero");
                     else {
                         for (int i = 0; i < debtList.size(); i++) {
                             Debt item = debtList.get(i);
@@ -159,6 +160,8 @@ public class PayToDebtDialog extends Dialog {
                         dismiss();
                     }
                 } else {
+                    double feeAmount = debt.getFee() * debt.getDebtAmount() / 100;
+                    double total = debt.getDebtAmount() + feeAmount;
                     double amount = 0;
                     try {
                         amount = decimalFormat.parse(etAmount.getText().toString().replace(",", ".")).doubleValue();
@@ -167,6 +170,8 @@ public class PayToDebtDialog extends Dialog {
                     }
                     if (total < amount)
                         etAmount.setError("Payment amount cannot be bigger than debt amount");
+                    else if (amount == 0)
+                        etAmount.setError("Payment amount cannot be equal zero");
                     else if (total != amount && debt.getDebtType() == Debt.ALL) {
                         etAmount.setError("You cannot pay in participle for this debt");
                     } else {

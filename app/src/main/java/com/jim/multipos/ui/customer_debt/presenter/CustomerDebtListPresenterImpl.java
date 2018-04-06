@@ -5,13 +5,13 @@ import android.content.Context;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
-import com.jim.multipos.data.db.model.consignment.Consignment;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.Debt;
 import com.jim.multipos.ui.customer_debt.view.CustomerDebtListFragment;
 import com.jim.multipos.ui.customer_debt.view.CustomerDebtListView;
 import com.jim.multipos.utils.CommonUtils;
+import com.jim.multipos.utils.UIUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,6 +34,7 @@ public class CustomerDebtListPresenterImpl extends BasePresenterImpl<CustomerDeb
     private Debt debt;
     private CustomerDebtListFragment.DebtSortingStates sortMode = CustomerDebtListFragment.DebtSortingStates.SORTED_BY_TAKEN_DATE;
     private int sorting = 1;
+    private Customer customer;
 
     @Inject
     protected CustomerDebtListPresenterImpl(CustomerDebtListView view, DatabaseManager databaseManager, Context context) {
@@ -45,6 +46,7 @@ public class CustomerDebtListPresenterImpl extends BasePresenterImpl<CustomerDeb
 
     @Override
     public void initData(Customer customer) {
+        this.customer = customer;
         currency = databaseManager.getMainCurrency();
         databaseManager.getDebtsByCustomerId(customer.getId()).subscribe((debts, throwable) -> {
             debtList.clear();
@@ -118,7 +120,7 @@ public class CustomerDebtListPresenterImpl extends BasePresenterImpl<CustomerDeb
 
     @Override
     public void onPayToDebt() {
-        view.openPayToDebt(debt, databaseManager, false, false);
+        view.openPayToDebt(debt, databaseManager, false, false, customer);
     }
 
     @Override
@@ -128,12 +130,12 @@ public class CustomerDebtListPresenterImpl extends BasePresenterImpl<CustomerDeb
 
     @Override
     public void onCustomerDebtsHistoryClicked() {
-        view.openCustomerDebtsHistoryDialog(debt.getCustomer(), databaseManager);
+        view.openCustomerDebtsHistoryDialog(customer, databaseManager);
     }
 
     @Override
     public void closeDebtWithPayingAllAmount(Debt item) {
-        view.openPayToDebt(item, databaseManager, true, false);
+        view.openPayToDebt(item, databaseManager, true, false, customer);
     }
 
     @Override
@@ -168,7 +170,9 @@ public class CustomerDebtListPresenterImpl extends BasePresenterImpl<CustomerDeb
 
     @Override
     public void openPayToAllDialog() {
-        view.openPayToDebt(debtList.get(0), databaseManager, false, true);
+        if (customer.getDebtList() != null && customer.getDebtList().size() > 0)
+            view.openPayToDebt(null, databaseManager, false, true, customer);
+        else view.openWarningDialog();
     }
 
     private void sortList() {

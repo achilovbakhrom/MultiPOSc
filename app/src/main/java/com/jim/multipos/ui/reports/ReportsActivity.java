@@ -42,7 +42,7 @@ public class ReportsActivity extends ReportSingleActivity implements ReportsActi
 
     @Override
     public void openHourlySalesFragmentAction() {
-
+        showHourlySalesReportFragment();
     }
 
     @Override
@@ -72,11 +72,11 @@ public class ReportsActivity extends ReportSingleActivity implements ReportsActi
 
     @Override
     public void openServiceFeesFragmentAction() {
-
+        showServiceFeeReportFragment();
     }
 
     @Override
     public void openDebtsFragmentAction() {
-
+        showDebtsReportFragment();
     }
 }
