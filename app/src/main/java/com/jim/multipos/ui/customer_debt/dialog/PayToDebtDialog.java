@@ -127,6 +127,7 @@ public class PayToDebtDialog extends Dialog {
                                 payment.setPaymentAmount(totalDebt);
                                 payment.setDebtDue(0);
                                 item.setStatus(Debt.CLOSED);
+                                item.setClosedDate(System.currentTimeMillis());
                                 databaseManager.addDebt(item).blockingGet();
                                 databaseManager.addCustomerPayment(payment).subscribe();
                                 item.resetCustomerPayments();
@@ -138,6 +139,7 @@ public class PayToDebtDialog extends Dialog {
                                 payment.setPaymentType(paymentTypes.get(spPaymentType.getSelectedPosition()));
                                 payment.setPaymentAmount(amount);
                                 payment.setDebtDue(0);
+                                item.setClosedDate(System.currentTimeMillis());
                                 item.setStatus(Debt.CLOSED);
                                 databaseManager.addDebt(item).blockingGet();
                                 databaseManager.addCustomerPayment(payment).subscribe();
@@ -155,7 +157,7 @@ public class PayToDebtDialog extends Dialog {
                                 break;
                             }
                         }
-                        callback.onPay(debt.getCustomer());
+                        callback.onPay(customer);
                         UIUtils.closeKeyboard(btnPay, context);
                         dismiss();
                     }
@@ -188,6 +190,7 @@ public class PayToDebtDialog extends Dialog {
                         payment.setPaymentAmount(amount);
                         payment.setDebtDue(dueSum - amount);
                         if (dueSum - amount == 0) {
+                            debt.setClosedDate(System.currentTimeMillis());
                             debt.setStatus(Debt.CLOSED);
                             databaseManager.addDebt(debt).blockingGet();
                         }

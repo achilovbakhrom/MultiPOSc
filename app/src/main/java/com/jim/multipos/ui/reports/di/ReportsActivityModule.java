@@ -9,12 +9,16 @@ import com.jim.multipos.ui.reports.ReportsActivity;
 import com.jim.multipos.ui.reports.ReportsActivityPresenter;
 import com.jim.multipos.ui.reports.ReportsActivityPresenterImpl;
 import com.jim.multipos.ui.reports.ReportsActivityView;
+import com.jim.multipos.ui.reports.customers.CustomerReportFragment;
+import com.jim.multipos.ui.reports.customers.CustomerReportFragmentModule;
 import com.jim.multipos.ui.reports.debts.DebtsReportFragment;
 import com.jim.multipos.ui.reports.debts.DebtsReportFragmentModule;
 import com.jim.multipos.ui.reports.discount.DiscountReportFragment;
 import com.jim.multipos.ui.reports.discount.DiscountReportFragmentModule;
 import com.jim.multipos.ui.reports.hourly_sales.HourlySalesReportFragment;
 import com.jim.multipos.ui.reports.hourly_sales.HourlySalesReportFragmentModule;
+import com.jim.multipos.ui.reports.inventory.InventoryReportFragment;
+import com.jim.multipos.ui.reports.inventory.InventoryReportFragmentModule;
 import com.jim.multipos.ui.reports.order_history.OrderHistoryFragment;
 import com.jim.multipos.ui.reports.order_history.OrderHistoryFragmentModule;
 import com.jim.multipos.ui.reports.product_profit.ProductProfitFragment;
@@ -80,4 +84,12 @@ public abstract class ReportsActivityModule {
     @PerFragment
     @ContributesAndroidInjector(modules = DebtsReportFragmentModule.class)
     abstract DebtsReportFragment provideDebtsReportFragment();
+
+    @PerFragment
+    @ContributesAndroidInjector(modules = CustomerReportFragmentModule.class)
+    abstract CustomerReportFragment provideCustomerReportFragment();
+
+    @PerFragment
+    @ContributesAndroidInjector(modules = InventoryReportFragmentModule.class)
+    abstract InventoryReportFragment provideInventoryReportFragment();
 }

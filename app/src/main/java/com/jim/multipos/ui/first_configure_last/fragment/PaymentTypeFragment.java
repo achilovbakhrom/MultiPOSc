@@ -141,7 +141,7 @@ public class PaymentTypeFragment extends BaseFragment implements ChangeableConte
                 }
                 break;
             case R.id.btnRevert:
-                ((FirstConfigureActivity) getContext()).getPresenter().openCurrency();
+                ((FirstConfigureActivity) getContext()).getPresenter().openAccount();
                 break;
             case R.id.btnNext:
                 if (hasAnyPaymentType()) {

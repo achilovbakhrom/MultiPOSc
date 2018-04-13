@@ -24,6 +24,7 @@ import com.jim.multipos.data.db.model.till.TillManagementOperation;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -95,9 +96,11 @@ public class TillDetailsDialog extends Dialog {
         accountList = databaseManager.getAccounts();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
-        tvTillId.setText("Details of Till #" + till.getId());
-        tvFromDate.setText(simpleDateFormat.format(till.getOpenDate()));
-        tvToDate.setText(simpleDateFormat.format(till.getCloseDate()));
+        tvTillId.setText(context.getString(R.string.details_of_till) + till.getId());
+        if (till.getOpenDate() != null)
+            tvFromDate.setText(simpleDateFormat.format(new Date(till.getOpenDate())));
+        if (till.getCloseDate() != null)
+        tvToDate.setText(simpleDateFormat.format(new Date(till.getCloseDate())));
 
         createAccountPanel();
 

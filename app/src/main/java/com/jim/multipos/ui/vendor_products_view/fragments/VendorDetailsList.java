@@ -15,7 +15,6 @@ import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.db.model.ProductClass;
-import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.ui.vendor_products_view.VendorProductsViewActivity;
 import com.jim.multipos.ui.vendor_products_view.adapters.ProductAdapter;
 import com.jim.multipos.ui.vendor_products_view.dialogs.MinusInventoryDialog;
@@ -157,9 +156,9 @@ public class VendorDetailsList extends BaseFragment implements ProductAdapter.Pr
         bundle.putInt(INVENTORY_POSITION, position);
         MinusInventoryDialog dialog = new MinusInventoryDialog();
         dialog.setArguments(bundle);
-        dialog.setMinusInventoryDialogListener((inventory, shortage) ->  {
+        dialog.setMinusInventoryDialogListener((inventory, shortage, reason) -> {
 //            ((ProductAdapter) rvProduct.getAdapter()).updateItem(inventory);
-            ((VendorProductsViewActivity) getActivity()).getPresenter().insertNewWarehouseOperation(inventory, shortage);
+            ((VendorProductsViewActivity) getActivity()).getPresenter().insertNewWarehouseOperation(inventory, shortage, reason);
         });
         dialog.show(getActivity().getSupportFragmentManager(), "MinusInventoryDialog");
     }
@@ -170,9 +169,9 @@ public class VendorDetailsList extends BaseFragment implements ProductAdapter.Pr
         bundle.putInt(INVENTORY_POSITION, position);
         PlusInventoryDialog dialog = new PlusInventoryDialog();
         dialog.setArguments(bundle);
-        dialog.setPlusInventoryDialogListener((inventory, shortage) ->  {
+        dialog.setPlusInventoryDialogListener((inventory, shortage, reason) -> {
 //            ((ProductAdapter) rvProduct.getAdapter()).updateItem(inventory);
-            ((VendorProductsViewActivity) getActivity()).getPresenter().insertNewWarehouseOperation(inventory, shortage);
+            ((VendorProductsViewActivity) getActivity()).getPresenter().insertNewWarehouseOperation(inventory, shortage, reason);
         });
         dialog.show(getActivity().getSupportFragmentManager(), "PlusInventoryDialog");
     }

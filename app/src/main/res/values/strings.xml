@@ -652,19 +652,56 @@
     <string name="last_pay_date">Last pay date</string>
     <string name="due_debt">Due debt</string>
     <string name="should_close_date">Should close date</string>
+    <string name="inclusions">Inclusions:</string>
+    <string name="closed_orders">Closed orders</string>
+    <string name="customer_summary">Customer Summary</string>
+    <string name="customer_order_list">Customer order list</string>
+    <string name="customer_payment_log">Customer payment log</string>
+    <string name="for_order">For order</string>
+    <string name="for_debt">For debt</string>
+    <string name="change">Change</string>
+    <string name="canceled_orders">Canceled orders</string>
+    <string name="total_orders_amount">Total orders amount</string>
+    <string name="total_to_debt">Total to debt</string>
+    <string name="total_discounts">Total discounts</string>
+    <string name="total_service_fees">Total service fees</string>
+    <string name="order_status">Order status</string>
+    <string name="total_order_amount">Total order amount</string>
+    <string name="details_of_till">Details of Till #</string>
+    <string name="apply">Apply</string>
+    <string name="inventory_log">Inventory log</string>
+    <string name="unventory_summary">Inventory summary</string>
+    <string name="inventory_state">Inventory state</string>
+    <string name="returns">Returns</string>
+    <string name="sold">Sold</string>
+    <string name="received_from_vendor">Received from vendor</string>
+    <string name="return_to_vendor">Return to vendor</string>
+    <string name="return_from_customer">Return from customer</string>
+    <string name="void_income">Void income</string>
+    <string name="wasted">Wasted</string>
+    <string name="unit_price">Unit price</string>
+    <string name="total">Total</string>
+    <string name="gross_qty">Gross qty before till</string>
+    <string name="return_cost">Return cost</string>
+    <string name="consignment_canceled">Consignment canceled</string>
+    <string name="income_from_vendor">Income from vendor</string>
+    <string name="held_product_return">Held product return</string>
+    <string name="canceled_order">Canceled order</string>
+    <string name="till">Till</string>
+    <string name="cash">Cash</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>
     <string-array name="first_configure_items">
         <item>POS Details</item>
-        <item>Account</item>
         <item>Currency</item>
+        <item>Account</item>
         <item>Payment type</item>
     </string-array>
     <string-array name="first_configure_items_description">
         <item>POS Details</item>
-        <item>Account</item>
         <item>Currency</item>
+        <item>Account</item>
         <item>Payment type</item>
     </string-array>
     <string-array name="contact_types">

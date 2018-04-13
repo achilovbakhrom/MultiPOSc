@@ -5,6 +5,7 @@ import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
 
+import java.util.Calendar;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -25,4 +26,5 @@ public interface InventoryOperations {
     Single<WarehouseOperations> getWarehouseOperationById(Long warehouseId);
     Single<Long> replaceWarehouseOperation(WarehouseOperations warehouseOperations);
     Single<HistoryInventoryState> insertHistoryInventoryState(HistoryInventoryState state);
+    Single<List<WarehouseOperations>> getWarehouseOperationsInInterval(Calendar fromDate, Calendar toDate);
 }

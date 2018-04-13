@@ -32,7 +32,7 @@ public interface VendorProductsViewPresenter extends Presenter {
     void openConsignmentList();
     void openIncomeConsignmentToProduct(ProductState state, int consignmentType);
     void openVendorEditing();
-    void insertNewWarehouseOperation(ProductState inventory, double shortage);
+    void insertNewWarehouseOperation(ProductState inventory, double shortage, String reason);
     void openPaymentsList();
     void openPayDialog();
     void updateBillings();

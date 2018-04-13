@@ -21,6 +21,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -108,7 +109,7 @@ public class ReportViewAdapter extends RecyclerView.Adapter<ReportViewAdapter.Vi
                                     Long item = (Long) data[position][count];
                                     switch (dataTypes[count]) {
                                         case ReportViewConstants.DATE:
-                                            textView.setText(simpleDateFormat.format(item));
+                                            textView.setText(simpleDateFormat.format(new Date(item)));
                                             break;
                                         case ReportViewConstants.ID:
                                             textView.setText(String.valueOf(item));
@@ -194,7 +195,7 @@ public class ReportViewAdapter extends RecyclerView.Adapter<ReportViewAdapter.Vi
                                     Long item = (Long) data[position][count];
                                     switch (dataTypes[count]) {
                                         case ReportViewConstants.DATE:
-                                            colorSubSeq(simpleDateFormat.format(item), searchText, Color.parseColor("#95ccee"), textView);
+                                            colorSubSeq(simpleDateFormat.format(new Date(item)), searchText, Color.parseColor("#95ccee"), textView);
                                             break;
                                         case ReportViewConstants.ID:
                                             colorSubSeq(String.valueOf(item), searchText, Color.parseColor("#95ccee"), textView);

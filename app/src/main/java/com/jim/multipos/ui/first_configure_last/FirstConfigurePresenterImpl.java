@@ -1,5 +1,6 @@
 package com.jim.multipos.ui.first_configure_last;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -43,6 +44,7 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
 
     PreferencesHelper preferences;
     private FirstConfigureView view;
+    private Context context;
     @Getter
     private int[] completedFragments = null;
     private final DatabaseManager databaseManager;
@@ -61,11 +63,12 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
                                        @Named(value = "currency_name") String[] currencyName,
                                        @Named(value = "currency_abbr") String[] currencyAbbr,
                                        @Named(value = "first_configure_items") String[] firstConfigureListItems,
-                                       @Named(value = "first_configure_items_description") String[] firstConfigurationItemsDescription) {
+                                       @Named(value = "first_configure_items_description") String[] firstConfigurationItemsDescription, Context context) {
         super(view);
         this.preferences = preferencesHelper;
         this.databaseManager = databaseManager;
         this.view = view;
+        this.context = context;
         this.completedFragments = new int[5];
         this.currencyName = currencyName;
         this.currencyAbbr = currencyAbbr;
@@ -79,32 +82,14 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
         if (bundle != null) {
             completion = new HashMap<>();
             completion.put(POS_DETAILS_KEY, bundle.getBoolean(POS_DETAILS_KEY, false));
-            completion.put(ACCOUNT_KEY, bundle.getBoolean(ACCOUNT_KEY, false));
             completion.put(CURRENCY_KEY, bundle.getBoolean(CURRENCY_KEY, false));
+            completion.put(ACCOUNT_KEY, bundle.getBoolean(ACCOUNT_KEY, false));
             completion.put(PAYMENT_TYPE_KEY, bundle.getBoolean(PAYMENT_TYPE_KEY, false));
         } else {
             completion.put(POS_DETAILS_KEY, false);
-            completion.put(ACCOUNT_KEY, false);
             completion.put(CURRENCY_KEY, false);
+            completion.put(ACCOUNT_KEY, false);
             completion.put(PAYMENT_TYPE_KEY, false);
-        }
-
-        if (databaseManager.getAccounts().isEmpty()){
-            Account account1 = new Account();
-            account1.setName("Till");
-            account1.setStaticAccountType(Account.CASH_ACCOUNT);
-            databaseManager.addAccount(account1).blockingSingle();
-            Account account = new Account();
-            account.setName("DebtAccount");
-            account.setStaticAccountType(Account.DEBT_ACCOUNT);
-            account.setIsVisible(false);
-            databaseManager.addAccount(account).blockingSingle();
-            PaymentType paymentType = new PaymentType();
-            paymentType.setAccount(account);
-            paymentType.setName("ToDebt");
-            paymentType.setCurrency(databaseManager.getMainCurrency());
-            paymentType.setIsVisible(false);
-            databaseManager.addPaymentType(paymentType).blockingSingle();
         }
     }
 
@@ -177,10 +162,10 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
                 openPOSDetails();
                 break;
             case 1:
-                openAccount();
+                openCurrency();
                 break;
             case 2:
-                openCurrency();
+                openAccount();
                 break;
             case 3:
                 checkAccountCorrection();
@@ -246,6 +231,28 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
 
     @Override
     public void openAccount() {
+        if (databaseManager.getAccounts().isEmpty()) {
+            Account account1 = new Account();
+            account1.setName(context.getString(R.string.till));
+            account1.setStaticAccountType(Account.CASH_ACCOUNT);
+            databaseManager.addAccount(account1).blockingSingle();
+            Account account = new Account();
+            account.setName("DebtAccount");
+            account.setStaticAccountType(Account.DEBT_ACCOUNT);
+            account.setIsVisible(false);
+            databaseManager.addAccount(account).blockingSingle();
+            PaymentType paymentType = new PaymentType();
+            paymentType.setAccount(account);
+            paymentType.setName("ToDebt");
+            paymentType.setCurrency(databaseManager.getMainCurrency());
+            paymentType.setIsVisible(false);
+            databaseManager.addPaymentType(paymentType).blockingSingle();
+            PaymentType cashPaymentType = new PaymentType();
+            cashPaymentType.setAccount(account1);
+            cashPaymentType.setName(context.getString(R.string.cash));
+            cashPaymentType.setCurrency(databaseManager.getMainCurrency());
+            databaseManager.addPaymentType(cashPaymentType).blockingSingle();
+        }
         CompletionMode mode = CompletionMode.NEXT;
         if (isLast(ACCOUNT_KEY))
             mode = CompletionMode.FINISH;
@@ -397,6 +404,8 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
             List<Currency> resCurrencies = getCurrencies();
             if (!resCurrencies.isEmpty()) {
                 currency = resCurrencies.get(0);
+                currency.setMain(true);
+                currency.setActive(true);
             }
         } else {
             List<Currency> dbCurrencies = getDbCurrencies();
@@ -412,8 +421,7 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
                 currency.setAbbr(abbr);
             }
         }
-        databaseManager.addCurrency(currency).subscribe(id -> Log.d("sss", "createCurrency: " + id));
-    }
+        databaseManager.addCurrency(currency).blockingSingle();}
 
     @Override
     public String getCurrencyName() {

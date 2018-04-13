@@ -77,7 +77,7 @@ public class VendorProductsViewPresenterImpl extends BasePresenterImpl<VendorPro
     public List<ProductState> getProductStates() {
         inventoryStates = databaseManager.getInventoryStatesByVendorId(vendorId).blockingSingle();
         productStateList.clear();
-        for (InventoryState inventoryState: inventoryStates){
+        for (InventoryState inventoryState : inventoryStates) {
             Product product = databaseManager.getProductByRootId(inventoryState.getProduct().getRootId()).blockingGet();
             ProductState productState = new ProductState();
             productState.setProduct(product);
@@ -155,18 +155,19 @@ public class VendorProductsViewPresenterImpl extends BasePresenterImpl<VendorPro
     }
 
     @Override
-    public void insertNewWarehouseOperation(ProductState inventory, double shortage) {
+    public void insertNewWarehouseOperation(ProductState inventory, double shortage, String reason) {
         WarehouseOperations warehouseOperations = new WarehouseOperations();
         warehouseOperations.setProduct(inventory.getProduct());
         warehouseOperations.setVendor(this.vendor);
         warehouseOperations.setCreateAt(System.currentTimeMillis());
         if (shortage > 0)
-            warehouseOperations.setValue(WarehouseOperations.VOID_INCOME);
-        else warehouseOperations.setValue(WarehouseOperations.WASTE);
+            warehouseOperations.setType(WarehouseOperations.VOID_INCOME);
+        else warehouseOperations.setType(WarehouseOperations.WASTE);
         warehouseOperations.setValue(shortage);
+        warehouseOperations.setDescription(reason);
         databaseManager.insertWarehouseOperation(warehouseOperations).subscribe((aLong, throwable) -> {
-           updateInventoryItems();
-           view.sendEvent(GlobalEventConstants.UPDATE);
+            updateInventoryItems();
+            view.sendEvent(GlobalEventConstants.UPDATE);
         });
     }
 
@@ -196,7 +197,7 @@ public class VendorProductsViewPresenterImpl extends BasePresenterImpl<VendorPro
     public void updateInventoryItems() {
         inventoryStates = databaseManager.getInventoryStatesByVendorId(vendorId).blockingSingle();
         productStateList.clear();
-        for (InventoryState inventoryState: inventoryStates){
+        for (InventoryState inventoryState : inventoryStates) {
             Product product = databaseManager.getProductByRootId(inventoryState.getProduct().getId()).blockingGet();
             ProductState productState = new ProductState();
             productState.setProduct(product);

@@ -7,6 +7,7 @@ import com.jim.mpviews.ReportView;
 import com.jim.mpviews.utils.ReportViewConstants;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseTableReportFragment;
+import com.jim.multipos.ui.reports.debts.dialogs.DebtFilterDialog;
 
 import javax.inject.Inject;
 
@@ -20,13 +21,13 @@ public class DebtsReportFragment extends BaseTableReportFragment implements Debt
     private int firstWeights[] = {1, 1, 1, 1, 1};
     private int firstAligns[] = {Gravity.LEFT, Gravity.RIGHT, Gravity.RIGHT, Gravity.CENTER, Gravity.LEFT};
     private int secondDataType[] = {ReportViewConstants.NAME, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.QUANTITY, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT};
-    private int secondWeights[] = {1, 1, 1, 1, 1, 1};
+    private int secondWeights[] = {10, 10, 10, 10, 10, 10};
     private int secondAligns[] = {Gravity.LEFT, Gravity.RIGHT, Gravity.RIGHT, Gravity.CENTER, Gravity.RIGHT, Gravity.RIGHT};
     private int thirdDataType[] = {ReportViewConstants.NAME, ReportViewConstants.DATE, ReportViewConstants.NAME, ReportViewConstants.STATUS, ReportViewConstants.AMOUNT, ReportViewConstants.NAME, ReportViewConstants.NAME};
-    private int thirdWeights[] = {1, 1, 1, 1, 1, 1, 1};
+    private int thirdWeights[] = {10, 10, 5, 5, 10, 10, 10};
     private int thirdAligns[] = {Gravity.LEFT, Gravity.CENTER, Gravity.CENTER, Gravity.CENTER, Gravity.RIGHT, Gravity.LEFT, Gravity.LEFT};
     private int forthDataType[] = {ReportViewConstants.NAME, ReportViewConstants.DATE, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.DATE, ReportViewConstants.AMOUNT, ReportViewConstants.NAME, ReportViewConstants.DATE};
-    private int forthWeights[] = {1, 1, 1, 1, 1, 1, 1, 1};
+    private int forthWeights[] = {5, 10, 10, 10, 10, 10, 10, 10};
     private int forthAligns[] = {Gravity.CENTER, Gravity.CENTER, Gravity.RIGHT, Gravity.RIGHT, Gravity.CENTER, Gravity.RIGHT, Gravity.LEFT, Gravity.CENTER};
 
     @Override
@@ -146,5 +147,14 @@ public class DebtsReportFragment extends BaseTableReportFragment implements Debt
                 enableDateIntervalPicker();
                 break;
         }
+    }
+
+    @Override
+    public void showFilterDialog(int[] filterConfig) {
+        DebtFilterDialog dialog = new DebtFilterDialog(getContext(), filterConfig, config -> {
+            presenter.filterConfigsHaveChanged(config);
+            clearSearch();
+        });
+        dialog.show();
     }
 }

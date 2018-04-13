@@ -130,7 +130,7 @@ public class AccountFragment extends BaseFragment implements ChangeableContent {
                 accountName.setText("");
                 break;
             case R.id.btnRevert:
-                ((FirstConfigureActivity) getContext()).getPresenter().openPOSDetails();
+                ((FirstConfigureActivity) getContext()).getPresenter().openCurrency();
                 break;
             case R.id.btnNext:
                 if (hasAnyAccount()) {
@@ -138,7 +138,7 @@ public class AccountFragment extends BaseFragment implements ChangeableContent {
                         warning.setVisibility(View.GONE);
                         FirstConfigureActivity activity = (FirstConfigureActivity) getContext();
                         activity.getPresenter().setCompletedForFragment(getClass().getName(), true);
-                        activity.getPresenter().openCurrency();
+                        activity.getPresenter().openPaymentType();
                         activity.changeState(FirstConfigurePresenter.ACCOUNT_POSITION, MpCompletedStateView.COMPLETED_STATE);
                     } else {
                         ((FirstConfigureActivity) getContext()).getPreferencesHelper().setAppRunFirstTimeValue(false);

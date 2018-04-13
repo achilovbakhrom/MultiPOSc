@@ -31,4 +31,6 @@ public interface OrderOperations {
     Single<List<Order>> getAllTillClosedOrders();
     Single<List<Order>> getOrdersInIntervalForReport(Calendar fromDate,Calendar toDate);
     Single<List<Order>> getClosedOrdersInIntervalForReport(Calendar fromDate,Calendar toDate);
+    Single<Order> getLastOrderWithCustomer(Long customerId);
+    Single<List<Order>> getOrdersWithCustomerInInterval(Long id, Calendar fromDate, Calendar toDate);
 }

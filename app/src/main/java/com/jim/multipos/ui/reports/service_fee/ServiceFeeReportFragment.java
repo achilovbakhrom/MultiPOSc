@@ -147,8 +147,8 @@ public class ServiceFeeReportFragment extends BaseTableReportFragment implements
             ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.AMOUNT,
             ReportViewConstants.NAME, ReportViewConstants.AMOUNT,
             ReportViewConstants.DATE, ReportViewConstants.NAME, ReportViewConstants.STATUS};
-    private int secondWeights[] = {15, 15, 20, 15, 20, 20, 30, 15};
-    private int secondAligns[] = new int[]{Gravity.LEFT, Gravity.LEFT, Gravity.RIGHT, Gravity.LEFT, Gravity.RIGHT, Gravity.CENTER, Gravity.LEFT, Gravity.CENTER};
+    private int secondWeights[] = {10, 10, 20, 20, 20, 20, 30, 10};
+    private int secondAligns[] = new int[]{Gravity.CENTER, Gravity.CENTER, Gravity.RIGHT, Gravity.LEFT, Gravity.RIGHT, Gravity.CENTER, Gravity.LEFT, Gravity.CENTER};
     private int dataType[] = {
             ReportViewConstants.DATE, ReportViewConstants.STATUS, ReportViewConstants.NAME,
             ReportViewConstants.AMOUNT, ReportViewConstants.STATUS, ReportViewConstants.STATUS,

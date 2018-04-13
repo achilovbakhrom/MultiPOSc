@@ -154,7 +154,7 @@ public class POSDetailsFragment extends BaseFragment implements ChangeableConten
                                 address.getText().toString(),
                                 password.getText().toString());
                         activity.getPresenter().setCompletedForFragment(getClass().getName(), true);
-                        activity.getPresenter().openAccount();
+                        activity.getPresenter().openCurrency();
                         activity.changeState(FirstConfigurePresenter.POS_DETAILS_POSITION,
                                 MpCompletedStateView.COMPLETED_STATE);
                     } else {

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/three_hundred_dp"
+    android:layout_height="@dimen/five_hundred_dp"
+    android:background="@drawable/filter_frame"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/ten_dp"
+        android:layout_marginLeft="@dimen/sixteen_dp"
+        android:layout_marginRight="@dimen/sixteen_dp"
+        android:layout_marginTop="@dimen/ten_dp"
+        android:text="@string/inclusions"
+        android:textColor="#212121"
+        android:textSize="@dimen/sixteen_dp" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="#e4e4e4" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <com.jim.mpviews.MpCheckbox
+            android:id="@+id/chbCanceledOrder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/eighteen_dp"
+            android:layout_marginRight="@dimen/eighteen_dp"
+            android:layout_marginTop="@dimen/ten_dp"
+            app:chb_type="2"
+            app:checked="true"
+            app:text="@string/canceled_order" />
+
+        <com.jim.mpviews.MpCheckbox
+            android:id="@+id/chbConsignmentCanceled"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/eighteen_dp"
+            android:layout_marginRight="@dimen/eighteen_dp"
+            android:layout_marginTop="@dimen/ten_dp"
+            app:chb_type="2"
+            app:checked="true"
+            app:text="@string/consignment_canceled" />
+
+        <com.jim.mpviews.MpCheckbox
+            android:id="@+id/chbIncomeFromVendor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/eighteen_dp"
+            android:layout_marginRight="@dimen/eighteen_dp"
+            android:layout_marginTop="@dimen/ten_dp"
+            app:chb_type="2"
+            app:checked="true"
+            app:text="@string/income_from_vendor" />
+
+        <com.jim.mpviews.MpCheckbox
+            android:id="@+id/chbReturnHold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/eighteen_dp"
+            android:layout_marginRight="@dimen/eighteen_dp"
+            android:layout_marginTop="@dimen/ten_dp"
+            app:chb_type="2"
+            app:checked="true"
+            app:text="@string/held_product_return" />
+
+        <com.jim.mpviews.MpCheckbox
+            android:id="@+id/chbReturnFromCustomer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/eighteen_dp"
+            android:layout_marginRight="@dimen/eighteen_dp"
+            android:layout_marginTop="@dimen/ten_dp"
+            app:chb_type="2"
+            app:checked="true"
+            app:text="@string/return_from_customer" />
+
+        <com.jim.mpviews.MpCheckbox
+            android:id="@+id/chbReturnToVendor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/eighteen_dp"
+            android:layout_marginRight="@dimen/eighteen_dp"
+            android:layout_marginTop="@dimen/ten_dp"
+            app:chb_type="2"
+            app:checked="true"
+            app:text="@string/return_to_vendor" />
+
+        <com.jim.mpviews.MpCheckbox
+            android:id="@+id/chbSold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/eighteen_dp"
+            android:layout_marginRight="@dimen/eighteen_dp"
+            android:layout_marginTop="@dimen/ten_dp"
+            app:chb_type="2"
+            app:checked="true"
+            app:text="@string/sold" />
+
+        <com.jim.mpviews.MpCheckbox
+            android:id="@+id/chbVoidIncome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/eighteen_dp"
+            android:layout_marginRight="@dimen/eighteen_dp"
+            android:layout_marginTop="@dimen/ten_dp"
+            app:chb_type="2"
+            app:checked="true"
+            app:text="@string/void_income" />
+
+        <com.jim.mpviews.MpCheckbox
+            android:id="@+id/chbWaste"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/eighteen_dp"
+            android:layout_marginRight="@dimen/eighteen_dp"
+            android:layout_marginTop="@dimen/ten_dp"
+            app:chb_type="2"
+            app:checked="true"
+            app:text="@string/wasted" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="#e4e4e4" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <com.jim.mpviews.MpButton
+            android:id="@+id/btnCancel"
+            android:layout_width="@dimen/hundred_twenty_dp"
+            android:layout_height="@dimen/fifty_dp"
+            android:layout_marginBottom="@dimen/ten_dp"
+            android:layout_marginTop="@dimen/five_dp"
+            android:text="@string/cancel"
+            android:textColor="#acacac" />
+
+        <com.jim.mpviews.MpButton
+            android:id="@+id/btnApply"
+            android:layout_width="@dimen/hundred_twenty_dp"
+            android:layout_height="@dimen/fifty_dp"
+            android:layout_marginBottom="@dimen/ten_dp"
+            android:layout_marginTop="@dimen/five_dp"
+            android:text="@string/apply"
+            android:textColor="#419fd9" />
+    </LinearLayout>
+
+
+</LinearLayout>

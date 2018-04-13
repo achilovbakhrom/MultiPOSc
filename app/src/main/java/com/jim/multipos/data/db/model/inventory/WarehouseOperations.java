@@ -49,6 +49,7 @@ import com.jim.multipos.data.db.model.order.OrderDao;
     private boolean isDeleted = false;
     private boolean isNotModified = true;
     private Long rootId;
+    private String description = "";
     //if it is Sale
     private Long orderId;
     @ToOne(joinProperty = "orderId")
@@ -296,10 +297,16 @@ import com.jim.multipos.data.db.model.order.OrderDao;
     public void setOrderId(Long orderId) {
         this.orderId = orderId;
     }
-    @Generated(hash = 2141555472)
+    public String getDescription() {
+        return this.description;
+    }
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    @Generated(hash = 1126970697)
     public WarehouseOperations(Long id, Long productId, Long vendorId, double value,
             int type, Long createAt, boolean isActive, boolean isDeleted,
-            boolean isNotModified, Long rootId, Long orderId) {
+            boolean isNotModified, Long rootId, String description, Long orderId) {
         this.id = id;
         this.productId = productId;
         this.vendorId = vendorId;
@@ -310,6 +317,7 @@ import com.jim.multipos.data.db.model.order.OrderDao;
         this.isDeleted = isDeleted;
         this.isNotModified = isNotModified;
         this.rootId = rootId;
+        this.description = description;
         this.orderId = orderId;
     }
     @Generated(hash = 266239327)

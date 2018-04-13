@@ -19,8 +19,8 @@ import io.reactivex.Observable;
 public interface FirstConfigurePresenter extends Presenter {
 
     public static final int POS_DETAILS_POSITION = 0;
-    public static final int ACCOUNT_POSITION = 1;
-    public static final int CURRENCY_POSITION = 2;
+    public static final int ACCOUNT_POSITION = 2;
+    public static final int CURRENCY_POSITION = 1;
     public static final int PAYMENT_TYPE_POSITION = 3;
     public static final int UNITS_POSITION = 4;
 

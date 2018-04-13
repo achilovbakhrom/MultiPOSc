@@ -23,6 +23,7 @@ public class PaymentType {
 
     public static final int DEBT_PAYMENT_TYPE = 7;
     public static final int CUSTOM_PAYMENT_TYPE = 0;
+    public static final int CASH_PAYMENT_TYPE = 1;
 
     @Id(autoincrement = true)
     private Long id;

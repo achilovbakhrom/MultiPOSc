@@ -84,6 +84,9 @@ public abstract class BaseTableReportFragment extends BaseFragment {
     public void disableSearch(){
         llSearch.setVisibility(View.GONE);
     }
+    public void enableSearch(){
+        llSearch.setVisibility(View.VISIBLE);
+    }
     public void disableFilter(){
         llFilter.setVisibility(View.GONE);
     }

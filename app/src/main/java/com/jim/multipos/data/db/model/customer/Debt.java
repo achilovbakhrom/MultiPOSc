@@ -32,6 +32,7 @@ public class Debt {
     private Long id;
     private long takenDate;
     private long endDate;
+    private long closedDate;
     private Long customerId;
     @ToOne(joinProperty = "customerId")
     private Customer customer;
@@ -251,6 +252,14 @@ public class Debt {
     public void setIsDeleted(boolean isDeleted) {
         this.isDeleted = isDeleted;
     }
+
+    public long getClosedDate() {
+        return this.closedDate;
+    }
+
+    public void setClosedDate(long closedDate) {
+        this.closedDate = closedDate;
+    }
     @Keep
     public Debt(Long id, long takenDate, long endDate, Long customerId,
             Long orderId, int debtType, double fee, double debtAmount, int status) {
@@ -267,12 +276,13 @@ public class Debt {
     @Generated(hash = 488411483)
     public Debt() {
     }
-    @Generated(hash = 718958123)
-    public Debt(Long id, long takenDate, long endDate, Long customerId, Long orderId, int debtType,
-            double fee, double debtAmount, int status, boolean isDeleted) {
+    @Generated(hash = 938902609)
+    public Debt(Long id, long takenDate, long endDate, long closedDate, Long customerId, Long orderId,
+            int debtType, double fee, double debtAmount, int status, boolean isDeleted) {
         this.id = id;
         this.takenDate = takenDate;
         this.endDate = endDate;
+        this.closedDate = closedDate;
         this.customerId = customerId;
         this.orderId = orderId;
         this.debtType = debtType;

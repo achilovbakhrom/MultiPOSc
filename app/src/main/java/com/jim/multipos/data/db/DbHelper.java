@@ -290,4 +290,9 @@ public interface DbHelper {
     Single<ServiceFeeLog> insertServiceFeeLog(ServiceFeeLog serviceFeeLog);
     Single<List<DiscountLog>> getDiscountLogs();
     Single<List<ServiceFeeLog>> getServiceFeeLogs();
+    Single<Order> getLastOrderWithCustomer(Long customerId);
+    Single<List<Debt>> getAllCustomerDebtsInInterval(Calendar fromDate, Calendar toDate);
+    Single<List<Order>> getOrdersWithCustomerInInterval(Long id, Calendar fromDate, Calendar toDate);
+    Single<List<WarehouseOperations>> getWarehouseOperationsInInterval(Calendar fromDate, Calendar toDate);
+    Single<Long> getConsignmentByWarehouseId(Long warehouseId);
 }

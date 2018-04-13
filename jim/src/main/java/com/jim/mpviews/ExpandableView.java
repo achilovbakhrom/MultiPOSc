@@ -51,7 +51,7 @@ public class ExpandableView extends LinearLayout {
             colParams.weight = weight[i];
             col.setGravity(align == null ? Gravity.CENTER : align[i] | Gravity.CENTER_VERTICAL);
             col.setLayoutParams(colParams);
-            col.setPadding(0,10,0,10);
+            col.setPadding(0, 10, 0, 10);
             row.addView(col);
 
             TextView textView = new TextView(context);

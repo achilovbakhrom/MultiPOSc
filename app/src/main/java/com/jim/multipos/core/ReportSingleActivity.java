@@ -8,9 +8,11 @@ import android.support.v7.widget.RecyclerView;
 
 import com.jim.multipos.R;
 import com.jim.multipos.ui.reports.adapter.ReportPickerAdapter;
+import com.jim.multipos.ui.reports.customers.CustomerReportFragment;
 import com.jim.multipos.ui.reports.debts.DebtsReportFragment;
 import com.jim.multipos.ui.reports.discount.DiscountReportFragment;
 import com.jim.multipos.ui.reports.hourly_sales.HourlySalesReportFragment;
+import com.jim.multipos.ui.reports.inventory.InventoryReportFragment;
 import com.jim.multipos.ui.reports.order_history.OrderHistoryFragment;
 import com.jim.multipos.ui.reports.product_profit.ProductProfitFragment;
 import com.jim.multipos.ui.reports.sales.SalesReportFragment;
@@ -33,7 +35,7 @@ public abstract class ReportSingleActivity extends BaseActivity {
     RecyclerView tvReportsPicker;
     ReportPickerAdapter reportPickerAdapter;
     List<String> reportNames;
-    String [] reportsFragmentsTags= {SalesReportFragment.class.getName(),TillsReportFragment.class.getName(),OrderHistoryFragment.class.getName(), DiscountReportFragment.class.getName(), ServiceFeeReportFragment.class.getName(), HourlySalesReportFragment.class.getName(),
+    String [] reportsFragmentsTags= {InventoryReportFragment.class.getName(), CustomerReportFragment.class.getName(), SalesReportFragment.class.getName(),TillsReportFragment.class.getName(),OrderHistoryFragment.class.getName(), DiscountReportFragment.class.getName(), ServiceFeeReportFragment.class.getName(), HourlySalesReportFragment.class.getName(),
      DebtsReportFragment.class.getName()};
    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -204,6 +206,28 @@ public abstract class ReportSingleActivity extends BaseActivity {
             addFragmentWithTagStatic(R.id.flMain, debtsReportFragment, DebtsReportFragment.class.getName());
         }else {
             getSupportFragmentManager().beginTransaction().show(debtsReportFragment).commit();
+        }
+    }
+
+    public void showCustomersReportFragment(/*extra*/){
+        hideAll();
+        CustomerReportFragment customerReportFragment = (CustomerReportFragment) getSupportFragmentManager().findFragmentByTag(CustomerReportFragment.class.getName());
+        if ( customerReportFragment == null){
+            customerReportFragment = new CustomerReportFragment();
+            addFragmentWithTagStatic(R.id.flMain, customerReportFragment, CustomerReportFragment.class.getName());
+        }else {
+            getSupportFragmentManager().beginTransaction().show(customerReportFragment).commit();
+        }
+    }
+
+    public void showinventoryReportFragment(/*extra*/){
+        hideAll();
+        InventoryReportFragment inventoryReportFragment = (InventoryReportFragment) getSupportFragmentManager().findFragmentByTag(InventoryReportFragment.class.getName());
+        if ( inventoryReportFragment == null){
+            inventoryReportFragment = new InventoryReportFragment();
+            addFragmentWithTagStatic(R.id.flMain, inventoryReportFragment, InventoryReportFragment.class.getName());
+        }else {
+            getSupportFragmentManager().beginTransaction().show(inventoryReportFragment).commit();
         }
     }
 

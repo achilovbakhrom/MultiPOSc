@@ -52,12 +52,12 @@ public class ReportsActivity extends ReportSingleActivity implements ReportsActi
 
     @Override
     public void openInventoryFragmentAction() {
-
+        showinventoryReportFragment();
     }
 
     @Override
     public void openCustomersFragmentAction() {
-
+        showCustomersReportFragment();
     }
 
     @Override

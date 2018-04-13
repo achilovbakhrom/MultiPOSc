@@ -71,7 +71,7 @@ public class CurrencyFragment extends BaseFragment implements ChangeableContent 
                     if (mode == CompletionMode.NEXT) {
                         FirstConfigureActivity activity = (FirstConfigureActivity) getContext();
                         activity.getPresenter().setCompletedForFragment(getClass().getName(), true);
-                        activity.getPresenter().openPaymentType();
+                        activity.getPresenter().openAccount();
                         activity.changeState(FirstConfigurePresenter.CURRENCY_POSITION, MpCompletedStateView.COMPLETED_STATE);
                     } else {
                         ((FirstConfigureActivity) getContext()).getPreferencesHelper().setAppRunFirstTimeValue(false);
@@ -83,7 +83,7 @@ public class CurrencyFragment extends BaseFragment implements ChangeableContent 
                 }
                 break;
             case R.id.btnRevert:
-                ((FirstConfigureActivity) getContext()).getPresenter().openAccount();
+                ((FirstConfigureActivity) getContext()).getPresenter().openPOSDetails();
                 break;
         }
     }

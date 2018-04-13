@@ -23,6 +23,7 @@ import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
 import com.jim.multipos.utils.rxevents.till_management_events.TillEvent;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -133,8 +134,8 @@ public class CashLogFragment extends BaseFragment implements CashLogView {
 
     @Override
     public void setTillOpenDateTime(Long date) {
-        tvOpenedDate.setText(dateFormat.format(date));
-        tvOpenedTime.setText(timeFormat.format(date));
+        tvOpenedDate.setText(dateFormat.format(new Date(date)));
+        tvOpenedTime.setText(timeFormat.format(new Date(date)));
     }
 
     @Override
@@ -149,8 +150,8 @@ public class CashLogFragment extends BaseFragment implements CashLogView {
 
     @Override
     public void setTillClosedDateTime(Long closeDate) {
-        tvClosedDate.setText(dateFormat.format(closeDate));
-        tvClosedTime.setText(timeFormat.format(closeDate));
+        tvClosedDate.setText(dateFormat.format(new Date(closeDate)));
+        tvClosedTime.setText(timeFormat.format(new Date(closeDate)));
     }
 
     @Override

@@ -549,6 +549,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
+    public Single<List<Debt>> getAllCustomerDebtsInInterval(Calendar fromDate, Calendar toDate) {
+        return dbHelper.getAllCustomerDebtsInInterval(fromDate, toDate);
+    }
+
+    @Override
     public Single<List<ProductClass>> getAllProductClass() {
         return dbHelper.getAllProductClass();
     }
@@ -858,6 +863,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
+    public Single<Long> getConsignmentByWarehouseId(Long warehouseId) {
+        return dbHelper.getConsignmentByWarehouseId(warehouseId);
+    }
+
+    @Override
     public Single<List<InventoryItem>> getInventoryItems() {
         return dbHelper.getInventoryItems().map(inventoryItems -> {
             Collections.sort(inventoryItems, (inventoryItem, t1) -> inventoryItem.getProduct().getCreatedDate().compareTo(t1.getProduct().getCreatedDate()));
@@ -883,6 +893,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Single<HistoryInventoryState> insertHistoryInventoryState(HistoryInventoryState state) {
         return dbHelper.insertHistoryInventoryState(state);
+    }
+
+    @Override
+    public Single<List<WarehouseOperations>> getWarehouseOperationsInInterval(Calendar fromDate, Calendar toDate) {
+        return dbHelper.getWarehouseOperationsInInterval(fromDate, toDate);
     }
 
     @Override
@@ -1075,6 +1090,16 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Single<List<Order>> getClosedOrdersInIntervalForReport(Calendar fromDate, Calendar toDate) {
         return dbHelper.getClosedOrdersInIntervalForReport(fromDate, toDate);
+    }
+
+    @Override
+    public Single<Order> getLastOrderWithCustomer(Long customerId) {
+        return dbHelper.getLastOrderWithCustomer(customerId);
+    }
+
+    @Override
+    public Single<List<Order>> getOrdersWithCustomerInInterval(Long id, Calendar fromDate, Calendar toDate) {
+        return dbHelper.getOrdersWithCustomerInInterval(id, fromDate, toDate);
     }
 
     @Override

@@ -254,7 +254,7 @@ public class ServiceFeeFeeReportPresenterImpl extends BasePresenterImpl<ServiceF
                             if (searchRes[i] == 1)
                                 sumSize++;
                         }
-                        Object[][] objectResults = new Object[sumSize][6];
+                        Object[][] objectResults = new Object[sumSize][9];
 
                         int pt = 0;
                         for (int i = 0; i < firstObjects.length; i++) {
@@ -319,7 +319,7 @@ public class ServiceFeeFeeReportPresenterImpl extends BasePresenterImpl<ServiceF
                             if (searchRes[i] == 1)
                                 sumSize++;
                         }
-                        Object[][] objectResults = new Object[sumSize][6];
+                        Object[][] objectResults = new Object[sumSize][9];
 
                         int pt = 0;
                         for (int i = 0; i < searchResultsTemp.length; i++) {
@@ -403,7 +403,7 @@ public class ServiceFeeFeeReportPresenterImpl extends BasePresenterImpl<ServiceF
                             if (searchRes[i] == 1)
                                 sumSize++;
                         }
-                        Object[][] objectResults = new Object[sumSize][6];
+                        Object[][] objectResults = new Object[sumSize][7];
 
                         int pt = 0;
                         for (int i = 0; i < thirdObjects.length; i++) {
@@ -484,7 +484,7 @@ public class ServiceFeeFeeReportPresenterImpl extends BasePresenterImpl<ServiceF
                             if (searchRes[i] == 1)
                                 sumSize++;
                         }
-                        Object[][] objectResults = new Object[sumSize][6];
+                        Object[][] objectResults = new Object[sumSize][7];
 
                         int pt = 0;
                         for (int i = 0; i < searchResultsTemp.length; i++) {
@@ -549,7 +549,7 @@ public class ServiceFeeFeeReportPresenterImpl extends BasePresenterImpl<ServiceF
                             if (searchRes[i] == 1)
                                 sumSize++;
                         }
-                        Object[][] objectResults = new Object[sumSize][6];
+                        Object[][] objectResults = new Object[sumSize][8];
 
                         int pt = 0;
                         for (int i = 0; i < secondObjects.length; i++) {
@@ -611,7 +611,7 @@ public class ServiceFeeFeeReportPresenterImpl extends BasePresenterImpl<ServiceF
                             if (searchRes[i] == 1)
                                 sumSize++;
                         }
-                        Object[][] objectResults = new Object[sumSize][6];
+                        Object[][] objectResults = new Object[sumSize][8];
 
                         int pt = 0;
                         for (int i = 0; i < searchResultsTemp.length; i++) {

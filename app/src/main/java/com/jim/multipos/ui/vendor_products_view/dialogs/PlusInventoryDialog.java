@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.multipos.R;
-import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.vendor_products_view.VendorProductsViewActivity;
 import com.jim.multipos.ui.vendor_products_view.model.ProductState;
@@ -29,7 +28,7 @@ import static com.jim.multipos.ui.vendor_products_view.fragments.VendorDetailsLi
 
 public class PlusInventoryDialog extends DialogFragment {
     public interface PlusInventoryDialogListener {
-        void updateInventory(ProductState inventory, double shortage);
+        void updateInventory(ProductState inventory, double shortage, String reason);
     }
 
     @BindView(R.id.tvProductName)
@@ -98,7 +97,7 @@ public class PlusInventoryDialog extends DialogFragment {
                 etReason.setError(getContext().getString(R.string.cannot_be_empty));
             } else {
                 shortage = Double.parseDouble(etShortage.getText().toString());
-                listener.updateInventory(inventory ,shortage);
+                listener.updateInventory(inventory ,shortage, etReason.getText().toString());
                 dismiss();
             }
         });

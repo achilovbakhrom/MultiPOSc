@@ -60,7 +60,6 @@ import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.OrderChangesLog;
 import com.jim.multipos.data.db.model.order.OrderDao;
 import com.jim.multipos.data.db.model.order.OrderProduct;
-import com.jim.multipos.data.db.model.order.OrderProductDao;
 import com.jim.multipos.data.db.model.order.PayedPartitions;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.CategoryDao;
@@ -79,12 +78,10 @@ import com.jim.multipos.data.db.model.till.TillManagementOperation;
 import com.jim.multipos.data.db.model.till.TillDetails;
 import com.jim.multipos.data.db.model.till.TillManagementOperationDao;
 import com.jim.multipos.data.db.model.till.TillOperation;
-import com.jim.multipos.data.db.model.till.TillOperationDao;
 import com.jim.multipos.data.db.model.unit.SubUnitsList;
 import com.jim.multipos.data.db.model.unit.Unit;
 import com.jim.multipos.data.db.model.unit.UnitCategory;
 import com.jim.multipos.data.db.model.unit.UnitDao;
-import com.jim.multipos.data.operations.PayedPartitionOperations;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
 import com.jim.multipos.ui.vendor_item_managment.model.VendorWithDebt;
 
@@ -93,7 +90,6 @@ import org.greenrobot.greendao.query.LazyList;
 import org.greenrobot.greendao.query.Query;
 import org.greenrobot.greendao.query.QueryBuilder;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -610,7 +606,7 @@ public class AppDbHelper implements DbHelper {
     public Single<Discount> insertDiscount(Discount discount) {
         return Single.create(singleSubscriber -> {
             try {
-               mDaoSession.getDiscountDao().insertOrReplace(discount);
+                mDaoSession.getDiscountDao().insertOrReplace(discount);
                 singleSubscriber.onSuccess(discount);
             } catch (Exception o) {
                 singleSubscriber.onError(o);
@@ -1566,15 +1562,15 @@ public class AppDbHelper implements DbHelper {
                 .where(CurrencyDao.Properties.IsMain.eq(true))
                 .build().list();
         //TODO FAKE
-//        if(currencies.get(0) == null){
-        Currency currency = new Currency();
-        currency.setAbbr("uzs");
-        currency.setIsMain(true);
-        currency.setActive(true);
-        currency.setName("Uzb");
-        return currency;
-//        }
-//        return currencies.get(0);
+        if(currencies.get(0) == null){
+            Currency currency = new Currency();
+            currency.setAbbr("uzs");
+            currency.setIsMain(true);
+            currency.setActive(true);
+            currency.setName("Uzb");
+            return currency;
+        }
+            return currencies.get(0);
     }
 
     @Override
@@ -1981,7 +1977,7 @@ public class AppDbHelper implements DbHelper {
     public Single<Double> getBillingOperationsAmountInInterval(Long accountId, Calendar fromDate, Calendar toDate) {
         return Single.create(e -> {
             String query = "SELECT SUM(AMOUNT) AS TOTAL FROM BILLING_OPERATION " +
-                    "WHERE ACCOUNT_ID IS NOT NULL AND ACCOUNT_ID = " + accountId + " AND IS_NOT_MODIFIED = " +  1 + " AND IS_DELETED = " + 0 + " AND PAYMENT_DATE BETWEEN " + fromDate.getTimeInMillis() + " AND " + toDate.getTimeInMillis();
+                    "WHERE ACCOUNT_ID IS NOT NULL AND ACCOUNT_ID = " + accountId + " AND IS_NOT_MODIFIED = " + 1 + " AND IS_DELETED = " + 0 + " AND PAYMENT_DATE BETWEEN " + fromDate.getTimeInMillis() + " AND " + toDate.getTimeInMillis();
             Cursor cursor = mDaoSession.getDatabase().rawQuery(query, null);
             cursor.moveToFirst();
             double operationAmount = 0;
@@ -2238,14 +2234,16 @@ public class AppDbHelper implements DbHelper {
     public Single<DiscountLog> insertDiscountLog(DiscountLog discountLog) {
         return Single.create(e -> {
             mDaoSession.getDiscountLogDao().insertOrReplace(discountLog);
-            e.onSuccess(discountLog);});
+            e.onSuccess(discountLog);
+        });
     }
 
     @Override
     public Single<ServiceFeeLog> insertServiceFeeLog(ServiceFeeLog serviceFeeLog) {
         return Single.create(e -> {
             mDaoSession.getServiceFeeLogDao().insertOrReplace(serviceFeeLog);
-            e.onSuccess(serviceFeeLog);});
+            e.onSuccess(serviceFeeLog);
+        });
     }
 
     @Override
@@ -2259,6 +2257,64 @@ public class AppDbHelper implements DbHelper {
     public Single<List<ServiceFeeLog>> getServiceFeeLogs() {
         return Single.create(e -> {
             e.onSuccess(mDaoSession.getServiceFeeLogDao().loadAll());
+        });
+    }
+
+    @Override
+    public Single<Order> getLastOrderWithCustomer(Long customerId) {
+        return Single.create(e -> {
+            List<Order> orders = mDaoSession.getOrderDao().queryBuilder()
+                    .where(OrderDao.Properties.Customer_id.eq(customerId), OrderDao.Properties.Status.eq(Order.CLOSED_ORDER))
+                    .build()
+                    .list();
+            e.onSuccess(orders.get(orders.size() - 1));
+        });
+    }
+
+    @Override
+    public Single<List<Debt>> getAllCustomerDebtsInInterval(Calendar fromDate, Calendar toDate) {
+        return Single.create(e -> {
+            List<Debt> debts = mDaoSession.getDebtDao().queryBuilder()
+                    .where(DebtDao.Properties.TakenDate.ge(fromDate.getTimeInMillis()),
+                            DebtDao.Properties.TakenDate.le(toDate.getTimeInMillis()))
+                    .build().list();
+            e.onSuccess(debts);
+        });
+    }
+
+    @Override
+    public Single<List<Order>> getOrdersWithCustomerInInterval(Long id, Calendar fromDate, Calendar toDate) {
+        return Single.create(e -> {
+            List<Order> orders = mDaoSession.getOrderDao().queryBuilder()
+                    .where(OrderDao.Properties.Customer_id.eq(id),
+                            OrderDao.Properties.CreateAt.ge(fromDate.getTimeInMillis()),
+                            OrderDao.Properties.CreateAt.le(toDate.getTimeInMillis()))
+                    .build()
+                    .list();
+            e.onSuccess(orders);
+        });
+    }
+
+    @Override
+    public Single<List<WarehouseOperations>> getWarehouseOperationsInInterval(Calendar fromDate, Calendar toDate) {
+        return Single.create(e -> {
+            List<WarehouseOperations> warehouseOperations = mDaoSession.getWarehouseOperationsDao().queryBuilder()
+                    .where(WarehouseOperationsDao.Properties.CreateAt.ge(fromDate.getTimeInMillis()),
+                            WarehouseOperationsDao.Properties.CreateAt.le(toDate.getTimeInMillis()))
+                    .build().list();
+            e.onSuccess(warehouseOperations);
+        });
+    }
+
+    @Override
+    public Single<Long> getConsignmentByWarehouseId(Long warehouseId) {
+        return Single.create(e -> {
+            List<ConsignmentProduct> consignmentProducts = mDaoSession.getConsignmentProductDao().queryBuilder()
+                    .where(ConsignmentProductDao.Properties.WarehouseId.eq(warehouseId))
+                    .build().list();
+            if (consignmentProducts.size() > 0) {
+                e.onSuccess(consignmentProducts.get(0).getConsignmentId());
+            } else e.onSuccess(-1L);
         });
     }
 
