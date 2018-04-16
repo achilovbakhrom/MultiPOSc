@@ -339,6 +339,11 @@ public class ProductProfitPresenterImpl extends BasePresenterImpl<ProductProfitV
         }
     }
 
+    @Override
+    public void onTillPickerClicked() {
+
+    }
+
     private void updateObejctsForTable(){
         if(currentPosition == 0){
             HashMap<Long, ProfitData> profitDatas = new HashMap<>();

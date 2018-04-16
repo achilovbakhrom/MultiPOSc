@@ -71,7 +71,7 @@ public class ReturnsConfirmDialog extends Dialog {
         v.setBackgroundResource(android.R.color.transparent);
         List<PaymentType> paymentTypeList = databaseManager.getPaymentTypes();
         List<String> strings = new ArrayList<>();
-        for (PaymentType paymentType: paymentTypeList){
+        for (PaymentType paymentType : paymentTypeList) {
             strings.add(paymentType.getName());
         }
         spReturnPaymentType.setAdapter(strings);
@@ -94,8 +94,9 @@ public class ReturnsConfirmDialog extends Dialog {
 
         btnConfirm.setOnClickListener(view -> {
             boolean hasOpenTill = databaseManager.hasOpenTill().blockingGet();
-            if (!hasOpenTill){
-                UIUtils.showAlert(getContext(), getContext().getString(R.string.ok), context.getString(R.string.warning), "Opened till wasn't found. Please, open till", () -> {});
+            if (!hasOpenTill) {
+                UIUtils.showAlert(getContext(), getContext().getString(R.string.ok), context.getString(R.string.warning), "Opened till wasn't found. Please, open till", () -> {
+                });
             } else {
                 Till till = databaseManager.getOpenTill().blockingGet();
                 UIUtils.closeKeyboard(btnConfirm, context);
@@ -103,6 +104,9 @@ public class ReturnsConfirmDialog extends Dialog {
                     for (int i = 0; i < returnsList.size(); i++) {
                         returnsList.get(i).setDescription(etDescription.getText().toString());
                     }
+                }
+                for (int i = 0; i < returnsList.size(); i++) {
+                    returnsList.get(i).setPaymentType(paymentTypeList.get(spReturnPaymentType.getSelectedPosition()));
                 }
                 databaseManager.insertReturns(returnsList).subscribe();
 

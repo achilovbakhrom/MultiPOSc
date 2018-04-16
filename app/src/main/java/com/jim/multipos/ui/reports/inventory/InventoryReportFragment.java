@@ -7,8 +7,11 @@ import com.jim.mpviews.ReportView;
 import com.jim.mpviews.utils.ReportViewConstants;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseTableReportFragment;
+import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
+import com.jim.multipos.data.db.model.till.Till;
 import com.jim.multipos.ui.reports.inventory.dialogs.InventoryFilterDialog;
+import com.jim.multipos.ui.reports.inventory.dialogs.TillPickerDialog;
 
 import javax.inject.Inject;
 
@@ -16,6 +19,8 @@ public class InventoryReportFragment extends BaseTableReportFragment implements 
 
     @Inject
     InventoryReportPresenter presenter;
+    @Inject
+    DatabaseManager databaseManager;
     private ReportView firstView, secondView, thirdView, forthView;
     private int firstDataType[] = {ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.STATUS, ReportViewConstants.NAME, ReportViewConstants.DATE, ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.NAME};
     private int firstWeights[] = {15, 10, 15, 8, 10, 10, 8, 8};
@@ -23,11 +28,11 @@ public class InventoryReportFragment extends BaseTableReportFragment implements 
     private int secondDataType[] = {ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.NAME};
     private int secondWeights[] = {10, 10, 10, 10, 10, 10, 10, 10};
     private int secondAligns[] = {Gravity.LEFT, Gravity.LEFT, Gravity.LEFT, Gravity.LEFT, Gravity.LEFT, Gravity.LEFT, Gravity.LEFT, Gravity.LEFT};
-    private int thirdDataType[] = {ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.NAME};
-    private int thirdWeights[] = {10, 10, 10, 10, 10, 10};
-    private int thirdAligns[] = {Gravity.LEFT, Gravity.LEFT, Gravity.LEFT, Gravity.RIGHT, Gravity.RIGHT, Gravity.LEFT};
+    private int thirdDataType[] = {ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT};
+    private int thirdWeights[] = {10, 10, 5, 10, 10};
+    private int thirdAligns[] = {Gravity.LEFT, Gravity.LEFT, Gravity.LEFT, Gravity.RIGHT, Gravity.RIGHT};
     private int forthDataType[] = {ReportViewConstants.NAME, ReportViewConstants.DATE, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.QUANTITY, ReportViewConstants.NAME, ReportViewConstants.NAME};
-    private int forthWeights[] = {10, 10, 10, 10, 10, 10, 10};
+    private int forthWeights[] = {10, 10, 10, 10, 5, 10, 10};
     private int forthAligns[] = {Gravity.LEFT, Gravity.CENTER, Gravity.RIGHT, Gravity.RIGHT, Gravity.CENTER, Gravity.LEFT, Gravity.LEFT};
 
     @Override
@@ -50,13 +55,14 @@ public class InventoryReportFragment extends BaseTableReportFragment implements 
                 {WarehouseOperations.WASTE, getString(R.string.wasted), R.color.colorMainText},}};
         String firstTitles[] = new String[]{getString(R.string.product), getString(R.string.vendor), getString(R.string.action), getString(R.string.qty), getString(R.string.date), getString(R.string.reason), getString(R.string.order), getString(R.string.consignment)};
         String secondTitles[] = new String[]{getString(R.string.product), getString(R.string.vendor), getString(R.string.sold), getString(R.string.received_from_vendor), getString(R.string.return_to_vendor), getString(R.string.return_from_customer), getString(R.string.void_income), getString(R.string.wasted)};
-        String thirdTitles[] = new String[]{getString(R.string.product), getString(R.string.vendor), getString(R.string.qty), getString(R.string.unit_price), getString(R.string.total), getString(R.string.gross_qty)};
+        String thirdTitles[] = new String[]{getString(R.string.product), getString(R.string.vendor), getString(R.string.qty), getString(R.string.unit_price), getString(R.string.total)};
         String forthTitles[] = new String[]{getString(R.string.product), getString(R.string.date), getString(R.string.price), getString(R.string.return_cost), getString(R.string.qty), getString(R.string.payment_type), getString(R.string.description)};
         ReportView.Builder firstBuilder = new ReportView.Builder()
                 .setContext(getContext())
                 .setTitles(firstTitles)
                 .setDataTypes(firstDataType)
                 .setWeight(firstWeights)
+                .setDefaultSort(4)
                 .setStatusTypes(status)
                 .setDataAlignTypes(firstAligns)
                 .build();
@@ -99,26 +105,30 @@ public class InventoryReportFragment extends BaseTableReportFragment implements 
             case 0:
                 firstView.getBuilder().update(objects);
                 setTable(firstView.getBuilder().getView());
+                enableDateIntervalPicker();
                 enableFilter();
-                enableSearch();
+                disableTillChooseBtn();
                 break;
             case 1:
                 secondView.getBuilder().update(objects);
                 setTable(secondView.getBuilder().getView());
+                enableDateIntervalPicker();
                 disableFilter();
-                enableSearch();
+                disableTillChooseBtn();
                 break;
             case 2:
                 thirdView.getBuilder().update(objects);
                 setTable(thirdView.getBuilder().getView());
+                disableDateIntervalPicker();
                 disableFilter();
-                disableSearch();
+                enableTillChooseBtn();
                 break;
             case 3:
                 forthView.getBuilder().update(objects);
                 setTable(forthView.getBuilder().getView());
+                enableDateIntervalPicker();
                 disableFilter();
-                enableSearch();
+                disableTillChooseBtn();
                 break;
         }
     }
@@ -129,26 +139,30 @@ public class InventoryReportFragment extends BaseTableReportFragment implements 
             case 0:
                 firstView.getBuilder().searchResults(searchResults, searchText);
                 setTable(firstView.getBuilder().getView());
+                enableDateIntervalPicker();
                 enableFilter();
-                enableSearch();
+                disableTillChooseBtn();
                 break;
             case 1:
                 secondView.getBuilder().searchResults(searchResults, searchText);
                 setTable(secondView.getBuilder().getView());
+                enableDateIntervalPicker();
                 disableFilter();
-                enableSearch();
+                disableTillChooseBtn();
                 break;
             case 2:
                 thirdView.getBuilder().searchResults(searchResults, searchText);
                 setTable(thirdView.getBuilder().getView());
+                disableDateIntervalPicker();
                 disableFilter();
-                disableSearch();
+                enableTillChooseBtn();
                 break;
             case 3:
                 forthView.getBuilder().searchResults(searchResults, searchText);
                 setTable(forthView.getBuilder().getView());
+                enableDateIntervalPicker();
                 disableFilter();
-                enableSearch();
+                disableTillChooseBtn();
                 break;
         }
     }
@@ -156,6 +170,14 @@ public class InventoryReportFragment extends BaseTableReportFragment implements 
     @Override
     public void showFilterDialog(int[] filterConfig) {
         InventoryFilterDialog dialog = new InventoryFilterDialog(getContext(), filterConfig, config -> presenter.setFilterConfigs(config));
+        dialog.show();
+    }
+
+    @Override
+    public void showTillPickerDialog() {
+        TillPickerDialog dialog = new TillPickerDialog(getContext(), databaseManager, till -> {
+            presenter.setPickedTill(till);
+        });
         dialog.show();
     }
 }

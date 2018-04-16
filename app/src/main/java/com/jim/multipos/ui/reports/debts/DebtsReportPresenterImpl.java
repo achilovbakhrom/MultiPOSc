@@ -766,6 +766,11 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
         updateTable();
     }
 
+    @Override
+    public void onTillPickerClicked() {
+
+    }
+
     private void updateTable() {
         switch (currentPosition) {
             case 0:

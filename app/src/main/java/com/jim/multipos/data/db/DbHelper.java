@@ -295,4 +295,6 @@ public interface DbHelper {
     Single<List<Order>> getOrdersWithCustomerInInterval(Long id, Calendar fromDate, Calendar toDate);
     Single<List<WarehouseOperations>> getWarehouseOperationsInInterval(Calendar fromDate, Calendar toDate);
     Single<Long> getConsignmentByWarehouseId(Long warehouseId);
+    Single<List<HistoryInventoryState>> getHistoryInventoryStatesByTillId(Long id);
+    Single<List<Return>> getReturnList(Calendar fromDate, Calendar toDate);
 }

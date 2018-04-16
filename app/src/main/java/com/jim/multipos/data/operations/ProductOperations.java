@@ -5,6 +5,7 @@ import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Return;
 import com.jim.multipos.data.db.model.products.VendorProductCon;
 
+import java.util.Calendar;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -35,4 +36,5 @@ public interface ProductOperations {
     Single<List<VendorProductCon>> getVendorProductConnectionByVendorId(Long vendorId);
     Single<Product> getProductByRootId(Long rootId);
     Single<Boolean> isProductSkuExists(String sku, Long subcategoryId);
+    Single<List<Return>> getReturnList(Calendar fromDate, Calendar toDate);
 }

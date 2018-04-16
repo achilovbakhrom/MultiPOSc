@@ -52,6 +52,7 @@ import com.jim.multipos.data.db.model.customer.JoinCustomerGroupsWithCustomersDa
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
 import com.jim.multipos.data.db.model.inventory.BillingOperationsDao;
 import com.jim.multipos.data.db.model.inventory.HistoryInventoryState;
+import com.jim.multipos.data.db.model.inventory.HistoryInventoryStateDao;
 import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.inventory.InventoryStateDao;
 import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
@@ -66,6 +67,7 @@ import com.jim.multipos.data.db.model.products.CategoryDao;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.ProductDao;
 import com.jim.multipos.data.db.model.products.Return;
+import com.jim.multipos.data.db.model.products.ReturnDao;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.products.VendorDao;
 import com.jim.multipos.data.db.model.products.VendorProductCon;
@@ -2315,6 +2317,27 @@ public class AppDbHelper implements DbHelper {
             if (consignmentProducts.size() > 0) {
                 e.onSuccess(consignmentProducts.get(0).getConsignmentId());
             } else e.onSuccess(-1L);
+        });
+    }
+
+    @Override
+    public Single<List<HistoryInventoryState>> getHistoryInventoryStatesByTillId(Long id) {
+        return Single.create(e -> {
+            List<HistoryInventoryState> orderList = mDaoSession.getHistoryInventoryStateDao().queryBuilder()
+                    .where(HistoryInventoryStateDao.Properties.TillId.eq(id))
+                    .build().list();
+            e.onSuccess(orderList);
+        });
+    }
+
+    @Override
+    public Single<List<Return>> getReturnList(Calendar fromDate, Calendar toDate) {
+        return Single.create(e -> {
+            List<Return> returnList = mDaoSession.getReturnDao().queryBuilder()
+                    .where(ReturnDao.Properties.CreateAt.ge(fromDate.getTimeInMillis()),
+                            ReturnDao.Properties.CreateAt.le(toDate.getTimeInMillis()))
+                    .build().list();
+            e.onSuccess(returnList);
         });
     }
 

@@ -2,115 +2,122 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#fafafa">
+    android:background="#fafafa"
+    android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/sixteen_dp"
         android:layout_marginRight="@dimen/thirty_dp"
-        android:orientation="horizontal"
-        >
+        android:layout_marginTop="@dimen/sixteen_dp"
+        android:orientation="horizontal">
+
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/tvTitleReport"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:text="Order History"
-                android:textSize="@dimen/twenty_dp"
                 android:layout_marginLeft="@dimen/thirty_dp"
-
+                android:text="Order History"
                 android:textColor="#212121"
-                />
+                android:textSize="@dimen/twenty_dp"
+
+                android:visibility="gone" />
+
             <LinearLayout
                 android:id="@+id/llChoiserPanel"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/fifty_dp"
-                android:visibility="visible"
+                android:layout_marginBottom="@dimen/five_dp"
                 android:layout_marginLeft="@dimen/twenty_five_dp"
-                android:layout_marginBottom="@dimen/five_dp">
+                android:visibility="visible">
+
                 <TextView
                     android:id="@+id/tvFirtPanel"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="First Panel"
-                    android:textSize="@dimen/sixteen_dp"
+                    android:layout_marginRight="-2px"
+                    android:background="@drawable/left_switch_title_pressed"
+                    android:gravity="center_vertical"
                     android:paddingLeft="@dimen/twenty_five_dp"
                     android:paddingRight="@dimen/sixteen_dp"
+                    android:text="First Panel"
                     android:textColor="#2e91cc"
-                    android:gravity="center_vertical"
-                    android:layout_marginRight="-2px"
-                    android:background="@drawable/left_switch_title_pressed"/>
+                    android:textSize="@dimen/sixteen_dp" />
+
                 <TextView
                     android:id="@+id/tvSecondPanel"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="Second Panel"
-                    android:textSize="@dimen/sixteen_dp"
-                    android:layout_marginRight="-2px"
                     android:layout_marginLeft="-2px"
+                    android:layout_marginRight="-2px"
+                    android:background="@drawable/center_switch_title"
+                    android:gravity="center_vertical"
                     android:paddingLeft="@dimen/sixteen_dp"
                     android:paddingRight="@dimen/sixteen_dp"
-                    android:gravity="center_vertical"
+                    android:text="Second Panel"
                     android:textColor="#999999"
-                    android:background="@drawable/center_switch_title"/>
+                    android:textSize="@dimen/sixteen_dp" />
+
                 <TextView
                     android:id="@+id/tvThirdPanel"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="Third Panel"
-                    android:textSize="@dimen/sixteen_dp"
-                    android:layout_marginRight="-2px"
                     android:layout_marginLeft="-2px"
+                    android:layout_marginRight="-2px"
+                    android:background="@drawable/center_switch_title"
+                    android:gravity="center_vertical"
                     android:paddingLeft="@dimen/sixteen_dp"
                     android:paddingRight="@dimen/sixteen_dp"
-                    android:gravity="center_vertical"
+                    android:text="Third Panel"
                     android:textColor="#999999"
-                    android:background="@drawable/center_switch_title"/>
+                    android:textSize="@dimen/sixteen_dp" />
 
                 <TextView
                     android:id="@+id/tvFourPanel"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="Four Panel"
-                    android:textSize="@dimen/sixteen_dp"
-                    android:layout_marginRight="-2px"
                     android:layout_marginLeft="-2px"
+                    android:layout_marginRight="-2px"
+                    android:background="@drawable/center_switch_title"
+                    android:gravity="center_vertical"
                     android:paddingLeft="@dimen/sixteen_dp"
                     android:paddingRight="@dimen/sixteen_dp"
-                    android:gravity="center_vertical"
+                    android:text="Four Panel"
                     android:textColor="#999999"
-                    android:background="@drawable/center_switch_title"/>
+                    android:textSize="@dimen/sixteen_dp" />
 
 
                 <TextView
                     android:id="@+id/tvFivePanel"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="Five Panel"
-                    android:textSize="@dimen/sixteen_dp"
+                    android:layout_marginLeft="-2px"
+                    android:background="@drawable/right_switch_title"
+                    android:gravity="center_vertical"
                     android:paddingLeft="@dimen/sixteen_dp"
                     android:paddingRight="@dimen/twenty_five_dp"
-                    android:layout_marginLeft="-2px"
+                    android:text="Five Panel"
                     android:textColor="#999999"
-                    android:gravity="center_vertical"
-                    android:background="@drawable/right_switch_title"/>
+                    android:textSize="@dimen/sixteen_dp" />
             </LinearLayout>
+
             <TextView
                 android:id="@+id/tvDateInterval"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="05/05/2017 20:00 - 05/06/2017 20:00"
-                android:textSize="@dimen/sixteen_dp"
                 android:layout_marginLeft="@dimen/thirty_dp"
+                android:text="05/05/2017 20:00 - 05/06/2017 20:00"
+                android:textColor="#666666"
 
-                android:textColor="#666666"/>
+                android:textSize="@dimen/sixteen_dp" />
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/llSearch"
             android:layout_width="@dimen/two_hundred_fifty_dp"
@@ -124,13 +131,12 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/forty_dp"
                 android:layout_weight="1"
-                android:paddingLeft="@dimen/twelve_dp"
-                android:paddingTop="@dimen/five_dp"
-                android:paddingBottom="@dimen/five_dp"
-                android:paddingRight="@dimen/twelve_dp"
-                android:textSize="@dimen/sixteen_dp"
                 android:backgroundTint="@color/colorTransparent"
-                />
+                android:paddingBottom="@dimen/five_dp"
+                android:paddingLeft="@dimen/twelve_dp"
+                android:paddingRight="@dimen/twelve_dp"
+                android:paddingTop="@dimen/five_dp"
+                android:textSize="@dimen/sixteen_dp" />
 
 
             <FrameLayout
@@ -139,10 +145,12 @@
                 android:layout_marginBottom="@dimen/ten_dp"
                 android:layout_marginTop="@dimen/ten_dp"
                 android:background="@color/colorTextHint" />
+
             <FrameLayout
                 android:id="@+id/flCleareSearch"
                 android:layout_width="@dimen/forty_dp"
                 android:layout_height="@dimen/forty_dp">
+
                 <ImageView
                     android:id="@+id/ivSearchImage"
                     android:layout_width="@dimen/twenty_dp"
@@ -157,94 +165,123 @@
 
         </LinearLayout>
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginLeft="@dimen/twenty_five_dp"
-        android:layout_marginTop="@dimen/twelve_dp"
         android:layout_marginRight="@dimen/twenty_five_dp"
-        >
+        android:layout_marginTop="@dimen/twelve_dp"
+        android:orientation="horizontal">
+
         <LinearLayout
             android:id="@+id/llFilter"
             android:layout_width="@dimen/hundred_twenty_dp"
             android:layout_height="@dimen/thirty_eight_dp"
-            android:clickable="true"
-            android:visibility="visible"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
             android:layout_marginRight="@dimen/sixteen_dp"
-            android:background="@drawable/filter_button_selector">
+            android:background="@drawable/filter_button_selector"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
             <ImageView
                 android:layout_width="@dimen/sixteen_dp"
                 android:layout_height="@dimen/sixteen_dp"
-                android:src="@drawable/filter"
-                android:layout_marginLeft="@dimen/twenty_dp"/>
+                android:layout_marginLeft="@dimen/twenty_dp"
+                android:src="@drawable/filter" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Filter"
                 android:layout_marginLeft="@dimen/twelve_dp"
-                android:textSize="@dimen/sixteen_dp"
-                android:textColor="#2e91cc"/>
+                android:text="Filter"
+                android:textColor="#2e91cc"
+                android:textSize="@dimen/sixteen_dp" />
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/llDateInterval"
             android:layout_width="@dimen/hundred_sixty_dp"
             android:layout_height="@dimen/thirty_eight_dp"
+            android:layout_marginRight="@dimen/sixteen_dp"
+            android:background="@drawable/date_intervale_selector"
             android:clickable="true"
-            android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:background="@drawable/date_intervale_selector">
+            android:orientation="horizontal">
+
             <ImageView
                 android:layout_width="@dimen/sixteen_dp"
                 android:layout_height="@dimen/sixteen_dp"
-                android:src="@drawable/date_icon"
-                android:layout_marginLeft="@dimen/twenty_dp"/>
+                android:layout_marginLeft="@dimen/twenty_dp"
+                android:src="@drawable/date_icon" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Date interval"
                 android:layout_marginLeft="@dimen/twelve_dp"
-                android:textSize="@dimen/sixteen_dp"
-                android:textColor="#2e91cc"/>
+                android:text="Date interval"
+                android:textColor="#2e91cc"
+                android:textSize="@dimen/sixteen_dp" />
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llChooseTill"
+            android:layout_width="@dimen/hundred_twenty_dp"
+            android:layout_height="@dimen/thirty_eight_dp"
+            android:background="@drawable/filter_button_selector"
+            android:clickable="true"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/choose_till"
+                android:textColor="#2e91cc"
+                android:textSize="@dimen/sixteen_dp" />
+        </LinearLayout>
+
         <FrameLayout
             android:layout_width="0dp"
             android:layout_height="@dimen/thirty_eight_dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
+
         <LinearLayout
             android:id="@+id/llExpert"
             android:layout_width="@dimen/hundred_twenty_dp"
             android:layout_height="@dimen/thirty_eight_dp"
+            android:background="@drawable/filter_button_selector"
             android:clickable="true"
-            android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:background="@drawable/filter_button_selector">
+            android:orientation="horizontal">
+
             <ImageView
                 android:layout_width="@dimen/sixteen_dp"
                 android:layout_height="@dimen/sixteen_dp"
-                android:src="@drawable/expert"
-                android:layout_marginLeft="@dimen/twenty_dp"/>
+                android:layout_marginLeft="@dimen/twenty_dp"
+                android:src="@drawable/expert" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Export"
                 android:layout_marginLeft="@dimen/twelve_dp"
-                android:textSize="@dimen/sixteen_dp"
-                android:textColor="#2e91cc"/>
+                android:text="Export"
+                android:textColor="#2e91cc"
+                android:textSize="@dimen/sixteen_dp" />
         </LinearLayout>
 
     </LinearLayout>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="2px"
-        android:background="#d6d6d6"
         android:layout_marginTop="@dimen/twenty_dp"
-        />
+        android:background="#d6d6d6" />
+
     <FrameLayout
         android:id="@+id/flTable"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:layout_height="match_parent" />
 </LinearLayout>

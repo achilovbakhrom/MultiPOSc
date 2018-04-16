@@ -303,6 +303,11 @@ public class OrderHistoryPresenterImpl extends BasePresenterImpl<OrderHistoryVie
 
     }
 
+    @Override
+    public void onTillPickerClicked() {
+
+    }
+
     public void initDateInterval(){
         fromDate = new GregorianCalendar();
         fromDate.set(Calendar.HOUR,0);

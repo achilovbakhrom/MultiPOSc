@@ -718,6 +718,11 @@ public class CustomerReportPresenterImpl extends BasePresenterImpl<CustomerRepor
     }
 
     @Override
+    public void onTillPickerClicked() {
+
+    }
+
+    @Override
     public void changeSummaryConfig(int config) {
         if (currentPosition == 0)
             this.filterValue = config;

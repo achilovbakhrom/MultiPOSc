@@ -7,4 +7,5 @@ public interface InventoryReportView extends BaseTableReportView {
     void updateTable(Object[][] objects, int position);
     void setSearchResults(Object[][] searchResults, String searchText, int position);
     void showFilterDialog(int[] filterConfig);
+    void showTillPickerDialog();
 }

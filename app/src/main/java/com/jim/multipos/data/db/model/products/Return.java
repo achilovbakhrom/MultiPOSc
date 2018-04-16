@@ -6,6 +6,8 @@ import org.greenrobot.greendao.annotation.ToOne;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 import com.jim.multipos.data.db.model.DaoSession;
+import com.jim.multipos.data.db.model.PaymentType;
+import com.jim.multipos.data.db.model.PaymentTypeDao;
 
 /**
  * Created by Sirojiddin on 06.01.2018.
@@ -23,6 +25,10 @@ public class Return {
     private double quantity;
     private double returnAmount;
     private String description = "";
+    private Long paymentTypeId;
+    @ToOne(joinProperty = "paymentTypeId")
+    private PaymentType paymentType;
+    private Long createAt;
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
      * Entity must attached to an entity context.
@@ -93,6 +99,8 @@ public class Return {
     private transient DaoSession daoSession;
     @Generated(hash = 1022035388)
     private transient Long vendor__resolvedKey;
+    @Generated(hash = 1438380965)
+    private transient Long paymentType__resolvedKey;
     public Double getReturnAmount() {
         return this.returnAmount;
     }
@@ -162,17 +170,58 @@ public class Return {
     public void setDescription(String description) {
         this.description = description;
     }
+    public Long getCreateAt() {
+        return this.createAt;
+    }
+    public void setCreateAt(Long createAt) {
+        this.createAt = createAt;
+    }
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 1351411560)
+    public void setPaymentType(PaymentType paymentType) {
+        synchronized (this) {
+            this.paymentType = paymentType;
+            paymentTypeId = paymentType == null ? null : paymentType.getId();
+            paymentType__resolvedKey = paymentTypeId;
+        }
+    }
+    /** To-one relationship, resolved on first access. */
+    @Generated(hash = 2041238771)
+    public PaymentType getPaymentType() {
+        Long __key = this.paymentTypeId;
+        if (paymentType__resolvedKey == null || !paymentType__resolvedKey.equals(__key)) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            PaymentTypeDao targetDao = daoSession.getPaymentTypeDao();
+            PaymentType paymentTypeNew = targetDao.load(__key);
+            synchronized (this) {
+                paymentType = paymentTypeNew;
+                paymentType__resolvedKey = __key;
+            }
+        }
+        return paymentType;
+    }
+    public Long getPaymentTypeId() {
+        return this.paymentTypeId;
+    }
+    public void setPaymentTypeId(Long paymentTypeId) {
+        this.paymentTypeId = paymentTypeId;
+    }
     @Generated(hash = 221520427)
     public Return() {
     }
-    @Generated(hash = 1504523836)
+    @Generated(hash = 1355928296)
     public Return(Long id, Long productId, Long vendorId, double quantity, double returnAmount,
-            String description) {
+            String description, Long paymentTypeId, Long createAt) {
         this.id = id;
         this.productId = productId;
         this.vendorId = vendorId;
         this.quantity = quantity;
         this.returnAmount = returnAmount;
         this.description = description;
+        this.paymentTypeId = paymentTypeId;
+        this.createAt = createAt;
     }
 }

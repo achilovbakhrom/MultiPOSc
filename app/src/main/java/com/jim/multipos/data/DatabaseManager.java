@@ -901,6 +901,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
+    public Single<List<HistoryInventoryState>> getHistoryInventoryStatesByTillId(Long id) {
+        return dbHelper.getHistoryInventoryStatesByTillId(id);
+    }
+
+    @Override
     public Observable<Long> insertInventoryState(InventoryState inventoryState) {
         return dbHelper.insertInventoryState(inventoryState);
     }
@@ -968,6 +973,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Single<Boolean> isProductSkuExists(String sku, Long subcategoryId) {
         return dbHelper.isProductSkuExists(sku, subcategoryId);
+    }
+
+    @Override
+    public Single<List<Return>> getReturnList(Calendar fromDate, Calendar toDate) {
+        return dbHelper.getReturnList(fromDate, toDate);
     }
 
     @Override

@@ -666,6 +666,11 @@ public class ServiceFeeFeeReportPresenterImpl extends BasePresenterImpl<ServiceF
     }
 
     @Override
+    public void onTillPickerClicked() {
+
+    }
+
+    @Override
     public void filterConfigsHaveChanged(int[] config) {
         this.filterConfig = config;
         initReportContent();

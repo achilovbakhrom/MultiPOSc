@@ -188,4 +188,9 @@ public class HourlySalesReportPresenterImpl extends BasePresenterImpl<HourlySale
     public void onChoisedPanel(int postion) {
 
     }
+
+    @Override
+    public void onTillPickerClicked() {
+
+    }
 }

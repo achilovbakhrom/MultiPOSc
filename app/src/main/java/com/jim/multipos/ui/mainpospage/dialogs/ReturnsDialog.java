@@ -112,6 +112,7 @@ public class ReturnsDialog extends Dialog {
         searchResultsAdapter.setListener(product -> {
             Return returnProduct = new Return();
             returnProduct.setProduct(product);
+            returnProduct.setCreateAt(System.currentTimeMillis());
             returnProduct.setQuantity(1);
             returnProduct.setReturnAmount(product.getPrice());
             this.returnsList.add(returnProduct);

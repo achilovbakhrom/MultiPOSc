@@ -10,4 +10,5 @@ public interface BaseTableReportPresenter extends Presenter {
     void onClickedExportPDF();
     void onClickedFilter();
     void onChoisedPanel(int postion);
+    void onTillPickerClicked();
 }

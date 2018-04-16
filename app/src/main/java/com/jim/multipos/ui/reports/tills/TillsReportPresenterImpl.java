@@ -274,4 +274,9 @@ public class TillsReportPresenterImpl extends BasePresenterImpl<TillsReportView>
     public void onChoisedPanel(int postion) {
 
     }
+
+    @Override
+    public void onTillPickerClicked() {
+
+    }
 }

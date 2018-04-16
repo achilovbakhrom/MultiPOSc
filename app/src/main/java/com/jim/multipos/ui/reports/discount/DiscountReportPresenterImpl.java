@@ -666,6 +666,11 @@ public class DiscountReportPresenterImpl extends BasePresenterImpl<DiscountRepor
     }
 
     @Override
+    public void onTillPickerClicked() {
+
+    }
+
+    @Override
     public void filterConfigsHaveChanged(int[] config) {
         this.filterConfig = config;
         initReportContent();

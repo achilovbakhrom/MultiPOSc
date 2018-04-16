@@ -27,4 +27,5 @@ public interface InventoryOperations {
     Single<Long> replaceWarehouseOperation(WarehouseOperations warehouseOperations);
     Single<HistoryInventoryState> insertHistoryInventoryState(HistoryInventoryState state);
     Single<List<WarehouseOperations>> getWarehouseOperationsInInterval(Calendar fromDate, Calendar toDate);
+    Single<List<HistoryInventoryState>> getHistoryInventoryStatesByTillId(Long id);
 }

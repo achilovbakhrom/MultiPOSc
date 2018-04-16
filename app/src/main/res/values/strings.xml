@@ -689,6 +689,7 @@
     <string name="canceled_order">Canceled order</string>
     <string name="till">Till</string>
     <string name="cash">Cash</string>
+    <string name="choose_till">Choose Till</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>

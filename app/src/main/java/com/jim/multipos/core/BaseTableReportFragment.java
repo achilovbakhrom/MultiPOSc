@@ -1,7 +1,6 @@
 package com.jim.multipos.core;
 
 import android.graphics.Color;
-import android.os.Bundle;
 import android.text.Editable;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -33,7 +32,8 @@ public abstract class BaseTableReportFragment extends BaseFragment {
     ImageView ivSearchImage;
     @BindView(R.id.mpSearchEditText)
     MpEditText mpSearchEditText;
-
+    @BindView(R.id.llChooseTill)
+    LinearLayout llChooseTill;
 
     @BindView(R.id.tvFirtPanel)
     TextView tvFirtPanel;
@@ -93,6 +93,8 @@ public abstract class BaseTableReportFragment extends BaseFragment {
     public void enableFilter(){
         llFilter.setVisibility(View.VISIBLE);
     }
+    public void enableTillChooseBtn(){llChooseTill.setVisibility(View.VISIBLE);}
+    public void disableTillChooseBtn(){llChooseTill.setVisibility(View.GONE);}
     public void disableDateIntervalPicker(){
         llDateInterval.setVisibility(View.GONE);
         tvDateInterval.setVisibility(View.INVISIBLE);
@@ -284,6 +286,11 @@ public abstract class BaseTableReportFragment extends BaseFragment {
     @OnClick(R.id.llFilter)
     public void onClickedFilterButton(){
         Runnable runnable = () -> baseTableReportPresenter.onClickedFilter();
+        runnable.run();
+    }
+    @OnClick(R.id.llChooseTill)
+    public void onTillChooseButton(){
+        Runnable runnable = () -> baseTableReportPresenter.onTillPickerClicked();
         runnable.run();
     }
     @OnTextChanged(R.id.mpSearchEditText)
