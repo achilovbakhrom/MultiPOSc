@@ -111,6 +111,7 @@ public class CashOperationsPresenterImpl extends BasePresenterImpl<CashOperation
         tillOperation.setType(operationType);
         tillOperation.setPaymentType(currentPaymentType);
         tillOperation.setTill(till);
+        tillOperation.setCreateAt(System.currentTimeMillis());
         tillOperation.setDescription(description);
         databaseManager.insertTillOperation(tillOperation).subscribe();
         view.updateDetails();

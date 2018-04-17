@@ -39,6 +39,7 @@ public class OrderHistoryPresenterImpl extends BasePresenterImpl<OrderHistoryVie
     SimpleDateFormat simpleDateFormat;
     DecimalFormat decimalFormat;
     int[] filterConfig;
+
     @Inject
     protected OrderHistoryPresenterImpl(OrderHistoryView orderHistoryView, DatabaseManager databaseManager, PreferencesHelper preferencesHelper, Context context) {
         super(orderHistoryView);

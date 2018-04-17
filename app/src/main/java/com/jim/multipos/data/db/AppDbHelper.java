@@ -80,6 +80,7 @@ import com.jim.multipos.data.db.model.till.TillManagementOperation;
 import com.jim.multipos.data.db.model.till.TillDetails;
 import com.jim.multipos.data.db.model.till.TillManagementOperationDao;
 import com.jim.multipos.data.db.model.till.TillOperation;
+import com.jim.multipos.data.db.model.till.TillOperationDao;
 import com.jim.multipos.data.db.model.unit.SubUnitsList;
 import com.jim.multipos.data.db.model.unit.Unit;
 import com.jim.multipos.data.db.model.unit.UnitCategory;
@@ -2339,6 +2340,31 @@ public class AppDbHelper implements DbHelper {
                     .build().list();
             e.onSuccess(returnList);
         });
+    }
+
+    @Override
+    public Single<List<TillOperation>> getTillOperationsInterval(Calendar fromDate, Calendar toDate) {
+        return Single.create(e -> {
+            List<TillOperation> orderList = mDaoSession.getTillOperationDao().queryBuilder()
+                    .where(TillOperationDao.Properties.CreateAt.ge(fromDate.getTimeInMillis()),
+                            TillOperationDao.Properties.CreateAt.le(toDate.getTimeInMillis()))
+                    .build().list();
+            e.onSuccess(orderList);
+        });
+    }
+
+    @Override
+    public PaymentType getCashPaymentType() {
+        List<PaymentType> paymentTypes = mDaoSession.getPaymentTypeDao().queryBuilder().where(PaymentTypeDao.Properties.TypeStaticPaymentType.eq(PaymentType.CASH_PAYMENT_TYPE)).build().list();
+        if(paymentTypes.size() != 1){
+            new Exception("Cash payment type not equals ONE!!! Some Think wrong with").printStackTrace();
+        }
+        return paymentTypes.get(0);
+    }
+
+    @Override
+    public PaymentType getPaymentTypeById(long id) {
+        return mDaoSession.getPaymentTypeDao().load(id);
     }
 
     @Override

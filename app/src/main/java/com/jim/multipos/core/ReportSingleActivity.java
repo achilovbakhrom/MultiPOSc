@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.jim.multipos.R;
+import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.ui.reports.adapter.ReportPickerAdapter;
 import com.jim.multipos.ui.reports.customers.CustomerReportFragment;
 import com.jim.multipos.ui.reports.debts.DebtsReportFragment;
@@ -14,9 +15,10 @@ import com.jim.multipos.ui.reports.discount.DiscountReportFragment;
 import com.jim.multipos.ui.reports.hourly_sales.HourlySalesReportFragment;
 import com.jim.multipos.ui.reports.inventory.InventoryReportFragment;
 import com.jim.multipos.ui.reports.order_history.OrderHistoryFragment;
+import com.jim.multipos.ui.reports.payments.PaymentsReportFragment;
 import com.jim.multipos.ui.reports.product_profit.ProductProfitFragment;
-import com.jim.multipos.ui.reports.sales.SalesReportFragment;
 import com.jim.multipos.ui.reports.service_fee.ServiceFeeReportFragment;
+import com.jim.multipos.ui.reports.summary_report.SummaryReportFragment;
 import com.jim.multipos.ui.reports.tills.TillsReportFragment;
 
 import java.util.ArrayList;
@@ -35,8 +37,8 @@ public abstract class ReportSingleActivity extends BaseActivity {
     RecyclerView tvReportsPicker;
     ReportPickerAdapter reportPickerAdapter;
     List<String> reportNames;
-    String [] reportsFragmentsTags= {InventoryReportFragment.class.getName(), CustomerReportFragment.class.getName(), SalesReportFragment.class.getName(),TillsReportFragment.class.getName(),OrderHistoryFragment.class.getName(), DiscountReportFragment.class.getName(), ServiceFeeReportFragment.class.getName(), HourlySalesReportFragment.class.getName(),
-     DebtsReportFragment.class.getName()};
+    String [] reportsFragmentsTags= {InventoryReportFragment.class.getName(),SummaryReportFragment.class.getName(),TillsReportFragment.class.getName(),OrderHistoryFragment.class.getName(), DiscountReportFragment.class.getName(), ServiceFeeReportFragment.class.getName(), HourlySalesReportFragment.class.getName(),
+     DebtsReportFragment.class.getName(), PaymentsReportFragment.class.getName(),ProductProfitFragment.class.getName(), CustomerReportFragment.class.getName()};
    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,8 +62,6 @@ public abstract class ReportSingleActivity extends BaseActivity {
              <item>Discounts</item>
              <item>Service Fee\'s</item>
              */
-
-
             switch (pos){
                 case 0:
                     openSummaryFragmentAction();
@@ -132,14 +132,14 @@ public abstract class ReportSingleActivity extends BaseActivity {
             getSupportFragmentManager().beginTransaction().show(orderHistoryFragment).commit();
         }
     }
-    public void showSalesReportFragment(/*extra*/){
+    public void showSummaryReportFragment(/*extra*/){
         hideAll();
-        SalesReportFragment salesReportFragment = (SalesReportFragment) getSupportFragmentManager().findFragmentByTag(SalesReportFragment.class.getName());
-        if(salesReportFragment == null){
-            salesReportFragment = new SalesReportFragment();
-            addFragmentWithTagStatic(R.id.flMain,salesReportFragment,SalesReportFragment.class.getName());
+        SummaryReportFragment summaryReportFragment = (SummaryReportFragment) getSupportFragmentManager().findFragmentByTag(SummaryReportFragment.class.getName());
+        if(summaryReportFragment == null){
+            summaryReportFragment = new SummaryReportFragment();
+            addFragmentWithTagStatic(R.id.flMain,summaryReportFragment,SummaryReportFragment.class.getName());
         }else {
-            getSupportFragmentManager().beginTransaction().show(salesReportFragment).commit();
+            getSupportFragmentManager().beginTransaction().show(summaryReportFragment).commit();
         }
     }
 
@@ -209,6 +209,16 @@ public abstract class ReportSingleActivity extends BaseActivity {
         }
     }
 
+    public void showPaymentsRepotFragment(/*extra*/){
+        hideAll();
+        PaymentsReportFragment paymentsReportFragment = (PaymentsReportFragment) getSupportFragmentManager().findFragmentByTag(PaymentsReportFragment.class.getName());
+        if ( paymentsReportFragment == null){
+            paymentsReportFragment = new PaymentsReportFragment();
+            addFragmentWithTagStatic(R.id.flMain, paymentsReportFragment, PaymentsReportFragment.class.getName());
+        }else {
+            getSupportFragmentManager().beginTransaction().show(paymentsReportFragment).commit();
+        }
+    }
     public void showCustomersReportFragment(/*extra*/){
         hideAll();
         CustomerReportFragment customerReportFragment = (CustomerReportFragment) getSupportFragmentManager().findFragmentByTag(CustomerReportFragment.class.getName());

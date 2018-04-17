@@ -409,6 +409,16 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
+    public PaymentType getCashPaymentType() {
+        return dbHelper.getCashPaymentType();
+    }
+
+    @Override
+    public PaymentType getPaymentTypeById(long id) {
+        return dbHelper.getPaymentTypeById(id);
+    }
+
+    @Override
     public Observable<Boolean> addPaymentTypes(List<PaymentType> paymentTypes) {
         return dbHelper.insertPaymentTypes(paymentTypes);
     }
@@ -1242,6 +1252,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Single<List<Till>> getClosedTillsInInterval(Calendar fromDate, Calendar toDate) {
         return dbHelper.getClosedTillsInInterval(fromDate, toDate);
+    }
+
+    @Override
+    public Single<List<TillOperation>> getTillOperationsInterval(Calendar fromDate, Calendar toDate) {
+        return dbHelper.getTillOperationsInterval(fromDate,toDate);
     }
 }
 

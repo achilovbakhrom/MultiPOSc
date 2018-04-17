@@ -21,12 +21,14 @@ import com.jim.multipos.ui.reports.inventory.InventoryReportFragment;
 import com.jim.multipos.ui.reports.inventory.InventoryReportFragmentModule;
 import com.jim.multipos.ui.reports.order_history.OrderHistoryFragment;
 import com.jim.multipos.ui.reports.order_history.OrderHistoryFragmentModule;
+import com.jim.multipos.ui.reports.payments.PaymentsReportFragment;
+import com.jim.multipos.ui.reports.payments.PaymentsReportFragmentModule;
 import com.jim.multipos.ui.reports.product_profit.ProductProfitFragment;
 import com.jim.multipos.ui.reports.product_profit.ProductProfitFragmentModule;
-import com.jim.multipos.ui.reports.sales.SalesReportFragment;
-import com.jim.multipos.ui.reports.sales.SalesReportFragmentModule;
 import com.jim.multipos.ui.reports.service_fee.ServiceFeeReportFragment;
 import com.jim.multipos.ui.reports.service_fee.ServiceFeeReportFragmentModule;
+import com.jim.multipos.ui.reports.summary_report.SummaryReportFragment;
+import com.jim.multipos.ui.reports.summary_report.SummaryReportFragmentModule;
 import com.jim.multipos.ui.reports.tills.TillsReportFragment;
 import com.jim.multipos.ui.reports.tills.TillsReportFragmentModule;
 
@@ -52,9 +54,6 @@ public abstract class ReportsActivityModule {
     @PerActivity
     abstract ReportsActivityView provideReportsActivityView(ReportsActivity reportsActivity);
 
-    @PerFragment
-    @ContributesAndroidInjector(modules = SalesReportFragmentModule.class)
-    abstract SalesReportFragment provideSalesReportFragmentInjector();
 
     @PerFragment
     @ContributesAndroidInjector(modules = OrderHistoryFragmentModule.class)
@@ -84,6 +83,15 @@ public abstract class ReportsActivityModule {
     @PerFragment
     @ContributesAndroidInjector(modules = DebtsReportFragmentModule.class)
     abstract DebtsReportFragment provideDebtsReportFragment();
+
+    @PerFragment
+    @ContributesAndroidInjector(modules = PaymentsReportFragmentModule.class)
+    abstract PaymentsReportFragment providePaymentsReportFragment();
+
+    @PerFragment
+    @ContributesAndroidInjector(modules = SummaryReportFragmentModule.class)
+    abstract SummaryReportFragment provideSummaryReportFragment();
+
 
     @PerFragment
     @ContributesAndroidInjector(modules = CustomerReportFragmentModule.class)

@@ -123,6 +123,7 @@ public class ReturnsConfirmDialog extends Dialog {
                     tillOperation.setType(TillOperation.PAY_OUT);
                     tillOperation.setPaymentType(paymentTypeList.get(spReturnPaymentType.getSelectedPosition()));
                     tillOperation.setTill(till);
+                    tillOperation.setCreateAt(System.currentTimeMillis());
                     tillOperation.setDescription(etDescription.getText().toString());
                     databaseManager.insertTillOperation(tillOperation).subscribe();
                 }

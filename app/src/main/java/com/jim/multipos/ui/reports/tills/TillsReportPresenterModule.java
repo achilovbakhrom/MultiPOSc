@@ -1,8 +1,6 @@
 package com.jim.multipos.ui.reports.tills;
 
 import com.jim.multipos.config.scope.PerFragment;
-import com.jim.multipos.ui.reports.sales.SalesReportPresenter;
-import com.jim.multipos.ui.reports.sales.SalesReportPresenterImpl;
 
 import dagger.Binds;
 import dagger.Module;

@@ -23,6 +23,7 @@ public class TillOperation {
     @Id(autoincrement = true)
     private Long id;
     private int type;
+    private Long createAt;
     private double amount;
     private String description;
     private Long tillId;
@@ -171,11 +172,18 @@ public class TillOperation {
     public void setId(Long id) {
         this.id = id;
     }
-    @Generated(hash = 616046231)
-    public TillOperation(Long id, int type, double amount, String description,
+    public Long getCreateAt() {
+        return this.createAt;
+    }
+    public void setCreateAt(Long createAt) {
+        this.createAt = createAt;
+    }
+    @Generated(hash = 1557109747)
+    public TillOperation(Long id, int type, Long createAt, double amount, String description,
             Long tillId, Long paymentTypeId) {
         this.id = id;
         this.type = type;
+        this.createAt = createAt;
         this.amount = amount;
         this.description = description;
         this.tillId = tillId;

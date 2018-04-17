@@ -20,4 +20,6 @@ public interface PaymentTypeOperations {
     Observable <Boolean> isPaymentTypeNameExists(String name);
     List<PaymentType> getPaymentTypes();
     Single<PaymentType> getDebtPaymentType();
+    PaymentType getCashPaymentType();
+    PaymentType getPaymentTypeById(long id);
 }

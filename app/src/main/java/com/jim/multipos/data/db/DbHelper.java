@@ -297,4 +297,8 @@ public interface DbHelper {
     Single<Long> getConsignmentByWarehouseId(Long warehouseId);
     Single<List<HistoryInventoryState>> getHistoryInventoryStatesByTillId(Long id);
     Single<List<Return>> getReturnList(Calendar fromDate, Calendar toDate);
+    Single<List<TillOperation>> getTillOperationsInterval(Calendar fromDate,Calendar toDate);
+    PaymentType getCashPaymentType();
+    PaymentType getPaymentTypeById(long id);
+
 }

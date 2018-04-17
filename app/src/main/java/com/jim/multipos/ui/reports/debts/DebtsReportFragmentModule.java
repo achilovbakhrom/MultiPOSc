@@ -3,9 +3,6 @@ package com.jim.multipos.ui.reports.debts;
 import android.support.v4.app.Fragment;
 
 import com.jim.multipos.config.scope.PerFragment;
-import com.jim.multipos.ui.reports.sales.SalesReportFragment;
-import com.jim.multipos.ui.reports.sales.SalesReportPresenterModule;
-import com.jim.multipos.ui.reports.sales.SalesReportView;
 
 import dagger.Binds;
 import dagger.Module;

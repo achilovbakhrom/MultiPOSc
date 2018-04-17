@@ -652,6 +652,38 @@
     <string name="last_pay_date">Last pay date</string>
     <string name="due_debt">Due debt</string>
     <string name="should_close_date">Should close date</string>
+    <string name="till_not_closed">Current Till Not closed yet</string>
+    <string name="summary_report">Summary Report</string>
+    <string name="sales_analitcs">Sales  Analitycs</string>
+    <string name="payment_analytics">Payment Analytics</string>
+    <string name="total_product_sales">Total product sales</string>
+    <string name="total_service_fee">Total service fee</string>
+    <string name="total_discount">Total discount</string>
+    <string name="total_debt_sales">Total debt sales</string>
+    <string name="total_tips">Total tips</string>
+    <string name="total_pay_ins">Total pay ins</string>
+    <string name="total_pay_outs">Total pay outs</string>
+    <string name="total_bank_drops">Total bank drops</string>
+    <string name="pcs">pcs</string>
+    <string name="uzs">uzs</string>
+    <string name="total_orders_count">Total orders count</string>
+    <string name="average_order">Average order</string>
+    <string name="minimum_order">Minimum order</string>
+    <string name="maximum_order">Maximum order</string>
+    <string name="the_best_customer">The best customer</string>
+    <string name="total_manual_discounts_count">Total manual discounts count</string>
+    <string name="total_static_discounts_count">Total static discounts count</string>
+    <string name="total_manual_service_count">Total manual service fee count</string>
+    <string name="total_static_service_count">Total static service fee count</string>
+    <string name="total_changes">Total changes</string>
+    <string name="total_canceled_orders_count">Total canceled orders count</string>
+    <string name="total_payments">Total payments</string>
+    <string name="debt_report">Debt</string>
+    <string name="payments_report">Payments</string>
+    <string name="total_cap">Total capacity</string>
+    <string name="payins_count">Pay in\'s count</string>
+    <string name="pay_out_counts">Pay out\'s count</string>
+    <string name="bank_drop_count">Bank Drops count</string>
     <string name="inclusions">Inclusions:</string>
     <string name="closed_orders">Closed orders</string>
     <string name="customer_summary">Customer Summary</string>
@@ -792,5 +824,23 @@
         <item>Price each</item>
         <item>Total</item>
         <item>Discription</item>
+    </string-array>
+    <string-array name="payments_report">
+        <item>Summary</item>
+        <item>Detail</item>
+    </string-array>
+    <string-array name="payments_report_summary_title">
+        <item>Payment type</item>
+        <item>Got for order</item>
+        <item>Proportion %</item>
+    </string-array>
+    <string-array name="payments_report_details_title">
+        <item>Account</item>
+        <item>Payment type</item>
+        <item>Reason</item>
+        <item>Order Id</item>
+        <item>Till Id</item>
+        <item>Date</item>
+        <item>Amount</item>
     </string-array>
 </resources>

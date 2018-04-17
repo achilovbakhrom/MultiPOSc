@@ -34,6 +34,7 @@ public class ProductProfitPresenterImpl extends BasePresenterImpl<ProductProfitV
     List<Order> ordersLog;
     DecimalFormat decimalFormat;
     SimpleDateFormat simpleDateFormat;
+
     int filterType = 0;
     public static final int FILTER_BY_PRODUCT = 0;
     public static final int FILTER_BY_CATEGORY = 1;
@@ -200,7 +201,7 @@ public class ProductProfitPresenterImpl extends BasePresenterImpl<ProductProfitV
 
                     int searchRes[] = new int[searchResultsTemp.length];
 
-                    if(currentPosition == 0) {
+                        if(currentPosition == 0) {
                         for (int i = 0; i < searchResultsTemp.length; i++) {
                             if (((String) searchResultsTemp[i][0]).toUpperCase().contains(searchText.toUpperCase())) {
                                 searchRes[i] = 1;
