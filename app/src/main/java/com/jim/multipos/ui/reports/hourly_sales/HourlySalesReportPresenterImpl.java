@@ -1,6 +1,7 @@
 package com.jim.multipos.ui.reports.hourly_sales;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 
 import com.jim.multipos.core.BasePresenterImpl;
@@ -54,8 +55,11 @@ public class HourlySalesReportPresenterImpl extends BasePresenterImpl<HourlySale
         fromDate.set(Calendar.MINUTE, 0);
         fromDate.set(Calendar.SECOND, 0);
         view.updateDateIntervalUi(fromDate, toDate);
-        initReportTable();
-        view.initTable(objects);
+        new Handler().postDelayed(()->{
+            initReportTable();
+            view.initTable(objects);
+        },50);
+
     }
 
     @Override

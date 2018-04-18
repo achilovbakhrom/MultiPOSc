@@ -2,6 +2,7 @@ package com.jim.multipos.ui.reports.product_profit;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 
 import com.jim.multipos.R;
 import com.jim.multipos.core.BasePresenterImpl;
@@ -57,13 +58,17 @@ public class ProductProfitPresenterImpl extends BasePresenterImpl<ProductProfitV
         super.onCreateView(bundle);
         initDateInterval();
         initDecimal();
-        databaseManager.getOrdersInIntervalForReport(this.fromDateSummary,this.toDateSummary).subscribe((orders1, throwable) -> {
-            ordersSummary = orders1;
-            ordersLog = orders1;
-            updateObejctsForTable();
-            view.initTable(summaryObjects,currentPosition);
-            view.updateDateIntervalUi(fromDateSummary,toDateSummary);
-        });
+        view.updateDateIntervalUi(fromDateSummary,toDateSummary);
+
+        new Handler().postDelayed(()->{
+            databaseManager.getOrdersInIntervalForReport(this.fromDateSummary,this.toDateSummary).subscribe((orders1, throwable) -> {
+                ordersSummary = orders1;
+                ordersLog = orders1;
+                updateObejctsForTable();
+                view.initTable(summaryObjects,currentPosition);
+            });
+        },50);
+
     }
 
     @Override

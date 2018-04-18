@@ -279,9 +279,20 @@
         android:layout_height="2px"
         android:layout_marginTop="@dimen/twenty_dp"
         android:background="#d6d6d6" />
-
-    <FrameLayout
-        android:id="@+id/flTable"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+        <FrameLayout
+            android:id="@+id/flTable"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <ProgressBar
+            android:id="@+id/pbLoading"
+            android:layout_width="@dimen/forty_dp"
+            android:layout_height="@dimen/forty_dp"
+            android:layout_marginTop="@dimen/seventy_dp"
+            android:layout_centerHorizontal="true"
+            />
+    </RelativeLayout>
+
 </LinearLayout>

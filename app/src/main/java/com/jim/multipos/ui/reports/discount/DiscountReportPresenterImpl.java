@@ -2,6 +2,7 @@ package com.jim.multipos.ui.reports.discount;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 
 import com.jim.multipos.R;
 import com.jim.multipos.core.BasePresenterImpl;
@@ -67,8 +68,11 @@ public class DiscountReportPresenterImpl extends BasePresenterImpl<DiscountRepor
         fromDate.set(Calendar.MINUTE, 0);
         fromDate.set(Calendar.SECOND, 0);
         view.updateDateIntervalUi(fromDate, toDate);
-        initReportContent();
-        view.initTable(firstObjects);
+        new Handler().postDelayed(()->{
+            initReportContent();
+            view.initTable(firstObjects);
+        },50);
+
     }
 
     private void initReportContent() {

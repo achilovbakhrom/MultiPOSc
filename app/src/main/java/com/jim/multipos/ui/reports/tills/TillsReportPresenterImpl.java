@@ -1,6 +1,7 @@
 package com.jim.multipos.ui.reports.tills;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Gravity;
 
 import com.jim.mpviews.utils.ReportViewConstants;
@@ -66,7 +67,10 @@ public class TillsReportPresenterImpl extends BasePresenterImpl<TillsReportView>
         fromDate.set(Calendar.MINUTE, 0);
         fromDate.set(Calendar.SECOND, 0);
         view.updateDateIntervalUi(fromDate, toDate);
-        initTableView();
+        new Handler().postDelayed(()->{
+            initTableView();
+        },50);
+
     }
 
     private void initTableView() {

@@ -81,6 +81,7 @@ public class DebtsReportFragment extends BaseTableReportFragment implements Debt
                 .setDataAlignTypes(forthAligns)
                 .build();
         forthView = new ReportView(forthBuilder);
+
     }
 
     @Override

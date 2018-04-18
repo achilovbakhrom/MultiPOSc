@@ -2,6 +2,7 @@ package com.jim.multipos.ui.reports.summary_report;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Pair;
 
 import com.jim.multipos.R;
@@ -67,8 +68,9 @@ public class SummaryReportPresenterImpl extends BasePresenterImpl<SummaryReportV
         initDateInterval();
         initDecimal();
 
-
-        updateSummaryList();
+        new Handler().postDelayed(()->{
+            updateSummaryList();
+        },50);
     }
 
     @Override
@@ -231,6 +233,20 @@ public class SummaryReportPresenterImpl extends BasePresenterImpl<SummaryReportV
                     totalDebtSales += orders.get(i).getToDebtValue();
                     totalTips += orders.get(i).getTips();
 
+                    for (int j = 0; j < orders.get(i).getOrderProducts().size(); j++) {
+
+                        if(orders.get(i).getOrderProducts().get(j).getDiscount()!=null){
+                            if(orders.get(i).getDiscount().getIsManual())
+                                totalManualDiscountCount ++ ;
+                            else totalStaticDiscountCount ++;
+                        }
+
+                        if(orders.get(i).getOrderProducts().get(j).getDiscount()!=null){
+                            if(orders.get(i).getServiceFee().getIsManual())
+                                totalManualServiceFeeCount ++ ;
+                            else totalStaticServiceFeeCount ++;
+                        }
+                    }
 
                 }else if(orders.get(i).getStatus() == Order.CANCELED_ORDER) totalCanceledOrderCount ++;
             }

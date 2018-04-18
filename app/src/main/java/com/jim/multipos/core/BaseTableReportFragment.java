@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.jim.mpviews.MpEditText;
@@ -57,7 +58,8 @@ public abstract class BaseTableReportFragment extends BaseFragment {
     LinearLayout llSearch;
     @BindView(R.id.flTable)
     FrameLayout flTable;
-
+    @BindView(R.id.pbLoading)
+    ProgressBar pbLoading;
 
     int panelCount=0;
     private BaseTableReportPresenter baseTableReportPresenter;
@@ -80,7 +82,9 @@ public abstract class BaseTableReportFragment extends BaseFragment {
     public void setTable(FrameLayout frameLayout){
         flTable.removeAllViews();
         flTable.addView(frameLayout);
+        pbLoading.setVisibility(View.GONE);
     }
+    public ProgressBar getPbLoading(){return pbLoading;}
     public void disableSearch(){
         llSearch.setVisibility(View.GONE);
     }
@@ -111,7 +115,10 @@ public abstract class BaseTableReportFragment extends BaseFragment {
         tvDateInterval.setText(simpleDateFormat.format(fromDate.getTime()) + " - " + simpleDateFormat.format(toDate.getTime()));
     }
     public void openDateInterval(Calendar fromDate,Calendar toDate){
-        DateIntervalPicker dateIntervalPicker = new DateIntervalPicker(getContext(), fromDate, toDate, (fromDate1, toDate1) -> baseTableReportPresenter.onChooseDateInterval(fromDate1, toDate1));
+        DateIntervalPicker dateIntervalPicker = new DateIntervalPicker(getContext(), fromDate, toDate, (fromDate1, toDate1) -> {
+            pbLoading.setVisibility(View.VISIBLE);
+            pbLoading.postDelayed(() -> baseTableReportPresenter.onChooseDateInterval(fromDate1, toDate1), 50);
+        });
         dateIntervalPicker.show();
     }
     public void setSingleTitle(String titleReport){
@@ -121,6 +128,7 @@ public abstract class BaseTableReportFragment extends BaseFragment {
         panelCount = 1;
     }
     public void setChoiserPanel(String[] titles){
+
         tvTitleReport.setVisibility(View.GONE);
         llChoiserPanel.setVisibility(View.VISIBLE);
         panelCount = titles.length;
@@ -128,6 +136,7 @@ public abstract class BaseTableReportFragment extends BaseFragment {
             new Exception("Panel title can maximum 5, for all questions ISLOMOV SARDOR").printStackTrace();
         }
         if(panelCount == 1){
+
             setSingleTitle(titles[0]);
         }else if(panelCount == 2){
             tvFirtPanel.setVisibility(View.VISIBLE);
@@ -144,13 +153,18 @@ public abstract class BaseTableReportFragment extends BaseFragment {
 
             tvFirtPanel.setOnClickListener((view)->{
                 disableAllPanelButtons();
-                baseTableReportPresenter.onChoisedPanel(0);
+                pbLoading.setVisibility(View.VISIBLE);
+                pbLoading.postDelayed(()-> baseTableReportPresenter.onChoisedPanel(0),50);
+
                 tvFirtPanel.setBackgroundResource(R.drawable.left_switch_title_pressed);
                 tvFirtPanel.setTextColor(Color.parseColor("#2e91cc"));
             });
             tvFivePanel.setOnClickListener((view)->{
                 disableAllPanelButtons();
-                baseTableReportPresenter.onChoisedPanel(1);
+                pbLoading.setVisibility(View.VISIBLE);
+
+                pbLoading.postDelayed(()-> baseTableReportPresenter.onChoisedPanel(1),50);
+
                 tvFivePanel.setBackgroundResource(R.drawable.right_switch_title_pressed);
                 tvFivePanel.setTextColor(Color.parseColor("#2e91cc"));
             });
@@ -169,19 +183,24 @@ public abstract class BaseTableReportFragment extends BaseFragment {
             tvFirtPanel.setTextColor(Color.parseColor("#2e91cc"));
             tvFirtPanel.setOnClickListener((view -> {
                 disableAllPanelButtons();
-                baseTableReportPresenter.onChoisedPanel(0);
+                pbLoading.setVisibility(View.VISIBLE);
+                pbLoading.postDelayed(()-> baseTableReportPresenter.onChoisedPanel(0),50);
                 tvFirtPanel.setBackgroundResource(R.drawable.left_switch_title_pressed);
                 tvFirtPanel.setTextColor(Color.parseColor("#2e91cc"));
             }));
             tvSecondPanel.setOnClickListener((view -> {
                 disableAllPanelButtons();
-                baseTableReportPresenter.onChoisedPanel(1);
+                pbLoading.setVisibility(View.VISIBLE);
+                pbLoading.postDelayed(()-> baseTableReportPresenter.onChoisedPanel(1),50);
                 tvSecondPanel.setBackgroundResource(R.drawable.center_switch_title_pressed);
                 tvSecondPanel.setTextColor(Color.parseColor("#2e91cc"));
             }));
             tvFivePanel.setOnClickListener((view -> {
                 disableAllPanelButtons();
-                baseTableReportPresenter.onChoisedPanel(2);
+                pbLoading.setVisibility(View.VISIBLE);
+
+                pbLoading.postDelayed(()-> baseTableReportPresenter.onChoisedPanel(2),50);
+
                 tvFivePanel.setBackgroundResource(R.drawable.right_switch_title_pressed);
                 tvFivePanel.setTextColor(Color.parseColor("#2e91cc"));
             }));
@@ -201,25 +220,35 @@ public abstract class BaseTableReportFragment extends BaseFragment {
             tvFirtPanel.setTextColor(Color.parseColor("#2e91cc"));
             tvFirtPanel.setOnClickListener((view -> {
                 disableAllPanelButtons();
-                baseTableReportPresenter.onChoisedPanel(0);
+
+                pbLoading.setVisibility(View.VISIBLE);
+
+                pbLoading.postDelayed(()-> baseTableReportPresenter.onChoisedPanel(0),50);
+
                 tvFirtPanel.setBackgroundResource(R.drawable.left_switch_title_pressed);
                 tvFirtPanel.setTextColor(Color.parseColor("#2e91cc"));
             }));
             tvSecondPanel.setOnClickListener((view -> {
+                pbLoading.setVisibility(View.VISIBLE);
                 disableAllPanelButtons();
-                baseTableReportPresenter.onChoisedPanel(1);
+                pbLoading.postDelayed(()-> baseTableReportPresenter.onChoisedPanel(1),50);
+
                 tvSecondPanel.setBackgroundResource(R.drawable.center_switch_title_pressed);
                 tvSecondPanel.setTextColor(Color.parseColor("#2e91cc"));
             }));
             tvThirdPanel.setOnClickListener((view -> {
+                pbLoading.setVisibility(View.VISIBLE);
                 disableAllPanelButtons();
-                baseTableReportPresenter.onChoisedPanel(2);
+                pbLoading.postDelayed(()-> baseTableReportPresenter.onChoisedPanel(2),50);
+
                 tvThirdPanel.setBackgroundResource(R.drawable.center_switch_title_pressed);
                 tvThirdPanel.setTextColor(Color.parseColor("#2e91cc"));
             }));
             tvFivePanel.setOnClickListener((view -> {
+                pbLoading.setVisibility(View.VISIBLE);
                 disableAllPanelButtons();
-                baseTableReportPresenter.onChoisedPanel(3);
+                pbLoading.postDelayed(()-> baseTableReportPresenter.onChoisedPanel(3),50);
+
                 tvFivePanel.setBackgroundResource(R.drawable.right_switch_title_pressed);
                 tvFivePanel.setTextColor(Color.parseColor("#2e91cc"));
             }));
@@ -239,32 +268,42 @@ public abstract class BaseTableReportFragment extends BaseFragment {
             tvFirtPanel.setBackgroundResource(R.drawable.left_switch_title_pressed);
             tvFirtPanel.setTextColor(Color.parseColor("#2e91cc"));
             tvFirtPanel.setOnClickListener((view -> {
+                pbLoading.setVisibility(View.VISIBLE);
                 disableAllPanelButtons();
-                baseTableReportPresenter.onChoisedPanel(0);
+                pbLoading.postDelayed(()-> baseTableReportPresenter.onChoisedPanel(0),50);
+
                 tvFirtPanel.setBackgroundResource(R.drawable.left_switch_title_pressed);
                 tvFirtPanel.setTextColor(Color.parseColor("#2e91cc"));
             }));
             tvSecondPanel.setOnClickListener((view -> {
+                pbLoading.setVisibility(View.VISIBLE);
                 disableAllPanelButtons();
-                baseTableReportPresenter.onChoisedPanel(1);
+                pbLoading.postDelayed(()-> baseTableReportPresenter.onChoisedPanel(1),50);
+
                 tvSecondPanel.setBackgroundResource(R.drawable.center_switch_title_pressed);
                 tvSecondPanel.setTextColor(Color.parseColor("#2e91cc"));
             }));
             tvThirdPanel.setOnClickListener((view -> {
                 disableAllPanelButtons();
-                baseTableReportPresenter.onChoisedPanel(2);
+                pbLoading.setVisibility(View.VISIBLE);
+                pbLoading.postDelayed(()-> baseTableReportPresenter.onChoisedPanel(2),50);
+
                 tvThirdPanel.setBackgroundResource(R.drawable.center_switch_title_pressed);
                 tvThirdPanel.setTextColor(Color.parseColor("#2e91cc"));
             }));
             tvFourPanel.setOnClickListener((view -> {
                 disableAllPanelButtons();
-                baseTableReportPresenter.onChoisedPanel(3);
+                pbLoading.setVisibility(View.VISIBLE);
+                pbLoading.postDelayed(()-> baseTableReportPresenter.onChoisedPanel(3),50);
+
                 tvFourPanel.setBackgroundResource(R.drawable.center_switch_title_pressed);
                 tvFourPanel.setTextColor(Color.parseColor("#2e91cc"));
             }));
             tvFivePanel.setOnClickListener((view -> {
                 disableAllPanelButtons();
-                baseTableReportPresenter.onChoisedPanel(4);
+                pbLoading.setVisibility(View.VISIBLE);
+                pbLoading.postDelayed(()-> baseTableReportPresenter.onChoisedPanel(4),50);
+
                 tvFivePanel.setBackgroundResource(R.drawable.right_switch_title_pressed);
                 tvFivePanel.setTextColor(Color.parseColor("#2e91cc"));
             }));

@@ -2,6 +2,7 @@ package com.jim.multipos.ui.reports.order_history;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -56,11 +57,14 @@ public class OrderHistoryPresenterImpl extends BasePresenterImpl<OrderHistoryVie
         super.onCreateView(bundle);
         initDateInterval();
         initDecimal();
-        databaseManager.getOrdersInIntervalForReport(fromDate,toDate).subscribe((orders1, throwable) -> {
-            orders = orders1;
-            updateObejctsForTable();
-            view.initTable(objects);
-        });
+        new Handler().postDelayed(()->{
+            databaseManager.getOrdersInIntervalForReport(fromDate,toDate).subscribe((orders1, throwable) -> {
+                orders = orders1;
+                updateObejctsForTable();
+                view.initTable(objects);
+            });
+        },50);
+
     }
 
     @Override

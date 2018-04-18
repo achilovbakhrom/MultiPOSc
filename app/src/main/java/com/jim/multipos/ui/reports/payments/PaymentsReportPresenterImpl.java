@@ -2,6 +2,7 @@ package com.jim.multipos.ui.reports.payments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
@@ -63,12 +64,15 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
         super.onCreateView(bundle);
         initDateInterval();
         initDecimal();
-        databaseManager.getOrdersInIntervalForReport(this.fromDateSummary,this.toDateSummary).subscribe((orders1, throwable) -> {
-            ordersSummary = orders1;
-            updateObejctsForTable();
-            view.initTable(summaryObjects,currentPosition);
-            view.updateDateIntervalUi(fromDateSummary,toDateSummary);
-        });
+        new Handler().postDelayed(()->{
+            databaseManager.getOrdersInIntervalForReport(this.fromDateSummary,this.toDateSummary).subscribe((orders1, throwable) -> {
+                ordersSummary = orders1;
+                updateObejctsForTable();
+                view.initTable(summaryObjects,currentPosition);
+            });
+        },50);
+        view.updateDateIntervalUi(fromDateSummary,toDateSummary);
+
     }
 
     @Override
