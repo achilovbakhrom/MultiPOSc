@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
 
+import com.github.mjdev.libaums.fs.UsbFile;
 import com.jim.mpviews.utils.ReportViewConstants;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
@@ -22,6 +23,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import static com.jim.multipos.utils.ExportUtils.EXCEL;
+import static com.jim.multipos.utils.ExportUtils.PDF;
+
 /**
  * Created by Sirojiddin on 27.03.2018.
  */
@@ -36,6 +40,7 @@ public class TillsReportPresenterImpl extends BasePresenterImpl<TillsReportView>
     private DecimalFormat decimalFormat;
     private SimpleDateFormat simpleDateFormat;
     private boolean isFirstTime = true;
+    private String searchText = "";
 
     @Inject
     protected TillsReportPresenterImpl(TillsReportView view, DatabaseManager databaseManager) {
@@ -105,6 +110,7 @@ public class TillsReportPresenterImpl extends BasePresenterImpl<TillsReportView>
                 double thisTillStartMoney = 0;
                 double closedAmount = 0;
                 double expectedAmount = 0;
+                double toNextAmount = 0;
 
                 List<TillManagementOperation> thisTillOperations = databaseManager.getTillManagementOperationsByTillId(till.getId()).blockingGet();
                 for (TillManagementOperation operation : thisTillOperations) {
@@ -112,6 +118,8 @@ public class TillsReportPresenterImpl extends BasePresenterImpl<TillsReportView>
                         thisTillStartMoney += operation.getAmount();
                     if (operation.getType() == TillManagementOperation.CLOSED_WITH)
                         closedAmount += operation.getAmount();
+                    if (operation.getType() == TillManagementOperation.TO_NEW_TILL)
+                        toNextAmount += operation.getAmount();
                 }
 
                 List<TillDetails> tillDetails = databaseManager.getTillDetailsByTillId(till.getId()).blockingGet();
@@ -125,7 +133,7 @@ public class TillsReportPresenterImpl extends BasePresenterImpl<TillsReportView>
                 }
 
                 startMoneyVariance = thisTillStartMoney - moneyLeftFromPrevTill;
-                tillAmountVariance = expectedAmount - closedAmount - moneyLeftFromPrevTill;
+                tillAmountVariance = expectedAmount - closedAmount - toNextAmount;
 
                 objects[i][3] = startMoneyVariance;
                 objects[i][4] = tillAmountVariance;
@@ -148,6 +156,30 @@ public class TillsReportPresenterImpl extends BasePresenterImpl<TillsReportView>
     }
 
     @Override
+    public void exportExcel(String fileName, String path) {
+        String date = simpleDateFormat.format(fromDate.getTime()) + " - " + simpleDateFormat.format(toDate.getTime());
+        view.exportTableToExcel(fileName, path, objects, date, searchText);
+    }
+
+    @Override
+    public void exportPdf(String fileName, String path) {
+        String date = simpleDateFormat.format(fromDate.getTime()) + " - " + simpleDateFormat.format(toDate.getTime());
+        view.exportTableToPdf(fileName, path, objects, date, searchText);
+    }
+
+    @Override
+    public void exportExcelToUSB(String filename, UsbFile root) {
+        String date = simpleDateFormat.format(fromDate.getTime()) + " - " + simpleDateFormat.format(toDate.getTime());
+        view.exportExcelToUSB(filename, root, objects, date, searchText);
+    }
+
+    @Override
+    public void exportPdfToUSB(String filename, UsbFile root) {
+        String date = simpleDateFormat.format(fromDate.getTime()) + " - " + simpleDateFormat.format(toDate.getTime());
+        view.exportTableToPdfToUSB(filename, root, objects, date, searchText);
+    }
+
+    @Override
     public void onChooseDateInterval(Calendar fromDate, Calendar toDate) {
         this.fromDate = fromDate;
         this.toDate = toDate;
@@ -160,6 +192,7 @@ public class TillsReportPresenterImpl extends BasePresenterImpl<TillsReportView>
 
     @Override
     public void onSearchTyped(String searchText) {
+        this.searchText = searchText;
         if (searchText.isEmpty()) {
             view.updateReportView(objects);
             prev = -1;
@@ -261,12 +294,12 @@ public class TillsReportPresenterImpl extends BasePresenterImpl<TillsReportView>
 
     @Override
     public void onClickedExportExcel() {
-
+        view.openExportDialog(EXCEL);
     }
 
     @Override
     public void onClickedExportPDF() {
-
+        view.openExportDialog(PDF);
     }
 
     @Override

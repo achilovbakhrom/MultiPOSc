@@ -128,6 +128,7 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
     public void setConsignmentItem(Product product) {
         ConsignmentProduct consignmentProduct = new ConsignmentProduct();
         consignmentProduct.setProduct(product);
+        consignmentProduct.setCreatedDate(System.currentTimeMillis());
         consignmentProduct.setProductId(product.getId());
         VendorProductCon productCon = databaseManager.getVendorProductConnectionById(product.getId(), this.vendor.getId()).blockingSingle();
         if (productCon != null) {

@@ -3,13 +3,23 @@ package com.jim.multipos.ui.reports.debts;
 import android.os.Bundle;
 import android.view.Gravity;
 
+import com.github.angads25.filepicker.model.DialogConfigs;
+import com.github.angads25.filepicker.model.DialogProperties;
+import com.github.angads25.filepicker.view.FilePickerDialog;
+import com.github.mjdev.libaums.fs.UsbFile;
 import com.jim.mpviews.ReportView;
 import com.jim.mpviews.utils.ReportViewConstants;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseTableReportFragment;
 import com.jim.multipos.ui.reports.debts.dialogs.DebtFilterDialog;
+import com.jim.multipos.utils.ExportToDialog;
+import com.jim.multipos.utils.ExportUtils;
+
+import java.io.File;
 
 import javax.inject.Inject;
+
+import static com.jim.multipos.utils.ExportUtils.EXCEL;
 
 public class DebtsReportFragment extends BaseTableReportFragment implements DebtsReportView {
 
@@ -29,25 +39,28 @@ public class DebtsReportFragment extends BaseTableReportFragment implements Debt
     private int forthDataType[] = {ReportViewConstants.NAME, ReportViewConstants.DATE, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.DATE, ReportViewConstants.AMOUNT, ReportViewConstants.NAME, ReportViewConstants.DATE};
     private int forthWeights[] = {5, 10, 10, 10, 10, 10, 10, 10};
     private int forthAligns[] = {Gravity.CENTER, Gravity.CENTER, Gravity.RIGHT, Gravity.RIGHT, Gravity.CENTER, Gravity.RIGHT, Gravity.LEFT, Gravity.CENTER};
+    private String firstTitles[], secondTitles[], thirdTitles[], forthTitles[], panelNames[];
+    private Object[][][] statusTypes;
 
     @Override
     protected void init(Bundle savedInstanceState) {
         init(presenter);
         disableFilter();
         disableDateIntervalPicker();
-        setChoiserPanel(new String[]{getString(R.string.debts_list), getString(R.string.debt_summary), getString(R.string.debt_transactions_list), getString(R.string.orders_with_Debt)});
+        panelNames = new String[]{getString(R.string.debts_list), getString(R.string.debt_summary), getString(R.string.debt_transactions_list), getString(R.string.orders_with_Debt)};
+        setChoiserPanel(panelNames);
         initDefaults();
         presenter.onCreateView(savedInstanceState);
     }
 
     private void initDefaults() {
-        Object[][][] statusTypes = new Object[][][]{
+        statusTypes = new Object[][][]{
                 {{0, getContext().getString(R.string.debt_taken), R.color.colorMainText},
                         {1, getContext().getString(R.string.debt_closed), R.color.colorBlue}}};
-        String firstTitles[] = new String[]{getString(R.string.name), getString(R.string.total_debt), getString(R.string.total_overdue), getString(R.string.last_visit), getString(R.string.customer_contacts)};
-        String secondTitles[] = new String[]{getString(R.string.name), getString(R.string.debt_taken), getString(R.string.debt_closed), getString(R.string.debt_orders_count), getString(R.string.debt_taken_avg), getString(R.string.debt_closed_avg)};
-        String thirdTitles[] = new String[]{getString(R.string.name), getString(R.string.date), getString(R.string.order), getString(R.string.type), getString(R.string.amount), getString(R.string.payment_type), getString(R.string.group)};
-        String forthTitles[] = new String[]{getString(R.string.order_num), getString(R.string.created_at), getString(R.string.order_amount), getString(R.string.paid_report_text), getString(R.string.last_pay_date), getString(R.string.due_debt), getString(R.string.customer), getString(R.string.should_close_date)};
+        firstTitles = new String[]{getString(R.string.name), getString(R.string.total_debt), getString(R.string.total_overdue), getString(R.string.last_visit), getString(R.string.customer_contacts)};
+        secondTitles = new String[]{getString(R.string.name), getString(R.string.debt_taken), getString(R.string.debt_closed), getString(R.string.debt_orders_count), getString(R.string.debt_taken_avg), getString(R.string.debt_closed_avg)};
+        thirdTitles = new String[]{getString(R.string.name), getString(R.string.date), getString(R.string.order), getString(R.string.type), getString(R.string.amount), getString(R.string.payment_type), getString(R.string.group)};
+        forthTitles = new String[]{getString(R.string.order_num), getString(R.string.created_at), getString(R.string.order_amount), getString(R.string.paid_report_text), getString(R.string.last_pay_date), getString(R.string.due_debt), getString(R.string.customer), getString(R.string.should_close_date)};
         firstBuilder = new ReportView.Builder()
                 .setContext(getContext())
                 .setTitles(firstTitles)
@@ -155,6 +168,137 @@ public class DebtsReportFragment extends BaseTableReportFragment implements Debt
         DebtFilterDialog dialog = new DebtFilterDialog(getContext(), filterConfig, config -> {
             presenter.filterConfigsHaveChanged(config);
             clearSearch();
+        });
+        dialog.show();
+    }
+
+    @Override
+    public void exportTableToExcel(String fileName, String path, Object[][] objects, int position, String date, String filter, String searchText) {
+        switch (position) {
+            case 0:
+                String description = "In this report you can find all info about consignments";
+                ExportUtils.exportToExcel(getContext(), path, fileName, description, date, filter, searchText, objects, firstTitles, firstWeights, firstDataType, null);
+                break;
+            case 1:
+                String secondDescription = " All Consignment products";
+                ExportUtils.exportToExcel(getContext(), path, fileName, secondDescription, date, filter, searchText, objects, secondTitles, secondWeights, secondDataType, null);
+                break;
+            case 2:
+                String thirdDescription = " Debt states of each vendor";
+                ExportUtils.exportToExcel(getContext(), path, fileName, thirdDescription, date, filter, searchText, objects, thirdTitles, thirdWeights, thirdDataType, statusTypes);
+                break;
+            case 3:
+                String forthDescription = " All money transactions";
+                ExportUtils.exportToExcel(getContext(), path, fileName, forthDescription, date, filter, searchText, objects, forthTitles, forthWeights, forthDataType, null);
+                break;
+        }
+    }
+
+    @Override
+    public void exportTableToPdf(String fileName, String path, Object[][] objects, int position, String date, String filter, String searchText) {
+        switch (position) {
+            case 0:
+                String description = "In this report you can find all info about consignments";
+                ExportUtils.exportToPdf(getContext(), path, fileName, description, date, filter, searchText, objects, firstTitles, firstWeights, firstDataType, null);
+                break;
+            case 1:
+                String secondDescription = " All Consignment products";
+                ExportUtils.exportToPdf(getContext(), path, fileName, secondDescription, date, filter, searchText, objects, secondTitles, secondWeights, secondDataType, null);
+                break;
+            case 2:
+                String thirdDescription = " Debt states of each vendor";
+                ExportUtils.exportToPdf(getContext(), path, fileName, thirdDescription, date, filter, searchText, objects, thirdTitles, thirdWeights, thirdDataType, statusTypes);
+                break;
+            case 3:
+                String forthDescription = " All money transactions";
+                ExportUtils.exportToPdf(getContext(), path, fileName, forthDescription, date, filter, searchText, objects, forthTitles, forthWeights, forthDataType, null);
+                break;
+        }
+    }
+
+    ExportToDialog exportDialog;
+
+    @Override
+    public void openExportDialog(int position, int mode) {
+        exportDialog = new ExportToDialog(getContext(), mode, panelNames[position], new ExportToDialog.OnExportListener() {
+            @Override
+            public void onFilePickerClicked() {
+                openFilePickerDialog();
+            }
+
+            @Override
+            public void onSaveToUSBClicked(String filename, UsbFile root) {
+                if (mode == EXCEL)
+                    presenter.exportExcelToUSB(filename, root);
+                else presenter.exportPdfToUSB(filename, root);
+            }
+
+            @Override
+            public void onSaveClicked(String fileName, String path) {
+                if (mode == EXCEL)
+                    presenter.exportExcel(fileName, path);
+                else presenter.exportPdf(fileName, path);
+            }
+        });
+        exportDialog.show();
+    }
+
+    @Override
+    public void exportExcelToUSB(String filename, UsbFile root, Object[][] objects, int position, String date, String filter, String searchText) {
+        switch (position) {
+            case 0:
+                String description = "In this report you can find all info about consignments";
+                ExportUtils.exportToExcelToUSB(getContext(), root, filename, description, date, filter, searchText, objects, firstTitles, firstWeights, firstDataType, null);
+                break;
+            case 1:
+                String secondDescription = " All Consignment products";
+                ExportUtils.exportToExcelToUSB(getContext(), root, filename, secondDescription, date, filter, searchText, objects, secondTitles, secondWeights, secondDataType, null);
+                break;
+            case 2:
+                String thirdDescription = " Debt states of each vendor";
+                ExportUtils.exportToExcelToUSB(getContext(), root, filename, thirdDescription, date, filter, searchText, objects, thirdTitles, thirdWeights, thirdDataType, statusTypes);
+                break;
+            case 3:
+                String forthDescription = " All money transactions";
+                ExportUtils.exportToExcelToUSB(getContext(), root, filename, forthDescription, date, filter, searchText, objects, forthTitles, forthWeights, forthDataType, null);
+                break;
+        }
+    }
+
+    @Override
+    public void exportTableToPdfToUSB(String fileName, UsbFile path, Object[][] objects, int position, String date, String filter, String searchText) {
+        switch (position) {
+            case 0:
+                String description = "In this report you can find all info about consignments";
+                ExportUtils.exportToPdfToUSB(getContext(), path, fileName, description, date, filter, searchText, objects, firstTitles, firstWeights, firstDataType, null);
+                break;
+            case 1:
+                String secondDescription = " All Consignment products";
+                ExportUtils.exportToPdfToUSB(getContext(), path, fileName, secondDescription, date, filter, searchText, objects, secondTitles, secondWeights, secondDataType, null);
+                break;
+            case 2:
+                String thirdDescription = " Debt states of each vendor";
+                ExportUtils.exportToPdfToUSB(getContext(), path, fileName, thirdDescription, date, filter, searchText, objects, thirdTitles, thirdWeights, thirdDataType, statusTypes);
+                break;
+            case 3:
+                String forthDescription = " All money transactions";
+                ExportUtils.exportToPdfToUSB(getContext(), path, fileName, forthDescription, date, filter, searchText, objects, forthTitles, forthWeights, forthDataType, null);
+                break;
+        }
+    }
+
+    private void openFilePickerDialog() {
+        DialogProperties properties = new DialogProperties();
+        properties.selection_mode = DialogConfigs.SINGLE_MODE;
+        properties.selection_type = DialogConfigs.DIR_SELECT;
+        properties.root = new File(DialogConfigs.DEFAULT_DIR);
+        properties.error_dir = new File(DialogConfigs.DEFAULT_DIR);
+        properties.offset = new File(DialogConfigs.DEFAULT_DIR);
+        properties.extensions = null;
+        FilePickerDialog dialog = new FilePickerDialog(getContext(), properties);
+        dialog.setTitle(getContext().getString(R.string.select_a_directory));
+        dialog.setDialogSelectionListener(files -> {
+            exportDialog.setPath(files);
         });
         dialog.show();
     }

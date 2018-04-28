@@ -36,9 +36,12 @@ public class ExportDialog extends Dialog {
         getWindow().getDecorView().setBackgroundResource(android.R.color.transparent);
         Window window = getWindow();
         WindowManager.LayoutParams wlp = window.getAttributes();
-        if (panelCount == 1){
+        if (panelCount == 1) {
             wlp.y = CommonUtils.dpToPx(160);
             wlp.x = CommonUtils.dpToPx(950);
+        } else if (panelCount == 10) {
+            wlp.y = CommonUtils.dpToPx(100);
+            wlp.x = CommonUtils.dpToPx(550);
         } else {
             wlp.y = CommonUtils.dpToPx(190);
             wlp.x = CommonUtils.dpToPx(950);
@@ -62,6 +65,7 @@ public class ExportDialog extends Dialog {
 
     public interface OnExportItemClick {
         void onToExcel();
+
         void onToPdf();
     }
 }

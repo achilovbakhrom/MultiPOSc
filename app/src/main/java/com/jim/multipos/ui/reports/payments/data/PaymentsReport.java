@@ -7,6 +7,7 @@ public class PaymentsReport {
     String paymentName;
     String accountName;
     String reason;
+    String description = "";
     long orderId;
     long tillId;
     long date;

@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_SUPERUSER"/>
 
     <application
         android:name=".MultiPosApp"
@@ -87,7 +88,12 @@
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".ui.customer_debt.CustomerDebtActivity" />
         <activity android:name=".ui.cash_management.CashManagementActivity" />
-        <activity android:name=".ui.reports.ReportsActivity" />
+        <activity android:name=".ui.reports.ReportsActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.OPEN_DOCUMENT_TREE" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

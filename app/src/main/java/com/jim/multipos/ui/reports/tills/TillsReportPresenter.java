@@ -1,5 +1,6 @@
 package com.jim.multipos.ui.reports.tills;
 
+import com.github.mjdev.libaums.fs.UsbFile;
 import com.jim.multipos.core.BaseTableReportPresenter;
 
 /**
@@ -8,4 +9,8 @@ import com.jim.multipos.core.BaseTableReportPresenter;
 
 public interface TillsReportPresenter extends BaseTableReportPresenter {
     void openTillDetailsDialog(Object[][] objects, int row, int column);
+    void exportExcel(String fileName, String path);
+    void exportPdf(String fileName, String path);
+    void exportExcelToUSB(String filename, UsbFile root);
+    void exportPdfToUSB(String filename, UsbFile root);
 }

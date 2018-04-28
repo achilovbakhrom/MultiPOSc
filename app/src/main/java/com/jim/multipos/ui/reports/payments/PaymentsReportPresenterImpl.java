@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.github.mjdev.libaums.fs.UsbFile;
+import com.jim.multipos.R;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Account;
@@ -31,6 +33,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import static com.jim.multipos.utils.ExportUtils.EXCEL;
+import static com.jim.multipos.utils.ExportUtils.PDF;
+
 public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsReportView> implements PaymentsReportPresenter {
     int[] filterConfig;
     private DatabaseManager databaseManager;
@@ -47,6 +52,8 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
     List<Order> ordersSummary;
     PaymentType cashPaymentType;
     List<PaymentsReport> paymentsReports;
+    private String searchText;
+
     @Inject
     protected PaymentsReportPresenterImpl(PaymentsReportView paymentsReportView, DatabaseManager databaseManager, Context context) {
         super(paymentsReportView);
@@ -54,7 +61,7 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
         this.context = context;
         simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         paymentsReports = new ArrayList<>();
-        filterConfig = new int[]{1,1,1,1,1,1,1};
+        filterConfig = new int[]{1, 1, 1, 1, 1, 1, 1};
         cashPaymentType = databaseManager.getCashPaymentType();
 
     }
@@ -77,40 +84,42 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
 
     @Override
     public void onChooseDateInterval(Calendar fromDate, Calendar toDate) {
-        if(currentPosition == 0) {
+        if (currentPosition == 0) {
             this.fromDateSummary = fromDate;
             this.toDateSummary = toDate;
-            databaseManager.getOrdersInIntervalForReport(fromDate,toDate).subscribe((orders1, throwable) -> {
+            databaseManager.getOrdersInIntervalForReport(fromDate, toDate).subscribe((orders1, throwable) -> {
                 ordersSummary = orders1;
                 updateObejctsForTable();
-                view.initTable(summaryObjects,currentPosition);
-                view.updateDateIntervalUi(fromDateSummary,toDateSummary);
+                view.initTable(summaryObjects, currentPosition);
+                view.updateDateIntervalUi(fromDateSummary, toDateSummary);
             });
-        }else {
+        } else {
             this.fromDateLog = fromDate;
             this.toDateLog = toDate;
-            fillPaymentsDetialReportPreData(fromDate,toDate);
+            fillPaymentsDetialReportPreData(fromDate, toDate);
         }
 
 
     }
+
     int prev = -1;
     Object[][] searchResultsTemp;
 
     @Override
     public void onSearchTyped(String searchText) {
-        if(searchText.isEmpty()){
-            view.initTable(currentPosition==0?summaryObjects:logObjects,currentPosition);
+        this.searchText = searchText;
+        if (searchText.isEmpty()) {
+            view.initTable(currentPosition == 0 ? summaryObjects : logObjects, currentPosition);
             prev = -1;
-        }else {
-            if(searchText.length()<=prev || prev == -1 ) {
+        } else {
+            if (searchText.length() <= prev || prev == -1) {
                 Object[][] objects;
-                if(currentPosition==0) objects = summaryObjects;
+                if (currentPosition == 0) objects = summaryObjects;
                 else objects = logObjects;
 
                 int searchRes[] = new int[objects.length];
 
-                if(currentPosition == 0){
+                if (currentPosition == 0) {
                     for (int i = 0; i < objects.length; i++) {
                         if (((String) objects[i][0]).toUpperCase().contains(searchText.toUpperCase())) {
                             searchRes[i] = 1;
@@ -125,7 +134,7 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
                             continue;
                         }
                     }
-                }else {
+                } else {
                     for (int i = 0; i < objects.length; i++) {
                         if (((String) objects[i][0]).toUpperCase().contains(searchText.toUpperCase())) {
                             searchRes[i] = 1;
@@ -139,7 +148,7 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
                             searchRes[i] = 1;
                             continue;
                         }
-                        if (String.valueOf(objects[i][3]).toUpperCase().contains(searchText.toUpperCase())) {
+                        if (((String) objects[i][3]).toUpperCase().contains(searchText.toUpperCase())) {
                             searchRes[i] = 1;
                             continue;
                         }
@@ -147,11 +156,15 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
                             searchRes[i] = 1;
                             continue;
                         }
-                        if (simpleDateFormat.format(new Date((long) objects[i][5])).toUpperCase().contains(searchText.toUpperCase())) {
+                        if (String.valueOf(objects[i][5]).toUpperCase().contains(searchText.toUpperCase())) {
                             searchRes[i] = 1;
                             continue;
                         }
-                        if (decimalFormat.format((double) objects[i][6]).toUpperCase().contains(searchText.toUpperCase())) {
+                        if (simpleDateFormat.format(new Date((long) objects[i][6])).toUpperCase().contains(searchText.toUpperCase())) {
+                            searchRes[i] = 1;
+                            continue;
+                        }
+                        if (decimalFormat.format((double) objects[i][7]).toUpperCase().contains(searchText.toUpperCase())) {
                             searchRes[i] = 1;
                             continue;
                         }
@@ -162,7 +175,7 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
                     if (searchRes[i] == 1)
                         sumSize++;
                 }
-                Object[][] objectResults = new Object[sumSize][9];
+                Object[][] objectResults = new Object[sumSize][10];
 
                 int pt = 0;
                 for (int i = 0; i < objects.length; i++) {
@@ -172,12 +185,12 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
                     }
                 }
                 searchResultsTemp = objectResults.clone();
-                view.searchTable(objectResults,currentPosition, searchText);
+                view.searchTable(objectResults, currentPosition, searchText);
 
-            }else {
+            } else {
                 int searchRes[] = new int[searchResultsTemp.length];
 
-                if(currentPosition == 0) {
+                if (currentPosition == 0) {
                     for (int i = 0; i < searchResultsTemp.length; i++) {
                         if (((String) searchResultsTemp[i][0]).toUpperCase().contains(searchText.toUpperCase())) {
                             searchRes[i] = 1;
@@ -192,7 +205,7 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
                             continue;
                         }
                     }
-                }else {
+                } else {
                     for (int i = 0; i < searchResultsTemp.length; i++) {
                         if (((String) searchResultsTemp[i][0]).toUpperCase().contains(searchText.toUpperCase())) {
                             searchRes[i] = 1;
@@ -206,7 +219,7 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
                             searchRes[i] = 1;
                             continue;
                         }
-                        if (String.valueOf(searchResultsTemp[i][3]).toUpperCase().contains(searchText.toUpperCase())) {
+                        if (((String) searchResultsTemp[i][3]).toUpperCase().contains(searchText.toUpperCase())) {
                             searchRes[i] = 1;
                             continue;
                         }
@@ -214,11 +227,15 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
                             searchRes[i] = 1;
                             continue;
                         }
-                        if (simpleDateFormat.format(new Date((long) searchResultsTemp[i][5])).toUpperCase().contains(searchText.toUpperCase())) {
+                        if (String.valueOf(searchResultsTemp[i][5]).toUpperCase().contains(searchText.toUpperCase())) {
                             searchRes[i] = 1;
                             continue;
                         }
-                        if (decimalFormat.format((double) searchResultsTemp[i][6]).toUpperCase().contains(searchText.toUpperCase())) {
+                        if (simpleDateFormat.format(new Date((long) searchResultsTemp[i][6])).toUpperCase().contains(searchText.toUpperCase())) {
+                            searchRes[i] = 1;
+                            continue;
+                        }
+                        if (decimalFormat.format((double) searchResultsTemp[i][7]).toUpperCase().contains(searchText.toUpperCase())) {
                             searchRes[i] = 1;
                             continue;
                         }
@@ -230,7 +247,7 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
                     if (searchRes[i] == 1)
                         sumSize++;
                 }
-                Object[][] objectResults = new Object[sumSize][9];
+                Object[][] objectResults = new Object[sumSize][10];
 
                 int pt = 0;
                 for (int i = 0; i < searchResultsTemp.length; i++) {
@@ -240,7 +257,7 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
                     }
                 }
                 searchResultsTemp = objectResults.clone();
-                view.searchTable(objectResults,currentPosition, searchText);
+                view.searchTable(objectResults, currentPosition, searchText);
 
             }
 
@@ -249,23 +266,23 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
 
     @Override
     public void onClickedDateInterval() {
-        view.openDateInterval(currentPosition==0?fromDateSummary:fromDateLog,currentPosition==0?toDateSummary:toDateLog);
+        view.openDateInterval(currentPosition == 0 ? fromDateSummary : fromDateLog, currentPosition == 0 ? toDateSummary : toDateLog);
 
     }
 
     @Override
     public void onClickedExportExcel() {
-
+        view.openExportDialog(currentPosition, EXCEL);
     }
 
     @Override
     public void onClickedExportPDF() {
-
+        view.openExportDialog(currentPosition, PDF);
     }
 
     @Override
     public void onClickedFilter() {
-        if(currentPosition == 1){
+        if (currentPosition == 1) {
             view.showFilterPanel(filterConfig);
         }
     }
@@ -275,18 +292,18 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
         currentPosition = postion;
         prev = -1;
         searchResultsTemp = null;
-        if(currentPosition == 0) {
-            if(summaryObjects == null)
+        if (currentPosition == 0) {
+            if (summaryObjects == null)
                 updateObejctsForTable();
             view.updateTable(summaryObjects, currentPosition);
-            view.updateDateIntervalUi(fromDateSummary,toDateSummary);
-        }else {
-            if(logObjects==null) {
-                fillPaymentsDetialReportPreData(fromDateLog,toDateLog);
+            view.updateDateIntervalUi(fromDateSummary, toDateSummary);
+        } else {
+            if (logObjects == null) {
+                fillPaymentsDetialReportPreData(fromDateLog, toDateLog);
                 updateObejctsForTable();
             }
-            view.updateTable(logObjects,currentPosition);
-            view.updateDateIntervalUi(fromDateLog,toDateLog);
+            view.updateTable(logObjects, currentPosition);
+            view.updateDateIntervalUi(fromDateLog, toDateLog);
         }
     }
 
@@ -295,109 +312,112 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
 
     }
 
-    private void updateObejctsForTable(){
+    private void updateObejctsForTable() {
         //FAKE
 
-        if(currentPosition == 0){
+        if (currentPosition == 0) {
             HashMap<Long, SummaryPayments> summaryPaymentsHP = new HashMap<>();
             for (int i = 0; i < ordersSummary.size(); i++) {
-                if(ordersSummary.get(i).getStatus() != Order.CANCELED_ORDER){
+                if (ordersSummary.get(i).getStatus() != Order.CANCELED_ORDER) {
                     for (int j = 0; j < ordersSummary.get(i).getPayedPartitions().size(); j++) {
                         SummaryPayments summaryPayments = summaryPaymentsHP.get(ordersSummary.get(i).getPayedPartitions().get(j).getPaymentId());
-                        if(summaryPayments == null){
+                        if (summaryPayments == null) {
                             summaryPayments = new SummaryPayments();
                             summaryPayments.setId(ordersSummary.get(i).getPayedPartitions().get(j).getPaymentId());
                             summaryPayments.setName(ordersSummary.get(i).getPayedPartitions().get(j).getPaymentType().getName());
                         }
                         summaryPayments.plusGoToOrder(ordersSummary.get(i).getPayedPartitions().get(j).getValue());
-                        summaryPaymentsHP.put(summaryPayments.getId(),summaryPayments);
+                        summaryPaymentsHP.put(summaryPayments.getId(), summaryPayments);
                     }
-                    if(ordersSummary.get(i).getChange() != 0){
+                    if (ordersSummary.get(i).getChange() != 0) {
                         SummaryPayments summaryPayments = summaryPaymentsHP.get(cashPaymentType.getId());
-                        if(summaryPayments == null){
+                        if (summaryPayments == null) {
                             summaryPayments = new SummaryPayments();
                             summaryPayments.setId(cashPaymentType.getId());
                             summaryPayments.setName(cashPaymentType.getName());
                         }
                         summaryPayments.plusGoToOrder(ordersSummary.get(i).getChange());
-                        summaryPaymentsHP.put(summaryPayments.getId(),summaryPayments);
+                        summaryPaymentsHP.put(summaryPayments.getId(), summaryPayments);
                     }
                 }
             }
-            double allAmounts=0;
-            for (SummaryPayments summaryPayments:summaryPaymentsHP.values()) {
+            double allAmounts = 0;
+            for (SummaryPayments summaryPayments : summaryPaymentsHP.values()) {
                 allAmounts += summaryPayments.getGotToOrder();
             }
 
             summaryObjects = new Object[summaryPaymentsHP.size()][3];
             int cont = 0;
-            for (SummaryPayments summaryPayments:summaryPaymentsHP.values()) {
+            for (SummaryPayments summaryPayments : summaryPaymentsHP.values()) {
                 summaryObjects[cont][0] = summaryPayments.getName();
                 summaryObjects[cont][1] = summaryPayments.getGotToOrder();
-                summaryObjects[cont][2] = summaryPayments.getGotToOrder()/allAmounts*100;
+                summaryObjects[cont][2] = summaryPayments.getGotToOrder() / allAmounts * 100;
                 cont++;
             }
-        }else {
+        } else {
             List<PaymentsReport> paymentsReportsTemp = new ArrayList<>();
             for (int i = 0; i < paymentsReports.size(); i++) {
-                if(filterConfig[0] == 0 && paymentsReports.get(i).getFilterId() == FILTER_PAY_TO_ORDER){
+                if (filterConfig[0] == 0 && paymentsReports.get(i).getFilterId() == FILTER_PAY_TO_ORDER) {
                     continue;
                 }
-                if(filterConfig[1] == 0 && paymentsReports.get(i).getFilterId() == FILTER_CHANGE){
+                if (filterConfig[1] == 0 && paymentsReports.get(i).getFilterId() == FILTER_CHANGE) {
                     continue;
                 }
-                if(filterConfig[2] == 0 && paymentsReports.get(i).getFilterId() == FILTER_PAY_IN){
+                if (filterConfig[2] == 0 && paymentsReports.get(i).getFilterId() == FILTER_PAY_IN) {
                     continue;
                 }
-                if(filterConfig[3] == 0 && paymentsReports.get(i).getFilterId() == FILTER_PAY_OUT){
+                if (filterConfig[3] == 0 && paymentsReports.get(i).getFilterId() == FILTER_PAY_OUT) {
                     continue;
                 }
-                if(filterConfig[4] == 0 && paymentsReports.get(i).getFilterId() == FILTER_PAY_TO_VENDOR){
+                if (filterConfig[4] == 0 && paymentsReports.get(i).getFilterId() == FILTER_PAY_TO_VENDOR) {
                     continue;
                 }
-                if(filterConfig[5] == 0 && paymentsReports.get(i).getFilterId() == FILTER_BANK_DROP){
+                if (filterConfig[5] == 0 && paymentsReports.get(i).getFilterId() == FILTER_BANK_DROP) {
                     continue;
                 }
-                if(filterConfig[6] == 0 && paymentsReports.get(i).getFilterId() == FILTER_DEBTS_IN){
+                if (filterConfig[6] == 0 && paymentsReports.get(i).getFilterId() == FILTER_DEBTS_IN) {
                     continue;
                 }
                 paymentsReportsTemp.add(paymentsReports.get(i));
             }
-            Object[][] objects = new Object[paymentsReportsTemp.size()][7];
+            Object[][] objects = new Object[paymentsReportsTemp.size()][8];
             Collections.sort(paymentsReportsTemp, (o1, o2) -> o1.getDate().compareTo(o2.getDate()));
 
             for (int i = 0; i < paymentsReportsTemp.size(); i++) {
                 objects[i][0] = paymentsReportsTemp.get(i).getAccountName();
                 objects[i][1] = paymentsReportsTemp.get(i).getPaymentName();
                 objects[i][2] = paymentsReportsTemp.get(i).getReason();
-                objects[i][3] = paymentsReportsTemp.get(i).getOrderId()==-1?"":paymentsReportsTemp.get(i).getOrderId();
-                objects[i][4] = paymentsReportsTemp.get(i).getTillId()==-1?"":paymentsReportsTemp.get(i).getTillId();
-                objects[i][5] = paymentsReportsTemp.get(i).getDate();
-                objects[i][6] = paymentsReportsTemp.get(i).getAmount();
+                objects[i][3] = paymentsReportsTemp.get(i).getDescription();
+                objects[i][4] = paymentsReportsTemp.get(i).getOrderId() == -1 ? "" : paymentsReportsTemp.get(i).getOrderId();
+                objects[i][5] = paymentsReportsTemp.get(i).getTillId() == -1 ? "" : paymentsReportsTemp.get(i).getTillId();
+                objects[i][6] = paymentsReportsTemp.get(i).getDate();
+                objects[i][7] = paymentsReportsTemp.get(i).getAmount();
             }
             logObjects = objects;
         }
 
     }
-    public void initDateInterval(){
+
+    public void initDateInterval() {
         fromDateSummary = new GregorianCalendar();
-        fromDateSummary.set(Calendar.HOUR,0);
-        fromDateSummary.set(Calendar.MINUTE,0);
-        fromDateSummary.set(Calendar.MILLISECOND,0);
+        fromDateSummary.set(Calendar.HOUR, 0);
+        fromDateSummary.set(Calendar.MINUTE, 0);
+        fromDateSummary.set(Calendar.MILLISECOND, 0);
         // init first last month
-        fromDateSummary.add(Calendar.MONTH,-1);
+        fromDateSummary.add(Calendar.MONTH, -1);
 
         toDateSummary = new GregorianCalendar();
-        toDateSummary.set(Calendar.HOUR,23);
-        toDateSummary.set(Calendar.MINUTE,59);
-        toDateSummary.set(Calendar.MILLISECOND,999);
+        toDateSummary.set(Calendar.HOUR, 23);
+        toDateSummary.set(Calendar.MINUTE, 59);
+        toDateSummary.set(Calendar.MILLISECOND, 999);
 
         fromDateLog = (Calendar) fromDateSummary.clone();
         toDateLog = (Calendar) toDateSummary.clone();
 
-        view.updateDateIntervalUi(currentPosition==0?fromDateSummary:toDateSummary,currentPosition==0?fromDateLog:toDateLog);
+        view.updateDateIntervalUi(currentPosition == 0 ? fromDateSummary : toDateSummary, currentPosition == 0 ? fromDateLog : toDateLog);
     }
-    private void initDecimal(){
+
+    private void initDecimal() {
         DecimalFormat decimalFormat1 = new DecimalFormat("0.00");
         DecimalFormatSymbols decimalFormatSymbols = decimalFormat1.getDecimalFormatSymbols();
         decimalFormatSymbols.setDecimalSeparator('.');
@@ -407,23 +427,23 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
 
     @Override
     public void filterConfigsChanged(int[] configs) {
-        this.filterConfig= configs;
+        this.filterConfig = configs;
         updateObejctsForTable();
-        view.initTable(currentPosition==0?summaryObjects:logObjects,currentPosition);
+        view.initTable(currentPosition == 0 ? summaryObjects : logObjects, currentPosition);
     }
 
     @Override
     public void onActionPressed(Object[][] objects, int row, int column) {
-        if(currentPosition == 1){
-            if(column == 4 ){
+        if (currentPosition == 1) {
+            if (column == 4) {
                 long tillId = (Long) objects[row][column];
                 databaseManager.getTillById(tillId).subscribe(till -> {
-                    if(till.getStatus() == Till.CLOSED)
-                   view.onTillPressed(databaseManager,till);
+                    if (till.getStatus() == Till.CLOSED)
+                        view.onTillPressed(databaseManager, till);
                     else view.onTillNotClosed();
                 });
-            }else if(column == 3){
-                if(!objects[row][column].equals("")) {
+            } else if (column == 3) {
+                if (!objects[row][column].equals("")) {
                     long orderId = (long) objects[row][column];
                     databaseManager.getOrder(orderId).subscribe(order -> {
                         view.onOrderPressed(order);
@@ -433,11 +453,163 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
         }
     }
 
-    private void fillPaymentsDetialReportPreData(Calendar fromDate, Calendar toDate){
+    @Override
+    public void exportExcel(String fileName, String path) {
+        String filter = "";
+        switch (currentPosition) {
+            case 0:
+                String date = simpleDateFormat.format(fromDateSummary.getTime()) + " - " + simpleDateFormat.format(toDateSummary.getTime());
+                view.exportTableToExcel(fileName, path, summaryObjects, currentPosition, date, filter, searchText);
+                break;
+            case 1:
+                String date1 = simpleDateFormat.format(fromDateLog.getTime()) + " - " + simpleDateFormat.format(toDateLog.getTime());
+                StringBuilder filters = new StringBuilder();
+                if (filterConfig[0] == 1) {
+                    filters.append(context.getString(R.string.payment_to_order)).append(" ");
+                }
+                if (filterConfig[1] == 1) {
+                    filters.append(context.getString(R.string.change)).append(" ");
+                }
+                if (filterConfig[2] == 1) {
+                    filters.append(context.getString(R.string.pay_in)).append(" ");
+                }
+                if (filterConfig[3] == 1) {
+                    filters.append(context.getString(R.string.pay_out)).append(" ");
+                }
+                if (filterConfig[4] == 1) {
+                    filters.append(context.getString(R.string.pay_to_vendor)).append(" ");
+                }
+                if (filterConfig[5] == 1) {
+                    filters.append(context.getString(R.string.bank_drop)).append(" ");
+                }
+                if (filterConfig[6] == 1) {
+                    filters.append(context.getString(R.string.debt_in));
+                }
+                filter = filters.toString();
+                view.exportTableToExcel(fileName, path, logObjects, currentPosition, date1, filter, searchText);
+                break;
+        }
+    }
+
+    @Override
+    public void exportPdf(String fileName, String path) {
+        String filter = "";
+        switch (currentPosition) {
+            case 0:
+                String date = simpleDateFormat.format(fromDateSummary.getTime()) + " - " + simpleDateFormat.format(toDateSummary.getTime());
+                view.exportTableToPdf(fileName, path, summaryObjects, currentPosition, date, filter, searchText);
+                break;
+            case 1:
+                String date1 = simpleDateFormat.format(fromDateLog.getTime()) + " - " + simpleDateFormat.format(toDateLog.getTime());
+                StringBuilder filters = new StringBuilder();
+                if (filterConfig[0] == 1) {
+                    filters.append(context.getString(R.string.payment_to_order)).append(" ");
+                }
+                if (filterConfig[1] == 1) {
+                    filters.append(context.getString(R.string.change)).append(" ");
+                }
+                if (filterConfig[2] == 1) {
+                    filters.append(context.getString(R.string.pay_in)).append(" ");
+                }
+                if (filterConfig[3] == 1) {
+                    filters.append(context.getString(R.string.pay_out)).append(" ");
+                }
+                if (filterConfig[4] == 1) {
+                    filters.append(context.getString(R.string.pay_to_vendor)).append(" ");
+                }
+                if (filterConfig[5] == 1) {
+                    filters.append(context.getString(R.string.bank_drop)).append(" ");
+                }
+                if (filterConfig[6] == 1) {
+                    filters.append(context.getString(R.string.debt_in));
+                }
+                filter = filters.toString();
+                view.exportTableToPdf(fileName, path, logObjects, currentPosition, date1, filter, searchText);
+                break;
+        }
+    }
+
+    @Override
+    public void exportExcelToUSB(String filename, UsbFile root) {
+        String filter = "";
+        switch (currentPosition) {
+            case 0:
+                String date = simpleDateFormat.format(fromDateSummary.getTime()) + " - " + simpleDateFormat.format(toDateSummary.getTime());
+                view.exportExcelToUSB(filename, root, summaryObjects, currentPosition, date, filter, searchText);
+                break;
+            case 1:
+                String date1 = simpleDateFormat.format(fromDateLog.getTime()) + " - " + simpleDateFormat.format(toDateLog.getTime());
+                StringBuilder filters = new StringBuilder();
+                if (filterConfig[0] == 1) {
+                    filters.append(context.getString(R.string.payment_to_order)).append(" ");
+                }
+                if (filterConfig[1] == 1) {
+                    filters.append(context.getString(R.string.change)).append(" ");
+                }
+                if (filterConfig[2] == 1) {
+                    filters.append(context.getString(R.string.pay_in)).append(" ");
+                }
+                if (filterConfig[3] == 1) {
+                    filters.append(context.getString(R.string.pay_out)).append(" ");
+                }
+                if (filterConfig[4] == 1) {
+                    filters.append(context.getString(R.string.pay_to_vendor)).append(" ");
+                }
+                if (filterConfig[5] == 1) {
+                    filters.append(context.getString(R.string.bank_drop)).append(" ");
+                }
+                if (filterConfig[6] == 1) {
+                    filters.append(context.getString(R.string.debt_in));
+                }
+                filter = filters.toString();
+                view.exportExcelToUSB(filename, root, logObjects, currentPosition, date1, filter, searchText);
+                break;
+        }
+    }
+
+    @Override
+    public void exportPdfToUSB(String filename, UsbFile root) {
+        String filter = "";
+        switch (currentPosition) {
+            case 0:
+                String date = simpleDateFormat.format(fromDateSummary.getTime()) + " - " + simpleDateFormat.format(toDateSummary.getTime());
+                view.exportTableToPdfToUSB(filename, root, summaryObjects, currentPosition, date, filter, searchText);
+                break;
+            case 1:
+                String date1 = simpleDateFormat.format(fromDateLog.getTime()) + " - " + simpleDateFormat.format(toDateLog.getTime());
+                StringBuilder filters = new StringBuilder();
+                if (filterConfig[0] == 1) {
+                    filters.append(context.getString(R.string.payment_to_order)).append(" ");
+                }
+                if (filterConfig[1] == 1) {
+                    filters.append(context.getString(R.string.change)).append(" ");
+                }
+                if (filterConfig[2] == 1) {
+                    filters.append(context.getString(R.string.pay_in)).append(" ");
+                }
+                if (filterConfig[3] == 1) {
+                    filters.append(context.getString(R.string.pay_out)).append(" ");
+                }
+                if (filterConfig[4] == 1) {
+                    filters.append(context.getString(R.string.pay_to_vendor)).append(" ");
+                }
+                if (filterConfig[5] == 1) {
+                    filters.append(context.getString(R.string.bank_drop)).append(" ");
+                }
+                if (filterConfig[6] == 1) {
+                    filters.append(context.getString(R.string.debt_in));
+                }
+                filter = filters.toString();
+                view.exportTableToPdfToUSB(filename, root, logObjects, currentPosition, date1, filter, searchText);
+                break;
+        }
+    }
+
+    private void fillPaymentsDetialReportPreData(Calendar fromDate, Calendar toDate) {
         paymentsReports.clear();
-        databaseManager.getOrdersInIntervalForReport(fromDate,toDate).subscribe((orders, throwable) -> {
+        databaseManager.getOrdersInIntervalForReport(fromDate, toDate).subscribe((orders, throwable) -> {
             for (int i = 0; i < orders.size(); i++) {
-                if(orders.get(i).getStatus() != Order.CANCELED_ORDER){
+                if (orders.get(i).getStatus() != Order.CANCELED_ORDER) {
                     for (int j = 0; j < orders.get(i).getPayedPartitions().size(); j++) {
                         PaymentsReport paymentsReport = new PaymentsReport();
                         paymentsReport.setFilterId(FILTER_PAY_TO_ORDER);
@@ -450,7 +622,7 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
                         paymentsReport.setAmount(orders.get(i).getPayedPartitions().get(j).getValue());
                         paymentsReports.add(paymentsReport);
                     }
-                    if(orders.get(i).getChange()!=0){
+                    if (orders.get(i).getChange() != 0) {
                         PaymentsReport paymentsReport = new PaymentsReport();
                         paymentsReport.setFilterId(FILTER_CHANGE);
                         paymentsReport.setPaymentName(cashPaymentType.getName());
@@ -458,14 +630,14 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
                         paymentsReport.setReason("Change");
                         paymentsReport.setOrderId(orders.get(i).getId());
                         paymentsReport.setTillId(orders.get(i).getTillId());
-                        paymentsReport.setDate(orders.get(i).getCreateAt()+1);
+                        paymentsReport.setDate(orders.get(i).getCreateAt() + 1);
                         paymentsReport.setAmount(orders.get(i).getChange());
                         paymentsReports.add(paymentsReport);
                     }
                 }
 
             }
-            databaseManager.getTillOperationsInterval(fromDate,toDate).subscribe((tillOperations, throwable1) -> {
+            databaseManager.getTillOperationsInterval(fromDate, toDate).subscribe((tillOperations, throwable1) -> {
                 for (int i = 0; i < tillOperations.size(); i++) {
                     PaymentsReport paymentsReport = new PaymentsReport();
                     paymentsReport.setPaymentName(tillOperations.get(i).getPaymentType().getName());
@@ -473,26 +645,26 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
                     if (tillOperations.get(i).getType() == TillOperation.PAY_IN) {
                         paymentsReport.setReason("Pay in");
                         paymentsReport.setFilterId(FILTER_PAY_IN);
-                    }
-                    else if(tillOperations.get(i).getType() == TillOperation.PAY_OUT) {
+                    } else if (tillOperations.get(i).getType() == TillOperation.PAY_OUT) {
                         paymentsReport.setReason("Pay out");
                         paymentsReport.setFilterId(FILTER_PAY_OUT);
-                    }
-                    else if(tillOperations.get(i).getType() == TillOperation.BANK_DROP) {
+                    } else if (tillOperations.get(i).getType() == TillOperation.BANK_DROP) {
                         paymentsReport.setReason("Bank drop");
                         paymentsReport.setFilterId(FILTER_BANK_DROP);
                     }
+                    paymentsReport.setDescription(tillOperations.get(i).getDescription());
                     paymentsReport.setOrderId(-1); // empty String
                     paymentsReport.setTillId(tillOperations.get(i).getTillId());
                     paymentsReport.setDate(tillOperations.get(i).getCreateAt());
                     paymentsReport.setAmount(tillOperations.get(i).getAmount());
                     paymentsReports.add(paymentsReport);
                 }
-                databaseManager.getBillingOperationsInInterval(fromDate,toDate).subscribe((billingOperations, throwable2) -> {
+                databaseManager.getBillingOperationsInInterval(fromDate, toDate).subscribe((billingOperations, throwable2) -> {
                     for (int i = 0; i < billingOperations.size(); i++) {
                         PaymentsReport paymentsReport = new PaymentsReport();
                         paymentsReport.setFilterId(FILTER_PAY_TO_VENDOR);
                         paymentsReport.setPaymentName("");
+                        paymentsReport.setDescription(billingOperations.get(i).getDescription());
                         paymentsReport.setAccountName(billingOperations.get(i).getAccount().getName());
                         paymentsReport.setOrderId(-1);
                         paymentsReport.setTillId(-1);
@@ -501,7 +673,7 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
                         paymentsReports.add(paymentsReport);
                     }
 
-                    databaseManager.getCustomerPaymentsByInterval(fromDate,toDate).subscribe((customerPayments, throwable3) -> {
+                    databaseManager.getCustomerPaymentsByInterval(fromDate, toDate).subscribe((customerPayments, throwable3) -> {
                         for (int i = 0; i < customerPayments.size(); i++) {
                             for (int j = 0; j < customerPayments.size(); j++) {
                                 PaymentsReport paymentsReport = new PaymentsReport();

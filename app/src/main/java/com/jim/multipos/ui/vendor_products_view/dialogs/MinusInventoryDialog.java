@@ -55,6 +55,7 @@ public class MinusInventoryDialog extends DialogFragment {
     private MinusInventoryDialog.MinusInventoryDialogListener listener;
     private double shortage;
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

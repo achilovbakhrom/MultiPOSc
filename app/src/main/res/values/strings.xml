@@ -267,7 +267,7 @@
     <string name="sku">SKU</string>
     <string name="quantity">Quantity</string>
     <string name="linked">Linked</string>
-    <string name="none">none</string>
+    <string name="none">None</string>
     <string name="unit">Unit</string>
     <string name="price">Price</string>
     <string name="value">Value</string>
@@ -654,7 +654,7 @@
     <string name="should_close_date">Should close date</string>
     <string name="till_not_closed">Current Till Not closed yet</string>
     <string name="summary_report">Summary Report</string>
-    <string name="sales_analitcs">Sales  Analitycs</string>
+    <string name="sales_analitcs">Sales  Analytics</string>
     <string name="payment_analytics">Payment Analytics</string>
     <string name="total_product_sales">Total product sales</string>
     <string name="total_service_fee">Total service fee</string>
@@ -702,7 +702,7 @@
     <string name="details_of_till">Details of Till #</string>
     <string name="apply">Apply</string>
     <string name="inventory_log">Inventory log</string>
-    <string name="unventory_summary">Inventory summary</string>
+    <string name="inventory_summary">Inventory summary</string>
     <string name="inventory_state">Inventory state</string>
     <string name="returns">Returns</string>
     <string name="sold">Sold</string>
@@ -736,6 +736,68 @@
     <string name="print_check">Print check: OFF</string>
     <string name="print_check_on">Print check: ON</string>
     <string name="subtotalvalue">SUB TOTAL VALUE</string>
+    <string name="consignment_report">Consignment report</string>
+    <string name="consignment_products">Consignment products</string>
+    <string name="debt_state">Debt state</string>
+    <string name="money_transactions">Money transactions</string>
+    <string name="consignment_number">Consignment number</string>
+    <string name="total_cost">Total cost</string>
+    <string name="extra_info">Extra info</string>
+    <string name="each_cost">Each cost</string>
+    <string name="sum_cost">Sum cost</string>
+    <string name="taken_value">Taken value</string>
+    <string name="difference">Difference</string>
+    <string name="income">Income</string>
+    <string name="return_">Return</string>
+    <string name="paid_account">Paid account</string>
+    <string name="first_pay">First pay</string>
+    <string name="debt_">Debt</string>
+    <string name="created_date_">Created date</string>
+    <string name="paid_">Paid</string>
+    <string name="searched_by">Searched by:</string>
+    <string name="filtered_by">Filtered by:</string>
+    <string name="date_two_dots">Date:</string>
+    <string name="description_two_dots">Description:</string>
+    <string name="report_two_dots">Report:</string>
+    <string name="successfully_exported_to_excel">Successfully exported to Excel</string>
+    <string name="successfully_exported_to_pdf">Successfully exported to Pdf</string>
+    <string name="place">Place</string>
+    <string name="file_name">File name</string>
+    <string name="xls">.xls</string>
+    <string name="pdf">.pdf</string>
+    <string name="export">Export</string>
+    <string name="select_a_directory">Select a directory</string>
+    <string name="payment_to_order">Payment to order</string>
+    <string name="pay_in">Pay in</string>
+    <string name="pay_out">Pay out</string>
+    <string name="pay_to_vendor">Pay to vendor</string>
+    <string name="bank_drop">Bank drop</string>
+    <string name="debt_in">Debt in</string>
+    <string name="till_reports">Till Reports</string>
+    <string name="summary_amount">Summary amount</string>
+    <string name="payments_summary">Payments summary</string>
+    <string name="all_summary">All summary</string>
+    <string name="total_starting_amount_">Total starting amount:</string>
+    <string name="total_starting_amount">Total starting amount</string>
+    <string name="pay_outs">Pay - Outs</string>
+    <string name="pay_ins">Pay - Ins</string>
+    <string name="income_debt">Income debt</string>
+    <string name="real_product_sales">Real product sales</string>
+    <string name="tips_dispensed">Tips dispensed</string>
+    <string name="total_for_till">Total for till</string>
+    <string name="total_closed_amount">Total_closed_amount</string>
+    <string name="total_to_next_amount">Total to next amount</string>
+    <string name="till_amount_variance">Till amount variance</string>
+    <string name="subtotal">Subtotal</string>
+    <string name="summary">Summay</string>
+    <string name="to_pay">To pay</string>
+    <string name="change_from_cashbox">Change from cashbox</string>
+    <string name="total_to_pay">Total to pay</string>
+    <string name="tips">Tips</string>
+    <string name="order_details">Order details</string>
+    <string name="payments">Payments</string>
+    <string name="lifecycle">Lifecycle</string>
+    <string name="consignment_details">Consignment details</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>
@@ -851,7 +913,8 @@
     <string-array name="payments_report_details_title">
         <item>Account</item>
         <item>Payment type</item>
-        <item>Reason</item>
+        <item>Type</item>
+        <item>Description</item>
         <item>Order Id</item>
         <item>Till Id</item>
         <item>Date</item>

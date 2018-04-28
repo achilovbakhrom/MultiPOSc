@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.github.mjdev.libaums.fs.UsbFile;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
@@ -29,6 +30,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import static com.jim.multipos.utils.ExportUtils.EXCEL;
+import static com.jim.multipos.utils.ExportUtils.PDF;
+
 public class CustomerReportPresenterImpl extends BasePresenterImpl<CustomerReportView> implements CustomerReportPresenter {
 
     private DatabaseManager databaseManager;
@@ -43,6 +47,7 @@ public class CustomerReportPresenterImpl extends BasePresenterImpl<CustomerRepor
     private int[] filterConfig;
     private int filterValue = 0, secondValue = 0;
     private SimpleDateFormat simpleDateFormat;
+    private String searchText;
 
     @Inject
     protected CustomerReportPresenterImpl(CustomerReportView view, DatabaseManager databaseManager, Context context) {
@@ -332,6 +337,7 @@ public class CustomerReportPresenterImpl extends BasePresenterImpl<CustomerRepor
 
     @Override
     public void onSearchTyped(String searchText) {
+        this.searchText = searchText;
         if (searchText.isEmpty()) {
             switch (currentPosition) {
                 case 0:
@@ -692,12 +698,12 @@ public class CustomerReportPresenterImpl extends BasePresenterImpl<CustomerRepor
 
     @Override
     public void onClickedExportExcel() {
-
+        view.openExportDialog(currentPosition, EXCEL);
     }
 
     @Override
     public void onClickedExportPDF() {
-
+        view.openExportDialog(currentPosition, PDF);
     }
 
     @Override
@@ -739,5 +745,141 @@ public class CustomerReportPresenterImpl extends BasePresenterImpl<CustomerRepor
     public void changePaymentFilter(int[] config) {
         this.filterConfig = config;
         updateTable();
+    }
+
+    @Override
+    public void exportExcel(String fileName, String path) {
+        String date = simpleDateFormat.format(fromDate.getTime()) + " - " + simpleDateFormat.format(toDate.getTime());
+        String filter = "";
+        switch (currentPosition) {
+            case 0:
+                if (filterValue == 0)
+                    filter = context.getString(R.string.customer);
+                else filter = context.getString(R.string.customer_groups);
+                view.exportTableToExcel(fileName, path, firstObjects, currentPosition, date, filter, searchText);
+                break;
+            case 1:
+                if (secondValue == 0)
+                    filter = context.getString(R.string.customer);
+                else filter = context.getString(R.string.customer_groups);
+                view.exportTableToExcel(fileName, path, secondObjects, currentPosition, date, filter, searchText);
+                break;
+            case 2:
+                StringBuilder filters = new StringBuilder();
+                if (filterConfig[0] == 1) {
+                    filters.append(context.getString(R.string.order_status_closed)).append(" ");
+                }
+                if (filterConfig[1] == 1) {
+                    filters.append(context.getString(R.string.order_status_held)).append(" ");
+                }
+                if (filterConfig[2] == 1) {
+                    filters.append(context.getString(R.string.order_status_canceled));
+                }
+                filter = filters.toString();
+                view.exportTableToExcel(fileName, path, thirdObjects, currentPosition, date, filter, searchText);
+                break;
+        }
+    }
+
+    @Override
+    public void exportPdf(String fileName, String path) {
+        String date = simpleDateFormat.format(fromDate.getTime()) + " - " + simpleDateFormat.format(toDate.getTime());
+        String filter = "";
+        switch (currentPosition) {
+            case 0:
+                if (filterValue == 0)
+                    filter = context.getString(R.string.customer);
+                else filter = context.getString(R.string.customer_groups);
+                view.exportTableToPdf(fileName, path, firstObjects, currentPosition, date, filter, searchText);
+                break;
+            case 1:
+                if (secondValue == 0)
+                    filter = context.getString(R.string.customer);
+                else filter = context.getString(R.string.customer_groups);
+                view.exportTableToPdf(fileName, path, secondObjects, currentPosition, date, filter, searchText);
+                break;
+            case 2:
+                StringBuilder filters = new StringBuilder();
+                if (filterConfig[0] == 1) {
+                    filters.append(context.getString(R.string.order_status_closed)).append(" ");
+                }
+                if (filterConfig[1] == 1) {
+                    filters.append(context.getString(R.string.order_status_held)).append(" ");
+                }
+                if (filterConfig[2] == 1) {
+                    filters.append(context.getString(R.string.order_status_canceled));
+                }
+                filter = filters.toString();
+                view.exportTableToPdf(fileName, path, thirdObjects, currentPosition, date, filter, searchText);
+                break;
+        }
+    }
+
+    @Override
+    public void exportExcelToUSB(String filename, UsbFile root) {
+        String date = simpleDateFormat.format(fromDate.getTime()) + " - " + simpleDateFormat.format(toDate.getTime());
+        String filter = "";
+        switch (currentPosition) {
+            case 0:
+                if (filterValue == 0)
+                    filter = context.getString(R.string.customer);
+                else filter = context.getString(R.string.customer_groups);
+                view.exportExcelToUSB(filename, root, firstObjects, currentPosition, date, filter, searchText);
+                break;
+            case 1:
+                if (secondValue == 0)
+                    filter = context.getString(R.string.customer);
+                else filter = context.getString(R.string.customer_groups);
+                view.exportExcelToUSB(filename, root, secondObjects, currentPosition, date, filter, searchText);
+                break;
+            case 2:
+                StringBuilder filters = new StringBuilder();
+                if (filterConfig[0] == 1) {
+                    filters.append(context.getString(R.string.order_status_closed)).append(" ");
+                }
+                if (filterConfig[1] == 1) {
+                    filters.append(context.getString(R.string.order_status_held)).append(" ");
+                }
+                if (filterConfig[2] == 1) {
+                    filters.append(context.getString(R.string.order_status_canceled));
+                }
+                filter = filters.toString();
+                view.exportExcelToUSB(filename, root, thirdObjects, currentPosition, date, filter, searchText);
+                break;
+        }
+    }
+
+    @Override
+    public void exportPdfToUSB(String fileName, UsbFile path) {
+        String date = simpleDateFormat.format(fromDate.getTime()) + " - " + simpleDateFormat.format(toDate.getTime());
+        String filter = "";
+        switch (currentPosition) {
+            case 0:
+                if (filterValue == 0)
+                    filter = context.getString(R.string.customer);
+                else filter = context.getString(R.string.customer_groups);
+                view.exportTableToPdfToUSB(fileName, path, firstObjects, currentPosition, date, filter, searchText);
+                break;
+            case 1:
+                if (secondValue == 0)
+                    filter = context.getString(R.string.customer);
+                else filter = context.getString(R.string.customer_groups);
+                view.exportTableToPdfToUSB(fileName, path, secondObjects, currentPosition, date, filter, searchText);
+                break;
+            case 2:
+                StringBuilder filters = new StringBuilder();
+                if (filterConfig[0] == 1) {
+                    filters.append(context.getString(R.string.order_status_closed)).append(" ");
+                }
+                if (filterConfig[1] == 1) {
+                    filters.append(context.getString(R.string.order_status_held)).append(" ");
+                }
+                if (filterConfig[2] == 1) {
+                    filters.append(context.getString(R.string.order_status_canceled));
+                }
+                filter = filters.toString();
+                view.exportTableToPdfToUSB(fileName, path, thirdObjects, currentPosition, date, filter, searchText);
+                break;
+        }
     }
 }

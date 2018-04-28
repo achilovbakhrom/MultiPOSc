@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.github.mjdev.libaums.fs.UsbFile;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
@@ -26,6 +27,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import static com.jim.multipos.utils.ExportUtils.EXCEL;
+import static com.jim.multipos.utils.ExportUtils.PDF;
+
 public class InventoryReportPresenterImpl extends BasePresenterImpl<InventoryReportView> implements InventoryReportPresenter {
 
     private DatabaseManager databaseManager;
@@ -41,6 +45,7 @@ public class InventoryReportPresenterImpl extends BasePresenterImpl<InventoryRep
     private int[] filterConfig;
     private SimpleDateFormat simpleDateFormat;
     private Till till;
+    private String searchText = "";
 
     @Inject
     protected InventoryReportPresenterImpl(InventoryReportView view, DatabaseManager databaseManager, Context context) {
@@ -284,6 +289,7 @@ public class InventoryReportPresenterImpl extends BasePresenterImpl<InventoryRep
 
     @Override
     public void onSearchTyped(String searchText) {
+        this.searchText = searchText;
         if (searchText.isEmpty()) {
             switch (currentPosition) {
                 case 0:
@@ -337,31 +343,31 @@ public class InventoryReportPresenterImpl extends BasePresenterImpl<InventoryRep
                             }
                             String text = "";
                             int status = (int) firstObjects[i][2];
-                            if (status == 0) {
+                            if (status == WarehouseOperations.CANCELED_SOLD) {
                                 text = context.getString(R.string.canceled_order);
                             }
-                            if (status == 1) {
+                            if (status == WarehouseOperations.CONSIGNMENT_DELETED) {
                                 text = context.getString(R.string.consignment_canceled);
                             }
-                            if (status == 2) {
+                            if (status == WarehouseOperations.INCOME_FROM_VENDOR) {
                                 text = context.getString(R.string.income_from_vendor);
                             }
-                            if (status == 3) {
+                            if (status == WarehouseOperations.RETURN_HOLDED) {
                                 text = context.getString(R.string.held_product_return);
                             }
-                            if (status == 4) {
+                            if (status == WarehouseOperations.RETURN_SOLD) {
                                 text = context.getString(R.string.return_from_customer);
                             }
-                            if (status == 5) {
+                            if (status == WarehouseOperations.RETURN_TO_VENDOR) {
                                 text = context.getString(R.string.return_to_vendor);
                             }
-                            if (status == 6) {
+                            if (status == WarehouseOperations.SOLD) {
                                 text = context.getString(R.string.sold);
                             }
-                            if (status == 7) {
+                            if (status == WarehouseOperations.VOID_INCOME) {
                                 text = context.getString(R.string.void_income);
                             }
-                            if (status == 8) {
+                            if (status == WarehouseOperations.WASTE) {
                                 text = context.getString(R.string.wasted);
                             }
                             if (text.toUpperCase().contains(searchText.toUpperCase())) {
@@ -419,31 +425,31 @@ public class InventoryReportPresenterImpl extends BasePresenterImpl<InventoryRep
                             }
                             String text = "";
                             int status = (int) searchResultsTemp[i][2];
-                            if (status == 0) {
+                            if (status == WarehouseOperations.CANCELED_SOLD) {
                                 text = context.getString(R.string.canceled_order);
                             }
-                            if (status == 1) {
+                            if (status == WarehouseOperations.CONSIGNMENT_DELETED) {
                                 text = context.getString(R.string.consignment_canceled);
                             }
-                            if (status == 2) {
+                            if (status == WarehouseOperations.INCOME_FROM_VENDOR) {
                                 text = context.getString(R.string.income_from_vendor);
                             }
-                            if (status == 3) {
+                            if (status == WarehouseOperations.RETURN_HOLDED) {
                                 text = context.getString(R.string.held_product_return);
                             }
-                            if (status == 4) {
+                            if (status == WarehouseOperations.RETURN_SOLD) {
                                 text = context.getString(R.string.return_from_customer);
                             }
-                            if (status == 5) {
+                            if (status == WarehouseOperations.RETURN_TO_VENDOR) {
                                 text = context.getString(R.string.return_to_vendor);
                             }
-                            if (status == 6) {
+                            if (status == WarehouseOperations.SOLD) {
                                 text = context.getString(R.string.sold);
                             }
-                            if (status == 7) {
+                            if (status == WarehouseOperations.VOID_INCOME) {
                                 text = context.getString(R.string.void_income);
                             }
-                            if (status == 8) {
+                            if (status == WarehouseOperations.WASTE) {
                                 text = context.getString(R.string.wasted);
                             }
                             if (text.toUpperCase().contains(searchText.toUpperCase())) {
@@ -781,12 +787,12 @@ public class InventoryReportPresenterImpl extends BasePresenterImpl<InventoryRep
 
     @Override
     public void onClickedExportExcel() {
-
+        view.openExportDialog(currentPosition, EXCEL);
     }
 
     @Override
     public void onClickedExportPDF() {
-
+        view.openExportDialog(currentPosition, PDF);
     }
 
     @Override
@@ -815,5 +821,201 @@ public class InventoryReportPresenterImpl extends BasePresenterImpl<InventoryRep
     public void setPickedTill(Till till) {
         this.till = till;
         updateTable();
+    }
+
+    @Override
+    public void exportExcel(String fileName, String path) {
+        String date = simpleDateFormat.format(fromDate.getTime()) + " - " + simpleDateFormat.format(toDate.getTime());
+        String filter = "";
+        switch (currentPosition) {
+            case 0:
+                StringBuilder filters = new StringBuilder();
+                if (filterConfig[0] == 1) {
+                    filters.append(context.getString(R.string.canceled_order)).append(" ");
+                }
+                if (filterConfig[1] == 1) {
+                    filters.append(context.getString(R.string.consignment_canceled)).append(" ");
+                }
+                if (filterConfig[2] == 1) {
+                    filters.append(context.getString(R.string.income_from_vendor)).append(" ");
+                }
+                if (filterConfig[3] == 1) {
+                    filters.append(context.getString(R.string.held_product_return)).append(" ");
+                }
+                if (filterConfig[4] == 1) {
+                    filters.append(context.getString(R.string.return_from_customer)).append(" ");
+                }
+                if (filterConfig[5] == 1) {
+                    filters.append(context.getString(R.string.return_to_vendor)).append(" ");
+                }
+                if (filterConfig[6] == 1) {
+                    filters.append(context.getString(R.string.sold)).append(" ");
+                }
+                if (filterConfig[7] == 1) {
+                    filters.append(context.getString(R.string.void_income)).append(" ");
+                }
+                if (filterConfig[8] == 1) {
+                    filters.append(context.getString(R.string.wasted)).append(" ");
+                }
+                filter = filters.toString();
+                view.exportTableToExcel(fileName, path, firstObjects, currentPosition, date, filter, searchText);
+                break;
+            case 1:
+                view.exportTableToExcel(fileName, path, secondObjects, currentPosition, date, filter, searchText);
+                break;
+            case 2:
+                view.exportTableToExcel(fileName, path, thirdObjects, currentPosition, date, filter, searchText);
+                break;
+            case 3:
+                view.exportTableToExcel(fileName, path, forthObjects, currentPosition, date, filter, searchText);
+                break;
+        }
+    }
+
+    @Override
+    public void exportPdf(String fileName, String path) {
+        String date = simpleDateFormat.format(fromDate.getTime()) + " - " + simpleDateFormat.format(toDate.getTime());
+        String filter = "";
+        switch (currentPosition) {
+            case 0:
+                StringBuilder filters = new StringBuilder();
+                if (filterConfig[0] == 1) {
+                    filters.append(context.getString(R.string.canceled_order)).append(" ");
+                }
+                if (filterConfig[1] == 1) {
+                    filters.append(context.getString(R.string.consignment_canceled)).append(" ");
+                }
+                if (filterConfig[2] == 1) {
+                    filters.append(context.getString(R.string.income_from_vendor)).append(" ");
+                }
+                if (filterConfig[3] == 1) {
+                    filters.append(context.getString(R.string.held_product_return)).append(" ");
+                }
+                if (filterConfig[4] == 1) {
+                    filters.append(context.getString(R.string.return_from_customer)).append(" ");
+                }
+                if (filterConfig[5] == 1) {
+                    filters.append(context.getString(R.string.return_to_vendor)).append(" ");
+                }
+                if (filterConfig[6] == 1) {
+                    filters.append(context.getString(R.string.sold)).append(" ");
+                }
+                if (filterConfig[7] == 1) {
+                    filters.append(context.getString(R.string.void_income)).append(" ");
+                }
+                if (filterConfig[8] == 1) {
+                    filters.append(context.getString(R.string.wasted)).append(" ");
+                }
+                filter = filters.toString();
+                view.exportTableToPdf(fileName, path, firstObjects, currentPosition, date, filter, searchText);
+                break;
+            case 1:
+                view.exportTableToPdf(fileName, path, secondObjects, currentPosition, date, filter, searchText);
+                break;
+            case 2:
+                view.exportTableToPdf(fileName, path, thirdObjects, currentPosition, date, filter, searchText);
+                break;
+            case 3:
+                view.exportTableToPdf(fileName, path, forthObjects, currentPosition, date, filter, searchText);
+                break;
+        }
+    }
+
+    @Override
+    public void exportExcelToUSB(String fileName, UsbFile path) {
+        String date = simpleDateFormat.format(fromDate.getTime()) + " - " + simpleDateFormat.format(toDate.getTime());
+        String filter = "";
+        switch (currentPosition) {
+            case 0:
+                StringBuilder filters = new StringBuilder();
+                if (filterConfig[0] == 1) {
+                    filters.append(context.getString(R.string.canceled_order)).append(" ");
+                }
+                if (filterConfig[1] == 1) {
+                    filters.append(context.getString(R.string.consignment_canceled)).append(" ");
+                }
+                if (filterConfig[2] == 1) {
+                    filters.append(context.getString(R.string.income_from_vendor)).append(" ");
+                }
+                if (filterConfig[3] == 1) {
+                    filters.append(context.getString(R.string.held_product_return)).append(" ");
+                }
+                if (filterConfig[4] == 1) {
+                    filters.append(context.getString(R.string.return_from_customer)).append(" ");
+                }
+                if (filterConfig[5] == 1) {
+                    filters.append(context.getString(R.string.return_to_vendor)).append(" ");
+                }
+                if (filterConfig[6] == 1) {
+                    filters.append(context.getString(R.string.sold)).append(" ");
+                }
+                if (filterConfig[7] == 1) {
+                    filters.append(context.getString(R.string.void_income)).append(" ");
+                }
+                if (filterConfig[8] == 1) {
+                    filters.append(context.getString(R.string.wasted)).append(" ");
+                }
+                filter = filters.toString();
+                view.exportExcelToUSB(fileName, path, firstObjects, currentPosition, date, filter, searchText);
+                break;
+            case 1:
+                view.exportExcelToUSB(fileName, path, secondObjects, currentPosition, date, filter, searchText);
+                break;
+            case 2:
+                view.exportExcelToUSB(fileName, path, thirdObjects, currentPosition, date, filter, searchText);
+                break;
+            case 3:
+                view.exportExcelToUSB(fileName, path, forthObjects, currentPosition, date, filter, searchText);
+                break;
+        }
+    }
+
+    @Override
+    public void exportPdfToUSB(String fileName, UsbFile path) {
+        String date = simpleDateFormat.format(fromDate.getTime()) + " - " + simpleDateFormat.format(toDate.getTime());
+        String filter = "";
+        switch (currentPosition) {
+            case 0:
+                StringBuilder filters = new StringBuilder();
+                if (filterConfig[0] == 1) {
+                    filters.append(context.getString(R.string.canceled_order)).append(" ");
+                }
+                if (filterConfig[1] == 1) {
+                    filters.append(context.getString(R.string.consignment_canceled)).append(" ");
+                }
+                if (filterConfig[2] == 1) {
+                    filters.append(context.getString(R.string.income_from_vendor)).append(" ");
+                }
+                if (filterConfig[3] == 1) {
+                    filters.append(context.getString(R.string.held_product_return)).append(" ");
+                }
+                if (filterConfig[4] == 1) {
+                    filters.append(context.getString(R.string.return_from_customer)).append(" ");
+                }
+                if (filterConfig[5] == 1) {
+                    filters.append(context.getString(R.string.return_to_vendor)).append(" ");
+                }
+                if (filterConfig[6] == 1) {
+                    filters.append(context.getString(R.string.sold)).append(" ");
+                }
+                if (filterConfig[7] == 1) {
+                    filters.append(context.getString(R.string.void_income)).append(" ");
+                }
+                if (filterConfig[8] == 1) {
+                    filters.append(context.getString(R.string.wasted)).append(" ");
+                }
+                filter = filters.toString();
+                view.exportTableToPdfToUSB(fileName, path, firstObjects, currentPosition, date, filter, searchText);
+                break;
+            case 1:
+                view.exportTableToPdfToUSB(fileName, path, secondObjects, currentPosition, date, filter, searchText);
+                break;
+            case 2:
+                view.exportTableToPdfToUSB(fileName, path, thirdObjects, currentPosition, date, filter, searchText);
+                break;
+            case 3:
+                view.exportTableToPdfToUSB(fileName, path, forthObjects, currentPosition, date, filter, searchText);
+                break;
+        }
     }
 }

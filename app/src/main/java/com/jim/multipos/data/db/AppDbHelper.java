@@ -2368,6 +2368,46 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
+    public Single<List<Consignment>> getConsignmentsInInterval(Calendar fromDate, Calendar toDate) {
+        return Single.create(e -> {
+            List<Consignment> consignments = mDaoSession.getConsignmentDao().queryBuilder()
+                    .where(ConsignmentDao.Properties.CreatedDate.ge(fromDate.getTimeInMillis()),
+                            ConsignmentDao.Properties.CreatedDate.le(toDate.getTimeInMillis()),
+                            ConsignmentDao.Properties.IsNotModified.eq(true))
+                    .build().list();
+
+            e.onSuccess(consignments);
+        });
+    }
+
+    @Override
+    public Single<List<ConsignmentProduct>> getConsignmentProductsInterval(Calendar fromDate, Calendar toDate) {
+        return Single.create(e -> {
+            List<ConsignmentProduct> consignments = mDaoSession.getConsignmentProductDao().queryBuilder()
+                    .where(ConsignmentProductDao.Properties.CreatedDate.ge(fromDate.getTimeInMillis()),
+                            ConsignmentProductDao.Properties.CreatedDate.le(toDate.getTimeInMillis()),
+                            ConsignmentProductDao.Properties.IsDeleted.eq(false),
+                            ConsignmentProductDao.Properties.IsNotModified.eq(true))
+                    .build().list();
+
+            e.onSuccess(consignments);
+        });
+    }
+
+    @Override
+    public Single<List<BillingOperations>> getAllBillingOperationsInInterval(Calendar fromDate, Calendar toDate) {
+        return Single.create(e -> {
+            List<BillingOperations> billingOperations = mDaoSession.getBillingOperationsDao().queryBuilder()
+                    .where(BillingOperationsDao.Properties.PaymentDate.ge(fromDate.getTimeInMillis()),
+                            BillingOperationsDao.Properties.PaymentDate.le(toDate.getTimeInMillis()),
+                            BillingOperationsDao.Properties.IsNotModified.eq(true))
+                    .build().list();
+
+            e.onSuccess(billingOperations);
+        });
+    }
+
+    @Override
     public Single<List<Order>> getOrdersInIntervalForReport(Calendar fromDate, Calendar toDate) {
         return Single.create(e -> {
             List<Order> orderList = mDaoSession.getOrderDao().queryBuilder()

@@ -11,6 +11,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.github.angads25.filepicker.model.DialogConfigs;
+import com.github.angads25.filepicker.model.DialogProperties;
+import com.github.angads25.filepicker.view.FilePickerDialog;
+import com.github.mjdev.libaums.fs.UsbFile;
 import com.jim.mpviews.MpEditText;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
@@ -22,7 +26,9 @@ import com.jim.multipos.ui.reports.summary_report.adapter.TripleAdapter;
 import com.jim.multipos.ui.reports.summary_report.adapter.TripleString;
 import com.jim.multipos.utils.DateIntervalPicker;
 import com.jim.multipos.utils.ExportDialog;
+import com.jim.multipos.utils.ExportToDialog;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -33,7 +39,9 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
 
-public class SummaryReportFragment extends BaseFragment implements SummaryReportView{
+import static com.jim.multipos.utils.ExportUtils.EXCEL;
+
+public class SummaryReportFragment extends BaseFragment implements SummaryReportView {
     @Inject
     SummaryReportPresenter presenter;
     PairAdapter pairSummaryAdapter;
@@ -44,6 +52,7 @@ public class SummaryReportFragment extends BaseFragment implements SummaryReport
     protected int getLayout() {
         return R.layout.summary_report_fragment;
     }
+
     @Override
     protected void init(Bundle savedInstanceState) {
         setSingleTitle(getString(R.string.summary_report));
@@ -56,11 +65,11 @@ public class SummaryReportFragment extends BaseFragment implements SummaryReport
 
     @Override
     public void updateRecyclerViewSummary(List<PairString> pairStringList) {
-        if(pairSummaryAdapter == null){
+        if (pairSummaryAdapter == null) {
             pairSummaryAdapter = new PairAdapter(pairStringList);
             rvSummary.setLayoutManager(new LinearLayoutManager(getContext()));
             rvSummary.setAdapter(pairSummaryAdapter);
-        }else {
+        } else {
             rvSummary.setAdapter(pairSummaryAdapter);
             pairSummaryAdapter.update(pairStringList);
         }
@@ -68,11 +77,11 @@ public class SummaryReportFragment extends BaseFragment implements SummaryReport
 
     @Override
     public void updateRecyclerViewPayments(List<TripleString> tripleStrings) {
-        if(triplePaymentsAdapter == null){
+        if (triplePaymentsAdapter == null) {
             triplePaymentsAdapter = new TripleAdapter(tripleStrings);
             rvSummary.setLayoutManager(new LinearLayoutManager(getContext()));
             rvSummary.setAdapter(triplePaymentsAdapter);
-        }else {
+        } else {
             rvSummary.setAdapter(triplePaymentsAdapter);
             triplePaymentsAdapter.update(tripleStrings);
         }
@@ -80,16 +89,58 @@ public class SummaryReportFragment extends BaseFragment implements SummaryReport
 
     @Override
     public void updatecyclerViewAnalitcs(List<PairString> pairStringList) {
-        if(pairAnalitcsAdapter == null){
+        if (pairAnalitcsAdapter == null) {
             pairAnalitcsAdapter = new PairAdapter(pairStringList);
             rvAnalitcs.setLayoutManager(new LinearLayoutManager(getContext()));
             rvAnalitcs.setAdapter(pairAnalitcsAdapter);
-        }else {
+        } else {
             rvAnalitcs.setAdapter(pairAnalitcsAdapter);
             pairAnalitcsAdapter.update(pairStringList);
         }
     }
 
+    ExportToDialog exportDialog;
+
+    @Override
+    public void openExportDialog(int mode) {
+        exportDialog = new ExportToDialog(getContext(), mode, getString(R.string.summary_report), new ExportToDialog.OnExportListener() {
+            @Override
+            public void onFilePickerClicked() {
+                openFilePickerDialog();
+            }
+
+            @Override
+            public void onSaveToUSBClicked(String filename, UsbFile root) {
+                if (mode == EXCEL)
+                    presenter.exportExcelToUSB(filename, root);
+                else presenter.exportPdfToUSB(filename, root);
+            }
+
+            @Override
+            public void onSaveClicked(String fileName, String path) {
+                if (mode == EXCEL)
+                    presenter.exportExcel(fileName, path);
+                else presenter.exportPdf(fileName, path);
+            }
+        });
+        exportDialog.show();
+    }
+
+    private void openFilePickerDialog() {
+        DialogProperties properties = new DialogProperties();
+        properties.selection_mode = DialogConfigs.SINGLE_MODE;
+        properties.selection_type = DialogConfigs.DIR_SELECT;
+        properties.root = new File(DialogConfigs.DEFAULT_DIR);
+        properties.error_dir = new File(DialogConfigs.DEFAULT_DIR);
+        properties.offset = new File(DialogConfigs.DEFAULT_DIR);
+        properties.extensions = null;
+        FilePickerDialog dialog = new FilePickerDialog(getContext(), properties);
+        dialog.setTitle(getContext().getString(R.string.select_a_directory));
+        dialog.setDialogSelectionListener(files -> {
+            exportDialog.setPath(files);
+        });
+        dialog.show();
+    }
 
 
     @BindView(R.id.rvSummary)
@@ -155,55 +206,65 @@ public class SummaryReportFragment extends BaseFragment implements SummaryReport
     LinearLayout llSearch;
 
 
-    int panelCount=0;
+    int panelCount = 0;
     private SimpleDateFormat simpleDateFormat;
+
     public SummaryReportFragment() {
         simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
     }
 
-    public void disableSearch(){
+    public void disableSearch() {
         llSearch.setVisibility(View.GONE);
     }
-    public void disableFilter(){
+
+    public void disableFilter() {
         llFilter.setVisibility(View.GONE);
     }
-    public void enableFilter(){
+
+    public void enableFilter() {
         llFilter.setVisibility(View.VISIBLE);
     }
-    public void disableDateIntervalPicker(){
+
+    public void disableDateIntervalPicker() {
         llDateInterval.setVisibility(View.GONE);
         tvDateInterval.setVisibility(View.INVISIBLE);
     }
-    public void disableExport(){
+
+    public void disableExport() {
         llExpert.setVisibility(View.GONE);
     }
-    public void enableDateIntervalPicker(){
+
+    public void enableDateIntervalPicker() {
         llDateInterval.setVisibility(View.VISIBLE);
         tvDateInterval.setVisibility(View.VISIBLE);
     }
-    public void updateDateIntervalUi(Calendar fromDate, Calendar toDate){
+
+    public void updateDateIntervalUi(Calendar fromDate, Calendar toDate) {
         tvDateInterval.setText(simpleDateFormat.format(fromDate.getTime()) + " - " + simpleDateFormat.format(toDate.getTime()));
     }
-    public void openDateInterval(Calendar fromDate,Calendar toDate){
+
+    public void openDateInterval(Calendar fromDate, Calendar toDate) {
         DateIntervalPicker dateIntervalPicker = new DateIntervalPicker(getContext(), fromDate, toDate, (fromDate1, toDate1) -> presenter.onChooseDateInterval(fromDate1, toDate1));
         dateIntervalPicker.show();
     }
-    public void setSingleTitle(String titleReport){
+
+    public void setSingleTitle(String titleReport) {
         llChoiserPanel.setVisibility(View.GONE);
         tvTitleReport.setVisibility(View.VISIBLE);
         tvTitleReport.setText(titleReport);
         panelCount = 1;
     }
-    public void setChoiserPanel(String[] titles){
+
+    public void setChoiserPanel(String[] titles) {
         tvTitleReport.setVisibility(View.GONE);
         llChoiserPanel.setVisibility(View.VISIBLE);
         panelCount = titles.length;
-        if(panelCount>5) {
+        if (panelCount > 5) {
             new Exception("Panel title can maximum 5, for all questions ISLOMOV SARDOR").printStackTrace();
         }
-        if(panelCount == 1){
+        if (panelCount == 1) {
             setSingleTitle(titles[0]);
-        }else if(panelCount == 2){
+        } else if (panelCount == 2) {
             tvFirtPanel.setVisibility(View.VISIBLE);
             tvSecondPanel.setVisibility(View.GONE);
             tvThirdPanel.setVisibility(View.GONE);
@@ -216,19 +277,19 @@ public class SummaryReportFragment extends BaseFragment implements SummaryReport
             tvFirtPanel.setBackgroundResource(R.drawable.left_switch_title_pressed);
             tvFirtPanel.setTextColor(Color.parseColor("#2e91cc"));
 
-            tvFirtPanel.setOnClickListener((view)->{
+            tvFirtPanel.setOnClickListener((view) -> {
                 disableAllPanelButtons();
                 presenter.onChoisedPanel(0);
                 tvFirtPanel.setBackgroundResource(R.drawable.left_switch_title_pressed);
                 tvFirtPanel.setTextColor(Color.parseColor("#2e91cc"));
             });
-            tvFivePanel.setOnClickListener((view)->{
+            tvFivePanel.setOnClickListener((view) -> {
                 disableAllPanelButtons();
                 presenter.onChoisedPanel(1);
                 tvFivePanel.setBackgroundResource(R.drawable.right_switch_title_pressed);
                 tvFivePanel.setTextColor(Color.parseColor("#2e91cc"));
             });
-        }else if(panelCount == 3){
+        } else if (panelCount == 3) {
             tvFirtPanel.setVisibility(View.VISIBLE);
             tvSecondPanel.setVisibility(View.VISIBLE);
             tvThirdPanel.setVisibility(View.GONE);
@@ -259,7 +320,7 @@ public class SummaryReportFragment extends BaseFragment implements SummaryReport
                 tvFivePanel.setBackgroundResource(R.drawable.right_switch_title_pressed);
                 tvFivePanel.setTextColor(Color.parseColor("#2e91cc"));
             }));
-        }else if(panelCount == 4){
+        } else if (panelCount == 4) {
             tvFirtPanel.setVisibility(View.VISIBLE);
             tvSecondPanel.setVisibility(View.VISIBLE);
             tvThirdPanel.setVisibility(View.VISIBLE);
@@ -297,7 +358,7 @@ public class SummaryReportFragment extends BaseFragment implements SummaryReport
                 tvFivePanel.setBackgroundResource(R.drawable.right_switch_title_pressed);
                 tvFivePanel.setTextColor(Color.parseColor("#2e91cc"));
             }));
-        }else if(panelCount == 5){
+        } else if (panelCount == 5) {
             tvFirtPanel.setVisibility(View.VISIBLE);
             tvSecondPanel.setVisibility(View.VISIBLE);
             tvThirdPanel.setVisibility(View.VISIBLE);
@@ -345,7 +406,8 @@ public class SummaryReportFragment extends BaseFragment implements SummaryReport
         }
 
     }
-    public void disableAllPanelButtons(){
+
+    public void disableAllPanelButtons() {
         tvFirtPanel.setBackgroundResource(R.drawable.left_switch_title);
         tvSecondPanel.setBackgroundResource(R.drawable.center_switch_title);
         tvThirdPanel.setBackgroundResource(R.drawable.center_switch_title);
@@ -357,38 +419,43 @@ public class SummaryReportFragment extends BaseFragment implements SummaryReport
         tvFourPanel.setTextColor(Color.parseColor("#999999"));
         tvFivePanel.setTextColor(Color.parseColor("#999999"));
     }
+
     @OnClick(R.id.llFilter)
-    public void onClickedFilterButton(){
+    public void onClickedFilterButton() {
         Runnable runnable = () -> presenter.onClickedFilter();
         runnable.run();
     }
+
     @OnTextChanged(R.id.mpSearchEditText)
     protected void handleTextChange(Editable editable) {
-        if(isAllright) {
+        if (isAllright) {
             Runnable runnable = () -> presenter.onSearchTyped(editable.toString());
             runnable.run();
-        }else isAllright = true;
-        if(editable.toString().isEmpty()){
+        } else isAllright = true;
+        if (editable.toString().isEmpty()) {
             ivSearchImage.setImageResource(R.drawable.search_app);
-        }else {
+        } else {
             ivSearchImage.setImageResource(R.drawable.cancel_search);
         }
     }
+
     @OnClick(R.id.llDateInterval)
-    public void onClickedDateIntervalButton(){
+    public void onClickedDateIntervalButton() {
         llDateInterval.setEnabled(false);
         clearSearch();
         Runnable runnable = () -> presenter.onClickedDateInterval();
-        llDateInterval.postDelayed(runnable,30);
+        llDateInterval.postDelayed(runnable, 30);
         llDateInterval.setEnabled(true);
     }
+
     @OnClick(R.id.flCleareSearch)
-    public void onCleareSearch(){
-        if(!mpSearchEditText.getText().toString().isEmpty())
+    public void onCleareSearch() {
+        if (!mpSearchEditText.getText().toString().isEmpty())
             mpSearchEditText.setText("");
     }
+
     @OnClick(R.id.llExpert)
-    public void showExportPanel(){
+    public void showExportPanel() {
         ExportDialog exportDialog = new ExportDialog(getContext(), panelCount, new ExportDialog.OnExportItemClick() {
             @Override
             public void onToExcel() {
@@ -402,13 +469,17 @@ public class SummaryReportFragment extends BaseFragment implements SummaryReport
         });
         exportDialog.show();
     }
+
     boolean isAllright = true;
-    public void clearSearch(){
+
+    public void clearSearch() {
         isAllright = false;
         mpSearchEditText.setText("");
-    };
+    }
 
-    private void   initTabLabs(){
+    ;
+
+    private void initTabLabs() {
         llSalesSummary.setOnClickListener(view -> {
             presenter.onSalesSummary();
         });
@@ -416,8 +487,9 @@ public class SummaryReportFragment extends BaseFragment implements SummaryReport
             presenter.onPaymentsSummary();
         });
     }
+
     @Override
-    public void activeSalesSummary(){
+    public void activeSalesSummary() {
         tvSalesSummary.setTextColor(Color.parseColor("#2e91cc"));
         flSalesSummaryBottomLine.setVisibility(View.VISIBLE);
         tvPaymentSummary.setTextColor(Color.parseColor("#a9a9a9"));
@@ -426,8 +498,9 @@ public class SummaryReportFragment extends BaseFragment implements SummaryReport
         llHeaderSalesSummary.setVisibility(View.VISIBLE);
         llHeaderPayments.setVisibility(View.GONE);
     }
+
     @Override
-    public void activePaymentsSummary(){
+    public void activePaymentsSummary() {
         tvSalesSummary.setTextColor(Color.parseColor("#a9a9a9"));
         flSalesSummaryBottomLine.setVisibility(View.INVISIBLE);
         tvPaymentSummary.setTextColor(Color.parseColor("#2e91cc"));

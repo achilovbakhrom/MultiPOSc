@@ -19,4 +19,5 @@ public interface BillingTransactionOperations {
     Single<Double> getVendorDebt(Long vendorId);
     Single<List<BillingOperations>> getBillingOperationsInInterval(Calendar fromDate, Calendar toDate);
     Single<Double> getBillingOperationsAmountInInterval(Long accountId, Calendar fromDate, Calendar toDate);
+    Single<List<BillingOperations>> getAllBillingOperationsInInterval(Calendar fromDate, Calendar toDate);
 }

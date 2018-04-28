@@ -3,6 +3,10 @@ package com.jim.multipos.ui.reports.service_fee;
 import android.os.Bundle;
 import android.view.Gravity;
 
+import com.github.angads25.filepicker.model.DialogConfigs;
+import com.github.angads25.filepicker.model.DialogProperties;
+import com.github.angads25.filepicker.view.FilePickerDialog;
+import com.github.mjdev.libaums.fs.UsbFile;
 import com.jim.mpviews.ReportView;
 import com.jim.mpviews.utils.ReportViewConstants;
 import com.jim.multipos.R;
@@ -10,20 +14,28 @@ import com.jim.multipos.core.BaseTableReportFragment;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.ServiceFeeLog;
 import com.jim.multipos.ui.reports.discount.dialogs.DiscountFilterDialog;
+import com.jim.multipos.utils.ExportToDialog;
+import com.jim.multipos.utils.ExportUtils;
+
+import java.io.File;
 
 import javax.inject.Inject;
 
-public class ServiceFeeReportFragment extends BaseTableReportFragment implements ServiceFeeReportView{
+import static com.jim.multipos.utils.ExportUtils.EXCEL;
+
+public class ServiceFeeReportFragment extends BaseTableReportFragment implements ServiceFeeReportView {
 
     @Inject
     ServiceFeeReportPresenter presenter;
     private ReportView.Builder itemBuilder, orderBuilder, logBuilder;
     private ReportView itemReportView, orderReportView, logReportView;
+    private String[] panelNames;
 
     @Override
     protected void init(Bundle savedInstanceState) {
         init(presenter);
-        setChoiserPanel(new String[]{getString(R.string.item_service_fee), getString(R.string.order_service_fee), getString(R.string.service_fee_log)});
+        panelNames = new String[]{getString(R.string.item_service_fee), getString(R.string.order_service_fee), getString(R.string.service_fee_log)};
+        setChoiserPanel(panelNames);
         initValues();
         presenter.onCreateView(savedInstanceState);
     }
@@ -75,6 +87,121 @@ public class ServiceFeeReportFragment extends BaseTableReportFragment implements
         DiscountFilterDialog dialog = new DiscountFilterDialog(getContext(), filterConfig, config -> {
             presenter.filterConfigsHaveChanged(config);
             clearSearch();
+        });
+        dialog.show();
+    }
+
+    @Override
+    public void exportTableToExcel(String fileName, String path, Object[][] objects, int position, String date, String filter, String searchText) {
+        switch (position) {
+            case 0:
+                String description = "Item service fee report";
+                ExportUtils.exportToExcel(getContext(), path, fileName, description, date, filter, searchText, objects, firstTitles, firstWeights, firstDataType, singleStatusTypes);
+                break;
+            case 1:
+                String secondDescription = " Order service fee report";
+                ExportUtils.exportToExcel(getContext(), path, fileName, secondDescription, date, filter, searchText, objects, secondTitles, secondWeights, secondDataType, singleStatusTypes);
+                break;
+            case 2:
+                String thirdDescription = "Service fee creation log";
+                ExportUtils.exportToExcel(getContext(), path, fileName, thirdDescription, date, filter, searchText, objects, thirdTitles, weights, dataType, multipleStatusTypes);
+                break;
+        }
+    }
+
+    @Override
+    public void exportTableToPdf(String fileName, String path, Object[][] objects, int position, String date, String filter, String searchText) {
+        switch (position) {
+            case 0:
+                String description = "Item service fee report";
+                ExportUtils.exportToPdf(getContext(), path, fileName, description, date, filter, searchText, objects, firstTitles, firstWeights, firstDataType, singleStatusTypes);
+                break;
+            case 1:
+                String secondDescription = " Order service fee report";
+                ExportUtils.exportToPdf(getContext(), path, fileName, secondDescription, date, filter, searchText, objects, secondTitles, secondWeights, secondDataType, singleStatusTypes);
+                break;
+            case 2:
+                String thirdDescription = "Service fee creation log";
+                ExportUtils.exportToPdf(getContext(), path, fileName, thirdDescription, date, filter, searchText, objects, thirdTitles, weights, dataType, multipleStatusTypes);
+                break;
+        }
+    }
+
+    ExportToDialog exportDialog;
+
+    @Override
+    public void openExportDialog(int position, int mode) {
+        exportDialog = new ExportToDialog(getContext(), mode, panelNames[position], new ExportToDialog.OnExportListener() {
+            @Override
+            public void onFilePickerClicked() {
+                openFilePickerDialog();
+            }
+
+            @Override
+            public void onSaveToUSBClicked(String filename, UsbFile root) {
+                if (mode == EXCEL)
+                    presenter.exportExcelToUSB(filename, root);
+                else presenter.exportPdfToUSB(filename, root);
+            }
+
+            @Override
+            public void onSaveClicked(String fileName, String path) {
+                if (mode == EXCEL)
+                    presenter.exportExcel(fileName, path);
+                else presenter.exportPdf(fileName, path);
+            }
+        });
+        exportDialog.show();
+    }
+
+    @Override
+    public void exportExcelToUSB(String filename, UsbFile root, Object[][] objects, int position, String date, String filter, String searchText) {
+        switch (position) {
+            case 0:
+                String description = "Item service fee report";
+                ExportUtils.exportToExcelToUSB(getContext(), root, filename, description, date, filter, searchText, objects, firstTitles, firstWeights, firstDataType, singleStatusTypes);
+                break;
+            case 1:
+                String secondDescription = " Order service fee report";
+                ExportUtils.exportToExcelToUSB(getContext(), root, filename, secondDescription, date, filter, searchText, objects, secondTitles, secondWeights, secondDataType, singleStatusTypes);
+                break;
+            case 2:
+                String thirdDescription = "Service fee creation log";
+                ExportUtils.exportToExcelToUSB(getContext(), root, filename, thirdDescription, date, filter, searchText, objects, thirdTitles, weights, dataType, multipleStatusTypes);
+                break;
+        }
+    }
+
+    @Override
+    public void exportTableToPdfToUSB(String fileName, UsbFile path, Object[][] objects, int position, String date, String filter, String searchText) {
+        switch (position) {
+            case 0:
+                String description = "Item service fee report";
+                ExportUtils.exportToPdfToUSB(getContext(), path, fileName, description, date, filter, searchText, objects, firstTitles, firstWeights, firstDataType, singleStatusTypes);
+                break;
+            case 1:
+                String secondDescription = " Order service fee report";
+                ExportUtils.exportToPdfToUSB(getContext(), path, fileName, secondDescription, date, filter, searchText, objects, secondTitles, secondWeights, secondDataType, singleStatusTypes);
+                break;
+            case 2:
+                String thirdDescription = "Service fee creation log";
+                ExportUtils.exportToPdfToUSB(getContext(), path, fileName, thirdDescription, date, filter, searchText, objects, thirdTitles, weights, dataType, multipleStatusTypes);
+                break;
+        }
+    }
+
+    private void openFilePickerDialog() {
+        DialogProperties properties = new DialogProperties();
+        properties.selection_mode = DialogConfigs.SINGLE_MODE;
+        properties.selection_type = DialogConfigs.DIR_SELECT;
+        properties.root = new File(DialogConfigs.DEFAULT_DIR);
+        properties.error_dir = new File(DialogConfigs.DEFAULT_DIR);
+        properties.offset = new File(DialogConfigs.DEFAULT_DIR);
+        properties.extensions = null;
+        FilePickerDialog dialog = new FilePickerDialog(getContext(), properties);
+        dialog.setTitle(getString(R.string.select_a_directory));
+        dialog.setDialogSelectionListener(files -> {
+            exportDialog.setPath(files);
         });
         dialog.show();
     }

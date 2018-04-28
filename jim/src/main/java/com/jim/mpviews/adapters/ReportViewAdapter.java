@@ -156,7 +156,7 @@ public class ReportViewAdapter extends RecyclerView.Adapter<ReportViewAdapter.Vi
                                         case ReportViewConstants.STATUS:
                                             if (statusTypes != null) {
                                                 for (int k = 0; k < statusTypes[statusCount].length; k++) {
-                                                    if (item == statusTypes[statusCount][k][0]) {
+                                                    if (item.intValue() == ((Integer) statusTypes[statusCount][k][0]).intValue()) {
                                                         String status = (String) statusTypes[statusCount][k][1];
                                                         Integer color = (Integer) statusTypes[statusCount][k][2];
                                                         textView.setText(status);
@@ -237,7 +237,7 @@ public class ReportViewAdapter extends RecyclerView.Adapter<ReportViewAdapter.Vi
                                         case ReportViewConstants.STATUS:
                                             if (statusTypes != null) {
                                                 for (int k = 0; k < statusTypes[statusCount].length; k++) {
-                                                    if (item == statusTypes[statusCount][k][0]) {
+                                                    if (item.intValue() == ((Integer) statusTypes[statusCount][k][0]).intValue()) {
                                                         String status = (String) statusTypes[statusCount][k][1];
                                                         Integer color = (Integer) statusTypes[statusCount][k][2];
                                                         textView.setTextColor(ContextCompat.getColor(context, color));

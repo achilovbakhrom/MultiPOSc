@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.github.mjdev.libaums.fs.UsbFile;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
@@ -23,6 +24,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import static com.jim.multipos.utils.ExportUtils.EXCEL;
+import static com.jim.multipos.utils.ExportUtils.PDF;
+
 public class DiscountReportPresenterImpl extends BasePresenterImpl<DiscountReportView> implements DiscountReportPresenter {
 
     private Object[][] firstObjects;
@@ -36,6 +40,7 @@ public class DiscountReportPresenterImpl extends BasePresenterImpl<DiscountRepor
     private DatabaseManager databaseManager;
     private final Context context;
     private int[] filterConfig;
+    private String searchText;
 
     @Inject
     protected DiscountReportPresenterImpl(DiscountReportView view, DatabaseManager databaseManager, Context context) {
@@ -187,6 +192,7 @@ public class DiscountReportPresenterImpl extends BasePresenterImpl<DiscountRepor
 
     @Override
     public void onSearchTyped(String searchText) {
+        this.searchText = searchText;
         if (searchText.isEmpty()) {
             switch (currentPosition) {
                 case 0:
@@ -638,14 +644,15 @@ public class DiscountReportPresenterImpl extends BasePresenterImpl<DiscountRepor
         view.openDateInterval(fromDate, toDate);
     }
 
+
     @Override
     public void onClickedExportExcel() {
-
+        view.openExportDialog(currentPosition, EXCEL);
     }
 
     @Override
     public void onClickedExportPDF() {
-
+        view.openExportDialog(currentPosition, PDF);
     }
 
     @Override
@@ -678,5 +685,105 @@ public class DiscountReportPresenterImpl extends BasePresenterImpl<DiscountRepor
     public void filterConfigsHaveChanged(int[] config) {
         this.filterConfig = config;
         initReportContent();
+    }
+
+    @Override
+    public void exportExcel(String fileName, String path) {
+        String date = simpleDateFormat.format(fromDate.getTime()) + " - " + simpleDateFormat.format(toDate.getTime());
+        String filter = "";
+        StringBuilder filters = new StringBuilder();
+        if (filterConfig[0] == 1) {
+            filters.append(context.getString(R.string.static_type)).append(" ");
+        }
+        if (filterConfig[1] == 1) {
+            filters.append(context.getString(R.string.manual)).append(" ");
+        }
+        filter = filters.toString();
+        switch (currentPosition) {
+            case 0:
+                view.exportTableToExcel(fileName, path, firstObjects, currentPosition, date, filter, searchText);
+                break;
+            case 1:
+                view.exportTableToExcel(fileName, path, secondObjects, currentPosition, date, filter, searchText);
+                break;
+            case 2:
+                view.exportTableToExcel(fileName, path, thirdObjects, currentPosition, date, filter, searchText);
+                break;
+        }
+    }
+
+    @Override
+    public void exportPdf(String fileName, String path) {
+        String date = simpleDateFormat.format(fromDate.getTime()) + " - " + simpleDateFormat.format(toDate.getTime());
+        String filter = "";
+        StringBuilder filters = new StringBuilder();
+        if (filterConfig[0] == 1) {
+            filters.append(context.getString(R.string.static_type)).append(" ");
+        }
+        if (filterConfig[1] == 1) {
+            filters.append(context.getString(R.string.manual)).append(" ");
+        }
+        filter = filters.toString();
+        switch (currentPosition) {
+            case 0:
+                view.exportTableToPdf(fileName, path, firstObjects, currentPosition, date, filter, searchText);
+                break;
+            case 1:
+                view.exportTableToPdf(fileName, path, secondObjects, currentPosition, date, filter, searchText);
+                break;
+            case 2:
+                view.exportTableToPdf(fileName, path, thirdObjects, currentPosition, date, filter, searchText);
+                break;
+        }
+    }
+
+    @Override
+    public void exportExcelToUSB(String filename, UsbFile root) {
+        String date = simpleDateFormat.format(fromDate.getTime()) + " - " + simpleDateFormat.format(toDate.getTime());
+        String filter = "";
+        StringBuilder filters = new StringBuilder();
+        if (filterConfig[0] == 1) {
+            filters.append(context.getString(R.string.static_type)).append(" ");
+        }
+        if (filterConfig[1] == 1) {
+            filters.append(context.getString(R.string.manual)).append(" ");
+        }
+        filter = filters.toString();
+        switch (currentPosition) {
+            case 0:
+                view.exportExcelToUSB(filename, root, firstObjects, currentPosition, date, filter, searchText);
+                break;
+            case 1:
+                view.exportExcelToUSB(filename, root, secondObjects, currentPosition, date, filter, searchText);
+                break;
+            case 2:
+                view.exportExcelToUSB(filename, root, thirdObjects, currentPosition, date, filter, searchText);
+                break;
+        }
+    }
+
+    @Override
+    public void exportPdfToUSB(String fileName, UsbFile path) {
+        String date = simpleDateFormat.format(fromDate.getTime()) + " - " + simpleDateFormat.format(toDate.getTime());
+        String filter = "";
+        StringBuilder filters = new StringBuilder();
+        if (filterConfig[0] == 1) {
+            filters.append(context.getString(R.string.static_type)).append(" ");
+        }
+        if (filterConfig[1] == 1) {
+            filters.append(context.getString(R.string.manual)).append(" ");
+        }
+        filter = filters.toString();
+        switch (currentPosition) {
+            case 0:
+                view.exportTableToPdfToUSB(fileName, path, firstObjects, currentPosition, date, filter, searchText);
+                break;
+            case 1:
+                view.exportTableToPdfToUSB(fileName, path, secondObjects, currentPosition, date, filter, searchText);
+                break;
+            case 2:
+                view.exportTableToPdfToUSB(fileName, path, thirdObjects, currentPosition, date, filter, searchText);
+                break;
+        }
     }
 }

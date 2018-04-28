@@ -28,7 +28,7 @@ public class Consignment implements Editable {
     @Id(autoincrement = true)
     private Long id;
     private String consignmentNumber;
-    private String description;
+    private String description = "";
     private Double totalAmount;
     private Boolean isActive = true;
     private Boolean isDeleted = false;

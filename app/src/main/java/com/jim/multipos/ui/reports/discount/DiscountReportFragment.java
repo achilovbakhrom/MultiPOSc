@@ -4,6 +4,10 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.widget.FrameLayout;
 
+import com.github.angads25.filepicker.model.DialogConfigs;
+import com.github.angads25.filepicker.model.DialogProperties;
+import com.github.angads25.filepicker.view.FilePickerDialog;
+import com.github.mjdev.libaums.fs.UsbFile;
 import com.jim.mpviews.ReportView;
 import com.jim.mpviews.utils.ReportViewConstants;
 import com.jim.multipos.R;
@@ -11,8 +15,14 @@ import com.jim.multipos.core.BaseTableReportFragment;
 import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.DiscountLog;
 import com.jim.multipos.ui.reports.discount.dialogs.DiscountFilterDialog;
+import com.jim.multipos.utils.ExportToDialog;
+import com.jim.multipos.utils.ExportUtils;
+
+import java.io.File;
 
 import javax.inject.Inject;
+
+import static com.jim.multipos.utils.ExportUtils.EXCEL;
 
 public class DiscountReportFragment extends BaseTableReportFragment implements DiscountReportView {
 
@@ -20,11 +30,13 @@ public class DiscountReportFragment extends BaseTableReportFragment implements D
     DiscountReportPresenter presenter;
     private ReportView.Builder itemDiscountBuilder, orderDiscountBuilder, discountLogBuilder;
     private ReportView itemDiscountReportView, orderDiscountReportView, discountLogReportView;
+    private String[] panelNames;
 
     @Override
     protected void init(Bundle savedInstanceState) {
         init(presenter);
-        setChoiserPanel(new String[]{getString(R.string.item_discount), getString(R.string.order_discount), getString(R.string.discount_creation_log)});
+        panelNames = new String[]{getString(R.string.item_discount), getString(R.string.order_discount), getString(R.string.discount_creation_log)};
+        setChoiserPanel(panelNames);
         initValues();
         presenter.onCreateView(savedInstanceState);
     }
@@ -97,8 +109,8 @@ public class DiscountReportFragment extends BaseTableReportFragment implements D
     @Override
     public void showFilterDialog(int[] filterConfig) {
         DiscountFilterDialog dialog = new DiscountFilterDialog(getContext(), filterConfig, config -> {
-           presenter.filterConfigsHaveChanged(config);
-           clearSearch();
+            presenter.filterConfigsHaveChanged(config);
+            clearSearch();
         });
         dialog.show();
     }
@@ -117,6 +129,121 @@ public class DiscountReportFragment extends BaseTableReportFragment implements D
             case 2:
                 discountLogReportView.getBuilder().searchResults(objectResults, searchText);
                 setTable(discountLogReportView.getBuilder().getView());
+                break;
+        }
+    }
+
+    ExportToDialog exportDialog;
+
+    @Override
+    public void openExportDialog(int position, int mode) {
+        exportDialog = new ExportToDialog(getContext(), mode, panelNames[position], new ExportToDialog.OnExportListener() {
+            @Override
+            public void onFilePickerClicked() {
+                openFilePickerDialog();
+            }
+
+            @Override
+            public void onSaveToUSBClicked(String filename, UsbFile root) {
+                if (mode == EXCEL)
+                    presenter.exportExcelToUSB(filename, root);
+                else presenter.exportPdfToUSB(filename, root);
+            }
+
+            @Override
+            public void onSaveClicked(String fileName, String path) {
+                if (mode == EXCEL)
+                    presenter.exportExcel(fileName, path);
+                else presenter.exportPdf(fileName, path);
+            }
+        });
+        exportDialog.show();
+    }
+
+    private void openFilePickerDialog() {
+        DialogProperties properties = new DialogProperties();
+        properties.selection_mode = DialogConfigs.SINGLE_MODE;
+        properties.selection_type = DialogConfigs.DIR_SELECT;
+        properties.root = new File(DialogConfigs.DEFAULT_DIR);
+        properties.error_dir = new File(DialogConfigs.DEFAULT_DIR);
+        properties.offset = new File(DialogConfigs.DEFAULT_DIR);
+        properties.extensions = null;
+        FilePickerDialog dialog = new FilePickerDialog(getContext(), properties);
+        dialog.setTitle(getString(R.string.select_a_directory));
+        dialog.setDialogSelectionListener(files -> {
+            exportDialog.setPath(files);
+        });
+        dialog.show();
+    }
+
+    @Override
+    public void exportTableToExcel(String fileName, String path, Object[][] objects, int position, String date, String filter, String searchText) {
+        switch (position) {
+            case 0:
+                String description = "Item service fee report";
+                ExportUtils.exportToExcel(getContext(), path, fileName, description, date, filter, searchText, objects, firstTitles, firstWeights, firstDataType, firstStatusTypes);
+                break;
+            case 1:
+                String secondDescription = " Order service fee report";
+                ExportUtils.exportToExcel(getContext(), path, fileName, secondDescription, date, filter, searchText, objects, secondTitles, secondWeights, secondDataType, firstStatusTypes);
+                break;
+            case 2:
+                String thirdDescription = "Service fee creation log";
+                ExportUtils.exportToExcel(getContext(), path, fileName, thirdDescription, date, filter, searchText, objects, titles, weights, dataType, statusTypes);
+                break;
+        }
+    }
+
+    @Override
+    public void exportTableToPdf(String filename, String path, Object[][] objects, int position, String date, String filter, String searchText) {
+        switch (position) {
+            case 0:
+                String description = "Item service fee report";
+                ExportUtils.exportToPdf(getContext(), path, filename, description, date, filter, searchText, objects, firstTitles, firstWeights, firstDataType, firstStatusTypes);
+                break;
+            case 1:
+                String secondDescription = " Order service fee report";
+                ExportUtils.exportToPdf(getContext(), path, filename, secondDescription, date, filter, searchText, objects, secondTitles, secondWeights, secondDataType, firstStatusTypes);
+                break;
+            case 2:
+                String thirdDescription = "Service fee creation log";
+                ExportUtils.exportToPdf(getContext(), path, filename, thirdDescription, date, filter, searchText, objects, titles, weights, dataType, statusTypes);
+                break;
+        }
+    }
+
+    @Override
+    public void exportExcelToUSB(String filename, UsbFile root, Object[][] objects, int position, String date, String filter, String searchText) {
+        switch (position) {
+            case 0:
+                String description = "Item service fee report";
+                ExportUtils.exportToExcelToUSB(getContext(), root, filename, description, date, filter, searchText, objects, firstTitles, firstWeights, firstDataType, firstStatusTypes);
+                break;
+            case 1:
+                String secondDescription = " Order service fee report";
+                ExportUtils.exportToExcelToUSB(getContext(), root, filename, secondDescription, date, filter, searchText, objects, secondTitles, secondWeights, secondDataType, firstStatusTypes);
+                break;
+            case 2:
+                String thirdDescription = "Service fee creation log";
+                ExportUtils.exportToExcelToUSB(getContext(), root, filename, thirdDescription, date, filter, searchText, objects, titles, weights, dataType, statusTypes);
+                break;
+        }
+    }
+
+    @Override
+    public void exportTableToPdfToUSB(String filename, UsbFile root, Object[][] objects, int position, String date, String filter, String searchText) {
+        switch (position) {
+            case 0:
+                String description = "Item service fee report";
+                ExportUtils.exportToPdfToUSB(getContext(), root, filename, description, date, filter, searchText, objects, firstTitles, firstWeights, firstDataType, firstStatusTypes);
+                break;
+            case 1:
+                String secondDescription = " Order service fee report";
+                ExportUtils.exportToPdfToUSB(getContext(), root, filename, secondDescription, date, filter, searchText, objects, secondTitles, secondWeights, secondDataType, firstStatusTypes);
+                break;
+            case 2:
+                String thirdDescription = "Service fee creation log";
+                ExportUtils.exportToPdfToUSB(getContext(), root, filename, thirdDescription, date, filter, searchText, objects, titles, weights, dataType, statusTypes);
                 break;
         }
     }

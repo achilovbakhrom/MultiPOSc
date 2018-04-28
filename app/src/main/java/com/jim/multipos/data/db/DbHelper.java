@@ -300,5 +300,7 @@ public interface DbHelper {
     Single<List<TillOperation>> getTillOperationsInterval(Calendar fromDate,Calendar toDate);
     PaymentType getCashPaymentType();
     PaymentType getPaymentTypeById(long id);
-
+    Single<List<Consignment>> getConsignmentsInInterval(Calendar fromDate, Calendar toDate);
+    Single<List<ConsignmentProduct>> getConsignmentProductsInterval(Calendar fromDate, Calendar toDate);
+    Single<List<BillingOperations>> getAllBillingOperationsInInterval(Calendar fromDate, Calendar toDate);
 }

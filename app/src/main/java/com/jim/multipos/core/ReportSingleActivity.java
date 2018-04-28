@@ -20,6 +20,7 @@ import com.jim.multipos.ui.reports.product_profit.ProductProfitFragment;
 import com.jim.multipos.ui.reports.service_fee.ServiceFeeReportFragment;
 import com.jim.multipos.ui.reports.summary_report.SummaryReportFragment;
 import com.jim.multipos.ui.reports.tills.TillsReportFragment;
+import com.jim.multipos.ui.reports.vendor.VendorReportFragment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,7 +38,7 @@ public abstract class ReportSingleActivity extends BaseActivity {
     RecyclerView tvReportsPicker;
     ReportPickerAdapter reportPickerAdapter;
     List<String> reportNames;
-    String [] reportsFragmentsTags= {InventoryReportFragment.class.getName(),SummaryReportFragment.class.getName(),TillsReportFragment.class.getName(),OrderHistoryFragment.class.getName(), DiscountReportFragment.class.getName(), ServiceFeeReportFragment.class.getName(), HourlySalesReportFragment.class.getName(),
+    String [] reportsFragmentsTags= {VendorReportFragment.class.getName(), InventoryReportFragment.class.getName(),SummaryReportFragment.class.getName(),TillsReportFragment.class.getName(),OrderHistoryFragment.class.getName(), DiscountReportFragment.class.getName(), ServiceFeeReportFragment.class.getName(), HourlySalesReportFragment.class.getName(),
      DebtsReportFragment.class.getName(), PaymentsReportFragment.class.getName(),ProductProfitFragment.class.getName(), CustomerReportFragment.class.getName()};
    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -230,7 +231,7 @@ public abstract class ReportSingleActivity extends BaseActivity {
         }
     }
 
-    public void showinventoryReportFragment(/*extra*/){
+    public void showInventoryReportFragment(/*extra*/){
         hideAll();
         InventoryReportFragment inventoryReportFragment = (InventoryReportFragment) getSupportFragmentManager().findFragmentByTag(InventoryReportFragment.class.getName());
         if ( inventoryReportFragment == null){
@@ -238,6 +239,17 @@ public abstract class ReportSingleActivity extends BaseActivity {
             addFragmentWithTagStatic(R.id.flMain, inventoryReportFragment, InventoryReportFragment.class.getName());
         }else {
             getSupportFragmentManager().beginTransaction().show(inventoryReportFragment).commit();
+        }
+    }
+
+    public void showVendorReportFragment(/*extra*/){
+        hideAll();
+        VendorReportFragment vendorReportFragment = (VendorReportFragment) getSupportFragmentManager().findFragmentByTag(VendorReportFragment.class.getName());
+        if ( vendorReportFragment == null){
+            vendorReportFragment = new VendorReportFragment();
+            addFragmentWithTagStatic(R.id.flMain, vendorReportFragment, VendorReportFragment.class.getName());
+        }else {
+            getSupportFragmentManager().beginTransaction().show(vendorReportFragment).commit();
         }
     }
 

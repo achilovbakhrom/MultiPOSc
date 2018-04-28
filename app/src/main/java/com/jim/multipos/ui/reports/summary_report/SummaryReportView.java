@@ -18,4 +18,5 @@ public interface SummaryReportView extends BaseView {
     void updateRecyclerViewSummary(List<PairString> pairStringList);
     void updateRecyclerViewPayments(List<TripleString> tripleStrings);
     void updatecyclerViewAnalitcs(List<PairString> pairStringList);
+    void openExportDialog(int mode);
 }

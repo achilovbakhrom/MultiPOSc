@@ -48,6 +48,7 @@
                 android:layout_marginRight="@dimen/twenty_dp"
                 android:gravity="left|center_vertical"
                 android:hint="@string/pos_id"
+                android:inputType="text"
                 android:textColor="@color/colorMainText"
                 android:textSize="@dimen/eighteen_dp" />
         </LinearLayout>
@@ -76,6 +77,7 @@
                 android:layout_height="@dimen/forty_dp"
                 android:layout_gravity="center"
                 android:layout_marginRight="@dimen/twenty_dp"
+                android:inputType="text"
                 android:gravity="left|center_vertical"
                 android:hint="@string/enter_pos_alias"
                 android:textColor="@color/colorMainText"
@@ -104,6 +106,7 @@
                 android:id="@+id/etAddress"
                 android:layout_width="@dimen/four_hundred_fifty_dp"
                 android:layout_height="@dimen/forty_dp"
+                android:inputType="text"
                 android:layout_gravity="center"
                 android:layout_marginRight="@dimen/twenty_dp"
                 android:gravity="left|center_vertical"

@@ -66,6 +66,7 @@
                 android:layout_height="@dimen/forty_dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
+                android:inputType="text"
                 android:gravity="center_vertical"
                 android:hint="@string/name"
                 android:textColorHint="@color/colorTextHint"
@@ -104,9 +105,10 @@
                 android:layout_gravity="center"
                 android:layout_marginRight="@dimen/thirty_dp"
                 android:layout_weight="1"
+                android:inputType="text"
                 android:gravity="center_vertical"
                 android:maxLength="50"
-                android:hint="Name"
+                android:hint="@string/name"
                 android:textSize="@dimen/sixteen_dp" />
         </LinearLayout>
 
@@ -135,7 +137,8 @@
                 android:layout_marginRight="@dimen/thirty_dp"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:hint="Place"
+                android:hint="@string/place"
+                android:inputType="text"
                 android:textColorHint="@color/colorTextHint"
                 android:textSize="@dimen/sixteen_dp" />
         </LinearLayout>

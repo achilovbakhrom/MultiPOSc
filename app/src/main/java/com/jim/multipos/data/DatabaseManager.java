@@ -863,7 +863,7 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
-    public Single<List<Consignment>> getConsignmentsInInterval(Long vendorId, Calendar fromDate, Calendar toDate) {
+    public Single<List<Consignment>> getConsignmentsInIntervalByVendor(Long vendorId, Calendar fromDate, Calendar toDate) {
         return dbHelper.getConsignmentsInInterval(vendorId, fromDate, toDate);
     }
 
@@ -875,6 +875,16 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Single<Long> getConsignmentByWarehouseId(Long warehouseId) {
         return dbHelper.getConsignmentByWarehouseId(warehouseId);
+    }
+
+    @Override
+    public Single<List<Consignment>> getConsignmentsInInterval(Calendar fromDate, Calendar toDate) {
+        return dbHelper.getConsignmentsInInterval(fromDate, toDate);
+    }
+
+    @Override
+    public Single<List<ConsignmentProduct>> getConsignmentProductsInterval(Calendar fromDate, Calendar toDate) {
+        return dbHelper.getConsignmentProductsInterval(fromDate, toDate);
     }
 
     @Override
@@ -1051,6 +1061,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Single<Double> getBillingOperationsAmountInInterval(Long accountId, Calendar fromDate, Calendar toDate) {
         return dbHelper.getBillingOperationsAmountInInterval(accountId, fromDate, toDate);
+    }
+
+    @Override
+    public Single<List<BillingOperations>> getAllBillingOperationsInInterval(Calendar fromDate, Calendar toDate) {
+        return dbHelper.getAllBillingOperationsInInterval(fromDate, toDate);
     }
 
     @Override

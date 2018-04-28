@@ -35,7 +35,7 @@
             android:layout_marginTop="@dimen/ten_dp"
             app:chb_type="2"
             app:checked="true"
-            app:text="Payment to order" />
+            app:text="@string/payment_to_order" />
         <com.jim.mpviews.MpCheckbox
             android:id="@+id/chbChange"
             android:layout_width="match_parent"
@@ -45,7 +45,7 @@
             android:layout_marginTop="@dimen/ten_dp"
             app:chb_type="2"
             app:checked="true"
-            app:text="Change" />
+            app:text="@string/change" />
         <com.jim.mpviews.MpCheckbox
             android:id="@+id/chbPayIn"
             android:layout_width="match_parent"
@@ -55,7 +55,7 @@
             android:layout_marginTop="@dimen/ten_dp"
             app:chb_type="2"
             app:checked="true"
-            app:text="Pay in" />
+            app:text="@string/pay_in" />
         <com.jim.mpviews.MpCheckbox
             android:id="@+id/chbPayOut"
             android:layout_width="match_parent"
@@ -65,7 +65,7 @@
             android:layout_marginTop="@dimen/ten_dp"
             app:chb_type="2"
             app:checked="true"
-            app:text="Pay out" />
+            app:text="@string/pay_out" />
         <com.jim.mpviews.MpCheckbox
             android:id="@+id/chbPayToVendor"
             android:layout_width="match_parent"
@@ -75,7 +75,7 @@
             android:layout_marginTop="@dimen/ten_dp"
             app:chb_type="2"
             app:checked="true"
-            app:text="Pay to vendor" />
+            app:text="@string/pay_to_vendor" />
         <com.jim.mpviews.MpCheckbox
             android:id="@+id/chbBankDrop"
             android:layout_width="match_parent"
@@ -85,7 +85,7 @@
             android:layout_marginTop="@dimen/ten_dp"
             app:chb_type="2"
             app:checked="true"
-            app:text="Bank drop" />
+            app:text="@string/bank_drop" />
         <com.jim.mpviews.MpCheckbox
             android:id="@+id/chbDebtIn"
             android:layout_width="match_parent"
@@ -95,7 +95,7 @@
             android:layout_marginTop="@dimen/ten_dp"
             app:chb_type="2"
             app:checked="true"
-            app:text="Debt in" />
+            app:text="@string/debt_in" />
 
     </LinearLayout>
     <FrameLayout

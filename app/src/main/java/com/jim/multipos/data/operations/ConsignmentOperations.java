@@ -23,7 +23,9 @@ public interface ConsignmentOperations {
     Observable<Boolean> insertConsignmentProducts(List<ConsignmentProduct> consignmentProducts);
     Single<List<ConsignmentProduct>> getConsignmentProductsByConsignmentId(Long consignmentId);
     Single<Consignment> getConsignmentById(Long consignmentId);
-    Single<List<Consignment>> getConsignmentsInInterval(Long vendorId, Calendar fromDate, Calendar toDate);
+    Single<List<Consignment>> getConsignmentsInIntervalByVendor(Long vendorId, Calendar fromDate, Calendar toDate);
     Single<Boolean> isConsignmentNumberExists(String number);
     Single<Long> getConsignmentByWarehouseId(Long warehouseId);
+    Single<List<Consignment>> getConsignmentsInInterval(Calendar fromDate, Calendar toDate);
+    Single<List<ConsignmentProduct>> getConsignmentProductsInterval(Calendar fromDate, Calendar toDate);
 }

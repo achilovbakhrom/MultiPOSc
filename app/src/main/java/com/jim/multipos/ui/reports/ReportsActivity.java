@@ -1,5 +1,6 @@
 package com.jim.multipos.ui.reports;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
@@ -52,7 +53,7 @@ public class ReportsActivity extends ReportSingleActivity implements ReportsActi
 
     @Override
     public void openInventoryFragmentAction() {
-        showinventoryReportFragment();
+        showInventoryReportFragment();
     }
 
     @Override
@@ -62,7 +63,7 @@ public class ReportsActivity extends ReportSingleActivity implements ReportsActi
 
     @Override
     public void openVendorsFragmentAction() {
-
+        showVendorReportFragment();
     }
 
     @Override
@@ -78,5 +79,10 @@ public class ReportsActivity extends ReportSingleActivity implements ReportsActi
     @Override
     public void openDebtsFragmentAction() {
         showDebtsReportFragment();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

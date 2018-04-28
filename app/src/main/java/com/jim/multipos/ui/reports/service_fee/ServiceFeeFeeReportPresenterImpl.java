@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.github.mjdev.libaums.fs.UsbFile;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
@@ -23,6 +24,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import static com.jim.multipos.utils.ExportUtils.EXCEL;
+import static com.jim.multipos.utils.ExportUtils.PDF;
+
 public class ServiceFeeFeeReportPresenterImpl extends BasePresenterImpl<ServiceFeeReportView> implements ServiceFeeReportPresenter {
 
     private Object[][] firstObjects;
@@ -36,6 +40,7 @@ public class ServiceFeeFeeReportPresenterImpl extends BasePresenterImpl<ServiceF
     private DatabaseManager databaseManager;
     private Context context;
     private int[] filterConfig;
+    private String searchText = "";
 
     @Inject
     protected ServiceFeeFeeReportPresenterImpl(ServiceFeeReportView view, DatabaseManager databaseManager, Context context) {
@@ -139,7 +144,7 @@ public class ServiceFeeFeeReportPresenterImpl extends BasePresenterImpl<ServiceF
                 secondObjects[i][1] = "#" + order.getTillId();
                 secondObjects[i][2] = order.getSubTotalValue();
                 secondObjects[i][3] = order.getCustomer() != null ? order.getCustomer().getName() : "";
-                secondObjects[i][4] = order.getServiceAmount ();
+                secondObjects[i][4] = order.getServiceAmount();
                 secondObjects[i][5] = order.getCreateAt();
                 secondObjects[i][6] = order.getServiceFee().getName();
                 secondObjects[i][7] = order.getServiceFee().getIsManual() ? 1 : 0;
@@ -187,6 +192,7 @@ public class ServiceFeeFeeReportPresenterImpl extends BasePresenterImpl<ServiceF
 
     @Override
     public void onSearchTyped(String searchText) {
+        this.searchText = searchText;
         if (searchText.isEmpty()) {
             switch (currentPosition) {
                 case 0:
@@ -640,12 +646,12 @@ public class ServiceFeeFeeReportPresenterImpl extends BasePresenterImpl<ServiceF
 
     @Override
     public void onClickedExportExcel() {
-
+        view.openExportDialog(currentPosition, EXCEL);
     }
 
     @Override
     public void onClickedExportPDF() {
-
+        view.openExportDialog(currentPosition, PDF);
     }
 
     @Override
@@ -678,5 +684,105 @@ public class ServiceFeeFeeReportPresenterImpl extends BasePresenterImpl<ServiceF
     public void filterConfigsHaveChanged(int[] config) {
         this.filterConfig = config;
         initReportContent();
+    }
+
+    @Override
+    public void exportExcel(String fileName, String path) {
+        String date = simpleDateFormat.format(fromDate.getTime()) + " - " + simpleDateFormat.format(toDate.getTime());
+        String filter = "";
+        StringBuilder filters = new StringBuilder();
+        if (filterConfig[0] == 1) {
+            filters.append(context.getString(R.string.static_type)).append(" ");
+        }
+        if (filterConfig[1] == 1) {
+            filters.append(context.getString(R.string.manual)).append(" ");
+        }
+        filter = filters.toString();
+        switch (currentPosition) {
+            case 0:
+                view.exportTableToExcel(fileName, path, firstObjects, currentPosition, date, filter, searchText);
+                break;
+            case 1:
+                view.exportTableToExcel(fileName, path, secondObjects, currentPosition, date, filter, searchText);
+                break;
+            case 2:
+                view.exportTableToExcel(fileName, path, thirdObjects, currentPosition, date, filter, searchText);
+                break;
+        }
+    }
+
+    @Override
+    public void exportPdf(String fileName, String path) {
+        String date = simpleDateFormat.format(fromDate.getTime()) + " - " + simpleDateFormat.format(toDate.getTime());
+        String filter = "";
+        StringBuilder filters = new StringBuilder();
+        if (filterConfig[0] == 1) {
+            filters.append(context.getString(R.string.static_type)).append(" ");
+        }
+        if (filterConfig[1] == 1) {
+            filters.append(context.getString(R.string.manual)).append(" ");
+        }
+        filter = filters.toString();
+        switch (currentPosition) {
+            case 0:
+                view.exportTableToPdf(fileName, path, firstObjects, currentPosition, date, filter, searchText);
+                break;
+            case 1:
+                view.exportTableToPdf(fileName, path, secondObjects, currentPosition, date, filter, searchText);
+                break;
+            case 2:
+                view.exportTableToPdf(fileName, path, thirdObjects, currentPosition, date, filter, searchText);
+                break;
+        }
+    }
+
+    @Override
+    public void exportExcelToUSB(String filename, UsbFile root) {
+        String date = simpleDateFormat.format(fromDate.getTime()) + " - " + simpleDateFormat.format(toDate.getTime());
+        String filter = "";
+        StringBuilder filters = new StringBuilder();
+        if (filterConfig[0] == 1) {
+            filters.append(context.getString(R.string.static_type)).append(" ");
+        }
+        if (filterConfig[1] == 1) {
+            filters.append(context.getString(R.string.manual)).append(" ");
+        }
+        filter = filters.toString();
+        switch (currentPosition) {
+            case 0:
+                view.exportExcelToUSB(filename, root, firstObjects, currentPosition, date, filter, searchText);
+                break;
+            case 1:
+                view.exportExcelToUSB(filename, root, secondObjects, currentPosition, date, filter, searchText);
+                break;
+            case 2:
+                view.exportExcelToUSB(filename, root, thirdObjects, currentPosition, date, filter, searchText);
+                break;
+        }
+    }
+
+    @Override
+    public void exportPdfToUSB(String fileName, UsbFile path) {
+        String date = simpleDateFormat.format(fromDate.getTime()) + " - " + simpleDateFormat.format(toDate.getTime());
+        String filter = "";
+        StringBuilder filters = new StringBuilder();
+        if (filterConfig[0] == 1) {
+            filters.append(context.getString(R.string.static_type)).append(" ");
+        }
+        if (filterConfig[1] == 1) {
+            filters.append(context.getString(R.string.manual)).append(" ");
+        }
+        filter = filters.toString();
+        switch (currentPosition) {
+            case 0:
+                view.exportTableToPdfToUSB(fileName, path, firstObjects, currentPosition, date, filter, searchText);
+                break;
+            case 1:
+                view.exportTableToPdfToUSB(fileName, path, secondObjects, currentPosition, date, filter, searchText);
+                break;
+            case 2:
+                view.exportTableToPdfToUSB(fileName, path, thirdObjects, currentPosition, date, filter, searchText);
+                break;
+        }
     }
 }

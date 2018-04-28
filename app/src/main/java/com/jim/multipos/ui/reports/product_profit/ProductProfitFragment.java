@@ -5,37 +5,48 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.widget.FrameLayout;
 
+import com.github.angads25.filepicker.model.DialogConfigs;
+import com.github.angads25.filepicker.model.DialogProperties;
+import com.github.angads25.filepicker.view.FilePickerDialog;
+import com.github.mjdev.libaums.fs.UsbFile;
 import com.jim.mpviews.ReportView;
 import com.jim.mpviews.utils.ReportViewConstants;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseTableReportFragment;
 import com.jim.multipos.ui.reports.product_profit.dialog.ProductProfitFilterDialog;
+import com.jim.multipos.utils.ExportToDialog;
+import com.jim.multipos.utils.ExportUtils;
+
+import java.io.File;
 
 import javax.inject.Inject;
+
+import static com.jim.multipos.utils.ExportUtils.EXCEL;
 
 public class ProductProfitFragment extends BaseTableReportFragment implements ProductProfitView {
     @Inject
     ProductProfitPresenter presenter;
     private FrameLayout fl;
 
-    private ReportView.Builder profitSummaryBuilder,profitLogBuilder;
-    private ReportView profitSummaryView,profitLogView;
+    private ReportView.Builder profitSummaryBuilder, profitLogBuilder;
+    private ReportView profitSummaryView, profitLogView;
 
-    int profitSumType[] = {ReportViewConstants.NAME, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT,ReportViewConstants.AMOUNT};
-    String profitSumTitles[] ;
-    int profitSumWeights[] = {10,10,10,10,10,10,10,10};
-    int profitSumAligns[] = {Gravity.LEFT, Gravity.RIGHT, Gravity.RIGHT, Gravity.RIGHT, Gravity.RIGHT, Gravity.RIGHT, Gravity.RIGHT,Gravity.RIGHT};
+    int profitSumType[] = {ReportViewConstants.NAME, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT};
+    String profitSumTitles[];
+    int profitSumWeights[] = {10, 10, 10, 10, 10, 10, 10, 10};
+    int profitSumAligns[] = {Gravity.LEFT, Gravity.RIGHT, Gravity.RIGHT, Gravity.RIGHT, Gravity.RIGHT, Gravity.RIGHT, Gravity.RIGHT, Gravity.RIGHT};
 
-    int profitLogType[] = {ReportViewConstants.NAME, ReportViewConstants.DATE, ReportViewConstants.ACTION, ReportViewConstants.QUANTITY, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT,ReportViewConstants.NAME};
-    String profitLogTitles[] ;
-    int profitLogWeights[] = {10,10,6,10,10,10,10,10};
-    int profitLogAligns[] = {Gravity.LEFT, Gravity.CENTER, Gravity.RIGHT, Gravity.RIGHT, Gravity.RIGHT, Gravity.RIGHT, Gravity.RIGHT,Gravity.LEFT};
-
+    int profitLogType[] = {ReportViewConstants.NAME, ReportViewConstants.DATE, ReportViewConstants.ACTION, ReportViewConstants.QUANTITY, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.NAME};
+    String profitLogTitles[];
+    int profitLogWeights[] = {10, 10, 6, 10, 10, 10, 10, 10};
+    int profitLogAligns[] = {Gravity.LEFT, Gravity.CENTER, Gravity.RIGHT, Gravity.RIGHT, Gravity.RIGHT, Gravity.RIGHT, Gravity.RIGHT, Gravity.LEFT};
+    private String panelNames[];
 
     @Override
     protected void init(Bundle savedInstanceState) {
         init(presenter);
-        setChoiserPanel(getContext().getResources().getStringArray(R.array.product_profit_titles));
+        panelNames = getContext().getResources().getStringArray(R.array.product_profit_titles);
+        setChoiserPanel(panelNames);
         initTableConfigs(getContext());
         profitSummaryBuilder = new ReportView.Builder()
                 .setContext(getContext())
@@ -62,14 +73,14 @@ public class ProductProfitFragment extends BaseTableReportFragment implements Pr
 
     }
 
-    private void initTableConfigs(Context context){
+    private void initTableConfigs(Context context) {
         profitSumTitles = context.getResources().getStringArray(R.array.product_profit_summary_table_titles);
         profitLogTitles = context.getResources().getStringArray(R.array.product_profit_log_table_titles);
     }
 
     @Override
     public void initTable(Object[][] objects, int position) {
-        switch (position){
+        switch (position) {
             case 0:
                 profitSummaryView.getBuilder().init(objects);
                 fl = profitSummaryView.getBuilder().getView();
@@ -104,19 +115,19 @@ public class ProductProfitFragment extends BaseTableReportFragment implements Pr
                 clearSearch();
         }
         setTable(fl);
-        }
+    }
 
     @Override
     public void searchTable(Object[][] objects, int position, String searchtext) {
         switch (position) {
             case 0:
-                profitSummaryView.getBuilder().searchResults(objects,searchtext);
+                profitSummaryView.getBuilder().searchResults(objects, searchtext);
                 fl = profitSummaryView.getBuilder().getView();
                 enableFilter();
 
                 break;
             case 1:
-                profitLogView.getBuilder().searchResults(objects,searchtext);
+                profitLogView.getBuilder().searchResults(objects, searchtext);
                 fl = profitLogView.getBuilder().getView();
                 disableFilter();
         }
@@ -130,5 +141,104 @@ public class ProductProfitFragment extends BaseTableReportFragment implements Pr
             clearSearch();
         });
         productProfitFilterDialog.show();
+    }
+
+    @Override
+    public void exportTableToExcel(String filename, String path, Object[][] objects, int position, String date, String filter, String searchText) {
+        switch (position) {
+            case 0:
+                String description = "In this report you can find all info about consignments";
+                ExportUtils.exportToExcel(getContext(), path, filename, description, date, filter, searchText, objects, profitSumTitles, profitSumWeights, profitSumType, null);
+                break;
+            case 1:
+                String secondDescription = " All Consignment products";
+                ExportUtils.exportToExcel(getContext(), path, filename, secondDescription, date, filter, searchText, objects, profitLogTitles, profitLogWeights, profitLogType, null);
+                break;
+        }
+    }
+
+    @Override
+    public void exportTableToPdf(String filename, String path, Object[][] objects, int position, String date, String filter, String searchText) {
+        switch (position) {
+            case 0:
+                String description = "In this report you can find all info about consignments";
+                ExportUtils.exportToPdf(getContext(), path, filename, description, date, filter, searchText, objects, profitSumTitles, profitSumWeights, profitSumType, null);
+                break;
+            case 1:
+                String secondDescription = " All Consignment products";
+                ExportUtils.exportToPdf(getContext(), path, filename, secondDescription, date, filter, searchText, objects, profitLogTitles, profitLogWeights, profitLogType, null);
+                break;
+        }
+    }
+
+    ExportToDialog exportDialog;
+
+    @Override
+    public void openExportDialog(int position, int mode) {
+        exportDialog = new ExportToDialog(getContext(), mode, panelNames[position], new ExportToDialog.OnExportListener() {
+            @Override
+            public void onFilePickerClicked() {
+                openFilePickerDialog();
+            }
+
+            @Override
+            public void onSaveToUSBClicked(String filename, UsbFile root) {
+                if (mode == EXCEL)
+                    presenter.exportExcelToUSB(filename, root);
+                else presenter.exportPdfToUSB(filename, root);
+            }
+
+            @Override
+            public void onSaveClicked(String fileName, String path) {
+                if (mode == EXCEL)
+                    presenter.exportExcel(fileName, path);
+                else presenter.exportPdf(fileName, path);
+            }
+        });
+        exportDialog.show();
+    }
+
+    private void openFilePickerDialog() {
+        DialogProperties properties = new DialogProperties();
+        properties.selection_mode = DialogConfigs.SINGLE_MODE;
+        properties.selection_type = DialogConfigs.DIR_SELECT;
+        properties.root = new File(DialogConfigs.DEFAULT_DIR);
+        properties.error_dir = new File(DialogConfigs.DEFAULT_DIR);
+        properties.offset = new File(DialogConfigs.DEFAULT_DIR);
+        properties.extensions = null;
+        FilePickerDialog dialog = new FilePickerDialog(getContext(), properties);
+        dialog.setTitle(getContext().getString(R.string.select_a_directory));
+        dialog.setDialogSelectionListener(files -> {
+            exportDialog.setPath(files);
+        });
+        dialog.show();
+    }
+
+    @Override
+    public void exportExcelToUSB(String filename, UsbFile root, Object[][] objects, int position, String date, String filter, String searchText) {
+        switch (position) {
+            case 0:
+                String description = "In this report you can find all info about consignments";
+                ExportUtils.exportToExcelToUSB(getContext(), root, filename, description, date, filter, searchText, objects, profitSumTitles, profitSumWeights, profitSumType, null);
+                break;
+            case 1:
+                String secondDescription = " All Consignment products";
+                ExportUtils.exportToExcelToUSB(getContext(), root, filename, secondDescription, date, filter, searchText, objects, profitLogTitles, profitLogWeights, profitLogType, null);
+                break;
+        }
+    }
+
+    @Override
+    public void exportTableToPdfToUSB(String fileName, UsbFile path, Object[][] objects, int position, String date, String filter, String searchText) {
+        switch (position) {
+            case 0:
+                String description = "In this report you can find all info about consignments";
+                ExportUtils.exportToPdfToUSB(getContext(), path, fileName, description, date, filter, searchText, objects, profitSumTitles, profitSumWeights, profitSumType, null);
+                break;
+            case 1:
+                String secondDescription = " All Consignment products";
+                ExportUtils.exportToPdfToUSB(getContext(), path, fileName, secondDescription, date, filter, searchText, objects, profitLogTitles, profitLogWeights, profitLogType, null);
+                break;
+        }
     }
 }

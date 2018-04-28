@@ -3,12 +3,22 @@ package com.jim.multipos.ui.reports.hourly_sales;
 import android.os.Bundle;
 import android.view.Gravity;
 
+import com.github.angads25.filepicker.model.DialogConfigs;
+import com.github.angads25.filepicker.model.DialogProperties;
+import com.github.angads25.filepicker.view.FilePickerDialog;
+import com.github.mjdev.libaums.fs.UsbFile;
 import com.jim.mpviews.ReportView;
 import com.jim.mpviews.utils.ReportViewConstants;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseTableReportFragment;
+import com.jim.multipos.utils.ExportToDialog;
+import com.jim.multipos.utils.ExportUtils;
+
+import java.io.File;
 
 import javax.inject.Inject;
+
+import static com.jim.multipos.utils.ExportUtils.EXCEL;
 
 public class HourlySalesReportFragment extends BaseTableReportFragment implements HourlySalesReportView {
 
@@ -50,6 +60,71 @@ public class HourlySalesReportFragment extends BaseTableReportFragment implement
     public void updateTable(Object[][] objects) {
         reportView.getBuilder().update(objects);
         setTable(reportView.getBuilder().getView());
+    }
+
+    String description = "In this report you can find all sales at every hour";
+
+    @Override
+    public void exportTableToExcel(String fileName, String path, Object[][] objects, String date) {
+        ExportUtils.exportToExcel(getContext(), path, fileName, description, date, "", "", objects, titles, weights, dataType, null);
+    }
+
+    @Override
+    public void exportTableToPdf(String fileName, String path, Object[][] objects, String date) {
+        ExportUtils.exportToPdf(getContext(), path, fileName, description, date, "", "", objects, titles, weights, dataType, null);
+    }
+
+    ExportToDialog exportDialog;
+
+    @Override
+    public void openExportDialog(int mode) {
+        exportDialog = new ExportToDialog(getContext(), mode, getString(R.string.hourly_sales_report), new ExportToDialog.OnExportListener() {
+            @Override
+            public void onFilePickerClicked() {
+                openFilePickerDialog();
+            }
+
+            @Override
+            public void onSaveToUSBClicked(String filename, UsbFile root) {
+                if (mode == EXCEL)
+                    presenter.exportExcelToUSB(filename, root);
+                else presenter.exportPdfToUSB(filename, root);
+            }
+
+            @Override
+            public void onSaveClicked(String fileName, String path) {
+                if (mode == EXCEL)
+                    presenter.exportExcel(fileName, path);
+                else presenter.exportPdf(fileName, path);
+            }
+        });
+        exportDialog.show();
+    }
+
+    private void openFilePickerDialog() {
+        DialogProperties properties = new DialogProperties();
+        properties.selection_mode = DialogConfigs.SINGLE_MODE;
+        properties.selection_type = DialogConfigs.DIR_SELECT;
+        properties.root = new File(DialogConfigs.DEFAULT_DIR);
+        properties.error_dir = new File(DialogConfigs.DEFAULT_DIR);
+        properties.offset = new File(DialogConfigs.DEFAULT_DIR);
+        properties.extensions = null;
+        FilePickerDialog dialog = new FilePickerDialog(getContext(), properties);
+        dialog.setTitle(getContext().getString(R.string.select_a_directory));
+        dialog.setDialogSelectionListener(files -> {
+            exportDialog.setPath(files);
+        });
+        dialog.show();
+    }
+
+    @Override
+    public void exportExcelToUSB(String filename, UsbFile root, Object[][] objects, String date) {
+        ExportUtils.exportToExcelToUSB(getContext(), root, filename, description, date, "", "", objects, titles, weights, dataType, null);
+    }
+
+    @Override
+    public void exportTableToPdfToUSB(String fileName, UsbFile path, Object[][] objects, String date) {
+        ExportUtils.exportToPdfToUSB(getContext(), path, fileName, description, date, "", "", objects, titles, weights, dataType, null);
     }
 
     private void initDefaults() {

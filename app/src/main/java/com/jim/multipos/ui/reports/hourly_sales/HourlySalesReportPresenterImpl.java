@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 
+import com.github.mjdev.libaums.fs.UsbFile;
+import com.jim.multipos.R;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.order.Order;
@@ -19,9 +21,13 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import static com.jim.multipos.utils.ExportUtils.EXCEL;
+import static com.jim.multipos.utils.ExportUtils.PDF;
+
 public class HourlySalesReportPresenterImpl extends BasePresenterImpl<HourlySalesReportView> implements HourlySalesReportPresenter {
 
     private final DecimalFormat decimalFormat;
+    private final SimpleDateFormat simpleDateFormat;
     private DatabaseManager databaseManager;
     private Object[][] objects;
     private Calendar fromDate;
@@ -36,6 +42,7 @@ public class HourlySalesReportPresenterImpl extends BasePresenterImpl<HourlySale
         decimalFormatSymbols.setDecimalSeparator('.');
         decimalFormat1.setDecimalFormatSymbols(decimalFormatSymbols);
         decimalFormat = decimalFormat1;
+        simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
     }
 
     @Override
@@ -175,12 +182,12 @@ public class HourlySalesReportPresenterImpl extends BasePresenterImpl<HourlySale
 
     @Override
     public void onClickedExportExcel() {
-
+        view.openExportDialog(EXCEL);
     }
 
     @Override
     public void onClickedExportPDF() {
-
+        view.openExportDialog(PDF);
     }
 
     @Override
@@ -196,5 +203,29 @@ public class HourlySalesReportPresenterImpl extends BasePresenterImpl<HourlySale
     @Override
     public void onTillPickerClicked() {
 
+    }
+
+    @Override
+    public void exportExcel(String fileName, String path) {
+        String date = simpleDateFormat.format(fromDate.getTime()) + " - " + simpleDateFormat.format(toDate.getTime());
+        view.exportTableToExcel(fileName, path, objects, date);
+    }
+
+    @Override
+    public void exportPdf(String fileName, String path) {
+        String date = simpleDateFormat.format(fromDate.getTime()) + " - " + simpleDateFormat.format(toDate.getTime());
+        view.exportTableToPdf(fileName, path, objects, date);
+    }
+
+    @Override
+    public void exportExcelToUSB(String filename, UsbFile root) {
+        String date = simpleDateFormat.format(fromDate.getTime()) + " - " + simpleDateFormat.format(toDate.getTime());
+        view.exportExcelToUSB(filename, root, objects, date);
+    }
+
+    @Override
+    public void exportPdfToUSB(String filename, UsbFile root) {
+        String date = simpleDateFormat.format(fromDate.getTime()) + " - " + simpleDateFormat.format(toDate.getTime());
+        view.exportTableToPdfToUSB(filename, root, objects, date);
     }
 }

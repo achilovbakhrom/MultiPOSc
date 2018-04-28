@@ -31,6 +31,8 @@ import com.jim.multipos.ui.reports.summary_report.SummaryReportFragment;
 import com.jim.multipos.ui.reports.summary_report.SummaryReportFragmentModule;
 import com.jim.multipos.ui.reports.tills.TillsReportFragment;
 import com.jim.multipos.ui.reports.tills.TillsReportFragmentModule;
+import com.jim.multipos.ui.reports.vendor.VendorReportFragment;
+import com.jim.multipos.ui.reports.vendor.VendorReportFragmentModule;
 
 import dagger.Binds;
 import dagger.Module;
@@ -100,4 +102,8 @@ public abstract class ReportsActivityModule {
     @PerFragment
     @ContributesAndroidInjector(modules = InventoryReportFragmentModule.class)
     abstract InventoryReportFragment provideInventoryReportFragment();
+
+    @PerFragment
+    @ContributesAndroidInjector(modules = VendorReportFragmentModule.class)
+    abstract VendorReportFragment provideVendorReportFragment();
 }

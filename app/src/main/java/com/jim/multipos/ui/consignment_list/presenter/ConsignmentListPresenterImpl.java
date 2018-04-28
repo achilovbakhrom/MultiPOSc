@@ -21,9 +21,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import static com.jim.multipos.ui.consignment.view.IncomeConsignmentFragment.CONSIGNMENT_UPDATE;
-import static com.jim.multipos.ui.consignment.view.IncomeConsignmentFragment.INVENTORY_STATE_UPDATE;
-
 /**
  * Created by Sirojiddin on 30.11.2017.
  */
@@ -152,7 +149,7 @@ public class ConsignmentListPresenterImpl extends BasePresenterImpl<ConsignmentL
     public void dateIntervalPicked(Calendar fromDate, Calendar toDate) {
         this.fromDate = fromDate;
         this.toDate = toDate;
-        databaseManager.getConsignmentsInInterval(vendorId, fromDate, toDate).subscribe(consignments -> {
+        databaseManager.getConsignmentsInIntervalByVendor(vendorId, fromDate, toDate).subscribe(consignments -> {
             this.consignmentList.clear();
             this.consignmentList.addAll(consignments);
             sortList();
@@ -166,7 +163,7 @@ public class ConsignmentListPresenterImpl extends BasePresenterImpl<ConsignmentL
         temp.setTimeInMillis(pickedDate.getTimeInMillis());
         this.fromDate = temp;
         this.toDate = null;
-        databaseManager.getConsignmentsInInterval(vendorId, pickedDate, temp).subscribe(consignments -> {
+        databaseManager.getConsignmentsInIntervalByVendor(vendorId, pickedDate, temp).subscribe(consignments -> {
             this.consignmentList.clear();
             this.consignmentList.addAll(consignments);
             sortList();
