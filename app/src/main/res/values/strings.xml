@@ -722,6 +722,20 @@
     <string name="till">Till</string>
     <string name="cash">Cash</string>
     <string name="choose_till">Choose Till</string>
+    <string name="tel">Tel:</string>
+    <string name="order_number_title">Order Num</string>
+    <string name="date_title">Date</string>
+    <string name="pos_number">POS ID</string>
+    <string name="till_number_titl">Till Num</string>
+    <string name="currency">Currency</string>
+    <string name="total_discount_check">TOTAL DISCOUNT</string>
+    <string name="total_service_fee_check">TOTAL SERVICE FEE</string>
+    <string name="to_pay_check">TO PAY(K OPLATE)</string>
+    <string name="payed_check">PAYED(OPLACHENO)</string>
+    <string name="change_check">CHANGE(OSTATOK)</string>
+    <string name="print_check">Print check: OFF</string>
+    <string name="print_check_on">Print check: ON</string>
+    <string name="subtotalvalue">SUB TOTAL VALUE</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>

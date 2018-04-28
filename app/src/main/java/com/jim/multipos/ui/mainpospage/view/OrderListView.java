@@ -1,14 +1,17 @@
 package com.jim.multipos.ui.mainpospage.view;
 
 import com.jim.multipos.core.BaseView;
+import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.Debt;
 import com.jim.multipos.data.db.model.order.Order;
+import com.jim.multipos.data.db.model.order.OrderProduct;
 import com.jim.multipos.data.db.model.order.PayedPartitions;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
+import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.ui.mainpospage.dialogs.DiscountDialog;
 import com.jim.multipos.ui.mainpospage.dialogs.ServiceFeeDialog;
 import com.jim.multipos.ui.mainpospage.model.OrderProductItem;
@@ -78,4 +81,7 @@ public interface  OrderListView extends BaseView {
     void editedOrderHolded(String reason, Order order);
     void openWarningDialog(String text);
     void hideProductInfoFragment();
+    void checkOrder(Order order, DatabaseManager databaseManager, PreferencesHelper preferencesHelper);
+    void stockCheckOrder(long tillId, long orderNumber, long now, List<OrderProductItem> orderProducts, Customer customer);
+
 }

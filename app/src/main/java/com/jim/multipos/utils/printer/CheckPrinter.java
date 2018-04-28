@@ -2,34 +2,58 @@ package com.jim.multipos.utils.printer;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.hardware.usb.UsbDevice;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import com.jim.multipos.config.common.BaseAppModule;
+import com.jim.multipos.data.DatabaseManager;
+import com.jim.multipos.data.db.model.customer.Customer;
+import com.jim.multipos.data.db.model.order.Order;
+import com.jim.multipos.data.db.model.order.OrderProduct;
+import com.jim.multipos.data.prefs.PreferencesHelper;
+import com.jim.multipos.ui.mainpospage.model.OrderProductItem;
+import com.jim.multipos.utils.CyrillicLatinConverter;
 import com.zj.usbsdk.UsbController;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+
+import com.jim.multipos.R;
 
 /**
  * Created by Sirojiddin on 29.01.2018.
  */
 
 public class CheckPrinter {
-
+    public static final int PRINETER_58mm_WIDTH = 384;
     private int[][] info;
     private UsbController usbController;
     private UsbDevice device;
     private Activity parent;
-
-    public CheckPrinter(Activity activity) {
+    private PreferencesHelper preferencesHelper;
+    private DatabaseManager databaseManager;
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+    private DecimalFormat decimalFormat;
+    private DecimalFormat decimalFormatWeight;
+    public CheckPrinter(Activity activity, PreferencesHelper preferencesHelper, DatabaseManager databaseManager) {
         this.parent = activity;
+        this.preferencesHelper = preferencesHelper;
+        this.databaseManager = databaseManager;
         info = new int[8][2];
         initBytes();
         usbController = new UsbController(this.parent, handler);
+        decimalFormat = BaseAppModule.getFormatterGroupingPattern("#,##0.00");
+        decimalFormatWeight = BaseAppModule.getFormatterWithoutGroupingPattern("0.###");
     }
 
     public void connectDevice() {
@@ -48,50 +72,276 @@ public class CheckPrinter {
             }
         }
     }
+    public boolean checkConnect(){
+        return (usbController != null && device != null);
+    }
 
-    public void printCheck() {
-        if (usbController != null && device != null) {
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd/ HH:mm:ss ");
-            Date curDate = new Date(System.currentTimeMillis());//获取当前时间
-            String str = formatter.format(curDate);
-            String date = str + "\n\n\n\n\n\n";
-            try {
-                byte[] qrcode = PrinterCommand.getBarCommand("Zijiang Electronic Thermal Receipt Printer!", 0, 3, 6);//
-                Command.ESC_Align[2] = 0x01;
-                SendDataByte(Command.ESC_Align);
-                SendDataByte(qrcode);
+    public void stockChek(long tillId, long orderNumber, long now, List<OrderProductItem> orderProducts, Customer customer)  {
+//        if (usbController != null && device != null) {
+            sendDataByte( Command.ESC_Init);
+            sendDataByte(PrinterCommand.POS_Set_CodePage(73));
 
-                SendDataByte(Command.ESC_Align);
-                Command.GS_ExclamationMark[2] = 0x11;
-                SendDataByte(Command.GS_ExclamationMark);
-                SendDataByte("NIKE Shop\n".getBytes("GBK"));
-                Command.ESC_Align[2] = 0x00;
-                SendDataByte(Command.ESC_Align);
-                Command.GS_ExclamationMark[2] = 0x00;
-                SendDataByte(Command.GS_ExclamationMark);
-                SendDataByte("Number:  888888\nReceipt  S00003333\nCashier：1001\nDate：xxxx-xx-xx\nPrint Time：xxxx-xx-xx  xx:xx:xx\n".getBytes("GBK"));
-                SendDataByte("Name    Quantity    price  Money\nShoes   10.00       899     8990\nBall    10.00       1599    15990\n".getBytes("GBK"));
-                SendDataByte("Quantity：             20.00\ntotal：                16889.00\npayment：              17000.00\nKeep the change：      111.00\n".getBytes("GBK"));
-                SendDataByte("company name：NIKE\nSite：www.xxx.xxx\naddress：ShenzhenxxAreaxxnumber\nphone number：0755-11111111\nHelpline：400-xxx-xxxx\n================================\n".getBytes("GBK"));
-                Command.ESC_Align[2] = 0x01;
-                SendDataByte(Command.ESC_Align);
-                Command.GS_ExclamationMark[2] = 0x11;
-                SendDataByte(Command.GS_ExclamationMark);
-                SendDataByte("Welcome again!\n".getBytes("GBK"));
-                Command.ESC_Align[2] = 0x00;
-                SendDataByte(Command.ESC_Align);
-                Command.GS_ExclamationMark[2] = 0x00;
-                SendDataByte(Command.GS_ExclamationMark);
 
-                SendDataByte("(The above information is for testing template, if agree, is purely coincidental!)\n".getBytes("GBK"));
-                Command.ESC_Align[2] = 0x02;
-                SendDataByte(Command.ESC_Align);
-                SendDataString(date);
-                SendDataByte(Command.GS_i);
-            } catch (UnsupportedEncodingException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+            //Change Type font to bigger
+            Command.ESC_ExclamationMark[2] = 0x00;
+            sendDataByte( Command.ESC_ExclamationMark);
+
+
+            //Align to center
+            Command.ESC_Align[2] = 0x01;
+            sendDataByte(Command.ESC_Align);
+
+            //Line interval (short)
+            sendDataByte( Command.ESC_Three);
+
+            //BOLD
+            sendDataByte(PrinterCommand.POS_Set_Bold(1));
+
+            //ORGANIZATION NAME
+            sendDataString(String.format("%.32s",preferencesHelper.getPosDetailAlias().toUpperCase()));
+
+            //Change type font to smaller
+            Command.ESC_ExclamationMark[2] = 0x01;
+            sendDataByte( Command.ESC_ExclamationMark);
+
+            //Turn off bold style
+            sendDataByte(PrinterCommand.POS_Set_Bold(0));
+
+            //Organization Adress
+            sendDataString( String.format("%.42s", CyrillicLatinConverter.transliterate(preferencesHelper.getPosDetailAddress())));
+
+
+
+            //Organization PhoneNumber
+            if(!preferencesHelper.getPosPhoneNumber().isEmpty()){
+                //Line interval (shorter)
+                sendDataByte( Command.ESC_Three);
+                sendDataString(String.format("%.42s", parent.getString(com.jim.multipos.R.string.tel)+" " +CyrillicLatinConverter.transliterate(preferencesHelper.getPosPhoneNumber())));
+                sendDataByte( Command.ESC_Two);
             }
+
+            //enter
+            sendDataString(" ");
+
+            //Line interval (longer)
+            sendDataByte( Command.ESC_Two);
+
+            //Align right
+            Command.ESC_Align[2] = 0x00;
+            sendDataByte(Command.ESC_Align);
+
+            //ORDER №: 12         17:50 27/02/2017
+            sendDataString(String.format("%-20.20s",parent.getString(R.string.order_number_title)+": "+String.valueOf(orderNumber))+"  "+String.format("%20.20s",simpleDateFormat.format(now)));
+
+            //POS ID: 1            Till №: 1
+            sendDataString(String.format("%-20.20s",parent.getString(R.string.pos_number)+": "+String.valueOf(preferencesHelper.getPosDetailPosId()))+"  "+String.format("%20.20s",parent.getString(R.string.till_number_titl)+": "+String.valueOf(tillId)));
+
+            //Customer: Anvarjon   Currency: Uzs
+            sendDataString(String.format("%-20.20s",parent.getString(R.string.customer)+": "+CyrillicLatinConverter.transliterate((customer==null?"-":customer.getName())))+"  "+String.format("%20.20s",parent.getString(R.string.currency) +": " + databaseManager.getMainCurrency().getAbbr()));
+
+
+            //Divider
+            sendDataString("..........................................");
+
+            double subtotal = 0;
+
+            //ALL PRODUCTS WITH PRICE
+            for (int i = 0; i < orderProducts.size(); i++) {
+                if(orderProducts.get(i).getOrderProduct().getCount() == 1 ){
+                    //Coca Cola 1.5L          |         12 000.00|
+                    sendDataString(String.format("%-24.24s",CyrillicLatinConverter.transliterate(orderProducts.get(i).getOrderProduct().getProduct().getName()))+String.format("%18s",decimalFormat.format(orderProducts.get(i).getOrderProduct().getPrice())));
+                    subtotal += orderProducts.get(i).getOrderProduct().getPrice();
+                }else {
+                    //Coca Cola 1.5L    |    0.800x18952=12 000.00|
+                    sendDataString(String.format("%-18.18s", CyrillicLatinConverter.transliterate(orderProducts.get(i).getOrderProduct().getProduct().getName()))+String.format("%24s",decimalFormatWeight.format(orderProducts.get(i).getOrderProduct().getCount())+"x"+decimalFormatWeight.format(orderProducts.get(i).getOrderProduct().getPrice())+" = "+decimalFormat.format(orderProducts.get(i).getOrderProduct().getPrice()*orderProducts.get(i).getOrderProduct().getCount())));
+                    subtotal += orderProducts.get(i).getOrderProduct().getPrice()*orderProducts.get(i).getOrderProduct().getCount();
+
+                }
+            }
+
+            //Divider
+            sendDataString("..........................................");
+
+            //BOLD
+            sendDataByte(PrinterCommand.POS_Set_Bold(0));
+
+
+
+            //FOR PAY
+            sendDataString(String.format("%-24.24s",parent.getString(R.string.subtotalvalue)+": ") + String.format("%18s",decimalFormat.format(subtotal)));
+
+            //Align to center
+            Command.ESC_Align[2] = 0x01;
+            sendDataByte(Command.ESC_Align);
+
+
+
+            sendDataString(" ");
+            sendDataString(" ");
+            sendDataString(" ");
+
+
+
+
+
+//        } else {
+//            Toast.makeText(parent.getBaseContext(), "Printer isn't connected",
+//                    Toast.LENGTH_SHORT).show();
+//        }
+    }
+
+    public void printCheck(Order order)  {
+        if (usbController != null && device != null) {
+            sendDataByte( Command.ESC_Init);
+            sendDataByte(PrinterCommand.POS_Set_CodePage(73));
+
+
+            //Align to center
+            Command.ESC_Align[2] = 0x01;
+            sendDataByte(Command.ESC_Align);
+
+            //print Picture to check
+            if(preferencesHelper.isPrintPictureInCheck()){
+                try {
+                    Bitmap bitmap;
+                    if(!preferencesHelper.isDefaultPicture())
+                            bitmap = MediaStore.Images.Media.getBitmap(parent.getContentResolver(), preferencesHelper.getUriPathCheckPicture());
+                    else bitmap = BitmapFactory.decodeResource(parent.getResources(), R.drawable.multipos);
+                    printPicture(bitmap);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+
+            //Change Type font to bigger
+            Command.ESC_ExclamationMark[2] = 0x00;
+            sendDataByte( Command.ESC_ExclamationMark);
+
+
+            //Align to center
+            Command.ESC_Align[2] = 0x01;
+            sendDataByte(Command.ESC_Align);
+
+            //Line interval (short)
+            sendDataByte( Command.ESC_Three);
+
+            //BOLD
+            sendDataByte(PrinterCommand.POS_Set_Bold(1));
+
+            //ORGANIZATION NAME
+            sendDataString(String.format("%.32s",preferencesHelper.getPosDetailAlias().toUpperCase()));
+
+            //Change type font to smaller
+            Command.ESC_ExclamationMark[2] = 0x01;
+            sendDataByte( Command.ESC_ExclamationMark);
+
+            //Turn off bold style
+            sendDataByte(PrinterCommand.POS_Set_Bold(0));
+
+            //Organization Adress
+            sendDataString( String.format("%.42s", CyrillicLatinConverter.transliterate(preferencesHelper.getPosDetailAddress())));
+
+
+
+            //Organization PhoneNumber
+            if(!preferencesHelper.getPosPhoneNumber().isEmpty()){
+                //Line interval (shorter)
+                sendDataByte( Command.ESC_Three);
+                sendDataString(String.format("%.42s", parent.getString(com.jim.multipos.R.string.tel)+" " +CyrillicLatinConverter.transliterate(preferencesHelper.getPosPhoneNumber())));
+                sendDataByte( Command.ESC_Two);
+            }
+
+            //enter
+            sendDataString(" ");
+
+            //Line interval (longer)
+            sendDataByte( Command.ESC_Two);
+
+            //Align right
+            Command.ESC_Align[2] = 0x00;
+            sendDataByte(Command.ESC_Align);
+
+            //ORDER №: 12         17:50 27/02/2017
+            sendDataString(String.format("%-20.20s",parent.getString(R.string.order_number_title)+": "+String.valueOf(order.getId()))+"  "+String.format("%20.20s",simpleDateFormat.format(order.getCreateAt())));
+
+            //POS ID: 1            Till №: 17:50 27w/02/2017
+            sendDataString(String.format("%-20.20s",parent.getString(R.string.pos_number)+": "+String.valueOf(preferencesHelper.getPosDetailPosId()))+"  "+String.format("%20.20s",parent.getString(R.string.till_number_titl)+": "+String.valueOf(order.getTillId())));
+
+            //Customer: Anvarjon   Currency: Uzs
+            sendDataString(String.format("%-20.20s",parent.getString(R.string.customer)+": "+CyrillicLatinConverter.transliterate((order.getCustomer()==null?"-":order.getCustomer().getName())))+"  "+String.format("%20.20s",parent.getString(R.string.currency) +": " + databaseManager.getMainCurrency().getAbbr()));
+
+
+            //Divider
+            sendDataString("..........................................");
+
+
+            //ALL PRODUCTS WITH PRICE
+            for (int i = 0; i < order.getOrderProducts().size(); i++) {
+                if(order.getOrderProducts().get(i).getCount() == 1 ){
+                    //Coca Cola 1.5L          |         12 000.00|
+                    sendDataString(String.format("%-24.24s",(order.getOrderProducts().get(i).getDiscount()==null?"":"*") +(order.getOrderProducts().get(i).getServiceFee()==null?"":"!") +CyrillicLatinConverter.transliterate(order.getOrderProducts().get(i).getProduct().getName()))+String.format("%18s",decimalFormat.format(order.getOrderProducts().get(i).getPrice())));
+                }else {
+                    //Coca Cola 1.5L    |    0.800x18952=12 000.00|
+                    sendDataString(String.format("%-18.18s",(order.getOrderProducts().get(i).getDiscount()==null?"":"*") +(order.getOrderProducts().get(i).getServiceFee()==null?"":"!")+  CyrillicLatinConverter.transliterate(order.getOrderProducts().get(i).getProduct().getName()))+String.format("%24s",decimalFormatWeight.format(order.getOrderProducts().get(i).getCount())+"x"+decimalFormatWeight.format(order.getOrderProducts().get(i).getPrice())+" = "+decimalFormat.format(order.getOrderProducts().get(i).getPrice()*order.getOrderProducts().get(i).getCount())));
+                }
+            }
+
+            //Divider
+            sendDataString("..........................................");
+
+            //BOLD
+            sendDataByte(PrinterCommand.POS_Set_Bold(0));
+
+
+            //DISCOUNTS
+            if(order.getDiscountTotalValue()!=0)
+            sendDataString(String.format("%-24.24s",parent.getString(R.string.total_discount_check)+": ") + String.format("%18s",decimalFormat.format(order.getDiscountTotalValue())));
+
+            //SERVICE FEE
+            if(order.getServiceTotalValue()!=0)
+                sendDataString(String.format("%-24.24s",parent.getString(R.string.total_service_fee_check)+": ") + String.format("%18s","+"+decimalFormat.format(order.getServiceTotalValue())));
+
+            //FOR PAY
+            sendDataString(String.format("%-24.24s",parent.getString(R.string.to_pay_check)+": ") + String.format("%18s",decimalFormat.format(order.getForPayAmmount())));
+
+            //PAYED
+            sendDataString(String.format("%-24.24s",parent.getString(R.string.payed_check)+": ") + String.format("%18s",decimalFormat.format(order.getTotalPayed())));
+
+            //CHANGE
+            sendDataString(String.format("%-24.24s",parent.getString(R.string.change_check)+": ") + String.format("%18s", decimalFormat.format(order.getChange())));
+
+            //Align to center
+            Command.ESC_Align[2] = 0x01;
+            sendDataByte(Command.ESC_Align);
+
+            //Divider
+            sendDataString("..........................................");
+
+
+            //Turn off bold style
+            sendDataByte(PrinterCommand.POS_Set_Bold(0));
+
+
+            //discription
+            sendDataString("* - products with discount");
+            sendDataString("! - products with service fee");
+
+            //Divider
+            sendDataString("..........................................");
+
+            //FIN
+            sendDataString("THANK YOU! - SPASIBO!");
+
+            sendDataString(" ");
+            sendDataString(" ");
+            sendDataString(" ");
+
+
+
+
+
         } else {
             Toast.makeText(parent.getBaseContext(), "Printer isn't connected",
                     Toast.LENGTH_SHORT).show();
@@ -136,13 +386,17 @@ public class CheckPrinter {
         info[7][1] = 0x5741;
     }
 
-    private void SendDataByte(byte[] data) {
+    private void sendDataByte(byte[] data) {
         if (data.length > 0)
             usbController.sendByte(data, device);
     }
 
-    private void SendDataString(String data) {
+    private void sendDataString(String data) {
         if (data.length() > 0)
-            usbController.sendMsg(data, "GBK", device);
+            usbController.sendMsg(data, "Cp1251", device);
+    }
+    public void printPicture(Bitmap bitmap){
+        byte[] logo = PrintPicture.POS_PrintBMP(bitmap,PRINETER_58mm_WIDTH,0);
+        sendDataByte(logo);
     }
 }

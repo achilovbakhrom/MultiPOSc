@@ -16,6 +16,8 @@
 package com.jim.multipos.data.prefs;
 
 
+import android.net.Uri;
+
 /**
  * Created by janisharali on 27/01/17.
  */
@@ -42,6 +44,10 @@ public interface PreferencesHelper {
     String getPosDetailAlias();
     String getPosDetailAddress();
     String getPosDetailPassword();
+    String getOrganizationName();
+    void setOrganizationName(String organizationName);
+    String getPosPhoneNumber();
+    void setPhoneNumber(String phoneNumber);
     boolean isFirstConfigured();
     void setFirestConfigured(boolean isChecked);
     void setProductListViewType(int type);
@@ -58,4 +64,11 @@ public interface PreferencesHelper {
     void setShowMode(boolean showMode);
     boolean isAppRunFirstTime();
     void setAppRunFirstTimeValue(boolean value);
+    boolean isPrintPictureInCheck();
+    void setPrintPictureInCheck(boolean printPictureInCheck);
+    Uri getUriPathCheckPicture();
+    void setUriPathCheckPicture(Uri uriPathCheckPicture);
+    boolean isDefaultPicture();
+    boolean isPrintCheck();
+    void setPrintCheck(boolean printCheck);
 }

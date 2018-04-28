@@ -1,6 +1,7 @@
 package com.jim.multipos.ui.mainpospage.presenter;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
@@ -637,10 +638,10 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
                     databaseManager.addDebt(debt).blockingGet();
                 }
 
-
                 if (fromEdit) {
                     //EDIT QILINVOTGAN TOVAR CLOSE QILINSA
                     view.onEditComplete(reason, order);
+
                 } else if (fromHold) {
                     //HOLD TOVARNI CLOSE QILSA
                     view.holdOrderClosed(order);
@@ -985,7 +986,6 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
             }
 
 
-
             if(fromEdit) {
                 //EDIT QILINVOTGAN TOVAR HOLDGA TUSHURILGANDA
                 view.editedOrderHolded(reason,order);
@@ -1228,6 +1228,21 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
     @Override
     public void eventConsignmentUpdate() {
         view.hideProductInfoFragment();
+    }
+
+    @Override
+    public void printStockCheck() {
+        if(isEmptyOrder()){
+            return;
+        }
+        List<OrderProductItem> orderProductItems = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+                if(list.get(i) instanceof  OrderProductItem){
+                    OrderProductItem orderProductItem = (OrderProductItem) list.get(i);
+                    orderProductItems.add(orderProductItem);
+                }
+        }
+        view.stockCheckOrder(databaseManager.getCurrentOpenTillId().blockingGet(),databaseManager.getLastOrderId().blockingGet()+1,System.currentTimeMillis(),orderProductItems,customer);
     }
 
 

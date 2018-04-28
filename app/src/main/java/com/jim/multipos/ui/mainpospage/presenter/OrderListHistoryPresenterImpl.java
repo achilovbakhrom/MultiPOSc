@@ -5,6 +5,7 @@ import android.os.Bundle;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.order.Order;
+import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivity;
 import com.jim.multipos.ui.mainpospage.model.DiscountItem;
 import com.jim.multipos.ui.mainpospage.model.ServiceFeeItem;
@@ -26,11 +27,13 @@ public class OrderListHistoryPresenterImpl extends BasePresenterImpl<OrderListHi
     Order order;
     List<Object> list;
     private DatabaseManager databaseManager;
+    private PreferencesHelper preferencesHelper;
 
     @Inject
-    protected OrderListHistoryPresenterImpl(OrderListHistoryView orderListHistoryView, DatabaseManager databaseManager) {
+    protected OrderListHistoryPresenterImpl(OrderListHistoryView orderListHistoryView, DatabaseManager databaseManager, PreferencesHelper preferencesHelper) {
         super(orderListHistoryView);
         this.databaseManager = databaseManager;
+        this.preferencesHelper = preferencesHelper;
     }
 
     @Override
@@ -144,6 +147,11 @@ public class OrderListHistoryPresenterImpl extends BasePresenterImpl<OrderListHi
             //TODO RESTORE ORDER
             view.openRestoreAccsessDialog();
         }
+    }
+
+    @Override
+    public void reprintOrder() {
+        view.checkOrder(order,databaseManager,preferencesHelper);
     }
 
 //    @Override

@@ -14,6 +14,7 @@ import com.jim.multipos.core.MainPageDoubleSideActivity;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.order.Order;
+import com.jim.multipos.data.db.model.order.OrderProduct;
 import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.ui.cash_management.CashManagementActivity;
 import com.jim.multipos.ui.first_configure_last.FirstConfigureActivity;
@@ -24,6 +25,7 @@ import com.jim.multipos.ui.main_menu.product_menu.ProductMenuActivity;
 import com.jim.multipos.ui.mainpospage.dialogs.HeldOrdersDialog;
 import com.jim.multipos.ui.mainpospage.dialogs.ReturnsDialog;
 import com.jim.multipos.ui.mainpospage.dialogs.TodayOrdersDialog;
+import com.jim.multipos.ui.mainpospage.model.OrderProductItem;
 import com.jim.multipos.ui.mainpospage.view.BarcodeScannerFragment;
 import com.jim.multipos.ui.mainpospage.view.OrderListFragment;
 import com.jim.multipos.ui.product_last.ProductActivity;
@@ -35,6 +37,7 @@ import com.jim.multipos.utils.RxBusLocal;
 import com.jim.multipos.utils.TestUtils;
 import com.jim.multipos.utils.managers.BarcodeScannerManager;
 import com.jim.multipos.utils.managers.NotifyManager;
+import com.jim.multipos.utils.printer.CheckPrinter;
 import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
 import com.jim.multipos.utils.rxevents.main_order_events.OrderEvent;
 import com.jim.multipos.utils.rxevents.till_management_events.TillEvent;
@@ -43,6 +46,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -79,14 +83,17 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
     PreferencesHelper preferencesHelper;
     private ArrayList<Disposable> subscriptions;
     private Handler handler;
-
+    CheckPrinter checkPrinter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         ButterKnife.bind(this);
-
+        if(checkPrinter ==null){
+            checkPrinter = new CheckPrinter(this,preferencesHelper,databaseManager);
+            checkPrinter.connectDevice();
+        }
         if (preferencesHelper.isAppRunFirstTime()){
             try {
                 Intent intro = new Intent(this, FirstConfigureActivity.class);
@@ -381,4 +388,31 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
         hideSearchFragment();
     }
 
+    public void checkOrder(Order order, DatabaseManager databaseManager, PreferencesHelper preferencesHelper) {
+        if(!preferencesHelper.isPrintCheck()) return;
+        new Thread(() -> {
+        if(checkPrinter ==null){
+            checkPrinter = new CheckPrinter(this,preferencesHelper,databaseManager);
+            checkPrinter.connectDevice();
+        }
+        if(checkPrinter.checkConnect()){
+            checkPrinter.printCheck(order);
+        }else {
+            checkPrinter.connectDevice();
+        }
+        }).start();
+    }
+    public void stockCheckOrder(long tillId, long orderNumber, long now, List<OrderProductItem> orderProducts, Customer customer, DatabaseManager databaseManager, PreferencesHelper preferencesHelper) {
+        new Thread(() -> {
+            if(checkPrinter ==null){
+                checkPrinter = new CheckPrinter(this,preferencesHelper,databaseManager);
+                checkPrinter.connectDevice();
+            }
+            if(checkPrinter.checkConnect()){
+                checkPrinter.stockChek(tillId,orderNumber,now,orderProducts,customer);
+            }else {
+                checkPrinter.connectDevice();
+            }
+        }).start();
+    }
 }

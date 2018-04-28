@@ -40,6 +40,7 @@ import com.jim.multipos.ui.mainpospage.dialogs.TipsDialog;
 import com.jim.multipos.ui.mainpospage.presenter.PaymentPresenter;
 import com.jim.multipos.utils.NumberTextWatcherPaymentFragment;
 import com.jim.multipos.utils.UIUtils;
+import com.jim.multipos.utils.printer.CheckPrinter;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -96,6 +97,12 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
     TextView tvTips;
     @BindView(R.id.ivTips)
     ImageView ivTips;
+    @BindView(R.id.ivPrint)
+    ImageView ivPrint;
+    @BindView(R.id.tvPrint)
+    TextView tvPrint;
+    CheckPrinter checkPrinter;
+
     DecimalFormat df;
     DecimalFormat dfnd;
     PaymentPartsAdapter paymentPartsAdapter;
@@ -115,8 +122,12 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        presenter.onCreateView(savedInstanceState);
+        if(checkPrinter ==null){
+            checkPrinter = new CheckPrinter(getActivity(),preferencesHelper,databaseManager);
+            checkPrinter.connectDevice();
+        }
 
+        presenter.onCreateView(savedInstanceState);
         df = BaseAppModule.getFormatterWithoutGroupingTwoDecimal();
         df.setRoundingMode(RoundingMode.DOWN);
         df.setDecimalSeparatorAlwaysShown(true);
@@ -160,9 +171,30 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
         llDebtBorrow.setOnClickListener(view12 -> {
             presenter.onDebtBorrowClicked();
         });
+
+        if(preferencesHelper.isPrintCheck()){
+            ivPrint.setColorFilter(Color.parseColor("#419fd9"));
+            tvPrint.setTextColor(Color.parseColor("#419fd9"));
+            tvPrint.setText(R.string.print_check_on);
+        }else {
+            ivPrint.setColorFilter(Color.parseColor("#999999"));
+            tvPrint.setTextColor(Color.parseColor("#999999"));
+            tvPrint.setText(R.string.print_check);
+        }
+
         //print state dialog, automatic print check or not automatic. Custom print
         llPrintCheck.setOnClickListener(view -> {
-            //TODO Print Check
+            if(preferencesHelper.isPrintCheck()){
+                ivPrint.setColorFilter(Color.parseColor("#999999"));
+                tvPrint.setTextColor(Color.parseColor("#999999"));
+                tvPrint.setText(R.string.print_check);
+                preferencesHelper.setPrintCheck(false);
+            }else {
+                ivPrint.setColorFilter(Color.parseColor("#419fd9"));
+                tvPrint.setTextColor(Color.parseColor("#419fd9"));
+                tvPrint.setText(R.string.print_check_on);
+                preferencesHelper.setPrintCheck(true);
+            }
         });
         //edit text change listner used for parsing value in real time, and sending to presenter
 
@@ -365,6 +397,7 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
     public void closeOrder(Order order, List<PayedPartitions> payedPartitions, Debt debt) {
         closeSelf();
         mainPageConnection.onCloseOrder(order,payedPartitions,debt);
+
     }
 
     @Override

@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
+import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.OrderChangesLog;
@@ -28,6 +29,7 @@ import com.jim.multipos.ui.mainpospage.dialogs.AccessToEditDialog;
 import com.jim.multipos.ui.mainpospage.dialogs.AccessWithEditPasswordDialog;
 import com.jim.multipos.ui.mainpospage.dialogs.PaymentDetialDialog;
 import com.jim.multipos.ui.mainpospage.presenter.OrderListHistoryPresenter;
+import com.jim.multipos.utils.printer.CheckPrinter;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -49,6 +51,8 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
     MainPageConnection mainPageConnection;
     @Inject
     PreferencesHelper preferencesHelper;
+    @Inject
+    DatabaseManager databaseManager;
 
     @BindView(R.id.tvSubTotal)
     TextView tvSubTotal;
@@ -74,6 +78,8 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
     RecyclerView rvOrderProducts;
     @BindView(R.id.llEdit)
     LinearLayout llEdit;
+    @BindView(R.id.llPrintCheck)
+    LinearLayout llPrintCheck;
     @BindView(R.id.llPaymentDetials)
     LinearLayout llPaymentDetials;
     @BindView(R.id.tvCustomerName)
@@ -96,7 +102,6 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
     ImageView ivEdit;
     @BindView(R.id.tvPay)
     TextView tvPay;
-
     OrderProductHistoryAdapter orderProductHistoryAdapter;
     DecimalFormat decimalFormat;
     SimpleDateFormat sdfDate;
@@ -108,6 +113,7 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
 
     @Override
     protected void init(Bundle savedInstanceState) {
+
         mainPageConnection.setOrderListHistoryView(this);
         presenter.onCreateView(getArguments());
         decimalFormat = new DecimalFormat("#,###.##");
@@ -122,6 +128,9 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
 
         llCancelOrder.setOnClickListener(view -> {
            presenter.onCancelClicked();
+        });
+        llPrintCheck.setOnClickListener(view -> {
+            presenter.reprintOrder();
         });
     }
 
@@ -279,6 +288,11 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
     @Override
     public void onContinuePressed(Order order) {
         ((MainPosPageActivity) getActivity()).onContinueOrder(order);
+    }
+
+    @Override
+    public void checkOrder(Order order, DatabaseManager databaseManager, PreferencesHelper preferencesHelper) {
+        ((MainPosPageActivity)getActivity()).checkOrder(order,databaseManager,preferencesHelper);
     }
 
 }

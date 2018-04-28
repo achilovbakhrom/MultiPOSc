@@ -17,6 +17,7 @@ package com.jim.multipos.data.prefs;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 
 import com.jim.multipos.utils.AppConstants;
 import com.jim.multipos.utils.SecurityTools;
@@ -46,6 +47,13 @@ public class AppPreferencesHelper implements PreferencesHelper {
     private static final String EDIT_ORDER_PASSWORD = "count_id";
     private static final String IS_SHOWN = "IS_SHOWN";
     private static final String IS_APP_RUN_FIRST_TIME = "IS_APP_RUN_FIRST_TIME";
+    private static final String ORGANIZATION_NAME = "ORGANIZATION_NAME";
+    private static final String ORGANIZATION_PHONE_NUMBER = "ORGANIZATION_PHONE_NUMBER";
+    private static final String CHECK_WITH_PICTURE = "CHECK_WITH_PICTURE";
+    private static final String PICTURE_URI = "PICTURE_URI";
+    private static final String DEF_PICTURE = "DEF_PICTURE";
+    private static final String PRINT_CHECK_STATE = "PRINT_CHECK_STATE";
+
 
     private final SharedPreferences mPrefs;
 
@@ -154,6 +162,27 @@ public class AppPreferencesHelper implements PreferencesHelper {
         return mPrefs.getString(POS_DETAIL_PASSWORD, null);
     }
 
+
+    @Override
+    public String getOrganizationName() {
+        return mPrefs.getString(ORGANIZATION_NAME,"MULTI POS SOLUTIONS");
+    }
+
+    @Override
+    public void setOrganizationName(String organizationName) {
+        mPrefs.edit().putString(ORGANIZATION_NAME,organizationName).apply();
+    }
+
+    @Override
+    public String getPosPhoneNumber() {
+        return mPrefs.getString(ORGANIZATION_PHONE_NUMBER,"");
+    }
+
+    @Override
+    public void setPhoneNumber(String phoneNumber) {
+        mPrefs.edit().putString(ORGANIZATION_PHONE_NUMBER,phoneNumber).apply();
+    }
+
     @Override
     public boolean isFirstConfigured() {
         return mPrefs.getBoolean(FIRST_CONFIGURED,false);
@@ -235,5 +264,41 @@ public class AppPreferencesHelper implements PreferencesHelper {
     @Override
     public void setAppRunFirstTimeValue(boolean value) {
         mPrefs.edit().putBoolean(IS_APP_RUN_FIRST_TIME, value).apply();
+    }
+
+    @Override
+    public boolean isPrintPictureInCheck() {
+        return mPrefs.getBoolean(CHECK_WITH_PICTURE,true);
+    }
+
+    @Override
+    public void setPrintPictureInCheck(boolean printPictureInCheck) {
+        mPrefs.edit().putBoolean(CHECK_WITH_PICTURE,printPictureInCheck).apply();
+    }
+
+    @Override
+    public Uri getUriPathCheckPicture() {
+        return Uri.parse(mPrefs.getString(PICTURE_URI,"")) ;
+    }
+
+    @Override
+    public void setUriPathCheckPicture(Uri uriPathCheckPicture) {
+        mPrefs.edit().putString(PICTURE_URI,uriPathCheckPicture.toString()).apply();
+        mPrefs.edit().putBoolean(DEF_PICTURE,false).apply();
+    }
+
+    @Override
+    public boolean isDefaultPicture() {
+        return mPrefs.getBoolean(DEF_PICTURE,true);
+    }
+
+    @Override
+    public boolean isPrintCheck() {
+        return mPrefs.getBoolean(PRINT_CHECK_STATE,true);
+    }
+
+    @Override
+    public void setPrintCheck(boolean printCheck) {
+        mPrefs.edit().putBoolean(PRINT_CHECK_STATE,printCheck).apply();
     }
 }

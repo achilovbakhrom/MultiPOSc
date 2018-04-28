@@ -14,4 +14,5 @@ public interface OrderListHistoryPresenter extends Presenter {
      void onBruteForce();
      void onEditClicked();
      void onCancelClicked();
+     void reprintOrder();
 }

@@ -64,4 +64,6 @@ public interface OrderListPresenter extends Presenter {
     void eventServiceFeeUpdate(ServiceFee serviceFee,ServiceFee newServiceFee);
     void eventServiceFeeDelete(ServiceFee serviceFee);
     void eventConsignmentUpdate();
+    void printStockCheck();
+
 }

@@ -21,9 +21,11 @@ import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.Debt;
 import com.jim.multipos.data.db.model.order.Order;
+import com.jim.multipos.data.db.model.order.OrderProduct;
 import com.jim.multipos.data.db.model.order.PayedPartitions;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
+import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivity;
 import com.jim.multipos.ui.mainpospage.adapter.OrderProductAdapter;
 import com.jim.multipos.ui.mainpospage.connection.MainPageConnection;
@@ -71,7 +73,8 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
     @Inject
     RxBus rxBus;
     private ArrayList<Disposable> subscriptions;
-
+    @Inject
+    PreferencesHelper preferencesHelper;
     Currency currency;
     @BindView(R.id.tvBalanceDueLabel)
     TextView tvBalanceDueLabel;
@@ -132,7 +135,6 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
     public static final String PRODUCT_ADD_TO_ORDER = "addorderproduct";
     private CustomerDialog customerDialog;
     private boolean fromAddCustomer = false;
-    private CheckPrinter printer;
 
     @Override
     protected int getLayout() {
@@ -143,8 +145,8 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
     protected void init(Bundle savedInstanceState) {
 //        databaseManager.removeAllOrders().subscribe();
         subscriptions = new ArrayList<>();
-        printer = new CheckPrinter(getActivity());
-        printer.connectDevice();
+//        printer = new CheckPrinter(getActivity());
+//        printer.connectDevice();
         mainPageConnection.setOrderListView(this);
         currency = databaseManager.getMainCurrency();
 
@@ -164,7 +166,7 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
 
         });
         llPrintCheck.setOnClickListener(view -> {
-            printer.printCheck();
+            presenter.printStockCheck();
         });
         llPay.setOnClickListener(view -> {
             if(isPaymentOpen){
@@ -649,8 +651,6 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (printer != null)
-            printer.closeController();
     }
 
     @Override
@@ -706,12 +706,14 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
 
     @Override
     public void orderAdded(Order order) {
+        checkOrder(order,databaseManager,preferencesHelper);
         ((MainPosPageActivity) getActivity()).orderAdded(order);
     }
 
 
     @Override
     public void holdOrderClosed(Order order) {
+        checkOrder(order,databaseManager,preferencesHelper);
         ((MainPosPageActivity) getActivity()).holdOrderClosed(order);
     }
 
@@ -741,9 +743,20 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
         ((MainPosPageActivity) getActivity()).hideProductInfoFragment();
     }
 
+    @Override
+    public void checkOrder(Order order, DatabaseManager databaseManager, PreferencesHelper preferencesHelper) {
+        ((MainPosPageActivity)getActivity()).checkOrder(order,databaseManager,preferencesHelper);
+    }
+
+    @Override
+    public void stockCheckOrder(long tillId, long orderNumber, long now, List<OrderProductItem> orderProducts, Customer customer) {
+        ((MainPosPageActivity)getActivity()).stockCheckOrder(tillId,orderNumber,now,orderProducts,customer,databaseManager,preferencesHelper);
+    }
+
 
     @Override
     public void onEditComplete(String reason,Order order) {
+        checkOrder(order,databaseManager,preferencesHelper);
         ((MainPosPageActivity) getActivity()).onEditComplete(reason,order);
     }
 

@@ -414,6 +414,7 @@
                             android:orientation="vertical">
 
                             <ImageView
+                                android:id="@+id/ivPrint"
                                 android:layout_width="@dimen/twenty_five_dp"
                                 android:layout_height="@dimen/twenty_five_dp"
                                 android:layout_gravity="center"
@@ -422,10 +423,11 @@
                                 android:tint="@color/colorBlue" />
 
                             <TextView
+                                android:id="@+id/tvPrint"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="Stock check"
+                                android:text="Print check: ON"
                                 android:textColor="@color/colorBlue"
                                 android:textSize="@dimen/twelve_dp" />
 
