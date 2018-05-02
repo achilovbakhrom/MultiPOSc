@@ -15,4 +15,6 @@ public interface VendorReportView extends BaseTableReportView {
     void openExportDialog(int position, int mode);
     void exportExcelToUSB(String filename, UsbFile root, Object[][] objects, int position, String date, String filter, String searchText);
     void exportTableToPdfToUSB(String fileName, UsbFile path, Object[][] objects, int position, String date, String filter, String searchText);
+    void setTextToSearch(String searchText);
+
 }

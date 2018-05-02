@@ -635,4 +635,13 @@ public class ProductProfitPresenterImpl extends BasePresenterImpl<ProductProfitV
                 break;
         }
     }
+    @Override
+    public void onBarcodeReaded(String barcode) {
+        databaseManager.getAllProducts().subscribe(products -> {
+            for(Product product:products)
+                if(product.getBarcode() !=null && product.getBarcode().equals(barcode)){
+                    view.setTextToSearch(product.getName());
+                }
+        });
+    }
 }

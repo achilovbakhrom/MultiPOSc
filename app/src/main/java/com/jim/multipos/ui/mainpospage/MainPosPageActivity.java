@@ -1,24 +1,12 @@
 package com.jim.multipos.ui.mainpospage;
 
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.hardware.usb.UsbAccessory;
-import android.hardware.usb.UsbDevice;
-import android.hardware.usb.UsbManager;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
-import android.os.storage.StorageManager;
-import android.os.storage.StorageVolume;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.WindowManager;
 import android.widget.TextClock;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.R;
@@ -46,21 +34,12 @@ import com.jim.multipos.utils.MainMenuDialog;
 import com.jim.multipos.utils.OrderMenuDialog;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.RxBusLocal;
-import com.jim.multipos.utils.TestUtils;
-import com.jim.multipos.utils.managers.BarcodeScannerManager;
 import com.jim.multipos.utils.managers.NotifyManager;
 import com.jim.multipos.utils.printer.CheckPrinter;
 import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
 import com.jim.multipos.utils.rxevents.main_order_events.OrderEvent;
 import com.jim.multipos.utils.rxevents.till_management_events.TillEvent;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -94,8 +73,6 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
     @Inject
     @Getter
     RxBusLocal rxBusLocal;
-    @Inject
-    BarcodeScannerManager barcodeScannerManager;
     @Inject
     RxBus rxBus;
     @Inject
@@ -268,8 +245,9 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
     Runnable timerUpdate = new Runnable() {
         @Override
         public void run() {
-            tvDate.setText(new SimpleDateFormat("dd - MMM, yyyy", Locale.ENGLISH).format(new Date()));
-            handler.postDelayed(timerUpdate, 30000);
+            //TODO DO NORMALNIY
+//            tvDate.setText(new SimpleDateFormat("dd - MMM, yyyy", Locale.ENGLISH).format(new Date()));
+//            handler.postDelayed(timerUpdate, 30000);
         }
     };
 
@@ -302,18 +280,6 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
         startActivity(intent);
     }
 
-    String barcode = "";
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        char pressedKey = (char) event.getUnicodeChar();
-        barcode += pressedKey;
-        if (keyCode == KeyEvent.KEYCODE_ENTER) {
-            barcodeScannerManager.onKeyDown(event, barcode);
-            barcode = "";
-        }
-        return true;
-    }
 
 
     /**

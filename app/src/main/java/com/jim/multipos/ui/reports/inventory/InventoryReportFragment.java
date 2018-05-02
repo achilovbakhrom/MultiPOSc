@@ -323,4 +323,7 @@ public class InventoryReportFragment extends BaseTableReportFragment implements 
         });
         dialog.show();
     }
+    public void onBarcodeScaned(String barcode){
+        presenter.onBarcodeReaded(barcode);
+    }
 }

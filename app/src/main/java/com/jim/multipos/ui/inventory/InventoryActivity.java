@@ -40,7 +40,9 @@ public class InventoryActivity extends SimpleActivity {
             intentIntegrator.initiateScan();
         });
     }
-
+    public void setToolbarSearchText(String text){
+        toolbar.getSearchEditText().setText(text);
+    }
     @Override
     protected int getToolbar() {
         return WITH_TOOLBAR;

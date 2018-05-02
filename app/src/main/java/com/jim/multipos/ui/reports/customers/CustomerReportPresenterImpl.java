@@ -15,6 +15,7 @@ import com.jim.multipos.data.db.model.customer.CustomerPayment;
 import com.jim.multipos.data.db.model.customer.Debt;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.PayedPartitions;
+import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.ui.reports.customers.model.CustomerGroupOrder;
 import com.jim.multipos.ui.reports.customers.model.CustomerPaymentLog;
 
@@ -881,5 +882,16 @@ public class CustomerReportPresenterImpl extends BasePresenterImpl<CustomerRepor
                 view.exportTableToPdfToUSB(fileName, path, thirdObjects, currentPosition, date, filter, searchText);
                 break;
         }
+    }
+
+
+    @Override
+    public void onBarcodeReaded(String barcode) {
+        databaseManager.getAllCustomers().subscribe(customers -> {
+            for(Customer customer:customers)
+                if(customer.getQrCode() !=null && customer.getQrCode().equals(barcode)){
+                    view.setTextToSearch(customer.getName());
+                }
+        });
     }
 }

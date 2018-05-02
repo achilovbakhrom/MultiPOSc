@@ -377,5 +377,8 @@ public abstract class BaseTableReportFragment extends BaseFragment {
         isAllright = false;
         mpSearchEditText.setText("");
     };
+    public void setTextToSearch(String searchText) {
+        mpSearchEditText.setText(searchText);
+    }
 
 }

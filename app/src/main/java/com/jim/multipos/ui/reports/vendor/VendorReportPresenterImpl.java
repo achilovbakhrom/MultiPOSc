@@ -10,6 +10,7 @@ import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.consignment.Consignment;
 import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
+import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.utils.ExportUtils;
 
@@ -831,5 +832,15 @@ public class VendorReportPresenterImpl extends BasePresenterImpl<VendorReportVie
                 view.exportTableToPdfToUSB(fileName, path, forthObjects, currentPosition, date, filter, searchText);
                 break;
         }
+    }
+
+    @Override
+    public void onBarcodeReaded(String barcode) {
+        databaseManager.getAllProducts().subscribe(products -> {
+            for(Product product:products)
+                if(product.getBarcode() !=null && product.getBarcode().equals(barcode)){
+                    view.setTextToSearch(product.getName());
+                }
+        });
     }
 }

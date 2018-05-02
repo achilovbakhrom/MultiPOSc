@@ -472,6 +472,17 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
     }
 
     @Override
+    public void onBarcodeScaned(String barcode) {
+        this.vendor.resetProducts();
+        List<Product> productList = this.vendor.getProducts();
+        for (int i = 0; i < productList.size(); i++) {
+            Product product = productList.get(i);
+            if (product.getIsDeleted().equals(false) && product.getIsNotModified().equals(true) && product.getIsActive().equals(true) && product.getBarcode()!=null && product.getBarcode().equals(barcode))
+                setConsignmentItem(product);
+        }
+    }
+
+    @Override
     public void loadVendorProducts() {
         this.vendor.resetProducts();
         List<Product> productList = this.vendor.getProducts();

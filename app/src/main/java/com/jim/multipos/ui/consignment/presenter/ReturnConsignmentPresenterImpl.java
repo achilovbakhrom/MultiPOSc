@@ -351,4 +351,15 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
         databaseManager.insertConsignment(consignmentNew, billingOperationsList, newConsignmentProductList, warehouseOperationsList).subscribe();
         view.closeFragment(this.vendor);
     }
+
+    @Override
+    public void onBarcodeScaned(String barcode) {
+        this.vendor.resetProducts();
+        List<Product> productList = this.vendor.getProducts();
+        for (int i = 0; i < productList.size(); i++) {
+            Product product = productList.get(i);
+            if (product.getIsDeleted().equals(false) && product.getIsNotModified().equals(true) && product.getIsActive().equals(true) && product.getBarcode()!=null && product.getBarcode().equals(barcode))
+                setReturnItem(product);
+        }
+    }
 }

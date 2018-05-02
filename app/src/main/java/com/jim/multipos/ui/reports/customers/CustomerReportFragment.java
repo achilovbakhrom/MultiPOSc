@@ -16,10 +16,15 @@ import com.jim.multipos.ui.reports.customers.dialogs.CustomerPaymentFilterDialog
 import com.jim.multipos.ui.reports.customers.dialogs.CustomerSummaryFilterDialog;
 import com.jim.multipos.utils.ExportToDialog;
 import com.jim.multipos.utils.ExportUtils;
+import com.jim.multipos.utils.RxBus;
+import com.jim.multipos.utils.usb_barcode.BarcodeReadEvent;
 
 import java.io.File;
 
 import javax.inject.Inject;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 
 import static com.jim.multipos.utils.ExportUtils.EXCEL;
 
@@ -27,6 +32,8 @@ public class CustomerReportFragment extends BaseTableReportFragment implements C
 
     @Inject
     CustomerReportPresenter presenter;
+    @Inject
+    RxBus rxBus;
     private ReportView.Builder firstBuilder, secondBuilder, thirdBuilder;
     private ReportView firstView, secondView, thirdView;
     private int firstDataType[] = {ReportViewConstants.ID, ReportViewConstants.NAME, ReportViewConstants.QUANTITY, ReportViewConstants.QUANTITY, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT};
@@ -40,7 +47,6 @@ public class CustomerReportFragment extends BaseTableReportFragment implements C
     private int thirdAligns[] = {Gravity.CENTER, Gravity.LEFT, Gravity.CENTER, Gravity.CENTER, Gravity.LEFT, Gravity.RIGHT};
     private String firstTitles[], secondTitles[], thirdTitles[], panelNames[];
     private Object[][][] secondStatusTypes, thirdStatusTypes;
-
     @Override
     protected void init(Bundle savedInstanceState) {
         init(presenter);
@@ -92,6 +98,13 @@ public class CustomerReportFragment extends BaseTableReportFragment implements C
                 .setDataAlignTypes(thirdAligns)
                 .build();
         thirdView = new ReportView(thirdBuilder);
+
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
     }
 
     @Override
@@ -249,6 +262,7 @@ public class CustomerReportFragment extends BaseTableReportFragment implements C
         }
     }
 
+
     private void openFilePickerDialog() {
         DialogProperties properties = new DialogProperties();
         properties.selection_mode = DialogConfigs.SINGLE_MODE;
@@ -264,4 +278,10 @@ public class CustomerReportFragment extends BaseTableReportFragment implements C
         });
         dialog.show();
     }
+
+    public void onBarcodeScaned(String barcode){
+        presenter.onBarcodeReaded(barcode);
+    }
+
+
 }

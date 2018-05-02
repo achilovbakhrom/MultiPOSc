@@ -5,20 +5,30 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.jim.multipos.core.ReportSingleActivity;
+import com.jim.multipos.utils.BarcodeStack;
+
+import javax.inject.Inject;
 
 /**
  * Created by Sirojiddin on 12.03.2018.
  */
 
 public class ReportsActivity extends ReportSingleActivity implements ReportsActivityView{
-
+    @Inject
+    BarcodeStack barcodeStack;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showSummaryReportFragment();
+        //TODO HORIZANTAL FRAGMENTS
+        barcodeStack.register(this::onBarcodeScaned);
     }
 
-
+    @Override
+    protected void onDestroy() {
+        barcodeStack.unregister();
+        super.onDestroy();
+    }
 
     @Override
     public void openSummaryFragmentAction() {

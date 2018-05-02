@@ -16,6 +16,7 @@ import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
 import com.jim.multipos.ui.customers_edit_new.adapters.CustomerAdapter;
 import com.jim.multipos.ui.customers_edit_new.dialogs.CustomerGroupDialog;
+import com.jim.multipos.utils.BarcodeStack;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.WarningDialog;
 import com.jim.multipos.utils.rxevents.main_order_events.CustomerEvent;
@@ -33,6 +34,8 @@ public class CustomersEditActivity extends BaseActivity implements CustomersEdit
     CustomersEditPresenter presenter;
     @Inject
     RxBus rxBus;
+    @Inject
+    BarcodeStack barcodeStack;
     @BindView(R.id.toolbar)
     MpToolbar toolbar;
     @BindView(R.id.rvItems)
@@ -59,7 +62,7 @@ public class CustomersEditActivity extends BaseActivity implements CustomersEdit
 
     private void init() {
         rvItems.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new CustomerAdapter(this, presenter.getCustomers(), this);
+        adapter = new CustomerAdapter(this, presenter.getCustomers(), this,barcodeStack);
         rvItems.setAdapter(adapter);
 
         RxView.clicks(btnBack).subscribe(o -> {
@@ -92,7 +95,7 @@ public class CustomersEditActivity extends BaseActivity implements CustomersEdit
     @Override
     protected void onDestroy() {
         unbinder.unbind();
-
+        barcodeStack.unregister();
         presenter.onDestroy();
         super.onDestroy();
     }

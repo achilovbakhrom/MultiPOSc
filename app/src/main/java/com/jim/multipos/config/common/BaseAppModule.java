@@ -11,6 +11,7 @@ import com.jim.multipos.data.prefs.AppPreferencesHelper;
 import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.utils.AppConstants;
+import com.jim.multipos.utils.BarcodeStack;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.managers.NotifyManager;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -143,6 +144,11 @@ public abstract class BaseAppModule {
         return decimalFormat1;
     }
 
+    @Provides
+    @Singleton
+    public static BarcodeStack getBarcodeStack(RxBus rxBus){
+        return new BarcodeStack(rxBus);
+    }
 
     @Provides
     @Singleton

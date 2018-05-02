@@ -45,6 +45,7 @@ import com.jim.multipos.ui.product_last.adapter.ProductClassListAdapter;
 import com.jim.multipos.ui.product_last.adapter.ProductCostListAdapter;
 import com.jim.multipos.ui.product_last.helpers.CategoryAddEditMode;
 import com.jim.multipos.ui.vendor.add_edit.VendorAddEditActivity;
+import com.jim.multipos.utils.BarcodeStack;
 import com.jim.multipos.utils.CommonUtils;
 import com.jim.multipos.utils.GlideApp;
 import com.jim.multipos.utils.NumberTextWatcher;
@@ -66,6 +67,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
@@ -73,7 +76,6 @@ import io.reactivex.disposables.Disposable;
 
 import static android.app.Activity.RESULT_OK;
 import static com.jim.multipos.utils.OpenPickPhotoUtils.RESULT_PICK_IMAGE;
-import static com.jim.multipos.utils.managers.BarcodeScannerManager.DEVICE_NAME;
 
 /**
  * Created by Achilov Bakhrom on 10/26/17.
@@ -134,6 +136,7 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
 
     @BindView(R.id.ivScanBarcode)
     ImageView ivScanBarcode;
+
 
     private static final String VENDOR_LIST_COUNT = "VENDOR_LIST_COUNT";
     private static final String VENDOR_ID = "VENDOR_ID_";
@@ -234,6 +237,16 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
         });
         ((ProductActivity) getContext()).getPresenter().initDataForProduct();
         ivScanBarcode.setOnClickListener(view -> scan());
+        ((ProductActivity)getActivity()).getBarcodeStack().register(barcode1 -> {
+            if(isAdded() && isVisible())
+                barcode.setText(barcode1);
+        });
+    }
+
+    @Override
+    public void onDetach() {
+        ((ProductActivity)getActivity()).getBarcodeStack().unregister();
+        super.onDetach();
     }
 
     @Override

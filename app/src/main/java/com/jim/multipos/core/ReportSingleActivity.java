@@ -3,6 +3,7 @@ package com.jim.multipos.core;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -253,8 +254,29 @@ public abstract class ReportSingleActivity extends BaseActivity {
         }
     }
 
-
-
+    public void onBarcodeScaned(String barcode){
+        Fragment fragment = getVisibleFragment();
+        if(fragment !=null){
+            if(fragment instanceof CustomerReportFragment && fragment.isVisible() && fragment.isAdded()){
+                ((CustomerReportFragment) fragment).onBarcodeScaned(barcode);
+            }else if (fragment instanceof InventoryReportFragment && fragment.isVisible() && fragment.isAdded()){
+                ((InventoryReportFragment) fragment).onBarcodeScaned(barcode);
+            }else if(fragment instanceof ProductProfitFragment && fragment.isVisible() && fragment.isAdded()){
+                ((ProductProfitFragment) fragment).onBarcodeScaned(barcode);
+            }else if(fragment instanceof VendorReportFragment && fragment.isVisible() && fragment.isAdded()){
+                ((VendorReportFragment) fragment).onBarcodeScaned(barcode);
+            }
+        }
+    }
+    private Fragment getVisibleFragment() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        List<Fragment> fragments = fragmentManager.getFragments();
+        for (Fragment fragment : fragments) {
+            if (fragment != null && fragment.isVisible())
+                return fragment;
+        }
+        return null;
+    }
     public void hideAll(){
         for (String fragmentName:reportsFragmentsTags){
             Fragment fragmentByTag = getSupportFragmentManager().findFragmentByTag(fragmentName);

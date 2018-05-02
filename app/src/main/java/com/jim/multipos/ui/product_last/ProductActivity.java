@@ -17,6 +17,7 @@ import com.jim.multipos.data.db.model.products.VendorProductCon;
 import com.jim.multipos.ui.product_last.fragment.CategoryAddEditFragment;
 import com.jim.multipos.ui.product_last.fragment.ProductAddEditFragment;
 import com.jim.multipos.ui.product_last.fragment.ProductListFragment;
+import com.jim.multipos.utils.BarcodeStack;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.TestUtils;
 import com.jim.multipos.utils.UIUtils;
@@ -31,7 +32,6 @@ import javax.inject.Inject;
 
 import lombok.Getter;
 
-import static com.jim.multipos.utils.managers.BarcodeScannerManager.DEVICE_NAME;
 
 /**
  * Created by Achilov Bakhrom on 10/26/17.
@@ -53,6 +53,13 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
     @Inject
     @Getter
     RxBus rxBus;
+
+    @Inject
+    BarcodeStack barcodeStack;
+
+    public BarcodeStack getBarcodeStack() {
+        return barcodeStack;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -845,21 +852,5 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    String barcode = "";
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (event.getDevice().getName().equals(DEVICE_NAME)) {
-            char pressedKey = (char) event.getUnicodeChar();
-            barcode += pressedKey;
-            if (keyCode == KeyEvent.KEYCODE_ENTER) {
-                ProductAddEditFragment fragment = getProductAddEditFragment();
-                if (fragment != null) {
-                    fragment.setBarcode(barcode);
-                }
-                barcode = "";
-            }
-        }
-        return true;
-    }
 }

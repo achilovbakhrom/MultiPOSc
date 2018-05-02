@@ -18,6 +18,7 @@ import com.jim.multipos.ui.inventory.adapters.InventoryItemAdapter;
 import com.jim.multipos.ui.inventory.adapters.VendorListAdapter;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
 import com.jim.multipos.ui.inventory.presenter.InventoryPresenter;
+import com.jim.multipos.utils.BarcodeStack;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.SurplusProductDialog;
 import com.jim.multipos.utils.UIUtils;
@@ -82,6 +83,8 @@ public class InventoryFragment extends BaseFragment implements InventoryView {
     SortModes filterMode = FILTERED_BY_PRODUCT;
     @Inject
     DecimalFormat decimalFormat;
+    @Inject
+    BarcodeStack barcodeStack;
 
     public enum SortModes {
         FILTERED_BY_PRODUCT, FILTERED_BY_PRODUCT_INVERT, FILTERED_BY_VENDOR, FILTERED_BY_VENDOR_INVERT, FILTERED_BY_LOWSTOCK, FILTERED_BY_LOWSTOCK_INVERT, FILTERED_BY_INVENTORY, FILTERED_BY_INVENTORY_INVERT, FILTERED_BY_UNIT, FILTERED_BY_UNIT_INVERT
@@ -231,7 +234,10 @@ public class InventoryFragment extends BaseFragment implements InventoryView {
             presenter.setVendorId(vendor.getId());
             dialog.dismiss();
         });
-
+        barcodeStack.register(barcode -> {
+            if(isAdded() && isVisible())
+                ((InventoryActivity)getActivity()).setToolbarSearchText(barcode);
+        });
     }
 
     @Override
@@ -332,6 +338,7 @@ public class InventoryFragment extends BaseFragment implements InventoryView {
 
     @Override
     public void onDestroy() {
+        barcodeStack.unregister();
         super.onDestroy();
         RxBus.removeListners(subscriptions);
     }

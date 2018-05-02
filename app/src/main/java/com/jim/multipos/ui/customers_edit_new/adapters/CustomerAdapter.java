@@ -21,6 +21,7 @@ import com.jim.multipos.core.BaseAdapter;
 import com.jim.multipos.core.BaseViewHolder;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
+import com.jim.multipos.utils.BarcodeStack;
 import com.jim.multipos.utils.UIUtils;
 import com.jim.multipos.utils.validator.MultipleCallback;
 
@@ -81,17 +82,23 @@ public class CustomerAdapter extends BaseAdapter<Customer, BaseViewHolder> {
     }
 
     private OnClickListener listener;
+    private BarcodeStack barcodeStack;
     private Context context;
     private Customer addCustomer;
     private Set<Customer> notSavedItems;
 
-    public CustomerAdapter(Context context, List<Customer> customers, OnClickListener listener) {
+    public CustomerAdapter(Context context, List<Customer> customers, OnClickListener listener, BarcodeStack barcodeStack) {
         super(customers);
         this.context = context;
         this.listener = listener;
+        this.barcodeStack = barcodeStack;
         addCustomer = new Customer();
         addCustomer.setCustomerGroups(new ArrayList<>());
         notSavedItems = new HashSet<>();
+        barcodeStack.register(barcode1 -> {
+            addCustomer.setQrCode(barcode1);
+            notifyItemChanged(0);
+        });
     }
 
     @Override
@@ -108,7 +115,7 @@ public class CustomerAdapter extends BaseAdapter<Customer, BaseViewHolder> {
 
         return baseViewHolder;
     }
-
+    String barcode = "";
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
         if (position == 0) {
@@ -117,6 +124,7 @@ public class CustomerAdapter extends BaseAdapter<Customer, BaseViewHolder> {
             ((CustomerAddViewHolder) holder).etPhone.setText(addCustomer.getPhoneNumber());
             ((CustomerAddViewHolder) holder).etAddress.setText(addCustomer.getAddress());
             ((CustomerAddViewHolder) holder).tvQrCodeInAdd.setText(addCustomer.getQrCode());
+
             ((CustomerAddViewHolder) holder).etPhone.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
 
             if (addCustomer.getCustomerGroups().isEmpty()) {

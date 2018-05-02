@@ -1,9 +1,13 @@
 package com.jim.multipos.ui.mainpospage.view;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,6 +30,7 @@ import com.jim.multipos.data.db.model.order.PayedPartitions;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.prefs.PreferencesHelper;
+import com.jim.multipos.ui.consignment.adapter.VendorItemsListAdapter;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivity;
 import com.jim.multipos.ui.mainpospage.adapter.OrderProductAdapter;
 import com.jim.multipos.ui.mainpospage.connection.MainPageConnection;
@@ -35,6 +40,7 @@ import com.jim.multipos.ui.mainpospage.dialogs.ServiceFeeDialog;
 import com.jim.multipos.ui.mainpospage.dialogs.UnitValuePicker;
 import com.jim.multipos.ui.mainpospage.model.OrderProductItem;
 import com.jim.multipos.ui.mainpospage.presenter.OrderListPresenter;
+import com.jim.multipos.utils.BarcodeStack;
 import com.jim.multipos.utils.LinearLayoutManagerWithSmoothScroller;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.UIUtils;
@@ -48,6 +54,7 @@ import com.jim.multipos.utils.rxevents.main_order_events.DiscountEvent;
 import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
 import com.jim.multipos.utils.rxevents.main_order_events.ProductEvent;
 import com.jim.multipos.utils.rxevents.main_order_events.ServiceFeeEvent;
+import com.jim.multipos.utils.usb_barcode.BarcodeReadEvent;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -56,6 +63,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 
 public class OrderListFragment extends BaseFragment implements OrderListView {
@@ -70,6 +78,8 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
     NotifyManager notifyManager;
     @Inject
     MainPageConnection mainPageConnection;
+    @Inject
+    BarcodeStack barcodeStack;
     @Inject
     RxBus rxBus;
     private ArrayList<Disposable> subscriptions;
@@ -135,7 +145,9 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
     public static final String PRODUCT_ADD_TO_ORDER = "addorderproduct";
     private CustomerDialog customerDialog;
     private boolean fromAddCustomer = false;
-
+    private Dialog dialog;
+    @Inject
+    VendorItemsListAdapter vendorItemsListAdapter;
     @Override
     protected int getLayout() {
         return R.layout.fragment_order_list;
@@ -198,7 +210,7 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
         });
         presenter.onCreateView(getArguments());
         subscriptions.add(
-                rxBus.toObservable().subscribe(o -> {
+                rxBus.toObservable().observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
                        if(o instanceof ProductEvent){
                            ProductEvent productEvent = (ProductEvent) o;
                            if(productEvent.getType() == GlobalEventConstants.UPDATE){
@@ -243,6 +255,11 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
 
                 })
         );
+
+        barcodeStack.register(barcode -> {
+            if(isAdded() && isVisible())
+            presenter.onBarcodeReaded(barcode);
+        });
     }
 
     @Override
@@ -486,7 +503,7 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
 
     @Override
     public void openCustomerDialog() {
-        customerDialog = new CustomerDialog(getContext(), databaseManager, notifyManager,mainPageConnection);
+        customerDialog = new CustomerDialog(getContext(), databaseManager, notifyManager,mainPageConnection,barcodeStack);
         customerDialog.show();
         customerDialog.setListener(this::initScan);
     }
@@ -627,6 +644,7 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
     public void onDetach() {
         mainPageConnection.setOrderListView(null);
         RxBus.removeListners(subscriptions);
+        barcodeStack.unregister();
         super.onDetach();
     }
     @Override
@@ -751,6 +769,26 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
     @Override
     public void stockCheckOrder(long tillId, long orderNumber, long now, List<OrderProductItem> orderProducts, Customer customer) {
         ((MainPosPageActivity)getActivity()).stockCheckOrder(tillId,orderNumber,now,orderProducts,customer,databaseManager,preferencesHelper);
+    }
+
+    @Override
+    public void choiseOneProduct(List<Product> products) {
+        vendorItemsListAdapter.setData(products);
+        vendorItemsListAdapter.notifyDataSetChanged();
+        dialog = new Dialog(getContext());
+        View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.vendor_product_list_dialog, null, false);
+        RecyclerView rvProductList = dialogView.findViewById(R.id.rvProductList);
+        rvProductList.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvProductList.setAdapter(vendorItemsListAdapter);
+        TextView textView = dialogView.findViewById(R.id.tvDialogTitle);
+        textView.setText("Found products");
+        dialog.setContentView(dialogView);
+        dialog.getWindow().getDecorView().setBackgroundResource(android.R.color.transparent);
+        vendorItemsListAdapter.setListener(product -> {
+            presenter.addProductToList(product.getId());
+            dialog.dismiss();
+        });
+        dialog.show();
     }
 
 

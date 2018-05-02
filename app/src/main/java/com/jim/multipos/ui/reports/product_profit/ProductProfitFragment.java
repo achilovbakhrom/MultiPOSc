@@ -241,4 +241,7 @@ public class ProductProfitFragment extends BaseTableReportFragment implements Pr
                 break;
         }
     }
+    public void onBarcodeScaned(String barcode){
+        presenter.onBarcodeReaded(barcode);
+    }
 }

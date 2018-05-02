@@ -7,10 +7,6 @@ import com.jim.multipos.R;
 import com.jim.multipos.config.scope.PerActivity;
 import com.jim.multipos.config.scope.PerFragment;
 import com.jim.multipos.core.BaseActivityModule;
-import com.jim.multipos.ui.main_menu.product_menu.ProductMenuActivity;
-import com.jim.multipos.ui.main_menu.product_menu.ProductMenuView;
-import com.jim.multipos.ui.main_menu.product_menu.presenters.ProductMenuPresenter;
-import com.jim.multipos.ui.main_menu.product_menu.presenters.ProductMenuPresenterImpl;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivity;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivityImpl;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivityPresenter;
@@ -36,16 +32,9 @@ import com.jim.multipos.ui.mainpospage.view.ProductSquareFragmentModule;
 import com.jim.multipos.ui.mainpospage.view.ProductSquareViewFragment;
 import com.jim.multipos.ui.mainpospage.view.SearchModeFragment;
 import com.jim.multipos.ui.mainpospage.view.SearchModeFragmentModule;
-import com.jim.multipos.utils.RxBusLocal;
-import com.jim.multipos.utils.managers.BarcodeScannerManager;
 import com.jim.multipos.utils.managers.NotifyManager;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
-
 import javax.inject.Named;
-import javax.inject.Singleton;
 
 import dagger.Binds;
 import dagger.Module;
@@ -143,9 +132,5 @@ public abstract class MainPageMenuModule {
         return new NotifyManager();
     }
 
-    @PerActivity
-    @Provides
-    static BarcodeScannerManager getBarcodeScannerManager(MainPosPageActivity mainPosPageActivity) {
-        return new BarcodeScannerManager(mainPosPageActivity);
-    }
+
 }

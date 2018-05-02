@@ -1245,5 +1245,32 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         view.stockCheckOrder(databaseManager.getCurrentOpenTillId().blockingGet(),databaseManager.getLastOrderId().blockingGet()+1,System.currentTimeMillis(),orderProductItems,customer);
     }
 
+    @Override
+    public void onBarcodeReaded(String barcode) {
+        List<Product> productsAll = new ArrayList<>();
+        databaseManager.getAllProducts().subscribe(products -> {
+            for (Product product : products) {
+                if (product.getBarcode()!=null && product.getBarcode().equals(barcode)) {
+                    productsAll.add(product);
+                }
+            }
+            if(productsAll.isEmpty()){
+                databaseManager.getAllCustomers().subscribe(customers -> {
+                    for (int i = customers.size()-1; i >= 0  ; i--) {
+                        if(customers.get(i).getQrCode()!=null && customers.get(i).getQrCode().equals(barcode)){
+                            changeCustomer(customers.get(i));
+                            eventCustomerUpdate(customers.get(i));
+                            return;
+                        }
+                    }
+                });
+            }else if(productsAll.size()==1){
+                addProductToList(productsAll.get(0).getId());
+            }else {
+                view.choiseOneProduct(productsAll);
+            }
+        });
+    }
+
 
 }

@@ -312,4 +312,7 @@ public class VendorReportFragment extends BaseTableReportFragment implements Ven
         });
         dialog.show();
     }
+    public void onBarcodeScaned(String barcode){
+        presenter.onBarcodeReaded(barcode);
+    }
 }

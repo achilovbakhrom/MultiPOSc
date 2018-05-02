@@ -19,6 +19,7 @@ import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.consignment.adapter.IncomeItemsListAdapter;
 import com.jim.multipos.ui.consignment.adapter.VendorItemsListAdapter;
 import com.jim.multipos.ui.consignment.presenter.ReturnConsignmentPresenter;
+import com.jim.multipos.utils.BarcodeStack;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.WarningDialog;
 import com.jim.multipos.utils.rxevents.inventory_events.BillingOperationEvent;
@@ -55,6 +56,8 @@ public class ReturnConsignmentFragment extends BaseFragment implements ReturnCon
     DecimalFormat decimalFormat;
     @Inject
     RxBus rxBus;
+    @Inject
+    BarcodeStack barcodeStack;
     @BindView(R.id.rvReturnProducts)
     RecyclerView rvReturnProducts;
     @NotEmpty(messageId = R.string.consignment_number_is_empty)
@@ -115,6 +118,10 @@ public class ReturnConsignmentFragment extends BaseFragment implements ReturnCon
             public void onSumChanged() {
                 presenter.calculateConsignmentSum();
             }
+        });
+        barcodeStack.register(barcode -> {
+            if(isAdded() && isVisible())
+                presenter.onBarcodeScaned(barcode);
         });
     }
 
@@ -211,6 +218,12 @@ public class ReturnConsignmentFragment extends BaseFragment implements ReturnCon
     @Override
     public void setConsignmentNumberError() {
         etReturnNumber.setError("Consignment with such number exists");
+    }
+
+    @Override
+    public void onDetach() {
+        barcodeStack.unregister();
+        super.onDetach();
     }
 
     @Override

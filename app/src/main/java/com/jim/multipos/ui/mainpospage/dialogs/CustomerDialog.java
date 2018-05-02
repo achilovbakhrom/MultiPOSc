@@ -2,10 +2,13 @@ package com.jim.multipos.ui.mainpospage.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -19,6 +22,7 @@ import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.ui.mainpospage.adapter.CustomersListAdapter;
 import com.jim.multipos.ui.mainpospage.connection.MainPageConnection;
+import com.jim.multipos.utils.BarcodeStack;
 import com.jim.multipos.utils.TextWatcherOnTextChange;
 import com.jim.multipos.utils.UIUtils;
 import com.jim.multipos.utils.managers.NotifyManager;
@@ -86,6 +90,7 @@ public class CustomerDialog extends Dialog {
     private List<Customer> customerList, searchResults;
     private onBarcodeClickListener listener;
     private AddCustomerDialog addCustomerDialog;
+    private BarcodeStack barcodeStack;
 
     public enum CustomerSortingStates {
         SORTED_BY_ID, SORTED_BY_ID_INVERT, SORTED_BY_NAME, SORTED_BY_NAME_INVERT, SORTED_BY_PHONE, SORTED_BY_PHONE_INVERT, SORTED_BY_ADDRESS, SORTED_BY_ADDRESS_INVERT, SORTED_BY_QR, SORTED_BY_QR_INVERT,
@@ -94,8 +99,9 @@ public class CustomerDialog extends Dialog {
 
     private CustomerSortingStates filterMode = SORTED_BY_ID;
 
-    public CustomerDialog(@NonNull Context context, DatabaseManager databaseManager, NotifyManager notifyManager, MainPageConnection mainPageConnection) {
+    public CustomerDialog(@NonNull Context context, DatabaseManager databaseManager, NotifyManager notifyManager, MainPageConnection mainPageConnection, BarcodeStack barcodeStack) {
         super(context);
+        this.barcodeStack = barcodeStack;
         View dialogView = getLayoutInflater().inflate(R.layout.choose_customers_dialog, null);
         ButterKnife.bind(this, dialogView);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -118,7 +124,7 @@ public class CustomerDialog extends Dialog {
                     customerList = databaseManager.getAllCustomers().blockingSingle();
                     sortList();
                     customersListAdapter.setData(customerList);
-                }, mainPageConnection);
+                }, mainPageConnection,barcodeStack);
                 addCustomerDialog.show();
             }
 
@@ -139,7 +145,7 @@ public class CustomerDialog extends Dialog {
                 if (customer != null) {
 
                 }
-            }, mainPageConnection);
+            }, mainPageConnection,barcodeStack);
             addCustomerDialog.show();
         });
 
@@ -268,6 +274,14 @@ public class CustomerDialog extends Dialog {
         });
 
         svCustomerSearch.getBarcodeView().setOnClickListener(view -> listener.onBarcodeClick());
+
+        barcodeStack.register(barcode -> {
+            svCustomerSearch.getSearchView().setText(barcode);
+        });
+        setOnDismissListener(o->{
+           barcodeStack.unregister();
+        });
+
     }
 
     public void setBarcode(String contents) {
@@ -297,6 +311,7 @@ public class CustomerDialog extends Dialog {
         ivCustomerNameSort.setVisibility(View.GONE);
         ivIdSort.setVisibility(View.GONE);
     }
+
 
     private void sortList() {
         List<Customer> customerListTemp;

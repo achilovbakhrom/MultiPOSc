@@ -8,4 +8,5 @@ public interface BaseTableReportView extends BaseView {
     void setSingleTitle(String titleReport);
     void setChoiserPanel(String[] titles);
     void showExportPanel();
+
 }

@@ -17,6 +17,7 @@ import com.jim.multipos.ui.mainpospage.view.SearchModeFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 import static com.jim.multipos.ui.mainpospage.view.OrderListFragment.NEW_ORDER_ID;
 
@@ -29,13 +30,13 @@ public abstract class MainPageDoubleSideActivity extends BaseActivity{
     public static final String INIT_ORDER = "INIT_ORDER";
     @BindView(R.id.toolbar)
     MpToolbar toolbar;
-
+    Unbinder bind;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.base_double_activity_layout);
 
-        ButterKnife.bind(this);
+        bind = ButterKnife.bind(this);
         toolbar.setMode(getToolbarMode());
 
 
@@ -50,6 +51,13 @@ public abstract class MainPageDoubleSideActivity extends BaseActivity{
         getSupportFragmentManager().beginTransaction().hide(fragment1).commit();
         getSupportFragmentManager().beginTransaction().hide(fragment2).commit();
 
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        bind.unbind();
 
     }
 

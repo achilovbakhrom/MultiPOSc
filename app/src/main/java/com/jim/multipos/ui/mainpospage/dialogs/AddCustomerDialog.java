@@ -14,6 +14,7 @@ import com.jim.multipos.R;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.ui.mainpospage.connection.MainPageConnection;
+import com.jim.multipos.utils.BarcodeStack;
 import com.jim.multipos.utils.UIUtils;
 
 import butterknife.BindView;
@@ -47,7 +48,7 @@ public class AddCustomerDialog extends Dialog {
     private UpdateCustomerCallback callback;
     long id = 0L;
 
-    public AddCustomerDialog(@NonNull Context context, Customer customer, DatabaseManager databaseManager, UpdateCustomerCallback callback, MainPageConnection mainPageConnection) {
+    public AddCustomerDialog(@NonNull Context context, Customer customer, DatabaseManager databaseManager, UpdateCustomerCallback callback, MainPageConnection mainPageConnection, BarcodeStack barcodeStack) {
         super(context);
         this.context = context;
         this.customer = customer;
@@ -58,6 +59,12 @@ public class AddCustomerDialog extends Dialog {
         setContentView(dialogView);
         View v = getWindow().getDecorView();
         v.setBackgroundResource(android.R.color.transparent);
+        barcodeStack.register(barcode -> {
+            etCustomerBarcode.setText(barcode);
+        });
+        setOnDismissListener(o->{
+            barcodeStack.unregister();
+        });
         if (this.customer != null) {
             tvClientId.setText(String.valueOf(customer.getClientId()));
             etCustomerName.setText(customer.getName());

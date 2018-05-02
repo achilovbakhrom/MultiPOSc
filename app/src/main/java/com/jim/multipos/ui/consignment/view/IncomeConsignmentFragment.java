@@ -28,6 +28,7 @@ import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.consignment.adapter.IncomeItemsListAdapter;
 import com.jim.multipos.ui.consignment.adapter.VendorItemsListAdapter;
 import com.jim.multipos.ui.consignment.presenter.IncomeConsignmentPresenter;
+import com.jim.multipos.utils.BarcodeStack;
 import com.jim.multipos.utils.NumberTextWatcher;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.TextWatcherOnTextChange;
@@ -65,6 +66,8 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
     VendorItemsListAdapter vendorItemsListAdapter;
     @Inject
     DecimalFormat decimalFormat;
+    @Inject
+    BarcodeStack barcodeStack;
     @Inject
     RxBus rxBus;
     @BindView(R.id.etConsignmentDescription)
@@ -147,7 +150,10 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
                 llAccounts.setVisibility(View.VISIBLE);
             } else llAccounts.setVisibility(View.GONE);
         });
-
+        barcodeStack.register(barcode -> {
+            if(isAdded() && isVisible())
+                presenter.onBarcodeScaned(barcode);
+        });
         etTotalPaid.addTextChangedListener(new NumberTextWatcher(etTotalPaid));
     }
 
@@ -263,5 +269,11 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
     @Override
     public void setConsignmentNumber(int number) {
         etConsignmentNumber.setText(String.valueOf(number));
+    }
+
+    @Override
+    public void onDetach() {
+        barcodeStack.unregister();
+        super.onDetach();
     }
 }
