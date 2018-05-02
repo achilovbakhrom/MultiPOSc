@@ -8,14 +8,14 @@
     <string name="login">Логин</string>
     <string name="founder_password">Пароль владельца</string>
     <string name="system_accounts">Системные аккаунты</string>
-    <string name="pos_id">ПОС ИД</string>
-    <string name="alias">Псевдоним</string>
+    <string name="pos_id">Идентификатор</string>
+    <string name="alias">Компания</string>
     <string name="enter_pos_alias">Введите псевдоним ПОС</string>
     <string name="address">Адрес</string>
     <string name="enter_pos_address">Введите адрес ПОС</string>
     <string name="password">Пароль</string>
     <string name="admin_password">Пароль администратора</string>
-    <string name="repeat">Повторить</string>
+    <string name="repeat">Повторите</string>
     <string name="repeat_password">Повторите пароль</string>
     <string name="revert">Назад</string>
     <string name="next">Вперед</string>

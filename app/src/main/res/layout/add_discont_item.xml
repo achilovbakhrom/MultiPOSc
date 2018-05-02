@@ -26,7 +26,7 @@
             android:layout_width="@dimen/three_hundred_dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/five_dp"
-            android:text="Ammount"
+            android:text="@string/ammount"
             android:textSize="@dimen/sixteen_dp"
             android:textColor="#419fd9"
             android:layout_marginBottom="@dimen/twelve_dp"
@@ -36,7 +36,7 @@
             android:layout_width="@dimen/hundred_fifty_dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/ten_dp"
-            android:text="Type"
+            android:text="@string/type"
             android:textSize="@dimen/sixteen_dp"
             android:textColor="#419fd9"
             android:layout_marginBottom="@dimen/twelve_dp"
@@ -100,7 +100,7 @@
             android:paddingRight="@dimen/ten_dp"
             android:paddingLeft="@dimen/sixteen_dp"
             android:inputType="numberDecimal"
-            android:hint="Value"
+            android:hint="@string/value"
             android:textSize="@dimen/sixteen_dp"
             />
         <com.jim.mpviews.MPosSpinner
@@ -132,7 +132,7 @@
             android:layout_height="@dimen/forty_dp"
             android:layout_gravity="center_vertical"
             android:textColor="#23d730"
-            android:text="+Add"
+            android:text="@string/plus_add"
             android:textSize="@dimen/sixteen_dp" />
     </LinearLayout>
 

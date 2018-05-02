@@ -26,7 +26,7 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/thirty_dp"
                 android:paddingLeft="@dimen/thirty_dp"
-                android:text="Return"
+                android:text="@string/return_"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/twenty_dp"
                 android:textStyle="bold" />
@@ -49,7 +49,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:paddingLeft="@dimen/thirty_dp"
-                    android:text="Returned item(s)"
+                    android:text="@string/returned_item_s"
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/sixteen_dp" />
 
@@ -58,7 +58,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="Price"
+                    android:text="@string/price"
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/sixteen_dp" />
 
@@ -67,7 +67,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="Return"
+                    android:text="@string/return_"
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/sixteen_dp" />
 
@@ -76,7 +76,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="Qty."
+                    android:text="@string/qty"
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/sixteen_dp" />
 
@@ -85,7 +85,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="Unit"
+                    android:text="@string/unit"
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/sixteen_dp" />
 
@@ -94,7 +94,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="Vendor"
+                    android:text="@string/vendor"
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/sixteen_dp" />
 
@@ -103,7 +103,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="Total"
+                    android:text="@string/total"
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/sixteen_dp" />
 
@@ -192,7 +192,7 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:layout_marginLeft="@dimen/ten_dp"
-                        android:text="Total:"
+                        android:text="@string/total_"
                         android:textColor="@color/colorMainText"
                         android:textSize="@dimen/sixteen_dp" />
 
@@ -220,7 +220,7 @@
                         android:layout_height="@dimen/forty_dp"
                         android:layout_marginBottom="@dimen/five_dp"
                         android:layout_marginLeft="@dimen/ten_dp"
-                        android:text="Payment type:"
+                        android:text="@string/payment_type_"
                         android:textColor="@color/colorMainText"
                         android:textSize="@dimen/sixteen_dp" />
 

@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/twelve_dp"
             android:layout_marginLeft="@dimen/ten_dp"
-            android:text="Full name"
+            android:text="@string/full_name"
             android:textColor="#419fd9"
             android:textSize="@dimen/sixteen_dp" />
 
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/twelve_dp"
             android:layout_marginLeft="@dimen/ten_dp"
-            android:text="Phone"
+            android:text="@string/phone"
             android:textColor="#419fd9"
             android:textSize="@dimen/sixteen_dp" />
 
@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/twelve_dp"
             android:layout_marginLeft="@dimen/ten_dp"
-            android:text="Address"
+            android:text="@string/address"
             android:textColor="#419fd9"
             android:textSize="@dimen/sixteen_dp" />
 
@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/twelve_dp"
             android:layout_marginLeft="@dimen/ten_dp"
-            android:text="QR-code"
+            android:text="@string/qr_code"
             android:textColor="#419fd9"
             android:textSize="@dimen/sixteen_dp" />
 
@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/twelve_dp"
             android:layout_marginLeft="@dimen/ten_dp"
-            android:text="Customer group"
+            android:text="@string/customer_group"
             android:textColor="#419fd9"
             android:textSize="@dimen/sixteen_dp" />
 
@@ -94,7 +94,7 @@
             android:layout_gravity="center"
             android:background="@drawable/text_view_bg2"
             android:gravity="center_vertical"
-            android:hint="02"
+            android:hint=""
             android:paddingBottom="@dimen/five_dp"
             android:paddingLeft="@dimen/ten_dp"
             android:paddingRight="@dimen/ten_dp"
@@ -110,7 +110,7 @@
             android:layout_gravity="center"
             android:layout_marginLeft="@dimen/ten_dp"
             android:gravity="center_vertical"
-            android:hint="Name"
+            android:hint="@string/name"
             android:inputType="textCapWords"
             android:paddingBottom="@dimen/five_dp"
             android:paddingLeft="@dimen/ten_dp"
@@ -126,7 +126,7 @@
             android:layout_gravity="center"
             android:layout_marginLeft="@dimen/ten_dp"
             android:gravity="center_vertical"
-            android:hint="Number"
+            android:hint="@string/number"
             android:inputType="phone"
             android:paddingBottom="@dimen/five_dp"
             android:paddingLeft="@dimen/ten_dp"
@@ -142,7 +142,7 @@
             android:layout_gravity="center"
             android:layout_marginLeft="@dimen/ten_dp"
             android:gravity="center_vertical"
-            android:hint="Short"
+            android:hint="@string/short_type"
             android:inputType="textCapSentences"
             android:paddingBottom="@dimen/five_dp"
             android:paddingLeft="@dimen/ten_dp"

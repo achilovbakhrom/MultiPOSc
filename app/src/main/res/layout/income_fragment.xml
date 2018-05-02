@@ -68,7 +68,7 @@
             android:layout_gravity="center"
             android:layout_marginRight="@dimen/twenty_dp"
             android:gravity="left"
-            android:text="Cost"
+            android:text="@string/cost"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/eighteen_dp" />
 
@@ -78,7 +78,7 @@
             android:layout_gravity="center"
             android:layout_marginRight="@dimen/ten_dp"
             android:gravity="left"
-            android:text="Count"
+            android:text="@string/count"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/eighteen_dp" />
 
@@ -88,7 +88,7 @@
             android:layout_gravity="center"
             android:layout_marginRight="@dimen/twenty_dp"
             android:gravity="left"
-            android:text="Unit"
+            android:text="@string/unit"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/eighteen_dp" />
 
@@ -98,7 +98,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="left"
-            android:text="Sum"
+            android:text="@string/sum"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/eighteen_dp" />
 
@@ -244,7 +244,7 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/fifteen_dp"
                     android:gravity="center_vertical"
-                    android:text="uzs"
+                    android:text="@string/uzs"
                     android:textColor="@color/colorMainText" />
 
             </LinearLayout>
@@ -280,7 +280,7 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/fifteen_dp"
                     android:gravity="center_vertical"
-                    android:text="uzs"
+                    android:text="@string/uzs"
                     android:textColor="@color/colorMainText" />
             </LinearLayout>
 

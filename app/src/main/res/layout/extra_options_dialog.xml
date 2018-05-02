@@ -43,7 +43,7 @@
             android:paddingBottom="@dimen/ten_dp"
             android:paddingLeft="@dimen/thirty_dp"
             android:paddingTop="@dimen/ten_dp"
-            android:text="Cancel order"
+            android:text="@string/cancel_order"
             android:textColor="@color/colorMainText"
             android:textSize="@dimen/sixteen_dp" />
 
@@ -63,7 +63,7 @@
             android:paddingBottom="@dimen/ten_dp"
             android:paddingLeft="@dimen/thirty_dp"
             android:paddingTop="@dimen/ten_dp"
-            android:text="Close order"
+            android:text="@string/close_order"
             android:textColor="@color/colorMainText"
             android:textSize="@dimen/sixteen_dp" />
 

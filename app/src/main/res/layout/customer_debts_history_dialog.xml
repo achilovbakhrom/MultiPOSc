@@ -26,7 +26,7 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/thirty_dp"
-                android:text="Customer debts history"
+                android:text="@string/customer_debts_history"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/twenty_dp" />
 
@@ -57,7 +57,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:text="Order №"
+                        android:text="@string/order_no"
                         android:textColor="@color/colorBlue"
                         android:textSize="@dimen/sixteen_dp" />
 
@@ -86,7 +86,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="Taken date"
+                        android:text="@string/taken_date"
                         android:textColor="@color/colorBlue"
                         android:textSize="@dimen/sixteen_dp" />
 

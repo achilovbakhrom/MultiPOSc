@@ -33,7 +33,7 @@
                     android:paddingRight="@dimen/ten_dp"
                     android:paddingTop="@dimen/five_dp"
                     android:textStyle="bold"
-                    android:text="Product Classes"
+                    android:text="@string/product_classes"
                     android:textColor="@color/colorBlue"
                     android:textSize="@dimen/sixteen_dp" />
 

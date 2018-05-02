@@ -24,7 +24,7 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/thirty_dp"
-                android:text="Close Till"
+                android:text="@string/close_till"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/twenty_dp" />
 
@@ -80,7 +80,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="left"
-                            android:text="Reconcile Open Orders"
+                            android:text="@string/reconcile_open_orders"
                             android:textColor="@color/colorBlue"
                             android:textSize="@dimen/eighteen_dp" />
 
@@ -115,7 +115,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="left"
-                            android:text="Close the amount"
+                            android:text="@string/close_the_amount"
                             android:textColor="@color/colorBlue"
                             android:textSize="@dimen/eighteen_dp" />
 
@@ -150,7 +150,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="left"
-                            android:text="To Next"
+                            android:text="@string/to_next"
                             android:textColor="@color/colorBlue"
                             android:textSize="@dimen/eighteen_dp" />
 
@@ -214,7 +214,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:paddingLeft="@dimen/thirty_dp"
-                android:text="1 step of 3 steps for closing till"
+                android:text="@string/_1_step_of_3_steps_for_closing_till"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="@dimen/eighteen_dp" />
 

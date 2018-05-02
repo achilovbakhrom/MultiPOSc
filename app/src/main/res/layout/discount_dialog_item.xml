@@ -23,7 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="Black Friday 50%"
+                android:text=""
                 android:textColor="@color/colorMainText"
                 android:textSize="@dimen/eighteen_dp" />
 
@@ -46,7 +46,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:paddingLeft="@dimen/five_dp"
-                    android:text="15"
+                    android:text=""
                     android:textColor="@color/colorSecondaryText"
                     android:textSize="@dimen/sixteen_dp" />
             </LinearLayout>
@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="@dimen/thirty_dp"
-            android:text="50%"
+            android:text=""
             android:textColor="@color/colorDarkGreen"
             android:textSize="@dimen/sixteen_dp" />
     </LinearLayout>

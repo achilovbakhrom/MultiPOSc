@@ -17,5 +17,5 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_gravity="center_vertical"
-        tools:text="Some text" />
+        tools:text="@string/some_text" />
 </LinearLayout>

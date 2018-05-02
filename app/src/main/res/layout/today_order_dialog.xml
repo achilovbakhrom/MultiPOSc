@@ -24,7 +24,7 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/thirty_dp"
                 android:paddingLeft="@dimen/thirty_dp"
-                android:text="Toady's Orders"
+                android:text="@string/today_s_orders"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/twenty_dp"
                 android:textStyle="bold" />
@@ -54,7 +54,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginLeft="@dimen/thirty_dp"
-                        android:text="Order №"
+                        android:text="@string/order_no"
                         android:textColor="@color/colorMainText"
                         android:textSize="@dimen/eighteen_dp" />
 
@@ -80,7 +80,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginLeft="@dimen/thirty_dp"
-                        android:text="Status"
+                        android:text="@string/status"
                         android:textColor="@color/colorMainText"
                         android:textSize="@dimen/eighteen_dp" />
 
@@ -106,7 +106,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="Customer Name"
+                        android:text="@string/customer_name"
                         android:textColor="@color/colorMainText"
                         android:textSize="@dimen/eighteen_dp" />
 
@@ -133,7 +133,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginRight="@dimen/ten_dp"
-                        android:text="Date opened"
+                        android:text="@string/date_opened"
                         android:textColor="@color/colorMainText"
                         android:textSize="@dimen/eighteen_dp" />
 
@@ -160,7 +160,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="right"
-                        android:text="Total"
+                        android:text="@string/total"
                         android:textColor="@color/colorMainText"
                         android:textSize="@dimen/eighteen_dp" />
 

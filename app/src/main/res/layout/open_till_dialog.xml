@@ -25,7 +25,7 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/thirty_dp"
-                android:text="Open Till"
+                android:text="@string/open_Till"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/twenty_dp" />
 
@@ -39,8 +39,8 @@
             android:layout_marginLeft="@dimen/thirty_dp"
             android:layout_marginTop="@dimen/twenty_three_dp"
             android:gravity="left"
-            app:text_left="Confirm"
-            app:text_right="Modify" />
+            app:text_left="@string/confirm"
+            app:text_right="@string/modify" />
 
         <TextView
             android:id="@+id/tvModification"
@@ -49,7 +49,7 @@
             android:layout_centerVertical="true"
             android:layout_marginBottom="@dimen/ten_dp"
             android:layout_marginLeft="@dimen/thirty_dp"
-            android:text="Reason of doing modification"
+            android:text="@string/reason_of_doing_modification"
             android:textColor="@color/colorBlue"
             android:textSize="@dimen/sixteen_dp" />
 
@@ -87,7 +87,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/thirty_dp"
-                android:text="Account"
+                android:text="@string/account"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/sixteen_dp" />
 
@@ -96,7 +96,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical|right"
                 android:paddingRight="@dimen/ten_dp"
-                android:text="Total closed"
+                android:text="@string/total_closed"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/sixteen_dp" />
 
@@ -104,7 +104,7 @@
                 android:layout_width="@dimen/hundred_thirty_five_dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="Currency"
+                android:text="@string/currency"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/sixteen_dp" />
 

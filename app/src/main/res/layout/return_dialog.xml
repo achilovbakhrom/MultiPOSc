@@ -24,7 +24,7 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/thirty_dp"
-                android:text="Returns"
+                android:text="@string/returns"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/twenty_dp"
                 android:textStyle="bold" />
@@ -44,7 +44,6 @@
                 android:orientation="vertical"
                 android:paddingTop="@dimen/fifteen_dp">
 
-
                 <com.jim.mpviews.MpSearchView
                     android:id="@+id/svProductSearch"
                     android:layout_width="match_parent"
@@ -53,7 +52,7 @@
                     android:layout_marginLeft="@dimen/thirty_dp"
                     android:layout_marginRight="@dimen/thirty_dp"
                     app:barcode_visibility="false"
-                    app:hint_text="Name or barcode" />
+                    app:hint_text="@string/name_or_barcode" />
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -89,7 +88,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:paddingLeft="@dimen/thirty_dp"
-                        android:text="Returned item(s)"
+                        android:text="@string/returned_item_s"
                         android:textColor="@color/colorMainText"
                         android:textSize="@dimen/sixteen_dp" />
 
@@ -98,7 +97,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:text="Price"
+                        android:text="@string/price"
                         android:textColor="@color/colorMainText"
                         android:textSize="@dimen/sixteen_dp" />
 
@@ -107,7 +106,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:text="Return"
+                        android:text="@string/return_"
                         android:textColor="@color/colorMainText"
                         android:textSize="@dimen/sixteen_dp" />
 
@@ -116,7 +115,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:text="Qty."
+                        android:text="@string/qty"
                         android:textColor="@color/colorMainText"
                         android:textSize="@dimen/sixteen_dp" />
 
@@ -125,7 +124,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:text="Unit"
+                        android:text="@string/unit"
                         android:textColor="@color/colorMainText"
                         android:textSize="@dimen/sixteen_dp" />
 
@@ -134,7 +133,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:text="Vendor"
+                        android:text="@string/vendor"
                         android:textColor="@color/colorMainText"
                         android:textSize="@dimen/sixteen_dp" />
                     <TextView
@@ -142,7 +141,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:text="Remove"
+                        android:text="@string/remove"
                         android:textColor="@color/colorMainText"
                         android:textSize="@dimen/sixteen_dp" />
 

@@ -34,14 +34,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/five_dp"
                 android:gravity="left"
-                android:text="Account"
+                android:text="@string/account"
                 android:textColor="@color/colorBlue" />
 
             <TextView
                 android:id="@+id/tvDescription"
                 android:layout_width="@dimen/three_hundred_dp"
                 android:layout_height="wrap_content"
-                android:text="Some details"
+                android:text="@string/some_details"
                 android:textColor="@color/colorMainText" />
 
         </LinearLayout>

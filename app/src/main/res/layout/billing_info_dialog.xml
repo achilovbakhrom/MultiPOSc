@@ -25,7 +25,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:paddingLeft="@dimen/thirty_dp"
-                android:text="Info about payment"
+                android:text="@string/info_about_payment"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/twenty_dp"
                 android:textStyle="bold" />

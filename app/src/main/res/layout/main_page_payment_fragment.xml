@@ -34,7 +34,7 @@
                     android:paddingLeft="@dimen/ten_dp"
                     android:paddingRight="@dimen/ten_dp"
                     android:paddingTop="@dimen/five_dp"
-                    android:text="Category"
+                    android:text="@string/category"
                     android:textColor="@color/colorBlue"
                     android:textSize="@dimen/sixteen_dp"
                     android:textStyle="bold" />
@@ -76,7 +76,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Balance Due"
+                            android:text="@string/balance_due"
                             android:gravity="right"
                             android:layout_marginRight="@dimen/fourteen_dp"
                             android:layout_marginTop="@dimen/twelve_dp"
@@ -92,7 +92,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:text="uzs"
+                                android:text="@string/uzs"
                                 android:textStyle="bold"
                                 android:textColor="#419fd9"
                                 android:textSize="@dimen/fourteen_dp"/>
@@ -101,7 +101,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_marginBottom="@dimen/twelve_dp"
-                                android:text="23 990"
+                                android:text=""
                                 android:gravity="right"
                                 android:textColor="#df595a"
                                 android:textSize="@dimen/twenty_five_dp"
@@ -117,7 +117,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Payment"
+                            android:text="@string/payment"
                             android:gravity="right"
                             android:layout_marginRight="@dimen/fourteen_dp"
                             android:layout_marginTop="@dimen/twelve_dp"
@@ -133,7 +133,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:text="uzs"
+                                android:text="@string/uzs"
                                 android:textStyle="bold"
                                 android:textColor="#419fd9"
                                 android:textSize="@dimen/fourteen_dp"/>
@@ -255,7 +255,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            app:currency="uzs"
+                            app:currency="@string/uzs"
                             app:values="1 000" />
                     </LinearLayout>
 
@@ -400,7 +400,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="Borrow"
+                                android:text="@string/borrow"
                                 android:textColor="@color/colorBlue"
                                 android:textSize="@dimen/twelve_dp" />
 
@@ -427,7 +427,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="Print check: ON"
+                                android:text="@string/print_check_on"
                                 android:textColor="@color/colorBlue"
                                 android:textSize="@dimen/twelve_dp" />
 
@@ -456,7 +456,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="Tips"
+                                android:text="@string/tips"
                                 android:textColor="@color/colorBlue"
                                 android:textSize="@dimen/twelve_dp" />
 
@@ -492,7 +492,7 @@
                             android:id="@+id/tvBalanceOrChange"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Change"
+                            android:text="@string/change"
                             android:gravity="right"
                             android:layout_marginRight="@dimen/fourteen_dp"
                             android:layout_marginTop="@dimen/twelve_dp"
@@ -508,7 +508,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:text="uzs"
+                                android:text="@string/uzs"
                                 android:textStyle="bold"
                                 android:textColor="#419fd9"
                                 android:textSize="@dimen/fourteen_dp"/>
@@ -517,7 +517,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_marginBottom="@dimen/twelve_dp"
-                                android:text="1 110"
+                                android:text=""
                                 android:gravity="right"
                                 android:textColor="#d99941"
                                 android:textSize="@dimen/twenty_five_dp"
@@ -593,7 +593,7 @@
                         android:layout_height="match_parent"
                         android:background="@drawable/pay_btn_payment"
                         android:gravity="center"
-                        android:text="PAY"
+                        android:text="@string/pay"
                         android:textColor="@color/colorBlue"
                         android:textSize="@dimen/forty_dp"
                         android:textStyle="bold" />

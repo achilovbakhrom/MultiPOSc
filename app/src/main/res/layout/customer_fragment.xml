@@ -34,7 +34,7 @@
                 android:paddingRight="@dimen/ten_dp"
                 android:paddingTop="@dimen/five_dp"
                 android:textStyle="bold"
-                android:text="Customers (Add and Edit)"
+                android:text="@string/customers_add_and_edit"
                 android:textColor="@color/colorBlue"
                 android:textSize="@dimen/sixteen_dp" />
         </LinearLayout>

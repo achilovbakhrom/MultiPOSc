@@ -53,7 +53,7 @@
                android:layout_width="@dimen/five_hundred_dp"
                android:layout_height="@dimen/forty_five_dp"
                android:background="@drawable/edit_text_bg"
-               android:text="Salom"
+               android:text=""
                android:gravity="center_vertical"
                android:textSize="@dimen/eighteen_dp"
                android:textColor="#414141"
@@ -76,7 +76,7 @@
                 android:layout_marginRight="@dimen/twenty_dp"
                 android:textColor="#414141"
                 android:textSize="@dimen/eighteen_dp"
-                android:text="Vendor"/>
+                android:text="@string/vendor"/>
             <com.jim.mpviews.MPosSpinner
                 android:id="@+id/spVenders"
                 android:layout_width="@dimen/five_hundred_dp"
@@ -113,7 +113,7 @@
                         android:textSize="@dimen/sixteen_dp"
                         android:layout_marginLeft="@dimen/ten_dp"
                         android:textColor="#419ed8"
-                        android:text="Stock record"/>
+                        android:text="@string/stock_record"/>
                     <TextView
                         android:id="@+id/tvStockRecord"
                         android:layout_width="@dimen/hundred_seventy_dp"
@@ -175,7 +175,7 @@
                         android:textSize="@dimen/sixteen_dp"
                         android:layout_marginLeft="@dimen/ten_dp"
                         android:textColor="#419ed8"
-                        android:text="Actual quantity"/>
+                        android:text="@string/actual_quantity"/>
                     <TextView
                         android:id="@+id/tvActual"
                         android:layout_width="@dimen/hundred_seventy_dp"
@@ -200,7 +200,7 @@
                         android:textSize="@dimen/sixteen_dp"
                         android:layout_marginLeft="@dimen/ten_dp"
                         android:textColor="#419ed8"
-                        android:text="Unit"/>
+                        android:text="@string/unit"/>
                     <TextView
                         android:id="@+id/tvUnit"
                         android:layout_width="match_parent"
@@ -224,7 +224,7 @@
                 android:layout_marginBottom="@dimen/twenty_dp"
                 android:layout_marginRight="@dimen/thirty_dp"
                 android:layout_marginLeft="@dimen/thirty_dp"
-                android:hint="Enter Reason"
+                android:hint="@string/enter_reason"
                 android:textSize="@dimen/eighteen_dp"
                 android:maxLength="100"
                 android:gravity="top"/>
@@ -248,7 +248,7 @@
                 android:layout_width="@dimen/hundred_fifty_five_dp"
                 android:layout_height="@dimen/fifty_four_dp"
                 android:gravity="center"
-                android:text="Cancel"
+                android:text="@string/cancel"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="@dimen/eighteen_dp" />
 

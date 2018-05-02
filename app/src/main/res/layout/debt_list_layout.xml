@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Order №"
+                android:text="@string/order_no"
                 android:textColor="@color/colorBlue"
                 android:textSize="@dimen/sixteen_dp" />
 
@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Taken Date"
+                android:text="@string/taken_date"
                 android:textColor="@color/colorBlue"
                 android:textSize="@dimen/sixteen_dp" />
 
@@ -79,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Due Date"
+                android:text="@string/due_date"
                 android:textColor="@color/colorBlue"
                 android:textSize="@dimen/sixteen_dp" />
 
@@ -106,7 +106,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Total"
+                android:text="@string/total"
                 android:textColor="@color/colorBlue"
                 android:textSize="@dimen/sixteen_dp" />
 
@@ -133,7 +133,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Due"
+                android:text="@string/due"
                 android:textColor="@color/colorBlue"
                 android:textSize="@dimen/sixteen_dp" />
 
@@ -169,7 +169,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="There are no customers with debt"
+            android:text="@string/there_are_no_customers_with_debt"
             android:textColor="@color/colorSecondaryText"
             android:visibility="gone" />
 
@@ -231,7 +231,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="All debts"
+                android:text="@string/all_debts"
                 android:textColor="@color/colorBlue"
                 android:textSize="@dimen/twenty_five_dp"
                 android:textStyle="bold" />
@@ -253,7 +253,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="PAY"
+                android:text="@string/pay"
                 android:textColor="@color/colorBlue"
                 android:textSize="@dimen/thirty_dp"
                 android:textStyle="bold" />
@@ -263,7 +263,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Automatic delivery payment"
+                android:text="@string/automatic_delivery_payment"
                 android:textColor="@color/colorBlue" />
 
         </LinearLayout>
@@ -409,7 +409,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Fee:"
+                    android:text="@string/fee_"
                     android:textColor="@color/colorMainText" />
 
                 <TextView
@@ -442,7 +442,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="Debt amount:"
+                    android:text="@string/debt_amount_"
                     android:textColor="@color/colorMainText" />
 
                 <TextView
@@ -549,7 +549,7 @@
                 android:layout_height="@dimen/fifty_dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/fifteen_dp"
-                android:text="Repayments"
+                android:text="@string/repayments"
                 android:textColor="@color/colorBlue"
                 android:textStyle="bold"
                 app:isLong="true" />
@@ -569,7 +569,7 @@
                 android:layout_height="@dimen/hundred_eighty_dp"
                 android:background="@drawable/big_btn"
                 android:gravity="center"
-                android:text="PAY"
+                android:text="@string/pay"
                 android:textColor="@color/colorBlue"
                 android:textSize="@dimen/thirty_dp"
                 android:textStyle="bold" />

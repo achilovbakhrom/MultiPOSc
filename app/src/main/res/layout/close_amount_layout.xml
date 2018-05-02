@@ -24,7 +24,7 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical|right"
             android:paddingRight="@dimen/ten_dp"
-            android:text="Total closed"
+            android:text="@string/total_closed"
             android:textColor="@color/colorMainText"
             android:textSize="@dimen/sixteen_dp" />
 
@@ -32,7 +32,7 @@
             android:layout_width="@dimen/seventy_dp"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="Currency"
+            android:text="@string/currency"
             android:textColor="@color/colorMainText"
             android:textSize="@dimen/sixteen_dp" />
 

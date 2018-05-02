@@ -27,7 +27,7 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/thirty_dp"
-                android:text="Access for cancel"
+                android:text="@string/access_for_cancel"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/twenty_dp" />
 
@@ -43,7 +43,7 @@
             android:layout_marginTop="@dimen/eighteen_dp"
             android:background="@drawable/edit_text_bg"
             android:gravity="center_vertical"
-            android:hint="Enter cancel password"
+            android:hint="@string/enter_cancel_password"
             android:selectAllOnFocus="true"
             android:inputType="textPassword"
             android:textColorHint="@color/colorTextHint"
@@ -62,7 +62,7 @@
             android:background="@drawable/edit_text_bg"
             android:gravity="center_vertical"
 
-            android:hint="What reason for cancel order?"
+            android:hint="@string/what_reason_for_cancel_order"
             android:inputType="textMultiLine|textCapSentences"
             android:isScrollContainer="true"
             android:maxLength="2000"
@@ -87,7 +87,7 @@
                 android:layout_width="@dimen/hundred_fifty_five_dp"
                 android:layout_height="@dimen/fifty_four_dp"
                 android:gravity="center"
-                android:text="Cancel"
+                android:text="@string/cancel"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="@dimen/eighteen_dp" />
 
@@ -97,7 +97,7 @@
                 android:layout_width="@dimen/hundred_fifty_five_dp"
                 android:layout_height="@dimen/fifty_four_dp"
                 android:gravity="center"
-                android:text="Confirm"
+                android:text="@string/confirm"
                 android:textColor="@color/colorBlue"
                 android:textSize="@dimen/eighteen_dp" />
         </LinearLayout>

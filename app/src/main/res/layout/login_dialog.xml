@@ -24,7 +24,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:paddingLeft="@dimen/thirty_dp"
-                android:text="Enter as Admin"
+                android:text="@string/enter_as_admin"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/twenty_dp"
                 android:textStyle="bold" />
@@ -42,7 +42,7 @@
             android:layout_marginTop="@dimen/thirty_dp"
             android:fontFamily="roboto"
             android:gravity="center"
-            android:hint="Enter password"
+            android:hint="@string/enter_password"
             android:inputType="textPassword"
             android:maxLength="12"
             android:paddingBottom="@dimen/five_dp"
@@ -58,7 +58,7 @@
             android:layout_width="@dimen/hundred_eighty_dp"
             android:layout_height="@dimen/seventy_dp"
             android:layout_gravity="center"
-            android:text="Log in"
+            android:text="@string/log_in"
             android:textColor="@color/colorBlue"
             android:textSize="@dimen/twenty_four_dp"
             android:textStyle="bold" />

@@ -12,7 +12,7 @@
         android:layout_height="@dimen/forty_dp"
         android:layout_marginTop="@dimen/twenty_dp"
         android:gravity="center"
-        android:text="Cash management" />
+        android:text="@string/cash_management" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -26,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/forty_dp"
         android:gravity="center"
-        android:text="Returns" />
+        android:text="@string/returns" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -40,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/forty_dp"
         android:gravity="center"
-        android:text="Settings" />
+        android:text="@string/settings" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -54,7 +54,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/forty_dp"
         android:gravity="center"
-        android:text="Turn on scanner" />
+        android:text="@string/turn_on_scanner" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -68,7 +68,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/forty_dp"
         android:gravity="center"
-        android:text="Log out" />
+        android:text="@string/log_out" />
 
     <FrameLayout
         android:layout_width="match_parent"

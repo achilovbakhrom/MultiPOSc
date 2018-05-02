@@ -25,13 +25,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/five_dp"
-                android:text="Customer Groups"
+                android:text="@string/customer_groups"
                 android:textColor="@color/colorBlue" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tap product to manage it info"
+                android:text="@string/tap_product_to_manage_it_info"
                 android:textColor="@color/colorTextHint" />
 
         </LinearLayout>
@@ -54,7 +54,7 @@
                 android:layout_gravity="center"
                 android:layout_marginRight="@dimen/sixteen_dp"
                 android:gravity="right"
-                android:text="Group Name"
+                android:text="@string/group_name"
                 android:textColor="@color/colorMainText"
                 android:textSize="@dimen/sixteen_dp" />
 
@@ -88,7 +88,7 @@
                 android:layout_gravity="center"
                 android:layout_marginRight="@dimen/sixteen_dp"
                 android:gravity="right"
-                android:text="Options"
+                android:text="@string/options"
                 android:textColor="@color/colorMainText"
                 android:textSize="@dimen/sixteen_dp" />
 
@@ -99,7 +99,7 @@
                 android:layout_height="wrap_content"
                 app:chb_type="3"
                 app:checked="true"
-                app:text="Active" />
+                app:text="@string/active" />
         </LinearLayout>
 
         <RelativeLayout

@@ -15,8 +15,8 @@
         android:layout_marginLeft="@dimen/thirty_dp"
         android:layout_marginTop="@dimen/twenty_three_dp"
         android:gravity="left"
-        app:text_left="Zero in till"
-        app:text_right="Hold in till" />
+        app:text_left="@string/zero_in_till"
+        app:text_right="@string/hold_in_till" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,7 +29,7 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:paddingLeft="@dimen/thirty_dp"
-            android:text="Account"
+            android:text="@string/account"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/sixteen_dp" />
 
@@ -38,7 +38,7 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical|right"
             android:paddingRight="@dimen/ten_dp"
-            android:text="Total closed"
+            android:text="@string/total_closed"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/sixteen_dp" />
 
@@ -46,7 +46,7 @@
             android:layout_width="@dimen/hundred_thirty_five_dp"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="Currency"
+            android:text="@string/currency"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/sixteen_dp" />
 

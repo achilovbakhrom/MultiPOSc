@@ -24,7 +24,7 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/thirty_dp"
                 android:gravity="left"
-                android:text="System accounts"
+                android:text="@string/system_accounts"
                 android:textColor="@color/colorBlue"
                 android:textSize="@dimen/eighteen_dp" />
         </LinearLayout>
@@ -62,7 +62,7 @@
             android:layout_marginLeft="@dimen/thirty_dp"
             android:layout_marginRight="@dimen/twenty_dp"
             android:gravity="left"
-            android:text="Account name"
+            android:text="@string/account_name"
             android:textColor="@color/colorMainText"
             android:textSize="@dimen/eighteen_dp" />
 
@@ -143,7 +143,7 @@
                 android:layout_width="@dimen/hundred_sixty_dp"
                 android:layout_height="@dimen/fifty_five_dp"
                 android:layout_marginRight="@dimen/fifteen_dp"
-                android:text="Next"
+                android:text="@string/next"
                 android:textColor="@color/colorBlue"
                 android:textSize="@dimen/eighteen_dp" />
         </LinearLayout>

@@ -27,7 +27,7 @@
             android:layout_marginLeft="@dimen/sixteen_dp"
             android:paddingRight="@dimen/ten_dp"
             android:paddingLeft="@dimen/twenty_dp"
-            android:hint="Class Name"
+            android:hint="@string/class_name"
             android:inputType="textCapWords|textNoSuggestions"
             android:textSize="@dimen/sixteen_dp"
             />
@@ -48,7 +48,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginRight="@dimen/twenty_five_dp"
             android:textColor="#23d730"
-            android:text="+Add"
+            android:text="@string/add_plus"
             android:textSize="@dimen/sixteen_dp" />
     </LinearLayout>
 

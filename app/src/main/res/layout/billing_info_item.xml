@@ -16,7 +16,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Created Date"
+            android:text="@string/created_date"
             android:textColor="@color/colorSecondaryText"
             android:textSize="@dimen/sixteen_dp" />
 
@@ -43,7 +43,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Payment Date"
+            android:text="@string/payment_date"
             android:textColor="@color/colorSecondaryText"
             android:textSize="@dimen/sixteen_dp" />
 

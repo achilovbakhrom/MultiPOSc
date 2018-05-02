@@ -57,7 +57,7 @@
             android:layout_marginLeft="@dimen/thirty_dp"
             app:chb_type="2"
             app:checked="true"
-            app:text="Don't show again" />
+            app:text="@string/dont_show_again" />
 
         <LinearLayout
             android:id="@+id/llBtnContainer"

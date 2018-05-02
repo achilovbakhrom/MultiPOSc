@@ -25,7 +25,7 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/thirty_dp"
-                android:text="Product costs"
+                android:text="@string/product_costs"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/twenty_dp" />
 

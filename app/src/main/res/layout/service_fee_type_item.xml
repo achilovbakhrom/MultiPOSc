@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/twelve_dp"
             android:layout_marginLeft="@dimen/ten_dp"
-            android:text="Type"
+            android:text="@string/type"
             android:textColor="#419fd9"
             android:textSize="@dimen/sixteen_dp" />
 
@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/twelve_dp"
             android:layout_marginLeft="@dimen/ten_dp"
-            android:text="App type"
+            android:text="@string/app_type"
             android:textColor="#419fd9"
             android:textSize="@dimen/sixteen_dp" />
 
@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/twelve_dp"
             android:gravity="center_horizontal"
-            android:text="Active"
+            android:text="@string/active"
             android:textColor="#419fd9" />
 
         <TextView
@@ -66,7 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/twelve_dp"
             android:gravity="center_horizontal"
-            android:text="Action"
+            android:text="@string/action"
             android:textColor="#419fd9" />
     </LinearLayout>
 
@@ -122,7 +122,7 @@
             android:layout_width="@dimen/hundred_forty_five_dp"
             android:layout_height="@dimen/forty_dp"
             android:layout_gravity="center_vertical"
-            android:text="+Add"
+            android:text="@string/add_plus"
             android:textColor="#23d730"
             android:textSize="@dimen/sixteen_dp" />
     </LinearLayout>

@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Profit group by:"
+        android:text="@string/profit_group_by_"
         android:textSize="@dimen/sixteen_dp"
         android:layout_marginTop="@dimen/ten_dp"
         android:layout_marginRight="@dimen/sixteen_dp"
@@ -34,7 +34,7 @@
             android:layout_marginRight="@dimen/eighteen_dp"
             android:layout_marginLeft="@dimen/eighteen_dp"
             android:layout_marginTop="@dimen/ten_dp"
-            android:text="Product"
+            android:text="@string/product"
             android:checked="true"
             android:textColor="#212121"
             />
@@ -45,7 +45,7 @@
             android:layout_marginRight="@dimen/eighteen_dp"
             android:layout_marginLeft="@dimen/eighteen_dp"
             android:layout_marginTop="@dimen/ten_dp"
-            android:text="Category"
+            android:text="@string/category"
             android:textColor="#212121"
 
 
@@ -57,7 +57,7 @@
             android:layout_marginRight="@dimen/eighteen_dp"
             android:layout_marginLeft="@dimen/eighteen_dp"
             android:layout_marginTop="@dimen/ten_dp"
-            android:text="Sub Category"
+            android:text="@string/sub_category_"
             android:textColor="#212121"
 
 
@@ -69,7 +69,7 @@
             android:layout_marginRight="@dimen/eighteen_dp"
             android:layout_marginLeft="@dimen/eighteen_dp"
             android:layout_marginTop="@dimen/ten_dp"
-            android:text="Product Class"
+            android:text="@string/product_class_"
             android:textColor="#212121"
 
             />
@@ -88,14 +88,14 @@
             android:layout_width="@dimen/hundred_twenty_dp"
             android:layout_height="@dimen/fifty_dp"
             android:layout_marginBottom="@dimen/ten_dp"
-            android:text="Cancel"
+            android:text="@string/cancel"
             android:layout_marginTop="@dimen/five_dp"
             android:textColor="#acacac"/>
         <com.jim.mpviews.MpButton
             android:id="@+id/btnApply"
             android:layout_width="@dimen/hundred_twenty_dp"
             android:layout_height="@dimen/fifty_dp"
-            android:text="Apply"
+            android:text="@string/apply"
             android:layout_marginTop="@dimen/five_dp"
             android:layout_marginBottom="@dimen/ten_dp"
             android:textColor="#419fd9"/>

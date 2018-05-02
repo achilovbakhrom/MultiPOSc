@@ -23,7 +23,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:paddingLeft="@dimen/thirty_dp"
-                android:text="Groups"
+                android:text="@string/groups"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/twenty_dp"
                 android:textStyle="bold" />
@@ -51,7 +51,7 @@
                 android:clickable="true"
                 android:textAllCaps="false"
                 android:padding="@dimen/ten_dp"
-                android:text="+ Add"
+                android:text="@string/add_plus"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/sixteen_dp"
                 android:textStyle="bold" />

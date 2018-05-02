@@ -19,7 +19,7 @@
         android:paddingRight="@dimen/ten_dp"
         android:textColor="@color/colorBlack"
         android:textSize="@dimen/eighteen_dp"
-        tools:text="Bahor" />
+        tools:text="" />
 
     <TextView
         android:id="@+id/tvAddress"
@@ -33,7 +33,7 @@
         android:paddingRight="@dimen/ten_dp"
         android:textColor="@color/colorMainText"
         android:textSize="@dimen/eighteen_dp"
-        tools:text="Temur Malik ko'chasi" />
+        tools:text="" />
 
     <ImageView
         android:id="@+id/ivRemove"

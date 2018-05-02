@@ -20,7 +20,7 @@
             android:paddingRight="@dimen/ten_dp"
             android:paddingLeft="@dimen/sixteen_dp"
             android:inputType="textCapWords|textNoSuggestions"
-            android:hint="Reason Name"
+            android:hint="@string/reason_name"
             android:textSize="@dimen/sixteen_dp"
             android:maxLength="35"
             />
@@ -32,7 +32,7 @@
             android:paddingRight="@dimen/ten_dp"
             android:paddingLeft="@dimen/sixteen_dp"
             android:inputType="numberDecimal"
-            android:hint="Value"
+            android:hint="@string/value"
             android:textSize="@dimen/sixteen_dp"
             />
         <com.jim.mpviews.MPosSpinner

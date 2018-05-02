@@ -19,7 +19,7 @@
             android:layout_marginRight="@dimen/ten_dp"
             android:background="@drawable/text_view_bg2"
             android:gravity="center_vertical"
-            android:hint="02"
+            android:hint=""
             android:paddingBottom="@dimen/five_dp"
             android:paddingLeft="@dimen/ten_dp"
             android:paddingRight="@dimen/ten_dp"

@@ -23,7 +23,7 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_marginRight="@dimen/five_dp"
                 android:text="@string/return_to"
@@ -67,7 +67,7 @@
             android:layout_gravity="center"
             android:layout_marginRight="@dimen/twenty_dp"
             android:gravity="left"
-            android:text="Cost"
+            android:text="@string/cost"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/eighteen_dp" />
 
@@ -77,7 +77,7 @@
             android:layout_gravity="center"
             android:layout_marginRight="@dimen/ten_dp"
             android:gravity="left"
-            android:text="Count"
+            android:text="@string/count"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/eighteen_dp" />
 
@@ -87,7 +87,7 @@
             android:layout_gravity="center"
             android:layout_marginRight="@dimen/twenty_dp"
             android:gravity="left"
-            android:text="Unit"
+            android:text="@string/unit"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/eighteen_dp" />
 
@@ -97,7 +97,7 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:gravity="left"
-            android:text="Sum"
+            android:text="@string/sum"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/eighteen_dp" />
 
@@ -151,7 +151,7 @@
                     android:layout_gravity="center"
                     android:layout_marginRight="@dimen/sixteen_dp"
                     android:gravity="right"
-                    android:text="Return Number"
+                    android:text="@string/return_number"
                     android:textSize="@dimen/sixteen_dp" />
 
                 <com.jim.mpviews.MpEditText
@@ -221,7 +221,7 @@
                     android:layout_gravity="center"
                     android:layout_marginRight="@dimen/sixteen_dp"
                     android:gravity="right"
-                    android:text="Total products sum"
+                    android:text="@string/total_products_sum"
                     android:textSize="@dimen/sixteen_dp" />
 
                 <TextView
@@ -243,7 +243,7 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/fifteen_dp"
                     android:gravity="center_vertical"
-                    android:text="uzs"
+                    android:text="@string/uzs"
                     android:textColor="@color/colorMainText" />
 
             </LinearLayout>

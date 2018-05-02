@@ -76,7 +76,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Total Payments: "
+                    android:text="@string/total_payments_"
                     android:textColor="@color/colorWhite"
                     android:textSize="@dimen/fourteen_dp" />
 
@@ -101,7 +101,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Total Discounts: "
+                    android:text="@string/total_discounts_"
                     android:textColor="@color/colorWhite"
                     android:textSize="@dimen/fourteen_dp" />
 

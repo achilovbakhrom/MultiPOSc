@@ -125,7 +125,7 @@
                     android:layout_height="@dimen/forty_dp"
                     android:layout_marginLeft="@dimen/twenty_dp"
                     android:layout_weight="1"
-                    android:hint="Difference price"
+                    android:hint="@string/difference_price"
                     android:textColorHint="@color/colorTintGrey"
                     android:textSize="@dimen/eighteen_dp" />
 

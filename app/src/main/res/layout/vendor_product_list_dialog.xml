@@ -28,7 +28,7 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/thirty_dp"
                 android:layout_weight="1"
-                android:text="Vendor product list"
+                android:text="@string/vendor_product_list"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/twenty_dp" />
 

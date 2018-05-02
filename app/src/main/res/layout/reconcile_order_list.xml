@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Order №"
+                android:text="@string/order_no"
                 android:textColor="@color/colorBlue"
                 android:textSize="@dimen/sixteen_dp" />
 
@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Customer"
+                android:text="@string/customer"
                 android:textColor="@color/colorBlue"
                 android:textSize="@dimen/sixteen_dp" />
 
@@ -77,7 +77,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Opened Date"
+                android:text="@string/opened_date"
                 android:textColor="@color/colorBlue"
                 android:textSize="@dimen/sixteen_dp" />
 
@@ -104,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Total"
+                android:text="@string/total"
                 android:textColor="@color/colorBlue"
                 android:textSize="@dimen/sixteen_dp" />
 
@@ -131,7 +131,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Due"
+                android:text="@string/due"
                 android:textColor="@color/colorBlue"
                 android:textSize="@dimen/sixteen_dp" />
 
@@ -150,7 +150,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="Actions"
+            android:text="@string/actions"
             android:textColor="@color/colorBlue"
             android:textSize="@dimen/sixteen_dp" />
     </LinearLayout>

@@ -21,7 +21,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                android:text="Order History"
+                android:text="@string/order_history_report_title"
                 android:textSize="@dimen/twenty_dp"
                 android:layout_marginLeft="@dimen/thirty_dp"
 
@@ -38,7 +38,7 @@
                     android:id="@+id/tvFirtPanel"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="First Panel"
+                    android:text="@string/first_panel"
                     android:textSize="@dimen/sixteen_dp"
                     android:paddingLeft="@dimen/twenty_five_dp"
                     android:paddingRight="@dimen/sixteen_dp"
@@ -50,7 +50,7 @@
                     android:id="@+id/tvSecondPanel"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="Second Panel"
+                    android:text="@string/second_panel"
                     android:textSize="@dimen/sixteen_dp"
                     android:layout_marginRight="-2px"
                     android:layout_marginLeft="-2px"
@@ -63,7 +63,7 @@
                     android:id="@+id/tvThirdPanel"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="Third Panel"
+                    android:text="@string/third_panel"
                     android:textSize="@dimen/sixteen_dp"
                     android:layout_marginRight="-2px"
                     android:layout_marginLeft="-2px"
@@ -77,7 +77,7 @@
                     android:id="@+id/tvFourPanel"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="Four Panel"
+                    android:text="@string/four_panel"
                     android:textSize="@dimen/sixteen_dp"
                     android:layout_marginRight="-2px"
                     android:layout_marginLeft="-2px"
@@ -92,7 +92,7 @@
                     android:id="@+id/tvFivePanel"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="Five Panel"
+                    android:text="@string/five_panel"
                     android:textSize="@dimen/sixteen_dp"
                     android:paddingLeft="@dimen/sixteen_dp"
                     android:paddingRight="@dimen/twenty_five_dp"
@@ -105,7 +105,7 @@
                 android:id="@+id/tvDateInterval"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="05/05/2017 20:00 - 05/06/2017 20:00"
+                android:text=""
                 android:textSize="@dimen/sixteen_dp"
                 android:layout_marginLeft="@dimen/thirty_dp"
 
@@ -183,7 +183,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Filter"
+                android:text="@string/filter"
                 android:layout_marginLeft="@dimen/twelve_dp"
                 android:textSize="@dimen/sixteen_dp"
                 android:textColor="#2e91cc"/>
@@ -204,7 +204,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Date interval"
+                android:text="@string/date_interval"
                 android:layout_marginLeft="@dimen/twelve_dp"
                 android:textSize="@dimen/sixteen_dp"
                 android:textColor="#2e91cc"/>
@@ -229,7 +229,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Export"
+                android:text="@string/export"
                 android:layout_marginLeft="@dimen/twelve_dp"
                 android:textSize="@dimen/sixteen_dp"
                 android:textColor="#2e91cc"/>
@@ -292,7 +292,7 @@
                         android:layout_marginRight="@dimen/sixteen_dp"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
-                        android:text="Sales summary"
+                        android:text="@string/sales_summary"
                         android:textColor="#2e91cc"
                         android:textSize="@dimen/sixteen_dp" />
 
@@ -318,7 +318,7 @@
                         android:layout_marginRight="@dimen/sixteen_dp"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
-                        android:text="Payments summary"
+                        android:text="@string/payments_summary"
                         android:textColor="#a9a9a9"
                         android:textSize="@dimen/sixteen_dp" />
 
@@ -350,7 +350,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="2"
                     android:layout_height="match_parent"
-                    android:text="Category"
+                    android:text="@string/category"
                     android:gravity="center_vertical"
                     android:textSize="@dimen/sixteen_dp"
                     android:textStyle="bold|italic"
@@ -360,7 +360,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="2"
                     android:layout_height="match_parent"
-                    android:text="Summary amount(uzs)"
+                    android:text="@string/summary_amount_uzs"
                     android:gravity="center_vertical|right"
                     android:textSize="@dimen/sixteen_dp"
                     android:textStyle="bold|italic"
@@ -382,7 +382,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="2"
                     android:layout_height="match_parent"
-                    android:text="Payment type"
+                    android:text="@string/payment_type"
                     android:gravity="center_vertical"
                     android:textSize="@dimen/sixteen_dp"
                     android:textStyle="bold|italic"
@@ -392,7 +392,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent"
-                    android:text="Percentage"
+                    android:text="@string/percentage"
                     android:gravity="right|center_vertical"
                     android:textSize="@dimen/sixteen_dp"
                     android:textStyle="bold|italic"
@@ -402,7 +402,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="2"
                     android:layout_height="match_parent"
-                    android:text="Summary amount(uzs)"
+                    android:text="@string/summary_amount_uzs"
                     android:gravity="center_vertical|right"
                     android:textSize="@dimen/sixteen_dp"
                     android:textStyle="bold|italic"
@@ -462,7 +462,7 @@
                         android:layout_marginRight="@dimen/sixteen_dp"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
-                        android:text="Sales  Analitycs"
+                        android:text="@string/sales_analitcs"
                         android:textColor="#2e91cc"
                         android:textSize="@dimen/sixteen_dp" />
 
@@ -491,7 +491,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="Category"
+                    android:text="@string/category"
                     android:gravity="center_vertical"
                     android:textSize="@dimen/sixteen_dp"
                     android:textStyle="bold|italic"

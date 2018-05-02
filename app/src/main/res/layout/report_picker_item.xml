@@ -14,6 +14,6 @@
         android:paddingRight="@dimen/thirty_dp"
         android:textColor="#aed3f0"
         android:textSize="@dimen/eighteen_dp"
-        tools:text="USD($)" />
+        tools:text="@string/usd" />
 
 </FrameLayout>

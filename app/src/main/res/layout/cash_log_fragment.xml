@@ -24,7 +24,7 @@
             android:paddingBottom="@dimen/five_dp"
             android:paddingRight="@dimen/ten_dp"
             android:paddingTop="@dimen/five_dp"
-            android:text="Account: "
+            android:text="@string/account_"
             android:textColor="@color/colorBlue"
             android:textSize="@dimen/eighteen_dp" />
 
@@ -59,7 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Date Opened: "
+                android:text="@string/date_opened_"
                 android:textColor="@color/colorBlue"
                 android:textSize="@dimen/sixteen_dp" />
 
@@ -77,7 +77,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:text="Date Closed: "
+                android:text="@string/date_closed_"
                 android:textColor="@color/colorBlue"
                 android:textSize="@dimen/sixteen_dp" />
 
@@ -86,7 +86,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="N/A"
+                android:text="@string/n_a"
                 android:textColor="@color/colorBlue"
                 android:textSize="@dimen/sixteen_dp" />
 
@@ -102,7 +102,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Time Opened: "
+                android:text="@string/time_opened_"
                 android:textColor="@color/colorBlue"
                 android:textSize="@dimen/sixteen_dp" />
 
@@ -120,7 +120,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:text="Time Closed: "
+                android:text="@string/time_closed_"
                 android:textColor="@color/colorBlue"
                 android:textSize="@dimen/sixteen_dp" />
 
@@ -129,7 +129,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="N/A"
+                android:text="@string/n_a"
                 android:textColor="@color/colorBlue"
                 android:textSize="@dimen/sixteen_dp" />
 
@@ -188,7 +188,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/fifty_dp"
-            android:text="Debt Sales"
+            android:text="@string/debt_sales"
             android:textColor="@color/colorMainText" />
 
         <ImageView

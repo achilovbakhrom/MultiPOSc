@@ -25,7 +25,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:paddingLeft="@dimen/thirty_dp"
-                android:text="Payment operation"
+                android:text="@string/payment_operation"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/twenty_dp"
                 android:textStyle="bold" />
@@ -49,7 +49,7 @@
                 android:ellipsize="end"
                 android:textStyle="bold"
                 android:textColor="#212121"
-                android:text="Bill and Bobs"/>
+                android:text=""/>
             <TextView
                 android:id="@+id/tvVendorCantact"
                 android:layout_width="wrap_content"
@@ -58,7 +58,7 @@
                 android:textColor="#a2a2a2"
                 android:singleLine="true"
                 android:ellipsize="end"
-                android:text="Contact name: Anvarjon"/>
+                android:text="@string/contact_name"/>
         </LinearLayout>
         <FrameLayout
             android:layout_width="match_parent"
@@ -73,7 +73,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ammount"
+                android:text="@string/ammount"
                 android:textSize="@dimen/sixteen_dp"
                 android:textColor="#419fd9"
                 android:layout_marginBottom="@dimen/five_dp"
@@ -98,7 +98,7 @@
                     android:id="@+id/tvCurrencyAbbr"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="UZS"
+                    android:text="@string/uzs"
                     android:textColor="#212121"
                     android:layout_marginLeft="@dimen/sixteen_dp"
                     android:layout_marginRight="@dimen/forty_dp"
@@ -109,7 +109,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Payment Date"
+                android:text="@string/payment_date"
                 android:textSize="@dimen/sixteen_dp"
                 android:textColor="#419fd9"
                 android:layout_marginBottom="@dimen/five_dp"
@@ -128,7 +128,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Discription"
+                android:text="@string/discription"
                 android:textSize="@dimen/sixteen_dp"
                 android:textColor="#419fd9"
                 android:layout_marginBottom="@dimen/five_dp"
@@ -153,7 +153,7 @@
                 android:id="@+id/tvAccount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Account"
+                android:text="@string/account"
                 android:textSize="@dimen/sixteen_dp"
                 android:textColor="#419fd9"
                 android:layout_marginBottom="@dimen/five_dp"
@@ -180,7 +180,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="From Account"
+                    android:text="@string/from_account"
                     android:textSize="@dimen/sixteen_dp"
                     android:textColor="#419fd9"
                     />

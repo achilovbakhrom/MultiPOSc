@@ -78,7 +78,7 @@
                             android:paddingBottom="@dimen/five_dp"
                             android:paddingRight="@dimen/ten_dp"
                             android:paddingTop="@dimen/five_dp"
-                            android:text="Coca Cola 1.5L"
+                            android:text=""
                             android:textColor="@color/colorBlue"
                             android:textSize="@dimen/twenty_dp"
                             android:textStyle="bold" />
@@ -99,7 +99,7 @@
                             android:layout_height="wrap_content"
                             android:paddingBottom="@dimen/five_dp"
                             android:paddingTop="@dimen/five_dp"
-                            android:text="16 p.c."
+                            android:text=""
                             android:textColor="@color/colorBlue"
                             android:textSize="@dimen/twenty_dp"
                             android:textStyle="bold" />
@@ -117,7 +117,7 @@
                         android:textColor="@color/colorSecondaryText"
                         android:textSize="@dimen/eighteen_dp"
                         android:textStyle="italic"
-                        tools:text="Bell and Bobs" />
+                        tools:text="" />
 
 
                 </LinearLayout>
@@ -139,7 +139,7 @@
                     android:gravity="left"
                     android:paddingBottom="@dimen/five_dp"
                     android:paddingTop="@dimen/five_dp"
-                    android:text="Quantity"
+                    android:text="@string/quantity"
                     android:textColor="@color/colorBlue"
                     android:textSize="@dimen/eighteen_dp"
                     android:textStyle="bold" />
@@ -170,7 +170,7 @@
                         android:gravity="center"
                         android:paddingLeft="@dimen/five_dp"
                         android:paddingRight="@dimen/five_dp"
-                        android:text="2"
+                        android:text=""
                         android:background="@drawable/order_list_weight_product_item"
                         android:textColor="@color/colorMainText"
                         android:textSize="@dimen/twenty_dp"
@@ -190,7 +190,7 @@
                     android:id="@+id/btnSetQuantity"
                     android:layout_width="@dimen/hundred_fifty_five_dp"
                     android:layout_height="@dimen/sixty_five_dp"
-                    android:text="Set Quantity"
+                    android:text="@string/set_quantity"
                     android:textColor="@color/colorBlue"
                     android:textSize="@dimen/sixteen_dp" />
             </LinearLayout>
@@ -220,7 +220,7 @@
                     android:gravity="left"
                     android:paddingBottom="@dimen/five_dp"
                     android:paddingTop="@dimen/five_dp"
-                    android:text="Vendor"
+                    android:text="@string/vendor"
                     android:textColor="@color/colorBlue"
                     android:textSize="@dimen/eighteen_dp"
                     android:textStyle="bold" />
@@ -252,7 +252,7 @@
                         android:maxLines="3"
                         android:paddingLeft="@dimen/five_dp"
                         android:paddingRight="@dimen/five_dp"
-                        android:text="Nozim komolon XK To'xtaniyoz ota Corporation"
+                        android:text=""
                         android:textColor="@color/colorMainText"
                         android:textSize="@dimen/fourteen_dp"
                         android:textStyle="bold" />
@@ -272,7 +272,7 @@
                     android:id="@+id/btnChooseVendor"
                     android:layout_width="@dimen/hundred_fifty_five_dp"
                     android:layout_height="@dimen/sixty_five_dp"
-                    android:text="Choose Vendor"
+                    android:text="@string/choose_vendor_product"
                     android:textColor="@color/colorBlue"
                     android:textSize="@dimen/sixteen_dp" />
             </LinearLayout>
@@ -299,7 +299,7 @@
                     android:layout_width="@dimen/hundred_fifty_five_dp"
                     android:layout_height="match_parent"
                     android:layout_marginRight="@dimen/five_dp"
-                    android:text="Remove \nService Fee"
+                    android:text="@string/remove_service_fee"
                     android:textColor="@color/colorBlue"
                     android:textSize="@dimen/sixteen_dp"
                     />
@@ -309,7 +309,7 @@
                     android:layout_width="@dimen/hundred_fifty_five_dp"
                     android:layout_height="match_parent"
                     android:layout_marginRight="@dimen/five_dp"
-                    android:text="Remove \nDiscount"
+                    android:text="@string/remove_discount"
                     android:textColor="@color/colorBlue"
                     android:textSize="@dimen/sixteen_dp"
                     />
@@ -318,7 +318,7 @@
                     android:layout_width="@dimen/hundred_fifty_five_dp"
                     android:layout_height="match_parent"
                     android:layout_marginRight="@dimen/five_dp"
-                    android:text="Remove"
+                    android:text="@string/remove"
                     android:textColor="@color/colorBlue"
                     android:textSize="@dimen/sixteen_dp"
                     />

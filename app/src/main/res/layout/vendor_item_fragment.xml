@@ -28,7 +28,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="Vendor"
+                    android:text="@string/vendor"
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/sixteen_dp"/>
                 <ImageView
@@ -60,7 +60,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:gravity="left|center_vertical"
-                    android:text="Products"
+                    android:text="@string/products"
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/sixteen_dp"/>
                 <ImageView
@@ -92,7 +92,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="Debt"
+                    android:text="@string/debt"
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/sixteen_dp"/>
                 <ImageView
@@ -117,7 +117,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Operations"
+                android:text="@string/operations"
                 android:textColor="@color/colorMainText"
                 android:layout_marginRight="@dimen/sixteen_dp"
                 android:textSize="@dimen/sixteen_dp"/>

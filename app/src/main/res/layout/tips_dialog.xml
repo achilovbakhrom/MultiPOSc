@@ -27,7 +27,7 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/thirty_dp"
-                android:text="Enter tips Amount"
+                android:text="@string/enter_tips_amount"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/twenty_dp" />
 
@@ -82,7 +82,7 @@
                 android:layout_width="@dimen/hundred_fifty_five_dp"
                 android:layout_height="@dimen/fifty_four_dp"
                 android:gravity="center"
-                android:text="Cancel"
+                android:text="@string/cancel"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="@dimen/eighteen_dp" />
 

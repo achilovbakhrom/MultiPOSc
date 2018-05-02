@@ -54,7 +54,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
-                        android:text="-"
+                        android:text=""
                         android:textColor="@color/colorWhite"
                         android:textSize="@dimen/sixteen_dp" />
 
@@ -92,7 +92,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/twelve_dp"
-                    android:text="Export"
+                    android:text="@string/export"
                     android:textColor="@color/colorWhite"
                     android:textSize="@dimen/sixteen_dp" />
             </LinearLayout>
@@ -166,7 +166,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/fifty_dp"
-                    android:text="Pay - Outs:"
+                    android:text="@string/pay_outs_"
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/sixteen_dp" />
 
@@ -198,7 +198,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/fifty_dp"
-                    android:text="Pay - Ins:"
+                    android:text="@string/pay_ins_"
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/sixteen_dp" />
 
@@ -230,7 +230,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/fifty_dp"
-                    android:text="Pay to Vendors:"
+                    android:text="@string/pay_to_vendors_"
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/sixteen_dp" />
 
@@ -264,7 +264,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/fifty_dp"
-                    android:text="Income debt: "
+                    android:text="@string/income_debt_"
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/sixteen_dp" />
 
@@ -296,7 +296,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/fifty_dp"
-                    android:text="Bank drops:"
+                    android:text="@string/bank_drops_"
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/sixteen_dp" />
 
@@ -328,7 +328,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/fifty_dp"
-                    android:text="Real product sales"
+                    android:text="@string/real_product_sales"
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/sixteen_dp" />
 
@@ -360,7 +360,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/fifty_dp"
-                    android:text="Tips dispensed:"
+                    android:text="@string/tips_dispensed_"
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/sixteen_dp" />
 
@@ -400,7 +400,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/thirty_dp"
                     android:gravity="right"
-                    android:text="Total for Till: "
+                    android:text="@string/total_for_till_"
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/sixteen_dp" />
 
@@ -432,7 +432,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/thirty_dp"
                     android:gravity="right"
-                    android:text="Total closed amount: "
+                    android:text="@string/total_closed_amount_"
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/sixteen_dp" />
 
@@ -473,7 +473,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/thirty_dp"
                     android:gravity="right"
-                    android:text="To next amount"
+                    android:text="@string/to_next_amount"
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/sixteen_dp" />
 
@@ -522,7 +522,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/thirty_dp"
                     android:gravity="right"
-                    android:text="Till amount variance"
+                    android:text="@string/till_amount_variance"
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/sixteen_dp" />
 

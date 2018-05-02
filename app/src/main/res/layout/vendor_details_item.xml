@@ -24,7 +24,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/twenty_dp"
-                android:text="Angels's food"
+                android:text=""
                 android:textColor="@color/colorMainText"
                 android:textSize="@dimen/eighteen_dp" />
 
@@ -60,7 +60,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:paddingLeft="@dimen/twenty_dp"
-                    android:text="Barcode: "
+                    android:text="@string/barcode_"
                     android:textColor="@color/colorSecondaryText"
                     android:textSize="@dimen/eighteen_dp"
                     android:textStyle="italic" />
@@ -69,7 +69,7 @@
                     android:id="@+id/tvBarcode"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="1456643143"
+                    android:text=""
                     android:textColor="@color/colorSecondaryText"
                     android:textSize="@dimen/eighteen_dp"
                     android:textStyle="italic" />
@@ -84,7 +84,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:paddingLeft="@dimen/twenty_dp"
-                    android:text="SKU: "
+                    android:text="@string/sku_"
                     android:textColor="@color/colorSecondaryText"
                     android:textSize="@dimen/eighteen_dp"
                     android:textStyle="italic" />
@@ -94,7 +94,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="546"
+                    android:text=""
                     android:textColor="@color/colorSecondaryText"
                     android:textSize="@dimen/eighteen_dp"
                     android:textStyle="italic" />
@@ -117,7 +117,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="right"
-                android:text="128.0000"
+                android:text=""
                 android:textAlignment="center"
                 android:textColor="@color/colorMainText"
                 android:textSize="@dimen/eighteen_dp" />

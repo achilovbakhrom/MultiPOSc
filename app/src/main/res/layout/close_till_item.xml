@@ -9,7 +9,7 @@
         android:layout_width="@dimen/hundred_forty_five_dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/thirty_dp"
-        android:text="Cash"
+        android:text="@string/cash"
         android:textColor="@color/colorMainText"
         android:textSize="@dimen/eighteen_dp" />
 
@@ -19,7 +19,6 @@
         android:layout_marginRight="@dimen/thirty_dp"
         android:gravity="right"
         android:paddingRight="@dimen/ten_dp"
-        android:text="0,00"
         android:textColor="@color/colorMainText"
         android:textSize="@dimen/eighteen_dp" />
 

@@ -31,7 +31,7 @@
                 android:paddingLeft="@dimen/ten_dp"
                 android:paddingRight="@dimen/ten_dp"
                 android:paddingTop="@dimen/five_dp"
-                android:text="Operations with Cash"
+                android:text="@string/operations_with_cash"
                 android:textColor="@color/colorBlue"
                 android:textSize="@dimen/eighteen_dp"
                 android:textStyle="bold" />
@@ -250,7 +250,7 @@
                     android:layout_marginBottom="@dimen/ten_dp"
                     android:gravity="left"
                     android:paddingLeft="@dimen/ten_dp"
-                    android:text="Payment Types"
+                    android:text="@string/payment_types"
                     android:textColor="@color/colorBlue" />
 
 
@@ -268,7 +268,7 @@
                     android:layout_marginTop="@dimen/ten_dp"
                     android:gravity="left"
                     android:paddingLeft="@dimen/ten_dp"
-                    android:text="Operations"
+                    android:text="@string/operations"
                     android:textColor="@color/colorBlue" />
 
                 <com.jim.mpviews.MpButtonWithIcon
@@ -276,7 +276,7 @@
                     android:layout_width="@dimen/hundred_eighty_dp"
                     android:layout_height="@dimen/sixty_dp"
                     android:layout_gravity="center"
-                    app:btn_text="Pay in"
+                    app:btn_text="@string/pay_in"
                     app:src="@drawable/pay_in"
                     app:tint_color="#56ce06" />
 
@@ -285,7 +285,7 @@
                     android:layout_width="@dimen/hundred_eighty_dp"
                     android:layout_height="@dimen/sixty_dp"
                     android:layout_gravity="center"
-                    app:btn_text="Pay out"
+                    app:btn_text="@string/pay_out"
                     app:src="@drawable/pay_out"
                     app:tint_color="#e15a5a" />
 
@@ -294,7 +294,7 @@
                     android:layout_width="@dimen/hundred_eighty_dp"
                     android:layout_height="@dimen/sixty_dp"
                     android:layout_gravity="center"
-                    app:btn_text="Bank Drop"
+                    app:btn_text="@string/bank_drop"
                     app:src="@drawable/bank" />
 
 

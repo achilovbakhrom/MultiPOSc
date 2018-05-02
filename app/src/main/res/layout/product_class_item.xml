@@ -20,9 +20,9 @@
             android:layout_marginLeft="@dimen/twenty_five_dp"
             android:paddingRight="@dimen/ten_dp"
             android:paddingLeft="@dimen/twenty_dp"
-            android:text="Salad"
+            android:text=""
             android:inputType="textNoSuggestions"
-            android:hint="Class Name"
+            android:hint="@string/class_name"
             android:textSize="@dimen/sixteen_dp"
             />
 

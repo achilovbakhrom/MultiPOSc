@@ -97,7 +97,7 @@
                         android:paddingRight="@dimen/ten_dp"
                         android:paddingTop="@dimen/five_dp"
                         android:textColor="@color/colorBlue"
-                        android:text="Show non-active"
+                        android:text="@string/show_non_active"
                         android:textSize="@dimen/sixteen_dp"
                         android:textStyle="bold" />
 

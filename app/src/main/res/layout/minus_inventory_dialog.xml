@@ -47,7 +47,7 @@
                 android:layout_marginRight="@dimen/twenty_dp"
                 android:layout_weight="1"
                 android:gravity="center_vertical|right"
-                android:text="Product Name"
+                android:text="@string/product_name"
                 android:textColor="#414141"
                 android:textSize="@dimen/eighteen_dp" />
 
@@ -58,7 +58,7 @@
                 android:background="@drawable/edit_text_bg"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/eighteen_dp"
-                android:text="Salom"
+                android:text=""
                 android:textColor="#414141"
                 android:textSize="@dimen/eighteen_dp" />
         </LinearLayout>
@@ -77,7 +77,7 @@
                 android:layout_marginRight="@dimen/twenty_dp"
                 android:layout_weight="1"
                 android:gravity="center_vertical|right"
-                android:text="Vendor"
+                android:text="@string/vendor"
                 android:textColor="#414141"
                 android:textSize="@dimen/eighteen_dp" />
 
@@ -121,7 +121,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/ten_dp"
-                        android:text="Stock record"
+                        android:text="@string/stock_record"
                         android:textColor="#419ed8"
                         android:textSize="@dimen/sixteen_dp" />
 
@@ -191,7 +191,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/ten_dp"
-                        android:text="Actual quantity"
+                        android:text="@string/actual_quantity"
                         android:textColor="#419ed8"
                         android:textSize="@dimen/sixteen_dp" />
 
@@ -219,7 +219,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/ten_dp"
-                        android:text="Unit"
+                        android:text="@string/unit"
                         android:textColor="#419ed8"
                         android:textSize="@dimen/sixteen_dp" />
 
@@ -247,7 +247,7 @@
                 android:layout_marginRight="@dimen/thirty_dp"
                 android:layout_marginTop="@dimen/sixteen_dp"
                 android:gravity="top"
-                android:hint="Enter Reason"
+                android:hint="@string/enter_reason"
                 android:textSize="@dimen/eighteen_dp" />
 
             <FrameLayout
@@ -271,7 +271,7 @@
                 android:layout_width="@dimen/hundred_fifty_five_dp"
                 android:layout_height="@dimen/fifty_four_dp"
                 android:gravity="center"
-                android:text="Cancel"
+                android:text="@string/cancel"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="@dimen/eighteen_dp" />
 

@@ -92,7 +92,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:paddingLeft="@dimen/twenty_dp"
-                            android:text="Phone:"
+                            android:text="@string/phone_"
                             android:textColor="@color/colorSecondaryText"
                             android:textSize="@dimen/sixteen_dp"
                             android:textStyle="italic" />
@@ -115,7 +115,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:paddingLeft="@dimen/twenty_dp"
-                            android:text="Email:"
+                            android:text="@string/email_"
                             android:textColor="@color/colorSecondaryText"
                             android:textSize="@dimen/sixteen_dp"
                             android:textStyle="italic" />
@@ -134,7 +134,7 @@
                         android:layout_marginTop="@dimen/ten_dp"
                         android:gravity="center"
                         android:paddingLeft="@dimen/twenty_dp"
-                        android:text="Address:"
+                        android:text="@string/address_"
                         android:textColor="@color/colorMainText"
                         android:textSize="@dimen/sixteen_dp" />
 
@@ -261,7 +261,7 @@
                 android:layout_width="@dimen/hundred_seventy_dp"
                 android:layout_height="@dimen/sixty_dp"
                 android:layout_marginRight="@dimen/five_dp"
-                app:btn_text="Pay"
+                app:btn_text="@string/pay"
                 app:src="@drawable/currency" />
 
             <com.jim.mpviews.MpButtonWithIcon
@@ -269,7 +269,7 @@
                 android:layout_width="@dimen/hundred_seventy_dp"
                 android:layout_height="@dimen/sixty_dp"
                 android:layout_marginRight="@dimen/five_dp"
-                app:btn_text="Payments"
+                app:btn_text="@string/payments"
                 app:src="@drawable/payments" />
 
             <com.jim.mpviews.MpButtonWithIcon
@@ -277,7 +277,7 @@
                 android:layout_width="@dimen/hundred_seventy_dp"
                 android:layout_height="@dimen/sixty_dp"
                 android:layout_marginRight="@dimen/five_dp"
-                app:btn_text="Income"
+                app:btn_text="@string/income"
                 app:src="@drawable/blu_but_in" />
 
 
@@ -295,7 +295,7 @@
                 android:layout_width="@dimen/hundred_seventy_dp"
                 android:layout_height="@dimen/sixty_dp"
                 android:layout_marginRight="@dimen/five_dp"
-                app:btn_text="Story"
+                app:btn_text="@string/story"
                 app:src="@drawable/story" />
 
             <com.jim.mpviews.MpButtonWithIcon
@@ -303,7 +303,7 @@
                 android:layout_width="@dimen/hundred_seventy_dp"
                 android:layout_height="@dimen/sixty_dp"
                 android:layout_marginRight="@dimen/five_dp"
-                app:btn_text="Return"
+                app:btn_text="@string/return_"
                 app:src="@drawable/blu_but_out" />
         </LinearLayout>
     </LinearLayout>

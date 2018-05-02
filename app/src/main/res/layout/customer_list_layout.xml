@@ -16,7 +16,7 @@
         android:layout_marginLeft="@dimen/thirty_dp"
         android:layout_marginRight="@dimen/thirty_dp"
         android:layout_marginTop="@dimen/twenty_five_dp"
-        app:hint_text="Customer Id or name"
+        app:hint_text="@string/customer_id_or_name"
         app:barcode_visibility="false" />
 
     <FrameLayout

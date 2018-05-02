@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="left|center_vertical"
                 android:layout_marginLeft="@dimen/thirty_dp"
-                android:text="Weight"
+                android:text="@string/weight"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/twenty_dp" />
         </FrameLayout>
@@ -50,7 +50,7 @@
                     android:layout_marginRight="@dimen/sixteen_dp"
                     android:layout_marginTop="@dimen/ten_dp"
                     android:gravity="right"
-                    android:text="Price - 1kg"
+                    android:text="@string/price_1kg"
                     android:textColor="#419fd9"
                     android:textSize="@dimen/sixteen_dp" />
 
@@ -69,7 +69,7 @@
                     android:ellipsize="end"
                     android:longClickable="false"
                     android:maxLength="15"
-                    android:text="8 500"
+                    android:text=""
                     android:textColor="#419fd9"
                     android:textSize="@dimen/twenty_three_dp"
                     android:textStyle="bold" />
@@ -92,7 +92,7 @@
                     android:layout_marginRight="@dimen/sixteen_dp"
                     android:layout_marginTop="@dimen/ten_dp"
                     android:gravity="right"
-                    android:text="Cost"
+                    android:text="@string/cost"
                     android:textColor="#419fd9"
                     android:textSize="@dimen/sixteen_dp" />
 
@@ -158,7 +158,7 @@
                             android:background="@drawable/unit_frame_deactive"
                             android:gravity="center"
                             android:paddingBottom="@dimen/three_dp"
-                            android:text="t"
+                            android:text="@string/t"
                             android:textColor="#dedede"
                             android:textSize="@dimen/sixteen_dp"
                             android:textStyle="bold" />
@@ -166,12 +166,12 @@
                         <TextView
                             android:id="@+id/tvSecondSubUnit"
                             android:layout_width="@dimen/fifty_dp"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_marginRight="@dimen/seven_dp"
                             android:background="@drawable/unit_frame_deactive"
                             android:gravity="center"
                             android:paddingBottom="@dimen/three_dp"
-                            android:text="gr"
+                            android:text="@string/gr"
                             android:textColor="#dedede"
                             android:textSize="@dimen/sixteen_dp"
                             android:textStyle="bold" />
@@ -184,7 +184,7 @@
                             android:background="@drawable/unit_frame_deactive"
                             android:gravity="center"
                             android:paddingBottom="@dimen/three_dp"
-                            android:text="kg"
+                            android:text="@string/kg"
                             android:textColor="#dedede"
                             android:textSize="@dimen/sixteen_dp"
                             android:textStyle="bold" />
@@ -196,7 +196,7 @@
                             android:background="@drawable/unit_frame_deactive"
                             android:gravity="center"
                             android:paddingBottom="@dimen/three_dp"
-                            android:text="kg"
+                            android:text="@string/kg"
                             android:textColor="#aed8f2"
                             android:textSize="@dimen/sixteen_dp"
                             android:textStyle="bold" />
@@ -221,7 +221,7 @@
                         android:layout_marginLeft="@dimen/ten_dp"
                         android:layout_marginRight="@dimen/sixteen_dp"
                         android:gravity="center_vertical"
-                        android:text="Weight"
+                        android:text="@string/weight"
                         android:textColor="#419fd9"
                         android:textSize="@dimen/sixteen_dp" />
                 </LinearLayout>
@@ -261,7 +261,7 @@
                         android:gravity="top"
                         android:focusable="false"
                         android:maxLength="5"
-                        android:text="gr"
+                        android:text="@string/gr"
                         android:textColor="#419fd9"
                         android:textSize="@dimen/twenty_three_dp"
                         android:textStyle="bold" />
@@ -462,7 +462,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Back"
+                        android:text="@string/back"
                         android:textColor="#a2a2a2"
                         android:textSize="@dimen/twenty_dp"
                         android:textStyle="bold" />
@@ -526,7 +526,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="OK"
+                        android:text="@string/ok"
                         android:textColor="#fff"
                         android:textSize="@dimen/thirty_five_dp"
                         android:textStyle="bold" />

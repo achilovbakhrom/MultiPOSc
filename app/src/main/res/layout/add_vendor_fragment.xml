@@ -19,13 +19,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/five_dp"
-            android:text="Management Item Mode"
+            android:text="@string/management_item_mode"
             android:textColor="@color/colorBlue" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tap Product to manage it info"
+            android:text="@string/tap_product_to_manage_it_info"
             android:textColor="@color/colorSecondaryText" />
 
     </LinearLayout>
@@ -94,7 +94,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="@dimen/sixteen_dp"
                 android:gravity="right"
-                android:text="Contact name"
+                android:text="@string/contact_name"
                 android:textColor="@color/colorMainText"
                 android:textSize="@dimen/sixteen_dp" />
 
@@ -124,7 +124,7 @@
                 android:layout_gravity="center"
                 android:layout_marginRight="@dimen/sixteen_dp"
                 android:gravity="right"
-                android:text="Address"
+                android:text="@string/address"
                 android:textColor="@color/colorMainText"
                 android:textSize="@dimen/sixteen_dp" />
 
@@ -155,7 +155,7 @@
                 android:layout_gravity="center"
                 android:layout_marginRight="@dimen/sixteen_dp"
                 android:gravity="right"
-                android:text="Options"
+                android:text="@string/options"
                 android:textColor="@color/colorMainText"
                 android:textSize="@dimen/sixteen_dp" />
 
@@ -165,7 +165,7 @@
                 android:layout_height="wrap_content"
                 app:chb_type="3"
                 app:checked="true"
-                app:text="Active" />
+                app:text="@string/active" />
         </LinearLayout>
         <TextView
             android:layout_width="wrap_content"
@@ -202,7 +202,7 @@
                 android:layout_marginLeft="@dimen/fifteen_dp"
                 android:layout_marginRight="@dimen/fifteen_dp"
                 android:layout_weight="1"
-                android:hint="enter phone number"
+                android:hint="@string/enter_phone_number"
                 android:inputType="phone"
                 android:textSize="@dimen/sixteen_dp" />
 

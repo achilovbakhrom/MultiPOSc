@@ -32,7 +32,7 @@
                     android:paddingLeft="@dimen/ten_dp"
                     android:paddingRight="@dimen/ten_dp"
                     android:paddingTop="@dimen/five_dp"
-                    android:text="Vendors"
+                    android:text="@string/vendors"
                     android:textColor="@color/colorBlue"
                     android:textSize="@dimen/eighteen_dp" />
 

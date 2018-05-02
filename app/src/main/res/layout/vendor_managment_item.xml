@@ -27,7 +27,7 @@
                 android:paddingLeft="@dimen/thirty_dp"
                 android:paddingRight="@dimen/twenty_dp"
                 android:textColor="@color/colorMainText"
-                android:text="Product"
+                android:text="@string/product"
                 android:gravity="left"
                 android:layout_marginTop="@dimen/ten_dp"
                 android:textStyle="bold"

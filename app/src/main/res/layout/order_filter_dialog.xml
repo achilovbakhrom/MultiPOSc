@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Inclusions:"
+        android:text="@string/inclusions"
         android:textSize="@dimen/sixteen_dp"
         android:layout_marginTop="@dimen/ten_dp"
         android:layout_marginRight="@dimen/sixteen_dp"
@@ -35,7 +35,7 @@
             android:layout_marginTop="@dimen/ten_dp"
             app:chb_type="2"
             app:checked="true"
-            app:text="Closed Orders" />
+            app:text="@string/closed_orders" />
         <com.jim.mpviews.MpCheckbox
             android:id="@+id/chbHeldOrders"
             android:layout_width="match_parent"
@@ -45,7 +45,7 @@
             android:layout_marginTop="@dimen/ten_dp"
             app:chb_type="2"
             app:checked="true"
-            app:text="Held Orders" />
+            app:text="@string/held_orders" />
         <com.jim.mpviews.MpCheckbox
             android:id="@+id/chbCanceled"
             android:layout_width="match_parent"
@@ -55,7 +55,7 @@
             android:layout_marginTop="@dimen/ten_dp"
             app:chb_type="2"
             app:checked="true"
-            app:text="Canceled Orders" />
+            app:text="@string/canceled_orders" />
 
     </LinearLayout>
     <FrameLayout
@@ -72,14 +72,14 @@
             android:layout_width="@dimen/hundred_twenty_dp"
             android:layout_height="@dimen/fifty_dp"
             android:layout_marginBottom="@dimen/ten_dp"
-            android:text="Cancel"
+            android:text="@string/cancel"
             android:layout_marginTop="@dimen/five_dp"
             android:textColor="#acacac"/>
         <com.jim.mpviews.MpButton
             android:id="@+id/btnApply"
             android:layout_width="@dimen/hundred_twenty_dp"
             android:layout_height="@dimen/fifty_dp"
-            android:text="Apply"
+            android:text="@string/apply"
             android:layout_marginTop="@dimen/five_dp"
             android:layout_marginBottom="@dimen/ten_dp"
             android:textColor="#419fd9"/>

@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/forty_dp"
         android:gravity="center"
-        android:text="New Order" />
+        android:text="@string/new_order" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/forty_dp"
         android:gravity="center"
-        android:text="Held Orders" />
+        android:text="@string/held_orders" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -37,7 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/forty_dp"
         android:gravity="center"
-        android:text="Today's Orders" />
+        android:text="@string/today_s_orders" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -51,5 +51,5 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/forty_dp"
         android:gravity="center"
-        android:text="Close" />
+        android:text="@string/close" />
 </LinearLayout>

@@ -169,7 +169,7 @@
                 android:layout_height="wrap_content"
                 app:chb_type="3"
                 app:checked="true"
-                app:text="Active" />
+                app:text="@string/active" />
         </LinearLayout>
 
     </LinearLayout>

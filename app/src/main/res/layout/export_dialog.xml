@@ -11,7 +11,7 @@
         android:layout_marginBottom="@dimen/ten_dp"
         android:paddingLeft="@dimen/twenty_dp"
         android:paddingTop="@dimen/ten_dp"
-        android:text="Export to:"
+        android:text="@string/export_to_"
         android:textColor="@color/colorMainText"
         android:textSize="@dimen/sixteen_dp" />
 
@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/ten_dp"
         android:paddingLeft="@dimen/twenty_dp"
-        android:text="Excel"
+        android:text="@string/excel"
         android:textColor="@color/colorBlue"
         android:textSize="@dimen/sixteen_dp" />
 
@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/ten_dp"
         android:paddingLeft="@dimen/twenty_dp"
-        android:text="PDF"
+        android:text="@string/PDF"
         android:textColor="@color/colorBlue"
         android:textSize="@dimen/sixteen_dp" />
 

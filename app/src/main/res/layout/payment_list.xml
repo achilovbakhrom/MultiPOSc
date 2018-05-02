@@ -16,14 +16,14 @@
                 android:id="@+id/tvPaymentType"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Cash"
+                android:text="@string/cash"
                 android:layout_marginTop="@dimen/ten_dp"
                 android:textColor="#aaaaaa"/>
             <TextView
                 android:id="@+id/tvPaymentAmount"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="10 000"
+                android:text=""
                 android:textColor="#409dd6"
                 android:textStyle="bold"
                 android:textSize="@dimen/twenty_dp"

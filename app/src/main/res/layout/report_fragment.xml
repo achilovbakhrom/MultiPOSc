@@ -23,7 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/thirty_dp"
-                android:text="Order History"
+                android:text="@string/order_history_report_title"
                 android:textColor="#212121"
                 android:textSize="@dimen/twenty_dp"
 
@@ -46,7 +46,7 @@
                     android:gravity="center_vertical"
                     android:paddingLeft="@dimen/twenty_five_dp"
                     android:paddingRight="@dimen/sixteen_dp"
-                    android:text="First Panel"
+                    android:text="@string/first_panel"
                     android:textColor="#2e91cc"
                     android:textSize="@dimen/sixteen_dp" />
 
@@ -60,7 +60,7 @@
                     android:gravity="center_vertical"
                     android:paddingLeft="@dimen/sixteen_dp"
                     android:paddingRight="@dimen/sixteen_dp"
-                    android:text="Second Panel"
+                    android:text="@string/second_panel"
                     android:textColor="#999999"
                     android:textSize="@dimen/sixteen_dp" />
 
@@ -74,7 +74,7 @@
                     android:gravity="center_vertical"
                     android:paddingLeft="@dimen/sixteen_dp"
                     android:paddingRight="@dimen/sixteen_dp"
-                    android:text="Third Panel"
+                    android:text="@string/third_panel"
                     android:textColor="#999999"
                     android:textSize="@dimen/sixteen_dp" />
 
@@ -88,7 +88,7 @@
                     android:gravity="center_vertical"
                     android:paddingLeft="@dimen/sixteen_dp"
                     android:paddingRight="@dimen/sixteen_dp"
-                    android:text="Four Panel"
+                    android:text="@string/four_panel"
                     android:textColor="#999999"
                     android:textSize="@dimen/sixteen_dp" />
 
@@ -102,7 +102,7 @@
                     android:gravity="center_vertical"
                     android:paddingLeft="@dimen/sixteen_dp"
                     android:paddingRight="@dimen/twenty_five_dp"
-                    android:text="Five Panel"
+                    android:text="@string/five_panel"
                     android:textColor="#999999"
                     android:textSize="@dimen/sixteen_dp" />
             </LinearLayout>
@@ -112,7 +112,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/thirty_dp"
-                android:text="05/05/2017 20:00 - 05/06/2017 20:00"
+                android:text=""
                 android:textColor="#666666"
 
                 android:textSize="@dimen/sixteen_dp" />
@@ -195,7 +195,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/twelve_dp"
-                android:text="Filter"
+                android:text="@string/filter"
                 android:textColor="#2e91cc"
                 android:textSize="@dimen/sixteen_dp" />
         </LinearLayout>
@@ -220,7 +220,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/twelve_dp"
-                android:text="Date interval"
+                android:text="@string/date_interval"
                 android:textColor="#2e91cc"
                 android:textSize="@dimen/sixteen_dp" />
         </LinearLayout>
@@ -267,7 +267,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/twelve_dp"
-                android:text="Export"
+                android:text="@string/export"
                 android:textColor="#2e91cc"
                 android:textSize="@dimen/sixteen_dp" />
         </LinearLayout>

@@ -11,7 +11,7 @@
         android:layout_height="@dimen/forty_dp"
         android:layout_gravity="center"
         android:gravity="center_vertical"
-        android:hint="Value"
+        android:hint="@string/value"
         android:inputType="numberDecimal"
         android:textColorHint="@color/colorTextHint"
         android:textSize="@dimen/sixteen_dp" />
@@ -27,7 +27,7 @@
         android:layout_height="@dimen/forty_dp"
         android:layout_gravity="center"
         android:gravity="center_vertical"
-        android:hint="Name"
+        android:hint="@string/name"
         android:textColorHint="@color/colorTextHint"
         android:textSize="@dimen/sixteen_dp" />
 
@@ -49,7 +49,7 @@
         android:layout_height="@dimen/forty_dp"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="@dimen/fifteen_dp"
-        android:text="+Add"
+        android:text="@string/add_plus"
         android:textColor="#23d730"
         android:textSize="@dimen/sixteen_dp" />
 </LinearLayout>

@@ -92,7 +92,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="Low \n Stock Alert"
+                    android:text="@string/low_n_stock_alert"
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/sixteen_dp" />
 
@@ -124,7 +124,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="Inventory"
+                    android:text="@string/inventory"
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/sixteen_dp" />
 

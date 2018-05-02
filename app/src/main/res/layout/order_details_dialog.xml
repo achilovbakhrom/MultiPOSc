@@ -34,7 +34,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="left|center_vertical"
                     android:textColor="@color/colorWhite"
-                    android:text="Order #215"
+                    android:text="@string/order_num"
                     android:textSize="@dimen/eighteen_dp" />
                 <TextView
                     android:id="@+id/tvCustomerName"
@@ -50,7 +50,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/ten_dp"
-                    android:text="05/05/2017 7:02"
+                    android:text=""
                     android:gravity="left|center_vertical"
                     android:textColor="#cce1f2"
                     android:textSize="@dimen/sixteen_dp" />
@@ -103,7 +103,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:text="Order detials"
+                    android:text="@string/order_details"
                     android:layout_marginRight="@dimen/sixteen_dp"
                     android:layout_marginLeft="@dimen/sixteen_dp"
                     android:textSize="@dimen/sixteen_dp"
@@ -128,7 +128,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:text="Payments"
+                    android:text="@string/payments"
                     android:layout_marginRight="@dimen/sixteen_dp"
                     android:layout_marginLeft="@dimen/sixteen_dp"
                     android:textSize="@dimen/sixteen_dp"
@@ -154,7 +154,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:text="Lifecycle"
+                    android:text="@string/lifecycle"
                     android:layout_marginRight="@dimen/sixteen_dp"
                     android:layout_marginLeft="@dimen/sixteen_dp"
                     android:textSize="@dimen/sixteen_dp"
@@ -210,7 +210,7 @@
                             android:layout_width="@dimen/two_hundred_fifty_dp"
                             android:layout_height="wrap_content"
                             android:gravity="right"
-                            android:text="Sub Total:"
+                            android:text="@string/sub_total_"
                             android:textColor="@color/colorMainText"
                             android:textSize="@dimen/sixteen_dp" />
 
@@ -229,7 +229,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/five_dp"
                             android:textColor="@color/colorMainText"
-                            android:text="53 644,01 uzs"
+                            android:text=""
                             android:textStyle="bold"
                             android:textSize="@dimen/sixteen_dp" />
                     </LinearLayout>
@@ -244,7 +244,7 @@
                             android:layout_width="@dimen/two_hundred_fifty_dp"
                             android:layout_height="wrap_content"
                             android:gravity="right"
-                            android:text="Summary:"
+                            android:text="@string/summary_"
                             android:textColor="@color/colorMainText"
                             android:textSize="@dimen/sixteen_dp" />
 
@@ -261,7 +261,6 @@
                             android:id="@+id/tvSummary"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="49 644,01 uzs"
                             android:textStyle="bold"
                             android:layout_marginLeft="@dimen/five_dp"
                             android:textColor="@color/colorMainText"
@@ -301,7 +300,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/five_dp"
-                        android:text="- 1 985,76 uzs"
                         android:textStyle="bold"
                         android:textColor="@color/colorMainText"
                         android:textSize="@dimen/sixteen_dp" />
@@ -338,7 +336,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/five_dp"
-                        android:text="+ 500,00 uzs"
                         android:textStyle="bold"
                         android:textColor="@color/colorMainText"
                         android:textSize="@dimen/sixteen_dp" />
@@ -366,7 +363,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/fifty_dp"
                         android:gravity="right"
-                        android:text="To Pay:"
+                        android:text="@string/to_pay_"
                         android:textColor="@color/colorMainText"
                         android:textSize="@dimen/sixteen_dp" />
 
@@ -384,7 +381,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/five_dp"
-                        android:text="7 862 614,67 uzs"
                         android:textStyle="bold"
                         android:textColor="@color/colorMainText"
                         android:textSize="@dimen/sixteen_dp" />

@@ -21,7 +21,7 @@
                 android:textSize="@dimen/twenty_dp"
                 android:textStyle="bold"
                 android:textColor="#212121"
-                android:text="Bill and Bobs"/>
+                android:text=""/>
             <TextView
                 android:id="@+id/tvVendorCantact"
                 android:layout_width="wrap_content"
@@ -29,7 +29,7 @@
                 android:textSize="@dimen/sixteen_dp"
                 android:textColor="#a2a2a2"
 
-                android:text="Tel: +998 99 8504312"/>
+                android:text=""/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
@@ -46,7 +46,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/sixteen_dp"
                     android:textColor="#212121"
-                    android:text="Debt:"/>
+                    android:text="@string/debt"/>
 
             </LinearLayout>
         </LinearLayout>
@@ -70,7 +70,7 @@
                     android:textColor="#212121"
                     android:textStyle="bold"
                     android:paddingLeft="@dimen/twenty_dp"
-                    android:text="125 000 .00 uzs"/>
+                    android:text=""/>
 
             </LinearLayout>
         </LinearLayout>
@@ -103,7 +103,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Time/Date"
+                android:text="@string/time_date"
                 android:textColor="#fff"
                 android:textSize="@dimen/sixteen_dp"/>
             <ImageView
@@ -128,7 +128,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="Operation"
+            android:text="@string/operation"
             android:textColor="#fff"
             android:textSize="@dimen/sixteen_dp"/>
         <ImageView
@@ -153,7 +153,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Extra"
+                android:text="@string/extra"
                 android:textColor="#fff"
                 android:textSize="@dimen/sixteen_dp"/>
             <ImageView
@@ -179,7 +179,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Description"
+                android:text="@string/description"
                 android:textColor="#fff"
                 android:textSize="@dimen/sixteen_dp"/>
             <ImageView
@@ -204,7 +204,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Payment Amount"
+                android:text="@string/payment_amount"
                 android:textColor="#fff"
                 android:textSize="@dimen/sixteen_dp"/>
             <ImageView
@@ -230,7 +230,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Action"
+                android:text="@string/action"
                 android:textColor="#fff"
                 android:textSize="@dimen/sixteen_dp"/>
 

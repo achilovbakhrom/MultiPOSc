@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/twenty_dp"
                 android:layout_marginLeft="@dimen/thirty_dp"
-                android:text="Void/Return"
+                android:text="@string/void_return"
                 android:textColor="@color/colorMainText"
                 android:textSize="@dimen/eighteen_dp" />
 
@@ -66,10 +66,9 @@
                 android:layout_width="@dimen/hundred_eighty_dp"
                 android:layout_height="@dimen/seventy_dp"
                 android:gravity="center"
-                android:text="Back"
+                android:text="@string/back"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="@dimen/eighteen_dp" />
-
 
         </LinearLayout>
 

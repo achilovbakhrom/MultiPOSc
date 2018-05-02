@@ -22,7 +22,7 @@
                 android:gravity="center"
                 android:paddingBottom="@dimen/five_dp"
                 android:paddingTop="@dimen/five_dp"
-                android:text="Products"
+                android:text="@string/products"
                 android:textColor="@color/colorBlue"
                 android:textSize="@dimen/sixteen_dp" />
 

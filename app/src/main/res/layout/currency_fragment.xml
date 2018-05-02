@@ -9,7 +9,7 @@
         android:layout_width="@dimen/two_hundred_fifty_dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/thirty_dp"
-        android:text="System currency"
+        android:text="@string/system_currency"
         android:layout_marginTop="@dimen/eighteen_dp"
         android:textColor="@color/colorBlue"
         android:textSize="@dimen/eighteen_dp" />
@@ -29,7 +29,7 @@
             android:layout_marginTop="@dimen/ten_dp"
             android:layout_marginLeft="@dimen/thirty_dp"
             android:layout_marginRight="@dimen/twenty_dp"
-            android:text="Choose system currency"
+            android:text="@string/choose_system_currency"
             android:textColor="@color/colorMainText"
             android:textSize="@dimen/eighteen_dp" />
 
@@ -63,7 +63,7 @@
             android:layout_width="@dimen/hundred_sixty_dp"
             android:layout_height="@dimen/fifty_five_dp"
             android:layout_marginRight="@dimen/fifteen_dp"
-            android:text="Next"
+            android:text="@string/next"
             android:textColor="@color/colorBlue"
             android:textSize="@dimen/eighteen_dp" />
     </LinearLayout>

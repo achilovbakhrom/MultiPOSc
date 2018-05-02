@@ -22,14 +22,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/five_dp"
-                android:text="Start Configuration"
+                android:text="@string/start_configuration"
                 android:textColor="@color/colorBlue"
                 android:textSize="@dimen/eighteen_dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Required details for system"
+                android:text="@string/required_details_for_system"
                 android:textColor="@color/colorMainText"
                 android:textSize="@dimen/eighteen_dp" />
 

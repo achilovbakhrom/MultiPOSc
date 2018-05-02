@@ -23,13 +23,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/five_dp"
-                android:text="Management Item Mode"
+                android:text="@string/management_item_mode"
                 android:textColor="@color/colorBlue" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tap Product to manage it info"
+                android:text="@string/tap_product_to_manage_it_info"
                 android:textColor="@color/colorTextHint" />
 
         </LinearLayout>
@@ -53,7 +53,7 @@
                 android:layout_gravity="center"
                 android:layout_marginRight="@dimen/sixteen_dp"
                 android:gravity="right"
-                android:text="Name"
+                android:text="@string/name"
                 android:textSize="@dimen/sixteen_dp" />
 
             <com.jim.mpviews.MpEditText
@@ -61,7 +61,7 @@
                 android:layout_height="@dimen/forty_dp"
                 android:layout_marginRight="@dimen/thirty_dp"
                 android:layout_weight="1"
-                android:hint="Name"
+                android:hint="@string/name"
                 android:textColorHint="@color/colorTextHint"
                 android:textSize="@dimen/sixteen_dp" />
 
@@ -79,7 +79,7 @@
                 android:layout_gravity="center"
                 android:layout_marginRight="@dimen/sixteen_dp"
                 android:gravity="right"
-                android:text="Amount"
+                android:text="@string/amount"
                 android:textSize="@dimen/sixteen_dp" />
 
             <com.jim.mpviews.MpEditText
@@ -87,7 +87,7 @@
                 android:layout_height="@dimen/forty_dp"
                 android:layout_marginRight="@dimen/thirty_dp"
                 android:layout_weight="2"
-                android:hint="None"
+                android:hint="@string/none"
                 android:textColorHint="@color/colorTextHint"
                 android:textSize="@dimen/sixteen_dp" />
 

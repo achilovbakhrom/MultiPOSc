@@ -71,7 +71,7 @@
             android:layout_height="@dimen/fifty_dp"
             android:layout_marginBottom="@dimen/ten_dp"
             android:layout_marginTop="@dimen/five_dp"
-            android:text="Cancel"
+            android:text="@string/cancel"
             android:textColor="#acacac" />
 
         <com.jim.mpviews.MpButton
@@ -80,7 +80,7 @@
             android:layout_height="@dimen/fifty_dp"
             android:layout_marginBottom="@dimen/ten_dp"
             android:layout_marginTop="@dimen/five_dp"
-            android:text="Apply"
+            android:text="@string/apply"
             android:textColor="#419fd9" />
     </LinearLayout>
 

@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:textColor="@color/colorMainText"
-            android:text="Naqt"
+            android:text=""
             android:textSize="@dimen/twenty_dp" />
 
         <TextView
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:textColor="@color/colorMainText"
-            android:text="18 000 uzs"
+            android:text=""
             android:textSize="@dimen/twenty_dp" />
     </LinearLayout>
 

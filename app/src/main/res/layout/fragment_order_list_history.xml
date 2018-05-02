@@ -34,7 +34,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
-                        android:text="Order #27"
+                        android:text="@string/order_num"
                         android:textColor="@color/colorBlue"
                         android:textSize="@dimen/eighteen_dp"
                         android:textStyle="bold"/>
@@ -44,7 +44,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
-                        android:text="Customer: asdasdasd"
+                        android:text=""
                         android:textColor="@color/colorBlue"
                         android:textSize="@dimen/fourteen_dp"
                         />
@@ -72,7 +72,7 @@
                             android:layout_gravity="center"
                             android:layout_marginLeft="@dimen/twenty_dp"
                             android:layout_weight="5"
-                            android:text="Name"
+                            android:text="@string/name"
                             android:textColor="@color/colorWhite"
                             android:textSize="@dimen/eighteen_dp" />
 
@@ -81,7 +81,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_weight="3"
-                            android:text="Qty"
+                            android:text="@string/qty"
                             android:gravity="center_horizontal"
                             android:textColor="@color/colorWhite"
                             android:textSize="@dimen/eighteen_dp" />
@@ -91,7 +91,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_weight="3"
-                            android:text="Each"
+                            android:text="@string/each"
                             android:gravity="right|center_vertical"
                             android:textColor="@color/colorWhite"
                             android:textSize="@dimen/eighteen_dp" />
@@ -101,7 +101,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_weight="4"
-                            android:text="Sum"
+                            android:text="@string/sum"
                             android:layout_marginRight="@dimen/thirty_dp"
                             android:gravity="center_vertical|right"
                             android:textColor="@color/colorWhite"
@@ -152,7 +152,7 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:text="Sub total :"
+                                    android:text="@string/sub_total_"
                                     android:textColor="@color/colorMainText"
                                     android:textSize="@dimen/fourteen_dp" />
 
@@ -162,7 +162,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:gravity="right"
-                                    android:text="31 600 uzs"
+                                    android:text=""
                                     android:textColor="@color/colorMainText"
                                     android:textSize="@dimen/fourteen_dp" />
 
@@ -179,7 +179,7 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:text="Discount :"
+                                    android:text="@string/discount_"
                                     android:textColor="@color/colorMainText"
                                     android:textSize="@dimen/fourteen_dp" />
 
@@ -189,7 +189,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:gravity="right"
-                                    android:text="316 uzs"
+                                    android:text=""
                                     android:textColor="@color/colorMainText"
                                     android:textSize="@dimen/fourteen_dp" />
 
@@ -205,7 +205,7 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:text="Service Fee:"
+                                    android:text="@string/service_fee_"
                                     android:textColor="@color/colorMainText"
                                     android:textSize="@dimen/fourteen_dp" />
 
@@ -215,7 +215,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:gravity="right"
-                                    android:text="316 uzs"
+                                    android:text=""
                                     android:textColor="@color/colorMainText"
                                     android:textSize="@dimen/fourteen_dp" />
 
@@ -231,7 +231,7 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:text="Tips:"
+                                    android:text="@string/tips_"
                                     android:textColor="@color/colorMainText"
                                     android:textSize="@dimen/fourteen_dp" />
 
@@ -241,7 +241,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:gravity="right"
-                                    android:text="2 284 uzs"
+                                    android:text=""
                                     android:textColor="@color/colorMainText"
                                     android:textSize="@dimen/fourteen_dp" />
 
@@ -258,7 +258,7 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:text="Total to pay:"
+                                    android:text="@string/total_to_pay_"
                                     android:textStyle="bold"
                                     android:textColor="@color/colorMainText"
                                     android:textSize="@dimen/fourteen_dp" />
@@ -269,7 +269,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:gravity="right"
-                                    android:text="31 284 uzs"
+                                    android:text=""
                                     android:textColor="@color/colorMainText"
                                     android:textStyle="bold"
                                     android:textSize="@dimen/fourteen_dp" />
@@ -295,7 +295,7 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:text="Created Date:"
+                                    android:text="@string/created_date"
                                     android:textColor="@color/colorMainText"
                                     android:textSize="@dimen/fourteen_dp" />
 
@@ -305,7 +305,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:gravity="right"
-                                    android:text="24/10/2018"
+                                    android:text=""
                                     android:textColor="@color/colorMainText"
                                     android:textSize="@dimen/fourteen_dp" />
 
@@ -320,7 +320,7 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:text="Created Time:"
+                                    android:text="@string/created_time_"
                                     android:textColor="@color/colorMainText"
                                     android:textSize="@dimen/fourteen_dp" />
 
@@ -330,7 +330,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:gravity="right"
-                                    android:text="316 uzs"
+                                    android:text=""
                                     android:textColor="@color/colorMainText"
                                     android:textSize="@dimen/fourteen_dp" />
 
@@ -344,7 +344,7 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:text="Debt:"
+                                    android:text="@string/debt"
                                     android:textColor="@color/colorMainText"
                                     android:textSize="@dimen/fourteen_dp" />
 
@@ -354,7 +354,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:gravity="right"
-                                    android:text="20:58"
+                                    android:text=""
                                     android:textColor="@color/colorMainText"
                                     android:textSize="@dimen/fourteen_dp" />
 
@@ -368,7 +368,7 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:text="Total payed:"
+                                    android:text="@string/total_payed_"
                                     android:textColor="@color/colorMainText"
                                     android:textSize="@dimen/fourteen_dp" />
 
@@ -378,7 +378,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:gravity="right"
-                                    android:text="28 000 uzs"
+                                    android:text=""
                                     android:textColor="@color/colorMainText"
                                     android:textSize="@dimen/fourteen_dp" />
 
@@ -392,7 +392,7 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:text="Change:"
+                                    android:text="@string/change_"
                                     android:textColor="@color/colorMainText"
                                     android:textSize="@dimen/fourteen_dp" />
 
@@ -402,7 +402,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:gravity="right"
-                                    android:text="5 000 uzs"
+                                    android:text=""
                                     android:textColor="#4ac21b"
                                     android:textSize="@dimen/fourteen_dp" />
 
@@ -431,7 +431,7 @@
                             android:id="@+id/tvOrderCancelLable"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Order canceled"
+                            android:text=""
                             android:textStyle="bold"
                             android:textColor="#fff"
                             android:textSize="@dimen/twenty_eight_dp"
@@ -440,7 +440,7 @@
                             android:id="@+id/tvCauseDelete"
                             android:layout_width="@dimen/three_hundred_dp"
                             android:layout_height="wrap_content"
-                            android:text="Cause: Nimadiram nito bo’gan"
+                            android:text=""
                             android:gravity="center_horizontal"
                             android:textColor="#fff"
                             android:textSize="@dimen/twenty_dp"
@@ -527,7 +527,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:text="Payment details" />
+                        android:text="@string/payment_detials" />
 
                 </LinearLayout>
                 <FrameLayout
@@ -558,7 +558,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:text="Reprint check" />
+                        android:text="@string/reprint_check" />
 
                 </LinearLayout>
                 <FrameLayout
@@ -593,7 +593,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:text="Edit"
+                        android:text="@string/edit"
                         android:textColor="@color/colorBlue"
                         android:textStyle="bold" />
 

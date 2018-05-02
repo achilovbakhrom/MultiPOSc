@@ -22,7 +22,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/five_dp"
-                android:text="Management Employer"
+                android:text="Management_employer"
                 android:textColor="@color/colorBlue" />
 
             <TextView
@@ -63,7 +63,7 @@
                         android:layout_gravity="center"
                         android:layout_marginRight="@dimen/sixteen_dp"
                         android:gravity="right"
-                        android:text="Full name"
+                        android:text="Full_name"
                         android:textColor="@color/colorMainText"
                         android:textSize="@dimen/sixteen_dp" />
 
@@ -76,7 +76,7 @@
                         android:layout_weight="1"
                         android:background="@drawable/edit_text_bg"
                         android:gravity="center_vertical"
-                        android:hint="Name"
+                        android:hint="@string/name"
                         android:paddingBottom="@dimen/five_dp"
                         android:paddingLeft="@dimen/ten_dp"
                         android:paddingRight="@dimen/ten_dp"
@@ -99,7 +99,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginRight="@dimen/sixteen_dp"
                         android:gravity="right"
-                        android:text="Password"
+                        android:text="@string/password"
                         android:textColor="@color/colorMainText"
                         android:textSize="@dimen/sixteen_dp" />
 
@@ -112,7 +112,7 @@
                         android:layout_weight="1"
                         android:background="@drawable/edit_text_bg"
                         android:gravity="center_vertical"
-                        android:hint="Password"
+                        android:hint="@string/password"
                         android:paddingBottom="@dimen/five_dp"
                         android:paddingLeft="@dimen/ten_dp"
                         android:paddingRight="@dimen/ten_dp"

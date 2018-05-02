@@ -31,7 +31,7 @@
                     android:paddingLeft="@dimen/ten_dp"
                     android:paddingRight="@dimen/ten_dp"
                     android:paddingTop="@dimen/five_dp"
-                    android:text="Customers group"
+                    android:text="@string/customers_group"
                     android:textColor="#419fd9"
                     android:textSize="@dimen/sixteen_dp"
                     android:textStyle="bold" />
@@ -56,7 +56,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/thirty_dp"
                     android:layout_weight="1"
-                    android:text="ID client"
+                    android:text="@string/id_client"
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/eighteen_dp" />
 
@@ -64,7 +64,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="Full Name"
+                    android:text="@string/full_name"
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/eighteen_dp" />
 
@@ -72,7 +72,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="Phone number"
+                    android:text="@string/phone_number"
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/eighteen_dp" />
 
@@ -80,7 +80,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="Member"
+                    android:text="@string/member"
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/eighteen_dp" />
             </LinearLayout>
