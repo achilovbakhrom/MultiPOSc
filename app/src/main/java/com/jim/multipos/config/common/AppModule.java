@@ -42,6 +42,8 @@ import com.jim.multipos.ui.reports.ReportsActivity;
 import com.jim.multipos.ui.reports.di.ReportsActivityModule;
 import com.jim.multipos.ui.service_fee_new.ServiceFeeActivity;
 import com.jim.multipos.ui.service_fee_new.di.ServiceFeeActivityModule;
+import com.jim.multipos.ui.settings.SettingsActivity;
+import com.jim.multipos.ui.settings.di.SettingsActivityModule;
 import com.jim.multipos.ui.signing.SignActivity;
 import com.jim.multipos.ui.signing.di.SignActivityModule;
 import com.jim.multipos.ui.vendor.add_edit.VendorAddEditActivity;
@@ -157,6 +159,10 @@ abstract class  AppModule {
     @PerActivity
     @ContributesAndroidInjector(modules = ReportsActivityModule.class)
     abstract ReportsActivity provodeReportsActivity();
+
+    @PerActivity
+    @ContributesAndroidInjector(modules = SettingsActivityModule.class)
+    abstract SettingsActivity provodeSettingsActivity();
 
 
 

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -64,6 +65,7 @@ public class CustomersEditActivity extends BaseActivity implements CustomersEdit
         rvItems.setLayoutManager(new LinearLayoutManager(this));
         adapter = new CustomerAdapter(this, presenter.getCustomers(), this,barcodeStack);
         rvItems.setAdapter(adapter);
+        ((SimpleItemAnimator) rvItems.getItemAnimator()).setSupportsChangeAnimations(false);
 
         RxView.clicks(btnBack).subscribe(o -> {
             if (adapter.getNotSavedItemCount() == 0) {

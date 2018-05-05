@@ -37,6 +37,7 @@ public class MpToolbar extends RelativeLayout {
     public static final int WITH_CALENDAR_TYPE = 4;
     public static final int WITH_SEARCH_CALENDAR_TYPE = 5;
     public static final int GONE_TYPE = 0;
+    public static final int DEFAULT_TYPE_TWO_SECTION = 6;
 
     public static final int DEFAULT_MODE = 10;
     public static final int MAIN_MODE = 11;
@@ -337,6 +338,19 @@ public class MpToolbar extends RelativeLayout {
             case DEFAULT_TYPE: {
                 rlBackgroun.setVisibility(GONE);
                 mpRightSide.setVisibility(GONE);
+                mpMainMenu.setVisibility(GONE);
+                mpSettings.setVisibility(GONE);
+                llDateIntervalPicker.setVisibility(GONE);
+                mpHorizontalScroller.setVisibility(GONE);
+                mpSearchView.setVisibility(GONE);
+                llEmployer.setVisibility(GONE);
+                findViewById(R.id.mpInfo).setVisibility(GONE);
+                findViewById(R.id.blackLine).setVisibility(GONE);
+                break;
+            }
+            case DEFAULT_TYPE_TWO_SECTION: {
+                rlBackgroun.setVisibility(VISIBLE);
+                mpRightSide.setVisibility(VISIBLE);
                 mpMainMenu.setVisibility(GONE);
                 mpSettings.setVisibility(GONE);
                 llDateIntervalPicker.setVisibility(GONE);

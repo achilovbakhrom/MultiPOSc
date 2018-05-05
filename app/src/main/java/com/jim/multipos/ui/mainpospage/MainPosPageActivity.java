@@ -30,6 +30,7 @@ import com.jim.multipos.ui.mainpospage.view.BarcodeScannerFragment;
 import com.jim.multipos.ui.mainpospage.view.OrderListFragment;
 import com.jim.multipos.ui.product_last.ProductActivity;
 import com.jim.multipos.ui.reports.ReportsActivity;
+import com.jim.multipos.ui.settings.SettingsActivity;
 import com.jim.multipos.utils.MainMenuDialog;
 import com.jim.multipos.utils.OrderMenuDialog;
 import com.jim.multipos.utils.RxBus;
@@ -139,6 +140,8 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
 
                 @Override
                 public void onSettings() {
+                    Intent intent = new Intent(MainPosPageActivity.this, SettingsActivity.class);
+                    startActivity(intent);
                 }
 
                 @Override
@@ -246,9 +249,15 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
         @Override
         public void run() {
             //TODO DO NORMALNIY
-//            tvDate.setText(new SimpleDateFormat("dd - MMM, yyyy", Locale.ENGLISH).format(new Date()));
-//            handler.postDelayed(timerUpdate, 30000);
-        }
+            try{
+                Date date = new Date();
+                tvTime.setText(new SimpleDateFormat("HH:mm").format(date));
+                tvDate.setText(new SimpleDateFormat("dd - MMM, yyyy", Locale.ENGLISH).format(date));
+                handler.postDelayed(timerUpdate, 30000);
+            }catch (Exception e){
+
+            }
+           }
     };
 
 
@@ -380,10 +389,23 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
             checkPrinter.connectDevice();
         }
         if(checkPrinter.checkConnect()){
-            checkPrinter.printCheck(order);
+            checkPrinter.printCheck(order,false);
         }else {
             checkPrinter.connectDevice();
         }
+        }).start();
+    }
+    public void reprintOrder(Order order, DatabaseManager databaseManager, PreferencesHelper preferencesHelper){
+        new Thread(() -> {
+            if(checkPrinter ==null){
+                checkPrinter = new CheckPrinter(this,preferencesHelper,databaseManager);
+                checkPrinter.connectDevice();
+            }
+            if(checkPrinter.checkConnect()){
+                checkPrinter.printCheck(order,true);
+            }else {
+                checkPrinter.connectDevice();
+            }
         }).start();
     }
     public void stockCheckOrder(long tillId, long orderNumber, long now, List<OrderProductItem> orderProducts, Customer customer, DatabaseManager databaseManager, PreferencesHelper preferencesHelper) {

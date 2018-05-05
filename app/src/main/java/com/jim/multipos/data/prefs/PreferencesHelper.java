@@ -71,4 +71,30 @@ public interface PreferencesHelper {
     boolean isDefaultPicture();
     boolean isPrintCheck();
     void setPrintCheck(boolean printCheck);
+
+    //SecurityConfigs
+    boolean isProductsProtected();
+    boolean isRepotsProtected();
+    boolean isCustomersProtected();
+    boolean isInventoryProtected();
+    boolean isSettingsProtected();
+    boolean isCashManagmentProtected();
+    boolean isCancelOrderProtected();
+    boolean isManualDiscountsProtected();
+    boolean isEditOrderProtected();
+    boolean isManualServiceFeeProtected();
+
+
+    void setProductsProtected(Boolean isProtected);
+    void setReportsProtected(Boolean isProtected);
+    void setCustomersProtected(Boolean isProtected);
+    void setInventorysProtected(Boolean isProtected);
+    void setSettingsProtected(Boolean isProtected);
+    void setCashManagmentsProtected(Boolean isProtected);
+    void setCancelOrderProtected(Boolean isProtected);
+    void setManualDiscountProtected(Boolean isProtected);
+    void setEditOrderProtected(Boolean isProtected);
+    void setManualServiceFeeProtected(Boolean isProtected);
+    //
+
 }

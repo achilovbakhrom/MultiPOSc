@@ -1098,4 +1098,23 @@
         <item>SCANNER</item>
         <item>SYC ID\u0026IC USB Reader</item>
     </string-array>
+
+    <string-array name="settings_titles">
+        <item>Basics</item>
+        <item>POS details</item>
+        <item>Currency</item>
+        <item>Account</item>
+        <item>Payment Types</item>
+        <item>Printer</item>
+        <item>Security</item>
+    </string-array>
+    <string-array name="settings_sub_titles">
+        <item>Some standard configurations</item>
+        <item>Information about POS</item>
+        <item>System main currency</item>
+        <item>System All Accounts manage</item>
+        <item>Payment types manage</item>
+        <item>Configuration recipe printer</item>
+        <item>Password and access configs</item>
+    </string-array>
 </resources>

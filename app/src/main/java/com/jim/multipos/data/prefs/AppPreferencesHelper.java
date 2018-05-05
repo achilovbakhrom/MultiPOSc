@@ -54,6 +54,17 @@ public class AppPreferencesHelper implements PreferencesHelper {
     private static final String DEF_PICTURE = "DEF_PICTURE";
     private static final String PRINT_CHECK_STATE = "PRINT_CHECK_STATE";
 
+    private static final String PRODUCTS_SEC_PROTECTED = "PRODUCTS_SEC_PROTECTED";
+    private static final String REPORTS_SEC_PROTECTED = "REPORTS_SEC_PROTECTED";
+    private static final String CUSTOMERS_SEC_PROTECTED = "CUSTOMERS_SEC_PROTECTED";
+    private static final String INVENTORY_SEC_PROTECTED = "INVENTORY_SEC_PROTECTED";
+    private static final String SETTINGS_SEC_PROTECTED = "SETTINGS_SEC_PROTECTED";
+    private static final String CASH_MANAGMENT_SEC_PROTECTED = "CASH_MANAGMENT_SEC_PROTECTED";
+    private static final String CANCEL_ORDER_SEC_PROTECTED = "CANCEL_ORDER_SEC_PROTECTED";
+    private static final String MANUAL_DISCOUNT_SEC_PROTECTED = "MANUAL_DISCOUNT_SEC_PROTECTED";
+    private static final String EDIT_ORDER_SEC_PROTECTED = "EDIT_ORDER_SEC_PROTECTED";
+    private static final String MANUAL_SERVICE_SEC_PROTECTED = "MANUAL_SERVICE_SEC_PROTECTED";
+
 
     private final SharedPreferences mPrefs;
 
@@ -300,5 +311,124 @@ public class AppPreferencesHelper implements PreferencesHelper {
     @Override
     public void setPrintCheck(boolean printCheck) {
         mPrefs.edit().putBoolean(PRINT_CHECK_STATE,printCheck).apply();
+    }
+
+
+
+    @Override
+    public boolean isProductsProtected() {
+        return mPrefs.getBoolean(PRODUCTS_SEC_PROTECTED,false);
+    }
+
+    @Override
+    public boolean isRepotsProtected() {
+        return mPrefs.getBoolean(REPORTS_SEC_PROTECTED,false);
+
+    }
+
+    @Override
+    public boolean isCustomersProtected() {
+        return mPrefs.getBoolean(CUSTOMERS_SEC_PROTECTED,false);
+
+    }
+
+    @Override
+    public boolean isInventoryProtected() {
+        return mPrefs.getBoolean(INVENTORY_SEC_PROTECTED,false);
+
+    }
+
+    @Override
+    public boolean isSettingsProtected() {
+        return mPrefs.getBoolean(SETTINGS_SEC_PROTECTED,false);
+
+    }
+
+    @Override
+    public boolean isCashManagmentProtected() {
+        return mPrefs.getBoolean(CASH_MANAGMENT_SEC_PROTECTED,false);
+
+    }
+
+    @Override
+    public boolean isCancelOrderProtected() {
+        return mPrefs.getBoolean(CANCEL_ORDER_SEC_PROTECTED,false);
+
+    }
+
+    @Override
+    public boolean isManualDiscountsProtected() {
+        return mPrefs.getBoolean(MANUAL_DISCOUNT_SEC_PROTECTED,false);
+
+    }
+
+    @Override
+    public boolean isEditOrderProtected() {
+        return mPrefs.getBoolean(EDIT_ORDER_SEC_PROTECTED,false);
+
+    }
+
+    @Override
+    public boolean isManualServiceFeeProtected() {
+        return mPrefs.getBoolean(MANUAL_SERVICE_SEC_PROTECTED,false);
+    }
+
+    @Override
+    public void setProductsProtected(Boolean isProtected) {
+        mPrefs.edit().putBoolean(PRODUCTS_SEC_PROTECTED,isProtected).apply();
+    }
+
+    @Override
+    public void setReportsProtected(Boolean isProtected) {
+        mPrefs.edit().putBoolean(REPORTS_SEC_PROTECTED,isProtected).apply();
+
+    }
+
+    @Override
+    public void setCustomersProtected(Boolean isProtected) {
+        mPrefs.edit().putBoolean(CUSTOMERS_SEC_PROTECTED,isProtected).apply();
+
+    }
+
+    @Override
+    public void setInventorysProtected(Boolean isProtected) {
+        mPrefs.edit().putBoolean(INVENTORY_SEC_PROTECTED,isProtected).apply();
+
+    }
+
+    @Override
+    public void setSettingsProtected(Boolean isProtected) {
+        mPrefs.edit().putBoolean(SETTINGS_SEC_PROTECTED,isProtected).apply();
+
+    }
+
+    @Override
+    public void setCashManagmentsProtected(Boolean isProtected) {
+        mPrefs.edit().putBoolean(CASH_MANAGMENT_SEC_PROTECTED,isProtected).apply();
+
+    }
+
+    @Override
+    public void setCancelOrderProtected(Boolean isProtected) {
+        mPrefs.edit().putBoolean(CANCEL_ORDER_SEC_PROTECTED,isProtected).apply();
+
+    }
+
+    @Override
+    public void setManualDiscountProtected(Boolean isProtected) {
+        mPrefs.edit().putBoolean(MANUAL_DISCOUNT_SEC_PROTECTED,isProtected).apply();
+
+    }
+
+    @Override
+    public void setEditOrderProtected(Boolean isProtected) {
+        mPrefs.edit().putBoolean(EDIT_ORDER_SEC_PROTECTED,isProtected).apply();
+
+    }
+
+    @Override
+    public void setManualServiceFeeProtected(Boolean isProtected) {
+        mPrefs.edit().putBoolean(MANUAL_SERVICE_SEC_PROTECTED,isProtected).apply();
+
     }
 }

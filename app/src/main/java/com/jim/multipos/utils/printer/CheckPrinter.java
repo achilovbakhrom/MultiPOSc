@@ -190,7 +190,7 @@ public class CheckPrinter {
 //        }
     }
 
-    public void printCheck(Order order)  {
+    public void printCheck(Order order,boolean reprint)  {
         if (usbController != null && device != null) {
             sendDataByte( Command.ESC_Init);
             sendDataByte(PrinterCommand.POS_Set_CodePage(73));
@@ -252,6 +252,9 @@ public class CheckPrinter {
                 sendDataString(String.format("%.42s", parent.getString(com.jim.multipos.R.string.tel)+" " +CyrillicLatinConverter.transliterate(preferencesHelper.getPosPhoneNumber())));
                 sendDataByte( Command.ESC_Two);
             }
+
+            if(reprint)
+                sendDataString(String.format("%.42s", "Reprinted: "+simpleDateFormat.format(new Date())));
 
             //enter
             sendDataString(" ");
