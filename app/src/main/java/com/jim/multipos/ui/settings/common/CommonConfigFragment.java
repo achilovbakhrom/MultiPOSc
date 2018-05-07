@@ -13,6 +13,9 @@ import com.jim.multipos.config.common.BaseAppModule;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivity;
+import com.jim.multipos.utils.RxBus;
+import com.jim.multipos.utils.rxevents.main_order_events.MainPosActivityRefreshEvent;
+import com.jim.multipos.utils.rxevents.main_order_events.OrderEvent;
 
 import java.text.DecimalFormat;
 
@@ -33,7 +36,8 @@ public class CommonConfigFragment extends BaseFragment implements CommonConfigVi
     @BindView(R.id.btnRevert)
     MpButton btnRevert;
 
-
+    @Inject
+    RxBus rxBus;
     DecimalFormat decimalFormat;
 
     @Inject
@@ -84,7 +88,8 @@ public class CommonConfigFragment extends BaseFragment implements CommonConfigVi
             }
 
            //TODO REFRESH MAIM PAGE
-
+            getActivity().finish();
+            rxBus.send(new MainPosActivityRefreshEvent());
         });
         btnRevert.setOnClickListener(view -> {
             initViews();

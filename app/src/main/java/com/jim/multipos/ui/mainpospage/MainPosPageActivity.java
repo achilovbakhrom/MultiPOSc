@@ -39,6 +39,7 @@ import com.jim.multipos.utils.RxBusLocal;
 import com.jim.multipos.utils.managers.NotifyManager;
 import com.jim.multipos.utils.printer.CheckPrinter;
 import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
+import com.jim.multipos.utils.rxevents.main_order_events.MainPosActivityRefreshEvent;
 import com.jim.multipos.utils.rxevents.main_order_events.OrderEvent;
 import com.jim.multipos.utils.rxevents.till_management_events.TillEvent;
 
@@ -340,6 +341,9 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
                                 presenter.onOrderClosedFromOutSide(event.getOrder().getId());
                                 break;
                         }
+                    }else if(o instanceof MainPosActivityRefreshEvent){
+                        finish();
+                        startActivity(getIntent());
                     }
                 }));
 
