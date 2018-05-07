@@ -18,6 +18,7 @@ import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.unit.UnitCategory;
+import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivity;
 import com.jim.multipos.ui.mainpospage.connection.MainPageConnection;
 import com.jim.multipos.ui.mainpospage.dialogs.ChooseVendorDialog;
@@ -98,6 +99,8 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
 
     @Inject
     MainPageConnection mainPageConnection;
+    @Inject
+    PreferencesHelper preferencesHelper;
     @Override
     protected int getLayout() {
         return R.layout.product_info_fragment;
@@ -189,7 +192,7 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
                         mainPageConnection.giveToProductInfoFragmentProductItem();
                     }
                 };
-                ServiceFeeDialog serviceFeeDialog = new ServiceFeeDialog(getContext(),databaseManager,callbackServiceFeeDialog,orderProductItem.getOrderProduct().getPrice(),ServiceFee.ITEM, decimalFormat);
+                ServiceFeeDialog serviceFeeDialog = new ServiceFeeDialog(getContext(),databaseManager,callbackServiceFeeDialog,orderProductItem.getOrderProduct().getPrice(),ServiceFee.ITEM, decimalFormat,preferencesHelper);
                 serviceFeeDialog.show();
             }
         });
@@ -213,7 +216,7 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
 
                     }
                 };
-                DiscountDialog discountDialog = new DiscountDialog(getContext(), databaseManager, callbackDiscountDialog, orderProductItem.getOrderProduct().getPrice(), Discount.ITEM, decimalFormat);
+                DiscountDialog discountDialog = new DiscountDialog(getContext(), databaseManager, callbackDiscountDialog, orderProductItem.getOrderProduct().getPrice(), Discount.ITEM, decimalFormat,preferencesHelper);
                 discountDialog.show();
             }
         });

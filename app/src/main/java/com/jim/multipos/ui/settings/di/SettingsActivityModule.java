@@ -17,6 +17,8 @@ import com.jim.multipos.ui.settings.SettingsPresenterImpl;
 import com.jim.multipos.ui.settings.SettingsView;
 import com.jim.multipos.ui.settings.choice_panel.ChoicePanelFragment;
 import com.jim.multipos.ui.settings.choice_panel.ChoicePanelFragmentModule;
+import com.jim.multipos.ui.settings.common.CommonConfigFragment;
+import com.jim.multipos.ui.settings.common.CommonConfigFragmentModule;
 import com.jim.multipos.ui.settings.print.PrintFragment;
 import com.jim.multipos.ui.settings.print.PrintFragmentModule;
 import com.jim.multipos.ui.settings.security.SecurityFragment;
@@ -55,4 +57,8 @@ public abstract class SettingsActivityModule {
     @PerFragment
     @ContributesAndroidInjector(modules = PrintFragmentModule.class)
     abstract PrintFragment providePrintFragment();
+
+    @PerFragment
+    @ContributesAndroidInjector(modules = CommonConfigFragmentModule.class)
+    abstract CommonConfigFragment provideCommonConfigFragment();
 }

@@ -67,8 +67,8 @@ public class CheckPrinter {
             if (!(usbController.isHasPermission(device))) {
                 usbController.getPermission(device);
             } else {
-                Toast.makeText(parent.getBaseContext(), "Connected",
-                        Toast.LENGTH_SHORT).show();
+//                Toast.makeText(parent.getBaseContext(), "Connected",
+//                        Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -188,6 +188,156 @@ public class CheckPrinter {
 //            Toast.makeText(parent.getBaseContext(), "Printer isn't connected",
 //                    Toast.LENGTH_SHORT).show();
 //        }
+    }
+    public void examplePrint(){
+        if (usbController != null && device != null) {
+            sendDataByte( Command.ESC_Init);
+            sendDataByte(PrinterCommand.POS_Set_CodePage(73));
+
+
+            //Align to center
+            Command.ESC_Align[2] = 0x01;
+            sendDataByte(Command.ESC_Align);
+
+            //print Picture to check
+            if(preferencesHelper.isPrintPictureInCheck()){
+                try {
+                    Bitmap bitmap;
+                    if(!preferencesHelper.isDefaultPicture())
+                        bitmap = MediaStore.Images.Media.getBitmap(parent.getContentResolver(), preferencesHelper.getUriPathCheckPicture());
+                    else bitmap = BitmapFactory.decodeResource(parent.getResources(), R.drawable.multipos);
+                    printPicture(bitmap);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+
+            //Change Type font to bigger
+            Command.ESC_ExclamationMark[2] = 0x00;
+            sendDataByte( Command.ESC_ExclamationMark);
+
+
+            //Align to center
+            Command.ESC_Align[2] = 0x01;
+            sendDataByte(Command.ESC_Align);
+
+            //Line interval (short)
+            sendDataByte( Command.ESC_Three);
+
+            //BOLD
+            sendDataByte(PrinterCommand.POS_Set_Bold(1));
+
+            //ORGANIZATION NAME
+            sendDataString(String.format("%.32s",CyrillicLatinConverter.transliterate(preferencesHelper.getPosDetailAlias().toUpperCase())));
+
+            //Change type font to smaller
+            Command.ESC_ExclamationMark[2] = 0x01;
+            sendDataByte( Command.ESC_ExclamationMark);
+
+            //Turn off bold style
+            sendDataByte(PrinterCommand.POS_Set_Bold(0));
+
+            //Organization Adress
+            sendDataString( String.format("%.42s", CyrillicLatinConverter.transliterate(preferencesHelper.getPosDetailAddress())));
+
+
+
+            //Organization PhoneNumber
+            if(!preferencesHelper.getPosPhoneNumber().isEmpty()){
+                //Line interval (shorter)
+                sendDataByte( Command.ESC_Three);
+                sendDataString(String.format("%.42s", parent.getString(com.jim.multipos.R.string.tel)+" " +CyrillicLatinConverter.transliterate(preferencesHelper.getPosPhoneNumber())));
+                sendDataByte( Command.ESC_Two);
+            }
+
+
+            //enter
+            sendDataString(" ");
+
+            //Line interval (longer)
+            sendDataByte( Command.ESC_Two);
+
+            //Align right
+            Command.ESC_Align[2] = 0x00;
+            sendDataByte(Command.ESC_Align);
+
+            //ORDER №: 12         17:50 27/02/2017
+            sendDataString(String.format("%-20.20s",parent.getString(R.string.order_number_title)+": "+String.valueOf(1))+"  "+String.format("%20.20s",simpleDateFormat.format(new Date())));
+
+            //POS ID: 1            Till №: 17:50 27w/02/2017
+            sendDataString(String.format("%-20.20s",parent.getString(R.string.pos_number)+": "+String.valueOf(preferencesHelper.getPosDetailPosId()))+"  "+String.format("%20.20s",parent.getString(R.string.till_number_titl)+": "+String.valueOf(1)));
+
+            //Customer: Anvarjon   Currency: Uzs
+            sendDataString(String.format("%-20.20s",parent.getString(R.string.customer)+": "+CyrillicLatinConverter.transliterate("Oliver"))+"  "+String.format("%20.20s",parent.getString(R.string.currency) +": " + "$"));
+
+
+            //Divider
+            sendDataString("..........................................");
+
+            sendDataString(String.format("%-24.24s",CyrillicLatinConverter.transliterate("Hoodie Sweatshirt"))+String.format("%18s","51.94"));
+            sendDataString(String.format("%-24.24s",CyrillicLatinConverter.transliterate("*Paul Evans Wholecut"))+String.format("%18s","2 x 399 = 798.00"));
+
+
+
+
+            //Divider
+            sendDataString("..........................................");
+
+            //BOLD
+            sendDataByte(PrinterCommand.POS_Set_Bold(0));
+
+
+            //DISCOUNTS
+                sendDataString(String.format("%-24.24s",parent.getString(R.string.total_discount_check)+": ") + String.format("%18s",decimalFormat.format(48)));
+
+            //SERVICE FEE
+                sendDataString(String.format("%-24.24s",parent.getString(R.string.total_service_fee_check)+": ") + String.format("%18s","+"+decimalFormat.format(0)));
+
+            //FOR PAY
+            sendDataString(String.format("%-24.24s",parent.getString(R.string.to_pay_check)+": ") + String.format("%18s",decimalFormat.format(801.94)));
+
+            //PAYED
+            sendDataString(String.format("%-24.24s",parent.getString(R.string.payed_check)+": ") + String.format("%18s",decimalFormat.format(802)));
+
+            //CHANGE
+            sendDataString(String.format("%-24.24s",parent.getString(R.string.change_check)+": ") + String.format("%18s", decimalFormat.format(0.06)));
+
+            //Align to center
+            Command.ESC_Align[2] = 0x01;
+            sendDataByte(Command.ESC_Align);
+
+            //Divider
+            sendDataString("..........................................");
+
+
+            //Turn off bold style
+            sendDataByte(PrinterCommand.POS_Set_Bold(0));
+
+            if(preferencesHelper.isHintAbout()) {
+                //discription
+                sendDataString("* - products with discount");
+                sendDataString("! - products with service fee");
+
+                //Divider
+                sendDataString("..........................................");
+            }
+            //FIN
+            sendDataString("THANK YOU! - SPASIBO!");
+
+            sendDataString(" ");
+            sendDataString(" ");
+            sendDataString(" ");
+
+
+
+
+
+        } else {
+            Toast.makeText(parent.getBaseContext(), "Printer isn't connected",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void printCheck(Order order,boolean reprint)  {
@@ -326,14 +476,14 @@ public class CheckPrinter {
             //Turn off bold style
             sendDataByte(PrinterCommand.POS_Set_Bold(0));
 
+            if(preferencesHelper.isHintAbout()) {
+                //discription
+                sendDataString("* - products with discount");
+                sendDataString("! - products with service fee");
 
-            //discription
-            sendDataString("* - products with discount");
-            sendDataString("! - products with service fee");
-
-            //Divider
-            sendDataString("..........................................");
-
+                //Divider
+                sendDataString("..........................................");
+            }
             //FIN
             sendDataString("THANK YOU! - SPASIBO!");
 

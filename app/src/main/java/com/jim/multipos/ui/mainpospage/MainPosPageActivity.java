@@ -22,6 +22,7 @@ import com.jim.multipos.ui.lock_screen.LockScreenActivity;
 import com.jim.multipos.ui.main_menu.customers_menu.CustomersMenuActivity;
 import com.jim.multipos.ui.main_menu.inventory_menu.InventoryMenuActivity;
 import com.jim.multipos.ui.main_menu.product_menu.ProductMenuActivity;
+import com.jim.multipos.ui.mainpospage.dialogs.AccessWithEditPasswordDialog;
 import com.jim.multipos.ui.mainpospage.dialogs.HeldOrdersDialog;
 import com.jim.multipos.ui.mainpospage.dialogs.ReturnsDialog;
 import com.jim.multipos.ui.mainpospage.dialogs.TodayOrdersDialog;
@@ -118,8 +119,27 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
             MainMenuDialog mainMenuDialog = new MainMenuDialog(this, databaseManager, decimalFormat, isBarcodeShown, new MainMenuDialog.onMenuItemClickListener() {
                 @Override
                 public void onCashManagement() {
-                    Intent intent = new Intent(MainPosPageActivity.this, CashManagementActivity.class);
-                    startActivity(intent);
+                    if(preferencesHelper.isCashManagmentProtected()){
+                        AccessWithEditPasswordDialog accessWithEditPasswordDialog = new AccessWithEditPasswordDialog(MainPosPageActivity.this, new AccessWithEditPasswordDialog.OnAccsessListner() {
+                            @Override
+                            public void accsessSuccess() {
+
+                                Intent intent = new Intent(MainPosPageActivity.this, CashManagementActivity.class);
+                                startActivity(intent);
+                            }
+
+                            @Override
+                            public void onBruteForce() {
+
+                            }
+                        },preferencesHelper);
+                        accessWithEditPasswordDialog.show();
+                    }else {
+
+                        Intent intent = new Intent(MainPosPageActivity.this, CashManagementActivity.class);
+                        startActivity(intent);
+                    }
+
                 }
 
                 @Override
@@ -140,8 +160,25 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
 
                 @Override
                 public void onSettings() {
-                    Intent intent = new Intent(MainPosPageActivity.this, SettingsActivity.class);
-                    startActivity(intent);
+                    if(preferencesHelper.isSettingsProtected()){
+                        AccessWithEditPasswordDialog accessWithEditPasswordDialog = new AccessWithEditPasswordDialog(MainPosPageActivity.this, new AccessWithEditPasswordDialog.OnAccsessListner() {
+                            @Override
+                            public void accsessSuccess() {
+                                Intent intent = new Intent(MainPosPageActivity.this, SettingsActivity.class);
+                                startActivity(intent);
+                            }
+
+                            @Override
+                            public void onBruteForce() {
+
+                            }
+                        },preferencesHelper);
+                        accessWithEditPasswordDialog.show();
+                    }else {
+                        Intent intent = new Intent(MainPosPageActivity.this, SettingsActivity.class);
+                        startActivity(intent);
+                    }
+
                 }
 
                 @Override
@@ -152,21 +189,90 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
             mainMenuDialog.show();
         });
         toolbar.setOnCustomerClickListener(view -> {
-            Intent intent = new Intent(this, CustomersMenuActivity.class);
-            startActivity(intent);
+            if(preferencesHelper.isCustomersProtected()){
+                AccessWithEditPasswordDialog accessWithEditPasswordDialog = new AccessWithEditPasswordDialog(this, new AccessWithEditPasswordDialog.OnAccsessListner() {
+                    @Override
+                    public void accsessSuccess() {
+                        Intent intent = new Intent(MainPosPageActivity.this, CustomersMenuActivity.class);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onBruteForce() {
+
+                    }
+                },preferencesHelper);
+                accessWithEditPasswordDialog.show();
+            }else {
+                Intent intent = new Intent(this, CustomersMenuActivity.class);
+                startActivity(intent);
+            }
+
         });
         toolbar.setOnInventoryClickListener(view -> {
-            Intent intent = new Intent(this, InventoryMenuActivity.class);
-            startActivity(intent);
+            if(preferencesHelper.isInventoryProtected()){
+                AccessWithEditPasswordDialog accessWithEditPasswordDialog = new AccessWithEditPasswordDialog(this, new AccessWithEditPasswordDialog.OnAccsessListner() {
+                    @Override
+                    public void accsessSuccess() {
+                        Intent intent = new Intent(MainPosPageActivity.this, InventoryMenuActivity.class);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onBruteForce() {
+
+                    }
+                },preferencesHelper);
+                accessWithEditPasswordDialog.show();
+            }else {
+                Intent intent = new Intent(this, InventoryMenuActivity.class);
+                startActivity(intent);
+            }
+
         });
 
         toolbar.setOnProductClickListener(view -> {
-            Intent intent = new Intent(this, ProductMenuActivity.class);
-            startActivity(intent);
+            if(preferencesHelper.isProductsProtected()){
+                AccessWithEditPasswordDialog accessWithEditPasswordDialog = new AccessWithEditPasswordDialog(this, new AccessWithEditPasswordDialog.OnAccsessListner() {
+                    @Override
+                    public void accsessSuccess() {
+                        Intent intent = new Intent(MainPosPageActivity.this, ProductMenuActivity.class);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onBruteForce() {
+
+                    }
+                },preferencesHelper);
+                accessWithEditPasswordDialog.show();
+            }else {
+                Intent intent = new Intent(this, ProductMenuActivity.class);
+                startActivity(intent);
+            }
         });
         toolbar.setOnReportClickListener(view -> {
-            Intent intent = new Intent(this, ReportsActivity.class);
-            startActivity(intent);
+            if(preferencesHelper.isRepotsProtected()){
+                AccessWithEditPasswordDialog accessWithEditPasswordDialog = new AccessWithEditPasswordDialog(this, new AccessWithEditPasswordDialog.OnAccsessListner() {
+                    @Override
+                    public void accsessSuccess() {
+                        Intent intent = new Intent(MainPosPageActivity.this, ReportsActivity.class);
+                        startActivity(intent);
+
+                    }
+
+                    @Override
+                    public void onBruteForce() {
+
+                    }
+                },preferencesHelper);
+                accessWithEditPasswordDialog.show();
+            }else {
+                Intent intent = new Intent(this, ReportsActivity.class);
+                startActivity(intent);
+            }
+
+
         });
         toolbar.setOnSearchClickListener(new MpToolbar.CallbackSearchFragmentClick() {
             @Override

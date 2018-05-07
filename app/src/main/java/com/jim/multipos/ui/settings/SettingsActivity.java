@@ -22,12 +22,18 @@ import com.jim.multipos.ui.reports.summary_report.SummaryReportFragment;
 import com.jim.multipos.ui.reports.tills.TillsReportFragment;
 import com.jim.multipos.ui.reports.vendor.VendorReportFragment;
 import com.jim.multipos.ui.settings.choice_panel.ChoicePanelFragment;
+import com.jim.multipos.ui.settings.common.CommonConfigFragment;
 import com.jim.multipos.ui.settings.print.PrintFragment;
 import com.jim.multipos.ui.settings.security.SecurityFragment;
 
+import javax.inject.Inject;
+
 public class SettingsActivity extends DoubleSideActivity implements SettingsView {
 
-    String [] settingsFragments= {SecurityFragment.class.getName(),PrintFragment.class.getName()};
+    @Inject
+    SettingsPresenter settingsPresenter;
+
+    String [] settingsFragments= {SecurityFragment.class.getName(),PrintFragment.class.getName(),CommonConfigFragment.class.getName()};
 
 
     @Override
@@ -39,13 +45,14 @@ public class SettingsActivity extends DoubleSideActivity implements SettingsView
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addFragmentToLeft(new ChoicePanelFragment());
-//        addFragmentToRight();
+        showCommonConfigFragment();
     }
 
     public void onPanelClicked(int position){
         switch (position){
             case 0:
                 //TODO BASICS
+                showCommonConfigFragment();
                 break;
             case 1:
                 //TODO POS DETAILS
@@ -91,7 +98,16 @@ public class SettingsActivity extends DoubleSideActivity implements SettingsView
             getSupportFragmentManager().beginTransaction().show(printFragment).commit();
         }
     }
-
+    public void showCommonConfigFragment(){
+        hideAll();
+        CommonConfigFragment commonConfigFragment = (CommonConfigFragment) getSupportFragmentManager().findFragmentByTag(CommonConfigFragment.class.getName());
+        if(commonConfigFragment == null){
+            commonConfigFragment = new CommonConfigFragment();
+            addFragmentWithTagToRight(commonConfigFragment,CommonConfigFragment.class.getName());
+        }else {
+            getSupportFragmentManager().beginTransaction().show(commonConfigFragment).commit();
+        }
+    }
     public void hideAll(){
         for (String fragmentName:settingsFragments){
             Fragment fragmentByTag = getSupportFragmentManager().findFragmentByTag(fragmentName);

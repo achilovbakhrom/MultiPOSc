@@ -53,6 +53,7 @@ public class AppPreferencesHelper implements PreferencesHelper {
     private static final String PICTURE_URI = "PICTURE_URI";
     private static final String DEF_PICTURE = "DEF_PICTURE";
     private static final String PRINT_CHECK_STATE = "PRINT_CHECK_STATE";
+    private static final String HINT_CHECK_HINT = "HINT_CHECK_HINT";
 
     private static final String PRODUCTS_SEC_PROTECTED = "PRODUCTS_SEC_PROTECTED";
     private static final String REPORTS_SEC_PROTECTED = "REPORTS_SEC_PROTECTED";
@@ -64,6 +65,7 @@ public class AppPreferencesHelper implements PreferencesHelper {
     private static final String MANUAL_DISCOUNT_SEC_PROTECTED = "MANUAL_DISCOUNT_SEC_PROTECTED";
     private static final String EDIT_ORDER_SEC_PROTECTED = "EDIT_ORDER_SEC_PROTECTED";
     private static final String MANUAL_SERVICE_SEC_PROTECTED = "MANUAL_SERVICE_SEC_PROTECTED";
+    private static final String LANGUAGE_CODE = "LANGUAGE_CODE";
 
 
     private final SharedPreferences mPrefs;
@@ -430,5 +432,25 @@ public class AppPreferencesHelper implements PreferencesHelper {
     public void setManualServiceFeeProtected(Boolean isProtected) {
         mPrefs.edit().putBoolean(MANUAL_SERVICE_SEC_PROTECTED,isProtected).apply();
 
+    }
+
+    @Override
+    public void setHintAbout(Boolean hintAbout) {
+        mPrefs.edit().putBoolean(HINT_CHECK_HINT,hintAbout).apply();
+    }
+
+    @Override
+    public boolean isHintAbout() {
+        return mPrefs.getBoolean(HINT_CHECK_HINT,true);
+    }
+
+    @Override
+    public void setLanguage(int langcode) {
+        mPrefs.edit().putInt(LANGUAGE_CODE,langcode).apply();
+    }
+
+    @Override
+    public int getLanguageCode() {
+        return mPrefs.getInt(LANGUAGE_CODE,0);
     }
 }

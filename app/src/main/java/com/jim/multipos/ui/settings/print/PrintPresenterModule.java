@@ -1,6 +1,7 @@
 package com.jim.multipos.ui.settings.print;
 
 import com.jim.multipos.config.scope.PerActivity;
+import com.jim.multipos.config.scope.PerFragment;
 
 import dagger.Binds;
 import dagger.Module;
@@ -8,7 +9,7 @@ import dagger.Module;
 @Module
 public abstract class PrintPresenterModule {
     @Binds
-    @PerActivity
+    @PerFragment
     abstract PrintPresenter providePrintPresenter(PrintPresenterImpl printPresenter);
 
 }

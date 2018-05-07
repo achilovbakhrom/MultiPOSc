@@ -235,49 +235,63 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
 
     @Override
     public void openEditAccsessDialog() {
-        AccessToEditDialog accessToEditDialog = new AccessToEditDialog(getContext(), new AccessToEditDialog.OnAccsessListner() {
-            @Override
-            public void accsessSuccess(String reason) {
-                ((MainPosPageActivity)getActivity()).onEditOrder(reason);
-            }
+        if(preferencesHelper.isEditOrderProtected()){
+            AccessToEditDialog accessToEditDialog = new AccessToEditDialog(getContext(), new AccessToEditDialog.OnAccsessListner() {
+                @Override
+                public void accsessSuccess(String reason) {
+                    ((MainPosPageActivity)getActivity()).onEditOrder(reason);
+                }
 
-            @Override
-            public void onBruteForce() {
-                presenter.onBruteForce();
-            }
-        },preferencesHelper);
-        accessToEditDialog.show();
+                @Override
+                public void onBruteForce() {
+                    presenter.onBruteForce();
+                }
+            },preferencesHelper);
+            accessToEditDialog.show();
+        }else {
+            ((MainPosPageActivity)getActivity()).onEditOrder(getString(R.string.without_reason));
+        }
+
     }
 
     @Override
     public void openCancelAccsessDialog() {
-        AccessToCancelDialog accessToCancelDialog = new AccessToCancelDialog(getContext(), new AccessToCancelDialog.OnAccsessListner() {
-            @Override
-            public void accsessSuccess(String reason) {
-                ((MainPosPageActivity)getActivity()).onCancelOrder(reason);
-            }
-            @Override
-            public void onBruteForce() {
-                presenter.onBruteForce();
-            }
-        },preferencesHelper);
-        accessToCancelDialog.show();
+        if(preferencesHelper.isCancelOrderProtected()){
+            AccessToCancelDialog accessToCancelDialog = new AccessToCancelDialog(getContext(), new AccessToCancelDialog.OnAccsessListner() {
+                @Override
+                public void accsessSuccess(String reason) {
+                    ((MainPosPageActivity)getActivity()).onCancelOrder(reason);
+                }
+                @Override
+                public void onBruteForce() {
+                    presenter.onBruteForce();
+                }
+            },preferencesHelper);
+            accessToCancelDialog.show();
+        }else {
+            ((MainPosPageActivity)getActivity()).onCancelOrder(getString(R.string.without_reason));
+        }
+
     }
 
     @Override
     public void openRestoreAccsessDialog() {
-        AccessWithEditPasswordDialog accessWithEditPasswordDialog = new AccessWithEditPasswordDialog(getContext(), new AccessWithEditPasswordDialog.OnAccsessListner() {
-            @Override
-            public void accsessSuccess() {
-                ((MainPosPageActivity)getActivity()).onRestoreOrder();
-            }
+        if(preferencesHelper.isCancelOrderProtected()) {
+            AccessWithEditPasswordDialog accessWithEditPasswordDialog = new AccessWithEditPasswordDialog(getContext(), new AccessWithEditPasswordDialog.OnAccsessListner() {
+                @Override
+                public void accsessSuccess() {
+                    ((MainPosPageActivity) getActivity()).onRestoreOrder();
+                }
 
-            @Override
-            public void onBruteForce() {
+                @Override
+                public void onBruteForce() {
 
-            }
-        },preferencesHelper);
-        accessWithEditPasswordDialog.show();
+                }
+            }, preferencesHelper);
+            accessWithEditPasswordDialog.show();
+        }else {
+            ((MainPosPageActivity) getActivity()).onRestoreOrder();
+        }
     }
 
     @Override

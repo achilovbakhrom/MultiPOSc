@@ -14,6 +14,7 @@ import com.jim.mpviews.MpButton;
 import com.jim.multipos.R;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Discount;
+import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.ui.mainpospage.adapter.DiscountAdapter;
 
 import java.text.DecimalFormat;
@@ -52,7 +53,7 @@ public class DiscountDialog extends Dialog implements DiscountAdapter.OnClickLis
         void choiseManualDiscount(Discount discount);
     }
 
-    public DiscountDialog(@NonNull Context context, DatabaseManager databaseManager, CallbackDiscountDialog callbackDiscountDialog, double orginalAmount, int discountApplyType, DecimalFormat decimalFormat) {
+    public DiscountDialog(@NonNull Context context, DatabaseManager databaseManager, CallbackDiscountDialog callbackDiscountDialog, double orginalAmount, int discountApplyType, DecimalFormat decimalFormat, PreferencesHelper preferencesHelper) {
         super(context);
         this.databaseManager = databaseManager;
         this.callbackDiscountDialog = callbackDiscountDialog;
@@ -81,10 +82,30 @@ public class DiscountDialog extends Dialog implements DiscountAdapter.OnClickLis
         RxView.clicks(btnBack).subscribe(o -> dismiss());
 
         RxView.clicks(btnAdd).subscribe(o -> {
-            AddDiscountDialog dialog = new AddDiscountDialog(getContext(), databaseManager, orginalAmount, discountApplyType, callbackDiscountDialog, decimalFormat);
 
-            dialog.show();
-            dismiss();
+            if(preferencesHelper.isManualServiceFeeProtected()){
+                AccessWithEditPasswordDialog accessWithEditPasswordDialog = new AccessWithEditPasswordDialog(context, new AccessWithEditPasswordDialog.OnAccsessListner() {
+                    @Override
+                    public void accsessSuccess() {
+                        AddDiscountDialog dialog = new AddDiscountDialog(getContext(), databaseManager, orginalAmount, discountApplyType, callbackDiscountDialog, decimalFormat);
+                        dialog.show();
+                        dismiss();
+                    }
+
+                    @Override
+                    public void onBruteForce() {
+
+                    }
+                },preferencesHelper);
+                accessWithEditPasswordDialog.show();
+            }else {
+                AddDiscountDialog dialog = new AddDiscountDialog(getContext(), databaseManager, orginalAmount, discountApplyType, callbackDiscountDialog, decimalFormat);
+                dialog.show();
+                dismiss();
+            }
+
+
+
         });
     }
 

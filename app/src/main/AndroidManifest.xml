@@ -40,6 +40,7 @@
         <activity
             android:name=".ui.mainpospage.MainPosPageActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1117,4 +1117,17 @@
         <item>Configuration recipe printer</item>
         <item>Password and access configs</item>
     </string-array>
+    <string-array name="languages">
+        <item>English</item>
+        <item>Русский</item>
+    </string-array>
+    <string name="consigment_income">Consignment Income</string>
+    <string name="enter_old_password">Enter old password</string>
+    <string name="enter_new_password">Enter new password</string>
+    <string name="confirm_new_password">Confirm new password</string>
+    <string name="manager_changed">Manager password successfully changed</string>
+    <string name="worker_password">Worker password successfully changed</string>
+    <string name="connected">Connected</string>
+    <string name="disconnected">Disconnected</string>
+    <string name="without_reason">Without reason</string>
 </resources>

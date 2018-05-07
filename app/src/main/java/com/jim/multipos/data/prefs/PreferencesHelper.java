@@ -97,4 +97,10 @@ public interface PreferencesHelper {
     void setManualServiceFeeProtected(Boolean isProtected);
     //
 
+    void setHintAbout(Boolean hintAbout);
+    boolean isHintAbout();
+
+    void setLanguage(int langcode);
+    int getLanguageCode();
+
 }

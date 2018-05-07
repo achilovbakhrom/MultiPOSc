@@ -4,12 +4,15 @@ import android.os.Bundle;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.ui.mainpospage.dialogs.AccessWithEditPasswordDialog;
 import com.jim.multipos.ui.settings.SettingsView;
+import com.jim.multipos.ui.settings.security.dialog.ChangeManagerPasswordDialog;
+import com.jim.multipos.ui.settings.security.dialog.ChangeWorkerPasswordDialog;
 
 import javax.annotation.security.RunAs;
 import javax.inject.Inject;
@@ -17,15 +20,16 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import dagger.Binds;
 
-public class SecurityFragment extends BaseFragment implements SecurityView {
+    public class SecurityFragment extends BaseFragment implements SecurityView {
 
     @BindView(R.id.flWorkerPassChange)
     FrameLayout flWorkerPassChange;
     @BindView(R.id.flManagerPassChange)
     FrameLayout flManagerPassChange;
 
-//    @Inject
-//    SecurityPresenter presenter;
+    @Inject
+    SecurityPresenter presenter;
+
     @Inject
     PreferencesHelper preferencesHelper;
 
@@ -37,7 +41,36 @@ public class SecurityFragment extends BaseFragment implements SecurityView {
     @Override
     protected void init(Bundle savedInstanceState) {
         forThisFragmentTypedManagerPassword = false;
+        securityButtonsViewsFill();
         securityButtonsInit();
+        flWorkerPassChange.setOnClickListener(view -> {
+            ChangeWorkerPasswordDialog changeWorkerPasswordDialog = new ChangeWorkerPasswordDialog(getContext(), new ChangeWorkerPasswordDialog.OnAccessChangePasswordListner() {
+                @Override
+                public void accsessSuccess() {
+                    Toast.makeText(getActivity(), R.string.worker_password, Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onBruteForce() {
+
+                }
+            },preferencesHelper);
+            changeWorkerPasswordDialog.show();
+        });
+        flManagerPassChange.setOnClickListener(view -> {
+            ChangeManagerPasswordDialog changeManagerPasswordDialog = new ChangeManagerPasswordDialog(getContext(), new ChangeManagerPasswordDialog.OnAccessChangePasswordListner() {
+                @Override
+                public void accsessSuccess() {
+                    Toast.makeText(getActivity(), R.string.manager_changed, Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onBruteForce() {
+
+                }
+            },preferencesHelper);
+            changeManagerPasswordDialog.show();
+        });
     }
 
 
@@ -88,9 +121,39 @@ public class SecurityFragment extends BaseFragment implements SecurityView {
 
     boolean forThisFragmentTypedManagerPassword = false;
     void securityButtonsViewsFill(){
-        if(preferencesHelper.isProductsProtected()){
-
-        }
+        if(preferencesHelper.isProductsProtected())
+            ivProductsSec.setImageResource(R.drawable.ic_lock_black_24dp);
+        else ivProductsSec.setImageResource(R.drawable.ic_lock_open_black_24dp);
+        if(preferencesHelper.isRepotsProtected())
+            ivReportsSec.setImageResource(R.drawable.ic_lock_black_24dp);
+        else ivReportsSec.setImageResource(R.drawable.ic_lock_open_black_24dp);
+        if(preferencesHelper.isRepotsProtected())
+            ivReportsSec.setImageResource(R.drawable.ic_lock_black_24dp);
+        else ivReportsSec.setImageResource(R.drawable.ic_lock_open_black_24dp);
+        if(preferencesHelper.isCustomersProtected())
+            ivCustomerSec.setImageResource(R.drawable.ic_lock_black_24dp);
+        else ivCustomerSec.setImageResource(R.drawable.ic_lock_open_black_24dp);
+        if(preferencesHelper.isInventoryProtected())
+            ivInventorySec.setImageResource(R.drawable.ic_lock_black_24dp);
+        else ivInventorySec.setImageResource(R.drawable.ic_lock_open_black_24dp);
+        if(preferencesHelper.isSettingsProtected())
+            ivSettingsSec.setImageResource(R.drawable.ic_lock_black_24dp);
+        else ivSettingsSec.setImageResource(R.drawable.ic_lock_open_black_24dp);
+        if(preferencesHelper.isCashManagmentProtected())
+            ivCashManagmentSec.setImageResource(R.drawable.ic_lock_black_24dp);
+        else ivCashManagmentSec.setImageResource(R.drawable.ic_lock_open_black_24dp);
+        if(preferencesHelper.isCancelOrderProtected())
+            ivCancelOrderSec.setImageResource(R.drawable.ic_lock_black_24dp);
+        else ivCancelOrderSec.setImageResource(R.drawable.ic_lock_open_black_24dp);
+        if(preferencesHelper.isManualDiscountsProtected())
+            ivManualDiscountsSec.setImageResource(R.drawable.ic_lock_black_24dp);
+        else ivManualDiscountsSec.setImageResource(R.drawable.ic_lock_open_black_24dp);
+        if(preferencesHelper.isEditOrderProtected())
+            ivEditOrderSec.setImageResource(R.drawable.ic_lock_black_24dp);
+        else ivEditOrderSec.setImageResource(R.drawable.ic_lock_open_black_24dp);
+        if(preferencesHelper.isManualServiceFeeProtected())
+            ivManualServiceFeeSec.setImageResource(R.drawable.ic_lock_black_24dp);
+        else ivManualServiceFeeSec.setImageResource(R.drawable.ic_lock_open_black_24dp);
     }
     void securityButtonsInit(){
         llProductsSec.setOnClickListener(view -> {
@@ -170,7 +233,6 @@ public class SecurityFragment extends BaseFragment implements SecurityView {
             };
             checkAndRun(runnable);
         });
-
         llManualDiscountsSec.setOnClickListener(view -> {
             Runnable runnable = () -> {
                 preferencesHelper.setManualDiscountProtected(!preferencesHelper.isManualDiscountsProtected());
@@ -182,7 +244,6 @@ public class SecurityFragment extends BaseFragment implements SecurityView {
             };
             checkAndRun(runnable);
         });
-
         llEditOderSec.setOnClickListener(view -> {
             Runnable runnable = () -> {
                 preferencesHelper.setEditOrderProtected(!preferencesHelper.isEditOrderProtected());
@@ -205,7 +266,6 @@ public class SecurityFragment extends BaseFragment implements SecurityView {
             };
             checkAndRun(runnable);
         });
-
     }
 
     void checkAndRun(Runnable runnable){

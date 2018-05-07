@@ -2,6 +2,7 @@ package com.jim.multipos.ui.mainpospage.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,7 +21,10 @@ import com.jim.multipos.R;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
+import com.jim.multipos.data.prefs.PreferencesHelper;
+import com.jim.multipos.ui.mainpospage.MainPosPageActivity;
 import com.jim.multipos.ui.mainpospage.adapter.ServiceFeeAdapter;
+import com.jim.multipos.ui.settings.SettingsActivity;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -51,18 +55,20 @@ public class ServiceFeeDialog extends Dialog implements ServiceFeeAdapter.OnClic
     private CallbackServiceFeeDialog callbackServiceFeeDialog;
     private double orginalAmount;
     private int serviceFeeApplyType;
+    private PreferencesHelper preferencesHelper;
 
     public interface CallbackServiceFeeDialog{
         void choiseStaticServiceFee(ServiceFee serviceFee);
         void choiseManualServiceFee(ServiceFee serviceFee);
     }
-    public ServiceFeeDialog(@NonNull Context context, DatabaseManager databaseManager , CallbackServiceFeeDialog callbackServiceFeeDialog, double originalAmount, int serviceFeeApplyType, DecimalFormat formatter) {
+    public ServiceFeeDialog(@NonNull Context context, DatabaseManager databaseManager , CallbackServiceFeeDialog callbackServiceFeeDialog, double originalAmount, int serviceFeeApplyType, DecimalFormat formatter, PreferencesHelper preferencesHelper) {
         super(context);
         this.databaseManager = databaseManager;
         this.databaseManager = databaseManager;
         this.callbackServiceFeeDialog = callbackServiceFeeDialog;
         this.orginalAmount = originalAmount;
         this.serviceFeeApplyType = serviceFeeApplyType;
+        this.preferencesHelper = preferencesHelper;
         View dialogView = getLayoutInflater().inflate(R.layout.service_fee_dialog, null);
         ButterKnife.bind(this, dialogView);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -84,9 +90,28 @@ public class ServiceFeeDialog extends Dialog implements ServiceFeeAdapter.OnClic
         recyclerView.setAdapter(adapter);
         RxView.clicks(btnBack).subscribe(o -> dismiss());
         RxView.clicks(btnAdd).subscribe(o -> {
-            AddServiceFeeDialog dialog = new AddServiceFeeDialog(getContext(), databaseManager, orginalAmount, serviceFeeApplyType,callbackServiceFeeDialog, formatter);
-            dialog.show();
-            dismiss();
+            if(preferencesHelper.isManualServiceFeeProtected()){
+                AccessWithEditPasswordDialog accessWithEditPasswordDialog = new AccessWithEditPasswordDialog(context, new AccessWithEditPasswordDialog.OnAccsessListner() {
+                    @Override
+                    public void accsessSuccess() {
+                        AddServiceFeeDialog dialog = new AddServiceFeeDialog(getContext(), databaseManager, orginalAmount, serviceFeeApplyType,callbackServiceFeeDialog, formatter);
+                        dialog.show();
+                        dismiss();
+                    }
+
+                    @Override
+                    public void onBruteForce() {
+
+                    }
+                },preferencesHelper);
+                accessWithEditPasswordDialog.show();
+            }else {
+                AddServiceFeeDialog dialog = new AddServiceFeeDialog(getContext(), databaseManager, orginalAmount, serviceFeeApplyType,callbackServiceFeeDialog, formatter);
+                dialog.show();
+                dismiss();
+            }
+
+
         });
     }
 
