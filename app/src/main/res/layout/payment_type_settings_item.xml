@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/ten_dp"
+        android:layout_marginTop="@dimen/ten_dp"
+        android:orientation="horizontal">
+
+        <com.jim.mpviews.MpEditText
+            android:id="@+id/etPaymentTypeName"
+            android:layout_width="@dimen/two_hundred_seventy_five_dp"
+            android:layout_height="@dimen/forty_dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="@dimen/twenty_five_dp"
+            android:gravity="left|center_vertical"
+            android:hint="@string/enter_payment_type_name"
+            android:maxLength="50"
+            android:textColor="@color/colorMainText"
+            android:textSize="@dimen/eighteen_dp" />
+
+        <com.jim.mpviews.MPosSpinner
+            android:id="@+id/spAccount"
+            android:layout_width="@dimen/hundred_fifty_dp"
+            android:layout_height="@dimen/forty_dp"
+            android:layout_marginRight="@dimen/twenty_five_dp" />
+
+        <com.jim.mpviews.MpCheckbox
+            android:id="@+id/chbActive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="@dimen/thirty_dp" />
+
+        <com.jim.mpviews.MpMiniActionButton
+            android:id="@+id/ivSave"
+            android:layout_width="@dimen/sixty_dp"
+            android:layout_height="@dimen/forty_dp"
+            android:layout_gravity="center_vertical"
+            android:paddingBottom="@dimen/twelve_dp"
+            android:paddingTop="@dimen/twelve_dp"
+            android:src="@drawable/save"
+            android:tint="@color/colorBlue" />
+
+    </LinearLayout>
+
+</LinearLayout>

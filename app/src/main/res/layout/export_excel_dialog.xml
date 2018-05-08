@@ -108,7 +108,7 @@
                 android:layout_width="@dimen/hundred_fifty_five_dp"
                 android:layout_height="@dimen/fifty_four_dp"
                 android:gravity="center"
-                android:text="@string/save"
+                android:text="@string/export"
                 android:textColor="@color/colorBlue"
                 android:textSize="@dimen/eighteen_dp" />
         </LinearLayout>

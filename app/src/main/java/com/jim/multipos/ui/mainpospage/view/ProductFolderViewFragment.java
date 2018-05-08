@@ -77,7 +77,7 @@ public class ProductFolderViewFragment extends BaseFragment implements ProductFo
                             case GlobalEventConstants.ADD:
                             case GlobalEventConstants.DELETE:
                             case GlobalEventConstants.UPDATE: {
-                                presenter.setFolderItemsRecyclerView();
+                                presenter.updateList();
                                 break;
                             }
                         }
@@ -93,7 +93,7 @@ public class ProductFolderViewFragment extends BaseFragment implements ProductFo
                             case GlobalEventConstants.ADD:
                             case GlobalEventConstants.DELETE:
                             case GlobalEventConstants.UPDATE: {
-                                presenter.setFolderItemsRecyclerView();
+                                presenter.updateList();
                                 break;
                             }
                         }

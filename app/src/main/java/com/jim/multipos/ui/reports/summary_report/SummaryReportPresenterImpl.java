@@ -280,13 +280,13 @@ public class SummaryReportPresenterImpl extends BasePresenterImpl<SummaryReportV
                     for (int j = 0; j < orders.get(i).getOrderProducts().size(); j++) {
 
                         if(orders.get(i).getOrderProducts().get(j).getDiscount()!=null){
-                            if(orders.get(i).getDiscount().getIsManual())
+                            if(orders.get(i).getOrderProducts().get(j).getDiscount().getIsManual())
                                 totalManualDiscountCount ++ ;
                             else totalStaticDiscountCount ++;
                         }
 
-                        if(orders.get(i).getOrderProducts().get(j).getDiscount()!=null){
-                            if(orders.get(i).getServiceFee().getIsManual())
+                        if(orders.get(i).getOrderProducts().get(j).getServiceFee()!=null){
+                            if(orders.get(i).getOrderProducts().get(j).getServiceFee().getIsManual())
                                 totalManualServiceFeeCount ++ ;
                             else totalStaticServiceFeeCount ++;
                         }

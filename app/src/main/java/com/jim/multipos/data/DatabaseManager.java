@@ -228,8 +228,8 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
-    public Observable<Integer> getCategoryByName(Category category) {
-        return dbHelper.getCategoryByName(category);
+    public Observable<Category> getCategoryByName(String name) {
+        return dbHelper.getCategoryByName(name);
     }
 
     @Override
@@ -243,8 +243,8 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
-    public Observable<Integer> getSubCategoryByName(Category category) {
-        return dbHelper.getSubCategoryByName(category);
+    public Observable<Category> getSubCategoryByName(String category, Long id) {
+        return dbHelper.getSubCategoryByName(category, id);
     }
 
     @Override
@@ -730,6 +730,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
+    public Single<Vendor> getVendorByName(String vendorName) {
+        return dbHelper.getVendorByName(vendorName);
+    }
+
+    @Override
     public Observable<Category> getCategoryById(Long id) {
         return dbHelper.getCategoryById(id);
     }
@@ -824,6 +829,9 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
                             consignmentProductList.get(i).setWarehouseId(warehouseOperations.get(i).getId());
                         }
                         insertConsignmentProduct(consignmentProductList.get(i)).blockingSingle();
+                        VendorProductCon productCon = getVendorProductConnectionById(consignmentProductList.get(i).getProductId(), consignmentProductList.get(i).getConsignment().getVendorId()).blockingSingle();
+                        productCon.setCost(consignmentProductList.get(i).getCostValue());
+                        addVendorProductConnection(productCon).subscribe();
                     }
                 singleSubscriber.onSuccess(consignment);
             } catch (Exception o) {
@@ -1045,7 +1053,7 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
 
     @Override
     public Single<List<BillingOperations>> getBillingOperationInteval(Long vendorId, Calendar fromDate, Calendar toDate) {
-        return dbHelper.getBillingOperationInteval(vendorId,fromDate,toDate);
+        return dbHelper.getBillingOperationInteval(vendorId, fromDate, toDate);
     }
 
     @Override
@@ -1072,6 +1080,7 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     public Single<Boolean> deleteInventoryState(InventoryState inventoryState) {
         return dbHelper.deleteInventoryState(inventoryState);
     }
+
     @Override
     public Single<Order> insertOrder(Order order) {
         return dbHelper.insertOrder(order);
@@ -1119,7 +1128,7 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
 
     @Override
     public Single<List<Order>> getOrdersInIntervalForReport(Calendar fromDate, Calendar toDate) {
-        return dbHelper.getOrdersInIntervalForReport(fromDate,toDate);
+        return dbHelper.getOrdersInIntervalForReport(fromDate, toDate);
     }
 
     @Override
@@ -1271,7 +1280,7 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
 
     @Override
     public Single<List<TillOperation>> getTillOperationsInterval(Calendar fromDate, Calendar toDate) {
-        return dbHelper.getTillOperationsInterval(fromDate,toDate);
+        return dbHelper.getTillOperationsInterval(fromDate, toDate);
     }
 }
 

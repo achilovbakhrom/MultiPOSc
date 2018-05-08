@@ -138,6 +138,8 @@
         <item>Classes</item>
         <item>Discounts</item>
         <item>Service Fee</item>
+        <item>Export</item>
+        <item>Import</item>
     </string-array>
     <string-array name="products_menu_description">
         <item>Add and change products</item>
@@ -145,16 +147,22 @@
         <item>Add and change product classes</item>
         <item>Manage discounts</item>
         <item>Manage service fees</item>
+        <item>Export price list, products, vendors</item>
+        <item>Import products, vendors</item>
     </string-array>
     <string-array name="customers_menu_title">
         <item>Customers Add&amp;Edit</item>
         <item>Customer Groups</item>
         <item>Debt Clients</item>
+        <item>Export</item>
+        <item>Import</item>
     </string-array>
     <string-array name="customers_menu_description">
         <item>Add and edit customers</item>
         <item>Add customers to the groups</item>
         <item>Debtors list</item>
+        <item>Export customers, customer groups</item>
+        <item>Import customers, customer groups</item>
     </string-array>
     <string-array name="employer_menu_title">
         <item>Schedule List</item>

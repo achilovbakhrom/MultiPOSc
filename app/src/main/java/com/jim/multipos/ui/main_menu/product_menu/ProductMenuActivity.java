@@ -5,20 +5,25 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.LinearLayout;
 
 import com.jim.mpviews.MpButton;
 import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseActivity;
 import com.jim.multipos.core.ClickableBaseAdapter;
+import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.intosystem.TitleDescription;
 import com.jim.multipos.ui.discount.DiscountAddingActivity;
 import com.jim.multipos.ui.main_menu.MenuListAdapter;
+import com.jim.multipos.ui.main_menu.product_menu.dialogs.ProductExportDialog;
+import com.jim.multipos.ui.main_menu.product_menu.dialogs.ImportDialog;
 import com.jim.multipos.ui.main_menu.product_menu.presenters.ProductMenuPresenter;
 import com.jim.multipos.ui.product_class_new.ProductsClassActivity;
 import com.jim.multipos.ui.product_last.ProductActivity;
 import com.jim.multipos.ui.service_fee_new.ServiceFeeActivity;
 import com.jim.multipos.ui.vendor.add_edit.VendorAddEditActivity;
+import com.jim.multipos.utils.RxBus;
 
 import java.util.ArrayList;
 
@@ -42,6 +47,10 @@ public class ProductMenuActivity extends BaseActivity implements ProductMenuView
     MpToolbar mpToolbar;
     @Inject
     ProductMenuPresenter presenter;
+    @Inject
+    DatabaseManager databaseManager;
+    @Inject
+    RxBus rxBus;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -102,6 +111,14 @@ public class ProductMenuActivity extends BaseActivity implements ProductMenuView
             case 4:
                 Intent intentServiceFee = new Intent(this, ServiceFeeActivity.class);
                 startActivity(intentServiceFee);
+                break;
+            case 5:
+                ProductExportDialog dialog = new ProductExportDialog(this, databaseManager);
+                dialog.show();
+                break;
+            case 6:
+                ImportDialog importDialog = new ImportDialog(this, databaseManager, rxBus);
+                importDialog.show();
                 break;
 
         }

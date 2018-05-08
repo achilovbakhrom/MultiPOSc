@@ -123,20 +123,20 @@ public class POSDetailsFragment extends BaseFragment implements ChangeableConten
     }
 
     private void fillPOSDetailsData() {
-        FirstConfigurePresenter presenter = ((FirstConfigureActivity) getContext()).getPresenter();
-        if (presenter.getPOSId() != null) {
-            posId.setText(presenter.getPOSId());
-        }
-        if (presenter.getPOSAlias() != null) {
-            alias.setText(presenter.getPOSAlias());
-        }
-        if (presenter.getPOSAddress() != null) {
-            address.setText(presenter.getPOSAddress());
-        }
-        if (presenter.getPassword() != null) {
-            password.setText(presenter.getPassword());
-            confirmPassword.setText(presenter.getPassword());
-        }
+//        FirstConfigurePresenter presenter = ((FirstConfigureActivity) getContext()).getPresenter();
+//        if (presenter.getPOSId() != null) {
+//            posId.setText(presenter.getPOSId());
+//        }
+//        if (presenter.getPOSAlias() != null) {
+//            alias.setText(presenter.getPOSAlias());
+//        }
+//        if (presenter.getPOSAddress() != null) {
+//            address.setText(presenter.getPOSAddress());
+//        }
+//        if (presenter.getPassword() != null) {
+//            password.setText(presenter.getPassword());
+//            confirmPassword.setText(presenter.getPassword());
+//        }
     }
 
     @OnClick(value = {R.id.btnRevert, R.id.btnNext})

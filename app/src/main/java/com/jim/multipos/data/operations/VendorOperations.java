@@ -22,4 +22,5 @@ public interface VendorOperations {
     Observable<List<Vendor>> getVendors();
     Observable<Boolean> removeAllContacts(Long vendorId);
     Single<Vendor> detachVendor(Vendor vendor);
+    Single<Vendor> getVendorByName(String vendorName);
 }

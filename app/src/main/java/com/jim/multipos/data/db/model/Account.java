@@ -12,7 +12,6 @@ import lombok.Data;
  * Created by DEV on 17.08.2017.
  */
 @Entity(nameInDb = "ACCOUNTS", active = true)
-@Data
 public class Account {
     public static final int DEBT_ACCOUNT = 7;
     public static final int CASH_ACCOUNT = 1;
@@ -22,7 +21,8 @@ public class Account {
     private Long id;
     private String name;
     private int staticAccountType = CUSTOM_ACCOUNT;
-    private boolean isVisible = true;
+    private boolean isActive = true;
+    private boolean isNotSystemAccount = true;
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
      * Entity must attached to an entity context.
@@ -68,11 +68,17 @@ public class Account {
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
-    public boolean getIsVisible() {
-        return this.isVisible;
+    public boolean getIsNotSystemAccount() {
+        return this.isNotSystemAccount;
     }
-    public void setIsVisible(boolean isVisible) {
-        this.isVisible = isVisible;
+    public void setIsNotSystemAccount(boolean isNotSystemAccount) {
+        this.isNotSystemAccount = isNotSystemAccount;
+    }
+    public boolean getIsActive() {
+        return this.isActive;
+    }
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
     }
     public int getStaticAccountType() {
         return this.staticAccountType;
@@ -92,12 +98,14 @@ public class Account {
     public void setId(Long id) {
         this.id = id;
     }
-    @Generated(hash = 319846856)
-    public Account(Long id, String name, int staticAccountType, boolean isVisible) {
+    @Generated(hash = 1030309385)
+    public Account(Long id, String name, int staticAccountType, boolean isActive,
+            boolean isNotSystemAccount) {
         this.id = id;
         this.name = name;
         this.staticAccountType = staticAccountType;
-        this.isVisible = isVisible;
+        this.isActive = isActive;
+        this.isNotSystemAccount = isNotSystemAccount;
     }
     @Generated(hash = 882125521)
     public Account() {

@@ -36,7 +36,7 @@ public class Product implements Editable {
     private Double price;
     private String barcode;
     private String sku;
-    private String photoPath;
+    private String photoPath = "";
     private Boolean isActive = true;
     private Boolean isNotModified = true;
     private Boolean isDeleted = false;

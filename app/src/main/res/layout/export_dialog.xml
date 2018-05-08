@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/ten_dp"
         android:paddingLeft="@dimen/twenty_dp"
-        android:text="@string/PDF"
+        android:text="@string/pdf_name"
         android:textColor="@color/colorBlue"
         android:textSize="@dimen/sixteen_dp" />
 

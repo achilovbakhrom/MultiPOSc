@@ -71,6 +71,8 @@
         <item>Classes</item>
         <item>Discounts</item>
         <item>Service Fee</item>
+        <item>Export</item>
+        <item>Import</item>
     </string-array>
     <string-array name="products_menu_description">
         <item>Add and edit vendors</item>
@@ -78,16 +80,22 @@
         <item>Add and change product classes</item>
         <item>Manage discounts</item>
         <item>Manage service fees</item>
+        <item>Export price list, products, vendors</item>
+        <item>Import products, vendors</item>
     </string-array>
     <string-array name="customers_menu_title">
         <item>Customers Add&amp;Edit</item>
         <item>Customer Groups</item>
         <item>Debt Clients</item>
+        <item>Export</item>
+        <item>Import</item>
     </string-array>
     <string-array name="customers_menu_description">
         <item>Add and edit customers</item>
         <item>Add customers to the groups</item>
         <item>Debtors list</item>
+        <item>Export customers, customer groups</item>
+        <item>Import customers, customer groups</item>
     </string-array>
     <string-array name="employer_menu_title">
         <item>Schedule List</item>
@@ -795,11 +803,28 @@
     <string name="order_details">Order details</string>
     <string name="lifecycle">Lifecycle</string>
     <string name="consignment_details">Consignment details</string>
+    <string name="import_to">Import</string>
+    <string name="save_to_internal_memory">Save to internal memory</string>
+    <string name="save_to_usb">Save to USB drive</string>
+    <string name="example_table">Example table for import</string>
+    <string name="price_list">Price list</string>
+    <string name="pdf_name">PDF</string>
+    <string name="select_file">Select file</string>
+    <string name="import_from_internal_memory">Import from internal memory</string>
+    <string name="import_from_usb">Import from USB drive</string>
+    <string name="incorrect_file">Incorrect file</string>
+    <string name="customers">Customers</string>
+    <string name="template">Template</string>
+    <string name="customers_template">Customers template</string>
+    <string name="products_vendor_template">Product Vendor template</string>
+    <string name="customers_imported">Customers successfully imported</string>
+    <string name="available_units">Available units :</string>
+    <string name="vendors_and_products_imported">Vendors and products are successfully imported</string>
     <string name="account_name">Account name</string>
     <string name="access_password">Access password</string>
     <string name="void_return">Void/Return</string>
     <string name="difference_price">Difference price</string>
-    <string name="ammount">Ammount</string>
+    <string name="ammount">Amount</string>
     <string name="plus_add">+Add</string>
     <string name="dont_show_again">Don\'t show again</string>
     <string name="class_name">Class Name</string>
@@ -870,7 +895,6 @@
     <string name="reason_name">Reason Name</string>
     <string name="export_to_">Export to:</string>
     <string name="excel">Excel</string>
-    <string name="PDF">PDF</string>
     <string name="choose_file_location">Choose file location</string>
     <string name="close_order">Close order</string>
     <string name="each">Each</string>
@@ -917,7 +941,7 @@
     <string name="enter_edit_password">Enter edit password</string>
     <string name="payment_to_debt">Payment to debt</string>
     <string name="payment_operation">Payment operation</string>
-    <string name="discription">Discription</string>
+    <string name="discription">Description</string>
     <string name="system_payment_types">System payment types</string>
     <string name="payment_type_name">Payment type name</string>
     <string name="input_account_name">Input account name</string>
@@ -972,6 +996,12 @@
     <string name="barcode_">Barcode:</string>
     <string name="blank_to_add_new_vendor">Blank to add \nNew vendor</string>
     <string name="vendor_product_list">Vendor product list</string>
+    <string name="not_enough_place_in_memory">Not enough place in memory</string>
+    <string name="device_hasnt_got_permission">Device hasn\'t got permission</string>
+    <string name="connect_only_one_device">Please, connect only one USB storage device</string>
+    <string name="connect_usb_device">Please, connect USB storage device</string>
+    <string name="main_system_currency">Main system currency</string>
+    <string name="payment_type_cant_be_active">This payment type with selected account can\'t be active</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>
@@ -1130,4 +1160,5 @@
     <string name="connected">Connected</string>
     <string name="disconnected">Disconnected</string>
     <string name="without_reason">Without reason</string>
+    <string name="successfully_saved">Successfully saved</string>
 </resources>

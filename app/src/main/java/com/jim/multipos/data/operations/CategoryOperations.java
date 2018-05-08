@@ -20,9 +20,9 @@ public interface CategoryOperations {
     Single<List<Category>> getAllActiveCategories();
     Single<List<Category>> getAllActiveSubCategories(Category parent);
     Observable<List<Category>> getSubCategories(Category category);
-    Observable<Integer> getCategoryByName(Category category);
+    Observable<Category> getCategoryByName(String name);
     Observable<Boolean> isCategoryNameExists(String name);
-    Observable<Integer> getSubCategoryByName(Category category);
+    Observable<Category> getSubCategoryByName(String category, Long id);
     Observable<Boolean> isSubCategoryNameExists(String parentName, String name);
     Observable<Category> getCategoryById(Long id);
     Observable<Boolean> removeCategory(Category category);

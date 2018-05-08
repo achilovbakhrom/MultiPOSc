@@ -7,10 +7,9 @@
 
     <com.jim.mpviews.MpToolbar
         android:id="@+id/mpToolBar"
-        app:view_mode="3"
         android:layout_width="match_parent"
         android:layout_height="@dimen/eighty_dp"
-        />
+        app:view_mode="3" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="right|bottom"
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:paddingBottom="@dimen/ten_dp"
                 android:paddingRight="@dimen/thirty_dp">
 
@@ -46,7 +45,7 @@
                     android:layout_height="@dimen/sixty_dp"
                     android:text="@string/back"
                     android:textColor="@color/colorSecondaryText"
-                    android:textSize="@dimen/eighteen_dp"
+                    android:textSize="@dimen/sixteen_dp"
                     android:textStyle="bold" />
 
             </LinearLayout>

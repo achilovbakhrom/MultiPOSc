@@ -196,11 +196,10 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
         vendorDialogOk = dialogView.findViewById(R.id.btnOk);
         vendorDialogOk.setOnClickListener(this);
         btnAddVendor = dialogView.findViewById(R.id.btnAdd);
-        RxView.clicks(btnAddVendor).subscribe(o -> {
+        btnAddVendor.setOnClickListener(view -> {
             getContext().startActivity(new Intent(getContext(), VendorAddEditActivity.class));
             dialog.dismiss();
         });
-
         costDialog = new Dialog(getContext());
         View costView = LayoutInflater.from(getContext()).inflate(R.layout.choose_product_cost, null, false);
         costDialog.getWindow().getDecorView().setBackgroundResource(android.R.color.transparent);
@@ -216,10 +215,10 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
         View classView = LayoutInflater.from(getContext()).inflate(R.layout.vendor_product_list_dialog, null, false);
         classList = classView.findViewById(R.id.rvProductList);
         TextView title = classView.findViewById(R.id.tvDialogTitle);
-        title.setText(R.string.choose_product_class);
+        title.setText(getContext().getString(R.string.choose_product_class));
         Button btnAddClass = classView.findViewById(R.id.btnAdd);
         btnAddClass.setVisibility(View.VISIBLE);
-        RxView.clicks(btnAddClass).subscribe(o -> {
+        btnAddClass.setOnClickListener(view -> {
             getContext().startActivity(new Intent(getContext(), ProductsClassActivity.class));
             classDialog.dismiss();
         });
@@ -267,8 +266,7 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
                                 break;
                             }
                         }
-                    }
-                     else if (o instanceof VendorEvent) {
+                    } else if (o instanceof VendorEvent) {
                         VendorEvent event = (VendorEvent) o;
                         switch (event.getType()) {
                             case GlobalEventConstants.DELETE:
@@ -314,8 +312,6 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
         units.setAdapter(unitList);
         classListAdapter.setData(productClasses);
         classList.setAdapter(classListAdapter);
-
-
         priceCurrency.setText(currencyAbbr);
         costCurrency.setText(currencyAbbr);
     }
@@ -335,17 +331,18 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
                     sku.setError("Such product sku exists");
                     return;
                 }
-                try {
-                    ((ProductActivity) getContext()).getPresenter().comparePriceWithCost(formatter.parse(this.price.getText().toString()).doubleValue());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                saveProduct(false);
+//                try {
+//                    ((ProductActivity) getContext()).getPresenter().comparePriceWithCost(formatter.parse(this.price.getText().toString()).doubleValue());
+//                } catch (ParseException e) {
+//                    e.printStackTrace();
+//                }
                 break;
             case R.id.tvVendor:
                 ((ProductActivity) getContext()).getPresenter().openVendorChooserDialog();
                 break;
             case R.id.etProductCost:
-                ((ProductActivity) getContext()).getPresenter().setProductCostDialog();
+//                ((ProductActivity) getContext()).getPresenter().setProductCostDialog();
                 break;
             case R.id.btnCancel:
                 ((ProductActivity) getContext()).getPresenter().finishActivity();
@@ -668,11 +665,11 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
                 costDialog.dismiss();
                 break;
             case R.id.btnSaveCosts:
-                if (productCostList.getAdapter() != null) {
-                    ProductCostListAdapter adapter = (ProductCostListAdapter) productCostList.getAdapter();
-                    ((ProductActivity) getContext()).getPresenter().setProductCosts(adapter.getCosts());
-                }
-                costDialog.dismiss();
+//                if (productCostList.getAdapter() != null) {
+//                    ProductCostListAdapter adapter = (ProductCostListAdapter) productCostList.getAdapter();
+//                    ((ProductActivity) getContext()).getPresenter().setProductCosts(adapter.getCosts());
+//                }
+//                costDialog.dismiss();
                 break;
         }
     }
@@ -730,8 +727,15 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
 
     class VendorChooseAdapter extends BaseAdapter<VendorWithCheckedPosition, VendorChooseAdapter.VendorChooseItemHolder> {
 
+        private int selectedPosition = -1;
+
         public VendorChooseAdapter(List<VendorWithCheckedPosition> items) {
             super(items);
+            for (int i = 0; i < items.size(); i++) {
+                if (items.get(i).isChecked()) {
+                    selectedPosition = i;
+                }
+            }
         }
 
         @Override
@@ -745,15 +749,23 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
             holder.vendorName.setText(items.get(position).getVendor().getName());
             holder.vendorContact.setText(items.get(position).getVendor().getContactName());
             holder.vendorAddress.setText(items.get(position).getVendor().getAddress());
-            holder.vendorChecked.setChecked(items.get(position).isChecked());
+            holder.vendorChecked.setCheckedChangeListener(null);
+            holder.vendorChecked.setChecked(selectedPosition == position);
             holder.vendorChecked.setCheckedChangeListener(isChecked -> {
+                selectedPosition = position;
                 items.get(position).setChecked(isChecked);
                 if (vendors == null) return;
                 if (isChecked) {
                     vendors.add(items.get(position).getVendor().getId());
+                    for (int i = 0; i < items.size(); i++) {
+                        if (i != selectedPosition) {
+                            items.get(i).setChecked(false);
+                        }
+                    }
                 } else {
                     vendors.remove(items.get(position).getVendor().getId());
                 }
+                notifyDataSetChanged();
             });
         }
 

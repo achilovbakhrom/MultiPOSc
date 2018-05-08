@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 
 import com.jim.mpviews.MpButton;
 import com.jim.mpviews.MpToolbar;
@@ -33,7 +35,7 @@ import butterknife.OnClick;
  * Created by DEV on 09.08.2017.
  */
 
-public class InventoryMenuActivity extends BaseActivity implements  InventoryMenuView {
+public class InventoryMenuActivity extends BaseActivity implements InventoryMenuView {
     @BindView(R.id.rvMenu)
     RecyclerView rvMenu;
     @BindView(R.id.btnBackToMain)

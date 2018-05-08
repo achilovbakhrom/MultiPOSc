@@ -66,7 +66,7 @@ public class ExportToDialog extends Dialog {
             tvExportFormat.setText(context.getString(R.string.xls));
         else tvExportFormat.setText(context.getString(R.string.pdf));
         etFileName.setText(fileName + " " + dateFormat.format(new Date(System.currentTimeMillis())));
-        String[] strings = {"Save to internal memory", "Save to USB drive"};
+        String[] strings = {context.getString(R.string.save_to_internal_memory), context.getString(R.string.save_to_usb)};
         spChooseSaveLocation.setAdapter(strings);
         spChooseSaveLocation.setItemSelectionListener((view, position) -> {
             if (position == 0) {
@@ -105,6 +105,7 @@ public class ExportToDialog extends Dialog {
                 }
             }
         } else {
+            spChooseSaveLocation.setSelection(0);
             Toast.makeText(context, "Please, connect USB drive", Toast.LENGTH_SHORT).show();
         }
     }
@@ -120,6 +121,7 @@ public class ExportToDialog extends Dialog {
                 }
             }
         } else {
+            spChooseSaveLocation.setSelection(0);
             Toast.makeText(context, "Please, connect USB drive", Toast.LENGTH_SHORT).show();
         }
     }

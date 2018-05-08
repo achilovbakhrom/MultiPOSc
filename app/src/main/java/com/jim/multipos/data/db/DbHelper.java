@@ -75,9 +75,9 @@ public interface DbHelper {
     Observable<Boolean> insertContacts(List<Contact> contact);
     Observable<List<Contact>> getAllContacts();
     DaoSession getDaoSession();
-    Observable<Integer> getCategoryByName(Category category);
+    Observable<Category> getCategoryByName(String category);
     Observable<Boolean> isCategoryNameExists(String name);
-    Observable<Integer> getSubCategoryByName(Category category);
+    Observable<Category> getSubCategoryByName(String name, Long id);
     Observable<Boolean> isSubCategoryNameExists(String parentName, String name);
     Observable<Long> insertCategory(Category category);
     Observable<Long> insertSubCategory(Category subcategory);
@@ -303,4 +303,5 @@ public interface DbHelper {
     Single<List<Consignment>> getConsignmentsInInterval(Calendar fromDate, Calendar toDate);
     Single<List<ConsignmentProduct>> getConsignmentProductsInterval(Calendar fromDate, Calendar toDate);
     Single<List<BillingOperations>> getAllBillingOperationsInInterval(Calendar fromDate, Calendar toDate);
+    Single<Vendor> getVendorByName(String vendorName);
 }

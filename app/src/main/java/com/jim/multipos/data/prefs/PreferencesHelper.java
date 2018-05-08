@@ -40,10 +40,12 @@ public interface PreferencesHelper {
     void setPosDetailAlias(String alias);
     void setPosDetailAddress(String address);
     void setPosDetailPassword(String password);
+    void setPosDetailPhone(String phone);
     String getPosDetailPosId();
     String getPosDetailAlias();
     String getPosDetailAddress();
     String getPosDetailPassword();
+    String getPosDetailPhone();
     String getOrganizationName();
     void setOrganizationName(String organizationName);
     String getPosPhoneNumber();

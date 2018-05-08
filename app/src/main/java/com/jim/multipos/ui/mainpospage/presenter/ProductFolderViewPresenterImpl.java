@@ -189,4 +189,20 @@ public class ProductFolderViewPresenterImpl extends BasePresenterImpl<ProductFol
                 break;
         }
     }
+
+    public void updateList() {
+        categoryOperations.getAllActiveCategories().subscribe(categories -> {
+            view.sendCategoryEvent(null, SUBCATEGORY_TITLE);
+            folderItems.clear();
+            for (Category category : categories) {
+                FolderItem folderItem = new FolderItem();
+                folderItem.setCategory(category);
+                int count = productOperations.getAllProductCount(category).blockingSingle();
+                folderItem.setCount(count);
+                folderItems.add(folderItem);
+            }
+            view.setBackItemVisibility(false);
+            view.refreshProductList(folderItems, CATEGORY);
+        });
+    }
 }

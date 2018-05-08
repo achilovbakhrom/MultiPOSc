@@ -7,7 +7,6 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.ToOne;
 
-import java.util.UUID;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 import com.jim.multipos.data.db.model.currency.CurrencyDao;
@@ -32,7 +31,8 @@ public class PaymentType {
     private Long currencyId;
     @ToOne(joinProperty = "currencyId")
     private Currency currency;
-    private boolean isVisible = true;
+    private boolean isActive = true;
+    private boolean isNotSystem = true;
     private Long accountId;
     @ToOne(joinProperty = "accountId")
     private Account account;
@@ -145,6 +145,18 @@ public class PaymentType {
     public void setAccountId(Long accountId) {
         this.accountId = accountId;
     }
+    public boolean getIsNotSystem() {
+        return this.isNotSystem;
+    }
+    public void setIsNotSystem(boolean isNotSystem) {
+        this.isNotSystem = isNotSystem;
+    }
+    public boolean getIsActive() {
+        return this.isActive;
+    }
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
+    }
     public Long getCurrencyId() {
         return this.currencyId;
     }
@@ -157,32 +169,27 @@ public class PaymentType {
     public void setName(String name) {
         this.name = name;
     }
-    public Long getId() {
-        return this.id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
-    public boolean getIsVisible() {
-        return this.isVisible;
-    }
-    public void setIsVisible(boolean isVisible) {
-        this.isVisible = isVisible;
-    }
     public int getTypeStaticPaymentType() {
         return this.typeStaticPaymentType;
     }
     public void setTypeStaticPaymentType(int typeStaticPaymentType) {
         this.typeStaticPaymentType = typeStaticPaymentType;
     }
-    @Generated(hash = 1681781634)
-    public PaymentType(Long id, int typeStaticPaymentType, String name, Long currencyId,
-            boolean isVisible, Long accountId) {
+    public Long getId() {
+        return this.id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
+    @Generated(hash = 15766687)
+    public PaymentType(Long id, int typeStaticPaymentType, String name,
+            Long currencyId, boolean isActive, boolean isNotSystem, Long accountId) {
         this.id = id;
         this.typeStaticPaymentType = typeStaticPaymentType;
         this.name = name;
         this.currencyId = currencyId;
-        this.isVisible = isVisible;
+        this.isActive = isActive;
+        this.isNotSystem = isNotSystem;
         this.accountId = accountId;
     }
     @Generated(hash = 479868900)

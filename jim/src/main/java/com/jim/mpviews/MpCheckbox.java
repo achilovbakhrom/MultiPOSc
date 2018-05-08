@@ -7,6 +7,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -29,6 +30,7 @@ public class MpCheckbox extends LinearLayout {
     private boolean checked = false;
     private String text = null;
     private CheckedChangeListener listener;
+    private Context context;
 
     public MpCheckbox(Context context) {
         super(context);
@@ -115,6 +117,7 @@ public class MpCheckbox extends LinearLayout {
     }
 
     public void init(final Context context, AttributeSet attrs) {
+        this.context = context;
         LayoutInflater.from(context).inflate(R.layout.mp_checkbox, this);
         LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         setLayoutParams(layoutParams);
@@ -172,6 +175,15 @@ public class MpCheckbox extends LinearLayout {
                 break;
         }
 
+    }
+
+    public void setCheckboxColor(int resId){
+        for (int i = 0; i < getChildCount(); i++) {
+            if (getChildAt(i) instanceof ImageView){
+                ImageView imageView = (ImageView) getChildAt(i);
+                imageView.setImageTintList(ContextCompat.getColorStateList(context, resId));
+            }
+        }
     }
 
     private void addTextView(Context context, int left, int top, int right, int bottom, int gravity) {

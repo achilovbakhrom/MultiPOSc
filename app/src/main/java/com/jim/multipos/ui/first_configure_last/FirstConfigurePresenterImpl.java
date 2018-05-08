@@ -17,6 +17,7 @@ import com.jim.multipos.ui.first_configure_last.fragment.AccountFragment;
 import com.jim.multipos.ui.first_configure_last.fragment.CurrencyFragment;
 import com.jim.multipos.ui.first_configure_last.fragment.POSDetailsFragment;
 import com.jim.multipos.ui.first_configure_last.fragment.PaymentTypeFragment;
+import com.jim.multipos.utils.SecurityTools;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -120,7 +121,7 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
         preferences.setPosDetailPosId(posId);
         preferences.setPosDetailAlias(alias);
         preferences.setPosDetailAddress(address);
-        preferences.setPosDetailPassword(password);
+        preferences.setPosDetailPassword(SecurityTools.md5(password));
     }
 
     @Override
@@ -234,19 +235,22 @@ public class FirstConfigurePresenterImpl extends BasePresenterImpl<FirstConfigur
         if (databaseManager.getAccounts().isEmpty()) {
             Account account1 = new Account();
             account1.setName(context.getString(R.string.till));
+            account1.setIsActive(true);
             account1.setStaticAccountType(Account.CASH_ACCOUNT);
+            account1.setIsNotSystemAccount(true);
             databaseManager.addAccount(account1).blockingSingle();
             Account account = new Account();
             account.setName("Debt Account");
             account.setStaticAccountType(Account.DEBT_ACCOUNT);
-            account.setIsVisible(false);
+            account.setIsActive(true);
+            account.setIsNotSystemAccount(false);
             databaseManager.addAccount(account).blockingSingle();
             PaymentType paymentType = new PaymentType();
             paymentType.setAccount(account);
             paymentType.setName("To Debt");
             paymentType.setTypeStaticPaymentType(PaymentType.DEBT_PAYMENT_TYPE);
             paymentType.setCurrency(databaseManager.getMainCurrency());
-            paymentType.setIsVisible(false);
+            paymentType.setIsNotSystem(false);
             databaseManager.addPaymentType(paymentType).blockingSingle();
             PaymentType cashPaymentType = new PaymentType();
             cashPaymentType.setAccount(account1);

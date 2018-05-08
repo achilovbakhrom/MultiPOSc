@@ -2,6 +2,7 @@ package com.jim.multipos.ui.lock_screen;
 
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.prefs.PreferencesHelper;
+import com.jim.multipos.utils.SecurityTools;
 
 import javax.inject.Inject;
 
@@ -26,7 +27,7 @@ public class LockScreenPresenterImpl extends BasePresenterImpl<LockScreenView> i
         String pass = preferencesHelper.getPosDetailPassword();
         if (password.isEmpty())
             view.setError(EMPTY);
-        else if (pass.equals(password))
+        else if (pass.equals(SecurityTools.md5(password)))
             view.successCheck();
         else view.setError(WRONG_PASS);
     }

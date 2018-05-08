@@ -127,6 +127,10 @@ public class MPosSpinner extends FrameLayout {
         setAdapter(items);
     }
 
+    public void disableSpinner(){
+        ((AppCompatSpinner) findViewById(R.id.spinner)).setEnabled(false);
+    }
+
     public Integer getCount(){
         return ((AppCompatSpinner) findViewById(R.id.spinner)).getAdapter().getCount();
     }

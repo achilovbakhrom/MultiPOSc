@@ -38,8 +38,8 @@ public class TestUtils {
             for (int i = 0; i < 10; i++) {
                 ProductClass productClass = new ProductClass();
                 productClass.setName("Product class " + i);
-                databaseManager.insertProductClass(productClass).subscribe( aLong -> {
-                    for (int j = 0; j < 2; j++){
+                databaseManager.insertProductClass(productClass).subscribe(aLong -> {
+                    for (int j = 0; j < 2; j++) {
                         ProductClass childClass = new ProductClass();
                         childClass.setName("Child class " + j);
                         childClass.setParentId(productClass.getId());
@@ -61,12 +61,13 @@ public class TestUtils {
             }
         }
     }
-    public static void createAccount(DatabaseManager databaseManager){
-        if(databaseManager.getAccounts().isEmpty()){
+
+    public static void createAccount(DatabaseManager databaseManager) {
+        if (databaseManager.getAccounts().isEmpty()) {
 
             Account debt = new Account();
             debt.setName("DebtAccount");
-            debt.setIsVisible(false);
+            debt.setIsNotSystemAccount(false);
             debt.setStaticAccountType(Account.DEBT_ACCOUNT);
             databaseManager.addAccount(debt).blockingSingle();
             Account account = new Account();
@@ -77,13 +78,13 @@ public class TestUtils {
             account1.setName("Cashbox");
             account1.setStaticAccountType(Account.CASH_ACCOUNT);
             databaseManager.addAccount(account1).subscribe();
-            if(databaseManager.getPaymentTypes().isEmpty()){
+            if (databaseManager.getPaymentTypes().isEmpty()) {
                 PaymentType debtPayment = new PaymentType();
                 debtPayment.setAccount(debt);
                 debtPayment.setName("To Debt");
                 debtPayment.setTypeStaticPaymentType(PaymentType.DEBT_PAYMENT_TYPE);
                 debtPayment.setCurrency(databaseManager.getMainCurrency());
-                debtPayment.setIsVisible(false);
+                debtPayment.setIsNotSystem(false);
                 databaseManager.addPaymentType(debtPayment).blockingSingle();
                 PaymentType paymentType = new PaymentType();
                 paymentType.setName("Naqt");

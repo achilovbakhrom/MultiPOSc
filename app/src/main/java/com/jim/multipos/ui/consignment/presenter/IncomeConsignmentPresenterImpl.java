@@ -131,7 +131,7 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
         consignmentProduct.setCreatedDate(System.currentTimeMillis());
         consignmentProduct.setProductId(product.getId());
         VendorProductCon productCon = databaseManager.getVendorProductConnectionById(product.getId(), this.vendor.getId()).blockingSingle();
-        if (productCon != null) {
+        if (productCon.getCost() != null) {
             consignmentProduct.setCostValue(productCon.getCost());
         } else consignmentProduct.setCostValue(null);
         consignmentProduct.setCountValue(0.0d);
@@ -239,15 +239,14 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
 
     @Override
     public void getAccounts() {
-        databaseManager.getAllAccounts().subscribe(accounts -> {
-            this.accountList = accounts;
-            List<String> strings = new ArrayList<>();
-            if (!accounts.isEmpty())
-                for (Account account : accounts) {
-                    strings.add(account.getName());
-                }
-            view.fillAccountsList(strings);
-        });
+        this.accountList = databaseManager.getAccounts();
+        List<String> strings = new ArrayList<>();
+        if (!this.accountList.isEmpty())
+            for (Account account : this.accountList) {
+                strings.add(account.getName());
+            }
+        view.fillAccountsList(strings);
+
     }
 
     @Override
@@ -477,7 +476,7 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
         List<Product> productList = this.vendor.getProducts();
         for (int i = 0; i < productList.size(); i++) {
             Product product = productList.get(i);
-            if (product.getIsDeleted().equals(false) && product.getIsNotModified().equals(true) && product.getIsActive().equals(true) && product.getBarcode()!=null && product.getBarcode().equals(barcode))
+            if (product.getIsDeleted().equals(false) && product.getIsNotModified().equals(true) && product.getIsActive().equals(true) && product.getBarcode() != null && product.getBarcode().equals(barcode))
                 setConsignmentItem(product);
         }
     }

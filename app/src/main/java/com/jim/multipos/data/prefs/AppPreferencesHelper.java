@@ -39,6 +39,7 @@ public class AppPreferencesHelper implements PreferencesHelper {
     private static final String POS_DETAIL_ALIAS = "POS_DETAIL_ALIAS";
     private static final String POS_DETAIL_ADDRESS = "POS_DETAIL_ADDRESS";
     private static final String POS_DETAIL_PASSWORD = "POS_DETAIL_PASSWORD";
+    private static final String POS_DETAIL_PHONE = "POS_DETAIL_PHONE";
     private static final String FIRST_CONFIGURED = "FIRST_CONFIGURED";
     private static final String ACTIVE_ITEM_VISIBILITY = "ACTIVE_ITEM_VISIBILITY";
     private static final String PRODUCT_LIST_VIEW_TYPE = "PRODUCT_LIST_VIEW_TYPE";
@@ -156,6 +157,11 @@ public class AppPreferencesHelper implements PreferencesHelper {
     }
 
     @Override
+    public void setPosDetailPhone(String phone) {
+        mPrefs.edit().putString(POS_DETAIL_PHONE, phone).apply();
+    }
+
+    @Override
     public String getPosDetailPosId() {
         return mPrefs.getString(POS_DETAIL_POS_ID, null);
     }
@@ -173,6 +179,11 @@ public class AppPreferencesHelper implements PreferencesHelper {
     @Override
     public String getPosDetailPassword() {
         return mPrefs.getString(POS_DETAIL_PASSWORD, null);
+    }
+
+    @Override
+    public String getPosDetailPhone() {
+        return mPrefs.getString(POS_DETAIL_PHONE, "");
     }
 
 

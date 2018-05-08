@@ -102,7 +102,7 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
         consignmentProduct.setCreatedDate(System.currentTimeMillis());
         consignmentProduct.setProductId(product.getId());
         VendorProductCon productCon = databaseManager.getVendorProductConnectionById(product.getId(), vendor.getId()).blockingSingle();
-        if (productCon != null) {
+        if (productCon.getCost() != null) {
             consignmentProduct.setCostValue(productCon.getCost());
         } else consignmentProduct.setCostValue(null);
         consignmentProduct.setCountValue(0d);
