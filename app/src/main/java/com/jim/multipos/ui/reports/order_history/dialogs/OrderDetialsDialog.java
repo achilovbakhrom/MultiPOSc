@@ -314,7 +314,7 @@ public class OrderDetialsDialog extends Dialog {
             objects[i][5] = orderProducts.get(i).getDiscount() == null ? "" : orderProducts.get(i).getDiscount().getName();
             objects[i][6] = orderProducts.get(i).getServiceAmount();
             objects[i][7] = orderProducts.get(i).getServiceFee() == null ? "" : orderProducts.get(i).getServiceFee().getName();
-            objects[i][8] = orderProducts.get(i).getPrice() * orderProducts.get(i).getCount() - orderProducts.get(i).getDiscountAmount() + orderProducts.get(i).getServiceAmount();
+            objects[i][8] = orderProducts.get(i).getPrice() * orderProducts.get(i).getCount() + orderProducts.get(i).getDiscountAmount() + orderProducts.get(i).getServiceAmount();
         }
         details = objects;
         ReportView.Builder builder = new ReportView.Builder()
@@ -358,7 +358,7 @@ public class OrderDetialsDialog extends Dialog {
         double summary = 0;
         List<OrderProduct> orderProducts = order.getOrderProducts();
         for (int i = 0; i < orderProducts.size(); i++) {
-            summary += orderProducts.get(i).getPrice() * orderProducts.get(i).getCount() - orderProducts.get(i).getDiscountAmount() + orderProducts.get(i).getServiceAmount();
+            summary += orderProducts.get(i).getPrice() * orderProducts.get(i).getCount() + orderProducts.get(i).getDiscountAmount() + orderProducts.get(i).getServiceAmount();
         }
         tvSummary.setText(decimalFormat.format(summary));
         if (order.getDiscount() == null) {

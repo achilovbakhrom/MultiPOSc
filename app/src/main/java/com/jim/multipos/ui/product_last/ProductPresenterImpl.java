@@ -1326,7 +1326,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                             databaseManager.addProduct(result).subscribe(id -> {
                                 for (int i = 0; i < vendors.size(); i++) {
                                     VendorProductCon productCon = new VendorProductCon();
-//                                    productCon.setCost(vendorProductConnectionsList.get(i).getCost());
+                                    productCon.setCost(vendorProductConnectionsList.get(i).getCost());
                                     productCon.setVendorId(vendorProductConnectionsList.get(i).getVendorId());
                                     productCon.setProductId(result.getId());
                                     inventoryStates.get(i).setProductId(result.getRootId());

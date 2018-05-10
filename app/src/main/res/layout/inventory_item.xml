@@ -14,7 +14,7 @@
 
 
         <LinearLayout
-            android:layout_width="@dimen/two_hundred_eighty_dp"
+            android:layout_width="@dimen/three_hundred_eighty_dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:orientation="vertical"
@@ -86,6 +86,7 @@
             android:background="#e3e3e3"/>
 
         <LinearLayout
+            android:visibility="gone"
             android:layout_width="@dimen/hundred_sixty_dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -106,6 +107,7 @@
         </LinearLayout>
 
         <FrameLayout
+            android:visibility="gone"
             android:layout_width="2px"
             android:layout_height="match_parent"
             android:background="#e3e3e3"/>
@@ -126,7 +128,7 @@
 
         <TextView
             android:id="@+id/tvUnitAbr"
-            android:layout_width="@dimen/eighty_dp"
+            android:layout_width="@dimen/hundred_twenty_dp"
             android:gravity="center"
             android:layout_gravity="center_vertical"
             android:layout_height="wrap_content"

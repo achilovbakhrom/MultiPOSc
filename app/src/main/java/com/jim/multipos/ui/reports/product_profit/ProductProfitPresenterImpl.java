@@ -644,4 +644,16 @@ public class ProductProfitPresenterImpl extends BasePresenterImpl<ProductProfitV
                 }
         });
     }
+
+    @Override
+    public void onActionClicked(Object[][] objects, int row, int column) {
+        if (column == 2) {
+            if (!objects[row][column].equals("")) {
+                long orderId = (long) objects[row][column];
+                databaseManager.getOrder(orderId).subscribe(order -> {
+                    view.onOrderPressed(order);
+                });
+            }
+        }
+    }
 }

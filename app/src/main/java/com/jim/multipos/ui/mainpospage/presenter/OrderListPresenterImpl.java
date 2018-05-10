@@ -339,9 +339,9 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         OrderProductItem orderProductItem   = (OrderProductItem) list.get(position);
         orderProductItem.getOrderProduct().setDiscription(discription);
         list.set(position,orderProductItem);
-        updateDetials();
-        view.updateOrderDetials(order,customer,payedPartitions);
-        view.notifyItemChanged(position,list.size(),updateOrderDiscountServiceFee());
+//        updateDetials();
+//        view.updateOrderDetials(order,customer,payedPartitions);
+//        view.notifyItemChanged(position,list.size(),updateOrderDiscountServiceFee());
     }
 
     @Override
@@ -1021,7 +1021,6 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         discountItem = order.getDiscountItem();
         serviceFeeItem = order.getServiceFeeItem();
 
-
         if(discountItem == null)
             view.enableDiscountButton();
         else
@@ -1032,7 +1031,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         else
             view.disableServiceFeeButton(serviceFeeItem.getServiceFee().getName());
 
-        if(customer == null)
+        if(customer != null)
             view.updateCustomer(customer);
 
         view.setOrderNumberToToolbar(order.getId());

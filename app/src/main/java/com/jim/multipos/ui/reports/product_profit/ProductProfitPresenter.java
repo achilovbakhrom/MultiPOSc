@@ -10,5 +10,6 @@ public interface ProductProfitPresenter extends BaseTableReportPresenter {
     void exportExcelToUSB(String filename, UsbFile root);
     void exportPdfToUSB(String filename, UsbFile root);
     void onBarcodeReaded(String barcode);
+    void onActionClicked(Object[][] objects, int row, int column);
 
 }

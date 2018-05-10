@@ -13,6 +13,8 @@ import com.jim.mpviews.ReportView;
 import com.jim.mpviews.utils.ReportViewConstants;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseTableReportFragment;
+import com.jim.multipos.data.db.model.order.Order;
+import com.jim.multipos.ui.reports.order_history.dialogs.OrderDetialsDialog;
 import com.jim.multipos.ui.reports.product_profit.dialog.ProductProfitFilterDialog;
 import com.jim.multipos.utils.ExportToDialog;
 import com.jim.multipos.utils.ExportUtils;
@@ -64,7 +66,7 @@ public class ProductProfitFragment extends BaseTableReportFragment implements Pr
                 .setDataAlignTypes(profitLogAligns)
                 .setDefaultSort(1)
                 .setOnReportViewResponseListener((objects1, row, column) -> {
-
+                    presenter.onActionClicked(objects1,row,column);
                 })
                 .build();
         profitSummaryView = new ReportView(profitSummaryBuilder);
@@ -241,6 +243,13 @@ public class ProductProfitFragment extends BaseTableReportFragment implements Pr
                 break;
         }
     }
+
+    @Override
+    public void onOrderPressed(Order order) {
+        OrderDetialsDialog orderDetialsDialog = new OrderDetialsDialog(getContext(), order);
+        orderDetialsDialog.show();
+    }
+
     public void onBarcodeScaned(String barcode){
         presenter.onBarcodeReaded(barcode);
     }

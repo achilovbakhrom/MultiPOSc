@@ -423,7 +423,7 @@ public class SummaryReportPresenterImpl extends BasePresenterImpl<SummaryReportV
                 TripleString tripleString = new TripleString(databaseManager.getPaymentTypeById(longDoubleEntry.getKey()).getName(), decimalFormat.format((longDoubleEntry.getValue() / ((totalPayments == 0 ? 1 : totalPayments))) * 100) + "%", decimalFormatWithProbel.format(longDoubleEntry.getValue()), false);
                 tripleStrings.add(tripleString);
             }
-            TripleString tripleString = new TripleString(context.getString(R.string.total_payments), "100%", decimalFormat.format(totalPayments), true);
+            TripleString tripleString = new TripleString(context.getString(R.string.total_payments), "100%", decimalFormatWithProbel.format(totalPayments), true);
             tripleStrings.add(tripleString);
             double sum = totalPayments + totalDebt;
             TripleString tripleStringDebt = new TripleString(context.getString(R.string.debt_report), decimalFormat.format((totalDebt / ((sum == 0 ? 1 : sum))) * 100) + "%", decimalFormatWithProbel.format(totalDebt), false);

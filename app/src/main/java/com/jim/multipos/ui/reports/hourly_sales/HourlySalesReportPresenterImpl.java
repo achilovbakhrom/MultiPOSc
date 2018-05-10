@@ -53,11 +53,11 @@ public class HourlySalesReportPresenterImpl extends BasePresenterImpl<HourlySale
         toDate = new GregorianCalendar();
 
         toDate.setTime(currentDate);
-        toDate.add(Calendar.DAY_OF_MONTH, -1);
+//        toDate.add(Calendar.DAY_OF_MONTH, -1);
         toDate.set(Calendar.HOUR_OF_DAY, 23);
         toDate.set(Calendar.MINUTE, 59);
         toDate.set(Calendar.SECOND, 59);
-        fromDate.add(Calendar.DAY_OF_MONTH, -1);
+//        fromDate.add(Calendar.DAY_OF_MONTH, -1);
         fromDate.set(Calendar.HOUR_OF_DAY, 0);
         fromDate.set(Calendar.MINUTE, 0);
         fromDate.set(Calendar.SECOND, 0);

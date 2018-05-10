@@ -90,13 +90,16 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
             databaseManager.getOrdersInIntervalForReport(fromDate, toDate).subscribe((orders1, throwable) -> {
                 ordersSummary = orders1;
                 updateObejctsForTable();
-                view.initTable(summaryObjects, currentPosition);
+                view.updateTable(summaryObjects, currentPosition);
                 view.updateDateIntervalUi(fromDateSummary, toDateSummary);
             });
         } else {
             this.fromDateLog = fromDate;
             this.toDateLog = toDate;
             fillPaymentsDetialReportPreData(fromDate, toDate);
+            updateObejctsForTable();
+            view.updateTable(logObjects, currentPosition);
+            view.updateDateIntervalUi(fromDateLog, toDateLog);
         }
 
 
@@ -435,14 +438,14 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
     @Override
     public void onActionPressed(Object[][] objects, int row, int column) {
         if (currentPosition == 1) {
-            if (column == 4) {
+            if (column == 5) {
                 long tillId = (Long) objects[row][column];
                 databaseManager.getTillById(tillId).subscribe(till -> {
                     if (till.getStatus() == Till.CLOSED)
                         view.onTillPressed(databaseManager, till);
                     else view.onTillNotClosed();
                 });
-            } else if (column == 3) {
+            } else if (column == 4) {
                 if (!objects[row][column].equals("")) {
                     long orderId = (long) objects[row][column];
                     databaseManager.getOrder(orderId).subscribe(order -> {
@@ -664,6 +667,7 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
                         PaymentsReport paymentsReport = new PaymentsReport();
                         paymentsReport.setFilterId(FILTER_PAY_TO_VENDOR);
                         paymentsReport.setPaymentName("");
+                        paymentsReport.setReason("Pay to vendor");
                         paymentsReport.setDescription(billingOperations.get(i).getDescription());
                         paymentsReport.setAccountName(billingOperations.get(i).getAccount().getName());
                         paymentsReport.setOrderId(-1);
@@ -675,17 +679,16 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
 
                     databaseManager.getCustomerPaymentsByInterval(fromDate, toDate).subscribe((customerPayments, throwable3) -> {
                         for (int i = 0; i < customerPayments.size(); i++) {
-                            for (int j = 0; j < customerPayments.size(); j++) {
                                 PaymentsReport paymentsReport = new PaymentsReport();
                                 paymentsReport.setFilterId(FILTER_DEBTS_IN);
                                 paymentsReport.setPaymentName(customerPayments.get(i).getPaymentType().getName());
                                 paymentsReport.setAccountName(customerPayments.get(i).getPaymentType().getAccount().getName());
                                 paymentsReport.setOrderId(customerPayments.get(i).getDebt().getOrderId());
+                                paymentsReport.setReason("Debt in");
                                 paymentsReport.setTillId(-1);
                                 paymentsReport.setDate(customerPayments.get(i).getPaymentDate());
                                 paymentsReport.setAmount(customerPayments.get(i).getPaymentAmount());
                                 paymentsReports.add(paymentsReport);
-                            }
                         }
                     });
                 });

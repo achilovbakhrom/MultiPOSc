@@ -185,6 +185,7 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
                 @Override
                 public void onLogOut() {
                     startActivity(new Intent(MainPosPageActivity.this, LockScreenActivity.class));
+                    finish();
                 }
             });
             mainMenuDialog.show();

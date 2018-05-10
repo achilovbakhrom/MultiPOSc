@@ -17,7 +17,7 @@
 
             <LinearLayout
                 android:id="@+id/llProduct"
-                android:layout_width="@dimen/two_hundred_eighty_dp"
+                android:layout_width="@dimen/three_hundred_eighty_dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
@@ -80,6 +80,7 @@
                 android:background="#e3e3e3" />
 
             <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/llLowStockAlert"
                 android:layout_width="@dimen/hundred_sixty_dp"
                 android:layout_height="match_parent"
@@ -107,6 +108,7 @@
 
 
             <FrameLayout
+                android:visibility="gone"
                 android:layout_width="2px"
                 android:layout_height="match_parent"
                 android:background="#e3e3e3" />
@@ -144,7 +146,7 @@
 
             <LinearLayout
                 android:id="@+id/llUnit"
-                android:layout_width="@dimen/eighty_dp"
+                android:layout_width="@dimen/hundred_twenty_dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
