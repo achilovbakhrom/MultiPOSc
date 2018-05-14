@@ -13,5 +13,5 @@ public abstract class ServiceFeeReportPresenterModule {
 
     @Binds
     @PerFragment
-    abstract ServiceFeeReportPresenter provideServiceReportPresenter(ServiceFeeFeeReportPresenterImpl serviceFeeReportPresenter);
+    abstract ServiceFeeReportPresenter provideServiceReportPresenter(ServiceFeeReportPresenterImpl serviceFeeReportPresenter);
 }

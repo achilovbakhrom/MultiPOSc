@@ -280,7 +280,7 @@ public abstract class MainPageDoubleSideActivity extends BaseActivity{
         BarcodeScannerFragment barcodeScannerFragment = (BarcodeScannerFragment) getSupportFragmentManager().findFragmentByTag(BarcodeScannerFragment.class.getName());
         if (barcodeScannerFragment == null) {
             barcodeScannerFragment = new BarcodeScannerFragment();
-            addFragmentWithTag(R.id.flFullContainer, barcodeScannerFragment, BarcodeScannerFragment.class.getName());
+            addFragmentWithTagAndBackStack(R.id.flFullContainer, barcodeScannerFragment, BarcodeScannerFragment.class.getName());
         } else {
             getSupportFragmentManager().beginTransaction().show(barcodeScannerFragment).commit();
         }

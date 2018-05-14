@@ -23,4 +23,5 @@ public interface ReturnConsignmentView extends BaseView {
     void openSaveChangesDialog();
     void setConsignmentNumberError();
     void setConsignmentNumber(int number);
+    void setCurrency(String abbr);
 }

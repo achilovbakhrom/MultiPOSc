@@ -40,6 +40,8 @@ public class ImportCustomersDialog extends Dialog {
     MPosSpinner spImportType;
     @BindView(R.id.tvFilePath)
     TextView tvFilePath;
+    @BindView(R.id.spFileType)
+    MPosSpinner spFileType;
     private String path;
     private boolean fromUsb = false;
     private Context context;
@@ -59,6 +61,7 @@ public class ImportCustomersDialog extends Dialog {
         View v = getWindow().getDecorView();
         v.setBackgroundResource(android.R.color.transparent);
         String[] strings = {context.getString(R.string.import_from_internal_memory), context.getString(R.string.import_from_usb)};
+        String[] fileTypes = {context.getString(R.string.customers)};
         DialogProperties properties = new DialogProperties();
         properties.selection_mode = DialogConfigs.SINGLE_MODE;
         properties.selection_type = DialogConfigs.FILE_SELECT;
@@ -76,6 +79,7 @@ public class ImportCustomersDialog extends Dialog {
                 checkDevice();
             }
         });
+        spFileType.setAdapter(fileTypes);
         tvFilePath.setOnClickListener(view -> {
             FilePickerDialog dialog = new FilePickerDialog(context, properties);
             dialog.setTitle(getContext().getString(R.string.select_file));

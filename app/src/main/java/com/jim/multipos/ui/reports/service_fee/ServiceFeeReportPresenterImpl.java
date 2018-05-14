@@ -12,6 +12,7 @@ import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.ServiceFeeLog;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.OrderProduct;
+import com.jim.multipos.data.db.model.till.Till;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -27,7 +28,7 @@ import javax.inject.Inject;
 import static com.jim.multipos.utils.ExportUtils.EXCEL;
 import static com.jim.multipos.utils.ExportUtils.PDF;
 
-public class ServiceFeeFeeReportPresenterImpl extends BasePresenterImpl<ServiceFeeReportView> implements ServiceFeeReportPresenter {
+public class ServiceFeeReportPresenterImpl extends BasePresenterImpl<ServiceFeeReportView> implements ServiceFeeReportPresenter {
 
     private Object[][] firstObjects;
     private Object[][] secondObjects;
@@ -43,7 +44,7 @@ public class ServiceFeeFeeReportPresenterImpl extends BasePresenterImpl<ServiceF
     private String searchText = "";
 
     @Inject
-    protected ServiceFeeFeeReportPresenterImpl(ServiceFeeReportView view, DatabaseManager databaseManager, Context context) {
+    protected ServiceFeeReportPresenterImpl(ServiceFeeReportView view, DatabaseManager databaseManager, Context context) {
         super(view);
         this.databaseManager = databaseManager;
         this.context = context;
@@ -109,8 +110,8 @@ public class ServiceFeeFeeReportPresenterImpl extends BasePresenterImpl<ServiceF
             firstObjects = new Object[orderProducts.size()][9];
             for (int i = 0; i < orderProducts.size(); i++) {
                 OrderProduct orderProduct = orderProducts.get(i);
-                firstObjects[i][0] = "#" + orderProduct.getOrderId();
-                firstObjects[i][1] = "#" + tillIds.get(i);
+                firstObjects[i][0] = orderProduct.getOrderId();
+                firstObjects[i][1] = tillIds.get(i);
                 firstObjects[i][2] = orderProduct.getProduct().getName();
                 firstObjects[i][3] = orderProduct.getProduct().getSku();
                 firstObjects[i][4] = orderProduct.getCount();
@@ -140,8 +141,8 @@ public class ServiceFeeFeeReportPresenterImpl extends BasePresenterImpl<ServiceF
             secondObjects = new Object[orders.size()][8];
             for (int i = 0; i < orders.size(); i++) {
                 Order order = orders.get(i);
-                secondObjects[i][0] = "#" + order.getId();
-                secondObjects[i][1] = "#" + order.getTillId();
+                secondObjects[i][0] = order.getId();
+                secondObjects[i][1] = order.getTillId();
                 secondObjects[i][2] = order.getSubTotalValue();
                 secondObjects[i][3] = order.getCustomer() != null ? order.getCustomer().getName() : "";
                 secondObjects[i][4] = order.getServiceAmount();
@@ -213,11 +214,11 @@ public class ServiceFeeFeeReportPresenterImpl extends BasePresenterImpl<ServiceF
                     if (searchText.length() <= prev || prev == -1) {
                         int searchRes[] = new int[firstObjects.length];
                         for (int i = 0; i < firstObjects.length; i++) {
-                            if (((String) firstObjects[i][0]).toUpperCase().contains(searchText.toUpperCase())) {
+                            if (String.valueOf((long) firstObjects[i][0]).toUpperCase().contains(searchText.toUpperCase())) {
                                 searchRes[i] = 1;
                                 continue;
                             }
-                            if (((String) firstObjects[i][1]).toUpperCase().contains(searchText.toUpperCase())) {
+                            if (String.valueOf((long) firstObjects[i][1]).toUpperCase().contains(searchText.toUpperCase())) {
                                 searchRes[i] = 1;
                                 continue;
                             }
@@ -278,11 +279,11 @@ public class ServiceFeeFeeReportPresenterImpl extends BasePresenterImpl<ServiceF
                     } else {
                         int searchRes[] = new int[searchResultsTemp.length];
                         for (int i = 0; i < searchResultsTemp.length; i++) {
-                            if (((String) searchResultsTemp[i][0]).toUpperCase().contains(searchText.toUpperCase())) {
+                            if (String.valueOf((long) searchResultsTemp[i][0]).toUpperCase().contains(searchText.toUpperCase())) {
                                 searchRes[i] = 1;
                                 continue;
                             }
-                            if (((String) searchResultsTemp[i][1]).toUpperCase().contains(searchText.toUpperCase())) {
+                            if (String.valueOf((long) searchResultsTemp[i][1]).toUpperCase().contains(searchText.toUpperCase())) {
                                 searchRes[i] = 1;
                                 continue;
                             }
@@ -512,11 +513,11 @@ public class ServiceFeeFeeReportPresenterImpl extends BasePresenterImpl<ServiceF
                     if (searchText.length() <= prev || prev == -1) {
                         int searchRes[] = new int[secondObjects.length];
                         for (int i = 0; i < secondObjects.length; i++) {
-                            if (((String) secondObjects[i][0]).toUpperCase().contains(searchText.toUpperCase())) {
+                            if (String.valueOf((long) secondObjects[i][0]).toUpperCase().contains(searchText.toUpperCase())) {
                                 searchRes[i] = 1;
                                 continue;
                             }
-                            if (((String) secondObjects[i][1]).toUpperCase().contains(searchText.toUpperCase())) {
+                            if (String.valueOf((long) secondObjects[i][1]).toUpperCase().contains(searchText.toUpperCase())) {
                                 searchRes[i] = 1;
                                 continue;
                             }
@@ -573,11 +574,11 @@ public class ServiceFeeFeeReportPresenterImpl extends BasePresenterImpl<ServiceF
                     } else {
                         int searchRes[] = new int[searchResultsTemp.length];
                         for (int i = 0; i < searchResultsTemp.length; i++) {
-                            if (((String) searchResultsTemp[i][0]).toUpperCase().contains(searchText.toUpperCase())) {
+                            if (String.valueOf((long) searchResultsTemp[i][0]).toUpperCase().contains(searchText.toUpperCase())) {
                                 searchRes[i] = 1;
                                 continue;
                             }
-                            if (((String) searchResultsTemp[i][1]).toUpperCase().contains(searchText.toUpperCase())) {
+                            if (String.valueOf((long) searchResultsTemp[i][1]).toUpperCase().contains(searchText.toUpperCase())) {
                                 searchRes[i] = 1;
                                 continue;
                             }
@@ -783,6 +784,25 @@ public class ServiceFeeFeeReportPresenterImpl extends BasePresenterImpl<ServiceF
             case 2:
                 view.exportTableToPdfToUSB(fileName, path, thirdObjects, currentPosition, date, filter, searchText);
                 break;
+        }
+    }
+
+    @Override
+    public void onAction(Object[][] objects, int row, int column) {
+        if (column == 1) {
+            long tillId = (Long) objects[row][column];
+            databaseManager.getTillById(tillId).subscribe(till -> {
+                if (till.getStatus() == Till.CLOSED)
+                    view.onTillPressed(databaseManager, till);
+                else view.onTillNotClosed();
+            });
+        } else if (column == 0) {
+            if (!objects[row][column].equals("")) {
+                long orderId = (long) objects[row][column];
+                databaseManager.getOrder(orderId).subscribe(order -> {
+                    view.onOrderPressed(order);
+                });
+            }
         }
     }
 }

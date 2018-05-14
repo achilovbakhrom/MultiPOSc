@@ -79,7 +79,13 @@ public class MpEditText extends android.support.v7.widget.AppCompatEditText {
 //
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.MpEditText);
         int n = array.getIndexCount();
+//        outerLoop:
         for (int i = 0; i < n; i++) {
+//            InputFilter[] inputFilters = getFilters();
+//            for (int j = 0; j < inputFilters.length; j++) {
+//                if (inputFilters[j] instanceof InputFilter.LengthFilter)
+//                    break outerLoop;
+//            }
             int attr = array.getIndex(i);
             if (attr == R.styleable.MpEditText_android_inputType) {
                 inputType = array.getInt(attr, InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
@@ -98,6 +104,10 @@ public class MpEditText extends android.support.v7.widget.AppCompatEditText {
                     filters[0] = new InputFilter.LengthFilter(6);
                     setFilters(filters);
                     setTypeface(Typeface.create("roboto", Typeface.NORMAL));
+                } else if (getInputType() == InputType.TYPE_CLASS_NUMBER) {
+                    InputFilter[] filters = new InputFilter[1];
+                    filters[0] = new InputFilter.LengthFilter(6);
+                    setFilters(filters);
                 } else {
                     InputFilter[] filters = new InputFilter[1];
                     filters[0] = new InputFilter.LengthFilter(50);

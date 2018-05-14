@@ -9,4 +9,5 @@ public interface DiscountReportPresenter extends BaseTableReportPresenter {
     void exportPdfToUSB(String filename, UsbFile root);
     void exportExcel(String fileName, String path);
     void exportPdf(String fileName, String path);
+    void onAction(Object[][] objects, int row, int column);
 }

@@ -12,5 +12,5 @@ public interface InventoryReportPresenter extends BaseTableReportPresenter {
     void exportExcelToUSB(String filename, UsbFile root);
     void exportPdfToUSB(String filename, UsbFile root);
     void onBarcodeReaded(String barcode);
-
+    void onAction(Object[][] objects, int row, int column);
 }

@@ -84,6 +84,7 @@ public class CustomerHistoryDialog extends Dialog {
         adapter = new CustomerDebtsAdapter(context, decimalFormat, databaseManager.getMainCurrency());
         rvDebtsList.setLayoutManager(new LinearLayoutManager(context));
         rvDebtsList.setAdapter(adapter);
+        customer.resetDebtList();
         debtList = customer.getDebtList();
         adapter.setItems(debtList);
 

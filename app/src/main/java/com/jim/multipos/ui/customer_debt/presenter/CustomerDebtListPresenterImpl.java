@@ -170,6 +170,7 @@ public class CustomerDebtListPresenterImpl extends BasePresenterImpl<CustomerDeb
 
     @Override
     public void openPayToAllDialog() {
+        customer.resetDebtList();
         if (customer.getDebtList() != null && customer.getDebtList().size() > 0)
             view.openPayToDebt(null, databaseManager, false, true, customer);
         else view.openWarningDialog();

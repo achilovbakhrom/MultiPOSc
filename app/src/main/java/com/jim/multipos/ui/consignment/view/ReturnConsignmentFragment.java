@@ -69,6 +69,8 @@ public class ReturnConsignmentFragment extends BaseFragment implements ReturnCon
     TextView tvTotalReturnSum;
     @BindView(R.id.tvVendorName)
     TextView tvVendorName;
+    @BindView(R.id.tvCurrencyAbbr)
+    TextView tvCurrencyAbbr;
     private Dialog dialog;
 
 
@@ -120,7 +122,7 @@ public class ReturnConsignmentFragment extends BaseFragment implements ReturnCon
             }
         });
         barcodeStack.register(barcode -> {
-            if(isAdded() && isVisible())
+            if (isAdded() && isVisible())
                 presenter.onBarcodeScaned(barcode);
         });
     }
@@ -208,7 +210,7 @@ public class ReturnConsignmentFragment extends BaseFragment implements ReturnCon
             presenter.saveChanges();
             warningDialog.dismiss();
         });
-        warningDialog.setOnNoClickListener(view ->  {
+        warningDialog.setOnNoClickListener(view -> {
             warningDialog.dismiss();
             getActivity().finish();
         });
@@ -229,5 +231,10 @@ public class ReturnConsignmentFragment extends BaseFragment implements ReturnCon
     @Override
     public void setConsignmentNumber(int number) {
         etReturnNumber.setText(String.valueOf(number));
+    }
+
+    @Override
+    public void setCurrency(String abbr) {
+        tvCurrencyAbbr.setText(abbr);
     }
 }

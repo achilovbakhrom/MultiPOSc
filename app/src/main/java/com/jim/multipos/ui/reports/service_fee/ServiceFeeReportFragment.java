@@ -2,6 +2,7 @@ package com.jim.multipos.ui.reports.service_fee;
 
 import android.os.Bundle;
 import android.view.Gravity;
+import android.widget.Toast;
 
 import com.github.angads25.filepicker.model.DialogConfigs;
 import com.github.angads25.filepicker.model.DialogProperties;
@@ -11,9 +12,14 @@ import com.jim.mpviews.ReportView;
 import com.jim.mpviews.utils.ReportViewConstants;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseTableReportFragment;
+import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.ServiceFeeLog;
+import com.jim.multipos.data.db.model.order.Order;
+import com.jim.multipos.data.db.model.till.Till;
 import com.jim.multipos.ui.reports.discount.dialogs.DiscountFilterDialog;
+import com.jim.multipos.ui.reports.order_history.dialogs.OrderDetialsDialog;
+import com.jim.multipos.ui.reports.tills.dialog.TillDetailsDialog;
 import com.jim.multipos.utils.ExportToDialog;
 import com.jim.multipos.utils.ExportUtils;
 
@@ -214,6 +220,7 @@ public class ServiceFeeReportFragment extends BaseTableReportFragment implements
                 .setDataTypes(firstDataType)
                 .setWeight(firstWeights)
                 .setDataAlignTypes(firstAligns)
+                .setOnReportViewResponseListener((objects, row, column) -> presenter.onAction(objects, row, column))
                 .setStatusTypes(singleStatusTypes)
                 .build();
         orderBuilder = new ReportView.Builder()
@@ -222,6 +229,7 @@ public class ServiceFeeReportFragment extends BaseTableReportFragment implements
                 .setDataTypes(secondDataType)
                 .setWeight(secondWeights)
                 .setDataAlignTypes(secondAligns)
+                .setOnReportViewResponseListener((objects, row, column) -> presenter.onAction(objects, row, column))
                 .setStatusTypes(singleStatusTypes)
                 .build();
         logBuilder = new ReportView.Builder()
@@ -258,6 +266,23 @@ public class ServiceFeeReportFragment extends BaseTableReportFragment implements
         thirdTitles = new String[]{getString(R.string.date), getString(R.string.operation), getString(R.string.reason), getString(R.string.value), getString(R.string.amount_type), getString(R.string.usage_type), getString(R.string.type)};
     }
 
+    @Override
+    public void onOrderPressed(Order order) {
+        OrderDetialsDialog orderDetialsDialog = new OrderDetialsDialog(getContext(), order);
+        orderDetialsDialog.show();
+    }
+
+    @Override
+    public void onTillPressed(DatabaseManager databaseManager, Till till) {
+        TillDetailsDialog dialog = new TillDetailsDialog(getContext(), databaseManager, till);
+        dialog.show();
+    }
+
+    @Override
+    public void onTillNotClosed() {
+        Toast.makeText(getActivity(), R.string.till_not_closed, Toast.LENGTH_SHORT).show();
+    }
+
     private Object[][][] singleStatusTypes;
     private Object[][][] multipleStatusTypes;
     private String thirdTitles[];
@@ -265,13 +290,13 @@ public class ServiceFeeReportFragment extends BaseTableReportFragment implements
     private String secondTitles[];
 
     private int firstDataType[] = {
-            ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.NAME,
+            ReportViewConstants.ACTION, ReportViewConstants.ACTION, ReportViewConstants.NAME,
             ReportViewConstants.NAME, ReportViewConstants.QUANTITY, ReportViewConstants.AMOUNT,
             ReportViewConstants.DATE, ReportViewConstants.NAME, ReportViewConstants.STATUS};
     private int firstWeights[] = {15, 15, 20, 15, 10, 20, 20, 30, 15};
     private int firstAligns[] = {Gravity.LEFT, Gravity.LEFT, Gravity.LEFT, Gravity.LEFT, Gravity.CENTER, Gravity.RIGHT, Gravity.CENTER, Gravity.LEFT, Gravity.CENTER};
     private int secondDataType[] = {
-            ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.AMOUNT,
+            ReportViewConstants.ACTION, ReportViewConstants.ACTION, ReportViewConstants.AMOUNT,
             ReportViewConstants.NAME, ReportViewConstants.AMOUNT,
             ReportViewConstants.DATE, ReportViewConstants.NAME, ReportViewConstants.STATUS};
     private int secondWeights[] = {10, 10, 20, 20, 20, 20, 30, 10};

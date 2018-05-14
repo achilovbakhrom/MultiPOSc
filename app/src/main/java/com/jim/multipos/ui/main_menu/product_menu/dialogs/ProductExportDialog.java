@@ -128,6 +128,11 @@ public class ProductExportDialog extends Dialog {
                         }
                         break;
                     case 2:
+                        if (docType == EXCEL) {
+                            ExportUtils.exportProductsToUsb(context, root, databaseManager);
+                        } else {
+                            ExportUtils.exportProductsPdfToUsb(context, root, databaseManager);
+                        }
                         break;
                     case 3:
                         ExportUtils.exportProductVendorTemplateToUsb(context, root);
@@ -152,6 +157,11 @@ public class ProductExportDialog extends Dialog {
                             }
                             break;
                         case 2:
+                            if (docType == EXCEL) {
+                                ExportUtils.exportProducts(context, path, databaseManager);
+                            } else {
+                                ExportUtils.exportProductsPdf(context, path, databaseManager);
+                            }
                             break;
                         case 3:
                             ExportUtils.exportProductVendorTemplate(context, path);

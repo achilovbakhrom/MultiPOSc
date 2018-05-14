@@ -25,4 +25,5 @@ public interface IncomeConsignmentView extends BaseView {
     void setAccountSpinnerSelection(int selectedAccount);
     void setConsignmentNumberError();
     void setConsignmentNumber(int number);
+    void setCurrency(String abbr);
 }

@@ -101,6 +101,12 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
     ImageView ivPrint;
     @BindView(R.id.tvPrint)
     TextView tvPrint;
+    @BindView(R.id.tvChangeCurrency)
+    TextView tvChangeCurrency;
+    @BindView(R.id.tvBalanceDueCurrency)
+    TextView tvBalanceDueCurrency;
+    @BindView(R.id.tvPaymentCurrency)
+    TextView tvPaymentCurrency;
     CheckPrinter checkPrinter;
 
     DecimalFormat df;
@@ -527,7 +533,9 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
         btnFirstOptional.setValue(decimalFormat.format(preferencesHelper.getFirstOptionalPaymentButton()));
         btnSecondOptional.setCurrency(databaseManager.getMainCurrency().getAbbr());
         btnSecondOptional.setValue(decimalFormat.format(preferencesHelper.getSecondOptionalPaymentButton()));
-
+        tvBalanceDueCurrency.setText(databaseManager.getMainCurrency().getAbbr());
+        tvChangeCurrency.setText(databaseManager.getMainCurrency().getAbbr());
+        tvPaymentCurrency.setText(databaseManager.getMainCurrency().getAbbr());
         btnFirstOptional.setOnClickListener(view -> {
             //this part of code used for clearing text when some text part selected
             if(etPaymentAmount.getSelectionStart() != etPaymentAmount.getSelectionEnd()){

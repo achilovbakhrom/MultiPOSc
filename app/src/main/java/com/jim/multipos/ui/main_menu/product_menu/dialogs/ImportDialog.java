@@ -43,6 +43,9 @@ public class ImportDialog extends Dialog {
     MPosSpinner spImportType;
     @BindView(R.id.tvFilePath)
     TextView tvFilePath;
+    @BindView(R.id.spFileType)
+    MPosSpinner spFileType;
+    private int fileType = 0;
     private String path;
     private boolean fromUsb = false;
     private Context context;
@@ -62,12 +65,15 @@ public class ImportDialog extends Dialog {
         View v = getWindow().getDecorView();
         v.setBackgroundResource(android.R.color.transparent);
         String[] strings = {context.getString(R.string.import_from_internal_memory), context.getString(R.string.import_from_usb)};
+        String[] fileTypes = {context.getString(R.string.vendors), context.getString(R.string.products)};
         DialogProperties properties = new DialogProperties();
         properties.selection_mode = DialogConfigs.SINGLE_MODE;
         properties.selection_type = DialogConfigs.FILE_SELECT;
         properties.error_dir = new File(DialogConfigs.DEFAULT_DIR);
         properties.offset = new File(DialogConfigs.DEFAULT_DIR);
         properties.extensions = null;
+        spFileType.setAdapter(fileTypes);
+        spFileType.setItemSelectionListener((view, position) -> fileType = position);
         spImportType.setAdapter(strings);
         spImportType.setItemSelectionListener((view, position) -> {
             if (position == 0) {
@@ -93,7 +99,10 @@ public class ImportDialog extends Dialog {
             if (!tvFilePath.getText().toString().isEmpty()) {
                 if (fromUsb) {
                     selectFileForImport();
-                } else ExportUtils.importVendorsAndProducts(context, path, databaseManager);
+                } else if (fileType == 1)
+                    ExportUtils.importProducts(context, path, databaseManager);
+                else
+                    ExportUtils.importVendors(context, path, databaseManager);
                 rxBus.send(new ProductEvent(null, GlobalEventConstants.ADD));
                 dismiss();
             } else tvFilePath.setError(context.getString(R.string.choose_file_location));
@@ -114,7 +123,10 @@ public class ImportDialog extends Dialog {
                             for (UsbFile file : files) {
                                 if (!file.isDirectory()) {
                                     if (path.contains(file.getName())) {
-                                        ExportUtils.importVendorsAndProductsFromUsb(context, file, databaseManager);
+                                        if (fileType == 1)
+                                            ExportUtils.importProductsFromUsb(context, file, databaseManager);
+                                        else
+                                            ExportUtils.importVendorsFromUsb(context, file, databaseManager);
 
                                     }
                                 }

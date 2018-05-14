@@ -15,6 +15,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:backgroundTint="@color/colorTransparent"
+            android:inputType="text"
             android:paddingBottom="@dimen/five_dp"
             android:paddingLeft="@dimen/twelve_dp"
             android:paddingRight="@dimen/twelve_dp"

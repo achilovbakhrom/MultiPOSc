@@ -86,7 +86,7 @@ public class ServiceFeeDialog extends Dialog implements ServiceFeeAdapter.OnClic
             }
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new ServiceFeeAdapter(getContext(), this, serviceFees);
+        adapter = new ServiceFeeAdapter(getContext(), this, serviceFees, databaseManager.getMainCurrency().getAbbr());
         recyclerView.setAdapter(adapter);
         RxView.clicks(btnBack).subscribe(o -> dismiss());
         RxView.clicks(btnAdd).subscribe(o -> {

@@ -32,13 +32,21 @@
         </RelativeLayout>
 
         <com.jim.mpviews.MPosSpinner
+            android:id="@+id/spFileType"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/forty_dp"
+            android:layout_marginLeft="@dimen/thirty_dp"
+            android:layout_marginRight="@dimen/thirty_dp"
+            android:layout_marginTop="@dimen/ten_dp" />
+
+        <com.jim.mpviews.MPosSpinner
             android:id="@+id/spImportType"
             android:layout_width="match_parent"
             android:layout_height="@dimen/forty_dp"
             android:layout_marginBottom="@dimen/ten_dp"
             android:layout_marginLeft="@dimen/thirty_dp"
             android:layout_marginRight="@dimen/thirty_dp"
-            android:layout_marginTop="@dimen/twenty_dp" />
+            android:layout_marginTop="@dimen/ten_dp" />
 
         <TextView
             android:id="@+id/tvFilePath"

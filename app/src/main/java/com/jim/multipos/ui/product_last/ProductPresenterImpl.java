@@ -55,7 +55,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     private ProductClass productClass;
     private List<Long> vendors;
     private List<VendorProductCon> vendorProductConnectionsList;
-//    private List<VendorProductCon> tempCostList;
+    //    private List<VendorProductCon> tempCostList;
     private DecimalFormat formatter;
 
     @Getter
@@ -358,7 +358,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 if (!view.getProductName().equals(this.product.getName()) || !view.getBarCode().equals(this.product.getBarcode()) || !view.getSku().equals(this.product.getSku()) ||
                         (unitCategory != null && !unitCategory.getUnits().get(view.getUnitSelectedPos()).getId().equals(this.product.getMainUnitId())) ||
                         !view.getPhotoPath().equals(this.product.getPhotoPath()) || !view.getPrice().equals(this.product.getPrice()) ||
-                view.getProductIsActive() != this.product.getIsActive() || hasChanged) {
+                        view.getProductIsActive() != this.product.getIsActive() || hasChanged) {
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
                         public void onPositiveButtonClicked() {
@@ -470,7 +470,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 if (!view.getProductName().equals(this.product.getName()) || !view.getBarCode().equals(this.product.getBarcode()) || !view.getSku().equals(this.product.getSku()) ||
                         (unitCategory != null && !unitCategory.getUnits().get(view.getUnitSelectedPos()).getId().equals(this.product.getMainUnitId())) ||
                         !view.getPhotoPath().equals(this.product.getPhotoPath()) || !view.getPrice().equals(this.product.getPrice()) ||
-                     view.getProductIsActive() != this.product.getIsActive() || hasChanged) {
+                        view.getProductIsActive() != this.product.getIsActive() || hasChanged) {
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
                         public void onPositiveButtonClicked() {
@@ -1390,8 +1390,8 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
 
     @Override
     public boolean isProductNameExists(String name) {
-        if (mode == CategoryAddEditMode.PRODUCT_EDIT_MODE){
-            if (ProductPresenterImpl.this.product.getName().equals(name)){
+        if (mode == CategoryAddEditMode.PRODUCT_EDIT_MODE) {
+            if (ProductPresenterImpl.this.product.getName().equals(name)) {
                 return false;
             }
         }
@@ -1405,8 +1405,8 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
 
     @Override
     public boolean isProductSkuExists(String sku) {
-        if (mode == CategoryAddEditMode.PRODUCT_EDIT_MODE){
-            if (ProductPresenterImpl.this.product.getSku().equals(sku)){
+        if (mode == CategoryAddEditMode.PRODUCT_EDIT_MODE) {
+            if (ProductPresenterImpl.this.product.getSku().equals(sku)) {
                 return false;
             }
         }
@@ -1430,37 +1430,40 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
         int count = 0;
         boolean isAllowed = true; // если vendor не имеет продуктов на складе, то isAllowed true
         List<Long> tempExistIds = new ArrayList<>();
-        for (int i = 0; i < this.vendorProductConnectionsList.size(); i++) {
+        if (this.vendorProductConnectionsList.size() > 0) {
             isNewProduct = false;
-            Long vendorId = this.vendorProductConnectionsList.get(i).getVendorId();
-            if (!vendors.contains(vendorId)) { // проверка на измениия листа поставщиков
-                int pos = -1;
-                for (int j = 0; j < inventoryStates.size(); j++) {
-                    if (vendorId.equals(inventoryStates.get(j).getVendorId())) {
-                        inventoryState = inventoryStates.get(j);
-                        pos = j;
+            for (int i = 0; i < this.vendorProductConnectionsList.size(); i++) {
+
+                Long vendorId = this.vendorProductConnectionsList.get(i).getVendorId();
+                if (!vendors.contains(vendorId)) { // проверка на измениия листа поставщиков
+                    int pos = -1;
+                    for (int j = 0; j < inventoryStates.size(); j++) {
+                        if (vendorId.equals(inventoryStates.get(j).getVendorId())) {
+                            inventoryState = inventoryStates.get(j);
+                            pos = j;
+                            break;
+                        }
+                    }
+                    NumberFormat numberFormat = NumberFormat.getNumberInstance();
+                    numberFormat.setMaximumFractionDigits(2);
+                    numberFormat.setMinimumFractionDigits(2);
+                    // если какой-то поставщик был убран из листа, то проверяется есть ли у него продукты на складе, при наличии выходить предупреждение и все изменения возвращаются назад
+                    if (!numberFormat.format(inventoryState.getValue()).replace(',', '.').equals("0.00")) {
+                        isAllowed = false;
+                        view.showInventoryStateShouldBeEmptyDialog();
                         break;
+                    } else {
+                        if (pos != -1) {
+                            inventoryStates.remove(pos);
+                            deletedStatesList.add(inventoryState);
+                            this.vendorProductConnectionsList.remove(i);
+                            isAllowed = true;
+                            i--;
+                        }
                     }
-                }
-                NumberFormat numberFormat = NumberFormat.getNumberInstance();
-                numberFormat.setMaximumFractionDigits(2);
-                numberFormat.setMinimumFractionDigits(2);
-                // если какой-то поставщик был убран из листа, то проверяется есть ли у него продукты на складе, при наличии выходить предупреждение и все изменения возвращаются назад
-                if (!numberFormat.format(inventoryState.getValue()).replace(',', '.').equals("0.00")) {
-                    isAllowed = false;
-                    view.showInventoryStateShouldBeEmptyDialog();
-                    break;
                 } else {
-                    if (pos != -1) {
-                        inventoryStates.remove(pos);
-                        deletedStatesList.add(inventoryState);
-                        this.vendorProductConnectionsList.remove(i);
-                        isAllowed = true;
-                        i--;
-                    }
+                    tempExistIds.add(vendorId); // добавления существующих в новый лист для дальнейшой проверки
                 }
-            } else {
-                tempExistIds.add(vendorId); // добавления существующих в новый лист для дальнейшой проверки
             }
         }
         if (isAllowed || isNewProduct) {

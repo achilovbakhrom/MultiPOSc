@@ -11,7 +11,9 @@ import com.jim.mpviews.ReportView;
 import com.jim.mpviews.utils.ReportViewConstants;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseTableReportFragment;
+import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.ui.reports.debts.dialogs.DebtFilterDialog;
+import com.jim.multipos.ui.reports.order_history.dialogs.OrderDetialsDialog;
 import com.jim.multipos.utils.ExportToDialog;
 import com.jim.multipos.utils.ExportUtils;
 
@@ -33,12 +35,12 @@ public class DebtsReportFragment extends BaseTableReportFragment implements Debt
     private int secondDataType[] = {ReportViewConstants.NAME, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.QUANTITY, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT};
     private int secondWeights[] = {10, 10, 10, 10, 10, 10};
     private int secondAligns[] = {Gravity.LEFT, Gravity.RIGHT, Gravity.RIGHT, Gravity.CENTER, Gravity.RIGHT, Gravity.RIGHT};
-    private int thirdDataType[] = {ReportViewConstants.NAME, ReportViewConstants.DATE, ReportViewConstants.NAME, ReportViewConstants.STATUS, ReportViewConstants.AMOUNT, ReportViewConstants.NAME, ReportViewConstants.NAME};
+    private int thirdDataType[] = {ReportViewConstants.NAME, ReportViewConstants.DATE, ReportViewConstants.ACTION, ReportViewConstants.STATUS, ReportViewConstants.AMOUNT, ReportViewConstants.NAME, ReportViewConstants.NAME};
     private int thirdWeights[] = {10, 10, 5, 5, 10, 10, 10};
     private int thirdAligns[] = {Gravity.LEFT, Gravity.CENTER, Gravity.CENTER, Gravity.CENTER, Gravity.RIGHT, Gravity.LEFT, Gravity.LEFT};
-    private int forthDataType[] = {ReportViewConstants.NAME, ReportViewConstants.DATE, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.DATE, ReportViewConstants.AMOUNT, ReportViewConstants.NAME, ReportViewConstants.DATE};
-    private int forthWeights[] = {5, 10, 10, 10, 10, 10, 10, 10};
-    private int forthAligns[] = {Gravity.CENTER, Gravity.CENTER, Gravity.RIGHT, Gravity.RIGHT, Gravity.CENTER, Gravity.RIGHT, Gravity.LEFT, Gravity.CENTER};
+    private int forthDataType[] = {ReportViewConstants.ACTION, ReportViewConstants.DATE, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.DATE, ReportViewConstants.AMOUNT, ReportViewConstants.NAME, ReportViewConstants.DATE, ReportViewConstants.AMOUNT};
+    private int forthWeights[] = {5, 10, 10, 10, 10, 10, 10, 10, 10};
+    private int forthAligns[] = {Gravity.CENTER, Gravity.CENTER, Gravity.RIGHT, Gravity.RIGHT, Gravity.CENTER, Gravity.RIGHT, Gravity.LEFT, Gravity.CENTER, Gravity.RIGHT};
     private String firstTitles[], secondTitles[], thirdTitles[], forthTitles[], panelNames[];
     private Object[][][] statusTypes;
 
@@ -60,7 +62,7 @@ public class DebtsReportFragment extends BaseTableReportFragment implements Debt
         firstTitles = new String[]{getString(R.string.name), getString(R.string.total_debt), getString(R.string.total_overdue), getString(R.string.last_visit), getString(R.string.customer_contacts)};
         secondTitles = new String[]{getString(R.string.name), getString(R.string.debt_taken), getString(R.string.debt_closed), getString(R.string.debt_orders_count), getString(R.string.debt_taken_avg), getString(R.string.debt_closed_avg)};
         thirdTitles = new String[]{getString(R.string.name), getString(R.string.date), getString(R.string.order), getString(R.string.type), getString(R.string.amount), getString(R.string.payment_type), getString(R.string.group)};
-        forthTitles = new String[]{getString(R.string.order_num), getString(R.string.created_at), getString(R.string.order_amount), getString(R.string.paid_report_text), getString(R.string.last_pay_date), getString(R.string.due_debt), getString(R.string.customer), getString(R.string.should_close_date)};
+        forthTitles = new String[]{getString(R.string.order_num), getString(R.string.created_at), getString(R.string.order_amount), getString(R.string.paid_report_text), getString(R.string.last_pay_date), getString(R.string.due_debt), getString(R.string.customer), getString(R.string.should_close_date), getContext().getString(R.string.fee)};
         firstBuilder = new ReportView.Builder()
                 .setContext(getContext())
                 .setTitles(firstTitles)
@@ -83,6 +85,9 @@ public class DebtsReportFragment extends BaseTableReportFragment implements Debt
                 .setDataTypes(thirdDataType)
                 .setWeight(thirdWeights)
                 .setStatusTypes(statusTypes)
+                .setOnReportViewResponseListener((objects, row, column) -> {
+                    presenter.onAction(objects, row, column);
+                })
                 .setDataAlignTypes(thirdAligns)
                 .build();
         thirdView = new ReportView(thirdBuilder);
@@ -92,6 +97,9 @@ public class DebtsReportFragment extends BaseTableReportFragment implements Debt
                 .setDataTypes(forthDataType)
                 .setWeight(forthWeights)
                 .setDataAlignTypes(forthAligns)
+                .setOnReportViewResponseListener((objects, row, column) -> {
+                    presenter.onAction(objects, row, column);
+                })
                 .build();
         forthView = new ReportView(forthBuilder);
 
@@ -285,6 +293,12 @@ public class DebtsReportFragment extends BaseTableReportFragment implements Debt
                 ExportUtils.exportToPdfToUSB(getContext(), path, fileName, forthDescription, date, filter, searchText, objects, forthTitles, forthWeights, forthDataType, null);
                 break;
         }
+    }
+
+    @Override
+    public void onOrderPressed(Order order) {
+        OrderDetialsDialog orderDetialsDialog = new OrderDetialsDialog(getContext(), order);
+        orderDetialsDialog.show();
     }
 
     private void openFilePickerDialog() {

@@ -79,10 +79,10 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
         fromDate.set(Calendar.MINUTE, 0);
         fromDate.set(Calendar.SECOND, 0);
         view.updateDateIntervalUi(fromDate, toDate);
-        new Handler().postDelayed(()->{
+        new Handler().postDelayed(() -> {
             initReportTable();
             view.initTable(firstObjects);
-        },50);
+        }, 50);
     }
 
     private void initReportTable() {
@@ -91,6 +91,7 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
                 List<Customer> customers = new ArrayList<>();
                 databaseManager.getAllCustomers().subscribe(customers1 -> {
                     for (int i = 0; i < customers1.size(); i++) {
+                        customers1.get(i).resetDebtList();
                         if (customers1.get(i).getDebtList().size() > 0)
                             customers.add(customers1.get(i));
                     }
@@ -132,6 +133,7 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
                 List<Customer> customersList = new ArrayList<>();
                 databaseManager.getAllCustomers().subscribe(customers1 -> {
                     for (int i = 0; i < customers1.size(); i++) {
+                        customers1.get(i).resetDebtList();
                         if (customers1.get(i).getDebtList().size() > 0)
                             customersList.add(customers1.get(i));
                     }
@@ -243,7 +245,7 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
                     CustomerDebtLog customerDebtLog = customerDebtLogs.get(i);
                     thirdObjects[i][0] = customerDebtLog.getName();
                     thirdObjects[i][1] = customerDebtLog.getDate();
-                    thirdObjects[i][2] = "#" + customerDebtLog.getOrderId();
+                    thirdObjects[i][2] = customerDebtLog.getOrderId();
                     thirdObjects[i][3] = customerDebtLog.getAction();
                     thirdObjects[i][4] = customerDebtLog.getAmount();
                     thirdObjects[i][5] = customerDebtLog.getPaymentTypes();
@@ -258,7 +260,7 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
                             orders.add(order);
                     }
                 });
-                forthObjects = new Object[orders.size()][8];
+                forthObjects = new Object[orders.size()][9];
                 for (int i = 0; i < orders.size(); i++) {
                     Order order = orders.get(i);
                     Debt debt = order.getDebt();
@@ -271,7 +273,7 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
                             paid += payment.getPaymentAmount();
                         }
                     }
-                    forthObjects[i][0] = "#" + order.getId();
+                    forthObjects[i][0] = order.getId();
                     forthObjects[i][1] = order.getCreateAt();
                     forthObjects[i][2] = order.getDebt().getTotalDebtAmount();
                     forthObjects[i][3] = paid;
@@ -282,6 +284,7 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
                     forthObjects[i][5] = order.getDebt().getTotalDebtAmount() - paid;
                     forthObjects[i][6] = order.getCustomer().getName();
                     forthObjects[i][7] = debt.getEndDate();
+                    forthObjects[i][8] = debt.getFee();
                 }
                 break;
         }
@@ -511,7 +514,7 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
                                 searchRes[i] = 1;
                                 continue;
                             }
-                            if (((String) thirdObjects[i][2]).toUpperCase().contains(searchText.toUpperCase())) {
+                            if (String.valueOf((long) thirdObjects[i][2]).toUpperCase().contains(searchText.toUpperCase())) {
                                 searchRes[i] = 1;
                                 continue;
                             }
@@ -567,7 +570,7 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
                                 searchRes[i] = 1;
                                 continue;
                             }
-                            if (((String) searchResultsTemp[i][2]).toUpperCase().contains(searchText.toUpperCase())) {
+                            if (String.valueOf((long) searchResultsTemp[i][2]).toUpperCase().contains(searchText.toUpperCase())) {
                                 searchRes[i] = 1;
                                 continue;
                             }
@@ -618,7 +621,7 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
                     if (searchText.length() <= prev || prev == -1) {
                         int searchRes[] = new int[forthObjects.length];
                         for (int i = 0; i < forthObjects.length; i++) {
-                            if (((String) forthObjects[i][0]).toUpperCase().contains(searchText.toUpperCase())) {
+                            if (String.valueOf((long) forthObjects[i][2]).toUpperCase().contains(searchText.toUpperCase())) {
                                 searchRes[i] = 1;
                                 continue;
                             }
@@ -656,6 +659,9 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
                             }
                             if ((simpleDateFormat.format(new Date((long) forthObjects[i][7]))).toUpperCase().contains(searchText.toUpperCase())) {
                                 searchRes[i] = 1;
+                            }
+                            if ((decimalFormat.format((double) forthObjects[i][8])).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
                                 continue;
                             }
                         }
@@ -665,7 +671,7 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
                             if (searchRes[i] == 1)
                                 sumSize++;
                         }
-                        Object[][] objectResults = new Object[sumSize][8];
+                        Object[][] objectResults = new Object[sumSize][9];
 
                         int pt = 0;
                         for (int i = 0; i < forthObjects.length; i++) {
@@ -679,7 +685,7 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
                     } else {
                         int searchRes[] = new int[searchResultsTemp.length];
                         for (int i = 0; i < searchResultsTemp.length; i++) {
-                            if (((String) searchResultsTemp[i][0]).toUpperCase().contains(searchText.toUpperCase())) {
+                            if (String.valueOf((long) searchResultsTemp[i][0]).toUpperCase().contains(searchText.toUpperCase())) {
                                 searchRes[i] = 1;
                                 continue;
                             }
@@ -717,6 +723,10 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
                             }
                             if ((simpleDateFormat.format(new Date((long) searchResultsTemp[i][7]))).toUpperCase().contains(searchText.toUpperCase())) {
                                 searchRes[i] = 1;
+                            }
+
+                            if ((decimalFormat.format((double) searchResultsTemp[i][8])).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
                                 continue;
                             }
                         }
@@ -725,7 +735,7 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
                             if (searchRes[i] == 1)
                                 sumSize++;
                         }
-                        Object[][] objectResults = new Object[sumSize][8];
+                        Object[][] objectResults = new Object[sumSize][9];
 
                         int pt = 0;
                         for (int i = 0; i < searchResultsTemp.length; i++) {
@@ -878,6 +888,29 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
             case 3:
                 view.exportTableToPdfToUSB(fileName, path, forthObjects, currentPosition, date, filter, searchText);
                 break;
+        }
+    }
+
+    @Override
+    public void onAction(Object[][] objects, int row, int column) {
+        if (currentPosition == 2) {
+            if (column == 2) {
+                if (!objects[row][column].equals("")) {
+                    long orderId = (long) objects[row][column];
+                    databaseManager.getOrder(orderId).subscribe(order -> {
+                        view.onOrderPressed(order);
+                    });
+                }
+            }
+        } else if (currentPosition == 3){
+            if (column == 0) {
+                if (!objects[row][column].equals("")) {
+                    long orderId = (long) objects[row][column];
+                    databaseManager.getOrder(orderId).subscribe(order -> {
+                        view.onOrderPressed(order);
+                    });
+                }
+            }
         }
     }
 

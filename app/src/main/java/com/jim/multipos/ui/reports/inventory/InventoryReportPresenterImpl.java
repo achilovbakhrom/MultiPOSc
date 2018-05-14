@@ -83,10 +83,10 @@ public class InventoryReportPresenterImpl extends BasePresenterImpl<InventoryRep
         fromDate.set(Calendar.MINUTE, 0);
         fromDate.set(Calendar.SECOND, 0);
         view.updateDateIntervalUi(fromDate, toDate);
-        new Handler().postDelayed(()->{
+        new Handler().postDelayed(() -> {
             initReportTable();
             view.initTable(firstObjects);
-        },50);
+        }, 50);
 
     }
 
@@ -147,7 +147,7 @@ public class InventoryReportPresenterImpl extends BasePresenterImpl<InventoryRep
                     firstObjects[i][4] = operations.getCreatedDate();
                     firstObjects[i][5] = operations.getDescription();
                     if (operations.getOrder() != null)
-                        firstObjects[i][6] = "#" + operations.getOrder().getId();
+                        firstObjects[i][6] = operations.getOrder().getId();
                     else firstObjects[i][6] = "";
                     Long id = databaseManager.getConsignmentByWarehouseId(operations.getId()).blockingGet();
                     if (id == -1L) {
@@ -333,7 +333,7 @@ public class InventoryReportPresenterImpl extends BasePresenterImpl<InventoryRep
                                 searchRes[i] = 1;
                                 continue;
                             }
-                            if (((String) firstObjects[i][6]).toUpperCase().contains(searchText.toUpperCase())) {
+                            if (String.valueOf((long) firstObjects[i][6]).toUpperCase().contains(searchText.toUpperCase())) {
                                 searchRes[i] = 1;
                                 continue;
                             }
@@ -415,7 +415,7 @@ public class InventoryReportPresenterImpl extends BasePresenterImpl<InventoryRep
                                 searchRes[i] = 1;
                                 continue;
                             }
-                            if (((String) searchResultsTemp[i][6]).toUpperCase().contains(searchText.toUpperCase())) {
+                            if (String.valueOf((long) searchResultsTemp[i][6]).toUpperCase().contains(searchText.toUpperCase())) {
                                 searchRes[i] = 1;
                                 continue;
                             }
@@ -1019,14 +1019,25 @@ public class InventoryReportPresenterImpl extends BasePresenterImpl<InventoryRep
         }
     }
 
-        @Override
+    @Override
     public void onBarcodeReaded(String barcode) {
         databaseManager.getAllProducts().subscribe(products -> {
-           for(Product product:products)
-               if(product.getBarcode() !=null && product.getBarcode().equals(barcode)){
-                view.setTextToSearch(product.getName());
-               }
+            for (Product product : products)
+                if (product.getBarcode() != null && product.getBarcode().equals(barcode)) {
+                    view.setTextToSearch(product.getName());
+                }
         });
     }
 
+    @Override
+    public void onAction(Object[][] objects, int row, int column) {
+        if (column == 6) {
+            if (!objects[row][column].equals("")) {
+                long orderId = (long) objects[row][column];
+                databaseManager.getOrder(orderId).subscribe(order -> {
+                    view.onOrderPressed(order);
+                });
+            }
+        }
+    }
 }

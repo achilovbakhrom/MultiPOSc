@@ -7,6 +7,7 @@ import com.jim.mpviews.MPosSpinner;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.ui.settings.SettingsActivity;
+import com.jim.multipos.utils.UIUtils;
 
 import javax.inject.Inject;
 
@@ -26,6 +27,7 @@ public class CurrencySettingsFragment extends BaseFragment implements CurrencyVi
 
     @Override
     protected void init(Bundle savedInstanceState) {
+        UIUtils.closeKeyboard(spCurrency,getContext());
         presenter.initCurrency();
     }
 

@@ -25,7 +25,6 @@ public class CategoryAddEditFragment extends BaseFragment {
 
     @BindView(R.id.tvName)
     TextView tvName;
-    @NotEmpty(messageId = R.string.category_length_validation)
     @BindView(R.id.etSubCategoryName)
     MpEditText name;
     @BindView(R.id.llCategoryChoose)
@@ -146,8 +145,9 @@ public class CategoryAddEditFragment extends BaseFragment {
         ProductPresenter presenter = ((ProductActivity) getContext()).getPresenter();
         switch (view.getId()) {
             case R.id.btnSubCategorySave:
-                if (isValid())
-                    presenter.addCategory(name.getText().toString(), description.getText().toString(), active.isChecked());
+                if (name.getText().toString().isEmpty()){
+                    name.setError(getContext().getString(R.string.category_length_validation));
+                } else presenter.addCategory(name.getText().toString(), description.getText().toString(), active.isChecked());
                 break;
             case R.id.btnSubCategoryDelete:
                 presenter.deleteCategory();

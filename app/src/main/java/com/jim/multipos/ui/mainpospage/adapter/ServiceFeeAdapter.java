@@ -31,13 +31,15 @@ public class ServiceFeeAdapter extends BaseAdapter<ServiceFee, ServiceFeeAdapter
     }
 
     private ServiceFeeAdapter.OnClickListener listener;
+    private final String abbr;
     private Context context;
     private DecimalFormat decimalFormat;
 
-    public ServiceFeeAdapter(Context context, ServiceFeeAdapter.OnClickListener listener, List<ServiceFee> items) {
+    public ServiceFeeAdapter(Context context, ServiceFeeAdapter.OnClickListener listener, List<ServiceFee> items, String abbr) {
         super(items);
         this.context = context;
         this.listener = listener;
+        this.abbr = abbr;
         this.decimalFormat = getFormatter();
     }
 
@@ -60,7 +62,7 @@ public class ServiceFeeAdapter extends BaseAdapter<ServiceFee, ServiceFeeAdapter
         if (getItem(position).getType() == ServiceFee.PERCENT) {
             holder.tvDiscount.append(" %");
         } else {
-            holder.tvDiscount.append(" UZS");
+            holder.tvDiscount.append(" " + abbr);
         }
     }
 

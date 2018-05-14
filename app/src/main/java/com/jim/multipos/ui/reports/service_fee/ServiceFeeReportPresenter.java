@@ -9,4 +9,5 @@ public interface ServiceFeeReportPresenter extends BaseTableReportPresenter {
     void exportPdf(String fileName, String path);
     void exportExcelToUSB(String filename, UsbFile root);
     void exportPdfToUSB(String filename, UsbFile root);
+    void onAction(Object[][] objects, int row, int column);
 }

@@ -116,7 +116,7 @@ public class CustomerDebtListFragment extends BaseFragment implements CustomerDe
     @BindView(R.id.tvCustomerTotalDebt)
     TextView tvCustomerTotalDebt;
 
-    private boolean payToAll = false;
+    private boolean isPayToAllMode = false;
     private int selectedPosition = 0;
 
     public enum DebtSortingStates {
@@ -141,22 +141,22 @@ public class CustomerDebtListFragment extends BaseFragment implements CustomerDe
             @Override
             public void onItemClicked(Debt item, int position) {
                 if (selectedPosition == position) {
-                    if (payToAll) {
+                    if (isPayToAllMode) {
                         llLowGround.setVisibility(View.GONE);
                         llTopGround.setVisibility(View.VISIBLE);
-                        payToAll = false;
+                        isPayToAllMode = false;
                         presenter.initTotalDataOfCustomer();
                     } else {
                         llLowGround.setVisibility(View.VISIBLE);
                         llTopGround.setVisibility(View.GONE);
-                        payToAll = true;
+                        isPayToAllMode = true;
                         presenter.initDebtDetails(item, position);
                     }
                 } else {
                     selectedPosition = position;
                     llLowGround.setVisibility(View.VISIBLE);
                     llTopGround.setVisibility(View.GONE);
-                    payToAll = true;
+                    isPayToAllMode = true;
                     presenter.initDebtDetails(item, position);
                 }
             }
@@ -264,6 +264,7 @@ public class CustomerDebtListFragment extends BaseFragment implements CustomerDe
             presenter.initData(customer1);
             customerDebtConnection.updateCustomersList();
             rxBus.send(new DebtEvent(debt, GlobalEventConstants.UPDATE));
+            isPayToAllMode = false;
         });
         dialog.show();
     }

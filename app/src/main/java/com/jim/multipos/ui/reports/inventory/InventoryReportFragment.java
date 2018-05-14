@@ -13,8 +13,10 @@ import com.jim.multipos.R;
 import com.jim.multipos.core.BaseTableReportFragment;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
+import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.ui.reports.inventory.dialogs.InventoryFilterDialog;
 import com.jim.multipos.ui.reports.inventory.dialogs.TillPickerDialog;
+import com.jim.multipos.ui.reports.order_history.dialogs.OrderDetialsDialog;
 import com.jim.multipos.utils.ExportToDialog;
 import com.jim.multipos.utils.ExportUtils;
 
@@ -31,7 +33,7 @@ public class InventoryReportFragment extends BaseTableReportFragment implements 
     @Inject
     DatabaseManager databaseManager;
     private ReportView firstView, secondView, thirdView, forthView;
-    private int firstDataType[] = {ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.STATUS, ReportViewConstants.NAME, ReportViewConstants.DATE, ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.NAME};
+    private int firstDataType[] = {ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.STATUS, ReportViewConstants.NAME, ReportViewConstants.DATE, ReportViewConstants.NAME, ReportViewConstants.ACTION, ReportViewConstants.NAME};
     private int firstWeights[] = {15, 10, 15, 8, 10, 10, 8, 8};
     private int firstAligns[] = {Gravity.LEFT, Gravity.LEFT, Gravity.LEFT, Gravity.LEFT, Gravity.CENTER, Gravity.LEFT, Gravity.CENTER, Gravity.CENTER};
     private int secondDataType[] = {ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.NAME};
@@ -76,6 +78,12 @@ public class InventoryReportFragment extends BaseTableReportFragment implements 
                 .setWeight(firstWeights)
                 .setDefaultSort(4)
                 .setStatusTypes(status)
+                .setOnReportViewResponseListener(new ReportView.OnReportViewResponseListener() {
+                    @Override
+                    public void onAction(Object[][] objects, int row, int column) {
+                        presenter.onAction(objects, row, column);
+                    }
+                })
                 .setDataAlignTypes(firstAligns)
                 .build();
         firstView = new ReportView(firstBuilder);
@@ -110,6 +118,14 @@ public class InventoryReportFragment extends BaseTableReportFragment implements 
         firstView.getBuilder().init(objects);
         setTable(firstView.getBuilder().getView());
     }
+
+
+    @Override
+    public void onOrderPressed(Order order) {
+        OrderDetialsDialog orderDetialsDialog = new OrderDetialsDialog(getContext(), order);
+        orderDetialsDialog.show();
+    }
+
 
     @Override
     public void updateTable(Object[][] objects, int position) {
@@ -323,7 +339,8 @@ public class InventoryReportFragment extends BaseTableReportFragment implements 
         });
         dialog.show();
     }
-    public void onBarcodeScaned(String barcode){
+
+    public void onBarcodeScaned(String barcode) {
         presenter.onBarcodeReaded(barcode);
     }
 }

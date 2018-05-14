@@ -1,19 +1,16 @@
 package com.jim.multipos.ui.customer_debt.adapter;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.support.v7.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jim.multipos.R;
 import com.jim.multipos.data.db.model.currency.Currency;
@@ -42,7 +39,7 @@ public class DebtListAdapter extends RecyclerView.Adapter<DebtListAdapter.DebtLi
     private Context context;
     private DecimalFormat decimalFormat;
     protected int selectedPosition = -1;
-    private boolean payToAll = false;
+    private boolean isPayToAllMode = false;
 
     public DebtListAdapter(Context context, DecimalFormat decimalFormat) {
         this.context = context;
@@ -102,12 +99,11 @@ public class DebtListAdapter extends RecyclerView.Adapter<DebtListAdapter.DebtLi
 
     public void setSelectedPosition(int selectedPosition) {
         this.selectedPosition = selectedPosition;
-        this.payToAll = true;
+        this.isPayToAllMode = false;
     }
 
     public interface OnDebtClickListener {
         void onItemClicked(Debt item, int position);
-
         void onCloseDebt(Debt item);
     }
 
@@ -140,17 +136,17 @@ public class DebtListAdapter extends RecyclerView.Adapter<DebtListAdapter.DebtLi
                         notifyItemChanged(getAdapterPosition());
                         listener.onItemClicked(items.get(getAdapterPosition()), getAdapterPosition());
                         selectedPosition = getAdapterPosition();
-                        payToAll = false;
+                        isPayToAllMode = true;
                     }
                 } else {
-                    listener.onItemClicked(items.get(getAdapterPosition()), getAdapterPosition());
-                    if (payToAll){
+                    if (!isPayToAllMode){
                         llBackground.setBackground(ContextCompat.getDrawable(context, R.drawable.yellow_rect));
-                        payToAll = false;
+                        isPayToAllMode = true;
                     } else {
                         llBackground.setBackground(null);
-                        payToAll = true;
+                        isPayToAllMode = false;
                     }
+                    listener.onItemClicked(items.get(getAdapterPosition()), getAdapterPosition());
                 }
             });
 

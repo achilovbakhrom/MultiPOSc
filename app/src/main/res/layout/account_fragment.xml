@@ -83,7 +83,6 @@
                 android:layout_marginRight="@dimen/twenty_dp"
                 android:gravity="left|center_vertical"
                 android:hint="Input account name"
-                android:maxLength="50"
                 android:textColor="@color/colorMainText"
                 android:textSize="@dimen/eighteen_dp" />
 

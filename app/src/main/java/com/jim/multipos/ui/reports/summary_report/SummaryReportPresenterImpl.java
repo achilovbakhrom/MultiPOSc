@@ -50,6 +50,7 @@ public class SummaryReportPresenterImpl extends BasePresenterImpl<SummaryReportV
     List<PairString> paymentsAnalytics;
 
     PaymentType cashPaymentType;
+    String abbr;
     int current = 0;
     boolean isExport = false;
 
@@ -66,6 +67,7 @@ public class SummaryReportPresenterImpl extends BasePresenterImpl<SummaryReportV
         decimalFormatWithProbel = BaseAppModule.getFormatterGroupingPattern("#,##0.00");
         decimalFormatWithoutFix = BaseAppModule.getFormatterGroupingPattern("#,###.##");
         cashPaymentType = databaseManager.getCashPaymentType();
+        abbr = databaseManager.getMainCurrency().getAbbr();
 
     }
 
@@ -322,9 +324,9 @@ public class SummaryReportPresenterImpl extends BasePresenterImpl<SummaryReportV
                 summarys.add(new PairString(context.getString(R.string.total_bank_drops), decimalFormatWithProbel.format(totalBankDrops)));
 
                 summaryAnalytics.add(new PairString(context.getString(R.string.total_orders_count), decimalFormatWithoutFix.format(totalOrderCount) + " " + context.getString(R.string.pcs)));
-                summaryAnalytics.add(new PairString(context.getString(R.string.average_order), decimalFormatWithProbel.format(sumOrderToPay / ((totalOrderCount == 0) ? 1 : totalOrderCount)) + " " + context.getString(R.string.uzs)));
-                summaryAnalytics.add(new PairString(context.getString(R.string.minimum_order), decimalFormatWithProbel.format(minOrderToPay) + " " + context.getString(R.string.uzs)));
-                summaryAnalytics.add(new PairString(context.getString(R.string.maximum_order), decimalFormatWithProbel.format(maxOrderToPay) + " " + context.getString(R.string.uzs)));
+                summaryAnalytics.add(new PairString(context.getString(R.string.average_order), decimalFormatWithProbel.format(sumOrderToPay / ((totalOrderCount == 0) ? 1 : totalOrderCount)) + " " + abbr));
+                summaryAnalytics.add(new PairString(context.getString(R.string.minimum_order), decimalFormatWithProbel.format(minOrderToPay) + " " + abbr));
+                summaryAnalytics.add(new PairString(context.getString(R.string.maximum_order), decimalFormatWithProbel.format(maxOrderToPay) + " " + abbr));
                 summaryAnalytics.add(new PairString(context.getString(R.string.payins_count), decimalFormatWithoutFix.format(payinsCount) + " " + context.getString(R.string.pcs)));
                 summaryAnalytics.add(new PairString(context.getString(R.string.pay_out_counts), decimalFormatWithoutFix.format(payoutCount) + " " + context.getString(R.string.pcs)));
                 summaryAnalytics.add(new PairString(context.getString(R.string.bank_drop_count), decimalFormatWithoutFix.format(bankdrobsCount) + " " + context.getString(R.string.pcs)));
@@ -345,7 +347,7 @@ public class SummaryReportPresenterImpl extends BasePresenterImpl<SummaryReportV
                 summaryAnalytics.add(new PairString(context.getString(R.string.total_static_discounts_count), decimalFormatWithoutFix.format(totalStaticDiscountCount) + " " + context.getString(R.string.pcs)));
                 summaryAnalytics.add(new PairString(context.getString(R.string.total_manual_service_count), decimalFormatWithoutFix.format(totalManualServiceFeeCount) + " " + context.getString(R.string.pcs)));
                 summaryAnalytics.add(new PairString(context.getString(R.string.total_static_service_count), decimalFormatWithoutFix.format(totalStaticServiceFeeCount) + " " + context.getString(R.string.pcs)));
-                summaryAnalytics.add(new PairString(context.getString(R.string.total_changes), decimalFormatWithProbel.format(totalChanges) + " " + context.getString(R.string.uzs)));
+                summaryAnalytics.add(new PairString(context.getString(R.string.total_changes), decimalFormatWithProbel.format(totalChanges) + " " + abbr));
                 summaryAnalytics.add(new PairString(context.getString(R.string.total_canceled_orders_count), decimalFormatWithoutFix.format(totalManualServiceFeeCount) + " " + context.getString(R.string.pcs)));
 
                 view.updateRecyclerViewSummary(summarys);

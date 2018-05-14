@@ -67,6 +67,7 @@
                 android:background="@drawable/edit_text_bg"
                 android:gravity="center_vertical"
                 android:hint="@string/group_name"
+                android:inputType="text"
                 android:paddingBottom="@dimen/five_dp"
                 android:paddingLeft="@dimen/ten_dp"
                 android:paddingRight="@dimen/ten_dp"

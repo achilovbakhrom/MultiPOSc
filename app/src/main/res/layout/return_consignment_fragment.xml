@@ -238,12 +238,12 @@
 
 
                 <TextView
+                    android:id="@+id/tvCurrencyAbbr"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/forty_dp"
                     android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/fifteen_dp"
                     android:gravity="center_vertical"
-                    android:text="@string/uzs"
                     android:textColor="@color/colorMainText" />
 
             </LinearLayout>

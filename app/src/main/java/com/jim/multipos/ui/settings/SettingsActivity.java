@@ -30,6 +30,7 @@ import com.jim.multipos.ui.settings.pos_details.PosDetailsFragment;
 import com.jim.multipos.ui.settings.print.PrintFragment;
 import com.jim.multipos.ui.settings.security.SecurityFragment;
 import com.jim.multipos.utils.RxBus;
+import com.jim.multipos.utils.UIUtils;
 import com.jim.multipos.utils.rxevents.main_order_events.MainPosActivityRefreshEvent;
 
 import javax.inject.Inject;

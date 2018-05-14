@@ -3,6 +3,7 @@ package com.jim.multipos.ui.mainpospage.dialogs;
 import android.app.Dialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -62,6 +63,7 @@ public class AddCustomerDialog extends Dialog {
         barcodeStack.register(barcode -> {
             etCustomerBarcode.setText(barcode);
         });
+        etCustomerContact.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
         setOnDismissListener(o->{
             barcodeStack.unregister();
         });

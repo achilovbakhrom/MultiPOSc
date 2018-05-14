@@ -2,6 +2,9 @@ package com.jim.multipos.ui.reports.service_fee;
 
 import com.github.mjdev.libaums.fs.UsbFile;
 import com.jim.multipos.core.BaseTableReportView;
+import com.jim.multipos.data.DatabaseManager;
+import com.jim.multipos.data.db.model.order.Order;
+import com.jim.multipos.data.db.model.till.Till;
 
 public interface ServiceFeeReportView extends BaseTableReportView {
     void initTable(Object[][] objects);
@@ -13,4 +16,7 @@ public interface ServiceFeeReportView extends BaseTableReportView {
     void openExportDialog(int position, int mode);
     void exportExcelToUSB(String filename, UsbFile root, Object[][] objects, int position, String date, String filter, String searchText);
     void exportTableToPdfToUSB(String fileName, UsbFile path, Object[][] objects, int position, String date, String filter, String searchText);
+    void onOrderPressed(Order order);
+    void onTillNotClosed();
+    void onTillPressed(DatabaseManager databaseManager, Till till);
 }

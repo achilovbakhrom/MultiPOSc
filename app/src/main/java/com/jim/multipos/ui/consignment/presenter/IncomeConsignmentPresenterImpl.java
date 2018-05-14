@@ -65,6 +65,7 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
 
     @Override
     public void setData(Long productId, Long vendorId, Long consignmentId) {
+        view.setCurrency(databaseManager.getMainCurrency().getAbbr());
         this.productId = productId;
         getAccounts();
         if (consignmentId != null) {

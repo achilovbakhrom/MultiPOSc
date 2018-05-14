@@ -90,6 +90,10 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
     MpCheckbox chbFromAccount;
     @BindView(R.id.llAccounts)
     LinearLayout llAccounts;
+    @BindView(R.id.tvTotalShouldPayAbbr)
+    TextView tvTotalShouldPayAbbr;
+    @BindView(R.id.tvTotalPaidAbbr)
+    TextView tvTotalPaidAbbr;
     private Dialog dialog;
     private double sum = 0;
     public static final String CONSIGNMENT_UPDATE = "CONSIGNMENT_UPDATE";
@@ -151,7 +155,7 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
             } else llAccounts.setVisibility(View.GONE);
         });
         barcodeStack.register(barcode -> {
-            if(isAdded() && isVisible())
+            if (isAdded() && isVisible())
                 presenter.onBarcodeScaned(barcode);
         });
         etTotalPaid.addTextChangedListener(new NumberTextWatcher(etTotalPaid));
@@ -269,6 +273,12 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
     @Override
     public void setConsignmentNumber(int number) {
         etConsignmentNumber.setText(String.valueOf(number));
+    }
+
+    @Override
+    public void setCurrency(String abbr) {
+        tvTotalPaidAbbr.setText(abbr);
+        tvTotalShouldPayAbbr.setText(abbr);
     }
 
     @Override

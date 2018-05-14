@@ -83,7 +83,6 @@ import static com.jim.multipos.utils.OpenPickPhotoUtils.RESULT_PICK_IMAGE;
 
 public class ProductAddEditFragment extends BaseFragment implements View.OnClickListener {
 
-    @NotEmpty(messageId = R.string.name_validation)
     @BindView(R.id.etProductName)
     MpEditText name;
 
@@ -102,7 +101,6 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
     @BindView(R.id.spUnitCategories)
     MPosSpinner unitsCategory;
 
-    @NotEmpty(messageId = R.string.warning_price_empty)
     @BindView(R.id.etProductPrice)
     MpEditText price;
 
@@ -236,15 +234,15 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
         });
         ((ProductActivity) getContext()).getPresenter().initDataForProduct();
         ivScanBarcode.setOnClickListener(view -> scan());
-        ((ProductActivity)getActivity()).getBarcodeStack().register(barcode1 -> {
-            if(isAdded() && isVisible())
+        ((ProductActivity) getActivity()).getBarcodeStack().register(barcode1 -> {
+            if (isAdded() && isVisible())
                 barcode.setText(barcode1);
         });
     }
 
     @Override
     public void onDetach() {
-        ((ProductActivity)getActivity()).getBarcodeStack().unregister();
+        ((ProductActivity) getActivity()).getBarcodeStack().unregister();
         super.onDetach();
     }
 
@@ -322,16 +320,21 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
         ProductPresenter presenter = ((ProductActivity) getContext()).getPresenter();
         switch (view.getId()) {
             case R.id.btnSave:
-                if (isValid())
+                if (name.getText().toString().isEmpty()) {
+                    name.setError(getContext().getString(R.string.name_validation));
+                } else if (price.getText().toString().isEmpty()) {
+                    price.setError(getContext().getString(R.string.warning_price_empty));
+                } else {
                     if (presenter.isProductNameExists(name.getText().toString())) {
                         name.setError("Such product name exists");
                         return;
                     }
-                if (presenter.isProductSkuExists(sku.getText().toString())) {
-                    sku.setError("Such product sku exists");
-                    return;
+                    if (presenter.isProductSkuExists(sku.getText().toString())) {
+                        sku.setError("Such product sku exists");
+                        return;
+                    }
+                    saveProduct(false);
                 }
-                saveProduct(false);
 //                try {
 //                    ((ProductActivity) getContext()).getPresenter().comparePriceWithCost(formatter.parse(this.price.getText().toString()).doubleValue());
 //                } catch (ParseException e) {

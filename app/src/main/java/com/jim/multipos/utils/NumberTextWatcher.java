@@ -20,6 +20,7 @@ public class NumberTextWatcher implements TextWatcher {
 
     private DecimalFormat df;
     private DecimalFormat dfnd;
+    private int trailingZeroCount;
     private boolean hasFractionalPart;
 
     private EditText editText;
@@ -46,7 +47,22 @@ public class NumberTextWatcher implements TextWatcher {
 
     @Override
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        hasFractionalPart = charSequence.toString().contains(String.valueOf(df.getDecimalFormatSymbols().getDecimalSeparator()));
+        int index = charSequence.toString().indexOf(String.valueOf(df.getDecimalFormatSymbols().getDecimalSeparator()));
+        trailingZeroCount = 0;
+        if (index > -1) {
+            for (index++; index < charSequence.length(); index++) {
+                if (charSequence.charAt(index) == '0' && trailingZeroCount < 2)
+                    trailingZeroCount++;
+                else {
+                    trailingZeroCount = 0;
+                }
+            }
+
+            hasFractionalPart = true;
+        } else {
+            hasFractionalPart = false;
+        }
+//        hasFractionalPart = charSequence.toString().contains(String.valueOf(df.getDecimalFormatSymbols().getDecimalSeparator()));
     }
 
     @Override
@@ -67,10 +83,14 @@ public class NumberTextWatcher implements TextWatcher {
         if (n.doubleValue() == 0 && v.isEmpty()) {
             editText.setText("");
         } else if (hasFractionalPart) {
-            editText.setText(df.format(n));
+            StringBuilder trailingZeros = new StringBuilder();
+            while (trailingZeroCount-- > 0)
+                trailingZeros.append('0');
+            editText.setText(df.format(n) + trailingZeros.toString());
         } else {
             editText.setText(dfnd.format(n));
         }
+
         endlen = editText.getText().length();
         int sel = (cp + (endlen - inilen));
         if (sel > 0 && sel <= editText.getText().length()) {

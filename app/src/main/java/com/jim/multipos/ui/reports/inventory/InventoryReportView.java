@@ -2,6 +2,7 @@ package com.jim.multipos.ui.reports.inventory;
 
 import com.github.mjdev.libaums.fs.UsbFile;
 import com.jim.multipos.core.BaseTableReportView;
+import com.jim.multipos.data.db.model.order.Order;
 
 public interface InventoryReportView extends BaseTableReportView {
     void initTable(Object[][] objects);
@@ -15,5 +16,5 @@ public interface InventoryReportView extends BaseTableReportView {
     void exportExcelToUSB(String filename, UsbFile root, Object[][] objects, int position, String date, String filter, String searchText);
     void exportTableToPdfToUSB(String fileName, UsbFile path, Object[][] objects, int position, String date, String filter, String searchText);
     void setTextToSearch(String searchText);
-
+    void onOrderPressed(Order order);
 }
