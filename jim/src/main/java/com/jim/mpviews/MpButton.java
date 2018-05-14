@@ -91,9 +91,7 @@ public class MpButton extends android.support.v7.widget.AppCompatButton {
     @Override
     public Parcelable onSaveInstanceState() {
         Parcelable superState = super.onSaveInstanceState();
-
         SavedState savedState = new SavedState(superState);
-
         savedState.boolValue = this.pressed;
 
         return savedState;
@@ -102,19 +100,23 @@ public class MpButton extends android.support.v7.widget.AppCompatButton {
 
     static class SavedState extends BaseSavedState {
         boolean boolValue;
+        Parcelable superState;
 
         public SavedState(Parcelable source) {
             super(source);
+            this.superState = source;
         }
 
         private SavedState(Parcel in) {
             super(in);
+            this.superState = in.readParcelable(SavedState.class.getClassLoader());
             this.boolValue = in.readInt() != 0;
         }
 
         @Override
         public void writeToParcel(Parcel out, int flags) {
             out.writeInt(boolValue ? 1 : 0);
+            out.writeParcelable(superState, flags);
             super.writeToParcel(out, flags);
         }
 

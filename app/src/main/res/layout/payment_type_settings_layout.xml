@@ -57,9 +57,10 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="@dimen/two_hundred_seventy_five_dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/twenty_five_dp"
+                    android:layout_weight="1"
                     android:text="@string/payment_type_name"
                     android:textSize="@dimen/eighteen_dp" />
 
@@ -94,11 +95,12 @@
 
                 <com.jim.mpviews.MpEditText
                     android:id="@+id/etPaymentTypeName"
-                    android:layout_width="@dimen/two_hundred_seventy_five_dp"
+                    android:layout_width="0dp"
                     android:layout_height="@dimen/forty_dp"
                     android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/thirty_dp"
                     android:layout_marginRight="@dimen/twenty_five_dp"
+                    android:layout_weight="1"
                     android:gravity="left|center_vertical"
                     android:hint="@string/enter_payment_type_name"
                     android:maxLength="50"
@@ -123,6 +125,7 @@
                     android:layout_width="@dimen/sixty_dp"
                     android:layout_height="@dimen/forty_dp"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginRight="@dimen/thirty_dp"
                     android:paddingBottom="@dimen/twelve_dp"
                     android:paddingTop="@dimen/twelve_dp"
                     android:src="@drawable/plus"

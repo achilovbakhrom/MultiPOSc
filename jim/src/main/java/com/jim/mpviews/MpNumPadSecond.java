@@ -103,19 +103,23 @@ public class MpNumPadSecond extends FrameLayout {
 
     static class SavedState extends BaseSavedState{
         boolean boolValue;
+        Parcelable superState;
 
         public SavedState(Parcelable source) {
             super(source);
+            this.superState = source;
         }
 
         private SavedState(Parcel in) {
             super(in);
+            this.superState = in.readParcelable(MpButton.SavedState.class.getClassLoader());
             this.boolValue = in.readInt() != 0;
         }
 
         @Override
         public void writeToParcel(Parcel out, int flags) {
             out.writeInt(boolValue ? 1 : 0);
+            out.writeParcelable(superState, flags);
             super.writeToParcel(out, flags);
         }
 
