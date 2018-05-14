@@ -540,8 +540,11 @@ public class CheckPrinter {
     }
 
     private void sendDataByte(byte[] data) {
-        if (data.length > 0)
-            usbController.sendByte(data, device);
+        try {
+            if (data.length > 0)
+                usbController.sendByte(data, device);
+        }catch (Exception e){
+        }
     }
 
     private void sendDataString(String data) {

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/diagonal_lines"
+    android:orientation="vertical"
+    android:clickable="true"
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/eighty_dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/twenty_dp"
+            android:src="@drawable/multipos_auth"/>
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Launch registration"
+        android:textSize="@dimen/twenty_dp"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="@dimen/thirty_five_dp"
+        android:textColor="#b8b8b8"/>
+    <RelativeLayout
+        android:layout_width="@dimen/five_hundred_dp"
+        android:layout_height="@dimen/forty_five_dp"
+        android:background="@drawable/edit_text_bg_darker_stroke"
+        android:layout_marginTop="@dimen/thirty_dp"
+        android:layout_gravity="center_horizontal"
+        >
+        <TextView
+            android:id="@+id/tvSerialNumber"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textColor="#212121"
+            android:background="@null"
+            />
+        <ImageView
+            android:layout_width="@dimen/twenty_five_dp"
+            android:layout_height="@dimen/twenty_five_dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/sixteen_dp"
+            android:src="@drawable/copyy"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="@dimen/five_hundred_dp"
+        android:layout_height="@dimen/forty_five_dp"
+        android:background="@drawable/edit_text_bg_darker_stroke"
+        android:layout_marginTop="@dimen/sixteen_dp"
+        android:layout_gravity="center_horizontal"
+        >
+        <EditText
+            android:id="@+id/etToken"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:hint="Registration token"
+            android:textColor="#212121"
+            android:layout_marginRight="@dimen/ten_dp"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:textColorHint="#e0e0e0"
+            android:background="@null"
+            android:maxLength="32"
+            android:maxLines="1"
+            />
+    </RelativeLayout>
+
+
+
+
+    <TextView
+        android:layout_width="@dimen/five_hundred_dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="@dimen/thirty_dp"
+        android:textColor="#b8b8b8"
+        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc a erat porta, scelerisque erat sed, tempor sem. "
+        android:textSize="@dimen/sixteen_dp"
+        />
+    <LinearLayout
+        android:layout_width="@dimen/five_hundred_dp"
+        android:layout_height="@dimen/sixty_dp"
+        android:layout_marginTop="@dimen/fifty_five_dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/hundred_seventy_dp"
+        android:orientation="horizontal">
+        <FrameLayout
+            android:id="@+id/flCall"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:layout_marginRight="@dimen/sixteen_dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/rect_button_selector"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Call"
+                android:textStyle="bold"
+                android:textSize="@dimen/eighteen_dp"
+                android:textColor="#18d314"
+                android:layout_marginRight="@dimen/thirty_dp"
+                android:layout_marginLeft="@dimen/thirty_dp"
+                android:layout_gravity="center"
+                />
+        </FrameLayout>
+        <FrameLayout
+            android:id="@+id/flConfirm"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:layout_marginLeft="@dimen/sixteen_dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/rect_button_selector"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Confirm"
+                android:textSize="@dimen/eighteen_dp"
+                android:textColor="#419fd9"
+                android:textStyle="bold"
+                android:layout_marginRight="@dimen/thirty_dp"
+                android:layout_marginLeft="@dimen/thirty_dp"
+                android:layout_gravity="center"
+                />
+        </FrameLayout>
+    </LinearLayout>
+</LinearLayout>

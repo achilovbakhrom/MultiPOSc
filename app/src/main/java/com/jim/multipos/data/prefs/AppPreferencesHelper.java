@@ -67,6 +67,8 @@ public class AppPreferencesHelper implements PreferencesHelper {
     private static final String EDIT_ORDER_SEC_PROTECTED = "EDIT_ORDER_SEC_PROTECTED";
     private static final String MANUAL_SERVICE_SEC_PROTECTED = "MANUAL_SERVICE_SEC_PROTECTED";
     private static final String LANGUAGE_CODE = "LANGUAGE_CODE";
+    private static final String SERIAL_VALUE = "SERIAL_VALUE";
+    private static final String TOKEN_VALUE = "TOKEN_VALUE";
 
 
     private final SharedPreferences mPrefs;
@@ -406,43 +408,36 @@ public class AppPreferencesHelper implements PreferencesHelper {
     @Override
     public void setInventorysProtected(Boolean isProtected) {
         mPrefs.edit().putBoolean(INVENTORY_SEC_PROTECTED,isProtected).apply();
-
     }
 
     @Override
     public void setSettingsProtected(Boolean isProtected) {
         mPrefs.edit().putBoolean(SETTINGS_SEC_PROTECTED,isProtected).apply();
-
     }
 
     @Override
     public void setCashManagmentsProtected(Boolean isProtected) {
         mPrefs.edit().putBoolean(CASH_MANAGMENT_SEC_PROTECTED,isProtected).apply();
-
     }
 
     @Override
     public void setCancelOrderProtected(Boolean isProtected) {
         mPrefs.edit().putBoolean(CANCEL_ORDER_SEC_PROTECTED,isProtected).apply();
-
     }
 
     @Override
     public void setManualDiscountProtected(Boolean isProtected) {
         mPrefs.edit().putBoolean(MANUAL_DISCOUNT_SEC_PROTECTED,isProtected).apply();
-
     }
 
     @Override
     public void setEditOrderProtected(Boolean isProtected) {
         mPrefs.edit().putBoolean(EDIT_ORDER_SEC_PROTECTED,isProtected).apply();
-
     }
 
     @Override
     public void setManualServiceFeeProtected(Boolean isProtected) {
         mPrefs.edit().putBoolean(MANUAL_SERVICE_SEC_PROTECTED,isProtected).apply();
-
     }
 
     @Override
@@ -463,5 +458,25 @@ public class AppPreferencesHelper implements PreferencesHelper {
     @Override
     public int getLanguageCode() {
         return mPrefs.getInt(LANGUAGE_CODE,0);
+    }
+
+    @Override
+    public String getSerialValue() {
+        return mPrefs.getString(SERIAL_VALUE,"");
+    }
+
+    @Override
+    public void setSerialValue(String serialValue) {
+        mPrefs.edit().putString(SERIAL_VALUE,serialValue).apply();
+    }
+
+    @Override
+    public void setRegistrationToken(String token) {
+        mPrefs.edit().putString(TOKEN_VALUE,token).apply();
+    }
+
+    @Override
+    public String getRegistrationToken() {
+        return mPrefs.getString(TOKEN_VALUE,"");
     }
 }

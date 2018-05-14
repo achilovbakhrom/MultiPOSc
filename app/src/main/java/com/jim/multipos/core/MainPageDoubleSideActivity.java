@@ -61,6 +61,9 @@ public abstract class MainPageDoubleSideActivity extends BaseActivity{
 
     }
 
+    public void addFullFragment(Fragment fragment){
+        addFragment(R.id.flFull,fragment);
+    }
     protected abstract int getToolbarMode();
 
     public void initOrderListFragmentToLeft(){

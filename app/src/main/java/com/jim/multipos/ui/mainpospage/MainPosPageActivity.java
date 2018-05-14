@@ -1,24 +1,34 @@
 package com.jim.multipos.ui.mainpospage;
 
+import android.app.ActivityManager;
+import android.app.admin.DevicePolicyManager;
+import android.app.admin.SystemUpdatePolicy;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.os.BatteryManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.KeyEvent;
+import android.os.UserManager;
+import android.provider.Settings;
 import android.view.WindowManager;
 import android.widget.TextClock;
 import android.widget.TextView;
 
 import com.jim.mpviews.MpToolbar;
+import com.jim.multipos.BuildConfig;
+import com.jim.multipos.DeviceAdminReceiver;
 import com.jim.multipos.R;
 import com.jim.multipos.core.MainPageDoubleSideActivity;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.order.Order;
-import com.jim.multipos.data.db.model.order.OrderProduct;
 import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.ui.cash_management.CashManagementActivity;
-import com.jim.multipos.ui.first_configure_last.FirstConfigureActivity;
 import com.jim.multipos.ui.lock_screen.LockScreenActivity;
+import com.jim.multipos.ui.lock_screen.auth.AuthFragment;
 import com.jim.multipos.ui.main_menu.customers_menu.CustomersMenuActivity;
 import com.jim.multipos.ui.main_menu.inventory_menu.InventoryMenuActivity;
 import com.jim.multipos.ui.main_menu.product_menu.ProductMenuActivity;
@@ -36,17 +46,20 @@ import com.jim.multipos.utils.MainMenuDialog;
 import com.jim.multipos.utils.OrderMenuDialog;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.RxBusLocal;
+import com.jim.multipos.utils.SecurityTools;
 import com.jim.multipos.utils.managers.NotifyManager;
 import com.jim.multipos.utils.printer.CheckPrinter;
 import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
 import com.jim.multipos.utils.rxevents.main_order_events.MainPosActivityRefreshEvent;
 import com.jim.multipos.utils.rxevents.main_order_events.OrderEvent;
 import com.jim.multipos.utils.rxevents.till_management_events.TillEvent;
+import com.jim.multipos.utils.usb_barcode.USBService;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -82,6 +95,10 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
     PreferencesHelper preferencesHelper;
     private ArrayList<Disposable> subscriptions;
     private Handler handler;
+
+    private HashMap<String, String> hashesWithSerial = (HashMap<String, String>) BuildConfig.LOCAL_SERIAL_HASH;
+
+
     CheckPrinter checkPrinter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,18 +106,20 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         ButterKnife.bind(this);
+
+        if(preferencesHelper.getSerialValue().equals("") || preferencesHelper.getRegistrationToken().equals("") || ! hashesWithSerial.get(preferencesHelper.getSerialValue()).equals(SecurityTools.hashPassword(preferencesHelper.getSerialValue()+preferencesHelper.getRegistrationToken()))){
+            addFullFragment(new AuthFragment());
+        }
+
         if(checkPrinter ==null){
             checkPrinter = new CheckPrinter(this,preferencesHelper,databaseManager);
             checkPrinter.connectDevice();
         }
-        if (preferencesHelper.isAppRunFirstTime()){
-            try {
-                Intent intro = new Intent(this, FirstConfigureActivity.class);
-                startActivity(intro);
-            } catch (Exception o) {
-            }
-            finish();
+
+        if(!isMyServiceRunning(USBService.class)){
+            startService(new Intent(this, USBService.class));
         }
+
 
         //test dataset
         initProductPickerFragmentToRight();
@@ -344,7 +363,7 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
                         }
                     }else if(o instanceof MainPosActivityRefreshEvent){
                         finish();
-                        startActivity(getIntent());
+//                        startActivity(getIntent());
                     }
                 }));
 
@@ -366,7 +385,7 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
                 tvDate.setText(new SimpleDateFormat("dd - MMM, yyyy", Locale.ENGLISH).format(date));
                 handler.postDelayed(timerUpdate, 30000);
             }catch (Exception e){
-
+                handler.postDelayed(timerUpdate, 30000);
             }
            }
     };
@@ -380,8 +399,20 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    private PackageManager mPackageManager;
+
+    private DevicePolicyManager mDevicePolicyManager;
+    private ComponentName mAdminComponentName;
+
+    @Override
     public void onBackPressed() {
+
         super.onBackPressed();
+
     }
 
     @Override
@@ -531,5 +562,14 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
                 checkPrinter.connectDevice();
             }
         }).start();
+    }
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

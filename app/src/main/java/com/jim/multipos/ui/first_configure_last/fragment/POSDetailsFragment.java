@@ -139,12 +139,9 @@ public class POSDetailsFragment extends BaseFragment implements ChangeableConten
 //        }
     }
 
-    @OnClick(value = {R.id.btnRevert, R.id.btnNext})
+    @OnClick(value = {R.id.btnNext})
     public void buttonClick(View view) {
         switch (view.getId()) {
-            case R.id.btnRevert:
-                getActivity().finish();
-                break;
             case R.id.btnNext:
                 if (isValid()) {
                     if (mode == CompletionMode.NEXT) {

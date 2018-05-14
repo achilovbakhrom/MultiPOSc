@@ -40,6 +40,8 @@ import com.jim.multipos.ui.product_last.ProductActivity;
 import com.jim.multipos.ui.product_last.di.ProductModule;
 import com.jim.multipos.ui.reports.ReportsActivity;
 import com.jim.multipos.ui.reports.di.ReportsActivityModule;
+import com.jim.multipos.ui.secure.AuthActivity;
+import com.jim.multipos.ui.secure.di.AuthActivityModule;
 import com.jim.multipos.ui.service_fee_new.ServiceFeeActivity;
 import com.jim.multipos.ui.service_fee_new.di.ServiceFeeActivityModule;
 import com.jim.multipos.ui.settings.SettingsActivity;
@@ -164,6 +166,9 @@ abstract class  AppModule {
     @ContributesAndroidInjector(modules = SettingsActivityModule.class)
     abstract SettingsActivity provodeSettingsActivity();
 
+    @PerActivity
+    @ContributesAndroidInjector(modules = AuthActivityModule.class)
+    abstract AuthActivity provodeForPinnigActivity();
 
 
 }

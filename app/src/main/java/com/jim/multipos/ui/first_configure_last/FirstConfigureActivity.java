@@ -5,11 +5,9 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.jim.mpviews.MpToolbar;
-import com.jim.multipos.R;
 import com.jim.multipos.core.DoubleSideActivity;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.prefs.PreferencesHelper;
@@ -25,8 +23,6 @@ import com.jim.multipos.utils.UIUtils;
 import javax.inject.Inject;
 
 import lombok.Getter;
-
-import static android.support.v4.app.FragmentManager.POP_BACK_STACK_INCLUSIVE;
 
 
 /**
@@ -130,12 +126,12 @@ public class FirstConfigureActivity extends DoubleSideActivity implements FirstC
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        finish();
+//        super.onBackPressed();
     }
 
     public void openLockScreen() {
         Intent intent = new Intent(this, LockScreenActivity.class);
         startActivity(intent);
+        finish();
     }
 }

@@ -36,63 +36,92 @@
         <activity
             android:name=".ui.vendor.add_edit.VendorAddEditActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
+            
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ui.mainpospage.MainPosPageActivity"
+            
             android:configChanges="keyboard|keyboardHidden|navigation"
+
             android:windowSoftInputMode="stateAlwaysHidden">
+
+        </activity>
+        <activity
+            android:name=".ui.lock_screen.LockScreenActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:windowSoftInputMode="stateHidden" >
             <intent-filter>
+                <category android:name="android.intent.category.HOME"/>
+                <category android:name="android.intent.category.DEFAULT"/>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.lock_screen.LockScreenActivity"
-            android:configChanges="keyboard|keyboardHidden|navigation"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
             android:name=".ui.product_last.ProductActivity"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="stateHidden"
+            
+            android:configChanges="keyboard|keyboardHidden|navigation"
+
+            >
 
         </activity>
         <activity
             android:name=".ui.main_menu.product_menu.ProductMenuActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
-            android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".ui.main_menu.customers_menu.CustomersMenuActivity" />
+            android:windowSoftInputMode="stateHidden"
+            
+            />
+        <activity android:name=".ui.main_menu.customers_menu.CustomersMenuActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+
+            
+            />
         <activity
             android:name=".ui.main_menu.inventory_menu.InventoryMenuActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
+            
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ui.signing.SignActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
+            
             android:windowSoftInputMode="stateHidden">
 
         </activity>
         <activity android:name=".ui.product_class_new.ProductsClassActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
+            
             />
         <activity android:name=".ui.discount.DiscountAddingActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
+            
+
             />
         <activity android:name=".ui.service_fee_new.ServiceFeeActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
+            
+
             />
         <activity android:name=".ui.customer_group_new.CustomerGroupActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
+            
+
             />
         <activity android:name=".ui.customers_edit_new.CustomersEditActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
+            
             />
         <activity android:name=".ui.consignment.ConsignmentActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
+            
             >
 
         </activity>
         <activity
             android:name=".ui.billing_vendor.BillingOperationsActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
+            
 
             android:windowSoftInputMode="stateHidden">
 
@@ -101,12 +130,14 @@
             android:name=".ui.inventory.InventoryActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
 
+            
             android:windowSoftInputMode="stateHidden">
 
         </activity>
 
         <activity android:name=".ui.vendor_products_view.VendorProductsViewActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
+            
             >
 
         </activity>
@@ -119,20 +150,25 @@
         </activity>
         <activity
             android:name=".ui.consignment_list.ConsignmentListActivity"
+            
             android:windowSoftInputMode="stateHidden"
             android:configChanges="keyboard|keyboardHidden|navigation"
 
             />
         <activity android:name=".ui.customer_debt.CustomerDebtActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
+            
             />
         <activity android:name=".ui.settings.SettingsActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
+            
             />
         <activity android:name=".ui.cash_management.CashManagementActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
+            
             />
         <activity android:name=".ui.reports.ReportsActivity"
+            
             android:configChanges="keyboard|keyboardHidden|navigation"
             >
             <intent-filter>
@@ -140,6 +176,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.secure.AuthActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:windowSoftInputMode="stateHidden"
+            
+            />
+
         <service
             android:name="com.jim.multipos.utils.usb_barcode.USBService"
             android:enabled="true"
@@ -156,8 +199,22 @@
                 android:resource="@xml/device_filter" />
         </service>
 
+        <receiver
+            android:name=".DeviceAdminReceiver"
+            android:description="@string/app_name"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_DEVICE_ADMIN">
+            <meta-data
+                android:name="android.app.device_admin"
+                android:resource="@xml/device_admin_receiver" />
+            <intent-filter>
+                <action android:name="android.intent.action.DEVICE_ADMIN_ENABLED"/>
+                <action android:name="android.intent.action.PROFILE_PROVISIONING_COMPLETE"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+
 
 
     </application>
-
 </manifest>

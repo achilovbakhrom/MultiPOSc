@@ -105,4 +105,9 @@ public interface PreferencesHelper {
     void setLanguage(int langcode);
     int getLanguageCode();
 
+    String getSerialValue();
+    void setSerialValue(String serialValue);
+    void setRegistrationToken(String token);
+    String getRegistrationToken();
+
 }

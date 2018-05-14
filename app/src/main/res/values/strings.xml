@@ -819,6 +819,7 @@
     <string name="products_vendor_template">Product Vendor template</string>
     <string name="customers_imported">Customers successfully imported</string>
     <string name="available_units">Available units :</string>
+    <string name="vendors_and_products_imported">Vendors and products are successfully imported</string>
     <string name="products_imported">Products were successfully imported</string>
     <string name="account_name">Account name</string>
     <string name="access_password">Access password</string>
@@ -1162,4 +1163,8 @@
     <string name="without_reason">Without reason</string>
     <string name="successfully_saved">Successfully saved</string>
     <string name="vendors_imported">Vendors were successfully imported</string>
+    <string name="not_lock_whitelisted">This app has not been given Device Owner
+        privileges to manage this device and start lock task mode</string>
+    <string name="erg_tok_cant_be_emp">Registration token can\'t be empty</string>
+    <string name="reg_token_invalid">Registration token invalid</string>
 </resources>

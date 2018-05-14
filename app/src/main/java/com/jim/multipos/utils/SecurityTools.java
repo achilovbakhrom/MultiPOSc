@@ -1,7 +1,11 @@
 package com.jim.multipos.utils;
 
+import android.util.Base64;
+
+import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Formatter;
 
 /**
  * Created by developer on 08.02.2018.
@@ -32,4 +36,40 @@ public class SecurityTools {
         }
         return "";
     }
+
+    public static String hashPassword(String password)
+    {
+        String sha1 = "";
+        try
+        {
+            MessageDigest crypt = MessageDigest.getInstance("SHA-1");
+            crypt.reset();
+            crypt.update(password.getBytes("UTF-8"));
+            sha1 = Base64.encodeToString(crypt.digest(), Base64.DEFAULT);
+        }
+        catch(NoSuchAlgorithmException e)
+        {
+            e.printStackTrace();
+        }
+        catch(UnsupportedEncodingException e)
+        {
+            e.printStackTrace();
+        }
+        return sha1.replace("\n","");
+    }
+
+    private static String byteToHex(final byte[] hash)
+    {
+        Formatter formatter = new Formatter();
+        for (byte b : hash)
+        {
+            formatter.format("%02x", b);
+        }
+        String result = formatter.toString();
+        formatter.close();
+        return result;
+    }
+
+
+
 }
