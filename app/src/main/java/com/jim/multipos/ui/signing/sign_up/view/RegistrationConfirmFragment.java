@@ -1,19 +1,12 @@
 package com.jim.multipos.ui.signing.sign_up.view;
 
-import android.content.Intent;
-import android.graphics.Paint;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jim.mpviews.MpButton;
-import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.R;
-import com.jim.multipos.ui.first_configure_last.FirstConfigureActivity;
+import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.ui.signing.SignActivity;
 import com.jim.multipos.ui.signing.sign_up.presenter.RegistrationConfirmPresenter;
 import com.jim.multipos.utils.managers.PosFragmentManager;
@@ -21,16 +14,10 @@ import com.jim.multipos.utils.managers.PosFragmentManager;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 import eu.inmite.android.lib.validations.form.annotations.RegExp;
 
-import static com.jim.multipos.utils.BundleConstants.ORG_ADDRESS;
-import static com.jim.multipos.utils.BundleConstants.ORG_CODE;
-import static com.jim.multipos.utils.BundleConstants.ORG_EMAIL;
-import static com.jim.multipos.utils.BundleConstants.ORG_NAME;
 import static eu.inmite.android.lib.validations.form.annotations.RegExp.EMAIL;
 
 /**
@@ -92,8 +79,6 @@ public class RegistrationConfirmFragment extends BaseFragment implements Registr
 
     @OnClick(R.id.btnConfirm)
     public void onConfirm() {
-        Intent intent = new Intent(getContext(), FirstConfigureActivity.class);
-        startActivity(intent);
     }
 
     @OnClick(R.id.ivEditDetails)

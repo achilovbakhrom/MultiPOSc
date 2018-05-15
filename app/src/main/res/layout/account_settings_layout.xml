@@ -94,6 +94,7 @@
                     android:layout_marginLeft="@dimen/thirty_dp"
                     android:layout_marginRight="@dimen/twenty_five_dp"
                     android:layout_weight="1"
+                    android:inputType="text"
                     android:gravity="left|center_vertical"
                     android:hint="@string/input_account_name"
                     android:textColor="@color/colorMainText"

@@ -21,7 +21,7 @@
             android:layout_weight="1"
             android:gravity="left|center_vertical"
             android:hint="@string/enter_payment_type_name"
-            android:maxLength="50"
+            android:inputType="text"
             android:textColor="@color/colorMainText"
             android:textSize="@dimen/eighteen_dp" />
 

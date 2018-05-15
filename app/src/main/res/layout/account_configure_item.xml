@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/ten_dp"
+        android:layout_marginTop="@dimen/ten_dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/etAccountName"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/forty_dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="@dimen/twenty_five_dp"
+            android:layout_weight="1"
+            android:background="@drawable/text_view_bg2"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="@dimen/ten_dp"
+            android:paddingRight="@dimen/ten_dp"
+            android:textColor="@color/colorMainText"
+            android:textSize="@dimen/eighteen_dp" />
+
+        <com.jim.mpviews.MpCheckbox
+            android:id="@+id/chbActive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="@dimen/thirty_dp"
+            app:checked="true" />
+
+        <com.jim.mpviews.MpMiniActionButton
+            android:id="@+id/ivDelete"
+            android:layout_width="@dimen/sixty_dp"
+            android:layout_height="@dimen/forty_dp"
+            android:layout_gravity="center_vertical"
+            android:paddingBottom="@dimen/ten_dp"
+            android:paddingTop="@dimen/ten_dp"
+            android:src="@drawable/delete"
+            android:tint="@color/colorBlue" />
+
+    </LinearLayout>
+
+</LinearLayout>

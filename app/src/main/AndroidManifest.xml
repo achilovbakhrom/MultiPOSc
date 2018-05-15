@@ -29,11 +29,6 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".ui.first_configure_last.FirstConfigureActivity"
-            android:configChanges="keyboard|keyboardHidden|navigation"
-            android:windowSoftInputMode="stateHidden">
-        </activity>
-        <activity
             android:name=".ui.vendor.add_edit.VendorAddEditActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
             
@@ -182,6 +177,9 @@
             android:windowSoftInputMode="stateHidden"
             
             />
+        <activity android:name=".ui.start_configuration.StartConfigurationActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:windowSoftInputMode="stateHidden"/>
 
         <service
             android:name="com.jim.multipos.utils.usb_barcode.USBService"

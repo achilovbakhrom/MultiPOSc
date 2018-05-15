@@ -1241,16 +1241,16 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
                     orderProductItems.add(orderProductItem);
                 }
         }
-        boolean isHaveOpenTill = databaseManager.hasOpenTill().blockingGet();
-        if (isHaveOpenTill) {
-            view.stockCheckOrder(databaseManager.getCurrentOpenTillId().blockingGet(),databaseManager.getLastOrderId().blockingGet()+1,System.currentTimeMillis(),orderProductItems,customer);
-        } else {
-            boolean isNoTills = databaseManager.isNoTills().blockingGet();
-            if (!isNoTills) {
-                view.stockCheckOrder(1L,databaseManager.getLastOrderId().blockingGet()+1,System.currentTimeMillis(),orderProductItems,customer);
-            } else view.stockCheckOrder(databaseManager.getLastClosedTill().blockingGet().getId() + 1L,databaseManager.getLastOrderId().blockingGet()+1,System.currentTimeMillis(),orderProductItems,customer);
-        }
-
+//        boolean isHaveOpenTill = databaseManager.hasOpenTill().blockingGet();
+//        if (isHaveOpenTill) {
+//            view.stockCheckOrder(databaseManager.getCurrentOpenTillId().blockingGet(),databaseManager.getLastOrderId().blockingGet()+1,System.currentTimeMillis(),orderProductItems,customer);
+//        } else {
+//            boolean isNoTills = databaseManager.isNoTills().blockingGet();
+//            if (!isNoTills) {
+//                view.stockCheckOrder(1L,databaseManager.getLastOrderId().blockingGet()+1,System.currentTimeMillis(),orderProductItems,customer);
+//            } else view.stockCheckOrder(databaseManager.getLastClosedTill().blockingGet().getId() + 1L,databaseManager.getLastOrderId().blockingGet()+1,System.currentTimeMillis(),orderProductItems,customer);
+//        }
+        view.stockCheckOrder(databaseManager.getCurrentOpenTillId().blockingGet(),databaseManager.getLastOrderId().blockingGet()+1,System.currentTimeMillis(),orderProductItems,customer);
     }
 
     @Override

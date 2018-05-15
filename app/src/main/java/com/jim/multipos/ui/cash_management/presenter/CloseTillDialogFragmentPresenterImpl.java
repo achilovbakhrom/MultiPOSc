@@ -11,7 +11,7 @@ import com.jim.multipos.ui.cash_management.view.CloseTillDialogFragmentView;
 import com.jim.multipos.ui.cash_management.view.CloseTillFirstStepFragment;
 import com.jim.multipos.ui.cash_management.view.CloseTillSecondStepFragment;
 import com.jim.multipos.ui.cash_management.view.CloseTillThirdStepFragment;
-import com.jim.multipos.ui.first_configure_last.CompletionMode;
+import com.jim.multipos.utils.CompletionMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;

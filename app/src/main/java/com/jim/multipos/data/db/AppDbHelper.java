@@ -415,14 +415,9 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public Observable<List<Account>> getAllAccounts() {
-        return Observable.fromCallable(() -> {
-                    List<Account> accounts = mDaoSession.getAccountDao().queryBuilder()
-                            .where(AccountDao.Properties.IsNotSystemAccount.eq(true))
-                            .build().list();
-                    Collections.reverse(accounts);
-
-                    return accounts;
-                }
+        return Observable.fromCallable(() -> mDaoSession.getAccountDao().queryBuilder()
+                .where(AccountDao.Properties.IsNotSystemAccount.eq(true))
+                .build().list()
         );
     }
 
@@ -642,14 +637,9 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public Observable<List<PaymentType>> getAllPaymentTypes() {
-        return Observable.fromCallable(() -> {
-            List<PaymentType> paymentTypes = mDaoSession.getPaymentTypeDao().queryBuilder()
-                    .where(PaymentTypeDao.Properties.IsNotSystem.eq(true))
-                    .build().list();
-            Collections.reverse(paymentTypes);
-
-            return paymentTypes;
-        });
+        return Observable.fromCallable(() -> mDaoSession.getPaymentTypeDao().queryBuilder()
+                .where(PaymentTypeDao.Properties.IsNotSystem.eq(true))
+                .build().list());
     }
 
     @Override
@@ -1554,19 +1544,18 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public Currency getMainCurrency() {
-        List<Currency> currencies = mDaoSession.queryBuilder(Currency.class)
+        return mDaoSession.queryBuilder(Currency.class)
                 .where(CurrencyDao.Properties.IsMain.eq(true))
-                .build().list();
-        //TODO FAKE
-        if(currencies.get(0) == null){
-            Currency currency = new Currency();
-            currency.setAbbr("uzs");
-            currency.setIsMain(true);
-            currency.setActive(true);
-            currency.setName("Uzb");
-            return currency;
-        }
-            return currencies.get(0);
+                .build().unique();
+//        if(currencies.get(0) == null){
+//            Currency currency = new Currency();
+//            currency.setAbbr("uzs");
+//            currency.setIsMain(true);
+//            currency.setActive(true);
+//            currency.setName("Uzb");
+//            return currency;
+//        }
+//            return currencies.get(0);
     }
 
     @Override

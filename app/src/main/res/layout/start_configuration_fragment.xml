@@ -41,7 +41,7 @@
             android:background="@color/colorTextHint" />
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvSettings"
+            android:id="@+id/rvPanel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:overScrollMode="never" />

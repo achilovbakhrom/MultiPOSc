@@ -14,7 +14,7 @@ import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.db.model.till.TillManagementOperation;
 import com.jim.multipos.ui.cash_management.connection.CashManagementConnection;
 import com.jim.multipos.ui.cash_management.presenter.CloseTillDialogFragmentPresenter;
-import com.jim.multipos.ui.first_configure_last.CompletionMode;
+import com.jim.multipos.utils.CompletionMode;
 
 import java.text.SimpleDateFormat;
 import java.util.List;

@@ -4,8 +4,6 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.jim.multipos.config.scope.PerActivity;
 import com.jim.multipos.core.BaseActivityModule;
-import com.jim.multipos.ui.first_configure_last.FirstConfigurePresenter;
-import com.jim.multipos.ui.first_configure_last.FirstConfigurePresenterImpl;
 import com.jim.multipos.ui.product_last.ProductActivity;
 import com.jim.multipos.ui.product_last.ProductPresenter;
 import com.jim.multipos.ui.product_last.ProductPresenterImpl;

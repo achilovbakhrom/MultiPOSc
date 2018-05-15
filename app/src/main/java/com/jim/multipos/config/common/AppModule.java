@@ -20,8 +20,6 @@ import com.jim.multipos.ui.customers_edit_new.CustomersEditActivity;
 import com.jim.multipos.ui.customers_edit_new.di.CustomersEditActivityModule;
 import com.jim.multipos.ui.discount.DiscountAddingActivity;
 import com.jim.multipos.ui.discount.di.DiscountAddingModule;
-import com.jim.multipos.ui.first_configure_last.FirstConfigureActivity;
-import com.jim.multipos.ui.first_configure_last.di.FirstConfigureActivityModule;
 import com.jim.multipos.ui.inventory.InventoryActivity;
 import com.jim.multipos.ui.inventory.di.InventoryModule;
 import com.jim.multipos.ui.lock_screen.LockScreenActivity;
@@ -48,6 +46,8 @@ import com.jim.multipos.ui.settings.SettingsActivity;
 import com.jim.multipos.ui.settings.di.SettingsActivityModule;
 import com.jim.multipos.ui.signing.SignActivity;
 import com.jim.multipos.ui.signing.di.SignActivityModule;
+import com.jim.multipos.ui.start_configuration.StartConfigurationActivity;
+import com.jim.multipos.ui.start_configuration.di.StartConfigurationActivityModule;
 import com.jim.multipos.ui.vendor.add_edit.VendorAddEditActivity;
 import com.jim.multipos.ui.vendor.add_edit.di.VendorAddEditActivityModule;
 import com.jim.multipos.ui.vendor_item_managment.VendorItemsActivity;
@@ -70,10 +70,6 @@ abstract class  AppModule {
     @PerActivity
     @ContributesAndroidInjector(modules = SignActivityModule.class)
     abstract SignActivity provideSignActivity();
-
-    @PerActivity
-    @ContributesAndroidInjector(modules = FirstConfigureActivityModule.class)
-    abstract FirstConfigureActivity provideFirstConfigureActivity();
 
     @PerActivity
     @ContributesAndroidInjector(modules = CostomersMenuModule.class)
@@ -170,5 +166,7 @@ abstract class  AppModule {
     @ContributesAndroidInjector(modules = AuthActivityModule.class)
     abstract AuthActivity provodeForPinnigActivity();
 
-
+    @PerActivity
+    @ContributesAndroidInjector(modules = StartConfigurationActivityModule.class)
+    abstract StartConfigurationActivity provideStartConfigurationActivity();
 }

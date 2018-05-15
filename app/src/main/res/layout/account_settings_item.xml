@@ -17,6 +17,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="@dimen/forty_dp"
+            android:inputType="text"
             android:layout_gravity="center"
             android:layout_marginRight="@dimen/twenty_five_dp"
             android:gravity="left|center_vertical"

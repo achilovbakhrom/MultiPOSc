@@ -20,7 +20,7 @@ public class PosDetailsPresenterImpl extends BasePresenterImpl<PosDetailsView> i
         String posId = preferencesHelper.getPosDetailPosId();
         String alias = preferencesHelper.getPosDetailAlias();
         String address = preferencesHelper.getPosDetailAddress();
-        String phone = preferencesHelper.getPosDetailPhone();
+        String phone = preferencesHelper.getPosPhoneNumber();
         view.fillPosDetails(posId, alias, address, phone);
     }
 
@@ -29,6 +29,6 @@ public class PosDetailsPresenterImpl extends BasePresenterImpl<PosDetailsView> i
         preferencesHelper.setPosDetailPosId(posId);
         preferencesHelper.setPosDetailAlias(alias);
         preferencesHelper.setPosDetailAddress(address);
-        preferencesHelper.setPosDetailPhone(phone);
+        preferencesHelper.setPhoneNumber(phone);
     }
 }

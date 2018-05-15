@@ -382,7 +382,7 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
             try{
                 Date date = new Date();
                 tvTime.setText(new SimpleDateFormat("HH:mm").format(date));
-                tvDate.setText(new SimpleDateFormat("dd - MMM, yyyy", Locale.ENGLISH).format(date));
+                tvDate.setText(new SimpleDateFormat("dd - MMM, yyyy").format(date));
                 handler.postDelayed(timerUpdate, 30000);
             }catch (Exception e){
                 handler.postDelayed(timerUpdate, 30000);

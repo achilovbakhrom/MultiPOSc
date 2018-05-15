@@ -19,16 +19,15 @@ import android.widget.Toast;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.mpviews.MpNumPad;
 import com.jim.multipos.BuildConfig;
+import com.jim.multipos.DeviceAdminReceiver;
 import com.jim.multipos.R;
-import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.core.BaseActivity;
-import com.jim.multipos.ui.first_configure_last.FirstConfigureActivity;
+import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.ui.lock_screen.auth.AuthFragment;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivity;
-import com.jim.multipos.ui.secure.AuthActivity;
+import com.jim.multipos.ui.start_configuration.StartConfigurationActivity;
 import com.jim.multipos.utils.SecurityTools;
 import com.jim.multipos.utils.WarningDialog;
-import com.jim.multipos.DeviceAdminReceiver;
 
 import java.util.HashMap;
 import java.util.List;
@@ -215,7 +214,7 @@ import butterknife.OnClick;
         if(!preferencesHelper.getSerialValue().equals("") &&  !preferencesHelper.getRegistrationToken().equals("") &&  hashesWithSerial.get(preferencesHelper.getSerialValue()).equals(SecurityTools.hashPassword(preferencesHelper.getSerialValue()+preferencesHelper.getRegistrationToken())))
         if (preferencesHelper.isAppRunFirstTime()){
             try {
-                Intent intro = new Intent(this, FirstConfigureActivity.class);
+                Intent intro = new Intent(this, StartConfigurationActivity.class);
                 startActivity(intro);
             } catch (Exception o) {
             }
@@ -225,7 +224,7 @@ import butterknife.OnClick;
     public void openFirstConfigure(){
         if (preferencesHelper.isAppRunFirstTime()){
             try {
-                Intent intro = new Intent(this, FirstConfigureActivity.class);
+                Intent intro = new Intent(this, StartConfigurationActivity.class);
                 startActivity(intro);
             } catch (Exception o) {
             }

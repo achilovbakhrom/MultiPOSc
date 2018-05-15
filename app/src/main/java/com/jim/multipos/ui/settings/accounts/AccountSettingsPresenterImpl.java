@@ -12,7 +12,7 @@ import javax.inject.Inject;
 
 public class AccountSettingsPresenterImpl extends BasePresenterImpl<AccountSettingsView> implements AccountSettingsPresenter {
 
-    private final DatabaseManager databaseManager;
+    private DatabaseManager databaseManager;
     private List<Account> accountList;
 
     @Inject

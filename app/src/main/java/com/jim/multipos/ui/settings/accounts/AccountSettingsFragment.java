@@ -52,6 +52,7 @@ public class AccountSettingsFragment extends BaseFragment implements AccountSett
             } else {
                 presenter.addAccount(etAccountName.getText().toString(), chbActive.isChecked());
                 ((SettingsActivity) getContext()).setChanged(true);
+                etAccountName.setText("");
             }
         });
     }
@@ -61,7 +62,6 @@ public class AccountSettingsFragment extends BaseFragment implements AccountSett
         adapter = new AccountsSettingsAdapter(getContext(), accountList, (account, position) -> {
             presenter.saveChanges(account, position);
             ((SettingsActivity) getContext()).setChanged(true);
-            etAccountName.setText("");
             connection.updateAccounts();
         });
         rvAccounts.setAdapter(adapter);
