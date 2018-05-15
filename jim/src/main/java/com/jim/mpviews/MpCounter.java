@@ -164,55 +164,5 @@ public class MpCounter extends RelativeLayout {
         return mpCounter.getText().toString();
     }
 
-    @Override
-    public void onRestoreInstanceState(Parcelable state) {
-        if (!(state instanceof MpButton.SavedState)) {
-            super.onRestoreInstanceState(state);
-            return;
-        }
-        SavedState savedState = (SavedState)state;
-        super.onRestoreInstanceState(savedState.getSuperState());
 
-        this.arrayList = savedState.list;
-    }
-
-    @Override
-    public Parcelable onSaveInstanceState() {
-        Parcelable superState = super.onSaveInstanceState();
-
-        SavedState savedState = new SavedState(superState);
-        savedState.list = this.arrayList;
-        return savedState;
-    }
-
-    static class SavedState extends BaseSavedState{
-        List<String> list;
-
-        public SavedState(Parcelable source) {
-            super(source);
-        }
-
-        private SavedState(Parcel in) {
-            super(in);
-            in.readStringList(list);
-        }
-
-        @Override
-        public void writeToParcel(Parcel out, int flags) {
-            out.writeStringList(list);
-            super.writeToParcel(out, flags);
-        }
-
-        public static final Parcelable.Creator<SavedState> CREATOR = new Creator<SavedState>() {
-            @Override
-            public SavedState createFromParcel(Parcel parcel) {
-                return new SavedState(parcel);
-            }
-
-            @Override
-            public SavedState[] newArray(int size) {
-                return new SavedState[size];
-            }
-        };
-    }
 }

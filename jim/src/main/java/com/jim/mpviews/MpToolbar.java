@@ -457,63 +457,7 @@ public class MpToolbar extends RelativeLayout {
     }
 
 
-    @Override
-    public void onRestoreInstanceState(Parcelable state) {
-        if (!(state instanceof MpButton.SavedState)) {
-            super.onRestoreInstanceState(state);
-            return;
-        }
-        SavedState savedState = (SavedState) state;
-        super.onRestoreInstanceState(savedState.getSuperState());
 
-        this.pressed = savedState.boolValue;
-        this.mode = savedState.intValue;
-
-    }
-
-    @Override
-    public Parcelable onSaveInstanceState() {
-        Parcelable superState = super.onSaveInstanceState();
-
-        SavedState savedState = new SavedState(superState);
-        savedState.boolValue = this.pressed;
-        savedState.intValue = this.mode;
-        return savedState;
-    }
-
-    static class SavedState extends BaseSavedState {
-        boolean boolValue;
-        int intValue;
-
-        public SavedState(Parcelable source) {
-            super(source);
-        }
-
-        private SavedState(Parcel in) {
-            super(in);
-            this.boolValue = in.readInt() != 0;
-            this.intValue = in.readInt();
-        }
-
-        @Override
-        public void writeToParcel(Parcel out, int flags) {
-            out.writeInt(boolValue ? 1 : 0);
-            out.writeInt(this.intValue);
-            super.writeToParcel(out, flags);
-        }
-
-        public static final Parcelable.Creator<SavedState> CREATOR = new Creator<SavedState>() {
-            @Override
-            public SavedState createFromParcel(Parcel parcel) {
-                return new SavedState(parcel);
-            }
-
-            @Override
-            public SavedState[] newArray(int size) {
-                return new SavedState[size];
-            }
-        };
-    }
 
     public void changeToCloseImgIntervalPick() {
         ((ImageView) findViewById(R.id.ivClearInterval)).setImageResource(R.drawable.interval_close);

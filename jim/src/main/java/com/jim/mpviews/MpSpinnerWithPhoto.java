@@ -19,7 +19,6 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.jim.mpviews.utils.StateSaver;
 import com.jim.mpviews.utils.Test;
 
 import java.util.ArrayList;
@@ -103,17 +102,7 @@ public class MpSpinnerWithPhoto extends RelativeLayout {
 
     private String key = null;
 
-    public void setState(String key) {
-        int position = StateSaver.getInstance(getContext()).getStateSaver().getInt(key, 0);
-        this.key = key;
-        Log.d(Test.TAG, "state :" + String.valueOf(position));
-        if (spinner.getAdapter().getCount() < position) {
-            spinner.setSelection(0);
-        } else {
-            spinner.setSelection(position);
-        }
 
-    }
 
     MpSpinnerWithPhoto.setOnItemClickListener onItemClickListener;
     boolean firstChangedItem = true;
@@ -126,9 +115,7 @@ public class MpSpinnerWithPhoto extends RelativeLayout {
                 if (firstChangedItem) firstChangedItem = false;
                 else {
                     Log.d(Test.TAG, "item selected: " + String.valueOf(i));
-                    if (key != null) if (!key.isEmpty())
-                        StateSaver.getInstance(getContext()).getStateSaver().edit().putInt(key, i).apply();
-                    MpSpinnerWithPhoto.this.onItemClickListener.onItemSelected(adapterView, view, i, l);
+                     MpSpinnerWithPhoto.this.onItemClickListener.onItemSelected(adapterView, view, i, l);
 
                 }
             }
