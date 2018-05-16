@@ -137,4 +137,9 @@ public class CustomerGroupActivity extends DoubleSideActivity implements Custome
     public String getCustomerGroupName() {
        return  ((AddCustomerGroupFragment) getCurrentFragmentLeft()).getCustomerGroupName();
     }
+
+    @Override
+    public boolean getCustomerGroupIsActive() {
+        return  ((AddCustomerGroupFragment) getCurrentFragmentLeft()).getCustomerGroupIsActive();
+    }
 }

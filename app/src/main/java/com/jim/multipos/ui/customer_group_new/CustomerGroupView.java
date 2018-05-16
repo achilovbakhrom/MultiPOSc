@@ -20,4 +20,5 @@ public interface CustomerGroupView extends BaseView {
     void setDefaultValueCustomerGroupRV();
     void showActiveCustomerGroupWarningDialog();
     String getCustomerGroupName();
+    boolean getCustomerGroupIsActive();
 }

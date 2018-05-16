@@ -130,7 +130,7 @@ public class CustomerGroupPresenterImpl extends BasePresenterImpl<CustomerGroupV
     @Override
     public boolean hasChanges() {
          if (currentCustomerGroup != null) {
-            return !currentCustomerGroup.getName().equals(view.getCustomerGroupName());
+            return !currentCustomerGroup.getName().equals(view.getCustomerGroupName()) || currentCustomerGroup.getIsActive() != view.getCustomerGroupIsActive() ;
         } else {
             return !view.getCustomerGroupName().isEmpty();
         }

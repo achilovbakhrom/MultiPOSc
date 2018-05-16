@@ -59,23 +59,23 @@ public class CustomerGroupsFragment extends BaseFragment {
                     }
 
                     @Override
-                    public void onItemPressed(int t) {
+                    public void onItemPressed(int selectedPosition, int prevPosition) {
                         if (((CustomerGroupActivity) getActivity()).getPresenter().hasChanges()) {
                             UIUtils.showAlert(getContext(), getString(R.string.yes), getString(R.string.no), getString(R.string.discard_changes),
                                     getString(R.string.warning_discard_changes), new UIUtils.AlertListener() {
                                         @Override
                                         public void onPositiveButtonClicked() {
-                                            ((CustomerGroupActivity) getActivity()).getPresenter().showSelectedCustomerGroup(t - 1);
+                                            ((CustomerGroupActivity) getActivity()).getPresenter().showSelectedCustomerGroup(selectedPosition - 1);
                                         }
 
                                         @Override
                                         public void onNegativeButtonClicked() {
-
+                                            ((CustomerGroupsAdapter) rvCustomerGroups.getAdapter()).setPosition(prevPosition);
                                         }
                                     });
 
                         } else
-                            ((CustomerGroupActivity) getActivity()).getPresenter().showSelectedCustomerGroup(t - 1);
+                            ((CustomerGroupActivity) getActivity()).getPresenter().showSelectedCustomerGroup(selectedPosition - 1);
                     }
                 }, 0));
     }

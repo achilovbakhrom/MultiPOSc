@@ -34,7 +34,7 @@ public class CustomerGroupsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public interface OnItemClickListener {
         void onAddButtonPressed();
 
-        void onItemPressed(int t);
+        void onItemPressed(int t, int prevPosition);
     }
 
     public void setToDefault() {
@@ -113,6 +113,7 @@ public class CustomerGroupsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     public void setPosition(int position) {
         this.selectedPosition = position;
+        notifyDataSetChanged();
     }
 
     public void addItem(CustomerGroup customerGroup) {
@@ -151,7 +152,7 @@ public class CustomerGroupsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 selectedPosition = getAdapterPosition();
                 notifyItemChanged(prevPosition);
                 notifyItemChanged(selectedPosition);
-                onItemClickListener.onItemPressed(selectedPosition);
+                onItemClickListener.onItemPressed(selectedPosition, prevPosition);
             });
         }
     }

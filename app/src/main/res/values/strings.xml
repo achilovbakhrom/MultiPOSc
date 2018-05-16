@@ -1168,4 +1168,6 @@
     <string name="erg_tok_cant_be_emp">Registration token can\'t be empty</string>
     <string name="reg_token_invalid">Registration token invalid</string>
     <string name="enter_email_address">Enter email address</string>
+    <string name="do_you_want_update_customer_group">Do you want update customer group?</string>
+    <string name="changes_not_found">Changes not found</string>
 </resources>

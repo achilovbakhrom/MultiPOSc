@@ -13,6 +13,7 @@ import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
 import com.jim.multipos.ui.customer_group_new.CustomerGroupActivity;
+import com.jim.multipos.utils.CommonUtils;
 import com.jim.multipos.utils.UIUtils;
 import com.jim.multipos.utils.WarningDialog;
 import com.jim.multipos.utils.validator.MultipleCallback;
@@ -56,7 +57,7 @@ public class AddCustomerGroupFragment extends BaseFragment {
         btnSave.setText(R.string.add);
         btnDelete.setVisibility(View.GONE);
         RxView.clicks(btnBack).subscribe(o -> {
-            if (((CustomerGroupActivity) getActivity()).getPresenter().hasChanges()){
+            if (changeIsDetected()) {
                 UIUtils.showAlert(getContext(), getString(R.string.yes), getString(R.string.no), getString(R.string.discard_changes),
                         getString(R.string.warning_discard_changes), new UIUtils.AlertListener() {
                             @Override
@@ -82,18 +83,48 @@ public class AddCustomerGroupFragment extends BaseFragment {
         RxView.clicks(btnSave).subscribe(o -> {
             if (FormValidator.validate(this, new MultipleCallback())) {
                 if (isEditMode) {
-                    if (!editCustomerGroup.getName().equals(etGroupName.getText().toString()) && !((CustomerGroupActivity) getActivity()).getPresenter().isCustomerGroupExists(etGroupName.getText().toString())) {
-                        editCustomerGroup.setName(etGroupName.getText().toString());
-                        editCustomerGroup.setIsActive(chbActive.isChecked());
-                        ((CustomerGroupActivity) getActivity()).getPresenter().updateCustomerGroup(editCustomerGroup);
-                        setDefaultState();
-                    } else if (editCustomerGroup.getName().equals(etGroupName.getText().toString())) {
-                        editCustomerGroup.setName(etGroupName.getText().toString());
-                        editCustomerGroup.setIsActive(chbActive.isChecked());
-                        ((CustomerGroupActivity) getActivity()).getPresenter().updateCustomerGroup(editCustomerGroup);
-                        setDefaultState();
+                    if (changeIsDetected()) {
+                        if (!((CustomerGroupActivity) getActivity()).getPresenter().isCustomerGroupExists(etGroupName.getText().toString())) {
+                            UIUtils.showAlert(getContext(), getString(R.string.yes), getString(R.string.no),
+                                    getString(R.string.update), getString(R.string.do_you_want_update_customer_group),
+                                    new UIUtils.AlertListener() {
+                                        @Override
+                                        public void onPositiveButtonClicked() {
+                                            editCustomerGroup.setName(etGroupName.getText().toString());
+                                            editCustomerGroup.setIsActive(chbActive.isChecked());
+                                            ((CustomerGroupActivity) getActivity()).getPresenter().updateCustomerGroup(editCustomerGroup);
+                                            setDefaultState();
+                                        }
+
+                                        @Override
+                                        public void onNegativeButtonClicked() {
+
+                                        }
+                                    });
+
+                        } else if (editCustomerGroup.getName().equals(etGroupName.getText().toString())) {
+                            UIUtils.showAlert(getContext(), getString(R.string.yes), getString(R.string.no),
+                                    getString(R.string.update), getString(R.string.do_you_want_update_customer_group),
+                                    new UIUtils.AlertListener() {
+                                        @Override
+                                        public void onPositiveButtonClicked() {
+                                            editCustomerGroup.setName(etGroupName.getText().toString());
+                                            editCustomerGroup.setIsActive(chbActive.isChecked());
+                                            ((CustomerGroupActivity) getActivity()).getPresenter().updateCustomerGroup(editCustomerGroup);
+                                            setDefaultState();
+                                        }
+
+                                        @Override
+                                        public void onNegativeButtonClicked() {
+
+                                        }
+                                    });
+                        } else etGroupName.setError(getString(R.string.customer_group_name_exists));
                     } else {
-                        etGroupName.setError(getString(R.string.customer_group_name_exists));
+                        UIUtils.showAlert(getContext(), getString(R.string.ok),
+                                getString(R.string.update), getString(R.string.changes_not_found), () -> {
+
+                                });
                     }
                 } else {
                     if (!((CustomerGroupActivity) getActivity()).getPresenter().isCustomerGroupExists(etGroupName.getText().toString())) {
@@ -120,6 +151,10 @@ public class AddCustomerGroupFragment extends BaseFragment {
             });
             warningDialog.show();
         });
+    }
+
+    private boolean changeIsDetected() {
+        return !editCustomerGroup.getName().equals(etGroupName.getText().toString()) || editCustomerGroup.getIsActive() != chbActive.isChecked();
     }
 
     public void setDefaultState() {
@@ -158,5 +193,9 @@ public class AddCustomerGroupFragment extends BaseFragment {
 
     public String getCustomerGroupName() {
         return etGroupName.getText().toString();
+    }
+
+    public boolean getCustomerGroupIsActive() {
+        return chbActive.isChecked();
     }
 }
