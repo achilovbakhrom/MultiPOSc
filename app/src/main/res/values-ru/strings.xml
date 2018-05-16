@@ -116,6 +116,7 @@
     <string name="not_classified">Not classified</string>
     <string name="choose_product_class">Choose product class</string>
     <string name="return_to">Возврат к:</string>
+    <string name="enter_email_address">Enter email address</string>
     <string-array name="start_configuration_title">
         <item namte="pos_details">POS подробности</item>
         <item name="account">Аккаунт</item>

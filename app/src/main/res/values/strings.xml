@@ -1167,4 +1167,5 @@
         privileges to manage this device and start lock task mode</string>
     <string name="erg_tok_cant_be_emp">Registration token can\'t be empty</string>
     <string name="reg_token_invalid">Registration token invalid</string>
+    <string name="enter_email_address">Enter email address</string>
 </resources>

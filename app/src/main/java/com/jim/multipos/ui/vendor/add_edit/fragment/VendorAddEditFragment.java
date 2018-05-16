@@ -138,10 +138,13 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
         contactType.setItemSelectionListener((view, position) -> {
             if (isFirstTime) {
                 contactData.setText("");
-                if (position == 0)
+                if (position == 0) {
                     contactData.setInputType(InputType.TYPE_CLASS_PHONE);
-                else
+                    contactData.setHint(getString(R.string.enter_phone));
+                } else {
                     contactData.setInputType(InputType.TYPE_CLASS_TEXT);
+                    contactData.setHint(getString(R.string.enter_email_address));
+                }
             } else isFirstTime = true;
         });
         vendorName.addTextChangedListener(new TextWatcher() {
