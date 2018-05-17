@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -50,9 +51,9 @@ public class AccessWithEditPasswordDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.accsess_edit_password_dialog);
-
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().getDecorView().setBackgroundResource(R.color.colorTransparent);
+        setContentView(R.layout.accsess_edit_password_dialog);
 
         ButterKnife.bind(this);
         btnCancel.setOnClickListener(view -> dismiss());

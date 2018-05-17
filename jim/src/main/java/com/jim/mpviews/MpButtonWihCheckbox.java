@@ -47,7 +47,6 @@ public class MpButtonWihCheckbox extends android.support.v7.widget.AppCompatText
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        VibrateManager.startVibrate(context, 50);
                         if (!state) {
                             setBackgroundResource(R.drawable.checked_btn);
                             state = true;

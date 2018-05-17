@@ -64,7 +64,6 @@ public class MpEmpItem extends RelativeLayout {
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        VibrateManager.startVibrate(context, 50);
                         if (!isPressed) {
                             mpEmpBackground.setBackgroundResource(R.drawable.pressed_vendor_item);
                             isPressed = true;

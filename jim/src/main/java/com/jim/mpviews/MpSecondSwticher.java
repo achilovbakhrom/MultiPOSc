@@ -68,7 +68,6 @@ public class MpSecondSwticher extends LinearLayout {
         mpRightText.setText(attributeArray.getText(R.styleable.MpSwitcher_text_right));
 
         mpLeftBtn.setOnClickListener(view -> {
-            VibrateManager.startVibrate(context, 50);
             mpLeftBtn.setBackgroundResource(R.drawable.left_side_pressed);
             mpRightBtn.setBackgroundResource(R.drawable.right_side);
             right = false;
@@ -77,7 +76,6 @@ public class MpSecondSwticher extends LinearLayout {
         });
 
         mpRightBtn.setOnClickListener(view -> {
-            VibrateManager.startVibrate(context, 50);
             mpLeftBtn.setBackgroundResource(R.drawable.left_side);
             mpRightBtn.setBackgroundResource(R.drawable.right_side_pressed);
             right = true;

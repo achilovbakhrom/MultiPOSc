@@ -1,5 +1,6 @@
 package com.jim.multipos.core;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.WindowManager;
 
 import com.jim.multipos.R;
+import com.jim.multipos.utils.managers.LocaleManger;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -41,6 +43,11 @@ public abstract class BaseActivity extends AppCompatActivity implements HasSuppo
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocaleManger.setLocale(newBase));
     }
 
     public DispatchingAndroidInjector<Fragment> getFragmentInjector() {

@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_edit_text_bg"
         android:orientation="vertical"
-        android:paddingBottom="@dimen/fifty_dp">
+        android:paddingBottom="@dimen/eighty_dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -30,10 +30,10 @@
 
         </LinearLayout>
 
-        <android.support.v7.widget.RecyclerView
+        <com.jim.mpviews.RecyclerViewWithMaxHeight
             android:id="@+id/rvPaymentTypes"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/three_hundred_dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/ten_dp"
             android:layout_marginRight="@dimen/ten_dp"
             android:layout_marginTop="@dimen/ten_dp" />

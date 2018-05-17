@@ -89,7 +89,6 @@ public class MpMiniList extends FrameLayout {
         mpPrev.setOnTouchListener((view, motionEvent) -> {
             switch (motionEvent.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    VibrateManager.startVibrate(context, 50);
                     mpPrev.setBackgroundResource(R.drawable.left_oval_button_payment_next_pressed);
                     break;
                 case MotionEvent.ACTION_UP:
@@ -101,7 +100,6 @@ public class MpMiniList extends FrameLayout {
         mpNext.setOnTouchListener((view, motionEvent) -> {
             switch (motionEvent.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    VibrateManager.startVibrate(context, 50);
                     mpNext.setBackgroundResource(R.drawable.right_oval_button_payment_next_pressed);
                     break;
                 case MotionEvent.ACTION_UP:

@@ -112,7 +112,6 @@ public class MpToolbar extends RelativeLayout {
             switch (motionEvent.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     if (!pressed) {
-                        VibrateManager.startVibrate(context, 50);
                         pressed = true;
                     }
                     mpSettings.setImageResource(R.drawable.settings_blue_press);
@@ -128,7 +127,6 @@ public class MpToolbar extends RelativeLayout {
             switch (motionEvent.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     if (!pressed) {
-                        VibrateManager.startVibrate(context, 50);
                         pressed = true;
                     }
                     findViewById(R.id.productLine).setVisibility(GONE);
@@ -150,7 +148,6 @@ public class MpToolbar extends RelativeLayout {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         if (!pressed) {
-                            VibrateManager.startVibrate(context, 50);
                             pressed = true;
                         }
                         findViewById(R.id.inventoryLine).setVisibility(GONE);
@@ -172,7 +169,6 @@ public class MpToolbar extends RelativeLayout {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         if (!pressed) {
-                            VibrateManager.startVibrate(context, 50);
                             pressed = true;
                         }
                         findViewById(R.id.customerLine).setVisibility(GONE);
@@ -193,7 +189,6 @@ public class MpToolbar extends RelativeLayout {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         if (!pressed) {
-                            VibrateManager.startVibrate(context, 50);
                             pressed = true;
                         }
                         findViewById(R.id.reportLine).setVisibility(GONE);
@@ -214,7 +209,6 @@ public class MpToolbar extends RelativeLayout {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         if (!pressed) {
-                            VibrateManager.startVibrate(context, 50);
                             pressed = true;
                         }
                         findViewById(R.id.whiteLine).setVisibility(GONE);
@@ -237,7 +231,6 @@ public class MpToolbar extends RelativeLayout {
                         pressed = false;
                         if (!isSearchFragmentOpened) {
                             pressed = true;
-                            VibrateManager.startVibrate(context, 50);
                             onSearchClickListener.onOpen();
                             isSearchFragmentOpened = true;
                             findViewById(R.id.searchLine).setVisibility(GONE);

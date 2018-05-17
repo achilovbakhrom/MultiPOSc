@@ -101,6 +101,7 @@
                     android:textSize="@dimen/eighteen_dp" />
 
                 <com.jim.mpviews.MpCheckbox
+                    app:checked="true"
                     android:id="@+id/chbActive"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

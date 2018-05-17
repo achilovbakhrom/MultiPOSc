@@ -118,7 +118,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginRight="@dimen/thirty_dp" />
+                    android:layout_marginRight="@dimen/thirty_dp"
+                    app:checked="true" />
 
                 <com.jim.mpviews.MpMiniActionButton
                     android:id="@+id/btnAdd"

@@ -57,7 +57,6 @@ public class MpNumPadSecond extends FrameLayout {
             switch (motionEvent.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     if (!pressed) {
-                        VibrateManager.startVibrate(context, 50);
                         pressed = true;
                     }
                     mpNumPadbg.setBackgroundResource(R.drawable.num_pad_blue_pressed);

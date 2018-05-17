@@ -3,11 +3,13 @@ package com.jim.multipos;
 import android.app.Activity;
 import android.app.Application;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.support.multidex.MultiDexApplication;
 
 import com.jim.multipos.config.common.DaggerAppComponent;
 import com.jim.multipos.di.BaseAppComponent;
+import com.jim.multipos.utils.managers.LocaleManger;
 import com.jim.multipos.utils.usb_barcode.USBService;
 
 import javax.inject.Inject;
@@ -48,5 +50,10 @@ public class MultiPosApp extends MultiDexApplication implements HasActivityInjec
     @Override
     public AndroidInjector<Service> serviceInjector() {
         return dispatchingServiceInjector;
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(LocaleManger.setLocale(base));
     }
 }

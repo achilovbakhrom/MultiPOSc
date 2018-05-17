@@ -57,7 +57,7 @@ public class AddCustomerGroupFragment extends BaseFragment {
         btnSave.setText(R.string.add);
         btnDelete.setVisibility(View.GONE);
         RxView.clicks(btnBack).subscribe(o -> {
-            if (changeIsDetected()) {
+            if (((CustomerGroupActivity) getActivity()).getPresenter().hasChanges()) {
                 UIUtils.showAlert(getContext(), getString(R.string.yes), getString(R.string.no), getString(R.string.discard_changes),
                         getString(R.string.warning_discard_changes), new UIUtils.AlertListener() {
                             @Override
@@ -83,7 +83,7 @@ public class AddCustomerGroupFragment extends BaseFragment {
         RxView.clicks(btnSave).subscribe(o -> {
             if (FormValidator.validate(this, new MultipleCallback())) {
                 if (isEditMode) {
-                    if (changeIsDetected()) {
+                    if (((CustomerGroupActivity) getActivity()).getPresenter().hasChanges()) {
                         if (!((CustomerGroupActivity) getActivity()).getPresenter().isCustomerGroupExists(etGroupName.getText().toString())) {
                             UIUtils.showAlert(getContext(), getString(R.string.yes), getString(R.string.no),
                                     getString(R.string.update), getString(R.string.do_you_want_update_customer_group),
@@ -151,10 +151,6 @@ public class AddCustomerGroupFragment extends BaseFragment {
             });
             warningDialog.show();
         });
-    }
-
-    private boolean changeIsDetected() {
-        return !editCustomerGroup.getName().equals(etGroupName.getText().toString()) || editCustomerGroup.getIsActive() != chbActive.isChecked();
     }
 
     public void setDefaultState() {

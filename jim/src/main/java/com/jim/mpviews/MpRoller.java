@@ -97,7 +97,6 @@ public class MpRoller extends RelativeLayout {
                             if (!arrayList.isEmpty())
                                 mpCounter.setText(arrayList.get(counter));
                             else mpCounter.setText("" + counter);
-                            VibrateManager.startVibrate(context, 50);
                             return true;
                         } else if (y1 > y2) {
                             if (max_value != 0) {
@@ -113,7 +112,6 @@ public class MpRoller extends RelativeLayout {
                             if (!arrayList.isEmpty())
                                 mpCounter.setText(arrayList.get(counter));
                             else mpCounter.setText("" + counter);
-                            VibrateManager.startVibrate(context, 50);
                             return true;
                         }
                     } else {
@@ -138,7 +136,6 @@ public class MpRoller extends RelativeLayout {
                         if (!arrayList.isEmpty())
                             mpCounter.setText(arrayList.get(counter));
                         else mpCounter.setText("" + counter);
-                        VibrateManager.startVibrate(context, 50);
                     }
                     if (constY > getHeight() / 2) {
                         if (counter > 0) {
@@ -149,7 +146,6 @@ public class MpRoller extends RelativeLayout {
                         if (!arrayList.isEmpty())
                             mpCounter.setText(arrayList.get(counter));
                         else mpCounter.setText("" + counter);
-                        VibrateManager.startVibrate(context, 50);
                     }
                 }
                 break;

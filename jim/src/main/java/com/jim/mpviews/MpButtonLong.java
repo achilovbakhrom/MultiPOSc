@@ -47,7 +47,6 @@ public class MpButtonLong extends android.support.v7.widget.AppCompatTextView {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         if(!pressed){
-                            VibrateManager.startVibrate(context, 50);
                             pressed= true;
                         }
                         setBackgroundResource(R.drawable.long_mp_button_pressed);

@@ -60,7 +60,6 @@ public class MpButton extends android.support.v7.widget.AppCompatButton {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         if (!pressed) {
-                            VibrateManager.startVibrate(context, 50);
                             pressed = true;
                         }
                         return false;

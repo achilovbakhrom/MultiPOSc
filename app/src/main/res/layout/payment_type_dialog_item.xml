@@ -25,10 +25,15 @@
 
     </LinearLayout>
 
-    <ImageView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="5px"
-        android:layerType="software"
-        android:src="@drawable/dash" />
+        android:layout_height="2px"
+        android:background="#e5e5e5" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="#ffffff" />
+
 
 </LinearLayout>

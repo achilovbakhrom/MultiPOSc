@@ -22,6 +22,8 @@ import android.net.Uri;
 import com.jim.multipos.utils.AppConstants;
 import com.jim.multipos.utils.SecurityTools;
 
+import static com.jim.multipos.utils.managers.LocaleManger.ENGLISH;
+
 /**
  * Created by janisharali on 27/01/17.
  */
@@ -80,22 +82,22 @@ public class AppPreferencesHelper implements PreferencesHelper {
 
     @Override
     public long getExperedTime() {
-        return mPrefs.getLong(EXPERED_TIME,0);
+        return mPrefs.getLong(EXPERED_TIME, 0);
     }
 
     @Override
     public void setExperedTime(long experedTime) {
-        mPrefs.edit().putLong(EXPERED_TIME,experedTime).apply();
+        mPrefs.edit().putLong(EXPERED_TIME, experedTime).apply();
     }
 
     @Override
     public String getReshreshToken() {
-        return mPrefs.getString(PREF_KEY_REFRESH_TOKEN,"");
+        return mPrefs.getString(PREF_KEY_REFRESH_TOKEN, "");
     }
 
     @Override
     public void setRefreshToken(String refreshToken) {
-        mPrefs.edit().putString(PREF_KEY_REFRESH_TOKEN,refreshToken).apply();
+        mPrefs.edit().putString(PREF_KEY_REFRESH_TOKEN, refreshToken).apply();
     }
 
     @Override
@@ -105,12 +107,12 @@ public class AppPreferencesHelper implements PreferencesHelper {
 
     @Override
     public int getLastPositionCategory() {
-        return mPrefs.getInt(LAST_CATEGORY,0);
+        return mPrefs.getInt(LAST_CATEGORY, 0);
     }
 
     @Override
     public void setLastPositionCategory(int position) {
-        mPrefs.edit().putInt(LAST_CATEGORY,position).apply();
+        mPrefs.edit().putInt(LAST_CATEGORY, position).apply();
     }
 
     @Override
@@ -191,32 +193,32 @@ public class AppPreferencesHelper implements PreferencesHelper {
 
     @Override
     public String getOrganizationName() {
-        return mPrefs.getString(ORGANIZATION_NAME,"MULTI POS SOLUTIONS");
+        return mPrefs.getString(ORGANIZATION_NAME, "MULTI POS SOLUTIONS");
     }
 
     @Override
     public void setOrganizationName(String organizationName) {
-        mPrefs.edit().putString(ORGANIZATION_NAME,organizationName).apply();
+        mPrefs.edit().putString(ORGANIZATION_NAME, organizationName).apply();
     }
 
     @Override
     public String getPosPhoneNumber() {
-        return mPrefs.getString(ORGANIZATION_PHONE_NUMBER,"");
+        return mPrefs.getString(ORGANIZATION_PHONE_NUMBER, "");
     }
 
     @Override
     public void setPhoneNumber(String phoneNumber) {
-        mPrefs.edit().putString(ORGANIZATION_PHONE_NUMBER,phoneNumber).apply();
+        mPrefs.edit().putString(ORGANIZATION_PHONE_NUMBER, phoneNumber).apply();
     }
 
     @Override
     public boolean isFirstConfigured() {
-        return mPrefs.getBoolean(FIRST_CONFIGURED,false);
+        return mPrefs.getBoolean(FIRST_CONFIGURED, false);
     }
 
     @Override
     public void setFirestConfigured(boolean isChecked) {
-         mPrefs.edit().putBoolean(FIRST_CONFIGURED,isChecked).apply();
+        mPrefs.edit().putBoolean(FIRST_CONFIGURED, isChecked).apply();
     }
 
     @Override
@@ -241,7 +243,7 @@ public class AppPreferencesHelper implements PreferencesHelper {
 
     @Override
     public double getFirstOptionalPaymentButton() {
-        return mPrefs.getFloat(FIRST_OPTIONAL_PAYMENT_BUTTON,10000);
+        return mPrefs.getFloat(FIRST_OPTIONAL_PAYMENT_BUTTON, 10000);
     }
 
     @Override
@@ -251,7 +253,7 @@ public class AppPreferencesHelper implements PreferencesHelper {
 
     @Override
     public double getSecondOptionalPaymentButton() {
-        return mPrefs.getFloat(SECOND_OPTIONAL_PAYMENT_BUTTON,5000);
+        return mPrefs.getFloat(SECOND_OPTIONAL_PAYMENT_BUTTON, 5000);
     }
 
     @Override
@@ -263,7 +265,7 @@ public class AppPreferencesHelper implements PreferencesHelper {
     public boolean checkEditOrderPassword(String md5Password) {
         String md5OldPassword = mPrefs.getString(EDIT_ORDER_PASSWORD, SecurityTools.md5("12345"));
 //        String md5OldPassword = mPrefs.getString(EDIT_ORDER_PASSWORD,"");
-        if(md5OldPassword.equals("")) return false;
+        if (md5OldPassword.equals("")) return false;
         return md5OldPassword.equals(md5Password);
     }
 
@@ -294,189 +296,188 @@ public class AppPreferencesHelper implements PreferencesHelper {
 
     @Override
     public boolean isPrintPictureInCheck() {
-        return mPrefs.getBoolean(CHECK_WITH_PICTURE,true);
+        return mPrefs.getBoolean(CHECK_WITH_PICTURE, true);
     }
 
     @Override
     public void setPrintPictureInCheck(boolean printPictureInCheck) {
-        mPrefs.edit().putBoolean(CHECK_WITH_PICTURE,printPictureInCheck).apply();
+        mPrefs.edit().putBoolean(CHECK_WITH_PICTURE, printPictureInCheck).apply();
     }
 
     @Override
     public Uri getUriPathCheckPicture() {
-        return Uri.parse(mPrefs.getString(PICTURE_URI,"")) ;
+        return Uri.parse(mPrefs.getString(PICTURE_URI, ""));
     }
 
     @Override
     public void setUriPathCheckPicture(Uri uriPathCheckPicture) {
-        mPrefs.edit().putString(PICTURE_URI,uriPathCheckPicture.toString()).apply();
-        mPrefs.edit().putBoolean(DEF_PICTURE,false).apply();
+        mPrefs.edit().putString(PICTURE_URI, uriPathCheckPicture.toString()).apply();
+        mPrefs.edit().putBoolean(DEF_PICTURE, false).apply();
     }
 
     @Override
     public boolean isDefaultPicture() {
-        return mPrefs.getBoolean(DEF_PICTURE,true);
+        return mPrefs.getBoolean(DEF_PICTURE, true);
     }
 
     @Override
     public boolean isPrintCheck() {
-        return mPrefs.getBoolean(PRINT_CHECK_STATE,true);
+        return mPrefs.getBoolean(PRINT_CHECK_STATE, true);
     }
 
     @Override
     public void setPrintCheck(boolean printCheck) {
-        mPrefs.edit().putBoolean(PRINT_CHECK_STATE,printCheck).apply();
+        mPrefs.edit().putBoolean(PRINT_CHECK_STATE, printCheck).apply();
     }
-
 
 
     @Override
     public boolean isProductsProtected() {
-        return mPrefs.getBoolean(PRODUCTS_SEC_PROTECTED,false);
+        return mPrefs.getBoolean(PRODUCTS_SEC_PROTECTED, false);
     }
 
     @Override
     public boolean isRepotsProtected() {
-        return mPrefs.getBoolean(REPORTS_SEC_PROTECTED,false);
+        return mPrefs.getBoolean(REPORTS_SEC_PROTECTED, false);
 
     }
 
     @Override
     public boolean isCustomersProtected() {
-        return mPrefs.getBoolean(CUSTOMERS_SEC_PROTECTED,false);
+        return mPrefs.getBoolean(CUSTOMERS_SEC_PROTECTED, false);
 
     }
 
     @Override
     public boolean isInventoryProtected() {
-        return mPrefs.getBoolean(INVENTORY_SEC_PROTECTED,false);
+        return mPrefs.getBoolean(INVENTORY_SEC_PROTECTED, false);
 
     }
 
     @Override
     public boolean isSettingsProtected() {
-        return mPrefs.getBoolean(SETTINGS_SEC_PROTECTED,false);
+        return mPrefs.getBoolean(SETTINGS_SEC_PROTECTED, false);
 
     }
 
     @Override
     public boolean isCashManagmentProtected() {
-        return mPrefs.getBoolean(CASH_MANAGMENT_SEC_PROTECTED,false);
+        return mPrefs.getBoolean(CASH_MANAGMENT_SEC_PROTECTED, false);
 
     }
 
     @Override
     public boolean isCancelOrderProtected() {
-        return mPrefs.getBoolean(CANCEL_ORDER_SEC_PROTECTED,false);
+        return mPrefs.getBoolean(CANCEL_ORDER_SEC_PROTECTED, false);
 
     }
 
     @Override
     public boolean isManualDiscountsProtected() {
-        return mPrefs.getBoolean(MANUAL_DISCOUNT_SEC_PROTECTED,false);
+        return mPrefs.getBoolean(MANUAL_DISCOUNT_SEC_PROTECTED, false);
 
     }
 
     @Override
     public boolean isEditOrderProtected() {
-        return mPrefs.getBoolean(EDIT_ORDER_SEC_PROTECTED,false);
+        return mPrefs.getBoolean(EDIT_ORDER_SEC_PROTECTED, false);
 
     }
 
     @Override
     public boolean isManualServiceFeeProtected() {
-        return mPrefs.getBoolean(MANUAL_SERVICE_SEC_PROTECTED,false);
+        return mPrefs.getBoolean(MANUAL_SERVICE_SEC_PROTECTED, false);
     }
 
     @Override
     public void setProductsProtected(Boolean isProtected) {
-        mPrefs.edit().putBoolean(PRODUCTS_SEC_PROTECTED,isProtected).apply();
+        mPrefs.edit().putBoolean(PRODUCTS_SEC_PROTECTED, isProtected).apply();
     }
 
     @Override
     public void setReportsProtected(Boolean isProtected) {
-        mPrefs.edit().putBoolean(REPORTS_SEC_PROTECTED,isProtected).apply();
+        mPrefs.edit().putBoolean(REPORTS_SEC_PROTECTED, isProtected).apply();
 
     }
 
     @Override
     public void setCustomersProtected(Boolean isProtected) {
-        mPrefs.edit().putBoolean(CUSTOMERS_SEC_PROTECTED,isProtected).apply();
+        mPrefs.edit().putBoolean(CUSTOMERS_SEC_PROTECTED, isProtected).apply();
 
     }
 
     @Override
     public void setInventorysProtected(Boolean isProtected) {
-        mPrefs.edit().putBoolean(INVENTORY_SEC_PROTECTED,isProtected).apply();
+        mPrefs.edit().putBoolean(INVENTORY_SEC_PROTECTED, isProtected).apply();
     }
 
     @Override
     public void setSettingsProtected(Boolean isProtected) {
-        mPrefs.edit().putBoolean(SETTINGS_SEC_PROTECTED,isProtected).apply();
+        mPrefs.edit().putBoolean(SETTINGS_SEC_PROTECTED, isProtected).apply();
     }
 
     @Override
     public void setCashManagmentsProtected(Boolean isProtected) {
-        mPrefs.edit().putBoolean(CASH_MANAGMENT_SEC_PROTECTED,isProtected).apply();
+        mPrefs.edit().putBoolean(CASH_MANAGMENT_SEC_PROTECTED, isProtected).apply();
     }
 
     @Override
     public void setCancelOrderProtected(Boolean isProtected) {
-        mPrefs.edit().putBoolean(CANCEL_ORDER_SEC_PROTECTED,isProtected).apply();
+        mPrefs.edit().putBoolean(CANCEL_ORDER_SEC_PROTECTED, isProtected).apply();
     }
 
     @Override
     public void setManualDiscountProtected(Boolean isProtected) {
-        mPrefs.edit().putBoolean(MANUAL_DISCOUNT_SEC_PROTECTED,isProtected).apply();
+        mPrefs.edit().putBoolean(MANUAL_DISCOUNT_SEC_PROTECTED, isProtected).apply();
     }
 
     @Override
     public void setEditOrderProtected(Boolean isProtected) {
-        mPrefs.edit().putBoolean(EDIT_ORDER_SEC_PROTECTED,isProtected).apply();
+        mPrefs.edit().putBoolean(EDIT_ORDER_SEC_PROTECTED, isProtected).apply();
     }
 
     @Override
     public void setManualServiceFeeProtected(Boolean isProtected) {
-        mPrefs.edit().putBoolean(MANUAL_SERVICE_SEC_PROTECTED,isProtected).apply();
+        mPrefs.edit().putBoolean(MANUAL_SERVICE_SEC_PROTECTED, isProtected).apply();
     }
 
     @Override
     public void setHintAbout(Boolean hintAbout) {
-        mPrefs.edit().putBoolean(HINT_CHECK_HINT,hintAbout).apply();
+        mPrefs.edit().putBoolean(HINT_CHECK_HINT, hintAbout).apply();
     }
 
     @Override
     public boolean isHintAbout() {
-        return mPrefs.getBoolean(HINT_CHECK_HINT,true);
+        return mPrefs.getBoolean(HINT_CHECK_HINT, true);
     }
 
     @Override
-    public void setLanguage(int langcode) {
-        mPrefs.edit().putInt(LANGUAGE_CODE,langcode).apply();
+    public void setLanguage(String language) {
+        mPrefs.edit().putString(LANGUAGE_CODE, language).apply();
     }
 
     @Override
-    public int getLanguageCode() {
-        return mPrefs.getInt(LANGUAGE_CODE,0);
+    public String getLanguageCode() {
+        return mPrefs.getString(LANGUAGE_CODE, ENGLISH);
     }
 
     @Override
     public String getSerialValue() {
-        return mPrefs.getString(SERIAL_VALUE,"");
+        return mPrefs.getString(SERIAL_VALUE, "");
     }
 
     @Override
     public void setSerialValue(String serialValue) {
-        mPrefs.edit().putString(SERIAL_VALUE,serialValue).apply();
+        mPrefs.edit().putString(SERIAL_VALUE, serialValue).apply();
     }
 
     @Override
     public void setRegistrationToken(String token) {
-        mPrefs.edit().putString(TOKEN_VALUE,token).apply();
+        mPrefs.edit().putString(TOKEN_VALUE, token).apply();
     }
 
     @Override
     public String getRegistrationToken() {
-        return mPrefs.getString(TOKEN_VALUE,"");
+        return mPrefs.getString(TOKEN_VALUE, "");
     }
 }

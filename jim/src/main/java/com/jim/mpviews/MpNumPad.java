@@ -80,7 +80,6 @@ public class MpNumPad extends FrameLayout {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         if (!pressed) {
-                            VibrateManager.startVibrate(context, 50);
                             pressed = true;
                         }
                         if (mode == NUMBER_MODE) {

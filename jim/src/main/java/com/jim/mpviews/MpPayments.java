@@ -72,7 +72,6 @@ public class MpPayments extends RelativeLayout {
         setOnTouchListener((view, motionEvent) -> {
             switch (motionEvent.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    VibrateManager.startVibrate(context, 50);
                     mpPayment.setBackgroundResource(R.drawable.rounded_blue_btn);
                     mpType.setTextColor(getResources().getColor(R.color.colorWhite));
                     mpPercent.setTextColor(getResources().getColor(R.color.colorWhite));

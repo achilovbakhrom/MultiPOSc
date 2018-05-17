@@ -101,7 +101,6 @@ public class MpCounter extends RelativeLayout {
                             if (!arrayList.isEmpty())
                                 mpCounter.setText(arrayList.get(counter));
                             else mpCounter.setText("" + counter);
-                            VibrateManager.startVibrate(context, 50);
                             return true;
 
                         } else if (x1 > x2) {
@@ -114,7 +113,6 @@ public class MpCounter extends RelativeLayout {
                             if (!arrayList.isEmpty())
                                 mpCounter.setText(arrayList.get(counter));
                             else mpCounter.setText("" + counter);
-                            VibrateManager.startVibrate(context, 50);
                             return true;
                         }
                     } else {
@@ -139,7 +137,6 @@ public class MpCounter extends RelativeLayout {
                         if (!arrayList.isEmpty())
                             mpCounter.setText(arrayList.get(counter));
                         else mpCounter.setText("" + counter);
-                        VibrateManager.startVibrate(context, 50);
                     }
                     if (constX < getWidth() / 2) {
                         if (counter > 0) {
@@ -150,7 +147,6 @@ public class MpCounter extends RelativeLayout {
                         if (!arrayList.isEmpty())
                             mpCounter.setText(arrayList.get(counter));
                         else mpCounter.setText("" + counter);
-                        VibrateManager.startVibrate(context, 50);
                     }
                 }
                 break;

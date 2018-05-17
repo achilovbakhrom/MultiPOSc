@@ -102,8 +102,8 @@ public interface PreferencesHelper {
     void setHintAbout(Boolean hintAbout);
     boolean isHintAbout();
 
-    void setLanguage(int langcode);
-    int getLanguageCode();
+    void setLanguage(String language);
+    String getLanguageCode();
 
     String getSerialValue();
     void setSerialValue(String serialValue);

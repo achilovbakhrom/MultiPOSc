@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.Window;
 import android.widget.EditText;
 
 import com.jakewharton.rxbinding2.view.RxView;
@@ -42,8 +43,8 @@ public class SetQuantityDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.set_quantity_dialog);
-
         getWindow().getDecorView().setBackgroundResource(R.color.colorTransparent);
 
         ButterKnife.bind(this);

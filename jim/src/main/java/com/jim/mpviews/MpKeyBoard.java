@@ -110,7 +110,6 @@ public class MpKeyBoard extends FrameLayout implements View.OnClickListener, Vie
 
 
         mpCase.setOnClickListener(view -> {
-            VibrateManager.startVibrate(context, 10);
             if (!isPressed) {
                 mpCase.setBackgroundResource(R.drawable.key_pad_blue);
                 isPressed = true;
@@ -130,7 +129,6 @@ public class MpKeyBoard extends FrameLayout implements View.OnClickListener, Vie
             }
         });
         mpCaseRU.setOnClickListener(view -> {
-            VibrateManager.startVibrate(context, 10);
             if (!isPressed) {
                 mpCaseRU.setBackgroundResource(R.drawable.key_pad_blue);
                 isPressed = true;

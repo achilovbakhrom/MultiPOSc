@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.Window;
 
+import com.jim.mpviews.RecyclerViewWithMaxHeight;
 import com.jim.multipos.R;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.PaymentType;
@@ -28,7 +29,7 @@ import butterknife.ButterKnife;
 public class CloseOrderWithPayDialog extends Dialog {
 
     @BindView(R.id.rvPaymentTypes)
-    RecyclerView rvPaymentTypes;
+    RecyclerViewWithMaxHeight rvPaymentTypes;
     private PaymentTypesAdapter adapter;
 
     public CloseOrderWithPayDialog(@NonNull Context context, DatabaseManager databaseManager, Order order, OnPaymentTypeSelected onPaymentTypeSelected) {
@@ -41,6 +42,7 @@ public class CloseOrderWithPayDialog extends Dialog {
         View v = getWindow().getDecorView();
         v.setBackgroundResource(android.R.color.transparent);
         rvPaymentTypes.setLayoutManager(new LinearLayoutManager(context));
+        rvPaymentTypes.setMaxHeight(300);
         adapter = new PaymentTypesAdapter();
         rvPaymentTypes.setAdapter(adapter);
         adapter.setData(databaseManager.getPaymentTypes());

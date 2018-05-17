@@ -240,6 +240,11 @@ import butterknife.OnClick;
     public void successCheck() {
         Intent intent = new Intent(this, MainPosPageActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
         clear();
     }
 

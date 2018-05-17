@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.view.Window;
 
 import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.mpviews.MPosSpinner;
@@ -54,8 +55,8 @@ public class TipsDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.tips_dialog);
-
         getWindow().getDecorView().setBackgroundResource(R.color.colorTransparent);
 
         ButterKnife.bind(this);

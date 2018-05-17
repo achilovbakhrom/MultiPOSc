@@ -69,7 +69,6 @@ public class MpComboSlot extends RelativeLayout {
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        VibrateManager.startVibrate(context, 50);
                         if (!isPressed) {
                             mpSlot.setBackgroundResource(R.drawable.item_pressed_bg);
                             LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);

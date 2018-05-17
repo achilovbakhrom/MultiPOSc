@@ -78,7 +78,6 @@ public class MpTripleSwitcher extends LinearLayout {
         mpLeftBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                VibrateManager.startVibrate(context, 50);
                 mpLeftBtn.setBackgroundResource(R.drawable.matrix_left_pressed_bg);
                 mpLeftImage.setImageResource(R.drawable.ellipse);
                 mpRightBtn.setBackgroundResource(R.drawable.matrix_right_bg);
@@ -95,7 +94,6 @@ public class MpTripleSwitcher extends LinearLayout {
         mpRightBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                VibrateManager.startVibrate(context, 50);
                 mpLeftBtn.setBackgroundResource(R.drawable.matrix_left_bg);
                 mpLeftImage.setImageResource(R.drawable.ellipse_not_active);
                 mpRightBtn.setBackgroundResource(R.drawable.matrix_right_pressed_bg);
@@ -112,7 +110,6 @@ public class MpTripleSwitcher extends LinearLayout {
         mpCenterBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                VibrateManager.startVibrate(context, 50);
                 mpLeftBtn.setBackgroundResource(R.drawable.matrix_left_bg);
                 mpLeftImage.setImageResource(R.drawable.ellipse_not_active);
                 mpRightBtn.setBackgroundResource(R.drawable.matrix_right_bg);

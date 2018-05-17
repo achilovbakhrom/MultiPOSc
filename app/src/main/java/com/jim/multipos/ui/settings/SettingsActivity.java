@@ -1,5 +1,6 @@
 package com.jim.multipos.ui.settings;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,7 @@ import com.jim.multipos.R;
 import com.jim.multipos.core.BaseActivity;
 import com.jim.multipos.core.DoubleSideActivity;
 import com.jim.multipos.core.SimpleActivity;
+import com.jim.multipos.ui.lock_screen.LockScreenActivity;
 import com.jim.multipos.ui.reports.customers.CustomerReportFragment;
 import com.jim.multipos.ui.reports.debts.DebtsReportFragment;
 import com.jim.multipos.ui.reports.discount.DiscountReportFragment;
@@ -43,7 +45,7 @@ public class SettingsActivity extends DoubleSideActivity implements SettingsView
     RxBus rxBus;
 
     boolean isChanged = false;
-    String [] settingsFragments= {SecurityFragment.class.getName(),PrintFragment.class.getName(),CommonConfigFragment.class.getName(),  AccountSettingsFragment.class.getName(), CurrencySettingsFragment.class.getName(), PosDetailsFragment.class.getName(), PaymentTypeSettingsFragment.class.getName()};
+    String[] settingsFragments = {SecurityFragment.class.getName(), PrintFragment.class.getName(), CommonConfigFragment.class.getName(), AccountSettingsFragment.class.getName(), CurrencySettingsFragment.class.getName(), PosDetailsFragment.class.getName(), PaymentTypeSettingsFragment.class.getName()};
 
 
     @Override
@@ -88,24 +90,24 @@ public class SettingsActivity extends DoubleSideActivity implements SettingsView
         }
     }
 
-    public void showSecurityFragment(){
+    public void showSecurityFragment() {
         hideAll();
         SecurityFragment securityFragment = (SecurityFragment) getSupportFragmentManager().findFragmentByTag(SecurityFragment.class.getName());
-        if(securityFragment == null){
+        if (securityFragment == null) {
             securityFragment = new SecurityFragment();
-            addFragmentWithTagToRight(securityFragment,SecurityFragment.class.getName());
-        }else {
+            addFragmentWithTagToRight(securityFragment, SecurityFragment.class.getName());
+        } else {
             getSupportFragmentManager().beginTransaction().show(securityFragment).commit();
         }
     }
 
-    public void showPrintFragment(){
+    public void showPrintFragment() {
         hideAll();
         PrintFragment printFragment = (PrintFragment) getSupportFragmentManager().findFragmentByTag(PrintFragment.class.getName());
-        if(printFragment == null){
+        if (printFragment == null) {
             printFragment = new PrintFragment();
-            addFragmentWithTagToRight(printFragment,PrintFragment.class.getName());
-        }else {
+            addFragmentWithTagToRight(printFragment, PrintFragment.class.getName());
+        } else {
             getSupportFragmentManager().beginTransaction().show(printFragment).commit();
         }
     }
@@ -155,23 +157,30 @@ public class SettingsActivity extends DoubleSideActivity implements SettingsView
         }
     }
 
-    public void showCommonConfigFragment(){
+    public void showCommonConfigFragment() {
         hideAll();
         CommonConfigFragment commonConfigFragment = (CommonConfigFragment) getSupportFragmentManager().findFragmentByTag(CommonConfigFragment.class.getName());
-        if(commonConfigFragment == null){
+        if (commonConfigFragment == null) {
             commonConfigFragment = new CommonConfigFragment();
-            addFragmentWithTagToRight(commonConfigFragment,CommonConfigFragment.class.getName());
-        }else {
+            addFragmentWithTagToRight(commonConfigFragment, CommonConfigFragment.class.getName());
+        } else {
             getSupportFragmentManager().beginTransaction().show(commonConfigFragment).commit();
         }
     }
+
     public void hideAll() {
         for (String fragmentName : settingsFragments) {
             Fragment fragmentByTag = getSupportFragmentManager().findFragmentByTag(fragmentName);
-            if(fragmentByTag!=null && fragmentByTag.isVisible()){
+            if (fragmentByTag != null && fragmentByTag.isVisible()) {
                 getSupportFragmentManager().beginTransaction().hide(fragmentByTag).commit();
             }
         }
+    }
+
+    public void openLockScreen() {
+        Intent intent = new Intent(SettingsActivity.this, LockScreenActivity.class);
+        startActivity(intent);
+        this.finish();
     }
 
     public void setChanged(boolean changed) {

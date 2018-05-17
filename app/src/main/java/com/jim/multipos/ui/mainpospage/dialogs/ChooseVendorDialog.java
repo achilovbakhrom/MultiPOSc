@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Window;
 
 import com.jim.multipos.R;
 import com.jim.multipos.data.db.model.products.Vendor;
@@ -40,8 +41,8 @@ public class ChooseVendorDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.choose_product_info_vendor_dialog);
-
         getWindow().getDecorView().setBackgroundResource(R.color.colorTransparent);
 
         ButterKnife.bind(this);

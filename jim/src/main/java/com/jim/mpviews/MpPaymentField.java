@@ -131,7 +131,6 @@ public class MpPaymentField extends FrameLayout {
                 counter++;
             }
             mpSecondCurr.setText(otherCurrencies.get(counter));
-            VibrateManager.startVibrate(context, 50);
         });
     }
 

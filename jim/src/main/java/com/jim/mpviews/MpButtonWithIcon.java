@@ -64,7 +64,6 @@ public class MpButtonWithIcon extends RelativeLayout {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         if (!isPressed) {
-                            VibrateManager.startVibrate(context, 50);
                             setBackgroundResource(R.drawable.pressed_btn);
                             isPressed = true;
                         }
