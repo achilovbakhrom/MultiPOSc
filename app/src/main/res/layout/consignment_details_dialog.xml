@@ -265,13 +265,14 @@
 
         <com.jim.mpviews.MpButton
             android:id="@+id/btnClose"
-            android:layout_width="@dimen/hundred_sixty_dp"
-            android:layout_height="@dimen/sixty_dp"
+            android:layout_width="@dimen/hundred_thirty_dp"
+            android:layout_height="@dimen/fifty_five_dp"
             android:layout_gravity="right"
             android:layout_marginBottom="@dimen/fourteen_dp"
             android:layout_marginRight="@dimen/fifteen_dp"
             android:layout_marginTop="@dimen/fourteen_dp"
             android:text="@string/close"
+            android:textSize="@dimen/sixteen_dp"
             android:textColor="@color/colorSecondaryText" />
 
     </LinearLayout>

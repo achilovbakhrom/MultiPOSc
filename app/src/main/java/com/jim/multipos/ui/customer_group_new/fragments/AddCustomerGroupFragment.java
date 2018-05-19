@@ -121,9 +121,21 @@ public class AddCustomerGroupFragment extends BaseFragment {
                                     });
                         } else etGroupName.setError(getString(R.string.customer_group_name_exists));
                     } else {
-                        UIUtils.showAlert(getContext(), getString(R.string.ok),
-                                getString(R.string.update), getString(R.string.changes_not_found), () -> {
+                        UIUtils.showAlert(getContext(), getString(R.string.yes), getString(R.string.no),
+                                getString(R.string.update), getString(R.string.do_you_want_update_customer_group),
+                                new UIUtils.AlertListener() {
+                                    @Override
+                                    public void onPositiveButtonClicked() {
+                                        editCustomerGroup.setName(etGroupName.getText().toString());
+                                        editCustomerGroup.setIsActive(chbActive.isChecked());
+                                        ((CustomerGroupActivity) getActivity()).getPresenter().updateCustomerGroup(editCustomerGroup);
+                                        setDefaultState();
+                                    }
 
+                                    @Override
+                                    public void onNegativeButtonClicked() {
+
+                                    }
                                 });
                     }
                 } else {

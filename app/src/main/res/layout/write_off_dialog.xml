@@ -32,35 +32,38 @@
                 android:textSize="@dimen/twenty_dp" />
 
         </RelativeLayout>
-       <LinearLayout
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:layout_marginLeft="@dimen/thirty_dp"
-           android:layout_marginRight="@dimen/thirty_dp"
-           android:layout_marginTop="@dimen/twenty_dp"
-           android:orientation="horizontal">
-           <TextView
-               android:layout_width="0dp"
-               android:layout_weight="1"
-               android:layout_height="match_parent"
-               android:gravity="center_vertical|right"
-               android:textColor="#414141"
-               android:layout_marginRight="@dimen/twenty_dp"
-               android:textSize="@dimen/eighteen_dp"
-               android:text="Product Name"/>
-           <TextView
-               android:id="@+id/tvProductName"
-               android:layout_width="@dimen/five_hundred_dp"
-               android:layout_height="@dimen/forty_five_dp"
-               android:background="@drawable/edit_text_bg"
-               android:text=""
-               android:gravity="center_vertical"
-               android:textSize="@dimen/eighteen_dp"
-               android:textColor="#414141"
-               android:paddingLeft="@dimen/eighteen_dp"
-               android:paddingRight="@dimen/eighteen_dp"
-               />
-       </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/thirty_dp"
+            android:layout_marginRight="@dimen/thirty_dp"
+            android:layout_marginTop="@dimen/twenty_dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/twenty_dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical|right"
+                android:text="Product Name"
+                android:textColor="#414141"
+                android:textSize="@dimen/eighteen_dp" />
+
+            <TextView
+                android:id="@+id/tvProductName"
+                android:layout_width="@dimen/five_hundred_dp"
+                android:layout_height="@dimen/forty_five_dp"
+                android:background="@drawable/edit_text_bg"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/eighteen_dp"
+                android:paddingRight="@dimen/eighteen_dp"
+                android:text=""
+                android:textColor="#414141"
+                android:textSize="@dimen/eighteen_dp" />
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -68,15 +71,17 @@
             android:layout_marginRight="@dimen/thirty_dp"
             android:layout_marginTop="@dimen/ten_dp"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:gravity="center_vertical|right"
                 android:layout_marginRight="@dimen/twenty_dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical|right"
+                android:text="@string/vendor"
                 android:textColor="#414141"
-                android:textSize="@dimen/eighteen_dp"
-                android:text="@string/vendor"/>
+                android:textSize="@dimen/eighteen_dp" />
+
             <com.jim.mpviews.MPosSpinner
                 android:id="@+id/spVenders"
                 android:layout_width="@dimen/five_hundred_dp"
@@ -85,134 +90,150 @@
 
                 />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/twenty_dp"
             android:background="#f9f9f9"
             android:orientation="vertical">
+
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="2px"
-                android:background="#e8e8e8"/>
+                android:background="#e8e8e8" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginRight="@dimen/thirty_dp"
                 android:layout_marginLeft="@dimen/thirty_dp"
+                android:layout_marginRight="@dimen/thirty_dp"
                 android:layout_marginTop="@dimen/twenty_dp"
-                >
+                android:orientation="horizontal">
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/sixteen_dp"
                         android:layout_marginLeft="@dimen/ten_dp"
+                        android:text="@string/stock_record"
                         android:textColor="#419ed8"
-                        android:text="@string/stock_record"/>
+                        android:textSize="@dimen/sixteen_dp" />
+
                     <TextView
                         android:id="@+id/tvStockRecord"
                         android:layout_width="@dimen/hundred_seventy_dp"
                         android:layout_height="@dimen/forty_five_dp"
                         android:layout_marginTop="@dimen/ten_dp"
+                        android:background="@drawable/edit_text_bg_transparent"
                         android:gravity="center_vertical"
-                        android:textSize="@dimen/eighteen_dp"
-                        android:textColor="#414141"
-                        android:singleLine="true"
                         android:paddingLeft="@dimen/eighteen_dp"
-                        android:background="@drawable/edit_text_bg_transparent"/>
+                        android:singleLine="true"
+                        android:textColor="#414141"
+                        android:textSize="@dimen/eighteen_dp" />
                 </LinearLayout>
+
                 <ImageView
                     android:layout_width="@dimen/sixteen_dp"
                     android:layout_height="@dimen/forty_five_dp"
                     android:layout_gravity="bottom"
                     android:layout_marginLeft="@dimen/sixteen_dp"
                     android:layout_marginRight="@dimen/sixteen_dp"
-                    android:src="@drawable/minus_icon"/>
+                    android:src="@drawable/minus_icon" />
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/sixteen_dp"
                         android:layout_marginLeft="@dimen/ten_dp"
+                        android:text="@string/shortage"
                         android:textColor="#5997cc"
-                        android:text="@string/shortage"/>
+                        android:textSize="@dimen/sixteen_dp" />
+
                     <com.jim.mpviews.MpEditText
                         android:id="@+id/etShortage"
                         android:layout_width="@dimen/hundred_seventy_dp"
                         android:layout_height="@dimen/forty_five_dp"
                         android:layout_marginTop="@dimen/ten_dp"
+                        android:background="@drawable/edit_text_bg_transparent"
                         android:gravity="center_vertical"
-                        android:textSize="@dimen/eighteen_dp"
-                        android:textColor="#414141"
-                        android:singleLine="true"
-                        android:maxLength="10"
                         android:inputType="numberDecimal"
+                        android:maxLength="10"
                         android:paddingLeft="@dimen/eighteen_dp"
-                        android:background="@drawable/edit_text_bg_transparent"/>
+                        android:singleLine="true"
+                        android:textColor="#414141"
+                        android:textSize="@dimen/eighteen_dp" />
                 </LinearLayout>
+
                 <ImageView
                     android:layout_width="@dimen/sixteen_dp"
                     android:layout_height="@dimen/forty_five_dp"
                     android:layout_gravity="bottom"
                     android:layout_marginLeft="@dimen/sixteen_dp"
                     android:layout_marginRight="@dimen/sixteen_dp"
-                    android:src="@drawable/equals_black"/>
+                    android:src="@drawable/equals_black" />
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/sixteen_dp"
                         android:layout_marginLeft="@dimen/ten_dp"
+                        android:text="@string/actual_quantity"
                         android:textColor="#419ed8"
-                        android:text="@string/actual_quantity"/>
+                        android:textSize="@dimen/sixteen_dp" />
+
                     <TextView
                         android:id="@+id/tvActual"
                         android:layout_width="@dimen/hundred_seventy_dp"
                         android:layout_height="@dimen/forty_five_dp"
                         android:layout_marginTop="@dimen/ten_dp"
+                        android:background="@drawable/edit_text_bg_transparent"
                         android:gravity="center_vertical"
-                        android:textSize="@dimen/eighteen_dp"
-                        android:singleLine="true"
-
-                        android:textColor="#414141"
                         android:paddingLeft="@dimen/eighteen_dp"
-                        android:background="@drawable/edit_text_bg_transparent"/>
+
+                        android:singleLine="true"
+                        android:textColor="#414141"
+                        android:textSize="@dimen/eighteen_dp" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/sixteen_dp"
                     android:orientation="vertical">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/sixteen_dp"
                         android:layout_marginLeft="@dimen/ten_dp"
+                        android:text="@string/unit"
                         android:textColor="#419ed8"
-                        android:text="@string/unit"/>
+                        android:textSize="@dimen/sixteen_dp" />
+
                     <TextView
                         android:id="@+id/tvUnit"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/forty_five_dp"
                         android:layout_marginTop="@dimen/ten_dp"
+                        android:background="@drawable/edit_text_bg_transparent"
                         android:gravity="center_vertical"
-                        android:textSize="@dimen/eighteen_dp"
-                        android:singleLine="true"
-
-                        android:textColor="#414141"
                         android:paddingLeft="@dimen/eighteen_dp"
-                        android:background="@drawable/edit_text_bg_transparent"/>
+
+                        android:singleLine="true"
+                        android:textColor="#414141"
+                        android:textSize="@dimen/eighteen_dp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -220,48 +241,50 @@
                 android:id="@+id/etReason"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/eighty_dp"
-                android:layout_marginTop="@dimen/sixteen_dp"
                 android:layout_marginBottom="@dimen/twenty_dp"
-                android:layout_marginRight="@dimen/thirty_dp"
                 android:layout_marginLeft="@dimen/thirty_dp"
+                android:layout_marginRight="@dimen/thirty_dp"
+                android:layout_marginTop="@dimen/sixteen_dp"
+                android:gravity="top"
                 android:hint="@string/enter_reason"
-                android:textSize="@dimen/eighteen_dp"
                 android:maxLength="100"
-                android:gravity="top"/>
+                android:textSize="@dimen/eighteen_dp" />
+
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="2px"
-                android:background="#e8e8e8"/>
+                android:background="#e8e8e8" />
 
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/seventeen_dp"
+            android:layout_marginRight="@dimen/thirty_dp"
             android:layout_marginTop="@dimen/eighteen_dp"
             android:gravity="right"
-            android:layout_marginRight="@dimen/thirty_dp"
             android:orientation="horizontal">
 
             <com.jim.mpviews.MpButton
                 android:id="@+id/btnCancel"
-                android:layout_width="@dimen/hundred_fifty_five_dp"
-                android:layout_height="@dimen/fifty_four_dp"
+                android:layout_width="@dimen/hundred_thirty_dp"
+                android:layout_height="@dimen/fifty_five_dp"
                 android:gravity="center"
                 android:text="@string/cancel"
                 android:textColor="@color/colorSecondaryText"
-                android:textSize="@dimen/eighteen_dp" />
+                android:textSize="@dimen/sixteen_dp" />
 
 
             <com.jim.mpviews.MpButton
                 android:id="@+id/btnNext"
-                android:layout_width="@dimen/hundred_fifty_five_dp"
-                android:layout_height="@dimen/fifty_four_dp"
+                android:layout_width="@dimen/hundred_thirty_dp"
+                android:layout_height="@dimen/fifty_five_dp"
                 android:gravity="center"
                 android:text="@string/update"
                 android:textColor="@color/colorBlue"
-                android:textSize="@dimen/eighteen_dp"
-                />
+                android:textSize="@dimen/sixteen_dp"
+                android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
 

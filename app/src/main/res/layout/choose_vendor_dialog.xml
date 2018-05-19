@@ -109,25 +109,25 @@
             android:paddingRight="@dimen/thirty_dp">
 
             <com.jim.mpviews.MpButton
-                android:layout_width="@dimen/hundred_fifty_dp"
-                android:layout_height="@dimen/sixty_dp"
+                android:layout_width="@dimen/hundred_thirty_dp"
+                android:layout_height="@dimen/fifty_five_dp"
                 android:layout_gravity="center"
                 android:layout_marginRight="@dimen/fifteen_dp"
                 android:gravity="center"
                 android:text="@string/back"
                 android:textColor="@color/colorSecondaryText"
-                android:textSize="@dimen/eighteen_dp"
+                android:textSize="@dimen/sixteen_dp"
                 android:textStyle="bold"
                 android:id="@+id/btnBack"/>
 
             <com.jim.mpviews.MpButton
-                android:layout_width="@dimen/hundred_fifty_dp"
-                android:layout_height="@dimen/sixty_dp"
+                android:layout_width="@dimen/hundred_thirty_dp"
+                android:layout_height="@dimen/fifty_five_dp"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="@string/confirm"
                 android:textColor="@color/colorBlue"
-                android:textSize="@dimen/eighteen_dp"
+                android:textSize="@dimen/sixteen_dp"
                 android:textStyle="bold"
                 android:id="@+id/btnOk" />
         </LinearLayout>

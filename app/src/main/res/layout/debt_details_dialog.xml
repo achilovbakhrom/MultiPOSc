@@ -156,8 +156,8 @@
 
                 <com.jim.mpviews.MpButton
                     android:id="@+id/btnBack"
-                    android:layout_width="@dimen/hundred_eighty_dp"
-                    android:layout_height="@dimen/sixty_dp"
+                    android:layout_width="@dimen/hundred_thirty_dp"
+                    android:layout_height="@dimen/fifty_five_dp"
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text="@string/back"
@@ -167,8 +167,8 @@
 
                 <com.jim.mpviews.MpButton
                     android:id="@+id/btnSave"
-                    android:layout_width="@dimen/hundred_eighty_dp"
-                    android:layout_height="@dimen/sixty_dp"
+                    android:layout_width="@dimen/hundred_thirty_dp"
+                    android:layout_height="@dimen/fifty_five_dp"
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text="@string/save"

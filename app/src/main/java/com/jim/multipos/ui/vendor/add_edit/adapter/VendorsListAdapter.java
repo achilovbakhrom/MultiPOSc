@@ -49,6 +49,7 @@ public class VendorsListAdapter extends ClickableBaseAdapter<Vendor, BaseViewHol
         if (holder instanceof VendorViewHolder) {
             ((VendorViewHolder) holder).item.setFirstItemText(items.get(position).getName());
             int size = 0;
+            items.get(position).resetProducts();
             for (int i = 0; i < items.get(position).getProducts().size(); i++) {
                 Product product = items.get(position).getProducts().get(i);
                 if (product.getIsDeleted().equals(false) && product.getIsNotModified().equals(true))

@@ -153,24 +153,24 @@
             android:orientation="horizontal">
 
             <com.jim.mpviews.MpButton
-                android:layout_width="@dimen/hundred_eighty_dp"
-                android:layout_height="@dimen/seventy_dp"
+                android:layout_width="@dimen/hundred_thirty_dp"
+                android:layout_height="@dimen/fifty_five_dp"
                 android:layout_marginRight="@dimen/thirty_dp"
                 android:text="@string/cancel"
                 android:textColor="@color/colorMainText"
                 android:textSize="@dimen/eighteen_dp" />
 
             <com.jim.mpviews.MpButton
-                android:layout_width="@dimen/hundred_eighty_dp"
-                android:layout_height="@dimen/seventy_dp"
+                android:layout_width="@dimen/hundred_thirty_dp"
+                android:layout_height="@dimen/fifty_five_dp"
                 android:layout_marginRight="@dimen/thirty_dp"
                 android:text="@string/save"
                 android:textColor="@color/colorBlue"
                 android:textSize="@dimen/eighteen_dp" />
 
             <com.jim.mpviews.MpButton
-                android:layout_width="@dimen/hundred_eighty_dp"
-                android:layout_height="@dimen/seventy_dp"
+                android:layout_width="@dimen/hundred_thirty_dp"
+                android:layout_height="@dimen/fifty_five_dp"
                 android:layout_marginRight="@dimen/thirty_dp"
                 android:text="@string/add"
                 android:textColor="@color/colorBlue"

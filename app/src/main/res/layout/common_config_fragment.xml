@@ -174,7 +174,7 @@
             android:text="Revert"
             android:layout_marginRight="@dimen/twenty_dp"
             android:textColor="#b1b1b1"
-            android:textSize="@dimen/eighteen_dp"
+            android:textSize="@dimen/sixteen_dp"
             android:textStyle="bold" />
 
         <com.jim.mpviews.MpButton
@@ -186,7 +186,7 @@
             android:gravity="center"
             android:text="Save"
             android:textColor="@color/colorBlue"
-            android:textSize="@dimen/eighteen_dp"
+            android:textSize="@dimen/sixteen_dp"
             android:textStyle="bold" />
     </LinearLayout>
 </LinearLayout>

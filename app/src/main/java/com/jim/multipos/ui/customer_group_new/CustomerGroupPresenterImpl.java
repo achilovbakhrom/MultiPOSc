@@ -18,7 +18,6 @@ public class CustomerGroupPresenterImpl extends BasePresenterImpl<CustomerGroupV
     private DatabaseManager databaseManager;
     private List<Customer> addCustomers;
     private CustomerGroup currentCustomerGroup = null;
-    private int customerCount = 0;
 
     @Inject
     public CustomerGroupPresenterImpl(CustomerGroupView customerGroupView, DatabaseManager databaseManager) {
@@ -55,7 +54,6 @@ public class CustomerGroupPresenterImpl extends BasePresenterImpl<CustomerGroupV
         databaseManager.getCustomerGroupOperations().getAllCustomerGroups().subscribe(customerGroups -> {
             view.showSelectedCustomerGroup(customerGroups.get(position));
             currentCustomerGroup = customerGroups.get(position);
-            customerCount = currentCustomerGroup.getCustomers().size();
         });
     }
 
@@ -132,7 +130,7 @@ public class CustomerGroupPresenterImpl extends BasePresenterImpl<CustomerGroupV
     @Override
     public boolean hasChanges() {
          if (currentCustomerGroup != null) {
-            return !currentCustomerGroup.getName().equals(view.getCustomerGroupName()) || currentCustomerGroup.getIsActive() != view.getCustomerGroupIsActive() || customerCount != addCustomers.size();
+            return !currentCustomerGroup.getName().equals(view.getCustomerGroupName()) || currentCustomerGroup.getIsActive() != view.getCustomerGroupIsActive();
         } else {
             return !view.getCustomerGroupName().isEmpty();
         }

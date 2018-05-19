@@ -213,21 +213,21 @@
 
             <com.jim.mpviews.MpButton
                 android:id="@+id/btnCancel"
-                android:layout_width="@dimen/hundred_fifty_five_dp"
-                android:layout_height="@dimen/fifty_four_dp"
+                android:layout_width="@dimen/hundred_thirty_dp"
+                android:layout_height="@dimen/fifty_five_dp"
                 android:gravity="center"
                 android:text="@string/cancel"
                 android:textColor="@color/colorSecondaryText"
-                android:textSize="@dimen/eighteen_dp" />
+                android:textSize="@dimen/sixteen_dp" />
 
             <com.jim.mpviews.MpButton
                 android:id="@+id/btnNext"
-                android:layout_width="@dimen/hundred_fifty_five_dp"
-                android:layout_height="@dimen/fifty_four_dp"
+                android:layout_width="@dimen/hundred_thirty_dp"
+                android:layout_height="@dimen/fifty_five_dp"
                 android:gravity="center"
                 android:text="@string/ok"
                 android:textColor="@color/colorBlue"
-                android:textSize="@dimen/eighteen_dp"
+                android:textSize="@dimen/sixteen_dp"
                 android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>

@@ -60,11 +60,11 @@
 
             <com.jim.mpviews.MpButton
                 android:id="@+id/btnBack"
-                android:layout_width="@dimen/hundred_eighty_dp"
-                android:layout_height="@dimen/sixty_dp"
+                android:layout_width="@dimen/hundred_thirty_dp"
+                android:layout_height="@dimen/fifty_five_dp"
                 android:text="@string/back"
                 android:textColor="@color/colorBlue"
-                android:textSize="@dimen/eighteen_dp" />
+                android:textSize="@dimen/sixteen_dp" />
         </LinearLayout>
     </LinearLayout>
 

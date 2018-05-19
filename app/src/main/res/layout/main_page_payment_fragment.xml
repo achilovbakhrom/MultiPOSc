@@ -145,7 +145,7 @@
                                 android:gravity="right"
                                 android:background="#00ffffff"
                                 android:longClickable="false"
-                                android:maxLength="30"
+                                android:maxLength="21"
                                 android:selectAllOnFocus="true"
                                 android:singleLine="true"
                                 android:ellipsize="end"

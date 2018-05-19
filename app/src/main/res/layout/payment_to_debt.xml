@@ -99,8 +99,8 @@
 
             <com.jim.mpviews.MpButton
                 android:id="@+id/btnBack"
-                android:layout_width="@dimen/hundred_fifty_dp"
-                android:layout_height="@dimen/fifty_four_dp"
+                android:layout_width="@dimen/hundred_thirty_dp"
+                android:layout_height="@dimen/fifty_five_dp"
                 android:layout_gravity="center"
                 android:layout_marginRight="@dimen/fifteen_dp"
                 android:gravity="center"
@@ -111,8 +111,8 @@
 
             <com.jim.mpviews.MpButton
                 android:id="@+id/btnPay"
-                android:layout_width="@dimen/hundred_fifty_dp"
-                android:layout_height="@dimen/fifty_four_dp"
+                android:layout_width="@dimen/hundred_thirty_dp"
+                android:layout_height="@dimen/fifty_five_dp"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="@string/pay"

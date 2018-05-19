@@ -125,8 +125,6 @@ public class CustomerAdapter extends BaseAdapter<Customer, BaseViewHolder> {
             ((CustomerAddViewHolder) holder).etAddress.setText(addCustomer.getAddress());
             ((CustomerAddViewHolder) holder).tvQrCodeInAdd.setText(addCustomer.getQrCode());
 
-            ((CustomerAddViewHolder) holder).etPhone.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
-
             if (addCustomer.getCustomerGroups().isEmpty()) {
                 ((CustomerAddViewHolder) holder).tvCustomerGroup.setText(context.getString(R.string.not_selected));
             } else {
@@ -145,7 +143,6 @@ public class CustomerAdapter extends BaseAdapter<Customer, BaseViewHolder> {
             ((CustomerItemViewHolder) holder).etPhone.setText(getItem(position - 1).getPhoneNumber());
             ((CustomerItemViewHolder) holder).etAddress.setText(getItem(position - 1).getAddress());
             ((CustomerItemViewHolder) holder).tvQrCode.setText(getItem(position - 1).getQrCode());
-            ((CustomerItemViewHolder) holder).etPhone.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
 
             if (notSavedItems.contains(getItem(position - 1))) {
                 ((CustomerItemViewHolder) holder).btnSave.enable();
@@ -253,7 +250,7 @@ public class CustomerAdapter extends BaseAdapter<Customer, BaseViewHolder> {
 
             addCustomer.setClientId(listener.getClientId());
             addCustomer.setQrCode("");
-
+            etPhone.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
             RxView.clicks(btnAdd).subscribe(o -> {
                 UIUtils.closeKeyboard(btnAdd, context);
                 if (FormValidator.validate(context, this, new MultipleCallback())) {
@@ -451,7 +448,7 @@ public class CustomerAdapter extends BaseAdapter<Customer, BaseViewHolder> {
             super(itemView);
 
             ButterKnife.bind(this, itemView);
-
+            etPhone.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
             RxView.clicks(btnSave).subscribe(o -> {
                 UIUtils.closeKeyboard(btnSave, context);
                 if (FormValidator.validate(context, this, new MultipleCallback())) {

@@ -235,17 +235,19 @@
         android:paddingRight="@dimen/twenty_dp">
 
         <com.jim.mpviews.MpButton
-            android:layout_width="@dimen/hundred_fifty_dp"
-            android:layout_height="@dimen/fifty_dp"
+            android:layout_width="@dimen/hundred_thirty_dp"
+            android:layout_height="@dimen/fifty_five_dp"
             android:layout_marginRight="@dimen/fifteen_dp"
             android:text="Revert"
+            android:textSize="@dimen/sixteen_dp"
             android:textColor="@color/colorSecondaryText" />
 
         <com.jim.mpviews.MpButton
-            android:layout_width="@dimen/hundred_fifty_dp"
-            android:layout_height="@dimen/fifty_dp"
+            android:layout_width="@dimen/hundred_thirty_dp"
+            android:layout_height="@dimen/fifty_five_dp"
             android:layout_marginRight="@dimen/fifteen_dp"
             android:text="Save"
+            android:textSize="@dimen/sixteen_dp"
             android:textColor="@color/colorBlue" />
 
     </LinearLayout>

@@ -97,7 +97,6 @@ public class CustomersAdapter extends RecyclerView.Adapter<CustomersAdapter.View
 
         public ViewHolder(View itemView) {
             super(itemView);
-
             ButterKnife.bind(this, itemView);
 
             RxView.clicks(chbMember).subscribe(o -> {

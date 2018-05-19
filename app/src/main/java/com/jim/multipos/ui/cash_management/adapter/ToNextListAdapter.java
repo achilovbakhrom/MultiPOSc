@@ -76,7 +76,6 @@ public class ToNextListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             ToNextViewHolder item = (ToNextViewHolder) holder;
             item.tvAccount.setText(items.get(position).getAccount().getName());
             item.tvCurrency.setText(currency.getAbbr());
-            item.etTotalClosed.addTextChangedListener(new NumberTextWatcher(item.etTotalClosed));
         } else if (holder instanceof ZeroInTillViewHolder) {
             ZeroInTillViewHolder item = (ZeroInTillViewHolder) holder;
             item.tvAccount.setText(items.get(position).getAccount().getName());
@@ -110,6 +109,7 @@ public class ToNextListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         ToNextViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            etTotalClosed.addTextChangedListener(new NumberTextWatcher(etTotalClosed));
             etTotalClosed.addTextChangedListener(new TextWatcherOnTextChange() {
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {

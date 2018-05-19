@@ -225,8 +225,8 @@
 
         <com.jim.mpviews.MpButton
             android:id="@+id/btnRevert"
-            android:layout_width="@dimen/hundred_sixty_dp"
-            android:layout_height="@dimen/sixty_dp"
+            android:layout_width="@dimen/hundred_thirty_dp"
+            android:layout_height="@dimen/fifty_five_dp"
             android:layout_marginRight="@dimen/fifteen_dp"
             android:text="@string/revert"
             android:textColor="@color/colorSecondaryText"
@@ -234,8 +234,8 @@
 
         <com.jim.mpviews.MpButton
             android:id="@+id/btnSave"
-            android:layout_width="@dimen/hundred_sixty_dp"
-            android:layout_height="@dimen/sixty_dp"
+            android:layout_width="@dimen/hundred_thirty_dp"
+            android:layout_height="@dimen/fifty_five_dp"
             android:text="@string/save"
             android:textColor="@color/colorBlue"
             android:textSize="@dimen/eighteen_dp"

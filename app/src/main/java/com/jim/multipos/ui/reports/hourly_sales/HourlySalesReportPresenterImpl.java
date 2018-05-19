@@ -109,7 +109,7 @@ public class HourlySalesReportPresenterImpl extends BasePresenterImpl<HourlySale
                     for (int j = 0; j < hourlyOrders.size(); j++) {
                         salesSummary += hourlyOrders.get(j).getSubTotalValue();
                         for (OrderProduct orderProduct : hourlyOrders.get(j).getOrderProducts())
-                            items += orderProduct.getCount();
+                            items += Math.ceil(orderProduct.getCount());
                     }
                     avgSales = salesSummary / hourlyOrders.size();
                     salesPercent = salesSummary * 100 / totalSales;

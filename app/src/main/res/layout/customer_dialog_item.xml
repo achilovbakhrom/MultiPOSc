@@ -8,7 +8,9 @@
     <LinearLayout
         android:id="@+id/llBackground"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/sixty_dp"
+        android:paddingTop="@dimen/ten_dp"
+        android:paddingBottom="@dimen/ten_dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <TextView
@@ -45,7 +47,7 @@
 
         <TextView
             android:id="@+id/tvCustomerAddress"
-            android:layout_width="@dimen/two_hundred_dp"
+            android:layout_width="@dimen/hundred_fifty_dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:paddingLeft="@dimen/ten_dp"
@@ -83,7 +85,7 @@
 
             <com.jim.mpviews.MpActionButton
                 android:id="@+id/btnEdit"
-                android:layout_width="@dimen/hundred_dp"
+                android:layout_width="@dimen/hundred_ten_dp"
                 android:layout_height="@dimen/forty_dp"
                 android:layout_gravity="center"
                 android:gravity="center"
@@ -104,7 +106,7 @@
 
             <com.jim.mpviews.MpActionButton
                 android:id="@+id/btnAddToOrder"
-                android:layout_width="@dimen/hundred_dp"
+                android:layout_width="@dimen/hundred_ten_dp"
                 android:layout_height="@dimen/forty_dp"
                 android:layout_gravity="center"
                 android:gravity="center"
