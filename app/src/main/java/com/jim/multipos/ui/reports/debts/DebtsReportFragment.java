@@ -27,8 +27,7 @@ public class DebtsReportFragment extends BaseTableReportFragment implements Debt
 
     @Inject
     DebtsReportPresenter presenter;
-    private ReportView.Builder firstBuilder, secondBuilder, thirdBuilder, forthBuilder;
-    private ReportView firstView, secondView, thirdView, forthView;
+    private ReportView firstView, secondView, thirdView, forthView, fifthView;
     private int firstDataType[] = {ReportViewConstants.NAME, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.DATE, ReportViewConstants.NAME};
     private int firstWeights[] = {1, 1, 1, 1, 1};
     private int firstAligns[] = {Gravity.LEFT, Gravity.RIGHT, Gravity.RIGHT, Gravity.CENTER, Gravity.LEFT};
@@ -41,15 +40,19 @@ public class DebtsReportFragment extends BaseTableReportFragment implements Debt
     private int forthDataType[] = {ReportViewConstants.ACTION, ReportViewConstants.DATE, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.DATE, ReportViewConstants.AMOUNT, ReportViewConstants.NAME, ReportViewConstants.DATE, ReportViewConstants.AMOUNT};
     private int forthWeights[] = {5, 10, 10, 10, 10, 10, 10, 10, 10};
     private int forthAligns[] = {Gravity.CENTER, Gravity.CENTER, Gravity.RIGHT, Gravity.RIGHT, Gravity.CENTER, Gravity.RIGHT, Gravity.LEFT, Gravity.CENTER, Gravity.RIGHT};
-    private String firstTitles[], secondTitles[], thirdTitles[], forthTitles[], panelNames[];
-    private Object[][][] statusTypes;
+    private String firstTitles[], secondTitles[], thirdTitles[], forthTitles[], panelNames[], fifthTitles[];
+    private int fifthDataTypes[] = {ReportViewConstants.ID, ReportViewConstants.DATE, ReportViewConstants.DATE, ReportViewConstants.DATE, ReportViewConstants.NAME, ReportViewConstants.ACTION, ReportViewConstants.STATUS, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.STATUS, ReportViewConstants.AMOUNT};
+    private int fifthWeights[] = {5, 10, 10, 10, 10, 5, 5, 5, 10, 5, 10};
+    private int fifthAligns[] = {Gravity.CENTER, Gravity.CENTER, Gravity.CENTER, Gravity.CENTER, Gravity.LEFT, Gravity.CENTER, Gravity.CENTER, Gravity.RIGHT, Gravity.RIGHT, Gravity.CENTER, Gravity.RIGHT};
+
+    private Object[][][] statusTypes, secondStatusTypes;
 
     @Override
     protected void init(Bundle savedInstanceState) {
         init(presenter);
         disableFilter();
         disableDateIntervalPicker();
-        panelNames = new String[]{getString(R.string.debts_list), getString(R.string.debt_summary), getString(R.string.debt_transactions_list), getString(R.string.orders_with_Debt)};
+        panelNames = new String[]{getString(R.string.debtors_list), getString(R.string.debt_summary), getString(R.string.debt_transactions_list), getString(R.string.orders_with_Debt), getString(R.string.debts_list)};
         setChoiserPanel(panelNames);
         initDefaults();
         presenter.onCreateView(savedInstanceState);
@@ -59,11 +62,15 @@ public class DebtsReportFragment extends BaseTableReportFragment implements Debt
         statusTypes = new Object[][][]{
                 {{0, getContext().getString(R.string.debt_taken), R.color.colorMainText},
                         {1, getContext().getString(R.string.debt_closed), R.color.colorBlue}}};
+        secondStatusTypes = new Object[][][]{
+                {{0, getString(R.string.can_participle), R.color.colorMainText}, {1, getString(R.string.all), R.color.colorRed}}, {{0, getString(R.string.closed), R.color.colorGreen}, {1, getString(R.string.active), R.color.colorBlue}}
+        };
         firstTitles = new String[]{getString(R.string.name), getString(R.string.total_debt), getString(R.string.total_overdue), getString(R.string.last_visit), getString(R.string.customer_contacts)};
         secondTitles = new String[]{getString(R.string.name), getString(R.string.debt_taken), getString(R.string.debt_closed), getString(R.string.debt_orders_count), getString(R.string.debt_taken_avg), getString(R.string.debt_closed_avg)};
         thirdTitles = new String[]{getString(R.string.name), getString(R.string.date), getString(R.string.order), getString(R.string.type), getString(R.string.amount), getString(R.string.payment_type), getString(R.string.group)};
         forthTitles = new String[]{getString(R.string.order_num), getString(R.string.created_at), getString(R.string.order_amount), getString(R.string.paid_report_text), getString(R.string.last_pay_date), getString(R.string.due_debt), getString(R.string.customer), getString(R.string.should_close_date), getContext().getString(R.string.fee)};
-        firstBuilder = new ReportView.Builder()
+        fifthTitles = new String[]{getString(R.string.debt_id), getString(R.string.taken_date), getString(R.string.due_date), getString(R.string.closed_date), getString(R.string.customer), getString(R.string.order), getString(R.string.debt_type), getString(R.string.fee), getString(R.string.debt_amount), getString(R.string.status), getString(R.string.total_debt)};
+        ReportView.Builder firstBuilder = new ReportView.Builder()
                 .setContext(getContext())
                 .setTitles(firstTitles)
                 .setDataTypes(firstDataType)
@@ -71,7 +78,7 @@ public class DebtsReportFragment extends BaseTableReportFragment implements Debt
                 .setDataAlignTypes(firstAligns)
                 .build();
         firstView = new ReportView(firstBuilder);
-        secondBuilder = new ReportView.Builder()
+        ReportView.Builder secondBuilder = new ReportView.Builder()
                 .setContext(getContext())
                 .setTitles(secondTitles)
                 .setDataTypes(secondDataType)
@@ -79,7 +86,7 @@ public class DebtsReportFragment extends BaseTableReportFragment implements Debt
                 .setDataAlignTypes(secondAligns)
                 .build();
         secondView = new ReportView(secondBuilder);
-        thirdBuilder = new ReportView.Builder()
+        ReportView.Builder thirdBuilder = new ReportView.Builder()
                 .setContext(getContext())
                 .setTitles(thirdTitles)
                 .setDataTypes(thirdDataType)
@@ -91,7 +98,7 @@ public class DebtsReportFragment extends BaseTableReportFragment implements Debt
                 .setDataAlignTypes(thirdAligns)
                 .build();
         thirdView = new ReportView(thirdBuilder);
-        forthBuilder = new ReportView.Builder()
+        ReportView.Builder forthBuilder = new ReportView.Builder()
                 .setContext(getContext())
                 .setTitles(forthTitles)
                 .setDataTypes(forthDataType)
@@ -102,7 +109,18 @@ public class DebtsReportFragment extends BaseTableReportFragment implements Debt
                 })
                 .build();
         forthView = new ReportView(forthBuilder);
-
+        ReportView.Builder fifthBuilder = new ReportView.Builder()
+                .setContext(getContext())
+                .setTitles(fifthTitles)
+                .setDataTypes(fifthDataTypes)
+                .setWeight(fifthWeights)
+                .setStatusTypes(secondStatusTypes)
+                .setDataAlignTypes(fifthAligns)
+                .setOnReportViewResponseListener((objects, row, column) -> {
+                    presenter.onAction(objects, row, column);
+                })
+                .build();
+        fifthView = new ReportView(fifthBuilder);
     }
 
     @Override
@@ -138,6 +156,12 @@ public class DebtsReportFragment extends BaseTableReportFragment implements Debt
                 disableFilter();
                 enableDateIntervalPicker();
                 break;
+            case 4:
+                fifthView.getBuilder().update(objects);
+                setTable(fifthView.getBuilder().getView());
+                disableFilter();
+                enableDateIntervalPicker();
+                break;
         }
     }
 
@@ -165,6 +189,12 @@ public class DebtsReportFragment extends BaseTableReportFragment implements Debt
             case 3:
                 forthView.getBuilder().searchResults(searchResults, searchText);
                 setTable(forthView.getBuilder().getView());
+                disableFilter();
+                enableDateIntervalPicker();
+                break;
+            case 4:
+                fifthView.getBuilder().searchResults(searchResults, searchText);
+                setTable(fifthView.getBuilder().getView());
                 disableFilter();
                 enableDateIntervalPicker();
                 break;

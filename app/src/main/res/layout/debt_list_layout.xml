@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="@string/taken_date"
+                android:text="@string/taken_date_"
                 android:textColor="@color/colorBlue"
                 android:textSize="@dimen/sixteen_dp" />
 
@@ -321,7 +321,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/taken_date"
+                    android:text="@string/taken_date_"
                     android:textColor="@color/colorMainText" />
 
                 <TextView
@@ -343,7 +343,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/end_date"
+                    android:text="@string/end_date_"
                     android:textColor="@color/colorMainText" />
 
                 <TextView
@@ -387,7 +387,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/debt_type"
+                    android:text="@string/debt_type_"
                     android:textColor="@color/colorMainText" />
 
                 <TextView

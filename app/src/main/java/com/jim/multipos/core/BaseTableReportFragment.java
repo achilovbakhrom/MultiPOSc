@@ -262,7 +262,7 @@ public abstract class BaseTableReportFragment extends BaseFragment {
             tvFirtPanel.setText(titles[0]);
             tvSecondPanel.setText(titles[1]);
             tvThirdPanel.setText(titles[2]);
-            tvFivePanel.setText(titles[3]);
+            tvFourPanel.setText(titles[3]);
             tvFivePanel.setText(titles[4]);
 
             tvFirtPanel.setBackgroundResource(R.drawable.left_switch_title_pressed);

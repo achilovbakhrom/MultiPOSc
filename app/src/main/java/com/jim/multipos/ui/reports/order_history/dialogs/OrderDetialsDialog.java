@@ -66,7 +66,6 @@ public class OrderDetialsDialog extends Dialog {
     @BindView(R.id.flLifecycleBottom)
     FrameLayout flLifecycleBottom;
 
-
     @BindView(R.id.llOrderDetialsFrame)
     LinearLayout llOrderDetialsFrame;
     @BindView(R.id.llOrderPaymentsFrame)
@@ -84,40 +83,35 @@ public class OrderDetialsDialog extends Dialog {
     @BindView(R.id.tvOrderCreated)
     TextView tvOrderCreated;
 
-    int position = 0;
-
+    private int position = 0;
     /**
      * Order Detials Table Config
      */
-    int orderDetialsDataType[] = {ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.NAME, ReportViewConstants.AMOUNT, ReportViewConstants.NAME, ReportViewConstants.AMOUNT};
-    String orderDetialsTitles[];
-    int orderDetialsWeights[] = {13, 8, 8, 12, 8, 10, 8, 10, 12};
-    int orderDetialsAligns[] = {Gravity.LEFT, Gravity.CENTER, Gravity.RIGHT, Gravity.RIGHT, Gravity.RIGHT, Gravity.LEFT, Gravity.RIGHT, Gravity.LEFT, Gravity.RIGHT};
-
+    private int orderDetialsDataType[] = {ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.NAME, ReportViewConstants.AMOUNT, ReportViewConstants.NAME, ReportViewConstants.AMOUNT};
+    private String orderDetialsTitles[];
+    private int orderDetialsWeights[] = {13, 8, 8, 12, 8, 10, 8, 10, 12};
+    private int orderDetialsAligns[] = {Gravity.LEFT, Gravity.CENTER, Gravity.RIGHT, Gravity.RIGHT, Gravity.RIGHT, Gravity.LEFT, Gravity.RIGHT, Gravity.LEFT, Gravity.RIGHT};
     /**
      * Payments Table Config
      */
-    int paymentsDataType[] = {ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.ACTION, ReportViewConstants.AMOUNT};
-    String paymentsTitles[];
-    int paymentsWeights[] = {10, 10, 10, 10};
-    int paymentsAligns[] = {Gravity.LEFT, Gravity.CENTER, Gravity.CENTER, Gravity.RIGHT};
-
+    private int paymentsDataType[] = {ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.ID, ReportViewConstants.AMOUNT};
+    private String paymentsTitles[];
+    private int paymentsWeights[] = {10, 10, 10, 10};
+    private int paymentsAligns[] = {Gravity.LEFT, Gravity.CENTER, Gravity.CENTER, Gravity.RIGHT};
     /**
      * Lifecycle Table Config
      */
-    int lifecycleDataType[] = {ReportViewConstants.DATE, ReportViewConstants.STATUS, ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.ACTION};
-    String lifecycleTitles[];
-    Object[][][] lifecycleStatusTypes;
-    int lifecycleWeights[] = {10, 10, 10, 10, 10};
-    int lifecycleAligns[] = {Gravity.LEFT, Gravity.CENTER, Gravity.CENTER, Gravity.LEFT, Gravity.CENTER};
+    private int lifecycleDataType[] = {ReportViewConstants.DATE, ReportViewConstants.STATUS, ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.ID};
+    private String lifecycleTitles[];
+    private Object[][][] lifecycleStatusTypes;
+    private int lifecycleWeights[] = {10, 10, 10, 10, 10};
+    private int lifecycleAligns[] = {Gravity.LEFT, Gravity.CENTER, Gravity.CENTER, Gravity.LEFT, Gravity.CENTER};
     private Context context;
     private Order order;
     private Object[][] details, payments, lifecycle;
     private String[] orderDetails, paymentDetails;
     private double[] orderValues, paymentValues;
     private String date, orderId, customer = "";
-
-
     private DecimalFormat decimalFormat;
 
     public OrderDetialsDialog(@NonNull Context context, Order order) {

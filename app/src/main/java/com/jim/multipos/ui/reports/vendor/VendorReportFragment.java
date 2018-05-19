@@ -45,7 +45,7 @@ public class VendorReportFragment extends BaseTableReportFragment implements Ven
     private int thirdDataType[] = {ReportViewConstants.NAME, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT};
     private int thirdWeights[] = {10, 10, 10, 10};
     private int thirdAligns[] = {Gravity.LEFT, Gravity.RIGHT, Gravity.RIGHT, Gravity.RIGHT};
-    private int forthDataType[] = {ReportViewConstants.DATE, ReportViewConstants.NAME, ReportViewConstants.STATUS, ReportViewConstants.AMOUNT, ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.DATE, ReportViewConstants.NAME};
+    private int forthDataType[] = {ReportViewConstants.DATE, ReportViewConstants.NAME, ReportViewConstants.STATUS, ReportViewConstants.AMOUNT, ReportViewConstants.NAME, ReportViewConstants.ACTION, ReportViewConstants.DATE, ReportViewConstants.NAME};
     private int forthWeights[] = {10, 10, 10, 10, 10, 10, 10, 10};
     private int forthAligns[] = {Gravity.CENTER, Gravity.LEFT, Gravity.CENTER, Gravity.RIGHT, Gravity.LEFT, Gravity.CENTER, Gravity.CENTER, Gravity.LEFT};
     private String panelNames[], firstTitles[], secondTitles[], thirdTitles[], forthTitles[];
@@ -106,6 +106,9 @@ public class VendorReportFragment extends BaseTableReportFragment implements Ven
                 .setDataTypes(forthDataType)
                 .setWeight(forthWeights)
                 .setDataAlignTypes(forthAligns)
+                .setOnReportViewResponseListener((objects, row, column) -> {
+                    presenter.onConsignmentClicked(objects, row, column);
+                })
                 .build();
         forthView = new ReportView(forthBuilder);
     }

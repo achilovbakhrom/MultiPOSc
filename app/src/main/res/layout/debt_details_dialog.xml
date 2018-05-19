@@ -76,7 +76,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/five_dp"
                 android:layout_marginLeft="@dimen/thirty_dp"
-                android:text="@string/debt_type"
+                android:text="@string/debt_type_"
                 android:textColor="@color/colorMainText"
                 android:textSize="@dimen/sixteen_dp" />
 

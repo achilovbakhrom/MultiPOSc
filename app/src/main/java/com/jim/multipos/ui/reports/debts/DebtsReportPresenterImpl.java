@@ -40,6 +40,7 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
     private Object[][] secondObjects;
     private Object[][] thirdObjects;
     private Object[][] forthObjects;
+    private Object[][] fifthObjects;
     private int currentPosition = 0;
     private Calendar fromDate;
     private Calendar toDate;
@@ -287,6 +288,24 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
                     forthObjects[i][8] = debt.getFee();
                 }
                 break;
+            case 4:
+                List<Debt> debts = databaseManager.getAllCustomerDebtsInInterval(fromDate, toDate).blockingGet();
+                fifthObjects = new Object[debts.size()][11];
+                for (int i = 0; i < debts.size(); i++) {
+                    Debt debt = debts.get(i);
+                    fifthObjects[i][0] = debt.getId();
+                    fifthObjects[i][1] = debt.getTakenDate();
+                    fifthObjects[i][2] = debt.getEndDate();
+                    fifthObjects[i][3] = debt.getClosedDate();
+                    fifthObjects[i][4] = debt.getCustomer().getName();
+                    fifthObjects[i][5] = debt.getOrder().getId();
+                    fifthObjects[i][6] = debt.getDebtType();
+                    fifthObjects[i][7] = debt.getFee();
+                    fifthObjects[i][8] = debt.getDebtAmount();
+                    fifthObjects[i][9] = debt.getStatus();
+                    fifthObjects[i][10] = debt.getTotalDebtAmount();
+                }
+                break;
         }
     }
 
@@ -318,6 +337,9 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
                     break;
                 case 3:
                     view.updateTable(forthObjects, currentPosition);
+                    break;
+                case 4:
+                    view.updateTable(fifthObjects, currentPosition);
                     break;
             }
             prev = -1;
@@ -621,7 +643,7 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
                     if (searchText.length() <= prev || prev == -1) {
                         int searchRes[] = new int[forthObjects.length];
                         for (int i = 0; i < forthObjects.length; i++) {
-                            if (String.valueOf((long) forthObjects[i][2]).toUpperCase().contains(searchText.toUpperCase())) {
+                            if (String.valueOf((long) forthObjects[i][0]).toUpperCase().contains(searchText.toUpperCase())) {
                                 searchRes[i] = 1;
                                 continue;
                             }
@@ -749,6 +771,167 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
                     }
                     prev = searchText.length();
                     break;
+                case 4:
+                    if (searchText.length() <= prev || prev == -1) {
+                        int searchRes[] = new int[fifthObjects.length];
+                        for (int i = 0; i < fifthObjects.length; i++) {
+                            if (String.valueOf((long) fifthObjects[i][0]).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if (simpleDateFormat.format(new Date((long) fifthObjects[i][1])).contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if (simpleDateFormat.format(new Date((long) fifthObjects[i][2])).contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if (simpleDateFormat.format(new Date((long) fifthObjects[i][3])).contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if (((String) fifthObjects[i][4]).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if (String.valueOf((long) fifthObjects[i][5]).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if ((decimalFormat.format((double) fifthObjects[i][7])).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if ((decimalFormat.format((double) fifthObjects[i][8])).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if ((decimalFormat.format((double) fifthObjects[i][10])).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            String type = "";
+                            int debtType = (int) fifthObjects[i][6];
+                            if (debtType == Debt.PARTICIPLE) {
+                                type = context.getString(R.string.can_participle);
+                            } else if (debtType == Debt.ALL) {
+                                type = context.getString(R.string.all);
+                            }
+                            if (type.toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            String status = "";
+                            int statusType = (int) fifthObjects[i][9];
+                            if (statusType == Debt.CLOSED) {
+                                status = context.getString(R.string.closed);
+                            } else if (statusType == Debt.ACTIVE) {
+                                status = context.getString(R.string.active);
+                            }
+                            if (status.toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                        }
+
+                        int sumSize = 0;
+                        for (int i = 0; i < fifthObjects.length; i++) {
+                            if (searchRes[i] == 1)
+                                sumSize++;
+                        }
+                        Object[][] objectResults = new Object[sumSize][11];
+
+                        int pt = 0;
+                        for (int i = 0; i < fifthObjects.length; i++) {
+                            if (searchRes[i] == 1) {
+                                objectResults[pt] = fifthObjects[i];
+                                pt++;
+                            }
+                        }
+                        searchResultsTemp = objectResults.clone();
+                        view.setSearchResults(objectResults, searchText, currentPosition);
+                    } else {
+                        int searchRes[] = new int[searchResultsTemp.length];
+                        for (int i = 0; i < searchResultsTemp.length; i++) {
+                            if (String.valueOf((long) searchResultsTemp[i][0]).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if (simpleDateFormat.format(new Date((long) searchResultsTemp[i][1])).contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if (simpleDateFormat.format(new Date((long) searchResultsTemp[i][2])).contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if (simpleDateFormat.format(new Date((long) searchResultsTemp[i][3])).contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if (((String) searchResultsTemp[i][4]).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if (String.valueOf((long) searchResultsTemp[i][5]).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if ((decimalFormat.format((double) searchResultsTemp[i][7])).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if ((decimalFormat.format((double) searchResultsTemp[i][8])).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if ((decimalFormat.format((double) searchResultsTemp[i][10])).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            String type = "";
+                            int debtType = (int) searchResultsTemp[i][6];
+                            if (debtType == Debt.PARTICIPLE) {
+                                type = context.getString(R.string.can_participle);
+                            } else if (debtType == Debt.ALL) {
+                                type = context.getString(R.string.all);
+                            }
+                            if (type.toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            String status = "";
+                            int statusType = (int) searchResultsTemp[i][9];
+                            if (statusType == Debt.CLOSED) {
+                                status = context.getString(R.string.closed);
+                            } else if (statusType == Debt.ACTIVE) {
+                                status = context.getString(R.string.active);
+                            }
+                            if (status.toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                        }
+                        int sumSize = 0;
+                        for (int i = 0; i < searchResultsTemp.length; i++) {
+                            if (searchRes[i] == 1)
+                                sumSize++;
+                        }
+                        Object[][] objectResults = new Object[sumSize][11];
+
+                        int pt = 0;
+                        for (int i = 0; i < searchResultsTemp.length; i++) {
+                            if (searchRes[i] == 1) {
+                                objectResults[pt] = searchResultsTemp[i];
+                                pt++;
+                            }
+                        }
+                        searchResultsTemp = objectResults.clone();
+                        view.setSearchResults(objectResults, searchText, currentPosition);
+                    }
+                    prev = searchText.length();
+                    break;
             }
         }
     }
@@ -804,6 +987,9 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
             case 3:
                 view.exportTableToExcel(fileName, path, forthObjects, currentPosition, date, filter, searchText);
                 break;
+            case 4:
+                view.exportTableToExcel(fileName, path, fifthObjects, currentPosition, date, filter, searchText);
+                break;
         }
     }
 
@@ -831,6 +1017,9 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
                 break;
             case 3:
                 view.exportTableToPdf(fileName, path, forthObjects, currentPosition, date, filter, searchText);
+                break;
+            case 4:
+                view.exportTableToPdf(fileName, path, fifthObjects, currentPosition, date, filter, searchText);
                 break;
         }
     }
@@ -860,6 +1049,9 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
             case 3:
                 view.exportExcelToUSB(filename, root, forthObjects, currentPosition, date, filter, searchText);
                 break;
+            case 4:
+                view.exportExcelToUSB(filename, root, fifthObjects, currentPosition, date, filter, searchText);
+                break;
         }
     }
 
@@ -888,6 +1080,9 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
             case 3:
                 view.exportTableToPdfToUSB(fileName, path, forthObjects, currentPosition, date, filter, searchText);
                 break;
+            case 4:
+                view.exportTableToPdfToUSB(fileName, path, fifthObjects, currentPosition, date, filter, searchText);
+                break;
         }
     }
 
@@ -904,6 +1099,15 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
             }
         } else if (currentPosition == 3){
             if (column == 0) {
+                if (!objects[row][column].equals("")) {
+                    long orderId = (long) objects[row][column];
+                    databaseManager.getOrder(orderId).subscribe(order -> {
+                        view.onOrderPressed(order);
+                    });
+                }
+            }
+        } else if (currentPosition == 4){
+            if (column == 5) {
                 if (!objects[row][column].equals("")) {
                     long orderId = (long) objects[row][column];
                     databaseManager.getOrder(orderId).subscribe(order -> {
@@ -942,6 +1146,10 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
             case 3:
                 initReportTable();
                 view.updateTable(forthObjects, currentPosition);
+                break;
+            case 4:
+                initReportTable();
+                view.updateTable(fifthObjects, currentPosition);
                 break;
         }
     }

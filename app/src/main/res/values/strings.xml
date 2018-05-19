@@ -550,10 +550,10 @@
     <string name="discount_percent">Discount %</string>
     <string name="history">History</string>
     <string name="order_number">Order number:</string>
-    <string name="taken_date">Taken date:</string>
-    <string name="end_date">Due date:</string>
+    <string name="taken_date_">Taken date:</string>
+    <string name="end_date_">Due date:</string>
     <string name="late_date">Left days:</string>
-    <string name="debt_type">Debt type:</string>
+    <string name="debt_type_">Debt type:</string>
     <string name="status_two_dots">Status:</string>
     <string name="order_sum">Order sum:</string>
     <string name="fee_sum">Fee sum:</string>
@@ -1170,4 +1170,9 @@
     <string name="enter_email_address">Enter email address</string>
     <string name="do_you_want_update_customer_group">Do you want update customer group?</string>
     <string name="changes_not_found">Changes not found</string>
+    <string name="debtors_list">Debtors list</string>
+    <string name="closed_date">Closed date</string>
+    <string name="debt_id">Debt ID</string>
+    <string name="taken_date">Taken date</string>
+    <string name="debt_type">Debt type</string>
 </resources>

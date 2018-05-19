@@ -163,7 +163,7 @@ public class VendorReportPresenterImpl extends BasePresenterImpl<VendorReportVie
                         forthObjects[i][4] = operation.getAccount().getName();
                     else forthObjects[i][4] = "";
                     if (operation.getConsignment() != null)
-                        forthObjects[i][5] = "#" + operation.getConsignment().getId();
+                        forthObjects[i][5] = operation.getConsignment().getId();
                     else forthObjects[i][5] = "";
                     forthObjects[i][6] = operation.getCreateAt();
                     forthObjects[i][7] = operation.getDescription();
@@ -553,9 +553,11 @@ public class VendorReportPresenterImpl extends BasePresenterImpl<VendorReportVie
                                 searchRes[i] = 1;
                                 continue;
                             }
-                            if (((String) forthObjects[i][5]).toUpperCase().contains(searchText.toUpperCase())) {
-                                searchRes[i] = 1;
-                                continue;
+                            if (forthObjects[i][5] instanceof Long) {
+                                if (String.valueOf((long) forthObjects[i][5]).toUpperCase().contains(searchText.toUpperCase())) {
+                                    searchRes[i] = 1;
+                                    continue;
+                                }
                             }
                             if (simpleDateFormat.format(new Date((long) forthObjects[i][6])).toUpperCase().contains(searchText.toUpperCase())) {
                                 searchRes[i] = 1;
@@ -615,9 +617,11 @@ public class VendorReportPresenterImpl extends BasePresenterImpl<VendorReportVie
                                 searchRes[i] = 1;
                                 continue;
                             }
-                            if (((String) searchResultsTemp[i][5]).toUpperCase().contains(searchText.toUpperCase())) {
-                                searchRes[i] = 1;
-                                continue;
+                            if (searchResultsTemp[i][5] instanceof Long) {
+                                if (String.valueOf((long) searchResultsTemp[i][5]).toUpperCase().contains(searchText.toUpperCase())) {
+                                    searchRes[i] = 1;
+                                    continue;
+                                }
                             }
                             if (simpleDateFormat.format(new Date((long) searchResultsTemp[i][6])).toUpperCase().contains(searchText.toUpperCase())) {
                                 searchRes[i] = 1;
@@ -697,10 +701,18 @@ public class VendorReportPresenterImpl extends BasePresenterImpl<VendorReportVie
 
     @Override
     public void onConsignmentClicked(Object[][] objects, int row, int column) {
-        if (objects[row][0] instanceof Long) {
-            Long id = (Long) objects[row][0];
-            Consignment consignment = databaseManager.getConsignmentById(id).blockingGet();
-            view.openConsignmentId(consignment);
+        if (currentPosition == 0) {
+            if (objects[row][0] instanceof Long) {
+                Long id = (Long) objects[row][0];
+                Consignment consignment = databaseManager.getConsignmentById(id).blockingGet();
+                view.openConsignmentId(consignment);
+            }
+        } else if (currentPosition == 3){
+            if (objects[row][5] instanceof Long) {
+                Long id = (Long) objects[row][5];
+                Consignment consignment = databaseManager.getConsignmentById(id).blockingGet();
+                view.openConsignmentId(consignment);
+            }
         }
     }
 
@@ -837,8 +849,8 @@ public class VendorReportPresenterImpl extends BasePresenterImpl<VendorReportVie
     @Override
     public void onBarcodeReaded(String barcode) {
         databaseManager.getAllProducts().subscribe(products -> {
-            for(Product product:products)
-                if(product.getBarcode() !=null && product.getBarcode().equals(barcode)){
+            for (Product product : products)
+                if (product.getBarcode() != null && product.getBarcode().equals(barcode)) {
                     view.setTextToSearch(product.getName());
                 }
         });
