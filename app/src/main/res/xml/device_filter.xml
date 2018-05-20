@@ -4,6 +4,25 @@
         product-id="53"
         vendor-id="65535" />
     <usb-device
+        product-id="20497"
+        vendor-id="1046" />
+
+
+    <usb-device
         product-id="9"
         vendor-id="2303" />
+    <usb-device
+        product-id="83"
+        vendor-id="415029" />
+    <usb-device
+        product-id="9"
+        vendor-id="8963" />
+
+    <usb-device
+        product-id="35"
+        vendor-id="FFFF" />
+
+    <usb-device
+        product-id="5011"
+        vendor-id="419" />
 </resources>

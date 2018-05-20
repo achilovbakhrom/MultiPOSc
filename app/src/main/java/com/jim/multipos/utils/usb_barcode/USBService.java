@@ -19,11 +19,17 @@ import android.util.Log;
 
 import com.jim.multipos.R;
 import com.jim.multipos.utils.RxBus;
-import com.jim.multipos.utils.rxevents.main_order_events.ProductEvent;
+import com.jim.multipos.utils.rxevents.main_order_events.DeviceAttachEvent;
+import com.jim.multipos.utils.rxevents.main_order_events.DeviceDetachEvent;
+import com.jim.multipos.utils.rxevents.main_order_events.NotPermissionUsbEvent;
+import com.jim.multipos.utils.rxevents.main_order_events.RefreshUsbDevicesEvent;
+import com.jim.multipos.utils.rxevents.main_order_events.UsbConnectedWithPermissionEvent;
 
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
+
+import static com.jim.multipos.utils.usb_barcode.UsbEventReceiverActivity.CUSTOM_ACTION_USB_DEVICE_ATTACHED;
 
 
 public class USBService extends Service {
@@ -32,29 +38,17 @@ public class USBService extends Service {
     RxBus rxBus;
 
 
-    //for logging
-    private static final String TAG = "USBServiceTAG";
 
-    //Thread for reading input
     private USBThreadDataReceiver usbThreadDataReceiver;
-
-    //USB MANAGING
     private UsbManager mUsbManager;
     private UsbInterface intf;
     private UsbEndpoint endPointRead;
     private UsbDeviceConnection connection;
     private UsbDevice device;
-
-    //Intents
     private IntentFilter filter;
     private PendingIntent mPermissionIntent;
-
-    //EventBus
-//    protected EventBus eventBus = EventBus.getDefault();
-
     private final Handler handler = new Handler();
     private int packetSize;
-
 
     public USBService(){
 
@@ -64,17 +58,15 @@ public class USBService extends Service {
     public void onCreate() {
         super.onCreate();
         AndroidInjection.inject(this);
-        Log.d(TAG, "onCreate: ");
-        //init
         mUsbManager = (UsbManager) getSystemService(Context.USB_SERVICE);
         mPermissionIntent = PendingIntent.getBroadcast(this, 0, new Intent(Consts.ACTION_USB_PERMISSION), 0);
-
         filter = new IntentFilter(Consts.ACTION_USB_PERMISSION);
-        filter.addAction(UsbManager.ACTION_USB_DEVICE_ATTACHED);
+//        filter.addAction(UsbManager.ACTION_USB_DEVICE_ATTACHED);
+        filter.addAction(CUSTOM_ACTION_USB_DEVICE_ATTACHED);
         filter.addAction(UsbManager.ACTION_USB_DEVICE_DETACHED);
         registerReceiver(mUsbReceiver, filter);
-//        eventBus.register(this);
         findInitScanner();
+
 
     }
 
@@ -83,16 +75,28 @@ public class USBService extends Service {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             device = (UsbDevice) intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
-            //GOT PERMISSION
-            if (Consts.ACTION_USB_PERMISSION.equals(action)) {
+
+//            if (Consts.ACTION_USB_PERMISSION.equals(action)) {
+//                Log.wtf(TAG, "USBService onReceive: "+"ACTION_USB_PERMISSION");
+//                if(deviceChecker(device))
+//                    setDevice(intent);
+//            }
+
+            if(CUSTOM_ACTION_USB_DEVICE_ATTACHED.equals(action)){
+                if(mUsbManager.hasPermission(device))
+                    rxBus.send(new UsbConnectedWithPermissionEvent());
                 if(deviceChecker(device))
-                    setDevice(intent);
+                    setDevice(device);
             }
+
             //BARCODE INSERTED
-            if (UsbManager.ACTION_USB_DEVICE_ATTACHED.equals(action)) {
-                if(deviceChecker(device))
-                    setDevice(intent);
-            }
+//            if (UsbManager.ACTION_USB_DEVICE_ATTACHED.equals(action)) {
+//                Log.wtf(TAG, "USBService onReceive: "+"ACTION_USB_DEVICE_ATTACHED");
+//                if(deviceChecker(device))
+//                    setDevice(intent);
+//                rxBus.send(new DeviceAttachEvent(device.getProductName()==null?"":device.getProductName()));
+//            }
+
             //BARCODE DISCONNECT
             if (UsbManager.ACTION_USB_DEVICE_DETACHED.equals(action)) {
                 if (deviceChecker(device)) {
@@ -100,16 +104,15 @@ public class USBService extends Service {
                     if (usbThreadDataReceiver != null) {
                         usbThreadDataReceiver.stopThis();
                     }
-//                    eventBus.post(new DeviceDetachedEvent());
                 }
+                if(device!=null)
+                rxBus.send(new DeviceDetachEvent(device.getProductName()==null?"":device.getProductName()));
             }
         }
 
-        private void setDevice(Intent intent) {
-            device = (UsbDevice) intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
-            if (device != null && intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false)) {
-
-                //DEVICE SELECTED
+        private void setDevice(UsbDevice deviceL) {
+            device = deviceL;
+            if (device != null &&  mUsbManager.hasPermission(device) ) {
                 connection = mUsbManager.openDevice(device);
                 intf = device.getInterface(0);
                 if (null == connection) {
@@ -123,16 +126,17 @@ public class USBService extends Service {
                         packetSize = endPointRead.getMaxPacketSize();
                     }
                 } catch (Exception e) {
-                    Log.e(TAG, "Device have no endPointRead", e);
+                    Log.wtf("USBService", "USBService Device have no endPointRead", e);
                 }
                 usbThreadDataReceiver = new USBThreadDataReceiver();
                 usbThreadDataReceiver.start();
-//                eventBus.post(new DeviceAttachedEvent());
             }else if(device != null){
                 mUsbManager.requestPermission(device, mPermissionIntent);
+                rxBus.send(new NotPermissionUsbEvent());
             }
         }
     };
+
 
     @Nullable
     @Override
@@ -159,7 +163,7 @@ public class USBService extends Service {
                     }
                 }
             } catch (Exception e) {
-                Log.e(TAG, "Error in receive thread", e);
+                Log.wtf("USBService", "USBService Error in receive thread", e);
             }
         }
 
@@ -169,9 +173,21 @@ public class USBService extends Service {
     }
 
     public void findInitScanner(){
+
         for (UsbDevice usbDevice : mUsbManager.getDeviceList().values()) {
-            if(deviceChecker(usbDevice)){
+            if(deviceChecker(usbDevice) && !mUsbManager.hasPermission(usbDevice)){
                 mUsbManager.requestPermission(usbDevice, mPermissionIntent);
+            }else if(mUsbManager.hasPermission(usbDevice)){
+                Intent broadcastIntent = new Intent(CUSTOM_ACTION_USB_DEVICE_ATTACHED);
+                broadcastIntent.putExtra(UsbManager.EXTRA_DEVICE, usbDevice);
+                sendBroadcast(broadcastIntent);
+            }
+        }
+        for(UsbDevice usbDevice1 : mUsbManager.getDeviceList().values()){
+            if(usbDevice1==null ) continue;
+            if((usbDevice1.getProductId() == 53 || usbDevice1.getProductId() == 20497)&& !mUsbManager.hasPermission(usbDevice1)){
+                rxBus.send(new NotPermissionUsbEvent());
+                break;
             }
         }
     }
@@ -183,6 +199,7 @@ public class USBService extends Service {
         if(msg.equals("\n")){
             rxBus.send(new BarcodeReadEvent(stringBuilder.toString()));
             stringBuilder = new StringBuilder("");
+
         }else {
             stringBuilder.append(msg);
         }

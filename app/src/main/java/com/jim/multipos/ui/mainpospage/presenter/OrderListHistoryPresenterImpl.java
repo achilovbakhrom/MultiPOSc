@@ -65,62 +65,7 @@ public class OrderListHistoryPresenterImpl extends BasePresenterImpl<OrderListHi
         view.openPaymentDetailDialog(order.getPayedPartitions(),databaseManager.getMainCurrency());
     }
     boolean goToEdit = false;
-//    @Override
-//    public void onEditOrder(String reason) {
-//        goToEdit = true;
-//        view.openEditFragment(reason,order);
-//    }
-//
 
-//
-//    @Override
-//    public void onRestoreDialog() {
-//        OrderChangesLog orderChangesLog = new OrderChangesLog();
-//
-//
-//        List<OrderChangesLog> orderChangesLogs = order.getOrderChangesLogsHistory();
-//        for (int i = orderChangesLogs.size()-1; i > 0 ; i--) {
-//            if(orderChangesLogs.get(i).getToStatus() == Order.CANCELED_ORDER){
-//                if(orderChangesLogs.get(i-1).getToStatus() == Order.HOLD_ORDER ){
-//                    order.setStatus(Order.HOLD_ORDER);
-//                    orderChangesLog.setToStatus(Order.HOLD_ORDER);
-//                }else if(orderChangesLogs.get(i-1).getToStatus() == Order.CLOSED_ORDER){
-//                    order.setStatus(Order.CLOSED_ORDER);
-//                    orderChangesLog.setToStatus(Order.CLOSED_ORDER);
-//                }
-//            }
-//        }
-//
-//        orderChangesLog.setChangedAt(System.currentTimeMillis());
-//        orderChangesLog.setReason("");
-//        orderChangesLog.setChangedCauseType(OrderChangesLog.HAND);
-//        orderChangesLog.setOrderId(order.getId());
-//        databaseManager.insertOrderChangeLog(orderChangesLog).blockingGet();
-//        order.setLastChangeLogId(orderChangesLog.getId());
-//        for (int i = 0; i < order.getOrderProducts().size(); i++) {
-//            //Warehouse Operation
-//            WarehouseOperations warehouseOperations = new WarehouseOperations();
-//            warehouseOperations.setValue(order.getOrderProducts().get(i).getCount()*-1);
-//            warehouseOperations.setProduct(order.getOrderProducts().get(i).getProduct());
-//            warehouseOperations.setCreateAt(System.currentTimeMillis());
-//            warehouseOperations.setActive(true);
-//            warehouseOperations.setIsNotModified(true);
-//            warehouseOperations.setType(WarehouseOperations.SOLD);
-//            warehouseOperations.setOrderId(order.getId());
-//            warehouseOperations.setVendorId(order.getOrderProducts().get(i).getVendorId());
-//            databaseManager.insertWarehouseOperation(warehouseOperations).blockingGet();
-//            order.getOrderProducts().get(i).setWarehouseGetId(warehouseOperations.getId());
-//        }
-//        if(order.getDebt() !=null) {
-//            order.getDebt().setIsDeleted(false);
-//            databaseManager.addDebt(order.getDebt());
-//        }
-//        databaseManager.insertOrderProducts(order.getOrderProducts()).blockingGet();
-//        databaseManager.insertOrder(order).blockingGet();
-//        view.updateDetials(order);
-//        updateItemDetials();
-//
-//    }
 
     @Override
     public void onBruteForce() {
@@ -151,7 +96,7 @@ public class OrderListHistoryPresenterImpl extends BasePresenterImpl<OrderListHi
 
     @Override
     public void reprintOrder() {
-        view.checkOrder(order,databaseManager,preferencesHelper);
+        view.reprint(order,databaseManager,preferencesHelper);
     }
 
 //    @Override

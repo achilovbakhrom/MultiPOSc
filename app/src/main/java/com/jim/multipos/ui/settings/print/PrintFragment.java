@@ -135,7 +135,7 @@ public class PrintFragment extends BaseFragment implements PrintView {
             if(checkPrinter.checkConnect()){
                 tvConnectionStatus.setText(R.string.connected);
                 tvConnectionStatus.setTextColor(Color.parseColor("#23d730"));
-                checkPrinter.examplePrint();
+                checkPrinter.examplePrint(getActivity());
             }else {
                 tvConnectionStatus.setText(R.string.disconnected);
                 tvConnectionStatus.setTextColor(Color.parseColor("#9a9a9a"));

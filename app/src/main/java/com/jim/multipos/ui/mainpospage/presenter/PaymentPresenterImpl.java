@@ -123,7 +123,7 @@ public class PaymentPresenterImpl extends BasePresenterImpl<PaymentView> impleme
      calculation change amount and decision making what should we view
      */
     private void updateChange(){
-
+        if(order==null) return;
         double change = order.getForPayAmmount() - totalPayed() - lastPaymentAmountState;
         change *=-1;
         if(order.getSubTotalValue() == 0){

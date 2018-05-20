@@ -155,10 +155,7 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
 
     @Override
     protected void init(Bundle savedInstanceState) {
-//        databaseManager.removeAllOrders().subscribe();
         subscriptions = new ArrayList<>();
-//        printer = new CheckPrinter(getActivity());
-//        printer.connectDevice();
         mainPageConnection.setOrderListView(this);
         currency = databaseManager.getMainCurrency();
 

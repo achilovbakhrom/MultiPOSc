@@ -250,10 +250,9 @@ public class Order {
 
     public Debt getDebtClone(){
         Debt debt = getDebt();
-        if(debt == null)
-            return null;
-        else
+        if(debt != null)
             return debt.clone();
+        else return null;
     }
 
     /**

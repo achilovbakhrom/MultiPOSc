@@ -1,11 +1,13 @@
 package com.jim.multipos;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Application;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.support.multidex.MultiDexApplication;
+import android.util.Log;
 
 import com.jim.multipos.config.common.DaggerAppComponent;
 import com.jim.multipos.di.BaseAppComponent;
@@ -30,7 +32,7 @@ public class MultiPosApp extends MultiDexApplication implements HasActivityInjec
     public void onCreate() {
         super.onCreate();
         DaggerAppComponent.builder().application(this).build().inject(this);
-        startService(new Intent(this, USBService.class));
+
     }
 
     public BaseAppComponent getBaseAppComponent() {
@@ -56,4 +58,5 @@ public class MultiPosApp extends MultiDexApplication implements HasActivityInjec
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(LocaleManger.setLocale(base));
     }
+
 }

@@ -305,8 +305,8 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
     }
 
     @Override
-    public void checkOrder(Order order, DatabaseManager databaseManager, PreferencesHelper preferencesHelper) {
-        ((MainPosPageActivity)getActivity()).checkOrder(order,databaseManager,preferencesHelper);
+    public void reprint(Order order, DatabaseManager databaseManager, PreferencesHelper preferencesHelper) {
+        ((MainPosPageActivity)getActivity()).reprintOrder(order,databaseManager,preferencesHelper);
     }
 
 }

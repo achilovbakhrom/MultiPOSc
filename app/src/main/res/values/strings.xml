@@ -1128,6 +1128,7 @@
     <string-array name="barcode_device_names">
         <item>SCANNER</item>
         <item>SYC ID\u0026IC USB Reader</item>
+
     </string-array>
 
     <string-array name="settings_titles">

@@ -40,6 +40,7 @@
             android:gravity="center"
             android:textColor="#212121"
             android:background="@null"
+            android:textSize="@dimen/eighteen_dp"
             />
         <ImageView
             android:layout_width="@dimen/twenty_five_dp"
@@ -67,6 +68,7 @@
             android:layout_marginRight="@dimen/ten_dp"
             android:layout_marginLeft="@dimen/ten_dp"
             android:textColorHint="#e0e0e0"
+            android:textSize="@dimen/eighteen_dp"
             android:background="@null"
             android:maxLength="32"
             android:maxLines="1"

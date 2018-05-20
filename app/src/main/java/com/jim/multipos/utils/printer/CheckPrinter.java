@@ -2,9 +2,11 @@ package com.jim.multipos.utils.printer;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.usb.UsbDevice;
+import android.hardware.usb.UsbManager;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
@@ -45,6 +47,7 @@ public class CheckPrinter {
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
     private DecimalFormat decimalFormat;
     private DecimalFormat decimalFormatWeight;
+    private UsbManager usbManager;
     public CheckPrinter(Activity activity, PreferencesHelper preferencesHelper, DatabaseManager databaseManager) {
         this.parent = activity;
         this.preferencesHelper = preferencesHelper;
@@ -52,6 +55,7 @@ public class CheckPrinter {
         info = new int[8][2];
         initBytes();
         usbController = new UsbController(this.parent, handler);
+        usbManager = (UsbManager) activity.getSystemService(Context.USB_SERVICE);
         decimalFormat = BaseAppModule.getFormatterGroupingPattern("#,##0.00");
         decimalFormatWeight = BaseAppModule.getFormatterWithoutGroupingPattern("0.###");
     }
@@ -76,8 +80,12 @@ public class CheckPrinter {
         return (usbController != null && device != null);
     }
 
-    public void stockChek(long tillId, long orderNumber, long now, List<OrderProductItem> orderProducts, Customer customer)  {
-//        if (usbController != null && device != null) {
+    public synchronized void stockChek(Context context,long tillId, long orderNumber, long now, List<OrderProductItem> orderProducts, Customer customer)  {
+        if (usbController != null && device != null) {
+            if(!usbManager.hasPermission(device)) {
+                Toast.makeText(context, "Please reconnect Printer",Toast.LENGTH_SHORT).show();
+                return;
+            }
             sendDataByte( Command.ESC_Init);
             sendDataByte(PrinterCommand.POS_Set_CodePage(73));
 
@@ -184,13 +192,17 @@ public class CheckPrinter {
 
 
 
-//        } else {
-//            Toast.makeText(parent.getBaseContext(), "Printer isn't connected",
-//                    Toast.LENGTH_SHORT).show();
-//        }
+        } else {
+            Toast.makeText(parent.getBaseContext(), "Printer isn't connected",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
-    public void examplePrint(){
+    public synchronized void examplePrint(Context context){
         if (usbController != null && device != null) {
+            if(!usbManager.hasPermission(device)) {
+                Toast.makeText(context, "Please reconnect Printer",Toast.LENGTH_SHORT).show();
+                return;
+            }
             sendDataByte( Command.ESC_Init);
             sendDataByte(PrinterCommand.POS_Set_CodePage(73));
 
@@ -340,8 +352,12 @@ public class CheckPrinter {
         }
     }
 
-    public void printCheck(Order order,boolean reprint)  {
+    public synchronized void printCheck(Context context,Order order,boolean reprint)  {
         if (usbController != null && device != null) {
+            if(!usbManager.hasPermission(device)) {
+                Toast.makeText(context, "Please reconnect Printer",Toast.LENGTH_SHORT).show();
+                return;
+            }
             sendDataByte( Command.ESC_Init);
             sendDataByte(PrinterCommand.POS_Set_CodePage(73));
 
@@ -548,6 +564,7 @@ public class CheckPrinter {
     }
 
     private void sendDataString(String data) {
+
         if (data.length() > 0)
             usbController.sendMsg(data, "Cp1251", device);
     }

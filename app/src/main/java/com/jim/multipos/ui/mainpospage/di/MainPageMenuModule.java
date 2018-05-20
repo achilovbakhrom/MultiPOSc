@@ -7,6 +7,8 @@ import com.jim.multipos.R;
 import com.jim.multipos.config.scope.PerActivity;
 import com.jim.multipos.config.scope.PerFragment;
 import com.jim.multipos.core.BaseActivityModule;
+import com.jim.multipos.ui.lock_screen.auth.AuthFragment;
+import com.jim.multipos.ui.lock_screen.auth.AuthFragmentModule;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivity;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivityImpl;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivityPresenter;
@@ -103,6 +105,9 @@ public abstract class MainPageMenuModule {
     static String[] provideDiscountAmountTypes(Context context) {
         return context.getResources().getStringArray(R.array.discount_amount_types_abr);
     }
+    @PerFragment
+    @ContributesAndroidInjector(modules = AuthFragmentModule.class)
+    abstract AuthFragment provideAuthFragment();
 
     @PerActivity
     @Provides

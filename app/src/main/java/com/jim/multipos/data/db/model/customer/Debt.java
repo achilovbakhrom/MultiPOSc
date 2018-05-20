@@ -57,6 +57,7 @@ public class Debt {
         debt.setDebtType(getDebtType());
         debt.setFee(getFee());
         debt.setStatus(getStatus());
+        debt.setDebtAmount(getDebtAmount());
         return debt;
     }
 

@@ -1,5 +1,6 @@
 package com.jim.multipos.ui.lock_screen;
 
+import android.annotation.TargetApi;
 import android.app.ActivityManager;
 import android.app.admin.DevicePolicyManager;
 import android.app.admin.SystemUpdatePolicy;
@@ -7,8 +8,11 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.PermissionInfo;
 import android.os.BatteryManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.UserManager;
 import android.provider.Settings;
@@ -24,11 +28,18 @@ import com.jim.multipos.R;
 import com.jim.multipos.core.BaseActivity;
 import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.ui.lock_screen.auth.AuthFragment;
+import com.jim.multipos.ui.lock_screen.dialog.PlugRefreshDialog;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivity;
 import com.jim.multipos.ui.start_configuration.StartConfigurationActivity;
+import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.SecurityTools;
 import com.jim.multipos.utils.WarningDialog;
+import com.jim.multipos.utils.rxevents.main_order_events.NotPermissionUsbEvent;
+import com.jim.multipos.utils.rxevents.main_order_events.RebootedEvent;
+import com.jim.multipos.utils.rxevents.main_order_events.UsbConnectedWithPermissionEvent;
+import com.jim.multipos.utils.usb_barcode.USBService;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
@@ -40,6 +51,10 @@ import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.disposables.Disposable;
+
+import static android.app.admin.DevicePolicyManager.PERMISSION_GRANT_STATE_GRANTED;
+import static android.app.admin.DevicePolicyManager.PERMISSION_POLICY_AUTO_GRANT;
 
 
 /**
@@ -61,6 +76,9 @@ import butterknife.OnClick;
     TextView tvPinOrExit;
     @BindView(R.id.tvUnpin)
     TextView tvUnpin;
+    @Inject
+    RxBus rxBus;
+    private ArrayList<Disposable> subscriptions;
 
     private HashMap<String, String> hashesWithSerial = (HashMap<String, String>) BuildConfig.LOCAL_SERIAL_HASH;
 
@@ -74,27 +92,26 @@ import butterknife.OnClick;
     @Inject
     PreferencesHelper preferencesHelper;
 
-
+    PlugRefreshDialog plugRefreshDialog;
 
     //FOR SECURE
     private PackageManager mPackageManager;
     private DevicePolicyManager mDevicePolicyManager;
     private ComponentName mAdminComponentName;
-
+    int clickedcount = 0;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lock_screen_page);
         ButterKnife.bind(this);
 
-
-
-
+        if(!isMyServiceRunning(USBService.class)) {
+            startService(new Intent(this, USBService.class));
+        }
 
         if(preferencesHelper.getSerialValue().equals("") || preferencesHelper.getRegistrationToken().equals("") || ! hashesWithSerial.get(preferencesHelper.getSerialValue()).equals(SecurityTools.hashPassword(preferencesHelper.getSerialValue()+preferencesHelper.getRegistrationToken()))){
             addFragment(R.id.flMain,new AuthFragment());
         }
-
         mDevicePolicyManager = (DevicePolicyManager)
                 getSystemService(Context.DEVICE_POLICY_SERVICE);
         mAdminComponentName = DeviceAdminReceiver.getComponentName(this);
@@ -110,7 +127,7 @@ import butterknife.OnClick;
                     PackageManager.DONT_KILL_APP);
         } else {
             Toast.makeText(getApplicationContext(),
-                    "NOT HAVE OWNER ACCESS PERMISSION",Toast.LENGTH_SHORT)
+                    "Please connect our company support, some think is wrong",Toast.LENGTH_SHORT)
                     .show();
         }
 
@@ -121,19 +138,9 @@ import butterknife.OnClick;
         }
         else {
             Toast.makeText(getApplicationContext(),
-                    "NOT HAVE OWNER ACCESS PERMISSION: 2",Toast.LENGTH_SHORT)
+                    "Please connect our company support, some think is wrong",Toast.LENGTH_SHORT)
                     .show();
         }
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -164,37 +171,78 @@ import butterknife.OnClick;
 
             });
         }
+        subscriptions = new ArrayList<>();
+        subscriptions.add(
+                rxBus.toObservable().subscribe(o -> {
+                    if(o instanceof NotPermissionUsbEvent){
+                        if(plugRefreshDialog==null) {
+                            plugRefreshDialog = new PlugRefreshDialog(LockScreenActivity.this);
+                            plugRefreshDialog.setOnDismissListener(dialogInterface -> {
+                                plugRefreshDialog = null;
+                            });
+                            plugRefreshDialog.show();
+                        }
+                    }else if(o instanceof UsbConnectedWithPermissionEvent){
+                        if(plugRefreshDialog !=null)
+                            plugRefreshDialog.dismiss();
+                        plugRefreshDialog = null;
+                    }else if(o instanceof RebootedEvent){
 
-        tvPinOrExit.setOnClickListener(view -> {
-            setDefaultCosuPolicies(true);
-            if ( mDevicePolicyManager.isDeviceOwnerApp(
-                    getApplicationContext().getPackageName())) {
-                mPackageManager.setComponentEnabledSetting(
-                        new ComponentName(getApplicationContext(),
-                                LockScreenActivity.class),
-                        PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                        PackageManager.DONT_KILL_APP);
-                ActivityManager am = (ActivityManager) getSystemService(
-                        Context.ACTIVITY_SERVICE);
-                if (am.getLockTaskModeState() ==
-                        ActivityManager.LOCK_TASK_MODE_NONE) {
-                    startLockTask();
-                }
-            } else {
-                Toast.makeText(getApplicationContext(),
-                        R.string.not_lock_whitelisted,Toast.LENGTH_SHORT)
-                        .show();
-            }
-        });
+                    }
+                })
+        );
+//        tvPinOrExit.setOnClickListener(view -> {
+//            setDefaultCosuPolicies(true);
+//            if ( mDevicePolicyManager.isDeviceOwnerApp(
+//                    getApplicationContext().getPackageName())) {
+//                mPackageManager.setComponentEnabledSetting(
+//                        new ComponentName(getApplicationContext(),
+//                                LockScreenActivity.class),
+//                        PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+//                        PackageManager.DONT_KILL_APP);
+//                ActivityManager am = (ActivityManager) getSystemService(
+//                        Context.ACTIVITY_SERVICE);
+//                if (am.getLockTaskModeState() ==
+//                        ActivityManager.LOCK_TASK_MODE_NONE) {
+//                    startLockTask();
+//                }
+//            } else {
+//                Toast.makeText(getApplicationContext(),
+//                        R.string.not_lock_whitelisted,Toast.LENGTH_SHORT)
+//                        .show();
+//            }
+//        });
         tvUnpin.setOnClickListener(view -> {
-            mDevicePolicyManager.clearDeviceOwnerApp(getPackageName());
+            clickedcount++;
+        });
+        tvUnpin.setOnLongClickListener(view -> {
+            if(clickedcount!=5) return true;
+//            mDevicePolicyManager.clearPackagePersistentPreferredActivities(
+//                    mAdminComponentName,getPackageName());
+//            mPackageManager.setComponentEnabledSetting(
+//                    new ComponentName(getApplicationContext(), LockScreenActivity.class),
+//                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+//                    PackageManager.DONT_KILL_APP);
+
             setDefaultCosuPolicies(false);
-            ComponentName devAdminReceiver = new ComponentName(this, DeviceAdminReceiver.class);
-            DevicePolicyManager dpm = (DevicePolicyManager)getSystemService(Context.DEVICE_POLICY_SERVICE);
-            dpm.removeActiveAdmin(devAdminReceiver);
-            finish();
+            mDevicePolicyManager.clearDeviceOwnerApp(getPackageName());
+            stopLockTask();
+//            ComponentName devAdminReceiver = new ComponentName(this, DeviceAdminReceiver.class);
+//            DevicePolicyManager dpm = (DevicePolicyManager)getSystemService(Context.DEVICE_POLICY_SERVICE);
+//            dpm.removeActiveAdmin(devAdminReceiver);
+
+//            finish();
+            return true;
         });
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        for (Disposable disposable:subscriptions) {
+            disposable.dispose();
+         }
     }
 
     @OnClick(R.id.btnClear)
@@ -211,6 +259,7 @@ import butterknife.OnClick;
     @Override
     protected void onStart() {
         super.onStart();
+        clickedcount= 0;
         if(!preferencesHelper.getSerialValue().equals("") &&  !preferencesHelper.getRegistrationToken().equals("") &&  hashesWithSerial.get(preferencesHelper.getSerialValue()).equals(SecurityTools.hashPassword(preferencesHelper.getSerialValue()+preferencesHelper.getRegistrationToken())))
         if (preferencesHelper.isAppRunFirstTime()){
             try {
@@ -220,6 +269,27 @@ import butterknife.OnClick;
             }
             finish();
         }
+
+        if ( mDevicePolicyManager.isDeviceOwnerApp(
+                getApplicationContext().getPackageName())) {
+            setDefaultCosuPolicies(true);
+            mPackageManager.setComponentEnabledSetting(
+                    new ComponentName(getApplicationContext(),
+                            LockScreenActivity.class),
+                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                    PackageManager.DONT_KILL_APP);
+            ActivityManager am = (ActivityManager) getSystemService(
+                    Context.ACTIVITY_SERVICE);
+            if (am.getLockTaskModeState() ==
+                    ActivityManager.LOCK_TASK_MODE_NONE) {
+                startLockTask();
+            }
+        } else {
+            Toast.makeText(getApplicationContext(),
+                    R.string.not_lock_whitelisted,Toast.LENGTH_SHORT)
+                    .show();
+        }
+
     }
     public void openFirstConfigure(){
         if (preferencesHelper.isAppRunFirstTime()){
@@ -280,14 +350,14 @@ import butterknife.OnClick;
         setUserRestriction(UserManager.DISALLOW_SAFE_BOOT, active);
         setUserRestriction(UserManager.DISALLOW_FACTORY_RESET, active);
         setUserRestriction(UserManager.DISALLOW_ADD_USER, active);
-        setUserRestriction(UserManager.DISALLOW_MOUNT_PHYSICAL_MEDIA, false);
+//        setUserRestriction(UserManager.DISALLOW_MOUNT_PHYSICAL_MEDIA, active);
         setUserRestriction(UserManager.DISALLOW_ADJUST_VOLUME, active);
         setUserRestriction(UserManager.DISALLOW_OUTGOING_CALLS, active);
+
 
         // disable keyguard and status bar
         mDevicePolicyManager.setKeyguardDisabled(mAdminComponentName, active);
         mDevicePolicyManager.setStatusBarDisabled(mAdminComponentName, active);
-
         // enable STAY_ON_WHILE_PLUGGED_IN
         enableStayOnWhilePluggedIn(active);
 
@@ -300,10 +370,17 @@ import butterknife.OnClick;
                     null);
         }
 
+
+        mDevicePolicyManager.setPermissionPolicy(mAdminComponentName,PERMISSION_POLICY_AUTO_GRANT);
+
         // set this Activity as a lock task package
 
         mDevicePolicyManager.setLockTaskPackages(mAdminComponentName,
                 active ? new String[]{getPackageName()} : new String[]{});
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            autoGrantRequestedPermissionsToSelf(this);
+        }
 
         IntentFilter intentFilter = new IntentFilter(Intent.ACTION_MAIN);
         intentFilter.addCategory(Intent.CATEGORY_HOME);
@@ -339,7 +416,10 @@ import butterknife.OnClick;
                     Integer.toString(BatteryManager.BATTERY_PLUGGED_AC
                             | BatteryManager.BATTERY_PLUGGED_USB
                             | BatteryManager.BATTERY_PLUGGED_WIRELESS));
+
         } else {
+
+
             mDevicePolicyManager.setGlobalSetting(
                     mAdminComponentName,
                     Settings.Global.STAY_ON_WHILE_PLUGGED_IN,
@@ -348,8 +428,64 @@ import butterknife.OnClick;
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.M)
+    public void autoGrantRequestedPermissionsToSelf(Context context)  {
+        String packageName = context.getPackageName();
+        List<String> permissions = getRuntimePermissions(context.getPackageManager(), packageName); //retrieve a list of requested runtime permissions
+        for (String permission : permissions) {
+            boolean success =   mDevicePolicyManager.setPermissionGrantState(mAdminComponentName, packageName, permission, PERMISSION_GRANT_STATE_GRANTED);
+
+        }
+    }
+    private static List<String> getRuntimePermissions(PackageManager packageManager, String packageName) {
+        List<String> permissions = new ArrayList<>();
+        PackageInfo packageInfo;
+        try {
+            packageInfo = packageManager.getPackageInfo(packageName, PackageManager.GET_PERMISSIONS); //get the list of all requested permissions
+        } catch (PackageManager.NameNotFoundException e) {
+            return permissions;
+        }
+
+        if (packageInfo != null && packageInfo.requestedPermissions != null) {
+            for (String requestedPerm : packageInfo.requestedPermissions) {
+                if (isRuntimePermission(packageManager, requestedPerm)) { //keep only runtime permissions
+                    permissions.add(requestedPerm);
+                }
+            }
+        }
+        return permissions;
+    }
+    private static boolean isRuntimePermission(PackageManager packageManager, String permission) {
+        try {
+            PermissionInfo pInfo = packageManager.getPermissionInfo(permission, 0);
+            if (pInfo != null) {
+                if ((pInfo.protectionLevel & PermissionInfo.PROTECTION_MASK_BASE) == PermissionInfo.PROTECTION_DANGEROUS) {
+                    return true;
+                }
+            }
+        } catch (PackageManager.NameNotFoundException ignore) {
+
+        }
+        return false;
+    }
     @Override
     public void onBackPressed() {
 //        super.onBackPressed();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

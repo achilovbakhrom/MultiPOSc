@@ -23,5 +23,5 @@ public interface OrderListHistoryView extends BaseView {
     void openRestoreAccsessDialog();
     void setOrderNumberToToolbar(Long orderNumber);
     void onContinuePressed(Order order);
-    void checkOrder(Order order, DatabaseManager databaseManager, PreferencesHelper preferencesHelper);
+    void reprint(Order order, DatabaseManager databaseManager, PreferencesHelper preferencesHelper);
 }

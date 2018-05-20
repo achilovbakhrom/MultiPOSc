@@ -1,25 +1,17 @@
 package com.jim.multipos.ui.mainpospage;
 
-import android.app.ActivityManager;
 import android.app.admin.DevicePolicyManager;
-import android.app.admin.SystemUpdatePolicy;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.os.BatteryManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.UserManager;
-import android.provider.Settings;
 import android.view.WindowManager;
 import android.widget.TextClock;
 import android.widget.TextView;
 
 import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.BuildConfig;
-import com.jim.multipos.DeviceAdminReceiver;
 import com.jim.multipos.R;
 import com.jim.multipos.core.MainPageDoubleSideActivity;
 import com.jim.multipos.data.DatabaseManager;
@@ -49,11 +41,13 @@ import com.jim.multipos.utils.RxBusLocal;
 import com.jim.multipos.utils.SecurityTools;
 import com.jim.multipos.utils.managers.NotifyManager;
 import com.jim.multipos.utils.printer.CheckPrinter;
+import com.jim.multipos.utils.rxevents.main_order_events.DeviceAttachEvent;
+import com.jim.multipos.utils.rxevents.main_order_events.DeviceDetachEvent;
 import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
 import com.jim.multipos.utils.rxevents.main_order_events.MainPosActivityRefreshEvent;
 import com.jim.multipos.utils.rxevents.main_order_events.OrderEvent;
+import com.jim.multipos.utils.rxevents.main_order_events.RefreshUsbDevicesEvent;
 import com.jim.multipos.utils.rxevents.till_management_events.TillEvent;
-import com.jim.multipos.utils.usb_barcode.USBService;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -61,7 +55,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -110,15 +103,12 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
         if(preferencesHelper.getSerialValue().equals("") || preferencesHelper.getRegistrationToken().equals("") || ! hashesWithSerial.get(preferencesHelper.getSerialValue()).equals(SecurityTools.hashPassword(preferencesHelper.getSerialValue()+preferencesHelper.getRegistrationToken()))){
             addFullFragment(new AuthFragment());
         }
-
         if(checkPrinter ==null){
             checkPrinter = new CheckPrinter(this,preferencesHelper,databaseManager);
             checkPrinter.connectDevice();
         }
 
-        if(!isMyServiceRunning(USBService.class)){
-            startService(new Intent(this, USBService.class));
-        }
+
 
 
         //test dataset
@@ -176,6 +166,7 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
                 public void onReturn() {
                     ReturnsDialog dialog = new ReturnsDialog(MainPosPageActivity.this, databaseManager, decimalFormat, null, rxBus);
                     dialog.show();
+
                 }
 
                 @Override
@@ -230,6 +221,7 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
             }
 
         });
+
         toolbar.setOnInventoryClickListener(view -> {
             if(preferencesHelper.isInventoryProtected()){
                 AccessWithEditPasswordDialog accessWithEditPasswordDialog = new AccessWithEditPasswordDialog(this, new AccessWithEditPasswordDialog.OnAccsessListner() {
@@ -340,7 +332,7 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
         presenter.onCreateView(savedInstanceState);
 
         subscriptions = new ArrayList<>();
-        subscriptions.add(
+            subscriptions.add(
                 rxBus.toObservable().subscribe(o -> {
                     if (o instanceof TillEvent) {
                         TillEvent event = (TillEvent) o;
@@ -363,9 +355,18 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
                         }
                     }else if(o instanceof MainPosActivityRefreshEvent){
                         finish();
-//                        startActivity(getIntent());
+                    }else if(o instanceof DeviceDetachEvent){
+                        if(((DeviceDetachEvent)o).getProductName()!=null && ((DeviceDetachEvent)o).getProductName().equals("POS58 USB Printer")) {
+                            checkPrinter = null;
+                        }
+                    }else if(o instanceof DeviceAttachEvent){
+                        if(((DeviceAttachEvent)o).getProductName()!=null && ((DeviceAttachEvent)o).getProductName().equals("POS58 USB Printer")){
+                            checkPrinter = new CheckPrinter(this,preferencesHelper,databaseManager);
+                            checkPrinter.connectDevice();
+                        }
                     }
                 }));
+        rxBus.send(new RefreshUsbDevicesEvent());
 
     }
 
@@ -440,7 +441,7 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
     public void openNewOrderFrame(Long newOrderId) {
         hideOrderListHistoryFragment();
         OrderListFragment orderListFragment = (OrderListFragment) getSupportFragmentManager().findFragmentByTag(OrderListFragment.class.getName());
-        if (orderListFragment != null) {
+        if (orderListFragment != null && orderListFragment.isAdded() && orderListFragment.isVisible()) {
             orderListFragment.initNewOrderWithNumber(newOrderId);
         } else {
             initOrderListFragmentToLeft(newOrderId);
@@ -461,7 +462,7 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
     public void openOrderForEdit(String reason, Order order, Long newOrderId) {
         hideOrderListHistoryFragment();
         OrderListFragment orderListFragment = (OrderListFragment) getSupportFragmentManager().findFragmentByTag(OrderListFragment.class.getName());
-        if (orderListFragment != null) {
+        if (orderListFragment != null  && orderListFragment.isVisible() && orderListFragment.isAdded()) {
             orderListFragment.onEditOrder(reason, order, newOrderId);
         }
     }
@@ -531,7 +532,7 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
             checkPrinter.connectDevice();
         }
         if(checkPrinter.checkConnect()){
-            checkPrinter.printCheck(order,false);
+            checkPrinter.printCheck(MainPosPageActivity.this,order,false);
         }else {
             checkPrinter.connectDevice();
         }
@@ -544,7 +545,7 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
                 checkPrinter.connectDevice();
             }
             if(checkPrinter.checkConnect()){
-                checkPrinter.printCheck(order,true);
+                checkPrinter.printCheck(MainPosPageActivity.this,order,true);
             }else {
                 checkPrinter.connectDevice();
             }
@@ -552,24 +553,16 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
     }
     public void stockCheckOrder(long tillId, long orderNumber, long now, List<OrderProductItem> orderProducts, Customer customer, DatabaseManager databaseManager, PreferencesHelper preferencesHelper) {
         new Thread(() -> {
-            if(checkPrinter ==null){
+            if(checkPrinter == null){
                 checkPrinter = new CheckPrinter(this,preferencesHelper,databaseManager);
                 checkPrinter.connectDevice();
             }
             if(checkPrinter.checkConnect()){
-                checkPrinter.stockChek(tillId,orderNumber,now,orderProducts,customer);
+                checkPrinter.stockChek(MainPosPageActivity.this,tillId,orderNumber,now,orderProducts,customer);
             }else {
                 checkPrinter.connectDevice();
             }
         }).start();
     }
-    private boolean isMyServiceRunning(Class<?> serviceClass) {
-        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (serviceClass.getName().equals(service.service.getClassName())) {
-                return true;
-            }
-        }
-        return false;
-    }
+
 }

@@ -393,7 +393,7 @@ public class MainPosPageActivityImpl extends BasePresenterImpl<MainPosPageActivi
 
         if(order.getDebt() !=null) {
             order.getDebt().setIsDeleted(true);
-            databaseManager.addDebt(order.getDebt());
+            databaseManager.addDebt(order.getDebt()).subscribe();
         }
         databaseManager.insertOrderProducts(order.getOrderProducts()).blockingGet();
         databaseManager.insertOrder(order).blockingGet();

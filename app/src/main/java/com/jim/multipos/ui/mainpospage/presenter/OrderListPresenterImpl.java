@@ -646,7 +646,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
                     //HOLD TOVARNI CLOSE QILSA
                     view.holdOrderClosed(order);
                 } else {
-                    //NEW TOVAR HOLDGA TUSHURILGANDA
+                    //NEW TOVAR CLOSE QILINSA
                     view.orderAdded(order);
                 }
 

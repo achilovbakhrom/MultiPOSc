@@ -51,7 +51,6 @@ public abstract class BaseFragment extends Fragment implements HasSupportFragmen
     protected boolean isAndroidInjectionEnabled() {
         return true;
     }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -61,7 +60,6 @@ public abstract class BaseFragment extends Fragment implements HasSupportFragmen
         init(savedInstanceState);
         return view;
     }
-
     protected abstract int getLayout();
     protected abstract void init(Bundle savedInstanceState);
     protected void rxConnections(){}

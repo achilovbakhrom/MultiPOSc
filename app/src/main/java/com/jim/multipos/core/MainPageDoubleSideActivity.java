@@ -39,13 +39,29 @@ public abstract class MainPageDoubleSideActivity extends BaseActivity{
         bind = ButterKnife.bind(this);
         toolbar.setMode(getToolbarMode());
 
+        PaymentFragment fragment  =  (PaymentFragment) getSupportFragmentManager().findFragmentByTag(PaymentFragment.class.getName());
+        if(fragment == null) {
+            fragment = new PaymentFragment();
+            addFragmentWithTagStatic(R.id.flRightTop, fragment,PaymentFragment.class.getName());
+        }else {
+            addFragmentWithTagStatic(R.id.flRightTop, fragment,PaymentFragment.class.getName());
+        }
 
-        PaymentFragment fragment = new PaymentFragment();
-        addFragmentWithTagStatic(R.id.flRightTop, fragment,PaymentFragment.class.getName());
-        ProductInfoFragment fragment1 = new ProductInfoFragment();
-        addFragmentWithTagStatic(R.id.flRightTop, fragment1,ProductInfoFragment.class.getName());
-        OrderListHistoryFragment fragment2 = new OrderListHistoryFragment();
-        addFragmentWithTagStatic(R.id.flLeftContainerTop, fragment2,OrderListHistoryFragment.class.getName());
+        ProductInfoFragment fragment1  =  (ProductInfoFragment) getSupportFragmentManager().findFragmentByTag(ProductInfoFragment.class.getName());
+        if(fragment1 == null) {
+            fragment1 = new ProductInfoFragment();
+            addFragmentWithTagStatic(R.id.flRightTop, fragment1,ProductInfoFragment.class.getName());
+        }else {
+            addFragmentWithTagStatic(R.id.flRightTop, fragment1,ProductInfoFragment.class.getName());
+        }
+
+        OrderListHistoryFragment fragment2  =  (OrderListHistoryFragment) getSupportFragmentManager().findFragmentByTag(OrderListHistoryFragment.class.getName());
+        if(fragment2 == null) {
+            fragment2 = new OrderListHistoryFragment();
+            addFragmentWithTagStatic(R.id.flLeftContainerTop, fragment2,OrderListHistoryFragment.class.getName());
+        }else {
+            addFragmentWithTagStatic(R.id.flLeftContainerTop, fragment2,OrderListHistoryFragment.class.getName());
+        }
 
         getSupportFragmentManager().beginTransaction().hide(fragment).commit();
         getSupportFragmentManager().beginTransaction().hide(fragment1).commit();
@@ -84,8 +100,10 @@ public abstract class MainPageDoubleSideActivity extends BaseActivity{
             orderListFragment.setArguments(bundle);
             addFragmentWithTagStatic(R.id.flLeftContainer,orderListFragment,OrderListFragment.class.getName());
         }else {
-            getSupportFragmentManager().beginTransaction().show(orderListFragment).commit();
-            orderListFragment.initNewOrderWithNumber(newOrderId);
+            Bundle bundle= new Bundle();
+            bundle.putLong(NEW_ORDER_ID,newOrderId);
+            orderListFragment.setArguments(bundle);
+            addFragmentWithTagStatic(R.id.flLeftContainer,orderListFragment,OrderListFragment.class.getName());
         }
     }
     public void initProductPickerFragmentToRight(){
@@ -274,7 +292,7 @@ public abstract class MainPageDoubleSideActivity extends BaseActivity{
             getSupportFragmentManager().beginTransaction().hide(productInfoFragment).commit();
             return;
         }
-        super.onBackPressed();
+//        super.onBackPressed();
     }
 
     protected final void addFragmentToTopRight(Fragment fragment){addFragment(R.id.flRightTop,fragment);}
