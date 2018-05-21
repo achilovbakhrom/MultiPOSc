@@ -62,7 +62,7 @@ public class AccountFragment extends BaseFragment implements AccountView {
         btnNext.setOnClickListener(view -> {
             if (mode == CompletionMode.NEXT) {
                 connection.setAccountCompletion(true);
-                connection.openNextFragment(3);
+                connection.openNextFragment(4);
             } else {
                 connection.setAccountCompletion(true);
                 presenter.setAppRunFirstTimeValue(false);

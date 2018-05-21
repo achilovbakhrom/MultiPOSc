@@ -23,6 +23,7 @@ public class PosDataPresenterImpl extends BasePresenterImpl<PosDataView> impleme
         preferences.setPosDetailAddress(address);
         preferences.setPhoneNumber(phone);
         preferences.setPosDetailPassword(SecurityTools.md5(password));
+        view.onComplete();
     }
 
     @Override

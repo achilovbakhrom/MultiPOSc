@@ -4,4 +4,5 @@ import com.jim.multipos.core.Presenter;
 
 public interface StartConfigurationPresenter extends Presenter {
     void initDefaultData();
+    void clearData();
 }

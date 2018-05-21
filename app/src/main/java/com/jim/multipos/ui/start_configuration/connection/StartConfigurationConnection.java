@@ -2,6 +2,7 @@ package com.jim.multipos.ui.start_configuration.connection;
 
 import android.content.Context;
 
+import com.jim.multipos.ui.start_configuration.basics.BasicsView;
 import com.jim.multipos.utils.CompletionMode;
 import com.jim.multipos.ui.start_configuration.account.AccountView;
 import com.jim.multipos.ui.start_configuration.currency.CurrencyView;
@@ -17,6 +18,7 @@ public class StartConfigurationConnection {
     private CurrencyView currencyView;
     private AccountView accountView;
     private PaymentTypeView paymentTypeView;
+    private BasicsView basicsView;
 
     public StartConfigurationConnection(Context context) {
         this.context = context;
@@ -36,6 +38,10 @@ public class StartConfigurationConnection {
 
     public void setAccountView(AccountView accountView) {
         this.accountView = accountView;
+    }
+
+    public void setBasicsView(BasicsView basicsView) {
+        this.basicsView = basicsView;
     }
 
     public void setPosDataCompletion(boolean state) {
@@ -114,7 +120,7 @@ public class StartConfigurationConnection {
         }
     }
 
-    public void updateAccounts(){
+    public void updateAccounts() {
         if (paymentTypeView != null) {
             paymentTypeView.updateAccounts();
         }
@@ -123,6 +129,24 @@ public class StartConfigurationConnection {
     public void openNextFragment(int i) {
         if (selectionPanelView != null) {
             selectionPanelView.openNextFragment(i);
+        }
+    }
+
+    public void checkBasicsCompletion() {
+        if (basicsView != null){
+            basicsView.checkPosDataCompletion();
+        }
+    }
+
+    public void sendModeToBasics(CompletionMode mode) {
+        if (basicsView != null){
+            basicsView.setMode(mode);
+        }
+    }
+
+    public void setBasicCompletion(boolean state) {
+        if (selectionPanelView != null) {
+            selectionPanelView.setBasicsCompletion(state);
         }
     }
 }

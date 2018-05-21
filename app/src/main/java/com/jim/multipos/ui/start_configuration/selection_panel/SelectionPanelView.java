@@ -11,4 +11,5 @@ public interface SelectionPanelView extends BaseView {
     void setAccountCompletion(boolean state);
     void setPaymentTypeCompletion(boolean state);
     void openNextFragment(int position);
+    void setBasicsCompletion(boolean state);
 }

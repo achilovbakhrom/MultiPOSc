@@ -6,4 +6,5 @@ import com.jim.multipos.utils.CompletionMode;
 public interface PosDataView extends BaseView {
     void setMode(CompletionMode mode);
     void checkPosDataCompletion();
+    void onComplete();
 }

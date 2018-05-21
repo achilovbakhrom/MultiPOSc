@@ -4,4 +4,5 @@ import com.jim.multipos.core.BaseView;
 
 public interface StartConfigurationView extends BaseView {
     void initViews();
+    void restart();
 }

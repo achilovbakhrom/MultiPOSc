@@ -68,4 +68,12 @@ public class StartConfigurationPresenterImpl extends BasePresenterImpl<StartConf
         }
         view.initViews();
     }
+
+    @Override
+    public void clearData() {
+        databaseManager.removeAllAccounts().subscribe();
+        databaseManager.removeAllPaymentTypes().subscribe();
+        databaseManager.removeAllCurrencies().subscribe();
+        view.restart();
+    }
 }

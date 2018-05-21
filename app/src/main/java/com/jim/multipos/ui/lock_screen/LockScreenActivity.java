@@ -109,9 +109,9 @@ import static android.app.admin.DevicePolicyManager.PERMISSION_POLICY_AUTO_GRANT
             startService(new Intent(this, USBService.class));
         }
 
-        if(preferencesHelper.getSerialValue().equals("") || preferencesHelper.getRegistrationToken().equals("") || ! hashesWithSerial.get(preferencesHelper.getSerialValue()).equals(SecurityTools.hashPassword(preferencesHelper.getSerialValue()+preferencesHelper.getRegistrationToken()))){
-            addFragment(R.id.flMain,new AuthFragment());
-        }
+//        if(preferencesHelper.getSerialValue().equals("") || preferencesHelper.getRegistrationToken().equals("") || ! hashesWithSerial.get(preferencesHelper.getSerialValue()).equals(SecurityTools.hashPassword(preferencesHelper.getSerialValue()+preferencesHelper.getRegistrationToken()))){
+//            addFragment(R.id.flMain,new AuthFragment());
+//        }
         mDevicePolicyManager = (DevicePolicyManager)
                 getSystemService(Context.DEVICE_POLICY_SERVICE);
         mAdminComponentName = DeviceAdminReceiver.getComponentName(this);
@@ -260,7 +260,7 @@ import static android.app.admin.DevicePolicyManager.PERMISSION_POLICY_AUTO_GRANT
     protected void onStart() {
         super.onStart();
         clickedcount= 0;
-        if(!preferencesHelper.getSerialValue().equals("") &&  !preferencesHelper.getRegistrationToken().equals("") &&  hashesWithSerial.get(preferencesHelper.getSerialValue()).equals(SecurityTools.hashPassword(preferencesHelper.getSerialValue()+preferencesHelper.getRegistrationToken())))
+//        if(!preferencesHelper.getSerialValue().equals("") &&  !preferencesHelper.getRegistrationToken().equals("") &&  hashesWithSerial.get(preferencesHelper.getSerialValue()).equals(SecurityTools.hashPassword(preferencesHelper.getSerialValue()+preferencesHelper.getRegistrationToken())))
         if (preferencesHelper.isAppRunFirstTime()){
             try {
                 Intent intro = new Intent(this, StartConfigurationActivity.class);

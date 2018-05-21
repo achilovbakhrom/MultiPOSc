@@ -24,6 +24,7 @@ import butterknife.BindView;
 import static com.jim.mpviews.MpCompletedStateView.COMPLETED_STATE;
 import static com.jim.mpviews.MpCompletedStateView.WARNING_STATE;
 import static com.jim.multipos.ui.start_configuration.selection_panel.SelectionPanelPresenterImpl.ACCOUNT_KEY;
+import static com.jim.multipos.ui.start_configuration.selection_panel.SelectionPanelPresenterImpl.BASICS_KEY;
 import static com.jim.multipos.ui.start_configuration.selection_panel.SelectionPanelPresenterImpl.CURRENCY_KEY;
 import static com.jim.multipos.ui.start_configuration.selection_panel.SelectionPanelPresenterImpl.PAYMENT_TYPE_KEY;
 import static com.jim.multipos.ui.start_configuration.selection_panel.SelectionPanelPresenterImpl.POS_DATA_KEY;
@@ -74,15 +75,18 @@ public class SelectionPanelFragment extends BaseFragment implements SelectionPan
     private void checkCompletionByPosition(int position) {
         switch (position) {
             case 0:
-                connection.checkPosDataCompletion();
+                connection.checkBasicsCompletion();
                 break;
             case 1:
-                connection.checkCurrencyCompletion();
+                connection.checkPosDataCompletion();
                 break;
             case 2:
-                connection.checkAccountCompletion();
+                connection.checkCurrencyCompletion();
                 break;
             case 3:
+                connection.checkAccountCompletion();
+                break;
+            case 4:
                 connection.checkPaymentTypeCompletion();
                 break;
         }
@@ -97,15 +101,18 @@ public class SelectionPanelFragment extends BaseFragment implements SelectionPan
     public void sendMode(CompletionMode mode, int position) {
         switch (position) {
             case 0:
-                connection.sendModeToPosData(mode);
+                connection.sendModeToBasics(mode);
                 break;
             case 1:
-                connection.sendModeToCurrency(mode);
+                connection.sendModeToPosData(mode);
                 break;
             case 2:
-                connection.sendModeToAccount(mode);
+                connection.sendModeToCurrency(mode);
                 break;
             case 3:
+                connection.sendModeToAccount(mode);
+                break;
+            case 4:
                 connection.sendModeToPaymentType(mode);
                 break;
         }
@@ -115,23 +122,14 @@ public class SelectionPanelFragment extends BaseFragment implements SelectionPan
     public void setPosDataCompletion(boolean state) {
         presenter.putCompletion(POS_DATA_KEY, state);
         if (state) {
-            adapter.changeState(0, COMPLETED_STATE);
-        } else
-            adapter.changeState(0, WARNING_STATE);
-    }
-
-    @Override
-    public void setCurrencyCompletion(boolean state) {
-        presenter.putCompletion(CURRENCY_KEY, state);
-        if (state) {
             adapter.changeState(1, COMPLETED_STATE);
         } else
             adapter.changeState(1, WARNING_STATE);
     }
 
     @Override
-    public void setAccountCompletion(boolean state) {
-        presenter.putCompletion(ACCOUNT_KEY, state);
+    public void setCurrencyCompletion(boolean state) {
+        presenter.putCompletion(CURRENCY_KEY, state);
         if (state) {
             adapter.changeState(2, COMPLETED_STATE);
         } else
@@ -139,8 +137,8 @@ public class SelectionPanelFragment extends BaseFragment implements SelectionPan
     }
 
     @Override
-    public void setPaymentTypeCompletion(boolean state) {
-        presenter.putCompletion(PAYMENT_TYPE_KEY, state);
+    public void setAccountCompletion(boolean state) {
+        presenter.putCompletion(ACCOUNT_KEY, state);
         if (state) {
             adapter.changeState(3, COMPLETED_STATE);
         } else
@@ -148,8 +146,26 @@ public class SelectionPanelFragment extends BaseFragment implements SelectionPan
     }
 
     @Override
+    public void setPaymentTypeCompletion(boolean state) {
+        presenter.putCompletion(PAYMENT_TYPE_KEY, state);
+        if (state) {
+            adapter.changeState(4, COMPLETED_STATE);
+        } else
+            adapter.changeState(4, WARNING_STATE);
+    }
+
+    @Override
     public void openNextFragment(int position) {
         presenter.checkCompletionMode(position);
+    }
+
+    @Override
+    public void setBasicsCompletion(boolean state) {
+        presenter.putCompletion(BASICS_KEY, state);
+        if (state) {
+            adapter.changeState(0, COMPLETED_STATE);
+        } else
+            adapter.changeState(0, WARNING_STATE);
     }
 
     @Override

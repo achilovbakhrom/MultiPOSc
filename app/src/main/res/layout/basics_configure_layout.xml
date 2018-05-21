@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fafafa"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/twenty_dp"
+                android:layout_marginLeft="@dimen/thirty_five_dp"
+                android:layout_marginRight="@dimen/thirty_dp"
+                android:layout_marginTop="@dimen/twenty_dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Language"
+                        android:textColor="#212121"
+                        android:textSize="@dimen/eighteen_dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/fifty_dp"
+                        android:text="Mauris euismod sodales gravida. Nulla neque lectus."
+                        android:textColor="#b8b8b8"
+                        android:textSize="@dimen/sixteen_dp" />
+                </LinearLayout>
+
+                <com.jim.mpviews.MPosSpinner
+                    android:id="@+id/spLangauges"
+                    android:layout_width="@dimen/two_hundred_fifty_dp"
+                    android:layout_height="@dimen/forty_dp"
+                    android:layout_gravity="center_vertical" />
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="#e5e5e5" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="#ffffff" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/thirty_dp"
+        android:layout_marginRight="@dimen/thirty_five_dp"
+        android:gravity="right"
+        android:orientation="horizontal">
+
+        <com.jim.mpviews.MpButton
+            android:id="@+id/btnSave"
+            android:layout_width="@dimen/hundred_thirty_dp"
+            android:layout_height="@dimen/fifty_five_dp"
+            android:layout_alignParentBottom="true"
+            android:layout_toEndOf="@id/btnMembers"
+            android:gravity="center"
+            android:text="@string/next"
+            android:textColor="@color/colorBlue"
+            android:textSize="@dimen/sixteen_dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+</LinearLayout>

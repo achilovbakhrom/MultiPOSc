@@ -87,16 +87,7 @@ public class PosDataFragment extends BaseFragment implements PosDataView {
 
         btnNext.setOnClickListener(view -> {
             if (!etPosId.getText().toString().isEmpty() && !etPosAddress.getText().toString().isEmpty() && !etPosAlias.getText().toString().isEmpty() && !etPosPhone.getText().toString().isEmpty() && isValid()) {
-                if (mode == CompletionMode.NEXT) {
-                    presenter.savePosDetails(etPosId.getText().toString(), etPosAlias.getText().toString(), etPosAddress.getText().toString(), etPosPhone.getText().toString(), etPassword.getText().toString());
-                    connection.setPosDataCompletion(true);
-                    connection.openNextFragment(1);
-                } else {
-                    presenter.savePosDetails(etPosId.getText().toString(), etPosAlias.getText().toString(), etPosAddress.getText().toString(), etPosPhone.getText().toString(), etPassword.getText().toString());
-                    presenter.setAppRunFirstTimeValue(false);
-                    ((StartConfigurationActivity) getActivity()).openLockScreen();
-                }
-
+                presenter.savePosDetails(etPosId.getText().toString(), etPosAlias.getText().toString(), etPosAddress.getText().toString(), etPosPhone.getText().toString(), etPassword.getText().toString());
             } else {
                 if (etPosId.getText().toString().isEmpty()) {
                     etPosId.setError(getString(R.string.enter_pos_id));
@@ -155,6 +146,17 @@ public class PosDataFragment extends BaseFragment implements PosDataView {
         }
         if (etPosAlias.getText().toString().isEmpty()) {
             etPosAlias.setError(getString(R.string.enter_pos_alias));
+        }
+    }
+
+    @Override
+    public void onComplete() {
+        if (mode == CompletionMode.NEXT) {
+            connection.setPosDataCompletion(true);
+            connection.openNextFragment(2);
+        } else {
+            presenter.setAppRunFirstTimeValue(false);
+            ((StartConfigurationActivity) getActivity()).openLockScreen();
         }
     }
 

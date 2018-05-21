@@ -9,6 +9,7 @@ import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.core.DoubleSideActivity;
 import com.jim.multipos.ui.lock_screen.LockScreenActivity;
 import com.jim.multipos.ui.start_configuration.account.AccountFragment;
+import com.jim.multipos.ui.start_configuration.basics.BasicsFragment;
 import com.jim.multipos.ui.start_configuration.currency.CurrencyFragment;
 import com.jim.multipos.ui.start_configuration.payment_type.PaymentTypeFragment;
 import com.jim.multipos.ui.start_configuration.pos_data.PosDataFragment;
@@ -18,7 +19,7 @@ import javax.inject.Inject;
 
 public class StartConfigurationActivity extends DoubleSideActivity implements StartConfigurationView {
 
-    private String[] configFragments = {PosDataFragment.class.getName(), CurrencyFragment.class.getName(), AccountFragment.class.getName(), PaymentTypeFragment.class.getName()};
+    private String[] configFragments = {PosDataFragment.class.getName(), CurrencyFragment.class.getName(), AccountFragment.class.getName(), PaymentTypeFragment.class.getName(), BasicsFragment.class.getName()};
 
     @Inject
     StartConfigurationPresenter presenter;
@@ -39,7 +40,14 @@ public class StartConfigurationActivity extends DoubleSideActivity implements St
         addFragmentWithTagToLeft(new SelectionPanelFragment(), SelectionPanelFragment.class.getName());
         initAllViews();
         hideAll();
-        showPosDetailsFragment();
+        showBasicsFragment();
+    }
+
+    @Override
+    public void restart() {
+        finish();
+        Intent intent = getIntent();
+        startActivity(intent);
     }
 
     public void onPanelClicked(int position) {
@@ -49,15 +57,18 @@ public class StartConfigurationActivity extends DoubleSideActivity implements St
         }
         switch (position) {
             case 0:
-                showPosDetailsFragment();
+                showBasicsFragment();
                 break;
             case 1:
-                showCurrencyFragment();
+                showPosDetailsFragment();
                 break;
             case 2:
-                showAccountFragment();
+                showCurrencyFragment();
                 break;
             case 3:
+                showAccountFragment();
+                break;
+            case 4:
                 showPaymentTypeFragment();
                 break;
         }
@@ -71,6 +82,17 @@ public class StartConfigurationActivity extends DoubleSideActivity implements St
             addFragmentWithTagToRight(detailsFragment, PosDataFragment.class.getName());
         } else {
             getSupportFragmentManager().beginTransaction().show(detailsFragment).commit();
+        }
+    }
+
+    public void showBasicsFragment() {
+        hideAll();
+        BasicsFragment basicsFragment = (BasicsFragment) getSupportFragmentManager().findFragmentByTag(BasicsFragment.class.getName());
+        if (basicsFragment == null) {
+            basicsFragment = new BasicsFragment();
+            addFragmentWithTagToRight(basicsFragment, BasicsFragment.class.getName());
+        } else {
+            getSupportFragmentManager().beginTransaction().show(basicsFragment).commit();
         }
     }
 
@@ -118,6 +140,7 @@ public class StartConfigurationActivity extends DoubleSideActivity implements St
     }
 
     public void initAllViews() {
+        showBasicsFragment();
         showPosDetailsFragment();
         showCurrencyFragment();
         showAccountFragment();
@@ -128,5 +151,9 @@ public class StartConfigurationActivity extends DoubleSideActivity implements St
         Intent intent = new Intent(this, LockScreenActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    public void refreshActivity() {
+        presenter.clearData();
     }
 }

@@ -40,7 +40,7 @@ public class CurrencyFragment extends BaseFragment implements CurrencyView {
         btnNext.setOnClickListener(view -> {
             if (mode == CompletionMode.NEXT) {
                 connection.setCurrencyCompletion(true);
-                connection.openNextFragment(2);
+                connection.openNextFragment(3);
             } else {
                 connection.setCurrencyCompletion(true);
                 presenter.setAppRunFirstTimeValue(false);

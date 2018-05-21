@@ -34,6 +34,8 @@ import com.jim.multipos.ui.start_configuration.StartConfigurationPresenterImpl;
 import com.jim.multipos.ui.start_configuration.StartConfigurationView;
 import com.jim.multipos.ui.start_configuration.account.AccountFragment;
 import com.jim.multipos.ui.start_configuration.account.AccountFragmentModule;
+import com.jim.multipos.ui.start_configuration.basics.BasicsFragment;
+import com.jim.multipos.ui.start_configuration.basics.BasicsFragmentModule;
 import com.jim.multipos.ui.start_configuration.connection.StartConfigurationConnection;
 import com.jim.multipos.ui.start_configuration.currency.CurrencyFragment;
 import com.jim.multipos.ui.start_configuration.currency.CurrencyFragmentModule;
@@ -88,6 +90,10 @@ public abstract class StartConfigurationActivityModule {
     @PerFragment
     @ContributesAndroidInjector(modules = PaymentTypeFragmentModule.class)
     abstract PaymentTypeFragment providePaymentTypeFragment();
+
+    @PerFragment
+    @ContributesAndroidInjector(modules = BasicsFragmentModule.class)
+    abstract BasicsFragment provideBasicsFragment();
 
     @PerActivity
     @Provides
