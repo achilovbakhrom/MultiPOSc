@@ -23,7 +23,7 @@
             android:layout_gravity="center_vertical"
             android:textColor="@color/colorMainText"
             android:text=""
-            android:textSize="@dimen/twenty_dp" />
+            android:textSize="@dimen/sixteen_dp" />
 
         <TextView
             android:id="@+id/tvAmount"
@@ -32,7 +32,7 @@
             android:layout_gravity="center_vertical"
             android:textColor="@color/colorMainText"
             android:text=""
-            android:textSize="@dimen/twenty_dp" />
+            android:textSize="@dimen/sixteen_dp" />
     </LinearLayout>
 
     <ImageView

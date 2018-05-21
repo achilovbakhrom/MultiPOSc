@@ -4920,7 +4920,7 @@ public class ExportUtils {
             POIFSFileSystem myFileSystem = new POIFSFileSystem(myInput);
             HSSFWorkbook myWorkBook = new HSSFWorkbook(myFileSystem);
             HSSFSheet vendorSheet = myWorkBook.getSheetAt(0);
-            String[][] vendors = new String[vendorSheet.getPhysicalNumberOfRows()][3];
+            String[][] vendors = new String[vendorSheet.getPhysicalNumberOfRows()][4];
             Iterator rowIter = vendorSheet.rowIterator();
             int row = 0;
             while (rowIter.hasNext()) {
@@ -4980,7 +4980,7 @@ public class ExportUtils {
             POIFSFileSystem myFileSystem = new POIFSFileSystem(myInput);
             HSSFWorkbook myWorkBook = new HSSFWorkbook(myFileSystem);
             HSSFSheet vendorSheet = myWorkBook.getSheetAt(0);
-            String[][] vendors = new String[vendorSheet.getPhysicalNumberOfRows()][3];
+            String[][] vendors = new String[vendorSheet.getPhysicalNumberOfRows()][4];
             Iterator rowIter = vendorSheet.rowIterator();
             int row = 0;
             while (rowIter.hasNext()) {

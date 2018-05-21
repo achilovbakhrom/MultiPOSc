@@ -53,28 +53,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/ten_dp"
+                android:layout_marginLeft="@dimen/thirty_five_dp"
+                android:layout_marginRight="@dimen/thirty_dp"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/thirty_dp"
-                    android:layout_marginRight="@dimen/twenty_five_dp"
-                    android:layout_weight="1"
+                    android:layout_weight="4"
                     android:text="@string/account_name"
                     android:textSize="@dimen/eighteen_dp" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/twenty_five_dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
                     android:text="@string/active"
                     android:textSize="@dimen/eighteen_dp" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/thirty_dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
                     android:text="@string/action"
                     android:textSize="@dimen/eighteen_dp" />
 
@@ -85,6 +87,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/ten_dp"
+                android:layout_marginLeft="@dimen/thirty_five_dp"
+                android:layout_marginRight="@dimen/thirty_dp"
                 android:orientation="horizontal">
 
                 <com.jim.mpviews.MpEditText
@@ -92,9 +96,7 @@
                     android:layout_width="0dp"
                     android:layout_height="@dimen/forty_dp"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/thirty_dp"
-                    android:layout_marginRight="@dimen/twenty_five_dp"
-                    android:layout_weight="1"
+                    android:layout_weight="4"
                     android:gravity="left|center_vertical"
                     android:hint="@string/input_account_name"
                     android:inputType="text"
@@ -103,22 +105,29 @@
 
                 <com.jim.mpviews.MpCheckbox
                     android:id="@+id/chbActive"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginRight="@dimen/thirty_dp"
+                    android:layout_weight="1"
                     app:checked="true" />
 
-                <com.jim.mpviews.MpMiniActionButton
-                    android:id="@+id/btnAdd"
-                    android:layout_width="@dimen/sixty_dp"
-                    android:layout_height="@dimen/forty_dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginRight="@dimen/thirty_dp"
-                    android:paddingBottom="@dimen/twelve_dp"
-                    android:paddingTop="@dimen/twelve_dp"
-                    android:src="@drawable/plus"
-                    android:tint="@color/colorGreen" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <com.jim.mpviews.MpMiniActionButton
+                        android:id="@+id/btnAdd"
+                        android:layout_width="@dimen/sixty_dp"
+                        android:layout_height="@dimen/forty_dp"
+                        android:layout_gravity="center_vertical"
+                        android:paddingBottom="@dimen/twelve_dp"
+                        android:paddingTop="@dimen/twelve_dp"
+                        android:src="@drawable/plus"
+                        android:tint="@color/colorGreen" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -136,7 +145,7 @@
                 android:id="@+id/rvAccounts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/thirty_dp"
+                android:layout_marginLeft="@dimen/thirty_five_dp"
                 android:layout_marginRight="@dimen/thirty_dp"
                 android:layout_marginTop="@dimen/ten_dp" />
         </LinearLayout>

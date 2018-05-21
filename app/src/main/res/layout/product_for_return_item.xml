@@ -10,16 +10,18 @@
     <LinearLayout
         android:id="@+id/llProductItem"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/seventy_five_dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="@dimen/eighty_five_dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:orientation="vertical"
             android:paddingBottom="@dimen/ten_dp"
+            android:paddingTop="@dimen/ten_dp"
+            android:paddingRight="@dimen/ten_dp"
             android:paddingLeft="@dimen/thirty_dp">
 
             <TextView
@@ -32,14 +34,14 @@
 
             <TextView
                 android:id="@+id/tvProductBarcode"
-                android:layout_width="@dimen/three_hundred_dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="@dimen/sixteen_dp" />
 
             <TextView
                 android:id="@+id/tvProductSKU"
-                android:layout_width="@dimen/three_hundred_dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="@dimen/sixteen_dp" />

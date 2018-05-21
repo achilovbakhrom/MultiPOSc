@@ -10,7 +10,7 @@
 
     <LinearLayout
         android:layout_width="@dimen/seven_hundred_dp"
-        android:layout_height="@dimen/four_hundred_fifty_dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/rounded_edit_text_bg"
         android:orientation="vertical">
 

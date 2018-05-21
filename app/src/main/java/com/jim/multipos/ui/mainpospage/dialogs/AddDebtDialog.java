@@ -67,6 +67,7 @@ public class AddDebtDialog extends Dialog {
     private Customer customer;
     private DatabaseManager databaseManager;
     private onDebtSaveClickListener listener;
+    private DecimalFormat decimalFormat;
     private String searchText;
 
     public AddDebtDialog(@NonNull Context context, Customer item, DatabaseManager databaseManager, Order order, onDebtSaveClickListener listener, double toPay, DecimalFormat decimalFormat) {
@@ -74,6 +75,7 @@ public class AddDebtDialog extends Dialog {
         this.customer = item;
         this.databaseManager = databaseManager;
         this.listener = listener;
+        this.decimalFormat = decimalFormat;
         View dialogView = getLayoutInflater().inflate(R.layout.debt_details_dialog, null);
         ButterKnife.bind(this, dialogView);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -256,7 +258,7 @@ public class AddDebtDialog extends Dialog {
                     }
                 }
                 if (debtSum != 0)
-                    tvError.setText("This customer already has debt: " + debtSum + " " + databaseManager.getMainCurrency().getAbbr());
+                    tvError.setText("This customer already has debt: " + decimalFormat.format(debtSum) + " " + databaseManager.getMainCurrency().getAbbr());
                 else tvError.setText("");
             }
         } else tvError.setText("");

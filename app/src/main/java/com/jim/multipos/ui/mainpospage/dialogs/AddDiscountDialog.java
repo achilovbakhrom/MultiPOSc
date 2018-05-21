@@ -58,7 +58,7 @@ public class AddDiscountDialog extends Dialog {
     private double resultPrice = 0;
     private double discountValue = 0;
 
-    public AddDiscountDialog(@NonNull Context context, DatabaseManager databaseManager, double price, int discountType,DiscountDialog.CallbackDiscountDialog callbackDiscountDialog, DecimalFormat formatter) {
+    public AddDiscountDialog(@NonNull Context context, DatabaseManager databaseManager, double price, int discountType, DiscountDialog.CallbackDiscountDialog callbackDiscountDialog, DecimalFormat formatter) {
         super(context);
         this.discountType = discountType;
         this.callbackDiscountDialog = callbackDiscountDialog;
@@ -162,16 +162,21 @@ public class AddDiscountDialog extends Dialog {
         });
 
         btnOk.setOnClickListener(view -> {
-            if (etResultPrice.getText().toString().isEmpty() && etDiscountAmount.getText().toString().isEmpty()) {
+            if (etDiscountAmount.getText().toString().isEmpty()) {
                 etDiscountAmount.setError(context.getString(R.string.enter_amount));
+            } else if (etResultPrice.getText().toString().isEmpty()) {
                 etResultPrice.setError(context.getString(R.string.enter_amount));
             } else if (etDiscountName.getText().toString().isEmpty()) {
                 etDiscountName.setError(context.getString(R.string.disc_reacon_cant_empty));
+            } else if (resultPrice > price) {
+                etResultPrice.setError(context.getString(R.string.result_price_cant_be_bigger));
+            } else if (discountValue > price){
+                etDiscountAmount.setError("Discount value cannot be bigger than price");
             } else {
                 new android.os.Handler().postDelayed(() -> {
                     Discount discount = new Discount();
                     discount.setIsManual(true);
-                    discount.setAmount(discountValue );
+                    discount.setAmount(discountValue);
                     discount.setCreatedDate(System.currentTimeMillis());
                     discount.setName(etDiscountName.getText().toString());
                     discount.setAmountType(discountAmountType);
@@ -179,12 +184,14 @@ public class AddDiscountDialog extends Dialog {
                     this.callbackDiscountDialog.choiseManualDiscount(discount);
                     dismiss();
 
-                },300);
-                UIUtils.closeKeyboard(etDiscountName,getContext());
+                }, 300);
+                UIUtils.closeKeyboard(etDiscountName, getContext());
             }
         });
 
-        btnCancel.setOnClickListener(view -> dismiss());
+        btnCancel.setOnClickListener(view ->
+
+                dismiss());
 
     }
 }

@@ -676,7 +676,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     product.getBarcode(),
                     product.getSku(),
                     product.isActive(),
-                    product.getPriceCurrency().getAbbr(),
+                    databaseManager.getMainCurrency().getAbbr(),
                     product.getCostCurrency().getAbbr(),
                     productClassPos,
                     unitCategoryPos,

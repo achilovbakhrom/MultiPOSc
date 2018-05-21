@@ -191,7 +191,7 @@
 
                 <LinearLayout
                     android:id="@+id/llCustomerDebt"
-                    android:layout_width="@dimen/hundred_thirty_five_dp"
+                    android:layout_width="@dimen/hundred_fifty_dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:orientation="horizontal"

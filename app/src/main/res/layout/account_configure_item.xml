@@ -17,8 +17,7 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/forty_dp"
             android:layout_gravity="center"
-            android:layout_marginRight="@dimen/twenty_five_dp"
-            android:layout_weight="1"
+            android:layout_weight="4"
             android:background="@drawable/text_view_bg2"
             android:gravity="left|center_vertical"
             android:paddingLeft="@dimen/ten_dp"
@@ -28,21 +27,29 @@
 
         <com.jim.mpviews.MpCheckbox
             android:id="@+id/chbActive"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginRight="@dimen/thirty_dp"
+            android:layout_weight="1"
             app:checked="true" />
 
-        <com.jim.mpviews.MpMiniActionButton
-            android:id="@+id/ivDelete"
-            android:layout_width="@dimen/sixty_dp"
-            android:layout_height="@dimen/forty_dp"
-            android:layout_gravity="center_vertical"
-            android:paddingBottom="@dimen/ten_dp"
-            android:paddingTop="@dimen/ten_dp"
-            android:src="@drawable/delete"
-            android:tint="@color/colorBlue" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <com.jim.mpviews.MpMiniActionButton
+                android:id="@+id/ivDelete"
+                android:layout_width="@dimen/sixty_dp"
+                android:layout_height="@dimen/forty_dp"
+                android:layout_gravity="center_vertical"
+                android:paddingBottom="@dimen/ten_dp"
+                android:paddingTop="@dimen/ten_dp"
+                android:src="@drawable/delete"
+                android:tint="@color/colorBlue" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

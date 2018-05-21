@@ -67,7 +67,7 @@
 
         <TextView
             android:id="@+id/tvDebtSum"
-            android:layout_width="@dimen/hundred_thirty_dp"
+            android:layout_width="@dimen/hundred_fifty_dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:paddingLeft="@dimen/ten_dp"
