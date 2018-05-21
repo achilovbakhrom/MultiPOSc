@@ -66,5 +66,5 @@ public interface OrderListPresenter extends Presenter {
     void eventConsignmentUpdate();
     void printStockCheck();
     void onBarcodeReaded(String barcode);
-
+    void onCancelClicked();
 }

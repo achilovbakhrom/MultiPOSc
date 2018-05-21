@@ -84,4 +84,5 @@ public interface  OrderListView extends BaseView {
     void checkOrder(Order order, DatabaseManager databaseManager, PreferencesHelper preferencesHelper);
     void stockCheckOrder(long tillId, long orderNumber, long now, List<OrderProductItem> orderProducts, Customer customer);
     void choiseOneProduct(List<Product> products);
+    void sureCancel();
 }

@@ -1280,5 +1280,14 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         });
     }
 
+    @Override
+    public void onCancelClicked() {
+        if(isEmptyOrder()){
+            view.openWarningDialog("Empty Till can't be cancel");
+            return;
+        }
+        view.sureCancel();
+    }
+
 
 }

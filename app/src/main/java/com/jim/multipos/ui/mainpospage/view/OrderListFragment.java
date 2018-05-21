@@ -190,20 +190,8 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
             mainPageConnection.onHoldOrderClicked();
         });
         lbCancelOrder.setOnLightButtonClickListener(view -> {
-            WarningDialog warningDialog = new WarningDialog(getActivity());
-            warningDialog.setWarningMessage("Are you sure cancel order?");
-            warningDialog.setOnYesClickListener(view1 -> {
-                warningDialog.dismiss();
-                presenter.cleanOrder();
-                mainPageConnection.onNewOrderPaymentFragment();
-                ((MainPosPageActivity) getActivity()).hideProductInfoFragment();
-            });
-            warningDialog.setOnNoClickListener(view1 -> {
-                warningDialog.dismiss();
-            });
-            warningDialog.setPositiveButtonText(getString(R.string.yes));
-            warningDialog.setNegativeButtonText(getString(R.string.cancel));
-            warningDialog.show();
+            presenter.onCancelClicked();
+
         });
         presenter.onCreateView(getArguments());
         subscriptions.add(
@@ -786,6 +774,25 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
             dialog.dismiss();
         });
         dialog.show();
+    }
+
+    @Override
+    public void sureCancel() {
+
+        WarningDialog warningDialog = new WarningDialog(getActivity());
+        warningDialog.setWarningMessage("Are you sure cancel order?");
+        warningDialog.setOnYesClickListener(view1 -> {
+            warningDialog.dismiss();
+            presenter.cleanOrder();
+            mainPageConnection.onNewOrderPaymentFragment();
+            ((MainPosPageActivity) getActivity()).hideProductInfoFragment();
+        });
+        warningDialog.setOnNoClickListener(view1 -> {
+            warningDialog.dismiss();
+        });
+        warningDialog.setPositiveButtonText(getString(R.string.yes));
+        warningDialog.setNegativeButtonText(getString(R.string.cancel));
+        warningDialog.show();
     }
 
 

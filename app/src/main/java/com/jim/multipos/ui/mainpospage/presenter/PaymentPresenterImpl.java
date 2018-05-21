@@ -170,7 +170,9 @@ public class PaymentPresenterImpl extends BasePresenterImpl<PaymentView> impleme
      */
     @Override
     public void pressAllAmount() {
-        view.updatePaymentText(order.getForPayAmmount()-totalPayed());
+        double payment = order.getForPayAmmount() - totalPayed();
+        if(payment<0) payment = 0;
+        view.updatePaymentText(payment);
     }
 
     @Override

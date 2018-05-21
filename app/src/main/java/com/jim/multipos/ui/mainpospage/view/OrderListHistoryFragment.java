@@ -165,7 +165,7 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
         tvCreatedTime.setText(sdfTime.format(order.getCreateAt()));
         tvDebtAmmount.setText(decimalFormat.format(order.getToDebtValue()));
         tvTotalPayed.setText(decimalFormat.format(order.getTotalPayed()));
-        tvChange.setText(decimalFormat.format(order.getForPayAmmount()-order.getTotalPayed()));
+        tvChange.setText(decimalFormat.format(order.getChange()));
         if(order.getCustomer() != null) {
             tvCustomerName.setVisibility(View.VISIBLE);
             tvCustomerName.setText("Customer: " + order.getCustomer().getName());
