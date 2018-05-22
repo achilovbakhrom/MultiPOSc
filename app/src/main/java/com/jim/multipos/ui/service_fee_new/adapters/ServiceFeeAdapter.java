@@ -14,6 +14,7 @@ import com.jim.mpviews.MpCheckbox;
 import com.jim.mpviews.MpEditText;
 import com.jim.mpviews.MpMiniActionButton;
 import com.jim.multipos.R;
+import com.jim.multipos.config.common.BaseAppModule;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.ui.service_fee_new.ServiceFeePresenterImpl;
 import com.jim.multipos.ui.service_fee_new.model.ServiceFeeAdapterDetails;
@@ -22,6 +23,7 @@ import com.jim.multipos.utils.UIUtils;
 import com.jim.multipos.utils.WarningDialog;
 import com.jim.multipos.utils.validator.MultipleCallback;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import butterknife.BindView;
@@ -44,11 +46,13 @@ public class ServiceFeeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private Context context;
     private String[] discountUsedType;
     private String[] discountAmountType;
+    private DecimalFormat decimalFormat;
 
     ServiceFeePresenterImpl.ServiceFeeSortTypes currentServiceFeeSortTypes = ServiceFeePresenterImpl.ServiceFeeSortTypes.Default;
 
     public ServiceFeeAdapter(Context context) {
         this.context = context;
+        decimalFormat = BaseAppModule.getFormatterWithoutGroupingTwoDecimal();
         discountUsedType = context.getResources().getStringArray(R.array.discount_used_types);
         discountAmountType = context.getResources().getStringArray(R.array.discount_amount_types);
         addingState = new ServiceFeeAdapterDetails();
@@ -101,7 +105,7 @@ public class ServiceFeeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 holder.spTypeAmount.setSelectedPosition(0);
                 holder.spUsed.setSelectedPosition(0);
             } else {
-                holder.etAmmount.setText((addingState.getChangedObject().getAmount() == 0) ? "" : String.valueOf(addingState.getChangedObject().getAmount()));
+                holder.etAmmount.setText((addingState.getChangedObject().getAmount() == 0) ? "" : decimalFormat.format(addingState.getChangedObject().getAmount()));
                 holder.etName.setText((addingState.getChangedObject().getName() == null) ? "" : addingState.getChangedObject().getName());
                 holder.chbActive.setChecked(addingState.getChangedObject().getIsActive());
                 int a = 0;
@@ -156,7 +160,7 @@ public class ServiceFeeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             }
 
             holder.etName.setText(serviceFee.getName());
-            holder.etAmmount.setText(String.valueOf(serviceFee.getAmount()));
+            holder.etAmmount.setText(decimalFormat.format(serviceFee.getAmount()));
             holder.chbActive.setChecked(serviceFee.getIsActive());
             if (!serviceFee.getIsActive()) {
                 holder.etName.setAlpha(0.5f);
@@ -300,7 +304,7 @@ public class ServiceFeeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         if (addingState.getActualType() == ServiceFee.PERCENT) {
                             double percent = 0;
                             try {
-                                percent = Double.parseDouble(etAmmount.getText().toString());
+                                percent = decimalFormat.parse(etAmmount.getText().toString()).doubleValue();
                             } catch (Exception e) {
                                 etAmmount.setError(context.getString(R.string.invalid));
                                 return;
@@ -313,7 +317,7 @@ public class ServiceFeeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         } else {
                             double percent = 0;
                             try {
-                                percent = Double.parseDouble(etAmmount.getText().toString());
+                                percent = decimalFormat.parse(etAmmount.getText().toString()).doubleValue();
                             } catch (Exception e) {
                                 etAmmount.setError(context.getString(R.string.invalid));
                                 return;
@@ -403,7 +407,7 @@ public class ServiceFeeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         if (items.get(getAdapterPosition()).getActualType() == ServiceFee.PERCENT) {
                             double percent = 0;
                             try {
-                                percent = Double.parseDouble(etAmmount.getText().toString());
+                                percent = decimalFormat.parse(etAmmount.getText().toString()).doubleValue();
                             } catch (Exception e) {
                                 etAmmount.setError(context.getString(R.string.invalid));
                                 return;
@@ -417,7 +421,7 @@ public class ServiceFeeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         } else {
                             double percent = 0;
                             try {
-                                percent = Double.parseDouble(etAmmount.getText().toString());
+                                percent = decimalFormat.parse(etAmmount.getText().toString()).doubleValue();
                             } catch (Exception e) {
                                 etAmmount.setError(context.getString(R.string.invalid));
                                 return;
