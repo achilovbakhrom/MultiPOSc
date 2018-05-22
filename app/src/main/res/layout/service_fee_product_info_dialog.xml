@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="left|center_vertical"
                 android:layout_marginLeft="@dimen/thirty_dp"
-                android:text="@string/choose_for_order"
+                android:text="@string/select_for_order"
                 android:textColor="@color/colorBlue"
                 android:textSize="@dimen/eighteen_dp" />
         </FrameLayout>

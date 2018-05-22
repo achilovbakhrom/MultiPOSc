@@ -26,7 +26,7 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/thirty_dp"
-                android:text="@string/choose_customer"
+                android:text="@string/select_customer"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/twenty_dp" />
 
@@ -119,7 +119,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="@string/contact"
+                        android:text="@string/phone"
                         android:textColor="@color/colorBlue"
                         android:textSize="@dimen/sixteen_dp" />
 

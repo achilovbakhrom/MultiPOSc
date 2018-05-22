@@ -34,7 +34,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/pos_id"
+                        android:text="@string/pos_id_setting"
                         android:textColor="#212121"
                         android:textSize="@dimen/eighteen_dp" />
 
@@ -42,7 +42,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/hundred_fifty_dp"
-                        android:text="Phasellus pretium sed mauris at semper."
+                        android:text="@string/pos_id_description"
                         android:textColor="#b8b8b8"
                         android:textSize="@dimen/sixteen_dp" />
                 </LinearLayout>
@@ -83,7 +83,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/alias"
+                        android:text="@string/company_name"
                         android:textColor="#212121"
                         android:textSize="@dimen/eighteen_dp" />
 
@@ -91,7 +91,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/hundred_fifty_dp"
-                        android:text="Phasellus pretium sed mauris at semper"
+                        android:text="@string/company_description"
                         android:textColor="#b8b8b8"
                         android:textSize="@dimen/sixteen_dp" />
                 </LinearLayout>
@@ -140,7 +140,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/hundred_fifty_dp"
-                        android:text="Phasellus pretium sed mauris at semper."
+                        android:text="@string/address_description"
                         android:textColor="#b8b8b8"
                         android:textSize="@dimen/sixteen_dp" />
                 </LinearLayout>
@@ -181,7 +181,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/phone_number"
+                        android:text="@string/phone_number_setting"
                         android:textColor="#212121"
                         android:textSize="@dimen/eighteen_dp" />
 
@@ -189,7 +189,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/hundred_fifty_dp"
-                        android:text="Phasellus pretium sed mauris at semper."
+                        android:text="@string/phone_number_description"
                         android:textColor="#b8b8b8"
                         android:textSize="@dimen/sixteen_dp" />
                 </LinearLayout>

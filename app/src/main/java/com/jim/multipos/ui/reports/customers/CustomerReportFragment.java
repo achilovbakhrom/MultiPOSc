@@ -17,14 +17,10 @@ import com.jim.multipos.ui.reports.customers.dialogs.CustomerSummaryFilterDialog
 import com.jim.multipos.utils.ExportToDialog;
 import com.jim.multipos.utils.ExportUtils;
 import com.jim.multipos.utils.RxBus;
-import com.jim.multipos.utils.usb_barcode.BarcodeReadEvent;
 
 import java.io.File;
 
 import javax.inject.Inject;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 
 import static com.jim.multipos.utils.ExportUtils.EXCEL;
 
@@ -68,7 +64,7 @@ public class CustomerReportFragment extends BaseTableReportFragment implements C
                         {2, getString(R.string.change), R.color.colorRed}}
         };
 
-        firstTitles = new String[]{getString(R.string.id), getString(R.string.name), getString(R.string.closed_orders), getString(R.string.canceled_orders), getString(R.string.total_orders_amount), getString(R.string.total_to_debt), getString(R.string.total_discounts), getString(R.string.total_service_fees)};
+        firstTitles = new String[]{getString(R.string.id), getString(R.string.name), getString(R.string.closed_orders), getString(R.string.cancelled_orders), getString(R.string.total_orders_amount), getString(R.string.total_to_debt), getString(R.string.total_discounts), getString(R.string.total_service_fees)};
         secondTitles = new String[]{getString(R.string.id), getString(R.string.name), getString(R.string.date), getString(R.string.order), getString(R.string.order_status), getString(R.string.total_order_amount)};
         thirdTitles = new String[]{getString(R.string.id), getString(R.string.name), getString(R.string.date), getString(R.string.reason), getString(R.string.payment_type), getString(R.string.amount)};
 
@@ -230,15 +226,15 @@ public class CustomerReportFragment extends BaseTableReportFragment implements C
     public void exportExcelToUSB(String filename, UsbFile root, Object[][] objects, int position, String date, String filter, String searchText) {
         switch (position) {
             case 0:
-                String description = "In this report you can find all info about consignments";
+                String description = getContext().getString(R.string.customer_summary_description);
                 ExportUtils.exportToExcelToUSB(getContext(), root, filename, description, date, filter, searchText, objects, firstTitles, firstWeights, firstDataType, null);
                 break;
             case 1:
-                String secondDescription = " All Consignment products";
+                String secondDescription = getContext().getString(R.string.customer_order_list_description);
                 ExportUtils.exportToExcelToUSB(getContext(), root, filename, secondDescription, date, filter, searchText, objects, secondTitles, secondWeights, secondDataType, secondStatusTypes);
                 break;
             case 2:
-                String thirdDescription = " Debt states of each vendor";
+                String thirdDescription = getContext().getString(R.string.customer_payment_log_description);
                 ExportUtils.exportToExcelToUSB(getContext(), root, filename, thirdDescription, date, filter, searchText, objects, thirdTitles, thirdWeights, thirdDataType, thirdStatusTypes);
                 break;
         }
@@ -248,15 +244,15 @@ public class CustomerReportFragment extends BaseTableReportFragment implements C
     public void exportTableToPdfToUSB(String fileName, UsbFile path, Object[][] objects, int position, String date, String filter, String searchText) {
         switch (position) {
             case 0:
-                String description = "In this report you can find all info about consignments";
+                String description = getContext().getString(R.string.customer_summary_description);
                 ExportUtils.exportToPdfToUSB(getContext(), path, fileName, description, date, filter, searchText, objects, firstTitles, firstWeights, firstDataType, null);
                 break;
             case 1:
-                String secondDescription = " All Consignment products";
+                String secondDescription = getContext().getString(R.string.customer_order_list_description);
                 ExportUtils.exportToPdfToUSB(getContext(), path, fileName, secondDescription, date, filter, searchText, objects, secondTitles, secondWeights, secondDataType, secondStatusTypes);
                 break;
             case 2:
-                String thirdDescription = " Debt states of each vendor";
+                String thirdDescription = getContext().getString(R.string.customer_payment_log_description);
                 ExportUtils.exportToPdfToUSB(getContext(), path, fileName, thirdDescription, date, filter, searchText, objects, thirdTitles, thirdWeights, thirdDataType, thirdStatusTypes);
                 break;
         }

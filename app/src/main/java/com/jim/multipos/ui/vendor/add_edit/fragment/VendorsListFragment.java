@@ -51,7 +51,7 @@ public class VendorsListFragment extends BaseFragment implements ClickableBaseAd
             List<Vendor> items = ((VendorAddEditActivity) getContext()).getPresenter().getVendors();
             if (items == null) items = new ArrayList<>();
             items.add(0, null);
-            VendorsListAdapter adapter = new VendorsListAdapter(items);
+            VendorsListAdapter adapter = new VendorsListAdapter(items, getContext());
             adapter.setOnItemClickListener(this);
             vendors.setLayoutManager(new GridLayoutManager(getContext(), 3));
             vendors.setAdapter(adapter);

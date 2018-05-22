@@ -82,7 +82,7 @@ public class ImportCustomersDialog extends Dialog {
         spFileType.setAdapter(fileTypes);
         tvFilePath.setOnClickListener(view -> {
             FilePickerDialog dialog = new FilePickerDialog(context, properties);
-            dialog.setTitle(getContext().getString(R.string.select_file));
+            dialog.setTitle(getContext().getString(R.string.select_the_file_location));
             dialog.setDialogSelectionListener(files -> {
                 path = files[0];
                 tvFilePath.setText(path);
@@ -96,7 +96,7 @@ public class ImportCustomersDialog extends Dialog {
                     selectFileForImport();
                 } else ExportUtils.importCustomers(context, path, databaseManager);
                 dismiss();
-            } else tvFilePath.setError(context.getString(R.string.choose_file_location));
+            } else tvFilePath.setError(context.getString(R.string.select_file_location));
         });
     }
 
@@ -119,19 +119,19 @@ public class ImportCustomersDialog extends Dialog {
                                 }
                             }
                         } else
-                            Toast.makeText(context, "Not enough place in memory", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, context.getString(R.string.not_enough_place_in_memory), Toast.LENGTH_SHORT).show();
                     } catch (IOException e) {
-                        Toast.makeText(context, "Device hasn\'t got permission", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, context.getString(R.string.device_hasnt_got_permission), Toast.LENGTH_SHORT).show();
                     }
                 }
             } else {
                 spImportType.setSelection(0);
-                Toast.makeText(context, "Please, connect only one USB storage device", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, context.getString(R.string.connect_only_one_device), Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
             e.printStackTrace();
             spImportType.setSelection(0);
-            Toast.makeText(context, "Please, connect USB storage device", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, context.getString(R.string.pos_currency), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -147,7 +147,7 @@ public class ImportCustomersDialog extends Dialog {
             }
         } else {
             spImportType.setSelection(0);
-            Toast.makeText(context, "Please, connect USB drive", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, context.getString(R.string.please_connect_usb_drive), Toast.LENGTH_SHORT).show();
         }
     }
 }

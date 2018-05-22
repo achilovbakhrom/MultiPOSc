@@ -149,7 +149,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="Product"
+                                android:text="@string/product_main"
                                 android:textColor="@color/colorWhite"
                                 android:textSize="@dimen/fourteen_dp" />
 
@@ -202,7 +202,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="Reports"
+                                android:text="@string/reports_main"
                                 android:textColor="@color/colorWhite"
                                 android:textSize="@dimen/fourteen_dp" />
 
@@ -254,7 +254,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="Customers"
+                                android:text="@string/customers_main"
                                 android:textColor="@color/colorWhite"
 
                                 android:textSize="@dimen/fourteen_dp" />
@@ -306,7 +306,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="Inventory"
+                                android:text="@string/inventory_main"
                                 android:textColor="@color/colorWhite"
 
                                 android:textSize="@dimen/fourteen_dp" />

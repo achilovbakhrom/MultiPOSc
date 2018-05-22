@@ -30,14 +30,14 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Check printer connection"
+                            android:text="@string/check_printer_connection"
                             android:textSize="@dimen/eighteen_dp"
                             android:textColor="#212121"
                             />
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Mauris euismod sodales gravida. Nulla neque lectus."
+                            android:text="@string/check_printer_connection_description"
                             android:layout_marginRight="@dimen/fifty_dp"
                             android:textSize="@dimen/sixteen_dp"
                             android:textColor="#b8b8b8"
@@ -58,7 +58,7 @@
                             android:paddingTop="@dimen/seven_dp"
                             android:paddingBottom="@dimen/seven_dp"
                             android:gravity="center_horizontal"
-                            android:text="Connected"
+                            android:text="@string/connected"
                             android:layout_gravity="center_vertical"
                             android:background="@drawable/rect_grey_stroke"
 
@@ -108,14 +108,14 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Reciep have logo picture"
+                        android:text="@string/include_logo_on_the_receipt"
                         android:textSize="@dimen/eighteen_dp"
                         android:textColor="#212121"
                         />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Integer pharetra non dui eu maximus. Quisque sagittis enim id laoreet viverra."
+                        android:text="@string/include_logo_on_the_receipt_description"
                         android:layout_marginRight="@dimen/fifty_dp"
                         android:textSize="@dimen/sixteen_dp"
                         android:textColor="#b8b8b8"
@@ -162,14 +162,14 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Reciep  logo"
+                        android:text="@string/reciept_logo"
                         android:textSize="@dimen/eighteen_dp"
                         android:textColor="#212121"
                         />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Aenean neque magna, efficitur ultrices tincidunt vel, finibus et erat. Mauris ultrices congue mi, nec pellentesque augue condimentum ac."
+                        android:text="@string/reciept_logo_description"
                         android:layout_marginRight="@dimen/sixty_dp"
                         android:textSize="@dimen/sixteen_dp"
                         android:textColor="#b8b8b8"
@@ -190,7 +190,7 @@
                         android:textColor="#212121"
                         android:paddingTop="@dimen/seven_dp"
                         android:paddingBottom="@dimen/seven_dp"
-                        android:text="../Example.jpg"
+                        android:text="@string/example_jpg"
                         android:gravity="left"
                         android:paddingRight="@dimen/sixteen_dp"
                         android:paddingLeft="@dimen/sixteen_dp"
@@ -245,14 +245,14 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Hint about service fee, discount"
+                        android:text="@string/state_any_service_fee_or"
                         android:textSize="@dimen/eighteen_dp"
                         android:textColor="#212121"
                         />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Integer pharetra non dui eu maximus. Quisque sagittis enim id laoreet viverra."
+                        android:text="@string/hint_about_service_fee_discount_description"
                         android:layout_marginRight="@dimen/fifty_dp"
                         android:textSize="@dimen/sixteen_dp"
                         android:textColor="#b8b8b8"
@@ -298,14 +298,14 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Print Empty example check"
+                        android:text="@string/print_empty_example_check"
                         android:textSize="@dimen/eighteen_dp"
                         android:textColor="#212121"
                         />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Nam odio dolor, fermentum ut tristique non, egestas vel eros. Nullam mattis tristique dui, ut sodales eros mattis et. Donec tincidunt egestas vulputate."
+                        android:text="@string/print_empty_example_check_description"
                         android:layout_marginRight="@dimen/hundred_fifty_dp"
                         android:textSize="@dimen/sixteen_dp"
                         android:textColor="#b8b8b8"
@@ -321,7 +321,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Print"
+                        android:text="@string/print"
                         android:textSize="@dimen/eighteen_dp"
                         android:textColor="#419fd9"
                         android:layout_marginRight="@dimen/forty_dp"

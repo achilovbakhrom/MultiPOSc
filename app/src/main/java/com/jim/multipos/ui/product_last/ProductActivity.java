@@ -211,7 +211,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
     @Override
     public void showInventoryStateShouldBeEmptyDialog() {
         UIUtils.showAlert(this, getString(R.string.ok), getString(R.string.warning),
-                "You can not change the vendor who has products available", () -> Log.d("sss", "onButtonClicked: "));
+                getString(R.string.you_cant_change_the_vendor_who_has), () -> Log.d("sss", "onButtonClicked: "));
     }
 
     @Override

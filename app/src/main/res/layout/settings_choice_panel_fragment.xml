@@ -25,14 +25,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/five_dp"
-                android:text="Settings"
+                android:text="@string/settings"
                 android:textSize="@dimen/eighteen_dp"
                 android:textColor="@color/colorBlue" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Configurations POS system"
+                android:text="@string/customization_pos_system"
                 android:textColor="#636363" />
 
         </LinearLayout>

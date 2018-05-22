@@ -31,7 +31,7 @@
                     android:paddingLeft="@dimen/ten_dp"
                     android:paddingRight="@dimen/ten_dp"
                     android:paddingTop="@dimen/five_dp"
-                    android:text="@string/customer_groups"
+                    android:text="@string/customers_groups"
                     android:textColor="@color/colorBlue"
                     android:textSize="@dimen/sixteen_dp"
                     android:textStyle="bold" />

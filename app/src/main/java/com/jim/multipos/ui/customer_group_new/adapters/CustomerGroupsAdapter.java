@@ -1,5 +1,6 @@
 package com.jim.multipos.ui.customer_group_new.adapters;
 
+import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
@@ -25,6 +26,7 @@ import butterknife.ButterKnife;
  */
 
 public class CustomerGroupsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private Context context;
     private List<CustomerGroup> list;
     private int selectedPosition = 0;
     private OnItemClickListener onItemClickListener;
@@ -41,7 +43,8 @@ public class CustomerGroupsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         selectedPosition = 0;
     }
 
-    public CustomerGroupsAdapter(List<CustomerGroup> list, OnItemClickListener onItemClickListener, int selectedPosition) {
+    public CustomerGroupsAdapter(Context context, List<CustomerGroup> list, OnItemClickListener onItemClickListener, int selectedPosition) {
+        this.context = context;
         this.list = list;
         this.onItemClickListener = onItemClickListener;
         this.selectedPosition = selectedPosition;
@@ -94,7 +97,7 @@ public class CustomerGroupsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 itemViewHolder.tvFirstItem.setTextColor(Color.parseColor("#cccccc"));
                 itemViewHolder.ivItemBg.setImageTintList(ColorStateList.valueOf(Color.parseColor("#cccccc")));
             }
-            itemViewHolder.tvFirstItem.setText("+Add\n Group");
+            itemViewHolder.tvFirstItem.setText(context.getString(R.string.add_group));
 
         }
     }

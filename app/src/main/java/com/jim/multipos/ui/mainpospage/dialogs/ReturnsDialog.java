@@ -75,7 +75,7 @@ public class ReturnsDialog extends Dialog {
             this.returnsList = returnsList;
             returnsAdapter.setData(returnsList);
         } else this.returnsList = new ArrayList<>();
-        searchResultsAdapter = new ProductSearchResultsAdapter();
+        searchResultsAdapter = new ProductSearchResultsAdapter(context);
         rvProducts.setLayoutManager(new LinearLayoutManager(context));
         rvProducts.setAdapter(searchResultsAdapter);
         ((SimpleItemAnimator) rvProducts.getItemAnimator()).setSupportsChangeAnimations(false);
@@ -127,7 +127,7 @@ public class ReturnsDialog extends Dialog {
                 dismiss();
             } else {
                 WarningDialog warningDialog = new WarningDialog(context);
-                warningDialog.setWarningMessage("Products were not chose for return");
+                warningDialog.setWarningMessage(context.getString(R.string.products_were_not_chose_for_return));
                 warningDialog.onlyText(true);
                 warningDialog.setOnYesClickListener(view1 -> warningDialog.dismiss());
                 warningDialog.show();

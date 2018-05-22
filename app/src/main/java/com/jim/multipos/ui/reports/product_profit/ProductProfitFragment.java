@@ -149,11 +149,11 @@ public class ProductProfitFragment extends BaseTableReportFragment implements Pr
     public void exportTableToExcel(String filename, String path, Object[][] objects, int position, String date, String filter, String searchText) {
         switch (position) {
             case 0:
-                String description = "In this report you can find all info about consignments";
+                String description = getContext().getString(R.string.product_profit_summary_description);
                 ExportUtils.exportToExcel(getContext(), path, filename, description, date, filter, searchText, objects, profitSumTitles, profitSumWeights, profitSumType, null);
                 break;
             case 1:
-                String secondDescription = " All Consignment products";
+                String secondDescription = getContext().getString(R.string.product_profit_sales_log_description);
                 ExportUtils.exportToExcel(getContext(), path, filename, secondDescription, date, filter, searchText, objects, profitLogTitles, profitLogWeights, profitLogType, null);
                 break;
         }
@@ -163,11 +163,11 @@ public class ProductProfitFragment extends BaseTableReportFragment implements Pr
     public void exportTableToPdf(String filename, String path, Object[][] objects, int position, String date, String filter, String searchText) {
         switch (position) {
             case 0:
-                String description = "In this report you can find all info about consignments";
+                String description = getContext().getString(R.string.product_profit_summary_description);
                 ExportUtils.exportToPdf(getContext(), path, filename, description, date, filter, searchText, objects, profitSumTitles, profitSumWeights, profitSumType, null);
                 break;
             case 1:
-                String secondDescription = " All Consignment products";
+                String secondDescription = getContext().getString(R.string.product_profit_sales_log_description);
                 ExportUtils.exportToPdf(getContext(), path, filename, secondDescription, date, filter, searchText, objects, profitLogTitles, profitLogWeights, profitLogType, null);
                 break;
         }
@@ -220,11 +220,11 @@ public class ProductProfitFragment extends BaseTableReportFragment implements Pr
     public void exportExcelToUSB(String filename, UsbFile root, Object[][] objects, int position, String date, String filter, String searchText) {
         switch (position) {
             case 0:
-                String description = "In this report you can find all info about consignments";
+                String description = getContext().getString(R.string.product_profit_summary_description);
                 ExportUtils.exportToExcelToUSB(getContext(), root, filename, description, date, filter, searchText, objects, profitSumTitles, profitSumWeights, profitSumType, null);
                 break;
             case 1:
-                String secondDescription = " All Consignment products";
+                String secondDescription = getContext().getString(R.string.product_profit_sales_log_description);
                 ExportUtils.exportToExcelToUSB(getContext(), root, filename, secondDescription, date, filter, searchText, objects, profitLogTitles, profitLogWeights, profitLogType, null);
                 break;
         }
@@ -234,11 +234,11 @@ public class ProductProfitFragment extends BaseTableReportFragment implements Pr
     public void exportTableToPdfToUSB(String fileName, UsbFile path, Object[][] objects, int position, String date, String filter, String searchText) {
         switch (position) {
             case 0:
-                String description = "In this report you can find all info about consignments";
+                String description = getContext().getString(R.string.product_profit_summary_description);
                 ExportUtils.exportToPdfToUSB(getContext(), path, fileName, description, date, filter, searchText, objects, profitSumTitles, profitSumWeights, profitSumType, null);
                 break;
             case 1:
-                String secondDescription = " All Consignment products";
+                String secondDescription = getContext().getString(R.string.product_profit_sales_log_description);
                 ExportUtils.exportToPdfToUSB(getContext(), path, fileName, secondDescription, date, filter, searchText, objects, profitLogTitles, profitLogWeights, profitLogType, null);
                 break;
         }

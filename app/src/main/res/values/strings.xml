@@ -7,21 +7,21 @@
     <string name="registration">Registration</string>
     <string name="login">Login</string>
     <string name="founder_password">Founder password</string>
-    <string name="system_accounts">System accounts</string>
+    <string name="system_accounts">Accounts</string>
     <string name="pos_id">Pos ID</string>
-    <string name="alias">Alias</string>
-    <string name="enter_pos_alias">Enter POS Alias</string>
+    <string name="alias">Company</string>
+    <string name="enter_pos_alias">Enter Company name</string>
     <string name="address">Address</string>
-    <string name="enter_pos_address">Enter POS Address</string>
-    <string name="password">Password</string>
+    <string name="enter_pos_address">Enter Company Address</string>
+    <string name="enter_pos_password">Enter password</string>
     <string name="admin_password">Admin password</string>
     <string name="repeat">Repeat</string>
-    <string name="repeat_password">Repeat password</string>
+    <string name="repeat_password">Re-enter password</string>
     <string name="revert">Revert</string>
     <string name="next">Next</string>
     <string name="phone">Phone</string>
     <string name="email">Email</string>
-    <string name="item_management">Management Item Mode</string>
+    <string name="products_creation_mode">Products Creation Mode</string>
     <string name="pos_details_description">Some details about POS system</string>
     <string name="account_description">Some details about money</string>
     <string name="payment_type_description">Some details about payment types</string>
@@ -52,17 +52,17 @@
     <string name="zip_code_">Zip Code</string>
 
     <string-array name="start_configuration_title">
-        <item>POS details</item>
+        <item>POS data</item>
         <item>Account</item>
         <item>Currency</item>
-        <item>Payment type</item>
+        <item>Payment type name</item>
         <item>Units</item>
     </string-array>
     <string-array name="start_configuration_description">
-        <item>POS details</item>
+        <item>POS data</item>
         <item>Account</item>
         <item>Currency</item>
-        <item>Payment type</item>
+        <item>Payment type name</item>
         <item>Units</item>
     </string-array>
     <string-array name="products_menu_title">
@@ -75,25 +75,25 @@
         <item>Import</item>
     </string-array>
     <string-array name="products_menu_description">
-        <item>Add and edit vendors</item>
-        <item>Add and change products</item>
-        <item>Add and change product classes</item>
-        <item>Manage discounts</item>
-        <item>Manage service fees</item>
+        <item>Add and edit products</item>
+        <item>Add or edit vendors</item>
+        <item>Add or edit classes</item>
+        <item>Add or edit discounts</item>
+        <item>Add or edit service fees</item>
         <item>Export price list, products, vendors</item>
         <item>Import products, vendors</item>
     </string-array>
     <string-array name="customers_menu_title">
-        <item>Customers Add&amp;Edit</item>
+        <item>Customers</item>
         <item>Customer Groups</item>
-        <item>Debt Clients</item>
+        <item>Debtors</item>
         <item>Export</item>
         <item>Import</item>
     </string-array>
     <string-array name="customers_menu_description">
         <item>Add and edit customers</item>
-        <item>Add customers to the groups</item>
-        <item>Debtors list</item>
+        <item>Add and edit customers groups</item>
+        <item>List of Debtors</item>
         <item>Export customers, customer groups</item>
         <item>Import customers, customer groups</item>
     </string-array>
@@ -114,8 +114,8 @@
         <item>Vendors item management</item>
     </string-array>
     <string-array name="inventory_menu_description">
-        <item>Manage inventory</item>
-        <item>Manage vendor items</item>
+        <item>Inventory control</item>
+        <item>Interactions with vendors</item>
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -124,12 +124,12 @@
     <string name="name">Name</string>
     <string name="active">Active</string>
     <string name="actions">Actions</string>
-    <string name="management_item_mode">Management Item Mode</string>
-    <string name="tap_product_to_manage_it_info">Tap Product to manage it info</string>
+    <string name="vendors_creation_mode">Vendors Creation Mode</string>
+    <string name="click_on_a_product_to_manage_it">Click on a Product to manage it</string>
     <string name="category">Category</string>
     <string name="description">Description</string>
     <string name="enter_description">Enter description</string>
-    <string name="some_notes">Some notes</string>
+    <string name="additional_notes_to_category">Additional notes to Category</string>
 
     <string name="product">Product</string>
     <string name="subcategory">SubCategory</string>
@@ -243,7 +243,7 @@
 
 
     <string name="enter_pos_id">Enter POS ID</string>
-    <string name="enter_alias">Enter alias</string>
+    <string name="enter_alias">Enter company</string>
     <string name="enter_address">Enter address</string>
     <string name="enter_password">Enter password</string>
     <string name="enter_repeat_password">Enter repeat password</string>
@@ -256,7 +256,7 @@
     <string name="create_least_one_account">Create at least one account on the system</string>
     <string name="create_least_one_employer">Create at least one employer on the system</string>
     <string name="create_least_one_payment_type">Create at least one payment type on the system</string>
-    <string name="enter_payment_type_name">Enter payment type name</string>
+    <string name="enter_payment_method">Enter payment type</string>
     <string name="stocks">Stocks</string>
     <string name="stock_name">Stock name</string>
     <string name="current_pos_stock">Current POS Stock</string>
@@ -266,15 +266,15 @@
     <string name="list_of_employers">List of employers</string>
     <string name="confirm_password">Confirm password</string>
     <string name="password_length">The password must be 6 characters in length</string>
-    <string name="tap_to_category_to_manage_it">Tap to Category to manage it</string>
-    <string name="tap_to_manage_subcategory_items">Tap to manage SubCategory items</string>
+    <string name="click_on_a_category_to_manage_it">Click on a Category to manage it</string>
+    <string name="click_on_a_subcategory_to_manage_it">Click on a SubCategory to manage it</string>
     <string name="choose_category">Choose Category</string>
     <string name="options">Options</string>
     <string name="barcode">Barcode</string>
     <string name="sku">SKU</string>
     <string name="quantity">Quantity</string>
     <string name="linked">Linked</string>
-    <string name="none">None</string>
+    <string name="none">none</string>
     <string name="unit">Unit</string>
     <string name="price">Price</string>
     <string name="value">Value</string>
@@ -294,41 +294,41 @@
     <string name="should_not_be_greater_than_999">Should not be greater than 999</string>
 
     <string-array name="currency_with_abbr">
-        <item>Узбекский сум (UZS)</item>
-        <item>Доллары США ($)</item>
-        <item>Азербайджанский манат (AZN)</item>
-        <item>Армянский драм (АРМ)</item>
-        <item>Белорусский рубль (BYN)</item>
-        <item>Грузинский лари (GEL)</item>
-        <item>Евро (€)</item>
-        <item>Киргизский сом (Сом)</item>
-        <item>Китайская Юань (CNY)</item>
-        <item>Молдавский лей (LEI)</item>
-        <item>Российский рубль (₽)</item>
-        <item>Сомони (TJS)</item>
+        <item>Uzbek sum (UZS)</item>
+        <item>U.S.dollars ($)</item>
+        <item>Azerbaijani manat (AZN)</item>
+        <item>Armenian drams (АРМ)</item>
+        <item>Belarusian ruble (BYN)</item>
+        <item>Georgian lari (GEL)</item>
+        <item>Euro (€)</item>
+        <item>Kirghiz som (Сом)</item>
+        <item>Chinese yuan (CNY)</item>
+        <item>Moldovan leu (LEI)</item>
+        <item>Russian ruble (₽)</item>
+        <item>Somoni (TJS)</item>
         <item>Тенге (₸)</item>
-        <item>Туркменский манат (TMT)</item>
-        <item>Украинская гривна (₴)</item>
-        <item>Фунт стерлингов (£)</item>
+        <item>Turkmen manat (TMT)</item>
+        <item>Ukrainian hryvnia (₴)</item>
+        <item>GBP (£)</item>
     </string-array>
 
     <string-array name="currency_title">
-        <item>Узбекский сум</item>
-        <item>Доллары США</item>
-        <item>Азербайджанский манат</item>
-        <item>Армянский драм</item>
-        <item>Белорусский рубль</item>
-        <item>Грузинский лари</item>
-        <item>Евро</item>
-        <item>Киргизский сом</item>
-        <item>Китайская Юань</item>
-        <item>Молдавский лей</item>
-        <item>Российский рубль</item>
-        <item>Сомони</item>
-        <item>Тенге</item>
-        <item>Туркменский манат</item>
-        <item>Украинская гривна</item>
-        <item>Фунт стерлингов</item>
+        <item>Uzbek sum</item>
+        <item>U.S.dollars</item>
+        <item>Azerbaijani manat</item>
+        <item>Armenian drams</item>
+        <item>Belarusian ruble</item>
+        <item>Georgian lari</item>
+        <item>Euro</item>
+        <item>Kirghiz som</item>
+        <item>Chinese yuan</item>
+        <item>Moldovan leu</item>
+        <item>Russian ruble</item>
+        <item>Somoni</item>
+        <item>Tenge</item>
+        <item>Turkmen manat</item>
+        <item>Ukrainian hryvnia</item>
+        <item>GBP</item>
     </string-array>
 
     <string-array name="currency_abbrs">
@@ -354,7 +354,7 @@
 
     <string-array name="service_fee_type">
         <item>Percent</item>
-        <item>Value</item>
+        <item>Amount</item>
     </string-array>
     <string-array name="service_fee_app_type">
         <item>Item</item>
@@ -376,20 +376,20 @@
     <string name="photo_pick">Photo pick</string>
     <string name="camera">Camera</string>
     <string name="shot">Shot</string>
-    <string name="invalid">Invalid value</string>
+    <string name="invalid">Field must not be empty</string>
     <string name="attribute_name">Attribute Name</string>
     <string name="attribute_type_name">Attribute Type Name</string>
     <string name="select_customer_groups">Select customer groups</string>
     <string name="class_name_should_be_longer">Class name should be longer 3 letter</string>
     <string name="class_name_empty">Class name can not be empty</string>
     <string name="discount_discription_empty">Discount name can not be empty</string>
-    <string name="discount_amount_empty">Discount amount can not be empty</string>
+    <string name="discount_amount_empty">Enter discount amount</string>
     <string name="account_name_exists">Account name exists!</string>
     <string name="customer_name_exists">Customer name exists!</string>
     <string name="payment_type_name_exists">Payment type name exists!</string>
     <string name="customer_group_name_exists">Customer group name exists!</string>
     <string name="name_validation">Please, enter the name</string>
-    <string name="category_length_validation">Category name should be longer than 3 letters</string>
+    <string name="length_validation">Field must not be empty</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="what_do_you_want">What do you want?</string>
@@ -400,7 +400,7 @@
     <string name="do_you_want_delete_with_argument">Do you really want to delete %s?</string>
     <string name="title_product_class_fragment">Managing Product Class</string>
     <string name="tap_product_class_for_editing_and_save">Tap product class for editing and save</string>
-    <string name="not_selected">Not selected</string>
+    <string name="unselected">Unselected</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
     <string name="finish">Finish</string>
@@ -427,20 +427,20 @@
     <string name="vendors">Vendors</string>
     <string name="products">Products</string>
     <string name="warning_deletion_of_active_elements">Item is active. You can\'t delete active elements!!!</string>
-    <string name="subcategory_length_validation">Subcategory name should be longer than 3 letters</string>
-    <string name="warning">Warning</string>
+    <string name="subcategory_length_validation">Field must not be empty</string>
+    <string name="warning">Warning!</string>
     <string name="want_accept_changes">Do you really want to accept changes?</string>
     <string name="delete">Delete</string>
     <string name="ok">OK</string>
     <string name="id">ID</string>
-    <string name="warning_discard_changes">Change is detected. Do you want to discard all changes?</string>
+    <string name="warning_discard_changes">Change detected. Do you want to discard changes?</string>
     <string name="discard_changes">Discard changes</string>
-    <string name="cannot_delete_active_item">Cannot delete active element!</string>
+    <string name="cannot_delete_active_item">Cannot delete the active item</string>
     <string name="warning_cannot_delete_element">You cannot to delete active element!!!</string>
-    <string name="enter_pass">Please, enter password</string>
+    <string name="enter_pass">Please, enter the password</string>
     <string name="can_not_remove_customer_group">We can not remove the customer group because it has customers.</string>
     <string name="do_you_want_to_save_the_change">Do you want to save the change?</string>
-    <string name="you_can_only_delete_inactive_customer_groups">You can only delete inactive customer groups.</string>
+    <string name="you_can_only_delete_inactive_customer_groups">First change status customer group to \"inactive\".</string>
     <string name="add_category">+Add\n Category</string>
     <string name="add_subcategory">+Add\n Subcategory</string>
     <string name="add_product">+Add\n Product</string>
@@ -449,36 +449,35 @@
     <string name="warning_such_category_name_exists_message">Such category name exists</string>
     <string name="warning_subcategory_name_exists">Such subcategory name exists</string>
     <string name="warning_such_subcategory_name_exists_title">Such subcategory name exists</string>
-    <string name="percent_can_not_be_more_hunder">Percent can not be a more than 100</string>
     <string name="product_class_name_unique">Product class name should be unique</string>
-    <string name="change_to_not_delete_when_not_active">First full you should change status item to \"not active\"</string>
+    <string name="change_to_not_delete_when_not_active">First change status item to \"inactive\"</string>
     <string name="zero_discont">Discount can\'t be with zero value</string>
-    <string name="discard_discounts">Have not saved discounts, do you want discard?</string>
+    <string name="discard_discounts">Change detected. Do you want to discard changes?</string>
     <string name="discard">Discard</string>
     <string name="qty_and_price">Quantity/Price</string>
-    <string name="count_of_products">Count of products</string>
+    <string name="count_of_products">Number of products</string>
     <string name="vendor_name">Vendor name</string>
     <string name="contact_name">Contact name</string>
     <string name="selected">Selected</string>
     <string name="unit_category">Unit category</string>
     <string name="cannot_delete_empty_list_title">Cannot delete not empty list</string>
-    <string name="warning_delete">Do you want to delete element?</string>
+    <string name="warning_delete">Do you want to delete the item?</string>
     <string name="update_message">Do you want update the item?</string>
     <string name="search_results">Search results</string>
     <string name="service_fee">Service Fee</string>
     <string name="you_have_unsaved_service_fee">You have %d unsaved service fee. Do you really want to leave?</string>
     <string name="you_have_unsaved_customers">You have %d unsaved customers. Do you really want to leave?</string>
-    <string name="choose_for_order">Choose for order</string>
-    <string name="discount">Discount</string>
+    <string name="select_for_order">Select for order</string>
+    <string name="discount">Discountc</string>
     <string name="created_date">Created date:</string>
     <string name="total_should_pay">Total should pay</string>
     <string name="total_paid">Total paid</string>
     <string name="account">Account</string>
     <string name="from_account">From Account</string>
     <string name="consignment">Consignment</string>
-    <string name="income_from">Income from :</string>
-    <string name="vendor_are_not_choosed">Vendors are not choosed</string>
-    <string name="warning_price_empty">Price must not be empty!</string>
+    <string name="received_from">Received from :</string>
+    <string name="select_vendor">Select vendor</string>
+    <string name="warning_price_empty">Price can not be empty!</string>
     <string name="warning_cost_empty">Cost must not be empty!</string>
     <string name="warning_cost_more_than_price">Cost must be less than price</string>
     <string name="add_product_to_consignment">Please, add product to consignment</string>
@@ -487,29 +486,27 @@
     <string name="new_new">New</string>
     <string name="write_off">Write Off</string>
     <string name="write_of_zero">You can not write off zero value</string>
-    <string name="surplus">Surplus</string>
+    <string name="replenishment_of_products">Replenishment of products</string>
     <string name="product_name">Product name</string>
     <string name="please_enter_product_count">Please, enter product count</string>
-    <string name="choose_vendor">First fully choose vendor</string>
-    <string name="shortage">Shortage</string>
+    <string name="choose_vendor">First select the vendor</string>
+    <string name="write_off_products">Write-off products</string>
     <string name="contact_name_two_dots">Contact name:</string>
     <string name="email_two_dots">Email:</string>
     <string name="phone_two_dots">Phone:</string>
-    <string name="product_count_two_dots">Product count:</string>
-    <string name="open">Open</string>
-    <string name="not_classified">Not classified</string>
-    <string name="choose_product_class">Choose product class</string>
-    <string name="return_to">Return to:</string>
+    <string name="product_count_two_dots">Number of items:</string>
+    <string name="not_classified">Unclassified</string>
+    <string name="select_product_class">Select product class</string>
     <string name="status">Status</string>
     <string name="date">Date</string>
     <string name="total_debt">Total Debt</string>
     <string name="close">Close</string>
     <string name="discount_item">Discount item</string>
-    <string name="special_request">Special request</string>
+    <string name="special_request">Notes</string>
     <string name="action">Action</string>
     <string name="inventory">Inventory</string>
     <string name="enter_quantity">Enter quantity</string>
-    <string name="set_quantity">Set quantity</string>
+    <string name="set_quantity">Select q-ty</string>
     <string name="choose_vendor_dialog">Choose vendor</string>
     <string name="choose_for_product">Choose for product</string>
     <string name="consigment_return">Consignment Return</string>
@@ -520,10 +517,9 @@
     <string name="ammount_cant_be_zero">Amount can\'t be zero</string>
     <string name="overpaid">Overpaid: </string>
     <string name="debt">Debt: </string>
-    <string name="cannot_be_empty">This value cannot be empty</string>
+    <string name="cannot_be_empty">Please enter Write off reason</string>
     <string name="vendor_details">Vendor details</string>
     <string name="state_details">State details</string>
-
     <string name="payed_in_this_month">Paid in this month:</string>
     <string name="paid">Paid:</string>
     <string name="select_date">Select Date Interval</string>
@@ -533,40 +529,39 @@
     <string name="contact">Contact</string>
     <string name="new_customer">New Customer</string>
     <string name="add_to_order">Add to Order</string>
-    <string name="update_customer">Update customer</string>
+    <string name="update_customer">Update data customer</string>
     <string name="select">Select</string>
-    <string name="discount_cant_empty">Discount name can\'t be empty</string>
+    <string name="discount_cant_empty">Please enter discount name</string>
     <string name="amount">Amount</string>
     <string name="manual_discount">Manual Discount</string>
     <string name="percent">Percent</string>
     <string name="manual">Manual</string>
-    <string name="result_price_cant_be_bigger">Result price cannot be bigger than price</string>
-    <string name="enter_discount_name">Enter discount name</string>
+    <string name="result_price_cant_be_bigger">Final amount cannot be bigger than original</string>
     <string name="favorites">Favorites:</string>
     <string name="discount_value">Discount value</string>
     <string name="original_amount">Original amount</string>
     <string name="discount_amount">Discount amount</string>
-    <string name="billing_amount">Billing amount</string>
+    <string name="final_amount">Final amount</string>
     <string name="discount_percent">Discount %</string>
     <string name="history">History</string>
-    <string name="order_number">Order number:</string>
+    <string name="order_number">Order ID:</string>
     <string name="taken_date_">Taken date:</string>
-    <string name="end_date_">Due date:</string>
-    <string name="late_date">Left days:</string>
+    <string name="end_date">Due date:</string>
+    <string name="late_date">Estimated time left:</string>
     <string name="debt_type_">Debt type:</string>
     <string name="status_two_dots">Status:</string>
     <string name="order_sum">Order sum:</string>
-    <string name="fee_sum">Fee sum:</string>
+    <string name="fee_amount">Fee amount:</string>
     <string name="total_debt_two_dots">Total Debt:</string>
-    <string name="paid_sum">Paid sum:</string>
+    <string name="paid_sum">Paid amount</string>
     <string name="due_with_dots">Due amount:</string>
     <string name="service_fee_amount">Service fee amount</string>
-    <string name="enter_service_fee_name">Enter service fee reason</string>
+    <string name="enter_service_fee_name">Enter service fee name</string>
     <string name="service_fee_percent">Service fee %</string>
     <string name="billing_price_cannot_be_lower">Billing price cannot be lower than original price</string>
     <string name="enter_discount_reason">Enter discount reason</string>
-    <string name="disc_reacon_cant_empty">Discount reason can\'t be empty</string>
-    <string name="service_fee_reason_cant_be_empty">Service Fee reason can\'t empty</string>
+    <string name="disc_reacon_cant_empty">Enter discount reason</string>
+    <string name="service_fee_reason_cant_be_empty">Enter service fee reason</string>
     <string name="year">year</string>
     <string name="years">years</string>
     <string name="months">months</string>
@@ -574,12 +569,12 @@
     <string name="day">day</string>
     <string name="days">days</string>
     <string name="payment_type">Payment type</string>
-    <string name="customer_choice">Customer choice</string>
+    <string name="select_customer">Select customer</string>
     <string name="closed">Closed</string>
-    <string name="can_participle">Can participle</string>
+    <string name="part_payment">Part payment</string>
     <string name="all">All</string>
     <string name="due">Due</string>
-    <string name="close_debt">Close with paying all debt amount</string>
+    <string name="close_debt">Close all debt</string>
     <string name="return_products">Return products</string>
     <string name="remove_if_only_not_closed_till">Remove(if only not closed till)</string>
     <string name="debt_amount">Debt amount</string>
@@ -588,41 +583,41 @@
     <string name="fee">Fee</string>
     <string name="due_date">Due Date</string>
     <string name="debt_details">Debt details</string>
-    <string name="please_choose_customer">Please, choose customer</string>
+    <string name="please_choose_customer">Please, select the customer</string>
     <string name="enter_debt_amount">Please, enter debt amount</string>
     <string name="payment_detials">Payment details</string>
     <string name="cancel_order">Cancel order</string>
     <string name="close_till">Close till</string>
     <string name="open_till">Open till</string>
-    <string name="there_is_no_held_orders">There is no held orders</string>
+    <string name="no_retained_orders">No Retained Orders</string>
     <string name="add_plus">+ Add</string>
     <string name="vendor">Vendor</string>
     <string name="operations">Operations</string>
     <string name="please_enter_write_off_reason">Please enter Write off reason</string>
-    <string name="please_enter_surplus_reason">Please enter Write off reason</string>
+    <string name="please_enter_replenishment_reason">Please enter replenishment reason</string>
     <string name="order_history_report_title">Order History</string>
     <string name="order_status_closed">Closed</string>
-    <string name="order_status_held">Held</string>
-    <string name="order_status_canceled">Canceled</string>
+    <string name="order_status_held">Retained</string>
+    <string name="order_status_canceled">Cancelled</string>
     <string name="static_type">Static</string>
     <string name="order">Order</string>
     <string name="item">Item</string>
-    <string name="hand_change_type_report">HAND</string>
+    <string name="hand_change_type_report">MANUAL</string>
     <string name="edited_change_type">EDITED</string>
-    <string name="payed_change_type">PAYED</string>
+    <string name="payed_change_type">PAID</string>
     <string name="continue_change_type">CONTINUE</string>
-    <string name="hand_close_till_change_type">HAND CLOSE TILL</string>
+    <string name="hand_close_till_change_type">MANUAL CLOSE TILL</string>
     <string name="un_classed">UN CLASSED</string>
     <string name="till_number">Till number</string>
-    <string name="qty">Qty</string>
+    <string name="qty">Q-ty</string>
     <string name="reason">Reason</string>
     <string name="type">Type</string>
     <string name="order_subtotal">Order subtotal</string>
     <string name="customer">Customer</string>
     <string name="operation">Operation</string>
     <string name="amount_type">Amount type</string>
-    <string name="order_num">Order#</string>
-    <string name="canceled">Canceled</string>
+    <string name="order_num">Order # </string>
+    <string name="canceled">Cancelled</string>
     <string name="deleted">Deleted</string>
     <string name="service_fee_value">Service fee value</string>
     <string name="item_discount">Item discount</string>
@@ -633,12 +628,12 @@
     <string name="item_service_fee">Item service fee</string>
     <string name="time_interval">Time interval</string>
     <string name="transactions">Transactions</string>
-    <string name="sold_items">Sold items</string>
+    <string name="sold_items">Sold products</string>
     <string name="avg_sales">Avg sales</string>
     <string name="sales_summary">Sales summary</string>
     <string name="percent_sales">Sales %</string>
     <string name="hourly_sales_report">Hourly Sales Report</string>
-    <string name="customer_has_not_got_debts">This customer has not got any debts</string>
+    <string name="this_customer_has_no_debts">This customer has no debts</string>
     <string name="total_overdue">Total overdue</string>
     <string name="debts_list">Debt\'s list</string>
     <string name="debt_summary">Debt summary</string>
@@ -646,32 +641,31 @@
     <string name="orders_with_Debt">Order\'s with debt</string>
     <string name="last_visit">Last visit</string>
     <string name="customer_contacts">Customer contacts</string>
-    <string name="debt_taken">Debt taken</string>
-    <string name="debt_closed">Debt closed</string>
+    <string name="debt_taken">Debt amount</string>
+    <string name="debt_closed">Amount of repayment</string>
     <string name="debt_orders_count">Debt orders count</string>
-    <string name="debt_taken_avg">Debt taken avg</string>
-    <string name="debt_closed_avg">Debt closed avg</string>
+    <string name="debt_taken_avg">Debt amount avg</string>
+    <string name="debt_closed_avg">Amount of repayment avg</string>
     <string name="group">Group</string>
-    <string name="created_at">Created at</string>
+    <string name="created_at">Created date</string>
     <string name="order_amount">Order amount</string>
     <string name="paid_report_text">Paid</string>
-    <string name="last_pay_date">Last pay date</string>
+    <string name="last_pay_date">Last payment</string>
     <string name="due_debt">Due debt</string>
-    <string name="should_close_date">Should close date</string>
+    <string name="should_close_date">Due date</string>
     <string name="till_not_closed">Current Till Not closed yet</string>
     <string name="summary_report">Summary Report</string>
     <string name="sales_analitcs">Sales  Analytics</string>
-    <string name="payment_analytics">Payment Analytics</string>
+    <string name="payment_analytics">Payments Analytics</string>
     <string name="total_product_sales">Total product sales</string>
-    <string name="total_service_fee">Total service fee</string>
-    <string name="total_discount">Total discount</string>
+    <string name="total_service_fee">Total service fees</string>
+    <string name="total_discount">Total discounts</string>
     <string name="total_debt_sales">Total debt sales</string>
-    <string name="total_tips">Total tips</string>
+    <string name="total_tips">Total coins</string>
     <string name="total_pay_ins">Total pay ins</string>
     <string name="total_pay_outs">Total pay outs</string>
     <string name="total_bank_drops">Total bank drops</string>
     <string name="pcs">pcs</string>
-    <string name="uzs">uzs</string>
     <string name="total_orders_count">Total orders count</string>
     <string name="average_order">Average order</string>
     <string name="minimum_order">Minimum order</string>
@@ -684,26 +678,26 @@
     <string name="total_changes">Total changes</string>
     <string name="total_canceled_orders_count">Total canceled orders count</string>
     <string name="total_payments">Total payments</string>
-    <string name="debt_report">Debt</string>
+    <string name="debt_report">Debts</string>
     <string name="payments_report">Payments</string>
-    <string name="total_cap">Total capacity</string>
+    <string name="total_cap">Summary total</string>
     <string name="payins_count">Pay in\'s count</string>
     <string name="pay_out_counts">Pay out\'s count</string>
     <string name="bank_drop_count">Bank Drops count</string>
-    <string name="inclusions">Inclusions:</string>
+    <string name="inclusions">Filters:</string>
     <string name="closed_orders">Closed orders</string>
     <string name="customer_summary">Customer Summary</string>
     <string name="customer_order_list">Customer order list</string>
     <string name="customer_payment_log">Customer payment log</string>
-    <string name="for_order">For order</string>
-    <string name="for_debt">For debt</string>
+    <string name="for_order">Order</string>
+    <string name="for_debt">Debt</string>
     <string name="change">Change</string>
-    <string name="canceled_orders">Canceled orders</string>
+    <string name="cancelled_orders">Cancelled orders</string>
     <string name="total_orders_amount">Total orders amount</string>
-    <string name="total_to_debt">Total to debt</string>
+    <string name="total_to_debt">Total debt</string>
     <string name="total_discounts">Total discounts</string>
     <string name="total_service_fees">Total service fees</string>
-    <string name="order_status">Order status</string>
+    <string name="order_status">Status</string>
     <string name="total_order_amount">Total order amount</string>
     <string name="details_of_till">Details of Till #</string>
     <string name="apply">Apply</string>
@@ -715,19 +709,19 @@
     <string name="received_from_vendor">Received from vendor</string>
     <string name="return_to_vendor">Return to vendor</string>
     <string name="return_from_customer">Return from customer</string>
-    <string name="void_income">Void income</string>
+    <string name="void_income">Replenishment</string>
     <string name="wasted">Wasted</string>
-    <string name="unit_price">Unit price</string>
+    <string name="unit_price">Each</string>
     <string name="total">Total</string>
     <string name="gross_qty">Gross qty before till</string>
-    <string name="return_cost">Return cost</string>
+    <string name="return_cost">Cost</string>
     <string name="consignment_canceled">Consignment canceled</string>
     <string name="income_from_vendor">Income from vendor</string>
     <string name="held_product_return">Held product return</string>
     <string name="canceled_order">Canceled order</string>
     <string name="till">Till</string>
     <string name="cash">Cash</string>
-    <string name="choose_till">Choose Till</string>
+    <string name="choose_till">Select Till</string>
     <string name="tel">Tel:</string>
     <string name="order_number_title">Order Num</string>
     <string name="date_title">Date</string>
@@ -739,8 +733,8 @@
     <string name="to_pay_check">TO PAY(K OPLATE)</string>
     <string name="payed_check">PAYED(OPLACHENO)</string>
     <string name="change_check">CHANGE(OSTATOK)</string>
-    <string name="print_check">Print check: OFF</string>
-    <string name="print_check_on">Print check: ON</string>
+    <string name="print_check">Printer: ON</string>
+    <string name="print_check_on_off">Printer: OFF</string>
     <string name="subtotalvalue">SUB TOTAL VALUE</string>
     <string name="consignment_report">Consignment report</string>
     <string name="consignment_products">Consignment products</string>
@@ -749,14 +743,14 @@
     <string name="consignment_number">Consignment number</string>
     <string name="total_cost">Total cost</string>
     <string name="extra_info">Extra info</string>
-    <string name="each_cost">Each cost</string>
-    <string name="sum_cost">Sum cost</string>
-    <string name="taken_value">Taken value</string>
-    <string name="difference">Difference</string>
-    <string name="income">Income</string>
+    <string name="each_cost">Each</string>
+    <string name="sum_cost">Total</string>
+    <string name="taken_value">Debt amount</string>
+    <string name="difference">Balance of debt</string>
+    <string name="receive">Received</string>
     <string name="return_">Return</string>
     <string name="paid_account">Paid account</string>
-    <string name="first_pay">First pay</string>
+    <string name="first_pay">Handsel</string>
     <string name="debt_">Debt</string>
     <string name="created_date_">Created date</string>
     <string name="paid_">Paid</string>
@@ -773,13 +767,13 @@
     <string name="pdf">.pdf</string>
     <string name="export">Export</string>
     <string name="select_a_directory">Select a directory</string>
-    <string name="payment_to_order">Payment to order</string>
+    <string name="payment_to_order">Payment of order</string>
     <string name="pay_in">Pay in</string>
     <string name="pay_out">Pay out</string>
-    <string name="pay_to_vendor">Pay to vendor</string>
+    <string name="payment_to_vendor">Payment to vendor</string>
     <string name="bank_drop">Bank drop</string>
     <string name="debt_in">Debt in</string>
-    <string name="till_reports">Till Reports</string>
+    <string name="tills_reports">Tills Reports</string>
     <string name="summary_amount">Summary amount</string>
     <string name="payments_summary">Payments summary</string>
     <string name="all_summary">All summary</string>
@@ -787,9 +781,9 @@
     <string name="total_starting_amount">Total starting amount</string>
     <string name="pay_outs">Pay - Outs</string>
     <string name="pay_ins">Pay - Ins</string>
-    <string name="income_debt">Income debt</string>
-    <string name="real_product_sales">Real product sales</string>
-    <string name="tips_dispensed">Tips dispensed</string>
+    <string name="returned_debt">Returned debt</string>
+    <string name="actual_product_sales">Actual product sales</string>
+    <string name="collected_coin">Collected coin</string>
     <string name="total_for_till">Total for till</string>
     <string name="total_closed_amount">Total_closed_amount</string>
     <string name="total_to_next_amount">Total to next amount</string>
@@ -797,9 +791,9 @@
     <string name="subtotal">Subtotal</string>
     <string name="summary">Summary</string>
     <string name="to_pay">To pay</string>
-    <string name="change_from_cashbox">Change from cashbox</string>
+    <string name="change_from_cashbox">Changes</string>
     <string name="total_to_pay">Total to pay</string>
-    <string name="tips">Tips</string>
+    <string name="coin">Coin</string>
     <string name="order_details">Order details</string>
     <string name="lifecycle">Lifecycle</string>
     <string name="consignment_details">Consignment details</string>
@@ -809,7 +803,7 @@
     <string name="example_table">Example table for import</string>
     <string name="price_list">Price list</string>
     <string name="pdf_name">PDF</string>
-    <string name="select_file">Select file</string>
+    <string name="select_the_file_location">Select the file location</string>
     <string name="import_from_internal_memory">Import from internal memory</string>
     <string name="import_from_usb">Import from USB drive</string>
     <string name="incorrect_file">Incorrect file</string>
@@ -825,7 +819,6 @@
     <string name="access_password">Access password</string>
     <string name="void_return">Void/Return</string>
     <string name="difference_price">Difference price</string>
-    <string name="ammount">Amount</string>
     <string name="plus_add">+Add</string>
     <string name="dont_show_again">Don\'t show again</string>
     <string name="class_name">Class Name</string>
@@ -835,52 +828,49 @@
     <string name="time_date">Time/Date</string>
     <string name="extra">Extra</string>
     <string name="payment_amount">Payment Amount</string>
-    <string name="info_about_payment">Info about payment</string>
+    <string name="info_about_payment">Payment Details</string>
     <string name="payment_date">Payment Date</string>
     <string name="bank_drops">Bank drops:</string>
     <string name="expected_amount_in_till">Expected amount in Till:</string>
     <string name="account_">Account:</string>
-    <string name="date_opened_">Date Opened:</string>
-    <string name="time_opened_">Time Opened:</string>
-    <string name="date_closed_">Date Closed:</string>
-    <string name="time_closed_">Time Closed:</string>
-    <string name="n_a">N/A</string>
+    <string name="opening_date_">Opening date:</string>
+    <string name="opening_time_">Opening time:</string>
+    <string name="closing_date_">Closing date:</string>
+    <string name="closing_time_">Closing time:</string>
+    <string name="not_allowed">N/A</string>
     <string name="debt_sales">Debt Sales</string>
     <string name="till_operation_">Till Operation:</string>
     <string name="pay_outs_">Pay - Outs:</string>
     <string name="pay_ins_">Pay - Ins:</string>
     <string name="pay_to_vendors_">Pay to Vendors:</string>
-    <string name="income_debt_">Income debt:</string>
+    <string name="returned_debt_">Returned debt:</string>
     <string name="bank_drops_">Bank drops:</string>
     <string name="tips_dispensed_">Tips dispensed:</string>
     <string name="expected_amount_in_till_">Expected amount in Till:</string>
-    <string name="operations_with_cash">Operations with Cash</string>
+    <string name="financial_operations">Financial operations</string>
     <string name="payment_types">Payment Types</string>
     <string name="category_name">Category name</string>
     <string name="product_costs">Product costs</string>
-    <string name="show_non_active">Show non-active</string>
+    <string name="show_inactive">Show inactive</string>
     <string name="total_closed">Total closed</string>
-    <string name="reconcile_open_orders">Reconcile Open Orders</string>
-    <string name="close_the_amount">Close the amount</string>
-    <string name="to_next">To Next</string>
+    <string name="orders_awaiting_approval">Orders Awaiting Approval</string>
+    <string name="due_and_payable_amount">Due and payable amount</string>
+    <string name="to_next_till">To Next Till</string>
     <string name="_1_step_of_3_steps_for_closing_till">1 step of 3 steps for closing till</string>
     <string name="system_currency">System currency</string>
-    <string name="choose_system_currency">Choose system currency</string>
+    <string name="select_system_currency">Select system currency</string>
     <string name="customer_debts_history">Customer debts history</string>
-    <string name="order_no">Order №</string>
+    <string name="order_no">Order ID</string>
     <string name="groups">Groups</string>
-    <string name="customers_add_and_edit">Customers (Add and Edit)</string>
+    <string name="customers_creation_add_and_edit">Customers Creation Mode (Add and Edit) </string>
     <string name="some_text">Some text</string>
-    <string name="customers_group">Customers group</string>
-    <string name="id_client">ID client</string>
+    <string name="customers_list">Customers list</string>
     <string name="full_name">Full Name</string>
     <string name="phone_number">Phone number</string>
     <string name="member">Member</string>
     <string name="customer_id_or_name">Customer Id or name</string>
     <string name="customer_payments_history">Customer payments history</string>
-    <string name="qr_code">QR-code</string>
     <string name="customer_group">Customer group</string>
-    <string name="short_type">Short</string>
     <string name="date_interval">Date Interval</string>
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
@@ -891,26 +881,26 @@
     <string name="fee_">Fee:</string>
     <string name="debt_amount_">Debt amount:</string>
     <string name="repayments">Repayments</string>
-    <string name="automatic_delivery_payment">Automatic delivery payment</string>
+    <string name="distributed_debt_payment">Distributed debt payment</string>
     <string name="there_are_no_customers_with_debt">There are no customers with debt</string>
     <string name="reason_name">Reason Name</string>
     <string name="export_to_">Export to:</string>
     <string name="excel">Excel</string>
-    <string name="choose_file_location">Choose file location</string>
+    <string name="select_file_location">Select file location</string>
     <string name="close_order">Close order</string>
     <string name="each">Each</string>
     <string name="sum">Sum</string>
-    <string name="sub_total_">Sub total :</string>
+    <string name="total_payable_">Total Due:</string>
     <string name="to_discount_">To discount :</string>
-    <string name="tips_">Tips:</string>
+    <string name="tips_">Coin:</string>
     <string name="balance_due_">Balance Due:</string>
-    <string name="stock_check">Stock check</string>
-    <string name="total_payed_">Total payed:</string>
-    <string name="to_service_">To service:</string>
+    <string name="print_order">Print order</string>
+    <string name="total_paid_">Total paid:</string>
+    <string name="to_service_">Service fee amount:</string>
     <string name="reprint_check">Reprint check</string>
     <string name="discount_">Discount :</string>
     <string name="service_fee_">Service Fee:</string>
-    <string name="total_to_pay_">Total to pay:</string>
+    <string name="total_to_pay_">Total payable:</string>
     <string name="created_time_">Created Time:</string>
     <string name="change_">Change:</string>
     <string name="hold_orders">Hold Orders</string>
@@ -920,32 +910,31 @@
     <string name="summary_amount_uzs">Summary amount(uzs)</string>
     <string name="enter_as_admin">Enter as Admin</string>
     <string name="log_in">Log in</string>
-    <string name="borrow">Borrow</string>
-    <string name="stock_record">Stock record</string>
+    <string name="loan">Debt</string>
     <string name="actual_quantity">Actual quantity</string>
-    <string name="enter_reason">Enter Reason</string>
+    <string name="total_quantity">Total quantity</string>
+    <string name="enter_replenishment_reason">Enter replenishment reason</string>
     <string name="total_payments_">Total Payments:</string>
     <string name="total_discounts_">Total Discounts:</string>
     <string name="open_Till">Open Till</string>
-    <string name="modify">Modify</string>
+    <string name="modify">Modify reason</string>
     <string name="reason_of_doing_modification">Reason of doing modification</string>
-    <string name="access_for_cancel">Access for cancel</string>
-    <string name="enter_cancel_password">Enter cancel password</string>
-    <string name="what_reason_for_cancel_order">What reason for cancel order?</string>
+    <string name="manage_access">Manager access</string>
+    <string name="enter_cancel_password">Enter password</string>
+    <string name="enter_the_reason_for_canceling">Enter the reason for canceling the order</string>
     <string name="payments">Payments</string>
     <string name="summary_">Summary:</string>
     <string name="to_pay_">To Pay:</string>
     <string name="new_order">New Order</string>
-    <string name="held_orders">Held Orders</string>
+    <string name="retained_orders">Retained Orders</string>
     <string name="today_s_orders">Today\'s Orders</string>
     <string name="access_for_edit">Access for edit</string>
     <string name="enter_edit_password">Enter edit password</string>
-    <string name="payment_to_debt">Payment to debt</string>
+    <string name="payment_of_debt">Payment of debt</string>
     <string name="payment_operation">Payment operation</string>
     <string name="discription">Description</string>
     <string name="system_payment_types">System payment types</string>
     <string name="payment_type_name">Payment type name</string>
-    <string name="input_account_name">Input account name</string>
     <string name="choose_payment_type">Choose payment type</string>
     <string name="product_classes">Product Classes</string>
     <string name="choose_vendor_product">Choose Vendor</string>
@@ -962,12 +951,11 @@
     <string name="third_panel">Third Panel</string>
     <string name="four_panel">Four Panel</string>
     <string name="five_panel">Five Panel</string>
-    <string name="filter">Filter</string>
     <string name="usd">USD($)</string>
-    <string name="return_number">Return Number</string>
-    <string name="total_products_sum">Total products sum</string>
+    <string name="credit_note">Credit note</string>
+    <string name="product_total_cost">Product total cost</string>
     <string name="name_or_barcode">Name or barcode</string>
-    <string name="returned_item_s">Returned item(s)</string>
+    <string name="returned_item_s">Returned products</string>
     <string name="total_">Total:</string>
     <string name="payment_type_">Payment type:</string>
     <string name="search_mode">Search mode</string>
@@ -978,12 +966,12 @@
     <string name="turn_on_scanner">Turn on scanner</string>
     <string name="log_out">Log out</string>
     <string name="some_details">Some details</string>
-    <string name="start_configuration">Start Configuration</string>
-    <string name="required_details_for_system">Required details for system</string>
+    <string name="opt_in_wozard">Opt-in Wizard</string>
+    <string name="necessary_data_for_the_system">Necessary data for the system</string>
     <string name="total_for_till_">Total for Till:</string>
     <string name="total_closed_amount_">Total closed amount:</string>
     <string name="to_next_amount">To next amount</string>
-    <string name="enter_tips_amount">Enter tips Amount</string>
+    <string name="enter_tips_amount">Enter Coin Amount</string>
     <string name="zero_in_till">Zero in till</string>
     <string name="hold_in_till">Hold in till</string>
     <string name="weight">Weight</string>
@@ -997,28 +985,101 @@
     <string name="barcode_">Barcode:</string>
     <string name="blank_to_add_new_vendor">Blank to add \nNew vendor</string>
     <string name="vendor_product_list">Vendor product list</string>
-    <string name="not_enough_place_in_memory">Not enough place in memory</string>
-    <string name="device_hasnt_got_permission">Device hasn\'t got permission</string>
     <string name="connect_only_one_device">Please, connect only one USB storage device</string>
     <string name="connect_usb_device">Please, connect USB storage device</string>
-    <string name="main_system_currency">Main system currency</string>
+    <string name="pos_currency">POS currency</string>
     <string name="payment_type_cant_be_active">This payment type with selected account can\'t be active</string>
+    <string name="please_open_till">Please, first open the till</string>
+    <string name="not_enough_cash_in_cash_drawer">Not enough cash in cash drawer</string>
+    <string name="consignment_income">Consignment Income</string>
+    <string name="one_step_of_three_steps_for_closing_till">Step 1 of 3 steps to close the Till</string>
+    <string name="two_step_of_three_steps_for_closing_till">Step 2 of 3 steps to close the Till</string>
+    <string name="three_step_of_three_steps_for_closing_till">Step 3 of 3 steps to close the Till</string>
+    <string name="opened_till_wnt_found_pls_open_till">Please, first open the till</string>
+    <string name="please_add_product_to_consignment">Please, add product to consignment</string>
+    <string name="some_counts_are_empty_or_equals_zero">Some counts are empty or equals 0</string>
+    <string name="some_costs_are_empty">Some costs are empty</string>
+    <string name="consignment_with_such_number_exists">Consignment with such number exists</string>
+    <string name="payment_amount_cant_be_bigr_tn_debt_amount">Payment amount cannot be bigger than debt amount</string>
+    <string name="payment_amount_cant_be_equal_zero">Payment amount cannot be equal zero</string>
+    <string name="you_cant_pay_in_participle_for_this_debt">You cannot pay in participle for this debt</string>
+    <string name="overdue">Overdue</string>
+    <string name="add_group">+Add\nGroup</string>
+    <string name="the_password_must_contain_six_characters">The password must contain 6 characters</string>
+    <string name="debt_account">Debt Account</string>
+    <string name="to_debt">Debt</string>
+    <string name="product_class_colon">Product Class:</string>
+    <string name="vendor_list">Vendor list</string>
+    <string name="wrong_password">Wrong password</string>
+    <string name="discount_min">(discount)</string>
+    <string name="service_fee_min">(service fee)</string>
+    <string name="order_discount_min">(order discount)</string>
+    <string name="order_service_fee_min">(order service fee)</string>
+    <string name="hold">Hold</string>
+    <string name="password_cant_be_empty">Password can\'t be empty !</string>
+    <string name="please_enter_reason_for_order">Please enter reason for order !</string>
+    <string name="password_is_incorrect">Password is incorrect</string>
+    <string name="please_enter_reason_for_edit">Please enter reason for edit !</string>
+    <string name="this_customer_already_has_debt">This customer already has debt:</string>
+    <string name="discount_percent_cannot_be_bigger_hundred">Discount percent cannot be bigger 100</string>
+    <string name="discount_value_cant_be_bigger_than_price">Discount value cannot be bigger than price</string>
+    <string name="products_were_not_chose_for_return">Products were not chose for return</string>
+    <string name="price_1">Price - 1</string>
+    <string name="its_very_small_valueof">It is very small value of</string>
+    <string name="its_very_small_cost_for_calculating">It is very small cost for calculating</string>
+    <string name="empty_till_cant_hold">Please, first enter the order</string>
+    <string name="found_products">Found products</string>
+    <string name="notification">Notification</string>
+    <string name="there_is_no_product_with_such_barcode">There is no product with such barcode. Do you want add it?</string>
+    <string name="are_you_sure_cancel_order">Are you sure cancel order?</string>
+    <string name="customer_">Customer: </string>
+    <string name="restore_order">Restore order</string>
+    <string name="order_edited_to_num">Order Changed to #</string>
+    <string name="canceled_order_num">Canceled: Order #</string>
+    <string name="cause_">Reason:</string>
+    <string name="order_canceled">Order canceled</string>
+    <string name="order_continue">Continue</string>
+    <string name="done">Done</string>
+    <string name="balance">Balance</string>
+    <string name="cancel_barrow">Cancel Debt</string>
+    <string name="cancel_tips">Cancel Coin</string>
+    <string name="are_you_sure_delete_product_from_order">Are you sure delete product from order?</string>
+    <string name="set">Set</string>
+    <string name="such_product_name_exists">Such product name exists</string>
+    <string name="such_product_sku_exists">Such product sku exists</string>
+    <string name="details">Details</string>
+    <string name="count_min">count</string>
+    <string name="debts_count">Debt\'s count</string>
+    <string name="till_id">Till ID</string>
+    <string name="opened_time">Opened Time</string>
+    <string name="closed_time">Closed Time</string>
+    <string name="start_money_variance">Start Money Variance</string>
+    <string name="do_you_really_want_to_delete_contact">Do you really want to delete the contact</string>
+    <string name="email_adress_is_not_valid">Email address is not valid!</string>
+    <string name="this_vendor_have_products_connected">This vendor have products connected with him</string>
+    <string name="save_to_usb_drive">Save to USB drive</string>
+    <string name="not_enough_place_in_memory">Not enough place in memory</string>
+    <string name="device_hasnt_got_permission">Device hasn\'t got permission</string>
+    <string name="please_connect_usb_drive">Please, connect USB drive</string>
+    <string name="enter_admin_password">Enter admin password</string>
+    <string name="incorrect_password">Incorrect password</string>
+    <string name="turn_off_barcode_scanner">Turn off barcode scanner</string>
     <string-array name="on_item_long_click">
         <item>Delete</item>
     </string-array>
     <string-array name="first_configure_items">
-        <item>Basics</item>
+        <item>Basic settings</item>
         <item>POS Details</item>
-        <item>Currency</item>
-        <item>Account</item>
-        <item>Payment type</item>
+        <item>Currencies</item>
+        <item>Accounts</item>
+        <item>Payment types</item>
     </string-array>
     <string-array name="first_configure_items_description">
-        <item>Basics</item>
-        <item>POS Details</item>
-        <item>Currency</item>
-        <item>Account</item>
-        <item>Payment type</item>
+        <item>Entry-level configuration of system</item>
+        <item>Information about POS</item>
+        <item>POS currency</item>
+        <item>Manage your accounts</item>
+        <item>Manage payment type</item>
     </string-array>
     <string-array name="contact_types">
         <item>Phone</item>
@@ -1026,7 +1087,7 @@
     </string-array>
     <string-array name="discount_amount_types">
         <item>Percent</item>
-        <item>Value</item>
+        <item>Amount</item>
     </string-array>
     <string-array name="discount_amount_types_abr">
         <item>percent</item>
@@ -1043,8 +1104,8 @@
         <item>all</item>
     </string-array>
     <string-array name="debt_type">
-        <item>Can participle</item>
-        <item>All</item>
+        <item>Part payment</item>
+        <item>Full payment</item>
     </string-array>
     <string-array name="reports_list">
         <item>Summary</item>
@@ -1056,15 +1117,15 @@
         <item>Inventory</item>
         <item>Customers</item>
         <item>Vendors</item>
-        <item>Debt</item>
+        <item>Debts</item>
         <item>Discounts</item>
-        <item>Service Fee\'s</item>
+        <item>Service Fees</item>
     </string-array>
     <string-array name="order_products_titles_report">
         <item>Product</item>
-        <item>Qty</item>
+        <item>Q-ty</item>
         <item>Each</item>
-        <item>Sum</item>
+        <item>Amount</item>
         <item>Discount</item>
         <item>Reason</item>
         <item>Service Fee</item>
@@ -1073,23 +1134,23 @@
     </string-array>
     <string-array name="order_payments_titles_report">
         <item>Payment type</item>
-        <item>To account</item>
-        <item>Debt Id</item>
+        <item>Account</item>
+        <item>Debt ID</item>
         <item>Amount</item>
     </string-array>
     <string-array name="order_lifecycle_titles_report">
-        <item>Change data</item>
-        <item>To Status</item>
-        <item>Change Causes</item>
+        <item>Date/time</item>
+        <item>Status</item>
+        <item>State</item>
         <item>Reason</item>
         <item>Relation order</item>
     </string-array>
     <string-array name="product_profit_titles">
         <item>Profit summary</item>
-        <item>Sales log</item>
+        <item>Details</item>
     </string-array>
     <string-array name="product_profit_summary_table_titles">
-        <item>Name</item>
+        <item>Product name</item>
         <item>Sales count</item>
         <item>Total cost</item>
         <item>Total sale</item>
@@ -1102,9 +1163,9 @@
         <item>Product name</item>
         <item>Date</item>
         <item>Order id</item>
-        <item>Qty</item>
-        <item>Cost each</item>
-        <item>Price each</item>
+        <item>Q-ty</item>
+        <item>Cost</item>
+        <item>Price</item>
         <item>Total</item>
         <item>Discription</item>
     </string-array>
@@ -1115,16 +1176,16 @@
     <string-array name="payments_report_summary_title">
         <item>Payment type</item>
         <item>Got for order</item>
-        <item>Proportion %</item>
+        <item>Ratios %</item>
     </string-array>
     <string-array name="payments_report_details_title">
-        <item>Account</item>
+        <item>Счёт</item>
         <item>Payment type</item>
         <item>Type</item>
         <item>Description</item>
         <item>Order Id</item>
         <item>Till Id</item>
-        <item>Date</item>
+        <item>Date/Time</item>
         <item>Amount</item>
     </string-array>
     <string-array name="barcode_device_names">
@@ -1134,48 +1195,217 @@
     </string-array>
 
     <string-array name="settings_titles">
-        <item>Basics</item>
+        <item>Basic settings</item>
         <item>POS details</item>
         <item>Currency</item>
-        <item>Account</item>
-        <item>Payment Types</item>
-        <item>Printer</item>
+        <item>Accounts</item>
+        <item>Payment type</item>
+        <item>Reciept printer</item>
         <item>Security</item>
     </string-array>
     <string-array name="settings_sub_titles">
-        <item>Some standard configurations</item>
+        <item>Entry-level configuration of system</item>
         <item>Information about POS</item>
-        <item>System main currency</item>
-        <item>System All Accounts manage</item>
-        <item>Payment types manage</item>
-        <item>Configuration recipe printer</item>
-        <item>Password and access configs</item>
+        <item>POS currency</item>
+        <item>Manage your accounts</item>
+        <item>Manage payment type</item>
+        <item>Reciept printer configuration</item>
+        <item>Password and access restrictions</item>
     </string-array>
     <string-array name="languages">
         <item>English</item>
         <item>Русский</item>
     </string-array>
-    <string name="consigment_income">Consignment Income</string>
+    <string name="consigment_income">Incoming consignment</string>
     <string name="enter_old_password">Enter old password</string>
     <string name="enter_new_password">Enter new password</string>
     <string name="confirm_new_password">Confirm new password</string>
     <string name="manager_changed">Manager password successfully changed</string>
-    <string name="worker_password">Worker password successfully changed</string>
+    <string name="employee_password">Employee password successfully changed</string>
     <string name="connected">Connected</string>
     <string name="disconnected">Disconnected</string>
-    <string name="without_reason">Without reason</string>
+    <string name="without_reason">Without a reason</string>
     <string name="successfully_saved">Successfully saved</string>
-    <string name="vendors_imported">Vendors were successfully imported</string>
+    <string name="nominal_cant_be_empty">Nominal ca\'nt be empty</string>
+    <string name="content">content</string>
+    <string name="please_enter_old_password">Please enter old password !</string>
+    <string name="please_enter_password_for_order">Please enter new password for order !</string>
+    <string name="new_password_should_be_longer_than_6">New password should be longer than 6 symbols</string>
+    <string name="please_confirm_new_password_for_order">Please confirm new password for order !</string>
+    <string name="not_same_with_new_password">Not same with new password</string>
+    <string name="old_password_is_6_digits">Old password is 6 digits</string>
+    <string name="held_order_num">Retained: Order #</string>
+    <string name="printer_isnt_connected">Printer isn\'t connected</string>
+    <string name="change_manager_password">Change manager password</string>
+    <string name="change_employee_password">Change employee password</string>
+    <string name="language">Language</string>
+    <string name="nominal_value_of_the_hotkeys">Nominal value of the hotkeys</string>
+    <string name="_1nd_hotkey">1st hotkey</string>
+    <string name="_2nd_hotkey">2nd hotkey</string>
+    <string name="check_printer_connection_description">Make sure your reciept printer is connected properly. Press the refresh button on the right to check the connection of the printer.</string>
+    <string name="check_printer_connection">Check printer connection</string>
+    <string name="include_logo_on_the_receipt">Include logo on the receipt</string>
+    <string name="include_logo_on_the_receipt_description">If you want your logo to appear on the receipt, tick the box</string>
+    <string name="reciept_logo">Reciept logo</string>
+    <string name="reciept_logo_description">Please choose the desired logo on the receipt</string>
+    <string name="state_any_service_fee_or">State any service fee or discount applied on the receipt </string>
+    <string name="hint_about_service_fee_discount_description">Please tick the box if you would like to show on the receipt any serivce or disount applied</string>
+    <string name="print_empty_example_check">Print Empty Example Check</string>
+    <string name="print_empty_example_check_description">In order to verify that your printer is not out of ink and operates with no errors you can print an Empty Example check</string>
+    <string name="print">Print</string>
+    <string name="example_jpg">../Example.jpg</string>
+    <string name="language_description">Please select your system language from the drop-down menu</string>
+    <string name="nominal_value_of_the_hotkeys_description">Specify the nominal value of the banknotes for hot keys. This will significantly speed up the work of the cashier</string>
+    <string name="employee_password_setting">Employee password</string>
+    <string name="employee_password_description">Please enter the password for employees access to the system</string>
+    <string name="manager_password">Manager password</string>
+    <string name="manager_password_description">Please enter the password for managers access to the system</string>
+    <string name="access_with_manager_password">Access with manager password</string>
+    <string name="access_with_manager_password_description">Only managers with correct "manager passwords"  can access these sections and features of the system </string>
+    <string name="section">Section</string>
+    <string name="reports">Reports</string>
+    <string name="features">Features</string>
+    <string name="cancel_order_setting">Cancel Order</string>
+    <string name="edit_order">Edit Order</string>
+    <string name="customization_pos_system">POS System Customization</string>
+    <string name="used">used</string>
+    <string name="enter_operation_description">Enter operation description</string>
+    <string name="there_are_no_payments_for_this_debt">There are no payments for this debt</string>
+    <string name="last_30_days">Last 30 days</string>
+    <string name="summer_sales_4_discount">Summer Sales (4% discount):</string>
+    <string name="packaging_500_service_fee">Packaging (500 service Fee):</string>
+    <string name="system_accounts_description">Enter a new account or choose from the existing account</string>
+    <string name="pos_currency_description">Main сurrency used for operations in POS terminal</string>
+    <string name="system_payment_types_description">Please enter the payment type in the box below</string>
+    <string name="pos_id_description">Please enter the POS ID number</string>
+    <string name="company_description">Please enter your company name or brand</string>
+    <string name="address_description">Please state your full address</string>
+    <string name="phone_number_description">Please state your phone number</string>
+    <string name="you_have">You have</string>
+    <string name="item_in_the_inventory_you_cant_delete">item in the inventory. You can\'t delete product with positive inventory state</string>
+    <string name="you_cant_change_the_vendor_who_has">You can not change the vendor who has products available</string>
+    <string name="items_">Items:</string>
+    <string name="reprinted_">Reprinted:</string>
+    <string name="products_with_discount">* - products with discount</string>
+    <string name="products_with_service_fee">! - products with service fee</string>
+    <string name="thank_you">THANK YOU! - SPASIBO!</string>
+    <string name="customer_summary_description">In this report you can find all info about consignments</string>
+    <string name="customer_order_list_description">All Consignment products</string>
+    <string name="customer_payment_log_description">Debt states of each vendor</string>
+    <string name="debts_list_description">In this report you can find all info about consignments</string>
+    <string name="debt_summary_description">All Consignment products</string>
+    <string name="debt_transactions_list_description">Debt states of each vendor</string>
+    <string name="debt_with_order_description">All money transactions</string>
+    <string name="item_discount_description">Item service fee report</string>
+    <string name="order_discount_description">Order service fee report</string>
+    <string name="discount_creation_log_description">Service fee creation log</string>
+    <string name="hourly_sales_description">In this report you can find all sales at every hour</string>
+    <string name="inventory_log_description">In this report you can find all info about consignments</string>
+    <string name="inventory_summary_description">All Consignment products</string>
+    <string name="inventory_state_description">Debt states of each vendor</string>
+    <string name="returns_inventroy_description">All money transactions</string>
+    <string name="order_history_description">Order history report</string>
+    <string name="order_id">Order ID</string>
+    <string name="reason_for_cancel">Reason for cancel</string>
+    <string name="total_due">Total Due</string>
+    <string name="paid_amount">Paid Amount</string>
+    <string name="payments_summary_description">In this report you can find all info about consignments</string>
+    <string name="payments_detail_description">All Consignment products</string>
+    <string name="product_profit_summary_description">In this report you can find all info about consignments</string>
+    <string name="product_profit_sales_log_description">All Consignment products</string>
+    <string name="item_service_fee_report_description">Item service fee report</string>
+    <string name="order_service_fee_report_description">Order service fee report</string>
+    <string name="service_fee_creation_log_description">Service fee creation log</string>
+    <string name="till_reports_description">In this report you can find all sales at every hour</string>
+    <string name="vendors_consignment_report_description">In this report you can find all info about consignments</string>
+    <string name="vendors_sonsignment_products_description">All Consignment products</string>
+    <string name="vendors_debt_state_description">Debt states of each vendor</string>
+    <string name="vendors_money_transactions_description">All money transactions</string>
+    <string name="password">Password</string>
+    <string name="payment">Payment</string>
+    <string name="payment_pay">Payment</string>
+    <string name="payment_types_mainpage">Payment  \nTypes</string>
+    <string name="payment_list">Payment  \nList</string>
+    <string name="name_search_mode">NAME</string>
+    <string name="barcode_search_mode">BARCODE</string>
+    <string name="order_history">Order History</string>
+    <string name="filter">Filter</string>
+    <string name="sku_item">SKU</string>
+    <string name="reason_for_discount">Reason for discount</string>
+    <string name="name_subcategory">Name</string>
+    <string name="additional_notes_to_subcategory">Additional notes to subcategory</string>
+    <string name="selected_vendor">Selected</string>
+    <string name="click_on_a_vendor_to_manage_it">Click on a Vendor to manage it</string>
+    <string name="enter_vendor_name">Enter vendor name</string>
+    <string name="enter_contact_name">Enter contact name</string>
+    <string name="add_new_vendor">+ Add\n new vendor</string>
+    <string name="enter_class_name">Enter class name</string>
+    <string name="enter_discount_name">Enter discount name</string>
+    <string name="applicable_for">Applicable for</string>
+    <string name="valid_entry_value_100">Valid entry value = 100</string>
+    <string name="service_fees">Service Fees</string>
     <string name="not_lock_whitelisted">This app has not been given Device Owner
         privileges to manage this device and start lock task mode</string>
     <string name="erg_tok_cant_be_emp">Registration token can\'t be empty</string>
     <string name="reg_token_invalid">Registration token invalid</string>
+    <string name="vendors_imported">Vendors were successfully imported</string>
+    <string name="enter_number">Enter number</string>
+    <string name="enter_customers_address">Enter address</string>
+    <string name="customers_groups_creation_mode">Customers Groups Creation Mode</string>
+    <string name="debt_total">Total</string>
+    <string name="active_debt">Active</string>
+    <string name="closed_debt">Closed</string>
+    <string name="full_payment_debt">Full payment</string>
+    <string name="product_name_inventory">Product name</string>
+    <string name="total_inventory">Total</string>
+    <string name="additional_notes_to_consignment">Additional notes to Consignment</string>
+    <string name="total_payable">Total payable</string>
+    <string name="product_refunds_to">Product refunds to</string>
+    <string name="replenishment">Replenishment</string>
+    <string name="debt_vendor">Debt:</string>
+    <string name="total_debt_vendor">Total debt</string>
+    <string name="pos_id_setting">POS ID</string>
+    <string name="company_name">Company Name</string>
+    <string name="phone_number_setting">Phone number</string>
+    <string name="system_account_s_setting">System accounts</string>
+    <string name="account_name_setting">Account name</string>
+    <string name="add_account_setting">Add</string>
+    <string name="system_payment_types_setting">System payment types</string>
+    <string name="payment_method">Payment method</string>
+    <string name="change_password">Change</string>
+    <string name="manual_discounts">Manual Discounts</string>
+    <string name="payment_types_cash">Payment Types</string>
+    <string name="filters_">Filters:</string>
+    <string name="subtotal_">Subtotal:</string>
+    <string name="total_due_">Total Due:</string>
+    <string name="returned_vendor">Returned</string>
+    <string name="received_vendor">Received</string>
+    <string name="data_time">Date time</string>
     <string name="enter_email_address">Enter email address</string>
-    <string name="do_you_want_update_customer_group">Do you want update customer group?</string>
+    <string name="do_you_want_update_customer_group">Do you want to update the customer group?</string>
     <string name="changes_not_found">Changes not found</string>
     <string name="debtors_list">Debtors list</string>
     <string name="closed_date">Closed date</string>
     <string name="debt_id">Debt ID</string>
-    <string name="taken_date">Taken date</string>
+    <string name="taken_date">Created date</string>
     <string name="debt_type">Debt type</string>
+    <string name="click_on_a_group_to_manage_it">Click on a Group to manage it</string>
+    <string name="customers_groups">Customers Groups</string>
+    <string name="confirm_password_description">Please, repeat password</string>
+    <string name="additional_notes_to_return">Additional notes to Return</string>
+    <string name="name_add_customer">Name</string>
+    <string name="modify_open_till">Modify</string>
+    <string name="amount_in_till">Amount in till</string>
+    <string name="discount_amount_customer">Discount amount:</string>
+    <string name="initial_registration">Initial registration</string>
+    <string name="registration_token">Registration token</string>
+    <string name="registration_token_description">If you know registration token, enter it in the second field and click on conform. If not, please contact Support</string>
+    <string name="call">Call</string>
+    <string name="products_number_product"> Products</string>
+    <string name="enter_service_fee_name_warning">Enter service fee name</string>
+    <string name="please_enter_replashment_reason">Please enter replenishment reason</string>
+    <string name="enter_service_fee_name_service">Enter service fee name</string>
+    <string name="subclass_name">Subclass name</string>
+    <string name="expexted_amount_in_till_report">Expected amount in Till</string>
+    <string name="login_lock_screen">Login</string>
 </resources>

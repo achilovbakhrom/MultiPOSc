@@ -329,14 +329,14 @@ public class CheckPrinter {
 
             if(preferencesHelper.isHintAbout()) {
                 //discription
-                sendDataString("* - products with discount");
-                sendDataString("! - products with service fee");
+                sendDataString(parent.getString(R.string.products_with_discount));
+                sendDataString(parent.getString(R.string.products_with_service_fee));
 
                 //Divider
                 sendDataString("..........................................");
             }
             //FIN
-            sendDataString("THANK YOU! - SPASIBO!");
+            sendDataString(parent.getString(R.string.thank_you));
 
             sendDataString(" ");
             sendDataString(" ");
@@ -347,7 +347,7 @@ public class CheckPrinter {
 
 
         } else {
-            Toast.makeText(parent.getBaseContext(), "Printer isn't connected",
+            Toast.makeText(parent.getBaseContext(), parent.getString(R.string.printer_isnt_connected),
                     Toast.LENGTH_SHORT).show();
         }
     }
@@ -420,7 +420,7 @@ public class CheckPrinter {
             }
 
             if(reprint)
-                sendDataString(String.format("%.42s", "Reprinted: "+simpleDateFormat.format(new Date())));
+                sendDataString(String.format("%.42s", parent.getString(R.string.reprinted_)+simpleDateFormat.format(new Date())));
 
             //enter
             sendDataString(" ");
@@ -494,14 +494,14 @@ public class CheckPrinter {
 
             if(preferencesHelper.isHintAbout()) {
                 //discription
-                sendDataString("* - products with discount");
-                sendDataString("! - products with service fee");
+                sendDataString(parent.getString(R.string.products_with_discount));
+                sendDataString(parent.getString(R.string.products_with_service_fee));
 
                 //Divider
                 sendDataString("..........................................");
             }
             //FIN
-            sendDataString("THANK YOU! - SPASIBO!");
+            sendDataString(parent.getString(R.string.thank_you));
 
             sendDataString(" ");
             sendDataString(" ");
@@ -512,7 +512,7 @@ public class CheckPrinter {
 
 
         } else {
-            Toast.makeText(parent.getBaseContext(), "Printer isn't connected",
+            Toast.makeText(parent.getBaseContext(), parent.getString(R.string.printer_isnt_connected),
                     Toast.LENGTH_SHORT).show();
         }
     }
@@ -527,7 +527,7 @@ public class CheckPrinter {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case UsbController.USB_CONNECTED:
-                    Toast.makeText(parent.getBaseContext(), "Connected",
+                    Toast.makeText(parent.getBaseContext(), parent.getString(R.string.connected),
                             Toast.LENGTH_SHORT).show();
                     break;
                 default:

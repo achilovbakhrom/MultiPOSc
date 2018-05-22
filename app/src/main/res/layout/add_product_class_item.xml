@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/sixty_dp"
             android:layout_marginLeft="@dimen/twenty_five_dp"
-            android:text="@string/named"
+            android:text="@string/class_name"
             android:textSize="@dimen/sixteen_dp"
             android:textColor="#419fd9"
             android:layout_marginBottom="@dimen/twelve_dp"
@@ -56,7 +56,7 @@
             android:paddingRight="@dimen/ten_dp"
             android:paddingLeft="@dimen/sixteen_dp"
             android:inputType="textCapWords|textNoSuggestions"
-            android:hint="@string/class_name"
+            android:hint="@string/enter_class_name"
             android:textSize="@dimen/sixteen_dp"
             />
 

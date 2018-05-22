@@ -219,7 +219,7 @@ public class ReturnConsignmentFragment extends BaseFragment implements ReturnCon
 
     @Override
     public void setConsignmentNumberError() {
-        etReturnNumber.setError("Consignment with such number exists");
+        etReturnNumber.setError(getString(R.string.consignment_with_such_number_exists));
     }
 
     @Override

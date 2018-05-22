@@ -273,7 +273,7 @@ public class DiscountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 addingState.setNewAmmountType(position);
                 if(addingState.getActualyAmmountType() == Discount.PERCENT ){
                     if(addingState.getActualyAmmount()>100) {
-                        etAmmount.setError(context.getString(R.string.percent_can_not_be_more_hunder));
+                        etAmmount.setError(context.getString(R.string.valid_entry_value_100));
                         return;
                     }
                 } else etAmmount.setError(null);
@@ -304,7 +304,7 @@ public class DiscountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         }
                         addingState.setNewAmmount(percent);
                         if(percent>100) {
-                            etAmmount.setError(context.getString(R.string.percent_can_not_be_more_hunder));
+                            etAmmount.setError(context.getString(R.string.valid_entry_value_100));
                             return;
                         }
                     }else {
@@ -324,7 +324,7 @@ public class DiscountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 if(FormValidator.validate(context,this, new MultipleCallback())){
                     if(addingState.getActualyAmmountType() == Discount.PERCENT ){
                         if(addingState.getActualyAmmount()>100) {
-                            etAmmount.setError(context.getString(R.string.percent_can_not_be_more_hunder));
+                            etAmmount.setError(context.getString(R.string.valid_entry_value_100));
                             return;
                         }
                     } else etAmmount.setError(null);
@@ -377,7 +377,7 @@ public class DiscountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 if(items.get(getAdapterPosition()).setNewAmmountType(position2)) {
                     if(items.get(getAdapterPosition()).getActualyAmmountType() == Discount.VALUE ){
                         if(items.get(getAdapterPosition()).getActualyAmmount()>100) {
-                            etAmmount.setError(context.getString(R.string.percent_can_not_be_more_hunder));
+                            etAmmount.setError(context.getString(R.string.valid_entry_value_100));
                             return;
                         }
                     } else etAmmount.setError(null);
@@ -410,7 +410,7 @@ public class DiscountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         if(items.get(getAdapterPosition()).setNewAmmount(percent))
                         btnSave.enable();
                         if(percent>100) {
-                            etAmmount.setError(context.getString(R.string.percent_can_not_be_more_hunder));
+                            etAmmount.setError(context.getString(R.string.valid_entry_value_100));
                             return;
                         } else etAmmount.setError(null);
                     }else {
@@ -432,7 +432,7 @@ public class DiscountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 if(FormValidator.validate(context,this, new MultipleCallback())){
                     if(items.get(getAdapterPosition()).getActualyAmmountType()==Discount.PERCENT ){
                         if(items.get(getAdapterPosition()).getActualyAmmount()>100) {
-                            etAmmount.setError(context.getString(R.string.percent_can_not_be_more_hunder));
+                            etAmmount.setError(context.getString(R.string.valid_entry_value_100));
                             return;
                         }
                     } else etAmmount.setError(null);

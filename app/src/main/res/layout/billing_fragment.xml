@@ -46,7 +46,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/sixteen_dp"
                     android:textColor="#212121"
-                    android:text="@string/debt"/>
+                    android:text="@string/debt_vendor"/>
 
             </LinearLayout>
         </LinearLayout>

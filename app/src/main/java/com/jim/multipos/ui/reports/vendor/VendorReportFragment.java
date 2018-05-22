@@ -1,11 +1,7 @@
 package com.jim.multipos.ui.reports.vendor;
 
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.Gravity;
-import android.widget.Toast;
 
 import com.github.angads25.filepicker.model.DialogConfigs;
 import com.github.angads25.filepicker.model.DialogProperties;
@@ -61,13 +57,13 @@ public class VendorReportFragment extends BaseTableReportFragment implements Ven
     }
 
     private void initDefaults() {
-        status = new Object[][][]{{{Consignment.INCOME_CONSIGNMENT, getString(R.string.income), R.color.colorMainText},
-                {Consignment.RETURN_CONSIGNMENT, getString(R.string.return_), R.color.colorMainText}}};
-        billingStatus = new Object[][][]{{{BillingOperations.RETURN_TO_VENDOR, getString(R.string.return_), R.color.colorMainText},
-                {BillingOperations.PAID_TO_CONSIGNMENT, getString(R.string.pay), R.color.colorMainText},
+        status = new Object[][][]{{{Consignment.INCOME_CONSIGNMENT, getString(R.string.received_vendor), R.color.colorMainText},
+                {Consignment.RETURN_CONSIGNMENT, getString(R.string.returned_vendor), R.color.colorMainText}}};
+        billingStatus = new Object[][][]{{{BillingOperations.RETURN_TO_VENDOR, getString(R.string.returned_vendor), R.color.colorMainText},
+                {BillingOperations.PAID_TO_CONSIGNMENT, getContext().getString(R.string.pay), R.color.colorMainText},
                 {BillingOperations.DEBT_CONSIGNMENT, getString(R.string.debt_), R.color.colorMainText}}};
-        firstTitles = new String[]{getString(R.string.consignment_number), getString(R.string.vendor), getString(R.string.type), getString(R.string.date), getString(R.string.total_cost), getString(R.string.extra_info)};
-        secondTitles = new String[]{getString(R.string.consignment_number), getString(R.string.product), getString(R.string.vendor), getString(R.string.date), getString(R.string.type), getString(R.string.qty), getString(R.string.each_cost), getString(R.string.sum_cost)};
+        firstTitles = new String[]{getString(R.string.consignment_number), getString(R.string.vendor), getString(R.string.type), getString(R.string.data_time), getString(R.string.total_cost), getString(R.string.extra_info)};
+        secondTitles = new String[]{getString(R.string.consignment_number), getString(R.string.product), getString(R.string.vendor), getString(R.string.data_time), getString(R.string.type), getString(R.string.qty), getString(R.string.each), getString(R.string.debt_total)};
         thirdTitles = new String[]{getString(R.string.vendor_name), getString(R.string.taken_value), getString(R.string.paid_), getString(R.string.difference)};
         forthTitles = new String[]{getString(R.string.date), getString(R.string.vendor), getString(R.string.type), getString(R.string.amount), getString(R.string.account), getString(R.string.consignment), getString(R.string.created_date_), getString(R.string.description)};
         ReportView.Builder firstBuilder = new ReportView.Builder()
@@ -188,19 +184,19 @@ public class VendorReportFragment extends BaseTableReportFragment implements Ven
     public void exportTableToExcel(String fileName, String path, Object[][] objects, int position, String date, String filter, String searchText) {
         switch (position) {
             case 0:
-                String description = "In this report you can find all info about consignments";
+                String description = getContext().getString(R.string.vendors_consignment_report_description);
                 ExportUtils.exportToExcel(getContext(), path, fileName, description, date, filter, searchText, objects, firstTitles, firstWeights, firstDataType, status);
                 break;
             case 1:
-                String secondDescription = " All Consignment products";
+                String secondDescription = getContext().getString(R.string.vendors_sonsignment_products_description);
                 ExportUtils.exportToExcel(getContext(), path, fileName, secondDescription, date, filter, searchText, objects, secondTitles, secondWeights, secondDataType, status);
                 break;
             case 2:
-                String thirdDescription = " Debt states of each vendor";
+                String thirdDescription = getContext().getString(R.string.vendors_debt_state_description);
                 ExportUtils.exportToExcel(getContext(), path, fileName, thirdDescription, date, filter, searchText, objects, thirdTitles, thirdWeights, thirdDataType, null);
                 break;
             case 3:
-                String forthDescription = " All money transactions";
+                String forthDescription = getContext().getString(R.string.vendors_money_transactions_description);
                 ExportUtils.exportToExcel(getContext(), path, fileName, forthDescription, date, filter, searchText, objects, forthTitles, forthWeights, forthDataType, billingStatus);
                 break;
         }
@@ -210,19 +206,19 @@ public class VendorReportFragment extends BaseTableReportFragment implements Ven
     public void exportTableToPdf(String fileName, String path, Object[][] objects, int position, String date, String filter, String searchText) {
         switch (position) {
             case 0:
-                String description = "In this report you can find all info about consignments";
+                String description = getContext().getString(R.string.vendors_consignment_report_description);
                 ExportUtils.exportToPdf(getContext(), path, fileName, description, date, filter, searchText, objects, firstTitles, firstWeights, firstDataType, status);
                 break;
             case 1:
-                String secondDescription = " All Consignment products";
+                String secondDescription = getContext().getString(R.string.vendors_sonsignment_products_description);
                 ExportUtils.exportToPdf(getContext(), path, fileName, secondDescription, date, filter, searchText, objects, secondTitles, secondWeights, secondDataType, status);
                 break;
             case 2:
-                String thirdDescription = " Debt states of each vendor";
+                String thirdDescription = getContext().getString(R.string.vendors_debt_state_description);
                 ExportUtils.exportToPdf(getContext(), path, fileName, thirdDescription, date, filter, searchText, objects, thirdTitles, thirdWeights, thirdDataType, null);
                 break;
             case 3:
-                String forthDescription = " All money transactions";
+                String forthDescription = getContext().getString(R.string.vendors_money_transactions_description);
                 ExportUtils.exportToPdf(getContext(), path, fileName, forthDescription, date, filter, searchText, objects, forthTitles, forthWeights, forthDataType, billingStatus);
                 break;
         }
@@ -259,19 +255,19 @@ public class VendorReportFragment extends BaseTableReportFragment implements Ven
     public void exportExcelToUSB(String filename, UsbFile root, Object[][] objects, int position, String date, String filter, String searchText) {
         switch (position) {
             case 0:
-                String description = "In this report you can find all info about consignments";
+                String description = getContext().getString(R.string.vendors_consignment_report_description);
                 ExportUtils.exportToExcelToUSB(getContext(), root, filename, description, date, filter, searchText, objects, firstTitles, firstWeights, firstDataType, status);
                 break;
             case 1:
-                String secondDescription = " All Consignment products";
+                String secondDescription = getContext().getString(R.string.vendors_sonsignment_products_description);
                 ExportUtils.exportToExcelToUSB(getContext(), root, filename, secondDescription, date, filter, searchText, objects, secondTitles, secondWeights, secondDataType, status);
                 break;
             case 2:
-                String thirdDescription = " Debt states of each vendor";
+                String thirdDescription = getContext().getString(R.string.vendors_debt_state_description);
                 ExportUtils.exportToExcelToUSB(getContext(), root, filename, thirdDescription, date, filter, searchText, objects, thirdTitles, thirdWeights, thirdDataType, null);
                 break;
             case 3:
-                String forthDescription = " All money transactions";
+                String forthDescription = getContext().getString(R.string.vendors_money_transactions_description);
                 ExportUtils.exportToExcelToUSB(getContext(), root, filename, forthDescription, date, filter, searchText, objects, forthTitles, forthWeights, forthDataType, billingStatus);
                 break;
         }
@@ -281,19 +277,19 @@ public class VendorReportFragment extends BaseTableReportFragment implements Ven
     public void exportTableToPdfToUSB(String fileName, UsbFile path, Object[][] objects, int position, String date, String filter, String searchText) {
         switch (position) {
             case 0:
-                String description = "In this report you can find all info about consignments";
+                String description = getContext().getString(R.string.vendors_consignment_report_description);
                 ExportUtils.exportToPdfToUSB(getContext(), path, fileName, description, date, filter, searchText, objects, firstTitles, firstWeights, firstDataType, status);
                 break;
             case 1:
-                String secondDescription = " All Consignment products";
+                String secondDescription = getContext().getString(R.string.vendors_sonsignment_products_description);
                 ExportUtils.exportToPdfToUSB(getContext(), path, fileName, secondDescription, date, filter, searchText, objects, secondTitles, secondWeights, secondDataType, status);
                 break;
             case 2:
-                String thirdDescription = " Debt states of each vendor";
+                String thirdDescription = getContext().getString(R.string.vendors_debt_state_description);
                 ExportUtils.exportToPdfToUSB(getContext(), path, fileName, thirdDescription, date, filter, searchText, objects, thirdTitles, thirdWeights, thirdDataType, null);
                 break;
             case 3:
-                String forthDescription = " All money transactions";
+                String forthDescription = getContext().getString(R.string.vendors_money_transactions_description);
                 ExportUtils.exportToPdfToUSB(getContext(), path, fileName, forthDescription, date, filter, searchText, objects, forthTitles, forthWeights, forthDataType, billingStatus);
                 break;
         }

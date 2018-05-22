@@ -129,4 +129,18 @@ public abstract class StartConfigurationActivityModule {
         return context.getResources().getString(R.string.cash);
     }
 
+    @PerActivity
+    @Provides
+    @Named(value = "debt")
+    static String provideDebtName(Context context) {
+        return context.getResources().getString(R.string.debt_report);
+    }
+
+    @PerActivity
+    @Provides
+    @Named(value = "debtAccount")
+    static String provideDebtAccountName(Context context) {
+        return context.getResources().getString(R.string.debt_report);
+    }
+
 }

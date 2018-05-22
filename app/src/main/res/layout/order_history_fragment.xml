@@ -20,7 +20,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Order History"
+                android:text="@string/order_history"
                 android:textSize="@dimen/twenty_dp"
                 android:textColor="#212121"
                 />
@@ -101,7 +101,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Filter"
+                android:text="@string/filter"
                 android:layout_marginLeft="@dimen/twelve_dp"
                 android:textSize="@dimen/sixteen_dp"
                 android:textColor="#2e91cc"/>
@@ -123,7 +123,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Date interval"
+                android:text="@string/date_interval"
                 android:layout_marginLeft="@dimen/twelve_dp"
                 android:textSize="@dimen/sixteen_dp"
                 android:textColor="#2e91cc"/>
@@ -148,7 +148,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Expert"
+                android:text="@string/export"
                 android:layout_marginLeft="@dimen/twelve_dp"
                 android:textSize="@dimen/sixteen_dp"
                 android:textColor="#2e91cc"/>

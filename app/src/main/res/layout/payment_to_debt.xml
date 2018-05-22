@@ -22,7 +22,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:paddingLeft="@dimen/thirty_dp"
-                android:text="@string/payment_to_debt"
+                android:text="@string/payment_of_debt"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/twenty_dp"
                 android:textStyle="bold" />
@@ -61,7 +61,7 @@
                 android:layout_marginLeft="@dimen/sixteen_dp"
                 android:layout_marginRight="@dimen/forty_dp"
                 android:gravity="center_vertical"
-                android:text="@string/uzs"
+                android:text="uzs"
                 android:textColor="#212121"
                 android:textSize="@dimen/eighteen_dp" />
         </LinearLayout>

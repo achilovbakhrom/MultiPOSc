@@ -1,5 +1,6 @@
 package com.jim.multipos.ui.mainpospage.adapter;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
@@ -33,11 +34,13 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
 
     private String textSearched;
     private CallbackSearchResult callbackSearchResult;
+    private Context context;
     List<Product> items;
     public interface CallbackSearchResult{
         void onItemClick(int position);
     }
-    public SearchResultsAdapter(List<Product> items,CallbackSearchResult callbackSearchResult) {
+    public SearchResultsAdapter(Context context, List<Product> items, CallbackSearchResult callbackSearchResult) {
+        this.context = context;
         this.items = items;
         this.callbackSearchResult = callbackSearchResult;
     }
@@ -57,8 +60,8 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
     @Override
     public void onBindViewHolder(SearchResultHolder holder, int position) {
        colorSubSeq(items.get(position).getName(),textSearched,Color.parseColor("#95ccee"),holder.mpSquareItem.getVendorTv());
-       colorSubSeq("Sku: "+items.get(position).getSku(),textSearched,Color.parseColor("#95ccee"),holder.mpSquareItem.getVendorItemTv());
-       colorSubSeq("Barcode: "+items.get(position).getBarcode(),textSearched,Color.parseColor("#95ccee"),holder.mpSquareItem.getVendorNameTv());
+       colorSubSeq(context.getString(R.string.sku_)+items.get(position).getSku(),textSearched,Color.parseColor("#95ccee"),holder.mpSquareItem.getVendorItemTv());
+       colorSubSeq(context.getString(R.string.barcode_)+items.get(position).getBarcode(),textSearched,Color.parseColor("#95ccee"),holder.mpSquareItem.getVendorNameTv());
 
     }
 

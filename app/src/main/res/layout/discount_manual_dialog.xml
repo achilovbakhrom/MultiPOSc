@@ -162,7 +162,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/ten_dp"
                         android:gravity="right"
-                        android:text="@string/billing_amount"
+                        android:text="@string/final_amount"
                         android:textColor="#419ed8"
                         android:textSize="@dimen/sixteen_dp" />
 

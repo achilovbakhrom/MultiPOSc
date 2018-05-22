@@ -27,7 +27,7 @@
             android:layout_marginLeft="@dimen/sixteen_dp"
             android:paddingRight="@dimen/ten_dp"
             android:paddingLeft="@dimen/twenty_dp"
-            android:hint="@string/class_name"
+            android:hint="@string/subclass_name"
             android:inputType="textCapWords|textNoSuggestions"
             android:textSize="@dimen/sixteen_dp"
             />

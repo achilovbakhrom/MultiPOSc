@@ -19,7 +19,7 @@
             android:layout_gravity="center"
             android:layout_weight="4"
             android:gravity="left|center_vertical"
-            android:hint="@string/input_account_name"
+            android:hint="@string/enter_account_name"
             android:inputType="text"
             android:textColor="@color/colorMainText"
             android:textSize="@dimen/eighteen_dp" />

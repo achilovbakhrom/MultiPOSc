@@ -66,7 +66,7 @@ public class ExportToDialog extends Dialog {
             tvExportFormat.setText(context.getString(R.string.xls));
         else tvExportFormat.setText(context.getString(R.string.pdf));
         etFileName.setText(fileName + " " + dateFormat.format(new Date(System.currentTimeMillis())));
-        String[] strings = {context.getString(R.string.save_to_internal_memory), context.getString(R.string.save_to_usb)};
+        String[] strings = {context.getString(R.string.save_to_internal_memory), context.getString(R.string.save_to_usb_drive)};
         spChooseSaveLocation.setAdapter(strings);
         spChooseSaveLocation.setItemSelectionListener((view, position) -> {
             if (position == 0) {
@@ -99,14 +99,14 @@ public class ExportToDialog extends Dialog {
                         root = currentFs.getRootDirectory();
                         listener.onSaveToUSBClicked(etFileName.getText().toString(), root);
                     } else
-                        Toast.makeText(context, "Not enough place in memory", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, R.string.not_enough_place_in_memory, Toast.LENGTH_SHORT).show();
                 } catch (IOException e) {
-                    Toast.makeText(context, "Device hasn\'t got permission", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, R.string.device_hasnt_got_permission, Toast.LENGTH_SHORT).show();
                 }
             }
         } else {
             spChooseSaveLocation.setSelection(0);
-            Toast.makeText(context, "Please, connect USB drive", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.please_connect_usb_drive, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -122,7 +122,7 @@ public class ExportToDialog extends Dialog {
             }
         } else {
             spChooseSaveLocation.setSelection(0);
-            Toast.makeText(context, "Please, connect USB drive", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.please_connect_usb_drive, Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -34,7 +34,7 @@
                     android:paddingLeft="@dimen/ten_dp"
                     android:paddingRight="@dimen/ten_dp"
                     android:paddingTop="@dimen/five_dp"
-                    android:text="@string/category"
+                    android:text="@string/payment"
                     android:textColor="@color/colorBlue"
                     android:textSize="@dimen/sixteen_dp"
                     android:textStyle="bold" />
@@ -117,7 +117,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/payment"
+                            android:text="@string/payment_pay"
                             android:gravity="right"
                             android:layout_marginRight="@dimen/fourteen_dp"
                             android:layout_marginTop="@dimen/twelve_dp"
@@ -255,7 +255,6 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            app:currency="@string/uzs"
                             app:values="1 000" />
                     </LinearLayout>
 
@@ -306,8 +305,8 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            app:currency="Amount"
-                            app:values="All" />
+                            app:currency="@string/amount"
+                            app:values="@string/all" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -400,7 +399,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="@string/borrow"
+                                android:text="@string/loan"
                                 android:textColor="@color/colorBlue"
                                 android:textSize="@dimen/twelve_dp" />
 
@@ -430,7 +429,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="@string/tips"
+                                android:text="@string/coin"
                                 android:textColor="@color/colorBlue"
                                 android:textSize="@dimen/twelve_dp" />
 
@@ -460,7 +459,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="@string/print_check_on"
+                                android:text="@string/print_check_on_off"
                                 android:textColor="@color/colorBlue"
                                 android:textSize="@dimen/twelve_dp" />
 
@@ -496,7 +495,7 @@
                             android:id="@+id/tvBalanceOrChange"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/change"
+                            android:text="@string/balance"
                             android:gravity="right"
                             android:layout_marginRight="@dimen/fourteen_dp"
                             android:layout_marginTop="@dimen/twelve_dp"
@@ -554,8 +553,8 @@
                                 android:layout_height="@dimen/seventy_dp"
                                 android:layout_gravity="center"
                                 android:layout_marginBottom="@dimen/five_dp"
-                                app:text_left="Payment \nTypes"
-                                app:text_right="Payment \nList" />
+                                app:text_left="@string/payment_types_mainpage"
+                                app:text_right="@string/payment_list" />
 
                             <com.jim.mpviews.MpList
                                 android:id="@+id/mpLPaymentTypeList"

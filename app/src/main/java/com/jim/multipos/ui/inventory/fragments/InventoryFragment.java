@@ -227,7 +227,7 @@ public class InventoryFragment extends BaseFragment implements InventoryView {
         vendorListAdapter = new VendorListAdapter();
         rvProductList.setAdapter(vendorListAdapter);
         TextView textView = dialogView.findViewById(R.id.tvDialogTitle);
-        textView.setText("Vendor list");
+        textView.setText(R.string.vendor_list);
         dialog.setContentView(dialogView);
         dialog.getWindow().getDecorView().setBackgroundResource(android.R.color.transparent);
         vendorListAdapter.setListener(vendor -> {

@@ -25,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/income_from"
+                android:text="@string/received_from"
                 android:textColor="@color/colorBlue"
                 android:layout_marginRight="@dimen/five_dp"
                 android:textSize="@dimen/twenty_dp" />
@@ -58,7 +58,7 @@
             android:layout_gravity="center"
             android:layout_marginRight="@dimen/twenty_dp"
             android:gravity="left"
-            android:text="@string/product_name"
+            android:text="@string/product_name_inventory"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/eighteen_dp" />
 
@@ -78,7 +78,7 @@
             android:layout_gravity="center"
             android:layout_marginRight="@dimen/ten_dp"
             android:gravity="left"
-            android:text="@string/count"
+            android:text="@string/quantity"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/eighteen_dp" />
 
@@ -98,7 +98,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="left"
-            android:text="@string/sum"
+            android:text="@string/total_inventory"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/eighteen_dp" />
 
@@ -188,7 +188,7 @@
                     android:layout_marginRight="@dimen/thirty_dp"
                     android:background="@drawable/edit_text_bg"
                     android:gravity="left"
-                    android:hint="@string/some_notes"
+                    android:hint="@string/additional_notes_to_consignment"
                     android:inputType="textMultiLine|textCapSentences"
                     android:isScrollContainer="true"
                     android:maxLength="2000"
@@ -222,7 +222,7 @@
                     android:layout_gravity="center"
                     android:layout_marginRight="@dimen/sixteen_dp"
                     android:gravity="right"
-                    android:text="@string/total_should_pay"
+                    android:text="@string/total_payable"
                     android:textSize="@dimen/sixteen_dp" />
 
                 <TextView

@@ -25,7 +25,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:paddingLeft="@dimen/thirty_dp"
-                android:text="@string/action"
+                android:text="@string/actions"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/twenty_dp"
                 android:textStyle="bold" />
@@ -63,7 +63,7 @@
             android:paddingBottom="@dimen/ten_dp"
             android:paddingLeft="@dimen/thirty_dp"
             android:paddingTop="@dimen/ten_dp"
-            android:text="Close order"
+            android:text="@string/close_order"
             android:textColor="@color/colorMainText"
             android:textSize="@dimen/sixteen_dp" />
 

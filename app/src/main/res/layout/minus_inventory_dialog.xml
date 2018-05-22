@@ -27,7 +27,7 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/thirty_dp"
-                android:text="@string/shortage"
+                android:text="@string/write_off_products"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/twenty_dp" />
 
@@ -121,7 +121,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/ten_dp"
-                        android:text="@string/stock_record"
+                        android:text="@string/actual_quantity"
                         android:textColor="#419ed8"
                         android:textSize="@dimen/sixteen_dp" />
 
@@ -155,7 +155,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/ten_dp"
-                        android:text="@string/shortage"
+                        android:text="@string/write_off_products"
                         android:textColor="#5997cc"
                         android:textSize="@dimen/sixteen_dp" />
 
@@ -191,7 +191,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/ten_dp"
-                        android:text="@string/actual_quantity"
+                        android:text="@string/total_quantity"
                         android:textColor="#419ed8"
                         android:textSize="@dimen/sixteen_dp" />
 
@@ -247,7 +247,7 @@
                 android:layout_marginRight="@dimen/thirty_dp"
                 android:layout_marginTop="@dimen/sixteen_dp"
                 android:gravity="top"
-                android:hint="@string/enter_reason"
+                android:hint="@string/please_enter_write_off_reason"
                 android:textSize="@dimen/eighteen_dp" />
 
             <FrameLayout

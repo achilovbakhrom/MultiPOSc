@@ -226,7 +226,7 @@ public class ProductsClassListAdapter extends RecyclerView.Adapter<RecyclerView.
                 if(productClass.getActive()){
                     WarningDialog warningDialog = new WarningDialog(context);
                     warningDialog.onlyText(true);
-                    warningDialog.setWarningMessage("First full you should change status item to\n\"not active\"");
+                    warningDialog.setWarningMessage(context.getString(R.string.change_to_not_delete_when_not_active));
                     warningDialog.setOnYesClickListener(view1 -> warningDialog.dismiss());
                     warningDialog.show();
                     return;

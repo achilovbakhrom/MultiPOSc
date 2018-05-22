@@ -160,7 +160,7 @@
                         android:layout_width="@dimen/hundred_dp"
                         android:layout_height="@dimen/hundred_dp"
                         app:mode="1"
-                        app:value="Login" />
+                        app:value="@string/login_lock_screen" />
 
                 </LinearLayout>
 

@@ -8,16 +8,12 @@ import com.github.mjdev.libaums.fs.UsbFile;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
-import com.jim.multipos.data.db.model.Account;
 import com.jim.multipos.data.db.model.PaymentType;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.till.Till;
 import com.jim.multipos.data.db.model.till.TillOperation;
 import com.jim.multipos.ui.reports.payments.data.PaymentsReport;
 import com.jim.multipos.ui.reports.payments.data.SummaryPayments;
-import com.jim.multipos.ui.reports.product_profit.data.ProfitData;
-
-import org.greenrobot.greendao.database.Database;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -25,7 +21,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -480,7 +475,7 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
                     filters.append(context.getString(R.string.pay_out)).append(" ");
                 }
                 if (filterConfig[4] == 1) {
-                    filters.append(context.getString(R.string.pay_to_vendor)).append(" ");
+                    filters.append(context.getString(R.string.payment_to_vendor)).append(" ");
                 }
                 if (filterConfig[5] == 1) {
                     filters.append(context.getString(R.string.bank_drop)).append(" ");
@@ -518,7 +513,7 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
                     filters.append(context.getString(R.string.pay_out)).append(" ");
                 }
                 if (filterConfig[4] == 1) {
-                    filters.append(context.getString(R.string.pay_to_vendor)).append(" ");
+                    filters.append(context.getString(R.string.payment_to_vendor)).append(" ");
                 }
                 if (filterConfig[5] == 1) {
                     filters.append(context.getString(R.string.bank_drop)).append(" ");
@@ -556,7 +551,7 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
                     filters.append(context.getString(R.string.pay_out)).append(" ");
                 }
                 if (filterConfig[4] == 1) {
-                    filters.append(context.getString(R.string.pay_to_vendor)).append(" ");
+                    filters.append(context.getString(R.string.payment_to_vendor)).append(" ");
                 }
                 if (filterConfig[5] == 1) {
                     filters.append(context.getString(R.string.bank_drop)).append(" ");
@@ -594,7 +589,7 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
                     filters.append(context.getString(R.string.pay_out)).append(" ");
                 }
                 if (filterConfig[4] == 1) {
-                    filters.append(context.getString(R.string.pay_to_vendor)).append(" ");
+                    filters.append(context.getString(R.string.payment_to_vendor)).append(" ");
                 }
                 if (filterConfig[5] == 1) {
                     filters.append(context.getString(R.string.bank_drop)).append(" ");
@@ -618,7 +613,7 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
                         paymentsReport.setFilterId(FILTER_PAY_TO_ORDER);
                         paymentsReport.setPaymentName(orders.get(i).getPayedPartitions().get(j).getPaymentType().getName());
                         paymentsReport.setAccountName(orders.get(i).getPayedPartitions().get(j).getPaymentType().getAccount().getName());
-                        paymentsReport.setReason("Payment to order");
+                        paymentsReport.setReason(context.getString(R.string.payment_to_order));
                         paymentsReport.setOrderId(orders.get(i).getId());
                         paymentsReport.setTillId(orders.get(i).getTillId());
                         paymentsReport.setDate(orders.get(i).getCreateAt());
@@ -630,7 +625,7 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
                         paymentsReport.setFilterId(FILTER_CHANGE);
                         paymentsReport.setPaymentName(cashPaymentType.getName());
                         paymentsReport.setAccountName(cashPaymentType.getAccount().getName());
-                        paymentsReport.setReason("Change");
+                        paymentsReport.setReason(context.getString(R.string.change));
                         paymentsReport.setOrderId(orders.get(i).getId());
                         paymentsReport.setTillId(orders.get(i).getTillId());
                         paymentsReport.setDate(orders.get(i).getCreateAt() + 1);
@@ -646,13 +641,13 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
                     paymentsReport.setPaymentName(tillOperations.get(i).getPaymentType().getName());
                     paymentsReport.setAccountName(tillOperations.get(i).getPaymentType().getAccount().getName());
                     if (tillOperations.get(i).getType() == TillOperation.PAY_IN) {
-                        paymentsReport.setReason("Pay in");
+                        paymentsReport.setReason(context.getString(R.string.pay_in));
                         paymentsReport.setFilterId(FILTER_PAY_IN);
                     } else if (tillOperations.get(i).getType() == TillOperation.PAY_OUT) {
-                        paymentsReport.setReason("Pay out");
+                        paymentsReport.setReason(context.getString(R.string.pay_out));
                         paymentsReport.setFilterId(FILTER_PAY_OUT);
                     } else if (tillOperations.get(i).getType() == TillOperation.BANK_DROP) {
-                        paymentsReport.setReason("Bank drop");
+                        paymentsReport.setReason(context.getString(R.string.bank_drop));
                         paymentsReport.setFilterId(FILTER_BANK_DROP);
                     }
                     paymentsReport.setDescription(tillOperations.get(i).getDescription());

@@ -141,7 +141,7 @@
                 android:layout_gravity="center"
                 android:fontFamily="roboto"
                 android:gravity="left|center_vertical"
-                android:hint="@string/password"
+                android:hint="@string/enter_pos_password"
                 android:inputType="numberPassword"
                 android:maxLength="6"
                 android:textColor="@color/colorMainText"

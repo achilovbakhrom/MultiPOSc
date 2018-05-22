@@ -200,7 +200,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/thirty_dp"
                     android:layout_weight="1"
-                    android:text="@string/debt"
+                    android:text="@string/debt_vendor"
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/sixteen_dp" />
 
@@ -277,7 +277,7 @@
                 android:layout_width="@dimen/hundred_seventy_dp"
                 android:layout_height="@dimen/sixty_dp"
                 android:layout_marginRight="@dimen/five_dp"
-                app:btn_text="@string/income"
+                app:btn_text="@string/receive"
                 app:src="@drawable/blu_but_in" />
 
 

@@ -36,7 +36,7 @@ public class CustomerGroupsFragment extends BaseFragment {
     protected void init(Bundle savedInstanceState) {
         ((SimpleItemAnimator) rvCustomerGroups.getItemAnimator()).setSupportsChangeAnimations(false);
         rvCustomerGroups.setLayoutManager(new GridLayoutManager(getContext(), 6));
-        rvCustomerGroups.setAdapter(new CustomerGroupsAdapter(((CustomerGroupActivity) getActivity()).getPresenter().getCustomerGroups(),
+        rvCustomerGroups.setAdapter(new CustomerGroupsAdapter(getContext(),((CustomerGroupActivity) getActivity()).getPresenter().getCustomerGroups(),
                 new CustomerGroupsAdapter.OnItemClickListener() {
                     @Override
                     public void onAddButtonPressed() {

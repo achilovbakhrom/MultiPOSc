@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/twelve_dp"
             android:layout_marginLeft="@dimen/ten_dp"
-            android:text="@string/qr_code"
+            android:text="@string/barcode"
             android:textColor="#419fd9"
             android:textSize="@dimen/sixteen_dp" />
 
@@ -75,7 +75,7 @@
             android:layout_marginBottom="@dimen/twelve_dp"
             android:layout_marginLeft="@dimen/ten_dp"
             android:gravity="center"
-            android:text="Action"
+            android:text="@string/action"
             android:textColor="#419fd9"
             android:textSize="@dimen/sixteen_dp" />
     </LinearLayout>
@@ -110,7 +110,7 @@
             android:layout_gravity="center"
             android:layout_marginLeft="@dimen/ten_dp"
             android:gravity="center_vertical"
-            android:hint="@string/name"
+            android:hint="@string/enter_full_name"
             android:inputType="text"
             android:paddingBottom="@dimen/five_dp"
             android:paddingLeft="@dimen/ten_dp"
@@ -126,7 +126,7 @@
             android:layout_gravity="center"
             android:layout_marginLeft="@dimen/ten_dp"
             android:gravity="center_vertical"
-            android:hint="@string/number"
+            android:hint="@string/enter_number"
             android:inputType="phone"
             android:paddingBottom="@dimen/five_dp"
             android:paddingLeft="@dimen/ten_dp"
@@ -142,7 +142,7 @@
             android:layout_gravity="center"
             android:layout_marginLeft="@dimen/ten_dp"
             android:gravity="center_vertical"
-            android:hint="@string/short_type"
+            android:hint="@string/enter_customers_address"
             android:inputType="text"
             android:paddingBottom="@dimen/five_dp"
             android:paddingLeft="@dimen/ten_dp"
@@ -204,7 +204,7 @@
             android:layout_height="@dimen/forty_dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/ten_dp"
-            android:text="+Add"
+            android:text="@string/plus_add"
             android:textColor="#23d730"
             android:textSize="@dimen/sixteen_dp" />
     </LinearLayout>

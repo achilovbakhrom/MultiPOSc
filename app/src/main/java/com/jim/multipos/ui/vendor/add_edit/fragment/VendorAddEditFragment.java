@@ -57,7 +57,7 @@ import static com.jim.multipos.utils.OpenPickPhotoUtils.RESULT_PICK_IMAGE;
 
 public class VendorAddEditFragment extends BaseFragment implements ContentChangeable {
 
-    @NotEmpty(messageId = R.string.warning_ventor_name)
+    @NotEmpty(messageId = R.string.length_validation)
     @BindView(R.id.etVendorName)
     MpEditText vendorName;
 
@@ -116,7 +116,7 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
             public void onRemove(int position, Contact contact) {
                 UIUtils.showAlert(getContext(), getString(R.string.yes), getString(R.string.no),
                         getString(R.string.warning_contact_deletion_title),
-                        "Do you really want to delete the contact " + contact.getName() + "?",
+                        getString(R.string.do_you_really_want_to_delete_contact) + contact.getName() + "?",
                         new UIUtils.AlertListener() {
                             @Override
                             public void onPositiveButtonClicked() {
@@ -317,7 +317,7 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
                 }
                 if (contactType.getSelectedPosition() == 1) {
                     if (!Patterns.EMAIL_ADDRESS.matcher(contactData.getText().toString()).matches()) {
-                        contactData.setError("Email address is not valid!!!");
+                        contactData.setError(getContext().getString(R.string.email_adress_is_not_valid));
                         return;
                     }
                 }
@@ -437,7 +437,7 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
                     active.setChecked(true);
                     active.setChecked(vendor.getIsActive());
                     delete.setVisibility(View.VISIBLE);
-                    save.setText(R.string.update);
+                    save.setText(getContext().getString(R.string.update));
                     if (vendor.getPhotoPath() != null && !vendor.getPhotoPath().equals("")) {
                         photoSelected = Uri.fromFile(new File(vendor.getPhotoPath()));
                         GlideApp
@@ -468,7 +468,7 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
     }
 
     public void showVendorHasProductsMessage() {
-        UIUtils.showAlert(getContext(), getString(R.string.ok), getString(R.string.warning), "This vendor have products connected with him", () -> {
+        UIUtils.showAlert(getContext(), getString(R.string.ok), getString(R.string.warning), getContext().getString(R.string.this_vendor_have_products_connected), () -> {
         });
     }
 

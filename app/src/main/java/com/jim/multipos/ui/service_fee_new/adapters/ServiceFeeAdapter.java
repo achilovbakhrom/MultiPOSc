@@ -280,7 +280,7 @@ public class ServiceFeeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 addingState.setNewType(position);
                 if (addingState.getActualType() == ServiceFee.PERCENT) {
                     if (addingState.getActualAmount() > 100) {
-                        etAmmount.setError(context.getString(R.string.percent_can_not_be_more_hunder));
+                        etAmmount.setError(context.getString(R.string.valid_entry_value_100));
                         return;
                     }
                 } else etAmmount.setError(null);
@@ -311,7 +311,7 @@ public class ServiceFeeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                             }
                             addingState.setNewAmount(percent);
                             if (percent > 100) {
-                                etAmmount.setError(context.getString(R.string.percent_can_not_be_more_hunder));
+                                etAmmount.setError(context.getString(R.string.valid_entry_value_100));
                                 return;
                             }
                         } else {
@@ -331,7 +331,7 @@ public class ServiceFeeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 if (FormValidator.validate(context, this, new MultipleCallback())) {
                     if (addingState.getActualType() == ServiceFee.PERCENT) {
                         if (addingState.getActualAmount() > 100) {
-                            etAmmount.setError(context.getString(R.string.percent_can_not_be_more_hunder));
+                            etAmmount.setError(context.getString(R.string.valid_entry_value_100));
                             return;
                         }
                     } else etAmmount.setError(null);
@@ -382,7 +382,7 @@ public class ServiceFeeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 if (items.get(getAdapterPosition()).setNewType(position2)) {
                     if (items.get(getAdapterPosition()).getActualType() == ServiceFee.VALUE) {
                         if (items.get(getAdapterPosition()).getActualAmount() > 100) {
-                            etAmmount.setError(context.getString(R.string.percent_can_not_be_more_hunder));
+                            etAmmount.setError(context.getString(R.string.valid_entry_value_100));
                             return;
                         }
                     } else etAmmount.setError(null);
@@ -415,7 +415,7 @@ public class ServiceFeeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                             if (items.get(getAdapterPosition()).setNewAmount(percent))
                                 btnSave.enable();
                             if (percent > 100) {
-                                etAmmount.setError(context.getString(R.string.percent_can_not_be_more_hunder));
+                                etAmmount.setError(context.getString(R.string.valid_entry_value_100));
                                 return;
                             } else etAmmount.setError(null);
                         } else {
@@ -437,12 +437,12 @@ public class ServiceFeeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 if (FormValidator.validate(context, this, new MultipleCallback())) {
                     if (items.get(getAdapterPosition()).getActualType() == ServiceFee.PERCENT) {
                         if (items.get(getAdapterPosition()).getActualAmount() > 100) {
-                            etAmmount.setError(context.getString(R.string.percent_can_not_be_more_hunder));
+                            etAmmount.setError(context.getString(R.string.valid_entry_value_100));
                             return;
                         }
                     } else etAmmount.setError(null);
                     if (items.get(getAdapterPosition()).getActualDescription().equals("")) {
-                        etName.setError(context.getString(R.string.enter_service_fee_name));
+                        etName.setError(context.getString(R.string.enter_service_fee_name_service));
                         return;
                     }
                     onDiscountCallback.onSave(items.get(getAdapterPosition()).getActualAmount(), items.get(getAdapterPosition()).getActualType(), items.get(getAdapterPosition()).getActualDescription(), items.get(getAdapterPosition()).getActualApplyingType(), items.get(getAdapterPosition()).getActualActiveStatus(), items.get(getAdapterPosition()).getObject());

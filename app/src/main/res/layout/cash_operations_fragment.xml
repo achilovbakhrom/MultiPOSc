@@ -31,7 +31,7 @@
                 android:paddingLeft="@dimen/ten_dp"
                 android:paddingRight="@dimen/ten_dp"
                 android:paddingTop="@dimen/five_dp"
-                android:text="@string/operations_with_cash"
+                android:text="@string/financial_operations"
                 android:textColor="@color/colorBlue"
                 android:textSize="@dimen/eighteen_dp"
                 android:textStyle="bold" />
@@ -250,7 +250,7 @@
                     android:layout_marginBottom="@dimen/ten_dp"
                     android:gravity="left"
                     android:paddingLeft="@dimen/ten_dp"
-                    android:text="@string/payment_types"
+                    android:text="@string/payment_types_cash"
                     android:textColor="@color/colorBlue" />
 
 

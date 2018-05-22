@@ -12,7 +12,6 @@ import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
-import com.jim.multipos.utils.ExportUtils;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -253,7 +252,7 @@ public class VendorReportPresenterImpl extends BasePresenterImpl<VendorReportVie
                             String type = "";
                             int consignmentType = (int) firstObjects[i][2];
                             if (consignmentType == Consignment.INCOME_CONSIGNMENT) {
-                                type = context.getString(R.string.income);
+                                type = context.getString(R.string.receive);
                             } else if (consignmentType == Consignment.RETURN_CONSIGNMENT) {
                                 type = context.getString(R.string.return_);
                             }
@@ -305,7 +304,7 @@ public class VendorReportPresenterImpl extends BasePresenterImpl<VendorReportVie
                             String type = "";
                             int consignmentType = (int) searchResultsTemp[i][2];
                             if (consignmentType == Consignment.INCOME_CONSIGNMENT) {
-                                type = context.getString(R.string.income);
+                                type = context.getString(R.string.receive);
                             } else if (consignmentType == Consignment.RETURN_CONSIGNMENT) {
                                 type = context.getString(R.string.return_);
                             }
@@ -368,7 +367,7 @@ public class VendorReportPresenterImpl extends BasePresenterImpl<VendorReportVie
                             String type = "";
                             int consignmentType = (int) secondObjects[i][4];
                             if (consignmentType == Consignment.INCOME_CONSIGNMENT) {
-                                type = context.getString(R.string.income);
+                                type = context.getString(R.string.receive);
                             } else if (consignmentType == Consignment.RETURN_CONSIGNMENT) {
                                 type = context.getString(R.string.return_);
                             }
@@ -428,7 +427,7 @@ public class VendorReportPresenterImpl extends BasePresenterImpl<VendorReportVie
                             String type = "";
                             int consignmentType = (int) searchResultsTemp[i][4];
                             if (consignmentType == Consignment.INCOME_CONSIGNMENT) {
-                                type = context.getString(R.string.income);
+                                type = context.getString(R.string.receive);
                             } else if (consignmentType == Consignment.RETURN_CONSIGNMENT) {
                                 type = context.getString(R.string.return_);
                             }

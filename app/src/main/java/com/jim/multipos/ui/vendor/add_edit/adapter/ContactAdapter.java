@@ -52,7 +52,7 @@ public class ContactAdapter extends BaseAdapter<Contact, ContactAdapter.ContactV
 
     @Override
     public void onBindViewHolder(ContactViewHolder holder, int position) {
-        holder.contact.setText(items.get(position).getType() == 0 ? "Phone" : "Email");
+        holder.contact.setText(items.get(position).getType() == 0 ?context.getString(R.string.phone) : context.getString(R.string.email));
         holder.contactData.setText(items.get(position).getName());
         if (items.get(position).getType() == 0) {
             holder.contactData.setInputType(InputType.TYPE_CLASS_PHONE);
@@ -84,7 +84,7 @@ public class ContactAdapter extends BaseAdapter<Contact, ContactAdapter.ContactV
                     if (charSequence.length() != 0) {
                         if (items.get(getAdapterPosition()).getType() == 1) {
                             if (!Patterns.EMAIL_ADDRESS.matcher(contactData.getText().toString()).matches()) {
-                                contactData.setError("Email address is not valid!!!");
+                                contactData.setError(context.getString(R.string.email_adress_is_not_valid));
                             }
                         }
                     } else contactData.setError(context.getString(R.string.cannot_be_empty));

@@ -3,7 +3,6 @@ package com.jim.multipos.ui.settings.payment_type;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.Toast;
 
 import com.jim.mpviews.MPosSpinner;
@@ -54,7 +53,7 @@ public class PaymentTypeSettingsFragment extends BaseFragment implements Payment
         rvPaymentTypes.setLayoutManager(new LinearLayoutManager(getContext()));
         btnAdd.setOnClickListener(view -> {
             if (etPaymentTypeName.getText().toString().isEmpty()) {
-                etPaymentTypeName.setError(getContext().getString(R.string.enter_payment_type_name));
+                etPaymentTypeName.setError(getContext().getString(R.string.enter_payment_method));
             } else {
                 presenter.addPaymentType(etPaymentTypeName.getText().toString(), chbActive.isChecked(), spAccount.getSelectedPosition());
                 ((SettingsActivity) getContext()).setChanged(true);

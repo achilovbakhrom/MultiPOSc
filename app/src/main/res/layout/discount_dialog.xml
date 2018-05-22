@@ -49,7 +49,7 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/thirty_dp"
                     android:layout_weight="1"
-                    android:text="@string/choose_for_order"
+                    android:text="@string/select_for_order"
                     android:textColor="@color/colorBlue"
                     android:textSize="@dimen/eighteen_dp" />
 

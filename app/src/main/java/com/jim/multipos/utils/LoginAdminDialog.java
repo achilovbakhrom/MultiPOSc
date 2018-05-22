@@ -66,13 +66,13 @@ public class LoginAdminDialog extends Dialog {
         if (!etAdminPassword.getText().toString().equals("") && etAdminPassword.getText().length() == 12) {
             return true;
         } else {
-            etAdminPassword.setError("Enter admin password");
+            etAdminPassword.setError(context.getString(R.string.enter_admin_password));
             return false;
         }
     }
 
     public void setWrong(){
-        etAdminPassword.setError("Incorrect password");
+        etAdminPassword.setError(context.getString(R.string.incorrect_password));
     }
 }
 

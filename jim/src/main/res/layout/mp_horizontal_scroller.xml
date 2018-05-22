@@ -39,7 +39,7 @@
                     android:id="@+id/mpCenterText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Order: "
+                    android:text="@string/order_"
                     android:textColor="@color/colorWhite"
                     android:textSize="@dimen/eighteen_dp" />
 

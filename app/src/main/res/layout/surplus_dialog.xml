@@ -27,7 +27,7 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/thirty_dp"
-                android:text="@string/surplus"
+                android:text="@string/replenishment_of_products"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/twenty_dp" />
 
@@ -39,15 +39,16 @@
            android:layout_marginRight="@dimen/thirty_dp"
            android:layout_marginTop="@dimen/twenty_dp"
            android:orientation="horizontal">
+
            <TextView
                android:layout_width="0dp"
-               android:layout_weight="1"
                android:layout_height="match_parent"
-               android:gravity="center_vertical|right"
-               android:textColor="#414141"
                android:layout_marginRight="@dimen/twenty_dp"
-               android:textSize="@dimen/eighteen_dp"
-               android:text="@string/product_name"/>
+               android:layout_weight="1"
+               android:gravity="center_vertical|right"
+               android:text="@string/product_name_inventory"
+               android:textColor="#414141"
+               android:textSize="@dimen/eighteen_dp" />
            <TextView
                android:id="@+id/tvProductName"
                android:layout_width="@dimen/five_hundred_dp"
@@ -113,7 +114,7 @@
                         android:textSize="@dimen/sixteen_dp"
                         android:layout_marginLeft="@dimen/ten_dp"
                         android:textColor="#419ed8"
-                        android:text="@string/stock_record"/>
+                        android:text="@string/actual_quantity"/>
                     <TextView
                         android:id="@+id/tvStockRecord"
                         android:layout_width="@dimen/hundred_seventy_dp"
@@ -143,7 +144,7 @@
                         android:textSize="@dimen/sixteen_dp"
                         android:layout_marginLeft="@dimen/ten_dp"
                         android:textColor="#5997cc"
-                        android:text="@string/surplus"/>
+                        android:text="@string/replenishment"/>
                     <com.jim.mpviews.MpEditText
                         android:id="@+id/etShortage"
                         android:layout_width="@dimen/hundred_seventy_dp"
@@ -175,7 +176,7 @@
                         android:textSize="@dimen/sixteen_dp"
                         android:layout_marginLeft="@dimen/ten_dp"
                         android:textColor="#419ed8"
-                        android:text="@string/actual_quantity"/>
+                        android:text="@string/total_quantity"/>
                     <TextView
                         android:id="@+id/tvActual"
                         android:layout_width="@dimen/hundred_seventy_dp"
@@ -224,7 +225,7 @@
                 android:layout_marginBottom="@dimen/twenty_dp"
                 android:layout_marginRight="@dimen/thirty_dp"
                 android:layout_marginLeft="@dimen/thirty_dp"
-                android:hint="@string/enter_reason"
+                android:hint="@string/enter_replenishment_reason"
                 android:textSize="@dimen/eighteen_dp"
                 android:maxLength="100"
                 android:gravity="top"/>

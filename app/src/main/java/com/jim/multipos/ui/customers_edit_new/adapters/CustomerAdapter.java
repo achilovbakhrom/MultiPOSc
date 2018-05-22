@@ -126,7 +126,7 @@ public class CustomerAdapter extends BaseAdapter<Customer, BaseViewHolder> {
             ((CustomerAddViewHolder) holder).tvQrCodeInAdd.setText(addCustomer.getQrCode());
 
             if (addCustomer.getCustomerGroups().isEmpty()) {
-                ((CustomerAddViewHolder) holder).tvCustomerGroup.setText(context.getString(R.string.not_selected));
+                ((CustomerAddViewHolder) holder).tvCustomerGroup.setText(context.getString(R.string.unselected));
             } else {
                 ((CustomerAddViewHolder) holder).tvCustomerGroup.setText("");
                 for (int i = 0; i < addCustomer.getCustomerGroups().size(); i++) {
@@ -150,7 +150,7 @@ public class CustomerAdapter extends BaseAdapter<Customer, BaseViewHolder> {
                 ((CustomerItemViewHolder) holder).btnSave.disable();
             }
             if (getItem(position - 1).getCustomerGroups().isEmpty()) {
-                ((CustomerItemViewHolder) holder).tvCustomerGroup.setText(context.getString(R.string.not_selected));
+                ((CustomerItemViewHolder) holder).tvCustomerGroup.setText(context.getString(R.string.unselected));
             } else {
                 ((CustomerItemViewHolder) holder).tvCustomerGroup.setText("");
                 for (int i = 0; i < getItem(position - 1).getCustomerGroups().size(); i++) {
@@ -274,7 +274,7 @@ public class CustomerAdapter extends BaseAdapter<Customer, BaseViewHolder> {
                         etFullName.setText("");
                         etPhone.setText("");
                         etAddress.setText("");
-                        tvCustomerGroup.setText(context.getString(R.string.not_selected));
+                        tvCustomerGroup.setText(context.getString(R.string.unselected));
                         tvQrCodeInAdd.setText(addCustomer.getQrCode());
                         etFullName.requestFocus();
                     }

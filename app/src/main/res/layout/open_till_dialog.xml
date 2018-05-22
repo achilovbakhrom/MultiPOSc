@@ -40,7 +40,7 @@
             android:layout_marginTop="@dimen/twenty_three_dp"
             android:gravity="left"
             app:text_left="@string/confirm"
-            app:text_right="@string/modify" />
+            app:text_right="@string/modify_open_till" />
 
         <TextView
             android:id="@+id/tvModification"
@@ -49,7 +49,7 @@
             android:layout_centerVertical="true"
             android:layout_marginBottom="@dimen/ten_dp"
             android:layout_marginLeft="@dimen/thirty_dp"
-            android:text="@string/reason_of_doing_modification"
+            android:text="@string/modify"
             android:textColor="@color/colorBlue"
             android:textSize="@dimen/sixteen_dp" />
 
@@ -96,7 +96,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical|right"
                 android:paddingRight="@dimen/ten_dp"
-                android:text="@string/total_closed"
+                android:text="@string/amount_in_till"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/sixteen_dp" />
 

@@ -92,9 +92,9 @@ public class PlusInventoryDialog extends DialogFragment {
 
         RxView.clicks(btnNext).subscribe(o -> {
             if (etShortage.getText().toString().isEmpty()){
-                etShortage.setError(getContext().getString(R.string.cannot_be_empty));
+                etShortage.setError(getContext().getString(R.string.please_enter_replashment_reason));
             } else if (etReason.getText().toString().isEmpty()){
-                etReason.setError(getContext().getString(R.string.cannot_be_empty));
+                etReason.setError(getContext().getString(R.string.please_enter_replashment_reason));
             } else {
                 shortage = Double.parseDouble(etShortage.getText().toString());
                 listener.updateInventory(inventory ,shortage, etReason.getText().toString());

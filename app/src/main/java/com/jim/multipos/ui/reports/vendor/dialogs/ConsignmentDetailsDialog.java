@@ -2,7 +2,6 @@ package com.jim.multipos.ui.reports.vendor.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.view.Gravity;
 import android.view.View;
@@ -21,19 +20,12 @@ import com.jim.mpviews.utils.ReportViewConstants;
 import com.jim.multipos.R;
 import com.jim.multipos.config.common.BaseAppModule;
 import com.jim.multipos.data.DatabaseManager;
-import com.jim.multipos.data.db.model.Account;
-import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.consignment.Consignment;
 import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
-import com.jim.multipos.data.db.model.order.Order;
-import com.jim.multipos.data.db.model.order.OrderChangesLog;
-import com.jim.multipos.data.db.model.order.OrderProduct;
-import com.jim.multipos.data.db.model.order.PayedPartitions;
 import com.jim.multipos.utils.ExportDialog;
 import com.jim.multipos.utils.ExportToDialog;
 import com.jim.multipos.utils.ExportUtils;
-import com.jim.multipos.utils.ReportUtils;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -100,8 +92,8 @@ public class ConsignmentDetailsDialog extends Dialog {
         tvConsignmentNumber.setText(consignmentId);
         values = new String[5];
         if (consignment.getConsignmentType() == Consignment.INCOME_CONSIGNMENT) {
-            tvConsignmentType.setText(context.getString(R.string.type) + " : " + context.getString(R.string.income));
-            type = context.getString(R.string.type) + " : " + context.getString(R.string.income);
+            tvConsignmentType.setText(context.getString(R.string.type) + " : " + context.getString(R.string.receive));
+            type = context.getString(R.string.type) + " : " + context.getString(R.string.receive);
         } else {
             tvConsignmentType.setText(context.getString(R.string.type) + " : " + context.getString(R.string.return_));
             type = context.getString(R.string.type) + " : " + context.getString(R.string.return_);

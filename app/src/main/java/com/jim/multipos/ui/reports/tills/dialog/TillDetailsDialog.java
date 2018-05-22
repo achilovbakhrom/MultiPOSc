@@ -232,11 +232,11 @@ public class TillDetailsDialog extends Dialog {
         names[0] = context.getString(R.string.total_starting_amount);
         names[1] = context.getString(R.string.pay_outs);
         names[2] = context.getString(R.string.pay_ins);
-        names[3] = context.getString(R.string.pay_to_vendor);
-        names[4] = context.getString(R.string.income_debt);
+        names[3] = context.getString(R.string.payment_to_vendor);
+        names[4] = context.getString(R.string.returned_debt);
         names[5] = context.getString(R.string.bank_drop);
-        names[6] = context.getString(R.string.real_product_sales);
-        names[7] = context.getString(R.string.tips_dispensed);
+        names[6] = context.getString(R.string.actual_product_sales);
+        names[7] = context.getString(R.string.collected_coin);
         names[8] = context.getString(R.string.total_for_till);
         names[9] = context.getString(R.string.total_closed_amount);
         names[10] = context.getString(R.string.total_to_next_amount);

@@ -33,7 +33,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/system_accounts"
+                        android:text="@string/system_account_s_setting"
                         android:textColor="#212121"
                         android:textSize="@dimen/eighteen_dp" />
 
@@ -41,7 +41,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/hundred_fifty_dp"
-                        android:text="Phasellus pretium sed mauris at semper."
+                        android:text="@string/system_accounts_description"
                         android:textColor="#b8b8b8"
                         android:textSize="@dimen/sixteen_dp" />
                 </LinearLayout>
@@ -60,7 +60,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
-                    android:text="@string/account_name"
+                    android:text="@string/account_name_setting"
                     android:textSize="@dimen/eighteen_dp" />
 
                 <TextView
@@ -76,7 +76,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="@string/action"
+                    android:text="@string/add_account_setting"
                     android:textSize="@dimen/eighteen_dp" />
 
 
@@ -97,8 +97,8 @@
                     android:layout_gravity="center"
                     android:layout_weight="4"
                     android:gravity="left|center_vertical"
-                    android:hint="@string/input_account_name"
                     android:inputType="text"
+                    android:hint="@string/enter_account_name"
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/eighteen_dp" />
 

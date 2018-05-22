@@ -433,7 +433,7 @@ public class OrderDetialsDialog extends Dialog {
         tvChangeFromCash.setText(decimalFormat.format(order.getChange()));
         paymentDetails[0] = context.getString(R.string.total_paid);
         paymentDetails[1] = context.getString(R.string.total_to_pay);
-        paymentDetails[2] = context.getString(R.string.tips);
+        paymentDetails[2] = context.getString(R.string.coin);
         paymentDetails[3] = context.getString(R.string.change_from_cashbox);
         paymentValues[0] = order.getTotalPayed();
         paymentValues[1] = order.getForPayAmmount();

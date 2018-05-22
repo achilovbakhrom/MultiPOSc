@@ -61,31 +61,31 @@ public class CommonConfigFragment extends BaseFragment implements CommonConfigVi
     protected void init(Bundle savedInstanceState) {
         initViews();
         btnSave.setOnClickListener(view -> {
-            String firstNominal = etFirstNominal.getText().toString();
-            if (firstNominal.isEmpty()) {
-                etFirstNominal.setError("Nominal ca'nt be empty");
+            String firtNominal = etFirstNominal.getText().toString();
+            if(firtNominal.isEmpty()) {
+                etFirstNominal.setError(getContext().getString(R.string.nominal_cant_be_empty));
                 return;
             } else etFirstNominal.setError(null);
             double dFirst = 0;
             try {
-                dFirst = decimalFormat.parse(firstNominal).doubleValue();
+                dFirst = decimalFormat.parse(firtNominal).doubleValue();
                 etFirstNominal.setError(null);
-            } catch (Exception e) {
-                etFirstNominal.setError("Invalid value");
+            }catch (Exception e){
+                etFirstNominal.setError(getContext().getString(R.string.invalid));
                 return;
             }
 
             String secNominal = etSecondNominal.getText().toString();
-            if (secNominal.isEmpty()) {
-                etSecondNominal.setError("Nominal ca'nt be empty");
+            if(secNominal.isEmpty()) {
+                etSecondNominal.setError(getContext().getString(R.string.nominal_cant_be_empty));
                 return;
             } else etSecondNominal.setError(null);
             double dSecond = 0;
             try {
                 dSecond = decimalFormat.parse(secNominal).doubleValue();
                 etSecondNominal.setError(null);
-            } catch (Exception e) {
-                etSecondNominal.setError("Invalid value");
+            }catch (Exception e){
+                etSecondNominal.setError(getContext().getString(R.string.invalid));
                 return;
             }
 
@@ -115,7 +115,7 @@ public class CommonConfigFragment extends BaseFragment implements CommonConfigVi
         });
     }
 
-    void initViews() {
+    void initViews(){
         decimalFormat = BaseAppModule.getFormatterWithoutGroupingPattern("#.##");
         String[] languages = getResources().getStringArray(R.array.languages);
         spLangauges.setAdapter(languages);

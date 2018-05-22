@@ -208,7 +208,7 @@
                             android:background="@drawable/unit_frame_deactive"
                             android:gravity="center"
                             android:paddingBottom="@dimen/three_dp"
-                            android:text="kg"
+                            android:text="@string/kg"
                             android:textColor="#dedede"
                             android:textSize="@dimen/sixteen_dp"
                             android:textStyle="bold" />

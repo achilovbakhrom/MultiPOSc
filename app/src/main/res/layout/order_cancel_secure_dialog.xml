@@ -27,7 +27,7 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/thirty_dp"
-                android:text="@string/access_for_cancel"
+                android:text="@string/manage_access"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/twenty_dp" />
 
@@ -62,7 +62,7 @@
             android:background="@drawable/edit_text_bg"
             android:gravity="center_vertical"
 
-            android:hint="@string/what_reason_for_cancel_order"
+            android:hint="@string/enter_the_reason_for_canceling"
             android:inputType="textMultiLine|textCapSentences"
             android:isScrollContainer="true"
             android:maxLength="2000"

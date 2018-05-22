@@ -87,7 +87,7 @@ public class ImportDialog extends Dialog {
         });
         tvFilePath.setOnClickListener(view -> {
             FilePickerDialog dialog = new FilePickerDialog(context, properties);
-            dialog.setTitle(getContext().getString(R.string.select_file));
+            dialog.setTitle(getContext().getString(R.string.select_the_file_location));
             dialog.setDialogSelectionListener(files -> {
                 path = files[0];
                 tvFilePath.setText(path);
@@ -105,7 +105,7 @@ public class ImportDialog extends Dialog {
                     ExportUtils.importVendors(context, path, databaseManager);
                 rxBus.send(new ProductEvent(null, GlobalEventConstants.ADD));
                 dismiss();
-            } else tvFilePath.setError(context.getString(R.string.choose_file_location));
+            } else tvFilePath.setError(context.getString(R.string.select_file_location));
         });
     }
 

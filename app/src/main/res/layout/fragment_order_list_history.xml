@@ -152,7 +152,7 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:text="@string/sub_total_"
+                                    android:text="@string/total_payable_"
                                     android:textColor="@color/colorMainText"
                                     android:textSize="@dimen/fourteen_dp" />
 
@@ -368,7 +368,7 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:text="@string/total_payed_"
+                                    android:text="@string/total_paid_"
                                     android:textColor="@color/colorMainText"
                                     android:textSize="@dimen/fourteen_dp" />
 
@@ -413,39 +413,43 @@
 
                     </LinearLayout>
                 </LinearLayout>
+
                 <RelativeLayout
                     android:id="@+id/rvDeleteCurtain"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:visibility="visible"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:background="#5199c7e4"
                     android:clickable="true"
-                    android:background="#5199c7e4">
+                    android:visibility="visible">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
                         android:layout_centerInParent="true"
+                        android:gravity="center_horizontal"
                         android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/tvOrderCancelLable"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/twenty_dp"
                             android:text=""
-                            android:textStyle="bold"
                             android:textColor="#fff"
                             android:textSize="@dimen/twenty_eight_dp"
-                            android:layout_marginTop="@dimen/twenty_dp"/>
+                            android:textStyle="bold" />
+
                         <TextView
                             android:id="@+id/tvCauseDelete"
                             android:layout_width="@dimen/three_hundred_dp"
                             android:layout_height="wrap_content"
-                            android:text=""
-                            android:gravity="center_horizontal"
-                            android:textColor="#fff"
-                            android:textSize="@dimen/twenty_dp"
                             android:layout_marginBottom="@dimen/hundred_dp"
-                            />
+                            android:gravity="center_horizontal"
+                            android:text=""
+                            android:textColor="#fff"
+                            android:textSize="@dimen/twenty_dp" />
 
                     </LinearLayout>
                 </RelativeLayout>

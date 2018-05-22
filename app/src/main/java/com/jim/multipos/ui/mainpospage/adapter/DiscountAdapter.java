@@ -65,7 +65,7 @@ public class DiscountAdapter extends BaseAdapter<Discount, DiscountAdapter.Disco
         if (getItem(position).getAmountType() == Discount.PERCENT) {
             holder.tvDiscount.append(" %");
         } else {
-            holder.tvDiscount.append(" UZS");
+            holder.tvDiscount.append(" "+"UZS");
         }
     }
 

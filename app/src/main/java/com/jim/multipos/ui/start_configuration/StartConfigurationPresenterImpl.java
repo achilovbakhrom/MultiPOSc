@@ -17,16 +17,21 @@ public class StartConfigurationPresenterImpl extends BasePresenterImpl<StartConf
     private String[] currencyAbbr;
     private String accountName;
     private String paymentTypeName;
+    private String debtName;
+    private String debtAccountName;
 
     @Inject
     protected StartConfigurationPresenterImpl(StartConfigurationView startConfigurationView, DatabaseManager databaseManager, @Named(value = "currency_name") String[] currencyName,
-                                              @Named(value = "currency_abbr") String[] currencyAbbr, @Named(value = "till") String accountName, @Named(value = "cash") String paymentTypeName) {
+                                              @Named(value = "currency_abbr") String[] currencyAbbr, @Named(value = "till") String accountName, @Named(value = "cash") String paymentTypeName,
+                                              @Named(value = "debt") String debtName, @Named(value = "debtAccount") String debtAccountName) {
         super(startConfigurationView);
         this.databaseManager = databaseManager;
         this.currencyName = currencyName;
         this.currencyAbbr = currencyAbbr;
         this.accountName = accountName;
         this.paymentTypeName = paymentTypeName;
+        this.debtName = debtName;
+        this.debtAccountName = debtAccountName;
     }
 
     @Override
@@ -47,14 +52,14 @@ public class StartConfigurationPresenterImpl extends BasePresenterImpl<StartConf
             account1.setIsNotSystemAccount(true);
             databaseManager.addAccount(account1).subscribe();
             Account account = new Account();
-            account.setName("Debt Account");
+            account.setName(debtAccountName);
             account.setStaticAccountType(Account.DEBT_ACCOUNT);
             account.setIsActive(true);
             account.setIsNotSystemAccount(false);
             databaseManager.addAccount(account).subscribe();
             PaymentType paymentType = new PaymentType();
             paymentType.setAccount(account);
-            paymentType.setName("To Debt");
+            paymentType.setName(debtName);
             paymentType.setTypeStaticPaymentType(PaymentType.DEBT_PAYMENT_TYPE);
             paymentType.setCurrency(databaseManager.getMainCurrency());
             paymentType.setIsNotSystem(false);

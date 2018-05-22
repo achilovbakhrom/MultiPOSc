@@ -118,7 +118,7 @@
                 android:layout_height="@dimen/thirty_five_dp"
                 android:layout_marginLeft="@dimen/thirty_dp"
                 android:layout_marginRight="@dimen/thirty_dp"
-                android:text="@string/open"
+                android:text="@string/details"
                 android:textStyle="bold"
                 android:gravity="center"
                 android:layout_marginTop="@dimen/twelve_dp"

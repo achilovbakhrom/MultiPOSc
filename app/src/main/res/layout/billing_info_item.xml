@@ -149,7 +149,7 @@
             android:paddingBottom="@dimen/two_dp"
             android:paddingLeft="@dimen/fifteen_dp"
             android:paddingTop="@dimen/two_dp"
-            android:text="History"
+            android:text="@string/history"
             android:textSize="@dimen/sixteen_dp"
             android:textColor="@color/colorMainText" />
 

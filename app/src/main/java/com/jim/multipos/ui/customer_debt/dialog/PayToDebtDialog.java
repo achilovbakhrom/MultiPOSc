@@ -107,9 +107,9 @@ public class PayToDebtDialog extends Dialog {
                         e.printStackTrace();
                     }
                     if (allDebt < amount)
-                        etAmount.setError("Payment amount cannot be bigger than debt amount");
+                        etAmount.setError(context.getString(R.string.payment_amount_cant_be_bigr_tn_debt_amount));
                     else if (amount == 0)
-                        etAmount.setError("Payment amount cannot be equal zero");
+                        etAmount.setError(context.getString(R.string.payment_amount_cant_be_equal_zero));
                     else {
                         for (int i = 0; i < debtList.size(); i++) {
                             Debt item = debtList.get(i);
@@ -171,11 +171,11 @@ public class PayToDebtDialog extends Dialog {
                         e.printStackTrace();
                     }
                     if (total < amount)
-                        etAmount.setError("Payment amount cannot be bigger than debt amount");
+                        etAmount.setError(context.getString(R.string.payment_amount_cant_be_bigr_tn_debt_amount));
                     else if (amount == 0)
-                        etAmount.setError("Payment amount cannot be equal zero");
+                        etAmount.setError(context.getString(R.string.payment_amount_cant_be_equal_zero));
                     else if (total != amount && debt.getDebtType() == Debt.ALL) {
-                        etAmount.setError("You cannot pay in participle for this debt");
+                        etAmount.setError(context.getString(R.string.you_cant_pay_in_participle_for_this_debt));
                     } else {
                         double dueSum = total;
                         if (debt.getCustomerPayments().size() > 0) {

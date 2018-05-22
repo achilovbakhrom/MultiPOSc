@@ -126,7 +126,7 @@ public class CashOperationDialog extends Dialog {
 
         switch (type) {
             case TillOperation.PAY_IN:
-                tvOperationTitle.setText("Pay in");
+                tvOperationTitle.setText(context.getString(R.string.pay_in));
                 String payInResult = formatter.format(amount) + " + " + formatter.format(payIn);
                 Spannable spannable = new SpannableString(payInResult);
                 spannable.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorGreen)), 0, formatter.format(amount).length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -134,7 +134,7 @@ public class CashOperationDialog extends Dialog {
                 payIn += amount;
                 break;
             case TillOperation.BANK_DROP:
-                tvOperationTitle.setText("Bank drop");
+                tvOperationTitle.setText(context.getString(R.string.bank_drop));
                 String bankDropResult = formatter.format(amount) + " + " + formatter.format(bankDrop);
                 Spannable spannable1 = new SpannableString(bankDropResult);
                 spannable1.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorGreen)), 0, formatter.format(amount).length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -142,7 +142,7 @@ public class CashOperationDialog extends Dialog {
                 bankDrop += amount;
                 break;
             case TillOperation.PAY_OUT:
-                tvOperationTitle.setText("Pay out");
+                tvOperationTitle.setText(context.getString(R.string.pay_out));
                 String result = formatter.format(amount) + " + " + formatter.format(payOut);
                 Spannable spannable2 = new SpannableString(result);
                 spannable2.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorGreen)), 0, formatter.format(amount).length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);

@@ -46,7 +46,7 @@
                     android:textColor="#212121"
                     android:paddingLeft="@dimen/ten_dp"
                     android:gravity="right|center_vertical"
-                    android:text="31 800"
+                    android:text=""
                     />
             </LinearLayout>
         </LinearLayout>

@@ -187,7 +187,7 @@ public class PaymentToVendorDialog extends Dialog {
             if (!hasOpenTill && chbFromAccount.isChecked()) {
                 WarningDialog warningDialog = new WarningDialog(getContext());
                 warningDialog.onlyText(true);
-                warningDialog.setWarningMessage("Opened till wasn't found. Please, open till");
+                warningDialog.setWarningMessage(context.getString(R.string.opened_till_wnt_found_pls_open_till));
                 warningDialog.setOnYesClickListener(view1 -> warningDialog.dismiss());
                 warningDialog.show();
             } else {

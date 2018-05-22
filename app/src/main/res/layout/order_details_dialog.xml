@@ -43,7 +43,7 @@
                     android:layout_marginRight="@dimen/ten_dp"
                     android:gravity="left|center_vertical"
                     android:textColor="#cce1f2"
-                    android:text="Customer: Jonisbek"
+                    android:text="@string/customer_"
                     android:textSize="@dimen/sixteen_dp" />
                 <TextView
                     android:id="@+id/tvOrderCreated"
@@ -77,7 +77,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/twelve_dp"
-                    android:text="Export"
+                    android:text="@string/export"
                     android:textColor="@color/colorWhite"
                     android:textSize="@dimen/sixteen_dp" />
             </LinearLayout>
@@ -210,7 +210,7 @@
                             android:layout_width="@dimen/two_hundred_fifty_dp"
                             android:layout_height="wrap_content"
                             android:gravity="right"
-                            android:text="@string/sub_total_"
+                            android:text="@string/subtotal_"
                             android:textColor="@color/colorMainText"
                             android:textSize="@dimen/sixteen_dp" />
 
@@ -282,7 +282,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/fifty_dp"
                         android:gravity="right"
-                        android:text="Summer Sales (4% discount):"
+                        android:text="@string/summer_sales_4_discount"
                         android:textColor="@color/colorMainText"
                         android:textSize="@dimen/sixteen_dp" />
 
@@ -318,7 +318,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/fifty_dp"
                         android:gravity="right"
-                        android:text="Packaging (500 service Fee):"
+                        android:text="@string/packaging_500_service_fee"
                         android:textColor="@color/colorMainText"
                         android:textSize="@dimen/sixteen_dp" />
 
@@ -363,7 +363,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/fifty_dp"
                         android:gravity="right"
-                        android:text="@string/to_pay_"
+                        android:text="@string/total_due_"
                         android:textColor="@color/colorMainText"
                         android:textSize="@dimen/sixteen_dp" />
 
@@ -406,7 +406,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/fifty_dp"
                         android:gravity="right"
-                        android:text="Total Payed:"
+                        android:text="@string/total_paid_"
                         android:textColor="@color/colorMainText"
                         android:textSize="@dimen/sixteen_dp" />
 
@@ -424,7 +424,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/five_dp"
-                        android:text="50 000,00 uzs"
+                        android:text=""
                         android:textStyle="bold"
                         android:textColor="@color/colorMainText"
                         android:textSize="@dimen/sixteen_dp" />
@@ -450,7 +450,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/fifty_dp"
                         android:gravity="right"
-                        android:text="Total to pay:"
+                        android:text="@string/total_to_pay_"
                         android:textColor="@color/colorMainText"
                         android:textSize="@dimen/sixteen_dp" />
 
@@ -468,7 +468,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/five_dp"
-                        android:text="+ 500,00 uzs"
+                        android:text=""
                         android:textStyle="bold"
                         android:textColor="@color/colorMainText"
                         android:textSize="@dimen/sixteen_dp" />
@@ -485,7 +485,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/fifty_dp"
                         android:gravity="right"
-                        android:text="Tips:"
+                        android:text="@string/tips_"
                         android:textColor="@color/colorMainText"
                         android:textSize="@dimen/sixteen_dp" />
 
@@ -503,7 +503,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/five_dp"
-                        android:text="65,99 uzs"
+                        android:text=""
                         android:textStyle="bold"
                         android:textColor="@color/colorMainText"
                         android:textSize="@dimen/sixteen_dp" />
@@ -520,7 +520,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/fifty_dp"
                         android:gravity="right"
-                        android:text="Change from Cashbox:"
+                        android:text="@string/change_from_cashbox"
                         android:textColor="@color/colorMainText"
                         android:textSize="@dimen/sixteen_dp" />
 
@@ -538,7 +538,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/five_dp"
-                        android:text="1 300,00 uzs"
+                        android:text=""
                         android:textStyle="bold"
                         android:textColor="@color/colorMainText"
                         android:textSize="@dimen/sixteen_dp" />

@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -25,7 +24,6 @@ import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.Debt;
 import com.jim.multipos.data.db.model.order.Order;
-import com.jim.multipos.data.db.model.order.OrderProduct;
 import com.jim.multipos.data.db.model.order.PayedPartitions;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
@@ -46,7 +44,6 @@ import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.UIUtils;
 import com.jim.multipos.utils.WarningDialog;
 import com.jim.multipos.utils.managers.NotifyManager;
-import com.jim.multipos.utils.printer.CheckPrinter;
 import com.jim.multipos.utils.rxevents.inventory_events.InventoryStateEvent;
 import com.jim.multipos.utils.rxevents.main_order_events.CustomerEvent;
 import com.jim.multipos.utils.rxevents.main_order_events.DebtEvent;
@@ -54,7 +51,6 @@ import com.jim.multipos.utils.rxevents.main_order_events.DiscountEvent;
 import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
 import com.jim.multipos.utils.rxevents.main_order_events.ProductEvent;
 import com.jim.multipos.utils.rxevents.main_order_events.ServiceFeeEvent;
-import com.jim.multipos.utils.usb_barcode.BarcodeReadEvent;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -434,7 +430,7 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
 
     @Override
     public void enableDiscountButton() {
-        tvDiscountName.setText(R.string.discount);
+        tvDiscountName.setText(getContext().getString(R.string.discount));
         ivDiscount.setImageResource(R.drawable.discount);
 
     }
@@ -447,7 +443,7 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
 
     @Override
     public void enableServiceFeeButton() {
-        tvServiceFeeName.setText(R.string.service_fee);
+        tvServiceFeeName.setText(getContext().getString(R.string.service_fee));
         ivServiceFee.setImageResource(R.drawable.service);
     }
 
@@ -589,11 +585,11 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
         tvPayed.setText(decimalFormat.format(totalPayed)+" " + currency.getAbbr());
         double number = order.getForPayAmmount() - totalPayed;
         if(number<0) {
-            tvBalanceDueLabel.setText("Change:");
+            tvBalanceDueLabel.setText(getContext().getString(R.string.change_));
             tvBalanceDue.setText(decimalFormat.format(number*-1)+" "+currency.getAbbr());
             tvBalanceDue.setTextColor(Color.parseColor("#4ac21b"));
         }else {
-            tvBalanceDueLabel.setText("Balance Due:");
+            tvBalanceDueLabel.setText(getContext().getString(R.string.balance_due_));
             tvBalanceDue.setText(decimalFormat.format(number) + " " + currency.getAbbr());
             tvBalanceDue.setTextColor(Color.parseColor("#ff5e52"));
 
@@ -610,7 +606,7 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
             tvCustomerName.setText(customer.getName());
             lbChooseCustomer.setImage(R.drawable.cancel_customer);
         }else {
-            tvCustomerName.setText(getString(R.string.customer_choice));
+            tvCustomerName.setText(getContext().getString(R.string.select_customer));
             lbChooseCustomer.setImage(R.drawable.add_customer);
 
         }
@@ -634,7 +630,7 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
     }
     @Override
     public void visibleBackButton(){
-        tvPay.setText("Back");
+        tvPay.setText(getContext().getString(R.string.back));
         tvPay.setTextColor(Color.parseColor("#999999"));
         ivPay.setImageResource(R.drawable.cancel_photo);
 
@@ -647,7 +643,7 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
 
     @Override
     public void visiblePayButton(){
-        tvPay.setText("Pay");
+        tvPay.setText(getContext().getString(R.string.pay));
         tvPay.setTextColor(Color.parseColor("#419fd9"));
         ivPay.setImageResource(R.drawable.currency);
     }
@@ -675,7 +671,7 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
     @Override
     public void fistufulCloseOrder() {
         WarningDialog warningDialog = new WarningDialog(getActivity());
-        warningDialog.setWarningMessage("Are you sure cancel order?");
+        warningDialog.setWarningMessage(getContext().getString(R.string.are_you_sure_cancel_order));
         warningDialog.setOnYesClickListener(view1 -> {
             warningDialog.dismiss();
             presenter.cleanOrder();
@@ -685,8 +681,8 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
         warningDialog.setOnNoClickListener(view1 -> {
             warningDialog.dismiss();
         });
-        warningDialog.setPositiveButtonText(getString(R.string.discard));
-        warningDialog.setNegativeButtonText(getString(R.string.cancel));
+        warningDialog.setPositiveButtonText(getContext().getString(R.string.discard));
+        warningDialog.setNegativeButtonText(getContext().getString(R.string.cancel));
         warningDialog.show();
     }
 
@@ -737,7 +733,7 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
 
     @Override
     public void openWarningDialog(String text) {
-        UIUtils.showAlert(getContext(), getContext().getString(R.string.ok), getString(R.string.warning), text, () -> {});
+        UIUtils.showAlert(getContext(), getContext().getString(R.string.ok), getContext().getString(R.string.warning), text, () -> {});
     }
 
     @Override
@@ -766,7 +762,7 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
         rvProductList.setLayoutManager(new LinearLayoutManager(getContext()));
         rvProductList.setAdapter(vendorItemsListAdapter);
         TextView textView = dialogView.findViewById(R.id.tvDialogTitle);
-        textView.setText("Found products");
+        textView.setText(getContext().getString(R.string.found_products));
         dialog.setContentView(dialogView);
         dialog.getWindow().getDecorView().setBackgroundResource(android.R.color.transparent);
         vendorItemsListAdapter.setListener(product -> {
@@ -780,7 +776,7 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
     public void sureCancel() {
 
         WarningDialog warningDialog = new WarningDialog(getActivity());
-        warningDialog.setWarningMessage("Are you sure cancel order?");
+        warningDialog.setWarningMessage(getContext().getString(R.string.are_you_sure_cancel_order));
         warningDialog.setOnYesClickListener(view1 -> {
             warningDialog.dismiss();
             presenter.cleanOrder();

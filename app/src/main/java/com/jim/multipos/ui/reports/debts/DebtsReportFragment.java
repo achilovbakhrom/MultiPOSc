@@ -63,7 +63,7 @@ public class DebtsReportFragment extends BaseTableReportFragment implements Debt
                 {{0, getContext().getString(R.string.debt_taken), R.color.colorMainText},
                         {1, getContext().getString(R.string.debt_closed), R.color.colorBlue}}};
         secondStatusTypes = new Object[][][]{
-                {{0, getString(R.string.can_participle), R.color.colorMainText}, {1, getString(R.string.all), R.color.colorRed}}, {{0, getString(R.string.closed), R.color.colorGreen}, {1, getString(R.string.active), R.color.colorBlue}}
+                {{0, getString(R.string.part_payment), R.color.colorMainText}, {1, getString(R.string.all), R.color.colorRed}}, {{0, getString(R.string.closed), R.color.colorGreen}, {1, getString(R.string.active), R.color.colorBlue}}
         };
         firstTitles = new String[]{getString(R.string.name), getString(R.string.total_debt), getString(R.string.total_overdue), getString(R.string.last_visit), getString(R.string.customer_contacts)};
         secondTitles = new String[]{getString(R.string.name), getString(R.string.debt_taken), getString(R.string.debt_closed), getString(R.string.debt_orders_count), getString(R.string.debt_taken_avg), getString(R.string.debt_closed_avg)};
@@ -214,19 +214,19 @@ public class DebtsReportFragment extends BaseTableReportFragment implements Debt
     public void exportTableToExcel(String fileName, String path, Object[][] objects, int position, String date, String filter, String searchText) {
         switch (position) {
             case 0:
-                String description = "In this report you can find all info about consignments";
+                String description = getContext().getString(R.string.debts_list_description);
                 ExportUtils.exportToExcel(getContext(), path, fileName, description, date, filter, searchText, objects, firstTitles, firstWeights, firstDataType, null);
                 break;
             case 1:
-                String secondDescription = " All Consignment products";
+                String secondDescription = getContext().getString(R.string.debt_summary_description);
                 ExportUtils.exportToExcel(getContext(), path, fileName, secondDescription, date, filter, searchText, objects, secondTitles, secondWeights, secondDataType, null);
                 break;
             case 2:
-                String thirdDescription = " Debt states of each vendor";
+                String thirdDescription = getContext().getString(R.string.debt_transactions_list_description);
                 ExportUtils.exportToExcel(getContext(), path, fileName, thirdDescription, date, filter, searchText, objects, thirdTitles, thirdWeights, thirdDataType, statusTypes);
                 break;
             case 3:
-                String forthDescription = " All money transactions";
+                String forthDescription = getContext().getString(R.string.debt_with_order_description);
                 ExportUtils.exportToExcel(getContext(), path, fileName, forthDescription, date, filter, searchText, objects, forthTitles, forthWeights, forthDataType, null);
                 break;
         }
@@ -236,19 +236,19 @@ public class DebtsReportFragment extends BaseTableReportFragment implements Debt
     public void exportTableToPdf(String fileName, String path, Object[][] objects, int position, String date, String filter, String searchText) {
         switch (position) {
             case 0:
-                String description = "In this report you can find all info about consignments";
+                String description = getContext().getString(R.string.debts_list_description);
                 ExportUtils.exportToPdf(getContext(), path, fileName, description, date, filter, searchText, objects, firstTitles, firstWeights, firstDataType, null);
                 break;
             case 1:
-                String secondDescription = " All Consignment products";
+                String secondDescription = getContext().getString(R.string.debt_summary_description);
                 ExportUtils.exportToPdf(getContext(), path, fileName, secondDescription, date, filter, searchText, objects, secondTitles, secondWeights, secondDataType, null);
                 break;
             case 2:
-                String thirdDescription = " Debt states of each vendor";
+                String thirdDescription = getContext().getString(R.string.debt_transactions_list_description);
                 ExportUtils.exportToPdf(getContext(), path, fileName, thirdDescription, date, filter, searchText, objects, thirdTitles, thirdWeights, thirdDataType, statusTypes);
                 break;
             case 3:
-                String forthDescription = " All money transactions";
+                String forthDescription = getContext().getString(R.string.debt_with_order_description);
                 ExportUtils.exportToPdf(getContext(), path, fileName, forthDescription, date, filter, searchText, objects, forthTitles, forthWeights, forthDataType, null);
                 break;
         }
@@ -285,19 +285,19 @@ public class DebtsReportFragment extends BaseTableReportFragment implements Debt
     public void exportExcelToUSB(String filename, UsbFile root, Object[][] objects, int position, String date, String filter, String searchText) {
         switch (position) {
             case 0:
-                String description = "In this report you can find all info about consignments";
+                String description = getContext().getString(R.string.debts_list_description);
                 ExportUtils.exportToExcelToUSB(getContext(), root, filename, description, date, filter, searchText, objects, firstTitles, firstWeights, firstDataType, null);
                 break;
             case 1:
-                String secondDescription = " All Consignment products";
+                String secondDescription = getContext().getString(R.string.debt_summary_description);
                 ExportUtils.exportToExcelToUSB(getContext(), root, filename, secondDescription, date, filter, searchText, objects, secondTitles, secondWeights, secondDataType, null);
                 break;
             case 2:
-                String thirdDescription = " Debt states of each vendor";
+                String thirdDescription = getContext().getString(R.string.debt_transactions_list_description);
                 ExportUtils.exportToExcelToUSB(getContext(), root, filename, thirdDescription, date, filter, searchText, objects, thirdTitles, thirdWeights, thirdDataType, statusTypes);
                 break;
             case 3:
-                String forthDescription = " All money transactions";
+                String forthDescription = getContext().getString(R.string.debt_with_order_description);
                 ExportUtils.exportToExcelToUSB(getContext(), root, filename, forthDescription, date, filter, searchText, objects, forthTitles, forthWeights, forthDataType, null);
                 break;
         }
@@ -307,19 +307,19 @@ public class DebtsReportFragment extends BaseTableReportFragment implements Debt
     public void exportTableToPdfToUSB(String fileName, UsbFile path, Object[][] objects, int position, String date, String filter, String searchText) {
         switch (position) {
             case 0:
-                String description = "In this report you can find all info about consignments";
+                String description = getContext().getString(R.string.debts_list_description);
                 ExportUtils.exportToPdfToUSB(getContext(), path, fileName, description, date, filter, searchText, objects, firstTitles, firstWeights, firstDataType, null);
                 break;
             case 1:
-                String secondDescription = " All Consignment products";
+                String secondDescription = getContext().getString(R.string.debt_summary_description);
                 ExportUtils.exportToPdfToUSB(getContext(), path, fileName, secondDescription, date, filter, searchText, objects, secondTitles, secondWeights, secondDataType, null);
                 break;
             case 2:
-                String thirdDescription = " Debt states of each vendor";
+                String thirdDescription = getContext().getString(R.string.debt_transactions_list_description);
                 ExportUtils.exportToPdfToUSB(getContext(), path, fileName, thirdDescription, date, filter, searchText, objects, thirdTitles, thirdWeights, thirdDataType, statusTypes);
                 break;
             case 3:
-                String forthDescription = " All money transactions";
+                String forthDescription = getContext().getString(R.string.debt_with_order_description);
                 ExportUtils.exportToPdfToUSB(getContext(), path, fileName, forthDescription, date, filter, searchText, objects, forthTitles, forthWeights, forthDataType, null);
                 break;
         }

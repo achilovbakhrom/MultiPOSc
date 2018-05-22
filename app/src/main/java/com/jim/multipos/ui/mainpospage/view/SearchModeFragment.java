@@ -121,7 +121,7 @@ public class SearchModeFragment  extends BaseFragment implements SearchModeView 
             }
         });
         productList = new ArrayList<>();
-        searchResultsAdapter = new SearchResultsAdapter(productList,position -> {
+        searchResultsAdapter = new SearchResultsAdapter(getContext(), productList, position -> {
             mainPageConnection.addProductToOrder(productList.get(position).getId());
         });
         rvSearchResults.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false));
@@ -163,7 +163,7 @@ public class SearchModeFragment  extends BaseFragment implements SearchModeView 
 
     @Override
     public void setResultsList(List<Product> resultsList,String searchText) {
-        tvSearchResultsCount.setText(getString(R.string.search_results)+" - "+resultsList.size());
+        tvSearchResultsCount.setText(getContext().getString(R.string.search_results)+" - "+resultsList.size());
         searchResultsAdapter.setItems(resultsList,searchText);
         productList = resultsList;
         searchResultsAdapter.notifyDataSetChanged();

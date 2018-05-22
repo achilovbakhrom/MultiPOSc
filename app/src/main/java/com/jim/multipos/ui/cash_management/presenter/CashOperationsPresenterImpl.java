@@ -1,18 +1,17 @@
 package com.jim.multipos.ui.cash_management.presenter;
 
+import android.content.Context;
 import android.view.View;
 
 import com.jim.mpviews.model.PaymentTypeWithService;
+import com.jim.multipos.R;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Account;
 import com.jim.multipos.data.db.model.PaymentType;
-import com.jim.multipos.data.db.model.customer.CustomerPayment;
-import com.jim.multipos.data.db.model.inventory.BillingOperations;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.PayedPartitions;
 import com.jim.multipos.data.db.model.till.Till;
-import com.jim.multipos.data.db.model.till.TillDetails;
 import com.jim.multipos.data.db.model.till.TillManagementOperation;
 import com.jim.multipos.data.db.model.till.TillOperation;
 import com.jim.multipos.ui.cash_management.view.CashOperationsView;
@@ -32,13 +31,15 @@ public class CashOperationsPresenterImpl extends BasePresenterImpl<CashOperation
 
     private List<PaymentType> paymentTypes;
     private DatabaseManager databaseManager;
+    private final Context context;
     private PaymentType currentPaymentType;
     private Till till;
 
     @Inject
-    protected CashOperationsPresenterImpl(CashOperationsView view, DatabaseManager databaseManager) {
+    protected CashOperationsPresenterImpl(CashOperationsView view, DatabaseManager databaseManager, Context context) {
         super(view);
         this.databaseManager = databaseManager;
+        this.context = context;
         paymentTypes = new ArrayList<>();
     }
 
@@ -80,8 +81,8 @@ public class CashOperationsPresenterImpl extends BasePresenterImpl<CashOperation
         if (till != null) {
             if (till.getStatus() == Till.OPEN)
                 view.openCashOperationDialog(till, currentPaymentType, TillOperation.PAY_IN, payInAmount);
-            else view.showWarningDialog("Please, open till");
-        } else view.showWarningDialog("Please, open till");
+            else view.showWarningDialog(context.getString(R.string.please_open_till));
+        } else view.showWarningDialog(context.getString(R.string.please_open_till));
     }
 
     @Override
@@ -89,8 +90,8 @@ public class CashOperationsPresenterImpl extends BasePresenterImpl<CashOperation
         if (till != null) {
             if (till.getStatus() == Till.OPEN)
                 view.openCashOperationDialog(till, currentPaymentType, TillOperation.PAY_OUT, payOutAmount);
-            else view.showWarningDialog("Please, open till");
-        } else view.showWarningDialog("Please, open till");
+            else view.showWarningDialog(context.getString(R.string.please_open_till));
+        } else view.showWarningDialog(context.getString(R.string.please_open_till));
     }
 
     @Override
@@ -99,9 +100,9 @@ public class CashOperationsPresenterImpl extends BasePresenterImpl<CashOperation
             if (till.getStatus() == Till.OPEN) {
                 if (ifEnoughCash(bankDropAmount))
                     view.openCashOperationDialog(till, currentPaymentType, TillOperation.BANK_DROP, bankDropAmount);
-                else view.showWarningDialog("Not enough cash in cash drawer");
-            } else view.showWarningDialog("Please, open till");
-        } else view.showWarningDialog("Please, open till");
+                else view.showWarningDialog(context.getString(R.string.not_enough_cash_in_cash_drawer));
+            } else view.showWarningDialog(context.getString(R.string.please_open_till));
+        } else view.showWarningDialog(context.getString(R.string.please_open_till));
     }
 
     @Override

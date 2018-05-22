@@ -70,7 +70,7 @@
                 android:layout_marginRight="@dimen/thirty_dp"
                 android:background="@drawable/edit_text_bg"
                 android:gravity="left"
-                android:hint="@string/some_notes"
+                android:hint="@string/additional_notes_to_category"
                 android:inputType="textMultiLine|textCapSentences"
                 android:isScrollContainer="true"
                 android:maxLength="2000"

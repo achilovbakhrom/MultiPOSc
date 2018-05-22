@@ -101,15 +101,15 @@ public class ServiceFeeReportFragment extends BaseTableReportFragment implements
     public void exportTableToExcel(String fileName, String path, Object[][] objects, int position, String date, String filter, String searchText) {
         switch (position) {
             case 0:
-                String description = "Item service fee report";
+                String description = getContext().getString(R.string.item_service_fee_report_description);
                 ExportUtils.exportToExcel(getContext(), path, fileName, description, date, filter, searchText, objects, firstTitles, firstWeights, firstDataType, singleStatusTypes);
                 break;
             case 1:
-                String secondDescription = " Order service fee report";
+                String secondDescription = getContext().getString(R.string.order_service_fee_report_description);
                 ExportUtils.exportToExcel(getContext(), path, fileName, secondDescription, date, filter, searchText, objects, secondTitles, secondWeights, secondDataType, singleStatusTypes);
                 break;
             case 2:
-                String thirdDescription = "Service fee creation log";
+                String thirdDescription = getContext().getString(R.string.service_fee_creation_log_description);
                 ExportUtils.exportToExcel(getContext(), path, fileName, thirdDescription, date, filter, searchText, objects, thirdTitles, weights, dataType, multipleStatusTypes);
                 break;
         }
@@ -119,15 +119,15 @@ public class ServiceFeeReportFragment extends BaseTableReportFragment implements
     public void exportTableToPdf(String fileName, String path, Object[][] objects, int position, String date, String filter, String searchText) {
         switch (position) {
             case 0:
-                String description = "Item service fee report";
+                String description = getContext().getString(R.string.item_service_fee_report_description);
                 ExportUtils.exportToPdf(getContext(), path, fileName, description, date, filter, searchText, objects, firstTitles, firstWeights, firstDataType, singleStatusTypes);
                 break;
             case 1:
-                String secondDescription = " Order service fee report";
+                String secondDescription = getContext().getString(R.string.order_service_fee_report_description);
                 ExportUtils.exportToPdf(getContext(), path, fileName, secondDescription, date, filter, searchText, objects, secondTitles, secondWeights, secondDataType, singleStatusTypes);
                 break;
             case 2:
-                String thirdDescription = "Service fee creation log";
+                String thirdDescription = getContext().getString(R.string.service_fee_creation_log_description);
                 ExportUtils.exportToPdf(getContext(), path, fileName, thirdDescription, date, filter, searchText, objects, thirdTitles, weights, dataType, multipleStatusTypes);
                 break;
         }
@@ -164,15 +164,15 @@ public class ServiceFeeReportFragment extends BaseTableReportFragment implements
     public void exportExcelToUSB(String filename, UsbFile root, Object[][] objects, int position, String date, String filter, String searchText) {
         switch (position) {
             case 0:
-                String description = "Item service fee report";
+                String description = getContext().getString(R.string.item_service_fee_report_description);
                 ExportUtils.exportToExcelToUSB(getContext(), root, filename, description, date, filter, searchText, objects, firstTitles, firstWeights, firstDataType, singleStatusTypes);
                 break;
             case 1:
-                String secondDescription = " Order service fee report";
+                String secondDescription = getContext().getString(R.string.order_service_fee_report_description);
                 ExportUtils.exportToExcelToUSB(getContext(), root, filename, secondDescription, date, filter, searchText, objects, secondTitles, secondWeights, secondDataType, singleStatusTypes);
                 break;
             case 2:
-                String thirdDescription = "Service fee creation log";
+                String thirdDescription = getContext().getString(R.string.service_fee_creation_log_description);
                 ExportUtils.exportToExcelToUSB(getContext(), root, filename, thirdDescription, date, filter, searchText, objects, thirdTitles, weights, dataType, multipleStatusTypes);
                 break;
         }
@@ -182,15 +182,15 @@ public class ServiceFeeReportFragment extends BaseTableReportFragment implements
     public void exportTableToPdfToUSB(String fileName, UsbFile path, Object[][] objects, int position, String date, String filter, String searchText) {
         switch (position) {
             case 0:
-                String description = "Item service fee report";
+                String description = getContext().getString(R.string.item_service_fee_report_description);
                 ExportUtils.exportToPdfToUSB(getContext(), path, fileName, description, date, filter, searchText, objects, firstTitles, firstWeights, firstDataType, singleStatusTypes);
                 break;
             case 1:
-                String secondDescription = " Order service fee report";
+                String secondDescription = getContext().getString(R.string.order_service_fee_report_description);
                 ExportUtils.exportToPdfToUSB(getContext(), path, fileName, secondDescription, date, filter, searchText, objects, secondTitles, secondWeights, secondDataType, singleStatusTypes);
                 break;
             case 2:
-                String thirdDescription = "Service fee creation log";
+                String thirdDescription = getContext().getString(R.string.service_fee_creation_log_description);
                 ExportUtils.exportToPdfToUSB(getContext(), path, fileName, thirdDescription, date, filter, searchText, objects, thirdTitles, weights, dataType, multipleStatusTypes);
                 break;
         }
@@ -205,7 +205,7 @@ public class ServiceFeeReportFragment extends BaseTableReportFragment implements
         properties.offset = new File(DialogConfigs.DEFAULT_DIR);
         properties.extensions = null;
         FilePickerDialog dialog = new FilePickerDialog(getContext(), properties);
-        dialog.setTitle(getString(R.string.select_a_directory));
+        dialog.setTitle(getContext().getString(R.string.select_a_directory));
         dialog.setDialogSelectionListener(files -> {
             exportDialog.setPath(files);
         });

@@ -34,6 +34,7 @@ public class HourlySalesReportFragment extends BaseTableReportFragment implement
 
     @Override
     protected void init(Bundle savedInstanceState) {
+        description = getContext().getString(R.string.hourly_sales_description);
         init(presenter);
         disableFilter();
         disableSearch();
@@ -62,7 +63,7 @@ public class HourlySalesReportFragment extends BaseTableReportFragment implement
         setTable(reportView.getBuilder().getView());
     }
 
-    String description = "In this report you can find all sales at every hour";
+    String description;
 
     @Override
     public void exportTableToExcel(String fileName, String path, Object[][] objects, String date) {

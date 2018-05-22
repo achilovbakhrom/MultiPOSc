@@ -34,7 +34,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Language"
+                        android:text="@string/language"
                         android:textColor="#212121"
                         android:textSize="@dimen/eighteen_dp" />
 
@@ -42,7 +42,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/fifty_dp"
-                        android:text="Mauris euismod sodales gravida. Nulla neque lectus."
+                        android:text="@string/language_description"
                         android:textColor="#b8b8b8"
                         android:textSize="@dimen/sixteen_dp" />
                 </LinearLayout>

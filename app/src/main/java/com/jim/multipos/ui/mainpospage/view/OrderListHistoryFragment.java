@@ -168,34 +168,34 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
         tvChange.setText(decimalFormat.format(order.getChange()));
         if(order.getCustomer() != null) {
             tvCustomerName.setVisibility(View.VISIBLE);
-            tvCustomerName.setText("Customer: " + order.getCustomer().getName());
+            tvCustomerName.setText(getContext().getString(R.string.customer_) + order.getCustomer().getName());
         }
         else tvCustomerName.setVisibility(View.GONE);
-        tvOrderNumber.setText("Order #"+String.valueOf(order.getId()));
+        tvOrderNumber.setText(getContext().getString(R.string.order_num)+String.valueOf(order.getId()));
         if(order.getStatus()==Order.CANCELED_ORDER ){
             if(order.getLastChangeLog().getChangedCauseType() == OrderChangesLog.EDITED){
                 llEdit.setVisibility(View.INVISIBLE);
                 llEdit.setEnabled(false);
                 ivDeactivateCancel.setImageResource(R.drawable.recive_order);
-                tvCancelOrder.setText("Restore order");
-                tvOrderCancelLable.setText("Order Edited to #"+String.valueOf(order.getLastChangeLog().getRelationOrder().getId()));
-                tvOrderNumber.setText("Canceled: Order #" + String.valueOf(order.getId()));
+                tvCancelOrder.setText(getContext().getString(R.string.restore_order));
+                tvOrderCancelLable.setText(getContext().getString(R.string.order_edited_to_num)+String.valueOf(order.getLastChangeLog().getRelationOrder().getId()));
+                tvOrderNumber.setText(getContext().getString(R.string.canceled_order_num) + String.valueOf(order.getId()));
                 rvDeleteCurtain.setVisibility(View.VISIBLE);
-                tvCauseDelete.setText("Cause: " + order.getLastChangeLog().getReason());
+                tvCauseDelete.setText(getContext().getString(R.string.cause_) + order.getLastChangeLog().getReason());
             }else {
                 llEdit.setVisibility(View.INVISIBLE);
                 llEdit.setEnabled(false);
                 ivDeactivateCancel.setImageResource(R.drawable.recive_order);
-                tvCancelOrder.setText("Restore order");
-                tvOrderNumber.setText("Canceled: Order #" + String.valueOf(order.getId()));
-                tvOrderCancelLable.setText("Order canceled");
+                tvCancelOrder.setText(getContext().getString(R.string.restore_order));
+                tvOrderNumber.setText(getContext().getString(R.string.canceled_order_num) + String.valueOf(order.getId()));
+                tvOrderCancelLable.setText(getContext().getString(R.string.order_canceled));
                 rvDeleteCurtain.setVisibility(View.VISIBLE);
-                tvCauseDelete.setText("Cause: " + order.getLastChangeLog().getReason());
+                tvCauseDelete.setText(getContext().getString(R.string.cause_) + order.getLastChangeLog().getReason());
             }
         }else if(order.getStatus() == Order.HOLD_ORDER){
             ivEdit.setImageResource(R.drawable.contunie);
-            tvPay.setText("Continue");
-            tvOrderNumber.setText("Held: Order #" + String.valueOf(order.getId()));
+            tvPay.setText(getContext().getString(R.string.order_continue));
+            tvOrderNumber.setText(getString(R.string.held_order_num) + String.valueOf(order.getId()));
             llEdit.setVisibility(View.VISIBLE);
             llEdit.setEnabled(true);
             ivDeactivateCancel.setImageResource(R.drawable.deactive_order);
@@ -204,7 +204,7 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
         }
         else {
             ivEdit.setImageResource(R.drawable.edit);
-            tvPay.setText("Edit");
+            tvPay.setText(getContext().getString(R.string.edit));
             llEdit.setVisibility(View.VISIBLE);
             llEdit.setEnabled(true);
             ivDeactivateCancel.setImageResource(R.drawable.deactive_order);

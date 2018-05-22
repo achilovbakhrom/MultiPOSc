@@ -40,11 +40,13 @@ public class AccessToEditDialog extends Dialog {
     @BindView(R.id.btnCancel)
     MpButton btnCancel;
 
+    private Context context;
     private OnAccsessListner listener;
     private PreferencesHelper preferencesHelper;
 
     public AccessToEditDialog(@NonNull Context context, OnAccsessListner listener, PreferencesHelper preferencesHelper) {
         super(context);
+        this.context = context;
         this.listener = listener;
         this.preferencesHelper = preferencesHelper;
     }
@@ -61,13 +63,13 @@ public class AccessToEditDialog extends Dialog {
         btnOK.setOnClickListener(view -> {
             String passwordForCheck = etPasswordEdit.getText().toString();
             if(passwordForCheck.isEmpty()){
-                etPasswordEdit.setError("Password can't be empty !");
+                etPasswordEdit.setError(context.getString(R.string.password_cant_be_empty));
                 return;
             }
 
             String reason = etDescription.getText().toString();
             if(reason.isEmpty()){
-                etDescription.setError("Please enter reason for edit !");
+                etDescription.setError(context.getString(R.string.please_enter_reason_for_edit));
                 return;
             }
 
@@ -80,7 +82,7 @@ public class AccessToEditDialog extends Dialog {
 
             }else {
                 etPasswordEdit.setText("");
-                etPasswordEdit.setError("Password is incorrect");
+                etPasswordEdit.setError(context.getString(R.string.password_is_incorrect));
                 countError ++;
                 if(countError == 5) {
                     new android.os.Handler().postDelayed(() -> {

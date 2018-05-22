@@ -23,7 +23,7 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/thirty_dp"
-                android:text="@string/hold_orders"
+                android:text="@string/retained_orders"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/twenty_dp"
                 android:textStyle="bold" />
@@ -106,7 +106,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginRight="@dimen/ten_dp"
-                        android:text="@string/date_opened"
+                        android:text="@string/created_date_"
                         android:textColor="@color/colorMainText"
                         android:textSize="@dimen/eighteen_dp" />
 

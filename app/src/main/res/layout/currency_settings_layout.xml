@@ -34,7 +34,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/main_system_currency"
+                        android:text="@string/pos_currency"
                         android:textColor="#212121"
                         android:textSize="@dimen/eighteen_dp" />
 
@@ -42,7 +42,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/hundred_fifty_dp"
-                        android:text="Phasellus pretium sed mauris at semper."
+                        android:text="@string/pos_currency_description"
                         android:textColor="#b8b8b8"
                         android:textSize="@dimen/sixteen_dp" />
                 </LinearLayout>

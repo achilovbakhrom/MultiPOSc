@@ -58,7 +58,7 @@ public class PaymentTypeFragment extends BaseFragment implements PaymentTypeView
         rvPaymentTypes.setLayoutManager(new LinearLayoutManager(getContext()));
         btnAdd.setOnClickListener(view -> {
             if (etPaymentTypeName.getText().toString().isEmpty()) {
-                etPaymentTypeName.setError(getContext().getString(R.string.enter_payment_type_name));
+                etPaymentTypeName.setError(getContext().getString(R.string.enter_payment_method));
             } else {
                 presenter.addPaymentType(etPaymentTypeName.getText().toString(), chbActive.isChecked(), spAccount.getSelectedPosition());
                 etPaymentTypeName.setText("");

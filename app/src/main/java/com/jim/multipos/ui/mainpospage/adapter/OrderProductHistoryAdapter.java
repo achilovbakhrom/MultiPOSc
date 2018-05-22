@@ -111,7 +111,7 @@ public class OrderProductHistoryAdapter extends RecyclerView.Adapter<RecyclerVie
             if(orderProductItem.getDiscount()!=null){
                 holder.tvFirstChangerToEach.setText(decimalFormat.format(orderProductItem.getDiscountAmount()));
                 holder.tvFirstChangerSum.setText(decimalFormat.format(orderProductItem.getDiscountAmount()*orderProductItem.getCount()));
-                holder.tvFirstChangerName.setText(orderProductItem.getDiscount().getName()+" (discount)");
+                holder.tvFirstChangerName.setText(orderProductItem.getDiscount().getName()+context.getString(R.string.discount_min));
                 holder.llFirstChanger.setVisibility(View.VISIBLE);
             }else {
                 holder.llFirstChanger.setVisibility(View.GONE);
@@ -121,7 +121,7 @@ public class OrderProductHistoryAdapter extends RecyclerView.Adapter<RecyclerVie
             if(orderProductItem.getServiceFee()!=null){
                 holder.tvSecondChangerForEach.setText("+"+decimalFormat.format(orderProductItem.getServiceAmount()));
                 holder.tvSecondChangerSum.setText("+"+decimalFormat.format(orderProductItem.getServiceAmount()*orderProductItem.getCount()));
-                holder.tvSecondChangerName.setText(orderProductItem.getServiceFee().getName()+" (service fee)");
+                holder.tvSecondChangerName.setText(orderProductItem.getServiceFee().getName()+ context.getString(R.string.service_fee_min));
                 holder.llSecondChanger.setVisibility(View.VISIBLE);
             }else {
                 holder.llSecondChanger.setVisibility(View.GONE);
@@ -144,7 +144,7 @@ public class OrderProductHistoryAdapter extends RecyclerView.Adapter<RecyclerVie
         if(holderMain instanceof OrderDiscountViewHolder){
             OrderDiscountViewHolder holder = (OrderDiscountViewHolder) holderMain;
             DiscountItem discountItem = (DiscountItem) adapterItem.get(position);
-            holder.tvDiscountName.setText(discountItem.getDiscount().getName()+" (order discount)");
+            holder.tvDiscountName.setText(discountItem.getDiscount().getName()+ context.getString(R.string.order_discount_min));
             holder.tvDiscountAmount.setText(decimalFormat.format(discountItem.getAmmount()));
             if(position==adapterItem.size()-1){
                 holder.isLastItemGone.setVisibility(View.GONE);
@@ -155,7 +155,7 @@ public class OrderProductHistoryAdapter extends RecyclerView.Adapter<RecyclerVie
         if(holderMain instanceof OrderServiceFeeViewHolder){
             OrderServiceFeeViewHolder holder = (OrderServiceFeeViewHolder) holderMain;
             ServiceFeeItem serviceFeeItem = (ServiceFeeItem) adapterItem.get(position);
-            holder.tvServiceFeeName.setText(serviceFeeItem.getServiceFee().getName()+" (order service fee)");
+            holder.tvServiceFeeName.setText(serviceFeeItem.getServiceFee().getName()+ context.getString(R.string.order_service_fee_min));
             holder.tvServiceFeeAmount.setText("+"+decimalFormat.format(serviceFeeItem.getAmmount()));
             if(position==adapterItem.size()-1){
                 holder.isLastItemGone.setVisibility(View.GONE);

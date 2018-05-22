@@ -41,11 +41,13 @@ public class ChangeManagerPasswordDialog extends Dialog {
     @BindView(R.id.tvDialogTitle)
     TextView tvDialogTitle;
 
+    private Context context;
     private OnAccessChangePasswordListner listener;
     private PreferencesHelper preferencesHelper;
 
     public ChangeManagerPasswordDialog(@NonNull Context context, OnAccessChangePasswordListner listener, PreferencesHelper preferencesHelper) {
         super(context);
+        this.context = context;
         this.listener = listener;
         this.preferencesHelper = preferencesHelper;
     }
@@ -63,12 +65,12 @@ public class ChangeManagerPasswordDialog extends Dialog {
         btnOK.setOnClickListener(view -> {
             String passwordForCheck = etOldPassword.getText().toString();
             if(passwordForCheck.isEmpty()){
-                etOldPassword.setError("Please enter old password !");
+                etOldPassword.setError(context.getString(R.string.please_enter_old_password));
                 return;
             }else etOldPassword.setError(null);
 
             if(!preferencesHelper.checkEditOrderPassword(SecurityTools.md5(passwordForCheck))){
-                etOldPassword.setError("Incorrect password");
+                etOldPassword.setError(context.getString(R.string.incorrect_password));
                 countError ++;
                 if(countError == 5) {
                     new Handler().postDelayed(() -> {
@@ -83,24 +85,24 @@ public class ChangeManagerPasswordDialog extends Dialog {
 
             String newPassword = etNewPassword.getText().toString();
             if(newPassword.isEmpty()){
-                etNewPassword.setError("Please enter new password for order !");
+                etNewPassword.setError(context.getString(R.string.please_enter_password_for_order));
                 return;
             }else etNewPassword.setError(null);
 
             if(newPassword.length()<=4){
-                etNewPassword.setError("New password should be longer than 6 symbols");
+                etNewPassword.setError(context.getString(R.string.new_password_should_be_longer_than_6));
                 return;
             }else etNewPassword.setError(null);
 
 
             String newPasswordConfirm = etConfirmPassword.getText().toString();
             if(newPasswordConfirm.isEmpty()){
-                etConfirmPassword.setError("Please confirm new password for order !");
+                etConfirmPassword.setError(context.getString(R.string.please_confirm_new_password_for_order));
                 return;
             }else etConfirmPassword.setError(null);
 
             if(!newPassword.equals(newPasswordConfirm)){
-                etConfirmPassword.setError("Not same with new password");
+                etConfirmPassword.setError(context.getString(R.string.not_same_with_new_password));
                 return;
             }
 

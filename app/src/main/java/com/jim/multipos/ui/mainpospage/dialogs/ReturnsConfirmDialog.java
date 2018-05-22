@@ -95,7 +95,7 @@ public class ReturnsConfirmDialog extends Dialog {
         btnConfirm.setOnClickListener(view -> {
             boolean hasOpenTill = databaseManager.hasOpenTill().blockingGet();
             if (!hasOpenTill) {
-                UIUtils.showAlert(getContext(), getContext().getString(R.string.ok), context.getString(R.string.warning), "Opened till wasn't found. Please, open till", () -> {
+                UIUtils.showAlert(getContext(), getContext().getString(R.string.ok), context.getString(R.string.warning), context.getString(R.string.opened_till_wnt_found_pls_open_till), () -> {
                 });
             } else {
                 Till till = databaseManager.getOpenTill().blockingGet();

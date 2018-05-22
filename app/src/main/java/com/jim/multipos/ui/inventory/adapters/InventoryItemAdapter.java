@@ -74,10 +74,10 @@ public class InventoryItemAdapter  extends ClickableBaseAdapter<InventoryItem, I
 
         if(!searchMode) {
             setUnderlineText(holder.tvProductName, inventoryItem.getProduct().getName());
-            holder.tvProductSku.setText("Sku: " + inventoryItem.getProduct().getSku());
-            holder.tvProductBarcode.setText("Barcode: " + inventoryItem.getProduct().getBarcode());
+            holder.tvProductSku.setText(context.getString(R.string.sku_)+ inventoryItem.getProduct().getSku());
+            holder.tvProductBarcode.setText(context.getString(R.string.barcode_) + inventoryItem.getProduct().getBarcode());
             if (inventoryItem.getProduct().getProductClass() != null)
-                holder.tvProductClassName.setText("Product Class: " + inventoryItem.getProduct().getProductClass().getName());
+                holder.tvProductClassName.setText(context.getString(R.string.product_class_colon )+ inventoryItem.getProduct().getProductClass().getName());
             else holder.tvProductClassName.setVisibility(View.GONE);
             StringBuilder vendorsName = new StringBuilder();
             for (Vendor vendor : items.get(position).getProduct().getVendor()) {
@@ -89,10 +89,10 @@ public class InventoryItemAdapter  extends ClickableBaseAdapter<InventoryItem, I
 
         }else {
             colorSubSeqUnderLine(inventoryItem.getProduct().getName(),searchText,Color.parseColor("#95ccee"),holder.tvProductName);
-            colorSubSeq("Sku: " + inventoryItem.getProduct().getSku(),searchText,Color.parseColor("#95ccee"),holder.tvProductSku);
-            colorSubSeq("Barcode: " + inventoryItem.getProduct().getBarcode(),searchText,Color.parseColor("#95ccee"),holder.tvProductBarcode);
+            colorSubSeq(context.getString(R.string.sku_) + inventoryItem.getProduct().getSku(),searchText,Color.parseColor("#95ccee"),holder.tvProductSku);
+            colorSubSeq(context.getString(R.string.barcode_) + inventoryItem.getProduct().getBarcode(),searchText,Color.parseColor("#95ccee"),holder.tvProductBarcode);
             if (inventoryItem.getProduct().getProductClass() != null){
-                colorSubSeq("Product Class: " + inventoryItem.getProduct().getProductClass().getName(),searchText,Color.parseColor("#95ccee"),holder.tvProductClassName);
+                colorSubSeq(context.getString(R.string.product_class_colon)+ inventoryItem.getProduct().getProductClass().getName(),searchText,Color.parseColor("#95ccee"),holder.tvProductClassName);
             }
             else holder.tvProductClassName.setVisibility(View.GONE);
 

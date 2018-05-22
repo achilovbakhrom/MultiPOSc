@@ -55,10 +55,10 @@ public class CustomerDebtsAdapter extends RecyclerView.Adapter<CustomerDebtsAdap
         double total = items.get(position).getDebtAmount() + feeAmount;
         holder.tvPayment.setText(decimalFormat.format(total) + " " + currency.getAbbr());
         if (items.get(position).getStatus() == Debt.CLOSED) {
-            holder.tvDueSum.setText(context.getString(R.string.closed));
+            holder.tvDueSum.setText(context.getString(R.string.closed_debt));
             holder.tvDueSum.setTextColor(ContextCompat.getColor(context, R.color.colorGreen));
         } else {
-            holder.tvDueSum.setText(context.getString(R.string.active));
+            holder.tvDueSum.setText(context.getString(R.string.active_debt));
             holder.tvDueSum.setTextColor(ContextCompat.getColor(context, R.color.colorRed));
         }
     }

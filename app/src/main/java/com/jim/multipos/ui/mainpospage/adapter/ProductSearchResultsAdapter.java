@@ -1,5 +1,6 @@
 package com.jim.multipos.ui.mainpospage.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,8 +25,10 @@ public class ProductSearchResultsAdapter extends RecyclerView.Adapter<ProductSea
 
     private List<Product> items;
     private onProductSearchResultClickListener listener;
+    private Context context;
 
-    public ProductSearchResultsAdapter() {
+    public ProductSearchResultsAdapter(Context context) {
+        this.context = context;
         items = new ArrayList<>();
     }
 
@@ -38,8 +41,8 @@ public class ProductSearchResultsAdapter extends RecyclerView.Adapter<ProductSea
     @Override
     public void onBindViewHolder(ProductSearchViewHolder holder, int position) {
         holder.tvProductName.setText(items.get(position).getName());
-        holder.tvProductBarcode.setText("Barcode: " + items.get(position).getBarcode());
-        holder.tvProductSKU.setText("SKU: " + items.get(position).getSku());
+        holder.tvProductBarcode.setText(context.getString(R.string.barcode_) + items.get(position).getBarcode());
+        holder.tvProductSKU.setText(context.getString(R.string.sku_) + items.get(position).getSku());
     }
 
     @Override

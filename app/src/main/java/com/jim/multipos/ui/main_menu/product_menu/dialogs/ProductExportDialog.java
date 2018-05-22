@@ -168,7 +168,7 @@ public class ProductExportDialog extends Dialog {
                             break;
                     }
                     dismiss();
-                } else tvFilePath.setError(context.getString(R.string.choose_file_location));
+                } else tvFilePath.setError(context.getString(R.string.select_file_location));
             }
         });
     }
@@ -183,14 +183,14 @@ public class ProductExportDialog extends Dialog {
                     if (currentFs.getFreeSpace() > 10485760) {
                         root = currentFs.getRootDirectory();
                     } else
-                        Toast.makeText(context, "Not enough place in memory", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, context.getString(R.string.not_enough_place_in_memory), Toast.LENGTH_SHORT).show();
                 } catch (IOException e) {
-                    Toast.makeText(context, "Device hasn\'t got permission", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, context.getString(R.string.device_hasnt_got_permission), Toast.LENGTH_SHORT).show();
                 }
             }
         } else {
             spChooseSaveLocation.setSelection(0);
-            Toast.makeText(context, "Please, connect USB storage device", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, context.getString(R.string.connect_usb_device), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -206,7 +206,7 @@ public class ProductExportDialog extends Dialog {
             }
         } else {
             spChooseSaveLocation.setSelection(0);
-            Toast.makeText(context, "Please, connect USB storage device", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, context.getString(R.string.connect_usb_device), Toast.LENGTH_SHORT).show();
         }
     }
 }

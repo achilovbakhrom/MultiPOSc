@@ -76,10 +76,10 @@ public class CustomerDebtListPresenterImpl extends BasePresenterImpl<CustomerDeb
         Date endDate = new Date(item.getEndDate());
         String leftDate = "";
         if (item.getStatus() == Debt.CLOSED)
-            leftDate = "Closed";
+            leftDate = context.getString(R.string.closed);
         else {
             if (today.getTime() > endDate.getTime())
-                leftDate = "Overdue";
+                leftDate = context.getString(R.string.overdue);
             else {
                 int[] leftTime = CommonUtils.getDateDifferenceInDDMMYYYY(today, endDate);
                 if (leftTime[0] != 0) {

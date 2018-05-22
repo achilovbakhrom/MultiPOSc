@@ -28,7 +28,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/tap_product_to_manage_it_info"
+                android:text="@string/click_on_a_product_to_manage_it"
                 android:textColor="@color/colorTextHint" />
 
         </LinearLayout>
@@ -99,7 +99,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginRight="@dimen/sixteen_dp"
                         android:gravity="right"
-                        android:text="@string/password"
+                        android:text="@string/enter_pos_password"
                         android:textColor="@color/colorMainText"
                         android:textSize="@dimen/sixteen_dp" />
 
@@ -112,7 +112,7 @@
                         android:layout_weight="1"
                         android:background="@drawable/edit_text_bg"
                         android:gravity="center_vertical"
-                        android:hint="@string/password"
+                        android:hint="@string/enter_pos_password"
                         android:paddingBottom="@dimen/five_dp"
                         android:paddingLeft="@dimen/ten_dp"
                         android:paddingRight="@dimen/ten_dp"

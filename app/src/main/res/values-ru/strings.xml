@@ -7,16 +7,16 @@
     <string name="registration">Регистрация</string>
     <string name="login">Логин</string>
     <string name="founder_password">Пароль владельца</string>
-    <string name="system_accounts">Системные аккаунты</string>
+    <string name="system_accounts">Счета</string>
     <string name="pos_id">Идентификатор</string>
     <string name="alias">Компания</string>
-    <string name="enter_pos_alias">Введите псевдоним ПОС</string>
+    <string name="enter_pos_alias">Введите название компании</string>
     <string name="address">Адрес</string>
-    <string name="enter_pos_address">Введите адрес ПОС</string>
-    <string name="password">Пароль</string>
+    <string name="enter_pos_address">Введите адрес компании</string>
+    <string name="enter_pos_password">Введите пароль</string>
     <string name="admin_password">Пароль администратора</string>
     <string name="repeat">Повторите</string>
-    <string name="repeat_password">Повторите пароль</string>
+    <string name="repeat_password">Введите повторно пароль</string>
     <string name="revert">Назад</string>
     <string name="next">Вперед</string>
     <string name="phone">Телефон</string>
@@ -28,7 +28,7 @@
     <string name="organization_address">Адресс Организации</string>
     <string name="zip_code">Почтовый индекс</string>
     <string name="contacts">Контакты</string>
-    <string name="enter_phone_number">Введите номер телефона или почту</string>
+    <string name="enter_phone_number">Введите номер телефона</string>
     <string name="founder_login_details">Детали регистрации владелца</string>
     <string name="login_with_start">Логин*</string>
     <string name="password_with_star">Пароль*</string>
@@ -44,18 +44,18 @@
     <string name="zip_code_">Почтовоый индекс:</string>
     <string name="auto_apply_configuration">Auto apply configuration</string>
     <string name="matrix_option">Matrix Option</string>
-    <string name="name">Name</string>
-    <string name="active">Активный</string>
+    <string name="name">Наименование</string>
+    <string name="active">Актив</string>
     <string name="actions">Действия</string>
-    <string name="item_management">Management Item Mode</string>
-    <string name="tap_product_to_manage_it_info">Tap Product to manage it info</string>
+    <string name="products_creation_mode">Режим создания товаров</string>
+    <string name="click_on_a_product_to_manage_it">Нажмите на Товар, чтобы управлять им</string>
     <string name="category">Категория</string>
     <string name="description">Описание</string>
-    <string name="some_notes">Примечания</string>
+    <string name="additional_notes_to_category">Дополнительные примечания к категории</string>
     <string name="cancel">Отмена</string>
     <string name="save">Сохранить</string>
-    <string name="product">Продукт</string>
-    <string name="subcategory">Подкатерогия</string>
+    <string name="product">Товар</string>
+    <string name="subcategory">Подкатегория</string>
     <string name="creating_upsell_combos">Creating Upsell combos</string>
     <string name="add">Добавить</string>
     <string name="combo">Комбо</string>
@@ -64,16 +64,16 @@
     <string name="clock_in">Clock in:</string>
     <string name="clock_out">Clock out:</string>
     <string name="options">Опции</string>
-    <string name="barcode">Штрих-код</string>
-    <string name="sku">СКУ</string>
+    <string name="barcode">Штрихкод</string>
+    <string name="sku">Артикул</string>
     <string name="quantity">Количество</string>
     <string name="linked">Linked</string>
-    <string name="none">none</string>
+    <string name="none">нет</string>
     <string name="unit">Ед. изм.</string>
     <string name="price">Цена</string>
-    <string name="value">Величина</string>
+    <string name="value">Значение</string>
     <string name="cost">Стоимость</string>
-    <string name="product_class">Класс</string>
+    <string name="product_class">Классы</string>
     <string name="tax_free">Tax Free</string>
     <string name="advance">Advance</string>
     <string name="enter_product_name">Please, enter product name</string>
@@ -85,43 +85,43 @@
     <string name="child">Child</string>
     <string name="parent">Parent</string>
     <string name="attribute_name">Attribute Name</string>
-    <string name="name_validation">Пожалуйста, введите имя</string>
-    <string name="category_length_validation">Category name should be longer than 3 letters</string>
+    <string name="name_validation">Пожалуйста, введите наименование</string>
+    <string name="length_validation">Поле не должно быть пустым</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
-    <string name="subcategory_length_validation">Subcategory name should be longer than 3 letters</string>
-    <string name="warning">Предупреждения</string>
+    <string name="subcategory_length_validation">Поле не должно быть пустым</string>
+    <string name="warning">Внимание!</string>
     <string name="want_accept_changes">Вы дейстивтельно хотите принять изменения?</string>
     <string name="delete">Удалить</string>
-    <string name="ok">OK</string>
+    <string name="ok">Да</string>
     <string name="enter_pass">Пожалуйста, введите пароль</string>
-    <string name="qty_and_price">Quantity/Price</string>
-    <string name="count_of_products">Кол-во продуктов</string>
-    <string name="vendor_name">Имя поставщика</string>
+    <string name="qty_and_price">Количество/Цена</string>
+    <string name="count_of_products">Кол-во товаров</string>
+    <string name="vendor_name">Поставщик</string>
     <string name="contact_name">Контактное лицо</string>
     <string name="selected">Выбрано</string>
-    <string name="products">Продукты</string>
+    <string name="products">Товары</string>
     <string name="total_should_pay">Итого должно быть оплачено</string>
     <string name="total_paid">Итого оплачено</string>
     <string name="account">Счет</string>
-    <string name="from_account">С счета</string>
+    <string name="from_account">Со счёта</string>
     <string name="consignment">Накладная</string>
-    <string name="income_from">Поступление от :</string>
+    <string name="received_from">"Получено от: "</string>
     <string name="add_product_to_consignment">Пожалуйста, добавьте продукты в накладную</string>
-    <string name="number">Number</string>
+    <string name="number">Номер</string>
     <string name="total_paid_sum_warning">Total paid sum cannot be larger than total sum</string>
     <string name="product_name">Название проудкта</string>
     <string name="please_enter_product_count">Пожалуйста, введите кол-во продукта</string>
     <string name="choose_vendor">Сначала выберите поставщика</string>
-    <string name="not_classified">Not classified</string>
-    <string name="choose_product_class">Choose product class</string>
+    <string name="not_classified">Неклассифицированный</string>
+    <string name="select_product_class">Выберите класс товаров</string>
     <string name="return_to">Возврат к:</string>
-    <string name="enter_email_address">Enter email address</string>
+    <string name="enter_email_address">Введите электронную почту</string>
     <string-array name="start_configuration_title">
-        <item namte="pos_details">POS подробности</item>
-        <item name="account">Аккаунт</item>
+        <item namte="pos_data">Данные владельца POS-терминала</item>
+        <item name="account">Счет</item>
         <item name="currency">Валюта</item>
-        <item name="payment_type">Типы оплаты</item>
+        <item name="payment_type">Тип оплаты</item>
         <item name="units">Единицы</item>
     </string-array>
     <string-array name="start_configuration_desctiption">
@@ -134,36 +134,36 @@
         <item name="stocks_description">Stocks</item>
     </string-array>
     <string-array name="products_menu_title">
-        <item>Products</item>
-        <item>Vendors Add&amp;Edit</item>
-        <item>Classes</item>
-        <item>Discounts</item>
-        <item>Service Fee</item>
-        <item>Export</item>
-        <item>Import</item>
+        <item>Товары</item>
+        <item>Поставщики</item>
+        <item>Классы</item>
+        <item>Скидки</item>
+        <item>Комиссии</item>
+        <item>Экспорт</item>
+        <item>Импорт</item>
     </string-array>
     <string-array name="products_menu_description">
-        <item>Add and change products</item>
-        <item>Add and edit vendors</item>
-        <item>Add and change product classes</item>
-        <item>Manage discounts</item>
-        <item>Manage service fees</item>
-        <item>Export price list, products, vendors</item>
-        <item>Import products, vendors</item>
+        <item>Добавление или редактирование товаров</item>
+        <item>Добавление или редактирование поставщиков</item>
+        <item>Добавление или редактирование групп</item>
+        <item>Добавление или редактирование скидок</item>
+        <item>Добавление или редактирование комиссий</item>
+        <item>Экспорт прайс листа, товаров, поставщиков </item>
+        <item>Импорт товаров, поставщиков</item>
     </string-array>
     <string-array name="customers_menu_title">
-        <item>Customers Add&amp;Edit</item>
-        <item>Customer Groups</item>
-        <item>Debt Clients</item>
-        <item>Export</item>
-        <item>Import</item>
+        <item>Клиенты</item>
+        <item>Группы Клиентов</item>
+        <item>Должники</item>
+        <item>Экспорт</item>
+        <item>Импорт</item>
     </string-array>
     <string-array name="customers_menu_description">
-        <item>Add and edit customers</item>
-        <item>Add customers to the groups</item>
-        <item>Debtors list</item>
-        <item>Export customers, customer groups</item>
-        <item>Import customers, customer groups</item>
+        <item>Добавление и редактирование клиентов</item>
+        <item>Добавление и редактирование группы клиентов</item>
+        <item>Список должников</item>
+        <item>Экспорт клиентов, группы клиентов</item>
+        <item>Импорт клиентов, группы клиентов</item>
     </string-array>
     <string-array name="employer_menu_title">
         <item>Schedule List</item>
@@ -178,11 +178,873 @@
         <item>Status Add&amp;Edit</item>
     </string-array>
     <string-array name="inventory_menu_title">
-        <item>Inventory</item>
-        <item>Vendors item management</item>
+        <item>Склад</item>
+        <item>Управление товарами поставщиков</item>
     </string-array>
     <string-array name="inventory_menu_description">
-        <item>Manage inventory</item>
-        <item>Manage vendor items</item>
+        <item>Складской учёт</item>
+        <item>Взаимодействия с поставщиками</item>
     </string-array>
+
+    <string-array name="unit_categories">
+        <item>Штук</item>
+        <item>Вес</item>
+        <item>Длина</item>
+        <item>Площадь</item>
+        <item>Объём</item>
+    </string-array>
+
+    <string-array name="piece_title">
+        <item>Шт.</item>
+    </string-array>
+
+    <string-array name="piece_abbr">
+        <item>шт.</item>
+    </string-array>
+
+    <string-array name="weight_title">
+        <item>Килограмм</item>
+        <item>Грамм</item>
+        <item>Тон</item>
+    </string-array>
+
+    <string-array name="weight_abbr">
+        <item>кг.</item>
+        <item>гр.</item>
+        <item>т.</item>
+    </string-array>
+
+    <string-array name="length_title">
+        <item>Метр</item>
+        <item>Миллиметр</item>
+        <item>Сантиметр</item>
+        <item>Километр</item>
+    </string-array>
+
+    <string-array name="length_abbr">
+        <item>м.</item>
+        <item>мм.</item>
+        <item>см.</item>
+        <item>км.</item>
+    </string-array>
+
+    <string-array name="area_title">
+        <item>м2</item>
+        <item>Сотка</item>
+        <item>Акр</item>
+        <item>Гектар</item>
+    </string-array>
+
+    <string-array name="area_abbr">
+        <item>m2.</item>
+        <item>сот.</item>
+        <item>акр.</item>
+        <item>га.</item>
+    </string-array>
+
+    <string-array name="volume_title">
+        <item>M3</item>
+        <item>Литр</item>
+        <item>Миллилитр</item>
+    </string-array>
+
+    <string-array name="volume_abbr">
+        <item>м3.</item>
+        <item>л.</item>
+        <item>мл.</item>
+    </string-array>
+
+    <string-array name="discount_used_types">
+        <item>Товар</item>
+        <item>Заказ</item>
+        <item>Все</item>
+    </string-array>
+
+    <string-array name="discount_amount_types">
+        <item>Процент</item>
+        <item>Сумма</item>
+    </string-array>
+
+    <string-array name="service_fee_type">
+        <item>Процент</item>
+        <item>Сумма</item>
+    </string-array>
+    <string-array name="service_fee_app_type">
+        <item>Товар</item>
+        <item>Заказ</item>
+        <item>All</item>
+    </string-array>
+
+    <string-array name="settings_titles">
+        <item>Основные настройки</item>
+        <item>POS терминал</item>
+        <item>Валюты</item>
+        <item>Счета</item>
+        <item>Виды платежей</item>
+        <item>Чек-принтер</item>
+        <item>Безопасность</item>
+    </string-array>
+    <string-array name="settings_sub_titles">
+        <item>Начальная конфигурация системы</item>
+        <item>Деталезированная информация о POS терминале</item>
+        <item>Валюта POS(точки продажи)</item>
+        <item>Управление счетами</item>
+        <item>Управление платежами</item>
+        <item>Настройка чек-принтера</item>
+        <item>Пароль и ограничение доступа</item>
+    </string-array>
+
+    <string-array name="first_configure_items">
+        <item>Основные настройки</item>
+        <item>POS терминал</item>
+        <item>Валюты</item>
+        <item>Счета</item>
+        <item>Виды платежей</item>
+    </string-array>
+
+    <string-array name="first_configure_items_description">
+        <item>Начальная конфигурация системы</item>
+        <item>Деталезированная информация о POS терминале</item>
+        <item>Валюта POS(точки продажи)</item>
+        <item>Управление счетами</item>
+        <item>Управление платежами</item>
+    </string-array>
+
+    <string-array name="currency_with_abbr">
+        <item>Узбекский сум (UZS)</item>
+        <item>Доллары США ($)</item>
+        <item>Азербайджанский манат (AZN)</item>
+        <item>Армянский драм (АРМ)</item>
+        <item>Белорусский рубль (BYN)</item>
+        <item>Грузинский лари (GEL)</item>
+        <item>Евро (€)</item>
+        <item>Киргизский сом (Сом)</item>
+        <item>Китайская Юань (CNY)</item>
+        <item>Молдавский лей (LEI)</item>
+        <item>Российский рубль (₽)</item>
+        <item>Сомони (TJS)</item>
+        <item>Тенге (₸)</item>
+        <item>Туркменский манат (TMT)</item>
+        <item>Украинская гривна (₴)</item>
+        <item>Фунт стерлингов (£)</item>
+    </string-array>
+
+    <string-array name="currency_title">
+        <item>Узбекский сум</item>
+        <item>Доллары США</item>
+        <item>Азербайджанский манат</item>
+        <item>Армянский драм</item>
+        <item>Белорусский рубль</item>
+        <item>Грузинский лари</item>
+        <item>Евро</item>
+        <item>Киргизский сом</item>
+        <item>Китайская Юань</item>
+        <item>Молдавский лей</item>
+        <item>Российский рубль</item>
+        <item>Сомони</item>
+        <item>Тенге</item>
+        <item>Туркменский манат</item>
+        <item>Украинская гривна</item>
+        <item>Фунт стерлингов</item>
+    </string-array>
+
+    <string-array name="currency_abbrs">
+        <item>UZS</item>
+        <item>$</item>
+        <item>AZN</item>
+        <item>АРМ</item>
+        <item>BYN</item>
+        <item>GEL</item>
+        <item>€</item>
+        <item>Сом</item>
+        <item>CNY</item>
+        <item>LEI</item>
+        <item>₽</item>
+        <item>TJS</item>
+        <item>₸</item>
+        <item>TMT</item>
+        <item>₴</item>
+        <item>£</item>
+    </string-array>
+
+    <string-array name="order_products_titles_report">
+        <item>Товар</item>
+        <item>Кол-во</item>
+        <item>За ед.</item>
+        <item>Всего</item>
+        <item>Скидка</item>
+        <item>Причина</item>
+        <item>Комиссия</item>
+        <item>Причина</item>
+        <item>Итого</item>
+    </string-array>
+
+    <string-array name="order_payments_titles_report">
+        <item>Вид платежа</item>
+        <item>Счёт</item>
+        <item>Долг №</item>
+        <item>Сумма</item>
+    </string-array>
+
+    <string-array name="debt_type">
+        <item>Частичная оплата</item>
+        <item>Полная оплата</item>
+    </string-array>
+
+    <string-array name="contact_types">
+        <item>Телефон</item>
+        <item>Почта</item>
+    </string-array>
+
+    <string-array name="reports_list">
+        <item>Сводный</item>
+        <item>Смены</item>
+        <item>Заказы</item>
+        <item>Платежи</item>
+        <item>Продажи по часам</item>
+        <item>Прибыль</item>
+        <item>Склад</item>
+        <item>Клиенты</item>
+        <item>Поставщики</item>
+        <item>Долги</item>
+        <item>Скидии</item>
+        <item>Комиссии</item>
+    </string-array>
+
+    <string-array name="order_lifecycle_titles_report">
+        <item>Дата/время</item>
+        <item>Статус</item>
+        <item>Состояния</item>
+        <item>Причина</item>
+        <item>Зависимые заказы</item>
+    </string-array>
+
+    <string-array name="payments_report">
+        <item>Сводно</item>
+        <item>Детально</item>
+    </string-array>
+
+    <string-array name="payments_report_summary_title">
+        <item>Вид платежа</item>
+        <item>Got for order</item>
+        <item>Пропорции %</item>
+    </string-array>
+
+    <string-array name="payments_report_details_title">
+        <item>Счёт</item>
+        <item>Способ оплаты</item>
+        <item>Тип</item>
+        <item>Описание</item>
+        <item>Чек №</item>
+        <item>Смена №</item>
+        <item>Дата/Время</item>
+        <item>Сумма</item>
+    </string-array>
+
+    <string-array name="product_profit_titles">
+        <item>Сводная прибыль</item>
+        <item>Детально</item>
+    </string-array>
+
+    <string-array name="product_profit_summary_table_titles">
+        <item>Наименование</item>
+        <item>Кол-во продаж</item>
+        <item>Общая стоимость</item>
+        <item>Общая продажа</item>
+        <item>Общая</item>
+        <item>Прибыль %</item>
+        <item>Общая скидка</item>
+        <item>Общая комиссия</item>
+    </string-array>
+
+    <string-array name="product_profit_log_table_titles">
+        <item>Наименование</item>
+        <item>Дата</item>
+        <item>Чек №</item>
+        <item>Кол-во</item>
+        <item>Себестоимость</item>
+        <item>Цена</item>
+        <item>Всего</item>
+        <item>Описание</item>
+    </string-array>
+
+    <string name="opt_in_wozard">Первоначальная настройка</string>
+    <string name="pos_number">POS ИД</string>
+    <string name="enter_alias">Введите название компании</string>
+    <string name="enter_address">Введите адрес компании</string>
+    <string name="system_currency">Валюта системы</string>
+    <string name="select_system_currency">Выберите валюту системы</string>
+    <string name="account_name">Название счета</string>
+    <string name="enter_account_name">Введите название счёта</string>
+    <string name="system_payment_types">Виды платжей системы</string>
+    <string name="currency">Валюта</string>
+    <string name="order">Чек</string>
+    <string name="select_customer">Выберите клиента</string>
+    <string name="total_paid_">Итого оплачено:</string>
+    <string name="discount">Скидки</string>
+    <string name="service_fee">Комиссия</string>
+    <string name="pay">Оплата</string>
+    <string name="reports">Отчеты</string>
+    <string name="customers">Клиенты</string>
+    <string name="cash">Наличные</string>
+    <string name="password">Пароль</string>
+    <string name="payment_type_name">Название типа оплаты</string>
+    <string name="inventory">Склад</string>
+    <string name="customer_name">Имя клиента</string>
+    <string name="debt_amount">Сумма долга</string>
+    <string name="edit">Изменить</string>
+    <string name="select">Выбрать</string>
+    <string name="new_customer">Новый клиент</string>
+    <string name="barcode_scanner">Сканер штрихкода</string>
+    <string name="cash_management">Управление финансами</string>
+    <string name="returns">Возвраты</string>
+    <string name="settings">Настройки</string>
+    <string name="log_out">Выход</string>
+    <string name="new_order">Новый заказ</string>
+    <string name="retained_orders">Удержанные заказы</string>
+    <string name="today_s_orders">Заказы на сегодня</string>
+    <string name="close">Закрыть</string>
+    <string name="select_for_order">Выберите для заказа</string>
+    <string name="manual">Ручная</string>
+    <string name="manual_discount">Ручная скидка</string>
+    <string name="amount">Сумма</string>
+    <string name="original_amount">Начальная сумма</string>
+    <string name="discount_amount">Сумма скидки</string>
+    <string name="final_amount">Конечная сумма</string>
+    <string name="percent">Процент</string>
+    <string name="enter_discount_reason">Введите причину скидки</string>
+    <string name="manual_service_fee">Ручная комиссия</string>
+    <string name="service_fee_amount">Сумма комиссии</string>
+    <string name="enter_service_fee_name">Введите причину комиссии</string>
+    <string name="payment">Оплата</string>
+    <string name="balance_due_">Сумма к оплате:</string>
+    <string name="payment_pay">Платёж</string>
+    <string name="balance">Остаток</string>
+    <string name="all">"Вся "</string>
+    <string name="payment_types">Способы оплаты</string>
+    <string name="payment_list">Список платежей</string>
+    <string name="loan">Долг</string>
+    <string name="print_check_on_off">Принтер: Выкл</string>
+    <string name="coin">Мелочь</string>
+    <string name="print_order">Печать чека</string>
+    <string name="search_mode">Режим поиска</string>
+    <string name="name_search_mode">ИМЯ</string>
+    <string name="barcode_search_mode">ШТРИХКОД</string>
+    <string name="search_results">Результаты поиска</string>
+    <string name="order_history_report_title">История заказов</string>
+    <string name="status">Статус</string>
+    <string name="reason_for_cancel">Причина отмены</string>
+    <string name="total_due">Всего к оплате</string>
+    <string name="paid_amount">Сумма оплаты</string>
+    <string name="filter">Фильтр</string>
+    <string name="date_interval">Период</string>
+    <string name="order_status_canceled">Отменен</string>
+    <string name="details">Подробно</string>
+    <string name="item_discount">Товар со скидкой</string>
+    <string name="order_discount">Заказ со скидкой</string>
+    <string name="discount_creation_log">Журнал событий создания скидок</string>
+    <string name="order_id">Заказ №</string>
+    <string name="till_id">Смена №</string>
+    <string name="closed_time">Время закрытия</string>
+    <string name="customer">Клиент</string>
+    <string name="closed">Закрыт</string>
+    <string name="total_changes">Сдача</string>
+    <string name="item">Товар</string>
+    <string name="qty">Кол-во</string>
+    <string name="discount_value">Цена со скидкой</string>
+    <string name="date">Дата</string>
+    <string name="reason_for_discount">Причина скидки</string>
+    <string name="type">Тип</string>
+    <string name="static_type">Статичный</string>
+    <string name="reason">Причина</string>
+    <string name="amount_type">Вид суммы</string>
+    <string name="usage_type">Тип использования</string>
+    <string name="item_service_fee">Комиссия товара</string>
+    <string name="order_service_fee">Комиссия заказа</string>
+    <string name="service_fee_log">Журнал событий комиссии</string>
+    <string name="service_fee_value">Сумма комиссии</string>
+    <string name="consignment_report">Отчет по накладным</string>
+    <string name="discount_percent">Процент %</string>
+    <string name="click_on_a_category_to_manage_it">Нажмите на Категорию, чтобы управлять ею</string>
+    <string name="name_subcategory">Наименование</string>
+    <string name="show_inactive">Показать неактивные</string>
+    <string name="additional_notes_to_subcategory">Дополнительные примечания к подкатегории</string>
+    <string name="discard_changes">Отменить изменения</string>
+    <string name="warning_discard_changes">Обнаружено изменение. Вы хотите отменить изменения?</string>
+    <string name="update">Обновить</string>
+    <string name="sku_item">Код товара</string>
+    <string name="unit_category">Величина измерения</string>
+    <string name="sku_number">Код товара</string>
+    <string name="cannot_delete_active_item">Невозможно удалить активный элемент</string>
+    <string name="add_category">+Добавить\n категорию</string>
+    <string name="add_subcategory">+Добавить\n подкатегорию</string>
+    <string name="add_product">+Добавить\n товар</string>
+    <string name="vendors">Поставщики</string>
+    <string name="select_vendor">Выберите поставщика</string>
+    <string name="selected_vendor">Выбранный</string>
+    <string name="plus_add">+Добавить</string>
+    <string name="add_plus">+Добавить</string>
+    <string name="click_on_a_subcategory_to_manage_it">Нажмите на Подкатегорию, чтобы управлять ею</string>
+    <string name="change">Сдача</string>
+    <string name="id">№</string>
+    <string name="total">Всего итого</string>
+    <string name="total_payable_">"Всего к оплате: "</string>
+    <string name="sum">Всего</string>
+    <string name="each">За ед.</string>
+    <string name="warning_payment_type_add">добавьте хотя бы один тип оплаты</string>
+    <string name="consignment_number">Накладная №</string>
+    <string name="vendor">Поставщик</string>
+    <string name="vendors_creation_mode">Режим создания поставщиков</string>
+    <string name="click_on_a_vendor_to_manage_it">Нажмите на Поставщика, чтобы управлять им</string>
+    <string name="enter_vendor_name">Введите имя поставщика</string>
+    <string name="enter_contact_name">Введите контактное лицо</string>
+    <string name="product_classes">Классы Товаров</string>
+    <string name="enter_class_name">Введите название класса</string>
+    <string name="class_name">Название класса</string>
+    <string name="enter_discount_name">Введите название скидки</string>
+    <string name="enter_value">Введите значение</string>
+    <string name="applicable_for">Применимо к</string>
+    <string name="valid_entry_value_100">Допустимое значение до 100</string>
+    <string name="service_fees">Комиссии</string>
+    <string name="select_file_location">Выберите расположение файла</string>
+    <string name="price_list">Прайс лист</string>
+    <string name="template">Образец</string>
+    <string name="excel">Excel</string>
+    <string name="pdf_name">PDF</string>
+    <string name="save_to_internal_memory">Сохранить во внутренней памяти</string>
+    <string name="save_to_usb">Сохранить на USB-накопитель</string>
+    <string name="export">Экспорт</string>
+    <string name="import_to">Импорт</string>
+    <string name="import_from_internal_memory">Импорт из внутренней памяти</string>
+    <string name="import_from_usb">Импорт с USB-накопителя</string>
+    <string name="select_the_file_location">Выберите расположение файла</string>
+    <string name="full_name">Полное имя</string>
+    <string name="enter_full_name">Введите имя</string>
+    <string name="enter_number">Введите номер</string>
+    <string name="enter_customers_address">Введите адрес</string>
+    <string name="customer_group">Группа клиентов</string>
+    <string name="unselected">Невыбрано</string>
+    <string name="action">Действие</string>
+    <string name="customers_groups_creation_mode">Режим создания групп клиентов</string>
+    <string name="enter_group_name">Введите имя группы</string>
+    <string name="group_name">Имя группы</string>
+    <string name="view">Обзор</string>
+    <string name="phone_number">Номер телефона</string>
+    <string name="member">Участник</string>
+    <string name="customer_id_or_name">№ или имя клиента</string>
+    <string name="order_no">Заказ №</string>
+    <string name="taken_date_">Дата займа:</string>
+    <string name="due_date">Дата погашения</string>
+    <string name="debt_total">Всего</string>
+    <string name="due">К oплате</string>
+    <string name="close_debt">Закрыть весь долг</string>
+    <string name="total_debt_two_dots">Общая сумма долга:</string>
+    <string name="all_debts">Все долги</string>
+    <string name="distributed_debt_payment">Распределенная оплата долгов</string>
+    <string name="customer_debts_history">История задолженности клиентов</string>
+    <string name="active_debt">Активный</string>
+    <string name="closed_debt">Закрытый</string>
+    <string name="this_customer_has_no_debts">Данный клиент не имеет долгов</string>
+    <string name="order_number">Заказ №</string>
+    <string name="end_date">Дата погашения:</string>
+    <string name="late_date">Осталось дней</string>
+    <string name="overdue">Просрочен</string>
+    <string name="debt_type_">Тип долга:</string>
+    <string name="part_payment">Частичная оплата</string>
+    <string name="full_payment_debt">Полная оплата</string>
+    <string name="fee_">Сбор:</string>
+    <string name="debt_amount_">Сумма долга:</string>
+    <string name="fee_amount">Сумма сбора:</string>
+    <string name="total_debt">Общая сумма долга</string>
+    <string name="paid_sum">Оплаченная сумма:</string>
+    <string name="due_with_dots">Сумма к выплате:</string>
+    <string name="repayments">Погашения</string>
+    <string name="payment_of_debt">Оплата долга</string>
+    <string name="operations">Операции</string>
+    <string name="product_name_inventory">Наименование товара</string>
+    <string name="total_inventory">Всего</string>
+    <string name="vendor_product_list">Список товаров поставщика</string>
+    <string name="do_you_want_delete">Вы действительно хотите удалить?</string>
+    <string name="additional_notes_to_consignment">Дополнительные примечания к накладной</string>
+    <string name="total_payable">Итого к оплате</string>
+    <string name="credit_note">Возвратная накладная</string>
+    <string name="product_total_cost">Полная стоимость товара</string>
+    <string name="product_refunds_to">Возврат товара к</string>
+    <string name="replenishment_of_products">Поступление товаров</string>
+    <string name="total_quantity">Всего</string>
+    <string name="actual_quantity">В наличии</string>
+    <string name="replenishment">Приход</string>
+    <string name="enter_replenishment_reason">Введите причину поступления</string>
+    <string name="please_enter_replenishment_reason">Пожалуйста введите причину поступления</string>
+    <string name="invalid">Поле не должно быть пустым</string>
+    <string name="write_off_products">"Списание товаров "</string>
+    <string name="debt">Долг:</string>
+    <string name="vendor_details">Информация о поставщике</string>
+    <string name="phone_">Телефон:</string>
+    <string name="state_details">Сводка</string>
+    <string name="debt_vendor">Задолженность:</string>
+    <string name="paid_">Оплачено:</string>
+    <string name="payments">Платежи</string>
+    <string name="story">История</string>
+    <string name="receive">Приход</string>
+    <string name="return_">Возврат</string>
+    <string name="payment_operation">Платежная операция</string>
+    <string name="payment_date">Дата платежа</string>
+    <string name="discription">Описание</string>
+    <string name="select_date">Выберите период</string>
+    <string name="time_date">Время / Дата</string>
+    <string name="operation">Операция</string>
+    <string name="extra">Примечание</string>
+    <string name="payment_amount">Сумма платежа</string>
+    <string name="total_debt_vendor">Общая задолженность</string>
+    <string name="customization_pos_system">Конфигурация POS Системы</string>
+    <string name="language">Язык</string>
+    <string name="language_description">Пожалуйста, выберите язык системы из выпадающего меню</string>
+    <string name="nominal_value_of_the_hotkeys">Номинальные значения горячих клавиш</string>
+    <string name="nominal_value_of_the_hotkeys_description">Укажите величину номинала банкнот для горячих клавиш. Это значительно ускорит работу кассира.</string>
+    <string name="_1nd_hotkey">1ая клавиша</string>
+    <string name="_2nd_hotkey">2ая клавиша</string>
+    <string name="pos_id_setting">Идентификационный номер POS терминала</string>
+    <string name="pos_id_description">Пожалуйста, укажите идентификационный номер POS терминала</string>
+    <string name="company_name">Название Компании</string>
+    <string name="company_description">Укажите название компании или бренд</string>
+    <string name="address_description">"Пожалуйста, укажите ваш адрес "</string>
+    <string name="phone_number_setting">Номер контактного телефона</string>
+    <string name="phone_number_description">Пожалуйста, укажите ваш номер телефона</string>
+    <string name="pos_currency">Валюта POS (точки продажи)</string>
+    <string name="pos_currency_description">Основная валюта для операций в POS терминале</string>
+    <string name="system_account_s_setting">Счета системы</string>
+    <string name="system_accounts_description">Укажите новый аккаунт или выберите уже существующий аккаунт</string>
+    <string name="account_name_setting">"Название счета "</string>
+    <string name="add_account_setting">Добавить</string>
+    <string name="till">Касса</string>
+    <string name="system_payment_types_setting">Виды платжей системы</string>
+    <string name="system_payment_types_description">Пожалуйста, укажите вид оплаты в окне снизу</string>
+    <string name="payment_method">Метод оплаты</string>
+    <string name="enter_payment_method">Укажите тип оплаты</string>
+    <string name="check_printer_connection">Проверить соединение с чек-принтером</string>
+    <string name="check_printer_connection_description">"Убедитесь, что ваш чек-принтер подключен верно. Нажмите кнопку \"обновить\" справа, чтобы проверить соединение с принтером. "</string>
+    <string name="connected">Подключен</string>
+    <string name="disconnected">Отсоединен</string>
+    <string name="include_logo_on_the_receipt">Добавить логотип на чек</string>
+    <string name="include_logo_on_the_receipt_description">Если вы желаете добавить свой логотопит на чек, поставьте галочку</string>
+    <string name="reciept_logo">Логотип на чеке(квитанции)</string>
+    <string name="reciept_logo_description">Пожалуйста выберите ваш логотип на чек(квитанцию)</string>
+    <string name="state_any_service_fee_or">Указать плату за оказание услуг или скидку на чеке</string>
+    <string name="hint_about_service_fee_discount_description">Поставьте галочку, если хотите указать на чеке плату за оказание услуг или скидку</string>
+    <string name="print_empty_example_check">Распечатать пустой тестовый чек</string>
+    <string name="print_empty_example_check_description">Чтобы убедиться, что в вашем принтере есть чернила и, что принтер исправен, вы може распечатать пустой тестовый чек</string>
+    <string name="print">Распечатать</string>
+    <string name="employee_password_setting">Пароль сотрудника</string>
+    <string name="employee_password_description">Пожалуйста укажите пароль для доступа сотрудникам в систему</string>
+    <string name="employee_password">Пароль сотрудника успешно изменен</string>
+    <string name="change_password">Изменить</string>
+    <string name="manager_password">Пароль менеджера</string>
+    <string name="manager_password_description">Пожалуйста укажите пароль для доступа менеджерам в систему</string>
+    <string name="access_with_manager_password">Доступ с паролем для менеджера</string>
+    <string name="access_with_manager_password_description">Только менеджеры с правильным \"менеджер\" паролем могу иметь доступ к этим разделам и особенностям</string>
+    <string name="section">Раздел</string>
+    <string name="features">Особенности</string>
+    <string name="cancel_order">Отменить заказ</string>
+    <string name="manual_discounts">Ручные Скидки</string>
+    <string name="edit_order">Исправить заказ</string>
+    <string name="change_employee_password">Изменение пароля сотрудника</string>
+    <string name="enter_old_password">Введите старый пароль</string>
+    <string name="enter_new_password">"Введите новый пароль "</string>
+    <string name="confirm_new_password">Подтвердите новый пароль</string>
+    <string name="change_manager_password">"Изменение пароля менеджера "</string>
+    <string name="manager_changed">Пароль менеджера успешно изменен</string>
+    <string name="access_password">Пароль доступа</string>
+    <string name="account_">Счёт:</string>
+    <string name="opening_date_">День открытия:</string>
+    <string name="opening_time_">Время открытия:</string>
+    <string name="closing_date_">День закрытия:</string>
+    <string name="closing_time_">Время закрытия:</string>
+    <string name="total_starting_amount_">Общая начальная сумма:</string>
+    <string name="pay_outs">Расходы</string>
+    <string name="pay_outs_">Расходы:</string>
+    <string name="pay_ins">Приходы</string>
+    <string name="pay_ins_">Приходы:</string>
+    <string name="payment_to_vendor">Оплата поставщику</string>
+    <string name="returned_debt">Возвращенный долг</string>
+    <string name="returned_debt_">Возвращенный долг:</string>
+    <string name="bank_drops">Инкаcсация:</string>
+    <string name="bank_drops_">Инкаcсация:</string>
+    <string name="actual_product_sales">Фактическая продажа товара</string>
+    <string name="collected_coin">Собранная мелочь</string>
+    <string name="expected_amount_in_till_">Ожидаемая сумма за смену:</string>
+    <string name="expected_amount_in_till">Ожидаемая сумма за смену:</string>
+    <string name="debt_sales">Продажи в долг</string>
+    <string name="financial_operations">Финансовые операции</string>
+    <string name="payment_types_cash">Виды платежа</string>
+    <string name="pay_in">Приход</string>
+    <string name="pay_out">Расход</string>
+    <string name="bank_drop">Инкаcсация</string>
+    <string name="close_till">Закрыть смену</string>
+    <string name="open_till">Открыть смену</string>
+    <string name="open_Till">Открыть Cмену</string>
+    <string name="orders_awaiting_approval">Заказы, ожидающие одобрения</string>
+    <string name="opened_date">День открытия</string>
+    <string name="no_retained_orders">Нет удержанных заказов</string>
+    <string name="total_closed">Всего закрыто</string>
+    <string name="due_and_payable_amount">Сумма к выплате</string>
+    <string name="to_next_till">На следующую смену</string>
+    <string name="zero_in_till">Без кассы</string>
+    <string name="hold_in_till">В кассе</string>
+    <string name="three_step_of_three_steps_for_closing_till">Шаг 3 из 3 шагов для закрытия смены</string>
+    <string name="two_step_of_three_steps_for_closing_till">Шаг 2 из 3 шагов для закрытия смены</string>
+    <string name="one_step_of_three_steps_for_closing_till">Шаг 1 из 3 шагов для закрытия смены</string>
+    <string name="canceled">Отменен</string>
+    <string name="filters_">Фильтры:</string>
+    <string name="closed_orders">Закрытые заказы</string>
+    <string name="cancelled_orders">Отменённые заказы</string>
+    <string name="apply">Подтвердить</string>
+    <string name="order_details">"Детализация "</string>
+    <string name="subtotal_">Подитог:</string>
+    <string name="summary_">Итого:</string>
+    <string name="total_due_">Всего к оплате:</string>
+    <string name="received_vendor">Получено</string>
+    <string name="returned_vendor">Возвращено</string>
+    <string name="data_time">Дата время</string>
+    <string name="total_cost">Общая стоимость</string>
+    <string name="extra_info">Доп. инфо</string>
+    <string name="consignment_products">Товары по накладным</string>
+    <string name="customers_creation_add_and_edit">Режим создания клиентов (Добавление и редактирование)</string>
+    <string name="cancel_order_setting">Отменить заказ</string>
+    <string name="click_on_a_group_to_manage_it">Нажмите на Группу, чтобы управлять ею</string>
+    <string name="add_group">+Добавить\nгруппу</string>
+    <string name="confirm_password">Подтвердите пароль</string>
+    <string name="enter_pos_id">Введите идентификатор</string>
+    <string name="enter_phone">Введите номер телефона</string>
+    <string name="enter_password">Введите пароль</string>
+    <string name="finish">Конец</string>
+    <string name="opened_till_wnt_found_pls_open_till">Пожалуйста сначала откройте смену</string>
+    <string name="are_you_sure_cancel_order">Вы действительно хотите отменить заказ?</string>
+    <string name="modify">Причина изменения</string>
+    <string name="please_open_till">Пожалуйста сначала откройте смену</string>
+    <string name="name_or_barcode">Имя или штрихкод</string>
+    <string name="returned_item_s">Возвращённые товары</string>
+    <string name="sku_">Артикул:</string>
+    <string name="barcode_">Штрихкод:</string>
+    <string name="product_class_colon">Группа:</string>
+    <string name="remove">Удалить</string>
+    <string name="additional_notes_to_return">Дополнительные примечания к возврату</string>
+    <string name="total_">Всего:</string>
+    <string name="payment_type_">Способ оплаты:</string>
+    <string name="payment_types_mainpage">Способ оплаты</string>
+    <string name="print_check">Принтер: Вкл</string>
+    <string name="debt_details">Детали долга</string>
+    <string name="fee">Сбор</string>
+    <string name="percentage">Процент</string>
+    <string name="enter_tips_amount">Введите сумму мелочи</string>
+    <string name="ammount_cant_be_zero">Сумма не может быть равна нулю</string>
+    <string name="empty_till_cant_hold">Пожалуйста, сначала введите заказ</string>
+    <string name="close_order">Закрыть заказ</string>
+    <string name="enter_cancel_password">Введите пароль</string>
+    <string name="enter_the_reason_for_canceling">Введите причину отмены заказа</string>
+    <string name="manage_access">Доступ менеджера</string>
+    <string name="please_choose_customer">Выберите клиента</string>
+    <string name="name_add_customer">Имя</string>
+    <string name="done">Выполнить</string>
+    <string name="cancel_barrow">Отменить Долг</string>
+    <string name="choose_payment_type">Выберите способ оплаты</string>
+    <string name="modify_open_till">Изменить</string>
+    <string name="amount_in_till">Сумма в кассе</string>
+    <string name="discount_value_cant_be_bigger_than_price">Скидка не может быть больше начальной суммы</string>
+    <string name="result_price_cant_be_bigger">Конечная сумма не может быть больше начальной</string>
+    <string name="disc_reacon_cant_empty">Введите причину скидки</string>
+    <string name="order_discount_min">(скидка на заказ)</string>
+    <string name="discount_amount_customer">Сумма скидки:</string>
+    <string name="change_">Сдача:</string>
+    <string name="to_service_">Сумма комиссии:</string>
+    <string name="discount_">Скидка:</string>
+    <string name="order_service_fee_min">(комиссия на заказ)</string>
+    <string name="service_fee_min">(комиссия)</string>
+    <string name="discount_min">(скидка)</string>
+    <string name="tips_">Мелочь:</string>
+    <string name="total_to_pay_">Итого к оплате:</string>
+    <string name="payment_detials">Детали платежа</string>
+    <string name="reprint_check">Печать чека</string>
+    <string name="customer_">Клиент: </string>
+    <string name="service_fee_">Комиссия:</string>
+    <string name="order_num">Заказ №</string>
+    <string name="created_date">Дата создания:</string>
+    <string name="created_date_">Дата создания</string>
+    <string name="created_time_">Время создания:</string>
+    <string name="to_debt">Долг</string>
+    <string name="service_fee_reason_cant_be_empty">Введите причину комиссии</string>
+    <string name="canceled_order_num">Отменён: заказ №</string>
+    <string name="order_edited_to_num">Заказ изменён на №</string>
+    <string name="cause_">Причина:</string>
+    <string name="without_reason">Без причины</string>
+    <string name="restore_order">Восстановить</string>
+    <string name="cancel_tips">Отменить Мел.</string>
+    <string name="pcs">шт.</string>
+    <string name="initial_registration">Первичная регистрация</string>
+    <string name="registration_token">Регистрационный токен</string>
+    <string name="registration_token_description">"Если Вам известен регистрационный токен, введите его во второе поле и нажмите на подтвердить. Если нет, то обратитесь в Службу поддержки. "</string>
+    <string name="call">Позвонить</string>
+    <string name="add_new_vendor">+ Добавить нового \nпоставщика</string>
+    <string name="email_adress_is_not_valid">Адрес почты недействительный!</string>
+    <string name="warning_price_empty">Введите цену!</string>
+    <string name="items_">Товары:</string>
+    <string name="products_number_product"> Товары</string>
+    <string name="set_quantity">Выберите кол-во</string>
+    <string name="enter_quantity">Введите количество</string>
+    <string name="special_request">Примечания</string>
+    <string name="order_canceled">Заказ отменён</string>
+    <string name="discount_amount_empty">Введите сумму скидки</string>
+    <string name="discount_cant_empty">Введите название скидки</string>
+    <string name="enter_service_fee_name_warning">Введите причину комиссии</string>
+    <string name="held_order_num">Удержан: Заказ №</string>
+    <string name="order_continue">Продолжить</string>
+    <string name="paid">Оплачено:</string>
+    <string name="phone_two_dots">Телефон:</string>
+    <string name="email_two_dots">Почта:</string>
+    <string name="consigment_income">Входящая накладная</string>
+    <string name="info_about_payment">Детали платежа</string>
+    <string name="please_enter_write_off_reason">Пожалуйста введите причину списания</string>
+    <string name="cannot_be_empty">Пожалуйста введите причину списания</string>
+    <string name="please_enter_replashment_reason">Пожалуста введите причину поступления</string>
+    <string name="this_customer_already_has_debt">Этот клиент уже имеет долг:</string>
+    <string name="enter_debt_amount">Введите сумму долга</string>
+    <string name="enter_amount">Введите значение</string>
+    <string name="update_customer">Обновление данных клиента</string>
+    <string name="update_message">Вы действительно хотите обновить товар?</string>
+    <string name="warning_delete">Вы действительно хотите удалить товар?</string>
+    <string name="discard_discounts">Обнаружено изменение. Вы хотите отменить изменение?</string>
+    <string name="discard">Да</string>
+    <string name="enter_service_fee_name_service">Введите название комиссии</string>
+    <string name="change_to_not_delete_when_not_active">Сначала сделайте объект \"неактивным\"</string>
+    <string name="subclass_name">Название подкласса</string>
+    <string name="customers_list">Список клиентов</string>
+    <string name="customers_groups">Группы Клиентов</string>
+    <string name="you_can_only_delete_inactive_customer_groups">Сначала сделайте группу клиентов \"неактивной\"</string>
+    <string name="do_you_want_update_customer_group">Вы действительно хотите обновить группу клиентов?</string>
+    <string name="payment_type">Способ оплаты</string>
+    <string name="customer_payments_history">История платежей клиента</string>
+    <string name="there_are_no_payments_for_this_debt">По данному долгу не было платежей</string>
+    <string name="summary_report">Сводный отчёт</string>
+    <string name="sales_summary">Сводные продажи</string>
+    <string name="payments_summary">Cводные платежи</string>
+    <string name="summary_amount_uzs">Сводная сумма</string>
+    <string name="total_product_sales">Все продажи</string>
+    <string name="total_service_fee">Все коммисси</string>
+    <string name="total_service_fees">Все коммисси</string>
+    <string name="total_discount">Все скидки</string>
+    <string name="total_discounts">Все скидки</string>
+    <string name="total_discounts_">Все Скидки:</string>
+    <string name="total_debt_sales">Все продажи в долг</string>
+    <string name="total_tips">Вся мелочь</string>
+    <string name="total_pay_ins">Все приходы</string>
+    <string name="total_pay_outs">Все расходы</string>
+    <string name="total_bank_drops">Вся инкассация</string>
+    <string name="total_orders_count">Всего количество заказов</string>
+    <string name="average_order">Средний заказ</string>
+    <string name="minimum_order">Минимальный заказ</string>
+    <string name="maximum_order">Максимальный заказ</string>
+    <string name="payins_count">Количество приходов</string>
+    <string name="pay_out_counts">Количесвто расходов</string>
+    <string name="bank_drop_count">Количество инкассаций</string>
+    <string name="the_best_customer">Лучший клиент</string>
+    <string name="total_manual_discounts_count">Количество ручных скидок</string>
+    <string name="total_static_discounts_count">Количесвто статичных скидок</string>
+    <string name="total_manual_service_count">Количество ручных комиссий</string>
+    <string name="total_static_service_count">Количество статичных комиссий</string>
+    <string name="total_canceled_orders_count">Количество отменённых заказов</string>
+    <string name="total_payments">Все платежи</string>
+    <string name="total_payments_">Все платежи:</string>
+    <string name="debt_report">Долги</string>
+    <string name="payments_report">Платежи</string>
+    <string name="total_cap">Суммарный итог</string>
+    <string name="payment_analytics">Аналитика платежей</string>
+    <string name="sales_analitcs">Аналитика продаж</string>
+    <string name="count_min">количество</string>
+    <string name="debts_count">Количество долгов</string>
+    <string name="export_to_">Экспорт в:</string>
+    <string name="opened_time">Время Открытия</string>
+    <string name="total_starting_amount">Общая начальная сумма</string>
+    <string name="tills_reports">Отчёт по сменам</string>
+    <string name="today">Сегодня</string>
+    <string name="yesterday">Вчера</string>
+    <string name="this_week">Эта неделя</string>
+    <string name="last_30_days">Последнии 30 дней</string>
+    <string name="this_month">Этот месяц</string>
+    <string name="this_year">Этот год</string>
+    <string name="expexted_amount_in_till_report">Ожидаемая сумма за смену</string>
+    <string name="order_status_closed">Закрыт</string>
+    <string name="order_status_held">Удержан</string>
+    <string name="lifecycle">Цикл</string>
+    <string name="payed_change_type">ОПЛАЧЕН</string>
+    <string name="hand_change_type_report">РУЧНОЙ</string>
+    <string name="edited_change_type">ИЗМЕНЁН</string>
+    <string name="continue_change_type">ПРОДОЛЖЕН</string>
+    <string name="hand_close_till_change_type">РУЧНОЕ ЗАКРЫТИЕ СМЕНЫ</string>
+    <string name="change_from_cashbox">Сдачи</string>
+    <string name="payment_to_order">Оплата заказа</string>
+    <string name="necessary_data_for_the_system">Необходимые данные для системы</string>
+    <string name="password_length">Пароль должен состоять из 6 символов</string>
+    <string name="confirm_password_description">Пожалуйста, повторите пароль</string>
+    <string name="hourly_sales_report">Отчёт по часовым продажам</string>
+    <string name="time_interval">Период</string>
+    <string name="transactions">Транзакции</string>
+    <string name="sold_items">Проданные товары</string>
+    <string name="avg_sales">Средние продажи</string>
+    <string name="percent_sales">Продажи %</string>
+    <string name="inventory_log">Ведомость</string>
+    <string name="inventory_summary">Сводные данные</string>
+    <string name="inventory_state">Состояние склада</string>
+    <string name="sold">Продано</string>
+    <string name="received_from_vendor">Получено от поставщика</string>
+    <string name="return_to_vendor">Возврат поставщику</string>
+    <string name="return_from_customer">Возврат от клиента</string>
+    <string name="contact_name_two_dots">Контактное лицо:</string>
+    <string name="product_count_two_dots">Количество позиций:</string>
+    <string name="wasted">Отбраковано</string>
+    <string name="void_income">Приход</string>
+    <string name="choose_till">Выбор смены</string>
+    <string name="unit_price">За ед.</string>
+    <string name="return_cost">Себестоимость</string>
+    <string name="customer_summary">Сводный Отчёт</string>
+    <string name="customer_order_list">Заказы клиентов</string>
+    <string name="customer_payment_log">Платежи клиентов</string>
+    <string name="total_orders_amount">Общая сумма заказов</string>
+    <string name="total_to_debt">Общий долг</string>
+    <string name="inclusions">Фильтры:</string>
+    <string name="customer_groups">Группа клиентов</string>
+    <string name="order_status">Статус</string>
+    <string name="total_order_amount">Обшая сумма заказов</string>
+    <string name="for_order">Заказ</string>
+    <string name="for_debt">Долг</string>
+    <string name="debt_state">Задолжнность</string>
+    <string name="taken_value">Сумма задолжнности</string>
+    <string name="difference">Остаток задолжнности</string>
+    <string name="money_transactions">Денежные опирации</string>
+    <string name="debt_">Долг</string>
+    <string name="first_pay">Первый платёж</string>
+    <string name="each_cost">За ед.</string>
+    <string name="sum_cost">Всего</string>
+    <string name="debtors_list">Список должников</string>
+    <string name="debt_summary">Сводный</string>
+    <string name="debt_transactions_list">Долговые операции</string>
+    <string name="orders_with_Debt">Заказы с долгом</string>
+    <string name="debts_list">Список долгов</string>
+    <string name="total_overdue">Общая просрочка</string>
+    <string name="last_visit">Последний визит</string>
+    <string name="customer_contacts">Контакты клиента</string>
+    <string name="debt_taken">Сумма долга</string>
+    <string name="debt_closed">"Сумма погашения "</string>
+    <string name="debt_closed_avg">Средняя сумма погашения</string>
+    <string name="debt_taken_avg">Средняя сумма долга</string>
+    <string name="debt_orders_count">Заказы с долгом</string>
+    <string name="group">Группа</string>
+    <string name="created_at">Дата создания</string>
+    <string name="order_amount">Сумма заказа</string>
+    <string name="paid_report_text">Оплачено</string>
+    <string name="last_pay_date">Последний платёж</string>
+    <string name="due_debt">Долг</string>
+    <string name="should_close_date">Дата оплаты</string>
+    <string name="debt_id">Долг №</string>
+    <string name="taken_date">Дата создания</string>
+    <string name="debt_type">Тип долга</string>
 </resources>

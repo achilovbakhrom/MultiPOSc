@@ -80,7 +80,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="left"
-                            android:text="@string/reconcile_open_orders"
+                            android:text="@string/orders_awaiting_approval"
                             android:textColor="@color/colorBlue"
                             android:textSize="@dimen/eighteen_dp" />
 
@@ -115,7 +115,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="left"
-                            android:text="@string/close_the_amount"
+                            android:text="@string/due_and_payable_amount"
                             android:textColor="@color/colorBlue"
                             android:textSize="@dimen/eighteen_dp" />
 
@@ -150,7 +150,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="left"
-                            android:text="@string/to_next"
+                            android:text="@string/to_next_till"
                             android:textColor="@color/colorBlue"
                             android:textSize="@dimen/eighteen_dp" />
 

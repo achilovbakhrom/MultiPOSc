@@ -181,7 +181,7 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
         if(preferencesHelper.isPrintCheck()){
             ivPrint.setColorFilter(Color.parseColor("#419fd9"));
             tvPrint.setTextColor(Color.parseColor("#419fd9"));
-            tvPrint.setText(R.string.print_check_on);
+            tvPrint.setText(R.string.print_check_on_off);
         }else {
             ivPrint.setColorFilter(Color.parseColor("#999999"));
             tvPrint.setTextColor(Color.parseColor("#999999"));
@@ -198,7 +198,7 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
             }else {
                 ivPrint.setColorFilter(Color.parseColor("#419fd9"));
                 tvPrint.setTextColor(Color.parseColor("#419fd9"));
-                tvPrint.setText(R.string.print_check_on);
+                tvPrint.setText(R.string.print_check_on_off);
                 preferencesHelper.setPrintCheck(true);
             }
         });
@@ -335,11 +335,11 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
      * */
     @Override
     public void updateChangeView(double change) {
-        tvBalanceOrChange.setText("Change");
+        tvBalanceOrChange.setText(getContext().getString(R.string.change));
         tvBalanceOrChange.setTextColor(Color.parseColor("#4ac21b"));
         tvChange.setText(decimalFormat.format(change));
         tvChange.setTextColor(Color.parseColor("#4ac21b"));
-        tvPay.setText("Done");
+        tvPay.setText(getContext().getString(R.string.done));
     }
 
     /**
@@ -348,11 +348,11 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
      * */
     @Override
     public void updateBalanceView(double change) {
-        tvBalanceOrChange.setText("Balance");
+        tvBalanceOrChange.setText(getContext().getString(R.string.balance));
         tvBalanceOrChange.setTextColor(Color.parseColor("#df595a"));
         tvChange.setText(decimalFormat.format(change));
         tvChange.setTextColor(Color.parseColor("#df595a"));
-        tvPay.setText("Pay");
+        tvPay.setText(getContext().getString(R.string.pay));
     }
 
     /**
@@ -361,11 +361,11 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
       */
     @Override
     public void updateBalanceZeroText() {
-        tvBalanceOrChange.setText("Balance");
+        tvBalanceOrChange.setText(getContext().getString(R.string.balance));
         tvBalanceOrChange.setTextColor(Color.parseColor("#4ac21b"));
         tvChange.setText(decimalFormat.format(0));
         tvChange.setTextColor(Color.parseColor("#4ac21b"));
-        tvPay.setText("Done");
+        tvPay.setText(getContext().getString(R.string.done));
     }
 
     /**
@@ -374,11 +374,11 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
      */
     @Override
     public void updateCloseText() {
-        tvBalanceOrChange.setText("Balance");
+        tvBalanceOrChange.setText(getContext().getString(R.string.balance));
         tvBalanceOrChange.setTextColor(Color.parseColor("#4ac21b"));
         tvChange.setText(decimalFormat.format(0));
         tvChange.setTextColor(Color.parseColor("#4ac21b"));
-        tvPay.setText("Close");
+        tvPay.setText(getContext().getString(R.string.close));
     }
 
     /**
@@ -414,13 +414,13 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
     @Override
     public void showDebtDialog() {
         ivDebt.setImageResource(R.drawable.borrow);
-        tvDebt.setText("Borrow");
+        tvDebt.setText(getContext().getString(R.string.loan));
     }
 
     @Override
     public void hideDebtDialog() {
         ivDebt.setImageResource(R.drawable.cancel_customer);
-        tvDebt.setText("Cancel Borrow");
+        tvDebt.setText(getContext().getString(R.string.cancel_barrow));
     }
 
     @Override
@@ -432,13 +432,13 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
     @Override
     public void enableTipsButton() {
         ivTips.setImageResource(R.drawable.tips);
-        tvTips.setText("Tips");
+        tvTips.setText(getContext().getString(R.string.coin));
     }
 
     @Override
     public void disableTipsButton() {
         ivTips.setImageResource(R.drawable.cancel_customer);
-        tvTips.setText("Cancel Tips");
+        tvTips.setText(getContext().getString(R.string.cancel_tips));
     }
 
     @Override
@@ -468,7 +468,7 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
 
     @Override
     public void openWarningDialog(String text) {
-        UIUtils.showAlert(getContext(), getContext().getString(R.string.ok), getString(R.string.warning), text, () -> {});
+        UIUtils.showAlert(getContext(), getContext().getString(R.string.ok), getContext().getString(R.string.warning), text, () -> {});
     }
 
 

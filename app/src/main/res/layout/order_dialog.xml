@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/forty_dp"
         android:gravity="center"
-        android:text="@string/held_orders" />
+        android:text="@string/retained_orders" />
 
     <FrameLayout
         android:layout_width="match_parent"

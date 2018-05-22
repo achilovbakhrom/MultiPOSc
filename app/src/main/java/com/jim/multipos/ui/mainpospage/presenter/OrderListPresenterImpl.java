@@ -1,8 +1,10 @@
 package com.jim.multipos.ui.mainpospage.presenter;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.jim.multipos.R;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Discount;
@@ -46,9 +48,12 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
     ServiceFeeItem serviceFeeItem;
     Customer customer;
     List<PayedPartitions> payedPartitions;
+    private Context context;
+
     @Inject
-    public OrderListPresenterImpl(OrderListView orderListView, DatabaseManager databaseManager) {
+    public OrderListPresenterImpl(OrderListView orderListView, DatabaseManager databaseManager, Context context) {
         super(orderListView);
+        this.context = context;
         list = new ArrayList<>();
         order = new Order();
         payedPartitions = new ArrayList<>();
@@ -830,11 +835,11 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
     public void onHoldOrderSendingData(Order order, List<PayedPartitions> payedPartitions, Debt debt) {
         boolean hasOpenTill = databaseManager.hasOpenTill().blockingGet();
         if (!hasOpenTill){
-            view.openWarningDialog("Opened till wasn't found. Please, open till");
+            view.openWarningDialog(context.getString(R.string.opened_till_wnt_found_pls_open_till));
             return;
         }
         if(isEmptyOrder()){
-            view.openWarningDialog("Empty Till can't be hold");
+            view.openWarningDialog(context.getString(R.string.empty_till_cant_hold));
             return;
         }
 

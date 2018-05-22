@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/ten_dp"
                 android:gravity="left|center_vertical"
-                android:text="@string/n_a"
+                android:text="@string/not_allowed"
                 android:textColor="@color/colorMainText"
                 android:textSize="@dimen/sixteen_dp" />
 
@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/ten_dp"
                 android:gravity="left|center_vertical"
-                android:text="@string/n_a"
+                android:text="@string/not_allowed"
                 android:textColor="@color/colorMainText"
                 android:textSize="@dimen/sixteen_dp" />
 

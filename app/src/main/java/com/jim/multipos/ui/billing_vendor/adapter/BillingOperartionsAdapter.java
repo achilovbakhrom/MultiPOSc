@@ -2,7 +2,6 @@ package com.jim.multipos.ui.billing_vendor.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,7 +64,7 @@ public class BillingOperartionsAdapter extends RecyclerView.Adapter<BillingOpera
         BillingOperations billingOperations = items.get(position);
         if(BillingOperations.DEBT_CONSIGNMENT == billingOperations.getOperationType()){
             holder.ivBillingIcon.setImageResource(R.drawable.imcome_consigment_billing);
-            holder.tvType.setText(R.string.consigment_income);
+            holder.tvType.setText(R.string.consignment_income);
             if(billingOperations.getConsignment()!=null && !billingOperations.getConsignment().getDescription().isEmpty())
                 holder.tvDiscription.setText(billingOperations.getConsignment().getDescription());
             else  holder.tvDiscription.setText("-");

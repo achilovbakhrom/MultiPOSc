@@ -30,14 +30,14 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Worker password"
+                            android:text="@string/employee_password_setting"
                             android:textSize="@dimen/eighteen_dp"
                             android:textColor="#212121"
                             />
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Mauris euismod sodales gravida. Nulla neque lectus."
+                            android:text="@string/employee_password_description"
                             android:layout_marginRight="@dimen/hundred_fifty_dp"
                             android:textSize="@dimen/sixteen_dp"
                             android:textColor="#b8b8b8"
@@ -53,7 +53,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Change"
+                                android:text="@string/change_password"
                                 android:textSize="@dimen/eighteen_dp"
                                 android:textColor="#419fd9"
                                 android:layout_marginRight="@dimen/thirty_dp"
@@ -90,14 +90,14 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Manager password"
+                        android:text="@string/manager_password"
                         android:textSize="@dimen/eighteen_dp"
                         android:textColor="#212121"
                         />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Phasellus pretium sed mauris at semper. Praesent vitae diam sed dui faucibus finibus. "
+                        android:text="@string/manager_password_description"
                         android:layout_marginRight="@dimen/hundred_fifty_dp"
                         android:textSize="@dimen/sixteen_dp"
                         android:textColor="#b8b8b8"
@@ -110,17 +110,17 @@
                     android:clickable="true"
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/rect_button_selector">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Change"
-                        android:textSize="@dimen/eighteen_dp"
-                        android:textColor="#419fd9"
-                        android:layout_marginRight="@dimen/thirty_dp"
-                        android:layout_marginLeft="@dimen/thirty_dp"
-                        android:layout_marginTop="@dimen/seven_dp"
                         android:layout_marginBottom="@dimen/seven_dp"
-                        />
+                        android:layout_marginLeft="@dimen/thirty_dp"
+                        android:layout_marginRight="@dimen/thirty_dp"
+                        android:layout_marginTop="@dimen/seven_dp"
+                        android:text="@string/change_password"
+                        android:textColor="#419fd9"
+                        android:textSize="@dimen/eighteen_dp" />
                 </FrameLayout>
             </LinearLayout>
             <FrameLayout
@@ -145,30 +145,20 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Access with manager password"
+                    android:text="@string/access_with_manager_password"
                     android:textSize="@dimen/eighteen_dp"
                     android:textColor="#212121"
                     />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Aenean neque magna, efficitur ultrices tincidunt vel, finibus et erat. Mauris ultrices congue mi, nec pellentesque augue condimentum ac."
+                    android:text="@string/access_with_manager_password_description"
                     android:textSize="@dimen/sixteen_dp"
                     android:textColor="#b8b8b8"
                     />
             </LinearLayout>
 
             <!--Sections-->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginRight="@dimen/thirty_dp"
-                android:layout_marginLeft="@dimen/thirty_five_dp"
-                android:text="Section"
-                android:layout_marginBottom="@dimen/five_dp"
-                android:textSize="@dimen/sixteen_dp"
-                android:textColor="#419fd9"
-                />
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="2px"
@@ -176,6 +166,17 @@
                 android:layout_marginRight="@dimen/thirty_dp"
                 android:layout_marginLeft="@dimen/thirty_dp"
                 />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/five_dp"
+                android:layout_marginLeft="@dimen/thirty_five_dp"
+                android:layout_marginRight="@dimen/thirty_dp"
+                android:text="@string/section"
+                android:textColor="#419fd9"
+                android:textSize="@dimen/sixteen_dp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -192,7 +193,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Products"
+                        android:text="@string/products"
                         android:textColor="#212121"
                         android:layout_marginTop="@dimen/sixteen_dp"
                         android:layout_marginBottom="@dimen/sixteen_dp"
@@ -218,7 +219,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Reports"
+                        android:text="@string/reports"
                         android:textColor="#212121"
 
                         android:layout_marginLeft="@dimen/twenty_dp"
@@ -246,7 +247,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Customers"
+                        android:text="@string/customers"
                         android:textColor="#212121"
 
                         android:layout_marginLeft="@dimen/twenty_dp"
@@ -284,7 +285,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Inventory"
+                        android:text="@string/inventory"
                         android:textColor="#212121"
 
                         android:layout_marginTop="@dimen/sixteen_dp"
@@ -311,7 +312,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Settings"
+                        android:text="@string/settings"
                         android:textColor="#212121"
 
                         android:layout_marginLeft="@dimen/twenty_dp"
@@ -339,7 +340,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Cash managment"
+                        android:text="@string/cash_management"
                         android:textColor="#212121"
 
                         android:layout_marginLeft="@dimen/twenty_dp"
@@ -368,7 +369,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginRight="@dimen/thirty_dp"
                 android:layout_marginLeft="@dimen/thirty_five_dp"
-                android:text="Features"
+                android:text="@string/features"
                 android:layout_marginTop="@dimen/twenty_dp"
                 android:layout_marginBottom="@dimen/five_dp"
                 android:textSize="@dimen/sixteen_dp"
@@ -397,7 +398,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Cancel Order"
+                        android:text="@string/cancel_order_setting"
                         android:textColor="#212121"
 
                         android:layout_marginTop="@dimen/sixteen_dp"
@@ -424,7 +425,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Manual Discounts"
+                        android:text="@string/manual_discounts"
                         android:textColor="#212121"
 
                         android:layout_marginLeft="@dimen/twenty_dp"
@@ -472,7 +473,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Edit Order"
+                        android:text="@string/edit_order"
                         android:textColor="#212121"
 
                         android:layout_marginTop="@dimen/sixteen_dp"
@@ -499,7 +500,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Manual Service Fee"
+                        android:text="@string/manual_service_fee"
                         android:textColor="#212121"
 
                         android:layout_marginLeft="@dimen/twenty_dp"

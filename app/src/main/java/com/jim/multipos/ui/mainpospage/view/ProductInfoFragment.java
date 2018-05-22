@@ -157,7 +157,7 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
         });
         btnRemove.setOnClickListener(view -> {
             WarningDialog warningDialog = new WarningDialog(getActivity());
-            warningDialog.setWarningMessage("Are you sure delete product from order?");
+            warningDialog.setWarningMessage(getResources().getString(R.string.are_you_sure_delete_product_from_order));
             warningDialog.setOnYesClickListener(view1 -> {
                 warningDialog.dismiss();
                 mainPageConnection.removeOrderProducts();
@@ -166,8 +166,8 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
             warningDialog.setOnNoClickListener(view1 -> {
                 warningDialog.dismiss();
             });
-            warningDialog.setPositiveButtonText(getString(R.string.yes));
-            warningDialog.setNegativeButtonText(getString(R.string.cancel));
+            warningDialog.setPositiveButtonText(getResources().getString(R.string.yes));
+            warningDialog.setNegativeButtonText(getResources().getString(R.string.cancel));
             warningDialog.show();
 
         });
@@ -264,8 +264,8 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
         if(orderProductItem.getOrderProduct().getProduct().getMainUnit().getUnitCategory().getUnitType() == UnitCategory.PIECE){
             tvOrderQuantity.setText(decimalFormat.format(orderProductItem.getOrderProduct().getCount()));
             tvOrderQuantity.setBackground(null);
-            tvUnitName.setText("Quantity");
-            btnSetQuantity.setText("Set Quantity");
+            tvUnitName.setText(getResources().getString(R.string.quantity));
+            btnSetQuantity.setText(getResources().getString(R.string.set_quantity));
             ivMinus.setVisibility(View.VISIBLE);
             ivPlus.setVisibility(View.VISIBLE);
         }
@@ -279,7 +279,7 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
             }else df = decimalFormat;
 
             tvOrderQuantity.setText(df.format(count) + " " + orderProductItem.getOrderProduct().getProduct().getMainUnit().getAbbr());
-            btnSetQuantity.setText("Set "+orderProductItem.getOrderProduct().getProduct().getMainUnit().getUnitCategory().getName());
+            btnSetQuantity.setText(getResources().getString(R.string.set)+orderProductItem.getOrderProduct().getProduct().getMainUnit().getUnitCategory().getName());
             tvOrderQuantity.setBackgroundResource(R.drawable.order_list_weight_product_item_deactive);
             tvUnitName.setText(orderProductItem.getOrderProduct().getProduct().getMainUnit().getUnitCategory().getName());
             ivMinus.setVisibility(View.GONE);
@@ -335,14 +335,14 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
             }
         });
         if(orderProductItem.getDiscount() == null){
-            btnDiscountItem.setText("Discount");
+            btnDiscountItem.setText(getResources().getString(R.string.discount));
         }else {
-            btnDiscountItem.setText("Remove\nDiscount");
+            btnDiscountItem.setText(getResources().getString(R.string.remove_discount));
         }
         if(orderProductItem.getServiceFee() == null){
-            btnServiceFee.setText("Service Fee");
+            btnServiceFee.setText(getResources().getString(R.string.service_fee));
         }else {
-            btnServiceFee.setText("Remove\nService Fee");
+            btnServiceFee.setText(getResources().getString(R.string.remove_service_fee));
         }
 
 

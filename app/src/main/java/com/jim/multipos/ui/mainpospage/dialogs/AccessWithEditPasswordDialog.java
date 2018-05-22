@@ -38,12 +38,14 @@ public class AccessWithEditPasswordDialog extends Dialog {
     @BindView(R.id.tvDialogTitle)
     TextView tvDialogTitle;
 
+    private Context context;
     private OnAccsessListner listener;
     private PreferencesHelper preferencesHelper;
     private boolean isCancel;
 
     public AccessWithEditPasswordDialog(@NonNull Context context, OnAccsessListner listener, PreferencesHelper preferencesHelper) {
         super(context);
+        this.context = context;
         this.listener = listener;
         this.preferencesHelper = preferencesHelper;
     }
@@ -60,7 +62,7 @@ public class AccessWithEditPasswordDialog extends Dialog {
         btnOK.setOnClickListener(view -> {
             String passwordForCheck = etPasswordEdit.getText().toString();
             if(passwordForCheck.isEmpty()) {
-                etPasswordEdit.setError("Password can't be empty !");
+                etPasswordEdit.setError(context.getString(R.string.password_cant_be_empty));
                 return;
             }
 
@@ -74,7 +76,7 @@ public class AccessWithEditPasswordDialog extends Dialog {
 
             }else {
                 etPasswordEdit.setText("");
-                etPasswordEdit.setError("Password is incorrect");
+                etPasswordEdit.setError(context.getString(R.string.password_is_incorrect));
                 countError ++;
                 if(countError == 5) {
                     new Handler().postDelayed(() -> {

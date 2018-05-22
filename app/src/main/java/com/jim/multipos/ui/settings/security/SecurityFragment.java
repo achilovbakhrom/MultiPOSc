@@ -10,17 +10,14 @@ import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.ui.mainpospage.dialogs.AccessWithEditPasswordDialog;
-import com.jim.multipos.ui.settings.SettingsView;
 import com.jim.multipos.ui.settings.security.dialog.ChangeManagerPasswordDialog;
 import com.jim.multipos.ui.settings.security.dialog.ChangeWorkerPasswordDialog;
 
-import javax.annotation.security.RunAs;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import dagger.Binds;
 
-    public class SecurityFragment extends BaseFragment implements SecurityView {
+public class SecurityFragment extends BaseFragment implements SecurityView {
 
     @BindView(R.id.flWorkerPassChange)
     FrameLayout flWorkerPassChange;
@@ -47,7 +44,7 @@ import dagger.Binds;
             ChangeWorkerPasswordDialog changeWorkerPasswordDialog = new ChangeWorkerPasswordDialog(getContext(), new ChangeWorkerPasswordDialog.OnAccessChangePasswordListner() {
                 @Override
                 public void accsessSuccess() {
-                    Toast.makeText(getActivity(), R.string.worker_password, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getContext().getString(R.string.employee_password), Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -61,7 +58,7 @@ import dagger.Binds;
             ChangeManagerPasswordDialog changeManagerPasswordDialog = new ChangeManagerPasswordDialog(getContext(), new ChangeManagerPasswordDialog.OnAccessChangePasswordListner() {
                 @Override
                 public void accsessSuccess() {
-                    Toast.makeText(getActivity(), R.string.manager_changed, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getContext().getString(R.string.manager_changed), Toast.LENGTH_SHORT).show();
                 }
 
                 @Override

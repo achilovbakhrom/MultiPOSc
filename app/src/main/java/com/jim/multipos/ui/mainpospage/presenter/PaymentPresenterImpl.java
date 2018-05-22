@@ -1,8 +1,10 @@
 package com.jim.multipos.ui.mainpospage.presenter;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import com.jim.mpviews.model.PaymentTypeWithService;
+import com.jim.multipos.R;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Account;
@@ -27,6 +29,7 @@ public class PaymentPresenterImpl extends BasePresenterImpl<PaymentView> impleme
 
     private DatabaseManager databaseManager;
     List<PaymentType> paymentTypes;
+    private Context context;
     private PreferencesHelper preferencesHelper;
     PaymentType currentPayment;
     List<PayedPartitions> payedPartitions;
@@ -35,10 +38,11 @@ public class PaymentPresenterImpl extends BasePresenterImpl<PaymentView> impleme
     private Customer customer = null;
     private PaymentType debtPayment;
     @Inject
-    public PaymentPresenterImpl(PaymentView paymentView, DatabaseManager databaseManager, PreferencesHelper preferencesHelper) {
+    public PaymentPresenterImpl(PaymentView paymentView, DatabaseManager databaseManager, Context context, PreferencesHelper preferencesHelper) {
         super(paymentView);
         this.databaseManager = databaseManager;
         paymentTypes = databaseManager.getPaymentTypes();
+        this.context = context;
         this.preferencesHelper = preferencesHelper;
         debtPayment = databaseManager.getDebtPaymentType().blockingGet();
     }
@@ -184,7 +188,7 @@ public class PaymentPresenterImpl extends BasePresenterImpl<PaymentView> impleme
         if(isPay){
             boolean hasOpenTill = databaseManager.hasOpenTill().blockingGet();
             if (!hasOpenTill){
-                view.openWarningDialog("Opened till wasn't found. Please, open till");
+                view.openWarningDialog(context.getString(R.string.opened_till_wnt_found_pls_open_till));
                 return;
             }
             //PAY
@@ -210,7 +214,7 @@ public class PaymentPresenterImpl extends BasePresenterImpl<PaymentView> impleme
         }else {
             boolean hasOpenTill = databaseManager.hasOpenTill().blockingGet();
             if (!hasOpenTill){
-                view.openWarningDialog("Opened till wasn't found. Please, open till");
+                view.openWarningDialog(context.getString(R.string.opened_till_wnt_found_pls_open_till));
                 return;
             }
             //DONE

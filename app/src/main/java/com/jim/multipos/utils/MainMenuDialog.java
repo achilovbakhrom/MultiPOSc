@@ -89,8 +89,8 @@ public class MainMenuDialog extends Dialog {
         tvClose.setOnClickListener(view -> dismiss());
 
         if (!isBarcodeShown)
-            tvBarcodeScanner.setText("Turn on barcode scanner");
-        else tvBarcodeScanner.setText("Turn off barcode scanner");
+            tvBarcodeScanner.setText(context.getString(R.string.barcode_scanner));
+        else tvBarcodeScanner.setText(context.getString(R.string.turn_off_barcode_scanner));
 
         tvBarcodeScanner.setOnClickListener(view -> {
             if (!isBarcodeShown)

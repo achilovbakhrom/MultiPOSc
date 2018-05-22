@@ -76,12 +76,12 @@ public class BillingInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             if (items.get(position).getDescription()!=null && !items.get(position).getDescription().equals(""))
                 infoViewHolder.tvDescription.setText(items.get(position).getDescription());
             else {
-                infoViewHolder.tvDescription.setText("None");
+                infoViewHolder.tvDescription.setText(context.getString(R.string.none));
             }
             if (items.get(position).getAccount() != null)
                 infoViewHolder.tvAccount.setText(items.get(position).getAccount().getName());
             else {
-                infoViewHolder.tvAccount.setText("None");
+                infoViewHolder.tvAccount.setText(context.getString(R.string.none));
             }
             infoViewHolder.tvAmount.setText(decimalFormat.format(items.get(position).getAmount()) + " " + currency.getAbbr());
             if (items.size() > 1) {
@@ -112,13 +112,13 @@ public class BillingInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             if (items.get(position).getDescription()!=null && !items.get(position).getDescription().equals(""))
                 infoViewHolder.tvDescription.setText(items.get(position).getDescription());
             else {
-                infoViewHolder.tvDescription.setText("None");
+                infoViewHolder.tvDescription.setText(context.getString(R.string.none));
             }
             infoViewHolder.tvPaymentDate.setText(simpleDateFormat.format(paymentDate));
             if (items.get(position).getAccount() != null)
                 infoViewHolder.tvAccount.setText(items.get(position).getAccount().getName());
             else {
-                infoViewHolder.tvAccount.setText("None");
+                infoViewHolder.tvAccount.setText(context.getString(R.string.none));
             }
             infoViewHolder.tvAmount.setText(decimalFormat.format(items.get(position).getAmount()) + " " + currency.getAbbr());
             infoViewHolder.tvCount.setText(String.valueOf(position));

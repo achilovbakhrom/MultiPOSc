@@ -1,5 +1,8 @@
 package com.jim.multipos.ui.consignment.presenter;
 
+import android.content.Context;
+
+import com.jim.multipos.R;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Account;
@@ -38,6 +41,7 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
     private List<BillingOperations> billingOperations;
     private DatabaseManager databaseManager;
     private DecimalFormat decimalFormat;
+    private final Context context;
     private double sum = 0;
     private List<Account> accountList;
     private String number, description, totalAmount;
@@ -50,10 +54,11 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
     private Long productId;
 
     @Inject
-    protected IncomeConsignmentPresenterImpl(IncomeConsignmentView incomeConsignmentView, DatabaseManager databaseManager, DecimalFormat decimalFormat) {
+    protected IncomeConsignmentPresenterImpl(IncomeConsignmentView incomeConsignmentView, DatabaseManager databaseManager, DecimalFormat decimalFormat, Context context) {
         super(incomeConsignmentView);
         this.databaseManager = databaseManager;
         this.decimalFormat = decimalFormat;
+        this.context = context;
         consignmentProductList = new ArrayList<>();
         accountList = new ArrayList<>();
         deletedProductsList = new ArrayList<>();
@@ -156,9 +161,9 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
         this.selectedPosition = selectedPosition;
         boolean hasOpenTill = databaseManager.hasOpenTill().blockingGet();
         if (!hasOpenTill && checked) {
-            view.setError("Opened till wasn't found. Please, open till");
+            view.setError(context.getString(R.string.opened_till_wnt_found_pls_open_till));
         } else if (consignmentProductList.isEmpty()) {
-            view.setError("Please, add product to consignment");
+            view.setError(context.getString(R.string.please_add_product_to_consignment));
         } else {
             int countPos = consignmentProductList.size(), costPos = consignmentProductList.size();
             for (int i = 0; i < consignmentProductList.size(); i++) {
@@ -169,9 +174,9 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
             }
 
             if (countPos != consignmentProductList.size()) {
-                view.setError("Some counts are empty or equals 0");
+                view.setError(context.getString(R.string.some_counts_are_empty_or_equals_zero));
             } else if (costPos != consignmentProductList.size())
-                view.setError("Some costs are empty");
+                view.setError(context.getString(R.string.some_costs_are_empty));
             else if (consignment == null) {
                 if (databaseManager.isConsignmentNumberExists(number).blockingGet()) {
                     view.setConsignmentNumberError();

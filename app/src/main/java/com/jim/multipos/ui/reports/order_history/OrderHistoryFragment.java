@@ -2,7 +2,6 @@ package com.jim.multipos.ui.reports.order_history;
 
 import android.os.Bundle;
 import android.view.Gravity;
-import android.widget.FrameLayout;
 
 import com.github.angads25.filepicker.model.DialogConfigs;
 import com.github.angads25.filepicker.model.DialogProperties;
@@ -164,7 +163,7 @@ public class OrderHistoryFragment extends BaseTableReportFragment implements Ord
                 {Order.HOLD_ORDER, getString(R.string.order_status_held), R.color.colorBlue},
                 {Order.CANCELED_ORDER, getString(R.string.order_status_canceled), R.color.colorRed}}
         };
-        titles = new String[] {"Order ID", "Till ID", "Closed time", "Customer", "Status", "Cancel Reason", "Sub Total","To Pay Total","Actions"};
-        description = "Order history report";
+        titles = new String[] {getContext().getString(R.string.order_id), getContext().getString(R.string.till_id), getContext().getString(R.string.closed_time), getContext().getString(R.string.customer), getContext().getString(R.string.status), getContext().getString(R.string.reason_for_cancel), getContext().getString(R.string.total_due),getContext().getString(R.string.paid_amount),getContext().getString(R.string.actions)};
+        description = getString(R.string.order_history_description);
     }
 }

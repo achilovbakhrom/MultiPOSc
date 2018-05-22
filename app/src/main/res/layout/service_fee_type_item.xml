@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/twelve_dp"
             android:layout_marginLeft="@dimen/ten_dp"
-            android:text="@string/app_type"
+            android:text="@string/applicable_for"
             android:textColor="#419fd9"
             android:textSize="@dimen/sixteen_dp" />
 
@@ -82,7 +82,7 @@
             android:layout_height="@dimen/forty_five_dp"
             android:layout_marginRight="@dimen/ten_dp"
             android:layout_weight="1"
-            android:hint="@string/name"
+            android:hint="@string/enter_service_fee_name_service"
             android:inputType="textCapWords|textNoSuggestions"
             android:textSize="@dimen/sixteen_dp" />
 
@@ -91,7 +91,7 @@
             android:layout_width="@dimen/three_hundred_dp"
             android:layout_height="@dimen/forty_five_dp"
             android:layout_marginRight="@dimen/ten_dp"
-            android:hint="@string/value"
+            android:hint="@string/enter_value"
             android:inputType="numberDecimal"
             android:textSize="@dimen/sixteen_dp" />
 

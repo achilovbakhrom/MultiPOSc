@@ -57,7 +57,7 @@
             android:layout_marginLeft="@dimen/ten_dp"
             android:layout_marginRight="@dimen/five_dp"
             android:gravity="center_vertical"
-            android:text="@string/uzs"
+            android:text="uzs"
             android:textColor="@color/colorMainText"
             android:textSize="@dimen/eighteen_dp" />
 

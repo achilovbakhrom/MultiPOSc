@@ -321,19 +321,19 @@ public class CloseTillDialogFragment extends BaseFragment implements CloseTillDi
                 llReconcileOrder.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
                 llToNext.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorBackground));
                 llCloseAmount.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorBackground));
-                tvDescriptionOfStep.setText("1 step of 3 steps for closing till");
+                tvDescriptionOfStep.setText(getContext().getString(R.string.one_step_of_three_steps_for_closing_till));
                 break;
             case SECOND_STEP:
                 llReconcileOrder.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorBackground));
                 llToNext.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorBackground));
                 llCloseAmount.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
-                tvDescriptionOfStep.setText("2 step of 3 steps for closing till");
+                tvDescriptionOfStep.setText(getContext().getString(R.string.two_step_of_three_steps_for_closing_till));
                 break;
             case THIRD_STEP:
                 llReconcileOrder.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorBackground));
                 llToNext.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
                 llCloseAmount.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorBackground));
-                tvDescriptionOfStep.setText("3 step of 3 steps for closing till");
+                tvDescriptionOfStep.setText(getContext().getString(R.string.three_step_of_three_steps_for_closing_till));
                 break;
         }
     }

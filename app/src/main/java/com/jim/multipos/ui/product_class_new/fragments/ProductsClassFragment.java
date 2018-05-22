@@ -137,8 +137,8 @@ public class ProductsClassFragment  extends BaseFragment implements ProductsClas
         warningDialog.setWarningMessage(getString(R.string.discard_discounts));
         warningDialog.setOnYesClickListener(view1 -> warningDialog.dismiss());
         warningDialog.setOnNoClickListener(view1 -> closeDiscountActivity());
-        warningDialog.setPositiveButtonText(getString(R.string.cancel));
-        warningDialog.setNegativeButtonText(getString(R.string.discard));
+        warningDialog.setPositiveButtonText(getContext().getString(R.string.cancel));
+        warningDialog.setNegativeButtonText(getContext().getString(R.string.discard));
         warningDialog.show();
     }
 

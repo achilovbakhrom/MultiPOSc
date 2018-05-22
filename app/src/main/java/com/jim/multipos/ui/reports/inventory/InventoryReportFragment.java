@@ -213,19 +213,19 @@ public class InventoryReportFragment extends BaseTableReportFragment implements 
     public void exportTableToExcel(String fileName, String path, Object[][] objects, int position, String date, String filter, String searchText) {
         switch (position) {
             case 0:
-                String description = "In this report you can find all info about consignments";
+                String description = getContext().getString(R.string.inventory_log_description);
                 ExportUtils.exportToExcel(getContext(), path, fileName, description, date, filter, searchText, objects, firstTitles, firstWeights, firstDataType, status);
                 break;
             case 1:
-                String secondDescription = " All Consignment products";
+                String secondDescription = getContext().getString(R.string.inventory_summary_description);
                 ExportUtils.exportToExcel(getContext(), path, fileName, secondDescription, date, filter, searchText, objects, secondTitles, secondWeights, secondDataType, null);
                 break;
             case 2:
-                String thirdDescription = " Debt states of each vendor";
+                String thirdDescription = getContext().getString(R.string.inventory_state_description);
                 ExportUtils.exportToExcel(getContext(), path, fileName, thirdDescription, date, filter, searchText, objects, thirdTitles, thirdWeights, thirdDataType, null);
                 break;
             case 3:
-                String forthDescription = " All money transactions";
+                String forthDescription = getContext().getString(R.string.returns_inventroy_description);
                 ExportUtils.exportToExcel(getContext(), path, fileName, forthDescription, date, filter, searchText, objects, forthTitles, forthWeights, forthDataType, null);
                 break;
         }
@@ -235,19 +235,19 @@ public class InventoryReportFragment extends BaseTableReportFragment implements 
     public void exportTableToPdf(String fileName, String path, Object[][] objects, int position, String date, String filter, String searchText) {
         switch (position) {
             case 0:
-                String description = "In this report you can find all info about consignments";
+                String description = getContext().getString(R.string.inventory_log_description);
                 ExportUtils.exportToPdf(getContext(), path, fileName, description, date, filter, searchText, objects, firstTitles, firstWeights, firstDataType, status);
                 break;
             case 1:
-                String secondDescription = " All Consignment products";
+                String secondDescription = getContext().getString(R.string.inventory_summary_description);
                 ExportUtils.exportToPdf(getContext(), path, fileName, secondDescription, date, filter, searchText, objects, secondTitles, secondWeights, secondDataType, null);
                 break;
             case 2:
-                String thirdDescription = " Debt states of each vendor";
+                String thirdDescription = getContext().getString(R.string.inventory_state_description);
                 ExportUtils.exportToPdf(getContext(), path, fileName, thirdDescription, date, filter, searchText, objects, thirdTitles, thirdWeights, thirdDataType, null);
                 break;
             case 3:
-                String forthDescription = " All money transactions";
+                String forthDescription = getContext().getString(R.string.returns_inventroy_description);
                 ExportUtils.exportToPdf(getContext(), path, fileName, forthDescription, date, filter, searchText, objects, forthTitles, forthWeights, forthDataType, null);
                 break;
         }
@@ -284,19 +284,19 @@ public class InventoryReportFragment extends BaseTableReportFragment implements 
     public void exportExcelToUSB(String filename, UsbFile root, Object[][] objects, int position, String date, String filter, String searchText) {
         switch (position) {
             case 0:
-                String description = "In this report you can find all info about consignments";
+                String description = getContext().getString(R.string.inventory_log_description);
                 ExportUtils.exportToExcelToUSB(getContext(), root, filename, description, date, filter, searchText, objects, firstTitles, firstWeights, firstDataType, status);
                 break;
             case 1:
-                String secondDescription = " All Consignment products";
+                String secondDescription = getContext().getString(R.string.inventory_summary_description);
                 ExportUtils.exportToExcelToUSB(getContext(), root, filename, secondDescription, date, filter, searchText, objects, secondTitles, secondWeights, secondDataType, null);
                 break;
             case 2:
-                String thirdDescription = " Debt states of each vendor";
+                String thirdDescription = getContext().getString(R.string.inventory_state_description);
                 ExportUtils.exportToExcelToUSB(getContext(), root, filename, thirdDescription, date, filter, searchText, objects, thirdTitles, thirdWeights, thirdDataType, null);
                 break;
             case 3:
-                String forthDescription = " All money transactions";
+                String forthDescription = getContext().getString(R.string.returns_inventroy_description);
                 ExportUtils.exportToExcelToUSB(getContext(), root, filename, forthDescription, date, filter, searchText, objects, forthTitles, forthWeights, forthDataType, null);
                 break;
         }
@@ -306,19 +306,19 @@ public class InventoryReportFragment extends BaseTableReportFragment implements 
     public void exportTableToPdfToUSB(String fileName, UsbFile path, Object[][] objects, int position, String date, String filter, String searchText) {
         switch (position) {
             case 0:
-                String description = "In this report you can find all info about consignments";
+                String description = getContext().getString(R.string.inventory_log_description);
                 ExportUtils.exportToPdfToUSB(getContext(), path, fileName, description, date, filter, searchText, objects, firstTitles, firstWeights, firstDataType, status);
                 break;
             case 1:
-                String secondDescription = " All Consignment products";
+                String secondDescription = getContext().getString(R.string.inventory_summary_description);
                 ExportUtils.exportToPdfToUSB(getContext(), path, fileName, secondDescription, date, filter, searchText, objects, secondTitles, secondWeights, secondDataType, null);
                 break;
             case 2:
-                String thirdDescription = " Debt states of each vendor";
+                String thirdDescription = getContext().getString(R.string.inventory_state_description);
                 ExportUtils.exportToPdfToUSB(getContext(), path, fileName, thirdDescription, date, filter, searchText, objects, thirdTitles, thirdWeights, thirdDataType, null);
                 break;
             case 3:
-                String forthDescription = " All money transactions";
+                String forthDescription = getContext().getString(R.string.returns_inventroy_description);
                 ExportUtils.exportToPdfToUSB(getContext(), path, fileName, forthDescription, date, filter, searchText, objects, forthTitles, forthWeights, forthDataType, null);
                 break;
         }

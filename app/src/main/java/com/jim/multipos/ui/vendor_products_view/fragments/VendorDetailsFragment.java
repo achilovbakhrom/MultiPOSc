@@ -136,10 +136,10 @@ public class VendorDetailsFragment extends BaseFragment {
             }
         }
         if (debt <= 0) {
-            tvDebt.setText(R.string.debt);
+            tvDebt.setText(getContext().getString(R.string.debt));
             tvVendorDebt.setTextColor(Color.parseColor("#df4f4f"));
         } else {
-            tvDebt.setText(R.string.overpaid);
+            tvDebt.setText(getContext().getString(R.string.overpaid));
             tvVendorDebt.setTextColor(Color.parseColor("#36a614"));
         }
         DecimalFormat decimalFormat = ((VendorProductsViewActivity) getContext()).getDecimalFormat();
@@ -179,10 +179,10 @@ public class VendorDetailsFragment extends BaseFragment {
 
     public void updateBillings(Double debt, double paid, String abbr) {
         if (debt <= 0) {
-            tvDebt.setText(R.string.debt);
+            tvDebt.setText(getContext().getString(R.string.debt));
             tvVendorDebt.setTextColor(Color.parseColor("#df4f4f"));
         } else {
-            tvDebt.setText(R.string.overpaid);
+            tvDebt.setText(getContext().getString(R.string.overpaid));
             tvVendorDebt.setTextColor(Color.parseColor("#36a614"));
         }
         DecimalFormat decimalFormat = ((VendorProductsViewActivity) getContext()).getDecimalFormat();

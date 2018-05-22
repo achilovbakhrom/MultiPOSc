@@ -154,7 +154,7 @@ public class AddServiceFeeDialog extends Dialog {
             } else if (resultPrice < price) {
                 etResultPrice.setError(context.getString(R.string.billing_price_cannot_be_lower));
             } else if (etServiceFeeName.getText().toString().isEmpty()) {
-                etServiceFeeName.setError(context.getString(R.string.service_fee_reason_cant_be_empty));
+                etServiceFeeName.setError(context.getString(R.string.enter_service_fee_name_warning));
             } else {
                 new android.os.Handler().postDelayed(() -> {
                     ServiceFee serviceFee = new ServiceFee();

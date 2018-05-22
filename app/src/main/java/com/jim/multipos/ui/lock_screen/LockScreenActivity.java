@@ -324,7 +324,7 @@ import static android.app.admin.DevicePolicyManager.PERMISSION_POLICY_AUTO_GRANT
             case EMPTY:
                 dialog = new WarningDialog(this);
                 dialog.onlyText(true);
-                dialog.setWarningMessage("Please, enter the password");
+                dialog.setWarningMessage(this.getString(R.string.enter_pass));
                 dialog.setOnYesClickListener(view -> {
                     clear();
                     dialog.dismiss();
@@ -334,7 +334,7 @@ import static android.app.admin.DevicePolicyManager.PERMISSION_POLICY_AUTO_GRANT
             case WRONG_PASS:
                 dialog = new WarningDialog(this);
                 dialog.onlyText(true);
-                dialog.setWarningMessage("Wrong password");
+                dialog.setWarningMessage(getString(R.string.wrong_password));
                 dialog.setOnYesClickListener(view -> {
                     clear();
                     dialog.dismiss();

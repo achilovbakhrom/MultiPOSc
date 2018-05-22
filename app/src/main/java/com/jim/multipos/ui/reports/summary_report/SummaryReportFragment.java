@@ -494,7 +494,7 @@ public class SummaryReportFragment extends BaseFragment implements SummaryReport
         flSalesSummaryBottomLine.setVisibility(View.VISIBLE);
         tvPaymentSummary.setTextColor(Color.parseColor("#a9a9a9"));
         flPaymentSummaryButtonLine.setVisibility(View.INVISIBLE);
-        tvAnalitcs.setText(R.string.sales_analitcs);
+        tvAnalitcs.setText(getContext().getString(R.string.sales_analitcs));
         llHeaderSalesSummary.setVisibility(View.VISIBLE);
         llHeaderPayments.setVisibility(View.GONE);
     }
@@ -505,7 +505,7 @@ public class SummaryReportFragment extends BaseFragment implements SummaryReport
         flSalesSummaryBottomLine.setVisibility(View.INVISIBLE);
         tvPaymentSummary.setTextColor(Color.parseColor("#2e91cc"));
         flPaymentSummaryButtonLine.setVisibility(View.VISIBLE);
-        tvAnalitcs.setText(R.string.payment_analytics);
+        tvAnalitcs.setText(getContext().getString(R.string.payment_analytics));
         llHeaderSalesSummary.setVisibility(View.GONE);
         llHeaderPayments.setVisibility(View.VISIBLE);
 

@@ -91,7 +91,7 @@ public class PaymentTypeSettingsAdapter extends RecyclerView.Adapter<PaymentType
                     if (charSequence.length() != 0) {
                         items.get(getAdapterPosition()).setName(etPaymentTypeName.getText().toString());
                     } else {
-                        etPaymentTypeName.setError(context.getString(R.string.enter_payment_type_name));
+                        etPaymentTypeName.setError(context.getString(R.string.enter_payment_method));
                     }
                 }
             });

@@ -107,7 +107,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/fifty_dp"
-            android:text="@string/pay_to_vendor"
+            android:text="@string/payment_to_vendor"
             android:textColor="@color/colorMainText" />
 
 
@@ -140,7 +140,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/fifty_dp"
-            android:text="@string/income_debt"
+            android:text="@string/returned_debt"
             android:textColor="@color/colorMainText" />
 
         <ImageView
@@ -202,7 +202,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/fifty_dp"
-            android:text="@string/real_product_sales"
+            android:text="@string/actual_product_sales"
             android:textColor="@color/colorMainText" />
 
         <ImageView
@@ -233,7 +233,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/fifty_dp"
-            android:text="@string/tips_dispensed"
+            android:text="@string/collected_coin"
             android:textColor="@color/colorMainText" />
 
         <ImageView

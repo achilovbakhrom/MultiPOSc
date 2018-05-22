@@ -41,13 +41,15 @@ public class TillsReportFragment extends BaseTableReportFragment implements Till
             ReportViewConstants.ID, ReportViewConstants.DATE, ReportViewConstants.DATE, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.ACTION};
     private int weights[] = {10, 20, 20, 20, 20, 10};
     private int aligns[] = {Gravity.RIGHT, Gravity.CENTER, Gravity.CENTER, Gravity.RIGHT, Gravity.RIGHT, Gravity.CENTER};
-    private String titles[] = {"Till ID", "Opened Time", "Closed Time", "Start Money Variance", "Till Amount Variance", "Action"};
+    private String titles[];
 
     @Override
     protected void init(Bundle savedInstanceState) {
+        description = getContext().getString(R.string.till_reports_description);
         init(presenter);
         disableFilter();
-        setSingleTitle(getString(R.string.till_reports));
+        titles = new String[]{getContext().getString(R.string.till_id), getContext().getString(R.string.opened_time), getContext().getString(R.string.closed_time), getContext().getString(R.string.total_starting_amount), getContext().getString(R.string.expexted_amount_in_till_report), getContext().getString(R.string.action)};
+        setSingleTitle(getString(R.string.tills_reports));
         builder = new ReportView.Builder()
                 .setContext(getContext())
                 .setTitles(titles)
@@ -89,7 +91,7 @@ public class TillsReportFragment extends BaseTableReportFragment implements Till
         setTable(fl);
     }
 
-    String description = "In this report you can find all sales at every hour";
+    String description;
 
     @Override
     public void exportTableToExcel(String fileName, String path, Object[][] objects, String date, String searchText) {
@@ -105,7 +107,7 @@ public class TillsReportFragment extends BaseTableReportFragment implements Till
 
     @Override
     public void openExportDialog(int mode) {
-        exportDialog = new ExportToDialog(getContext(), mode, getString(R.string.till_reports), new ExportToDialog.OnExportListener() {
+        exportDialog = new ExportToDialog(getContext(), mode, getString(R.string.tills_reports), new ExportToDialog.OnExportListener() {
             @Override
             public void onFilePickerClicked() {
                 openFilePickerDialog();

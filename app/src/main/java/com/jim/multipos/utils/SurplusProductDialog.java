@@ -112,7 +112,7 @@ public class SurplusProductDialog extends Dialog {
                 }
 
                 if(etReason.getText().toString().isEmpty()){
-                    etReason.setError(context.getString(R.string.please_enter_surplus_reason));
+                    etReason.setError(context.getString(R.string.please_enter_replenishment_reason));
                     return;
                 }
 

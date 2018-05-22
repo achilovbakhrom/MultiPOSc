@@ -71,15 +71,15 @@ public class TodayOrdersAdapter extends RecyclerView.Adapter<TodayOrdersAdapter.
         holder.tvTotal.setText(decimalFormat.format(order.getForPayAmmount()) + " " + mainCurrency.getAbbr());
         switch (order.getStatus()) {
             case Order.HOLD_ORDER:
-                holder.tvStatus.setText("Hold");
+                holder.tvStatus.setText(context.getString(R.string.hold));
                 holder.tvStatus.setTextColor(ContextCompat.getColor(context, R.color.colorBlue));
                 break;
             case Order.CANCELED_ORDER:
-                holder.tvStatus.setText("Canceled");
+                holder.tvStatus.setText(context.getString(R.string.canceled));
                 holder.tvStatus.setTextColor(ContextCompat.getColor(context, R.color.colorRed));
                 break;
             case Order.CLOSED_ORDER:
-                holder.tvStatus.setText("Closed");
+                holder.tvStatus.setText(context.getString(R.string.closed));
                 holder.tvStatus.setTextColor(ContextCompat.getColor(context, R.color.colorGreen));
                 break;
         }

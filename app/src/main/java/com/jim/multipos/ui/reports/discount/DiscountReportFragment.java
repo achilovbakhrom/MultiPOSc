@@ -203,15 +203,15 @@ public class DiscountReportFragment extends BaseTableReportFragment implements D
     public void exportTableToExcel(String fileName, String path, Object[][] objects, int position, String date, String filter, String searchText) {
         switch (position) {
             case 0:
-                String description = "Item service fee report";
+                String description = getContext().getString(R.string.item_discount_description);
                 ExportUtils.exportToExcel(getContext(), path, fileName, description, date, filter, searchText, objects, firstTitles, firstWeights, firstDataType, firstStatusTypes);
                 break;
             case 1:
-                String secondDescription = " Order service fee report";
+                String secondDescription = getContext().getString(R.string.order_discount_description);
                 ExportUtils.exportToExcel(getContext(), path, fileName, secondDescription, date, filter, searchText, objects, secondTitles, secondWeights, secondDataType, firstStatusTypes);
                 break;
             case 2:
-                String thirdDescription = "Service fee creation log";
+                String thirdDescription = getContext().getString(R.string.discount_creation_log_description);
                 ExportUtils.exportToExcel(getContext(), path, fileName, thirdDescription, date, filter, searchText, objects, titles, weights, dataType, statusTypes);
                 break;
         }
@@ -221,15 +221,15 @@ public class DiscountReportFragment extends BaseTableReportFragment implements D
     public void exportTableToPdf(String filename, String path, Object[][] objects, int position, String date, String filter, String searchText) {
         switch (position) {
             case 0:
-                String description = "Item service fee report";
+                String description = getContext().getString(R.string.item_discount_description);
                 ExportUtils.exportToPdf(getContext(), path, filename, description, date, filter, searchText, objects, firstTitles, firstWeights, firstDataType, firstStatusTypes);
                 break;
             case 1:
-                String secondDescription = " Order service fee report";
+                String secondDescription = getContext().getString(R.string.order_discount_description);
                 ExportUtils.exportToPdf(getContext(), path, filename, secondDescription, date, filter, searchText, objects, secondTitles, secondWeights, secondDataType, firstStatusTypes);
                 break;
             case 2:
-                String thirdDescription = "Service fee creation log";
+                String thirdDescription = getContext().getString(R.string.discount_creation_log_description);
                 ExportUtils.exportToPdf(getContext(), path, filename, thirdDescription, date, filter, searchText, objects, titles, weights, dataType, statusTypes);
                 break;
         }
@@ -239,15 +239,15 @@ public class DiscountReportFragment extends BaseTableReportFragment implements D
     public void exportExcelToUSB(String filename, UsbFile root, Object[][] objects, int position, String date, String filter, String searchText) {
         switch (position) {
             case 0:
-                String description = "Item service fee report";
+                String description = getContext().getString(R.string.item_discount_description);
                 ExportUtils.exportToExcelToUSB(getContext(), root, filename, description, date, filter, searchText, objects, firstTitles, firstWeights, firstDataType, firstStatusTypes);
                 break;
             case 1:
-                String secondDescription = " Order service fee report";
+                String secondDescription = getContext().getString(R.string.order_discount_description);
                 ExportUtils.exportToExcelToUSB(getContext(), root, filename, secondDescription, date, filter, searchText, objects, secondTitles, secondWeights, secondDataType, firstStatusTypes);
                 break;
             case 2:
-                String thirdDescription = "Service fee creation log";
+                String thirdDescription = getContext().getString(R.string.discount_creation_log_description);
                 ExportUtils.exportToExcelToUSB(getContext(), root, filename, thirdDescription, date, filter, searchText, objects, titles, weights, dataType, statusTypes);
                 break;
         }
@@ -257,15 +257,15 @@ public class DiscountReportFragment extends BaseTableReportFragment implements D
     public void exportTableToPdfToUSB(String filename, UsbFile root, Object[][] objects, int position, String date, String filter, String searchText) {
         switch (position) {
             case 0:
-                String description = "Item service fee report";
+                String description = getContext().getString(R.string.item_discount_description);
                 ExportUtils.exportToPdfToUSB(getContext(), root, filename, description, date, filter, searchText, objects, firstTitles, firstWeights, firstDataType, firstStatusTypes);
                 break;
             case 1:
-                String secondDescription = " Order service fee report";
+                String secondDescription = getContext().getString(R.string.order_discount_description);
                 ExportUtils.exportToPdfToUSB(getContext(), root, filename, secondDescription, date, filter, searchText, objects, secondTitles, secondWeights, secondDataType, firstStatusTypes);
                 break;
             case 2:
-                String thirdDescription = "Service fee creation log";
+                String thirdDescription = getContext().getString(R.string.discount_creation_log_description);
                 ExportUtils.exportToPdfToUSB(getContext(), root, filename, thirdDescription, date, filter, searchText, objects, titles, weights, dataType, statusTypes);
                 break;
         }
@@ -287,8 +287,8 @@ public class DiscountReportFragment extends BaseTableReportFragment implements D
                 {{0, getContext().getString(R.string.static_type), R.color.colorMainText},
                         {1, getContext().getString(R.string.manual), R.color.colorBlue}}
         };
-        firstTitles = new String[]{getString(R.string.order_num), getString(R.string.till_number), getString(R.string.item), getString(R.string.sku), getString(R.string.qty), getString(R.string.discount_value), getString(R.string.date), getString(R.string.reason), getString(R.string.type)};
-        secondTitles = new String[]{getString(R.string.order_num), getString(R.string.till_number), getString(R.string.order_subtotal), getString(R.string.customer), getString(R.string.discount_value), getString(R.string.date), getString(R.string.reason), getString(R.string.type)};
+        firstTitles = new String[]{getString(R.string.order_id), getString(R.string.till_id), getString(R.string.item), getString(R.string.sku_item), getString(R.string.qty), getString(R.string.discount_value), getString(R.string.date), getString(R.string.reason_for_discount), getString(R.string.type)};
+        secondTitles = new String[]{getString(R.string.order_id), getString(R.string.till_id), getString(R.string.order_subtotal), getString(R.string.customer), getString(R.string.discount_value), getString(R.string.date), getString(R.string.reason), getString(R.string.type)};
         titles = new String[]{getString(R.string.date), getString(R.string.operation), getString(R.string.reason), getString(R.string.value), getString(R.string.amount_type), getString(R.string.usage_type), getString(R.string.type)};
     }
 

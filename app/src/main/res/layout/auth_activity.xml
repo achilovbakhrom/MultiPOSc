@@ -21,7 +21,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Launch registration"
+        android:text="@string/initial_registration"
         android:textSize="@dimen/twenty_dp"
         android:gravity="center_horizontal"
         android:layout_marginTop="@dimen/thirty_five_dp"
@@ -63,7 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:hint="Registration token"
+            android:hint="@string/registration_token"
             android:textColor="#212121"
             android:layout_marginRight="@dimen/ten_dp"
             android:layout_marginLeft="@dimen/ten_dp"
@@ -85,7 +85,7 @@
         android:gravity="center_horizontal"
         android:layout_marginTop="@dimen/thirty_dp"
         android:textColor="#b8b8b8"
-        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc a erat porta, scelerisque erat sed, tempor sem. "
+        android:text="@string/registration_token_description"
         android:textSize="@dimen/sixteen_dp"
         />
     <LinearLayout
@@ -108,7 +108,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Call"
+                android:text="@string/call"
                 android:textStyle="bold"
                 android:textSize="@dimen/eighteen_dp"
                 android:textColor="#18d314"
@@ -130,7 +130,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Confirm"
+                android:text="@string/confirm"
                 android:textSize="@dimen/eighteen_dp"
                 android:textColor="#419fd9"
                 android:textStyle="bold"

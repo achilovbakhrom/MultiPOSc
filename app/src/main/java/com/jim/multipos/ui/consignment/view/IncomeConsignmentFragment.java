@@ -267,7 +267,7 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
 
     @Override
     public void setConsignmentNumberError() {
-        etConsignmentNumber.setError("Consignment with such number exists");
+        etConsignmentNumber.setError(getString(R.string.consignment_with_such_number_exists));
     }
 
     @Override

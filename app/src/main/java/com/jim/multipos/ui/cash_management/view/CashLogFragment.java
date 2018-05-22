@@ -161,10 +161,10 @@ public class CashLogFragment extends BaseFragment implements CashLogView {
 
     @Override
     public void setNoTillDate() {
-        tvClosedDate.setText("N/A");
-        tvClosedTime.setText("N/A");
-        tvOpenedDate.setText("N/A");
-        tvOpenedTime.setText("N/A");
+        tvClosedDate.setText(getContext().getString(R.string.not_allowed));
+        tvClosedTime.setText(getContext().getString(R.string.not_allowed));
+        tvOpenedDate.setText(getContext().getString(R.string.not_allowed));
+        tvOpenedTime.setText(getContext().getString(R.string.not_allowed));
     }
 
     @Override

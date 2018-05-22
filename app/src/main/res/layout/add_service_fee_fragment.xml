@@ -34,7 +34,7 @@
                 android:paddingRight="@dimen/ten_dp"
                 android:paddingTop="@dimen/five_dp"
                 android:textStyle="bold"
-                android:text="@string/service_fee"
+                android:text="@string/service_fees"
                 android:textColor="@color/colorBlue"
                 android:textSize="@dimen/sixteen_dp" />
         </LinearLayout>

@@ -78,6 +78,7 @@ public class UnitValuePicker extends Dialog {
     DecimalFormat decimalFormatWithoutProbel;
     List<Unit> units;
     int currentUnitPosition = -1;
+    private Context context;
     private Product product;
     private CallbackUnitPicker callbackUnitPicker;
     private DecimalFormat decimalFormat;
@@ -92,6 +93,7 @@ public class UnitValuePicker extends Dialog {
 
     public UnitValuePicker(@NonNull Context context, Product product,CallbackUnitPicker callbackUnitPicker, double weightOld) {
         super(context);
+        this.context = context;
         this.product = product;
         this.callbackUnitPicker = callbackUnitPicker;
         this.decimalFormat = decimalFormat;
@@ -194,7 +196,7 @@ public class UnitValuePicker extends Dialog {
 
         etAbr.setText(product.getMainUnit().getAbbr());
 
-        tvZeroUnitPrice.setText("Price - 1"+product.getMainUnit().getAbbr());
+        tvZeroUnitPrice.setText(context.getString(R.string.price_1)+product.getMainUnit().getAbbr());
         tvPriceProduct.setText(decimalFormat.format(product.getPrice()));
         initSubUnits();
         updateActiveUnit();
@@ -409,22 +411,22 @@ public class UnitValuePicker extends Dialog {
             double weight = DecimalUtils.divide(DecimalUtils.multiply(this.weight,units.get(currentUnitPosition).getFactorRoot()), product.getMainUnit().getFactorRoot());
 
             if(weight<0.001){
-                WarningDialog warningDialog2 = new WarningDialog(getContext());
+                WarningDialog warningDialog2 = new WarningDialog(context);
                 warningDialog2.onlyText(true);
-                warningDialog2.setWarningMessage("It is very small value of "+product.getMainUnit().getUnitCategory().getName());
+                warningDialog2.setWarningMessage(context.getString(R.string.its_very_small_valueof)+product.getMainUnit().getUnitCategory().getName());
                 warningDialog2.setOnYesClickListener(view1 -> {
                     warningDialog2.dismiss();
                 });
-                warningDialog2.setPositiveButtonText(getContext().getString(R.string.yes));
+                warningDialog2.setPositiveButtonText(context.getString(R.string.yes));
                 warningDialog2.show();
             }else if(DecimalUtils.multiply(product.getPrice() , weight) < 0.01){
-                WarningDialog warningDialog2 = new WarningDialog(getContext());
+                WarningDialog warningDialog2 = new WarningDialog(context);
                 warningDialog2.onlyText(true);
-                warningDialog2.setWarningMessage("It is very small cost for calculating");
+                warningDialog2.setWarningMessage(context.getString(R.string.its_very_small_cost_for_calculating));
                 warningDialog2.setOnYesClickListener(view1 -> {
                     warningDialog2.dismiss();
                 });
-                warningDialog2.setPositiveButtonText(getContext().getString(R.string.yes));
+                warningDialog2.setPositiveButtonText(context.getString(R.string.yes));
                 warningDialog2.show();
             }else {
                 callbackUnitPicker.onWeight(weight);

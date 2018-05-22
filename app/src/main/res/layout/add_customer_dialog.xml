@@ -81,7 +81,7 @@
                     android:layout_gravity="center"
                     android:layout_marginRight="@dimen/fifteen_dp"
                     android:gravity="right"
-                    android:text="@string/name"
+                    android:text="@string/name_add_customer"
                     android:textSize="@dimen/sixteen_dp" />
 
                 <com.jim.mpviews.MpEditText

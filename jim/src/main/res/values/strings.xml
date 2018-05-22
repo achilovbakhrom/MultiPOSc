@@ -30,6 +30,15 @@
     <string name="balance_due">Balance Due</string>
     <string name="prev">Prev</string>
     <string name="next">Next</string>
+    <string name="order_">Order: </string>
+    <string name="product_main">Products</string>
+    <string name="reports_main">Reports</string>
+    <string name="customers_main">Customers</string>
+    <string name="inventory_main">Inventory</string>
+    <string name="choose_hour_minute">Choose Hour / Minute</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+    <string name="select_month_year">Select Month / Year</string>
 
     <string-array name="days_sunday_array">
         <item>Sun</item>

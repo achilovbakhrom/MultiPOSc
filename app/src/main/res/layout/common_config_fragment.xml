@@ -32,14 +32,14 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Language"
+                            android:text="@string/language"
                             android:textSize="@dimen/eighteen_dp"
                             android:textColor="#212121"
                             />
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Mauris euismod sodales gravida. Nulla neque lectus."
+                            android:text="@string/language_description"
                             android:layout_marginRight="@dimen/fifty_dp"
                             android:textSize="@dimen/sixteen_dp"
                             android:textColor="#b8b8b8"
@@ -79,14 +79,14 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Bank node payment hot"
+                        android:text="@string/nominal_value_of_the_hotkeys"
                         android:textSize="@dimen/eighteen_dp"
                         android:textColor="#212121"
                         />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Integer pharetra non dui eu maximus. Quisque sagittis enim id laoreet viverra."
+                        android:text="@string/nominal_value_of_the_hotkeys_description"
                         android:layout_marginRight="@dimen/fifty_dp"
                         android:textSize="@dimen/sixteen_dp"
                         android:textColor="#b8b8b8"
@@ -108,7 +108,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/sixteen_dp"
                             android:textColor="#636363"
-                            android:text="1st nominal"/>
+                            android:text="@string/_1nd_hotkey"/>
                         <TextView
                             android:layout_width="0dp"
                             android:layout_weight="1"
@@ -116,7 +116,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/sixteen_dp"
                             android:textColor="#636363"
-                            android:text="2st nominal"/>
+                            android:text="@string/_2nd_hotkey"/>
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -130,7 +130,7 @@
                             android:layout_height="@dimen/thirty_five_dp"
                             android:textSize="@dimen/eighteen_dp"
                             android:textColor="#212121"
-                            android:text="10000"/>
+                            android:text=""/>
                         <com.jim.mpviews.MpEditText
                             android:id="@+id/etSecondNominal"
                             android:layout_width="0dp"
@@ -139,7 +139,7 @@
                             android:layout_height="@dimen/thirty_five_dp"
                             android:textSize="@dimen/eighteen_dp"
                             android:textColor="#212121"
-                            android:text="5000"/>
+                            android:text=""/>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -171,7 +171,7 @@
             android:layout_alignParentBottom="true"
             android:layout_toEndOf="@id/btnDelete"
             android:gravity="center"
-            android:text="Revert"
+            android:text="@string/revert"
             android:layout_marginRight="@dimen/twenty_dp"
             android:textColor="#b1b1b1"
             android:textSize="@dimen/sixteen_dp"
@@ -184,7 +184,7 @@
             android:layout_alignParentBottom="true"
             android:layout_toEndOf="@id/btnMembers"
             android:gravity="center"
-            android:text="Save"
+            android:text="@string/save"
             android:textColor="@color/colorBlue"
             android:textSize="@dimen/sixteen_dp"
             android:textStyle="bold" />

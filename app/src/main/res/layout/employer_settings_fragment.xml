@@ -96,7 +96,7 @@
                             android:layout_height="@dimen/forty_dp"
                             android:layout_gravity="center"
                             android:fontFamily="roboto"
-                            android:hint="@string/password"
+                            android:hint="@string/enter_pos_password"
                             android:inputType="numberPassword"
                             android:textColorHint="@color/colorTextHint"
                             android:textSize="@dimen/eighteen_dp" />

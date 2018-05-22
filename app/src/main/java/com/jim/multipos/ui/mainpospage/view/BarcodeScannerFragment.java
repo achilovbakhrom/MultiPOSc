@@ -117,7 +117,7 @@ public class BarcodeScannerFragment extends BaseFragment implements BarcodeScann
         rvProductList.setLayoutManager(new LinearLayoutManager(getContext()));
         rvProductList.setAdapter(vendorItemsListAdapter);
         TextView textView = dialogView.findViewById(R.id.tvDialogTitle);
-        textView.setText("Found products");
+        textView.setText(getContext().getString(R.string.found_products));
         dialog.setContentView(dialogView);
         dialog.getWindow().getDecorView().setBackgroundResource(android.R.color.transparent);
         vendorItemsListAdapter.setListener(product -> {
@@ -128,9 +128,9 @@ public class BarcodeScannerFragment extends BaseFragment implements BarcodeScann
         addProductDialog = new Dialog(getContext());
         View productView = LayoutInflater.from(getContext()).inflate(R.layout.add_new_product_dialog, null, false);
         TextView title = productView.findViewById(R.id.tvDialogTitle);
-        title.setText("Notification");
+        title.setText(getContext().getString(R.string.notification));
         TextView warningText = productView.findViewById(R.id.tvWarningText);
-        warningText.setText("There is no product with such barcode. Do you want add it?");
+        warningText.setText(getContext().getString(R.string.there_is_no_product_with_such_barcode));
         MpCheckbox chbShowMode = productView.findViewById(R.id.chbDontShowAgain);
         chbShowMode.setChecked(false);
         chbShowMode.setCheckedChangeListener(isChecked -> preferencesHelper.setShowMode(isChecked));

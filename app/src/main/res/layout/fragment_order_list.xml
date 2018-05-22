@@ -40,7 +40,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="@string/customer_choice"
+                    android:text="@string/select_customer"
                     android:textColor="@color/colorBlue"
                     android:textSize="@dimen/eighteen_dp"
                     android:textStyle="bold" />
@@ -77,7 +77,7 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/twenty_dp"
                     android:layout_weight="5"
-                    android:text="@string/name"
+                    android:text="@string/product"
                     android:textColor="@color/colorWhite"
                     android:textSize="@dimen/eighteen_dp" />
 
@@ -157,7 +157,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="@string/sub_total_"
+                            android:text="@string/total_payable_"
                             android:textColor="@color/colorMainText"
                             android:textSize="@dimen/fourteen_dp" />
 
@@ -185,7 +185,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="@string/to_discount_"
+                            android:text="@string/discount_amount_customer"
                             android:textColor="@color/colorMainText"
                             android:textSize="@dimen/fourteen_dp"
                             tools:ignore="HardcodedText" />
@@ -265,7 +265,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="@string/total_payed_"
+                            android:text="@string/total_paid_"
                             android:textColor="@color/colorMainText"
                             android:textSize="@dimen/fourteen_dp" />
 
@@ -447,7 +447,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:text="@string/stock_check" />
+                        android:text="@string/print_order" />
 
                 </LinearLayout>
                 <FrameLayout

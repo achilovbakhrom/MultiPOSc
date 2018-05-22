@@ -213,7 +213,7 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
         View classView = LayoutInflater.from(getContext()).inflate(R.layout.vendor_product_list_dialog, null, false);
         classList = classView.findViewById(R.id.rvProductList);
         TextView title = classView.findViewById(R.id.tvDialogTitle);
-        title.setText(getContext().getString(R.string.choose_product_class));
+        title.setText(getContext().getString(R.string.select_product_class));
         Button btnAddClass = classView.findViewById(R.id.btnAdd);
         btnAddClass.setVisibility(View.VISIBLE);
         btnAddClass.setOnClickListener(view -> {
@@ -229,7 +229,7 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
             ((ProductActivity) getContext()).getPresenter().setProductClass(productClass);
             if (productClass != null)
                 tvProductClass.setText(productClass.getName());
-            else tvProductClass.setText(getString(R.string.not_classified));
+            else tvProductClass.setText(getContext().getString(R.string.not_classified));
             classDialog.dismiss();
         });
         ((ProductActivity) getContext()).getPresenter().initDataForProduct();
@@ -326,11 +326,11 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
                     price.setError(getContext().getString(R.string.warning_price_empty));
                 } else {
                     if (presenter.isProductNameExists(name.getText().toString())) {
-                        name.setError("Such product name exists");
+                        name.setError(getContext().getString(R.string.such_product_name_exists));
                         return;
                     }
                     if (presenter.isProductSkuExists(sku.getText().toString())) {
-                        sku.setError("Such product sku exists");
+                        sku.setError(getString(R.string.such_product_sku_exists));
                         return;
                     }
                     saveProduct(false);
@@ -399,8 +399,8 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
 
     public void saveProduct(boolean isBigger) {
         if (isBigger) {
-            UIUtils.showAlert(getContext(), getString(R.string.yes), getString(R.string.no),
-                    getString(R.string.warning), getString(R.string.warning_cost_more_than_price), new UIUtils.AlertListener() {
+            UIUtils.showAlert(getContext(), getContext().getString(R.string.yes), getContext().getString(R.string.no),
+                    getContext().getString(R.string.warning), getContext().getString(R.string.warning_cost_more_than_price), new UIUtils.AlertListener() {
                         @Override
                         public void onPositiveButtonClicked() {
                             if (vendors == null || vendors.isEmpty()) {
@@ -425,7 +425,7 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
                                     unitsCategory.getSelectedPosition(),
                                     units.getSelectedPosition(),
                                     vendors,
-                                    "Description",
+                                    getContext().getString(R.string.description),
                                     resultPrice
                             );
                         }
@@ -458,7 +458,7 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
                     unitsCategory.getSelectedPosition(),
                     units.getSelectedPosition(),
                     vendors,
-                    "Description",
+                    getContext().getString(R.string.description),
                     resultPrice
             );
         }
@@ -499,7 +499,7 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
         price.setError(null);
         cost.setText("");
         cost.setError(null);
-        vendor.setText(getString(R.string.vendor_are_not_choosed));
+        vendor.setText(getString(R.string.select_vendor));
         tvProductClass.setText(getString(R.string.not_classified));
         units.setSelectedPosition(0);
         unitsCategory.setSelectedPosition(0);
@@ -541,7 +541,7 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
         this.priceCurrency.setText(priceCurrencyName);
         this.costCurrency.setText(costCurrencyName);
         if (productClassPos.equals(""))
-            this.tvProductClass.setText(getString(R.string.not_classified));
+            this.tvProductClass.setText(getContext().getString(R.string.not_classified));
         else
             this.tvProductClass.setText(productClassPos);
         this.unitsCategory.setSelectedPosition(unitCategoryPos);
@@ -566,7 +566,7 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
             unitPosition = unitPos;
         }
         ((ProductActivity) getContext()).getPresenter().setVendorName(vendors);
-        this.save.setText(R.string.update);
+        this.save.setText(getContext().getString(R.string.update));
         this.vendors = vendors;
     }
 
@@ -683,7 +683,7 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
             this.vendor.setText(vendors);
         } else {
             this.vendor.setTextColor(Color.RED);
-            this.vendor.setText(R.string.vendor_are_not_choosed);
+            this.vendor.setText(getContext().getString(R.string.select_vendor));
         }
     }
 
@@ -715,13 +715,13 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
     }
 
     public void showCannotDeleteItemWithPlusValue(double value) {
-        UIUtils.showAlert(getContext(), getString(R.string.ok), getString(R.string.warning),
-                "You have " + value + " item in the inventory. You can't delete product with positive inventory state", () -> Log.d("sss", "onButtonClicked: "));
+        UIUtils.showAlert(getContext(), getContext().getString(R.string.ok), getContext().getString(R.string.warning),
+                getContext().getString(R.string.you_have) + value + getContext().getString(R.string.item_in_the_inventory_you_cant_delete), () -> Log.d("sss", "onButtonClicked: "));
     }
 
     public void showCannotDeleteItemWithMinusValue(double value) {
-        UIUtils.showAlert(getContext(), getString(R.string.ok), getString(R.string.warning),
-                "You have " + value + " item in the inventory. You can't delete product with negative inventory state", () -> Log.d("sss", "onButtonClicked: "));
+        UIUtils.showAlert(getContext(), getContext().getString(R.string.ok), getContext().getString(R.string.warning),
+                getContext().getString(R.string.you_have) + value +getContext().getString(R.string.item_in_the_inventory_you_cant_delete), () -> Log.d("sss", "onButtonClicked: "));
     }
 
     public void setBarcode(String barcode) {

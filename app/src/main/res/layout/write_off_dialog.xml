@@ -27,7 +27,7 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/thirty_dp"
-                android:text="@string/shortage"
+                android:text="@string/write_off_products"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/twenty_dp" />
 
@@ -120,9 +120,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/ten_dp"
-                        android:text="@string/stock_record"
                         android:textColor="#419ed8"
+                        android:text="@string/actual_quantity"
                         android:textSize="@dimen/sixteen_dp" />
+
 
                     <TextView
                         android:id="@+id/tvStockRecord"
@@ -149,91 +150,82 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textSize="@dimen/sixteen_dp"
                         android:layout_marginLeft="@dimen/ten_dp"
-                        android:text="@string/shortage"
                         android:textColor="#5997cc"
-                        android:textSize="@dimen/sixteen_dp" />
-
+                        android:text="@string/write_off_products"/>
                     <com.jim.mpviews.MpEditText
                         android:id="@+id/etShortage"
                         android:layout_width="@dimen/hundred_seventy_dp"
                         android:layout_height="@dimen/forty_five_dp"
                         android:layout_marginTop="@dimen/ten_dp"
-                        android:background="@drawable/edit_text_bg_transparent"
                         android:gravity="center_vertical"
-                        android:inputType="numberDecimal"
-                        android:maxLength="10"
-                        android:paddingLeft="@dimen/eighteen_dp"
-                        android:singleLine="true"
+                        android:textSize="@dimen/eighteen_dp"
                         android:textColor="#414141"
-                        android:textSize="@dimen/eighteen_dp" />
+                        android:singleLine="true"
+                        android:maxLength="10"
+                        android:inputType="numberDecimal"
+                        android:paddingLeft="@dimen/eighteen_dp"
+                        android:background="@drawable/edit_text_bg_transparent"/>
                 </LinearLayout>
-
                 <ImageView
                     android:layout_width="@dimen/sixteen_dp"
                     android:layout_height="@dimen/forty_five_dp"
                     android:layout_gravity="bottom"
                     android:layout_marginLeft="@dimen/sixteen_dp"
                     android:layout_marginRight="@dimen/sixteen_dp"
-                    android:src="@drawable/equals_black" />
-
+                    android:src="@drawable/equals_black"/>
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textSize="@dimen/sixteen_dp"
                         android:layout_marginLeft="@dimen/ten_dp"
-                        android:text="@string/actual_quantity"
                         android:textColor="#419ed8"
-                        android:textSize="@dimen/sixteen_dp" />
-
+                        android:text="@string/total_quantity"/>
                     <TextView
                         android:id="@+id/tvActual"
                         android:layout_width="@dimen/hundred_seventy_dp"
                         android:layout_height="@dimen/forty_five_dp"
                         android:layout_marginTop="@dimen/ten_dp"
-                        android:background="@drawable/edit_text_bg_transparent"
                         android:gravity="center_vertical"
-                        android:paddingLeft="@dimen/eighteen_dp"
-
+                        android:textSize="@dimen/eighteen_dp"
                         android:singleLine="true"
-                        android:textColor="#414141"
-                        android:textSize="@dimen/eighteen_dp" />
-                </LinearLayout>
 
+                        android:textColor="#414141"
+                        android:paddingLeft="@dimen/eighteen_dp"
+                        android:background="@drawable/edit_text_bg_transparent"/>
+                </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/sixteen_dp"
                     android:orientation="vertical">
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textSize="@dimen/sixteen_dp"
                         android:layout_marginLeft="@dimen/ten_dp"
-                        android:text="@string/unit"
                         android:textColor="#419ed8"
-                        android:textSize="@dimen/sixteen_dp" />
-
+                        android:text="@string/unit"/>
                     <TextView
                         android:id="@+id/tvUnit"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/forty_five_dp"
                         android:layout_marginTop="@dimen/ten_dp"
-                        android:background="@drawable/edit_text_bg_transparent"
                         android:gravity="center_vertical"
-                        android:paddingLeft="@dimen/eighteen_dp"
-
+                        android:textSize="@dimen/eighteen_dp"
                         android:singleLine="true"
+
                         android:textColor="#414141"
-                        android:textSize="@dimen/eighteen_dp" />
+                        android:paddingLeft="@dimen/eighteen_dp"
+                        android:background="@drawable/edit_text_bg_transparent"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -241,29 +233,27 @@
                 android:id="@+id/etReason"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/eighty_dp"
-                android:layout_marginBottom="@dimen/twenty_dp"
-                android:layout_marginLeft="@dimen/thirty_dp"
-                android:layout_marginRight="@dimen/thirty_dp"
                 android:layout_marginTop="@dimen/sixteen_dp"
-                android:gravity="top"
-                android:hint="@string/enter_reason"
+                android:layout_marginBottom="@dimen/twenty_dp"
+                android:layout_marginRight="@dimen/thirty_dp"
+                android:layout_marginLeft="@dimen/thirty_dp"
+                android:hint="@string/enter_replenishment_reason"
+                android:textSize="@dimen/eighteen_dp"
                 android:maxLength="100"
-                android:textSize="@dimen/eighteen_dp" />
-
+                android:gravity="top"/>
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="2px"
-                android:background="#e8e8e8" />
+                android:background="#e8e8e8"/>
 
         </LinearLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/seventeen_dp"
-            android:layout_marginRight="@dimen/thirty_dp"
             android:layout_marginTop="@dimen/eighteen_dp"
             android:gravity="right"
+            android:layout_marginRight="@dimen/thirty_dp"
             android:orientation="horizontal">
 
             <com.jim.mpviews.MpButton

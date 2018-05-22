@@ -26,7 +26,7 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/thirty_dp"
-                android:text="@string/surplus"
+                android:text="@string/replenishment_of_products"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/twenty_dp" />
 
@@ -123,7 +123,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/ten_dp"
-                        android:text="@string/stock_record"
+                        android:text="@string/actual_quantity"
                         android:textColor="#419ed8"
                         android:textSize="@dimen/sixteen_dp" />
 
@@ -157,7 +157,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/ten_dp"
-                        android:text="@string/surplus"
+                        android:text="@string/replenishment_of_products"
                         android:textColor="#5997cc"
                         android:textSize="@dimen/sixteen_dp" />
 
@@ -193,7 +193,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/ten_dp"
-                        android:text="@string/actual_quantity"
+                        android:text="@string/total_quantity"
                         android:textColor="#419ed8"
                         android:textSize="@dimen/sixteen_dp" />
 
@@ -249,7 +249,7 @@
                 android:layout_marginRight="@dimen/thirty_dp"
                 android:layout_marginTop="@dimen/sixteen_dp"
                 android:gravity="top"
-                android:hint="@string/enter_reason"
+                android:hint="@string/enter_replenishment_reason"
                 android:textSize="@dimen/eighteen_dp" />
 
             <FrameLayout

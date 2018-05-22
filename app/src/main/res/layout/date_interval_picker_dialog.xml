@@ -151,7 +151,7 @@
                     android:id="@+id/btnLastMonth"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/forty_five_dp"
-                    android:text="Last 30 days"
+                    android:text="@string/last_30_days"
                     android:layout_marginTop="@dimen/five_dp"
                     android:textSize="@dimen/fourteen_dp"
                     android:gravity="start"

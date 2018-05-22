@@ -1,5 +1,6 @@
 package com.jim.multipos.ui.vendor.add_edit.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,8 +24,11 @@ import butterknife.BindView;
 
 public class VendorsListAdapter extends ClickableBaseAdapter<Vendor, BaseViewHolder> {
     private static final int ADD = 0, ITEM = 1;
-    public VendorsListAdapter(List<Vendor> items) {
+    private Context context;
+
+    public VendorsListAdapter(List<Vendor> items, Context context) {
         super(items);
+        this.context = context;
         selectedPosition = 0;
     }
     @Override
@@ -55,7 +59,7 @@ public class VendorsListAdapter extends ClickableBaseAdapter<Vendor, BaseViewHol
                 if (product.getIsDeleted().equals(false) && product.getIsNotModified().equals(true))
                     size++;
             }
-            ((VendorViewHolder) holder).item.setSecondItemText("Items: " + size);
+            ((VendorViewHolder) holder).item.setSecondItemText(context.getString(R.string.items_) + size);
             ((VendorViewHolder) holder).item.setThirdItemText(items.get(position).getContactName());
             ((VendorViewHolder) holder).item.setTextSize(12);
             ((VendorViewHolder) holder).item.setActivate(position == selectedPosition);

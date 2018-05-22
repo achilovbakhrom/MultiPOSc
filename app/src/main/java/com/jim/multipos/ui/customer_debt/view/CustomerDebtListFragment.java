@@ -243,13 +243,13 @@ public class CustomerDebtListFragment extends BaseFragment implements CustomerDe
         tvOrderNumber.setText(String.valueOf(orderNumber));
         tvTakenDate.setText(takenDate);
         tvEndDate.setText(endDate);
-        if (leftDate.equals("Overdue"))
+        if (leftDate.equals(getContext().getString(R.string.overdue)))
             tvLateDate.setTextColor(ContextCompat.getColor(getContext(), R.color.colorRed));
         else tvLateDate.setTextColor(ContextCompat.getColor(getContext(), R.color.colorMainText));
         tvLateDate.setText(leftDate);
         if (debtType == Debt.PARTICIPLE)
-            tvDebtType.setText(getContext().getString(R.string.can_participle));
-        else tvDebtType.setText(getContext().getString(R.string.all));
+            tvDebtType.setText(getContext().getString(R.string.part_payment));
+        else tvDebtType.setText(getContext().getString(R.string.full_payment_debt));
         tvDebtFee.setText(fee + " %");
         tvFeeSum.setText(decimalFormat.format(feeAmount) + " " + mainCurrency.getAbbr());
         tvTotalDebt.setText(decimalFormat.format(total) + " " + mainCurrency.getAbbr());
@@ -305,7 +305,7 @@ public class CustomerDebtListFragment extends BaseFragment implements CustomerDe
 
     @Override
     public void openWarningDialog() {
-        UIUtils.showAlert(getContext(), getString(R.string.ok), getString(R.string.warning), getString(R.string.customer_has_not_got_debts), () -> {
+        UIUtils.showAlert(getContext(), getString(R.string.ok), getString(R.string.warning), getString(R.string.this_customer_has_no_debts), () -> {
 
         });
     }

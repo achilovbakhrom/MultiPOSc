@@ -75,7 +75,7 @@
             android:layout_marginTop="@dimen/ten_dp"
             app:chb_type="2"
             app:checked="true"
-            app:text="@string/pay_to_vendor" />
+            app:text="@string/payment_to_vendor" />
         <com.jim.mpviews.MpCheckbox
             android:id="@+id/chbBankDrop"
             android:layout_width="match_parent"

@@ -261,7 +261,7 @@ public class OrderHistoryPresenterImpl extends BasePresenterImpl<OrderHistoryVie
             objectsTemp[i][5] = result.get(i).getLastChangeLog().getReason()==null?"":result.get(i).getLastChangeLog().getReason();
             objectsTemp[i][6] = result.get(i).getSubTotalValue();
             objectsTemp[i][7] = result.get(i).getForPayAmmount();
-            objectsTemp[i][8] = "details";
+            objectsTemp[i][8] = context.getString(R.string.details);
         }
         this.objects = objectsTemp;
 

@@ -64,6 +64,7 @@ public class AddDebtDialog extends Dialog {
     ImageView ivScanBarcode;
     private List<Customer> customerList;
     private List<CustomerSuggestion> suggestionsList, foundSuggestions;
+    private Context context;
     private Customer customer;
     private DatabaseManager databaseManager;
     private onDebtSaveClickListener listener;
@@ -72,6 +73,7 @@ public class AddDebtDialog extends Dialog {
 
     public AddDebtDialog(@NonNull Context context, Customer item, DatabaseManager databaseManager, Order order, onDebtSaveClickListener listener, double toPay, DecimalFormat decimalFormat) {
         super(context);
+        this.context = context;
         this.customer = item;
         this.databaseManager = databaseManager;
         this.listener = listener;
@@ -192,7 +194,7 @@ public class AddDebtDialog extends Dialog {
             } else if (etAmount.getText().toString().isEmpty()) {
                 etAmount.setError(context.getString(R.string.enter_debt_amount));
             } else if (fee > 100) {
-                etFee.setError(context.getString(R.string.percent_can_not_be_more_hunder));
+                etFee.setError(context.getString(R.string.valid_entry_value_100));
             } else {
                 Debt debt = new Debt();
                 debt.setCustomer(customer);
@@ -258,7 +260,7 @@ public class AddDebtDialog extends Dialog {
                     }
                 }
                 if (debtSum != 0)
-                    tvError.setText("This customer already has debt: " + decimalFormat.format(debtSum) + " " + databaseManager.getMainCurrency().getAbbr());
+                    tvError.setText(context.getString(R.string.this_customer_already_has_debt) + decimalFormat.format(debtSum) + " " + databaseManager.getMainCurrency().getAbbr());
                 else tvError.setText("");
             }
         } else tvError.setText("");

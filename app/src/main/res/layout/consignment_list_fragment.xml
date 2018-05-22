@@ -124,7 +124,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="@string/total_debt"
+                    android:text="@string/total_debt_vendor"
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/sixteen_dp"/>
                 <ImageView

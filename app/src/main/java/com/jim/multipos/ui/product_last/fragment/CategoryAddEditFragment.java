@@ -16,7 +16,6 @@ import com.jim.multipos.ui.product_last.ProductPresenter;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 
 /**
  * Created by Achilov Bakhrom on 10/26/17.
@@ -67,8 +66,8 @@ public class CategoryAddEditFragment extends BaseFragment {
      */
     public void setCategoryAddMode() {
         categoryChooseContainer.setVisibility(View.GONE);
-        tvName.setText(R.string.category);
-        save.setText(R.string.save);
+        tvName.setText(getContext().getString(R.string.category));
+        save.setText(getContext().getString(R.string.save));
         name.setText("");
         name.setError(null);
         description.clearFocus();
@@ -77,7 +76,7 @@ public class CategoryAddEditFragment extends BaseFragment {
         description.setText("");
         active.setChecked(true);
         delete.setVisibility(View.GONE);
-        tvCategoryTitle.setText(R.string.tap_to_category_to_manage_it);
+        tvCategoryTitle.setText(getContext().getString(R.string.click_on_a_category_to_manage_it));
     }
 
     /**
@@ -85,8 +84,8 @@ public class CategoryAddEditFragment extends BaseFragment {
      */
     public void setSubcategoryAddMode(String parentName) {
         categoryChooseContainer.setVisibility(View.VISIBLE);
-        tvName.setText(R.string.subcategory);
-        save.setText(R.string.save);
+        tvName.setText(getContext().getString(R.string.subcategory));
+        save.setText(getContext().getString(R.string.save));
         name.setText("");
         name.setError(null);
         description.clearFocus();
@@ -95,7 +94,7 @@ public class CategoryAddEditFragment extends BaseFragment {
         description.setText("");
         active.setChecked(true);
         delete.setVisibility(View.GONE);
-        tvCategoryTitle.setText(R.string.tap_to_manage_subcategory_items);
+        tvCategoryTitle.setText(R.string.click_on_a_subcategory_to_manage_it);
     }
 
     /**
@@ -106,14 +105,14 @@ public class CategoryAddEditFragment extends BaseFragment {
      */
     public void setCategoryEditMode(String categoryName, String categoryDescription, boolean isActive) {
         categoryChooseContainer.setVisibility(View.GONE);
-        tvName.setText(R.string.category);
-        save.setText(R.string.update);
+        tvName.setText(getContext().getString(R.string.category));
+        save.setText(getContext().getString(R.string.update));
         name.setText(categoryName);
         name.setError(null);
         description.setText(categoryDescription);
         active.setChecked(isActive);
         delete.setVisibility(View.VISIBLE);
-        tvCategoryTitle.setText(R.string.tap_to_category_to_manage_it);
+        tvCategoryTitle.setText(getContext().getString(R.string.click_on_a_category_to_manage_it));
     }
 
     /**
@@ -125,15 +124,15 @@ public class CategoryAddEditFragment extends BaseFragment {
      */
     public void setSubcategoryEditMode(String categoryName, String categoryDescription, boolean isActive, String parentCategoryName) {
         categoryChooseContainer.setVisibility(View.VISIBLE);
-        tvName.setText(R.string.subcategory);
-        save.setText(R.string.update);
+        tvName.setText(getContext().getString(R.string.subcategory));
+        save.setText(getContext().getString(R.string.update));
         name.setText(categoryName);
         name.setError(null);
         categoryChoose.setText(parentCategoryName);
         description.setText(categoryDescription);
         active.setChecked(isActive);
         delete.setVisibility(View.VISIBLE);
-        tvCategoryTitle.setText(R.string.tap_to_manage_subcategory_items);
+        tvCategoryTitle.setText(getContext().getString(R.string.click_on_a_subcategory_to_manage_it));
     }
 
     /**
@@ -146,7 +145,7 @@ public class CategoryAddEditFragment extends BaseFragment {
         switch (view.getId()) {
             case R.id.btnSubCategorySave:
                 if (name.getText().toString().isEmpty()){
-                    name.setError(getContext().getString(R.string.category_length_validation));
+                    name.setError(getContext().getString(R.string.length_validation));
                 } else presenter.addCategory(name.getText().toString(), description.getText().toString(), active.isChecked());
                 break;
             case R.id.btnSubCategoryDelete:

@@ -1,11 +1,13 @@
 package com.jim.multipos.ui.reports.tills;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
 
 import com.github.mjdev.libaums.fs.UsbFile;
 import com.jim.mpviews.utils.ReportViewConstants;
+import com.jim.multipos.R;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.till.Till;
@@ -33,6 +35,7 @@ import static com.jim.multipos.utils.ExportUtils.PDF;
 public class TillsReportPresenterImpl extends BasePresenterImpl<TillsReportView> implements TillsReportPresenter {
 
     private DatabaseManager databaseManager;
+    private Context context;
     private List<Till> tills;
     private Object[][] objects;
     private Calendar fromDate;
@@ -43,9 +46,10 @@ public class TillsReportPresenterImpl extends BasePresenterImpl<TillsReportView>
     private String searchText = "";
 
     @Inject
-    protected TillsReportPresenterImpl(TillsReportView view, DatabaseManager databaseManager) {
+    protected TillsReportPresenterImpl(TillsReportView view, DatabaseManager databaseManager, Context context) {
         super(view);
         this.databaseManager = databaseManager;
+        this.context = context;
         DecimalFormat decimalFormat1 = new DecimalFormat("0.00");
         DecimalFormatSymbols decimalFormatSymbols = decimalFormat1.getDecimalFormatSymbols();
         decimalFormatSymbols.setDecimalSeparator('.');
@@ -86,7 +90,7 @@ public class TillsReportPresenterImpl extends BasePresenterImpl<TillsReportView>
             objects[i][0] = till.getId();
             objects[i][1] = till.getOpenDate();
             objects[i][2] = till.getCloseDate();
-            objects[i][5] = "details";
+            objects[i][5] = context.getString(R.string.details);
             double startMoneyVariance = 0;
             double tillAmountVariance = 0;
             if (till.getId() == 1) {

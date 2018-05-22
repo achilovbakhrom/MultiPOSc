@@ -5,4 +5,4 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/hundred_dp"
     android:layout_margin="@dimen/two_dp"
-    app:long_item_first_text="@string/blank_to_add_new_vendor" />
+    app:long_item_first_text="@string/add_new_vendor" />

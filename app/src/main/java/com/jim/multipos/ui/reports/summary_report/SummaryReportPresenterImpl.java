@@ -436,9 +436,9 @@ public class SummaryReportPresenterImpl extends BasePresenterImpl<SummaryReportV
             tripleStrings.add(tripleString2);
 
             for (Map.Entry<Long, Integer> longDoubleEntry : hmPaymentsCount.entrySet()) {
-                paymentsAnalytics.add(new PairString(databaseManager.getPaymentTypeById(longDoubleEntry.getKey()).getName() + " count", decimalFormatWithoutFix.format(longDoubleEntry.getValue()) + " " + context.getString(R.string.pcs)));
+                paymentsAnalytics.add(new PairString(databaseManager.getPaymentTypeById(longDoubleEntry.getKey()).getName() + " " +context.getString(R.string.count_min), decimalFormatWithoutFix.format(longDoubleEntry.getValue()) + " " + context.getString(R.string.pcs)));
             }
-            paymentsAnalytics.add(new PairString("Debt's count", decimalFormatWithoutFix.format(debtUsedCount) + " " + context.getString(R.string.pcs)));
+            paymentsAnalytics.add(new PairString(context.getString(R.string.debts_count), decimalFormatWithoutFix.format(debtUsedCount) + " " + context.getString(R.string.pcs)));
             payments.clear();
             payments.addAll(tripleStrings);
             if (!isExport) {

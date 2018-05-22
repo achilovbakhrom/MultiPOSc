@@ -38,6 +38,7 @@ public class MpCalendarIntervView extends RelativeLayout {
     int toMonth = -1;
     int toYear = -1;
     private CalendarCallback calendarCallback;
+    private Context context;
 
     public interface CalendarCallback{
         void dayChoised(int day,int month, int year);
@@ -89,6 +90,7 @@ public class MpCalendarIntervView extends RelativeLayout {
     }
 
     public void init(Context context, AttributeSet attributeSet) {
+        this.context = context;
         calendar = new GregorianCalendar();
         indexCalendar  = new GregorianCalendar();
         calendarToday  = new GregorianCalendar();
@@ -263,29 +265,29 @@ public class MpCalendarIntervView extends RelativeLayout {
     private String monthName(int month){
         switch (month){
             case Calendar.JANUARY:
-                return "January";
+                return context.getString(R.string.january);
             case Calendar.FEBRUARY:
-                return "February";
+                return context.getString(R.string.february);
             case Calendar.MARCH:
-                return "March";
+                return context.getString(R.string.march);
             case Calendar.APRIL:
-                return "April";
+                return context.getString(R.string.april);
             case Calendar.MAY:
-                return "May";
+                return context.getString(R.string.may);
             case Calendar.JUNE:
-                return "June";
+                return context.getString(R.string.june);
             case Calendar.JULY:
-                return "July";
+                return context.getString(R.string.july);
             case Calendar.AUGUST:
-                return "August";
+                return context.getString(R.string.august);
             case Calendar.SEPTEMBER:
-                return "September";
+                return context.getString(R.string.september);
             case Calendar.OCTOBER:
-                return "October";
+                return context.getString(R.string.october);
             case Calendar.NOVEMBER:
-                return "November";
+                return context.getString(R.string.november);
             case Calendar.DECEMBER:
-                return "December";
+                return context.getString(R.string.december);
             default:
                 return "ERROR";
         }

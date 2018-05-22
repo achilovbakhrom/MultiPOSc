@@ -56,7 +56,7 @@
             android:layout_marginRight="@dimen/thirty_dp"
             android:background="@drawable/edit_text_bg"
             android:gravity="center_vertical"
-            android:hint="@string/select_file"
+            android:hint="@string/select_the_file_location"
             android:paddingLeft="@dimen/ten_dp"
             android:paddingRight="@dimen/ten_dp"
             android:textColor="@color/colorMainText"

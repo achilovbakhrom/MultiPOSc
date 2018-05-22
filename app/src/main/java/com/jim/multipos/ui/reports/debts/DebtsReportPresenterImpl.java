@@ -814,7 +814,7 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
                             String type = "";
                             int debtType = (int) fifthObjects[i][6];
                             if (debtType == Debt.PARTICIPLE) {
-                                type = context.getString(R.string.can_participle);
+                                type = context.getString(R.string.part_payment);
                             } else if (debtType == Debt.ALL) {
                                 type = context.getString(R.string.all);
                             }
@@ -893,7 +893,7 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
                             String type = "";
                             int debtType = (int) searchResultsTemp[i][6];
                             if (debtType == Debt.PARTICIPLE) {
-                                type = context.getString(R.string.can_participle);
+                                type = context.getString(R.string.part_payment);
                             } else if (debtType == Debt.ALL) {
                                 type = context.getString(R.string.all);
                             }

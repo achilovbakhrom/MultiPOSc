@@ -58,12 +58,12 @@ public class FolderViewAdapter extends ClickableBaseAdapter<FolderItem, BaseView
         if (holder instanceof FolderViewHolder) {
             FolderViewHolder folderViewHolder = ((FolderViewHolder) holder);
             folderViewHolder.tvFolderItemName.setText(items.get(position).getCategory().getName());
-            folderViewHolder.tvFolderItemSize.setText(items.get(position).getCount() + " products");
+            folderViewHolder.tvFolderItemSize.setText(items.get(position).getCount() + " " + context.getString(R.string.products_number_product));
         } else {
             ProductViewHolder productViewHolder = (ProductViewHolder) holder;
             Product product = items.get(position).getProduct();
             productViewHolder.tvProductName.setText(product.getName());
-            productViewHolder.tvProductSKU.setText("SKU: " + product.getSku());
+            productViewHolder.tvProductSKU.setText(context.getString(R.string.sku_) + product.getSku());
             productViewHolder.tvProductQty.setText(items.get(position).getCount() + " " + product.getMainUnit().getAbbr());
             productViewHolder.tvProductPrice.setText(decimalFormat.format(product.getPrice()) + " " + product.getPriceCurrency().getAbbr());
             if (!product.getPhotoPath().equals("")){

@@ -97,7 +97,7 @@ public class AddDiscountDialog extends Dialog {
                     etResultPrice.requestFocus();
                     etDiscountAmount.setText(formatter.format(discountValue));
                     if (discountValue > 100)
-                        etDiscountAmount.setError("Discount percent cannot be bigger 100");
+                        etDiscountAmount.setError(context.getString(R.string.discount_percent_cannot_be_bigger_hundred));
                 }
 
             }
@@ -113,7 +113,7 @@ public class AddDiscountDialog extends Dialog {
                             double result = 0;
                             if (discountAmountType == Discount.VALUE) {
                                 if (discountValue > price) {
-                                    etDiscountAmount.setError("Discount value cannot be bigger than price");
+                                    etDiscountAmount.setError(context.getString(R.string.discount_value_cant_be_bigger_than_price));
                                 } else {
                                     result = price - discountValue;
                                     resultPrice = result;
@@ -121,7 +121,7 @@ public class AddDiscountDialog extends Dialog {
                                 }
                             } else {
                                 if (discountValue > 100) {
-                                    etDiscountAmount.setError("Discount percent cannot be bigger 100");
+                                    etDiscountAmount.setError(context.getString(R.string.discount_percent_cannot_be_bigger_hundred));
                                 } else {
                                     result = price - (price * discountValue / 100);
                                     resultPrice = result;

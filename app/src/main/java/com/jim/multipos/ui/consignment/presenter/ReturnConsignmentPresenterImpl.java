@@ -1,5 +1,8 @@
 package com.jim.multipos.ui.consignment.presenter;
 
+import android.content.Context;
+
+import com.jim.multipos.R;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.consignment.Consignment;
@@ -28,6 +31,7 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
     private Consignment returnConsignment;
     private List<ConsignmentProduct> consignmentProductList;
     private DatabaseManager databaseManager;
+    private final Context context;
     private List<Long> ids;
     private List<TempProduct> tempProductList;
     private double sum = 0;
@@ -41,9 +45,10 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
     private Long productId;
 
     @Inject
-    protected ReturnConsignmentPresenterImpl(ReturnConsignmentView view, DatabaseManager databaseManager) {
+    protected ReturnConsignmentPresenterImpl(ReturnConsignmentView view, DatabaseManager databaseManager, Context context) {
         super(view);
         this.databaseManager = databaseManager;
+        this.context = context;
         consignmentProductList = new ArrayList<>();
         returnConsignment = null;
         tempProductList = new ArrayList<>();
@@ -148,7 +153,7 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
         this.number = number;
         this.description = description;
         if (consignmentProductList.isEmpty()) {
-            view.setError("Please, add product to consignment");
+            view.setError(context.getString(R.string.please_add_product_to_consignment));
         } else {
             int countPos = consignmentProductList.size(), costPos = consignmentProductList.size();
             for (int i = 0; i < consignmentProductList.size(); i++) {
@@ -159,9 +164,9 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
             }
 
             if (countPos != consignmentProductList.size()) {
-                view.setError("Some counts are empty or equals 0");
+                view.setError(context.getString(R.string.some_counts_are_empty_or_equals_zero));
             } else if (costPos != consignmentProductList.size())
-                view.setError("Some costs are empty");
+                view.setError(context.getString(R.string.some_costs_are_empty));
             else if (this.returnConsignment == null) {
                 if (databaseManager.isConsignmentNumberExists(number).blockingGet()) {
                     view.setConsignmentNumberError();
