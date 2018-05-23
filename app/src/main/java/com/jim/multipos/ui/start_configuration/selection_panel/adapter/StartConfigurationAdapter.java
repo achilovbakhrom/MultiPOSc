@@ -41,7 +41,7 @@ public class StartConfigurationAdapter extends RecyclerView.Adapter<StartConfigu
         FirstConfigureListItem item = items.get(position);
         holder.tvTitle.setText(item.getName());
         holder.tvDescription.setText(item.getDescription());
-        int visibilty = item.isSelected() ? View.VISIBLE : View.GONE;
+        int visibilty = item.isSelected() ? View.VISIBLE : View.INVISIBLE;
         int color = item.isSelected() ? R.color.colorWhite : R.color.colorBackgroundGrey;
         holder.flStrip.setVisibility(visibilty);
         holder.itemView.setBackgroundColor(ContextCompat.getColor(context, color));

@@ -235,12 +235,12 @@ public class TillDetailsDialog extends Dialog {
         names[3] = context.getString(R.string.payment_to_vendor);
         names[4] = context.getString(R.string.returned_debt);
         names[5] = context.getString(R.string.bank_drop);
-        names[6] = context.getString(R.string.actual_product_sales);
+        names[6] = context.getString(R.string.actual_product_sales_);
         names[7] = context.getString(R.string.collected_coin);
         names[8] = context.getString(R.string.total_for_till);
         names[9] = context.getString(R.string.total_closed_amount);
-        names[10] = context.getString(R.string.total_to_next_amount);
-        names[11] = context.getString(R.string.till_amount_variance);
+        names[10] = context.getString(R.string.to_next_till);
+        names[11] = context.getString(R.string.expected_amount_in_till);
         closedAmount = 0;
         toNextAmount = 0;
         for (int i = 0; i < accountList.size(); i++) {
@@ -298,6 +298,8 @@ public class TillDetailsDialog extends Dialog {
         properties.offset = new File(DialogConfigs.DEFAULT_DIR);
         properties.extensions = null;
         FilePickerDialog dialog = new FilePickerDialog(getContext(), properties);
+        dialog.setNegativeBtnName(getContext().getString(R.string.cancel));
+        dialog.setPositiveBtnName(getContext().getString(R.string.select));
         dialog.setTitle(getContext().getString(R.string.select_a_directory));
         dialog.setDialogSelectionListener(files -> {
             exportDialog.setPath(files);
@@ -417,7 +419,7 @@ public class TillDetailsDialog extends Dialog {
         textView.setTypeface(textView.getTypeface(), Typeface.NORMAL);
         textView.setPadding(20, 0, 20, 0);
         textView.setLayoutParams(textParams);
-        textView.setText(context.getString(R.string.all_summary));
+        textView.setText(context.getString(R.string.summary));
         FrameLayout borderLine = new FrameLayout(context);
         LinearLayout.LayoutParams borderParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 5);
         borderLine.setLayoutParams(borderParams);

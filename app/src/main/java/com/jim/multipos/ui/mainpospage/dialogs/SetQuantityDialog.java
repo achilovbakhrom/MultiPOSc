@@ -33,10 +33,12 @@ public class SetQuantityDialog extends Dialog {
     MpButton btnOK;
     @BindView(R.id.etQuantity)
     MpEditText etQuantity;
+    private Context context;
     private OnClickListener listener;
 
     public SetQuantityDialog(@NonNull Context context, OnClickListener listener) {
         super(context);
+        this.context = context;
         this.listener = listener;
     }
 
@@ -51,9 +53,13 @@ public class SetQuantityDialog extends Dialog {
 
         RxView.clicks(btnCancel).subscribe(o -> dismiss());
         RxView.clicks(btnOK).subscribe(o -> {
-            UIUtils.closeKeyboard(etQuantity, getContext());
-            listener.ok(Integer.parseInt(etQuantity.getText().toString()));
-            dismiss();
+            if (etQuantity.getText().toString().isEmpty()) {
+                etQuantity.setError(context.getString(R.string.qty_cant_be_empty));
+            } else {
+                UIUtils.closeKeyboard(etQuantity, getContext());
+                listener.ok(Integer.parseInt(etQuantity.getText().toString()));
+                dismiss();
+            }
         });
     }
 }

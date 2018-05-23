@@ -115,7 +115,9 @@ public class CustomerAdapter extends BaseAdapter<Customer, BaseViewHolder> {
 
         return baseViewHolder;
     }
+
     String barcode = "";
+
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
         if (position == 0) {
@@ -190,7 +192,6 @@ public class CustomerAdapter extends BaseAdapter<Customer, BaseViewHolder> {
         if (isModified && !customer.equals(addCustomer)) {
             notSavedItems.add(customer);
         }
-
         notifyItemChanged(items.indexOf(customer) + 1);
     }
 
@@ -251,83 +252,85 @@ public class CustomerAdapter extends BaseAdapter<Customer, BaseViewHolder> {
             addCustomer.setClientId(listener.getClientId());
             addCustomer.setQrCode("");
             etPhone.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
-            RxView.clicks(btnAdd).subscribe(o -> {
-                UIUtils.closeKeyboard(btnAdd, context);
-                if (FormValidator.validate(context, this, new MultipleCallback())) {
-                    if (listener.isCustomerExists(etFullName.getText().toString())) {
-                        etFullName.setError(context.getString(R.string.customer_name_exists));
-                    } else {
-                        listener.onAddClicked(tvId.getText().toString(),
-                                etFullName.getText().toString(),
-                                etPhone.getText().toString(),
-                                etAddress.getText().toString(),
-                                tvQrCodeInAdd.getText().toString(),
-                                addCustomer.getCustomerGroups());
-
-                        addCustomer.setName("");
-                        addCustomer.setPhoneNumber("");
-                        addCustomer.setAddress("");
-                        addCustomer.setClientId(listener.getClientId());
-                        addCustomer.setQrCode("");
-                        addCustomer.getCustomerGroups().clear();
-                        tvId.setText(addCustomer.getClientId().toString());
-                        etFullName.setText("");
-                        etPhone.setText("");
-                        etAddress.setText("");
-                        tvCustomerGroup.setText(context.getString(R.string.unselected));
-                        tvQrCodeInAdd.setText(addCustomer.getQrCode());
-                        etFullName.requestFocus();
+            btnAdd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    UIUtils.closeKeyboard(btnAdd, context);
+                    if (FormValidator.validate(context, this, new MultipleCallback())) {
+                        if (listener.isCustomerExists(etFullName.getText().toString())) {
+                            etFullName.setError(context.getString(R.string.customer_name_exists));
+                        } else {
+                            listener.onAddClicked(tvId.getText().toString(),
+                                    etFullName.getText().toString(),
+                                    etPhone.getText().toString(),
+                                    etAddress.getText().toString(),
+                                    tvQrCodeInAdd.getText().toString(),
+                                    addCustomer.getCustomerGroups());
+                            addCustomer.setName("");
+                            addCustomer.setPhoneNumber("");
+                            addCustomer.setAddress("");
+                            addCustomer.setClientId(listener.getClientId());
+                            addCustomer.setQrCode("");
+                            addCustomer.getCustomerGroups().clear();
+                            tvId.setText(addCustomer.getClientId().toString());
+                            etFullName.setText("");
+                            etPhone.setText("");
+                            etAddress.setText("");
+                            tvCustomerGroup.setText(context.getString(R.string.unselected));
+                            tvQrCodeInAdd.setText(addCustomer.getQrCode());
+                            etFullName.requestFocus();
+                        }
                     }
                 }
             });
 
-            RxView.clicks(tvClientId).subscribe(o -> {
-                UIUtils.closeKeyboard(tvClientId, context);
-                if (isSortedByClientId) {
-                    isSortedByClientId = false;
-                    tvClientId.setTypeface(Typeface.create(tvClientId.getTypeface(), Typeface.NORMAL));
-                    listener.onSortByDefault();
-                } else {
-                    isSortedByClientId = true;
-                    tvClientId.setTypeface(Typeface.create(tvClientId.getTypeface(), Typeface.BOLD));
-                    listener.onSortByClientId();
-                }
+           tvClientId.setOnClickListener(view -> {
+               UIUtils.closeKeyboard(tvClientId, context);
+               if (isSortedByClientId) {
+                   isSortedByClientId = false;
+                   tvClientId.setTypeface(Typeface.create(tvClientId.getTypeface(), Typeface.NORMAL));
+                   listener.onSortByDefault();
+               } else {
+                   isSortedByClientId = true;
+                   tvClientId.setTypeface(Typeface.create(tvClientId.getTypeface(), Typeface.BOLD));
+                   listener.onSortByClientId();
+               }
 
-                isSortedByFullName = false;
-                isSortedByPhone = false;
-                isSortedByAddress = false;
-                isSortedByQrCode = false;
+               isSortedByFullName = false;
+               isSortedByPhone = false;
+               isSortedByAddress = false;
+               isSortedByQrCode = false;
 
-                tvFullName.setTypeface(Typeface.create(tvFullName.getTypeface(), Typeface.NORMAL));
-                tvPhone.setTypeface(Typeface.create(tvPhone.getTypeface(), Typeface.NORMAL));
-                tvAddress.setTypeface(Typeface.create(tvAddress.getTypeface(), Typeface.NORMAL));
-                tvQrCode.setTypeface(Typeface.create(tvQrCode.getTypeface(), Typeface.NORMAL));
-            });
+               tvFullName.setTypeface(Typeface.create(tvFullName.getTypeface(), Typeface.NORMAL));
+               tvPhone.setTypeface(Typeface.create(tvPhone.getTypeface(), Typeface.NORMAL));
+               tvAddress.setTypeface(Typeface.create(tvAddress.getTypeface(), Typeface.NORMAL));
+               tvQrCode.setTypeface(Typeface.create(tvQrCode.getTypeface(), Typeface.NORMAL));
+           });
 
-            RxView.clicks(tvFullName).subscribe(o -> {
-                UIUtils.closeKeyboard(tvFullName, context);
-                if (isSortedByFullName) {
-                    isSortedByFullName = false;
-                    tvFullName.setTypeface(Typeface.create(tvFullName.getTypeface(), Typeface.NORMAL));
-                    listener.onSortByDefault();
-                } else {
-                    isSortedByFullName = true;
-                    tvFullName.setTypeface(Typeface.create(tvFullName.getTypeface(), Typeface.BOLD));
-                    listener.onSortByFullName();
-                }
+           tvFullName.setOnClickListener(view -> {
+               UIUtils.closeKeyboard(tvFullName, context);
+               if (isSortedByFullName) {
+                   isSortedByFullName = false;
+                   tvFullName.setTypeface(Typeface.create(tvFullName.getTypeface(), Typeface.NORMAL));
+                   listener.onSortByDefault();
+               } else {
+                   isSortedByFullName = true;
+                   tvFullName.setTypeface(Typeface.create(tvFullName.getTypeface(), Typeface.BOLD));
+                   listener.onSortByFullName();
+               }
 
-                isSortedByClientId = false;
-                isSortedByPhone = false;
-                isSortedByAddress = false;
-                isSortedByQrCode = false;
+               isSortedByClientId = false;
+               isSortedByPhone = false;
+               isSortedByAddress = false;
+               isSortedByQrCode = false;
 
-                tvClientId.setTypeface(Typeface.create(tvClientId.getTypeface(), Typeface.NORMAL));
-                tvPhone.setTypeface(Typeface.create(tvPhone.getTypeface(), Typeface.NORMAL));
-                tvAddress.setTypeface(Typeface.create(tvAddress.getTypeface(), Typeface.NORMAL));
-                tvQrCode.setTypeface(Typeface.create(tvQrCode.getTypeface(), Typeface.NORMAL));
-            });
+               tvClientId.setTypeface(Typeface.create(tvClientId.getTypeface(), Typeface.NORMAL));
+               tvPhone.setTypeface(Typeface.create(tvPhone.getTypeface(), Typeface.NORMAL));
+               tvAddress.setTypeface(Typeface.create(tvAddress.getTypeface(), Typeface.NORMAL));
+               tvQrCode.setTypeface(Typeface.create(tvQrCode.getTypeface(), Typeface.NORMAL));
+           });
 
-            RxView.clicks(tvAddress).subscribe(o -> {
+            tvAddress.setOnClickListener(view -> {
                 UIUtils.closeKeyboard(tvAddress, context);
                 if (isSortedByAddress) {
                     isSortedByAddress = false;
@@ -350,7 +353,7 @@ public class CustomerAdapter extends BaseAdapter<Customer, BaseViewHolder> {
                 tvQrCode.setTypeface(Typeface.create(tvQrCode.getTypeface(), Typeface.NORMAL));
             });
 
-            RxView.clicks(tvQrCode).subscribe(o -> {
+            tvQrCode.setOnClickListener(view -> {
                 UIUtils.closeKeyboard(tvQrCode, context);
                 if (isSortedByQrCode) {
                     isSortedByQrCode = false;
@@ -373,12 +376,16 @@ public class CustomerAdapter extends BaseAdapter<Customer, BaseViewHolder> {
                 tvAddress.setTypeface(Typeface.create(tvAddress.getTypeface(), Typeface.NORMAL));
             });
 
-            RxView.clicks(ivRefreshQrCode).subscribe(o -> {
+            ivRefreshQrCode.setOnClickListener(view -> {
                 listener.scanBarcode();
             });
 
-            RxView.clicks(tvCustomerGroup).subscribe(o -> {
+            tvCustomerGroup.setOnClickListener(view -> {
                 listener.showAddCustomerGroupDialog(addCustomer);
+                etFullName.clearFocus();
+                etAddress.clearFocus();
+                etPhone.clearFocus();
+                tvQrCode.clearFocus();
             });
 
             initTextWatcher(etFullName);
@@ -449,7 +456,7 @@ public class CustomerAdapter extends BaseAdapter<Customer, BaseViewHolder> {
 
             ButterKnife.bind(this, itemView);
             etPhone.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
-            RxView.clicks(btnSave).subscribe(o -> {
+            btnSave.setOnClickListener(view -> {
                 UIUtils.closeKeyboard(btnSave, context);
                 if (FormValidator.validate(context, this, new MultipleCallback())) {
                     getItem(getAdapterPosition() - 1).setModifiedDate(System.currentTimeMillis());
@@ -459,19 +466,19 @@ public class CustomerAdapter extends BaseAdapter<Customer, BaseViewHolder> {
                 }
             });
 
-            RxView.clicks(btnRemove).subscribe(o -> {
+            btnRemove.setOnClickListener(view -> {
                 UIUtils.closeKeyboard(btnRemove, context);
                 notSavedItems.remove(getItem(getAdapterPosition() - 1));
                 listener.onDeleteClicked(getItem(getAdapterPosition() - 1));
             });
 
-            RxView.clicks(ivRefreshQrCode).subscribe(o -> {
+            ivRefreshQrCode.setOnClickListener(view -> {
                 listener.scanBarcode(getAdapterPosition() - 1);
                 notSavedItems.add(getItem(getAdapterPosition() - 1));
                 btnSave.enable();
             });
 
-            RxView.clicks(tvCustomerGroup).subscribe(o -> {
+            tvCustomerGroup.setOnClickListener(view -> {
                 listener.showItemCustomerGroupsDialog(getAdapterPosition() - 1);
             });
 

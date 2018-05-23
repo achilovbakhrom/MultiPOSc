@@ -14,6 +14,7 @@ import com.jim.mpviews.MpCheckbox;
 import com.jim.multipos.R;
 import com.jim.multipos.config.common.BaseAppModule;
 import com.jim.multipos.core.BaseFragment;
+import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivity;
 import com.jim.multipos.ui.settings.SettingsActivity;
@@ -51,6 +52,8 @@ public class CommonConfigFragment extends BaseFragment implements CommonConfigVi
 
     @Inject
     PreferencesHelper preferencesHelper;
+    @Inject
+    CommonConfigPresenterImpl presenter;
 
     @Override
     protected int getLayout() {
@@ -103,7 +106,7 @@ public class CommonConfigFragment extends BaseFragment implements CommonConfigVi
             }
             if (!language.matches(preferencesHelper.getLanguageCode())){
                 LocaleManger.setNewLocale(getContext(), language);
-                ((SettingsActivity) getContext()).openLockScreen();
+                presenter.changeDefaultsLanguage();
             }
 
             //TODO REFRESH MAIM PAGE
@@ -130,5 +133,10 @@ public class CommonConfigFragment extends BaseFragment implements CommonConfigVi
         etFirstNominal.setText(decimalFormat.format(preferencesHelper.getFirstOptionalPaymentButton()));
         etSecondNominal.setText(decimalFormat.format(preferencesHelper.getSecondOptionalPaymentButton()));
 
+    }
+
+    @Override
+    public void refreshActivity() {
+        ((SettingsActivity) getContext()).openLockScreen();
     }
 }

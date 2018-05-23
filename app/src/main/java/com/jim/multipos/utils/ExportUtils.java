@@ -4706,24 +4706,19 @@ public class ExportUtils {
                 HSSFRow myRow = (HSSFRow) rowIter.next();
                 int cell = 0;
                 Iterator cellIter = myRow.cellIterator();
-                if (row == 0) {
-                    HSSFCell myCell = myRow.getCell(0);
-                    if (!myCell.getStringCellValue().equals(context.getString(R.string.customer_name))) {
-                        Toast.makeText(context, context.getString(R.string.incorrect_file), Toast.LENGTH_SHORT).show();
-                        break;
+                if (row != 0) {
+                    while (cellIter.hasNext()) {
+                        HSSFCell myCell = (HSSFCell) cellIter.next();
+                        switch (myCell.getCellType()) {
+                            case HSSFCell.CELL_TYPE_STRING:
+                                customers[row][cell] = myCell.getStringCellValue();
+                                break;
+                            case HSSFCell.CELL_TYPE_NUMERIC:
+                                customers[row][cell] = String.valueOf(myCell.getNumericCellValue());
+                                break;
+                        }
+                        cell++;
                     }
-                }
-                while (cellIter.hasNext()) {
-                    HSSFCell myCell = (HSSFCell) cellIter.next();
-                    switch (myCell.getCellType()){
-                        case HSSFCell.CELL_TYPE_STRING:
-                            customers[row][cell] = myCell.getStringCellValue();
-                            break;
-                        case HSSFCell.CELL_TYPE_NUMERIC:
-                            customers[row][cell] = String.valueOf(myCell.getNumericCellValue());
-                            break;
-                    }
-                    cell++;
                 }
                 row++;
             }
@@ -4814,24 +4809,19 @@ public class ExportUtils {
                 HSSFRow myRow = (HSSFRow) rowIter.next();
                 int cell = 0;
                 Iterator cellIter = myRow.cellIterator();
-                if (row == 0) {
-                    HSSFCell myCell = myRow.getCell(0);
-                    if (!myCell.getStringCellValue().equals(context.getString(R.string.customer_name))) {
-                        Toast.makeText(context, context.getString(R.string.incorrect_file), Toast.LENGTH_SHORT).show();
-                        break;
+                if (row != 0) {
+                    while (cellIter.hasNext()) {
+                        HSSFCell myCell = (HSSFCell) cellIter.next();
+                        switch (myCell.getCellType()) {
+                            case HSSFCell.CELL_TYPE_STRING:
+                                customers[row][cell] = myCell.getStringCellValue();
+                                break;
+                            case HSSFCell.CELL_TYPE_NUMERIC:
+                                customers[row][cell] = String.valueOf(myCell.getNumericCellValue());
+                                break;
+                        }
+                        cell++;
                     }
-                }
-                while (cellIter.hasNext()) {
-                    HSSFCell myCell = (HSSFCell) cellIter.next();
-                    switch (myCell.getCellType()){
-                        case HSSFCell.CELL_TYPE_STRING:
-                            customers[row][cell] = myCell.getStringCellValue();
-                            break;
-                        case HSSFCell.CELL_TYPE_NUMERIC:
-                            customers[row][cell] = String.valueOf(myCell.getNumericCellValue());
-                            break;
-                    }
-                    cell++;
                 }
                 row++;
             }
@@ -4927,24 +4917,19 @@ public class ExportUtils {
                 HSSFRow myRow = (HSSFRow) rowIter.next();
                 int cell = 0;
                 Iterator cellIter = myRow.cellIterator();
-                if (row == 0) {
-                    HSSFCell myCell = myRow.getCell(0);
-                    if (!myCell.getStringCellValue().equals(context.getString(R.string.vendor_name))) {
-                        Toast.makeText(context, context.getString(R.string.incorrect_file), Toast.LENGTH_SHORT).show();
-                        break;
+                if (row != 0) {
+                    while (cellIter.hasNext()) {
+                        HSSFCell myCell = (HSSFCell) cellIter.next();
+                        switch (myCell.getCellType()) {
+                            case HSSFCell.CELL_TYPE_STRING:
+                                vendors[row][cell] = myCell.getStringCellValue();
+                                break;
+                            case HSSFCell.CELL_TYPE_NUMERIC:
+                                vendors[row][cell] = String.valueOf(myCell.getNumericCellValue());
+                                break;
+                        }
+                        cell++;
                     }
-                }
-                while (cellIter.hasNext()) {
-                    HSSFCell myCell = (HSSFCell) cellIter.next();
-                    switch (myCell.getCellType()){
-                        case HSSFCell.CELL_TYPE_STRING:
-                            vendors[row][cell] = myCell.getStringCellValue();
-                            break;
-                        case HSSFCell.CELL_TYPE_NUMERIC:
-                            vendors[row][cell] = String.valueOf(myCell.getNumericCellValue());
-                            break;
-                    }
-                    cell++;
                 }
                 row++;
             }
@@ -4987,24 +4972,19 @@ public class ExportUtils {
                 HSSFRow myRow = (HSSFRow) rowIter.next();
                 int cell = 0;
                 Iterator cellIter = myRow.cellIterator();
-                if (row == 0) {
-                    HSSFCell myCell = myRow.getCell(0);
-                    if (!myCell.getStringCellValue().equals(context.getString(R.string.vendor_name))) {
-                        Toast.makeText(context, context.getString(R.string.incorrect_file), Toast.LENGTH_SHORT).show();
-                        break;
+                if (row != 0) {
+                    while (cellIter.hasNext()) {
+                        HSSFCell myCell = (HSSFCell) cellIter.next();
+                        switch (myCell.getCellType()) {
+                            case HSSFCell.CELL_TYPE_STRING:
+                                vendors[row][cell] = myCell.getStringCellValue();
+                                break;
+                            case HSSFCell.CELL_TYPE_NUMERIC:
+                                vendors[row][cell] = String.valueOf(myCell.getNumericCellValue());
+                                break;
+                        }
+                        cell++;
                     }
-                }
-                while (cellIter.hasNext()) {
-                    HSSFCell myCell = (HSSFCell) cellIter.next();
-                    switch (myCell.getCellType()){
-                        case HSSFCell.CELL_TYPE_STRING:
-                            vendors[row][cell] = myCell.getStringCellValue();
-                            break;
-                        case HSSFCell.CELL_TYPE_NUMERIC:
-                            vendors[row][cell] = String.valueOf(myCell.getNumericCellValue());
-                            break;
-                    }
-                    cell++;
                 }
                 row++;
             }
@@ -5048,24 +5028,19 @@ public class ExportUtils {
                 HSSFRow myRow = (HSSFRow) rowIter1.next();
                 int cell = 0;
                 Iterator cellIter = myRow.cellIterator();
-                if (row == 0) {
-                    HSSFCell myCell = myRow.getCell(0);
-                    if (!myCell.getStringCellValue().equals(context.getString(R.string.category))) {
-                        Toast.makeText(context, context.getString(R.string.incorrect_file), Toast.LENGTH_SHORT).show();
-                        break;
+                if (row != 0) {
+                    while (cellIter.hasNext()) {
+                        HSSFCell myCell = (HSSFCell) cellIter.next();
+                        switch (myCell.getCellType()) {
+                            case HSSFCell.CELL_TYPE_STRING:
+                                products[row][cell] = myCell.getStringCellValue();
+                                break;
+                            case HSSFCell.CELL_TYPE_NUMERIC:
+                                products[row][cell] = String.valueOf(myCell.getNumericCellValue());
+                                break;
+                        }
+                        cell++;
                     }
-                }
-                while (cellIter.hasNext()) {
-                    HSSFCell myCell = (HSSFCell) cellIter.next();
-                    switch (myCell.getCellType()){
-                        case HSSFCell.CELL_TYPE_STRING:
-                            products[row][cell] = myCell.getStringCellValue();
-                            break;
-                        case HSSFCell.CELL_TYPE_NUMERIC:
-                            products[row][cell] = String.valueOf(myCell.getNumericCellValue());
-                            break;
-                    }
-                    cell++;
                 }
                 row++;
             }
@@ -5257,24 +5232,19 @@ public class ExportUtils {
                 HSSFRow myRow = (HSSFRow) rowIter1.next();
                 int cell = 0;
                 Iterator cellIter = myRow.cellIterator();
-                if (row == 0) {
-                    HSSFCell myCell = myRow.getCell(0);
-                    if (!myCell.getStringCellValue().equals(context.getString(R.string.category))) {
-                        Toast.makeText(context, context.getString(R.string.incorrect_file), Toast.LENGTH_SHORT).show();
-                        break;
+                if (row!= 0) {
+                    while (cellIter.hasNext()) {
+                        HSSFCell myCell = (HSSFCell) cellIter.next();
+                        switch (myCell.getCellType()) {
+                            case HSSFCell.CELL_TYPE_STRING:
+                                products[row][cell] = myCell.getStringCellValue();
+                                break;
+                            case HSSFCell.CELL_TYPE_NUMERIC:
+                                products[row][cell] = String.valueOf(myCell.getNumericCellValue());
+                                break;
+                        }
+                        cell++;
                     }
-                }
-                while (cellIter.hasNext()) {
-                    HSSFCell myCell = (HSSFCell) cellIter.next();
-                    switch (myCell.getCellType()){
-                        case HSSFCell.CELL_TYPE_STRING:
-                            products[row][cell] = myCell.getStringCellValue();
-                            break;
-                        case HSSFCell.CELL_TYPE_NUMERIC:
-                            products[row][cell] = String.valueOf(myCell.getNumericCellValue());
-                            break;
-                    }
-                    cell++;
                 }
                 row++;
             }
@@ -5484,37 +5454,45 @@ public class ExportUtils {
         for (int i = 0; i < values.length; i++) {
             sheet.setColumnWidth(i, 10 * 500);
         }
-        Sheet sheet1 = workbook.createSheet(context.getString(R.string.products));
+        Workbook workbook1 = new HSSFWorkbook();
+        CellStyle cellStyle1 = workbook1.createCellStyle();
+        cellStyle1.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        cellStyle1.setBorderTop(HSSFCellStyle.BORDER_THIN);
+        cellStyle1.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+        cellStyle1.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        cellStyle1.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+        cellStyle1.setDataFormat(format.getFormat("@"));
+        Sheet sheet1 = workbook1.createSheet(context.getString(R.string.products));
         String[] labels = new String[]{context.getString(R.string.category), context.getString(R.string.subcategory), context.getString(R.string.product_name), context.getString(R.string.barcode), context.getString(R.string.sku), context.getString(R.string.vendor), context.getString(R.string.unit), context.getString(R.string.price)};
         String[] products = new String[]{"Food", "Vegatables", "Tomato", "1465442213", "tomato", "Louis and Co", "kg", "256.99"};
         for (int i = 0; i < products.length; i++) {
-            sheet1.setDefaultColumnStyle(i, cellStyle);
+            sheet1.setDefaultColumnStyle(i, cellStyle1);
         }
         Row row1 = sheet1.createRow(0);
         for (int i = 0; i < labels.length; i++) {
             Cell cell = row1.createCell(i);
-            cell.setCellStyle(cellStyle);
+            cell.setCellStyle(cellStyle1);
             cell.setCellValue(labels[i]);
         }
         Row row3 = sheet1.createRow(1);
         for (int i = 0; i < products.length; i++) {
             Cell cell = row3.createCell(i);
-            cell.setCellStyle(cellStyle);
+            cell.setCellStyle(cellStyle1);
             cell.setCellValue(products[i]);
         }
         for (int i = 0; i < labels.length; i++) {
             sheet1.setColumnWidth(i, 10 * 500);
         }
-        Sheet sheet2 = workbook.createSheet(context.getString(R.string.unit));
+        Sheet sheet2 = workbook1.createSheet(context.getString(R.string.unit));
         Row row4 = sheet2.createRow(0);
         Cell cell1 = row4.createCell(0);
-        cell1.setCellStyle(cellStyle);
+        cell1.setCellStyle(cellStyle1);
         cell1.setCellValue(context.getString(R.string.available_units));
         String[] units = new String[]{"pcs - piece", "kg - kilogram", "gr - gram", "tn - ton", "m - meter", "mm - millimeter", "cm - centimeter", "km - kilometer", "m2 - M2", "a - are", "ac - acre", "ha - hectare", "m3 - M3", "l - liter", "ml - milliliter"};
-        Row row5 = sheet2.createRow(1);
         for (int i = 0; i < units.length; i++) {
+            Row row5 = sheet2.createRow(1 + i);
             Cell cell = row5.createCell(i);
-            cell.setCellStyle(cellStyle);
+            cell.setCellStyle(cellStyle1);
             cell.setCellValue(units[i]);
         }
         for (int i = 0; i < units.length; i++) {
@@ -5523,7 +5501,10 @@ public class ExportUtils {
         try {
             UsbFile file = root.createFile(context.getString(R.string.products_vendor_template) + ".xls");
             OutputStream os = new UsbFileOutputStream(file);
-            workbook.write(os);
+            workbook1.write(os);
+            UsbFile file2 = root.createFile(context.getString(R.string.vendor_template) + ".xls");
+            OutputStream os2 = new UsbFileOutputStream(file2);
+            workbook.write(os2);
             Toast.makeText(context, R.string.successfully_exported_to_excel, Toast.LENGTH_SHORT).show();
             os.close();
         } catch (IOException e) {
@@ -5565,47 +5546,58 @@ public class ExportUtils {
         for (int i = 0; i < values.length; i++) {
             sheet.setColumnWidth(i, 10 * 500);
         }
-        Sheet sheet1 = workbook.createSheet(context.getString(R.string.products));
+        Workbook workbook1 = new HSSFWorkbook();
+        CellStyle cellStyle1 = workbook1.createCellStyle();
+        cellStyle1.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        cellStyle1.setBorderTop(HSSFCellStyle.BORDER_THIN);
+        cellStyle1.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+        cellStyle1.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        cellStyle1.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+        cellStyle1.setDataFormat(format.getFormat("@"));
+        Sheet sheet1 = workbook1.createSheet(context.getString(R.string.products));
         String[] labels = new String[]{context.getString(R.string.category), context.getString(R.string.subcategory), context.getString(R.string.product_name), context.getString(R.string.barcode), context.getString(R.string.sku), context.getString(R.string.vendor), context.getString(R.string.unit), context.getString(R.string.price)};
         String[] products = new String[]{"Food", "Vegatables", "Tomato", "1465442213", "tomato", "Louis and Co", "kg", "256.99"};
         for (int i = 0; i < products.length; i++) {
-            sheet1.setDefaultColumnStyle(i, cellStyle);
+            sheet1.setDefaultColumnStyle(i, cellStyle1);
         }
         Row row1 = sheet1.createRow(0);
         for (int i = 0; i < labels.length; i++) {
             Cell cell = row1.createCell(i);
-            cell.setCellStyle(cellStyle);
+            cell.setCellStyle(cellStyle1);
             cell.setCellValue(labels[i]);
         }
         Row row3 = sheet1.createRow(1);
         for (int i = 0; i < products.length; i++) {
             Cell cell = row3.createCell(i);
-            cell.setCellStyle(cellStyle);
+            cell.setCellStyle(cellStyle1);
             cell.setCellValue(products[i]);
         }
         for (int i = 0; i < labels.length; i++) {
             sheet1.setColumnWidth(i, 10 * 500);
         }
-        Sheet sheet2 = workbook.createSheet(context.getString(R.string.unit));
+        Sheet sheet2 = workbook1.createSheet(context.getString(R.string.unit));
         Row row4 = sheet2.createRow(0);
         Cell cell1 = row4.createCell(0);
-        cell1.setCellStyle(cellStyle);
+        cell1.setCellStyle(cellStyle1);
         cell1.setCellValue(context.getString(R.string.available_units));
         String[] units = new String[]{"pcs - piece", "kg - kilogram", "gr - gram", "tn - ton", "m - meter", "mm - millimeter", "cm - centimeter", "km - kilometer", "m2 - M2", "a - are", "ac - acre", "ha - hectare", "m3 - M3", "l - liter", "ml - milliliter"};
-        Row row5 = sheet2.createRow(1);
         for (int i = 0; i < units.length; i++) {
+            Row row5 = sheet2.createRow(1 + i);
             Cell cell = row5.createCell(i);
-            cell.setCellStyle(cellStyle);
+            cell.setCellStyle(cellStyle1);
             cell.setCellValue(units[i]);
         }
         for (int i = 0; i < units.length; i++) {
             sheet2.setColumnWidth(i, 12 * 500);
         }
         File file = new File(path, context.getString(R.string.products_vendor_template) + ".xls");
+        File file2 = new File(path, context.getString(R.string.vendor_template) + ".xls");
         FileOutputStream fileOutputStream = null;
 
         try {
             fileOutputStream = new FileOutputStream(file);
+            workbook1.write(fileOutputStream);
+            fileOutputStream = new FileOutputStream(file2);
             workbook.write(fileOutputStream);
             Toast.makeText(context, R.string.successfully_exported_to_excel, Toast.LENGTH_SHORT).show();
         } catch (FileNotFoundException e) {

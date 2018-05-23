@@ -5,6 +5,7 @@ import com.jim.multipos.data.db.model.Account;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
 
 /**
  * Created by user on 17.08.17.
@@ -18,4 +19,5 @@ public interface AccountOperations {
     Observable<Boolean> removeAllAccounts();
     Observable<Boolean> isAccountNameExists(String name);
     List<Account> getAccounts();
+    Single<Account> getSystemAccount();
 }

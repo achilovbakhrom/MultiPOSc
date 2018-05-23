@@ -137,15 +137,14 @@ public class PosDataFragment extends BaseFragment implements PosDataView {
         connection.setPosDataCompletion(!etPosId.getText().toString().isEmpty() && !etPosAddress.getText().toString().isEmpty() && !etPosAddress.getText().toString().isEmpty() && !etPosPhone.getText().toString().isEmpty() && isValid());
         if (etPosId.getText().toString().isEmpty()) {
             etPosId.setError(getString(R.string.enter_pos_id));
-        }
-        if (etPosPhone.getText().toString().isEmpty()) {
+        } else if (etPosPhone.getText().toString().isEmpty()) {
             etPosPhone.setError(getString(R.string.enter_phone));
-        }
-        if (etPosAddress.getText().toString().isEmpty()) {
+        } else if (etPosAddress.getText().toString().isEmpty()) {
             etPosAddress.setError(getString(R.string.enter_pos_address));
-        }
-        if (etPosAlias.getText().toString().isEmpty()) {
+        } else if (etPosAlias.getText().toString().isEmpty()) {
             etPosAlias.setError(getString(R.string.enter_pos_alias));
+        } else if (isValid()){
+            presenter.savePosDetails(etPosId.getText().toString(), etPosAlias.getText().toString(), etPosAddress.getText().toString(), etPosPhone.getText().toString(), etPassword.getText().toString());
         }
     }
 

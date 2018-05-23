@@ -230,6 +230,8 @@ public class PaymentsReportFragment extends BaseTableReportFragment implements P
         properties.offset = new File(DialogConfigs.DEFAULT_DIR);
         properties.extensions = null;
         FilePickerDialog dialog = new FilePickerDialog(getContext(), properties);
+        dialog.setNegativeBtnName(getContext().getString(R.string.cancel));
+        dialog.setPositiveBtnName(getContext().getString(R.string.select));
         dialog.setTitle(getContext().getString(R.string.select_a_directory));
         dialog.setDialogSelectionListener(files -> {
             exportDialog.setPath(files);

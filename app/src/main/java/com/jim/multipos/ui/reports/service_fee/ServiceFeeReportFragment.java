@@ -205,6 +205,8 @@ public class ServiceFeeReportFragment extends BaseTableReportFragment implements
         properties.offset = new File(DialogConfigs.DEFAULT_DIR);
         properties.extensions = null;
         FilePickerDialog dialog = new FilePickerDialog(getContext(), properties);
+        dialog.setNegativeBtnName(getContext().getString(R.string.cancel));
+        dialog.setPositiveBtnName(getContext().getString(R.string.select));
         dialog.setTitle(getContext().getString(R.string.select_a_directory));
         dialog.setDialogSelectionListener(files -> {
             exportDialog.setPath(files);
@@ -261,8 +263,8 @@ public class ServiceFeeReportFragment extends BaseTableReportFragment implements
                 {{0, getContext().getString(R.string.static_type), R.color.colorMainText},
                         {1, getContext().getString(R.string.manual), R.color.colorBlue}}
         };
-        firstTitles = new String[]{getString(R.string.order_num), getString(R.string.till_number), getString(R.string.item), getString(R.string.sku), getString(R.string.qty), getString(R.string.service_fee_value), getString(R.string.date), getString(R.string.reason), getString(R.string.type)};
-        secondTitles = new String[]{getString(R.string.order_num), getString(R.string.till_number), getString(R.string.order_subtotal), getString(R.string.customer), getString(R.string.service_fee_value), getString(R.string.date), getString(R.string.reason), getString(R.string.type)};
+        firstTitles = new String[]{getString(R.string.order_num), getString(R.string.till_id), getString(R.string.item), getString(R.string.sku), getString(R.string.qty), getString(R.string.service_fee_value), getString(R.string.date), getString(R.string.reason), getString(R.string.type)};
+        secondTitles = new String[]{getString(R.string.order_num), getString(R.string.till_id), getString(R.string.subtotal), getString(R.string.customer), getString(R.string.service_fee_value), getString(R.string.date), getString(R.string.reason), getString(R.string.type)};
         thirdTitles = new String[]{getString(R.string.date), getString(R.string.operation), getString(R.string.reason), getString(R.string.value), getString(R.string.amount_type), getString(R.string.usage_type), getString(R.string.type)};
     }
 

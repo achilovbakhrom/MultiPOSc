@@ -88,6 +88,8 @@ public class ImportDialog extends Dialog {
         tvFilePath.setOnClickListener(view -> {
             FilePickerDialog dialog = new FilePickerDialog(context, properties);
             dialog.setTitle(getContext().getString(R.string.select_the_file_location));
+            dialog.setNegativeBtnName(context.getString(R.string.cancel));
+            dialog.setPositiveBtnName(context.getString(R.string.select));
             dialog.setDialogSelectionListener(files -> {
                 path = files[0];
                 tvFilePath.setText(path);
@@ -155,7 +157,8 @@ public class ImportDialog extends Dialog {
             for (UsbMassStorageDevice device : devices) {
                 PendingIntent permissionIntent = PendingIntent.getBroadcast(context, 0, new Intent(ACTION_USB_PERMISSION), 0);
                 if (usbManager != null) {
-                    usbManager.requestPermission(device.getUsbDevice(), permissionIntent);
+                    if (usbManager.hasPermission(device.getUsbDevice()))
+                        usbManager.requestPermission(device.getUsbDevice(), permissionIntent);
                 }
             }
         } else {

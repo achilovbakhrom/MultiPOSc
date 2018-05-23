@@ -53,8 +53,8 @@ public class ReturnsAdapter extends RecyclerView.Adapter<ReturnsAdapter.ProductS
     public void onBindViewHolder(ProductSearchViewHolder holder, int position) {
         holder.tvProductName.setText(items.get(position).getProduct().getName());
         holder.tvProductPrice.setText(decimalFormat.format(items.get(position).getProduct().getPrice()));
-        holder.etReturnPrice.setText(String.valueOf(items.get(position).getReturnAmount()));
-        holder.etQuantity.setText(String.valueOf(items.get(position).getQuantity()));
+        holder.etReturnPrice.setText(decimalFormat.format(items.get(position).getReturnAmount()));
+        holder.etQuantity.setText(decimalFormat.format(items.get(position).getQuantity()));
         holder.tvUnit.setText(items.get(position).getProduct().getMainUnit().getAbbr());
         List<String> vendorNames = new ArrayList<>();
         for (Vendor vendor : items.get(position).getProduct().getVendor()) {
@@ -112,7 +112,7 @@ public class ReturnsAdapter extends RecyclerView.Adapter<ReturnsAdapter.ProductS
                     if (charSequence.length() != 0) {
                         double amount;
                         try {
-                            amount = Double.parseDouble(etReturnPrice.getText().toString());
+                            amount = decimalFormat.parse(etReturnPrice.getText().toString()).doubleValue();
                             items.get(getAdapterPosition()).setReturnAmount(amount);
                         } catch (Exception e) {
                             etReturnPrice.setError(context.getString(R.string.invalid));
@@ -129,7 +129,7 @@ public class ReturnsAdapter extends RecyclerView.Adapter<ReturnsAdapter.ProductS
                     if (charSequence.length() != 0) {
                         double qty;
                         try {
-                            qty = Double.parseDouble(etQuantity.getText().toString());
+                            qty = decimalFormat.parse(etQuantity.getText().toString()).doubleValue();
                             items.get(getAdapterPosition()).setQuantity(qty);
                         } catch (Exception e) {
                             etQuantity.setError(context.getString(R.string.invalid));

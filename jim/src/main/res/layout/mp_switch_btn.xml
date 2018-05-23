@@ -12,7 +12,7 @@
 
         <LinearLayout
             android:id="@+id/mpLeftSide"
-            android:layout_width="@dimen/hundred_twenty_dp"
+            android:layout_width="@dimen/hundred_fifty_dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
@@ -37,7 +37,7 @@
 
         <LinearLayout
             android:id="@+id/mpRightSide"
-            android:layout_width="@dimen/hundred_twenty_dp"
+            android:layout_width="@dimen/hundred_fifty_dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"

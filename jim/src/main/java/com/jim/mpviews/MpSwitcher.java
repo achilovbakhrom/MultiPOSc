@@ -58,12 +58,12 @@ public class MpSwitcher extends LinearLayout {
         LayoutInflater.from(context).inflate(R.layout.mp_switch_btn, this);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         setLayoutParams(layoutParams);
-        mpLeftBtn = (LinearLayout) findViewById(R.id.mpLeftSide);
-        mpRightBtn = (LinearLayout) findViewById(R.id.mpRightSide);
-        mpLeftImage = (ImageView) findViewById(R.id.mpLeftImage);
-        mpRightImage = (ImageView) findViewById(R.id.mpRightImage);
-        mpLeftText = (TextView) findViewById(R.id.mpLeftText);
-        mpRightText = (TextView) findViewById(R.id.mpRightText);
+        mpLeftBtn = findViewById(R.id.mpLeftSide);
+        mpRightBtn = findViewById(R.id.mpRightSide);
+        mpLeftImage = findViewById(R.id.mpLeftImage);
+        mpRightImage = findViewById(R.id.mpRightImage);
+        mpLeftText = findViewById(R.id.mpLeftText);
+        mpRightText = findViewById(R.id.mpRightText);
         TypedArray attributeArray = context.obtainStyledAttributes(attrs, R.styleable.MpSwitcher);
 
         mpLeftBtn.setBackgroundResource(R.drawable.matrix_left_pressed_bg);

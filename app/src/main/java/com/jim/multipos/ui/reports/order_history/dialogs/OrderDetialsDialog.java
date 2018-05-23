@@ -212,6 +212,8 @@ public class OrderDetialsDialog extends Dialog {
         properties.offset = new File(DialogConfigs.DEFAULT_DIR);
         properties.extensions = null;
         FilePickerDialog dialog = new FilePickerDialog(getContext(), properties);
+        dialog.setNegativeBtnName(getContext().getString(R.string.cancel));
+        dialog.setPositiveBtnName(getContext().getString(R.string.select));
         dialog.setTitle(getContext().getString(R.string.select_a_directory));
         dialog.setDialogSelectionListener(files -> exportDialog.setPath(files));
         dialog.show();
@@ -360,7 +362,7 @@ public class OrderDetialsDialog extends Dialog {
             orderDetails[3] = "";
             orderValues[3] = 0;
         } else {
-            tvOrderDiscountName.setText(order.getDiscount().getName() + " (" + decimalFormat.format(order.getDiscount().getAmount()) + (order.getDiscount().getAmountType() == Discount.PERCENT ? "%" : "") + " " + getContext().getString(R.string.discount) + ")");
+            tvOrderDiscountName.setText(order.getDiscount().getName() + " (" + decimalFormat.format(order.getDiscount().getAmount()) + (order.getDiscount().getAmountType() == Discount.PERCENT ? "%" : "") + " " + getContext().getString(R.string.discount_one) + "):");
             tvOrderDiscountAmmount.setText(decimalFormat.format(order.getDiscountAmount()));
             orderDetails[3] = order.getDiscount().getName() + " (" + decimalFormat.format(order.getDiscount().getAmount()) + (order.getDiscount().getAmountType() == Discount.PERCENT ? "%" : "") + " " + getContext().getString(R.string.discount) + ")";
             orderValues[3] = order.getDiscountAmount();
@@ -370,7 +372,7 @@ public class OrderDetialsDialog extends Dialog {
             orderDetails[4] = "";
             orderValues[4] = 0;
         } else {
-            tvOrderServiceFeeName.setText(order.getServiceFee().getName() + " (" + decimalFormat.format(order.getServiceFee().getAmount()) + (order.getServiceFee().getType() == Discount.PERCENT ? "%" : "") + " " + getContext().getString(R.string.service_fee) + ")");
+            tvOrderServiceFeeName.setText(order.getServiceFee().getName() + " (" + decimalFormat.format(order.getServiceFee().getAmount()) + (order.getServiceFee().getType() == Discount.PERCENT ? "%" : "") + " " + getContext().getString(R.string.service_fee) + "):");
             tvOrderServiceFeeAmmount.setText("+" + decimalFormat.format(order.getServiceAmount()));
             orderDetails[4] = order.getServiceFee().getName() + " (" + decimalFormat.format(order.getServiceFee().getAmount()) + (order.getServiceFee().getType() == Discount.PERCENT ? "%" : "") + " " + getContext().getString(R.string.service_fee) + ")";
             orderValues[4] = order.getServiceAmount();

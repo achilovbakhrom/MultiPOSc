@@ -243,6 +243,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
+    public Single<Account> getSystemAccount() {
+        return dbHelper.getSystemAccount();
+    }
+
+    @Override
     public Observable<Category> getSubCategoryByName(String category, Long id) {
         return dbHelper.getSubCategoryByName(category, id);
     }
@@ -416,6 +421,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public PaymentType getPaymentTypeById(long id) {
         return dbHelper.getPaymentTypeById(id);
+    }
+
+    @Override
+    public Single<PaymentType> getSystemPaymentType() {
+        return dbHelper.getSystemPaymentType();
     }
 
     @Override

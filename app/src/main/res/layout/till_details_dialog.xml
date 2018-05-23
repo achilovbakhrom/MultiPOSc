@@ -230,7 +230,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/fifty_dp"
-                    android:text="@string/pay_to_vendors_"
+                    android:text="@string/payment_to_vendor_"
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/sixteen_dp" />
 
@@ -360,7 +360,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/fifty_dp"
-                    android:text="@string/tips_dispensed_"
+                    android:text="@string/collected_coin_"
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/sixteen_dp" />
 
@@ -400,7 +400,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/thirty_dp"
                     android:gravity="right"
-                    android:text="@string/total_for_till_"
+                    android:text="@string/total_"
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/sixteen_dp" />
 
@@ -473,7 +473,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/thirty_dp"
                     android:gravity="right"
-                    android:text="@string/to_next_amount"
+                    android:text="@string/to_next_till_"
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/sixteen_dp" />
 
@@ -522,7 +522,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/thirty_dp"
                     android:gravity="right"
-                    android:text="@string/till_amount_variance"
+                    android:text="@string/expexted_amount_in_till_report_"
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/sixteen_dp" />
 

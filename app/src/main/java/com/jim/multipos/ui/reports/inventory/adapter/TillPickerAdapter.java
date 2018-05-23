@@ -1,5 +1,6 @@
 package com.jim.multipos.ui.reports.inventory.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,11 +21,13 @@ public class TillPickerAdapter extends RecyclerView.Adapter<TillPickerAdapter.Ti
 
     private List<Till> tills;
     private OnTillPicked onTillPicked;
+    private Context context;
     private SimpleDateFormat simpleDateFormat;
 
-    public TillPickerAdapter(List<Till> tills, OnTillPicked onTillPicked) {
+    public TillPickerAdapter(List<Till> tills, OnTillPicked onTillPicked, Context context) {
         this.tills = tills;
         this.onTillPicked = onTillPicked;
+        this.context = context;
         simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
     }
 
@@ -36,7 +39,7 @@ public class TillPickerAdapter extends RecyclerView.Adapter<TillPickerAdapter.Ti
 
     @Override
     public void onBindViewHolder(TillPickerViewHolder holder, int position) {
-        holder.tvTillId.setText("Till #" + tills.get(position).getId());
+        holder.tvTillId.setText(context.getString(R.string.till)+ "#" + tills.get(position).getId());
         holder.tvFromDate.setText(simpleDateFormat.format(tills.get(position).getOpenDate()));
         holder.tvToDate.setText(simpleDateFormat.format(tills.get(position).getCloseDate()));
     }

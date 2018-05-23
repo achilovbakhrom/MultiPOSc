@@ -66,6 +66,7 @@ public class StartConfigurationPresenterImpl extends BasePresenterImpl<StartConf
             databaseManager.addPaymentType(paymentType).subscribe();
             PaymentType cashPaymentType = new PaymentType();
             cashPaymentType.setAccount(account1);
+            cashPaymentType.setIsNotSystem(true);
             cashPaymentType.setName(paymentTypeName);
             cashPaymentType.setTypeStaticPaymentType(PaymentType.CASH_PAYMENT_TYPE);
             cashPaymentType.setCurrency(databaseManager.getMainCurrency());

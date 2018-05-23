@@ -132,7 +132,8 @@
                         android:layout_width="@dimen/two_hundred_dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:gravity="center"
+                        android:gravity="left"
+                        android:paddingLeft="@dimen/ten_dp"
                         android:text="@string/vendor"
                         android:textColor="@color/colorMainText"
                         android:textSize="@dimen/sixteen_dp" />

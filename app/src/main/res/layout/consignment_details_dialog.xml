@@ -237,7 +237,7 @@
                             android:layout_marginLeft="@dimen/fifty_dp"
                             android:layout_marginRight="@dimen/five_dp"
                             android:gravity="right"
-                            android:text="@string/paid_account"
+                            android:text="@string/account"
                             android:textColor="@color/colorMainText"
                             android:textSize="@dimen/sixteen_dp" />
 

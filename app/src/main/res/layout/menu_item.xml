@@ -20,7 +20,7 @@
             android:orientation="vertical"
             android:paddingBottom="@dimen/ten_dp"
             android:paddingLeft="@dimen/forty_dp"
-            android:paddingRight="@dimen/forty_dp"
+            android:paddingRight="@dimen/five_dp"
             android:paddingTop="@dimen/ten_dp">
 
             <TextView

@@ -55,7 +55,7 @@
                         android:layout_marginLeft="@dimen/thirty_dp"
                         android:text="@string/order_no"
                         android:textColor="@color/colorMainText"
-                        android:textSize="@dimen/eighteen_dp" />
+                        android:textSize="@dimen/sixteen_dp" />
 
                     <ImageView
                         android:id="@+id/ivOrderSort"
@@ -81,7 +81,7 @@
                         android:layout_gravity="center"
                         android:text="@string/customer_name"
                         android:textColor="@color/colorMainText"
-                        android:textSize="@dimen/eighteen_dp" />
+                        android:textSize="@dimen/sixteen_dp" />
 
                     <ImageView
                         android:id="@+id/ivCustomerSort"
@@ -108,7 +108,7 @@
                         android:layout_marginRight="@dimen/ten_dp"
                         android:text="@string/created_date_"
                         android:textColor="@color/colorMainText"
-                        android:textSize="@dimen/eighteen_dp" />
+                        android:textSize="@dimen/sixteen_dp" />
 
                     <ImageView
                         android:id="@+id/ivDateSort"
@@ -136,7 +136,7 @@
                         android:layout_marginRight="@dimen/ten_dp"
                         android:text="@string/due"
                         android:textColor="@color/colorMainText"
-                        android:textSize="@dimen/eighteen_dp" />
+                        android:textSize="@dimen/sixteen_dp" />
 
                     <ImageView
                         android:id="@+id/ivDueAmountSort"
@@ -162,7 +162,7 @@
                         android:gravity="center"
                         android:text="@string/action"
                         android:textColor="@color/colorMainText"
-                        android:textSize="@dimen/eighteen_dp" />
+                        android:textSize="@dimen/sixteen_dp" />
 
                 </LinearLayout>
 

@@ -44,7 +44,7 @@ public class TillPickerDialog extends Dialog {
         TillPickerAdapter adapter = new TillPickerAdapter(tills, (till, position) -> {
             listener.pickedTill(till);
             dismiss();
-        });
+        }, context);
         rvTills.setAdapter(adapter);
     }
 

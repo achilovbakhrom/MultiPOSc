@@ -1288,7 +1288,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
     @Override
     public void onCancelClicked() {
         if(isEmptyOrder()){
-            view.openWarningDialog("Empty Till can't be cancel");
+            view.openWarningDialog(context.getString(R.string.empty_till_cant_be_cancel));
             return;
         }
         view.sureCancel();

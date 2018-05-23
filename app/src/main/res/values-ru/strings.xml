@@ -66,14 +66,14 @@
     <string name="options">Опции</string>
     <string name="barcode">Штрихкод</string>
     <string name="sku">Артикул</string>
-    <string name="quantity">Количество</string>
+    <string name="quantity">Кол-во</string>
     <string name="linked">Linked</string>
     <string name="none">нет</string>
     <string name="unit">Ед. изм.</string>
     <string name="price">Цена</string>
     <string name="value">Значение</string>
     <string name="cost">Стоимость</string>
-    <string name="product_class">Классы</string>
+    <string name="product_class">Класс</string>
     <string name="tax_free">Tax Free</string>
     <string name="advance">Advance</string>
     <string name="enter_product_name">Please, enter product name</string>
@@ -101,7 +101,8 @@
     <string name="contact_name">Контактное лицо</string>
     <string name="selected">Выбрано</string>
     <string name="products">Товары</string>
-    <string name="total_should_pay">Итого должно быть оплачено</string>
+    <string name="incorrect_file">Неверный формат файла</string>
+    <string name="total_should_pay">Общая сумма к оплате</string>
     <string name="total_paid">Итого оплачено</string>
     <string name="account">Счет</string>
     <string name="from_account">Со счёта</string>
@@ -145,7 +146,7 @@
     <string-array name="products_menu_description">
         <item>Добавление или редактирование товаров</item>
         <item>Добавление или редактирование поставщиков</item>
-        <item>Добавление или редактирование групп</item>
+        <item>Добавление или редактирование классов</item>
         <item>Добавление или редактирование скидок</item>
         <item>Добавление или редактирование комиссий</item>
         <item>Экспорт прайс листа, товаров, поставщиков </item>
@@ -205,7 +206,7 @@
     <string-array name="weight_title">
         <item>Килограмм</item>
         <item>Грамм</item>
-        <item>Тон</item>
+        <item>Тонна</item>
     </string-array>
 
     <string-array name="weight_abbr">
@@ -426,7 +427,7 @@
 
     <string-array name="payments_report_summary_title">
         <item>Вид платежа</item>
-        <item>Got for order</item>
+        <item>Сумма платежа заказа</item>
         <item>Пропорции %</item>
     </string-array>
 
@@ -545,6 +546,7 @@
     <string name="discount_creation_log">Журнал событий создания скидок</string>
     <string name="order_id">Заказ №</string>
     <string name="till_id">Смена №</string>
+    <string name="subtotal">Подитог</string>
     <string name="closed_time">Время закрытия</string>
     <string name="customer">Клиент</string>
     <string name="closed">Закрыт</string>
@@ -555,7 +557,7 @@
     <string name="date">Дата</string>
     <string name="reason_for_discount">Причина скидки</string>
     <string name="type">Тип</string>
-    <string name="static_type">Статичный</string>
+    <string name="static_type">Статичная</string>
     <string name="reason">Причина</string>
     <string name="amount_type">Вид суммы</string>
     <string name="usage_type">Тип использования</string>
@@ -746,7 +748,7 @@
     <string name="section">Раздел</string>
     <string name="features">Особенности</string>
     <string name="cancel_order">Отменить заказ</string>
-    <string name="manual_discounts">Ручные Скидки</string>
+    <string name="manual_discounts">Ручная скидка</string>
     <string name="edit_order">Исправить заказ</string>
     <string name="change_employee_password">Изменение пароля сотрудника</string>
     <string name="enter_old_password">Введите старый пароль</string>
@@ -770,7 +772,7 @@
     <string name="returned_debt_">Возвращенный долг:</string>
     <string name="bank_drops">Инкаcсация:</string>
     <string name="bank_drops_">Инкаcсация:</string>
-    <string name="actual_product_sales">Фактическая продажа товара</string>
+    <string name="actual_product_sales">Фактическая продажа товара:</string>
     <string name="collected_coin">Собранная мелочь</string>
     <string name="expected_amount_in_till_">Ожидаемая сумма за смену:</string>
     <string name="expected_amount_in_till">Ожидаемая сумма за смену:</string>
@@ -789,6 +791,7 @@
     <string name="total_closed">Всего закрыто</string>
     <string name="due_and_payable_amount">Сумма к выплате</string>
     <string name="to_next_till">На следующую смену</string>
+    <string name="to_next_till_">На следующую смену:</string>
     <string name="zero_in_till">Без кассы</string>
     <string name="hold_in_till">В кассе</string>
     <string name="three_step_of_three_steps_for_closing_till">Шаг 3 из 3 шагов для закрытия смены</string>
@@ -918,6 +921,7 @@
     <string name="change_to_not_delete_when_not_active">Сначала сделайте объект \"неактивным\"</string>
     <string name="subclass_name">Название подкласса</string>
     <string name="customers_list">Список клиентов</string>
+    <string name="groups">Группы</string>
     <string name="customers_groups">Группы Клиентов</string>
     <string name="you_can_only_delete_inactive_customer_groups">Сначала сделайте группу клиентов \"неактивной\"</string>
     <string name="do_you_want_update_customer_group">Вы действительно хотите обновить группу клиентов?</string>
@@ -971,7 +975,8 @@
     <string name="last_30_days">Последнии 30 дней</string>
     <string name="this_month">Этот месяц</string>
     <string name="this_year">Этот год</string>
-    <string name="expexted_amount_in_till_report">Ожидаемая сумма за смену</string>
+    <string name="expexted_amount_in_till_report">Расхождения суммы</string>
+    <string name="expexted_amount_in_till_report_">Расхождения суммы:</string>
     <string name="order_status_closed">Закрыт</string>
     <string name="order_status_held">Удержан</string>
     <string name="lifecycle">Цикл</string>
@@ -1016,10 +1021,10 @@
     <string name="total_order_amount">Обшая сумма заказов</string>
     <string name="for_order">Заказ</string>
     <string name="for_debt">Долг</string>
-    <string name="debt_state">Задолжнность</string>
-    <string name="taken_value">Сумма задолжнности</string>
-    <string name="difference">Остаток задолжнности</string>
-    <string name="money_transactions">Денежные опирации</string>
+    <string name="debt_state">Задолженность</string>
+    <string name="taken_value">Сумма задолженности</string>
+    <string name="difference">Остаток задолженности</string>
+    <string name="money_transactions">Денежные операции</string>
     <string name="debt_">Долг</string>
     <string name="first_pay">Первый платёж</string>
     <string name="each_cost">За ед.</string>
@@ -1038,7 +1043,9 @@
     <string name="debt_taken_avg">Средняя сумма долга</string>
     <string name="debt_orders_count">Заказы с долгом</string>
     <string name="group">Группа</string>
+    <string name="hold">Удержан</string>
     <string name="created_at">Дата создания</string>
+    <string name="service_fee_percent">Процент %</string>
     <string name="order_amount">Сумма заказа</string>
     <string name="paid_report_text">Оплачено</string>
     <string name="last_pay_date">Последний платёж</string>
@@ -1047,4 +1054,31 @@
     <string name="debt_id">Долг №</string>
     <string name="taken_date">Дата создания</string>
     <string name="debt_type">Тип долга</string>
+    <string name="login_lock_screen">Вход</string>
+    <string name="select_a_directory">Выберите место сохранения</string>
+    <string name="details_of_till">Детали смены №</string>
+    <string name="summary">Общий</string>
+    <string name="collected_coin_">Собранная мелочь:</string>
+    <string name="payment_to_vendor_">Оплата поставщику:</string>
+    <string name="total_closed_amount_">Общая сумма к выплате:</string>
+    <string name="actual_product_sales_">Фактическая продажа товара</string>
+    <string name="discount_one">Скидка</string>
+    <string name="debt_in">Долг</string>
+    <string name="canceled_order">Отмененный заказ</string>
+    <string name="consignment_canceled">Отмененная накладная</string>
+    <string name="held_product_return">Возврат удержанного тов.</string>
+    <string name="closing_date">Дата закрытия</string>
+    <string name="successfully_exported_to_excel">Успешно экспортированы в Excel</string>
+    <string name="successfully_exported_to_pdf">Успешно экспортированы в Pdf</string>
+    <string name="products_imported">Продукты успешно импортированы</string>
+    <string name="customers_imported">Клиенты успешно импортированы</string>
+    <string name="available_units">Доступные ед. изм. :</string>
+    <string name="vendors_imported">Поставщики успешно импортированы</string>
+    <string name="customers_template">Образец клиента</string>
+    <string name="products_vendor_template">Образец продукта</string>
+    <string name="vendor_template">Образец поставщика</string>
+    <string name="empty_till_cant_be_cancel">Пустой заказ не может быть отменен</string>
+    <string name="qty_cant_be_empty">Кол-во не может быть пустым</string>
+    <string name="remove_service_fee">Удалить \nКомиссию</string>
+    <string name="remove_discount">Удалить \nСкидку</string>
 </resources>

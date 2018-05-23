@@ -269,6 +269,8 @@ public class CustomerReportFragment extends BaseTableReportFragment implements C
         properties.extensions = null;
         FilePickerDialog dialog = new FilePickerDialog(getContext(), properties);
         dialog.setTitle(getContext().getString(R.string.select_a_directory));
+        dialog.setNegativeBtnName(getContext().getString(R.string.cancel));
+        dialog.setPositiveBtnName(getContext().getString(R.string.select));
         dialog.setDialogSelectionListener(files -> {
             exportDialog.setPath(files);
         });

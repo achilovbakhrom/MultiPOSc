@@ -56,7 +56,7 @@
                         android:layout_marginLeft="@dimen/thirty_dp"
                         android:text="@string/order_id"
                         android:textColor="@color/colorMainText"
-                        android:textSize="@dimen/eighteen_dp" />
+                        android:textSize="@dimen/sixteen_dp" />
 
                     <ImageView
                         android:id="@+id/ivOrderSort"
@@ -77,12 +77,12 @@
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:layout_marginLeft="@dimen/thirty_dp"
                         android:text="@string/status"
                         android:textColor="@color/colorMainText"
-                        android:textSize="@dimen/eighteen_dp" />
+                        android:textSize="@dimen/sixteen_dp" />
 
                     <ImageView
                         android:id="@+id/ivStatusSort"
@@ -108,7 +108,7 @@
                         android:layout_gravity="center"
                         android:text="@string/customer_name"
                         android:textColor="@color/colorMainText"
-                        android:textSize="@dimen/eighteen_dp" />
+                        android:textSize="@dimen/sixteen_dp" />
 
                     <ImageView
                         android:id="@+id/ivCustomerSort"
@@ -135,7 +135,7 @@
                         android:layout_marginRight="@dimen/ten_dp"
                         android:text="@string/created_date_"
                         android:textColor="@color/colorMainText"
-                        android:textSize="@dimen/eighteen_dp" />
+                        android:textSize="@dimen/sixteen_dp" />
 
                     <ImageView
                         android:id="@+id/ivDateSort"
@@ -162,7 +162,7 @@
                         android:gravity="right"
                         android:text="@string/total"
                         android:textColor="@color/colorMainText"
-                        android:textSize="@dimen/eighteen_dp" />
+                        android:textSize="@dimen/sixteen_dp" />
 
                     <ImageView
                         android:id="@+id/ivTotalSort"
@@ -182,7 +182,7 @@
                     android:gravity="center"
                     android:text="@string/action"
                     android:textColor="@color/colorMainText"
-                    android:textSize="@dimen/eighteen_dp" />
+                    android:textSize="@dimen/sixteen_dp" />
 
             </LinearLayout>
 

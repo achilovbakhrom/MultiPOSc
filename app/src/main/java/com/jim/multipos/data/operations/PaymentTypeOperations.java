@@ -22,4 +22,5 @@ public interface PaymentTypeOperations {
     Single<PaymentType> getDebtPaymentType();
     PaymentType getCashPaymentType();
     PaymentType getPaymentTypeById(long id);
+    Single<PaymentType> getSystemPaymentType();
 }

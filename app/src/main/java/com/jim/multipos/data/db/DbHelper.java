@@ -304,4 +304,6 @@ public interface DbHelper {
     Single<List<ConsignmentProduct>> getConsignmentProductsInterval(Calendar fromDate, Calendar toDate);
     Single<List<BillingOperations>> getAllBillingOperationsInInterval(Calendar fromDate, Calendar toDate);
     Single<Vendor> getVendorByName(String vendorName);
+    Single<Account> getSystemAccount();
+    Single<PaymentType> getSystemPaymentType();
 }

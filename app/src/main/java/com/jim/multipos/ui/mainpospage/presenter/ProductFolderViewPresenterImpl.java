@@ -64,7 +64,9 @@ public class ProductFolderViewPresenterImpl extends BasePresenterImpl<ProductFol
     @Override
     public void selectedItem(FolderItem item) {
         this.folderItem = item;
-        if (item.getCategory() != null) {
+        if (item.getProduct() != null) {
+            view.setSelectedProduct(item.getProduct());
+        } else if (item.getCategory() != null) {
             if (isSubcategory(item.getCategory())) {
                 mode = PRODUCT;
                 folderItems.clear();
@@ -73,12 +75,14 @@ public class ProductFolderViewPresenterImpl extends BasePresenterImpl<ProductFol
                     for (Product product : products) {
                         FolderItem folderItem = new FolderItem();
                         folderItem.setProduct(product);
+                        folderItem.setCategory(item.getCategory());
                         List<InventoryState> inventoryStates = databaseManager.getInventoryStatesByProductId(product.getRootId()).blockingSingle();
                         int count = 0;
                         for (InventoryState inventoryState : inventoryStates) {
                             count += inventoryState.getValue();
                         }
                         folderItem.setCount(count);
+
                         folderItems.add(folderItem);
                     }
                     view.refreshProductList(folderItems, PRODUCT);
@@ -103,8 +107,6 @@ public class ProductFolderViewPresenterImpl extends BasePresenterImpl<ProductFol
                     view.setBackItemVisibility(true);
                 });
             }
-        } else if (item.getProduct() != null) {
-            view.setSelectedProduct(item.getProduct());
         }
     }
 
@@ -158,7 +160,8 @@ public class ProductFolderViewPresenterImpl extends BasePresenterImpl<ProductFol
                 for (Product product : products) {
                     FolderItem folderItem = new FolderItem();
                     folderItem.setProduct(product);
-                    List<InventoryState> inventoryStates = databaseManager.getInventoryStatesByProductId(product.getId()).blockingSingle();
+                    folderItem.setCategory(folderItem.getCategory());
+                    List<InventoryState> inventoryStates = databaseManager.getInventoryStatesByProductId(product.getRootId()).blockingSingle();
                     int count = 0;
                     for (InventoryState inventoryState : inventoryStates) {
                         count += inventoryState.getValue();

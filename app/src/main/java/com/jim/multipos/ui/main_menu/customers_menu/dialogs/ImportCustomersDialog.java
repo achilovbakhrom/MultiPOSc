@@ -83,6 +83,8 @@ public class ImportCustomersDialog extends Dialog {
         tvFilePath.setOnClickListener(view -> {
             FilePickerDialog dialog = new FilePickerDialog(context, properties);
             dialog.setTitle(getContext().getString(R.string.select_the_file_location));
+            dialog.setNegativeBtnName(context.getString(R.string.cancel));
+            dialog.setPositiveBtnName(context.getString(R.string.select));
             dialog.setDialogSelectionListener(files -> {
                 path = files[0];
                 tvFilePath.setText(path);

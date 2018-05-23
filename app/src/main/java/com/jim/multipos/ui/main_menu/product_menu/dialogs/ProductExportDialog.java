@@ -96,6 +96,8 @@ public class ProductExportDialog extends Dialog {
             properties.extensions = null;
             FilePickerDialog dialog = new FilePickerDialog(context, properties);
             dialog.setTitle(getContext().getString(R.string.select_a_directory));
+            dialog.setNegativeBtnName(context.getString(R.string.cancel));
+            dialog.setPositiveBtnName(context.getString(R.string.select));
             dialog.setDialogSelectionListener(files -> {
                 path = files[0];
                 tvFilePath.setText(path);
@@ -201,7 +203,8 @@ public class ProductExportDialog extends Dialog {
             for (UsbMassStorageDevice device : devices) {
                 PendingIntent permissionIntent = PendingIntent.getBroadcast(context, 0, new Intent(ACTION_USB_PERMISSION), 0);
                 if (usbManager != null) {
-                    usbManager.requestPermission(device.getUsbDevice(), permissionIntent);
+                    if (!usbManager.hasPermission(device.getUsbDevice()))
+                        usbManager.requestPermission(device.getUsbDevice(), permissionIntent);
                 }
             }
         } else {

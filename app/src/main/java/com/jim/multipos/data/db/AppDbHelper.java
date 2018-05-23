@@ -2397,6 +2397,20 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
+    public Single<Account> getSystemAccount() {
+        return Single.create(e -> {
+            e.onSuccess(mDaoSession.getAccountDao().queryBuilder().where(AccountDao.Properties.IsNotSystemAccount.eq(false)).build().unique());
+        });
+    }
+
+    @Override
+    public Single<PaymentType> getSystemPaymentType() {
+        return Single.create(e -> {
+            e.onSuccess(mDaoSession.getPaymentTypeDao().queryBuilder().where(PaymentTypeDao.Properties.IsNotSystem.eq(false)).build().unique());
+        });
+    }
+
+    @Override
     public Single<List<Order>> getOrdersInIntervalForReport(Calendar fromDate, Calendar toDate) {
         return Single.create(e -> {
             List<Order> orderList = mDaoSession.getOrderDao().queryBuilder()

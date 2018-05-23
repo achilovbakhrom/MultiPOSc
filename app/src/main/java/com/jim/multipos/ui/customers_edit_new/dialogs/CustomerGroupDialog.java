@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.Button;
 
 import com.jakewharton.rxbinding2.view.RxView;
@@ -59,13 +60,13 @@ public class CustomerGroupDialog extends Dialog {
         rvCustomerGroups.setLayoutManager(new LinearLayoutManager(getContext()));
         rvCustomerGroups.setAdapter(new CustomerGroupAdapter(customerGroups, customer.getCustomerGroups()));
 
-        RxView.clicks(btnOK).subscribe(o -> {
+        btnOK.setOnClickListener(view -> {
             customer.setCustomerGroups(((CustomerGroupAdapter) rvCustomerGroups.getAdapter()).getSelectedCustomerGroups());
             listener.onOkClicked(customer, ((CustomerGroupAdapter) rvCustomerGroups.getAdapter()).isModified());
             dismiss();
         });
 
-        RxView.clicks(tvAdd).subscribe(o -> {
+        tvAdd.setOnClickListener(view -> {
             getContext().startActivity(new Intent(getContext(), CustomerGroupActivity.class));
         });
     }

@@ -468,9 +468,9 @@
     <string name="you_have_unsaved_service_fee">You have %d unsaved service fee. Do you really want to leave?</string>
     <string name="you_have_unsaved_customers">You have %d unsaved customers. Do you really want to leave?</string>
     <string name="select_for_order">Select for order</string>
-    <string name="discount">Discountc</string>
+    <string name="discount">Discounts</string>
     <string name="created_date">Created date:</string>
-    <string name="total_should_pay">Total should pay</string>
+    <string name="total_should_pay">Amount to be paid</string>
     <string name="total_paid">Total paid</string>
     <string name="account">Account</string>
     <string name="from_account">From Account</string>
@@ -557,7 +557,7 @@
     <string name="due_with_dots">Due amount:</string>
     <string name="service_fee_amount">Service fee amount</string>
     <string name="enter_service_fee_name">Enter service fee name</string>
-    <string name="service_fee_percent">Service fee %</string>
+    <string name="service_fee_percent">Percent %</string>
     <string name="billing_price_cannot_be_lower">Billing price cannot be lower than original price</string>
     <string name="enter_discount_reason">Enter discount reason</string>
     <string name="disc_reacon_cant_empty">Enter discount reason</string>
@@ -717,7 +717,7 @@
     <string name="return_cost">Cost</string>
     <string name="consignment_canceled">Consignment canceled</string>
     <string name="income_from_vendor">Income from vendor</string>
-    <string name="held_product_return">Held product return</string>
+    <string name="held_product_return">Hold back product</string>
     <string name="canceled_order">Canceled order</string>
     <string name="till">Till</string>
     <string name="cash">Cash</string>
@@ -771,8 +771,9 @@
     <string name="pay_in">Pay in</string>
     <string name="pay_out">Pay out</string>
     <string name="payment_to_vendor">Payment to vendor</string>
+    <string name="payment_to_vendor_">Payment to vendor:</string>
     <string name="bank_drop">Bank drop</string>
-    <string name="debt_in">Debt in</string>
+    <string name="debt_in">Debt</string>
     <string name="tills_reports">Tills Reports</string>
     <string name="summary_amount">Summary amount</string>
     <string name="payments_summary">Payments summary</string>
@@ -782,10 +783,11 @@
     <string name="pay_outs">Pay - Outs</string>
     <string name="pay_ins">Pay - Ins</string>
     <string name="returned_debt">Returned debt</string>
-    <string name="actual_product_sales">Actual product sales</string>
+    <string name="actual_product_sales">Actual product sales:</string>
     <string name="collected_coin">Collected coin</string>
+    <string name="collected_coin_">Collected coin:</string>
     <string name="total_for_till">Total for till</string>
-    <string name="total_closed_amount">Total_closed_amount</string>
+    <string name="total_closed_amount">Total closed amount</string>
     <string name="total_to_next_amount">Total to next amount</string>
     <string name="till_amount_variance">Till amount variance</string>
     <string name="subtotal">Subtotal</string>
@@ -810,7 +812,7 @@
     <string name="customers">Customers</string>
     <string name="template">Template</string>
     <string name="customers_template">Customers template</string>
-    <string name="products_vendor_template">Product Vendor template</string>
+    <string name="products_vendor_template">Product template</string>
     <string name="customers_imported">Customers successfully imported</string>
     <string name="available_units">Available units :</string>
     <string name="vendors_and_products_imported">Vendors and products are successfully imported</string>
@@ -856,6 +858,7 @@
     <string name="orders_awaiting_approval">Orders Awaiting Approval</string>
     <string name="due_and_payable_amount">Due and payable amount</string>
     <string name="to_next_till">To Next Till</string>
+    <string name="to_next_till_">To Next Till:</string>
     <string name="_1_step_of_3_steps_for_closing_till">1 step of 3 steps for closing till</string>
     <string name="system_currency">System currency</string>
     <string name="select_system_currency">Select system currency</string>
@@ -969,8 +972,9 @@
     <string name="opt_in_wozard">Opt-in Wizard</string>
     <string name="necessary_data_for_the_system">Necessary data for the system</string>
     <string name="total_for_till_">Total for Till:</string>
-    <string name="total_closed_amount_">Total closed amount:</string>
+    <string name="total_closed_amount_">Total due amount:</string>
     <string name="to_next_amount">To next amount</string>
+    <string name="to_next_amount_">To next amount:</string>
     <string name="enter_tips_amount">Enter Coin Amount</string>
     <string name="zero_in_till">Zero in till</string>
     <string name="hold_in_till">Hold in till</string>
@@ -1015,7 +1019,7 @@
     <string name="service_fee_min">(service fee)</string>
     <string name="order_discount_min">(order discount)</string>
     <string name="order_service_fee_min">(order service fee)</string>
-    <string name="hold">Hold</string>
+    <string name="hold">Retained</string>
     <string name="password_cant_be_empty">Password can\'t be empty !</string>
     <string name="please_enter_reason_for_order">Please enter reason for order !</string>
     <string name="password_is_incorrect">Password is incorrect</string>
@@ -1175,7 +1179,7 @@
     </string-array>
     <string-array name="payments_report_summary_title">
         <item>Payment type</item>
-        <item>Got for order</item>
+        <item>Order payment amount</item>
         <item>Ratios %</item>
     </string-array>
     <string-array name="payments_report_details_title">
@@ -1406,6 +1410,13 @@
     <string name="please_enter_replashment_reason">Please enter replenishment reason</string>
     <string name="enter_service_fee_name_service">Enter service fee name</string>
     <string name="subclass_name">Subclass name</string>
-    <string name="expexted_amount_in_till_report">Expected amount in Till</string>
+    <string name="expexted_amount_in_till_report">Amount divergence</string>
+    <string name="expexted_amount_in_till_report_">Amount divergence:</string>
     <string name="login_lock_screen">Login</string>
+    <string name="actual_product_sales_">Actual product sales</string>
+    <string name="discount_one">Discount</string>
+    <string name="closing_date">Closing date</string>
+    <string name="vendor_template">Vendor template</string>
+    <string name="empty_till_cant_be_cancel">Empty order can\'t be cancel</string>
+    <string name="qty_cant_be_empty">Quantity cannot be empty</string>
 </resources>

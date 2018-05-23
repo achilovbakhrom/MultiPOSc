@@ -66,14 +66,14 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
         super.onCreateView(bundle);
         initDateInterval();
         initDecimal();
-        new Handler().postDelayed(()->{
-            databaseManager.getOrdersInIntervalForReport(this.fromDateSummary,this.toDateSummary).subscribe((orders1, throwable) -> {
+        new Handler().postDelayed(() -> {
+            databaseManager.getOrdersInIntervalForReport(this.fromDateSummary, this.toDateSummary).subscribe((orders1, throwable) -> {
                 ordersSummary = orders1;
                 updateObejctsForTable();
-                view.initTable(summaryObjects,currentPosition);
+                view.initTable(summaryObjects, currentPosition);
             });
-        },50);
-        view.updateDateIntervalUi(fromDateSummary,toDateSummary);
+        }, 50);
+        view.updateDateIntervalUi(fromDateSummary, toDateSummary);
 
     }
 
@@ -662,9 +662,11 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
                         PaymentsReport paymentsReport = new PaymentsReport();
                         paymentsReport.setFilterId(FILTER_PAY_TO_VENDOR);
                         paymentsReport.setPaymentName("");
-                        paymentsReport.setReason("Pay to vendor");
+                        paymentsReport.setReason(context.getString(R.string.payment_to_vendor));
                         paymentsReport.setDescription(billingOperations.get(i).getDescription());
-                        paymentsReport.setAccountName(billingOperations.get(i).getAccount().getName());
+                        if (billingOperations.get(i).getAccount() != null)
+                            paymentsReport.setAccountName(billingOperations.get(i).getAccount().getName());
+                        else paymentsReport.setAccountName(context.getString(R.string.none));
                         paymentsReport.setOrderId(-1);
                         paymentsReport.setTillId(-1);
                         paymentsReport.setDate(billingOperations.get(i).getCreateAt());
@@ -674,16 +676,16 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
 
                     databaseManager.getCustomerPaymentsByInterval(fromDate, toDate).subscribe((customerPayments, throwable3) -> {
                         for (int i = 0; i < customerPayments.size(); i++) {
-                                PaymentsReport paymentsReport = new PaymentsReport();
-                                paymentsReport.setFilterId(FILTER_DEBTS_IN);
-                                paymentsReport.setPaymentName(customerPayments.get(i).getPaymentType().getName());
-                                paymentsReport.setAccountName(customerPayments.get(i).getPaymentType().getAccount().getName());
-                                paymentsReport.setOrderId(customerPayments.get(i).getDebt().getOrderId());
-                                paymentsReport.setReason("Debt in");
-                                paymentsReport.setTillId(-1);
-                                paymentsReport.setDate(customerPayments.get(i).getPaymentDate());
-                                paymentsReport.setAmount(customerPayments.get(i).getPaymentAmount());
-                                paymentsReports.add(paymentsReport);
+                            PaymentsReport paymentsReport = new PaymentsReport();
+                            paymentsReport.setFilterId(FILTER_DEBTS_IN);
+                            paymentsReport.setPaymentName(customerPayments.get(i).getPaymentType().getName());
+                            paymentsReport.setAccountName(customerPayments.get(i).getPaymentType().getAccount().getName());
+                            paymentsReport.setOrderId(customerPayments.get(i).getDebt().getOrderId());
+                            paymentsReport.setReason(context.getString(R.string.debt_in));
+                            paymentsReport.setTillId(-1);
+                            paymentsReport.setDate(customerPayments.get(i).getPaymentDate());
+                            paymentsReport.setAmount(customerPayments.get(i).getPaymentAmount());
+                            paymentsReports.add(paymentsReport);
                         }
                     });
                 });

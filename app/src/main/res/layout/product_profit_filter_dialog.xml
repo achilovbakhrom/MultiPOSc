@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/profit_group_by_"
+        android:text="@string/filters_"
         android:textSize="@dimen/sixteen_dp"
         android:layout_marginTop="@dimen/ten_dp"
         android:layout_marginRight="@dimen/sixteen_dp"
@@ -57,7 +57,7 @@
             android:layout_marginRight="@dimen/eighteen_dp"
             android:layout_marginLeft="@dimen/eighteen_dp"
             android:layout_marginTop="@dimen/ten_dp"
-            android:text="@string/sub_category_"
+            android:text="@string/subcategory"
             android:textColor="#212121"
 
 
@@ -69,7 +69,7 @@
             android:layout_marginRight="@dimen/eighteen_dp"
             android:layout_marginLeft="@dimen/eighteen_dp"
             android:layout_marginTop="@dimen/ten_dp"
-            android:text="@string/product_class_"
+            android:text="@string/product_class"
             android:textColor="#212121"
 
             />
@@ -85,7 +85,7 @@
         android:gravity="center_horizontal">
         <com.jim.mpviews.MpButton
             android:id="@+id/btnCancel"
-            android:layout_width="@dimen/hundred_twenty_dp"
+            android:layout_width="@dimen/hundred_thirty_five_dp"
             android:layout_height="@dimen/fifty_dp"
             android:layout_marginBottom="@dimen/ten_dp"
             android:text="@string/cancel"
@@ -93,7 +93,7 @@
             android:textColor="#acacac"/>
         <com.jim.mpviews.MpButton
             android:id="@+id/btnApply"
-            android:layout_width="@dimen/hundred_twenty_dp"
+            android:layout_width="@dimen/hundred_thirty_five_dp"
             android:layout_height="@dimen/fifty_dp"
             android:text="@string/apply"
             android:layout_marginTop="@dimen/five_dp"

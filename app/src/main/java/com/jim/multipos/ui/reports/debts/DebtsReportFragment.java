@@ -69,7 +69,7 @@ public class DebtsReportFragment extends BaseTableReportFragment implements Debt
         secondTitles = new String[]{getString(R.string.name), getString(R.string.debt_taken), getString(R.string.debt_closed), getString(R.string.debt_orders_count), getString(R.string.debt_taken_avg), getString(R.string.debt_closed_avg)};
         thirdTitles = new String[]{getString(R.string.name), getString(R.string.date), getString(R.string.order), getString(R.string.type), getString(R.string.amount), getString(R.string.payment_type), getString(R.string.group)};
         forthTitles = new String[]{getString(R.string.order_num), getString(R.string.created_at), getString(R.string.order_amount), getString(R.string.paid_report_text), getString(R.string.last_pay_date), getString(R.string.due_debt), getString(R.string.customer), getString(R.string.should_close_date), getContext().getString(R.string.fee)};
-        fifthTitles = new String[]{getString(R.string.debt_id), getString(R.string.taken_date), getString(R.string.due_date), getString(R.string.closed_date), getString(R.string.customer), getString(R.string.order), getString(R.string.debt_type), getString(R.string.fee), getString(R.string.debt_amount), getString(R.string.status), getString(R.string.total_debt)};
+        fifthTitles = new String[]{getString(R.string.debt_id), getString(R.string.taken_date), getString(R.string.due_date), getString(R.string.closing_date), getString(R.string.customer), getString(R.string.order), getString(R.string.debt_type), getString(R.string.fee), getString(R.string.debt_amount), getString(R.string.status), getString(R.string.total_debt)};
         ReportView.Builder firstBuilder = new ReportView.Builder()
                 .setContext(getContext())
                 .setTitles(firstTitles)
@@ -340,6 +340,8 @@ public class DebtsReportFragment extends BaseTableReportFragment implements Debt
         properties.offset = new File(DialogConfigs.DEFAULT_DIR);
         properties.extensions = null;
         FilePickerDialog dialog = new FilePickerDialog(getContext(), properties);
+        dialog.setNegativeBtnName(getContext().getString(R.string.cancel));
+        dialog.setPositiveBtnName(getContext().getString(R.string.select));
         dialog.setTitle(getContext().getString(R.string.select_a_directory));
         dialog.setDialogSelectionListener(files -> {
             exportDialog.setPath(files);

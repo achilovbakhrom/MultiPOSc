@@ -96,6 +96,8 @@ public class CustomerExportDialog extends Dialog {
             properties.extensions = null;
             FilePickerDialog dialog = new FilePickerDialog(context, properties);
             dialog.setTitle(getContext().getString(R.string.select_a_directory));
+            dialog.setNegativeBtnName(context.getString(R.string.cancel));
+            dialog.setPositiveBtnName(context.getString(R.string.select));
             dialog.setDialogSelectionListener(files -> {
                 path = files[0];
                 tvFilePath.setText(path);
