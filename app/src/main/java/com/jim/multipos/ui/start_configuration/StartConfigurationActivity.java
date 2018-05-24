@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 
 import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.core.DoubleSideActivity;
+import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.ui.lock_screen.LockScreenActivity;
 import com.jim.multipos.ui.start_configuration.account.AccountFragment;
 import com.jim.multipos.ui.start_configuration.basics.BasicsFragment;
@@ -14,6 +15,7 @@ import com.jim.multipos.ui.start_configuration.currency.CurrencyFragment;
 import com.jim.multipos.ui.start_configuration.payment_type.PaymentTypeFragment;
 import com.jim.multipos.ui.start_configuration.pos_data.PosDataFragment;
 import com.jim.multipos.ui.start_configuration.selection_panel.SelectionPanelFragment;
+import com.jim.multipos.utils.TestUtils;
 
 import javax.inject.Inject;
 
@@ -23,6 +25,8 @@ public class StartConfigurationActivity extends DoubleSideActivity implements St
 
     @Inject
     StartConfigurationPresenter presenter;
+    @Inject
+    DatabaseManager databaseManager;
 
     @Override
     protected int getToolbarMode() {
@@ -37,6 +41,7 @@ public class StartConfigurationActivity extends DoubleSideActivity implements St
 
     @Override
     public void initViews() {
+        TestUtils.createUnits(databaseManager, this);
         addFragmentWithTagToLeft(new SelectionPanelFragment(), SelectionPanelFragment.class.getName());
         initAllViews();
         hideAll();

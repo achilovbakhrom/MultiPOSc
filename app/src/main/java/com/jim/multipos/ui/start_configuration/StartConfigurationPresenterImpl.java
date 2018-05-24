@@ -6,6 +6,7 @@ import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Account;
 import com.jim.multipos.data.db.model.PaymentType;
 import com.jim.multipos.data.db.model.currency.Currency;
+import com.jim.multipos.utils.TestUtils;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -80,6 +81,7 @@ public class StartConfigurationPresenterImpl extends BasePresenterImpl<StartConf
         databaseManager.removeAllAccounts().subscribe();
         databaseManager.removeAllPaymentTypes().subscribe();
         databaseManager.removeAllCurrencies().subscribe();
+        databaseManager.removeAllUnits().subscribe();
         view.restart();
     }
 }

@@ -683,6 +683,7 @@ public class AppDbHelper implements DbHelper {
     public Observable<Boolean> deleteAllUnits() {
         return Observable.fromCallable(() -> {
             mDaoSession.getUnitDao().deleteAll();
+            mDaoSession.getUnitCategoryDao().deleteAll();
             return true;
         });
     }

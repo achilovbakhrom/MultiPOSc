@@ -237,7 +237,7 @@
     </string-array>
 
     <string-array name="area_abbr">
-        <item>m2.</item>
+        <item>м2.</item>
         <item>сот.</item>
         <item>акр.</item>
         <item>га.</item>
@@ -408,7 +408,7 @@
         <item>Клиенты</item>
         <item>Поставщики</item>
         <item>Долги</item>
-        <item>Скидии</item>
+        <item>Скидки</item>
         <item>Комиссии</item>
     </string-array>
 
@@ -1068,10 +1068,10 @@
     <string name="consignment_canceled">Отмененная накладная</string>
     <string name="held_product_return">Возврат удержанного тов.</string>
     <string name="closing_date">Дата закрытия</string>
-    <string name="successfully_exported_to_excel">Успешно экспортированы в Excel</string>
-    <string name="successfully_exported_to_pdf">Успешно экспортированы в Pdf</string>
+    <string name="successfully_exported_to_excel">Успешно экспортирован в Excel</string>
+    <string name="successfully_exported_to_pdf">Успешно экспортирован в Pdf</string>
     <string name="products_imported">Продукты успешно импортированы</string>
-    <string name="customers_imported">Клиенты успешно импортированы</string>
+    <string name="customers_imported">Клиенты успешно импортированыF</string>
     <string name="available_units">Доступные ед. изм. :</string>
     <string name="vendors_imported">Поставщики успешно импортированы</string>
     <string name="customers_template">Образец клиента</string>
@@ -1081,4 +1081,7 @@
     <string name="qty_cant_be_empty">Кол-во не может быть пустым</string>
     <string name="remove_service_fee">Удалить \nКомиссию</string>
     <string name="remove_discount">Удалить \nСкидку</string>
+    <string name="till_operation_">Операции со сменой:</string>
+    <string name="enter_operation_description">Введите описание операции</string>
+    <string name="not_enough_cash_in_cash_drawer">Не достаточно денег в кассе</string>
 </resources>

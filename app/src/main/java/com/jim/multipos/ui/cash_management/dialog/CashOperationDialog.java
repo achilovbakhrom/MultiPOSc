@@ -169,7 +169,7 @@ public class CashOperationDialog extends Dialog {
 
         btnConfirm.setOnClickListener(view -> {
             if (etDescription.getText().toString().isEmpty())
-                etDescription.setError(context.getString(R.string.enter_description));
+                etDescription.setError(context.getString(R.string.enter_operation_description));
             else {
                 callback.onOperationConfirm(amount, type, etDescription.getText().toString());
                 UIUtils.closeKeyboard(btnConfirm, context);

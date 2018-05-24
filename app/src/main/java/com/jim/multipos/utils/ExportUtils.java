@@ -20,6 +20,7 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.jim.mpviews.utils.ReportViewConstants;
+import com.jim.mpviews.utils.Utils;
 import com.jim.multipos.R;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.customer.Customer;
@@ -58,6 +59,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
@@ -4705,18 +4707,19 @@ public class ExportUtils {
             while (rowIter.hasNext()) {
                 HSSFRow myRow = (HSSFRow) rowIter.next();
                 int cell = 0;
-                Iterator cellIter = myRow.cellIterator();
                 if (row != 0) {
-                    while (cellIter.hasNext()) {
-                        HSSFCell myCell = (HSSFCell) cellIter.next();
-                        switch (myCell.getCellType()) {
-                            case HSSFCell.CELL_TYPE_STRING:
-                                customers[row][cell] = myCell.getStringCellValue();
-                                break;
-                            case HSSFCell.CELL_TYPE_NUMERIC:
-                                customers[row][cell] = String.valueOf(myCell.getNumericCellValue());
-                                break;
-                        }
+                    for (int i = 0; i < myRow.getLastCellNum(); i++) {
+                        HSSFCell myCell = myRow.getCell(i);
+                        if (myCell != null) {
+                            switch (myCell.getCellType()) {
+                                case HSSFCell.CELL_TYPE_STRING:
+                                    customers[row][cell] = myCell.getStringCellValue();
+                                    break;
+                                case HSSFCell.CELL_TYPE_NUMERIC:
+                                    customers[row][cell] = String.valueOf(myCell.getNumericCellValue());
+                                    break;
+                            }
+                        } else customers[row][cell] = "";
                         cell++;
                     }
                 }
@@ -4808,18 +4811,19 @@ public class ExportUtils {
             while (rowIter.hasNext()) {
                 HSSFRow myRow = (HSSFRow) rowIter.next();
                 int cell = 0;
-                Iterator cellIter = myRow.cellIterator();
                 if (row != 0) {
-                    while (cellIter.hasNext()) {
-                        HSSFCell myCell = (HSSFCell) cellIter.next();
-                        switch (myCell.getCellType()) {
-                            case HSSFCell.CELL_TYPE_STRING:
-                                customers[row][cell] = myCell.getStringCellValue();
-                                break;
-                            case HSSFCell.CELL_TYPE_NUMERIC:
-                                customers[row][cell] = String.valueOf(myCell.getNumericCellValue());
-                                break;
-                        }
+                    for (int i = 0; i < myRow.getLastCellNum(); i++) {
+                        HSSFCell myCell = myRow.getCell(i);
+                        if (myCell != null) {
+                            switch (myCell.getCellType()) {
+                                case HSSFCell.CELL_TYPE_STRING:
+                                    customers[row][cell] = myCell.getStringCellValue();
+                                    break;
+                                case HSSFCell.CELL_TYPE_NUMERIC:
+                                    customers[row][cell] = String.valueOf(myCell.getNumericCellValue());
+                                    break;
+                            }
+                        } else customers[row][cell] = "";
                         cell++;
                     }
                 }
@@ -4916,18 +4920,19 @@ public class ExportUtils {
             while (rowIter.hasNext()) {
                 HSSFRow myRow = (HSSFRow) rowIter.next();
                 int cell = 0;
-                Iterator cellIter = myRow.cellIterator();
                 if (row != 0) {
-                    while (cellIter.hasNext()) {
-                        HSSFCell myCell = (HSSFCell) cellIter.next();
-                        switch (myCell.getCellType()) {
-                            case HSSFCell.CELL_TYPE_STRING:
-                                vendors[row][cell] = myCell.getStringCellValue();
-                                break;
-                            case HSSFCell.CELL_TYPE_NUMERIC:
-                                vendors[row][cell] = String.valueOf(myCell.getNumericCellValue());
-                                break;
-                        }
+                    for (int i = 0; i < myRow.getLastCellNum(); i++) {
+                        HSSFCell myCell = myRow.getCell(i);
+                        if (myCell != null) {
+                            switch (myCell.getCellType()) {
+                                case HSSFCell.CELL_TYPE_STRING:
+                                    vendors[row][cell] = myCell.getStringCellValue();
+                                    break;
+                                case HSSFCell.CELL_TYPE_NUMERIC:
+                                    vendors[row][cell] = String.valueOf(myCell.getNumericCellValue());
+                                    break;
+                            }
+                        } else vendors[row][cell] = "";
                         cell++;
                     }
                 }
@@ -4971,18 +4976,19 @@ public class ExportUtils {
             while (rowIter.hasNext()) {
                 HSSFRow myRow = (HSSFRow) rowIter.next();
                 int cell = 0;
-                Iterator cellIter = myRow.cellIterator();
                 if (row != 0) {
-                    while (cellIter.hasNext()) {
-                        HSSFCell myCell = (HSSFCell) cellIter.next();
-                        switch (myCell.getCellType()) {
-                            case HSSFCell.CELL_TYPE_STRING:
-                                vendors[row][cell] = myCell.getStringCellValue();
-                                break;
-                            case HSSFCell.CELL_TYPE_NUMERIC:
-                                vendors[row][cell] = String.valueOf(myCell.getNumericCellValue());
-                                break;
-                        }
+                    for (int i = 0; i < myRow.getLastCellNum(); i++) {
+                        HSSFCell myCell = myRow.getCell(i);
+                        if (myCell != null) {
+                            switch (myCell.getCellType()) {
+                                case HSSFCell.CELL_TYPE_STRING:
+                                    vendors[row][cell] = myCell.getStringCellValue();
+                                    break;
+                                case HSSFCell.CELL_TYPE_NUMERIC:
+                                    vendors[row][cell] = String.valueOf(myCell.getNumericCellValue());
+                                    break;
+                            }
+                        } else vendors[row][cell] = "";
                         cell++;
                     }
                 }
@@ -5027,23 +5033,27 @@ public class ExportUtils {
             while (rowIter1.hasNext()) {
                 HSSFRow myRow = (HSSFRow) rowIter1.next();
                 int cell = 0;
-                Iterator cellIter = myRow.cellIterator();
                 if (row != 0) {
-                    while (cellIter.hasNext()) {
-                        HSSFCell myCell = (HSSFCell) cellIter.next();
-                        switch (myCell.getCellType()) {
-                            case HSSFCell.CELL_TYPE_STRING:
-                                products[row][cell] = myCell.getStringCellValue();
-                                break;
-                            case HSSFCell.CELL_TYPE_NUMERIC:
-                                products[row][cell] = String.valueOf(myCell.getNumericCellValue());
-                                break;
-                        }
+                    for (int i = 0; i < myRow.getLastCellNum(); i++) {
+                        HSSFCell myCell = myRow.getCell(i);
+                        if (myCell != null) {
+                            switch (myCell.getCellType()) {
+                                case HSSFCell.CELL_TYPE_STRING:
+                                    products[row][cell] = myCell.getStringCellValue();
+                                    break;
+                                case HSSFCell.CELL_TYPE_NUMERIC:
+                                    products[row][cell] = String.valueOf(myCell.getNumericCellValue());
+                                    break;
+                            }
+                        } else products[row][cell] = "";
                         cell++;
                     }
                 }
                 row++;
             }
+            List<Integer> unitErrors = new ArrayList<>();
+            List<Integer> skuErrors = new ArrayList<>();
+            List<Integer> vendorErrors = new ArrayList<>();
             for (int i = 0; i < products.length; i++) {
                 if (i != 0) {
                     if (!products[i][0].isEmpty()) {
@@ -5070,21 +5080,27 @@ public class ExportUtils {
                                 product.setSku(products[i][4]);
                                 product.setPrice(Double.valueOf(products[i][7]));
                                 product.setActive(true);
-                                product.setPhotoPath("");
                                 product.setIsDeleted(false);
                                 product.setNotModifyted(true);
+                                product.setPhotoPath("");
                                 product.setCreatedDate(System.currentTimeMillis());
                                 product.setCategoryId(subcategory.getId());
                                 product.setCostCurrency(databaseManager.getMainCurrency());
                                 product.setPriceCurrency(databaseManager.getMainCurrency());
                                 List<UnitCategory> tempUnitCategories = databaseManager.getAllUnitCategories().blockingSingle();
+                                int count = 0;
                                 for (UnitCategory unitCategory : tempUnitCategories) {
                                     for (int j = 0; j < unitCategory.getUnits().size(); j++) {
-                                        if (unitCategory.getUnits().get(j).getAbbr().equals(products[i][6])) {
+                                        if (unitCategory.getUnits().get(j).getAbbr().toUpperCase().equals(products[i][6].toUpperCase())) {
                                             product.setMainUnit(unitCategory.getUnits().get(j));
                                             product.setMainUnitId(unitCategory.getUnits().get(j).getId());
+                                            count = 1;
                                         }
                                     }
+                                }
+                                if (count == 0) {
+                                    unitErrors.add(i);
+                                    continue;
                                 }
                                 boolean isVendorExits = databaseManager.isVendorNameExist(products[i][5]).blockingSingle();
                                 if (isVendorExits) {
@@ -5103,7 +5119,11 @@ public class ExportUtils {
                                         databaseManager.insertInventoryState(inventoryState).subscribe();
                                         databaseManager.replaceProduct(product).blockingSingle();
                                     });
+                                } else {
+                                    vendorErrors.add(i);
                                 }
+                            } else {
+                                skuErrors.add(i);
                             }
                         } else {
                             Category category = databaseManager.getCategoryByName(categoryName).blockingSingle();
@@ -5117,23 +5137,29 @@ public class ExportUtils {
                                     product.setName(products[i][2]);
                                     product.setBarcode(products[i][3]);
                                     product.setSku(products[i][4]);
+                                    product.setPhotoPath("");
                                     product.setPrice(Double.valueOf(products[i][7]));
                                     product.setActive(true);
                                     product.setIsDeleted(false);
                                     product.setNotModifyted(true);
-                                    product.setPhotoPath("");
                                     product.setCreatedDate(System.currentTimeMillis());
                                     product.setCategoryId(subcategory.getId());
                                     product.setCostCurrency(databaseManager.getMainCurrency());
                                     product.setPriceCurrency(databaseManager.getMainCurrency());
                                     List<UnitCategory> tempUnitCategories = databaseManager.getAllUnitCategories().blockingSingle();
+                                    int count = 0;
                                     for (UnitCategory unitCategory : tempUnitCategories) {
                                         for (int j = 0; j < unitCategory.getUnits().size(); j++) {
-                                            if (unitCategory.getUnits().get(j).getAbbr().equals(products[i][6])) {
+                                            if (unitCategory.getUnits().get(j).getAbbr().toUpperCase().equals(products[i][6].toUpperCase())) {
                                                 product.setMainUnit(unitCategory.getUnits().get(j));
                                                 product.setMainUnitId(unitCategory.getUnits().get(j).getId());
+                                                count = 1;
                                             }
                                         }
+                                    }
+                                    if (count == 0) {
+                                        unitErrors.add(i);
+                                        continue;
                                     }
                                     boolean isVendorExits = databaseManager.isVendorNameExist(products[i][5]).blockingSingle();
                                     if (isVendorExits) {
@@ -5142,8 +5168,8 @@ public class ExportUtils {
                                             product.setRootId(product.getId());
                                             VendorProductCon productCon = new VendorProductCon();
                                             productCon.setVendorId(vendor.getId());
-                                            productCon.setProductId(product.getId());
                                             productCon.setCost(product.getPrice());
+                                            productCon.setProductId(product.getId());
                                             databaseManager.addVendorProductConnection(productCon).subscribe();
                                             InventoryState inventoryState = new InventoryState();
                                             inventoryState.setProductId(product.getRootId());
@@ -5152,7 +5178,11 @@ public class ExportUtils {
                                             databaseManager.insertInventoryState(inventoryState).subscribe();
                                             databaseManager.replaceProduct(product).blockingSingle();
                                         });
+                                    } else {
+                                        vendorErrors.add(i);
                                     }
+                                } else {
+                                    skuErrors.add(i);
                                 }
                             } else {
                                 Category subcategory = new Category();
@@ -5166,10 +5196,10 @@ public class ExportUtils {
                                     Product product = new Product();
                                     product.setName(products[i][2]);
                                     product.setBarcode(products[i][3]);
+                                    product.setPhotoPath("");
                                     product.setSku(products[i][4]);
                                     product.setActive(true);
                                     product.setIsDeleted(false);
-                                    product.setPhotoPath("");
                                     product.setNotModifyted(true);
                                     product.setCreatedDate(System.currentTimeMillis());
                                     product.setCategoryId(subcategory.getId());
@@ -5177,13 +5207,19 @@ public class ExportUtils {
                                     product.setCostCurrency(databaseManager.getMainCurrency());
                                     product.setPriceCurrency(databaseManager.getMainCurrency());
                                     List<UnitCategory> tempUnitCategories = databaseManager.getAllUnitCategories().blockingSingle();
+                                    int count = 0;
                                     for (UnitCategory unitCategory : tempUnitCategories) {
                                         for (int j = 0; j < unitCategory.getUnits().size(); j++) {
-                                            if (unitCategory.getUnits().get(j).getAbbr().equals(products[i][6])) {
+                                            if (unitCategory.getUnits().get(j).getAbbr().toUpperCase().equals(products[i][6].toUpperCase())) {
                                                 product.setMainUnit(unitCategory.getUnits().get(j));
                                                 product.setMainUnitId(unitCategory.getUnits().get(j).getId());
+                                                count = 1;
                                             }
                                         }
+                                    }
+                                    if (count == 0) {
+                                        unitErrors.add(i);
+                                        continue;
                                     }
                                     boolean isVendorExits = databaseManager.isVendorNameExist(products[i][5]).blockingSingle();
                                     if (isVendorExits) {
@@ -5202,14 +5238,52 @@ public class ExportUtils {
                                             databaseManager.insertInventoryState(inventoryState).subscribe();
                                             databaseManager.replaceProduct(product).blockingSingle();
                                         });
+                                    } else {
+                                        vendorErrors.add(i);
                                     }
+                                } else {
+                                    skuErrors.add(i);
                                 }
                             }
                         }
                     }
                 }
             }
-            Toast.makeText(context, context.getString(R.string.products_imported), Toast.LENGTH_SHORT).show();
+            if (skuErrors.size() != 0 || vendorErrors.size() != 0 || unitErrors.size() != 0) {
+                String sku = context.getString(R.string.none);
+                if (skuErrors.size() != 0) {
+                    StringBuilder stringBuilder = new StringBuilder();
+                    for (int i = 0; i < skuErrors.size(); i++) {
+                        stringBuilder.append(skuErrors.get(i)).append(",");
+                    }
+                    sku = stringBuilder.toString();
+                }
+                String vendor = context.getString(R.string.none);
+                if (vendorErrors.size() != 0) {
+                    StringBuilder stringBuilder = new StringBuilder();
+                    for (int i = 0; i < vendorErrors.size(); i++) {
+                        stringBuilder.append(vendorErrors.get(i)).append(",");
+                    }
+                    vendor = stringBuilder.toString();
+                }
+                String unit = context.getString(R.string.none);
+                if (unitErrors.size() != 0) {
+                    StringBuilder stringBuilder = new StringBuilder();
+                    for (int i = 0; i < unitErrors.size(); i++) {
+                        stringBuilder.append(unitErrors.get(i)).append(",");
+                    }
+                    unit = stringBuilder.toString();
+                }
+                UIUtils.showAlert(context, context.getString(R.string.ok),
+                        "Import errors",
+                        "Sku or product name exists at " + sku + " rows \n" +
+                                "Vendors does not exists at " + vendor + " rows \n" +
+                                "Unit format error at " + unit + " rows \n"
+                        , () -> {
+
+                        });
+            } else
+                Toast.makeText(context, context.getString(R.string.products_imported), Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(context, context.getString(R.string.incorrect_file), Toast.LENGTH_SHORT).show();
@@ -5231,23 +5305,27 @@ public class ExportUtils {
             while (rowIter1.hasNext()) {
                 HSSFRow myRow = (HSSFRow) rowIter1.next();
                 int cell = 0;
-                Iterator cellIter = myRow.cellIterator();
-                if (row!= 0) {
-                    while (cellIter.hasNext()) {
-                        HSSFCell myCell = (HSSFCell) cellIter.next();
-                        switch (myCell.getCellType()) {
-                            case HSSFCell.CELL_TYPE_STRING:
-                                products[row][cell] = myCell.getStringCellValue();
-                                break;
-                            case HSSFCell.CELL_TYPE_NUMERIC:
-                                products[row][cell] = String.valueOf(myCell.getNumericCellValue());
-                                break;
-                        }
+                if (row != 0) {
+                    for (int i = 0; i < myRow.getLastCellNum(); i++) {
+                        HSSFCell myCell = myRow.getCell(i);
+                        if (myCell != null) {
+                            switch (myCell.getCellType()) {
+                                case HSSFCell.CELL_TYPE_STRING:
+                                    products[row][cell] = myCell.getStringCellValue();
+                                    break;
+                                case HSSFCell.CELL_TYPE_NUMERIC:
+                                    products[row][cell] = String.valueOf(myCell.getNumericCellValue());
+                                    break;
+                            }
+                        } else products[row][cell] = "";
                         cell++;
                     }
                 }
                 row++;
             }
+            List<Integer> unitErrors = new ArrayList<>();
+            List<Integer> skuErrors = new ArrayList<>();
+            List<Integer> vendorErrors = new ArrayList<>();
             for (int i = 0; i < products.length; i++) {
                 if (i != 0) {
                     if (!products[i][0].isEmpty()) {
@@ -5282,13 +5360,19 @@ public class ExportUtils {
                                 product.setCostCurrency(databaseManager.getMainCurrency());
                                 product.setPriceCurrency(databaseManager.getMainCurrency());
                                 List<UnitCategory> tempUnitCategories = databaseManager.getAllUnitCategories().blockingSingle();
+                                int count = 0;
                                 for (UnitCategory unitCategory : tempUnitCategories) {
                                     for (int j = 0; j < unitCategory.getUnits().size(); j++) {
-                                        if (unitCategory.getUnits().get(j).getAbbr().equals(products[i][6])) {
+                                        if (unitCategory.getUnits().get(j).getAbbr().toUpperCase().equals(products[i][6].toUpperCase())) {
                                             product.setMainUnit(unitCategory.getUnits().get(j));
                                             product.setMainUnitId(unitCategory.getUnits().get(j).getId());
+                                            count = 1;
                                         }
                                     }
+                                }
+                                if (count == 0) {
+                                    unitErrors.add(i);
+                                    continue;
                                 }
                                 boolean isVendorExits = databaseManager.isVendorNameExist(products[i][5]).blockingSingle();
                                 if (isVendorExits) {
@@ -5307,7 +5391,11 @@ public class ExportUtils {
                                         databaseManager.insertInventoryState(inventoryState).subscribe();
                                         databaseManager.replaceProduct(product).blockingSingle();
                                     });
+                                } else {
+                                    vendorErrors.add(i);
                                 }
+                            } else {
+                                skuErrors.add(i);
                             }
                         } else {
                             Category category = databaseManager.getCategoryByName(categoryName).blockingSingle();
@@ -5331,13 +5419,19 @@ public class ExportUtils {
                                     product.setCostCurrency(databaseManager.getMainCurrency());
                                     product.setPriceCurrency(databaseManager.getMainCurrency());
                                     List<UnitCategory> tempUnitCategories = databaseManager.getAllUnitCategories().blockingSingle();
+                                    int count = 0;
                                     for (UnitCategory unitCategory : tempUnitCategories) {
                                         for (int j = 0; j < unitCategory.getUnits().size(); j++) {
-                                            if (unitCategory.getUnits().get(j).getAbbr().equals(products[i][6])) {
+                                            if (unitCategory.getUnits().get(j).getAbbr().toUpperCase().equals(products[i][6].toUpperCase())) {
                                                 product.setMainUnit(unitCategory.getUnits().get(j));
                                                 product.setMainUnitId(unitCategory.getUnits().get(j).getId());
+                                                count = 1;
                                             }
                                         }
+                                    }
+                                    if (count == 0) {
+                                        unitErrors.add(i);
+                                        continue;
                                     }
                                     boolean isVendorExits = databaseManager.isVendorNameExist(products[i][5]).blockingSingle();
                                     if (isVendorExits) {
@@ -5356,7 +5450,11 @@ public class ExportUtils {
                                             databaseManager.insertInventoryState(inventoryState).subscribe();
                                             databaseManager.replaceProduct(product).blockingSingle();
                                         });
+                                    } else {
+                                        vendorErrors.add(i);
                                     }
+                                } else {
+                                    skuErrors.add(i);
                                 }
                             } else {
                                 Category subcategory = new Category();
@@ -5381,13 +5479,19 @@ public class ExportUtils {
                                     product.setCostCurrency(databaseManager.getMainCurrency());
                                     product.setPriceCurrency(databaseManager.getMainCurrency());
                                     List<UnitCategory> tempUnitCategories = databaseManager.getAllUnitCategories().blockingSingle();
+                                    int count = 0;
                                     for (UnitCategory unitCategory : tempUnitCategories) {
                                         for (int j = 0; j < unitCategory.getUnits().size(); j++) {
-                                            if (unitCategory.getUnits().get(j).getAbbr().equals(products[i][6])) {
+                                            if (unitCategory.getUnits().get(j).getAbbr().toUpperCase().equals(products[i][6].toUpperCase())) {
                                                 product.setMainUnit(unitCategory.getUnits().get(j));
                                                 product.setMainUnitId(unitCategory.getUnits().get(j).getId());
+                                                count = 1;
                                             }
                                         }
+                                    }
+                                    if (count == 0) {
+                                        unitErrors.add(i);
+                                        continue;
                                     }
                                     boolean isVendorExits = databaseManager.isVendorNameExist(products[i][5]).blockingSingle();
                                     if (isVendorExits) {
@@ -5406,14 +5510,52 @@ public class ExportUtils {
                                             databaseManager.insertInventoryState(inventoryState).subscribe();
                                             databaseManager.replaceProduct(product).blockingSingle();
                                         });
+                                    } else {
+                                        vendorErrors.add(i);
                                     }
+                                } else {
+                                    skuErrors.add(i);
                                 }
                             }
                         }
                     }
                 }
             }
-            Toast.makeText(context, context.getString(R.string.products_imported), Toast.LENGTH_SHORT).show();
+            if (skuErrors.size() != 0 || vendorErrors.size() != 0 || unitErrors.size() != 0) {
+                String sku = context.getString(R.string.none);
+                if (skuErrors.size() != 0) {
+                    StringBuilder stringBuilder = new StringBuilder();
+                    for (int i = 0; i < skuErrors.size(); i++) {
+                        stringBuilder.append(skuErrors.get(i)).append(",");
+                    }
+                    sku = stringBuilder.toString();
+                }
+                String vendor = context.getString(R.string.none);
+                if (vendorErrors.size() != 0) {
+                    StringBuilder stringBuilder = new StringBuilder();
+                    for (int i = 0; i < vendorErrors.size(); i++) {
+                        stringBuilder.append(vendorErrors.get(i)).append(",");
+                    }
+                    vendor = stringBuilder.toString();
+                }
+                String unit = context.getString(R.string.none);
+                if (unitErrors.size() != 0) {
+                    StringBuilder stringBuilder = new StringBuilder();
+                    for (int i = 0; i < unitErrors.size(); i++) {
+                        stringBuilder.append(unitErrors.get(i)).append(",");
+                    }
+                    unit = stringBuilder.toString();
+                }
+                UIUtils.showAlert(context, context.getString(R.string.ok),
+                        "Import errors",
+                        "Sku or product name exists at " + sku + " rows \n" +
+                                "Vendors does not exists at " + vendor + " rows \n" +
+                                "Unit format error at " + unit + " rows \n"
+                        , () -> {
+
+                        });
+            } else
+                Toast.makeText(context, context.getString(R.string.products_imported), Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(context, context.getString(R.string.incorrect_file), Toast.LENGTH_SHORT).show();
@@ -5489,11 +5631,15 @@ public class ExportUtils {
         cell1.setCellStyle(cellStyle1);
         cell1.setCellValue(context.getString(R.string.available_units));
         String[] units = new String[]{"pcs - piece", "kg - kilogram", "gr - gram", "tn - ton", "m - meter", "mm - millimeter", "cm - centimeter", "km - kilometer", "m2 - M2", "a - are", "ac - acre", "ha - hectare", "m3 - M3", "l - liter", "ml - milliliter"};
+        String[] unitsRU = new String[]{"шт. - штук", "кг. - килограмм", "гр. - грамм", "т. - тонна", "м. - метр", "мм. - миллиметр", "см. - сантиметр", "км. - километр", "м2. - М2", "сот. - сотка", "акр. - акр", "га. - гектар", "м3. - М3", "л. - литр", "мл. - миллилитр"};
         for (int i = 0; i < units.length; i++) {
             Row row5 = sheet2.createRow(1 + i);
-            Cell cell = row5.createCell(i);
+            Cell cell = row5.createCell(0);
             cell.setCellStyle(cellStyle1);
             cell.setCellValue(units[i]);
+            Cell cell2 = row5.createCell(1);
+            cell2.setCellStyle(cellStyle1);
+            cell2.setCellValue(unitsRU[i]);
         }
         for (int i = 0; i < units.length; i++) {
             sheet2.setColumnWidth(i, 12 * 500);
@@ -5581,11 +5727,15 @@ public class ExportUtils {
         cell1.setCellStyle(cellStyle1);
         cell1.setCellValue(context.getString(R.string.available_units));
         String[] units = new String[]{"pcs - piece", "kg - kilogram", "gr - gram", "tn - ton", "m - meter", "mm - millimeter", "cm - centimeter", "km - kilometer", "m2 - M2", "a - are", "ac - acre", "ha - hectare", "m3 - M3", "l - liter", "ml - milliliter"};
+        String[] unitsRU = new String[]{"шт. - штук", "кг. - килограмм", "гр. - грамм", "т. - тонна", "м. - метр", "мм. - миллиметр", "см. - сантиметр", "км. - километр", "м2. - М2", "сот. - сотка", "акр. - акр", "га. - гектар", "м3. - М3", "л. - литр", "мл. - миллилитр"};
         for (int i = 0; i < units.length; i++) {
             Row row5 = sheet2.createRow(1 + i);
-            Cell cell = row5.createCell(i);
+            Cell cell = row5.createCell(0);
             cell.setCellStyle(cellStyle1);
             cell.setCellValue(units[i]);
+            Cell cell2 = row5.createCell(1);
+            cell2.setCellStyle(cellStyle1);
+            cell2.setCellValue(unitsRU[i]);
         }
         for (int i = 0; i < units.length; i++) {
             sheet2.setColumnWidth(i, 12 * 500);
