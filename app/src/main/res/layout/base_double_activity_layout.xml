@@ -31,9 +31,9 @@
 
 
                     <RelativeLayout
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/five_hundred_forty_dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="43">
+                        >
 
                         <FrameLayout
                             android:id="@+id/flLeftContainer"
@@ -47,9 +47,9 @@
                     </RelativeLayout>
 
                     <RelativeLayout
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="57">
+                        >
 
                         <FrameLayout
                             android:id="@+id/flRightContainer"

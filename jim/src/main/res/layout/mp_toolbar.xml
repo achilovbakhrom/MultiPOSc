@@ -12,9 +12,9 @@
 
         <RelativeLayout
             android:id="@+id/mpLeftSide"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/five_hundred_forty_dp"
             android:layout_height="match_parent"
-            android:layout_weight="43">
+            >
 
             <ImageView
                 android:layout_width="@dimen/hundred_thirty_dp"
@@ -52,9 +52,9 @@
 
         <RelativeLayout
             android:id="@+id/rlBackgroun"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="57">
+            >
 
             <RelativeLayout
                 android:id="@+id/mpRightSide"

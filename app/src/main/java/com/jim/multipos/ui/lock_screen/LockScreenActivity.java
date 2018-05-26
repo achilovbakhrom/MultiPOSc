@@ -216,7 +216,7 @@ import static android.app.admin.DevicePolicyManager.PERMISSION_POLICY_AUTO_GRANT
             clickedcount++;
         });
         tvUnpin.setOnLongClickListener(view -> {
-            if(clickedcount!=5) return true;
+            if(clickedcount!=10) return true;
 //            mDevicePolicyManager.clearPackagePersistentPreferredActivities(
 //                    mAdminComponentName,getPackageName());
 //            mPackageManager.setComponentEnabledSetting(
@@ -227,6 +227,7 @@ import static android.app.admin.DevicePolicyManager.PERMISSION_POLICY_AUTO_GRANT
             setDefaultCosuPolicies(false);
             mDevicePolicyManager.clearDeviceOwnerApp(getPackageName());
             stopLockTask();
+            finish();
 //            ComponentName devAdminReceiver = new ComponentName(this, DeviceAdminReceiver.class);
 //            DevicePolicyManager dpm = (DevicePolicyManager)getSystemService(Context.DEVICE_POLICY_SERVICE);
 //            dpm.removeActiveAdmin(devAdminReceiver);

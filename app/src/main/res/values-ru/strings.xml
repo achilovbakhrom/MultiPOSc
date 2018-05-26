@@ -470,7 +470,7 @@
     </string-array>
 
     <string name="opt_in_wozard">Первоначальная настройка</string>
-    <string name="pos_number">POS ИД</string>
+    <string name="pos_number">POS Id</string>
     <string name="enter_alias">Введите название компании</string>
     <string name="enter_address">Введите адрес компании</string>
     <string name="system_currency">Валюта системы</string>
@@ -479,6 +479,7 @@
     <string name="enter_account_name">Введите название счёта</string>
     <string name="system_payment_types">Виды платжей системы</string>
     <string name="currency">Валюта</string>
+    <string name="currency_without_translate">Valyuta</string>
     <string name="order">Чек</string>
     <string name="select_customer">Выберите клиента</string>
     <string name="total_paid_">Итого оплачено:</string>
@@ -549,6 +550,7 @@
     <string name="subtotal">Подитог</string>
     <string name="closed_time">Время закрытия</string>
     <string name="customer">Клиент</string>
+    <string name="customer_without_translate">Klient</string>
     <string name="closed">Закрыт</string>
     <string name="total_changes">Сдача</string>
     <string name="item">Товар</string>
@@ -968,6 +970,7 @@
     <string name="export_to_">Экспорт в:</string>
     <string name="opened_time">Время Открытия</string>
     <string name="total_starting_amount">Общая начальная сумма</string>
+    <string name="starting_amount_variance">Расхождения начальной суммы</string>
     <string name="tills_reports">Отчёт по сменам</string>
     <string name="today">Сегодня</string>
     <string name="yesterday">Вчера</string>

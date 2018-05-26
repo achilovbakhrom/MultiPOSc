@@ -89,11 +89,10 @@ public class USBService extends Service {
                     setDevice(device);
             }
 
-            //BARCODE INSERTED
+//            //BARCODE INSERTED
 //            if (UsbManager.ACTION_USB_DEVICE_ATTACHED.equals(action)) {
-//                Log.wtf(TAG, "USBService onReceive: "+"ACTION_USB_DEVICE_ATTACHED");
 //                if(deviceChecker(device))
-//                    setDevice(intent);
+//                    setDevice(device);
 //                rxBus.send(new DeviceAttachEvent(device.getProductName()==null?"":device.getProductName()));
 //            }
 

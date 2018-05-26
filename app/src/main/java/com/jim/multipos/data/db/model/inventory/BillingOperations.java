@@ -22,8 +22,7 @@ import com.jim.multipos.data.db.model.consignment.ConsignmentDao;
  */
 @Entity(nameInDb = "BILLING_OPERATION", active = true)
 @Data
-public class
-BillingOperations implements Editable {
+public class BillingOperations implements Editable {
 
     public static final int DEBT_CONSIGNMENT = 100;
     public static final int PAID_TO_CONSIGNMENT = 101;

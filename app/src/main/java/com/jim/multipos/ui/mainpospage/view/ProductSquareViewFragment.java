@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
+import android.util.Log;
 
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
@@ -66,6 +68,8 @@ public class ProductSquareViewFragment extends BaseFragment implements ProductSq
     @Override
     protected void init(Bundle savedInstanceState) {
         presenter.setCategoryRecyclerView();
+        ((SimpleItemAnimator) rvProduct.getItemAnimator()).setSupportsChangeAnimations(false);
+        rvProduct.hasFixedSize();
     }
 
     @Override
@@ -155,9 +159,7 @@ public class ProductSquareViewFragment extends BaseFragment implements ProductSq
     @Override
     public void setProductRecyclerView(List<Product> products) {
         rvProduct.setLayoutManager(new GridLayoutManager(getContext(), 4));
-        productAdapter = new SquareViewProductAdapter(products);
-        rvProduct.setAdapter(productAdapter);
-        productAdapter.setOnItemClickListener(new ClickableBaseAdapter.OnItemClickListener<Product>() {
+        productAdapter = new SquareViewProductAdapter(products, new SquareViewProductAdapter.OnItemClickListener() {
             @Override
             public void onItemClicked(int position) {
 
@@ -168,6 +170,8 @@ public class ProductSquareViewFragment extends BaseFragment implements ProductSq
                 mainPageConnection.addProductToOrder(item.getId());
             }
         });
+        rvProduct.setAdapter(productAdapter);
+
     }
 
     @Override
@@ -184,6 +188,8 @@ public class ProductSquareViewFragment extends BaseFragment implements ProductSq
 
     @Override
     public void refreshProducts(List<Product> productList) {
+        Log.d("onBindViewHolder", "refreshProducts");
+
         productAdapter.setItems(productList);
         productAdapter.notifyDataSetChanged();
     }

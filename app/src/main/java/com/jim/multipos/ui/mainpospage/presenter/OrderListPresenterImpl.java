@@ -231,6 +231,10 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
 
     @Override
     public void openDiscountDialog() {
+        if(isEmptyOrder()){
+            view.openWarningDialog("For empty till can't use discount");
+            return;
+        }
         if(discountItem != null){
             int q = -1;
             for (int i = 0; i < list.size(); i++) {
@@ -282,6 +286,10 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
 
     @Override
     public void openSeriveFeeDialog() {
+        if(isEmptyOrder()){
+            view.openWarningDialog("For empty till can't use service fee");
+            return;
+        }
         if(serviceFeeItem !=null){
             int q = -1;
             for (int i = 0; i < list.size(); i++) {
@@ -1246,16 +1254,17 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
                     orderProductItems.add(orderProductItem);
                 }
         }
-//        boolean isHaveOpenTill = databaseManager.hasOpenTill().blockingGet();
-//        if (isHaveOpenTill) {
-//            view.stockCheckOrder(databaseManager.getCurrentOpenTillId().blockingGet(),databaseManager.getLastOrderId().blockingGet()+1,System.currentTimeMillis(),orderProductItems,customer);
-//        } else {
-//            boolean isNoTills = databaseManager.isNoTills().blockingGet();
-//            if (!isNoTills) {
-//                view.stockCheckOrder(1L,databaseManager.getLastOrderId().blockingGet()+1,System.currentTimeMillis(),orderProductItems,customer);
-//            } else view.stockCheckOrder(databaseManager.getLastClosedTill().blockingGet().getId() + 1L,databaseManager.getLastOrderId().blockingGet()+1,System.currentTimeMillis(),orderProductItems,customer);
-//        }
-        view.stockCheckOrder(databaseManager.getCurrentOpenTillId().blockingGet(),databaseManager.getLastOrderId().blockingGet()+1,System.currentTimeMillis(),orderProductItems,customer);
+
+        boolean isHaveOpenTill = databaseManager.hasOpenTill().blockingGet();
+        if (isHaveOpenTill) {
+            view.stockCheckOrder(databaseManager.getCurrentOpenTillId().blockingGet(),databaseManager.getLastOrderId().blockingGet()+1,System.currentTimeMillis(),orderProductItems,customer);
+        } else {
+            boolean isNoTills = databaseManager.isNoTills().blockingGet();
+            if (!isNoTills) {
+                view.stockCheckOrder(1L,databaseManager.getLastOrderId().blockingGet()+1,System.currentTimeMillis(),orderProductItems,customer);
+            } else view.stockCheckOrder(databaseManager.getLastClosedTill().blockingGet().getId() + 1L,databaseManager.getLastOrderId().blockingGet()+1,System.currentTimeMillis(),orderProductItems,customer);
+        }
+//        view.stockCheckOrder(databaseManager.getCurrentOpenTillId().blockingGet(),databaseManager.getLastOrderId().blockingGet()+1,System.currentTimeMillis(),orderProductItems,customer);
     }
 
     @Override

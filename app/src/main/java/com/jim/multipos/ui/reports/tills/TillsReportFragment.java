@@ -48,7 +48,7 @@ public class TillsReportFragment extends BaseTableReportFragment implements Till
         description = getContext().getString(R.string.till_reports_description);
         init(presenter);
         disableFilter();
-        titles = new String[]{getContext().getString(R.string.till_id), getContext().getString(R.string.opened_time), getContext().getString(R.string.closed_time), getContext().getString(R.string.total_starting_amount), getContext().getString(R.string.expexted_amount_in_till_report), getContext().getString(R.string.action)};
+        titles = new String[]{getContext().getString(R.string.till_id), getContext().getString(R.string.opened_time), getContext().getString(R.string.closed_time), getContext().getString(R.string.starting_amount_variance), getContext().getString(R.string.expexted_amount_in_till_report), getContext().getString(R.string.action)};
         setSingleTitle(getString(R.string.tills_reports));
         builder = new ReportView.Builder()
                 .setContext(getContext())

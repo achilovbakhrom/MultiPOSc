@@ -106,7 +106,7 @@ public class CheckPrinter {
             sendDataByte(PrinterCommand.POS_Set_Bold(1));
 
             //ORGANIZATION NAME
-            sendDataString(String.format("%.32s",preferencesHelper.getPosDetailAlias().toUpperCase()));
+            sendDataString(String.format("%.32s",CyrillicLatinConverter.transliterate(preferencesHelper.getPosDetailAlias().toUpperCase())));
 
             //Change type font to smaller
             Command.ESC_ExclamationMark[2] = 0x01;
@@ -145,7 +145,7 @@ public class CheckPrinter {
             sendDataString(String.format("%-20.20s",parent.getString(R.string.pos_number)+": "+String.valueOf(preferencesHelper.getPosDetailPosId()))+"  "+String.format("%20.20s",parent.getString(R.string.till_number_titl)+": "+String.valueOf(tillId)));
 
             //Customer: Anvarjon   Currency: Uzs
-            sendDataString(String.format("%-20.20s",parent.getString(R.string.customer)+": "+CyrillicLatinConverter.transliterate((customer==null?"-":customer.getName())))+"  "+String.format("%20.20s",parent.getString(R.string.currency) +": " + databaseManager.getMainCurrency().getAbbr()));
+            sendDataString(String.format("%-20.20s",parent.getString(R.string.customer_without_translate)+": "+CyrillicLatinConverter.transliterate((customer==null?"-":customer.getName())))+"  "+String.format("%20.20s",parent.getString(R.string.currency_without_translate) +": " + databaseManager.getMainCurrency().getAbbr()));
 
 
             //Divider
@@ -282,7 +282,7 @@ public class CheckPrinter {
             sendDataString(String.format("%-20.20s",parent.getString(R.string.pos_number)+": "+String.valueOf(preferencesHelper.getPosDetailPosId()))+"  "+String.format("%20.20s",parent.getString(R.string.till_number_titl)+": "+String.valueOf(1)));
 
             //Customer: Anvarjon   Currency: Uzs
-            sendDataString(String.format("%-20.20s",parent.getString(R.string.customer)+": "+CyrillicLatinConverter.transliterate("Oliver"))+"  "+String.format("%20.20s",parent.getString(R.string.currency) +": " + "$"));
+            sendDataString(String.format("%-20.20s",parent.getString(R.string.customer_without_translate)+": "+CyrillicLatinConverter.transliterate("Oliver"))+"  "+String.format("%20.20s",parent.getString(R.string.currency_without_translate) +": " + "$"));
 
 
             //Divider
@@ -397,7 +397,7 @@ public class CheckPrinter {
             sendDataByte(PrinterCommand.POS_Set_Bold(1));
 
             //ORGANIZATION NAME
-            sendDataString(String.format("%.32s",preferencesHelper.getPosDetailAlias().toUpperCase()));
+            sendDataString(String.format("%.32s",CyrillicLatinConverter.transliterate(preferencesHelper.getPosDetailAlias().toUpperCase())));
 
             //Change type font to smaller
             Command.ESC_ExclamationMark[2] = 0x01;
@@ -439,7 +439,7 @@ public class CheckPrinter {
             sendDataString(String.format("%-20.20s",parent.getString(R.string.pos_number)+": "+String.valueOf(preferencesHelper.getPosDetailPosId()))+"  "+String.format("%20.20s",parent.getString(R.string.till_number_titl)+": "+String.valueOf(order.getTillId())));
 
             //Customer: Anvarjon   Currency: Uzs
-            sendDataString(String.format("%-20.20s",parent.getString(R.string.customer)+": "+CyrillicLatinConverter.transliterate((order.getCustomer()==null?"-":order.getCustomer().getName())))+"  "+String.format("%20.20s",parent.getString(R.string.currency) +": " + databaseManager.getMainCurrency().getAbbr()));
+            sendDataString(String.format("%-20.20s",parent.getString(R.string.customer_without_translate)+": "+CyrillicLatinConverter.transliterate((order.getCustomer()==null?"-":order.getCustomer().getName())))+"  "+String.format("%20.20s",parent.getString(R.string.currency_without_translate) +": " + databaseManager.getMainCurrency().getAbbr()));
 
 
             //Divider

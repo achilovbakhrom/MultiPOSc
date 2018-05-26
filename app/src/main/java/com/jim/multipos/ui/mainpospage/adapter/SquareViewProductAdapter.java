@@ -1,9 +1,12 @@
 package com.jim.multipos.ui.mainpospage.adapter;
 
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.jim.mpviews.MPListItemView;
 import com.jim.mpviews.MpListItem;
@@ -21,23 +24,23 @@ import butterknife.BindView;
  * Created by Sirojiddin on 12.10.2017.
  */
 
-public class SquareViewProductAdapter extends ClickableBaseAdapter<Product, SquareViewProductAdapter.SquareCategoryViewHolder> {
+public class SquareViewProductAdapter extends RecyclerView.Adapter<SquareViewProductAdapter.SquareCategoryViewHolder> {
+    List<Product> items;
+    private OnItemClickListener onItemClickListener;
 
-    public SquareViewProductAdapter(List items) {
-        super(items);
+    public SquareViewProductAdapter(List items,OnItemClickListener onItemClickListener) {
+        this.items = items;
+        this.onItemClickListener = onItemClickListener;
     }
 
     @Override
     public void onBindViewHolder(SquareCategoryViewHolder holder, int position) {
-        super.onBindViewHolder(holder, position);
         holder.mpSquareItem.setTextSize(12);
         holder.mpSquareItem.setText(items.get(position).getName());
+        Log.d("onBindViewHolder", "onBindViewHolder: "+position);
     }
 
-    @Override
-    public void setItems(List<Product> items) {
-        super.setItems(items);
-    }
+
 
     @Override
     public SquareCategoryViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
@@ -50,13 +53,13 @@ public class SquareViewProductAdapter extends ClickableBaseAdapter<Product, Squa
         return items.size();
     }
 
-    @Override
-    protected boolean isSinglePositionClickDisabled() {
-        return true;
+    public interface OnItemClickListener {
+        void onItemClicked(int position);
+        void onItemClicked(Product item);
     }
 
-    @Override
-    protected void onItemClicked(SquareCategoryViewHolder holder, int position) {
+    public void setItems(List<Product> items){
+        this.items = items;
         notifyDataSetChanged();
     }
 
@@ -65,6 +68,10 @@ public class SquareViewProductAdapter extends ClickableBaseAdapter<Product, Squa
         MpListItem mpSquareItem;
         public SquareCategoryViewHolder(View itemView) {
             super(itemView);
+            Log.d("onBindViewHolder", "SquareCategoryViewHolder");
+            mpSquareItem.setOnClickListener(view -> {
+                onItemClickListener.onItemClicked(items.get(getAdapterPosition()));
+            });
         }
     }
 }

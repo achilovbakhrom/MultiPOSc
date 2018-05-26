@@ -142,7 +142,7 @@ public class PrintFragment extends BaseFragment implements PrintView {
 
             }
         });
-        flOpenFolderForLogo.setOnClickListener(view -> {
+        flOpenFolderForLogo.setOnClickListener(view ->{
             permissions.request(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(aBoolean -> {
                 if (aBoolean) {
                     OpenPickPhotoUtils.startPhotoPick(PrintFragment.this);
