@@ -26,7 +26,6 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import lombok.Getter;
 
 import static android.app.Activity.RESULT_OK;
 import static com.jim.multipos.utils.OpenPickPhotoUtils.RESULT_PICK_IMAGE;

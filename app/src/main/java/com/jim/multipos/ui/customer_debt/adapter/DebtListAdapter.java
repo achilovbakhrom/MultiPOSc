@@ -25,14 +25,12 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import lombok.Setter;
 
 /**
  * Created by Sirojiddin on 29.12.2017.
  */
 
 public class DebtListAdapter extends RecyclerView.Adapter<DebtListAdapter.DebtListViewHolder> {
-    @Setter
     private OnDebtClickListener listener;
     private List<Debt> items;
     private Currency currency;
@@ -100,6 +98,10 @@ public class DebtListAdapter extends RecyclerView.Adapter<DebtListAdapter.DebtLi
     public void setSelectedPosition(int selectedPosition) {
         this.selectedPosition = selectedPosition;
         this.isPayToAllMode = false;
+    }
+
+    public void setListener(OnDebtClickListener listener) {
+        this.listener = listener;
     }
 
     public interface OnDebtClickListener {

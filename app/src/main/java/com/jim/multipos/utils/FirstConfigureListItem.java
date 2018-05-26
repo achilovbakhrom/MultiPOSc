@@ -1,19 +1,45 @@
 package com.jim.multipos.utils;
 
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * Created by bakhrom on 10/17/17.
  */
 
 public class FirstConfigureListItem {
-    @Getter @Setter
     private String name;
-    @Getter @Setter
     private String description;
-    @Getter @Setter
     private int state;
-    @Getter @Setter
     private boolean selected = false;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
 }

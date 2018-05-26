@@ -118,17 +118,10 @@ public class ProductSquareViewFragment extends BaseFragment implements ProductSq
             categoryAdapter.setSelected(preferencesHelper.getLastPositionCategory());
             mainPageConnection.sendSelectedCategory(categories.get(preferencesHelper.getLastPositionCategory()), CATEGORY_TITLE);
         } else mainPageConnection.sendSelectedCategory(null, CATEGORY_TITLE);
-        categoryAdapter.setOnItemClickListener(new ClickableBaseAdapter.OnItemClickListener<Category>() {
-            @Override
-            public void onItemClicked(int position) {
-                preferencesHelper.setLastPositionCategory(position);
-            }
-
-            @Override
-            public void onItemClicked(Category item) {
-                presenter.setClickedCategory(item);
-                mainPageConnection.sendSelectedCategory(item, CATEGORY_TITLE);
-            }
+        categoryAdapter.setListener((category, position) -> {
+            preferencesHelper.setLastPositionCategory(position);
+            presenter.setClickedCategory(category);
+            mainPageConnection.sendSelectedCategory(category, CATEGORY_TITLE);
         });
     }
 
@@ -137,18 +130,12 @@ public class ProductSquareViewFragment extends BaseFragment implements ProductSq
         rvSubcategory.setLayoutManager(new LinearLayoutManager(getContext()));
         subcategoryAdapter = new SquareViewCategoryAdapter(subCategories);
         rvSubcategory.setAdapter(subcategoryAdapter);
-        subcategoryAdapter.setOnItemClickListener(new ClickableBaseAdapter.OnItemClickListener<Category>() {
-            @Override
-            public void onItemClicked(int position) {
-                preferencesHelper.setLastPositionSubCategory(String.valueOf(subCategories.get(position).getParentId()), position);
-            }
-
-            @Override
-            public void onItemClicked(Category item) {
-                presenter.setClickedSubCategory(item);
-                mainPageConnection.sendSelectedCategory(item, SUBCATEGORY_TITLE);
-            }
+        subcategoryAdapter.setListener((category, position) -> {
+            preferencesHelper.setLastPositionSubCategory(String.valueOf(subCategories.get(position).getParentId()), position);
+            presenter.setClickedSubCategory(category);
+            mainPageConnection.sendSelectedCategory(category, SUBCATEGORY_TITLE);
         });
+
         if (subCategories.size() > 0) {
             presenter.setSelectedSubCategory(preferencesHelper.getLastPositionSubCategory(String.valueOf(subCategories.get(0).getParentId())));
             subcategoryAdapter.setSelected(preferencesHelper.getLastPositionSubCategory(String.valueOf(subCategories.get(0).getParentId())));

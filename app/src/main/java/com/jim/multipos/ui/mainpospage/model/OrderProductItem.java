@@ -4,12 +4,10 @@ import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.order.OrderProduct;
 
-import lombok.Data;
 
 /**
  * Created by developer on 27.12.2017.
  */
-@Data
 public class OrderProductItem {
     private OrderProduct orderProduct;
     private Discount discount;
@@ -17,4 +15,43 @@ public class OrderProductItem {
     private ServiceFee serviceFee;
     private double serviceFeeAmmount;
 
+    public OrderProduct getOrderProduct() {
+        return orderProduct;
+    }
+
+    public void setOrderProduct(OrderProduct orderProduct) {
+        this.orderProduct = orderProduct;
+    }
+
+    public Discount getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Discount discount) {
+        this.discount = discount;
+    }
+
+    public double getDiscountAmmount() {
+        return discountAmmount;
+    }
+
+    public void setDiscountAmmount(double discountAmmount) {
+        this.discountAmmount = discountAmmount;
+    }
+
+    public ServiceFee getServiceFee() {
+        return serviceFee;
+    }
+
+    public void setServiceFee(ServiceFee serviceFee) {
+        this.serviceFee = serviceFee;
+    }
+
+    public double getServiceFeeAmmount() {
+        return serviceFeeAmmount;
+    }
+
+    public void setServiceFeeAmmount(double serviceFeeAmmount) {
+        this.serviceFeeAmmount = serviceFeeAmmount;
+    }
 }

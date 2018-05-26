@@ -8,8 +8,6 @@ import org.parceler.Parcel;
 import java.io.Serializable;
 import java.util.List;
 
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * Created by bakhrom on 10/5/17.
@@ -17,11 +15,33 @@ import lombok.Setter;
 
 @Parcel
 public class RegistrationObject implements Serializable {
-    @Getter @Setter
     @SerializedName("organization_name")
     String organizationName;
-    @Getter @Setter
     @SerializedName("e_mail")
     String eMail;
     List<Contact> contactList;
+    
+    public String getOrganizationName() {
+        return organizationName;
+    }
+
+    public void setOrganizationName(String organizationName) {
+        this.organizationName = organizationName;
+    }
+
+    public String geteMail() {
+        return eMail;
+    }
+
+    public void seteMail(String eMail) {
+        this.eMail = eMail;
+    }
+
+    public List<Contact> getContactList() {
+        return contactList;
+    }
+
+    public void setContactList(List<Contact> contactList) {
+        this.contactList = contactList;
+    }
 }

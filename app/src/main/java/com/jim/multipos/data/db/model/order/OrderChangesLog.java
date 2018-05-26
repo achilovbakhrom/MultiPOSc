@@ -5,7 +5,6 @@ import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Keep;
 import org.greenrobot.greendao.annotation.ToOne;
 
-import lombok.Data;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 import com.jim.multipos.data.db.model.DaoSession;
@@ -15,7 +14,6 @@ import org.greenrobot.greendao.annotation.NotNull;
  * Created by developer on 15.02.2018.
  */
 @Entity(nameInDb = "ORDER_CHANGE_LOG", active = true)
-@Data
 public class OrderChangesLog {
     public static final int HAND = 1;
     public static final int EDITED = 2;

@@ -61,11 +61,9 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
-import lombok.Getter;
 
 public class MainPosPageActivity extends MainPageDoubleSideActivity implements MainPosPageActivityView {
     @Inject
-    @Getter
     MainPosPageActivityPresenter presenter;
     @BindView(R.id.toolbar)
     MpToolbar toolbar;
@@ -80,7 +78,6 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
     @Inject
     DecimalFormat decimalFormat;
     @Inject
-    @Getter
     RxBusLocal rxBusLocal;
     @Inject
     RxBus rxBus;

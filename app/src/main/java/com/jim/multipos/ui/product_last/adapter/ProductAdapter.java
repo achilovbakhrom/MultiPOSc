@@ -35,6 +35,11 @@ public class ProductAdapter extends MovableBaseAdapter<Product, BaseViewHolder> 
 
     }
 
+    public List<Product> getItems(){
+        return this.items;
+    }
+
+
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         BaseViewHolder holder = null;

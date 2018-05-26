@@ -25,14 +25,12 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import lombok.Setter;
 
 /**
  * Created by Sirojiddin on 29.12.2017.
  */
 
 public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapter.CustomerListViewHolder> {
-    @Setter
     private OnCustomerClickListener listener;
     private List<Customer> items;
     private String searchText;
@@ -105,6 +103,10 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
     @Override
     public int getItemCount() {
         return items.size();
+    }
+
+    public void setListener(OnCustomerClickListener listener) {
+        this.listener = listener;
     }
 
     public interface OnCustomerClickListener {

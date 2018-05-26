@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import lombok.Getter;
 
 /**
  * Created by bakhrom on 10/21/17.
@@ -30,7 +29,6 @@ public class VendorsListFragment extends BaseFragment implements ClickableBaseAd
     @BindView(R.id.rvVendors)
     RecyclerView vendors;
 
-    @Getter
     private int selectedPosition = -1;
 
     @Override

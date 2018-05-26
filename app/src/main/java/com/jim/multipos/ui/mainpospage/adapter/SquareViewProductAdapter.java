@@ -37,7 +37,6 @@ public class SquareViewProductAdapter extends RecyclerView.Adapter<SquareViewPro
     public void onBindViewHolder(SquareCategoryViewHolder holder, int position) {
         holder.mpSquareItem.setTextSize(12);
         holder.mpSquareItem.setText(items.get(position).getName());
-        Log.d("onBindViewHolder", "onBindViewHolder: "+position);
     }
 
 
@@ -68,7 +67,6 @@ public class SquareViewProductAdapter extends RecyclerView.Adapter<SquareViewPro
         MpListItem mpSquareItem;
         public SquareCategoryViewHolder(View itemView) {
             super(itemView);
-            Log.d("onBindViewHolder", "SquareCategoryViewHolder");
             mpSquareItem.setOnClickListener(view -> {
                 onItemClickListener.onItemClicked(items.get(getAdapterPosition()));
             });

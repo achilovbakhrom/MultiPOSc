@@ -9,7 +9,6 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.ToOne;
 
-import lombok.Data;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 import com.jim.multipos.data.db.model.DaoSession;
@@ -21,7 +20,6 @@ import com.jim.multipos.data.db.model.consignment.ConsignmentDao;
  * Created by developer on 27.11.2017.
  */
 @Entity(nameInDb = "BILLING_OPERATION", active = true)
-@Data
 public class BillingOperations implements Editable {
 
     public static final int DEBT_CONSIGNMENT = 100;

@@ -2,6 +2,9 @@ package com.jim.multipos.ui.mainpospage.adapter;
 
 import android.content.Context;
 import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +14,6 @@ import android.widget.TextView;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.jim.multipos.R;
-import com.jim.multipos.core.BaseViewHolder;
-import com.jim.multipos.core.ClickableBaseAdapter;
 import com.jim.multipos.data.db.model.intosystem.FolderItem;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.utils.GlideApp;
@@ -24,22 +25,25 @@ import java.text.NumberFormat;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by Sirojiddin on 12.10.2017.
  */
 
-public class FolderViewAdapter extends ClickableBaseAdapter<FolderItem, BaseViewHolder> {
+public class FolderViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final DecimalFormat decimalFormat;
+    private OnFolderItemClickListener listener;
+    private List<FolderItem> items;
     private int mode = 0;
     private Context context;
     private static final int CATEGORY = 0;
     private static final int SUBCATEGORY = 1;
     private static final int PRODUCT = 2;
 
-    public FolderViewAdapter(List items, int mode, Context context) {
-        super(items);
+    public FolderViewAdapter(List<FolderItem> items, int mode, Context context) {
+        this.items = items;
         this.mode = mode;
         this.context = context;
         NumberFormat numberFormat = NumberFormat.getNumberInstance();
@@ -52,8 +56,7 @@ public class FolderViewAdapter extends ClickableBaseAdapter<FolderItem, BaseView
     }
 
     @Override
-    public void onBindViewHolder(BaseViewHolder holder, int position) {
-        super.onBindViewHolder(holder, position);
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
         if (holder instanceof FolderViewHolder) {
             FolderViewHolder folderViewHolder = ((FolderViewHolder) holder);
@@ -66,7 +69,7 @@ public class FolderViewAdapter extends ClickableBaseAdapter<FolderItem, BaseView
             productViewHolder.tvProductSKU.setText(context.getString(R.string.sku_) + product.getSku());
             productViewHolder.tvProductQty.setText(items.get(position).getCount() + " " + product.getMainUnit().getAbbr());
             productViewHolder.tvProductPrice.setText(decimalFormat.format(product.getPrice()) + " " + product.getPriceCurrency().getAbbr());
-            if (!product.getPhotoPath().equals("")){
+            if (!product.getPhotoPath().equals("")) {
                 Uri photoSelected = Uri.fromFile(new File(product.getPhotoPath()));
                 GlideApp.with(context).load(photoSelected).diskCacheStrategy(DiskCacheStrategy.RESOURCE).thumbnail(0.2f).centerCrop().transform(new RoundedCorners(20)).into(productViewHolder.ivProductImage);
             } else productViewHolder.ivProductImage.setImageResource(R.drawable.basket);
@@ -74,14 +77,16 @@ public class FolderViewAdapter extends ClickableBaseAdapter<FolderItem, BaseView
 
     }
 
-    @Override
     public void setItems(List<FolderItem> items) {
-        super.setItems(items);
+        this.items = items;
+        notifyDataSetChanged();
     }
 
+
+    @NonNull
     @Override
-    public BaseViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        BaseViewHolder holder = null;
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+        RecyclerView.ViewHolder holder = null;
         View view;
         switch (viewType) {
             case SUBCATEGORY:
@@ -98,11 +103,6 @@ public class FolderViewAdapter extends ClickableBaseAdapter<FolderItem, BaseView
     }
 
     @Override
-    protected boolean isSinglePositionClickDisabled() {
-        return true;
-    }
-
-    @Override
     public int getItemViewType(int position) {
         return mode;
     }
@@ -112,15 +112,15 @@ public class FolderViewAdapter extends ClickableBaseAdapter<FolderItem, BaseView
         return items.size();
     }
 
-    @Override
-    protected void onItemClicked(BaseViewHolder holder, int position) {
-    }
-
     public void setMode(int mode) {
         this.mode = mode;
     }
 
-    public class FolderViewHolder extends BaseViewHolder {
+    public void setListener(OnFolderItemClickListener listener) {
+        this.listener = listener;
+    }
+
+    public class FolderViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tvFolderItemName)
         TextView tvFolderItemName;
         @BindView(R.id.tvFolderItemSize)
@@ -128,10 +128,12 @@ public class FolderViewAdapter extends ClickableBaseAdapter<FolderItem, BaseView
 
         public FolderViewHolder(View itemView) {
             super(itemView);
+            ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(v -> listener.onItemClick(items.get(getAdapterPosition())));
         }
     }
 
-    public class ProductViewHolder extends BaseViewHolder {
+    public class ProductViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tvProductName)
         TextView tvProductName;
         @BindView(R.id.tvProductSKU)
@@ -142,9 +144,16 @@ public class FolderViewAdapter extends ClickableBaseAdapter<FolderItem, BaseView
         TextView tvProductPrice;
         @BindView(R.id.ivProductImage)
         ImageView ivProductImage;
+
         public ProductViewHolder(View itemView) {
             super(itemView);
+            ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(v -> listener.onItemClick(items.get(getAdapterPosition())));
         }
+    }
+
+    public interface OnFolderItemClickListener {
+        void onItemClick(FolderItem folderItem);
     }
 
 

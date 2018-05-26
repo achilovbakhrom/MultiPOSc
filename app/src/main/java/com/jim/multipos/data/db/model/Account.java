@@ -6,7 +6,6 @@ import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 
-import lombok.Data;
 
 /**
  * Created by DEV on 17.08.2017.

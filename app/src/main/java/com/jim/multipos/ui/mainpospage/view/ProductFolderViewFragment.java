@@ -136,16 +136,7 @@ public class ProductFolderViewFragment extends BaseFragment implements ProductFo
         rvFolderItems.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new FolderViewAdapter(folderItems, mode, getContext());
         rvFolderItems.setAdapter(adapter);
-        adapter.setOnItemClickListener(new ClickableBaseAdapter.OnItemClickListener<FolderItem>() {
-            @Override
-            public void onItemClicked(int position) {
-            }
-
-            @Override
-            public void onItemClicked(FolderItem item) {
-                presenter.selectedItem(item);
-            }
-        });
+        adapter.setListener(folderItem -> presenter.selectedItem(folderItem));
     }
 
     @Override
@@ -156,7 +147,6 @@ public class ProductFolderViewFragment extends BaseFragment implements ProductFo
         } else tvProductTitle.setText(getResources().getString(R.string.count_of_products));
         adapter.setMode(mode);
         adapter.setItems(folderItems);
-        adapter.notifyDataSetChanged();
     }
 
     @Override

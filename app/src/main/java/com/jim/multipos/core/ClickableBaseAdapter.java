@@ -2,14 +2,12 @@ package com.jim.multipos.core;
 
 import java.util.List;
 
-import lombok.Setter;
 
 /**
  * Created by Sirojiddin on 12.10.2017.
  */
 
 public abstract class ClickableBaseAdapter<T, E extends BaseViewHolder> extends BaseAdapter<T, E> {
-    @Setter
     private OnItemClickListener<T> onItemClickListener;
     protected int selectedPosition = -1;
 
@@ -37,6 +35,10 @@ public abstract class ClickableBaseAdapter<T, E extends BaseViewHolder> extends 
     @Override
     public int getItemViewType(int position) {
         return super.getItemViewType(position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener<T> onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 
     public interface OnItemClickListener<T> {

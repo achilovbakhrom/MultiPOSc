@@ -1,5 +1,7 @@
 package com.jim.multipos.ui.mainpospage.adapter;
 
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,20 +17,39 @@ import com.jim.multipos.data.db.model.products.Category;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by Sirojiddin on 12.10.2017.
  */
 
-    public class SquareViewCategoryAdapter extends ClickableBaseAdapter<Category, SquareViewCategoryAdapter.SquareCategoryViewHolder> {
+public class SquareViewCategoryAdapter extends RecyclerView.Adapter<SquareViewCategoryAdapter.SquareCategoryViewHolder> {
 
-    public SquareViewCategoryAdapter(List items) {
-        super(items);
+    private List<Category> items;
+    private int selectedPosition = -1;
+    private OnCategoryItemClickListener listener;
+
+    public SquareViewCategoryAdapter(List<Category> items) {
+        this.items = items;
+    }
+
+    public void setItems(List<Category> items) {
+        this.items = items;
+    }
+
+    public void setSelected(int position) {
+        this.selectedPosition = position;
+    }
+
+    @NonNull
+    @Override
+    public SquareCategoryViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.square_view_item, viewGroup, false);
+        return new SquareCategoryViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(SquareCategoryViewHolder holder, int position) {
-        super.onBindViewHolder(holder, position);
+    public void onBindViewHolder(@NonNull SquareViewCategoryAdapter.SquareCategoryViewHolder holder, int position) {
         holder.mpSquareItem.setTextSize(12);
         holder.mpSquareItem.setText(items.get(position).getName());
         if (position == selectedPosition) {
@@ -41,37 +62,15 @@ import butterknife.BindView;
     }
 
     @Override
-    public void setItems(List<Category> items) {
-        super.setItems(items);
-    }
-
-    public void setSelected(int position){
-        this.selectedPosition = position;
-    }
-
-    @Override
-    public SquareCategoryViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.square_view_item, viewGroup, false);
-        return new SquareCategoryViewHolder(view);
-    }
-
-    @Override
     public int getItemCount() {
         return items.size();
     }
 
-    @Override
-    protected boolean isSinglePositionClickDisabled() {
-        return true;
+    public void setListener(OnCategoryItemClickListener listener) {
+        this.listener = listener;
     }
 
-    @Override
-    protected void onItemClicked(SquareCategoryViewHolder holder, int position) {
-        notifyDataSetChanged();
-    }
-
-
-    public class SquareCategoryViewHolder extends BaseViewHolder {
+    public class SquareCategoryViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.mpSquareItem)
         MPListItemView mpSquareItem;
         @BindView(R.id.ivNextItem)
@@ -79,6 +78,20 @@ import butterknife.BindView;
 
         public SquareCategoryViewHolder(View itemView) {
             super(itemView);
+            ButterKnife.bind(this, itemView);
+            mpSquareItem.setOnClickListener(v -> {
+                if (selectedPosition != getAdapterPosition()) {
+                    int prevPosition = selectedPosition;
+                    selectedPosition = getAdapterPosition();
+                    listener.onItemClick(items.get(getAdapterPosition()), getAdapterPosition());
+                    notifyItemChanged(selectedPosition);
+                    notifyItemChanged(prevPosition);
+                }
+            });
         }
+    }
+
+    public interface OnCategoryItemClickListener {
+        void onItemClick(Category category, int position);
     }
 }

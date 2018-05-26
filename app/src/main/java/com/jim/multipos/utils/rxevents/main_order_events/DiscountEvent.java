@@ -2,12 +2,10 @@ package com.jim.multipos.utils.rxevents.main_order_events;
 
 import com.jim.multipos.data.db.model.Discount;
 
-import lombok.Data;
 
 /**
  * Created by developer on 27.02.2018.
  */
-@Data
 public class DiscountEvent {
     private Discount discount;
     private Discount newDiscount;
@@ -15,6 +13,30 @@ public class DiscountEvent {
 
     public DiscountEvent(Discount discount, int type) {
         this.discount = discount;
+        this.type = type;
+    }
+
+    public Discount getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Discount discount) {
+        this.discount = discount;
+    }
+
+    public Discount getNewDiscount() {
+        return newDiscount;
+    }
+
+    public void setNewDiscount(Discount newDiscount) {
+        this.newDiscount = newDiscount;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
         this.type = type;
     }
 }

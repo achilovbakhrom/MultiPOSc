@@ -25,7 +25,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import lombok.Getter;
 
 import static com.jim.multipos.ui.consignment.ConsignmentActivity.PRODUCT_ID;
 import static com.jim.multipos.ui.inventory.InventoryActivity.CONSIGNMENT_TYPE;
@@ -33,14 +32,23 @@ import static com.jim.multipos.ui.inventory.InventoryActivity.VENDOR_ID;
 
 public class VendorProductsViewActivity extends DoubleSideActivity implements VendorProductsView {
     @Inject
-    @Getter
     VendorProductsViewPresenter presenter;
     @Inject
-    @Getter
     DecimalFormat decimalFormat;
     @Inject
-    @Getter
     RxBus rxBus;
+
+    public VendorProductsViewPresenter getPresenter() {
+        return presenter;
+    }
+
+    public DecimalFormat getDecimalFormat() {
+        return decimalFormat;
+    }
+
+    public RxBus getRxBus() {
+        return rxBus;
+    }
 
     @Override
     protected int getToolbarMode() {

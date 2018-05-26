@@ -18,7 +18,6 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import javax.inject.Inject;
 
-import lombok.Getter;
 
 /**
  * Created by Achilov Bakhrom on 10/21/17.
@@ -30,18 +29,27 @@ public class VendorAddEditActivity extends DoubleSideActivity implements VendorA
     public static final String VENDOR_ID = "VENDOR_ID";
 
     @Inject
-    @Getter
     VendorAddEditPresenter presenter;
 
     @Inject
-    @Getter
     RxBus rxBus;
 
     @Inject
-    @Getter
     RxPermissions rxPermissions;
 
     private boolean isVendorDedtails = false;
+
+    public VendorAddEditPresenter getPresenter() {
+        return presenter;
+    }
+
+    public RxBus getRxBus() {
+        return rxBus;
+    }
+
+    public RxPermissions getRxPermissions() {
+        return rxPermissions;
+    }
 
     @Override
     protected int getToolbarMode() {

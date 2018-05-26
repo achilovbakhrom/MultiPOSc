@@ -1,23 +1,14 @@
 package com.jim.multipos.data.db.model;
 
-import android.content.Context;
-
 import com.jim.multipos.data.db.model.intosystem.Editable;
-import com.jim.multipos.utils.CommonUtils;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Id;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
-
-import lombok.Data;
 
 @Entity(nameInDb = "DISCOUNT", active = true)
-@Data
 public class Discount implements Editable {
     public static final int PERCENT = 0;
     public static final int VALUE = 1;

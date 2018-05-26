@@ -10,7 +10,6 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.ToOne;
 
-import lombok.Data;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 import com.jim.multipos.data.db.model.DaoSession;
@@ -24,7 +23,6 @@ import com.jim.multipos.data.db.model.inventory.WarehouseOperationsDao;
  * Created by developer on 20.12.2017.
  */
 @Entity(nameInDb = "ORDERPRODUCT", active = true)
-@Data
 public class OrderProduct {
     @Id(autoincrement = true)
     private Long id;

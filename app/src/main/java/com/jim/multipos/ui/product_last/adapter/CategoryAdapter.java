@@ -32,6 +32,10 @@ public class CategoryAdapter extends MovableBaseAdapter<Category, BaseViewHolder
         this.mode = mode;
     }
 
+    public List<Category> getItems(){
+        return this.items;
+    }
+
     @Override
     protected void onItemClicked(BaseViewHolder holder, int position) {
         notifyDataSetChanged();

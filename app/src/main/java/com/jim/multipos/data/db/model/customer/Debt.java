@@ -15,12 +15,10 @@ import com.jim.multipos.data.db.model.order.OrderDao;
 
 import java.util.List;
 
-import lombok.Data;
 
 /**
  * Created by Sirojiddin on 29.12.2017.
  */
-@Data
 @Entity(active = true)
 public class Debt {
     public static final int PARTICIPLE = 0;

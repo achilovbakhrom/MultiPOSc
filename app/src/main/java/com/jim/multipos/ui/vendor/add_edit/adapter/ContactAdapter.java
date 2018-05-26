@@ -22,7 +22,6 @@ import com.jim.multipos.utils.TextWatcherOnTextChange;
 import java.util.List;
 
 import butterknife.BindView;
-import lombok.Setter;
 
 /**
  * Created by bakhrom on 10/22/17.
@@ -30,7 +29,6 @@ import lombok.Setter;
 
 public class ContactAdapter extends BaseAdapter<Contact, ContactAdapter.ContactViewHolder> {
 
-    @Setter
     private OnContactClickListener listener;
     private Context context;
 
@@ -65,6 +63,10 @@ public class ContactAdapter extends BaseAdapter<Contact, ContactAdapter.ContactV
             }
         });
 
+    }
+
+    public void setListener(OnContactClickListener listener) {
+        this.listener = listener;
     }
 
     class ContactViewHolder extends BaseViewHolder {

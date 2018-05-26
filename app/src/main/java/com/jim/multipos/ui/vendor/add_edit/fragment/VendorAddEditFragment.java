@@ -45,7 +45,6 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.OnClick;
 import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
-import lombok.Getter;
 
 import static android.app.Activity.RESULT_OK;
 import static com.jim.multipos.utils.OpenPickPhotoUtils.RESULT_PICK_IMAGE;
@@ -94,10 +93,13 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
     @BindView(R.id.ivVendorImage)
     ImageView ivVendorImage;
 
-    @Getter
     private boolean isChangeDetected = false;
     private boolean isFirstTime = false;
     private Uri photoSelected;
+
+    public boolean isChangeDetected() {
+        return isChangeDetected;
+    }
 
     @Override
     protected int getLayout() {

@@ -15,15 +15,17 @@ import com.jim.multipos.utils.WarningDialog;
 
 import javax.inject.Inject;
 
-import lombok.Getter;
 
 public class CustomerGroupActivity extends DoubleSideActivity implements CustomerGroupView {
     public static final String CUSTOMER_GROUP_ID = "CUSTOMER_GROUP_ID";
     public static final String CUSTOMER_GROUPS_FRAGMENT = "CUSTOMER_GROUPS_FRAGMENT";
 
     @Inject
-    @Getter
     public CustomerGroupPresenter presenter;
+
+    public CustomerGroupPresenter getPresenter() {
+        return presenter;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -29,8 +29,6 @@ import java.util.List;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * Created by Achilov Bakhrom on 10/26/17.
@@ -41,24 +39,16 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
 
     private final String CATEGORY_KEY = "CATEGORY_KEY", SUBCATEGORY_KEY = "SUBCATEGORY_KEY", PRODUCT_KEY = "PRODUCT_KEY", STATE_KEY = "STATE_KEY";
 
-    @Setter
-    @Getter
     private CategoryAddEditMode mode = CategoryAddEditMode.CATEGORY_ADD_MODE;
 
-    @Setter
-    @Getter
     private Category category, subcategory;
 
-    @Getter
-    @Setter
     private Product product;
     private ProductClass productClass;
     private List<Long> vendors;
     private List<VendorProductCon> vendorProductConnectionsList;
     //    private List<VendorProductCon> tempCostList;
     private DecimalFormat formatter;
-
-    @Getter
     DatabaseManager databaseManager;
     private boolean isNew = true;
     private String savedCosts = "";
@@ -74,6 +64,26 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
         deletedStatesList = new ArrayList<>();
         productClass = null;
         this.formatter = decimalFormat;
+    }
+
+    @Override
+    public CategoryAddEditMode getMode() {
+        return mode;
+    }
+
+    @Override
+    public void setMode(CategoryAddEditMode mode) {
+        this.mode = mode;
+    }
+
+    @Override
+    public Category getCategory() {
+        return this.category;
+    }
+
+    @Override
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     @Override
@@ -524,6 +534,11 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 break;
 
         }
+    }
+
+    @Override
+    public DatabaseManager getDatabaseManager() {
+        return null;
     }
 
     private void openCategory(Category category) {

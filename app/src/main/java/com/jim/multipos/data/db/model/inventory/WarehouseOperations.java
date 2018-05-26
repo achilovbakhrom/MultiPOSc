@@ -14,15 +14,13 @@ import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.ToOne;
 
-import lombok.Data;
 import com.jim.multipos.data.db.model.order.OrderDao;
 
 /**
  * Created by developer on 27.11.2017.
  */
 @Entity(nameInDb = "WAREHOUSE_OPERATION", active = true)
-@Data
-    public class WarehouseOperations implements Editable{
+public class WarehouseOperations implements Editable {
     //Inventory Log report "reason" field add
     public static final int INCOME_FROM_VENDOR = 1;
     public static final int RETURN_TO_VENDOR = 2;
@@ -54,6 +52,7 @@ import com.jim.multipos.data.db.model.order.OrderDao;
     private Long orderId;
     @ToOne(joinProperty = "orderId")
     private Order order;
+
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
      * Entity must attached to an entity context.
@@ -65,6 +64,7 @@ import com.jim.multipos.data.db.model.order.OrderDao;
         }
         myDao.refresh(this);
     }
+
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
      * Entity must attached to an entity context.
@@ -76,6 +76,7 @@ import com.jim.multipos.data.db.model.order.OrderDao;
         }
         myDao.update(this);
     }
+
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
      * Entity must attached to an entity context.
@@ -87,7 +88,10 @@ import com.jim.multipos.data.db.model.order.OrderDao;
         }
         myDao.delete(this);
     }
-    /** called by internal mechanisms, do not call yourself. */
+
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
     @Generated(hash = 332557200)
     public void setVendor(Vendor vendor) {
         synchronized (this) {
@@ -96,7 +100,10 @@ import com.jim.multipos.data.db.model.order.OrderDao;
             vendor__resolvedKey = vendorId;
         }
     }
-    /** To-one relationship, resolved on first access. */
+
+    /**
+     * To-one relationship, resolved on first access.
+     */
     @Generated(hash = 1192552702)
     public Vendor getVendor() {
         Long __key = this.vendorId;
@@ -114,9 +121,13 @@ import com.jim.multipos.data.db.model.order.OrderDao;
         }
         return vendor;
     }
+
     @Generated(hash = 1022035388)
     private transient Long vendor__resolvedKey;
-    /** called by internal mechanisms, do not call yourself. */
+
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
     @Generated(hash = 558738496)
     public void setProduct(Product product) {
         synchronized (this) {
@@ -125,7 +136,10 @@ import com.jim.multipos.data.db.model.order.OrderDao;
             product__resolvedKey = productId;
         }
     }
-    /** To-one relationship, resolved on first access. */
+
+    /**
+     * To-one relationship, resolved on first access.
+     */
     @Generated(hash = 1198864293)
     public Product getProduct() {
         Long __key = this.productId;
@@ -143,49 +157,68 @@ import com.jim.multipos.data.db.model.order.OrderDao;
         }
         return product;
     }
+
     @Generated(hash = 587652864)
     private transient Long product__resolvedKey;
-    /** called by internal mechanisms, do not call yourself. */
+
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
     @Generated(hash = 583836337)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getWarehouseOperationsDao() : null;
     }
-    /** Used for active entity operations. */
+
+    /**
+     * Used for active entity operations.
+     */
     @Generated(hash = 353389812)
     private transient WarehouseOperationsDao myDao;
-    /** Used to resolve relations */
+    /**
+     * Used to resolve relations
+     */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
     @Generated(hash = 219913283)
     private transient Long order__resolvedKey;
+
     public Long getCreateAt() {
         return this.createAt;
     }
+
     public void setCreateAt(Long createAt) {
         this.createAt = createAt;
     }
+
     public double getValue() {
         return this.value;
     }
+
     public void setValue(double value) {
         this.value = value;
     }
+
     public Long getVendorId() {
         return this.vendorId;
     }
+
     public void setVendorId(Long vendorId) {
         this.vendorId = vendorId;
     }
+
     public Long getProductId() {
         return this.productId;
     }
+
     public void setProductId(Long productId) {
         this.productId = productId;
     }
+
     public Long getId() {
         return this.id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -243,28 +276,38 @@ import com.jim.multipos.data.db.model.order.OrderDao;
     public int getType() {
         return this.type;
     }
+
     public void setType(int type) {
         this.type = type;
     }
+
     public boolean getIsNotModified() {
         return this.isNotModified;
     }
+
     public void setIsNotModified(boolean isNotModified) {
         this.isNotModified = isNotModified;
     }
+
     public boolean getIsDeleted() {
         return this.isDeleted;
     }
+
     public void setIsDeleted(boolean isDeleted) {
         this.isDeleted = isDeleted;
     }
+
     public boolean getIsActive() {
         return this.isActive;
     }
+
     public void setIsActive(boolean isActive) {
         this.isActive = isActive;
     }
-    /** called by internal mechanisms, do not call yourself. */
+
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
     @Generated(hash = 1275275852)
     public void setOrder(Order order) {
         synchronized (this) {
@@ -273,7 +316,10 @@ import com.jim.multipos.data.db.model.order.OrderDao;
             order__resolvedKey = orderId;
         }
     }
-    /** To-one relationship, resolved on first access. */
+
+    /**
+     * To-one relationship, resolved on first access.
+     */
     @Generated(hash = 352034325)
     public Order getOrder() {
         Long __key = this.orderId;
@@ -291,22 +337,27 @@ import com.jim.multipos.data.db.model.order.OrderDao;
         }
         return order;
     }
+
     public Long getOrderId() {
         return this.orderId;
     }
+
     public void setOrderId(Long orderId) {
         this.orderId = orderId;
     }
+
     public String getDescription() {
         return this.description;
     }
+
     public void setDescription(String description) {
         this.description = description;
     }
+
     @Generated(hash = 1126970697)
     public WarehouseOperations(Long id, Long productId, Long vendorId, double value,
-            int type, Long createAt, boolean isActive, boolean isDeleted,
-            boolean isNotModified, Long rootId, String description, Long orderId) {
+                               int type, Long createAt, boolean isActive, boolean isDeleted,
+                               boolean isNotModified, Long rootId, String description, Long orderId) {
         this.id = id;
         this.productId = productId;
         this.vendorId = vendorId;
@@ -320,6 +371,7 @@ import com.jim.multipos.data.db.model.order.OrderDao;
         this.description = description;
         this.orderId = orderId;
     }
+
     @Generated(hash = 266239327)
     public WarehouseOperations() {
     }

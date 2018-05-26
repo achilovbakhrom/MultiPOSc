@@ -17,7 +17,6 @@ import java.util.List;
  */
 
 public interface ProductPresenter extends Presenter {
-
     void categorySelected(Category category);
     void subcategorySelected(Category category);
     void addCategory(String name, String description, boolean isActive);

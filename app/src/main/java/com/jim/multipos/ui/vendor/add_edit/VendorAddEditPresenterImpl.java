@@ -22,8 +22,6 @@ import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * Created by Achilov Bakhrom on 10/21/17.
@@ -33,16 +31,13 @@ public class VendorAddEditPresenterImpl extends BasePresenterImpl<VendorAddEditV
 
     private final VendorAddEditView view;
 
-    @Getter
     private AddingMode mode;
 
-    @Setter
     private Long vendorId = -1L;
 
     private DatabaseManager databaseManager;
 
     private final String[] contactTypes;
-    @Getter
     private List<Contact> contacts;
 
 
@@ -106,6 +101,11 @@ public class VendorAddEditPresenterImpl extends BasePresenterImpl<VendorAddEditV
             }
         }
         return databaseManager.isVendorNameExist(name).blockingSingle();
+    }
+
+    @Override
+    public AddingMode getMode() {
+        return mode;
     }
 
     @Override
@@ -219,6 +219,11 @@ public class VendorAddEditPresenterImpl extends BasePresenterImpl<VendorAddEditV
                 view.sendEvent(GlobalEventConstants.DELETE, vendor);
             });
         }
+    }
+
+    @Override
+    public List<Contact> getContacts() {
+        return contacts;
     }
 
     @Override

@@ -11,12 +11,10 @@ import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 import com.jim.multipos.data.db.model.currency.CurrencyDao;
 
-import lombok.Data;
 
 /**
  * Created by DEV on 17.08.2017.
  */
-@Data
 @Entity(nameInDb = "PAYMENT_TYPE", active = true)
 public class PaymentType {
 

@@ -30,7 +30,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import lombok.Getter;
 
 
 /**
@@ -43,19 +42,28 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
     public static final String PRODUCT_FRAGMENT = ProductAddEditFragment.class.getName();
 
     @Inject
-    @Getter
     ProductPresenter presenter;
 
     @Inject
-    @Getter
     RxPermissions permissions;
 
     @Inject
-    @Getter
     RxBus rxBus;
 
     @Inject
     BarcodeStack barcodeStack;
+
+    public ProductPresenter getPresenter() {
+        return presenter;
+    }
+
+    public RxPermissions getPermissions() {
+        return permissions;
+    }
+
+    public RxBus getRxBus() {
+        return rxBus;
+    }
 
     public BarcodeStack getBarcodeStack() {
         return barcodeStack;

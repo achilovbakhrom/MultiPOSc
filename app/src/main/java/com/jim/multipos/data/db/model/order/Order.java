@@ -22,7 +22,6 @@ import org.greenrobot.greendao.annotation.ToOne;
 import java.util.ArrayList;
 import java.util.List;
 
-import lombok.Data;
 import com.jim.multipos.data.db.model.customer.DebtDao;
 import com.jim.multipos.data.db.model.till.Till;
 import com.jim.multipos.ui.mainpospage.model.DiscountItem;
@@ -34,7 +33,6 @@ import com.jim.multipos.data.db.model.AccountDao;
 /**
  * Created by developer on 20.12.2017.
  */
-@Data
 @Entity(nameInDb = "ALL_ORDER", active = true)
 public class Order {
     //Order status
@@ -755,5 +753,9 @@ public class Order {
 
     public void setAccountId(Long accountId) {
         this.accountId = accountId;
+    }
+
+    public DaoSession getDaoSession(){
+        return daoSession;
     }
 }

@@ -7,7 +7,6 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.ToOne;
 
-import lombok.Data;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 import com.jim.multipos.data.db.model.DaoSession;
@@ -18,7 +17,6 @@ import org.greenrobot.greendao.annotation.NotNull;
  * Created by developer on 20.12.2017.
  */
 @Entity(nameInDb = "PAYEDPARTITIONS", active = true)
-@Data
 public class PayedPartitions {
 
     @Id(autoincrement = true)
