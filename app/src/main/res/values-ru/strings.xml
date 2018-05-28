@@ -134,6 +134,7 @@
         <item name="employers_description">Кто будет работать с этим POS</item>
         <item name="stocks_description">Stocks</item>
     </string-array>
+    <string name="enter_return_reason">Введите причину возврата</string>
     <string-array name="products_menu_title">
         <item>Товары</item>
         <item>Поставщики</item>

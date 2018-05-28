@@ -157,14 +157,14 @@ public class MpMiniList extends FrameLayout {
         setLayoutParams(layoutParams);
         paymentTypes = new ArrayList<>();
         paymentTypes = new ArrayList<>();
-        mpFirstPayment = (MpPayments) findViewById(R.id.mpFirstPayment);
-        mpSecondPayment = (MpPayments) findViewById(R.id.mpSecondPayment);
-        mpThirdPayment = (MpPayments) findViewById(R.id.mpThirdPayment);
-        mpFourPayment = (MpPayments) findViewById(R.id.mpFourPayment);
-        mpIndicatorContainer = (LinearLayout) findViewById(R.id.mpIndicatorContainer);
-        llNextPrev = (LinearLayout) findViewById(R.id.llNextPrev);
-        mpPrev = (LinearLayout) findViewById(R.id.mpPrev);
-        mpNext = (LinearLayout) findViewById(R.id.mpNext);
+        mpFirstPayment = findViewById(R.id.mpFirstPayment);
+        mpSecondPayment = findViewById(R.id.mpSecondPayment);
+        mpThirdPayment = findViewById(R.id.mpThirdPayment);
+        mpFourPayment = findViewById(R.id.mpFourPayment);
+        mpIndicatorContainer = findViewById(R.id.mpIndicatorContainer);
+        llNextPrev = findViewById(R.id.llNextPrev);
+        mpPrev = findViewById(R.id.mpPrev);
+        mpNext = findViewById(R.id.mpNext);
 
     }
 

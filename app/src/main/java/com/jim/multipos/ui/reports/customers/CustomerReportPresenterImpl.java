@@ -894,4 +894,16 @@ public class CustomerReportPresenterImpl extends BasePresenterImpl<CustomerRepor
                 }
         });
     }
+
+    @Override
+    public void onAction(Object[][] objects, int row, int column) {
+        if (currentPosition == 1 && column == 3) {
+            if (!objects[row][column].equals("")) {
+                long orderId = (long) objects[row][column];
+                databaseManager.getOrder(orderId).subscribe(order -> {
+                    view.onOrderPressed(order);
+                });
+            }
+        }
+    }
 }

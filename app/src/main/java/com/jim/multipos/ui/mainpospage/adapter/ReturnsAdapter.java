@@ -8,14 +8,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.jakewharton.rxbinding2.view.RxView;
-import com.jim.mpviews.MPosSpinner;
 import com.jim.mpviews.MpEditText;
 import com.jim.mpviews.MpMiniActionButton;
 import com.jim.multipos.R;
 import com.jim.multipos.data.db.model.products.Return;
-import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.utils.TextWatcherOnTextChange;
-import com.jim.multipos.utils.WarningDialog;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -36,11 +33,11 @@ public class ReturnsAdapter extends RecyclerView.Adapter<ReturnsAdapter.ProductS
     private onReturnItemCallback callback;
 
 
-    public ReturnsAdapter(DecimalFormat decimalFormat, Context context, onReturnItemCallback callback) {
+    public ReturnsAdapter(List<Return> returnsList, DecimalFormat decimalFormat, Context context, onReturnItemCallback callback) {
         this.decimalFormat = decimalFormat;
         this.context = context;
         this.callback = callback;
-        items = new ArrayList<>();
+        this.items = returnsList;
     }
 
     @Override
@@ -56,11 +53,7 @@ public class ReturnsAdapter extends RecyclerView.Adapter<ReturnsAdapter.ProductS
         holder.etReturnPrice.setText(decimalFormat.format(items.get(position).getReturnAmount()));
         holder.etQuantity.setText(decimalFormat.format(items.get(position).getQuantity()));
         holder.tvUnit.setText(items.get(position).getProduct().getMainUnit().getAbbr());
-        List<String> vendorNames = new ArrayList<>();
-        for (Vendor vendor : items.get(position).getProduct().getVendor()) {
-            vendorNames.add(vendor.getName());
-        }
-        holder.spVendors.setAdapter(vendorNames);
+        holder.spVendors.setText(items.get(position).getProduct().getVendor().get(0).getName());
     }
 
     @Override
@@ -74,12 +67,12 @@ public class ReturnsAdapter extends RecyclerView.Adapter<ReturnsAdapter.ProductS
     }
 
     public void addItem(Return item) {
-        this.items.add(item);
-        notifyDataSetChanged();
+        this.items.add(items.size(), item);
+        notifyItemInserted(items.size());
     }
 
     public interface onReturnItemCallback {
-        void onDelete(Return aReturn);
+        void onDelete(Return aReturn, int position);
     }
 
     class ProductSearchViewHolder extends RecyclerView.ViewHolder {
@@ -91,7 +84,7 @@ public class ReturnsAdapter extends RecyclerView.Adapter<ReturnsAdapter.ProductS
         @BindView(R.id.etReturnPrice)
         MpEditText etReturnPrice;
         @BindView(R.id.spVendors)
-        MPosSpinner spVendors;
+        TextView spVendors;
         @BindView(R.id.etQuantity)
         MpEditText etQuantity;
         @BindView(R.id.ivRemove)
@@ -103,7 +96,7 @@ public class ReturnsAdapter extends RecyclerView.Adapter<ReturnsAdapter.ProductS
             super(itemView);
             ButterKnife.bind(this, itemView);
             RxView.clicks(ivRemove).subscribe(o -> {
-                callback.onDelete(items.get(getAdapterPosition()));
+                callback.onDelete(items.get(getAdapterPosition()), getAdapterPosition());
             });
 
             etReturnPrice.addTextChangedListener(new TextWatcherOnTextChange() {
@@ -139,14 +132,6 @@ public class ReturnsAdapter extends RecyclerView.Adapter<ReturnsAdapter.ProductS
                     }
                 }
             });
-
-            spVendors.setItemSelectionListener(new MPosSpinner.ItemSelectionListener() {
-                @Override
-                public void onItemSelected(View view, int position) {
-                    items.get(getAdapterPosition()).setVendor(items.get(getAdapterPosition()).getProduct().getVendor().get(position));
-                }
-            });
-
         }
     }
 }

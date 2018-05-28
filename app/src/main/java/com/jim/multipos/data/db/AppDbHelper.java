@@ -282,42 +282,24 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public Single<List<Category>> getAllActiveCategories() {
-        Observable<List<Category>> objectObservable = Observable.create(singleSubscriber -> {
-            try {
-                List<Category> categories = mDaoSession.getCategoryDao().loadAll();
-                singleSubscriber.onNext(categories);
-                singleSubscriber.onComplete();
-            } catch (Exception o) {
-                singleSubscriber.onError(o);
-            }
-        });
-        return objectObservable.flatMap(Observable::fromIterable)
-                .filter(Category::isNotModifyted)
-                .filter(category -> !category.isDeleted())
-                .filter(Category::getIsActive)
-                .filter(category -> category.getParentId().equals(WITHOUT_PARENT))
-                .sorted((category, t1) -> category.getPosition().compareTo(t1.getPosition()))
-                .toList();
+        return Single.create(e -> e.onSuccess(mDaoSession.getCategoryDao().queryBuilder()
+                .where(CategoryDao.Properties.IsNotModified.eq(true),
+                        CategoryDao.Properties.IsDeleted.eq(false),
+                        CategoryDao.Properties.IsActive.eq(true),
+                        CategoryDao.Properties.ParentId.eq(WITHOUT_PARENT))
+                .build()
+                .list()));
     }
 
     @Override
     public Single<List<Category>> getAllActiveSubCategories(Category parent) {
-        Observable<List<Category>> objectObservable = Observable.create(singleSubscriber -> {
-            try {
-                List<Category> categories = mDaoSession.getCategoryDao().loadAll();
-                singleSubscriber.onNext(categories);
-                singleSubscriber.onComplete();
-            } catch (Exception o) {
-                singleSubscriber.onError(o);
-            }
-        });
-        return objectObservable.flatMap(Observable::fromIterable)
-                .filter(Category::isNotModifyted)
-                .filter(category -> !category.isDeleted())
-                .filter(Category::getIsActive)
-                .filter(category -> category.getParentId().equals(parent.getId()))
-                .sorted((category, t1) -> category.getPosition().compareTo(t1.getPosition()))
-                .toList();
+        return Single.create(e -> e.onSuccess(mDaoSession.getCategoryDao().queryBuilder()
+                .where(CategoryDao.Properties.IsNotModified.eq(true),
+                        CategoryDao.Properties.IsDeleted.eq(false),
+                        CategoryDao.Properties.IsActive.eq(true),
+                        CategoryDao.Properties.ParentId.eq(parent.getId()))
+                .build()
+                .list()));
     }
 
     @Override
@@ -367,23 +349,13 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public Single<List<Product>> getAllActiveProducts(Category parent) {
-        Observable<List<Product>> objectObservable = Observable.create(singleSubscriber -> {
-            try {
-                List<Product> products = mDaoSession.getProductDao().loadAll();
-                singleSubscriber.onNext(products);
-                singleSubscriber.onComplete();
-            } catch (Exception o) {
-                singleSubscriber.onError(o);
-            }
-        });
-        return objectObservable.flatMap(Observable::fromIterable)
-                .filter(Product::isNotModifyted)
-                .filter(product -> !product.isDeleted())
-                .filter(Product::getIsActive)
-                .filter(product -> product.getCategoryId().equals(parent.getId()))
-                .sorted((product, t1) -> t1.getCreatedDate().compareTo(product.getCreatedDate()))
-                .sorted((product, t1) -> product.getPosition().compareTo(t1.getPosition()))
-                .toList();
+        return Single.create(e -> e.onSuccess(mDaoSession.getProductDao().queryBuilder()
+                .where(ProductDao.Properties.IsNotModified.eq(true),
+                        ProductDao.Properties.IsDeleted.eq(false),
+                        ProductDao.Properties.IsActive.eq(true),
+                        ProductDao.Properties.CategoryId.eq(parent.getId()))
+                .build()
+                .list()));
     }
 
     @Override
@@ -584,20 +556,13 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public Single<List<Discount>> getAllDiscounts() {
-        Observable<List<Discount>> objectObservable = Observable.create(singleSubscriber -> {
-            try {
-                List<Discount> discounts = mDaoSession.getDiscountDao().queryBuilder().where(DiscountDao.Properties.Delete.eq(false)).list();
-                singleSubscriber.onNext(discounts);
-                singleSubscriber.onComplete();
-            } catch (Exception o) {
-                singleSubscriber.onError(o);
-            }
+        return Single.create(e -> {
+            e.onSuccess(mDaoSession.getDiscountDao().queryBuilder()
+                    .where( DiscountDao.Properties.NotModifyted.eq(true),
+                            DiscountDao.Properties.Delete.eq(false))
+                    .build()
+                    .list());
         });
-        return objectObservable.flatMap(Observable::fromIterable)
-                .filter(discounts -> discounts.isNotModifyted())
-                .filter(discounts -> !discounts.isDeleted())
-                .sorted((discounts, t1) -> t1.getCreatedDate().compareTo(discounts.getCreatedDate()))
-                .toList();
     }
 
     @Override
@@ -699,21 +664,15 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public Single<List<ProductClass>> getAllProductClass() {
-        Observable<List<ProductClass>> objectObservable = Observable.create(singleSubscriber -> {
-            try {
-                List<ProductClass> productClasses = mDaoSession.getProductClassDao().loadAll();
-                singleSubscriber.onNext(productClasses);
-                singleSubscriber.onComplete();
-            } catch (Exception o) {
-                singleSubscriber.onError(o);
-            }
+        return Single.create(e -> {
+            List<ProductClass> list = mDaoSession.getProductClassDao().queryBuilder()
+                    .where(ProductClassDao.Properties.NotModifyted.eq(true),
+                            ProductClassDao.Properties.Deleted.eq(false))
+                    .build()
+                    .list();
+            Collections.sort(list, (o1, o2) -> o1.getActive().compareTo(o2.getActive()));
+            e.onSuccess(list);
         });
-        return objectObservable.flatMap(Observable::fromIterable)
-                .filter(productClass -> productClass.isNotModifyted())
-                .filter(productClass -> !productClass.isDeleted())
-                .sorted((productClass, t1) -> t1.getCreatedDate().compareTo(productClass.getCreatedDate()))
-                .sorted((productClass, t1) -> t1.getActive().compareTo(productClass.getActive()))
-                .toList();
     }
 
     @Override
@@ -2408,6 +2367,31 @@ public class AppDbHelper implements DbHelper {
     public Single<PaymentType> getSystemPaymentType() {
         return Single.create(e -> {
             e.onSuccess(mDaoSession.getPaymentTypeDao().queryBuilder().where(PaymentTypeDao.Properties.IsNotSystem.eq(false)).build().unique());
+        });
+    }
+
+    @Override
+    public Single<List<Discount>> getStaticDiscounts() {
+        return Single.create(e -> {
+            e.onSuccess(mDaoSession.getDiscountDao().queryBuilder()
+                    .where(DiscountDao.Properties.IsManual.eq(false),
+                            DiscountDao.Properties.NotModifyted.eq(true),
+                            DiscountDao.Properties.Delete.eq(false))
+                    .build()
+                    .list());
+        });
+    }
+
+    @Override
+    public Single<List<Discount>> getDiscountsByType(int discountApplyType) {
+        return Single.create(e -> {
+            QueryBuilder<Discount> queryBuilder = mDaoSession.getDiscountDao().queryBuilder();
+            queryBuilder.whereOr(DiscountDao.Properties.UsedType.eq(discountApplyType), DiscountDao.Properties.UsedType.eq(Discount.ALL));
+            queryBuilder.where(DiscountDao.Properties.IsManual.eq(false),
+                    DiscountDao.Properties.NotModifyted.eq(true),
+                    DiscountDao.Properties.Active.eq(true),
+                    DiscountDao.Properties.Delete.eq(false));
+            e.onSuccess(queryBuilder.build().list());
         });
     }
 

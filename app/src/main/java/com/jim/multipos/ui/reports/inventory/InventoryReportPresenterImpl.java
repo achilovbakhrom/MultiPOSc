@@ -36,7 +36,6 @@ public class InventoryReportPresenterImpl extends BasePresenterImpl<InventoryRep
     private Context context;
     private Object[][] firstObjects;
     private Object[][] secondObjects;
-    private Object[][] thirdObjects;
     private Object[][] forthObjects;
     private int currentPosition = 0;
     private Calendar fromDate;
@@ -222,23 +221,6 @@ public class InventoryReportPresenterImpl extends BasePresenterImpl<InventoryRep
                 }
                 break;
             case 2:
-                if (till != null) {
-                    List<HistoryInventoryState> inventoryStates = databaseManager.getHistoryInventoryStatesByTillId(till.getId()).blockingGet();
-                    thirdObjects = new Object[inventoryStates.size()][5];
-                    for (int i = 0; i < inventoryStates.size(); i++) {
-                        HistoryInventoryState state = inventoryStates.get(i);
-                        Product product = databaseManager.getProductByRootId(state.getProductId()).blockingGet();
-                        thirdObjects[i][0] = product.getName();
-                        thirdObjects[i][1] = state.getVendor().getName();
-                        thirdObjects[i][2] = state.getValue() + " " + state.getProduct().getMainUnit().getAbbr();
-                        thirdObjects[i][3] = product.getPrice();
-                        thirdObjects[i][4] = product.getPrice() * state.getValue();
-                    }
-                } else {
-                    thirdObjects = new Object[0][5];
-                }
-                break;
-            case 3:
                 List<Return> returnList = databaseManager.getReturnList(fromDate, toDate).blockingGet();
                 forthObjects = new Object[returnList.size()][7];
                 for (int i = 0; i < returnList.size(); i++) {
@@ -275,10 +257,6 @@ public class InventoryReportPresenterImpl extends BasePresenterImpl<InventoryRep
                 break;
             case 2:
                 initReportTable();
-                view.updateTable(thirdObjects, currentPosition);
-                break;
-            case 3:
-                initReportTable();
                 view.updateTable(forthObjects, currentPosition);
                 break;
         }
@@ -299,9 +277,6 @@ public class InventoryReportPresenterImpl extends BasePresenterImpl<InventoryRep
                     view.updateTable(secondObjects, currentPosition);
                     break;
                 case 2:
-                    view.updateTable(thirdObjects, currentPosition);
-                    break;
-                case 3:
                     view.updateTable(forthObjects, currentPosition);
                     break;
             }
@@ -333,7 +308,12 @@ public class InventoryReportPresenterImpl extends BasePresenterImpl<InventoryRep
                                 searchRes[i] = 1;
                                 continue;
                             }
-                            if (String.valueOf((long) firstObjects[i][6]).toUpperCase().contains(searchText.toUpperCase())) {
+                            if (firstObjects[i][6] instanceof Long) {
+                                if (String.valueOf((long) firstObjects[i][6]).toUpperCase().contains(searchText.toUpperCase())) {
+                                    searchRes[i] = 1;
+                                    continue;
+                                }
+                            } else if (((String) firstObjects[i][6]).toUpperCase().contains(searchText.toUpperCase())) {
                                 searchRes[i] = 1;
                                 continue;
                             }
@@ -415,7 +395,12 @@ public class InventoryReportPresenterImpl extends BasePresenterImpl<InventoryRep
                                 searchRes[i] = 1;
                                 continue;
                             }
-                            if (String.valueOf((long) searchResultsTemp[i][6]).toUpperCase().contains(searchText.toUpperCase())) {
+                            if (searchResultsTemp[i][6] instanceof Long) {
+                                if (String.valueOf((long) searchResultsTemp[i][6]).toUpperCase().contains(searchText.toUpperCase())) {
+                                    searchRes[i] = 1;
+                                    continue;
+                                }
+                            } else if (((String) searchResultsTemp[i][6]).toUpperCase().contains(searchText.toUpperCase())) {
                                 searchRes[i] = 1;
                                 continue;
                             }
@@ -590,92 +575,6 @@ public class InventoryReportPresenterImpl extends BasePresenterImpl<InventoryRep
                     prev = searchText.length();
                     break;
                 case 2:
-                    if (searchText.length() <= prev || prev == -1) {
-                        int searchRes[] = new int[thirdObjects.length];
-                        for (int i = 0; i < thirdObjects.length; i++) {
-                            if (((String) thirdObjects[i][0]).toUpperCase().contains(searchText.toUpperCase())) {
-                                searchRes[i] = 1;
-                                continue;
-                            }
-                            if (((String) thirdObjects[i][1]).toUpperCase().contains(searchText.toUpperCase())) {
-                                searchRes[i] = 1;
-                                continue;
-                            }
-                            if (((String) thirdObjects[i][2]).toUpperCase().contains(searchText.toUpperCase())) {
-                                searchRes[i] = 1;
-                                continue;
-                            }
-                            if (decimalFormat.format((double) thirdObjects[i][3]).contains(searchText.toUpperCase())) {
-                                searchRes[i] = 1;
-                                continue;
-                            }
-                            if (decimalFormat.format((double) thirdObjects[i][4]).contains(searchText.toUpperCase())) {
-                                searchRes[i] = 1;
-                                continue;
-                            }
-                        }
-
-                        int sumSize = 0;
-                        for (int i = 0; i < thirdObjects.length; i++) {
-                            if (searchRes[i] == 1)
-                                sumSize++;
-                        }
-                        Object[][] objectResults = new Object[sumSize][5];
-
-                        int pt = 0;
-                        for (int i = 0; i < thirdObjects.length; i++) {
-                            if (searchRes[i] == 1) {
-                                objectResults[pt] = thirdObjects[i];
-                                pt++;
-                            }
-                        }
-                        searchResultsTemp = objectResults.clone();
-                        view.setSearchResults(objectResults, searchText, currentPosition);
-                    } else {
-                        int searchRes[] = new int[searchResultsTemp.length];
-                        for (int i = 0; i < searchResultsTemp.length; i++) {
-                            if (((String) searchResultsTemp[i][0]).toUpperCase().contains(searchText.toUpperCase())) {
-                                searchRes[i] = 1;
-                                continue;
-                            }
-                            if (((String) searchResultsTemp[i][1]).toUpperCase().contains(searchText.toUpperCase())) {
-                                searchRes[i] = 1;
-                                continue;
-                            }
-                            if (((String) searchResultsTemp[i][2]).toUpperCase().contains(searchText.toUpperCase())) {
-                                searchRes[i] = 1;
-                                continue;
-                            }
-                            if (decimalFormat.format((double) searchResultsTemp[i][3]).contains(searchText.toUpperCase())) {
-                                searchRes[i] = 1;
-                                continue;
-                            }
-                            if (decimalFormat.format((double) searchResultsTemp[i][4]).contains(searchText.toUpperCase())) {
-                                searchRes[i] = 1;
-                                continue;
-                            }
-                        }
-
-
-                        int sumSize = 0;
-                        for (int i = 0; i < searchResultsTemp.length; i++) {
-                            if (searchRes[i] == 1)
-                                sumSize++;
-                        }
-                        Object[][] objectResults = new Object[sumSize][5];
-                        int pt = 0;
-                        for (int i = 0; i < searchResultsTemp.length; i++) {
-                            if (searchRes[i] == 1) {
-                                objectResults[pt] = searchResultsTemp[i];
-                                pt++;
-                            }
-                        }
-                        searchResultsTemp = objectResults.clone();
-                        view.setSearchResults(objectResults, searchText, currentPosition);
-                    }
-                    prev = searchText.length();
-                    break;
-                case 3:
                     if (searchText.length() <= prev || prev == -1) {
                         int searchRes[] = new int[forthObjects.length];
                         for (int i = 0; i < forthObjects.length; i++) {
@@ -864,9 +763,6 @@ public class InventoryReportPresenterImpl extends BasePresenterImpl<InventoryRep
                 view.exportTableToExcel(fileName, path, secondObjects, currentPosition, date, filter, searchText);
                 break;
             case 2:
-                view.exportTableToExcel(fileName, path, thirdObjects, currentPosition, date, filter, searchText);
-                break;
-            case 3:
                 view.exportTableToExcel(fileName, path, forthObjects, currentPosition, date, filter, searchText);
                 break;
         }
@@ -913,9 +809,6 @@ public class InventoryReportPresenterImpl extends BasePresenterImpl<InventoryRep
                 view.exportTableToPdf(fileName, path, secondObjects, currentPosition, date, filter, searchText);
                 break;
             case 2:
-                view.exportTableToPdf(fileName, path, thirdObjects, currentPosition, date, filter, searchText);
-                break;
-            case 3:
                 view.exportTableToPdf(fileName, path, forthObjects, currentPosition, date, filter, searchText);
                 break;
         }
@@ -962,9 +855,6 @@ public class InventoryReportPresenterImpl extends BasePresenterImpl<InventoryRep
                 view.exportExcelToUSB(fileName, path, secondObjects, currentPosition, date, filter, searchText);
                 break;
             case 2:
-                view.exportExcelToUSB(fileName, path, thirdObjects, currentPosition, date, filter, searchText);
-                break;
-            case 3:
                 view.exportExcelToUSB(fileName, path, forthObjects, currentPosition, date, filter, searchText);
                 break;
         }
@@ -1011,9 +901,6 @@ public class InventoryReportPresenterImpl extends BasePresenterImpl<InventoryRep
                 view.exportTableToPdfToUSB(fileName, path, secondObjects, currentPosition, date, filter, searchText);
                 break;
             case 2:
-                view.exportTableToPdfToUSB(fileName, path, thirdObjects, currentPosition, date, filter, searchText);
-                break;
-            case 3:
                 view.exportTableToPdfToUSB(fileName, path, forthObjects, currentPosition, date, filter, searchText);
                 break;
         }

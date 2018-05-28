@@ -121,6 +121,7 @@ public class ReportView {
                             public void onClick(View view) {
                                 sortObjects(finalCount);
                                 titleView.sorted(sorting, finalCount);
+
                             }
                         });
                         for (int j = 0; j < col.getChildCount(); j++) {
@@ -178,7 +179,6 @@ public class ReportView {
         public Builder update(Object[][] objects) {
             this.objects = objects;
             adapter.setData(objects, weight, dataTypes, alignTypes, statusTypes);
-            adapter.notifyDataSetChanged();
             return this;
         }
 

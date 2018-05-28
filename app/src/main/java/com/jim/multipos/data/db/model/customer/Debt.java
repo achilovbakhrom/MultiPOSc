@@ -252,7 +252,7 @@ public class Debt {
         this.isDeleted = isDeleted;
     }
 
-    public long getClosedDate() {
+    public Long getClosedDate() {
         return this.closedDate;
     }
 

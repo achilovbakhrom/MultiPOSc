@@ -23,7 +23,6 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/thirty_dp"
-                android:paddingLeft="@dimen/thirty_dp"
                 android:text="@string/today_s_orders"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/twenty_dp"
@@ -122,7 +121,7 @@
 
                 <LinearLayout
                     android:id="@+id/llDateOpened"
-                    android:layout_width="@dimen/two_hundred_ten_dp"
+                    android:layout_width="@dimen/hundred_sixty_dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"

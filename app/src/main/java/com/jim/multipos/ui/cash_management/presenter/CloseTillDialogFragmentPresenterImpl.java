@@ -135,20 +135,9 @@ public class CloseTillDialogFragmentPresenterImpl extends BasePresenterImpl<Clos
         List<Order> orders = databaseManager.getOrdersByTillId(till.getId()).blockingGet();
         for (int i = 0; i < orders.size(); i++) {
             orders.get(i).setIsArchive(true);
-            databaseManager.insertOrder(orders.get(i)).blockingGet();
+            databaseManager.insertOrder(orders.get(i)).subscribe();
         }
-        databaseManager.getInventoryStates().subscribe(inventoryStates -> {
-            for (InventoryState inventoryState: inventoryStates) {
-                HistoryInventoryState state = new HistoryInventoryState();
-                state.setLowStockAlert(inventoryState.getLowStockAlert());
-                state.setProduct(inventoryState.getProduct());
-                state.setTill(till);
-                state.setValue(inventoryState.getValue());
-                state.setVendor(inventoryState.getVendor());
-                databaseManager.insertHistoryInventoryState(state).blockingGet();
-            }
-        });
-        databaseManager.insertTill(till).blockingGet();
+        databaseManager.insertTill(till).subscribe();
         view.setTillStatus(Till.CLOSED);
         view.closeTillDialog();
 

@@ -785,6 +785,16 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
+    public Single<List<Discount>> getStaticDiscounts() {
+        return dbHelper.getStaticDiscounts();
+    }
+
+    @Override
+    public Single<List<Discount>> getDiscountsByType(int discountApplyType) {
+        return dbHelper.getDiscountsByType(discountApplyType);
+    }
+
+    @Override
     public Single<List<Product>> getSearchProducts(String searchText, boolean skuMode, boolean barcodeMode, boolean nameMode) {
         return dbHelper.getSearchProducts(searchText, skuMode, barcodeMode, nameMode);
     }

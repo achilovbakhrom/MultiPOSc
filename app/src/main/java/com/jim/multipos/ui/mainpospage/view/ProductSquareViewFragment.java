@@ -69,6 +69,8 @@ public class ProductSquareViewFragment extends BaseFragment implements ProductSq
     protected void init(Bundle savedInstanceState) {
         presenter.setCategoryRecyclerView();
         ((SimpleItemAnimator) rvProduct.getItemAnimator()).setSupportsChangeAnimations(false);
+        ((SimpleItemAnimator) rvCategory.getItemAnimator()).setSupportsChangeAnimations(false);
+        ((SimpleItemAnimator) rvSubcategory.getItemAnimator()).setSupportsChangeAnimations(false);
         rvProduct.hasFixedSize();
     }
 
@@ -175,8 +177,6 @@ public class ProductSquareViewFragment extends BaseFragment implements ProductSq
 
     @Override
     public void refreshProducts(List<Product> productList) {
-        Log.d("onBindViewHolder", "refreshProducts");
-
         productAdapter.setItems(productList);
         productAdapter.notifyDataSetChanged();
     }

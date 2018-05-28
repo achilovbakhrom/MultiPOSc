@@ -14,6 +14,7 @@ import com.jim.multipos.core.BaseTableReportFragment;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.ui.reports.customers.dialogs.CustomerPaymentFilterDialog;
 import com.jim.multipos.ui.reports.customers.dialogs.CustomerSummaryFilterDialog;
+import com.jim.multipos.ui.reports.order_history.dialogs.OrderDetialsDialog;
 import com.jim.multipos.utils.ExportToDialog;
 import com.jim.multipos.utils.ExportUtils;
 import com.jim.multipos.utils.RxBus;
@@ -35,7 +36,7 @@ public class CustomerReportFragment extends BaseTableReportFragment implements C
     private int firstDataType[] = {ReportViewConstants.ID, ReportViewConstants.NAME, ReportViewConstants.QUANTITY, ReportViewConstants.QUANTITY, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT};
     private int firstWeights[] = {5, 10, 10, 10, 13, 10, 10, 10};
     private int firstAligns[] = {Gravity.CENTER, Gravity.LEFT, Gravity.CENTER, Gravity.CENTER, Gravity.RIGHT, Gravity.RIGHT, Gravity.RIGHT, Gravity.RIGHT};
-    private int secondDataType[] = {ReportViewConstants.ID, ReportViewConstants.NAME, ReportViewConstants.DATE, ReportViewConstants.ID, ReportViewConstants.STATUS, ReportViewConstants.AMOUNT};
+    private int secondDataType[] = {ReportViewConstants.ID, ReportViewConstants.NAME, ReportViewConstants.DATE, ReportViewConstants.ACTION, ReportViewConstants.STATUS, ReportViewConstants.AMOUNT};
     private int secondWeights[] = {5, 15, 10, 5, 5, 10};
     private int secondAligns[] = {Gravity.CENTER, Gravity.LEFT, Gravity.CENTER, Gravity.CENTER, Gravity.CENTER, Gravity.RIGHT};
     private int thirdDataType[] = {ReportViewConstants.ID, ReportViewConstants.NAME, ReportViewConstants.DATE, ReportViewConstants.STATUS, ReportViewConstants.NAME, ReportViewConstants.AMOUNT};
@@ -82,6 +83,7 @@ public class CustomerReportFragment extends BaseTableReportFragment implements C
                 .setDataTypes(secondDataType)
                 .setWeight(secondWeights)
                 .setStatusTypes(secondStatusTypes)
+                .setOnReportViewResponseListener((objects, row, column) -> presenter.onAction(objects, row, column))
                 .setDataAlignTypes(secondAligns)
                 .build();
         secondView = new ReportView(secondBuilder);
@@ -256,6 +258,12 @@ public class CustomerReportFragment extends BaseTableReportFragment implements C
                 ExportUtils.exportToPdfToUSB(getContext(), path, fileName, thirdDescription, date, filter, searchText, objects, thirdTitles, thirdWeights, thirdDataType, thirdStatusTypes);
                 break;
         }
+    }
+
+    @Override
+    public void onOrderPressed(Order order) {
+        OrderDetialsDialog orderDetialsDialog = new OrderDetialsDialog(getContext(), order);
+        orderDetialsDialog.show();
     }
 
 

@@ -11,8 +11,8 @@
         android:gravity="center"
         android:orientation="horizontal"
         android:paddingBottom="@dimen/ten_dp"
-        android:paddingLeft="@dimen/twenty_dp"
-        android:paddingRight="@dimen/twenty_dp"
+        android:paddingLeft="@dimen/fifteen_dp"
+        android:paddingRight="@dimen/fifteen_dp"
         android:paddingTop="@dimen/ten_dp">
 
         <TextView

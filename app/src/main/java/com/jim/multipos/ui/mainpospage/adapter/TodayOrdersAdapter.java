@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.jim.mpviews.MpActionButton;
 import com.jim.multipos.R;
+import com.jim.multipos.config.common.BaseAppModule;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.order.Order;
 
@@ -34,12 +35,14 @@ public class TodayOrdersAdapter extends RecyclerView.Adapter<TodayOrdersAdapter.
     private Context context;
     private Currency mainCurrency;
     private onOrderListItemSelect listener;
+    private DecimalFormat decimalFormat;
 
     public TodayOrdersAdapter(Context context, Currency mainCurrency, onOrderListItemSelect listener) {
         this.context = context;
         this.mainCurrency = mainCurrency;
         this.listener = listener;
         items = new ArrayList<>();
+        decimalFormat = BaseAppModule.getFormatterWithoutGroupingTwoDecimal();
     }
 
     public void setData(List<Order> data) {
@@ -64,10 +67,6 @@ public class TodayOrdersAdapter extends RecyclerView.Adapter<TodayOrdersAdapter.
         else holder.tvCustomer.setText("-");
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         holder.tvDateOpened.setText(format.format(order.getCreateAt()));
-        DecimalFormat decimalFormat = new DecimalFormat("#.##");
-        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
-        symbols.setDecimalSeparator(' ');
-        decimalFormat.setDecimalFormatSymbols(symbols);
         holder.tvTotal.setText(decimalFormat.format(order.getForPayAmmount()) + " " + mainCurrency.getAbbr());
         switch (order.getStatus()) {
             case Order.HOLD_ORDER:

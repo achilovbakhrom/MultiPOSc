@@ -97,20 +97,14 @@ public class ReturnsConfirmDialog extends Dialog {
             if (!hasOpenTill) {
                 UIUtils.showAlert(getContext(), getContext().getString(R.string.ok), context.getString(R.string.warning), context.getString(R.string.opened_till_wnt_found_pls_open_till), () -> {
                 });
-            } else {
+            } else if (etDescription.getText().toString().isEmpty()){
+                etDescription.setError(context.getString(R.string.enter_return_reason));
+            } else  {
                 Till till = databaseManager.getOpenTill().blockingGet();
                 UIUtils.closeKeyboard(btnConfirm, context);
-                if (!etDescription.getText().toString().isEmpty()) {
-                    for (int i = 0; i < returnsList.size(); i++) {
-                        returnsList.get(i).setDescription(etDescription.getText().toString());
-                    }
-                }
                 for (int i = 0; i < returnsList.size(); i++) {
+                    returnsList.get(i).setDescription(etDescription.getText().toString());
                     returnsList.get(i).setPaymentType(paymentTypeList.get(spReturnPaymentType.getSelectedPosition()));
-                }
-                databaseManager.insertReturns(returnsList).subscribe();
-
-                for (int i = 0; i < returnsList.size(); i++) {
                     WarehouseOperations operations = new WarehouseOperations();
                     operations.setType(WarehouseOperations.RETURN_SOLD);
                     operations.setValue(returnsList.get(i).getQuantity());
@@ -124,9 +118,10 @@ public class ReturnsConfirmDialog extends Dialog {
                     tillOperation.setPaymentType(paymentTypeList.get(spReturnPaymentType.getSelectedPosition()));
                     tillOperation.setTill(till);
                     tillOperation.setCreateAt(System.currentTimeMillis());
-                    tillOperation.setDescription(etDescription.getText().toString());
+                    tillOperation.setDescription(context.getString(R.string.return_) + " " + context.getString(R.string.product) + " " + context.getString(R.string.operation) + ": " + etDescription.getText().toString());
                     databaseManager.insertTillOperation(tillOperation).subscribe();
                 }
+                databaseManager.insertReturns(returnsList).subscribe();
                 rxBus.send(new InventoryStateEvent(GlobalEventConstants.UPDATE));
                 dismiss();
             }

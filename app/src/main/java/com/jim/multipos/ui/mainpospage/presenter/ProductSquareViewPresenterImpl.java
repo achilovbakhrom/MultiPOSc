@@ -45,13 +45,11 @@ public class ProductSquareViewPresenterImpl extends BasePresenterImpl<ProductSqu
         categoryOperations.getAllActiveCategories().subscribe(categories -> {
             this.categoryList = categories;
             view.setCategoryRecyclerViewItems(categories);
-            setSubCategoryRecyclerView();
         });
     }
 
     @Override
     public void setSubCategoryRecyclerView() {
-
         categoryOperations.getAllActiveSubCategories(parentCategory).subscribe(subCategories -> {
             this.subcategoryList = subCategories;
             view.setSubCategoryRecyclerView(subcategoryList);
@@ -85,6 +83,7 @@ public class ProductSquareViewPresenterImpl extends BasePresenterImpl<ProductSqu
     @Override
     public void setSelectedCategory(int lastPositionCategory) {
         this.parentCategory = categoryList.get(lastPositionCategory);
+        setSubCategoryRecyclerView();
     }
 
     @Override
@@ -130,7 +129,10 @@ public class ProductSquareViewPresenterImpl extends BasePresenterImpl<ProductSqu
                 productList.addAll(products);
                 view.refreshProducts(productList);
             });
-        } else productList.clear();
+        } else {
+            productList.clear();
+            view.refreshProducts(productList);
+        }
 
     }
 }

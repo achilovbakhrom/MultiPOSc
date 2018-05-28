@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.Gravity;
 
 /**
  * Created by developer on 18.10.2017.
@@ -31,6 +32,7 @@ public class MpActionButton extends android.support.v7.widget.AppCompatButton {
         Drawable buttonDrawable = context.getResources().getDrawable(R.drawable.action_button);
         buttonDrawable.mutate();
         setBackgroundDrawable(buttonDrawable);
+        setGravity(Gravity.CENTER);
         setAllCaps(false);
     }
 }

@@ -306,4 +306,6 @@ public interface DbHelper {
     Single<Vendor> getVendorByName(String vendorName);
     Single<Account> getSystemAccount();
     Single<PaymentType> getSystemPaymentType();
+    Single<List<Discount>> getStaticDiscounts();
+    Single<List<Discount>> getDiscountsByType(int discountApplyType);
 }

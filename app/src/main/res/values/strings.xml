@@ -1422,4 +1422,5 @@
     <string name="vendor_template">Vendor template</string>
     <string name="empty_till_cant_be_cancel">Empty order can\'t be cancel</string>
     <string name="qty_cant_be_empty">Quantity cannot be empty</string>
+    <string name="enter_return_reason">Enter return reason</string>
 </resources>

@@ -296,7 +296,7 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
                     fifthObjects[i][0] = debt.getId();
                     fifthObjects[i][1] = debt.getTakenDate();
                     fifthObjects[i][2] = debt.getEndDate();
-                    fifthObjects[i][3] = debt.getClosedDate();
+                    fifthObjects[i][3] = debt.getClosedDate() == null ? "-" : debt.getClosedDate();
                     fifthObjects[i][4] = debt.getCustomer().getName();
                     fifthObjects[i][5] = debt.getOrder().getId();
                     fifthObjects[i][6] = debt.getDebtType();
@@ -787,9 +787,16 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
                                 searchRes[i] = 1;
                                 continue;
                             }
-                            if (simpleDateFormat.format(new Date((long) fifthObjects[i][3])).contains(searchText.toUpperCase())) {
-                                searchRes[i] = 1;
-                                continue;
+                            if (fifthObjects[i][3] instanceof Long){
+                                if (simpleDateFormat.format(new Date((long) fifthObjects[i][3])).contains(searchText.toUpperCase())) {
+                                    searchRes[i] = 1;
+                                    continue;
+                                }
+                            } else {
+                                if (((String) fifthObjects[i][3]).toUpperCase().contains(searchText.toUpperCase())) {
+                                    searchRes[i] = 1;
+                                    continue;
+                                }
                             }
                             if (((String) fifthObjects[i][4]).toUpperCase().contains(searchText.toUpperCase())) {
                                 searchRes[i] = 1;
@@ -866,9 +873,16 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
                                 searchRes[i] = 1;
                                 continue;
                             }
-                            if (simpleDateFormat.format(new Date((long) searchResultsTemp[i][3])).contains(searchText.toUpperCase())) {
-                                searchRes[i] = 1;
-                                continue;
+                            if (searchResultsTemp[i][3] instanceof Long){
+                                if (simpleDateFormat.format(new Date((long) searchResultsTemp[i][3])).contains(searchText.toUpperCase())) {
+                                    searchRes[i] = 1;
+                                    continue;
+                                }
+                            } else {
+                                if (((String) searchResultsTemp[i][3]).toUpperCase().contains(searchText.toUpperCase())) {
+                                    searchRes[i] = 1;
+                                    continue;
+                                }
                             }
                             if (((String) searchResultsTemp[i][4]).toUpperCase().contains(searchText.toUpperCase())) {
                                 searchRes[i] = 1;

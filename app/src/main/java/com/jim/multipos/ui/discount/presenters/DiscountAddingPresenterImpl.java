@@ -40,14 +40,12 @@ public class DiscountAddingPresenterImpl extends BasePresenterImpl<DiscountAddin
     public void onCreateView(Bundle bundle) {
         super.onCreateView(bundle);
         items = new ArrayList<>();
-        databaseManager.getAllDiscounts().subscribe(discounts1 -> {
+        databaseManager.getStaticDiscounts().subscribe(discounts -> {
             items.add(null);
-            for (int i = 0; i < discounts1.size(); i++) {
-                if (!discounts1.get(i).getIsManual()) {
-                    DiscountApaterDetials discountApaterDetials = new DiscountApaterDetials();
-                    discountApaterDetials.setObject(discounts1.get(i));
-                    items.add(discountApaterDetials);
-                }
+            for (int i = 0; i < discounts.size(); i++) {
+                DiscountApaterDetials discountApaterDetials = new DiscountApaterDetials();
+                discountApaterDetials.setObject(discounts.get(i));
+                items.add(discountApaterDetials);
             }
             view.refreshList(items);
         });

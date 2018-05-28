@@ -32,16 +32,13 @@ public class InventoryReportFragment extends BaseTableReportFragment implements 
     InventoryReportPresenter presenter;
     @Inject
     DatabaseManager databaseManager;
-    private ReportView firstView, secondView, thirdView, forthView;
+    private ReportView firstView, secondView, forthView;
     private int firstDataType[] = {ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.STATUS, ReportViewConstants.NAME, ReportViewConstants.DATE, ReportViewConstants.NAME, ReportViewConstants.ACTION, ReportViewConstants.NAME};
     private int firstWeights[] = {15, 10, 15, 8, 10, 10, 8, 8};
     private int firstAligns[] = {Gravity.LEFT, Gravity.LEFT, Gravity.LEFT, Gravity.LEFT, Gravity.CENTER, Gravity.LEFT, Gravity.CENTER, Gravity.CENTER};
     private int secondDataType[] = {ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.NAME};
     private int secondWeights[] = {10, 10, 10, 10, 10, 10, 10, 10};
     private int secondAligns[] = {Gravity.LEFT, Gravity.LEFT, Gravity.LEFT, Gravity.LEFT, Gravity.LEFT, Gravity.LEFT, Gravity.LEFT, Gravity.LEFT};
-    private int thirdDataType[] = {ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT};
-    private int thirdWeights[] = {10, 10, 5, 10, 10};
-    private int thirdAligns[] = {Gravity.LEFT, Gravity.LEFT, Gravity.LEFT, Gravity.RIGHT, Gravity.RIGHT};
     private int forthDataType[] = {ReportViewConstants.NAME, ReportViewConstants.DATE, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.QUANTITY, ReportViewConstants.NAME, ReportViewConstants.NAME};
     private int forthWeights[] = {10, 10, 10, 10, 5, 10, 10};
     private int forthAligns[] = {Gravity.LEFT, Gravity.CENTER, Gravity.RIGHT, Gravity.RIGHT, Gravity.CENTER, Gravity.LEFT, Gravity.LEFT};
@@ -51,7 +48,7 @@ public class InventoryReportFragment extends BaseTableReportFragment implements 
     @Override
     protected void init(Bundle savedInstanceState) {
         init(presenter);
-        panelNames = new String[]{getString(R.string.inventory_log), getString(R.string.inventory_summary), getString(R.string.inventory_state), getString(R.string.returns)};
+        panelNames = new String[]{getString(R.string.inventory_log), getString(R.string.inventory_summary), getString(R.string.returns)};
         setChoiserPanel(panelNames);
         initDefaults();
         presenter.onCreateView(savedInstanceState);
@@ -69,7 +66,6 @@ public class InventoryReportFragment extends BaseTableReportFragment implements 
                 {WarehouseOperations.WASTE, getString(R.string.wasted), R.color.colorMainText},}};
         firstTitles = new String[]{getString(R.string.product), getString(R.string.vendor), getString(R.string.action), getString(R.string.qty), getString(R.string.date), getString(R.string.reason), getString(R.string.order), getString(R.string.consignment)};
         secondTitles = new String[]{getString(R.string.product), getString(R.string.vendor), getString(R.string.sold), getString(R.string.received_from_vendor), getString(R.string.return_to_vendor), getString(R.string.return_from_customer), getString(R.string.void_income), getString(R.string.wasted)};
-        thirdTitles = new String[]{getString(R.string.product), getString(R.string.vendor), getString(R.string.qty), getString(R.string.unit_price), getString(R.string.total)};
         forthTitles = new String[]{getString(R.string.product), getString(R.string.date), getString(R.string.price), getString(R.string.return_cost), getString(R.string.qty), getString(R.string.payment_type), getString(R.string.description)};
         ReportView.Builder firstBuilder = new ReportView.Builder()
                 .setContext(getContext())
@@ -78,12 +74,7 @@ public class InventoryReportFragment extends BaseTableReportFragment implements 
                 .setWeight(firstWeights)
                 .setDefaultSort(4)
                 .setStatusTypes(status)
-                .setOnReportViewResponseListener(new ReportView.OnReportViewResponseListener() {
-                    @Override
-                    public void onAction(Object[][] objects, int row, int column) {
-                        presenter.onAction(objects, row, column);
-                    }
-                })
+                .setOnReportViewResponseListener((objects, row, column) -> presenter.onAction(objects, row, column))
                 .setDataAlignTypes(firstAligns)
                 .build();
         firstView = new ReportView(firstBuilder);
@@ -95,14 +86,6 @@ public class InventoryReportFragment extends BaseTableReportFragment implements 
                 .setDataAlignTypes(secondAligns)
                 .build();
         secondView = new ReportView(secondBuilder);
-        ReportView.Builder thirdBuilder = new ReportView.Builder()
-                .setContext(getContext())
-                .setTitles(thirdTitles)
-                .setDataTypes(thirdDataType)
-                .setWeight(thirdWeights)
-                .setDataAlignTypes(thirdAligns)
-                .build();
-        thirdView = new ReportView(thirdBuilder);
         ReportView.Builder forthBuilder = new ReportView.Builder()
                 .setContext(getContext())
                 .setTitles(forthTitles)
@@ -145,13 +128,6 @@ public class InventoryReportFragment extends BaseTableReportFragment implements 
                 disableTillChooseBtn();
                 break;
             case 2:
-                thirdView.getBuilder().update(objects);
-                setTable(thirdView.getBuilder().getView());
-                disableDateIntervalPicker();
-                disableFilter();
-                enableTillChooseBtn();
-                break;
-            case 3:
                 forthView.getBuilder().update(objects);
                 setTable(forthView.getBuilder().getView());
                 enableDateIntervalPicker();
@@ -179,13 +155,6 @@ public class InventoryReportFragment extends BaseTableReportFragment implements 
                 disableTillChooseBtn();
                 break;
             case 2:
-                thirdView.getBuilder().searchResults(searchResults, searchText);
-                setTable(thirdView.getBuilder().getView());
-                disableDateIntervalPicker();
-                disableFilter();
-                enableTillChooseBtn();
-                break;
-            case 3:
                 forthView.getBuilder().searchResults(searchResults, searchText);
                 setTable(forthView.getBuilder().getView());
                 enableDateIntervalPicker();
@@ -221,10 +190,6 @@ public class InventoryReportFragment extends BaseTableReportFragment implements 
                 ExportUtils.exportToExcel(getContext(), path, fileName, secondDescription, date, filter, searchText, objects, secondTitles, secondWeights, secondDataType, null);
                 break;
             case 2:
-                String thirdDescription = getContext().getString(R.string.inventory_state_description);
-                ExportUtils.exportToExcel(getContext(), path, fileName, thirdDescription, date, filter, searchText, objects, thirdTitles, thirdWeights, thirdDataType, null);
-                break;
-            case 3:
                 String forthDescription = getContext().getString(R.string.returns_inventroy_description);
                 ExportUtils.exportToExcel(getContext(), path, fileName, forthDescription, date, filter, searchText, objects, forthTitles, forthWeights, forthDataType, null);
                 break;
@@ -243,10 +208,6 @@ public class InventoryReportFragment extends BaseTableReportFragment implements 
                 ExportUtils.exportToPdf(getContext(), path, fileName, secondDescription, date, filter, searchText, objects, secondTitles, secondWeights, secondDataType, null);
                 break;
             case 2:
-                String thirdDescription = getContext().getString(R.string.inventory_state_description);
-                ExportUtils.exportToPdf(getContext(), path, fileName, thirdDescription, date, filter, searchText, objects, thirdTitles, thirdWeights, thirdDataType, null);
-                break;
-            case 3:
                 String forthDescription = getContext().getString(R.string.returns_inventroy_description);
                 ExportUtils.exportToPdf(getContext(), path, fileName, forthDescription, date, filter, searchText, objects, forthTitles, forthWeights, forthDataType, null);
                 break;
@@ -292,10 +253,6 @@ public class InventoryReportFragment extends BaseTableReportFragment implements 
                 ExportUtils.exportToExcelToUSB(getContext(), root, filename, secondDescription, date, filter, searchText, objects, secondTitles, secondWeights, secondDataType, null);
                 break;
             case 2:
-                String thirdDescription = getContext().getString(R.string.inventory_state_description);
-                ExportUtils.exportToExcelToUSB(getContext(), root, filename, thirdDescription, date, filter, searchText, objects, thirdTitles, thirdWeights, thirdDataType, null);
-                break;
-            case 3:
                 String forthDescription = getContext().getString(R.string.returns_inventroy_description);
                 ExportUtils.exportToExcelToUSB(getContext(), root, filename, forthDescription, date, filter, searchText, objects, forthTitles, forthWeights, forthDataType, null);
                 break;
@@ -314,10 +271,6 @@ public class InventoryReportFragment extends BaseTableReportFragment implements 
                 ExportUtils.exportToPdfToUSB(getContext(), path, fileName, secondDescription, date, filter, searchText, objects, secondTitles, secondWeights, secondDataType, null);
                 break;
             case 2:
-                String thirdDescription = getContext().getString(R.string.inventory_state_description);
-                ExportUtils.exportToPdfToUSB(getContext(), path, fileName, thirdDescription, date, filter, searchText, objects, thirdTitles, thirdWeights, thirdDataType, null);
-                break;
-            case 3:
                 String forthDescription = getContext().getString(R.string.returns_inventroy_description);
                 ExportUtils.exportToPdfToUSB(getContext(), path, fileName, forthDescription, date, filter, searchText, objects, forthTitles, forthWeights, forthDataType, null);
                 break;

@@ -11,32 +11,32 @@
 
         <com.jim.mpviews.MpPayments
             android:id="@+id/mpFirstPayment"
-            android:layout_width="@dimen/hundred_eighty_dp"
+            android:layout_width="@dimen/two_hundred_dp"
             android:layout_height="@dimen/forty_dp"
             android:layout_marginBottom="@dimen/ten_dp" />
 
         <com.jim.mpviews.MpPayments
             android:id="@+id/mpSecondPayment"
-            android:layout_width="@dimen/hundred_eighty_dp"
+            android:layout_width="@dimen/two_hundred_dp"
             android:layout_height="@dimen/forty_dp"
             android:layout_marginBottom="@dimen/ten_dp" />
 
         <com.jim.mpviews.MpPayments
             android:id="@+id/mpThirdPayment"
-            android:layout_width="@dimen/hundred_eighty_dp"
+            android:layout_width="@dimen/two_hundred_dp"
             android:layout_height="@dimen/forty_dp"
             android:layout_marginBottom="@dimen/ten_dp" />
 
         <com.jim.mpviews.MpPayments
             android:id="@+id/mpFourPayment"
-            android:layout_width="@dimen/hundred_eighty_dp"
+            android:layout_width="@dimen/two_hundred_dp"
             android:layout_height="@dimen/forty_dp"
             android:layout_marginBottom="@dimen/ten_dp"
             android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/llNextPrev"
-            android:layout_width="@dimen/hundred_eighty_dp"
+            android:layout_width="@dimen/two_hundred_dp"
             android:layout_height="@dimen/forty_dp"
             android:layout_marginBottom="@dimen/five_dp"
             android:orientation="horizontal">
@@ -44,7 +44,7 @@
 
             <LinearLayout
                 android:id="@+id/mpPrev"
-                android:layout_width="@dimen/ninety_dp"
+                android:layout_width="@dimen/hundred_dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:background="@drawable/left_oval_button_payment_next"
@@ -64,7 +64,7 @@
 
             <LinearLayout
                 android:id="@+id/mpNext"
-                android:layout_width="@dimen/ninety_dp"
+                android:layout_width="@dimen/hundred_dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:background="@drawable/right_oval_button_payment_next"

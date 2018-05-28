@@ -66,12 +66,7 @@ public class DiscountDialog extends Dialog implements DiscountAdapter.OnClickLis
         View v = getWindow().getDecorView();
         v.setBackgroundResource(android.R.color.transparent);
         discounts = new ArrayList<>();
-        databaseManager.getAllDiscounts().subscribe(discounts1 -> {
-            for (Discount discount : discounts1) {
-                if ((discount.getUsedType() == discountApplyType || discount.getUsedType() == Discount.ALL) && !discount.getIsManual())
-                    discounts.add(discount);
-            }
-        });
+        discounts = databaseManager.getDiscountsByType(discountApplyType).blockingGet();
         if (caption != null) {
             tvCaption.setText(caption);
         }
@@ -79,10 +74,8 @@ public class DiscountDialog extends Dialog implements DiscountAdapter.OnClickLis
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new DiscountAdapter(getContext(), this, discounts, discountTypes);
         recyclerView.setAdapter(adapter);
-        RxView.clicks(btnBack).subscribe(o -> dismiss());
-
-        RxView.clicks(btnAdd).subscribe(o -> {
-
+        btnBack.setOnClickListener(v12 -> dismiss());
+        btnAdd.setOnClickListener(v1 -> {
             if(preferencesHelper.isManualServiceFeeProtected()){
                 AccessWithEditPasswordDialog accessWithEditPasswordDialog = new AccessWithEditPasswordDialog(context, new AccessWithEditPasswordDialog.OnAccsessListner() {
                     @Override
@@ -103,8 +96,6 @@ public class DiscountDialog extends Dialog implements DiscountAdapter.OnClickLis
                 dialog.show();
                 dismiss();
             }
-
-
 
         });
     }

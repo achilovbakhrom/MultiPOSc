@@ -6,6 +6,7 @@ import com.jim.multipos.data.db.model.ServiceFee;
 
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 
@@ -20,4 +21,6 @@ public interface DiscountOperations {
     Single<List<Discount>> getAllDiscountsWithoutFiltering();
     Single<DiscountLog> insertDiscountLog(DiscountLog discountLog);
     Single<List<DiscountLog>> getDiscountLogs();
+    Single<List<Discount>> getStaticDiscounts();
+    Single<List<Discount>> getDiscountsByType(int discountApplyType);
 }

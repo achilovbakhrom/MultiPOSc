@@ -50,7 +50,7 @@ public class ReturnsDialog extends Dialog {
     private ProductSearchResultsAdapter searchResultsAdapter;
     private ReturnsAdapter returnsAdapter;
 
-    public ReturnsDialog(@NonNull Context context, DatabaseManager databaseManager, DecimalFormat decimalFormat, List<Return> returnsList, RxBus rxBus) {
+    public ReturnsDialog(@NonNull Context context, DatabaseManager databaseManager, DecimalFormat decimalFormat, List<Return> returns, RxBus rxBus) {
         super(context);
         View dialogView = getLayoutInflater().inflate(R.layout.return_dialog, null);
         ButterKnife.bind(this, dialogView);
@@ -60,22 +60,27 @@ public class ReturnsDialog extends Dialog {
         v.setBackgroundResource(android.R.color.transparent);
 
         productList = databaseManager.getAllProducts().blockingSingle();
-        returnsAdapter = new ReturnsAdapter(decimalFormat, getContext(), item -> {
+        this.returnsList = new ArrayList<>();
+
+        returnsAdapter = new ReturnsAdapter(returnsList, decimalFormat, context, (item, position) -> {
             WarningDialog warningDialog = new WarningDialog(context);
             warningDialog.setWarningMessage(context.getString(R.string.do_you_want_delete));
             warningDialog.setOnYesClickListener(view1 -> {
-                this.returnsList.remove(item);
-                returnsAdapter.notifyDataSetChanged();
+                returnsList.remove(item);
+                returnsAdapter.notifyItemRemoved(position);
                 warningDialog.dismiss();
             });
             warningDialog.setOnNoClickListener(view -> warningDialog.dismiss());
             warningDialog.show();
         });
-        if (returnsList != null) {
-            this.returnsList = returnsList;
-            returnsAdapter.setData(returnsList);
-        } else this.returnsList = new ArrayList<>();
+
+        if (returns != null) {
+            this.returnsList = returns;
+            returnsAdapter.setData(this.returnsList);
+        }
+
         searchResultsAdapter = new ProductSearchResultsAdapter(context);
+
         rvProducts.setLayoutManager(new LinearLayoutManager(context));
         rvProducts.setAdapter(searchResultsAdapter);
         ((SimpleItemAnimator) rvProducts.getItemAnimator()).setSupportsChangeAnimations(false);
@@ -83,6 +88,7 @@ public class ReturnsDialog extends Dialog {
         rvReturnProducts.setAdapter(returnsAdapter);
         ((SimpleItemAnimator) rvReturnProducts.getItemAnimator()).setSupportsChangeAnimations(false);
         searchResultsAdapter.setData(productList);
+
         svProductSearch.getSearchView().addTextChangedListener(new TextWatcherOnTextChange() {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -114,9 +120,9 @@ public class ReturnsDialog extends Dialog {
             returnProduct.setProduct(product);
             returnProduct.setCreateAt(System.currentTimeMillis());
             returnProduct.setQuantity(1);
+            returnProduct.setVendor(product.getVendor().get(0));
             returnProduct.setReturnAmount(product.getPrice());
-            this.returnsList.add(returnProduct);
-            returnsAdapter.setData(this.returnsList);
+            returnsAdapter.addItem(returnProduct);
         });
 
         btnNext.setOnClickListener(view -> {
