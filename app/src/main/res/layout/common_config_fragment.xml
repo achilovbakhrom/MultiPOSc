@@ -153,6 +153,60 @@
                 android:layout_height="2px"
                 android:background="#ffffff"
                 />
+            <LinearLayout
+                android:id="@+id/llOutStock"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginRight="@dimen/thirty_dp"
+                android:layout_marginLeft="@dimen/thirty_five_dp"
+                android:paddingTop="@dimen/twenty_dp"
+                android:paddingBottom="@dimen/twenty_dp">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Out off stock products in order list count red"
+                        android:textSize="@dimen/eighteen_dp"
+                        android:textColor="#212121"
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/include_logo_on_the_receipt_description"
+                        android:layout_marginRight="@dimen/fifty_dp"
+                        android:textSize="@dimen/sixteen_dp"
+                        android:textColor="#b8b8b8"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal"
+                    >
+                    <com.jim.mpviews.MpCheckbox
+                        android:id="@+id/chboutStock"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:checked="true"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="#e5e5e5"
+                />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="#ffffff"/>
 
         </LinearLayout>
     </ScrollView>

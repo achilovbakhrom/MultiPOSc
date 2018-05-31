@@ -233,7 +233,7 @@
             <FrameLayout
                 android:layout_width="1px"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/fifty_dp"
+                android:layout_marginBottom="@dimen/ten_dp"
                 android:layout_marginLeft="@dimen/twenty_dp"
                 android:layout_marginRight="@dimen/fifteen_dp"
                 android:background="@color/colorTextHint" />
@@ -273,27 +273,27 @@
 
                 <com.jim.mpviews.MpButtonWithIcon
                     android:id="@+id/btnPayIn"
-                    android:layout_width="@dimen/hundred_eighty_dp"
-                    android:layout_height="@dimen/sixty_dp"
-                    android:layout_gravity="center"
+                    android:layout_width="@dimen/two_hundred_dp"
+                    android:layout_height="@dimen/seventy_dp"
+                    android:layout_gravity="center_horizontal"
                     app:btn_text="@string/pay_in"
                     app:src="@drawable/pay_in"
                     app:tint_color="#56ce06" />
 
                 <com.jim.mpviews.MpButtonWithIcon
                     android:id="@+id/btnPayOut"
-                    android:layout_width="@dimen/hundred_eighty_dp"
-                    android:layout_height="@dimen/sixty_dp"
-                    android:layout_gravity="center"
+                    android:layout_width="@dimen/two_hundred_dp"
+                    android:layout_height="@dimen/seventy_dp"
+                    android:layout_gravity="center_horizontal"
                     app:btn_text="@string/pay_out"
                     app:src="@drawable/pay_out"
                     app:tint_color="#e15a5a" />
 
                 <com.jim.mpviews.MpButtonWithIcon
                     android:id="@+id/btnBankDrop"
-                    android:layout_width="@dimen/hundred_eighty_dp"
-                    android:layout_height="@dimen/sixty_dp"
-                    android:layout_gravity="center"
+                    android:layout_width="@dimen/two_hundred_dp"
+                    android:layout_height="@dimen/seventy_dp"
+                    android:layout_gravity="center_horizontal"
                     app:btn_text="@string/bank_drop"
                     app:src="@drawable/bank" />
 
@@ -314,7 +314,7 @@
                         android:gravity="center"
                         android:text="@string/close_till"
                         android:textColor="@color/colorBlue"
-                        android:textSize="@dimen/twenty_five_dp"
+                        android:textSize="@dimen/twenty_dp"
                         android:textStyle="bold" />
 
                 </RelativeLayout>

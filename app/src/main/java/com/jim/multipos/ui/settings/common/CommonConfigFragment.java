@@ -45,6 +45,10 @@ public class CommonConfigFragment extends BaseFragment implements CommonConfigVi
     MpButton btnSave;
     @BindView(R.id.btnRevert)
     MpButton btnRevert;
+    @BindView(R.id.llOutStock)
+    LinearLayout llOutStock;
+    @BindView(R.id.chboutStock)
+    MpCheckbox chboutStock;
 
     @Inject
     RxBus rxBus;
@@ -63,6 +67,7 @@ public class CommonConfigFragment extends BaseFragment implements CommonConfigVi
     @Override
     protected void init(Bundle savedInstanceState) {
         initViews();
+
         btnSave.setOnClickListener(view -> {
             String firtNominal = etFirstNominal.getText().toString();
             if(firtNominal.isEmpty()) {
@@ -108,6 +113,7 @@ public class CommonConfigFragment extends BaseFragment implements CommonConfigVi
                 LocaleManger.setNewLocale(getContext(), language);
                 presenter.changeDefaultsLanguage();
             }
+            preferencesHelper.setOutStockCheck(chboutStock.isChecked());
 
             //TODO REFRESH MAIM PAGE
             getActivity().finish();
@@ -132,7 +138,10 @@ public class CommonConfigFragment extends BaseFragment implements CommonConfigVi
         }
         etFirstNominal.setText(decimalFormat.format(preferencesHelper.getFirstOptionalPaymentButton()));
         etSecondNominal.setText(decimalFormat.format(preferencesHelper.getSecondOptionalPaymentButton()));
-
+        chboutStock.setChecked(preferencesHelper.isOutStockShouldCheck());
+        llOutStock.setOnClickListener(view -> {
+            chboutStock.setChecked(!chboutStock.isChecked());
+        });
     }
 
     @Override

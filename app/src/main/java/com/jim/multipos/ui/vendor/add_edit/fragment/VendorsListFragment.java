@@ -3,14 +3,15 @@ package com.jim.multipos.ui.vendor.add_edit.fragment;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
-import com.jim.multipos.core.ClickableBaseAdapter;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.vendor.AddingMode;
 import com.jim.multipos.ui.vendor.add_edit.VendorAddEditActivity;
 import com.jim.multipos.ui.vendor.add_edit.adapter.VendorsListAdapter;
+import com.jim.multipos.utils.OnItemClickListener;
 import com.jim.multipos.utils.UIUtils;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ import butterknife.BindView;
  * Created by bakhrom on 10/21/17.
  */
 
-public class VendorsListFragment extends BaseFragment implements ClickableBaseAdapter.OnItemClickListener<Vendor> {
+public class VendorsListFragment extends BaseFragment {
 
     public static final String SELECTED_POSITION = "SELECTED_POSITION";
 
@@ -50,7 +51,19 @@ public class VendorsListFragment extends BaseFragment implements ClickableBaseAd
             if (items == null) items = new ArrayList<>();
             items.add(0, null);
             VendorsListAdapter adapter = new VendorsListAdapter(items, getContext());
-            adapter.setOnItemClickListener(this);
+            ((SimpleItemAnimator) vendors.getItemAnimator()).setSupportsChangeAnimations(false);
+            adapter.setOnItemClickListener(new OnItemClickListener<Vendor>() {
+                @Override
+                public void onItemClicked(int position) {
+                    UIUtils.closeKeyboard(vendors, getContext());
+                }
+
+                @Override
+                public void onItemClicked(Vendor item) {
+                    if (item == null) { ((VendorAddEditActivity) getContext()).getPresenter().setMode(AddingMode.ADD, null); }
+                    else { ((VendorAddEditActivity) getContext()).getPresenter().setMode(AddingMode.EDIT, item.getId()); }
+                }
+            });
             vendors.setLayoutManager(new GridLayoutManager(getContext(), 3));
             vendors.setAdapter(adapter);
         }
@@ -78,17 +91,8 @@ public class VendorsListFragment extends BaseFragment implements ClickableBaseAd
         return false;
     }
 
-    @Override
-    public void onItemClicked(int position) {
-        UIUtils.closeKeyboard(vendors, getContext());
-        //TODO nothing
-    }
 
-    @Override
-    public void onItemClicked(Vendor item) {
-        if (item == null) { ((VendorAddEditActivity) getContext()).getPresenter().setMode(AddingMode.ADD, null); }
-        else { ((VendorAddEditActivity) getContext()).getPresenter().setMode(AddingMode.EDIT, item.getId()); }
-    }
+
 
     public void setAddMode() {
         if (vendors != null && vendors.getAdapter() != null)

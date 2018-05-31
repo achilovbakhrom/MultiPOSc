@@ -71,7 +71,7 @@ public class AppPreferencesHelper implements PreferencesHelper {
     private static final String LANGUAGE_CODE = "LANGUAGE_CODE";
     private static final String SERIAL_VALUE = "SERIAL_VALUE";
     private static final String TOKEN_VALUE = "TOKEN_VALUE";
-
+    private static final String OUT_STOCK_CHECK = "OUT_STOCK_CHECK";
 
     private final SharedPreferences mPrefs;
 
@@ -479,5 +479,15 @@ public class AppPreferencesHelper implements PreferencesHelper {
     @Override
     public String getRegistrationToken() {
         return mPrefs.getString(TOKEN_VALUE, "");
+    }
+
+    @Override
+    public void setOutStockCheck(boolean outStockCheck) {
+        mPrefs.edit().putBoolean(OUT_STOCK_CHECK,outStockCheck).apply();
+    }
+
+    @Override
+    public boolean isOutStockShouldCheck() {
+        return mPrefs.getBoolean(OUT_STOCK_CHECK,false);
     }
 }

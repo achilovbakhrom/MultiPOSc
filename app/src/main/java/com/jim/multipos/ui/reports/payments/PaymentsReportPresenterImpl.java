@@ -312,7 +312,6 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
 
     private void updateObejctsForTable() {
         //FAKE
-
         if (currentPosition == 0) {
             HashMap<Long, SummaryPayments> summaryPaymentsHP = new HashMap<>();
             for (int i = 0; i < ordersSummary.size(); i++) {

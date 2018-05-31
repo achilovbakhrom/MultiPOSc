@@ -1,6 +1,7 @@
 package com.jim.multipos.ui.mainpospage.connection;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
@@ -11,6 +12,7 @@ import com.jim.multipos.data.db.model.order.PayedPartitions;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
+import com.jim.multipos.ui.mainpospage.data.ProductIdWithCount;
 import com.jim.multipos.ui.mainpospage.model.OrderProductItem;
 import com.jim.multipos.ui.mainpospage.view.OrderListHistoryView;
 import com.jim.multipos.ui.mainpospage.view.OrderListView;
@@ -59,7 +61,11 @@ public class MainPageConnection {
 //            orderListView.onEditOrder(reason,order);
 //        }
 //    }
-
+    public void sendOrderState(List<ProductIdWithCount> list){
+        //folder fragment viewni nullga tekwirib agar null bomasa yuborish kere
+        //TODO kiyin fragment hide voqti obnovit qiliw keremas!!!
+        Log.d("TESTPROCO",list.size()+"");
+    }
     public void onNewOrderPaymentFragment(){
         if(paymentView!=null){
             paymentView.onNewOrder();

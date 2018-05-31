@@ -303,7 +303,7 @@ public class PaymentPresenterImpl extends BasePresenterImpl<PaymentView> impleme
                 view.updateViews(order,totalPayed());
                 view.updateOrderListDetialsPanel();
                 view.disableTipsButton();
-            },((order.getForPayAmmount()-totalPayed()-lastPaymentAmountState)>0)?0:(order.getForPayAmmount()-totalPayed()-lastPaymentAmountState)*-1);
+            },((order.getForPayAmmount()-totalPayed()-lastPaymentAmountState)>=0)?0:(order.getForPayAmmount()-totalPayed()-lastPaymentAmountState)*-1);
         }else {
             order.setTips(0);
             view.updateViews(order,totalPayed());

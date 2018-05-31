@@ -34,7 +34,7 @@ public class UsbEventReceiverActivity extends Activity {
                 UsbDevice usbDevice1 = getIntent().getParcelableExtra(UsbManager.EXTRA_DEVICE);
                 Log.wtf(TAG, "UsbEventReceiverActivity onResume: "+ usbDevice1.getProductId());
 
-                // Create a new intent and put the usb device in as an extra
+                // Create OnItemClickListener new intent and put the usb device in as an extra
                 Intent broadcastIntent = new Intent(CUSTOM_ACTION_USB_DEVICE_ATTACHED);
                 broadcastIntent.putExtra(UsbManager.EXTRA_DEVICE, usbDevice);
 

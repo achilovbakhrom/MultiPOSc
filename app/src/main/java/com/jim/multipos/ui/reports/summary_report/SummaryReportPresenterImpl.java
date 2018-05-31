@@ -425,14 +425,14 @@ public class SummaryReportPresenterImpl extends BasePresenterImpl<SummaryReportV
                 TripleString tripleString = new TripleString(databaseManager.getPaymentTypeById(longDoubleEntry.getKey()).getName(), decimalFormat.format((longDoubleEntry.getValue() / ((totalPayments == 0 ? 1 : totalPayments))) * 100) + "%", decimalFormatWithProbel.format(longDoubleEntry.getValue()), false);
                 tripleStrings.add(tripleString);
             }
-            TripleString tripleString = new TripleString(context.getString(R.string.total_payments), "100%", decimalFormatWithProbel.format(totalPayments), true);
+            TripleString tripleString = new TripleString(context.getString(R.string.total_payments), decimalFormat.format(100)+ "%", decimalFormatWithProbel.format(totalPayments), true);
             tripleStrings.add(tripleString);
             double sum = totalPayments + totalDebt;
             TripleString tripleStringDebt = new TripleString(context.getString(R.string.debt_report), decimalFormat.format((totalDebt / ((sum == 0 ? 1 : sum))) * 100) + "%", decimalFormatWithProbel.format(totalDebt), false);
             tripleStrings.add(tripleStringDebt);
             TripleString tripleString1 = new TripleString(context.getString(R.string.payments_report), decimalFormat.format((totalPayments / ((sum == 0 ? 1 : sum))) * 100) + "%", decimalFormatWithProbel.format(totalPayments), false);
             tripleStrings.add(tripleString1);
-            TripleString tripleString2 = new TripleString(context.getString(R.string.total_cap), "100%", decimalFormatWithProbel.format(sum), true);
+            TripleString tripleString2 = new TripleString(context.getString(R.string.total_cap), decimalFormat.format(100)+ "%", decimalFormatWithProbel.format(sum), true);
             tripleStrings.add(tripleString2);
 
             for (Map.Entry<Long, Integer> longDoubleEntry : hmPaymentsCount.entrySet()) {

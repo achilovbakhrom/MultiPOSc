@@ -240,7 +240,7 @@ public class CustomerReportPresenterImpl extends BasePresenterImpl<CustomerRepor
                                 for (int i = 0; i < order.getPayedPartitions().size(); i++) {
                                     PayedPartitions partitions = order.getPayedPartitions().get(i);
                                     CustomerPaymentLog paymentLog = new CustomerPaymentLog();
-                                    paymentLog.setId(order.getCustomer().getId());
+                                    paymentLog.setId(order.getId());
                                     paymentLog.setName(order.getCustomer().getName());
                                     paymentLog.setDate(order.getCreateAt());
                                     paymentLog.setPaymentType(partitions.getPaymentType().getName());
@@ -260,7 +260,7 @@ public class CustomerReportPresenterImpl extends BasePresenterImpl<CustomerRepor
                                         }
                                     }
                                     CustomerPaymentLog paymentLog = new CustomerPaymentLog();
-                                    paymentLog.setId(order.getCustomer().getId());
+                                    paymentLog.setId(order.getId());
                                     paymentLog.setName(order.getCustomer().getName());
                                     paymentLog.setDate(order.getCreateAt());
                                     if (paymentType != null)
@@ -278,7 +278,7 @@ public class CustomerReportPresenterImpl extends BasePresenterImpl<CustomerRepor
                                             for (int j = 0; j < debt.getCustomerPayments().size(); j++) {
                                                 CustomerPayment payment = debt.getCustomerPayments().get(j);
                                                 CustomerPaymentLog paymentLog = new CustomerPaymentLog();
-                                                paymentLog.setId(order.getCustomer().getId());
+                                                paymentLog.setId(order.getId());
                                                 paymentLog.setName(order.getCustomer().getName());
                                                 paymentLog.setDate(order.getCreateAt());
                                                 paymentLog.setPaymentType(payment.getPaymentType().getName());
@@ -934,7 +934,7 @@ public class CustomerReportPresenterImpl extends BasePresenterImpl<CustomerRepor
 
     @Override
     public void onAction(Object[][] objects, int row, int column) {
-        if (currentPosition == 1 && column == 3) {
+        if ((currentPosition == 1 && column == 3) || (currentPosition == 2 && column == 0)) {
             if (!objects[row][column].equals("")) {
                 long orderId = (long) objects[row][column];
                 databaseManager.getOrder(orderId).subscribe(order -> {

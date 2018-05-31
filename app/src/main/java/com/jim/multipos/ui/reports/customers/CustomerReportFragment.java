@@ -39,7 +39,7 @@ public class CustomerReportFragment extends BaseTableReportFragment implements C
     private int secondDataType[] = {ReportViewConstants.ID, ReportViewConstants.NAME, ReportViewConstants.DATE, ReportViewConstants.ACTION, ReportViewConstants.STATUS, ReportViewConstants.AMOUNT};
     private int secondWeights[] = {5, 15, 10, 5, 5, 10};
     private int secondAligns[] = {Gravity.CENTER, Gravity.LEFT, Gravity.CENTER, Gravity.CENTER, Gravity.CENTER, Gravity.RIGHT};
-    private int thirdDataType[] = {ReportViewConstants.ID, ReportViewConstants.NAME, ReportViewConstants.DATE, ReportViewConstants.STATUS, ReportViewConstants.NAME, ReportViewConstants.AMOUNT};
+    private int thirdDataType[] = {ReportViewConstants.ACTION, ReportViewConstants.NAME, ReportViewConstants.DATE, ReportViewConstants.STATUS, ReportViewConstants.NAME, ReportViewConstants.AMOUNT};
     private int thirdWeights[] = {1, 1, 1, 1, 1, 1};
     private int thirdAligns[] = {Gravity.CENTER, Gravity.LEFT, Gravity.CENTER, Gravity.CENTER, Gravity.LEFT, Gravity.RIGHT};
     private String firstTitles[], secondTitles[], thirdTitles[], panelNames[];
@@ -65,9 +65,9 @@ public class CustomerReportFragment extends BaseTableReportFragment implements C
                         {2, getString(R.string.change), R.color.colorRed}}
         };
 
-        firstTitles = new String[]{getString(R.string.id), getString(R.string.name), getString(R.string.closed_orders), getString(R.string.cancelled_orders), getString(R.string.total_orders_amount), getString(R.string.total_to_debt), getString(R.string.total_discounts), getString(R.string.total_service_fees)};
-        secondTitles = new String[]{getString(R.string.id), getString(R.string.name), getString(R.string.date), getString(R.string.order), getString(R.string.order_status), getString(R.string.total_order_amount)};
-        thirdTitles = new String[]{getString(R.string.id), getString(R.string.name), getString(R.string.date), getString(R.string.reason), getString(R.string.payment_type), getString(R.string.amount)};
+        firstTitles = new String[]{getString(R.string.id), getString(R.string.customer_name), getString(R.string.closed_orders), getString(R.string.cancelled_orders), getString(R.string.total_orders_amount), getString(R.string.total_to_debt), getString(R.string.total_discounts), getString(R.string.total_service_fees)};
+        secondTitles = new String[]{getString(R.string.id), getString(R.string.customer_name), getString(R.string.date), getString(R.string.order), getString(R.string.order_status), getString(R.string.total_order_amount)};
+        thirdTitles = new String[]{getString(R.string.order_num), getString(R.string.customer_name), getString(R.string.date), getString(R.string.reason), getString(R.string.payment_type), getString(R.string.amount)};
 
         firstBuilder = new ReportView.Builder()
                 .setContext(getContext())
@@ -91,6 +91,7 @@ public class CustomerReportFragment extends BaseTableReportFragment implements C
                 .setContext(getContext())
                 .setTitles(thirdTitles)
                 .setDataTypes(thirdDataType)
+                .setOnReportViewResponseListener((objects, row, column) -> presenter.onAction(objects, row, column))
                 .setWeight(thirdWeights)
                 .setStatusTypes(thirdStatusTypes)
                 .setDataAlignTypes(thirdAligns)

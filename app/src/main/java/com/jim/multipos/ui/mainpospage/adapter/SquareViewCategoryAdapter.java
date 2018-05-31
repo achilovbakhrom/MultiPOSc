@@ -8,10 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.jim.mpviews.MPListItemView;
-import com.jim.mpviews.MpItem;
 import com.jim.multipos.R;
-import com.jim.multipos.core.BaseViewHolder;
-import com.jim.multipos.core.ClickableBaseAdapter;
 import com.jim.multipos.data.db.model.products.Category;
 
 import java.util.List;

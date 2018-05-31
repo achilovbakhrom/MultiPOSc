@@ -89,7 +89,7 @@ public class OrderDetialsDialog extends Dialog {
      */
     private int orderDetialsDataType[] = {ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.NAME, ReportViewConstants.AMOUNT, ReportViewConstants.NAME, ReportViewConstants.AMOUNT};
     private String orderDetialsTitles[];
-    private int orderDetialsWeights[] = {13, 8, 8, 12, 8, 10, 8, 10, 12};
+    private int orderDetialsWeights[] = {13, 8, 10, 10, 8, 10, 8, 10, 12};
     private int orderDetialsAligns[] = {Gravity.LEFT, Gravity.CENTER, Gravity.RIGHT, Gravity.RIGHT, Gravity.RIGHT, Gravity.LEFT, Gravity.RIGHT, Gravity.LEFT, Gravity.RIGHT};
     /**
      * Payments Table Config

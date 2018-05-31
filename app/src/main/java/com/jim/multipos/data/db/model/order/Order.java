@@ -166,7 +166,8 @@ public class Order {
     }
 
     public double getChange(){
-        return totalPayed - getForPayAmmount();
+        double v = totalPayed - getForPayAmmount();
+        return (v<0)?0:v;
     }
 
     public Order clone(){

@@ -13,6 +13,7 @@ import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.ServiceFeeLog;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.Debt;
+import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.OrderChangesLog;
@@ -22,6 +23,8 @@ import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.products.VendorProductCon;
 import com.jim.multipos.data.db.model.unit.UnitCategory;
+import com.jim.multipos.data.prefs.PreferencesHelper;
+import com.jim.multipos.ui.mainpospage.data.ProductIdWithCount;
 import com.jim.multipos.ui.mainpospage.dialogs.DiscountDialog;
 import com.jim.multipos.ui.mainpospage.dialogs.ServiceFeeDialog;
 import com.jim.multipos.ui.mainpospage.model.DiscountItem;
@@ -31,6 +34,7 @@ import com.jim.multipos.ui.mainpospage.view.OrderListFragment;
 import com.jim.multipos.ui.mainpospage.view.OrderListView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -49,14 +53,17 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
     Customer customer;
     List<PayedPartitions> payedPartitions;
     private Context context;
-
+    private PreferencesHelper preferencesHelper;
+    HashMap<Long,Double> summaryOrderCount;
     @Inject
-    public OrderListPresenterImpl(OrderListView orderListView, DatabaseManager databaseManager, Context context) {
+    public OrderListPresenterImpl(OrderListView orderListView, DatabaseManager databaseManager, Context context, PreferencesHelper preferencesHelper) {
         super(orderListView);
         this.context = context;
+        this.preferencesHelper = preferencesHelper;
         list = new ArrayList<>();
         order = new Order();
         payedPartitions = new ArrayList<>();
+        summaryOrderCount = new HashMap<>();
         this.databaseManager = databaseManager;
         fromEdit = false;
         fromHold = false;
@@ -694,6 +701,8 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
             double totalDiscount = 0;
             double totalServiceFee = 0;
             double totalPayed = 0;
+            if(preferencesHelper.isOutStockShouldCheck())
+                summaryOrderCount = new HashMap<>();
             for (int i = 0; i < list.size(); i++) {
                 if (list.get(i) instanceof OrderProductItem) {
                     OrderProductItem orderProductItem = (OrderProductItem) list.get(i);
@@ -714,6 +723,8 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
                         }
                         totalServiceFee += orderProductItem.getServiceFeeAmmount() * orderProductItem.getOrderProduct().getCount();
                     }
+                    if(preferencesHelper.isOutStockShouldCheck())
+                        summaryOrderCount.put(orderProductItem.getOrderProduct().getProductId(),(summaryOrderCount.get(orderProductItem.getOrderProduct().getProductId())==null?0:summaryOrderCount.get(orderProductItem.getOrderProduct().getProductId())) + orderProductItem.getOrderProduct().getCount());
                     list.set(i, orderProductItem);
                 } else if (list.get(i) instanceof DiscountItem) {
                     DiscountItem discountItem = (DiscountItem) list.get(i);
@@ -740,6 +751,24 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
                     for (PayedPartitions payedPartitions : order.getPayedPartitions()) {
                         totalPayed += payedPartitions.getValue();
                     }
+            }
+            if(preferencesHelper.isOutStockShouldCheck())
+            for (int i = 0; i < list.size(); i++) {
+                if (list.get(i) instanceof OrderProductItem) {
+                    OrderProductItem orderProductItem = (OrderProductItem) list.get(i);
+                    List<InventoryState> inventoryStates = databaseManager.getInventoryStatesByProductId(orderProductItem.getOrderProduct().getProduct().getRootId()).blockingFirst();
+                    InventoryState inventoryState = null;
+                    for (int k = 0; k < inventoryStates.size(); k++) {
+                        if(inventoryStates.get(k).getVendor().getId().equals(orderProductItem.getOrderProduct().getVendor().getId())){
+                            inventoryState = inventoryStates.get(k);
+                            break;
+                        }
+                    }
+                    if((inventoryState.getValue() - summaryOrderCount.get(orderProductItem.getOrderProduct().getProductId()))<0){
+                        orderProductItem.setHaveInStock(false);
+                    }else orderProductItem.setHaveInStock(true);
+                    list.set(i, orderProductItem);
+                }
             }
             order.setSubTotalValue(totalSubTotal);
             order.setTotalPayed(totalPayed);
@@ -799,6 +828,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
     boolean fromEdit = false;
     String reason;
     long beforeOrderID;
+    Order oldOrder;
     @Override
     public void onEditOrder(String reason,Order order,Long newOrderId) {
         this.fromEdit = true;
@@ -806,6 +836,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         this.reason = reason;
         this.order = order.clone();
         this.beforeOrderID = order.getId();
+        this.oldOrder = order;
         this.list.clear();
         this.customer = order.getCustomer();
         list.addAll(order.getListObject());

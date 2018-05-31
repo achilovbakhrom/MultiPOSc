@@ -207,7 +207,7 @@ public class USBService extends Service {
     public static String fromKeyCode(byte modifier, byte code){
         switch (code){
             case 0x04:
-                return (modifier==2||modifier==32)?"A":"a";
+                return (modifier==2||modifier==32)?"A":"OnItemClickListener";
             case 0x05:
                 return (modifier==2||modifier==32)?"B":"b";
             case 0x06:

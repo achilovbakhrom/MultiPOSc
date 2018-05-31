@@ -1,6 +1,7 @@
 package com.jim.multipos.ui.mainpospage.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -133,7 +134,11 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             holder.tvEach.setText(decimalFormat.format(orderProductItem.getOrderProduct().getPrice()));
             holder.tvSum.setText(decimalFormat.format(orderProductItem.getOrderProduct().getPrice() * orderProductItem.getOrderProduct().getCount()));
             holder.tvProductName.setText(orderProductItem.getOrderProduct().getProduct().getName());
-
+            if(orderProductItem.isHaveInStock()){
+                holder.tvCountProduct.setTextColor(Color.parseColor("#212121"));
+            }else {
+                holder.tvCountProduct.setTextColor(Color.parseColor("#e22424"));
+            }
 
             if(orderProductItem.getDiscount()!=null){
                 holder.tvFirstChangerToEach.setText(decimalFormat.format(orderProductItem.getDiscountAmmount()));

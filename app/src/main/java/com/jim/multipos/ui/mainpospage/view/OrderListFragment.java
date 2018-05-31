@@ -32,6 +32,7 @@ import com.jim.multipos.ui.consignment.adapter.VendorItemsListAdapter;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivity;
 import com.jim.multipos.ui.mainpospage.adapter.OrderProductAdapter;
 import com.jim.multipos.ui.mainpospage.connection.MainPageConnection;
+import com.jim.multipos.ui.mainpospage.data.ProductIdWithCount;
 import com.jim.multipos.ui.mainpospage.dialogs.CustomerDialog;
 import com.jim.multipos.ui.mainpospage.dialogs.DiscountDialog;
 import com.jim.multipos.ui.mainpospage.dialogs.ServiceFeeDialog;
@@ -137,7 +138,7 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
     @BindView(R.id.tvTips)
     TextView tvTips;
     private OrderProductItem orderProductItem;
-    private int currentPosition;
+    private int currentPosition  = -1;
     public static final String PRODUCT_ADD_TO_ORDER = "addorderproduct";
     private CustomerDialog customerDialog;
     private boolean fromAddCustomer = false;
@@ -789,6 +790,12 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
         warningDialog.setPositiveButtonText(getString(R.string.yes));
         warningDialog.setNegativeButtonText(getString(R.string.cancel));
         warningDialog.show();
+    }
+
+    @Override
+    public void sendStateOrder(List<ProductIdWithCount> list) {
+        if(mainPageConnection!=null)
+            mainPageConnection.sendOrderState(list);
     }
 
 

@@ -18,7 +18,7 @@ import dagger.Provides;
 
 /**
  * Provides base activity dependencies. This must be included in all activity modules, which must
- * provide a concrete implementation of {@link AppCompatActivity}.
+ * provide OnItemClickListener concrete implementation of {@link AppCompatActivity}.
  */
 @Module
 public abstract class BaseActivityModule {

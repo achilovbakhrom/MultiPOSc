@@ -14,6 +14,15 @@ public class OrderProductItem {
     private double discountAmmount;
     private ServiceFee serviceFee;
     private double serviceFeeAmmount;
+    private boolean haveInStock = true;
+
+    public boolean isHaveInStock() {
+        return haveInStock;
+    }
+
+    public void setHaveInStock(boolean haveInStock) {
+        this.haveInStock = haveInStock;
+    }
 
     public OrderProduct getOrderProduct() {
         return orderProduct;

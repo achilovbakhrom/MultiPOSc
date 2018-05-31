@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="@dimen/thousand_ninety_dp"
+        android:layout_width="@dimen/thousand_hundred_seventy_dp"
         android:layout_height="@dimen/seven_hundred_dp"
         android:background="@drawable/rounded_edit_text_bg"
         android:orientation="vertical">

@@ -33,7 +33,7 @@ public class ProductProfitFragment extends BaseTableReportFragment implements Pr
     private ReportView.Builder profitSummaryBuilder, profitLogBuilder;
     private ReportView profitSummaryView, profitLogView;
 
-    int profitSumType[] = {ReportViewConstants.NAME, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT};
+    int profitSumType[] = {ReportViewConstants.NAME, ReportViewConstants.QUANTITY, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT};
     String profitSumTitles[];
     int profitSumWeights[] = {10, 10, 10, 10, 10, 10, 10, 10};
     int profitSumAligns[] = {Gravity.LEFT, Gravity.RIGHT, Gravity.RIGHT, Gravity.RIGHT, Gravity.RIGHT, Gravity.RIGHT, Gravity.RIGHT, Gravity.RIGHT};

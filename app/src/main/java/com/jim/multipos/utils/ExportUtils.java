@@ -5679,7 +5679,7 @@ public class ExportUtils {
         Cell cell1 = row4.createCell(0);
         cell1.setCellStyle(cellStyle1);
         cell1.setCellValue(context.getString(R.string.available_units));
-        String[] units = new String[]{"pcs - piece", "kg - kilogram", "gr - gram", "tn - ton", "m - meter", "mm - millimeter", "cm - centimeter", "km - kilometer", "m2 - M2", "a - are", "ac - acre", "ha - hectare", "m3 - M3", "l - liter", "ml - milliliter"};
+        String[] units = new String[]{"pcs - piece", "kg - kilogram", "gr - gram", "tn - ton", "m - meter", "mm - millimeter", "cm - centimeter", "km - kilometer", "m2 - M2", "OnItemClickListener - are", "ac - acre", "ha - hectare", "m3 - M3", "l - liter", "ml - milliliter"};
         String[] unitsRU = new String[]{"шт. - штук", "кг. - килограмм", "гр. - грамм", "т. - тонна", "м. - метр", "мм. - миллиметр", "см. - сантиметр", "км. - километр", "м2. - М2", "сот. - сотка", "акр. - акр", "га. - гектар", "м3. - М3", "л. - литр", "мл. - миллилитр"};
         for (int i = 0; i < units.length; i++) {
             Row row5 = sheet2.createRow(1 + i);
@@ -5775,7 +5775,7 @@ public class ExportUtils {
         Cell cell1 = row4.createCell(0);
         cell1.setCellStyle(cellStyle1);
         cell1.setCellValue(context.getString(R.string.available_units));
-        String[] units = new String[]{"pcs - piece", "kg - kilogram", "gr - gram", "tn - ton", "m - meter", "mm - millimeter", "cm - centimeter", "km - kilometer", "m2 - M2", "a - are", "ac - acre", "ha - hectare", "m3 - M3", "l - liter", "ml - milliliter"};
+        String[] units = new String[]{"pcs - piece", "kg - kilogram", "gr - gram", "tn - ton", "m - meter", "mm - millimeter", "cm - centimeter", "km - kilometer", "m2 - M2", "OnItemClickListener - are", "ac - acre", "ha - hectare", "m3 - M3", "l - liter", "ml - milliliter"};
         String[] unitsRU = new String[]{"шт. - штук", "кг. - килограмм", "гр. - грамм", "т. - тонна", "м. - метр", "мм. - миллиметр", "см. - сантиметр", "км. - километр", "м2. - М2", "сот. - сотка", "акр. - акр", "га. - гектар", "м3. - М3", "л. - литр", "мл. - миллилитр"};
         for (int i = 0; i < units.length; i++) {
             Row row5 = sheet2.createRow(1 + i);

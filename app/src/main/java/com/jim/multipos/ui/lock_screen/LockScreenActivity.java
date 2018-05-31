@@ -109,9 +109,9 @@ import static android.app.admin.DevicePolicyManager.PERMISSION_POLICY_AUTO_GRANT
             startService(new Intent(this, USBService.class));
         }
 
-        if(preferencesHelper.getSerialValue().equals("") || preferencesHelper.getRegistrationToken().equals("") || ! hashesWithSerial.get(preferencesHelper.getSerialValue()).equals(SecurityTools.hashPassword(preferencesHelper.getSerialValue()+preferencesHelper.getRegistrationToken()))){
-            addFragment(R.id.flMain,new AuthFragment());
-        }
+//        if(preferencesHelper.getSerialValue().equals("") || preferencesHelper.getRegistrationToken().equals("") || ! hashesWithSerial.get(preferencesHelper.getSerialValue()).equals(SecurityTools.hashPassword(preferencesHelper.getSerialValue()+preferencesHelper.getRegistrationToken()))){
+//            addFragment(R.id.flMain,new AuthFragment());
+//        }
         mDevicePolicyManager = (DevicePolicyManager)
                 getSystemService(Context.DEVICE_POLICY_SERVICE);
         mAdminComponentName = DeviceAdminReceiver.getComponentName(this);
@@ -261,7 +261,7 @@ import static android.app.admin.DevicePolicyManager.PERMISSION_POLICY_AUTO_GRANT
     protected void onStart() {
         super.onStart();
         clickedcount= 0;
-        if(!preferencesHelper.getSerialValue().equals("") &&  !preferencesHelper.getRegistrationToken().equals("") &&  hashesWithSerial.get(preferencesHelper.getSerialValue()).equals(SecurityTools.hashPassword(preferencesHelper.getSerialValue()+preferencesHelper.getRegistrationToken())))
+//        if(!preferencesHelper.getSerialValue().equals("") &&  !preferencesHelper.getRegistrationToken().equals("") &&  hashesWithSerial.get(preferencesHelper.getSerialValue()).equals(SecurityTools.hashPassword(preferencesHelper.getSerialValue()+preferencesHelper.getRegistrationToken())))
         if (preferencesHelper.isAppRunFirstTime()){
             try {
                 Intent intro = new Intent(this, StartConfigurationActivity.class);
@@ -374,7 +374,7 @@ import static android.app.admin.DevicePolicyManager.PERMISSION_POLICY_AUTO_GRANT
 
         mDevicePolicyManager.setPermissionPolicy(mAdminComponentName,PERMISSION_POLICY_AUTO_GRANT);
 
-        // set this Activity as a lock task package
+        // set this Activity as OnItemClickListener lock task package
 
         mDevicePolicyManager.setLockTaskPackages(mAdminComponentName,
                 active ? new String[]{getPackageName()} : new String[]{});
@@ -432,7 +432,7 @@ import static android.app.admin.DevicePolicyManager.PERMISSION_POLICY_AUTO_GRANT
     @TargetApi(Build.VERSION_CODES.M)
     public void autoGrantRequestedPermissionsToSelf(Context context)  {
         String packageName = context.getPackageName();
-        List<String> permissions = getRuntimePermissions(context.getPackageManager(), packageName); //retrieve a list of requested runtime permissions
+        List<String> permissions = getRuntimePermissions(context.getPackageManager(), packageName); //retrieve OnItemClickListener list of requested runtime permissions
         for (String permission : permissions) {
             boolean success =   mDevicePolicyManager.setPermissionGrantState(mAdminComponentName, packageName, permission, PERMISSION_GRANT_STATE_GRANTED);
 

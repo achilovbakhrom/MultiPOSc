@@ -98,9 +98,9 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
 
         ButterKnife.bind(this);
 
-        if(preferencesHelper.getSerialValue().equals("") || preferencesHelper.getRegistrationToken().equals("") || ! hashesWithSerial.get(preferencesHelper.getSerialValue()).equals(SecurityTools.hashPassword(preferencesHelper.getSerialValue()+preferencesHelper.getRegistrationToken()))){
-            addFullFragment(new AuthFragment());
-        }
+//        if(preferencesHelper.getSerialValue().equals("") || preferencesHelper.getRegistrationToken().equals("") || ! hashesWithSerial.get(preferencesHelper.getSerialValue()).equals(SecurityTools.hashPassword(preferencesHelper.getSerialValue()+preferencesHelper.getRegistrationToken()))){
+//            addFullFragment(new AuthFragment());
+//        }
         if(checkPrinter ==null){
             checkPrinter = new CheckPrinter(this,preferencesHelper,databaseManager);
             checkPrinter.connectDevice();

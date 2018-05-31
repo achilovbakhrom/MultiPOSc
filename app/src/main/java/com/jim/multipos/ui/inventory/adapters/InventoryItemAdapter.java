@@ -2,6 +2,7 @@ package com.jim.multipos.ui.inventory.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.BackgroundColorSpan;
@@ -17,9 +18,9 @@ import com.jim.mpviews.MpEditText;
 import com.jim.multipos.R;
 import com.jim.multipos.config.common.BaseAppModule;
 import com.jim.multipos.core.BaseViewHolder;
-import com.jim.multipos.core.ClickableBaseAdapter;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
+import com.jim.multipos.utils.OnItemClickListener;
 import com.jim.multipos.utils.TextWatcherOnTextChange;
 
 import java.text.DecimalFormat;
@@ -33,15 +34,16 @@ import butterknife.BindView;
  * Created by developer on 10.11.2017.
  */
 
-public class InventoryItemAdapter  extends ClickableBaseAdapter<InventoryItem, InventoryItemAdapter.InventoryItemViewHolder> {
+public class InventoryItemAdapter  extends RecyclerView.Adapter<InventoryItemAdapter.InventoryItemViewHolder> {
     OnInvendoryAdapterCallback callback;
     private Context context;
     boolean searchMode = false;
     private String searchText;
     DecimalFormat decimalFormat;
+    List<InventoryItem> items;
     @Inject
     public InventoryItemAdapter(List<InventoryItem> items, OnInvendoryAdapterCallback callback, Context context) {
-        super(items);
+        this.items = items;
         decimalFormat = BaseAppModule.getFormatterWithoutGroupingFourDecimal();
         this.callback = callback;
         this.context = context;
@@ -55,10 +57,13 @@ public class InventoryItemAdapter  extends ClickableBaseAdapter<InventoryItem, I
         this.items = items;
         searchMode = false;
     }
-    @Override
-    protected void onItemClicked(InventoryItemViewHolder holder, int position) {
 
+    private OnItemClickListener onItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener){
+        this.onItemClickListener = onItemClickListener;
     }
+
     @Override
     public InventoryItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.inventory_item, parent, false);
@@ -67,7 +72,6 @@ public class InventoryItemAdapter  extends ClickableBaseAdapter<InventoryItem, I
 
     @Override
     public void onBindViewHolder(InventoryItemViewHolder holder, int position) {
-        super.onBindViewHolder(holder, position);
         if(position%2==0) holder.llBackground.setBackgroundColor(Color.parseColor("#f9f9f9"));
         else holder.llBackground.setBackgroundColor(Color.parseColor("#f0f0f0"));
         InventoryItem inventoryItem = items.get(position);
@@ -110,6 +114,11 @@ public class InventoryItemAdapter  extends ClickableBaseAdapter<InventoryItem, I
             holder.etStockAlert.setText("");
         else
             holder.etStockAlert.setText(decimalFormat.format(inventoryItem.getLowStockAlert()));
+    }
+
+    @Override
+    public int getItemCount() {
+        return items.size();
     }
 
     public interface OnInvendoryAdapterCallback{

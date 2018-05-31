@@ -24,7 +24,11 @@ public class ProfitData {
         this.totalServiceFee += totalServiceFee;
     }
     public double getProfit(){
-        return (1-totalCost/totalSale)*100;
+
+        double totalCost = this.totalCost;
+        double totalSale = this.totalSale;
+        if(totalCost==0 || totalSale==0) return 0;
+        return (1- totalCost / totalSale)*100;
     }
     public double getNET(){
         return totalSale - totalCost;

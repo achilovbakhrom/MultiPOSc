@@ -16,13 +16,14 @@ import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.intosystem.TitleDescription;
 import com.jim.multipos.ui.discount.DiscountAddingActivity;
 import com.jim.multipos.ui.main_menu.MenuListAdapter;
-import com.jim.multipos.ui.main_menu.product_menu.dialogs.ProductExportDialog;
 import com.jim.multipos.ui.main_menu.product_menu.dialogs.ImportDialog;
+import com.jim.multipos.ui.main_menu.product_menu.dialogs.ProductExportDialog;
 import com.jim.multipos.ui.main_menu.product_menu.presenters.ProductMenuPresenter;
 import com.jim.multipos.ui.product_class_new.ProductsClassActivity;
 import com.jim.multipos.ui.product_last.ProductActivity;
 import com.jim.multipos.ui.service_fee_new.ServiceFeeActivity;
 import com.jim.multipos.ui.vendor.add_edit.VendorAddEditActivity;
+import com.jim.multipos.utils.OnItemClickListener;
 import com.jim.multipos.utils.RxBus;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
@@ -78,7 +79,7 @@ public class ProductMenuActivity extends BaseActivity implements ProductMenuView
         rvProductMenu.setLayoutManager(new LinearLayoutManager(this));
         MenuListAdapter adapter = new MenuListAdapter(titleDescriptions);
         rvProductMenu.setAdapter(adapter);
-        adapter.setOnItemClickListener(new ClickableBaseAdapter.OnItemClickListener<TitleDescription>() {
+        adapter.setOnItemClickListener(new OnItemClickListener<TitleDescription>() {
             @Override
             public void onItemClicked(int position) {
                 presenter.setItemPosition(position);

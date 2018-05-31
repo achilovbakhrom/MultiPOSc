@@ -1,6 +1,7 @@
 package com.jim.multipos.ui.mainpospage.view;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,7 +10,6 @@ import android.util.Log;
 
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
-import com.jim.multipos.core.ClickableBaseAdapter;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.prefs.PreferencesHelper;
@@ -156,7 +156,9 @@ public class ProductSquareViewFragment extends BaseFragment implements ProductSq
 
             @Override
             public void onItemClicked(Product item) {
-                mainPageConnection.addProductToOrder(item.getId());
+                new Handler().postDelayed(() -> {
+                    mainPageConnection.addProductToOrder(item.getId());
+                },100);
             }
         });
         rvProduct.setAdapter(productAdapter);

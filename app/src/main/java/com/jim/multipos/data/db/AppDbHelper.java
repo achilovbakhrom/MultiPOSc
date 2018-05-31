@@ -1752,7 +1752,7 @@ public class AppDbHelper implements DbHelper {
     public Single<List<TillOperation>> getTillOperationsByAccountId(Long id, Long tillId) {
         return Single.create(e -> {
             List<TillOperation> tillOperationList = new ArrayList<>();
-            String query = "SELECT a.* FROM TILL_OPERATIONS a INNER JOIN PAYMENT_TYPE b ON a.PAYMENT_TYPE_ID = b._id WHERE b.ACCOUNT_ID = " + id + " AND a.TILL_ID = " + tillId;
+            String query = "SELECT OnItemClickListener.* FROM TILL_OPERATIONS OnItemClickListener INNER JOIN PAYMENT_TYPE b ON OnItemClickListener.PAYMENT_TYPE_ID = b._id WHERE b.ACCOUNT_ID = " + id + " AND OnItemClickListener.TILL_ID = " + tillId;
             Cursor cursor = mDaoSession.getDatabase().rawQuery(query, null);
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
@@ -1884,8 +1884,8 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Single<Double> getTotalTillOperationsAmount(Long accountId, Long tillId, int type) {
         return Single.create(singleSubscriber -> {
-            String query = "SELECT SUM(a.AMOUNT) AS TOTAL FROM TILL_OPERATIONS a INNER JOIN PAYMENT_TYPE b ON a.PAYMENT_TYPE_ID = b._id" +
-                    " WHERE b.ACCOUNT_ID = " + accountId + " AND a.TILL_ID = " + tillId + " AND a.TYPE =" + type;
+            String query = "SELECT SUM(OnItemClickListener.AMOUNT) AS TOTAL FROM TILL_OPERATIONS OnItemClickListener INNER JOIN PAYMENT_TYPE b ON OnItemClickListener.PAYMENT_TYPE_ID = b._id" +
+                    " WHERE b.ACCOUNT_ID = " + accountId + " AND OnItemClickListener.TILL_ID = " + tillId + " AND OnItemClickListener.TYPE =" + type;
             Cursor cursor = mDaoSession.getDatabase().rawQuery(query, null);
             cursor.moveToFirst();
             double operationAmount = 0;
@@ -1940,7 +1940,7 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Single<Double> getCustomerPaymentsInInterval(Long id, Calendar fromDate, Calendar toDate) {
         return Single.create(e -> {
-            String query = "SELECT SUM(a.PAYMENT_AMOUNT) AS TOTAL FROM CUSTOMER_PAYMENT a INNER JOIN PAYMENT_TYPE b ON a.PAYMENT_TYPE_ID = b._id" +
+            String query = "SELECT SUM(OnItemClickListener.PAYMENT_AMOUNT) AS TOTAL FROM CUSTOMER_PAYMENT OnItemClickListener INNER JOIN PAYMENT_TYPE b ON OnItemClickListener.PAYMENT_TYPE_ID = b._id" +
                     " WHERE b.ACCOUNT_ID = " + id + " AND PAYMENT_DATE BETWEEN " + fromDate.getTimeInMillis() + " AND " + toDate.getTimeInMillis();
             Cursor cursor = mDaoSession.getDatabase().rawQuery(query, null);
             cursor.moveToFirst();

@@ -1,6 +1,7 @@
 package com.jim.multipos.ui.vendor.add_edit.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,12 +9,9 @@ import android.view.ViewGroup;
 import com.jim.mpviews.MpLongItemWithList;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseViewHolder;
-import com.jim.multipos.core.ClickableBaseAdapter;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
-import com.jim.multipos.data.db.model.products.VendorProductCon;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -22,14 +20,18 @@ import butterknife.BindView;
  * Created by bakhrom on 10/23/17.
  */
 
-public class VendorsListAdapter extends ClickableBaseAdapter<Vendor, BaseViewHolder> {
+public class VendorsListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private static final int ADD = 0, ITEM = 1;
     private Context context;
-
+    List<Vendor> items;
     public VendorsListAdapter(List<Vendor> items, Context context) {
-        super(items);
+        this.items = items;
         this.context = context;
         selectedPosition = 0;
+    }
+    public void setItems(List<Vendor> items){
+        this.items = items;
+        notifyDataSetChanged();
     }
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -46,10 +48,15 @@ public class VendorsListAdapter extends ClickableBaseAdapter<Vendor, BaseViewHol
 
         return holder;
     }
+    private com.jim.multipos.utils.OnItemClickListener onItemClickListener;
+    public void setOnItemClickListener(com.jim.multipos.utils.OnItemClickListener onItemClickListener){
+        this.onItemClickListener = onItemClickListener;
+    }
+    protected int selectedPosition = -1;
 
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
-        super.onBindViewHolder(holder, position);
+
         if (holder instanceof VendorViewHolder) {
             ((VendorViewHolder) holder).item.setFirstItemText(items.get(position).getName());
             int size = 0;
@@ -73,20 +80,35 @@ public class VendorsListAdapter extends ClickableBaseAdapter<Vendor, BaseViewHol
         }
     }
 
-    @Override
-    protected void onItemClicked(BaseViewHolder holder, int position) {
-        notifyDataSetChanged();
-    }
+
 
     @Override
     public int getItemViewType(int position) {
         return (position == 0) ? ADD : ITEM;
     }
 
+    @Override
+    public int getItemCount() {
+        return items.size();
+    }
+
     class VendorViewHolder extends BaseViewHolder {
         @BindView(R.id.aivItem)
         MpLongItemWithList item;
-        VendorViewHolder(View itemView) { super(itemView); }
+        VendorViewHolder(View itemView) {
+            super(itemView);
+            item.setOnClickListener(view1 -> {
+                if(selectedPosition!=getAdapterPosition() )
+                    if (onItemClickListener != null) {
+                        int temp = selectedPosition;
+                        onItemClickListener.onItemClicked(items.get(getAdapterPosition()));
+                        onItemClickListener.onItemClicked(getAdapterPosition());
+                        selectedPosition = getAdapterPosition();
+                        notifyItemChanged(temp);
+                        notifyItemChanged(selectedPosition);
+                    }
+            });
+        }
     }
 
     class AddItemViewHolder extends BaseViewHolder {
@@ -94,12 +116,23 @@ public class VendorsListAdapter extends ClickableBaseAdapter<Vendor, BaseViewHol
         MpLongItemWithList item;
         AddItemViewHolder(View itemView) {
             super(itemView);
+            item.setOnClickListener(view1 -> {
+                if(selectedPosition!=getAdapterPosition() )
+                    if (onItemClickListener != null) {
+                        int temp = selectedPosition;
+                        onItemClickListener.onItemClicked(items.get(getAdapterPosition()));
+                        onItemClickListener.onItemClicked(getAdapterPosition());
+                        selectedPosition = getAdapterPosition();
+                        notifyItemChanged(temp);
+                        notifyItemChanged(selectedPosition);
+                    }
+            });
         }
     }
 
     public void select(int pos) {
         selectedPosition = pos;
-        notifyDataSetChanged();
+        notifyItemChanged(selectedPosition);
     }
 
     public void setSelectedPositionWithId(Long id) {

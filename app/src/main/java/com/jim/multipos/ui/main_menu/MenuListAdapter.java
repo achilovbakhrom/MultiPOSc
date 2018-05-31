@@ -1,5 +1,6 @@
 package com.jim.multipos.ui.main_menu;
 
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,8 +8,8 @@ import android.widget.TextView;
 
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseViewHolder;
-import com.jim.multipos.core.ClickableBaseAdapter;
 import com.jim.multipos.data.db.model.intosystem.TitleDescription;
+import com.jim.multipos.utils.OnItemClickListener;
 
 import java.util.List;
 
@@ -19,10 +20,10 @@ import butterknife.BindView;
  * Created by DEV on 08.08.2017.
  */
 
-public class MenuListAdapter extends ClickableBaseAdapter<TitleDescription, MenuListAdapter.MenuViewHolder> {
-
+public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuViewHolder> {
+    List<TitleDescription> items;
     public MenuListAdapter(List<TitleDescription> items) {
-        super(items);
+        this.items = items;
     }
 
     @Override
@@ -33,25 +34,19 @@ public class MenuListAdapter extends ClickableBaseAdapter<TitleDescription, Menu
 
     @Override
     public void onBindViewHolder(MenuViewHolder holder, int position) {
-        super.onBindViewHolder(holder, position);
         holder.tvMenuItem.setText(items.get(position).getTitle());
         holder.tvMenuItemDescription.setText(items.get(position).getDescription());
     }
 
-    @Override
-    protected void onItemClicked(MenuViewHolder holder, int position) {
-     }
-
-    @Override
-    protected boolean isSinglePositionClickDisabled() {
-        return true;
+    private OnItemClickListener onItemClickListener;
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener){
+        this.onItemClickListener = onItemClickListener;
     }
 
     @Override
     public int getItemCount() {
         return items.size();
     }
-
     public class MenuViewHolder extends BaseViewHolder {
         @BindView(R.id.tvMenuItem)
         TextView tvMenuItem;
@@ -60,6 +55,10 @@ public class MenuListAdapter extends ClickableBaseAdapter<TitleDescription, Menu
 
         public MenuViewHolder(View itemView) {
             super(itemView);
-        }
+            itemView.setOnClickListener(view1 -> {
+                if(onItemClickListener!=null)
+                    onItemClickListener.onItemClicked(getAdapterPosition());
+            });
+           }
     }
 }

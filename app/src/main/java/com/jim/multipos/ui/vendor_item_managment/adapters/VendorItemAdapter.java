@@ -2,6 +2,7 @@ package com.jim.multipos.ui.vendor_item_managment.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.BackgroundColorSpan;
@@ -13,13 +14,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.jim.mpviews.utils.EllipsizingTextView;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseViewHolder;
-import com.jim.multipos.core.ClickableBaseAdapter;
 import com.jim.multipos.data.db.model.Contact;
 import com.jim.multipos.data.db.model.products.Product;
-import com.jim.multipos.ui.inventory.model.InventoryItem;
 import com.jim.multipos.ui.vendor_item_managment.model.VendorWithDebt;
 
 import java.text.DecimalFormat;
@@ -31,7 +29,7 @@ import butterknife.BindView;
  * Created by developer on 20.11.2017.
  */
 
-public class VendorItemAdapter extends ClickableBaseAdapter<VendorWithDebt, VendorItemAdapter.VendorItemViewHolder> {
+public class VendorItemAdapter extends RecyclerView.Adapter<VendorItemAdapter.VendorItemViewHolder> {
 
 
     private OnVendorAdapterCallback onVendorAdapterCallback;
@@ -39,9 +37,9 @@ public class VendorItemAdapter extends ClickableBaseAdapter<VendorWithDebt, Vend
     private DecimalFormat decimalFormat;
     boolean searchMode = false;
     private String searchText;
-
+    List<VendorWithDebt> items;
     public VendorItemAdapter(List<VendorWithDebt> items, OnVendorAdapterCallback onVendorAdapterCallback, Context context, DecimalFormat decimalFormat) {
-        super(items);
+        this.items = items;
         this.onVendorAdapterCallback = onVendorAdapterCallback;
         this.context = context;
         this.decimalFormat = decimalFormat;
@@ -59,14 +57,10 @@ public class VendorItemAdapter extends ClickableBaseAdapter<VendorWithDebt, Vend
     }
 
 
-    @Override
-    protected void onItemClicked(VendorItemViewHolder holder, int position) {
 
-    }
 
     @Override
     public void onBindViewHolder(VendorItemViewHolder holder, int position) {
-        super.onBindViewHolder(holder, position);
         if (position % 2 == 0) holder.llBackground.setBackgroundColor(Color.parseColor("#f9f9f9"));
         else holder.llBackground.setBackgroundColor(Color.parseColor("#f0f0f0"));
         VendorWithDebt vendorWithDebt = items.get(position);
@@ -166,6 +160,11 @@ public class VendorItemAdapter extends ClickableBaseAdapter<VendorWithDebt, Vend
         }
         holder.tvProductCount.setText(context.getString(R.string.product_count_two_dots) + " " + decimalFormat.format(size));
         holder.tvDebtAmmount.setText(decimalFormat.format(vendorWithDebt.getDebt()));
+    }
+
+    @Override
+    public int getItemCount() {
+        return items.size();
     }
 
     @Override

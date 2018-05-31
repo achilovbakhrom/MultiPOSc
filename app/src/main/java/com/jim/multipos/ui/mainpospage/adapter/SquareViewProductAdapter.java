@@ -5,15 +5,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.jim.mpviews.MPListItemView;
 import com.jim.mpviews.MpListItem;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseViewHolder;
-import com.jim.multipos.core.ClickableBaseAdapter;
-import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.Product;
 
 import java.util.List;
