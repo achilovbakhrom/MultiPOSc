@@ -95,7 +95,7 @@
     <string name="delete">Удалить</string>
     <string name="ok">Да</string>
     <string name="enter_pass">Пожалуйста, введите пароль</string>
-    <string name="qty_and_price">Количество/Цена</string>
+    <string name="qty_and_price">Цена</string>
     <string name="count_of_products">Кол-во товаров</string>
     <string name="vendor_name">Поставщик</string>
     <string name="contact_name">Контактное лицо</string>

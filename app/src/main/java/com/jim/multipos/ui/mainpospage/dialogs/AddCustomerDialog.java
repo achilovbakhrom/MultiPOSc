@@ -65,7 +65,7 @@ public class AddCustomerDialog extends Dialog {
             etCustomerBarcode.setText(barcode);
         });
         etCustomerContact.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
-        setOnDismissListener(o->{
+        setOnDismissListener(o -> {
             barcodeStack.unregister();
         });
         if (this.customer != null) {
@@ -123,7 +123,7 @@ public class AddCustomerDialog extends Dialog {
     }
 
     public void setBarcode(String barcode) {
-       etCustomerBarcode.setText(barcode);
+        etCustomerBarcode.setText(barcode);
     }
 
     public interface UpdateCustomerCallback {
@@ -140,6 +140,9 @@ public class AddCustomerDialog extends Dialog {
     private Boolean isValid() {
         if (etCustomerName.getText().toString().isEmpty()) {
             etCustomerName.setError(context.getString(R.string.enter_name));
+            return false;
+        } else if (etCustomerContact.getText().toString().isEmpty()) {
+            etCustomerContact.setError(context.getString(R.string.enter_phone));
             return false;
         } else return true;
     }

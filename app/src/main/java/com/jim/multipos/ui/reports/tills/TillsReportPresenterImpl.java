@@ -76,9 +76,9 @@ public class TillsReportPresenterImpl extends BasePresenterImpl<TillsReportView>
         fromDate.set(Calendar.MINUTE, 0);
         fromDate.set(Calendar.SECOND, 0);
         view.updateDateIntervalUi(fromDate, toDate);
-        new Handler().postDelayed(()->{
+        new Handler().postDelayed(() -> {
             initTableView();
-        },50);
+        }, 50);
 
     }
 
@@ -162,25 +162,37 @@ public class TillsReportPresenterImpl extends BasePresenterImpl<TillsReportView>
     @Override
     public void exportExcel(String fileName, String path) {
         String date = simpleDateFormat.format(fromDate.getTime()) + " - " + simpleDateFormat.format(toDate.getTime());
-        view.exportTableToExcel(fileName, path, objects, date, searchText);
+        if (searchResultsTemp != null) {
+            view.exportTableToExcel(fileName, path, searchResultsTemp, date, searchText);
+        } else
+            view.exportTableToExcel(fileName, path, objects, date, searchText);
     }
 
     @Override
     public void exportPdf(String fileName, String path) {
         String date = simpleDateFormat.format(fromDate.getTime()) + " - " + simpleDateFormat.format(toDate.getTime());
-        view.exportTableToPdf(fileName, path, objects, date, searchText);
+        if (searchResultsTemp != null) {
+            view.exportTableToPdf(fileName, path, searchResultsTemp, date, searchText);
+        } else
+            view.exportTableToPdf(fileName, path, objects, date, searchText);
     }
 
     @Override
     public void exportExcelToUSB(String filename, UsbFile root) {
         String date = simpleDateFormat.format(fromDate.getTime()) + " - " + simpleDateFormat.format(toDate.getTime());
-        view.exportExcelToUSB(filename, root, objects, date, searchText);
+        if (searchResultsTemp != null) {
+            view.exportExcelToUSB(filename, root, searchResultsTemp, date, searchText);
+        } else
+            view.exportExcelToUSB(filename, root, objects, date, searchText);
     }
 
     @Override
     public void exportPdfToUSB(String filename, UsbFile root) {
         String date = simpleDateFormat.format(fromDate.getTime()) + " - " + simpleDateFormat.format(toDate.getTime());
-        view.exportTableToPdfToUSB(filename, root, objects, date, searchText);
+        if (searchResultsTemp != null) {
+            view.exportTableToPdfToUSB(filename, root, searchResultsTemp, date, searchText);
+        } else
+            view.exportTableToPdfToUSB(filename, root, objects, date, searchText);
     }
 
     @Override

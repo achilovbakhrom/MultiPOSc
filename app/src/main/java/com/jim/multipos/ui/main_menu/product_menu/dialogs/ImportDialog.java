@@ -99,6 +99,7 @@ public class ImportDialog extends Dialog {
         btnCancel.setOnClickListener(view -> dismiss());
         btnImport.setOnClickListener(view -> {
             if (!tvFilePath.getText().toString().isEmpty()) {
+                dismiss();
                 if (fromUsb) {
                     selectFileForImport();
                 } else if (fileType == 1)
@@ -106,7 +107,6 @@ public class ImportDialog extends Dialog {
                 else
                     ExportUtils.importVendors(context, path, databaseManager);
                 rxBus.send(new ProductEvent(null, GlobalEventConstants.ADD));
-                dismiss();
             } else tvFilePath.setError(context.getString(R.string.select_file_location));
         });
     }

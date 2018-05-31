@@ -39,6 +39,17 @@
             android:textColor="@color/colorMainText"
             android:textSize="@dimen/eighteen_dp" />
 
+        <TextView
+            android:id="@+id/tvAction"
+            android:layout_width="@dimen/hundred_dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:visibility="invisible"
+            android:text="@string/action"
+            android:textColor="@color/colorMainText"
+            android:textSize="@dimen/eighteen_dp" />
+
     </LinearLayout>
 
     <FrameLayout

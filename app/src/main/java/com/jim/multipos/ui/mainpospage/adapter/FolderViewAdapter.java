@@ -3,12 +3,14 @@ package com.jim.multipos.ui.mainpospage.adapter;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -67,11 +69,10 @@ public class FolderViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             Product product = items.get(position).getProduct();
             productViewHolder.tvProductName.setText(product.getName());
             productViewHolder.tvProductSKU.setText(context.getString(R.string.sku_) + product.getSku());
-            productViewHolder.tvProductQty.setText(items.get(position).getCount() + " " + product.getMainUnit().getAbbr());
             productViewHolder.tvProductPrice.setText(decimalFormat.format(product.getPrice()) + " " + product.getPriceCurrency().getAbbr());
             if (!product.getPhotoPath().equals("")) {
                 Uri photoSelected = Uri.fromFile(new File(product.getPhotoPath()));
-                GlideApp.with(context).load(photoSelected).diskCacheStrategy(DiskCacheStrategy.RESOURCE).thumbnail(0.2f).centerCrop().transform(new RoundedCorners(20)).into(productViewHolder.ivProductImage);
+                GlideApp.with(context).load(photoSelected).diskCacheStrategy(DiskCacheStrategy.RESOURCE).thumbnail(0.2f).centerCrop().into(productViewHolder.ivProductImage);
             } else productViewHolder.ivProductImage.setImageResource(R.drawable.basket);
         }
 
@@ -129,7 +130,7 @@ public class FolderViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         public FolderViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            itemView.setOnClickListener(v -> listener.onItemClick(items.get(getAdapterPosition())));
+            itemView.setOnClickListener(v -> listener.onItemClick(items.get(getAdapterPosition()), getAdapterPosition()));
         }
     }
 
@@ -138,22 +139,28 @@ public class FolderViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         TextView tvProductName;
         @BindView(R.id.tvProductSKU)
         TextView tvProductSKU;
-        @BindView(R.id.tvProductQty)
-        TextView tvProductQty;
         @BindView(R.id.tvProductPrice)
         TextView tvProductPrice;
         @BindView(R.id.ivProductImage)
         ImageView ivProductImage;
+        @BindView(R.id.llInfo)
+        LinearLayout llInfo;
 
         public ProductViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            itemView.setOnClickListener(v -> listener.onItemClick(items.get(getAdapterPosition())));
+            itemView.setOnClickListener(v -> listener.onItemClick(items.get(getAdapterPosition()), getAdapterPosition()));
+            llInfo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
         }
     }
 
     public interface OnFolderItemClickListener {
-        void onItemClick(FolderItem folderItem);
+        void onItemClick(FolderItem folderItem, int position);
     }
 
 

@@ -12,6 +12,7 @@ import com.jim.mpviews.MPosSpinner;
 import com.jim.mpviews.MpEditText;
 import com.jim.mpviews.MpMiniActionButton;
 import com.jim.multipos.R;
+import com.jim.multipos.config.common.BaseAppModule;
 import com.jim.multipos.data.db.model.products.Return;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.utils.TextWatcherOnTextChange;
@@ -51,7 +52,7 @@ public class ReturnsListAdapter extends RecyclerView.Adapter<ReturnsListAdapter.
         holder.tvProductName.setText(items.get(position).getProduct().getName());
         holder.tvProductPrice.setText(decimalFormat.format(items.get(position).getProduct().getPrice()));
         holder.tvReturnAmount.setText(decimalFormat.format(items.get(position).getReturnAmount()));
-        holder.tvQuantity.setText(String.valueOf(items.get(position).getQuantity()));
+        holder.tvQuantity.setText(decimalFormat.format(items.get(position).getQuantity()));
         holder.tvUnit.setText(items.get(position).getProduct().getMainUnit().getAbbr());
         holder.tvVendorName.setText(items.get(position).getVendor().getName());
         holder.tvTotalReturn.setText(decimalFormat.format(items.get(position).getReturnAmount() * items.get(position).getQuantity()));

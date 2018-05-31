@@ -81,10 +81,10 @@ public class CustomerReportPresenterImpl extends BasePresenterImpl<CustomerRepor
         fromDate.set(Calendar.MINUTE, 0);
         fromDate.set(Calendar.SECOND, 0);
         view.updateDateIntervalUi(fromDate, toDate);
-        new Handler().postDelayed(()->{
+        new Handler().postDelayed(() -> {
             initReportTable();
             view.initTable(firstObjects);
-        },50);
+        }, 50);
 
     }
 
@@ -757,13 +757,19 @@ public class CustomerReportPresenterImpl extends BasePresenterImpl<CustomerRepor
                 if (filterValue == 0)
                     filter = context.getString(R.string.customer);
                 else filter = context.getString(R.string.customer_groups);
-                view.exportTableToExcel(fileName, path, firstObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToExcel(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToExcel(fileName, path, firstObjects, currentPosition, date, filter, searchText);
                 break;
             case 1:
                 if (secondValue == 0)
                     filter = context.getString(R.string.customer);
                 else filter = context.getString(R.string.customer_groups);
-                view.exportTableToExcel(fileName, path, secondObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToExcel(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToExcel(fileName, path, secondObjects, currentPosition, date, filter, searchText);
                 break;
             case 2:
                 StringBuilder filters = new StringBuilder();
@@ -777,7 +783,10 @@ public class CustomerReportPresenterImpl extends BasePresenterImpl<CustomerRepor
                     filters.append(context.getString(R.string.order_status_canceled));
                 }
                 filter = filters.toString();
-                view.exportTableToExcel(fileName, path, thirdObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToExcel(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToExcel(fileName, path, thirdObjects, currentPosition, date, filter, searchText);
                 break;
         }
     }
@@ -791,13 +800,19 @@ public class CustomerReportPresenterImpl extends BasePresenterImpl<CustomerRepor
                 if (filterValue == 0)
                     filter = context.getString(R.string.customer);
                 else filter = context.getString(R.string.customer_groups);
-                view.exportTableToPdf(fileName, path, firstObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdf(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdf(fileName, path, firstObjects, currentPosition, date, filter, searchText);
                 break;
             case 1:
                 if (secondValue == 0)
                     filter = context.getString(R.string.customer);
                 else filter = context.getString(R.string.customer_groups);
-                view.exportTableToPdf(fileName, path, secondObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdf(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdf(fileName, path, secondObjects, currentPosition, date, filter, searchText);
                 break;
             case 2:
                 StringBuilder filters = new StringBuilder();
@@ -811,7 +826,10 @@ public class CustomerReportPresenterImpl extends BasePresenterImpl<CustomerRepor
                     filters.append(context.getString(R.string.order_status_canceled));
                 }
                 filter = filters.toString();
-                view.exportTableToPdf(fileName, path, thirdObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdf(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdf(fileName, path, thirdObjects, currentPosition, date, filter, searchText);
                 break;
         }
     }
@@ -825,13 +843,19 @@ public class CustomerReportPresenterImpl extends BasePresenterImpl<CustomerRepor
                 if (filterValue == 0)
                     filter = context.getString(R.string.customer);
                 else filter = context.getString(R.string.customer_groups);
-                view.exportExcelToUSB(filename, root, firstObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportExcelToUSB(filename, root, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportExcelToUSB(filename, root, firstObjects, currentPosition, date, filter, searchText);
                 break;
             case 1:
                 if (secondValue == 0)
                     filter = context.getString(R.string.customer);
                 else filter = context.getString(R.string.customer_groups);
-                view.exportExcelToUSB(filename, root, secondObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportExcelToUSB(filename, root, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportExcelToUSB(filename, root, secondObjects, currentPosition, date, filter, searchText);
                 break;
             case 2:
                 StringBuilder filters = new StringBuilder();
@@ -845,7 +869,10 @@ public class CustomerReportPresenterImpl extends BasePresenterImpl<CustomerRepor
                     filters.append(context.getString(R.string.order_status_canceled));
                 }
                 filter = filters.toString();
-                view.exportExcelToUSB(filename, root, thirdObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportExcelToUSB(filename, root, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportExcelToUSB(filename, root, thirdObjects, currentPosition, date, filter, searchText);
                 break;
         }
     }
@@ -859,13 +886,20 @@ public class CustomerReportPresenterImpl extends BasePresenterImpl<CustomerRepor
                 if (filterValue == 0)
                     filter = context.getString(R.string.customer);
                 else filter = context.getString(R.string.customer_groups);
-                view.exportTableToPdfToUSB(fileName, path, firstObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdfToUSB(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdfToUSB(fileName, path, firstObjects, currentPosition, date, filter, searchText);
+
                 break;
             case 1:
                 if (secondValue == 0)
                     filter = context.getString(R.string.customer);
                 else filter = context.getString(R.string.customer_groups);
-                view.exportTableToPdfToUSB(fileName, path, secondObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdfToUSB(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdfToUSB(fileName, path, secondObjects, currentPosition, date, filter, searchText);
                 break;
             case 2:
                 StringBuilder filters = new StringBuilder();
@@ -879,7 +913,10 @@ public class CustomerReportPresenterImpl extends BasePresenterImpl<CustomerRepor
                     filters.append(context.getString(R.string.order_status_canceled));
                 }
                 filter = filters.toString();
-                view.exportTableToPdfToUSB(fileName, path, thirdObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdfToUSB(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdfToUSB(fileName, path, thirdObjects, currentPosition, date, filter, searchText);
                 break;
         }
     }
@@ -888,8 +925,8 @@ public class CustomerReportPresenterImpl extends BasePresenterImpl<CustomerRepor
     @Override
     public void onBarcodeReaded(String barcode) {
         databaseManager.getAllCustomers().subscribe(customers -> {
-            for(Customer customer:customers)
-                if(customer.getQrCode() !=null && customer.getQrCode().equals(barcode)){
+            for (Customer customer : customers)
+                if (customer.getQrCode() != null && customer.getQrCode().equals(barcode)) {
                     view.setTextToSearch(customer.getName());
                 }
         });

@@ -1,7 +1,11 @@
 package com.jim.multipos.utils;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.github.mjdev.libaums.fs.UsbFile;
@@ -71,7 +75,6 @@ public class ExportUtils {
     public static final int PDF = 1;
 
     public static void exportToExcel(Context context, String path, String filename, String description, String date, String filtered, String search, Object[][] objects, String[] titles, int[] weights, int[] dataTypes, Object[][][] statusTypes) {
-
         NumberFormat numberFormat = NumberFormat.getNumberInstance();
         numberFormat.setMaximumFractionDigits(2);
         numberFormat.setMinimumFractionDigits(2);
@@ -185,7 +188,6 @@ public class ExportUtils {
         }
         File file = new File(path, filename + ".xls");
         FileOutputStream fileOutputStream = null;
-
         try {
             fileOutputStream = new FileOutputStream(file);
             workbook.write(fileOutputStream);
@@ -4725,70 +4727,91 @@ public class ExportUtils {
                 }
                 row++;
             }
-            for (int i = 0; i < customers.length; i++) {
-                if (!customers[i][0].isEmpty() && i != 0) {
-                    String group = customers[i][4];
-                    String name = customers[i][0];
-                    String phone = customers[i][1];
-                    String address = customers[i][2];
-                    String barcode = customers[i][3];
-                    databaseManager.isCustomerExists(name).subscribe(isExists -> {
-                        if (!isExists) {
-                            Customer customer = new Customer();
-                            customer.setName(name);
-                            customer.setPhoneNumber(phone);
-                            customer.setAddress(address);
-                            customer.setQrCode(barcode);
-                            customer.setActive(true);
-                            List<Customer> customerList = databaseManager.getAllCustomers().blockingSingle();
-                            if (customerList.isEmpty()) {
-                                customer.setClientId(1L);
-                            } else customer.setClientId(customerList.get(0).getClientId() + 1);
-                            customer.setCreatedDate(System.currentTimeMillis());
-                            databaseManager.addCustomer(customer).blockingSingle();
-                            if (!group.isEmpty()) {
-                                int count = 0;
-                                for (int j = 0; j < group.length(); j++) {
-                                    if (group.charAt(j) == ',') count++;
-                                }
-                                if (count > 0) {
-                                    List<String> groups = Arrays.asList(group.split(","));
-                                    for (int j = 0; j < groups.size(); j++) {
-                                        String groupName = groups.get(j);
-                                        databaseManager.isCustomerGroupExists(groupName).subscribe(isGroupExists -> {
-                                            if (isGroupExists) {
-                                                CustomerGroup customerGroup = databaseManager.getCustomerGroupByName(groupName).blockingSingle();
-                                                databaseManager.addCustomerToCustomerGroup(customer.getId(), customerGroup.getId()).subscribe();
-                                            } else {
-                                                CustomerGroup customerGroup = new CustomerGroup();
-                                                customerGroup.setCreatedDate(System.currentTimeMillis());
-                                                customerGroup.setName(groupName);
-                                                customerGroup.setIsActive(true);
-                                                databaseManager.addCustomerGroup(customerGroup).subscribe(aLong -> databaseManager.addCustomerToCustomerGroup(customer.getId(), customerGroup.getId()).subscribe());
-                                            }
-                                        });
-                                    }
-                                } else {
-                                    databaseManager.isCustomerGroupExists(group).subscribe(isGroupExists -> {
-                                        if (isGroupExists) {
-                                            CustomerGroup customerGroup = databaseManager.getCustomerGroupByName(group).blockingSingle();
-                                            databaseManager.addCustomerToCustomerGroup(customer.getId(), customerGroup.getId()).subscribe();
-                                        } else {
-                                            CustomerGroup customerGroup = new CustomerGroup();
-                                            customerGroup.setCreatedDate(System.currentTimeMillis());
-                                            customerGroup.setName(group);
-                                            customerGroup.setIsActive(true);
-                                            databaseManager.addCustomerGroup(customerGroup).subscribe(aLong -> databaseManager.addCustomerToCustomerGroup(customer.getId(), customerGroup.getId()).subscribe());
-                                        }
-                                    });
-                                }
-
-                            }
-                            Toast.makeText(context, context.getString(R.string.customers_imported), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+            ProgressDialog dialog = new ProgressDialog(context);
+            dialog.setMessage(context.getString(R.string.importing));
+            dialog.setCancelable(false);
+            dialog.setIndeterminate(true);
+            dialog.show();
+            Handler handler = new Handler(new Handler.Callback() {
+                @Override
+                public boolean handleMessage(Message msg) {
+                    if (msg.what == 0)
+                        Toast.makeText(context, context.getString(R.string.customers_imported), Toast.LENGTH_SHORT).show();
+                    return false;
                 }
-            }
+            });
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    for (int i = 0; i < customers.length; i++) {
+                        if (i != 0)
+                            if (!customers[i][0].isEmpty()) {
+                                String group = customers[i][4];
+                                String name = customers[i][0];
+                                String phone = customers[i][1];
+                                String address = customers[i][2];
+                                String barcode = customers[i][3];
+                                databaseManager.isCustomerExists(name).subscribe(isExists -> {
+                                    if (!isExists) {
+                                        Customer customer = new Customer();
+                                        customer.setName(name);
+                                        customer.setPhoneNumber(phone);
+                                        customer.setAddress(address);
+                                        customer.setQrCode(barcode);
+                                        customer.setActive(true);
+                                        List<Customer> customerList = databaseManager.getAllCustomers().blockingSingle();
+                                        if (customerList.isEmpty()) {
+                                            customer.setClientId(1L);
+                                        } else customer.setClientId(customerList.get(0).getClientId() + 1);
+                                        customer.setCreatedDate(System.currentTimeMillis());
+                                        databaseManager.addCustomer(customer).blockingSingle();
+                                        if (!group.isEmpty()) {
+                                            int count = 0;
+                                            for (int j = 0; j < group.length(); j++) {
+                                                if (group.charAt(j) == ',') count++;
+                                            }
+                                            if (count > 0) {
+                                                List<String> groups = Arrays.asList(group.split(","));
+                                                for (int j = 0; j < groups.size(); j++) {
+                                                    String groupName = groups.get(j);
+                                                    databaseManager.isCustomerGroupExists(groupName).subscribe(isGroupExists -> {
+                                                        if (isGroupExists) {
+                                                            CustomerGroup customerGroup = databaseManager.getCustomerGroupByName(groupName).blockingSingle();
+                                                            databaseManager.addCustomerToCustomerGroup(customer.getId(), customerGroup.getId()).subscribe();
+                                                        } else {
+                                                            CustomerGroup customerGroup = new CustomerGroup();
+                                                            customerGroup.setCreatedDate(System.currentTimeMillis());
+                                                            customerGroup.setName(groupName);
+                                                            customerGroup.setIsActive(true);
+                                                            databaseManager.addCustomerGroup(customerGroup).subscribe(aLong -> databaseManager.addCustomerToCustomerGroup(customer.getId(), customerGroup.getId()).subscribe());
+                                                        }
+                                                    });
+                                                }
+                                            } else {
+                                                databaseManager.isCustomerGroupExists(group).subscribe(isGroupExists -> {
+                                                    if (isGroupExists) {
+                                                        CustomerGroup customerGroup = databaseManager.getCustomerGroupByName(group).blockingSingle();
+                                                        databaseManager.addCustomerToCustomerGroup(customer.getId(), customerGroup.getId()).subscribe();
+                                                    } else {
+                                                        CustomerGroup customerGroup = new CustomerGroup();
+                                                        customerGroup.setCreatedDate(System.currentTimeMillis());
+                                                        customerGroup.setName(group);
+                                                        customerGroup.setIsActive(true);
+                                                        databaseManager.addCustomerGroup(customerGroup).subscribe(aLong -> databaseManager.addCustomerToCustomerGroup(customer.getId(), customerGroup.getId()).subscribe());
+                                                    }
+                                                });
+                                            }
+
+                                        }
+
+                                    }
+                                });
+                            }
+                    }
+                    dialog.dismiss();
+                    handler.sendEmptyMessage(0);
+                }
+            }).start();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -4829,74 +4852,91 @@ public class ExportUtils {
                 }
                 row++;
             }
-            for (int i = 0; i < customers.length; i++) {
-                if (!customers[i][0].isEmpty() && i != 0) {
-                    String group = customers[i][4];
-                    String name = customers[i][0];
-                    String phone = customers[i][1];
-                    String address = customers[i][2];
-                    String barcode = customers[i][3];
-                    databaseManager.isCustomerExists(name).subscribe(isExists -> {
-                        if (!isExists) {
-                            Customer customer = new Customer();
-                            customer.setName(name);
-                            customer.setPhoneNumber(phone);
-                            customer.setAddress(address);
-                            customer.setQrCode(barcode);
-                            customer.setActive(true);
-                            List<Customer> customerList = databaseManager.getAllCustomers().blockingSingle();
-                            if (customerList.isEmpty()) {
-                                customer.setClientId(1L);
-                            } else customer.setClientId(customerList.get(0).getClientId() + 1);
-                            customer.setCreatedDate(System.currentTimeMillis());
-                            databaseManager.addCustomer(customer).blockingSingle();
-                            if (!group.isEmpty()) {
-                                int count = 0;
-                                for (int j = 0; j < group.length(); j++) {
-                                    if (group.charAt(j) == ',') count++;
-                                }
-                                if (count > 0) {
-                                    List<String> groups = Arrays.asList(group.split(","));
-                                    for (int j = 0; j < groups.size(); j++) {
-                                        String groupName = groups.get(j);
-                                        databaseManager.isCustomerGroupExists(groupName).subscribe(isGroupExists -> {
-                                            if (isGroupExists) {
-                                                CustomerGroup customerGroup = databaseManager.getCustomerGroupByName(groupName).blockingSingle();
-                                                databaseManager.addCustomerToCustomerGroup(customer.getId(), customerGroup.getId()).subscribe();
+            ProgressDialog dialog = new ProgressDialog(context);
+            dialog.setMessage(context.getString(R.string.importing));
+            dialog.setCancelable(false);
+            dialog.setIndeterminate(true);
+            dialog.show();
+            Handler handler = new Handler(new Handler.Callback() {
+                @Override
+                public boolean handleMessage(Message msg) {
+                    if (msg.what == 0)
+                        Toast.makeText(context, context.getString(R.string.customers_imported), Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            });
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    for (int i = 0; i < customers.length; i++) {
+                        if (i != 0)
+                            if (!customers[i][0].isEmpty()) {
+                                String group = customers[i][4];
+                                String name = customers[i][0];
+                                String phone = customers[i][1];
+                                String address = customers[i][2];
+                                String barcode = customers[i][3];
+                                databaseManager.isCustomerExists(name).subscribe(isExists -> {
+                                    if (!isExists) {
+                                        Customer customer = new Customer();
+                                        customer.setName(name);
+                                        customer.setPhoneNumber(phone);
+                                        customer.setAddress(address);
+                                        customer.setQrCode(barcode);
+                                        customer.setActive(true);
+                                        List<Customer> customerList = databaseManager.getAllCustomers().blockingSingle();
+                                        if (customerList.isEmpty()) {
+                                            customer.setClientId(1L);
+                                        } else customer.setClientId(customerList.get(0).getClientId() + 1);
+                                        customer.setCreatedDate(System.currentTimeMillis());
+                                        databaseManager.addCustomer(customer).blockingSingle();
+                                        if (!group.isEmpty()) {
+                                            int count = 0;
+                                            for (int j = 0; j < group.length(); j++) {
+                                                if (group.charAt(j) == ',') count++;
+                                            }
+                                            if (count > 0) {
+                                                List<String> groups = Arrays.asList(group.split(","));
+                                                for (int j = 0; j < groups.size(); j++) {
+                                                    String groupName = groups.get(j);
+                                                    databaseManager.isCustomerGroupExists(groupName).subscribe(isGroupExists -> {
+                                                        if (isGroupExists) {
+                                                            CustomerGroup customerGroup = databaseManager.getCustomerGroupByName(groupName).blockingSingle();
+                                                            databaseManager.addCustomerToCustomerGroup(customer.getId(), customerGroup.getId()).subscribe();
+                                                        } else {
+                                                            CustomerGroup customerGroup = new CustomerGroup();
+                                                            customerGroup.setCreatedDate(System.currentTimeMillis());
+                                                            customerGroup.setName(groupName);
+                                                            customerGroup.setIsActive(true);
+                                                            databaseManager.addCustomerGroup(customerGroup).subscribe(aLong -> databaseManager.addCustomerToCustomerGroup(customer.getId(), customerGroup.getId()).subscribe());
+                                                        }
+                                                    });
+                                                }
                                             } else {
-                                                CustomerGroup customerGroup = new CustomerGroup();
-                                                customerGroup.setCreatedDate(System.currentTimeMillis());
-                                                customerGroup.setName(groupName);
-                                                customerGroup.setIsActive(true);
-                                                databaseManager.addCustomerGroup(customerGroup).subscribe(aLong -> {
-                                                    databaseManager.addCustomerToCustomerGroup(customer.getId(), customerGroup.getId()).subscribe();
+                                                databaseManager.isCustomerGroupExists(group).subscribe(isGroupExists -> {
+                                                    if (isGroupExists) {
+                                                        CustomerGroup customerGroup = databaseManager.getCustomerGroupByName(group).blockingSingle();
+                                                        databaseManager.addCustomerToCustomerGroup(customer.getId(), customerGroup.getId()).subscribe();
+                                                    } else {
+                                                        CustomerGroup customerGroup = new CustomerGroup();
+                                                        customerGroup.setCreatedDate(System.currentTimeMillis());
+                                                        customerGroup.setName(group);
+                                                        customerGroup.setIsActive(true);
+                                                        databaseManager.addCustomerGroup(customerGroup).subscribe(aLong -> databaseManager.addCustomerToCustomerGroup(customer.getId(), customerGroup.getId()).subscribe());
+                                                    }
                                                 });
                                             }
-                                        });
-                                    }
-                                } else {
-                                    databaseManager.isCustomerGroupExists(group).subscribe(isGroupExists -> {
-                                        if (isGroupExists) {
-                                            CustomerGroup customerGroup = databaseManager.getCustomerGroupByName(group).blockingSingle();
-                                            databaseManager.addCustomerToCustomerGroup(customer.getId(), customerGroup.getId()).subscribe();
-                                        } else {
-                                            CustomerGroup customerGroup = new CustomerGroup();
-                                            customerGroup.setCreatedDate(System.currentTimeMillis());
-                                            customerGroup.setName(group);
-                                            customerGroup.setIsActive(true);
-                                            databaseManager.addCustomerGroup(customerGroup).subscribe(aLong -> {
-                                                databaseManager.addCustomerToCustomerGroup(customer.getId(), customerGroup.getId()).subscribe();
-                                            });
-                                        }
-                                    });
-                                }
 
+                                        }
+
+                                    }
+                                });
                             }
-                            Toast.makeText(context, context.getString(R.string.customers_imported), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    }
+                    dialog.dismiss();
+                    handler.sendEmptyMessage(0);
                 }
-            }
+            }).start();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -4938,23 +4978,36 @@ public class ExportUtils {
                 }
                 row++;
             }
-            for (int i = 0; i < vendors.length; i++) {
-                if (i != 0) {
-                    Vendor vendor = new Vendor();
-                    vendor.setName(vendors[i][0]);
-                    vendor.setContactName(vendors[i][1]);
-                    vendor.setAddress(vendors[i][2]);
-                    vendor.setActive(true);
-                    vendor.setCreatedDate(System.currentTimeMillis());
-                    if (!vendor.getName().isEmpty())
-                        databaseManager.isVendorNameExist(vendor.getName()).subscribe(isExist -> {
-                            if (!isExist) {
-                                databaseManager.addVendor(vendor).subscribe();
-                            }
-                        });
+            ProgressDialog dialog = new ProgressDialog(context);
+            dialog.setMessage(context.getString(R.string.importing));
+            dialog.setCancelable(false);
+            dialog.setIndeterminate(true);
+            dialog.show();
+            Handler handler = new Handler(msg -> {
+                if (msg.what == 0)
+                    Toast.makeText(context, context.getString(R.string.vendors_imported), Toast.LENGTH_SHORT).show();
+                return false;
+            });
+            new Thread(() -> {
+                for (int i = 0; i < vendors.length; i++) {
+                    if (i != 0) {
+                        Vendor vendor = new Vendor();
+                        vendor.setName(vendors[i][0]);
+                        vendor.setContactName(vendors[i][1]);
+                        vendor.setAddress(vendors[i][2]);
+                        vendor.setActive(true);
+                        vendor.setCreatedDate(System.currentTimeMillis());
+                        if (!vendor.getName().isEmpty())
+                            databaseManager.isVendorNameExist(vendor.getName()).subscribe(isExist -> {
+                                if (!isExist) {
+                                    databaseManager.addVendor(vendor).subscribe();
+                                }
+                            });
+                    }
                 }
-            }
-            Toast.makeText(context, context.getString(R.string.vendors_imported), Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+                handler.sendEmptyMessage(0);
+            }).start();
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(context, context.getString(R.string.incorrect_file), Toast.LENGTH_SHORT).show();
@@ -4994,23 +5047,36 @@ public class ExportUtils {
                 }
                 row++;
             }
-            for (int i = 0; i < vendors.length; i++) {
-                if (i != 0) {
-                    Vendor vendor = new Vendor();
-                    vendor.setName(vendors[i][0]);
-                    vendor.setContactName(vendors[i][1]);
-                    vendor.setAddress(vendors[i][2]);
-                    vendor.setActive(true);
-                    vendor.setCreatedDate(System.currentTimeMillis());
-                    if (!vendor.getName().isEmpty())
-                        databaseManager.isVendorNameExist(vendor.getName()).subscribe(isExist -> {
-                            if (!isExist) {
-                                databaseManager.addVendor(vendor).subscribe();
-                            }
-                        });
+            ProgressDialog dialog = new ProgressDialog(context);
+            dialog.setMessage(context.getString(R.string.importing));
+            dialog.setCancelable(false);
+            dialog.setIndeterminate(true);
+            dialog.show();
+            Handler handler = new Handler(msg -> {
+                if (msg.what == 0)
+                    Toast.makeText(context, context.getString(R.string.vendors_imported), Toast.LENGTH_SHORT).show();
+                return false;
+            });
+            new Thread(() -> {
+                for (int i = 0; i < vendors.length; i++) {
+                    if (i != 0) {
+                        Vendor vendor = new Vendor();
+                        vendor.setName(vendors[i][0]);
+                        vendor.setContactName(vendors[i][1]);
+                        vendor.setAddress(vendors[i][2]);
+                        vendor.setActive(true);
+                        vendor.setCreatedDate(System.currentTimeMillis());
+                        if (!vendor.getName().isEmpty())
+                            databaseManager.isVendorNameExist(vendor.getName()).subscribe(isExist -> {
+                                if (!isExist) {
+                                    databaseManager.addVendor(vendor).subscribe();
+                                }
+                            });
+                    }
                 }
-            }
-            Toast.makeText(context, context.getString(R.string.vendors_imported), Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+                handler.sendEmptyMessage(0);
+            }).start();
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(context, context.getString(R.string.incorrect_file), Toast.LENGTH_SHORT).show();
@@ -5022,6 +5088,7 @@ public class ExportUtils {
             return;
         }
         try {
+
             File file = new File(name);
             FileInputStream myInput = new FileInputStream(file);
             POIFSFileSystem myFileSystem = new POIFSFileSystem(myInput);
@@ -5054,137 +5121,41 @@ public class ExportUtils {
             List<Integer> unitErrors = new ArrayList<>();
             List<Integer> skuErrors = new ArrayList<>();
             List<Integer> vendorErrors = new ArrayList<>();
-            for (int i = 0; i < products.length; i++) {
-                if (i != 0) {
-                    if (!products[i][0].isEmpty()) {
-                        String categoryName = products[i][0];
-                        String subcategoryName = products[i][1];
-                        boolean isExists = databaseManager.isCategoryNameExists(categoryName).blockingSingle();
-                        if (!isExists) {
-                            Category category = new Category();
-                            category.setActive(true);
-                            category.setCreatedDate(System.currentTimeMillis());
-                            category.setName(categoryName);
-                            databaseManager.addCategory(category).subscribe();
-                            Category subcategory = new Category();
-                            subcategory.setName(subcategoryName);
-                            subcategory.setCreatedDate(System.currentTimeMillis());
-                            subcategory.setActive(true);
-                            subcategory.setParentId(category.getId());
-                            databaseManager.addCategory(subcategory).subscribe();
-                            boolean isSkuExists = databaseManager.isProductSkuExists(products[i][4], subcategory.getId()).blockingGet();
-                            if (!isSkuExists) {
-                                Product product = new Product();
-                                product.setName(products[i][2]);
-                                product.setBarcode(products[i][3]);
-                                product.setSku(products[i][4]);
-                                product.setPrice(Double.valueOf(products[i][7]));
-                                product.setActive(true);
-                                product.setIsDeleted(false);
-                                product.setNotModifyted(true);
-                                product.setPhotoPath("");
-                                product.setCreatedDate(System.currentTimeMillis());
-                                product.setCategoryId(subcategory.getId());
-                                product.setCostCurrency(databaseManager.getMainCurrency());
-                                product.setPriceCurrency(databaseManager.getMainCurrency());
-                                List<UnitCategory> tempUnitCategories = databaseManager.getAllUnitCategories().blockingSingle();
-                                int count = 0;
-                                for (UnitCategory unitCategory : tempUnitCategories) {
-                                    for (int j = 0; j < unitCategory.getUnits().size(); j++) {
-                                        if (unitCategory.getUnits().get(j).getAbbr().toUpperCase().equals(products[i][6].toUpperCase())) {
-                                            product.setMainUnit(unitCategory.getUnits().get(j));
-                                            product.setMainUnitId(unitCategory.getUnits().get(j).getId());
-                                            count = 1;
-                                        }
-                                    }
-                                }
-                                if (count == 0) {
-                                    unitErrors.add(i);
-                                    continue;
-                                }
-                                boolean isVendorExits = databaseManager.isVendorNameExist(products[i][5]).blockingSingle();
-                                if (isVendorExits) {
-                                    Vendor vendor = databaseManager.getVendorByName(products[i][5]).blockingGet();
-                                    databaseManager.addProduct(product).subscribe(aLong -> {
-                                        product.setRootId(product.getId());
-                                        VendorProductCon productCon = new VendorProductCon();
-                                        productCon.setVendorId(vendor.getId());
-                                        productCon.setProductId(product.getId());
-                                        productCon.setCost(product.getPrice());
-                                        databaseManager.addVendorProductConnection(productCon).subscribe();
-                                        InventoryState inventoryState = new InventoryState();
-                                        inventoryState.setProductId(product.getRootId());
-                                        inventoryState.setVendor(vendor);
-                                        inventoryState.setValue(0d);
-                                        databaseManager.insertInventoryState(inventoryState).subscribe();
-                                        databaseManager.replaceProduct(product).blockingSingle();
-                                    });
-                                } else {
-                                    vendorErrors.add(i);
-                                }
-                            } else {
-                                skuErrors.add(i);
-                            }
-                        } else {
-                            Category category = databaseManager.getCategoryByName(categoryName).blockingSingle();
-                            boolean isSubcategoryExists = databaseManager.isSubCategoryNameExists(category.getName(), subcategoryName).blockingSingle();
-                            if (isSubcategoryExists) {
-                                Category subcategory = databaseManager.getSubCategoryByName(subcategoryName, category.getId()).blockingSingle();
-                                boolean isProductNameExits = databaseManager.isProductNameExists(products[i][1], subcategory.getId()).blockingSingle();
-                                boolean isSkuExists = databaseManager.isProductSkuExists(products[i][4], subcategory.getId()).blockingGet();
-                                if (!isProductNameExits && !isSkuExists) {
-                                    Product product = new Product();
-                                    product.setName(products[i][2]);
-                                    product.setBarcode(products[i][3]);
-                                    product.setSku(products[i][4]);
-                                    product.setPhotoPath("");
-                                    product.setPrice(Double.valueOf(products[i][7]));
-                                    product.setActive(true);
-                                    product.setIsDeleted(false);
-                                    product.setNotModifyted(true);
-                                    product.setCreatedDate(System.currentTimeMillis());
-                                    product.setCategoryId(subcategory.getId());
-                                    product.setCostCurrency(databaseManager.getMainCurrency());
-                                    product.setPriceCurrency(databaseManager.getMainCurrency());
-                                    List<UnitCategory> tempUnitCategories = databaseManager.getAllUnitCategories().blockingSingle();
-                                    int count = 0;
-                                    for (UnitCategory unitCategory : tempUnitCategories) {
-                                        for (int j = 0; j < unitCategory.getUnits().size(); j++) {
-                                            if (unitCategory.getUnits().get(j).getAbbr().toUpperCase().equals(products[i][6].toUpperCase())) {
-                                                product.setMainUnit(unitCategory.getUnits().get(j));
-                                                product.setMainUnitId(unitCategory.getUnits().get(j).getId());
-                                                count = 1;
-                                            }
-                                        }
-                                    }
-                                    if (count == 0) {
-                                        unitErrors.add(i);
-                                        continue;
-                                    }
-                                    boolean isVendorExits = databaseManager.isVendorNameExist(products[i][5]).blockingSingle();
-                                    if (isVendorExits) {
-                                        Vendor vendor = databaseManager.getVendorByName(products[i][5]).blockingGet();
-                                        databaseManager.addProduct(product).subscribe(aLong -> {
-                                            product.setRootId(product.getId());
-                                            VendorProductCon productCon = new VendorProductCon();
-                                            productCon.setVendorId(vendor.getId());
-                                            productCon.setCost(product.getPrice());
-                                            productCon.setProductId(product.getId());
-                                            databaseManager.addVendorProductConnection(productCon).subscribe();
-                                            InventoryState inventoryState = new InventoryState();
-                                            inventoryState.setProductId(product.getRootId());
-                                            inventoryState.setVendor(vendor);
-                                            inventoryState.setValue(0d);
-                                            databaseManager.insertInventoryState(inventoryState).subscribe();
-                                            databaseManager.replaceProduct(product).blockingSingle();
-                                        });
-                                    } else {
-                                        vendorErrors.add(i);
-                                    }
-                                } else {
-                                    skuErrors.add(i);
-                                }
-                            } else {
+            ProgressDialog dialog = new ProgressDialog(context);
+            dialog.setMessage("Importing...");
+            dialog.setMax(products.length);
+            dialog.setCancelable(false);
+            dialog.setIndeterminate(true);
+            dialog.show();
+            Handler handler = new Handler(msg -> {
+                if (msg.what == 0) {
+                    if (skuErrors.size() != 0 || vendorErrors.size() != 0 || unitErrors.size() != 0) {
+                        UIUtils.showAlert(context, context.getString(R.string.ok),
+                                "Import errors : ",
+                                "Sku or product name exists errors quantity: " + skuErrors.size() + "\n" +
+                                        "Vendors does not exists errors quantity: " + vendorErrors.size() + " \n" +
+                                        "Unit format errors quantity" + unitErrors.size()
+                                , () -> {
+
+                                });
+                    } else
+                        Toast.makeText(context, context.getString(R.string.products_imported), Toast.LENGTH_SHORT).show();
+                }
+                return false;
+            });
+            new Thread(() -> {
+                for (int i = 0; i < products.length; i++) {
+                    if (i != 0) {
+                        if (!products[i][0].isEmpty()) {
+                            String categoryName = products[i][0];
+                            String subcategoryName = products[i][1];
+                            boolean isExists = databaseManager.isCategoryNameExists(categoryName).blockingSingle();
+                            if (!isExists) {
+                                Category category = new Category();
+                                category.setActive(true);
+                                category.setCreatedDate(System.currentTimeMillis());
+                                category.setName(categoryName);
+                                databaseManager.addCategory(category).subscribe();
                                 Category subcategory = new Category();
                                 subcategory.setName(subcategoryName);
                                 subcategory.setCreatedDate(System.currentTimeMillis());
@@ -5196,14 +5167,14 @@ public class ExportUtils {
                                     Product product = new Product();
                                     product.setName(products[i][2]);
                                     product.setBarcode(products[i][3]);
-                                    product.setPhotoPath("");
                                     product.setSku(products[i][4]);
+                                    product.setPrice(Double.valueOf(products[i][7]));
                                     product.setActive(true);
                                     product.setIsDeleted(false);
                                     product.setNotModifyted(true);
+                                    product.setPhotoPath("");
                                     product.setCreatedDate(System.currentTimeMillis());
                                     product.setCategoryId(subcategory.getId());
-                                    product.setPrice(Double.valueOf(products[i][7]));
                                     product.setCostCurrency(databaseManager.getMainCurrency());
                                     product.setPriceCurrency(databaseManager.getMainCurrency());
                                     List<UnitCategory> tempUnitCategories = databaseManager.getAllUnitCategories().blockingSingle();
@@ -5244,46 +5215,133 @@ public class ExportUtils {
                                 } else {
                                     skuErrors.add(i);
                                 }
+                            } else {
+                                Category category = databaseManager.getCategoryByName(categoryName).blockingSingle();
+                                boolean isSubcategoryExists = databaseManager.isSubCategoryNameExists(category.getName(), subcategoryName).blockingSingle();
+                                if (isSubcategoryExists) {
+                                    Category subcategory = databaseManager.getSubCategoryByName(subcategoryName, category.getId()).blockingSingle();
+                                    boolean isProductNameExits = databaseManager.isProductNameExists(products[i][1], subcategory.getId()).blockingSingle();
+                                    boolean isSkuExists = databaseManager.isProductSkuExists(products[i][4], subcategory.getId()).blockingGet();
+                                    if (!isProductNameExits && !isSkuExists) {
+                                        Product product = new Product();
+                                        product.setName(products[i][2]);
+                                        product.setBarcode(products[i][3]);
+                                        product.setSku(products[i][4]);
+                                        product.setPhotoPath("");
+                                        product.setPrice(Double.valueOf(products[i][7]));
+                                        product.setActive(true);
+                                        product.setIsDeleted(false);
+                                        product.setNotModifyted(true);
+                                        product.setCreatedDate(System.currentTimeMillis());
+                                        product.setCategoryId(subcategory.getId());
+                                        product.setCostCurrency(databaseManager.getMainCurrency());
+                                        product.setPriceCurrency(databaseManager.getMainCurrency());
+                                        List<UnitCategory> tempUnitCategories = databaseManager.getAllUnitCategories().blockingSingle();
+                                        int count = 0;
+                                        for (UnitCategory unitCategory : tempUnitCategories) {
+                                            for (int j = 0; j < unitCategory.getUnits().size(); j++) {
+                                                if (unitCategory.getUnits().get(j).getAbbr().toUpperCase().equals(products[i][6].toUpperCase())) {
+                                                    product.setMainUnit(unitCategory.getUnits().get(j));
+                                                    product.setMainUnitId(unitCategory.getUnits().get(j).getId());
+                                                    count = 1;
+                                                }
+                                            }
+                                        }
+                                        if (count == 0) {
+                                            unitErrors.add(i);
+                                            continue;
+                                        }
+                                        boolean isVendorExits = databaseManager.isVendorNameExist(products[i][5]).blockingSingle();
+                                        if (isVendorExits) {
+                                            Vendor vendor = databaseManager.getVendorByName(products[i][5]).blockingGet();
+                                            databaseManager.addProduct(product).subscribe(aLong -> {
+                                                product.setRootId(product.getId());
+                                                VendorProductCon productCon = new VendorProductCon();
+                                                productCon.setVendorId(vendor.getId());
+                                                productCon.setCost(product.getPrice());
+                                                productCon.setProductId(product.getId());
+                                                databaseManager.addVendorProductConnection(productCon).subscribe();
+                                                InventoryState inventoryState = new InventoryState();
+                                                inventoryState.setProductId(product.getRootId());
+                                                inventoryState.setVendor(vendor);
+                                                inventoryState.setValue(0d);
+                                                databaseManager.insertInventoryState(inventoryState).subscribe();
+                                                databaseManager.replaceProduct(product).blockingSingle();
+                                            });
+                                        } else {
+                                            vendorErrors.add(i);
+                                        }
+                                    } else {
+                                        skuErrors.add(i);
+                                    }
+                                } else {
+                                    Category subcategory = new Category();
+                                    subcategory.setName(subcategoryName);
+                                    subcategory.setCreatedDate(System.currentTimeMillis());
+                                    subcategory.setActive(true);
+                                    subcategory.setParentId(category.getId());
+                                    databaseManager.addCategory(subcategory).subscribe();
+                                    boolean isSkuExists = databaseManager.isProductSkuExists(products[i][4], subcategory.getId()).blockingGet();
+                                    if (!isSkuExists) {
+                                        Product product = new Product();
+                                        product.setName(products[i][2]);
+                                        product.setBarcode(products[i][3]);
+                                        product.setPhotoPath("");
+                                        product.setSku(products[i][4]);
+                                        product.setActive(true);
+                                        product.setIsDeleted(false);
+                                        product.setNotModifyted(true);
+                                        product.setCreatedDate(System.currentTimeMillis());
+                                        product.setCategoryId(subcategory.getId());
+                                        product.setPrice(Double.valueOf(products[i][7]));
+                                        product.setCostCurrency(databaseManager.getMainCurrency());
+                                        product.setPriceCurrency(databaseManager.getMainCurrency());
+                                        List<UnitCategory> tempUnitCategories = databaseManager.getAllUnitCategories().blockingSingle();
+                                        int count = 0;
+                                        for (UnitCategory unitCategory : tempUnitCategories) {
+                                            for (int j = 0; j < unitCategory.getUnits().size(); j++) {
+                                                if (unitCategory.getUnits().get(j).getAbbr().toUpperCase().equals(products[i][6].toUpperCase())) {
+                                                    product.setMainUnit(unitCategory.getUnits().get(j));
+                                                    product.setMainUnitId(unitCategory.getUnits().get(j).getId());
+                                                    count = 1;
+                                                }
+                                            }
+                                        }
+                                        if (count == 0) {
+                                            unitErrors.add(i);
+                                            continue;
+                                        }
+                                        boolean isVendorExits = databaseManager.isVendorNameExist(products[i][5]).blockingSingle();
+                                        if (isVendorExits) {
+                                            Vendor vendor = databaseManager.getVendorByName(products[i][5]).blockingGet();
+                                            databaseManager.addProduct(product).subscribe(aLong -> {
+                                                product.setRootId(product.getId());
+                                                VendorProductCon productCon = new VendorProductCon();
+                                                productCon.setVendorId(vendor.getId());
+                                                productCon.setProductId(product.getId());
+                                                productCon.setCost(product.getPrice());
+                                                databaseManager.addVendorProductConnection(productCon).subscribe();
+                                                InventoryState inventoryState = new InventoryState();
+                                                inventoryState.setProductId(product.getRootId());
+                                                inventoryState.setVendor(vendor);
+                                                inventoryState.setValue(0d);
+                                                databaseManager.insertInventoryState(inventoryState).subscribe();
+                                                databaseManager.replaceProduct(product).blockingSingle();
+                                            });
+                                        } else {
+                                            vendorErrors.add(i);
+                                        }
+                                    } else {
+                                        skuErrors.add(i);
+                                    }
+                                }
                             }
                         }
                     }
                 }
-            }
-            if (skuErrors.size() != 0 || vendorErrors.size() != 0 || unitErrors.size() != 0) {
-                String sku = context.getString(R.string.none);
-                if (skuErrors.size() != 0) {
-                    StringBuilder stringBuilder = new StringBuilder();
-                    for (int i = 0; i < skuErrors.size(); i++) {
-                        stringBuilder.append(skuErrors.get(i)).append(",");
-                    }
-                    sku = stringBuilder.toString();
-                }
-                String vendor = context.getString(R.string.none);
-                if (vendorErrors.size() != 0) {
-                    StringBuilder stringBuilder = new StringBuilder();
-                    for (int i = 0; i < vendorErrors.size(); i++) {
-                        stringBuilder.append(vendorErrors.get(i)).append(",");
-                    }
-                    vendor = stringBuilder.toString();
-                }
-                String unit = context.getString(R.string.none);
-                if (unitErrors.size() != 0) {
-                    StringBuilder stringBuilder = new StringBuilder();
-                    for (int i = 0; i < unitErrors.size(); i++) {
-                        stringBuilder.append(unitErrors.get(i)).append(",");
-                    }
-                    unit = stringBuilder.toString();
-                }
-                UIUtils.showAlert(context, context.getString(R.string.ok),
-                        "Import errors",
-                        "Sku or product name exists at " + sku + " rows \n" +
-                                "Vendors does not exists at " + vendor + " rows \n" +
-                                "Unit format error at " + unit + " rows \n"
-                        , () -> {
-
-                        });
-            } else
-                Toast.makeText(context, context.getString(R.string.products_imported), Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+                handler.sendEmptyMessage(0);
+            }).start();
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(context, context.getString(R.string.incorrect_file), Toast.LENGTH_SHORT).show();
@@ -5326,137 +5384,41 @@ public class ExportUtils {
             List<Integer> unitErrors = new ArrayList<>();
             List<Integer> skuErrors = new ArrayList<>();
             List<Integer> vendorErrors = new ArrayList<>();
-            for (int i = 0; i < products.length; i++) {
-                if (i != 0) {
-                    if (!products[i][0].isEmpty()) {
-                        String categoryName = products[i][0];
-                        String subcategoryName = products[i][1];
-                        boolean isExists = databaseManager.isCategoryNameExists(categoryName).blockingSingle();
-                        if (!isExists) {
-                            Category category = new Category();
-                            category.setActive(true);
-                            category.setCreatedDate(System.currentTimeMillis());
-                            category.setName(categoryName);
-                            databaseManager.addCategory(category).subscribe();
-                            Category subcategory = new Category();
-                            subcategory.setName(subcategoryName);
-                            subcategory.setCreatedDate(System.currentTimeMillis());
-                            subcategory.setActive(true);
-                            subcategory.setParentId(category.getId());
-                            databaseManager.addCategory(subcategory).subscribe();
-                            boolean isSkuExists = databaseManager.isProductSkuExists(products[i][4], subcategory.getId()).blockingGet();
-                            if (!isSkuExists) {
-                                Product product = new Product();
-                                product.setName(products[i][2]);
-                                product.setBarcode(products[i][3]);
-                                product.setSku(products[i][4]);
-                                product.setPrice(Double.valueOf(products[i][7]));
-                                product.setActive(true);
-                                product.setIsDeleted(false);
-                                product.setNotModifyted(true);
-                                product.setPhotoPath("");
-                                product.setCreatedDate(System.currentTimeMillis());
-                                product.setCategoryId(subcategory.getId());
-                                product.setCostCurrency(databaseManager.getMainCurrency());
-                                product.setPriceCurrency(databaseManager.getMainCurrency());
-                                List<UnitCategory> tempUnitCategories = databaseManager.getAllUnitCategories().blockingSingle();
-                                int count = 0;
-                                for (UnitCategory unitCategory : tempUnitCategories) {
-                                    for (int j = 0; j < unitCategory.getUnits().size(); j++) {
-                                        if (unitCategory.getUnits().get(j).getAbbr().toUpperCase().equals(products[i][6].toUpperCase())) {
-                                            product.setMainUnit(unitCategory.getUnits().get(j));
-                                            product.setMainUnitId(unitCategory.getUnits().get(j).getId());
-                                            count = 1;
-                                        }
-                                    }
-                                }
-                                if (count == 0) {
-                                    unitErrors.add(i);
-                                    continue;
-                                }
-                                boolean isVendorExits = databaseManager.isVendorNameExist(products[i][5]).blockingSingle();
-                                if (isVendorExits) {
-                                    Vendor vendor = databaseManager.getVendorByName(products[i][5]).blockingGet();
-                                    databaseManager.addProduct(product).subscribe(aLong -> {
-                                        product.setRootId(product.getId());
-                                        VendorProductCon productCon = new VendorProductCon();
-                                        productCon.setVendorId(vendor.getId());
-                                        productCon.setProductId(product.getId());
-                                        productCon.setCost(product.getPrice());
-                                        databaseManager.addVendorProductConnection(productCon).subscribe();
-                                        InventoryState inventoryState = new InventoryState();
-                                        inventoryState.setProductId(product.getRootId());
-                                        inventoryState.setVendor(vendor);
-                                        inventoryState.setValue(0d);
-                                        databaseManager.insertInventoryState(inventoryState).subscribe();
-                                        databaseManager.replaceProduct(product).blockingSingle();
-                                    });
-                                } else {
-                                    vendorErrors.add(i);
-                                }
-                            } else {
-                                skuErrors.add(i);
-                            }
-                        } else {
-                            Category category = databaseManager.getCategoryByName(categoryName).blockingSingle();
-                            boolean isSubcategoryExists = databaseManager.isSubCategoryNameExists(category.getName(), subcategoryName).blockingSingle();
-                            if (isSubcategoryExists) {
-                                Category subcategory = databaseManager.getSubCategoryByName(subcategoryName, category.getId()).blockingSingle();
-                                boolean isProductNameExits = databaseManager.isProductNameExists(products[i][1], subcategory.getId()).blockingSingle();
-                                boolean isSkuExists = databaseManager.isProductSkuExists(products[i][4], subcategory.getId()).blockingGet();
-                                if (!isProductNameExits && !isSkuExists) {
-                                    Product product = new Product();
-                                    product.setName(products[i][2]);
-                                    product.setBarcode(products[i][3]);
-                                    product.setSku(products[i][4]);
-                                    product.setPhotoPath("");
-                                    product.setPrice(Double.valueOf(products[i][7]));
-                                    product.setActive(true);
-                                    product.setIsDeleted(false);
-                                    product.setNotModifyted(true);
-                                    product.setCreatedDate(System.currentTimeMillis());
-                                    product.setCategoryId(subcategory.getId());
-                                    product.setCostCurrency(databaseManager.getMainCurrency());
-                                    product.setPriceCurrency(databaseManager.getMainCurrency());
-                                    List<UnitCategory> tempUnitCategories = databaseManager.getAllUnitCategories().blockingSingle();
-                                    int count = 0;
-                                    for (UnitCategory unitCategory : tempUnitCategories) {
-                                        for (int j = 0; j < unitCategory.getUnits().size(); j++) {
-                                            if (unitCategory.getUnits().get(j).getAbbr().toUpperCase().equals(products[i][6].toUpperCase())) {
-                                                product.setMainUnit(unitCategory.getUnits().get(j));
-                                                product.setMainUnitId(unitCategory.getUnits().get(j).getId());
-                                                count = 1;
-                                            }
-                                        }
-                                    }
-                                    if (count == 0) {
-                                        unitErrors.add(i);
-                                        continue;
-                                    }
-                                    boolean isVendorExits = databaseManager.isVendorNameExist(products[i][5]).blockingSingle();
-                                    if (isVendorExits) {
-                                        Vendor vendor = databaseManager.getVendorByName(products[i][5]).blockingGet();
-                                        databaseManager.addProduct(product).subscribe(aLong -> {
-                                            product.setRootId(product.getId());
-                                            VendorProductCon productCon = new VendorProductCon();
-                                            productCon.setVendorId(vendor.getId());
-                                            productCon.setCost(product.getPrice());
-                                            productCon.setProductId(product.getId());
-                                            databaseManager.addVendorProductConnection(productCon).subscribe();
-                                            InventoryState inventoryState = new InventoryState();
-                                            inventoryState.setProductId(product.getRootId());
-                                            inventoryState.setVendor(vendor);
-                                            inventoryState.setValue(0d);
-                                            databaseManager.insertInventoryState(inventoryState).subscribe();
-                                            databaseManager.replaceProduct(product).blockingSingle();
-                                        });
-                                    } else {
-                                        vendorErrors.add(i);
-                                    }
-                                } else {
-                                    skuErrors.add(i);
-                                }
-                            } else {
+            ProgressDialog dialog = new ProgressDialog(context);
+            dialog.setMessage(context.getString(R.string.importing));
+            dialog.setMax(products.length);
+            dialog.setCancelable(false);
+            dialog.setIndeterminate(true);
+            dialog.show();
+            Handler handler = new Handler(msg -> {
+                if (msg.what == 0) {
+                    if (skuErrors.size() != 0 || vendorErrors.size() != 0 || unitErrors.size() != 0) {
+                        UIUtils.showAlert(context, context.getString(R.string.ok),
+                                "Import errors : ",
+                                "Sku or product name exists error quantity: " + skuErrors.size() + "\n" +
+                                        "Vendors does not exists error quantity: " + vendorErrors.size() + " \n" +
+                                        "Unit format error quantity" + unitErrors.size()
+                                , () -> {
+
+                                });
+                    } else
+                        Toast.makeText(context, context.getString(R.string.products_imported), Toast.LENGTH_SHORT).show();
+                }
+                return false;
+            });
+            new Thread(() -> {
+                for (int i = 0; i < products.length; i++) {
+                    if (i != 0) {
+                        if (!products[i][0].isEmpty()) {
+                            String categoryName = products[i][0];
+                            String subcategoryName = products[i][1];
+                            boolean isExists = databaseManager.isCategoryNameExists(categoryName).blockingSingle();
+                            if (!isExists) {
+                                Category category = new Category();
+                                category.setActive(true);
+                                category.setCreatedDate(System.currentTimeMillis());
+                                category.setName(categoryName);
+                                databaseManager.addCategory(category).subscribe();
                                 Category subcategory = new Category();
                                 subcategory.setName(subcategoryName);
                                 subcategory.setCreatedDate(System.currentTimeMillis());
@@ -5468,14 +5430,14 @@ public class ExportUtils {
                                     Product product = new Product();
                                     product.setName(products[i][2]);
                                     product.setBarcode(products[i][3]);
-                                    product.setPhotoPath("");
                                     product.setSku(products[i][4]);
+                                    product.setPrice(Double.valueOf(products[i][7]));
                                     product.setActive(true);
                                     product.setIsDeleted(false);
                                     product.setNotModifyted(true);
+                                    product.setPhotoPath("");
                                     product.setCreatedDate(System.currentTimeMillis());
                                     product.setCategoryId(subcategory.getId());
-                                    product.setPrice(Double.valueOf(products[i][7]));
                                     product.setCostCurrency(databaseManager.getMainCurrency());
                                     product.setPriceCurrency(databaseManager.getMainCurrency());
                                     List<UnitCategory> tempUnitCategories = databaseManager.getAllUnitCategories().blockingSingle();
@@ -5516,46 +5478,133 @@ public class ExportUtils {
                                 } else {
                                     skuErrors.add(i);
                                 }
+                            } else {
+                                Category category = databaseManager.getCategoryByName(categoryName).blockingSingle();
+                                boolean isSubcategoryExists = databaseManager.isSubCategoryNameExists(category.getName(), subcategoryName).blockingSingle();
+                                if (isSubcategoryExists) {
+                                    Category subcategory = databaseManager.getSubCategoryByName(subcategoryName, category.getId()).blockingSingle();
+                                    boolean isProductNameExits = databaseManager.isProductNameExists(products[i][1], subcategory.getId()).blockingSingle();
+                                    boolean isSkuExists = databaseManager.isProductSkuExists(products[i][4], subcategory.getId()).blockingGet();
+                                    if (!isProductNameExits && !isSkuExists) {
+                                        Product product = new Product();
+                                        product.setName(products[i][2]);
+                                        product.setBarcode(products[i][3]);
+                                        product.setSku(products[i][4]);
+                                        product.setPhotoPath("");
+                                        product.setPrice(Double.valueOf(products[i][7]));
+                                        product.setActive(true);
+                                        product.setIsDeleted(false);
+                                        product.setNotModifyted(true);
+                                        product.setCreatedDate(System.currentTimeMillis());
+                                        product.setCategoryId(subcategory.getId());
+                                        product.setCostCurrency(databaseManager.getMainCurrency());
+                                        product.setPriceCurrency(databaseManager.getMainCurrency());
+                                        List<UnitCategory> tempUnitCategories = databaseManager.getAllUnitCategories().blockingSingle();
+                                        int count = 0;
+                                        for (UnitCategory unitCategory : tempUnitCategories) {
+                                            for (int j = 0; j < unitCategory.getUnits().size(); j++) {
+                                                if (unitCategory.getUnits().get(j).getAbbr().toUpperCase().equals(products[i][6].toUpperCase())) {
+                                                    product.setMainUnit(unitCategory.getUnits().get(j));
+                                                    product.setMainUnitId(unitCategory.getUnits().get(j).getId());
+                                                    count = 1;
+                                                }
+                                            }
+                                        }
+                                        if (count == 0) {
+                                            unitErrors.add(i);
+                                            continue;
+                                        }
+                                        boolean isVendorExits = databaseManager.isVendorNameExist(products[i][5]).blockingSingle();
+                                        if (isVendorExits) {
+                                            Vendor vendor = databaseManager.getVendorByName(products[i][5]).blockingGet();
+                                            databaseManager.addProduct(product).subscribe(aLong -> {
+                                                product.setRootId(product.getId());
+                                                VendorProductCon productCon = new VendorProductCon();
+                                                productCon.setVendorId(vendor.getId());
+                                                productCon.setCost(product.getPrice());
+                                                productCon.setProductId(product.getId());
+                                                databaseManager.addVendorProductConnection(productCon).subscribe();
+                                                InventoryState inventoryState = new InventoryState();
+                                                inventoryState.setProductId(product.getRootId());
+                                                inventoryState.setVendor(vendor);
+                                                inventoryState.setValue(0d);
+                                                databaseManager.insertInventoryState(inventoryState).subscribe();
+                                                databaseManager.replaceProduct(product).blockingSingle();
+                                            });
+                                        } else {
+                                            vendorErrors.add(i);
+                                        }
+                                    } else {
+                                        skuErrors.add(i);
+                                    }
+                                } else {
+                                    Category subcategory = new Category();
+                                    subcategory.setName(subcategoryName);
+                                    subcategory.setCreatedDate(System.currentTimeMillis());
+                                    subcategory.setActive(true);
+                                    subcategory.setParentId(category.getId());
+                                    databaseManager.addCategory(subcategory).subscribe();
+                                    boolean isSkuExists = databaseManager.isProductSkuExists(products[i][4], subcategory.getId()).blockingGet();
+                                    if (!isSkuExists) {
+                                        Product product = new Product();
+                                        product.setName(products[i][2]);
+                                        product.setBarcode(products[i][3]);
+                                        product.setPhotoPath("");
+                                        product.setSku(products[i][4]);
+                                        product.setActive(true);
+                                        product.setIsDeleted(false);
+                                        product.setNotModifyted(true);
+                                        product.setCreatedDate(System.currentTimeMillis());
+                                        product.setCategoryId(subcategory.getId());
+                                        product.setPrice(Double.valueOf(products[i][7]));
+                                        product.setCostCurrency(databaseManager.getMainCurrency());
+                                        product.setPriceCurrency(databaseManager.getMainCurrency());
+                                        List<UnitCategory> tempUnitCategories = databaseManager.getAllUnitCategories().blockingSingle();
+                                        int count = 0;
+                                        for (UnitCategory unitCategory : tempUnitCategories) {
+                                            for (int j = 0; j < unitCategory.getUnits().size(); j++) {
+                                                if (unitCategory.getUnits().get(j).getAbbr().toUpperCase().equals(products[i][6].toUpperCase())) {
+                                                    product.setMainUnit(unitCategory.getUnits().get(j));
+                                                    product.setMainUnitId(unitCategory.getUnits().get(j).getId());
+                                                    count = 1;
+                                                }
+                                            }
+                                        }
+                                        if (count == 0) {
+                                            unitErrors.add(i);
+                                            continue;
+                                        }
+                                        boolean isVendorExits = databaseManager.isVendorNameExist(products[i][5]).blockingSingle();
+                                        if (isVendorExits) {
+                                            Vendor vendor = databaseManager.getVendorByName(products[i][5]).blockingGet();
+                                            databaseManager.addProduct(product).subscribe(aLong -> {
+                                                product.setRootId(product.getId());
+                                                VendorProductCon productCon = new VendorProductCon();
+                                                productCon.setVendorId(vendor.getId());
+                                                productCon.setProductId(product.getId());
+                                                productCon.setCost(product.getPrice());
+                                                databaseManager.addVendorProductConnection(productCon).subscribe();
+                                                InventoryState inventoryState = new InventoryState();
+                                                inventoryState.setProductId(product.getRootId());
+                                                inventoryState.setVendor(vendor);
+                                                inventoryState.setValue(0d);
+                                                databaseManager.insertInventoryState(inventoryState).subscribe();
+                                                databaseManager.replaceProduct(product).blockingSingle();
+                                            });
+                                        } else {
+                                            vendorErrors.add(i);
+                                        }
+                                    } else {
+                                        skuErrors.add(i);
+                                    }
+                                }
                             }
                         }
                     }
                 }
-            }
-            if (skuErrors.size() != 0 || vendorErrors.size() != 0 || unitErrors.size() != 0) {
-                String sku = context.getString(R.string.none);
-                if (skuErrors.size() != 0) {
-                    StringBuilder stringBuilder = new StringBuilder();
-                    for (int i = 0; i < skuErrors.size(); i++) {
-                        stringBuilder.append(skuErrors.get(i)).append(",");
-                    }
-                    sku = stringBuilder.toString();
-                }
-                String vendor = context.getString(R.string.none);
-                if (vendorErrors.size() != 0) {
-                    StringBuilder stringBuilder = new StringBuilder();
-                    for (int i = 0; i < vendorErrors.size(); i++) {
-                        stringBuilder.append(vendorErrors.get(i)).append(",");
-                    }
-                    vendor = stringBuilder.toString();
-                }
-                String unit = context.getString(R.string.none);
-                if (unitErrors.size() != 0) {
-                    StringBuilder stringBuilder = new StringBuilder();
-                    for (int i = 0; i < unitErrors.size(); i++) {
-                        stringBuilder.append(unitErrors.get(i)).append(",");
-                    }
-                    unit = stringBuilder.toString();
-                }
-                UIUtils.showAlert(context, context.getString(R.string.ok),
-                        "Import errors",
-                        "Sku or product name exists at " + sku + " rows \n" +
-                                "Vendors does not exists at " + vendor + " rows \n" +
-                                "Unit format error at " + unit + " rows \n"
-                        , () -> {
-
-                        });
-            } else
-                Toast.makeText(context, context.getString(R.string.products_imported), Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+                handler.sendEmptyMessage(0);
+            }).start();
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(context, context.getString(R.string.incorrect_file), Toast.LENGTH_SHORT).show();

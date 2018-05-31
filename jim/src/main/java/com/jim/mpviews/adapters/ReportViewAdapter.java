@@ -110,7 +110,10 @@ public class ReportViewAdapter extends RecyclerView.Adapter<ReportViewAdapter.Vi
                                     Long item = (Long) data[position][count];
                                     switch (dataTypes[count]) {
                                         case ReportViewConstants.DATE:
-                                            textView.setText(simpleDateFormat.format(new Date(item)));
+                                            if (item == 0) {
+                                                textView.setText("");
+                                            } else
+                                                textView.setText(simpleDateFormat.format(new Date(item)));
                                             break;
                                         case ReportViewConstants.ID:
                                             textView.setText(String.valueOf(item));

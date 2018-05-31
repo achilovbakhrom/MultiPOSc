@@ -296,7 +296,7 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
                     fifthObjects[i][0] = debt.getId();
                     fifthObjects[i][1] = debt.getTakenDate();
                     fifthObjects[i][2] = debt.getEndDate();
-                    fifthObjects[i][3] = debt.getClosedDate() == null ? "-" : debt.getClosedDate();
+                    fifthObjects[i][3] = debt.getClosedDate();
                     fifthObjects[i][4] = debt.getCustomer().getName();
                     fifthObjects[i][5] = debt.getOrder().getId();
                     fifthObjects[i][6] = debt.getDebtType();
@@ -982,10 +982,16 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
         String filter = "";
         switch (currentPosition) {
             case 0:
-                view.exportTableToExcel(fileName, path, firstObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToExcel(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToExcel(fileName, path, firstObjects, currentPosition, date, filter, searchText);
                 break;
             case 1:
-                view.exportTableToExcel(fileName, path, secondObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToExcel(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToExcel(fileName, path, secondObjects, currentPosition, date, filter, searchText);
                 break;
             case 2:
                 StringBuilder filters = new StringBuilder();
@@ -996,13 +1002,22 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
                     filters.append(context.getString(R.string.debt_closed)).append(" ");
                 }
                 filter = filters.toString();
-                view.exportTableToExcel(fileName, path, thirdObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToExcel(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToExcel(fileName, path, thirdObjects, currentPosition, date, filter, searchText);
                 break;
             case 3:
-                view.exportTableToExcel(fileName, path, forthObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToExcel(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToExcel(fileName, path, forthObjects, currentPosition, date, filter, searchText);
                 break;
             case 4:
-                view.exportTableToExcel(fileName, path, fifthObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToExcel(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToExcel(fileName, path, fifthObjects, currentPosition, date, filter, searchText);
                 break;
         }
     }
@@ -1013,10 +1028,16 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
         String filter = "";
         switch (currentPosition) {
             case 0:
-                view.exportTableToPdf(fileName, path, firstObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdf(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdf(fileName, path, firstObjects, currentPosition, date, filter, searchText);
                 break;
             case 1:
-                view.exportTableToPdf(fileName, path, secondObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdf(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdf(fileName, path, secondObjects, currentPosition, date, filter, searchText);
                 break;
             case 2:
                 StringBuilder filters = new StringBuilder();
@@ -1027,13 +1048,22 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
                     filters.append(context.getString(R.string.debt_closed)).append(" ");
                 }
                 filter = filters.toString();
-                view.exportTableToPdf(fileName, path, thirdObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdf(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdf(fileName, path, thirdObjects, currentPosition, date, filter, searchText);
                 break;
             case 3:
-                view.exportTableToPdf(fileName, path, forthObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdf(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdf(fileName, path, forthObjects, currentPosition, date, filter, searchText);
                 break;
             case 4:
-                view.exportTableToPdf(fileName, path, fifthObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdf(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdf(fileName, path, fifthObjects, currentPosition, date, filter, searchText);
                 break;
         }
     }
@@ -1044,10 +1074,16 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
         String filter = "";
         switch (currentPosition) {
             case 0:
-                view.exportExcelToUSB(filename, root, firstObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportExcelToUSB(filename, root, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportExcelToUSB(filename, root, firstObjects, currentPosition, date, filter, searchText);
                 break;
             case 1:
-                view.exportExcelToUSB(filename, root, secondObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportExcelToUSB(filename, root, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportExcelToUSB(filename, root, secondObjects, currentPosition, date, filter, searchText);
                 break;
             case 2:
                 StringBuilder filters = new StringBuilder();
@@ -1058,13 +1094,22 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
                     filters.append(context.getString(R.string.debt_closed)).append(" ");
                 }
                 filter = filters.toString();
-                view.exportExcelToUSB(filename, root, thirdObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportExcelToUSB(filename, root, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportExcelToUSB(filename, root, thirdObjects, currentPosition, date, filter, searchText);
                 break;
             case 3:
-                view.exportExcelToUSB(filename, root, forthObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportExcelToUSB(filename, root, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportExcelToUSB(filename, root, forthObjects, currentPosition, date, filter, searchText);
                 break;
             case 4:
-                view.exportExcelToUSB(filename, root, fifthObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportExcelToUSB(filename, root, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportExcelToUSB(filename, root, fifthObjects, currentPosition, date, filter, searchText);
                 break;
         }
     }
@@ -1075,10 +1120,16 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
         String filter = "";
         switch (currentPosition) {
             case 0:
-                view.exportTableToPdfToUSB(fileName, path, firstObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdfToUSB(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdfToUSB(fileName, path, firstObjects, currentPosition, date, filter, searchText);
                 break;
             case 1:
-                view.exportTableToPdfToUSB(fileName, path, secondObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdfToUSB(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdfToUSB(fileName, path, secondObjects, currentPosition, date, filter, searchText);
                 break;
             case 2:
                 StringBuilder filters = new StringBuilder();
@@ -1089,13 +1140,22 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
                     filters.append(context.getString(R.string.debt_closed)).append(" ");
                 }
                 filter = filters.toString();
-                view.exportTableToPdfToUSB(fileName, path, thirdObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdfToUSB(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdfToUSB(fileName, path, thirdObjects, currentPosition, date, filter, searchText);
                 break;
             case 3:
-                view.exportTableToPdfToUSB(fileName, path, forthObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdfToUSB(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdfToUSB(fileName, path, forthObjects, currentPosition, date, filter, searchText);
                 break;
             case 4:
-                view.exportTableToPdfToUSB(fileName, path, fifthObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdfToUSB(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdfToUSB(fileName, path, fifthObjects, currentPosition, date, filter, searchText);
                 break;
         }
     }

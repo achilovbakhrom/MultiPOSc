@@ -33,7 +33,7 @@ public class InventoryReportFragment extends BaseTableReportFragment implements 
     @Inject
     DatabaseManager databaseManager;
     private ReportView firstView, secondView, forthView;
-    private int firstDataType[] = {ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.STATUS, ReportViewConstants.NAME, ReportViewConstants.DATE, ReportViewConstants.NAME, ReportViewConstants.ACTION, ReportViewConstants.NAME};
+    private int firstDataType[] = {ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.STATUS, ReportViewConstants.QUANTITY, ReportViewConstants.DATE, ReportViewConstants.NAME, ReportViewConstants.ACTION, ReportViewConstants.NAME};
     private int firstWeights[] = {15, 10, 15, 8, 10, 10, 8, 8};
     private int firstAligns[] = {Gravity.LEFT, Gravity.LEFT, Gravity.LEFT, Gravity.LEFT, Gravity.CENTER, Gravity.LEFT, Gravity.CENTER, Gravity.CENTER};
     private int secondDataType[] = {ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.NAME};

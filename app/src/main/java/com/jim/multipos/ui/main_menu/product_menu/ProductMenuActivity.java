@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.LinearLayout;
 
 import com.jim.mpviews.MpButton;
 import com.jim.mpviews.MpToolbar;
@@ -23,9 +22,7 @@ import com.jim.multipos.ui.main_menu.product_menu.presenters.ProductMenuPresente
 import com.jim.multipos.ui.product_class_new.ProductsClassActivity;
 import com.jim.multipos.ui.product_last.ProductActivity;
 import com.jim.multipos.ui.service_fee_new.ServiceFeeActivity;
-import com.jim.multipos.ui.settings.print.PrintFragment;
 import com.jim.multipos.ui.vendor.add_edit.VendorAddEditActivity;
-import com.jim.multipos.utils.OpenPickPhotoUtils;
 import com.jim.multipos.utils.RxBus;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 

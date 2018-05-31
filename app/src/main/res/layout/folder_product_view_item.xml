@@ -38,7 +38,7 @@
                 android:id="@+id/tvProductSKU"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorTintGrey"
+                android:textColor="@color/colorMainText"
                 android:textSize="@dimen/eighteen_dp" />
 
         </LinearLayout>
@@ -46,17 +46,9 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/thirty_dp"
             android:layout_weight="1"
+            android:layout_gravity="center"
             android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tvProductQty"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/two_dp"
-                android:textColor="@color/colorTintGrey"
-                android:textSize="@dimen/eighteen_dp" />
 
             <TextView
                 android:id="@+id/tvProductPrice"
@@ -66,6 +58,22 @@
                 android:textSize="@dimen/eighteen_dp" />
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/llInfo"
+            android:layout_width="@dimen/fifty_dp"
+            android:gravity="center"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:layout_marginRight="@dimen/thirty_dp"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/ivInfo"
+                android:layout_width="@dimen/twenty_five_dp"
+                android:layout_height="@dimen/twenty_five_dp"
+                android:layout_gravity="center"
+                android:src="@drawable/info_icon" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

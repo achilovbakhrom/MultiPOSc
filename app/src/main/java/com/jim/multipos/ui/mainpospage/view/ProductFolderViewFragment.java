@@ -3,6 +3,7 @@ package com.jim.multipos.ui.mainpospage.view;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -10,13 +11,13 @@ import android.widget.TextView;
 
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
-import com.jim.multipos.core.ClickableBaseAdapter;
 import com.jim.multipos.data.db.model.intosystem.FolderItem;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.ui.mainpospage.adapter.FolderViewAdapter;
 import com.jim.multipos.ui.mainpospage.connection.MainPageConnection;
-import com.jim.multipos.ui.mainpospage.presenter.ProductFolderViewPresenterImpl;
+import com.jim.multipos.ui.mainpospage.model.OrderProductItem;
+import com.jim.multipos.ui.mainpospage.presenter.ProductFolderViewPresenter;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.RxBusLocal;
 import com.jim.multipos.utils.rxevents.inventory_events.InventoryStateEvent;
@@ -40,13 +41,15 @@ import io.reactivex.disposables.Disposable;
 public class ProductFolderViewFragment extends BaseFragment implements ProductFolderView {
 
     @Inject
-    ProductFolderViewPresenterImpl presenter;
+    ProductFolderViewPresenter presenter;
     @BindView(R.id.rvFolderItems)
     RecyclerView rvFolderItems;
     @BindView(R.id.llBackItem)
     LinearLayout llBackItem;
     @BindView(R.id.tvProductTitle)
     TextView tvProductTitle;
+    @BindView(R.id.tvAction)
+    TextView tvAction;
     @BindView(R.id.flLine)
     FrameLayout flLine;
     @Inject
@@ -104,15 +107,22 @@ public class ProductFolderViewFragment extends BaseFragment implements ProductFo
     @Override
     public void onDestroy() {
         super.onDestroy();
+        mainPageConnection.setProductFolderView(null);
         RxBus.removeListners(subscriptions);
     }
 
     @Override
     protected void init(Bundle savedInstanceState) {
+        mainPageConnection.setProductFolderView(this);
+        ((SimpleItemAnimator) rvFolderItems.getItemAnimator()).setSupportsChangeAnimations(false);
         presenter.setFolderItemsRecyclerView();
         if (mode == PRODUCT) {
+            tvAction.setVisibility(View.VISIBLE);
             tvProductTitle.setText(getResources().getString(R.string.qty_and_price));
-        } else tvProductTitle.setText(getResources().getString(R.string.count_of_products));
+        } else {
+            tvProductTitle.setText(getResources().getString(R.string.count_of_products));
+            tvAction.setVisibility(View.INVISIBLE);
+        }
     }
 
     @OnClick(R.id.llBackItem)
@@ -136,15 +146,19 @@ public class ProductFolderViewFragment extends BaseFragment implements ProductFo
         rvFolderItems.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new FolderViewAdapter(folderItems, mode, getContext());
         rvFolderItems.setAdapter(adapter);
-        adapter.setListener(folderItem -> presenter.selectedItem(folderItem));
+        adapter.setListener((folderItem, position) -> presenter.selectedItem(folderItem, position));
     }
 
     @Override
     public void refreshProductList(List<FolderItem> folderItems, int mode) {
         this.mode = mode;
         if (mode == PRODUCT) {
+            tvAction.setVisibility(View.VISIBLE);
             tvProductTitle.setText(getResources().getString(R.string.qty_and_price));
-        } else tvProductTitle.setText(getResources().getString(R.string.count_of_products));
+        } else {
+            tvProductTitle.setText(getResources().getString(R.string.count_of_products));
+            tvAction.setVisibility(View.INVISIBLE);
+        }
         adapter.setMode(mode);
         adapter.setItems(folderItems);
     }

@@ -16,6 +16,7 @@ import com.jim.multipos.ui.mainpospage.view.OrderListHistoryView;
 import com.jim.multipos.ui.mainpospage.view.OrderListView;
 import com.jim.multipos.ui.mainpospage.view.PaymentFragment;
 import com.jim.multipos.ui.mainpospage.view.PaymentView;
+import com.jim.multipos.ui.mainpospage.view.ProductFolderView;
 import com.jim.multipos.ui.mainpospage.view.ProductInfoView;
 import com.jim.multipos.ui.mainpospage.view.ProductPickerView;
 
@@ -31,6 +32,7 @@ public class MainPageConnection {
     private ProductPickerView productPickerView;
     private PaymentView paymentView;
     private OrderListHistoryView orderListHistoryView;
+    private ProductFolderView productFolderView;
     private Context context;
     public MainPageConnection(Context context){
         this.context = context;
@@ -185,6 +187,10 @@ public class MainPageConnection {
 
     public void setOrderListView(OrderListView orderListView) {
         this.orderListView = orderListView;
+    }
+
+    public void setProductFolderView(ProductFolderView productFolderView) {
+        this.productFolderView = productFolderView;
     }
 
     public ProductInfoView getProductInfoView() {

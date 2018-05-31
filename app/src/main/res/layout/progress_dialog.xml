@@ -1,0 +1,16 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:padding="@dimen/ten_dp">
+
+    <ProgressBar
+        android:id="@+id/loader"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="@dimen/hundred_dp"
+        android:layout_height="@dimen/forty_five_dp"
+        android:layout_marginEnd="@dimen/five_dp"
+        android:indeterminate="false" />
+
+</LinearLayout>

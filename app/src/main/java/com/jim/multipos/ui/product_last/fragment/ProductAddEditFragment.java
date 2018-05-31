@@ -367,7 +367,6 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
                                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                                 .thumbnail(0.2f)
                                 .centerCrop()
-                                .transform(new RoundedCorners(20))
                                 .into(photoButton);
                     }
 
@@ -474,7 +473,6 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
                     .load(imageUri)
                     .diskCacheStrategy(DiskCacheStrategy.RESOURCE).thumbnail(0.2f)
                     .centerCrop()
-                    .transform(new RoundedCorners(20))
                     .into(photoButton);
 
         }
@@ -553,7 +551,6 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
                     .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                     .thumbnail(0.2f)
                     .centerCrop()
-                    .transform(new RoundedCorners(20))
                     .into(photoButton);
         } else {
             photoSelected = null;

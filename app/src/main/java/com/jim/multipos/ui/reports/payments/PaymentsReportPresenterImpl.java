@@ -457,7 +457,10 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
         switch (currentPosition) {
             case 0:
                 String date = simpleDateFormat.format(fromDateSummary.getTime()) + " - " + simpleDateFormat.format(toDateSummary.getTime());
-                view.exportTableToExcel(fileName, path, summaryObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToExcel(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToExcel(fileName, path, summaryObjects, currentPosition, date, filter, searchText);
                 break;
             case 1:
                 String date1 = simpleDateFormat.format(fromDateLog.getTime()) + " - " + simpleDateFormat.format(toDateLog.getTime());
@@ -484,7 +487,10 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
                     filters.append(context.getString(R.string.debt_in));
                 }
                 filter = filters.toString();
-                view.exportTableToExcel(fileName, path, logObjects, currentPosition, date1, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToExcel(fileName, path, searchResultsTemp, currentPosition, date1, filter, searchText);
+                } else
+                    view.exportTableToExcel(fileName, path, logObjects, currentPosition, date1, filter, searchText);
                 break;
         }
     }
@@ -495,7 +501,10 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
         switch (currentPosition) {
             case 0:
                 String date = simpleDateFormat.format(fromDateSummary.getTime()) + " - " + simpleDateFormat.format(toDateSummary.getTime());
-                view.exportTableToPdf(fileName, path, summaryObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdf(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdf(fileName, path, summaryObjects, currentPosition, date, filter, searchText);
                 break;
             case 1:
                 String date1 = simpleDateFormat.format(fromDateLog.getTime()) + " - " + simpleDateFormat.format(toDateLog.getTime());
@@ -522,7 +531,10 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
                     filters.append(context.getString(R.string.debt_in));
                 }
                 filter = filters.toString();
-                view.exportTableToPdf(fileName, path, logObjects, currentPosition, date1, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdf(fileName, path, searchResultsTemp, currentPosition, date1, filter, searchText);
+                } else
+                    view.exportTableToPdf(fileName, path, logObjects, currentPosition, date1, filter, searchText);
                 break;
         }
     }
@@ -533,7 +545,10 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
         switch (currentPosition) {
             case 0:
                 String date = simpleDateFormat.format(fromDateSummary.getTime()) + " - " + simpleDateFormat.format(toDateSummary.getTime());
-                view.exportExcelToUSB(filename, root, summaryObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportExcelToUSB(filename, root, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportExcelToUSB(filename, root, summaryObjects, currentPosition, date, filter, searchText);
                 break;
             case 1:
                 String date1 = simpleDateFormat.format(fromDateLog.getTime()) + " - " + simpleDateFormat.format(toDateLog.getTime());
@@ -560,7 +575,11 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
                     filters.append(context.getString(R.string.debt_in));
                 }
                 filter = filters.toString();
-                view.exportExcelToUSB(filename, root, logObjects, currentPosition, date1, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportExcelToUSB(filename, root, searchResultsTemp, currentPosition, date1, filter, searchText);
+                } else
+                    view.exportExcelToUSB(filename, root, logObjects, currentPosition, date1, filter, searchText);
+
                 break;
         }
     }
@@ -571,7 +590,11 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
         switch (currentPosition) {
             case 0:
                 String date = simpleDateFormat.format(fromDateSummary.getTime()) + " - " + simpleDateFormat.format(toDateSummary.getTime());
-                view.exportTableToPdfToUSB(filename, root, summaryObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdfToUSB(filename, root, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdfToUSB(filename, root, summaryObjects, currentPosition, date, filter, searchText);
+
                 break;
             case 1:
                 String date1 = simpleDateFormat.format(fromDateLog.getTime()) + " - " + simpleDateFormat.format(toDateLog.getTime());
@@ -598,7 +621,10 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
                     filters.append(context.getString(R.string.debt_in));
                 }
                 filter = filters.toString();
-                view.exportTableToPdfToUSB(filename, root, logObjects, currentPosition, date1, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdfToUSB(filename, root, searchResultsTemp, currentPosition, date1, filter, searchText);
+                } else
+                    view.exportTableToPdfToUSB(filename, root, logObjects, currentPosition, date1, filter, searchText);
                 break;
         }
     }

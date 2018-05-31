@@ -308,7 +308,10 @@ public class OrderHistoryPresenterImpl extends BasePresenterImpl<OrderHistoryVie
         }
         filter = filters.toString();
         String date = simpleDateFormat.format(fromDate.getTime()) + " - " + simpleDateFormat.format(toDate.getTime());
-        view.exportTableToExcel(fileName, path, objects, date, filter, searchText);
+        if (searchResultsTemp != null) {
+            view.exportTableToExcel(fileName, path, searchResultsTemp, date, filter, searchText);
+        } else
+            view.exportTableToExcel(fileName, path, objects, date, filter, searchText);
     }
 
     @Override
@@ -326,7 +329,10 @@ public class OrderHistoryPresenterImpl extends BasePresenterImpl<OrderHistoryVie
         }
         filter = filters.toString();
         String date = simpleDateFormat.format(fromDate.getTime()) + " - " + simpleDateFormat.format(toDate.getTime());
-        view.exportTableToPdf(fileName, path, objects, date, filter, searchText);
+        if (searchResultsTemp != null) {
+            view.exportTableToPdf(fileName, path, searchResultsTemp, date, filter, searchText);
+        } else
+            view.exportTableToPdf(fileName, path, objects, date, filter, searchText);
     }
 
     @Override
@@ -344,7 +350,10 @@ public class OrderHistoryPresenterImpl extends BasePresenterImpl<OrderHistoryVie
         }
         filter = filters.toString();
         String date = simpleDateFormat.format(fromDate.getTime()) + " - " + simpleDateFormat.format(toDate.getTime());
-        view.exportExcelToUSB(filename, root, objects, date, filter, searchText);
+        if (searchResultsTemp != null) {
+            view.exportExcelToUSB(filename, root, searchResultsTemp, date, filter, searchText);
+        } else
+            view.exportExcelToUSB(filename, root, objects, date, filter, searchText);
     }
 
     @Override
@@ -362,7 +371,10 @@ public class OrderHistoryPresenterImpl extends BasePresenterImpl<OrderHistoryVie
         }
         filter = filters.toString();
         String date = simpleDateFormat.format(fromDate.getTime()) + " - " + simpleDateFormat.format(toDate.getTime());
-        view.exportTableToPdfToUSB(filename, root, objects, date, filter, searchText);
+        if (searchResultsTemp != null) {
+            view.exportTableToPdfToUSB(filename, root, searchResultsTemp, date, filter, searchText);
+        } else
+            view.exportTableToPdfToUSB(filename, root, objects, date, filter, searchText);
     }
 
     @Override

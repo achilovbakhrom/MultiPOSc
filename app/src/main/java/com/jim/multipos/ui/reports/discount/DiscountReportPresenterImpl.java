@@ -74,10 +74,10 @@ public class DiscountReportPresenterImpl extends BasePresenterImpl<DiscountRepor
         fromDate.set(Calendar.MINUTE, 0);
         fromDate.set(Calendar.SECOND, 0);
         view.updateDateIntervalUi(fromDate, toDate);
-        new Handler().postDelayed(()->{
+        new Handler().postDelayed(() -> {
             initReportContent();
             view.initTable(firstObjects);
-        },50);
+        }, 50);
 
     }
 
@@ -702,13 +702,22 @@ public class DiscountReportPresenterImpl extends BasePresenterImpl<DiscountRepor
         filter = filters.toString();
         switch (currentPosition) {
             case 0:
-                view.exportTableToExcel(fileName, path, firstObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToExcel(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToExcel(fileName, path, firstObjects, currentPosition, date, filter, searchText);
                 break;
             case 1:
-                view.exportTableToExcel(fileName, path, secondObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToExcel(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToExcel(fileName, path, secondObjects, currentPosition, date, filter, searchText);
                 break;
             case 2:
-                view.exportTableToExcel(fileName, path, thirdObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToExcel(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToExcel(fileName, path, thirdObjects, currentPosition, date, filter, searchText);
                 break;
         }
     }
@@ -727,13 +736,22 @@ public class DiscountReportPresenterImpl extends BasePresenterImpl<DiscountRepor
         filter = filters.toString();
         switch (currentPosition) {
             case 0:
-                view.exportTableToPdf(fileName, path, firstObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdf(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdf(fileName, path, firstObjects, currentPosition, date, filter, searchText);
                 break;
             case 1:
-                view.exportTableToPdf(fileName, path, secondObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdf(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdf(fileName, path, secondObjects, currentPosition, date, filter, searchText);
                 break;
             case 2:
-                view.exportTableToPdf(fileName, path, thirdObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdf(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdf(fileName, path, thirdObjects, currentPosition, date, filter, searchText);
                 break;
         }
     }
@@ -771,13 +789,22 @@ public class DiscountReportPresenterImpl extends BasePresenterImpl<DiscountRepor
         filter = filters.toString();
         switch (currentPosition) {
             case 0:
-                view.exportExcelToUSB(filename, root, firstObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportExcelToUSB(filename, root, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportExcelToUSB(filename, root, firstObjects, currentPosition, date, filter, searchText);
                 break;
             case 1:
-                view.exportExcelToUSB(filename, root, secondObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportExcelToUSB(filename, root, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportExcelToUSB(filename, root, secondObjects, currentPosition, date, filter, searchText);
                 break;
             case 2:
-                view.exportExcelToUSB(filename, root, thirdObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportExcelToUSB(filename, root, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportExcelToUSB(filename, root, thirdObjects, currentPosition, date, filter, searchText);
                 break;
         }
     }
@@ -796,13 +823,22 @@ public class DiscountReportPresenterImpl extends BasePresenterImpl<DiscountRepor
         filter = filters.toString();
         switch (currentPosition) {
             case 0:
-                view.exportTableToPdfToUSB(fileName, path, firstObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdfToUSB(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdfToUSB(fileName, path, firstObjects, currentPosition, date, filter, searchText);
                 break;
             case 1:
-                view.exportTableToPdfToUSB(fileName, path, secondObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdfToUSB(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdfToUSB(fileName, path, secondObjects, currentPosition, date, filter, searchText);
                 break;
             case 2:
-                view.exportTableToPdfToUSB(fileName, path, thirdObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdfToUSB(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdfToUSB(fileName, path, thirdObjects, currentPosition, date, filter, searchText);
                 break;
         }
     }

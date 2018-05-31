@@ -8,9 +8,11 @@ import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.operations.CategoryOperations;
 import com.jim.multipos.data.operations.ProductOperations;
+import com.jim.multipos.ui.mainpospage.model.OrderProductItem;
 import com.jim.multipos.ui.mainpospage.view.ProductFolderView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -57,12 +59,13 @@ public class ProductFolderViewPresenterImpl extends BasePresenterImpl<ProductFol
                 folderItem.setCount(count);
                 folderItems.add(folderItem);
             }
+            Collections.sort(folderItems, (o1, o2) -> o1.getCategory().getName().toUpperCase().compareTo(o2.getCategory().getName().toUpperCase()));
             view.setFolderItemRecyclerView(folderItems);
         });
     }
 
     @Override
-    public void selectedItem(FolderItem item) {
+    public void selectedItem(FolderItem item, int position) {
         this.folderItem = item;
         if (item.getProduct() != null) {
             view.setSelectedProduct(item.getProduct());
@@ -76,15 +79,9 @@ public class ProductFolderViewPresenterImpl extends BasePresenterImpl<ProductFol
                         FolderItem folderItem = new FolderItem();
                         folderItem.setProduct(product);
                         folderItem.setCategory(item.getCategory());
-                        List<InventoryState> inventoryStates = databaseManager.getInventoryStatesByProductId(product.getRootId()).blockingSingle();
-                        int count = 0;
-                        for (InventoryState inventoryState : inventoryStates) {
-                            count += inventoryState.getValue();
-                        }
-                        folderItem.setCount(count);
-
                         folderItems.add(folderItem);
                     }
+                    Collections.sort(folderItems, (o1, o2) -> o1.getProduct().getName().toUpperCase().compareTo(o2.getProduct().getName().toUpperCase()));
                     view.refreshProductList(folderItems, PRODUCT);
                     view.setBackItemVisibility(true);
                 });
@@ -103,6 +100,7 @@ public class ProductFolderViewPresenterImpl extends BasePresenterImpl<ProductFol
                             folderItems.add(folderItem);
                         });
                     }
+                    Collections.sort(folderItems, (o1, o2) -> o1.getCategory().getName().toUpperCase().compareTo(o2.getCategory().getName().toUpperCase()));
                     view.refreshProductList(folderItems, SUBCATEGORY);
                     view.setBackItemVisibility(true);
                 });
@@ -128,6 +126,7 @@ public class ProductFolderViewPresenterImpl extends BasePresenterImpl<ProductFol
                             folderItems.add(folderItem);
                         });
                     }
+                    Collections.sort(folderItems, (o1, o2) -> o1.getCategory().getName().toUpperCase().compareTo(o2.getCategory().getName().toUpperCase()));
                     view.refreshProductList(folderItems, CATEGORY);
                 });
                 break;
@@ -144,6 +143,7 @@ public class ProductFolderViewPresenterImpl extends BasePresenterImpl<ProductFol
                             folderItems.add(folderItem);
                         });
                     }
+                    Collections.sort(folderItems, (o1, o2) -> o1.getCategory().getName().toUpperCase().compareTo(o2.getCategory().getName().toUpperCase()));
                     view.refreshProductList(folderItems, SUBCATEGORY);
                     view.setBackItemVisibility(true);
                 });
@@ -161,14 +161,9 @@ public class ProductFolderViewPresenterImpl extends BasePresenterImpl<ProductFol
                     FolderItem folderItem = new FolderItem();
                     folderItem.setProduct(product);
                     folderItem.setCategory(folderItem.getCategory());
-                    List<InventoryState> inventoryStates = databaseManager.getInventoryStatesByProductId(product.getRootId()).blockingSingle();
-                    int count = 0;
-                    for (InventoryState inventoryState : inventoryStates) {
-                        count += inventoryState.getValue();
-                    }
-                    folderItem.setCount(count);
                     folderItems.add(folderItem);
                 }
+                Collections.sort(folderItems, (o1, o2) -> o1.getProduct().getName().toUpperCase().compareTo(o2.getProduct().getName().toUpperCase()));
                 view.refreshProductList(folderItems, PRODUCT);
                 view.setBackItemVisibility(true);
             });
@@ -193,6 +188,7 @@ public class ProductFolderViewPresenterImpl extends BasePresenterImpl<ProductFol
         }
     }
 
+    @Override
     public void updateList() {
         categoryOperations.getAllActiveCategories().subscribe(categories -> {
             view.sendCategoryEvent(null, SUBCATEGORY_TITLE);
@@ -204,6 +200,7 @@ public class ProductFolderViewPresenterImpl extends BasePresenterImpl<ProductFol
                 folderItem.setCount(count);
                 folderItems.add(folderItem);
             }
+            Collections.sort(folderItems, (o1, o2) -> o1.getCategory().getName().toUpperCase().compareTo(o2.getCategory().getName().toUpperCase()));
             view.setBackItemVisibility(false);
             view.refreshProductList(folderItems, CATEGORY);
         });

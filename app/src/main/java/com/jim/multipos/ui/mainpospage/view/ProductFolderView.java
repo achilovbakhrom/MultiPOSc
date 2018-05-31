@@ -4,6 +4,7 @@ import com.jim.multipos.core.BaseView;
 import com.jim.multipos.data.db.model.intosystem.FolderItem;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.Product;
+import com.jim.multipos.ui.mainpospage.model.OrderProductItem;
 
 import java.util.List;
 

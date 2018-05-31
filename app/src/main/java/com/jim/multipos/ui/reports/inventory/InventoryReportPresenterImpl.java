@@ -140,9 +140,9 @@ public class InventoryReportPresenterImpl extends BasePresenterImpl<InventoryRep
                     firstObjects[i][1] = operations.getVendor().getName();
                     firstObjects[i][2] = operations.getType();
                     if (operations.getValue() < 0)
-                        firstObjects[i][3] = operations.getValue() * -1 + " " + operations.getProduct().getMainUnit().getAbbr();
+                        firstObjects[i][3] = operations.getValue() * -1;
                     else
-                        firstObjects[i][3] = operations.getValue() + " " + operations.getProduct().getMainUnit().getAbbr();
+                        firstObjects[i][3] = operations.getValue();
                     firstObjects[i][4] = operations.getCreatedDate();
                     firstObjects[i][5] = operations.getDescription();
                     if (operations.getOrder() != null)
@@ -296,7 +296,7 @@ public class InventoryReportPresenterImpl extends BasePresenterImpl<InventoryRep
                                 searchRes[i] = 1;
                                 continue;
                             }
-                            if (((String) firstObjects[i][3]).toUpperCase().contains(searchText.toUpperCase())) {
+                            if ((String.valueOf((double) firstObjects[i][3])).toUpperCase().contains(searchText.toUpperCase())) {
                                 searchRes[i] = 1;
                                 continue;
                             }
@@ -383,7 +383,7 @@ public class InventoryReportPresenterImpl extends BasePresenterImpl<InventoryRep
                                 searchRes[i] = 1;
                                 continue;
                             }
-                            if (((String) searchResultsTemp[i][3]).toUpperCase().contains(searchText.toUpperCase())) {
+                            if ((String.valueOf((double) searchResultsTemp[i][3])).toUpperCase().contains(searchText.toUpperCase())) {
                                 searchRes[i] = 1;
                                 continue;
                             }
@@ -757,13 +757,22 @@ public class InventoryReportPresenterImpl extends BasePresenterImpl<InventoryRep
                     filters.append(context.getString(R.string.wasted)).append(" ");
                 }
                 filter = filters.toString();
-                view.exportTableToExcel(fileName, path, firstObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToExcel(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToExcel(fileName, path, firstObjects, currentPosition, date, filter, searchText);
                 break;
             case 1:
-                view.exportTableToExcel(fileName, path, secondObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToExcel(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToExcel(fileName, path, secondObjects, currentPosition, date, filter, searchText);
                 break;
             case 2:
-                view.exportTableToExcel(fileName, path, forthObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToExcel(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToExcel(fileName, path, forthObjects, currentPosition, date, filter, searchText);
                 break;
         }
     }
@@ -803,13 +812,22 @@ public class InventoryReportPresenterImpl extends BasePresenterImpl<InventoryRep
                     filters.append(context.getString(R.string.wasted)).append(" ");
                 }
                 filter = filters.toString();
-                view.exportTableToPdf(fileName, path, firstObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdf(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdf(fileName, path, firstObjects, currentPosition, date, filter, searchText);
                 break;
             case 1:
-                view.exportTableToPdf(fileName, path, secondObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdf(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdf(fileName, path, secondObjects, currentPosition, date, filter, searchText);
                 break;
             case 2:
-                view.exportTableToPdf(fileName, path, forthObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdf(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdf(fileName, path, forthObjects, currentPosition, date, filter, searchText);
                 break;
         }
     }
@@ -849,13 +867,22 @@ public class InventoryReportPresenterImpl extends BasePresenterImpl<InventoryRep
                     filters.append(context.getString(R.string.wasted)).append(" ");
                 }
                 filter = filters.toString();
-                view.exportExcelToUSB(fileName, path, firstObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportExcelToUSB(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportExcelToUSB(fileName, path, firstObjects, currentPosition, date, filter, searchText);
                 break;
             case 1:
-                view.exportExcelToUSB(fileName, path, secondObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportExcelToUSB(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportExcelToUSB(fileName, path, secondObjects, currentPosition, date, filter, searchText);
                 break;
             case 2:
-                view.exportExcelToUSB(fileName, path, forthObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportExcelToUSB(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportExcelToUSB(fileName, path, forthObjects, currentPosition, date, filter, searchText);
                 break;
         }
     }
@@ -895,13 +922,22 @@ public class InventoryReportPresenterImpl extends BasePresenterImpl<InventoryRep
                     filters.append(context.getString(R.string.wasted)).append(" ");
                 }
                 filter = filters.toString();
-                view.exportTableToPdfToUSB(fileName, path, firstObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdfToUSB(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdfToUSB(fileName, path, firstObjects, currentPosition, date, filter, searchText);
                 break;
             case 1:
-                view.exportTableToPdfToUSB(fileName, path, secondObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdfToUSB(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdfToUSB(fileName, path, secondObjects, currentPosition, date, filter, searchText);
                 break;
             case 2:
-                view.exportTableToPdfToUSB(fileName, path, forthObjects, currentPosition, date, filter, searchText);
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdfToUSB(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdfToUSB(fileName, path, forthObjects, currentPosition, date, filter, searchText);
                 break;
         }
     }
