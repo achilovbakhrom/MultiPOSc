@@ -170,14 +170,14 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Out off stock products in order list count red"
+                        android:text="@string/highlight_red_out_off_stock_products_in_order_list"
                         android:textSize="@dimen/eighteen_dp"
                         android:textColor="#212121"
                         />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/include_logo_on_the_receipt_description"
+                        android:text="@string/please_tick_the_box_if_you_would_like_to_highlight_red"
                         android:layout_marginRight="@dimen/fifty_dp"
                         android:textSize="@dimen/sixteen_dp"
                         android:textColor="#b8b8b8"

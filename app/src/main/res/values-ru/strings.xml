@@ -1088,4 +1088,15 @@
     <string name="till_operation_">Операции со сменой:</string>
     <string name="enter_operation_description">Введите описание операции</string>
     <string name="not_enough_cash_in_cash_drawer">Не достаточно денег в кассе</string>
+    <string name="such_product_name_exists">Такое название уже существует</string>
+    <string name="such_product_sku_exists">Такой артикул уже существует</string>
+    <string name="importing">Импорт...</string>
+    <string name="for_empty_order_cant_use_discount">Без заказа невозможно использовать скидки</string>
+    <string name="for_empty_order_cant_use_service_fee">Без заказа невозможно использовать комиссии</string>
+    <string name="import_errors">Ошибки при импорте:</string>
+    <string name="sku_or_product_error_qty">Аритикул или название содержат ошибки:</string>
+    <string name="vendor_doesnt_exists_error_qty">Поставщик не существует:</string>
+    <string name="unit_format_error">Ед. измеренеия не верна:</string>
+    <string name="please_tick_the_box_if_you_would_like_to_highlight_red">Пожалуйста, поставьте галочку если хотите выделить красным </string>
+    <string name="highlight_red_out_off_stock_products_in_order_list">Выделить красным отсутсвующие товары на складе в заказе</string>
 </resources>

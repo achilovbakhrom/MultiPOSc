@@ -1424,4 +1424,12 @@
     <string name="qty_cant_be_empty">Quantity cannot be empty</string>
     <string name="enter_return_reason">Enter return reason</string>
     <string name="importing">Importing...</string>
+    <string name="for_empty_order_cant_use_discount">For empty order can\'t use discount</string>
+    <string name="for_empty_order_cant_use_service_fee">For empty order can\'t use service fee</string>
+    <string name="import_errors">Import errors :</string>
+    <string name="sku_or_product_error_qty">Sku or product name exists error quantity:</string>
+    <string name="vendor_doesnt_exists_error_qty">Vendors does not exists error quantity:</string>
+    <string name="unit_format_error">Unit format error quantity:</string>
+    <string name="please_tick_the_box_if_you_would_like_to_highlight_red">Please, tick the box if you would like to highlight red</string>
+    <string name="highlight_red_out_off_stock_products_in_order_list">Highlight red out off stock products in order list</string>
 </resources>

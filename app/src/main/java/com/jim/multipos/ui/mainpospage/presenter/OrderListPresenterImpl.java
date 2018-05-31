@@ -239,7 +239,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
     @Override
     public void openDiscountDialog() {
         if(isEmptyOrder()){
-            view.openWarningDialog("For empty till can't use discount");
+            view.openWarningDialog(context.getString(R.string.for_empty_order_cant_use_discount));
             return;
         }
         if(discountItem != null){
@@ -294,7 +294,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
     @Override
     public void openSeriveFeeDialog() {
         if(isEmptyOrder()){
-            view.openWarningDialog("For empty till can't use service fee");
+            view.openWarningDialog(context.getString(R.string.for_empty_order_cant_use_service_fee));
             return;
         }
         if(serviceFeeItem !=null){

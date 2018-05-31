@@ -4762,7 +4762,8 @@ public class ExportUtils {
                                         List<Customer> customerList = databaseManager.getAllCustomers().blockingSingle();
                                         if (customerList.isEmpty()) {
                                             customer.setClientId(1L);
-                                        } else customer.setClientId(customerList.get(0).getClientId() + 1);
+                                        } else
+                                            customer.setClientId(customerList.get(0).getClientId() + 1);
                                         customer.setCreatedDate(System.currentTimeMillis());
                                         databaseManager.addCustomer(customer).blockingSingle();
                                         if (!group.isEmpty()) {
@@ -4887,7 +4888,8 @@ public class ExportUtils {
                                         List<Customer> customerList = databaseManager.getAllCustomers().blockingSingle();
                                         if (customerList.isEmpty()) {
                                             customer.setClientId(1L);
-                                        } else customer.setClientId(customerList.get(0).getClientId() + 1);
+                                        } else
+                                            customer.setClientId(customerList.get(0).getClientId() + 1);
                                         customer.setCreatedDate(System.currentTimeMillis());
                                         databaseManager.addCustomer(customer).blockingSingle();
                                         if (!group.isEmpty()) {
@@ -5122,7 +5124,7 @@ public class ExportUtils {
             List<Integer> skuErrors = new ArrayList<>();
             List<Integer> vendorErrors = new ArrayList<>();
             ProgressDialog dialog = new ProgressDialog(context);
-            dialog.setMessage("Importing...");
+            dialog.setMessage(context.getString(R.string.importing));
             dialog.setMax(products.length);
             dialog.setCancelable(false);
             dialog.setIndeterminate(true);
@@ -5131,10 +5133,10 @@ public class ExportUtils {
                 if (msg.what == 0) {
                     if (skuErrors.size() != 0 || vendorErrors.size() != 0 || unitErrors.size() != 0) {
                         UIUtils.showAlert(context, context.getString(R.string.ok),
-                                "Import errors : ",
-                                "Sku or product name exists errors quantity: " + skuErrors.size() + "\n" +
-                                        "Vendors does not exists errors quantity: " + vendorErrors.size() + " \n" +
-                                        "Unit format errors quantity" + unitErrors.size()
+                                context.getString(R.string.import_errors) + " ",
+                                context.getString(R.string.sku_or_product_error_qty) + " " + skuErrors.size() + "\n" +
+                                        context.getString(R.string.vendor_doesnt_exists_error_qty) + " " + vendorErrors.size() + " \n" +
+                                        context.getString(R.string.unit_format_error) + " " + unitErrors.size()
                                 , () -> {
 
                                 });
@@ -5394,10 +5396,10 @@ public class ExportUtils {
                 if (msg.what == 0) {
                     if (skuErrors.size() != 0 || vendorErrors.size() != 0 || unitErrors.size() != 0) {
                         UIUtils.showAlert(context, context.getString(R.string.ok),
-                                "Import errors : ",
-                                "Sku or product name exists error quantity: " + skuErrors.size() + "\n" +
-                                        "Vendors does not exists error quantity: " + vendorErrors.size() + " \n" +
-                                        "Unit format error quantity" + unitErrors.size()
+                                context.getString(R.string.import_errors) + " ",
+                                context.getString(R.string.sku_or_product_error_qty) + " " + skuErrors.size() + "\n" +
+                                        context.getString(R.string.vendor_doesnt_exists_error_qty) + " " + vendorErrors.size() + " \n" +
+                                        context.getString(R.string.unit_format_error) + " " + unitErrors.size()
                                 , () -> {
 
                                 });
