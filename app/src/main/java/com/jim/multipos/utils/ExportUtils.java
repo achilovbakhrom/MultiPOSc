@@ -37,6 +37,8 @@ import com.jim.multipos.data.db.model.products.VendorProductCon;
 import com.jim.multipos.data.db.model.unit.UnitCategory;
 import com.jim.multipos.ui.reports.summary_report.adapter.PairString;
 import com.jim.multipos.ui.reports.summary_report.adapter.TripleString;
+import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
+import com.jim.multipos.utils.rxevents.main_order_events.ProductEvent;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -5085,7 +5087,7 @@ public class ExportUtils {
         }
     }
 
-    public static void importProducts(Context context, String name, DatabaseManager databaseManager) {
+    public static void importProducts(Context context, String name, DatabaseManager databaseManager, RxBus rxBus) {
         if (!isExternalStorageAvailable() || isExternalStorageReadOnly()) {
             return;
         }
@@ -5142,6 +5144,7 @@ public class ExportUtils {
                                 });
                     } else
                         Toast.makeText(context, context.getString(R.string.products_imported), Toast.LENGTH_SHORT).show();
+                    rxBus.send(new ProductEvent(null, GlobalEventConstants.ADD));
                 }
                 return false;
             });
@@ -5350,7 +5353,7 @@ public class ExportUtils {
         }
     }
 
-    public static void importProductsFromUsb(Context context, UsbFile file, DatabaseManager databaseManager) {
+    public static void importProductsFromUsb(Context context, UsbFile file, DatabaseManager databaseManager, RxBus rxBus) {
         if (!isExternalStorageAvailable() || isExternalStorageReadOnly()) {
             return;
         }
@@ -5405,6 +5408,7 @@ public class ExportUtils {
                                 });
                     } else
                         Toast.makeText(context, context.getString(R.string.products_imported), Toast.LENGTH_SHORT).show();
+                    rxBus.send(new ProductEvent(null, GlobalEventConstants.ADD));
                 }
                 return false;
             });

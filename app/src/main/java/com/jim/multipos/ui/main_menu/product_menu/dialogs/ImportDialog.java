@@ -50,6 +50,7 @@ public class ImportDialog extends Dialog {
     private boolean fromUsb = false;
     private Context context;
     private DatabaseManager databaseManager;
+    private RxBus rxBus;
     private UsbFile root;
     private static final String ACTION_USB_PERMISSION =
             "com.android.example.USB_PERMISSION";
@@ -58,6 +59,7 @@ public class ImportDialog extends Dialog {
         super(context);
         this.context = context;
         this.databaseManager = databaseManager;
+        this.rxBus = rxBus;
         View dialogView = getLayoutInflater().inflate(R.layout.import_dialog, null);
         ButterKnife.bind(this, dialogView);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -103,10 +105,9 @@ public class ImportDialog extends Dialog {
                 if (fromUsb) {
                     selectFileForImport();
                 } else if (fileType == 1)
-                    ExportUtils.importProducts(context, path, databaseManager);
+                    ExportUtils.importProducts(context, path, databaseManager, rxBus);
                 else
                     ExportUtils.importVendors(context, path, databaseManager);
-                rxBus.send(new ProductEvent(null, GlobalEventConstants.ADD));
             } else tvFilePath.setError(context.getString(R.string.select_file_location));
         });
     }
@@ -126,10 +127,9 @@ public class ImportDialog extends Dialog {
                                 if (!file.isDirectory()) {
                                     if (path.contains(file.getName())) {
                                         if (fileType == 1)
-                                            ExportUtils.importProductsFromUsb(context, file, databaseManager);
+                                            ExportUtils.importProductsFromUsb(context, file, databaseManager, rxBus);
                                         else
                                             ExportUtils.importVendorsFromUsb(context, file, databaseManager);
-
                                     }
                                 }
                             }
