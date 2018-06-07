@@ -11,7 +11,7 @@
 
         <com.jim.mpviews.MpPayments
             android:id="@+id/mpFirstPayment"
-            android:layout_width="@dimen/two_hundred_dp"
+                android:layout_width="@dimen/two_hundred_dp"
             android:layout_height="@dimen/forty_dp"
             android:layout_marginBottom="@dimen/ten_dp" />
 

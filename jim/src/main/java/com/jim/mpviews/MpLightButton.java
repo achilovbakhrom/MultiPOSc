@@ -71,7 +71,7 @@ public class MpLightButton extends FrameLayout {
                 mpLightBtnImage.setVisibility(VISIBLE);
                 mpLightBtnText.setVisibility(GONE);
         }
-        Drawable buttonDrawable = context.getResources().getDrawable(R.drawable.light_btn_selector);
+        Drawable buttonDrawable = context.getResources().getDrawable(R.drawable.mp_button);
         buttonDrawable.mutate();
         mpLightBtnBg.setImageDrawable(buttonDrawable);
         mpLightBtnBg.setClickable(true);

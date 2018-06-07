@@ -317,6 +317,7 @@ import static android.app.admin.DevicePolicyManager.PERMISSION_POLICY_AUTO_GRANT
     protected void onRestart() {
         super.onRestart();
         clear();
+
     }
 
     @Override

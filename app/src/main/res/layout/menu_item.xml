@@ -53,7 +53,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/colorTextHint" />
+        android:layout_height="2px"
+        android:background="#f1f1f1" />
 
 </LinearLayout>

@@ -432,7 +432,7 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
     @Override
     public void enableDiscountButton() {
         tvDiscountName.setText(getContext().getString(R.string.discount));
-        ivDiscount.setImageResource(R.drawable.discount);
+        ivDiscount.setImageResource(R.drawable.ic_discount);
 
     }
 
@@ -445,7 +445,7 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
     @Override
     public void enableServiceFeeButton() {
         tvServiceFeeName.setText(getContext().getString(R.string.service_fee));
-        ivServiceFee.setImageResource(R.drawable.service);
+        ivServiceFee.setImageResource(R.drawable.ic_coins);
     }
 
     @Override
@@ -632,8 +632,8 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
     @Override
     public void visibleBackButton(){
         tvPay.setText(getContext().getString(R.string.back));
-        tvPay.setTextColor(Color.parseColor("#999999"));
-        ivPay.setImageResource(R.drawable.cancel_photo);
+        tvPay.setTextColor(Color.parseColor("#88898c"));
+        ivPay.setImageResource(R.drawable.ic_back_left_arrow);
 
     }
 
@@ -646,7 +646,7 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
     public void visiblePayButton(){
         tvPay.setText(getContext().getString(R.string.pay));
         tvPay.setTextColor(Color.parseColor("#419fd9"));
-        ivPay.setImageResource(R.drawable.currency);
+        ivPay.setImageResource(R.drawable.ic_dollar_symbol);
     }
     @Override
     public void onDestroy() {

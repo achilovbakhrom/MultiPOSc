@@ -20,8 +20,7 @@ import static com.jim.mpviews.utils.Utils.convertDpToPixel;
  * Created by Пользователь on 24.05.2017.
  */
 
-public class MpButton extends android.support.v7.widget.AppCompatButton {
-    boolean pressed = false;
+public class MpButton extends android.support.v7.widget.AppCompatTextView {
 
     public MpButton(Context context) {
         super(context);
@@ -41,35 +40,13 @@ public class MpButton extends android.support.v7.widget.AppCompatButton {
     public void init(Context context, AttributeSet attrs) {
 
         TypedArray attributeArray = context.obtainStyledAttributes(attrs, R.styleable.MpButton);
-        if (attributeArray.getBoolean(R.styleable.MpButton_isLong, false)) {
-            Drawable buttonDrawable = context.getResources().getDrawable(R.drawable.mp_button_long);
-            buttonDrawable.mutate();
-            setBackgroundDrawable(buttonDrawable);
-        } else {
-            Drawable buttonDrawable = context.getResources().getDrawable(R.drawable.mp_button);
-            buttonDrawable.mutate();
-            setBackgroundDrawable(buttonDrawable);
-        }
+        Drawable buttonDrawable = context.getResources().getDrawable(R.drawable.mp_button);
+        buttonDrawable.mutate();
+        setBackgroundDrawable(buttonDrawable);
         setAllCaps(false);
         setPadding((int) Utils.convertDpToPixel(10), (int) Utils.convertDpToPixel(10), (int) Utils.convertDpToPixel(10), (int) Utils.convertDpToPixel(10));
         setGravity(Gravity.CENTER);
-        pressed = false;
-        setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch (motionEvent.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        if (!pressed) {
-                            pressed = true;
-                        }
-                        return false;
-                    case MotionEvent.ACTION_UP:
-                        pressed = false;
-                        return false;
-                }
-                return false;
-            }
-        });
+
         attributeArray.recycle();
     }
 

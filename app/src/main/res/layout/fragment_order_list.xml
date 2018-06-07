@@ -323,7 +323,7 @@
                         android:layout_marginRight="@dimen/thirty_five_dp"
                         android:gravity="right"
                         android:text="@string/total"
-                        android:textColor="#88898c"
+                        android:textColor="@color/colorMainText"
                         android:textSize="@dimen/eighteen_dp" />
 
                     <TextView
@@ -370,7 +370,7 @@
                         android:layout_height="@dimen/thirty_dp"
                         android:layout_gravity="center"
                         android:layout_marginBottom="@dimen/ten_dp"
-                        android:src="@drawable/discount"
+                        android:src="@drawable/ic_discount"
                         />
 
                     <TextView
@@ -378,12 +378,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/sixteen_dp"
+                        android:textSize="@dimen/fourteen_dp"
                         android:layout_marginLeft="@dimen/sixteen_dp"
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:singleLine="true"
                         android:ellipsize="end"
                         android:text="@string/discount"
+                        android:textColor="#88898c"
                         />
 
                 </LinearLayout>
@@ -407,15 +409,17 @@
                         android:layout_height="@dimen/thirty_dp"
                         android:layout_gravity="center"
                         android:layout_marginBottom="@dimen/ten_dp"
-                        android:src="@drawable/service"
+                        android:src="@drawable/ic_coins"
                         />
 
                     <TextView
                         android:id="@+id/tvServiceFeeName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textSize="@dimen/fourteen_dp"
                         android:layout_gravity="center"
                         android:gravity="center"
+                        android:textColor="#88898c"
                         android:text="@string/service_fee" />
 
                 </LinearLayout>
@@ -437,9 +441,8 @@
                     <ImageView
                         android:layout_width="@dimen/thirty_dp"
                         android:layout_height="@dimen/thirty_dp"
-                        android:layout_gravity="center"
+                        android:src="@drawable/ic_printer_pos"
                         android:layout_marginBottom="@dimen/ten_dp"
-                        android:src="@drawable/print"
                         />
 
                     <TextView
@@ -447,6 +450,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
+                        android:textSize="@dimen/fourteen_dp"
+                        android:textColor="#88898c"
                         android:text="@string/print_order" />
 
                 </LinearLayout>
@@ -470,7 +475,7 @@
                         android:layout_width="@dimen/thirty_dp"
                         android:layout_height="@dimen/thirty_dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/currency"
+                        android:src="@drawable/ic_dollar_symbol"
                         android:layout_marginBottom="@dimen/ten_dp"
 
                         />
@@ -482,6 +487,7 @@
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:text="@string/pay"
+                        android:textSize="@dimen/fourteen_dp"
                         android:textColor="@color/colorBlue"
                         android:textStyle="bold" />
 

@@ -362,11 +362,10 @@
                             android:orientation="vertical">
 
                             <ImageView
-                                android:layout_width="@dimen/thirty_five_dp"
-                                android:layout_height="@dimen/thirty_five_dp"
+                                android:layout_width="@dimen/thirty_dp"
+                                android:layout_height="@dimen/thirty_dp"
                                 android:layout_gravity="center"
-                                android:src="@drawable/backspace_1"
-                                android:tint="@color/colorTintGrey" />
+                                android:src="@drawable/ic_backspace_arrow" />
 
                         </LinearLayout>
                     </LinearLayout>
@@ -392,7 +391,7 @@
                                 android:layout_gravity="center"
                                 android:layout_marginBottom="@dimen/five_dp"
                                 android:src="@drawable/borrow"
-                                android:tint="@color/colorBlue" />
+                                />
 
                             <TextView
                                 android:id="@+id/tvDebt"
@@ -421,7 +420,7 @@
                                 android:layout_height="@dimen/twenty_five_dp"
                                 android:layout_gravity="center"
                                 android:layout_marginBottom="@dimen/five_dp"
-                                android:src="@drawable/print_mini"
+                                android:src="@drawable/ic_coin_stack"
                                 android:tint="@color/colorBlue" />
 
                             <TextView
@@ -451,8 +450,8 @@
                                 android:layout_height="@dimen/twenty_five_dp"
                                 android:layout_gravity="center"
                                 android:layout_marginBottom="@dimen/five_dp"
-                                android:src="@drawable/print_mini"
-                                android:tint="@color/colorBlue" />
+                                android:src="@drawable/ic_printer_pos_mini"
+                                />
 
                             <TextView
                                 android:id="@+id/tvPrint"

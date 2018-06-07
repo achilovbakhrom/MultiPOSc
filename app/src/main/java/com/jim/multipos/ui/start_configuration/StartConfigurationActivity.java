@@ -158,6 +158,11 @@ public class StartConfigurationActivity extends DoubleSideActivity implements St
         finish();
     }
 
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+    }
+
     public void refreshActivity() {
         presenter.clearData();
     }

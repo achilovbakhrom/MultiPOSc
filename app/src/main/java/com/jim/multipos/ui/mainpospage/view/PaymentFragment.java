@@ -431,7 +431,7 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
 
     @Override
     public void enableTipsButton() {
-        ivTips.setImageResource(R.drawable.tips);
+        ivTips.setImageResource(R.drawable.ic_coin_stack);
         tvTips.setText(getContext().getString(R.string.coin));
     }
 
