@@ -40,7 +40,7 @@ public class CustomerGroupPresenterImpl extends BasePresenterImpl<CustomerGroupV
 
     @Override
     public List<Customer> getCustomers() {
-        return databaseManager.getCustomerOperations().getAllCustomers().blockingSingle();
+        return databaseManager.getCustomerOperations().getCustomers().blockingSingle();
     }
 
     @Override

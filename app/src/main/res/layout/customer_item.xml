@@ -72,7 +72,7 @@
             android:paddingTop="@dimen/five_dp">
 
             <com.jim.mpviews.MpEditText
-                android:id="@+id/tvQrCode"
+                android:id="@+id/etQrCode"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -83,12 +83,12 @@
                 android:textSize="@dimen/eighteen_dp" />
 
             <ImageView
-                android:id="@+id/ivRefreshQrCode"
+                android:id="@+id/ivQrCode"
                 android:layout_width="@dimen/thirty_dp"
                 android:layout_height="@dimen/thirty_dp"
                 android:layout_gravity="center"
                 android:src="@drawable/barcode"
-                android:tint="@color/colorBlue" />
+                android:tint="@color/colorTintGrey" />
         </LinearLayout>
 
         <TextView

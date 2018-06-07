@@ -69,6 +69,23 @@ public class Customer implements Editable {
     public Customer() {
     }
 
+    public Customer clone(){
+        Customer customer = new Customer();
+        customer.setActive(isActive);
+        customer.setAddress(address);
+        customer.setClientId(clientId);
+        customer.setCreatedDate(createdDate);
+        customer.setCustomerGroups(customerGroups);
+        customer.setDeleted(isDeleted);
+        customer.setIsNotModifyted(isNotModifyted);
+        customer.setName(name);
+        customer.setPhoneNumber(phoneNumber);
+        customer.setQrCode(qrCode);
+        customer.setRootId(rootId);
+        customer.setId(id);
+        return customer;
+    }
+
     public void setCustomerGroups(List<CustomerGroup> customerGroups) {
         this.customerGroups = customerGroups;
     }

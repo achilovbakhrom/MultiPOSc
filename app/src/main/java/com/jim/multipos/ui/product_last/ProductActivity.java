@@ -17,9 +17,9 @@ import com.jim.multipos.data.db.model.products.VendorProductCon;
 import com.jim.multipos.ui.product_last.fragment.CategoryAddEditFragment;
 import com.jim.multipos.ui.product_last.fragment.ProductAddEditFragment;
 import com.jim.multipos.ui.product_last.fragment.ProductListFragment;
+import com.jim.multipos.ui.product_last.fragment.ProductSearchFragment;
 import com.jim.multipos.utils.BarcodeStack;
 import com.jim.multipos.utils.RxBus;
-import com.jim.multipos.utils.TestUtils;
 import com.jim.multipos.utils.UIUtils;
 import com.jim.multipos.utils.rxevents.main_order_events.ProductEvent;
 import com.jim.multipos.utils.rxevents.product_events.CategoryEvent;
@@ -30,6 +30,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
 
 
 /**
@@ -52,6 +53,9 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     @Inject
     BarcodeStack barcodeStack;
+
+    @BindView(R.id.toolbar)
+    public MpToolbar toolbar;
 
     public ProductPresenter getPresenter() {
         return presenter;
@@ -76,6 +80,17 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
         addProductAddEditFragment();
         addCategoryAddEditFragment();
         presenter.onCreateView(savedInstanceState);
+        toolbar.setOnSearchClickListener(new MpToolbar.CallbackSearchFragmentClick() {
+            @Override
+            public void onOpen() {
+                showSearchFragment();
+            }
+
+            @Override
+            public void onClose() {
+                hideSearchFragment();
+            }
+        });
     }
 
     @Override
@@ -90,10 +105,43 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
         presenter.onPause();
     }
 
+    public void showSearchFragment() {
+        ProductSearchFragment searchModeFragment = (ProductSearchFragment) getSupportFragmentManager().findFragmentByTag(ProductSearchFragment.class.getName());
+        ProductListFragment productListFragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
+        if (productListFragment != null) {
+            getSupportFragmentManager().beginTransaction().hide(productListFragment).commit();
+        }
+        if (searchModeFragment == null) {
+            searchModeFragment = new ProductSearchFragment();
+            addFragmentWithTagToRight(searchModeFragment, ProductSearchFragment.class.getName());
+        } else {
+            getSupportFragmentManager().beginTransaction().show(searchModeFragment).commit();
+        }
+    }
+
+    public void hideSearchFragment() {
+        toolbar.setSearchClosedMode();
+        ProductSearchFragment searchModeFragment = (ProductSearchFragment) getSupportFragmentManager().findFragmentByTag(ProductSearchFragment.class.getName());
+        if (searchModeFragment != null) {
+            getSupportFragmentManager().beginTransaction().hide(searchModeFragment).commit();
+        }
+        addCategoryListFragment();
+    }
+
+    public void addCategoryListFragment() {
+        ProductListFragment productListFragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
+        if (productListFragment == null) {
+            productListFragment = new ProductListFragment();
+            addFragmentWithTagToRight(productListFragment, ProductListFragment.class.getName());
+        } else {
+            getSupportFragmentManager().beginTransaction().show(productListFragment).commit();
+        }
+    }
+
     private void addProductAddEditFragment() {
         ProductAddEditFragment fragment = new ProductAddEditFragment();
         Bundle bundle = getIntent().getExtras();
-        if (bundle != null){
+        if (bundle != null) {
             bundle.getString("PRODUCT_BARCODE");
             fragment.setArguments(bundle);
         }
@@ -106,14 +154,10 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     @Override
     public void addToProductList(Product product) {
-        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
-        if (fragment != null) {
-            fragment.addProductToProductsList(product);
+        ProductListFragment productListFragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
+        if (productListFragment != null && productListFragment.isVisible()) {
+            productListFragment.addProductToProductsList(product);
         }
-    }
-
-    public void addCategoryListFragment() {
-        addFragmentToRight(new ProductListFragment());
     }
 
     @Override
@@ -124,12 +168,12 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     @Override
     protected int getToolbarMode() {
-        return MpToolbar.DEFAULT_TYPE;
+        return MpToolbar.SEARCH_MODE_TYPE;
     }
 
     @Override
     public void addToCategoryList(Category category) {
-        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
         if (fragment != null) {
             fragment.addToCategoryList(category);
         }
@@ -137,7 +181,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     @Override
     public void addToSubcategoryList(Category category) {
-        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
         if (fragment != null) {
             fragment.addToSubcategoryLIst(category);
         }
@@ -146,7 +190,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     @Override
     public void clearSubcategoryList() {
-        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
         if (fragment != null) {
             fragment.clearSubcategoryList();
         }
@@ -154,7 +198,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     @Override
     public void setListToSubcategoryList(List<Category> categories) {
-        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
         if (fragment != null) {
             fragment.setListToSubcategoryList(categories);
         }
@@ -162,7 +206,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     @Override
     public void setListToCategoryList(List<Category> categories) {
-        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
         if (fragment != null) {
             fragment.setListToCategoryList(categories);
         }
@@ -186,7 +230,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     @Override
     public void editCategory(Category category) {
-        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
         if (fragment != null) {
             fragment.editCartegoryItem(category);
         }
@@ -194,7 +238,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     @Override
     public void editSubcategory(Category category) {
-        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
         if (fragment != null) {
             fragment.editSubcategoryItem(category);
         }
@@ -202,7 +246,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     @Override
     public void showCannotDeleteActiveItemDialog() {
-        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
         if (fragment != null) {
             fragment.showCannotDeleteActiveItemDialog();
         }
@@ -233,8 +277,24 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
     }
 
     @Override
+    public void setResultsList(List<Product> productList, String s) {
+        ProductSearchFragment searchModeFragment = (ProductSearchFragment) getSupportFragmentManager().findFragmentByTag(ProductSearchFragment.class.getName());
+        if (searchModeFragment != null) {
+            searchModeFragment.setResultsList(productList, s);
+        }
+    }
+
+    @Override
+    public void addProductToOrderInCloseSelf() {
+        ProductSearchFragment searchModeFragment = (ProductSearchFragment) getSupportFragmentManager().findFragmentByTag(ProductSearchFragment.class.getName());
+        if (searchModeFragment != null) {
+            searchModeFragment.addProductToOrderInCloseSelf();
+        }
+    }
+
+    @Override
     public void selectSubcategoryListItem(Long id) {
-        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
         if (fragment != null) {
             fragment.selectSubcategoryListItem(id);
         }
@@ -248,7 +308,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     @Override
     public Category getSubcategoryByPosition(int position) {
-        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
         Category result = null;
         if (fragment != null) {
             result = fragment.getSelectedSubcategory();
@@ -259,7 +319,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     @Override
     public void selectAddCategoryItem() {
-        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
         if (fragment != null) {
             fragment.selectAddCategoryItem();
         }
@@ -267,7 +327,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     @Override
     public void selectAddSubcategoryItem() {
-        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
         if (fragment != null) {
             fragment.selectAddSubcategoryItem();
         }
@@ -275,7 +335,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     @Override
     public void selectCategory(Long id) {
-        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
         if (fragment != null) {
             fragment.selectCategory(id);
         }
@@ -283,7 +343,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     @Override
     public void selectSubcategory(Long id) {
-        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
         if (fragment != null) {
             fragment.selectSubcategory(id);
         }
@@ -291,7 +351,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     @Override
     public Category getSelectedCategory() {
-        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
         if (fragment != null) {
             return fragment.getSelectedCategory();
         }
@@ -300,7 +360,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     @Override
     public Category getSelectedSubcategory() {
-        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
         if (fragment != null) {
             return fragment.getSelectedSubcategory();
         }
@@ -309,7 +369,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     @Override
     public void addCategory(Category category) {
-        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
         if (fragment != null) {
             fragment.addCategory(category);
         }
@@ -317,7 +377,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     @Override
     public void addSubcategory(Category category) {
-        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
         if (fragment != null) {
             fragment.addSubcategory(category);
         }
@@ -325,7 +385,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     @Override
     public void deleteCategory(Category category) {
-        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
         if (fragment != null) {
             fragment.deleteCategory(category);
         }
@@ -333,7 +393,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     @Override
     public void deleteSubcategory(Category category) {
-        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
         if (fragment != null) {
             fragment.deleteSubcategory(category);
         }
@@ -341,7 +401,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     @Override
     public void setListToCategories(List<Category> categories) {
-        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
         if (fragment != null) {
             fragment.setListToCategories(categories);
         }
@@ -349,7 +409,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     @Override
     public void setListToSubcategories(List<Category> subcategories) {
-        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
         if (fragment != null) {
             fragment.setListToSubcategoryList(subcategories);
         }
@@ -357,7 +417,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     @Override
     public void initRightSide(List<Category> categories) {
-        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
         if (fragment != null) {
             fragment.init(categories);
         }
@@ -431,7 +491,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     @Override
     public List<Category> getCategories() {
-        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
         if (fragment != null) {
             return fragment.getCategories();
         }
@@ -440,7 +500,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     @Override
     public List<Product> getProducts() {
-        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
         if (fragment != null) {
             return fragment.getProducts();
         }
@@ -449,7 +509,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     @Override
     public List<Category> getSubcategories() {
-        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
         if (fragment != null) {
             return fragment.getSubcategories();
         }
@@ -458,7 +518,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     @Override
     public void setListToProducts(List<Product> products) {
-        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
         if (fragment != null) {
             fragment.setListToProductsList(products);
         }
@@ -466,7 +526,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     @Override
     public void unselectSubcategoryList() {
-        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
         if (fragment != null) {
             fragment.unselectSubcategoriesList();
         }
@@ -474,7 +534,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     @Override
     public void unselectProductsList() {
-        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
         if (fragment != null) {
             fragment.unselectProductsList();
         }
@@ -482,7 +542,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     @Override
     public void clearProductList() {
-        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
         if (fragment != null) {
             fragment.clearProductList();
         }
@@ -547,7 +607,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     @Override
     public void setCategoryPath(String name) {
-        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
         if (fragment != null) {
             fragment.setCategoryPath(name);
         }
@@ -555,7 +615,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     @Override
     public void setSubcategoryPath(String name) {
-        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
         if (fragment != null) {
             fragment.setSubcategoryPath(name);
         }
@@ -563,7 +623,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     @Override
     public void unselectCategoryList() {
-        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
         if (fragment != null) {
             fragment.unselectCategoryList();
         }
@@ -715,7 +775,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     @Override
     public void editProduct(Product product) {
-        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
         if (fragment != null) {
             fragment.editProductItem(product);
         }
@@ -723,7 +783,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     @Override
     public void selectProductListItem(Long id) {
-        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
         if (fragment != null) {
             fragment.selectProductListItem(id);
         }
@@ -731,7 +791,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     @Override
     public void selectAddProductListItem() {
-        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
         if (fragment != null) {
             fragment.selectAddProductListItem();
         }
@@ -763,7 +823,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
 
     @Override
     public boolean isActiveVisible() {
-        ProductListFragment fragment = (ProductListFragment) getCurrentFragmentRight();
+        ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
         if (fragment != null) {
             return fragment.isActiveEnabled();
         }

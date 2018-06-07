@@ -28,19 +28,6 @@
                 android:textSize="@dimen/twenty_dp"
                 android:textStyle="bold" />
 
-            <!--<TextView
-                android:id="@+id/tvAdd"
-                android:layout_width="@dimen/eighty_dp"
-                android:layout_height="@dimen/forty_dp"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/thirty_dp"
-                android:gravity="center"
-                android:padding="@dimen/ten_dp"
-                android:text="+ Add"
-                android:textColor="@color/customer_group_dialog_button_state"
-                android:textSize="@dimen/sixteen_dp"
-                android:textStyle="bold" />-->
-
             <Button
                 android:id="@+id/btnAdd"
                 android:layout_width="wrap_content"

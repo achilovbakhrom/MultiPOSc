@@ -308,4 +308,5 @@ public interface DbHelper {
     Single<PaymentType> getSystemPaymentType();
     Single<List<Discount>> getStaticDiscounts();
     Single<List<Discount>> getDiscountsByType(int discountApplyType);
+    Single<List<Customer>> getCustomersWithoutSorting();
 }

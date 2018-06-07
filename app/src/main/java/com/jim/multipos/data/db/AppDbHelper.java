@@ -873,7 +873,7 @@ public class AppDbHelper implements DbHelper {
                 .where(CustomerDao.Properties.IsNotModifyted.eq(true),
                         CustomerDao.Properties.IsDeleted.eq(false),
                         CustomerDao.Properties.IsActive.eq(true))
-                .orderDesc(CustomerDao.Properties.CreatedDate)
+                .orderDesc(CustomerDao.Properties.ClientId)
                 .build()
                 .list());
     }
@@ -2393,6 +2393,11 @@ public class AppDbHelper implements DbHelper {
                     DiscountDao.Properties.Delete.eq(false));
             e.onSuccess(queryBuilder.build().list());
         });
+    }
+
+    @Override
+    public Single<List<Customer>> getCustomersWithoutSorting() {
+        return Single.create(e -> e.onSuccess(mDaoSession.getCustomerDao().loadAll()));
     }
 
     @Override

@@ -514,7 +514,7 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
-    public Observable<List<Customer>> getAllCustomers() {
+    public Observable<List<Customer>> getCustomers() {
         return dbHelper.getAllCustomers();
     }
 
@@ -571,6 +571,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Single<List<Debt>> getAllCustomerDebtsInInterval(Calendar fromDate, Calendar toDate) {
         return dbHelper.getAllCustomerDebtsInInterval(fromDate, toDate);
+    }
+
+    @Override
+    public Single<List<Customer>> getAllCustomers() {
+        return dbHelper.getCustomersWithoutSorting();
     }
 
     @Override

@@ -1,11 +1,12 @@
-package com.jim.multipos.ui.customers_edit_new.adapters;
+package com.jim.multipos.ui.customers.adapter;
 
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.mpviews.MpCheckbox;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseAdapter;
@@ -15,52 +16,48 @@ import com.jim.multipos.data.db.model.customer.CustomerGroup;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by Portable-Acer on 07.11.2017.
  */
 
-public class CustomerGroupAdapter extends BaseAdapter<CustomerGroup, CustomerGroupAdapter.CustomerGroupViewHolder> {
+public class CustomerGroupsAdapter extends RecyclerView.Adapter<CustomerGroupsAdapter.CustomerGroupViewHolder> {
+
     private List<CustomerGroup> customerGroups;
     private List<CustomerGroup> selectedCustomerGroups;
-    private boolean isModified = false;
 
-    public CustomerGroupAdapter(List<CustomerGroup> customerGroups, List<CustomerGroup> selectedCustomerGroups) {
-        super(customerGroups);
+    public CustomerGroupsAdapter(List<CustomerGroup> customerGroups, List<CustomerGroup> selectedCustomerGroups) {
         this.customerGroups = customerGroups;
         this.selectedCustomerGroups = selectedCustomerGroups;
     }
 
+    @NonNull
     @Override
-    public CustomerGroupViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public CustomerGroupViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.customer_group_dialog_item, parent, false);
-
         return new CustomerGroupViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(CustomerGroupViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CustomerGroupViewHolder holder, int position) {
         if (!selectedCustomerGroups.isEmpty()) {
             for (CustomerGroup cg : selectedCustomerGroups) {
-                if (getItem(position).getId().equals(cg.getId())) {
+                if (customerGroups.get(position).getId().equals(cg.getId())) {
                     holder.chbCustomerGroup.setChecked(true);
                     break;
                 }
             }
         }
-
-        holder.tvCustomerGroupName.setText(getItem(position).getName());
+        holder.tvCustomerGroupName.setText(customerGroups.get(position).getName());
     }
 
-    public List<CustomerGroup> getSelectedCustomerGroups() {
-        return selectedCustomerGroups;
+    @Override
+    public int getItemCount() {
+        return customerGroups.size();
     }
 
-    public boolean isModified() {
-        return isModified;
-    }
-
-    class CustomerGroupViewHolder extends BaseViewHolder {
+    class CustomerGroupViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.chbCustomerGroup)
         MpCheckbox chbCustomerGroup;
         @BindView(R.id.tvCustomerGroupName)
@@ -68,19 +65,18 @@ public class CustomerGroupAdapter extends BaseAdapter<CustomerGroup, CustomerGro
 
         public CustomerGroupViewHolder(View itemView) {
             super(itemView);
-          itemView.setOnClickListener(v -> onClickHandler());
-          chbCustomerGroup.setOnClickListener(v -> onClickHandler());
+            ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(v -> onClickHandler());
+            chbCustomerGroup.setOnClickListener(v -> onClickHandler());
         }
 
         private void onClickHandler() {
             if (chbCustomerGroup.isChecked()) {
                 chbCustomerGroup.setChecked(false);
                 selectedCustomerGroups.remove(customerGroups.get(getAdapterPosition()));
-                isModified = true;
             } else {
                 chbCustomerGroup.setChecked(true);
                 selectedCustomerGroups.add(customerGroups.get(getAdapterPosition()));
-                isModified = true;
             }
         }
     }

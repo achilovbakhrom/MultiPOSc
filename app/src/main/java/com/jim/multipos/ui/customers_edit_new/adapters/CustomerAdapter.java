@@ -230,9 +230,9 @@ public class CustomerAdapter extends BaseAdapter<Customer, BaseViewHolder> {
         @NotEmpty(messageId = R.string.enter_address)
         @BindView(R.id.etAddress)
         MpEditText etAddress;
-        @BindView(R.id.tvQrCodeInAdd)
-        TextView tvQrCodeInAdd;
-        @BindView(R.id.ivRefreshQrCode)
+        @BindView(R.id.etQrCode)
+        MpEditText tvQrCodeInAdd;
+        @BindView(R.id.ivQrCode)
         ImageView ivRefreshQrCode;
         @BindView(R.id.tvCustomerGroup)
         TextView tvCustomerGroup;
@@ -442,7 +442,7 @@ public class CustomerAdapter extends BaseAdapter<Customer, BaseViewHolder> {
         MpEditText etAddress;
         @BindView(R.id.tvQrCode)
         MpEditText tvQrCode;
-        @BindView(R.id.ivRefreshQrCode)
+        @BindView(R.id.ivQrCode)
         ImageView ivRefreshQrCode;
         @BindView(R.id.tvCustomerGroup)
         TextView tvCustomerGroup;

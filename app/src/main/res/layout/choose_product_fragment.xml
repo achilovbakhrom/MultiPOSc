@@ -124,17 +124,15 @@
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rvCategory"
-                    android:layout_width="@dimen/hundred_dp"
+                    android:layout_width="@dimen/hundred_twenty_dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/ten_dp"
-                    android:layout_marginRight="@dimen/fifteen_dp"
                     android:overScrollMode="never" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rvSubCategory"
-                    android:layout_width="@dimen/hundred_dp"
+                    android:layout_width="@dimen/hundred_twenty_dp"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="@dimen/fifteen_dp"
                     android:overScrollMode="never" />
 
                 <android.support.v7.widget.RecyclerView

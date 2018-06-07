@@ -2,19 +2,15 @@ package com.jim.multipos.ui.mainpospage.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.google.zxing.integration.android.IntentIntegrator;
 import com.jim.mpviews.MpButton;
 import com.jim.mpviews.MpSearchView;
 import com.jim.multipos.R;
@@ -30,8 +26,6 @@ import com.jim.multipos.utils.managers.NotifyManager;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -110,7 +104,7 @@ public class CustomerDialog extends Dialog {
         v.setBackgroundResource(android.R.color.transparent);
         UIUtils.closeKeyboard(svCustomerSearch, context);
         customerList = new ArrayList<>();
-        customerList = databaseManager.getAllCustomers().blockingSingle();
+        customerList = databaseManager.getCustomers().blockingSingle();
         rvCustomersList.setLayoutManager(new LinearLayoutManager(context));
         ((SimpleItemAnimator) rvCustomersList.getItemAnimator()).setSupportsChangeAnimations(false);
         customersListAdapter = new CustomersListAdapter(getContext(), databaseManager.getMainCurrency());
@@ -121,7 +115,7 @@ public class CustomerDialog extends Dialog {
             @Override
             public void onItemEdit(Customer customer) {
                 addCustomerDialog = new AddCustomerDialog(context, customer, databaseManager, (Customer newCustomer) -> {
-                    customerList = databaseManager.getAllCustomers().blockingSingle();
+                    customerList = databaseManager.getCustomers().blockingSingle();
                     sortList();
                     customersListAdapter.setData(customerList);
                 }, mainPageConnection,barcodeStack);
@@ -139,7 +133,7 @@ public class CustomerDialog extends Dialog {
 
         btnAddNewCustomer.setOnClickListener(view -> {
             addCustomerDialog = new AddCustomerDialog(context, null, databaseManager, (Customer customer) -> {
-                customerList = databaseManager.getAllCustomers().blockingSingle();
+                customerList = databaseManager.getCustomers().blockingSingle();
                 sortList();
                 customersListAdapter.setData(customerList);
                 if (customer != null) {

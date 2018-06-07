@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.telephony.PhoneNumberFormattingTextWatcher;
-import android.telephony.PhoneNumberUtils;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -78,7 +77,7 @@ public class AddCustomerDialog extends Dialog {
             tvDialogTitle.setText(context.getString(R.string.update_customer));
         } else {
             btnAddSave.setText(context.getString(R.string.add));
-            id = databaseManager.getAllCustomers().blockingSingle().size() + 1;
+            id = databaseManager.getCustomers().blockingSingle().size() + 1;
             tvClientId.setText(String.valueOf(id));
             tvDialogTitle.setText(context.getString(R.string.add_customer));
         }

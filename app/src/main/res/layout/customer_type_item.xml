@@ -7,7 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/twenty_dp"
+        android:layout_marginTop="@dimen/ten_dp"
         android:orientation="horizontal">
 
         <TextView
@@ -17,6 +17,7 @@
             android:layout_marginBottom="@dimen/twelve_dp"
             android:layout_marginLeft="@dimen/five_dp"
             android:text="@string/id"
+            android:gravity="center"
             android:textColor="#419fd9"
             android:textSize="@dimen/sixteen_dp" />
 
@@ -101,7 +102,7 @@
             android:paddingTop="@dimen/five_dp"
             android:textAlignment="center"
             android:textColorHint="@color/colorTextHint"
-            android:textSize="@dimen/eighteen_dp" />
+            android:textSize="@dimen/sixteen_dp" />
 
         <com.jim.mpviews.MpEditText
             android:id="@+id/etFullName"
@@ -117,7 +118,7 @@
             android:paddingRight="@dimen/ten_dp"
             android:paddingTop="@dimen/five_dp"
             android:textColorHint="@color/colorTextHint"
-            android:textSize="@dimen/eighteen_dp" />
+            android:textSize="@dimen/sixteen_dp" />
 
         <com.jim.mpviews.MpEditText
             android:id="@+id/etPhone"
@@ -133,7 +134,7 @@
             android:paddingRight="@dimen/ten_dp"
             android:paddingTop="@dimen/five_dp"
             android:textColorHint="@color/colorTextHint"
-            android:textSize="@dimen/eighteen_dp" />
+            android:textSize="@dimen/sixteen_dp" />
 
         <com.jim.mpviews.MpEditText
             android:id="@+id/etAddress"
@@ -164,7 +165,7 @@
 
             <com.jim.mpviews.MpEditText
                 android:backgroundTint="@color/transparent"
-                android:id="@+id/tvQrCodeInAdd"
+                android:id="@+id/etQrCode"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -172,15 +173,15 @@
                 android:hint="@string/barcode"
                 android:background="@color/colorWhite"
                 android:textColor="@android:color/black"
-                android:textSize="@dimen/eighteen_dp" />
+                android:textSize="@dimen/sixteen_dp" />
 
             <ImageView
-                android:id="@+id/ivRefreshQrCode"
+                android:id="@+id/ivQrCode"
                 android:layout_width="@dimen/thirty_dp"
                 android:layout_height="@dimen/thirty_dp"
                 android:layout_gravity="center"
                 android:src="@drawable/barcode"
-                android:tint="@color/colorBlue" />
+                android:tint="@color/colorTintGrey" />
         </LinearLayout>
 
         <TextView

@@ -9,7 +9,6 @@ import com.jim.multipos.R;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.PaymentType;
-import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
 import com.jim.multipos.data.db.model.customer.CustomerPayment;
@@ -90,7 +89,7 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
         switch (currentPosition) {
             case 0:
                 List<Customer> customers = new ArrayList<>();
-                databaseManager.getAllCustomers().subscribe(customers1 -> {
+                databaseManager.getCustomers().subscribe(customers1 -> {
                     for (int i = 0; i < customers1.size(); i++) {
                         customers1.get(i).resetDebtList();
                         if (customers1.get(i).getDebtList().size() > 0)
@@ -132,7 +131,7 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
                 break;
             case 1:
                 List<Customer> customersList = new ArrayList<>();
-                databaseManager.getAllCustomers().subscribe(customers1 -> {
+                databaseManager.getCustomers().subscribe(customers1 -> {
                     for (int i = 0; i < customers1.size(); i++) {
                         customers1.get(i).resetDebtList();
                         if (customers1.get(i).getDebtList().size() > 0)

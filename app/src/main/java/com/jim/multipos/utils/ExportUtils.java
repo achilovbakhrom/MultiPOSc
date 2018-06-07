@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.github.mjdev.libaums.fs.UsbFile;
@@ -24,7 +23,6 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.jim.mpviews.utils.ReportViewConstants;
-import com.jim.mpviews.utils.Utils;
 import com.jim.multipos.R;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.customer.Customer;
@@ -4248,7 +4246,7 @@ public class ExportUtils {
         cellStyle.setDataFormat(format.getFormat("@"));
         Sheet sheet = workbook.createSheet(context.getString(R.string.customers));
         String[] values = {context.getString(R.string.customer_name), context.getString(R.string.phone), context.getString(R.string.address), context.getString(R.string.barcode), context.getString(R.string.customer_groups)};
-        List<Customer> customers = databaseManager.getAllCustomers().blockingSingle();
+        List<Customer> customers = databaseManager.getCustomers().blockingSingle();
         Row row = sheet.createRow(0);
         for (int i = 0; i < values.length; i++) {
             Cell name = row.createCell(i);
@@ -4334,7 +4332,7 @@ public class ExportUtils {
             Paragraph empty = new Paragraph(" ");
             document.add(empty);
             String[] values = {context.getString(R.string.customer_name), context.getString(R.string.phone), context.getString(R.string.address), context.getString(R.string.barcode), context.getString(R.string.customer_groups)};
-            List<Customer> customers = databaseManager.getAllCustomers().blockingSingle();
+            List<Customer> customers = databaseManager.getCustomers().blockingSingle();
             float[] columnWidths = {10, 10, 10, 10, 10};
             PdfPTable table = new PdfPTable(columnWidths);
             table.setWidthPercentage(100f);
@@ -4437,7 +4435,7 @@ public class ExportUtils {
         cellStyle.setDataFormat(format.getFormat("@"));
         Sheet sheet = workbook.createSheet(context.getString(R.string.customers));
         String[] values = {context.getString(R.string.customer_name), context.getString(R.string.phone), context.getString(R.string.address), context.getString(R.string.barcode), context.getString(R.string.customer_groups)};
-        List<Customer> customers = databaseManager.getAllCustomers().blockingSingle();
+        List<Customer> customers = databaseManager.getCustomers().blockingSingle();
         Row row = sheet.createRow(0);
         for (int i = 0; i < values.length; i++) {
             Cell name = row.createCell(i);
@@ -4514,7 +4512,7 @@ public class ExportUtils {
             Paragraph empty = new Paragraph(" ");
             document.add(empty);
             String[] values = {context.getString(R.string.customer_name), context.getString(R.string.phone), context.getString(R.string.address), context.getString(R.string.barcode), context.getString(R.string.customer_groups)};
-            List<Customer> customers = databaseManager.getAllCustomers().blockingSingle();
+            List<Customer> customers = databaseManager.getCustomers().blockingSingle();
             float[] columnWidths = {10, 10, 10, 10, 10};
             PdfPTable table = new PdfPTable(columnWidths);
             table.setWidthPercentage(100f);
@@ -4761,7 +4759,7 @@ public class ExportUtils {
                                         customer.setAddress(address);
                                         customer.setQrCode(barcode);
                                         customer.setActive(true);
-                                        List<Customer> customerList = databaseManager.getAllCustomers().blockingSingle();
+                                        List<Customer> customerList = databaseManager.getCustomers().blockingSingle();
                                         if (customerList.isEmpty()) {
                                             customer.setClientId(1L);
                                         } else
@@ -4887,7 +4885,7 @@ public class ExportUtils {
                                         customer.setAddress(address);
                                         customer.setQrCode(barcode);
                                         customer.setActive(true);
-                                        List<Customer> customerList = databaseManager.getAllCustomers().blockingSingle();
+                                        List<Customer> customerList = databaseManager.getCustomers().blockingSingle();
                                         if (customerList.isEmpty()) {
                                             customer.setClientId(1L);
                                         } else

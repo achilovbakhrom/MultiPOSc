@@ -105,6 +105,7 @@
                     </LinearLayout>
 
                     <FrameLayout
+                        android:id="@+id/frame1"
                         android:layout_width="1px"
                         android:layout_height="match_parent"
                         android:background="#20000000" />
@@ -158,6 +159,7 @@
                     </RelativeLayout>
 
                     <FrameLayout
+                        android:id="@+id/frame2"
                         android:layout_width="1px"
                         android:layout_height="match_parent"
                         android:background="#20000000" />
@@ -165,7 +167,6 @@
                     <RelativeLayout
                         android:id="@+id/mpReports"
                         android:layout_width="0dp"
-
                         android:layout_height="match_parent"
                         android:layout_weight="1">
 
@@ -210,6 +211,7 @@
                     </RelativeLayout>
 
                     <FrameLayout
+                        android:id="@+id/frame3"
                         android:layout_width="1px"
                         android:layout_height="match_parent"
                         android:background="#20000000" />
@@ -263,6 +265,7 @@
                     </RelativeLayout>
 
                     <FrameLayout
+                        android:id="@+id/frame4"
                         android:layout_width="1px"
                         android:layout_height="match_parent"
                         android:background="#20000000" />

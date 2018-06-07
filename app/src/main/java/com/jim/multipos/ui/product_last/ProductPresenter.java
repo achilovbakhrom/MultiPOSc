@@ -56,4 +56,10 @@ public interface ProductPresenter extends Presenter {
     List<ProductClass> updateProductClass();
     boolean isProductSkuExists(String sku);
     List<Vendor> updateVendors();
+    void onOkPressed();
+    void onSearchTextChange(String s);
+    void setBarcodeSearchMode(boolean barcodeMode);
+    void setNameSearchMode(boolean nameMode);
+    void setSkuSearchMode(boolean skuMode);
+    void setSearchProduct(Product product);
 }

@@ -14,6 +14,7 @@ import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.intosystem.TitleDescription;
 import com.jim.multipos.ui.customer_debt.CustomerDebtActivity;
 import com.jim.multipos.ui.customer_group_new.CustomerGroupActivity;
+import com.jim.multipos.ui.customers.CustomersActivity;
 import com.jim.multipos.ui.customers_edit_new.CustomersEditActivity;
 import com.jim.multipos.ui.main_menu.MenuListAdapter;
 import com.jim.multipos.ui.main_menu.customers_menu.dialogs.CustomerExportDialog;
@@ -85,7 +86,7 @@ public class CustomersMenuActivity extends BaseActivity implements CustomersMenu
         //TODO add activities for opening
         switch (position) {
             case 0:
-                Intent intent = new Intent(this, CustomersEditActivity.class);
+                Intent intent = new Intent(this, CustomersActivity.class);
                 startActivity(intent);
                 break;
             case 1:

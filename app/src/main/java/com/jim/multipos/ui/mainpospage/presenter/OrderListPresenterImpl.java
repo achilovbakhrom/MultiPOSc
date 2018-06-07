@@ -2,7 +2,6 @@ package com.jim.multipos.ui.mainpospage.presenter;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.jim.multipos.R;
 import com.jim.multipos.core.BasePresenterImpl;
@@ -24,7 +23,6 @@ import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.products.VendorProductCon;
 import com.jim.multipos.data.db.model.unit.UnitCategory;
 import com.jim.multipos.data.prefs.PreferencesHelper;
-import com.jim.multipos.ui.mainpospage.data.ProductIdWithCount;
 import com.jim.multipos.ui.mainpospage.dialogs.DiscountDialog;
 import com.jim.multipos.ui.mainpospage.dialogs.ServiceFeeDialog;
 import com.jim.multipos.ui.mainpospage.model.DiscountItem;
@@ -1308,7 +1306,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
                 }
             }
             if(productsAll.isEmpty()){
-                databaseManager.getAllCustomers().subscribe(customers -> {
+                databaseManager.getCustomers().subscribe(customers -> {
                     for (int i = customers.size()-1; i >= 0  ; i--) {
                         if(customers.get(i).getQrCode()!=null && customers.get(i).getQrCode().equals(barcode)){
                             changeCustomer(customers.get(i));

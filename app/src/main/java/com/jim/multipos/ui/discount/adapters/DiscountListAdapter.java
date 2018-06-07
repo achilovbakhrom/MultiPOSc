@@ -226,7 +226,6 @@ public class DiscountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         public AddDiscountViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            //TODO FROM RESURS
             spTypeAmount.setArrowTint(R.color.colorDiscount);
             spUsed.setArrowTint(R.color.colorDiscount);
             spTypeAmount.setAdapter(discountAmountType);

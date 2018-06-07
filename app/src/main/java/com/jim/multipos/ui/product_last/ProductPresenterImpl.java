@@ -20,7 +20,6 @@ import com.jim.multipos.utils.UIUtils;
 import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
 
 import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -52,6 +51,12 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     DatabaseManager databaseManager;
     private boolean isNew = true;
     private String savedCosts = "";
+    StringBuilder searchBuilder;
+    boolean skuMode = true;
+    boolean nameMode = true;
+    boolean barcodeMode = true;
+    List<Product> productList;
+    String searchText = "";
 
     @Inject
     ProductPresenterImpl(ProductView productView, DatabaseManager databaseManager, DecimalFormat decimalFormat) {
@@ -63,6 +68,8 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
         inventoryStates = new ArrayList<>();
         deletedStatesList = new ArrayList<>();
         productClass = null;
+        searchBuilder = new StringBuilder();
+        productList = new ArrayList<>();
         this.formatter = decimalFormat;
     }
 
@@ -563,6 +570,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             view.selectCategory(category.getId());
             mode = CategoryAddEditMode.CATEGORY_EDIT_MODE;
             view.openEditCategoryMode(category.getName(), category.getDescription(), category.isActive());
+
             List<Category> subCategories;
             if (view.isActiveVisible()) {
                 subCategories = this.category.getAllSubCategories();
@@ -1063,9 +1071,14 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     @Override
     public List<Category> getSubcategories(Category category) {
         List<Category> result = new ArrayList<>();
-        result.add(null);
-        if (category.getAllSubCategories() != null) {
-            result.addAll(category.getAllSubCategories());
+        if (view.isActiveVisible()) {
+            result = category.getAllSubCategories();
+        } else {
+            result = category.getActiveSubCategories();
+        }
+        if (result != null && !result.isEmpty()) {
+            Collections.sort(result, (o1, o2) -> o1.getPosition().compareTo(o2.getPosition()));
+            Collections.sort(result, (o1, o2) -> -((Boolean) o1.isActive()).compareTo(o2.isActive()));
         }
         return result;
     }
@@ -1432,7 +1445,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     public List<Vendor> updateVendors() {
         return databaseManager.getVendors().blockingSingle();
     }
-
 
     private InventoryState inventoryState;
     private List<InventoryState> deletedStatesList;
@@ -1817,5 +1829,117 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 }
                 break;
         }
+    }
+
+    @Override
+    public void setSkuSearchMode(boolean active) {
+        skuMode = active;
+        onSearchTextChange(searchText);
+        onModeChange();
+    }
+
+    @Override
+    public void setSearchProduct(Product product) {
+        Category subCategory = product.getCategory();
+        this.category = subCategory.getParentCategory();
+        this.category.resetSubCategories();
+        view.setCategoryPath(this.category.getName());
+        view.selectCategory(category.getId());
+        List<Category> subCategories;
+        if (view.isActiveVisible()) {
+            subCategories = this.category.getAllSubCategories();
+        } else {
+            subCategories = this.category.getActiveSubCategories();
+        }
+        if (subCategories != null && !subCategories.isEmpty()) {
+            Collections.sort(subCategories, (o1, o2) -> o1.getPosition().compareTo(o2.getPosition()));
+            Collections.sort(subCategories, (o1, o2) -> -((Boolean) o1.isActive()).compareTo(o2.isActive()));
+        }
+        subCategories.add(0, null);
+        view.setListToSubcategoryList(subCategories);
+        view.setSubcategoryPath(category.getName());
+        this.subcategory = subCategory;
+        this.subcategory.resetProducts();
+        if (this.category != null) {
+            view.selectSubcategory(subcategory.getId());
+            List<Product> products;
+            if (view.isActiveVisible()) {
+                products = subcategory.getAllProducts();
+            } else {
+                products = subcategory.getActiveProducts();
+            }
+            if (products != null && !products.isEmpty()) {
+                Collections.sort(products, (o1, o2) -> o1.getPosition().compareTo(o2.getPosition()));
+                Collections.sort(products, (o1, o2) -> -((Boolean) o1.isActive()).compareTo(o2.isActive()));
+            }
+            products.add(0, null);
+            view.setListToProducts(products);
+            openProduct(product);
+        }
+    }
+
+    @Override
+    public void setNameSearchMode(boolean active) {
+        nameMode = active;
+        onSearchTextChange(searchText);
+        onModeChange();
+
+    }
+
+    @Override
+    public void setBarcodeSearchMode(boolean active) {
+        barcodeMode = active;
+        onSearchTextChange(searchText);
+        onModeChange();
+
+    }
+
+    @Override
+    public void onSearchTextChange(String s) {
+        searchText = s;
+        if (s.length() == 1) {
+            databaseManager.getSearchProducts(s, skuMode, barcodeMode, nameMode).subscribe((products, throwable) -> {
+                productList = products;
+                view.setResultsList(productList, s);
+            });
+        } else if (s.length() > 0) {
+            List<Product> productsTemp = new ArrayList<>();
+            for (Product product : productList) {
+                if (barcodeMode && product.getBarcode().toUpperCase().contains(s.toUpperCase())) {
+                    productsTemp.add(product);
+                } else if (nameMode && product.getName().toUpperCase().contains(s.toUpperCase())) {
+                    productsTemp.add(product);
+                } else if (skuMode && product.getSku().toUpperCase().contains(s.toUpperCase())) {
+                    productsTemp.add(product);
+                }
+            }
+            view.setResultsList(productsTemp, s);
+        }
+    }
+
+
+    @Override
+    public void onOkPressed() {
+        view.addProductToOrderInCloseSelf();
+    }
+
+    private void onModeChange() {
+        if (searchText.length() > 0)
+            databaseManager.getSearchProducts(searchText.substring(0, 1), skuMode, barcodeMode, nameMode).subscribe((products, throwable) -> {
+                productList = products;
+                List<Product> productsTemp = new ArrayList<>();
+
+                for (Product product : productList) {
+                    if (barcodeMode && product.getBarcode().toUpperCase().contains(searchText.toUpperCase())) {
+                        productsTemp.add(product);
+                    } else if (nameMode && product.getName().toUpperCase().contains(searchText.toUpperCase())) {
+                        productsTemp.add(product);
+                    } else if (skuMode && product.getSku().toUpperCase().contains(searchText.toUpperCase())) {
+                        productsTemp.add(product);
+                    }
+                }
+                view.setResultsList(productsTemp, searchText);
+
+            });
     }
 }

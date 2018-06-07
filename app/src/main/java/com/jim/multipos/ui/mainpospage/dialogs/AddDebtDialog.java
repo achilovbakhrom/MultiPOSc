@@ -1,6 +1,5 @@
 package com.jim.multipos.ui.mainpospage.dialogs;
 
-import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -88,7 +87,7 @@ public class AddDebtDialog extends Dialog {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Calendar calendar = Calendar.getInstance();
         suggestionsList = new ArrayList<>();
-        customerList = databaseManager.getAllCustomers().blockingSingle();
+        customerList = databaseManager.getCustomers().blockingSingle();
         for (Customer customer1 : customerList) {
             CustomerSuggestion suggestions = new CustomerSuggestion();
             suggestions.setCustomer(customer1);
@@ -221,7 +220,7 @@ public class AddDebtDialog extends Dialog {
     }
 
     public void setScanResult(String contents) {
-        databaseManager.getAllCustomers().subscribe(customers -> {
+        databaseManager.getCustomers().subscribe(customers -> {
             for (Customer customer : customers) {
                 if (customer.getQrCode().equals(contents)) {
                     this.customer = customer;

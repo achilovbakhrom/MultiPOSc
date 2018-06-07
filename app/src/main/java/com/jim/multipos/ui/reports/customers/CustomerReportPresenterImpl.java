@@ -15,7 +15,6 @@ import com.jim.multipos.data.db.model.customer.CustomerPayment;
 import com.jim.multipos.data.db.model.customer.Debt;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.PayedPartitions;
-import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.ui.reports.customers.model.CustomerGroupOrder;
 import com.jim.multipos.ui.reports.customers.model.CustomerPaymentLog;
 
@@ -92,7 +91,7 @@ public class CustomerReportPresenterImpl extends BasePresenterImpl<CustomerRepor
         switch (currentPosition) {
             case 0:
                 if (filterValue == 0) {
-                    List<Customer> customerList = databaseManager.getAllCustomers().blockingSingle();
+                    List<Customer> customerList = databaseManager.getCustomers().blockingSingle();
                     firstObjects = new Object[customerList.size()][8];
                     for (int i = 0; i < customerList.size(); i++) {
                         Customer customer = customerList.get(i);
@@ -924,7 +923,7 @@ public class CustomerReportPresenterImpl extends BasePresenterImpl<CustomerRepor
 
     @Override
     public void onBarcodeReaded(String barcode) {
-        databaseManager.getAllCustomers().subscribe(customers -> {
+        databaseManager.getCustomers().subscribe(customers -> {
             for (Customer customer : customers)
                 if (customer.getQrCode() != null && customer.getQrCode().equals(barcode)) {
                     view.setTextToSearch(customer.getName());

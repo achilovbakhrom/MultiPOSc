@@ -11,7 +11,9 @@ import com.jim.multipos.data.db.model.customer.CustomerGroup;
 import com.jim.multipos.ui.customer_group_new.fragments.AddCustomerGroupFragment;
 import com.jim.multipos.ui.customer_group_new.fragments.CustomerGroupsFragment;
 import com.jim.multipos.ui.customer_group_new.fragments.CustomersFragment;
+import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.WarningDialog;
+import com.jim.multipos.utils.rxevents.main_order_events.CustomerGroupEvent;
 
 import javax.inject.Inject;
 
@@ -22,6 +24,8 @@ public class CustomerGroupActivity extends DoubleSideActivity implements Custome
 
     @Inject
     public CustomerGroupPresenter presenter;
+    @Inject
+    RxBus rxBus;
 
     public CustomerGroupPresenter getPresenter() {
         return presenter;
@@ -81,6 +85,7 @@ public class CustomerGroupActivity extends DoubleSideActivity implements Custome
             popBackStack();
             ((CustomerGroupsFragment) getFragmentByTag(CUSTOMER_GROUPS_FRAGMENT)).updateItem(customerGroup);
         }
+        rxBus.send(new CustomerGroupEvent());
     }
 
     @Override

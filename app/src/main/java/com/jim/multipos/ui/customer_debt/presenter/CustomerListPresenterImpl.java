@@ -29,7 +29,7 @@ public class CustomerListPresenterImpl extends BasePresenterImpl<CustomerListVie
 
     @Override
     public void initData() {
-        customerList = databaseManager.getAllCustomers().blockingSingle();
+        customerList = databaseManager.getCustomers().blockingSingle();
         view.fillCustomerListRecyclerView(customerList);
         if (customerList.size() == 0)
             view.setDebtListVisibility(View.GONE);

@@ -114,4 +114,6 @@ public interface ProductView extends BaseView {
     void showInventoryStateShouldBeEmptyDialog();
     void sendProductChangeEvent(int type, Product oldProduct, Product newProduct);
     void sendProductEvent(int type, Product product);
+    void setResultsList(List<Product> productList, String s);
+    void addProductToOrderInCloseSelf();
 }

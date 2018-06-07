@@ -3,6 +3,7 @@ package com.jim.multipos.ui.product_last.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.jim.mpviews.MPAddItemView;
 import com.jim.mpviews.MPListItemView;
@@ -75,6 +76,9 @@ public class CategoryAdapter extends MovableBaseAdapter<Category, BaseViewHolder
             item.itemView.setText(items.get(position).getName());
             item.itemView.makeDeleteable(!items.get(position).isActive());
             item.itemView.setTextSize(12);
+            if (position == selectedPosition){
+                item.ivNextItem.setVisibility(View.VISIBLE);
+            } else item.ivNextItem.setVisibility(View.INVISIBLE);
         } else if (holder instanceof AddViewHolder){
             AddViewHolder item = (AddViewHolder) holder;
             item.itemView.setTextSize(12);
@@ -162,7 +166,6 @@ public class CategoryAdapter extends MovableBaseAdapter<Category, BaseViewHolder
 
         @BindView(R.id.aivAddItem)
         MPAddItemView itemView;
-
         AddViewHolder(View itemView) {
             super(itemView);
         }
@@ -171,6 +174,8 @@ public class CategoryAdapter extends MovableBaseAdapter<Category, BaseViewHolder
     class ItemViewHolder extends BaseViewHolder {
         @BindView(R.id.aivItem)
         MPListItemView itemView;
+        @BindView(R.id.ivNextItem)
+        ImageView ivNextItem;
         ItemViewHolder(View itemView) {
             super(itemView);
         }

@@ -16,6 +16,8 @@ import com.jim.multipos.ui.customer_debt.CustomerDebtActivity;
 import com.jim.multipos.ui.customer_debt.di.CustomerDebtActivityModule;
 import com.jim.multipos.ui.customer_group_new.CustomerGroupActivity;
 import com.jim.multipos.ui.customer_group_new.di.CustomerGroupActivityModule;
+import com.jim.multipos.ui.customers.CustomersActivity;
+import com.jim.multipos.ui.customers.di.CustomersActivityModule;
 import com.jim.multipos.ui.customers_edit_new.CustomersEditActivity;
 import com.jim.multipos.ui.customers_edit_new.di.CustomersEditActivityModule;
 import com.jim.multipos.ui.discount.DiscountAddingActivity;
@@ -169,4 +171,8 @@ abstract class  AppModule {
     @PerActivity
     @ContributesAndroidInjector(modules = StartConfigurationActivityModule.class)
     abstract StartConfigurationActivity provideStartConfigurationActivity();
+
+    @PerActivity
+    @ContributesAndroidInjector(modules = CustomersActivityModule.class)
+    abstract CustomersActivity provideCustomersActivity();
 }

@@ -6,7 +6,6 @@ import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
 import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -36,7 +35,7 @@ public class CustomersEditPresenterImpl extends BasePresenterImpl<CustomersEditV
 
     @Override
     public List<Customer> getCustomers() {
-        this.customers = databaseManager.getAllCustomers().blockingSingle();
+        this.customers = databaseManager.getCustomers().blockingSingle();
 
         return customers;
     }
