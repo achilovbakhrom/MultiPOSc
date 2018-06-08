@@ -32,7 +32,7 @@
             android:layout_height="@dimen/twenty_five_dp"
             android:layout_gravity="center"
             android:layout_marginRight="@dimen/thirty_dp"
-            android:src="@drawable/alert"
+            android:src="@drawable/ic_warning"
             android:visibility="gone" />
 
     </LinearLayout>

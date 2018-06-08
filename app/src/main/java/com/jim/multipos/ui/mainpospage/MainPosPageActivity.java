@@ -68,7 +68,7 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
     @BindView(R.id.toolbar)
     MpToolbar toolbar;
     @BindView(R.id.tvTime)
-    TextClock tvTime;
+    TextView tvTime;
     @BindView(R.id.tvDate)
     TextView tvDate;
     @Inject

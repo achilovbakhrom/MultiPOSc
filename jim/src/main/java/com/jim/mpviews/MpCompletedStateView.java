@@ -34,13 +34,13 @@ public class MpCompletedStateView extends AppCompatImageView {
     public void setState(int state) {
         switch (state) {
             case EMPTY_STATE:
-                setImageResource(R.drawable.empty_checkbox);
+                setImageResource(R.drawable.ic_empty_stroke);
                 break;
             case COMPLETED_STATE:
-                setImageResource(R.drawable.checked_checkbox);
+                setImageResource(R.drawable.ic_checked);
                 break;
             case WARNING_STATE:
-                setImageResource(R.drawable.warning_checkbox);
+                setImageResource(R.drawable.ic_warning_stroke);
                 break;
         }
         this.state = state;

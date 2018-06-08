@@ -91,7 +91,7 @@
                             android:layout_height="@dimen/twenty_dp"
                             android:layout_gravity="center"
                             android:layout_marginRight="@dimen/ten_dp"
-                            android:src="@drawable/alert"
+                            android:src="@drawable/ic_warning"
                             android:visibility="invisible"
                             tools:visibility="visible" />
 

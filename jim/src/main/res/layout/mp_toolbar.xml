@@ -86,7 +86,7 @@
                             android:layout_marginLeft="@dimen/twenty_dp"
                             android:orientation="vertical">
 
-                            <TextClock
+                            <TextView
                                 android:id="@+id/tvTime"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -143,8 +143,8 @@
                                 android:layout_height="@dimen/twenty_five_dp"
                                 android:layout_gravity="center"
                                 android:layout_marginBottom="@dimen/two_dp"
-                                android:src="@drawable/market"
-                                android:tint="@color/colorWhite" />
+                                android:src="@drawable/ic_market"
+                                />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -196,8 +196,8 @@
                                 android:layout_height="@dimen/twenty_five_dp"
                                 android:layout_gravity="center"
                                 android:layout_marginBottom="@dimen/two_dp"
-                                android:src="@drawable/reports"
-                                android:tint="@color/colorWhite" />
+                                android:src="@drawable/ic_reports"
+                                />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -249,8 +249,8 @@
                                 android:layout_height="@dimen/twenty_five_dp"
                                 android:layout_gravity="center"
                                 android:layout_marginBottom="@dimen/two_dp"
-                                android:src="@drawable/customer_group"
-                                android:tint="@color/colorWhite" />
+                                android:src="@drawable/ic_customer_group"
+                                />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -302,8 +302,8 @@
                                 android:layout_height="@dimen/twenty_five_dp"
                                 android:layout_gravity="center"
                                 android:layout_marginBottom="@dimen/two_dp"
-                                android:src="@drawable/inventory"
-                                android:tint="@color/colorWhite" />
+                                android:src="@drawable/ic_inventory"
+                                />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -401,7 +401,7 @@
                                 android:layout_width="@dimen/twenty_five_dp"
                                 android:layout_height="@dimen/twenty_five_dp"
                                 android:layout_gravity="center"
-                                android:src="@drawable/search_2" />
+                                android:src="@drawable/ic_search" />
                         </LinearLayout>
                     </RelativeLayout>
                 </LinearLayout>
