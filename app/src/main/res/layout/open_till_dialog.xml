@@ -145,10 +145,11 @@
             <com.jim.mpviews.MpButton
                 android:id="@+id/btnRevert"
                 android:layout_width="@dimen/hundred_thirty_dp"
-                android:layout_height="@dimen/fifty_five_dp"
+                android:layout_height="@dimen/forty_three_dp"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="@string/cancel"
+                android:layout_marginRight="@dimen/fifteen_dp"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="@dimen/sixteen_dp" />
 
@@ -156,7 +157,7 @@
             <com.jim.mpviews.MpButton
                 android:id="@+id/btnConfirm"
                 android:layout_width="@dimen/hundred_thirty_dp"
-                android:layout_height="@dimen/fifty_five_dp"
+                android:layout_height="@dimen/forty_three_dp"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="@string/confirm"

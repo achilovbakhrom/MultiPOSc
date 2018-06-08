@@ -205,17 +205,15 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:gravity="right"
             android:orientation="horizontal"
-            android:paddingBottom="@dimen/ten_dp"
-            android:paddingRight="@dimen/thirty_dp"
-            android:paddingTop="@dimen/ten_dp">
+            android:paddingRight="@dimen/thirty_dp">
 
             <com.jim.mpviews.MpButton
                 android:id="@+id/btnBack"
                 android:layout_width="@dimen/hundred_thirty_dp"
-                android:layout_height="@dimen/fifty_five_dp"
+                android:layout_height="@dimen/forty_three_dp"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="@string/back"

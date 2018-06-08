@@ -10,14 +10,14 @@
 
     <LinearLayout
         android:layout_width="@dimen/four_hundred_dp"
-        android:layout_height="@dimen/two_hundred_fifty_dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/rounded_edit_text_bg"
         android:orientation="vertical"
         android:paddingBottom="@dimen/ten_dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/sixty_dp"
+            android:layout_height="@dimen/fifty_dp"
             android:background="@drawable/rounded_blue_bg">
 
             <TextView
@@ -54,16 +54,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/seventeen_dp"
-            android:layout_marginTop="@dimen/eighteen_dp"
+            android:layout_marginTop="@dimen/ten_dp"
             android:gravity="center"
             android:orientation="horizontal">
 
             <com.jim.mpviews.MpButton
                 android:id="@+id/btnCancel"
                 android:layout_width="@dimen/hundred_thirty_dp"
-                android:layout_height="@dimen/fifty_five_dp"
+                android:layout_height="@dimen/forty_three_dp"
                 android:gravity="center"
                 android:text="@string/cancel"
+                android:layout_marginRight="@dimen/fifteen_dp"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="@dimen/sixteen_dp" />
 
@@ -71,7 +72,7 @@
             <com.jim.mpviews.MpButton
                 android:id="@+id/btnOK"
                 android:layout_width="@dimen/hundred_thirty_dp"
-                android:layout_height="@dimen/fifty_five_dp"
+                android:layout_height="@dimen/forty_three_dp"
                 android:gravity="center"
                 android:text="@string/ok"
                 android:textColor="@color/colorBlue"

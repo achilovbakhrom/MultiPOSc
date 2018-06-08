@@ -15,7 +15,6 @@ import com.jim.multipos.data.db.model.intosystem.TitleDescription;
 import com.jim.multipos.ui.customer_debt.CustomerDebtActivity;
 import com.jim.multipos.ui.customer_group_new.CustomerGroupActivity;
 import com.jim.multipos.ui.customers.CustomersActivity;
-import com.jim.multipos.ui.customers_edit_new.CustomersEditActivity;
 import com.jim.multipos.ui.main_menu.MenuListAdapter;
 import com.jim.multipos.ui.main_menu.customers_menu.dialogs.CustomerExportDialog;
 import com.jim.multipos.ui.main_menu.customers_menu.dialogs.ImportCustomersDialog;

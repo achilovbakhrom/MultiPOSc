@@ -427,8 +427,8 @@
                 </LinearLayout>
 
                 <com.jim.mpviews.MpButton
-                    android:layout_width="@dimen/hundred_eighty_dp"
-                    android:layout_height="@dimen/sixty_dp"
+                    android:layout_width="@dimen/hundred_thirty_dp"
+                    android:layout_height="@dimen/forty_three_dp"
                     android:layout_gravity="center"
                     android:layout_marginBottom="@dimen/five_dp"
                     android:layout_marginTop="@dimen/fifteen_dp"

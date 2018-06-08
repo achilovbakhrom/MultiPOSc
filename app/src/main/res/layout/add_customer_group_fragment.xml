@@ -18,8 +18,8 @@
             android:background="@color/colorWhite"
             android:gravity="center"
             android:orientation="vertical"
-            android:paddingBottom="@dimen/ten_dp"
-            android:paddingTop="@dimen/ten_dp">
+            android:paddingTop="@dimen/ten_dp"
+            android:paddingBottom="@dimen/ten_dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -68,10 +68,10 @@
                 android:gravity="center_vertical"
                 android:hint="@string/enter_group_name"
                 android:inputType="text"
-                android:paddingBottom="@dimen/five_dp"
                 android:paddingLeft="@dimen/ten_dp"
-                android:paddingRight="@dimen/ten_dp"
                 android:paddingTop="@dimen/five_dp"
+                android:paddingRight="@dimen/ten_dp"
+                android:paddingBottom="@dimen/five_dp"
                 android:textColorHint="@color/colorTextHint"
                 android:textSize="@dimen/sixteen_dp" />
 
@@ -115,8 +115,9 @@
             <com.jim.mpviews.MpButton
                 android:id="@+id/btnBack"
                 android:layout_width="@dimen/hundred_thirty_dp"
-                android:layout_height="@dimen/fifty_five_dp"
+                android:layout_height="@dimen/forty_three_dp"
                 android:layout_alignParentBottom="true"
+                android:layout_marginRight="@dimen/ten_dp"
                 android:gravity="center"
                 android:text="@string/back"
                 android:textColor="@color/colorSecondaryText"
@@ -125,8 +126,9 @@
             <com.jim.mpviews.MpButton
                 android:id="@+id/btnDelete"
                 android:layout_width="@dimen/hundred_thirty_dp"
-                android:layout_height="@dimen/fifty_five_dp"
+                android:layout_height="@dimen/forty_three_dp"
                 android:layout_alignParentBottom="true"
+                android:layout_marginRight="@dimen/ten_dp"
                 android:layout_toEndOf="@id/btnBack"
                 android:gravity="center"
                 android:text="@string/delete"
@@ -140,8 +142,9 @@
             <com.jim.mpviews.MpButton
                 android:id="@+id/btnMembers"
                 android:layout_width="@dimen/hundred_thirty_dp"
-                android:layout_height="@dimen/fifty_five_dp"
+                android:layout_height="@dimen/forty_three_dp"
                 android:layout_alignParentBottom="true"
+                android:layout_marginRight="@dimen/ten_dp"
                 android:layout_toEndOf="@id/btnDelete"
                 android:gravity="center"
                 android:text="@string/view"
@@ -152,7 +155,7 @@
             <com.jim.mpviews.MpButton
                 android:id="@+id/btnSave"
                 android:layout_width="@dimen/hundred_thirty_dp"
-                android:layout_height="@dimen/fifty_five_dp"
+                android:layout_height="@dimen/forty_three_dp"
                 android:layout_alignParentBottom="true"
                 android:layout_toEndOf="@id/btnMembers"
                 android:gravity="center"

@@ -18,8 +18,6 @@ import com.jim.multipos.ui.customer_group_new.CustomerGroupActivity;
 import com.jim.multipos.ui.customer_group_new.di.CustomerGroupActivityModule;
 import com.jim.multipos.ui.customers.CustomersActivity;
 import com.jim.multipos.ui.customers.di.CustomersActivityModule;
-import com.jim.multipos.ui.customers_edit_new.CustomersEditActivity;
-import com.jim.multipos.ui.customers_edit_new.di.CustomersEditActivityModule;
 import com.jim.multipos.ui.discount.DiscountAddingActivity;
 import com.jim.multipos.ui.discount.di.DiscountAddingModule;
 import com.jim.multipos.ui.inventory.InventoryActivity;
@@ -88,10 +86,6 @@ abstract class  AppModule {
     @PerActivity
     @ContributesAndroidInjector(modules = MainPageMenuModule.class)
     abstract MainPosPageActivity provideMainPosPageActivity();
-
-    @PerActivity
-    @ContributesAndroidInjector(modules = CustomersEditActivityModule.class)
-    abstract CustomersEditActivity provideCustomersEditActivity();
 
     @PerActivity
     @ContributesAndroidInjector(modules = CustomerGroupActivityModule.class)

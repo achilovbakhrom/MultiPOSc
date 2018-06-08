@@ -221,12 +221,12 @@
         <com.jim.mpviews.MpButton
             android:id="@+id/btnRevert"
             android:layout_width="@dimen/hundred_thirty_dp"
-            android:layout_height="@dimen/fifty_five_dp"
+            android:layout_height="@dimen/forty_three_dp"
             android:layout_alignParentBottom="true"
             android:layout_toEndOf="@id/btnDelete"
             android:gravity="center"
             android:text="@string/revert"
-            android:layout_marginRight="@dimen/twenty_dp"
+            android:layout_marginRight="@dimen/fifteen_dp"
             android:textColor="#b1b1b1"
             android:textSize="@dimen/sixteen_dp"
             android:textStyle="bold" />
@@ -234,7 +234,7 @@
         <com.jim.mpviews.MpButton
             android:id="@+id/btnSave"
             android:layout_width="@dimen/hundred_thirty_dp"
-            android:layout_height="@dimen/fifty_five_dp"
+            android:layout_height="@dimen/forty_three_dp"
             android:layout_alignParentBottom="true"
             android:layout_toEndOf="@id/btnMembers"
             android:gravity="center"

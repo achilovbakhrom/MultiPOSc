@@ -945,8 +945,8 @@
     <string name="product_classes">Product Classes</string>
     <string name="choose_vendor_product">Choose Vendor</string>
     <string name="remove">Remove</string>
-    <string name="remove_service_fee">Remove \nService Fee</string>
-    <string name="remove_discount">Remove \n Discount</string>
+    <string name="remove_service_fee">Remove\nService Fee</string>
+    <string name="remove_discount">Remove\nDiscount</string>
     <string name="sku_">SKU :</string>
     <string name="profit_group_by_">Profit group by:</string>
     <string name="sub_category_">Sub Category</string>

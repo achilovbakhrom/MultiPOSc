@@ -28,17 +28,18 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/fifteen_dp"
-                    android:paddingBottom="@dimen/five_dp"
                     android:paddingLeft="@dimen/ten_dp"
-                    android:paddingRight="@dimen/ten_dp"
                     android:paddingTop="@dimen/five_dp"
-                    android:textStyle="bold"
+                    android:paddingRight="@dimen/ten_dp"
+                    android:paddingBottom="@dimen/five_dp"
                     android:text="@string/discount"
                     android:textColor="@color/colorBlue"
-                    android:textSize="@dimen/sixteen_dp" />
+                    android:textSize="@dimen/sixteen_dp"
+                    android:textStyle="bold" />
 
 
             </LinearLayout>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -50,17 +51,17 @@
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rvDiscounts"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/twenty_five_dp"
-                    android:layout_marginRight="@dimen/twenty_five_dp"
-                    android:paddingTop="@dimen/ten_dp"
-                    android:paddingBottom="@dimen/ten_dp"
-                    android:clipToPadding="false"
-                    />
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rvDiscounts"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/twenty_five_dp"
+                        android:layout_marginRight="@dimen/twenty_five_dp"
+                        android:clipToPadding="false"
+                        android:paddingTop="@dimen/ten_dp"
+                        android:paddingBottom="@dimen/ten_dp" />
                 </LinearLayout>
+
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="10px"
@@ -74,22 +75,16 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="@dimen/thirty_dp"
                 android:gravity="right"
-                android:orientation="horizontal"
-
-                >
+                android:orientation="horizontal">
 
                 <com.jim.mpviews.MpButton
                     android:id="@+id/btnCancel"
                     android:layout_width="@dimen/hundred_thirty_dp"
-                    android:layout_height="@dimen/fifty_five_dp"
-                    android:layout_marginLeft="@dimen/fifteen_dp"
-                    android:layout_marginRight="@dimen/sixteen_dp"
+                    android:layout_height="@dimen/forty_three_dp"
+                    android:layout_marginRight="@dimen/thirty_dp"
                     android:text="@string/back"
-                    android:textColor="@color/colorMainText"
+                    android:textColor="@color/colorSecondaryText"
                     android:textSize="@dimen/sixteen_dp" />
-
-
-
 
             </LinearLayout>
         </LinearLayout>

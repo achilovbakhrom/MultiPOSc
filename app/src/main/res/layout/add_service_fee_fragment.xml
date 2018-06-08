@@ -54,12 +54,12 @@
     <com.jim.mpviews.MpButton
         android:id="@+id/btnBack"
         android:layout_width="@dimen/hundred_thirty_dp"
-        android:layout_height="@dimen/fifty_five_dp"
+        android:layout_height="@dimen/forty_three_dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="@dimen/twenty_dp"
-        android:layout_marginRight="@dimen/fifteen_dp"
+        android:layout_marginRight="@dimen/thirty_dp"
         android:text="@string/back"
-        android:textColor="@color/colorBlue"
+        android:textColor="@color/colorSecondaryText"
         android:textSize="@dimen/sixteen_dp" />
 </RelativeLayout>

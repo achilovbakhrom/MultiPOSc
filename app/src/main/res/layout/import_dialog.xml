@@ -74,8 +74,9 @@
             <com.jim.mpviews.MpButton
                 android:id="@+id/btnCancel"
                 android:layout_width="@dimen/hundred_thirty_dp"
-                android:layout_height="@dimen/fifty_five_dp"
+                android:layout_height="@dimen/forty_three_dp"
                 android:gravity="center"
+                android:layout_marginRight="@dimen/fifteen_dp"
                 android:text="@string/cancel"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="@dimen/sixteen_dp" />
@@ -83,9 +84,10 @@
             <com.jim.mpviews.MpButton
                 android:id="@+id/btnImport"
                 android:layout_width="@dimen/hundred_thirty_dp"
-                android:layout_height="@dimen/fifty_five_dp"
+                android:layout_height="@dimen/forty_three_dp"
                 android:gravity="center"
                 android:text="@string/import_to"
+                android:textStyle="bold"
                 android:textColor="@color/colorBlue"
                 android:textSize="@dimen/sixteen_dp" />
         </LinearLayout>

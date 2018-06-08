@@ -81,11 +81,11 @@
                 <com.jim.mpviews.MpButton
                     android:id="@+id/btnCancel"
                     android:layout_width="@dimen/hundred_thirty_dp"
-                    android:layout_height="@dimen/fifty_five_dp"
+                    android:layout_height="@dimen/forty_three_dp"
                     android:layout_marginLeft="@dimen/fifteen_dp"
                     android:layout_marginRight="@dimen/thirty_five_dp"
                     android:text="@string/back"
-                    android:textColor="@color/colorMainText"
+                    android:textColor="@color/colorSecondaryText"
                     android:textSize="@dimen/sixteen_dp" />
 
 

@@ -43,11 +43,11 @@
             android:textSize="@dimen/eighteen_dp" />
 
         <TextView
-            android:layout_marginLeft="@dimen/fifteen_dp"
             android:id="@+id/idCustomer"
             android:layout_width="@dimen/hundred_thirty_five_dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/fifteen_dp"
             android:gravity="center"
             android:text="1245672445"
             android:textColor="@color/colorMainText"
@@ -61,8 +61,9 @@
 
             <com.jim.mpviews.MpButton
                 android:layout_width="@dimen/hundred_thirty_dp"
-                android:layout_height="@dimen/fifty_five_dp"
+                android:layout_height="@dimen/forty_three_dp"
                 android:layout_gravity="center"
+                android:layout_marginRight="@dimen/ten_dp"
                 android:gravity="center"
                 android:text="Orders"
                 android:textColor="@color/colorBlue"
@@ -70,8 +71,9 @@
 
             <com.jim.mpviews.MpButton
                 android:layout_width="@dimen/hundred_thirty_dp"
-                android:layout_height="@dimen/fifty_five_dp"
+                android:layout_height="@dimen/forty_three_dp"
                 android:layout_gravity="center"
+                android:layout_marginRight="@dimen/fifteen_dp"
                 android:gravity="center"
                 android:text="Edit info"
                 android:textColor="@color/colorBlue"
@@ -79,8 +81,9 @@
 
             <com.jim.mpviews.MpButton
                 android:layout_width="@dimen/hundred_thirty_dp"
-                android:layout_height="@dimen/fifty_five_dp"
+                android:layout_height="@dimen/forty_three_dp"
                 android:layout_gravity="center"
+                android:layout_marginRight="@dimen/fifteen_dp"
                 android:gravity="center"
                 android:text="Add to Order"
                 android:textColor="@color/colorBlue"

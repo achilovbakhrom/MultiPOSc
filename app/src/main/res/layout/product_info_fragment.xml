@@ -7,6 +7,7 @@
     android:background="#fafafa"
     android:clickable="true"
     android:orientation="horizontal">
+
     <ImageView
         android:layout_width="@dimen/ten_dp"
         android:layout_height="match_parent"
@@ -20,26 +21,27 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/ten_dp"
             android:layout_marginLeft="@dimen/fifteen_dp"
             android:layout_marginTop="@dimen/five_dp"
+            android:layout_marginBottom="@dimen/ten_dp"
             android:background="@drawable/main_frame_frag_grey"
             android:orientation="vertical"
-            android:paddingBottom="@dimen/twenty_five_dp"
-            android:paddingTop="@dimen/thirty_dp">
+            android:paddingTop="@dimen/thirty_dp"
+            android:paddingBottom="@dimen/twenty_five_dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/thirty_dp"
-                android:layout_marginRight="@dimen/thirty_dp"
                 android:layout_marginTop="@dimen/twenty_dp"
+                android:layout_marginRight="@dimen/thirty_dp"
                 android:layout_marginBottom="@dimen/twenty_dp"
                 android:orientation="horizontal">
 
                 <RelativeLayout
                     android:layout_width="@dimen/hundred_dp"
                     android:layout_height="@dimen/hundred_dp">
+
                     <ImageView
                         android:id="@+id/ivProductImage"
                         android:layout_width="match_parent"
@@ -47,12 +49,12 @@
                         android:adjustViewBounds="true"
                         android:scaleType="fitCenter"
                         android:src="@drawable/default_product_image" />
+
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/photo_frame"/>
+                        android:src="@drawable/photo_frame" />
                 </RelativeLayout>
-
 
 
                 <LinearLayout
@@ -75,9 +77,9 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:paddingBottom="@dimen/five_dp"
-                            android:paddingRight="@dimen/ten_dp"
                             android:paddingTop="@dimen/five_dp"
+                            android:paddingRight="@dimen/ten_dp"
+                            android:paddingBottom="@dimen/five_dp"
                             android:text=""
                             android:textColor="@color/colorBlue"
                             android:textSize="@dimen/twenty_dp"
@@ -97,8 +99,8 @@
                             android:id="@+id/tvQuantity"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:paddingBottom="@dimen/five_dp"
                             android:paddingTop="@dimen/five_dp"
+                            android:paddingBottom="@dimen/five_dp"
                             android:text=""
                             android:textColor="@color/colorBlue"
                             android:textSize="@dimen/twenty_dp"
@@ -127,8 +129,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/sixty_dp"
-                android:layout_marginRight="@dimen/twenty_five_dp"
                 android:layout_marginTop="@dimen/twenty_dp"
+                android:layout_marginRight="@dimen/twenty_five_dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -137,8 +139,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:gravity="left"
-                    android:paddingBottom="@dimen/five_dp"
                     android:paddingTop="@dimen/five_dp"
+                    android:paddingBottom="@dimen/five_dp"
                     android:text="@string/quantity"
                     android:textColor="@color/colorBlue"
                     android:textSize="@dimen/eighteen_dp"
@@ -164,14 +166,14 @@
                         android:id="@+id/tvOrderQuantity"
                         android:layout_width="@dimen/hundred_twenty_five_dp"
                         android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginTop="@dimen/ten_dp"
                         android:layout_marginBottom="@dimen/ten_dp"
-                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/order_list_weight_product_item"
                         android:gravity="center"
                         android:paddingLeft="@dimen/five_dp"
                         android:paddingRight="@dimen/five_dp"
                         android:text=""
-                        android:background="@drawable/order_list_weight_product_item"
                         android:textColor="@color/colorMainText"
                         android:textSize="@dimen/twenty_dp"
                         android:textStyle="bold" />
@@ -188,8 +190,8 @@
 
                 <com.jim.mpviews.MpButton
                     android:id="@+id/btnSetQuantity"
-                    android:layout_width="@dimen/hundred_fifty_five_dp"
-                    android:layout_height="@dimen/sixty_five_dp"
+                    android:layout_width="@dimen/hundred_fifty_dp"
+                    android:layout_height="@dimen/fifty_five_dp"
                     android:text="@string/set_quantity"
                     android:textColor="@color/colorBlue"
                     android:textSize="@dimen/sixteen_dp" />
@@ -199,8 +201,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:layout_marginLeft="@dimen/forty_dp"
-                android:layout_marginRight="@dimen/twenty_five_dp"
                 android:layout_marginTop="@dimen/twenty_dp"
+                android:layout_marginRight="@dimen/twenty_five_dp"
                 android:background="#e9e9e9" />
 
             <LinearLayout
@@ -208,8 +210,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/sixty_dp"
-                android:layout_marginRight="@dimen/twenty_five_dp"
                 android:layout_marginTop="@dimen/twenty_dp"
+                android:layout_marginRight="@dimen/twenty_five_dp"
 
                 android:orientation="horizontal">
 
@@ -218,8 +220,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:gravity="left"
-                    android:paddingBottom="@dimen/five_dp"
                     android:paddingTop="@dimen/five_dp"
+                    android:paddingBottom="@dimen/five_dp"
                     android:text="@string/vendor"
                     android:textColor="@color/colorBlue"
                     android:textSize="@dimen/eighteen_dp"
@@ -270,8 +272,8 @@
 
                 <com.jim.mpviews.MpButton
                     android:id="@+id/btnChooseVendor"
-                    android:layout_width="@dimen/hundred_fifty_five_dp"
-                    android:layout_height="@dimen/sixty_five_dp"
+                    android:layout_width="@dimen/hundred_fifty_dp"
+                    android:layout_height="@dimen/fifty_five_dp"
                     android:text="@string/choose_vendor_product"
                     android:textColor="@color/colorBlue"
                     android:textSize="@dimen/sixteen_dp" />
@@ -281,8 +283,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:layout_marginLeft="@dimen/forty_dp"
-                android:layout_marginRight="@dimen/twenty_five_dp"
                 android:layout_marginTop="@dimen/twenty_dp"
+                android:layout_marginRight="@dimen/twenty_five_dp"
                 android:background="#e9e9e9" />
 
 
@@ -290,42 +292,42 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/sixty_five_dp"
                 android:layout_marginLeft="@dimen/thirty_dp"
-                android:layout_marginRight="@dimen/twenty_five_dp"
                 android:layout_marginTop="@dimen/twenty_dp"
+                android:layout_marginRight="@dimen/twenty_five_dp"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <com.jim.mpviews.MpButton
                     android:id="@+id/btnServiceFee"
-                    android:layout_width="@dimen/hundred_fifty_five_dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="@dimen/five_dp"
+                    android:layout_width="@dimen/hundred_fifty_dp"
+                    android:layout_height="@dimen/fifty_eight_dp"
+                    android:layout_marginRight="@dimen/ten_dp"
                     android:text="@string/remove_service_fee"
                     android:textColor="@color/colorBlue"
-                    android:textSize="@dimen/sixteen_dp"
-                    />
+                    android:textSize="@dimen/sixteen_dp" />
 
                 <com.jim.mpviews.MpButton
                     android:id="@+id/btnDiscountItem"
-                    android:layout_width="@dimen/hundred_fifty_five_dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="@dimen/five_dp"
+                    android:layout_width="@dimen/hundred_fifty_dp"
+                    android:layout_height="@dimen/fifty_eight_dp"
+                    android:layout_marginRight="@dimen/ten_dp"
                     android:text="@string/remove_discount"
                     android:textColor="@color/colorBlue"
-                    android:textSize="@dimen/sixteen_dp"
-                    />
+                    android:textSize="@dimen/sixteen_dp" />
+
                 <com.jim.mpviews.MpButton
                     android:id="@+id/btnRemove"
-                    android:layout_width="@dimen/hundred_fifty_five_dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="@dimen/five_dp"
+                    android:layout_width="@dimen/hundred_fifty_dp"
+                    android:layout_height="@dimen/fifty_eight_dp"
+                    android:layout_marginRight="@dimen/ten_dp"
                     android:text="@string/remove"
                     android:textColor="@color/colorBlue"
-                    android:textSize="@dimen/sixteen_dp"
-                    />
+                    android:textSize="@dimen/sixteen_dp" />
+
                 <com.jim.mpviews.MpButton
                     android:id="@+id/btnClose"
-                    android:layout_width="@dimen/hundred_fifty_five_dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="@dimen/hundred_fifty_dp"
+                    android:layout_height="@dimen/fifty_eight_dp"
                     android:text="@string/close"
                     android:textColor="@color/colorBlue"
                     android:textSize="@dimen/sixteen_dp" />
@@ -336,8 +338,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/thirty_dp"
-                android:layout_marginRight="@dimen/thirty_dp"
-                android:layout_marginTop="@dimen/twenty_dp">
+                android:layout_marginTop="@dimen/twenty_dp"
+                android:layout_marginRight="@dimen/thirty_dp">
 
                 <EditText
                     android:id="@+id/etSpecialRequest"
@@ -351,10 +353,10 @@
                     android:isScrollContainer="true"
                     android:maxLength="2000"
                     android:maxLines="10"
-                    android:paddingBottom="@dimen/ten_dp"
                     android:paddingLeft="@dimen/ten_dp"
-                    android:paddingRight="@dimen/ten_dp"
                     android:paddingTop="@dimen/ten_dp"
+                    android:paddingRight="@dimen/ten_dp"
+                    android:paddingBottom="@dimen/ten_dp"
                     android:singleLine="false"
                     android:textColorHint="@color/colorTextHint"
                     android:textSize="@dimen/sixteen_dp" />

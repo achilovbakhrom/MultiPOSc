@@ -351,14 +351,14 @@
 
         <com.jim.mpviews.MpButton
             android:layout_width="@dimen/hundred_fifty_dp"
-            android:layout_height="@dimen/fifty_dp"
+            android:layout_height="@dimen/forty_three_dp"
             android:layout_marginRight="@dimen/fifteen_dp"
             android:text="Advance"
             android:textColor="@color/colorMainText" />
 
         <com.jim.mpviews.MpButton
             android:layout_width="@dimen/hundred_fifty_dp"
-            android:layout_height="@dimen/fifty_dp"
+            android:layout_height="@dimen/forty_three_dp"
             android:layout_marginRight="@dimen/thirty_dp"
             android:text="Add"
             android:textColor="@color/colorMainText" />
