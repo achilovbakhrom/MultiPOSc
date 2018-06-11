@@ -1,6 +1,5 @@
 package com.jim.multipos.ui.product_last;
 
-import com.jim.mpviews.MpEditText;
 import com.jim.multipos.core.Presenter;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.ProductClass;
@@ -21,7 +20,7 @@ public interface ProductPresenter extends Presenter {
     void subcategorySelected(Category category);
     void addCategory(String name, String description, boolean isActive);
     void addProduct(String name, String barcode, String sku, String photoPath, boolean isActive, int costCurrencyPos,
-                    int priceCurrencuyPos, int productClassPos, int unitCategoryPos, List<Long> vendors, String description, Double resultPrice);
+                    int priceCurrencuyPos, int productClassPos, int unitCategoryPos, String description, Double resultPrice);
     List<Category> getSubcategories(Category category);
     boolean isSubcategoryNameUnique(String categoryName, String subcategoryName);
     boolean isCategoryNameUnique(String categoryName);
@@ -33,19 +32,11 @@ public interface ProductPresenter extends Presenter {
     Category getCategoryById(Long id);
     void deleteCategory();
     void deleteProduct();
-    void setCategoryItemsMoved();
-    void setSubcategoryItemsMoved();
-    void setProductItemsMoved();
     void productSelected(Product product);
     DatabaseManager getDatabaseManager();
     void unitCategorySelected(int position);
-    void openVendorChooserDialog();
-    void setProductCostDialog();
-    void setVendorName(List<Long> vendors);
     void showActivesToggled();
     boolean backPressFinish();
-    void setProductCosts(List<VendorProductCon> productConList);
-    void comparePriceWithCost(double priceValue);
     void setProductClass(ProductClass productClass);
     void initDataForProduct();
     void initDataForList();
@@ -55,7 +46,6 @@ public interface ProductPresenter extends Presenter {
     boolean isProductNameExists(String name);
     List<ProductClass> updateProductClass();
     boolean isProductSkuExists(String sku);
-    List<Vendor> updateVendors();
     void onOkPressed();
     void onSearchTextChange(String s);
     void setBarcodeSearchMode(boolean barcodeMode);

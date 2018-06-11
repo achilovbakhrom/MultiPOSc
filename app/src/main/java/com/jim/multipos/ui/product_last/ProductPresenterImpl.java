@@ -44,33 +44,23 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
 
     private Product product;
     private ProductClass productClass;
-    private List<Long> vendors;
-    private List<VendorProductCon> vendorProductConnectionsList;
-    //    private List<VendorProductCon> tempCostList;
-    private DecimalFormat formatter;
-    DatabaseManager databaseManager;
+    private DatabaseManager databaseManager;
+    private StringBuilder searchBuilder;
+    private boolean skuMode = true;
+    private boolean nameMode = true;
+    private boolean barcodeMode = true;
+    private List<Product> productList;
+    private String searchText = "";
     private boolean isNew = true;
-    private String savedCosts = "";
-    StringBuilder searchBuilder;
-    boolean skuMode = true;
-    boolean nameMode = true;
-    boolean barcodeMode = true;
-    List<Product> productList;
-    String searchText = "";
 
     @Inject
-    ProductPresenterImpl(ProductView productView, DatabaseManager databaseManager, DecimalFormat decimalFormat) {
+    ProductPresenterImpl(ProductView productView, DatabaseManager databaseManager) {
         super(productView);
         this.databaseManager = databaseManager;
-        vendors = new ArrayList<>();
-        vendorProductConnectionsList = new ArrayList<>();
-//        tempCostList = new ArrayList<>();
         inventoryStates = new ArrayList<>();
-        deletedStatesList = new ArrayList<>();
         productClass = null;
         searchBuilder = new StringBuilder();
         productList = new ArrayList<>();
-        this.formatter = decimalFormat;
     }
 
     @Override
@@ -100,60 +90,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             category = (Category) bundle.getSerializable(CATEGORY_KEY);
             subcategory = (Category) bundle.getSerializable(SUBCATEGORY_KEY);
             isNew = bundle.getBoolean(STATE_KEY);
-        }
-    }
-
-    /**
-     * item move processing for categories
-     * writes to db immediately
-     */
-    @Override
-    public void setCategoryItemsMoved() {
-        List<Category> categories = view.getCategories();
-        if (categories != null) {
-            for (int i = 0; i < categories.size(); i++) {
-                Category category = categories.get(i);
-                if (category != null) {
-                    category.setPosition((double) i);
-                    databaseManager.addCategory(category)
-                            .subscribe(id -> Log.d("sss", "setCategoryItemsMoved: " + id));
-                }
-            }
-        }
-    }
-
-    /**
-     * item move processing for subcategories
-     * writes to db immediately
-     */
-    @Override
-    public void setSubcategoryItemsMoved() {
-        List<Category> categories = view.getSubcategories();
-        if (categories != null) {
-            for (int i = 0; i < categories.size(); i++) {
-                Category category = categories.get(i);
-                if (category != null) {
-                    category.setPosition((double) i);
-                    databaseManager.addCategory(category)
-                            .subscribe(id -> Log.d("sss", "setSubcategoryItemsMoved: " + id));
-                }
-            }
-        }
-    }
-
-    @Override
-    public void setProductItemsMoved() {
-        List<Product> products = view.getProducts();
-        if (products != null) {
-            for (int i = 0; i < products.size(); i++) {
-                Product product = products.get(i);
-                if (product != null) {
-                    product.setPosition((double) i);
-                    databaseManager.addProduct(product).subscribe(id -> {
-                        Log.d("sss", "setProductItemsMoved: " + id);
-                    });
-                }
-            }
         }
     }
 
@@ -330,7 +266,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             case PRODUCT_ADD_MODE:
                 if (!view.getProductName().equals("") || !view.getBarCode().equals("") || !view.getSku().equals("") ||
                         !view.getPrice().equals(0.0d) || view.getUnitCategorySelectedPos() != 0 ||
-                        view.getUnitSelectedPos() != 0 || !view.getVendorSelectedPos().isEmpty() || this.productClass != null ||
+                        view.getUnitSelectedPos() != 0 || this.productClass != null ||
                         !view.getProductIsActive()) {
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
@@ -354,34 +290,13 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 List<UnitCategory> tempUnitCategories = databaseManager.getAllUnitCategories().blockingSingle();
                 if (tempUnitCategories.size() > view.getUnitCategorySelectedPos())
                     unitCategory = tempUnitCategories.get(view.getUnitCategorySelectedPos());
-                List<Vendor> vendors = this.product.getVendor();
-                List<Long> viewVendors = view.getVendorSelectedPos();
-                boolean hasChanged = vendors.size() != viewVendors.size();
-                if (!hasChanged) {
-                    for (Long id : viewVendors) {
-                        boolean found = false;
-                        for (Vendor vendor : vendors) {
-                            if (vendor.getId().equals(id)) {
-                                found = true;
-                                break;
-                            }
-                        }
-                        if (!found) {
-                            hasChanged = true;
-                            break;
-                        }
-                    }
-                }
                 if (!view.getProductName().equals(this.product.getName()) || !view.getBarCode().equals(this.product.getBarcode()) || !view.getSku().equals(this.product.getSku()) ||
                         (unitCategory != null && !unitCategory.getUnits().get(view.getUnitSelectedPos()).getId().equals(this.product.getMainUnitId())) ||
                         !view.getPhotoPath().equals(this.product.getPhotoPath()) || !view.getPrice().equals(this.product.getPrice()) ||
-                        view.getProductIsActive() != this.product.getIsActive() || hasChanged) {
+                        view.getProductIsActive() != this.product.getIsActive()) {
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
                         public void onPositiveButtonClicked() {
-//                            vendorProductConnectionsList.clear();
-//                            vendorProductConnectionsList.addAll(tempCostList);
-//                            view.setCostValue(savedCosts);
                             openCategory(category);
                         }
 
@@ -440,7 +355,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             case PRODUCT_ADD_MODE:
                 if (!view.getProductName().equals("") || !view.getBarCode().equals("") || !view.getSku().equals("") ||
                         !view.getPrice().equals(0.0d) || view.getUnitCategorySelectedPos() != 0 ||
-                        view.getUnitSelectedPos() != 0 || !view.getVendorSelectedPos().isEmpty() || this.productClass != null ||
+                        view.getUnitSelectedPos() != 0 || this.productClass != null ||
                         !view.getProductIsActive() || !view.getPhotoPath().equals("")) {
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
@@ -464,36 +379,14 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 List<UnitCategory> tempUnitCategories = databaseManager.getAllUnitCategories().blockingSingle();
                 if (tempUnitCategories.size() > view.getUnitCategorySelectedPos())
                     unitCategory = tempUnitCategories.get(view.getUnitCategorySelectedPos());
-                List<Vendor> vendors = this.product.getVendor();
-                List<Long> viewVendors = view.getVendorSelectedPos();
-                boolean hasChanged = vendors.size() != viewVendors.size();
-                if (!hasChanged) {
-                    for (Long id : viewVendors) {
-                        boolean found = false;
-                        for (Vendor vendor : vendors) {
-                            if (vendor.getId().equals(id)) {
-                                found = true;
-                                break;
-                            }
-                        }
-                        if (!found) {
-                            hasChanged = true;
-                            break;
-                        }
-                    }
-                }
-
 
                 if (!view.getProductName().equals(this.product.getName()) || !view.getBarCode().equals(this.product.getBarcode()) || !view.getSku().equals(this.product.getSku()) ||
                         (unitCategory != null && !unitCategory.getUnits().get(view.getUnitSelectedPos()).getId().equals(this.product.getMainUnitId())) ||
                         !view.getPhotoPath().equals(this.product.getPhotoPath()) || !view.getPrice().equals(this.product.getPrice()) ||
-                        view.getProductIsActive() != this.product.getIsActive() || hasChanged) {
+                        view.getProductIsActive() != this.product.getIsActive()) {
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
                         public void onPositiveButtonClicked() {
-//                            vendorProductConnectionsList.clear();
-//                            vendorProductConnectionsList.addAll(tempCostList);
-//                            view.setCostValue(savedCosts);
                             openProduct(product);
                         }
 
@@ -611,10 +504,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 } else {
                     products = category.getActiveProducts();
                 }
-                if (products != null && !products.isEmpty()) {
-                    Collections.sort(products, (o1, o2) -> o1.getPosition().compareTo(o2.getPosition()));
-                    Collections.sort(products, (o1, o2) -> -((Boolean) o1.isActive()).compareTo(o2.isActive()));
-                }
                 products.add(0, null);
                 view.setListToProducts(products);
             }
@@ -625,8 +514,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
         if (product == null) {
             this.product = null;
             this.productClass = null;
-            this.vendors.clear();
-            this.vendorProductConnectionsList.clear();
             this.inventoryStates.clear();
             mode = CategoryAddEditMode.PRODUCT_ADD_MODE;
             view.unselectProductsList();
@@ -664,69 +551,19 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 this.productClass = product.getProductClass();
                 productClassPos = product.getProductClass().getName();
             }
-            List<Long> vendorIds = new ArrayList<>();
-            for (Vendor vendor : product.getVendor()) {
-                vendorIds.add(vendor.getId());
-            }
-
-            databaseManager.getVendorProductConnectionByProductId(this.product.getId()).subscribe(productConList -> {
-                vendorProductConnectionsList.clear();
-                this.vendorProductConnectionsList.addAll(productConList);
-//                setProductCosts(vendorProductConnectionsList);
-//                savedCosts = "";
-//                tempCostList.clear();
-//                for (VendorProductCon cost : vendorProductConnectionsList) {
-//                    if (cost != null) {
-//                        if (cost.getCost() != null) {
-//                            VendorProductCon productCon = new VendorProductCon();
-//                            productCon.setCost(cost.getCost());
-//                            tempCostList.add(productCon);
-//                            savedCosts += formatter.format(cost.getCost());
-//                        } else {
-//                            cost.setCost(0d);
-//                            VendorProductCon productCon = new VendorProductCon();
-//                            productCon.setCost(0.0d);
-//                            tempCostList.add(productCon);
-//                            savedCosts += formatter.format(cost.getCost());
-//                        }
-//                    }
-//                    if (vendorProductConnectionsList.indexOf(cost) != vendorProductConnectionsList.size() - 1) {
-//                        savedCosts += ", ";
-//                    }
-//                }
-            });
             view.openProductEditMode(product.getName(),
                     product.getBarcode(),
                     product.getSku(),
                     product.isActive(),
                     databaseManager.getMainCurrency().getAbbr(),
-                    product.getCostCurrency().getAbbr(),
                     productClassPos,
                     unitCategoryPos,
                     units,
                     unitPos,
-                    vendorIds,
                     product.getDescription(),
                     product.getPhotoPath(),
                     product.getPrice());
         }
-    }
-
-    @Override
-    public void openVendorChooserDialog() {
-        view.openVendorChooserDialog(databaseManager.getVendors().blockingSingle());
-    }
-
-    @Override
-    public void setProductCostDialog() {
-//        List<String> result = new ArrayList<>();
-//        for (int i = 0; i < vendorProductConnectionsList.size(); i++) {
-//            Vendor vendor = databaseManager.getVendorById(vendorProductConnectionsList.get(i).getVendorId()).blockingSingle();
-//            if (vendor != null) {
-//                result.add(vendor.getName());
-//            }
-//        }
-//        view.openChooseProductCostDialog(result, vendorProductConnectionsList);
     }
 
 
@@ -807,7 +644,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             case PRODUCT_ADD_MODE:
                 if (!view.getProductName().equals("") || !view.getBarCode().equals("") || !view.getSku().equals("") ||
                         !view.getPrice().equals(0.0d) || view.getUnitCategorySelectedPos() != 0 ||
-                        view.getUnitSelectedPos() != 0 || !view.getVendorSelectedPos().isEmpty() || this.productClass != null ||
+                        view.getUnitSelectedPos() != 0 || this.productClass != null ||
                         !view.getProductIsActive()) {
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
@@ -831,34 +668,13 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 List<UnitCategory> tempUnitCategories = databaseManager.getAllUnitCategories().blockingSingle();
                 if (tempUnitCategories.size() > view.getUnitCategorySelectedPos())
                     unitCategory = tempUnitCategories.get(view.getUnitCategorySelectedPos());
-                List<Vendor> vendors = this.product.getVendor();
-                List<Long> viewVendors = view.getVendorSelectedPos();
-                boolean hasChanged = vendors.size() != viewVendors.size();
-                if (!hasChanged) {
-                    for (Long id : viewVendors) {
-                        boolean found = false;
-                        for (Vendor vendor : vendors) {
-                            if (vendor.getId().equals(id)) {
-                                found = true;
-                                break;
-                            }
-                        }
-                        if (!found) {
-                            hasChanged = true;
-                            break;
-                        }
-                    }
-                }
                 if (!view.getProductName().equals(this.product.getName()) || !view.getBarCode().equals(this.product.getBarcode()) || !view.getSku().equals(this.product.getSku()) ||
                         (unitCategory != null && !unitCategory.getUnits().get(view.getUnitSelectedPos()).getId().equals(this.product.getMainUnitId())) ||
                         !view.getPhotoPath().equals(this.product.getPhotoPath()) || !view.getPrice().equals(this.product.getPrice()) ||
-                        view.getProductIsActive() != this.product.getIsActive() || hasChanged) {
+                        view.getProductIsActive() != this.product.getIsActive() ) {
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
                         public void onPositiveButtonClicked() {
-//                            vendorProductConnectionsList.clear();
-//                            vendorProductConnectionsList.addAll(tempCostList);
-//                            view.setCostValue(savedCosts);
                             openSubcategory(category);
                         }
 
@@ -1009,7 +825,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
      */
     public List<Product> getProducts() {
         List<Product> result = databaseManager.getAllProducts().blockingSingle();
-        Collections.sort(result, (o1, o2) -> o1.getPosition().compareTo(o2.getPosition()));
         Collections.sort(result, (o1, o2) -> -((Boolean) o1.isActive()).compareTo(o2.isActive()));
         result.add(0, null);
         return result;
@@ -1261,7 +1076,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     public void addProduct(String name, String barcode,
                            String sku, String photoPath, boolean isActive,
                            int costCurrencyPos, int priceCurrencuyPos, int unitCategoryPos,
-                           int unitPos, List<Long> vendors, String description, Double resultPrice) {
+                           int unitPos, String description, Double resultPrice) {
 
         switch (mode) {
             case PRODUCT_ADD_MODE:
@@ -1277,7 +1092,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 product.setCreatedDate(System.currentTimeMillis());
                 List<Currency> currencies = databaseManager.getAllCurrencies().blockingSingle();
                 if (currencies != null && !currencies.isEmpty()) {
-                    product.setCostCurrency(currencies.get(costCurrencyPos));
                     product.setPriceCurrency(currencies.get(priceCurrencuyPos));
                 }
                 product.setProductClass(productClass);
@@ -1292,17 +1106,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 databaseManager.addProduct(product).subscribe(aLong -> {
                     product.setRootId(product.getId());
                     databaseManager.replaceProduct(product).blockingSingle();
-                    for (int i = 0; i < vendors.size(); i++) {
-                        vendorProductConnectionsList.get(i).setCost(product.getPrice());
-                        vendorProductConnectionsList.get(i).setProductId(product.getId());
-                        Vendor vendor = databaseManager.getVendorById(vendors.get(i)).blockingSingle();
-                        InventoryState inventoryState = new InventoryState();
-                        inventoryState.setProductId(product.getRootId());
-                        inventoryState.setVendor(vendor);
-                        inventoryState.setValue(0d);
-                        databaseManager.insertInventoryState(inventoryState).subscribe();
-                        databaseManager.addVendorProductConnection(vendorProductConnectionsList.get(i)).subscribe();
-                    }
                     view.addToProductList(product);
                     view.sendProductEvent(GlobalEventConstants.ADD, product);
                     openProduct(null);
@@ -1331,10 +1134,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                                 result.setPriceCurrency(tempCurrencies.get(priceCurrencuyPos));
                                 result.setPriceCurrencyId(tempCurrencies.get(priceCurrencuyPos).getId());
                             }
-                            if (tempCurrencies.size() > costCurrencyPos) {
-                                result.setCostCurrency(tempCurrencies.get(costCurrencyPos));
-                                result.setCostCurrencyId(tempCurrencies.get(costCurrencyPos).getId());
-                            }
                             result.setProductClass(productClass);
                             List<UnitCategory> tempUnitCategories = databaseManager.getAllUnitCategories().blockingSingle();
                             if (tempUnitCategories.size() > unitCategoryPos) {
@@ -1346,21 +1145,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                             }
                             result.setDescription(description);
                             databaseManager.replaceProduct(ProductPresenterImpl.this.product).subscribe();
-                            if (deletedStatesList.size() > 0) {
-                                for (InventoryState state : deletedStatesList) {
-                                    databaseManager.deleteInventoryState(state).blockingGet();
-                                }
-                            }
                             databaseManager.addProduct(result).subscribe(id -> {
-                                for (int i = 0; i < vendors.size(); i++) {
-                                    VendorProductCon productCon = new VendorProductCon();
-                                    productCon.setCost(vendorProductConnectionsList.get(i).getCost());
-                                    productCon.setVendorId(vendorProductConnectionsList.get(i).getVendorId());
-                                    productCon.setProductId(result.getId());
-                                    inventoryStates.get(i).setProductId(result.getRootId());
-                                    databaseManager.insertInventoryState(inventoryStates.get(i)).blockingSingle();
-                                    databaseManager.addVendorProductConnection(productCon).blockingSingle();
-                                }
                                 view.editProduct(result);
                                 view.sendProductChangeEvent(GlobalEventConstants.UPDATE, ProductPresenterImpl.this.product, result);
                                 openSubcategory(subcategory);
@@ -1439,98 +1224,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             }
         }
         return databaseManager.isProductSkuExists(sku, subcategory.getId()).blockingGet();
-    }
-
-    @Override
-    public List<Vendor> updateVendors() {
-        return databaseManager.getVendors().blockingSingle();
-    }
-
-    private InventoryState inventoryState;
-    private List<InventoryState> deletedStatesList;
-    boolean isNewProduct = true; // true, когда добавляется новый продукт
-
-    @Override
-    public void setVendorName(List<Long> vendors) {
-        this.vendors = vendors;
-        String result = "";
-        int count = 0;
-        boolean isAllowed = true; // если vendor не имеет продуктов на складе, то isAllowed true
-        List<Long> tempExistIds = new ArrayList<>();
-        if (this.vendorProductConnectionsList.size() > 0) {
-            isNewProduct = false;
-            for (int i = 0; i < this.vendorProductConnectionsList.size(); i++) {
-
-                Long vendorId = this.vendorProductConnectionsList.get(i).getVendorId();
-                if (!vendors.contains(vendorId)) { // проверка на измениия листа поставщиков
-                    int pos = -1;
-                    for (int j = 0; j < inventoryStates.size(); j++) {
-                        if (vendorId.equals(inventoryStates.get(j).getVendorId())) {
-                            inventoryState = inventoryStates.get(j);
-                            pos = j;
-                            break;
-                        }
-                    }
-                    NumberFormat numberFormat = NumberFormat.getNumberInstance();
-                    numberFormat.setMaximumFractionDigits(2);
-                    numberFormat.setMinimumFractionDigits(2);
-                    // если какой-то поставщик был убран из листа, то проверяется есть ли у него продукты на складе, при наличии выходить предупреждение и все изменения возвращаются назад
-                    if (!numberFormat.format(inventoryState.getValue()).replace(',', '.').equals("0.00")) {
-                        isAllowed = false;
-                        view.showInventoryStateShouldBeEmptyDialog();
-                        break;
-                    } else {
-                        if (pos != -1) {
-                            inventoryStates.remove(pos);
-                            deletedStatesList.add(inventoryState);
-                            this.vendorProductConnectionsList.remove(i);
-                            isAllowed = true;
-                            i--;
-                        }
-                    }
-                } else {
-                    tempExistIds.add(vendorId); // добавления существующих в новый лист для дальнейшой проверки
-                }
-            }
-        }
-        if (isAllowed || isNewProduct) {
-            for (int i = 0; i < vendors.size(); i++) {
-                if (!tempExistIds.contains(vendors.get(i))) { // если есть новые элементы листа, то для них создается связь с продуктом, со складом
-                    VendorProductCon vendorProductCon = new VendorProductCon();
-                    vendorProductCon.setVendorId(vendors.get(i));
-                    this.vendorProductConnectionsList.add(vendorProductCon);
-                    count++;
-                    Vendor vendor = databaseManager.getVendorById(vendors.get(i)).blockingSingle();
-                    if (!isNewProduct) { // для новых продуктов не создается связь со складом, так как она делается при записи в БД
-                        InventoryState inventoryState = new InventoryState();
-                        inventoryState.setVendor(vendor);
-                        inventoryState.setValue(0d);
-                        inventoryStates.add(inventoryState);
-                    }
-                }
-            }
-        } else {
-            this.vendors.clear(); // если нет, то значения листа возвращается в первоначальный вид
-            for (int i = 0; i < vendorProductConnectionsList.size(); i++) {
-                Long vendorId = this.vendorProductConnectionsList.get(i).getVendorId();
-                this.vendors.add(vendorId);
-            }
-        }
-        for (int i = 0; i < this.vendors.size(); i++) {
-            Vendor vendor = databaseManager.getVendorById(this.vendors.get(i)).blockingSingle();
-            if (vendor != null) {
-                result += vendor.getName();
-            }
-            if (vendors.indexOf(vendors.get(i)) != vendors.size() - 1) {
-                result += ", ";
-            }
-        }
-//        if (count != 0) { // если добавлены новые поставщики, то открывается окно назначения стоимости
-//            setProductCostDialog();
-//        } else {
-//            setProductCosts(vendorProductConnectionsList);
-//        }
-        view.setVendorNameToAddEditProductFragment(result);
     }
 
     @Override
@@ -1626,42 +1319,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     }
 
     @Override
-    public void setProductCosts(List<VendorProductCon> productConList) {
-//        this.vendorProductConnectionsList = productConList;
-//        String result = "";
-//        for (VendorProductCon cost : vendorProductConnectionsList) {
-//            if (cost != null) {
-//                if (cost.getCost() != null)
-//                    result += formatter.format(cost.getCost());
-//                else {
-//                    cost.setCost(0d);
-//                    result += formatter.format(cost.getCost());
-//                }
-//            }
-//            if (vendorProductConnectionsList.indexOf(cost) != vendorProductConnectionsList.size() - 1) {
-//                result += ", ";
-//            }
-//        }
-//        view.setCostValue(result);
-    }
-
-    @Override
-    public void comparePriceWithCost(double priceValue) {
-//        int count = 0;
-//        for (int i = 0; i < vendorProductConnectionsList.size(); i++) {
-//            double cost = vendorProductConnectionsList.get(i).getCost();
-//            if (priceValue < cost) {
-//                view.saveProduct(true);
-//                break;
-//            } else count++;
-//        }
-//
-//        if (count == vendorProductConnectionsList.size()) {
-//            view.saveProduct(false);
-//        }
-    }
-
-    @Override
     public void setProductClass(ProductClass productClass) {
         this.productClass = productClass;
     }
@@ -1747,7 +1404,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             case PRODUCT_ADD_MODE:
                 if (!view.getProductName().equals("") || !view.getBarCode().equals("") || !view.getSku().equals("") ||
                         !view.getPrice().equals(0.0d) || view.getUnitCategorySelectedPos() != 0 ||
-                        view.getUnitSelectedPos() != 0 || !view.getVendorSelectedPos().isEmpty() || this.productClass != null ||
+                        view.getUnitSelectedPos() != 0 || this.productClass != null ||
                         !view.getProductIsActive() || !view.getPhotoPath().equals("")) {
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
@@ -1771,35 +1428,14 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 List<UnitCategory> tempUnitCategories = databaseManager.getAllUnitCategories().blockingSingle();
                 if (tempUnitCategories.size() > view.getUnitCategorySelectedPos())
                     unitCategory = tempUnitCategories.get(view.getUnitCategorySelectedPos());
-                List<Vendor> vendors = this.product.getVendor();
-                List<Long> viewVendors = view.getVendorSelectedPos();
-                boolean hasChanged = vendors.size() != viewVendors.size();
-                if (!hasChanged) {
-                    for (Long id : viewVendors) {
-                        boolean found = false;
-                        for (Vendor vendor : vendors) {
-                            if (vendor.getId().equals(id)) {
-                                found = true;
-                                break;
-                            }
-                        }
-                        if (!found) {
-                            hasChanged = true;
-                            break;
-                        }
-                    }
-                }
 
                 if (!view.getProductName().equals(this.product.getName()) || !view.getBarCode().equals(this.product.getBarcode()) || !view.getSku().equals(this.product.getSku()) ||
                         (unitCategory != null && !unitCategory.getUnits().get(view.getUnitSelectedPos()).getId().equals(this.product.getMainUnitId())) ||
                         !view.getPhotoPath().equals(this.product.getPhotoPath()) || !view.getPrice().equals(this.product.getPrice()) ||
-                        view.getProductIsActive() != this.product.getIsActive() || hasChanged) {
+                        view.getProductIsActive() != this.product.getIsActive()) {
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
                         public void onPositiveButtonClicked() {
-//                            vendorProductConnectionsList.clear();
-//                            vendorProductConnectionsList.addAll(tempCostList);
-//                            view.setCostValue(savedCosts);
                             view.finishActivity();
                         }
 
@@ -1869,7 +1505,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 products = subcategory.getActiveProducts();
             }
             if (products != null && !products.isEmpty()) {
-                Collections.sort(products, (o1, o2) -> o1.getPosition().compareTo(o2.getPosition()));
                 Collections.sort(products, (o1, o2) -> -((Boolean) o1.isActive()).compareTo(o2.isActive()));
             }
             products.add(0, null);

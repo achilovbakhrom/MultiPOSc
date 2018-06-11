@@ -219,7 +219,6 @@ public class AppDbHelper implements DbHelper {
                                 CategoryDao.Properties.IsDeleted.eq(false),
                                 CategoryDao.Properties.IsNotModified.eq(true))
                         .build().list();
-                category.setPosition((double) (categories.size() + 1));
             }
             Long result = mDaoSession.getCategoryDao().insertOrReplace(category);
             mDaoSession.getCategoryDao().detachAll();
@@ -230,17 +229,6 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Observable<Long> insertSubCategory(Category subcategory) {
         return Observable.fromCallable(() -> {
-            mDaoSession.clear();
-            List<Category> categories = mDaoSession.getCategoryDao().queryBuilder()
-                    .where(CategoryDao.Properties.ParentId.eq(subcategory.getParentId()),
-                            CategoryDao.Properties.IsDeleted.eq(false),
-                            CategoryDao.Properties.IsNotModified.eq(true))
-                    .build().list();
-            if (categories.isEmpty()) {
-                subcategory.setPosition(1d);
-            } else {
-                subcategory.setPosition((double) (categories.size() + 1));
-            }
             return mDaoSession.getCategoryDao().insertOrReplace(subcategory);
         });
     }
@@ -257,7 +245,6 @@ public class AppDbHelper implements DbHelper {
     public Observable<List<Category>> getAllCategories() {
         return Observable.fromCallable(() -> mDaoSession.getCategoryDao().queryBuilder()
                 .where(CategoryDao.Properties.ParentId.eq(WITHOUT_PARENT), CategoryDao.Properties.IsDeleted.eq(false), CategoryDao.Properties.IsNotModified.eq(true))
-                .orderAsc(CategoryDao.Properties.Position)
                 .build().list());
     }
 
@@ -267,7 +254,6 @@ public class AppDbHelper implements DbHelper {
             List<Category> subCategories = mDaoSession.getCategoryDao().queryBuilder()
                     .where(CategoryDao.Properties.ParentId.eq(category.getId()), CategoryDao.Properties.IsDeleted.eq(false))
                     .where(CategoryDao.Properties.IsNotModified.eq(true), CategoryDao.Properties.IsActive.eq(true))
-                    .orderAsc(CategoryDao.Properties.Position)
                     .build().list();
             int sum = 0;
             for (Category subcategory : subCategories) {
@@ -306,7 +292,6 @@ public class AppDbHelper implements DbHelper {
     public Observable<List<Category>> getSubCategories(Category category) {
         return Observable.fromCallable(() -> mDaoSession.getCategoryDao().queryBuilder()
                 .where(CategoryDao.Properties.ParentId.eq(category.getId()), CategoryDao.Properties.IsDeleted.eq(false))
-                .orderAsc(CategoryDao.Properties.Position)
                 .build().list());
     }
 
@@ -323,7 +308,6 @@ public class AppDbHelper implements DbHelper {
                         .where(ProductDao.Properties.IsDeleted.eq(false),
                                 ProductDao.Properties.IsNotModified.eq(true))
                         .list();
-                product.setPosition((double) (products.size() + 1));
             }
             return mDaoSession.getProductDao().insertOrReplace(product);
         });

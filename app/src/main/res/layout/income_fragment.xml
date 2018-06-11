@@ -40,6 +40,13 @@
 
         </LinearLayout>
 
+        <ImageView
+            android:layout_gravity="center"
+            android:tint="@color/colorTintGrey"
+            android:src="@drawable/barcode"
+            android:layout_width="@dimen/thirty_dp"
+            android:layout_height="@dimen/thirty_dp" />
+
 
     </LinearLayout>
 

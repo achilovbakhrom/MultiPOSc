@@ -40,38 +40,26 @@ public class Product implements Editable {
     private Boolean isActive = true;
     private Boolean isNotModified = true;
     private Boolean isDeleted = false;
-    private Double position = 0.0d;
     private Long priceCurrencyId;
     @ToOne(joinProperty = "priceCurrencyId")
     private Currency priceCurrency;
-    private Long costCurrencyId;
-    @ToOne(joinProperty = "costCurrencyId")
-    private Currency costCurrency;
     private Long classId;
     @ToOne(joinProperty = "classId")
     private ProductClass productClass;
     private Long mainUnitId;
     @ToOne(joinProperty = "mainUnitId")
     private Unit mainUnit;
-    @ToMany
-    @JoinEntity(entity = VendorProductCon.class,
-            sourceProperty = "productId",
-            targetProperty = "vendorId")
-    private List<Vendor> vendor;
     private String description;
     private Long rootId;
-    private Long parentId;
+    private Long categoryId;
     @ToOne(joinProperty = "categoryId")
     private Category category;
-    private Long categoryId;
     @Generated(hash = 1372501278)
     private transient Long category__resolvedKey;
     @Generated(hash = 1037669877)
     private transient Long mainUnit__resolvedKey;
     @Generated(hash = 1979699144)
     private transient Long productClass__resolvedKey;
-    @Generated(hash = 2076466863)
-    private transient Long costCurrency__resolvedKey;
     @Generated(hash = 348405744)
     private transient Long priceCurrency__resolvedKey;
     /** Used for active entity operations. */
@@ -81,12 +69,12 @@ public class Product implements Editable {
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
 
-
-    @Generated(hash = 1148833688)
-    public Product(Long id, String name, Long createdDate, Double price, String barcode, String sku,
-            String photoPath, Boolean isActive, Boolean isNotModified, Boolean isDeleted,
-            Double position, Long priceCurrencyId, Long costCurrencyId, Long classId, Long mainUnitId,
-            String description, Long rootId, Long parentId, Long categoryId) {
+    @Generated(hash = 405448819)
+    public Product(Long id, String name, Long createdDate, Double price,
+            String barcode, String sku, String photoPath, Boolean isActive,
+            Boolean isNotModified, Boolean isDeleted, Long priceCurrencyId,
+            Long classId, Long mainUnitId, String description, Long rootId,
+            Long categoryId) {
         this.id = id;
         this.name = name;
         this.createdDate = createdDate;
@@ -97,22 +85,18 @@ public class Product implements Editable {
         this.isActive = isActive;
         this.isNotModified = isNotModified;
         this.isDeleted = isDeleted;
-        this.position = position;
         this.priceCurrencyId = priceCurrencyId;
-        this.costCurrencyId = costCurrencyId;
         this.classId = classId;
         this.mainUnitId = mainUnitId;
         this.description = description;
         this.rootId = rootId;
-        this.parentId = parentId;
         this.categoryId = categoryId;
     }
 
     @Generated(hash = 1890278724)
     public Product() {
     }
-
-
+    
     @Override
     @Keep
     public void setId(Long id) {
@@ -221,37 +205,6 @@ public class Product implements Editable {
         myDao.delete(this);
     }
 
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
-    @Generated(hash = 1207622463)
-    public synchronized void resetVendor() {
-        vendor = null;
-    }
-
-    /**
-     * To-many relationship, resolved on first access (and after reset).
-     * Changes to to-many relations are not persisted, make changes to the target entity.
-     */
-    @Generated(hash = 1883235164)
-    public List<Vendor> getVendor() {
-        if (vendor == null) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            VendorDao targetDao = daoSession.getVendorDao();
-            List<Vendor> vendorNew = targetDao._queryProduct_Vendor(id);
-            synchronized (this) {
-                if(vendor == null) {
-                    vendor = vendorNew;
-                }
-            }
-        }
-        return vendor;
-    }
-
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
-
-
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 1132018243)
     public void setCategory(Category category) {
@@ -341,36 +294,6 @@ public class Product implements Editable {
     }
 
     /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 1963206481)
-    public void setCostCurrency(Currency costCurrency) {
-        synchronized (this) {
-            this.costCurrency = costCurrency;
-            costCurrencyId = costCurrency == null ? null : costCurrency.getId();
-            costCurrency__resolvedKey = costCurrencyId;
-        }
-    }
-
-    /** To-one relationship, resolved on first access. */
-    @Generated(hash = 741901330)
-    public Currency getCostCurrency() {
-        Long __key = this.costCurrencyId;
-        if (costCurrency__resolvedKey == null
-                || !costCurrency__resolvedKey.equals(__key)) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            CurrencyDao targetDao = daoSession.getCurrencyDao();
-            Currency costCurrencyNew = targetDao.load(__key);
-            synchronized (this) {
-                costCurrency = costCurrencyNew;
-                costCurrency__resolvedKey = __key;
-            }
-        }
-        return costCurrency;
-    }
-
-    /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 2052200050)
     public void setPriceCurrency(Currency priceCurrency) {
         synchronized (this) {
@@ -415,14 +338,6 @@ public class Product implements Editable {
         this.categoryId = categoryId;
     }
 
-    public Long getParentId() {
-        return this.parentId;
-    }
-
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
-    }
-
     public String getDescription() {
         return this.description;
     }
@@ -447,28 +362,12 @@ public class Product implements Editable {
         this.classId = classId;
     }
 
-    public Long getCostCurrencyId() {
-        return this.costCurrencyId;
-    }
-
-    public void setCostCurrencyId(Long costCurrencyId) {
-        this.costCurrencyId = costCurrencyId;
-    }
-
     public Long getPriceCurrencyId() {
         return this.priceCurrencyId;
     }
 
     public void setPriceCurrencyId(Long priceCurrencyId) {
         this.priceCurrencyId = priceCurrencyId;
-    }
-
-    public Double getPosition() {
-        return this.position;
-    }
-
-    public void setPosition(Double position) {
-        this.position = position;
     }
 
     public Boolean getIsDeleted() {
@@ -519,6 +418,14 @@ public class Product implements Editable {
         this.barcode = barcode;
     }
 
+    public Double getPrice() {
+        return this.price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
     public void setCreatedDate(Long createdDate) {
         this.createdDate = createdDate;
     }
@@ -530,13 +437,4 @@ public class Product implements Editable {
     public void setName(String name) {
         this.name = name;
     }
-
-    public Double getPrice() {
-        return this.price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
 }

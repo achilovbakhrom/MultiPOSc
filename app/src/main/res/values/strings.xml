@@ -1432,4 +1432,5 @@
     <string name="unit_format_error">Unit format error quantity:</string>
     <string name="please_tick_the_box_if_you_would_like_to_highlight_red">Please, tick the box if you would like to highlight red</string>
     <string name="highlight_red_out_off_stock_products_in_order_list">Highlight red out off stock products in order list</string>
+    <string name="stock_positions">Stock positions</string>
 </resources>

@@ -28,7 +28,6 @@ public class Category implements Editable, Serializable{
     private Boolean isDeleted = false;
     private Boolean isNotModified = true;
     private Long createdDate;
-    private Double position = 0d;
     private Long rootId;
     private Long parentId = WITHOUT_PARENT;
     @ToOne(joinProperty = "parentId")
@@ -234,14 +233,6 @@ public class Category implements Editable, Serializable{
         this.parentId = parentId;
     }
 
-    public Double getPosition() {
-        return this.position;
-    }
-
-    public void setPosition(Double position) {
-        this.position = position;
-    }
-
     public Long getCreatedDate() {
         return this.createdDate;
     }
@@ -374,10 +365,9 @@ public class Category implements Editable, Serializable{
     public Category() {
     }
 
-    @Generated(hash = 18413500)
-    public Category(Long id, String name, String description, Boolean isActive,
-            Boolean isDeleted, Boolean isNotModified, Long createdDate, Double position,
-            Long rootId, Long parentId) {
+    @Generated(hash = 1021623395)
+    public Category(Long id, String name, String description, Boolean isActive, Boolean isDeleted,
+            Boolean isNotModified, Long createdDate, Long rootId, Long parentId) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -385,7 +375,6 @@ public class Category implements Editable, Serializable{
         this.isDeleted = isDeleted;
         this.isNotModified = isNotModified;
         this.createdDate = createdDate;
-        this.position = position;
         this.rootId = rootId;
         this.parentId = parentId;
     }

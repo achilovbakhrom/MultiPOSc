@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
 import com.jim.multipos.config.scope.PerFragment;
+import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.ui.consignment.adapter.IncomeItemsListAdapter;
 import com.jim.multipos.ui.consignment.adapter.VendorItemsListAdapter;
 import com.jim.multipos.ui.consignment.presenter.IncomeConsignmentPresenterModule;
@@ -32,8 +33,8 @@ public abstract class ReturnConsignmentFragmentModule {
 
     @Provides
     @PerFragment
-    static IncomeItemsListAdapter provideIncomeItemsListAdapter(AppCompatActivity context, DecimalFormat decimalFormat){
-        return new IncomeItemsListAdapter(context, decimalFormat);
+    static IncomeItemsListAdapter provideIncomeItemsListAdapter(AppCompatActivity context, DecimalFormat decimalFormat, DatabaseManager databaseManager){
+        return new IncomeItemsListAdapter(context, decimalFormat, databaseManager.getMainCurrency().getAbbr());
     }
 
     @Provides

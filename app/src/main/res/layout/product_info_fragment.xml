@@ -300,7 +300,7 @@
                 <com.jim.mpviews.MpButton
                     android:id="@+id/btnServiceFee"
                     android:layout_width="@dimen/hundred_fifty_dp"
-                    android:layout_height="@dimen/fifty_eight_dp"
+                    android:layout_height="@dimen/sixty_dp"
                     android:layout_marginRight="@dimen/ten_dp"
                     android:text="@string/remove_service_fee"
                     android:textColor="@color/colorBlue"
@@ -309,7 +309,7 @@
                 <com.jim.mpviews.MpButton
                     android:id="@+id/btnDiscountItem"
                     android:layout_width="@dimen/hundred_fifty_dp"
-                    android:layout_height="@dimen/fifty_eight_dp"
+                    android:layout_height="@dimen/sixty_dp"
                     android:layout_marginRight="@dimen/ten_dp"
                     android:text="@string/remove_discount"
                     android:textColor="@color/colorBlue"
@@ -318,7 +318,7 @@
                 <com.jim.mpviews.MpButton
                     android:id="@+id/btnRemove"
                     android:layout_width="@dimen/hundred_fifty_dp"
-                    android:layout_height="@dimen/fifty_eight_dp"
+                    android:layout_height="@dimen/sixty_dp"
                     android:layout_marginRight="@dimen/ten_dp"
                     android:text="@string/remove"
                     android:textColor="@color/colorBlue"
@@ -327,7 +327,7 @@
                 <com.jim.mpviews.MpButton
                     android:id="@+id/btnClose"
                     android:layout_width="@dimen/hundred_fifty_dp"
-                    android:layout_height="@dimen/fifty_eight_dp"
+                    android:layout_height="@dimen/sixty_dp"
                     android:text="@string/close"
                     android:textColor="@color/colorBlue"
                     android:textSize="@dimen/sixteen_dp" />
@@ -338,8 +338,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/thirty_dp"
-                android:layout_marginTop="@dimen/twenty_dp"
-                android:layout_marginRight="@dimen/thirty_dp">
+                android:layout_marginRight="@dimen/thirty_dp"
+                android:layout_marginTop="@dimen/twenty_dp">
 
                 <EditText
                     android:id="@+id/etSpecialRequest"
@@ -353,10 +353,10 @@
                     android:isScrollContainer="true"
                     android:maxLength="2000"
                     android:maxLines="10"
-                    android:paddingLeft="@dimen/ten_dp"
-                    android:paddingTop="@dimen/ten_dp"
-                    android:paddingRight="@dimen/ten_dp"
                     android:paddingBottom="@dimen/ten_dp"
+                    android:paddingLeft="@dimen/ten_dp"
+                    android:paddingRight="@dimen/ten_dp"
+                    android:paddingTop="@dimen/ten_dp"
                     android:singleLine="false"
                     android:textColorHint="@color/colorTextHint"
                     android:textSize="@dimen/sixteen_dp" />

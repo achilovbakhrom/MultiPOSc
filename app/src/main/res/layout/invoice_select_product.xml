@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00000000"
+    android:gravity="center">
+
+
+    <LinearLayout
+        android:layout_width="@dimen/thousand_dp"
+        android:layout_height="@dimen/six_hundred_sixty_five_dp"
+        android:background="@drawable/rounded_edit_text_bg"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/seventy_dp"
+            android:background="@drawable/rounded_blue_bg"
+            android:paddingRight="@dimen/thirty_dp">
+
+            <TextView
+                android:id="@+id/tvDialogTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:paddingLeft="@dimen/thirty_dp"
+                android:text="Select Product"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/twenty_dp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/llSearch"
+                android:layout_width="@dimen/two_hundred_fifty_dp"
+                android:layout_height="@dimen/forty_dp"
+                android:layout_gravity="center"
+                android:background="@drawable/edit_text_bg"
+                android:orientation="horizontal">
+
+                <com.jim.mpviews.MpEditText
+                    android:id="@+id/mpSearchEditText"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/forty_dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/colorTransparent"
+                    android:paddingBottom="@dimen/five_dp"
+                    android:paddingLeft="@dimen/twelve_dp"
+                    android:paddingRight="@dimen/twelve_dp"
+                    android:paddingTop="@dimen/five_dp"
+                    android:textSize="@dimen/sixteen_dp" />
+
+
+                <FrameLayout
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/ten_dp"
+                    android:layout_marginTop="@dimen/ten_dp"
+                    android:background="@color/colorTextHint" />
+
+                <FrameLayout
+                    android:id="@+id/flClearSearch"
+                    android:layout_width="@dimen/forty_dp"
+                    android:layout_height="@dimen/forty_dp">
+
+                    <ImageView
+                        android:id="@+id/ivSearchImage"
+                        android:layout_width="@dimen/twenty_dp"
+                        android:layout_height="@dimen/twenty_dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/ten_dp"
+                        android:layout_marginRight="@dimen/ten_dp"
+                        android:src="@drawable/search"
+                        android:tint="@color/colorTintGrey" />
+                </FrameLayout>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/forty_dp"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/thirty_dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="@string/product_name"
+                android:textColor="@color/colorMainText"
+                android:textSize="@dimen/sixteen_dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Article"
+                android:textColor="@color/colorMainText"
+                android:textSize="@dimen/sixteen_dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/barcode"
+                android:textColor="@color/colorMainText"
+                android:textSize="@dimen/sixteen_dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Already get"
+                android:textColor="@color/colorMainText"
+                android:textSize="@dimen/sixteen_dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/actions"
+                android:textColor="@color/colorMainText"
+                android:textSize="@dimen/sixteen_dp" />
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/colorTextHint" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvStockQueues"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/four_hundred_fifty_dp" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/colorTextHint" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="right"
+            android:orientation="horizontal"
+            android:paddingRight="@dimen/thirty_dp">
+
+            <com.jim.mpviews.MpButton
+                android:id="@+id/btnBack"
+                android:layout_width="@dimen/hundred_thirty_dp"
+                android:layout_height="@dimen/forty_three_dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/fifteen_dp"
+                android:gravity="center"
+                android:text="@string/back"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="@dimen/sixteen_dp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

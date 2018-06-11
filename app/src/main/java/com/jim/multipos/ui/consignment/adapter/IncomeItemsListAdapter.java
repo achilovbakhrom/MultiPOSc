@@ -31,10 +31,12 @@ public class IncomeItemsListAdapter extends RecyclerView.Adapter<IncomeItemsList
     private Context context;
     private OnConsignmentCallback onConsignmentCallback;
     private DecimalFormat decimalFormat;
+    private String currencyAbbr;
 
-    public IncomeItemsListAdapter(Context context, DecimalFormat decimalFormat) {
+    public IncomeItemsListAdapter(Context context, DecimalFormat decimalFormat, String currencyAbbr) {
         this.context = context;
         this.decimalFormat = decimalFormat;
+        this.currencyAbbr = currencyAbbr;
     }
 
     public void setData(List<ConsignmentProduct> items, int type) {
@@ -54,7 +56,7 @@ public class IncomeItemsListAdapter extends RecyclerView.Adapter<IncomeItemsList
         if (position == 0)
             holder.etProductCount.post(() -> holder.etProductCount.requestFocus());
         holder.tvProductName.setText(items.get(position).getProduct().getName());
-        holder.tvCurrencyAbbr.setText(items.get(position).getProduct().getCostCurrency().getAbbr());
+        holder.tvCurrencyAbbr.setText(currencyAbbr);
         holder.etProductCount.setText(decimalFormat.format(items.get(position).getCountValue()));
         if (items.get(position).getCountValue() == null) {
             holder.etProductCount.setText("");

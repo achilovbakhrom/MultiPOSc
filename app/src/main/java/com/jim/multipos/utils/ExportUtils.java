@@ -5122,7 +5122,6 @@ public class ExportUtils {
             }
             List<Integer> unitErrors = new ArrayList<>();
             List<Integer> skuErrors = new ArrayList<>();
-            List<Integer> vendorErrors = new ArrayList<>();
             ProgressDialog dialog = new ProgressDialog(context);
             dialog.setMessage(context.getString(R.string.importing));
             dialog.setMax(products.length);
@@ -5131,11 +5130,10 @@ public class ExportUtils {
             dialog.show();
             Handler handler = new Handler(msg -> {
                 if (msg.what == 0) {
-                    if (skuErrors.size() != 0 || vendorErrors.size() != 0 || unitErrors.size() != 0) {
+                    if (skuErrors.size() != 0 || unitErrors.size() != 0) {
                         UIUtils.showAlert(context, context.getString(R.string.ok),
                                 context.getString(R.string.import_errors) + " ",
                                 context.getString(R.string.sku_or_product_error_qty) + " " + skuErrors.size() + "\n" +
-                                        context.getString(R.string.vendor_doesnt_exists_error_qty) + " " + vendorErrors.size() + " \n" +
                                         context.getString(R.string.unit_format_error) + " " + unitErrors.size()
                                 , () -> {
 
@@ -5171,20 +5169,19 @@ public class ExportUtils {
                                     product.setName(products[i][2]);
                                     product.setBarcode(products[i][3]);
                                     product.setSku(products[i][4]);
-                                    product.setPrice(Double.valueOf(products[i][7]));
+                                    product.setPrice(Double.valueOf(products[i][6]));
                                     product.setActive(true);
                                     product.setIsDeleted(false);
                                     product.setNotModifyted(true);
                                     product.setPhotoPath("");
                                     product.setCreatedDate(System.currentTimeMillis());
                                     product.setCategoryId(subcategory.getId());
-                                    product.setCostCurrency(databaseManager.getMainCurrency());
                                     product.setPriceCurrency(databaseManager.getMainCurrency());
                                     List<UnitCategory> tempUnitCategories = databaseManager.getAllUnitCategories().blockingSingle();
                                     int count = 0;
                                     for (UnitCategory unitCategory : tempUnitCategories) {
                                         for (int j = 0; j < unitCategory.getUnits().size(); j++) {
-                                            if (unitCategory.getUnits().get(j).getAbbr().toUpperCase().equals(products[i][6].toUpperCase())) {
+                                            if (unitCategory.getUnits().get(j).getAbbr().toUpperCase().equals(products[i][5].toUpperCase())) {
                                                 product.setMainUnit(unitCategory.getUnits().get(j));
                                                 product.setMainUnitId(unitCategory.getUnits().get(j).getId());
                                                 count = 1;
@@ -5194,26 +5191,6 @@ public class ExportUtils {
                                     if (count == 0) {
                                         unitErrors.add(i);
                                         continue;
-                                    }
-                                    boolean isVendorExits = databaseManager.isVendorNameExist(products[i][5]).blockingSingle();
-                                    if (isVendorExits) {
-                                        Vendor vendor = databaseManager.getVendorByName(products[i][5]).blockingGet();
-                                        databaseManager.addProduct(product).subscribe(aLong -> {
-                                            product.setRootId(product.getId());
-                                            VendorProductCon productCon = new VendorProductCon();
-                                            productCon.setVendorId(vendor.getId());
-                                            productCon.setProductId(product.getId());
-                                            productCon.setCost(product.getPrice());
-                                            databaseManager.addVendorProductConnection(productCon).subscribe();
-                                            InventoryState inventoryState = new InventoryState();
-                                            inventoryState.setProductId(product.getRootId());
-                                            inventoryState.setVendor(vendor);
-                                            inventoryState.setValue(0d);
-                                            databaseManager.insertInventoryState(inventoryState).subscribe();
-                                            databaseManager.replaceProduct(product).blockingSingle();
-                                        });
-                                    } else {
-                                        vendorErrors.add(i);
                                     }
                                 } else {
                                     skuErrors.add(i);
@@ -5231,19 +5208,18 @@ public class ExportUtils {
                                         product.setBarcode(products[i][3]);
                                         product.setSku(products[i][4]);
                                         product.setPhotoPath("");
-                                        product.setPrice(Double.valueOf(products[i][7]));
+                                        product.setPrice(Double.valueOf(products[i][6]));
                                         product.setActive(true);
                                         product.setIsDeleted(false);
                                         product.setNotModifyted(true);
                                         product.setCreatedDate(System.currentTimeMillis());
                                         product.setCategoryId(subcategory.getId());
-                                        product.setCostCurrency(databaseManager.getMainCurrency());
                                         product.setPriceCurrency(databaseManager.getMainCurrency());
                                         List<UnitCategory> tempUnitCategories = databaseManager.getAllUnitCategories().blockingSingle();
                                         int count = 0;
                                         for (UnitCategory unitCategory : tempUnitCategories) {
                                             for (int j = 0; j < unitCategory.getUnits().size(); j++) {
-                                                if (unitCategory.getUnits().get(j).getAbbr().toUpperCase().equals(products[i][6].toUpperCase())) {
+                                                if (unitCategory.getUnits().get(j).getAbbr().toUpperCase().equals(products[i][5].toUpperCase())) {
                                                     product.setMainUnit(unitCategory.getUnits().get(j));
                                                     product.setMainUnitId(unitCategory.getUnits().get(j).getId());
                                                     count = 1;
@@ -5253,26 +5229,6 @@ public class ExportUtils {
                                         if (count == 0) {
                                             unitErrors.add(i);
                                             continue;
-                                        }
-                                        boolean isVendorExits = databaseManager.isVendorNameExist(products[i][5]).blockingSingle();
-                                        if (isVendorExits) {
-                                            Vendor vendor = databaseManager.getVendorByName(products[i][5]).blockingGet();
-                                            databaseManager.addProduct(product).subscribe(aLong -> {
-                                                product.setRootId(product.getId());
-                                                VendorProductCon productCon = new VendorProductCon();
-                                                productCon.setVendorId(vendor.getId());
-                                                productCon.setCost(product.getPrice());
-                                                productCon.setProductId(product.getId());
-                                                databaseManager.addVendorProductConnection(productCon).subscribe();
-                                                InventoryState inventoryState = new InventoryState();
-                                                inventoryState.setProductId(product.getRootId());
-                                                inventoryState.setVendor(vendor);
-                                                inventoryState.setValue(0d);
-                                                databaseManager.insertInventoryState(inventoryState).subscribe();
-                                                databaseManager.replaceProduct(product).blockingSingle();
-                                            });
-                                        } else {
-                                            vendorErrors.add(i);
                                         }
                                     } else {
                                         skuErrors.add(i);
@@ -5296,14 +5252,13 @@ public class ExportUtils {
                                         product.setNotModifyted(true);
                                         product.setCreatedDate(System.currentTimeMillis());
                                         product.setCategoryId(subcategory.getId());
-                                        product.setPrice(Double.valueOf(products[i][7]));
-                                        product.setCostCurrency(databaseManager.getMainCurrency());
+                                        product.setPrice(Double.valueOf(products[i][6]));
                                         product.setPriceCurrency(databaseManager.getMainCurrency());
                                         List<UnitCategory> tempUnitCategories = databaseManager.getAllUnitCategories().blockingSingle();
                                         int count = 0;
                                         for (UnitCategory unitCategory : tempUnitCategories) {
                                             for (int j = 0; j < unitCategory.getUnits().size(); j++) {
-                                                if (unitCategory.getUnits().get(j).getAbbr().toUpperCase().equals(products[i][6].toUpperCase())) {
+                                                if (unitCategory.getUnits().get(j).getAbbr().toUpperCase().equals(products[i][5].toUpperCase())) {
                                                     product.setMainUnit(unitCategory.getUnits().get(j));
                                                     product.setMainUnitId(unitCategory.getUnits().get(j).getId());
                                                     count = 1;
@@ -5313,26 +5268,6 @@ public class ExportUtils {
                                         if (count == 0) {
                                             unitErrors.add(i);
                                             continue;
-                                        }
-                                        boolean isVendorExits = databaseManager.isVendorNameExist(products[i][5]).blockingSingle();
-                                        if (isVendorExits) {
-                                            Vendor vendor = databaseManager.getVendorByName(products[i][5]).blockingGet();
-                                            databaseManager.addProduct(product).subscribe(aLong -> {
-                                                product.setRootId(product.getId());
-                                                VendorProductCon productCon = new VendorProductCon();
-                                                productCon.setVendorId(vendor.getId());
-                                                productCon.setProductId(product.getId());
-                                                productCon.setCost(product.getPrice());
-                                                databaseManager.addVendorProductConnection(productCon).subscribe();
-                                                InventoryState inventoryState = new InventoryState();
-                                                inventoryState.setProductId(product.getRootId());
-                                                inventoryState.setVendor(vendor);
-                                                inventoryState.setValue(0d);
-                                                databaseManager.insertInventoryState(inventoryState).subscribe();
-                                                databaseManager.replaceProduct(product).blockingSingle();
-                                            });
-                                        } else {
-                                            vendorErrors.add(i);
                                         }
                                     } else {
                                         skuErrors.add(i);
@@ -5386,7 +5321,6 @@ public class ExportUtils {
             }
             List<Integer> unitErrors = new ArrayList<>();
             List<Integer> skuErrors = new ArrayList<>();
-            List<Integer> vendorErrors = new ArrayList<>();
             ProgressDialog dialog = new ProgressDialog(context);
             dialog.setMessage(context.getString(R.string.importing));
             dialog.setMax(products.length);
@@ -5395,11 +5329,10 @@ public class ExportUtils {
             dialog.show();
             Handler handler = new Handler(msg -> {
                 if (msg.what == 0) {
-                    if (skuErrors.size() != 0 || vendorErrors.size() != 0 || unitErrors.size() != 0) {
+                    if (skuErrors.size() != 0 || unitErrors.size() != 0) {
                         UIUtils.showAlert(context, context.getString(R.string.ok),
                                 context.getString(R.string.import_errors) + " ",
                                 context.getString(R.string.sku_or_product_error_qty) + " " + skuErrors.size() + "\n" +
-                                        context.getString(R.string.vendor_doesnt_exists_error_qty) + " " + vendorErrors.size() + " \n" +
                                         context.getString(R.string.unit_format_error) + " " + unitErrors.size()
                                 , () -> {
 
@@ -5435,20 +5368,19 @@ public class ExportUtils {
                                     product.setName(products[i][2]);
                                     product.setBarcode(products[i][3]);
                                     product.setSku(products[i][4]);
-                                    product.setPrice(Double.valueOf(products[i][7]));
+                                    product.setPrice(Double.valueOf(products[i][6]));
                                     product.setActive(true);
                                     product.setIsDeleted(false);
                                     product.setNotModifyted(true);
                                     product.setPhotoPath("");
                                     product.setCreatedDate(System.currentTimeMillis());
                                     product.setCategoryId(subcategory.getId());
-                                    product.setCostCurrency(databaseManager.getMainCurrency());
                                     product.setPriceCurrency(databaseManager.getMainCurrency());
                                     List<UnitCategory> tempUnitCategories = databaseManager.getAllUnitCategories().blockingSingle();
                                     int count = 0;
                                     for (UnitCategory unitCategory : tempUnitCategories) {
                                         for (int j = 0; j < unitCategory.getUnits().size(); j++) {
-                                            if (unitCategory.getUnits().get(j).getAbbr().toUpperCase().equals(products[i][6].toUpperCase())) {
+                                            if (unitCategory.getUnits().get(j).getAbbr().toUpperCase().equals(products[i][5].toUpperCase())) {
                                                 product.setMainUnit(unitCategory.getUnits().get(j));
                                                 product.setMainUnitId(unitCategory.getUnits().get(j).getId());
                                                 count = 1;
@@ -5458,26 +5390,6 @@ public class ExportUtils {
                                     if (count == 0) {
                                         unitErrors.add(i);
                                         continue;
-                                    }
-                                    boolean isVendorExits = databaseManager.isVendorNameExist(products[i][5]).blockingSingle();
-                                    if (isVendorExits) {
-                                        Vendor vendor = databaseManager.getVendorByName(products[i][5]).blockingGet();
-                                        databaseManager.addProduct(product).subscribe(aLong -> {
-                                            product.setRootId(product.getId());
-                                            VendorProductCon productCon = new VendorProductCon();
-                                            productCon.setVendorId(vendor.getId());
-                                            productCon.setProductId(product.getId());
-                                            productCon.setCost(product.getPrice());
-                                            databaseManager.addVendorProductConnection(productCon).subscribe();
-                                            InventoryState inventoryState = new InventoryState();
-                                            inventoryState.setProductId(product.getRootId());
-                                            inventoryState.setVendor(vendor);
-                                            inventoryState.setValue(0d);
-                                            databaseManager.insertInventoryState(inventoryState).subscribe();
-                                            databaseManager.replaceProduct(product).blockingSingle();
-                                        });
-                                    } else {
-                                        vendorErrors.add(i);
                                     }
                                 } else {
                                     skuErrors.add(i);
@@ -5495,19 +5407,18 @@ public class ExportUtils {
                                         product.setBarcode(products[i][3]);
                                         product.setSku(products[i][4]);
                                         product.setPhotoPath("");
-                                        product.setPrice(Double.valueOf(products[i][7]));
+                                        product.setPrice(Double.valueOf(products[i][6]));
                                         product.setActive(true);
                                         product.setIsDeleted(false);
                                         product.setNotModifyted(true);
                                         product.setCreatedDate(System.currentTimeMillis());
                                         product.setCategoryId(subcategory.getId());
-                                        product.setCostCurrency(databaseManager.getMainCurrency());
                                         product.setPriceCurrency(databaseManager.getMainCurrency());
                                         List<UnitCategory> tempUnitCategories = databaseManager.getAllUnitCategories().blockingSingle();
                                         int count = 0;
                                         for (UnitCategory unitCategory : tempUnitCategories) {
                                             for (int j = 0; j < unitCategory.getUnits().size(); j++) {
-                                                if (unitCategory.getUnits().get(j).getAbbr().toUpperCase().equals(products[i][6].toUpperCase())) {
+                                                if (unitCategory.getUnits().get(j).getAbbr().toUpperCase().equals(products[i][5].toUpperCase())) {
                                                     product.setMainUnit(unitCategory.getUnits().get(j));
                                                     product.setMainUnitId(unitCategory.getUnits().get(j).getId());
                                                     count = 1;
@@ -5517,26 +5428,6 @@ public class ExportUtils {
                                         if (count == 0) {
                                             unitErrors.add(i);
                                             continue;
-                                        }
-                                        boolean isVendorExits = databaseManager.isVendorNameExist(products[i][5]).blockingSingle();
-                                        if (isVendorExits) {
-                                            Vendor vendor = databaseManager.getVendorByName(products[i][5]).blockingGet();
-                                            databaseManager.addProduct(product).subscribe(aLong -> {
-                                                product.setRootId(product.getId());
-                                                VendorProductCon productCon = new VendorProductCon();
-                                                productCon.setVendorId(vendor.getId());
-                                                productCon.setCost(product.getPrice());
-                                                productCon.setProductId(product.getId());
-                                                databaseManager.addVendorProductConnection(productCon).subscribe();
-                                                InventoryState inventoryState = new InventoryState();
-                                                inventoryState.setProductId(product.getRootId());
-                                                inventoryState.setVendor(vendor);
-                                                inventoryState.setValue(0d);
-                                                databaseManager.insertInventoryState(inventoryState).subscribe();
-                                                databaseManager.replaceProduct(product).blockingSingle();
-                                            });
-                                        } else {
-                                            vendorErrors.add(i);
                                         }
                                     } else {
                                         skuErrors.add(i);
@@ -5560,14 +5451,13 @@ public class ExportUtils {
                                         product.setNotModifyted(true);
                                         product.setCreatedDate(System.currentTimeMillis());
                                         product.setCategoryId(subcategory.getId());
-                                        product.setPrice(Double.valueOf(products[i][7]));
-                                        product.setCostCurrency(databaseManager.getMainCurrency());
+                                        product.setPrice(Double.valueOf(products[i][6]));
                                         product.setPriceCurrency(databaseManager.getMainCurrency());
                                         List<UnitCategory> tempUnitCategories = databaseManager.getAllUnitCategories().blockingSingle();
                                         int count = 0;
                                         for (UnitCategory unitCategory : tempUnitCategories) {
                                             for (int j = 0; j < unitCategory.getUnits().size(); j++) {
-                                                if (unitCategory.getUnits().get(j).getAbbr().toUpperCase().equals(products[i][6].toUpperCase())) {
+                                                if (unitCategory.getUnits().get(j).getAbbr().toUpperCase().equals(products[i][5].toUpperCase())) {
                                                     product.setMainUnit(unitCategory.getUnits().get(j));
                                                     product.setMainUnitId(unitCategory.getUnits().get(j).getId());
                                                     count = 1;
@@ -5577,26 +5467,6 @@ public class ExportUtils {
                                         if (count == 0) {
                                             unitErrors.add(i);
                                             continue;
-                                        }
-                                        boolean isVendorExits = databaseManager.isVendorNameExist(products[i][5]).blockingSingle();
-                                        if (isVendorExits) {
-                                            Vendor vendor = databaseManager.getVendorByName(products[i][5]).blockingGet();
-                                            databaseManager.addProduct(product).subscribe(aLong -> {
-                                                product.setRootId(product.getId());
-                                                VendorProductCon productCon = new VendorProductCon();
-                                                productCon.setVendorId(vendor.getId());
-                                                productCon.setProductId(product.getId());
-                                                productCon.setCost(product.getPrice());
-                                                databaseManager.addVendorProductConnection(productCon).subscribe();
-                                                InventoryState inventoryState = new InventoryState();
-                                                inventoryState.setProductId(product.getRootId());
-                                                inventoryState.setVendor(vendor);
-                                                inventoryState.setValue(0d);
-                                                databaseManager.insertInventoryState(inventoryState).subscribe();
-                                                databaseManager.replaceProduct(product).blockingSingle();
-                                            });
-                                        } else {
-                                            vendorErrors.add(i);
                                         }
                                     } else {
                                         skuErrors.add(i);
@@ -5658,8 +5528,8 @@ public class ExportUtils {
         cellStyle1.setAlignment(HSSFCellStyle.ALIGN_CENTER);
         cellStyle1.setDataFormat(format.getFormat("@"));
         Sheet sheet1 = workbook1.createSheet(context.getString(R.string.products));
-        String[] labels = new String[]{context.getString(R.string.category), context.getString(R.string.subcategory), context.getString(R.string.product_name), context.getString(R.string.barcode), context.getString(R.string.sku), context.getString(R.string.vendor), context.getString(R.string.unit), context.getString(R.string.price)};
-        String[] products = new String[]{"Food", "Vegatables", "Tomato", "1465442213", "tomato", "Louis and Co", "kg", "256.99"};
+        String[] labels = new String[]{context.getString(R.string.category), context.getString(R.string.subcategory), context.getString(R.string.product_name), context.getString(R.string.barcode), context.getString(R.string.sku), context.getString(R.string.unit), context.getString(R.string.price)};
+        String[] products = new String[]{"Food", "Vegatables", "Tomato", "1465442213", "tomato", "kg", "256.99"};
         for (int i = 0; i < products.length; i++) {
             sheet1.setDefaultColumnStyle(i, cellStyle1);
         }
@@ -5754,8 +5624,8 @@ public class ExportUtils {
         cellStyle1.setAlignment(HSSFCellStyle.ALIGN_CENTER);
         cellStyle1.setDataFormat(format.getFormat("@"));
         Sheet sheet1 = workbook1.createSheet(context.getString(R.string.products));
-        String[] labels = new String[]{context.getString(R.string.category), context.getString(R.string.subcategory), context.getString(R.string.product_name), context.getString(R.string.barcode), context.getString(R.string.sku), context.getString(R.string.vendor), context.getString(R.string.unit), context.getString(R.string.price)};
-        String[] products = new String[]{"Food", "Vegatables", "Tomato", "1465442213", "tomato", "Louis and Co", "kg", "256.99"};
+        String[] labels = new String[]{context.getString(R.string.category), context.getString(R.string.subcategory), context.getString(R.string.product_name), context.getString(R.string.barcode), context.getString(R.string.sku), context.getString(R.string.unit), context.getString(R.string.price)};
+        String[] products = new String[]{"Food", "Vegatables", "Tomato", "1465442213", "tomato", "kg", "256.99"};
         for (int i = 0; i < products.length; i++) {
             sheet1.setDefaultColumnStyle(i, cellStyle1);
         }
@@ -5840,7 +5710,7 @@ public class ExportUtils {
         cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
         cellStyle.setDataFormat(format.getFormat("@"));
         Sheet sheet = workbook.createSheet(context.getString(R.string.vendors));
-        String[] values = new String[]{context.getString(R.string.category), context.getString(R.string.subcategory), context.getString(R.string.product_name), context.getString(R.string.barcode), context.getString(R.string.sku), context.getString(R.string.vendor), context.getString(R.string.unit), context.getString(R.string.price)};
+        String[] values = new String[]{context.getString(R.string.category), context.getString(R.string.subcategory), context.getString(R.string.product_name), context.getString(R.string.barcode), context.getString(R.string.sku), context.getString(R.string.unit), context.getString(R.string.price)};
         List<Product> productList = databaseManager.getAllProducts().blockingSingle();
         Row row = sheet.createRow(0);
         for (int i = 0; i < values.length; i++) {
@@ -5866,13 +5736,10 @@ public class ExportUtils {
             Cell cell4 = row1.createCell(4);
             cell4.setCellStyle(cellStyle);
             cell4.setCellValue(product.getSku());
-            Cell cell5 = row1.createCell(5);
-            cell5.setCellStyle(cellStyle);
-            cell5.setCellValue(product.getVendor().get(0).getName());
-            Cell cell6 = row1.createCell(6);
+            Cell cell6 = row1.createCell(5);
             cell6.setCellStyle(cellStyle);
             cell6.setCellValue(product.getMainUnit().getAbbr());
-            Cell cell7 = row1.createCell(7);
+            Cell cell7 = row1.createCell(6);
             cell7.setCellStyle(cellStyle);
             cell7.setCellValue(product.getPrice());
         }
@@ -5922,7 +5789,7 @@ public class ExportUtils {
         cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
         cellStyle.setDataFormat(format.getFormat("@"));
         Sheet sheet = workbook.createSheet(context.getString(R.string.vendors));
-        String[] values = new String[]{context.getString(R.string.category), context.getString(R.string.subcategory), context.getString(R.string.product_name), context.getString(R.string.barcode), context.getString(R.string.sku), context.getString(R.string.vendor), context.getString(R.string.unit), context.getString(R.string.price)};
+        String[] values = new String[]{context.getString(R.string.category), context.getString(R.string.subcategory), context.getString(R.string.product_name), context.getString(R.string.barcode), context.getString(R.string.sku), context.getString(R.string.unit), context.getString(R.string.price)};
         List<Product> productList = databaseManager.getAllProducts().blockingSingle();
         Row row = sheet.createRow(0);
         for (int i = 0; i < values.length; i++) {
@@ -5948,13 +5815,10 @@ public class ExportUtils {
             Cell cell4 = row1.createCell(4);
             cell4.setCellStyle(cellStyle);
             cell4.setCellValue(product.getSku());
-            Cell cell5 = row1.createCell(5);
-            cell5.setCellStyle(cellStyle);
-            cell5.setCellValue(product.getVendor().get(0).getName());
-            Cell cell6 = row1.createCell(6);
+            Cell cell6 = row1.createCell(5);
             cell6.setCellStyle(cellStyle);
             cell6.setCellValue(product.getMainUnit().getAbbr());
-            Cell cell7 = row1.createCell(7);
+            Cell cell7 = row1.createCell(6);
             cell7.setCellStyle(cellStyle);
             cell7.setCellValue(product.getPrice());
         }
@@ -6063,14 +5927,6 @@ public class ExportUtils {
                     cell5.setPaddingBottom(8);
                     cell5.setColspan(1);
                     table.addCell(cell5);
-                    PdfPCell cell6 = new PdfPCell();
-                    cell6.setPhrase(new Phrase(product.getVendor().get(0).getName(), bf12));
-                    cell6.setPaddingLeft(8);
-                    cell6.setPaddingRight(8);
-                    cell6.setPaddingTop(8);
-                    cell6.setPaddingBottom(8);
-                    cell6.setColspan(1);
-                    table.addCell(cell6);
                     PdfPCell cell7 = new PdfPCell();
                     cell7.setPhrase(new Phrase(product.getMainUnit().getAbbr(), bf12));
                     cell7.setPaddingLeft(8);
@@ -6190,14 +6046,6 @@ public class ExportUtils {
                     cell5.setPaddingBottom(8);
                     cell5.setColspan(1);
                     table.addCell(cell5);
-                    PdfPCell cell6 = new PdfPCell();
-                    cell6.setPhrase(new Phrase(product.getVendor().get(0).getName(), bf12));
-                    cell6.setPaddingLeft(8);
-                    cell6.setPaddingRight(8);
-                    cell6.setPaddingTop(8);
-                    cell6.setPaddingBottom(8);
-                    cell6.setColspan(1);
-                    table.addCell(cell6);
                     PdfPCell cell7 = new PdfPCell();
                     cell7.setPhrase(new Phrase(product.getMainUnit().getAbbr(), bf12));
                     cell7.setPaddingLeft(8);

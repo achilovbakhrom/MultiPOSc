@@ -3,35 +3,28 @@ package com.jim.multipos.ui.product_last.fragment;
 import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.method.KeyListener;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.mpviews.MPosSpinner;
 import com.jim.mpviews.MpButton;
 import com.jim.mpviews.MpCheckbox;
 import com.jim.mpviews.MpEditText;
 import com.jim.multipos.R;
+import com.jim.multipos.config.common.BaseAppModule;
 import com.jim.multipos.core.BaseAdapter;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.core.BaseViewHolder;
@@ -43,9 +36,6 @@ import com.jim.multipos.ui.product_last.ProductActivity;
 import com.jim.multipos.ui.product_last.ProductPresenter;
 import com.jim.multipos.ui.product_last.adapter.ProductClassListAdapter;
 import com.jim.multipos.ui.product_last.adapter.ProductCostListAdapter;
-import com.jim.multipos.ui.product_last.helpers.CategoryAddEditMode;
-import com.jim.multipos.ui.vendor.add_edit.VendorAddEditActivity;
-import com.jim.multipos.utils.BarcodeStack;
 import com.jim.multipos.utils.CommonUtils;
 import com.jim.multipos.utils.GlideApp;
 import com.jim.multipos.utils.NumberTextWatcher;
@@ -65,13 +55,9 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-
-import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 import io.reactivex.disposables.Disposable;
 
 import static android.app.Activity.RESULT_OK;
@@ -81,7 +67,7 @@ import static com.jim.multipos.utils.OpenPickPhotoUtils.RESULT_PICK_IMAGE;
  * Created by Achilov Bakhrom on 10/26/17.
  */
 
-public class ProductAddEditFragment extends BaseFragment implements View.OnClickListener {
+public class ProductAddEditFragment extends BaseFragment {
 
     @BindView(R.id.etProductName)
     MpEditText name;
@@ -107,13 +93,6 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
     @BindView(R.id.tvPriceCurrency)
     TextView priceCurrency;
 
-    @NotEmpty(messageId = R.string.warning_cost_empty)
-    @BindView(R.id.etProductCost)
-    TextView cost;
-
-    @BindView(R.id.tvCostCurrency)
-    TextView costCurrency;
-
     @BindView(R.id.tvProductClass)
     TextView tvProductClass;
 
@@ -129,15 +108,9 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
     @BindView(R.id.btnSave)
     MpButton save;
 
-    @BindView(R.id.tvVendor)
-    TextView vendor;
-
     @BindView(R.id.ivScanBarcode)
     ImageView ivScanBarcode;
 
-
-    private static final String VENDOR_LIST_COUNT = "VENDOR_LIST_COUNT";
-    private static final String VENDOR_ID = "VENDOR_ID_";
     private Uri photoSelected;
     private ArrayList<Disposable> subscriptions;
 
@@ -151,63 +124,17 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
         return false;
     }
 
-    private Dialog dialog, costDialog, classDialog;
+    private Dialog classDialog;
 
-    private RecyclerView vendorDialogList, productCostList, classList;
-    private MpButton vendorDialogBack, btnBackToAddProduct, btnSaveCosts;
-    private MpButton vendorDialogOk;
-    private Button btnAddVendor;
+    private RecyclerView classList;
     private ProductClassListAdapter classListAdapter;
-    private List<Long> vendors;
     private DecimalFormat formatter;
 
     @Override
     protected void init(Bundle savedInstanceState) {
         argumentsRead = true;
-        vendors = new ArrayList<>();
-        if (savedInstanceState != null) {
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-            int count = preferences.getInt(VENDOR_LIST_COUNT, 0);
-            if (count > 0) {
-                for (int i = 0; i < count; i++) {
-                    vendors.add(preferences.getLong(VENDOR_ID + i, -1L));
-                }
-            }
-        }
-        NumberFormat numberFormat = NumberFormat.getNumberInstance();
-        numberFormat.setMaximumFractionDigits(2);
-        formatter = (DecimalFormat) numberFormat;
-        DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
-        symbols.setDecimalSeparator('.');
-        symbols.setGroupingSeparator(' ');
-        formatter.setDecimalFormatSymbols(symbols);
+        formatter = BaseAppModule.getFormatter();
         price.addTextChangedListener(new NumberTextWatcher(price));
-        dialog = new Dialog(getContext());
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.choose_vendor_dialog, null, false);
-        dialog.getWindow().getDecorView().setBackgroundResource(android.R.color.transparent);
-        dialog.setContentView(dialogView);
-        vendorDialogList = dialogView.findViewById(R.id.rvVendors);
-        vendorDialogList.setLayoutManager(new LinearLayoutManager(getContext()));
-        vendorDialogBack = dialogView.findViewById(R.id.btnBack);
-        vendorDialogBack.setOnClickListener(this);
-        vendorDialogOk = dialogView.findViewById(R.id.btnOk);
-        vendorDialogOk.setOnClickListener(this);
-        btnAddVendor = dialogView.findViewById(R.id.btnAdd);
-        btnAddVendor.setOnClickListener(view -> {
-            getContext().startActivity(new Intent(getContext(), VendorAddEditActivity.class));
-            dialog.dismiss();
-        });
-        costDialog = new Dialog(getContext());
-        View costView = LayoutInflater.from(getContext()).inflate(R.layout.choose_product_cost, null, false);
-        costDialog.getWindow().getDecorView().setBackgroundResource(android.R.color.transparent);
-        costDialog.setContentView(costView);
-        productCostList = costView.findViewById(R.id.rvProductCostList);
-        productCostList.setLayoutManager(new LinearLayoutManager(getContext()));
-        btnBackToAddProduct = costView.findViewById(R.id.btnBackToAddProduct);
-        btnBackToAddProduct.setOnClickListener(this);
-        btnSaveCosts = costView.findViewById(R.id.btnSaveCosts);
-        btnSaveCosts.setOnClickListener(this);
 
         classDialog = new Dialog(getContext());
         View classView = LayoutInflater.from(getContext()).inflate(R.layout.vendor_product_list_dialog, null, false);
@@ -264,16 +191,6 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
                                 break;
                             }
                         }
-                    } else if (o instanceof VendorEvent) {
-                        VendorEvent event = (VendorEvent) o;
-                        switch (event.getType()) {
-                            case GlobalEventConstants.DELETE:
-                            case GlobalEventConstants.UPDATE:
-                            case GlobalEventConstants.ADD: {
-                                openVendorChooserDialog(((ProductActivity) getContext()).getPresenter().updateVendors());
-                                break;
-                            }
-                        }
                     }
                 }));
     }
@@ -285,11 +202,6 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        preferences.edit().putInt(VENDOR_LIST_COUNT, vendors.size()).apply();
-        for (int i = 0; i < vendors.size(); i++) {
-            preferences.edit().putLong(VENDOR_ID + i, vendors.get(i)).apply();
-        }
     }
 
     int unitPosition = 0;
@@ -311,11 +223,10 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
         classListAdapter.setData(productClasses);
         classList.setAdapter(classListAdapter);
         priceCurrency.setText(currencyAbbr);
-        costCurrency.setText(currencyAbbr);
     }
 
 
-    @OnClick(value = {R.id.btnSave, R.id.btnCancel, R.id.btnAdvance, R.id.ivChooseImage, R.id.tvVendor, R.id.etProductCost, R.id.tvProductClass})
+    @OnClick(value = {R.id.btnSave, R.id.btnCancel, R.id.btnAdvance, R.id.ivChooseImage, R.id.tvProductClass})
     public void buttonClick(View view) {
         ProductPresenter presenter = ((ProductActivity) getContext()).getPresenter();
         switch (view.getId()) {
@@ -333,19 +244,8 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
                         sku.setError(getString(R.string.such_product_sku_exists));
                         return;
                     }
-                    saveProduct(false);
+                    saveProduct();
                 }
-//                try {
-//                    ((ProductActivity) getContext()).getPresenter().comparePriceWithCost(formatter.parse(this.price.getText().toString()).doubleValue());
-//                } catch (ParseException e) {
-//                    e.printStackTrace();
-//                }
-                break;
-            case R.id.tvVendor:
-                ((ProductActivity) getContext()).getPresenter().openVendorChooserDialog();
-                break;
-            case R.id.etProductCost:
-//                ((ProductActivity) getContext()).getPresenter().setProductCostDialog();
                 break;
             case R.id.btnCancel:
                 ((ProductActivity) getContext()).getPresenter().finishActivity();
@@ -396,49 +296,7 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
 
     }
 
-    public void saveProduct(boolean isBigger) {
-        if (isBigger) {
-            UIUtils.showAlert(getContext(), getContext().getString(R.string.yes), getContext().getString(R.string.no),
-                    getContext().getString(R.string.warning), getContext().getString(R.string.warning_cost_more_than_price), new UIUtils.AlertListener() {
-                        @Override
-                        public void onPositiveButtonClicked() {
-                            if (vendors == null || vendors.isEmpty()) {
-                                vendor.setTextColor(Color.RED);
-                                return;
-                            }
-                            String tempPrice = price.getText().toString().replace(",", ".");
-                            Double resultPrice = null;
-                            try {
-                                resultPrice = tempPrice.isEmpty() ? 0.0d : formatter.parse(tempPrice).doubleValue();
-                            } catch (ParseException e) {
-                                resultPrice = 0.0d;
-                            }
-                            ((ProductActivity) getContext()).getPresenter().addProduct(
-                                    name.getText().toString(),
-                                    barcode.getText().toString(),
-                                    sku.getText().toString(),
-                                    (photoSelected != null) ? CommonUtils.getRealPathFromURI(getContext(), photoSelected) : "",
-                                    isActive.isChecked(),
-                                    0,
-                                    0,
-                                    unitsCategory.getSelectedPosition(),
-                                    units.getSelectedPosition(),
-                                    vendors,
-                                    getContext().getString(R.string.description),
-                                    resultPrice
-                            );
-                        }
-
-                        @Override
-                        public void onNegativeButtonClicked() {
-
-                        }
-                    });
-        } else {
-            if (vendors == null || vendors.isEmpty()) {
-                vendor.setTextColor(Color.RED);
-                return;
-            }
+    public void saveProduct() {
             String tempPrice = price.getText().toString().replace(",", ".");
             Double resultPrice;
             try {
@@ -456,11 +314,9 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
                     0,
                     unitsCategory.getSelectedPosition(),
                     units.getSelectedPosition(),
-                    vendors,
                     getContext().getString(R.string.description),
                     resultPrice
             );
-        }
     }
 
     @Override
@@ -488,16 +344,12 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
     boolean argumentsRead = true;
 
     public void openAddMode() {
-        vendors = new ArrayList<>();
         name.setText("");
         name.setError(null);
         barcode.setText("");
         sku.setText("");
         price.setText("");
         price.setError(null);
-        cost.setText("");
-        cost.setError(null);
-        vendor.setText(getString(R.string.select_vendor));
         tvProductClass.setText(getString(R.string.not_classified));
         units.setSelectedPosition(0);
         unitsCategory.setSelectedPosition(0);
@@ -519,12 +371,10 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
                              String sku,
                              boolean isActive,
                              String priceCurrencyName,
-                             String costCurrencyName,
                              String productClassPos,
                              int unitCategoryPos,
                              String[] units,
                              int unitPos,
-                             List<Long> vendors,
                              String description,
                              String url,
                              double price) {
@@ -537,7 +387,6 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
         this.sku.setText(sku);
         this.isActive.setChecked(isActive);
         this.priceCurrency.setText(priceCurrencyName);
-        this.costCurrency.setText(costCurrencyName);
         if (productClassPos.equals(""))
             this.tvProductClass.setText(getContext().getString(R.string.not_classified));
         else
@@ -562,33 +411,7 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
             this.units.setSelectedPosition(unitPos);
             unitPosition = unitPos;
         }
-        ((ProductActivity) getContext()).getPresenter().setVendorName(vendors);
         this.save.setText(getContext().getString(R.string.update));
-        this.vendors = vendors;
-    }
-
-    public void openVendorChooserDialog(List<Vendor> vendorList) {
-        List<VendorWithCheckedPosition> result = new ArrayList<>();
-        for (Vendor vendor : vendorList) {
-            VendorWithCheckedPosition vendorWithCheckedPosition = new VendorWithCheckedPosition();
-            vendorWithCheckedPosition.setVendor(vendor);
-            vendorWithCheckedPosition.setChecked(containsVendor(vendor.getId()));
-            result.add(vendorWithCheckedPosition);
-        }
-        VendorChooseAdapter adapter = new VendorChooseAdapter(result);
-        vendorDialogList.setAdapter(adapter);
-        dialog.show();
-    }
-
-    public void openChooseProductCostDialog(List<String> vendors, List<VendorProductCon> costs) {
-        if (vendors.size() != 0) {
-            ProductCostListAdapter adapter = new ProductCostListAdapter(getContext(), formatter);
-            adapter.setData(vendors, costs);
-            productCostList.setAdapter(adapter);
-            costDialog.show();
-        } else
-            UIUtils.showAlert(getContext(), getContext().getString(R.string.ok), getContext().getString(R.string.warning), getContext().getString(R.string.choose_vendor), () -> {
-            });
     }
 
     public void setUnits(String[] units, int unitPos) {
@@ -628,14 +451,6 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
         return 0.0d;
     }
 
-    public String getCost() {
-        String temp = cost.getText().toString();
-        if (!temp.isEmpty()) {
-            return temp;
-        }
-        return "";
-    }
-
     public String getProductClassSelectedPos() {
         return tvProductClass.getText().toString();
     }
@@ -645,66 +460,9 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btnOk:
-                if (vendorDialogList.getAdapter() != null) {
-                    VendorChooseAdapter adapter = (VendorChooseAdapter) vendorDialogList.getAdapter();
-                    vendors.clear();
-                    for (int i = 0; i < adapter.getItemCount(); i++) {
-                        if (adapter.isVendorChecked(i)) {
-                            vendors.add(adapter.getVendorId(i));
-                        }
-                    }
-                    ((ProductActivity) getContext()).getPresenter().setVendorName(vendors);
-                }
-            case R.id.btnBack:
-                dialog.dismiss();
-                break;
-            case R.id.btnBackToAddProduct:
-                costDialog.dismiss();
-                break;
-            case R.id.btnSaveCosts:
-//                if (productCostList.getAdapter() != null) {
-//                    ProductCostListAdapter adapter = (ProductCostListAdapter) productCostList.getAdapter();
-//                    ((ProductActivity) getContext()).getPresenter().setProductCosts(adapter.getCosts());
-//                }
-//                costDialog.dismiss();
-                break;
-        }
-    }
-
-    public void setVendorName(String vendors) {
-        if (!vendors.isEmpty()) {
-            this.vendor.setTextColor(Color.BLACK);
-            this.vendor.setText(vendors);
-        } else {
-            this.vendor.setTextColor(Color.RED);
-            this.vendor.setText(getContext().getString(R.string.select_vendor));
-        }
-    }
-
-    private boolean containsVendor(Long vendorId) {
-        for (Long id : vendors) {
-            if (id.equals(vendorId)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
         RxBus.removeListners(subscriptions);
-    }
-
-    public List<Long> getVendors() {
-        return vendors;
-    }
-
-    public void setCostValue(String result) {
-        cost.setText(result);
     }
 
     public String getPhotoPath() {
@@ -718,100 +476,10 @@ public class ProductAddEditFragment extends BaseFragment implements View.OnClick
 
     public void showCannotDeleteItemWithMinusValue(double value) {
         UIUtils.showAlert(getContext(), getContext().getString(R.string.ok), getContext().getString(R.string.warning),
-                getContext().getString(R.string.you_have) + value +getContext().getString(R.string.item_in_the_inventory_you_cant_delete), () -> Log.d("sss", "onButtonClicked: "));
+                getContext().getString(R.string.you_have) + value + getContext().getString(R.string.item_in_the_inventory_you_cant_delete), () -> Log.d("sss", "onButtonClicked: "));
     }
 
     public void setBarcode(String barcode) {
         this.barcode.setText(barcode);
-    }
-
-    class VendorChooseAdapter extends BaseAdapter<VendorWithCheckedPosition, VendorChooseAdapter.VendorChooseItemHolder> {
-
-        private int selectedPosition = -1;
-
-        public VendorChooseAdapter(List<VendorWithCheckedPosition> items) {
-            super(items);
-            for (int i = 0; i < items.size(); i++) {
-                if (items.get(i).isChecked()) {
-                    selectedPosition = i;
-                }
-            }
-        }
-
-        @Override
-        public VendorChooseItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.choose_vendor_dialog_item, parent, false);
-            return new VendorChooseItemHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(VendorChooseItemHolder holder, int position) {
-            holder.vendorName.setText(items.get(position).getVendor().getName());
-            holder.vendorContact.setText(items.get(position).getVendor().getContactName());
-            holder.vendorAddress.setText(items.get(position).getVendor().getAddress());
-            holder.vendorChecked.setCheckedChangeListener(null);
-            holder.vendorChecked.setChecked(selectedPosition == position);
-            holder.vendorChecked.setCheckedChangeListener(isChecked -> {
-                selectedPosition = position;
-                items.get(position).setChecked(isChecked);
-                if (vendors == null) return;
-                if (isChecked) {
-                    vendors.add(items.get(position).getVendor().getId());
-                    for (int i = 0; i < items.size(); i++) {
-                        if (i != selectedPosition) {
-                            items.get(i).setChecked(false);
-                        }
-                    }
-                } else {
-                    vendors.remove(items.get(position).getVendor().getId());
-                }
-                notifyDataSetChanged();
-            });
-        }
-
-        public boolean isVendorChecked(int position) {
-            return items.get(position).isChecked();
-        }
-
-        public Long getVendorId(int position) {
-            return items.get(position).getVendor().getId();
-        }
-
-        class VendorChooseItemHolder extends BaseViewHolder {
-            @BindView(R.id.tvVendorName)
-            TextView vendorName;
-            @BindView(R.id.tvVendorContact)
-            TextView vendorContact;
-            @BindView(R.id.tvVendorAddress)
-            TextView vendorAddress;
-            @BindView(R.id.chbVendorChecked)
-            MpCheckbox vendorChecked;
-
-            VendorChooseItemHolder(View itemView) {
-                super(itemView);
-                itemView.setOnClickListener(v -> vendorChecked.setChecked(!vendorChecked.isChecked()));
-            }
-        }
-    }
-
-    class VendorWithCheckedPosition implements Serializable {
-        private Vendor vendor;
-        private boolean isChecked;
-
-        public Vendor getVendor() {
-            return vendor;
-        }
-
-        public void setVendor(Vendor vendor) {
-            this.vendor = vendor;
-        }
-
-        public boolean isChecked() {
-            return isChecked;
-        }
-
-        public void setChecked(boolean checked) {
-            isChecked = checked;
-        }
     }
 }

@@ -12,8 +12,6 @@ import com.jim.multipos.core.DoubleSideActivity;
 import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.Product;
-import com.jim.multipos.data.db.model.products.Vendor;
-import com.jim.multipos.data.db.model.products.VendorProductCon;
 import com.jim.multipos.ui.product_last.fragment.CategoryAddEditFragment;
 import com.jim.multipos.ui.product_last.fragment.ProductAddEditFragment;
 import com.jim.multipos.ui.product_last.fragment.ProductListFragment;
@@ -25,7 +23,6 @@ import com.jim.multipos.utils.rxevents.main_order_events.ProductEvent;
 import com.jim.multipos.utils.rxevents.product_events.CategoryEvent;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -301,23 +298,6 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
     }
 
     @Override
-    public Long getSubcategorySelectedPosition() {
-        return null;
-    }
-
-
-    @Override
-    public Category getSubcategoryByPosition(int position) {
-        ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
-        Category result = null;
-        if (fragment != null) {
-            result = fragment.getSelectedSubcategory();
-        }
-        return result;
-    }
-
-
-    @Override
     public void selectAddCategoryItem() {
         ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
         if (fragment != null) {
@@ -350,68 +330,10 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
     }
 
     @Override
-    public Category getSelectedCategory() {
-        ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
-        if (fragment != null) {
-            return fragment.getSelectedCategory();
-        }
-        return null;
-    }
-
-    @Override
-    public Category getSelectedSubcategory() {
-        ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
-        if (fragment != null) {
-            return fragment.getSelectedSubcategory();
-        }
-        return null;
-    }
-
-    @Override
     public void addCategory(Category category) {
         ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
         if (fragment != null) {
             fragment.addCategory(category);
-        }
-    }
-
-    @Override
-    public void addSubcategory(Category category) {
-        ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
-        if (fragment != null) {
-            fragment.addSubcategory(category);
-        }
-    }
-
-    @Override
-    public void deleteCategory(Category category) {
-        ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
-        if (fragment != null) {
-            fragment.deleteCategory(category);
-        }
-    }
-
-    @Override
-    public void deleteSubcategory(Category category) {
-        ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
-        if (fragment != null) {
-            fragment.deleteSubcategory(category);
-        }
-    }
-
-    @Override
-    public void setListToCategories(List<Category> categories) {
-        ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
-        if (fragment != null) {
-            fragment.setListToCategories(categories);
-        }
-    }
-
-    @Override
-    public void setListToSubcategories(List<Category> subcategories) {
-        ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
-        if (fragment != null) {
-            fragment.setListToSubcategoryList(subcategories);
         }
     }
 
@@ -562,12 +484,10 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
                                     String sku,
                                     boolean isActive,
                                     String priceCurrencyAbbr,
-                                    String costCurrencyAbbr,
                                     String productClassPos,
                                     int unitCategoryPos,
                                     String[] units,
                                     int unitPos,
-                                    List<Long> vendors,
                                     String description,
                                     String url,
                                     double price) {
@@ -579,12 +499,10 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
                     sku,
                     isActive,
                     priceCurrencyAbbr,
-                    costCurrencyAbbr,
                     productClassPos,
                     unitCategoryPos,
                     units,
                     unitPos,
-                    vendors,
                     description,
                     url,
                     price
@@ -738,33 +656,6 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
     }
 
     @Override
-    public String getCost() {
-        ProductAddEditFragment fragment = getProductAddEditFragment();
-        if (fragment != null) {
-            return fragment.getCost();
-        }
-        return "";
-    }
-
-    @Override
-    public List<Long> getVendorSelectedPos() {
-        ProductAddEditFragment fragment = getProductAddEditFragment();
-        if (fragment != null) {
-            return fragment.getVendors();
-        }
-        return new ArrayList<>();
-    }
-
-    @Override
-    public String getProductClassSelectedPos() {
-        ProductAddEditFragment fragment = getProductAddEditFragment();
-        if (fragment != null) {
-            return fragment.getProductClassSelectedPos();
-        }
-        return "";
-    }
-
-    @Override
     public boolean getProductIsActive() {
         ProductAddEditFragment fragment = getProductAddEditFragment();
         if (fragment != null) {
@@ -798,30 +689,6 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
     }
 
     @Override
-    public void openVendorChooserDialog(List<Vendor> vendors) {
-        ProductAddEditFragment fragment = getProductAddEditFragment();
-        if (fragment != null) {
-            fragment.openVendorChooserDialog(vendors);
-        }
-    }
-
-    @Override
-    public void openChooseProductCostDialog(List<String> vendors, List<VendorProductCon> costs) {
-        ProductAddEditFragment fragment = getProductAddEditFragment();
-        if (fragment != null) {
-            fragment.openChooseProductCostDialog(vendors, costs);
-        }
-    }
-
-    @Override
-    public void setVendorNameToAddEditProductFragment(String vendorName) {
-        ProductAddEditFragment fragment = getProductAddEditFragment();
-        if (fragment != null) {
-            fragment.setVendorName(vendorName);
-        }
-    }
-
-    @Override
     public boolean isActiveVisible() {
         ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
         if (fragment != null) {
@@ -831,18 +698,10 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
     }
 
     @Override
-    public void setCostValue(String result) {
+    public void saveProduct() {
         ProductAddEditFragment fragment = getProductAddEditFragment();
         if (fragment != null) {
-            fragment.setCostValue(result);
-        }
-    }
-
-    @Override
-    public void saveProduct(boolean isBigger) {
-        ProductAddEditFragment fragment = getProductAddEditFragment();
-        if (fragment != null) {
-            fragment.saveProduct(isBigger);
+            fragment.saveProduct();
         }
     }
 

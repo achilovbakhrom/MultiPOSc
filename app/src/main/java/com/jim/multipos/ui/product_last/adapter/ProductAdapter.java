@@ -8,6 +8,7 @@ import com.jim.mpviews.MPAddItemView;
 import com.jim.mpviews.MPListItemView;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseViewHolder;
+import com.jim.multipos.core.ClickableBaseAdapter;
 import com.jim.multipos.core.MovableBaseAdapter;
 import com.jim.multipos.data.db.model.products.Product;
 
@@ -19,7 +20,7 @@ import butterknife.BindView;
 /**
  * Created by Achilov Bakhrom on 11/2/17.
  */
-public class ProductAdapter extends MovableBaseAdapter<Product, BaseViewHolder> {
+public class ProductAdapter extends ClickableBaseAdapter<Product, BaseViewHolder> {
 
     public static final int ADD = 0, ITEM = 1;
 
@@ -103,11 +104,6 @@ public class ProductAdapter extends MovableBaseAdapter<Product, BaseViewHolder> 
     }
 
     private void sort() {
-        Collections.sort(items, (o1, o2) -> {
-            if (o1 != null && o2 != null)
-                return o1.getPosition().compareTo(o2.getPosition());
-            return -1;
-        });
         Collections.sort(items, (o1, o2) -> {
             if (o1 != null && o2 != null)
                 return -((Boolean) o1.isActive()).compareTo(o2.isActive());

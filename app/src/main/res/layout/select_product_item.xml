@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/fifty_dp"
+    android:orientation="horizontal"
+    android:paddingLeft="@dimen/ten_dp">
+
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/colorMainText"
+        android:textSize="@dimen/sixteen_dp" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/colorMainText"
+        android:textSize="@dimen/sixteen_dp" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/colorMainText"
+        android:textSize="@dimen/sixteen_dp" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/colorMainText"
+        android:textSize="@dimen/sixteen_dp" />
+
+
+    <com.jim.mpviews.MpMiniActionButton
+        android:id="@+id/btnAddProductToConsignment"
+        android:layout_width="@dimen/fifty_five_dp"
+        android:layout_height="@dimen/thirty_five_dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="@dimen/ten_dp"
+        android:paddingBottom="@dimen/ten_dp"
+        android:paddingTop="@dimen/ten_dp"
+        android:src="@drawable/ic_question_mark"
+        android:tint="@color/colorTintGrey" />
+
+    <com.jim.mpviews.MpButton
+        android:id="@+id/btnConfirm"
+        android:layout_width="@dimen/hundred_dp"
+        android:layout_height="@dimen/thirty_five_dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/select"
+        android:textColor="@color/colorBlue"
+        android:textSize="@dimen/sixteen_dp"
+        android:textStyle="bold" />
+
+</LinearLayout>

@@ -75,6 +75,7 @@ public class ProductListFragment extends BaseFragment {
     public void init(List<Category> categories) {
         firstArrow.setVisibility(View.GONE);
         secordArrow.setVisibility(View.GONE);
+
         CategoryAdapter categoryAdapter = new CategoryAdapter(categories, CategoryAdapter.CATEGORY_MODE);
         categoryAdapter.setOnItemClickListener(new ClickableBaseAdapter.OnItemClickListener<Category>() {
             @Override
@@ -88,13 +89,7 @@ public class ProductListFragment extends BaseFragment {
         });
         this.categories.setLayoutManager(new LinearLayoutManager(getContext()));
         this.categories.setAdapter(categoryAdapter);
-        categoryAdapter.setMoveListener((fromPosition, toPosition) -> {
-            ((ProductActivity) getContext()).getPresenter().setCategoryItemsMoved();
-        });
         ((SimpleItemAnimator) this.categories.getItemAnimator()).setSupportsChangeAnimations(false);
-        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(categoryAdapter);
-        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
-        touchHelper.attachToRecyclerView(this.categories);
 
         CategoryAdapter subcategoryAdapter = new CategoryAdapter(new ArrayList<>(), CategoryAdapter.SUBCATEGORY_MODE);
         subcategoryAdapter.setOnItemClickListener(new ClickableBaseAdapter.OnItemClickListener<Category>() {
@@ -109,13 +104,7 @@ public class ProductListFragment extends BaseFragment {
         });
         this.subcategories.setLayoutManager(new LinearLayoutManager(getContext()));
         this.subcategories.setAdapter(subcategoryAdapter);
-        subcategoryAdapter.setMoveListener((fromPosition, toPosition) -> {
-            ((ProductActivity) getContext()).getPresenter().setSubcategoryItemsMoved();
-        });
         ((SimpleItemAnimator) this.subcategories.getItemAnimator()).setSupportsChangeAnimations(false);
-        ItemTouchHelper.Callback scCallback = new SimpleItemTouchHelperCallback(subcategoryAdapter);
-        ItemTouchHelper scTouchHelper = new ItemTouchHelper(scCallback);
-        scTouchHelper.attachToRecyclerView(this.subcategories);
 
         ProductAdapter productAdapter = new ProductAdapter(new ArrayList<>());
         productAdapter.setOnItemClickListener(new ClickableBaseAdapter.OnItemClickListener<Product>() {
@@ -130,13 +119,8 @@ public class ProductListFragment extends BaseFragment {
         });
         this.products.setLayoutManager(new GridLayoutManager(getContext(), 4));
         this.products.setAdapter(productAdapter);
-        productAdapter.setMoveListener((fromPosition, toPosition) -> {
-            ((ProductActivity) getContext()).getPresenter().setProductItemsMoved();
-        });
         ((SimpleItemAnimator) this.products.getItemAnimator()).setSupportsChangeAnimations(false);
-        ItemTouchHelper.Callback prCallback = new SimpleItemTouchHelperCallback(productAdapter);
-        ItemTouchHelper prTouchHelper = new ItemTouchHelper(prCallback);
-        prTouchHelper.attachToRecyclerView(this.products);
+
         isActiveEnabled.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
             preferences.edit().putBoolean(IS_ACTIVE_KEY, isChecked).apply();
