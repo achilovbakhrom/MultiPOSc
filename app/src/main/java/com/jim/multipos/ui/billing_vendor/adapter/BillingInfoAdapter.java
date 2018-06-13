@@ -1,8 +1,6 @@
 package com.jim.multipos.ui.billing_vendor.adapter;
 
 import android.content.Context;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,7 +12,6 @@ import android.widget.TextView;
 import com.jim.multipos.R;
 import com.jim.multipos.config.common.BaseAppModule;
 import com.jim.multipos.core.BaseViewHolder;
-import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
 
@@ -23,7 +20,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

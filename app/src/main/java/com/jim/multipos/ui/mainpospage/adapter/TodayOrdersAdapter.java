@@ -17,7 +17,6 @@ import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.order.Order;
 
 import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;

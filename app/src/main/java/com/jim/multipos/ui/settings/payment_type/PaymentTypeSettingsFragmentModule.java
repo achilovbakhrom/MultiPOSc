@@ -3,9 +3,6 @@ package com.jim.multipos.ui.settings.payment_type;
 import android.support.v4.app.Fragment;
 
 import com.jim.multipos.config.scope.PerFragment;
-import com.jim.multipos.ui.settings.accounts.AccountSettingsFragment;
-import com.jim.multipos.ui.settings.accounts.AccountSettingsPresenterModule;
-import com.jim.multipos.ui.settings.accounts.AccountSettingsView;
 
 import dagger.Binds;
 import dagger.Module;

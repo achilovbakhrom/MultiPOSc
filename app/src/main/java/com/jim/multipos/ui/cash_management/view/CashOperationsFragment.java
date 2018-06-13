@@ -9,7 +9,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.jim.mpviews.MpButtonWithIcon;
-import com.jim.mpviews.MpList;
 import com.jim.mpviews.MpMiniList;
 import com.jim.mpviews.MpNumPad;
 import com.jim.mpviews.model.PaymentTypeWithService;
@@ -28,11 +27,8 @@ import com.jim.multipos.utils.UIUtils;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Locale;
 
 import javax.inject.Inject;
 

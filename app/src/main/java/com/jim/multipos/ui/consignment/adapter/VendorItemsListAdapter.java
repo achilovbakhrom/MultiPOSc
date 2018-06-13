@@ -5,17 +5,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.jim.mpviews.MpEditText;
-import com.jim.mpviews.MpMiniActionButton;
 import com.jim.multipos.R;
-import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
 import com.jim.multipos.data.db.model.products.Product;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 

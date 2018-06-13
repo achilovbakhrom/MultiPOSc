@@ -7,15 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.jakewharton.rxbinding2.view.RxView;
-import com.jim.mpviews.MPosSpinner;
-import com.jim.mpviews.MpEditText;
-import com.jim.mpviews.MpMiniActionButton;
 import com.jim.multipos.R;
-import com.jim.multipos.config.common.BaseAppModule;
 import com.jim.multipos.data.db.model.products.Return;
-import com.jim.multipos.data.db.model.products.Vendor;
-import com.jim.multipos.utils.TextWatcherOnTextChange;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;

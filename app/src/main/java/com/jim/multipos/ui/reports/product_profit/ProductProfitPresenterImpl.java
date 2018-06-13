@@ -369,7 +369,7 @@ public class ProductProfitPresenterImpl extends BasePresenterImpl<ProductProfitV
                                     profitData.setName(ReportUtils.getProductName(orders.get(i).getOrderProducts().get(j).getProduct()));
                                 }
                                 profitData.plusCount(orders.get(i).getOrderProducts().get(j).getCount());
-                                profitData.plusCost(orders.get(i).getOrderProducts().get(j).getCount() * orders.get(i).getOrderProducts().get(j).getCost());
+                                profitData.plusCost(orders.get(i).getOrderProducts().get(j).getOutcomeProduct().getSumCostValue());
                                 profitData.plusSale(orders.get(i).getOrderProducts().get(j).getCount() * orders.get(i).getOrderProducts().get(j).getPrice());
                                 profitData.plusDiscount(orders.get(i).getOrderProducts().get(j).getDiscountAmount());
                                 profitData.plusServiceFee(orders.get(i).getOrderProducts().get(j).getServiceAmount());
@@ -389,7 +389,7 @@ public class ProductProfitPresenterImpl extends BasePresenterImpl<ProductProfitV
                                     profitData.setName(orders.get(i).getOrderProducts().get(j).getProduct().getCategory().getParentCategory().getName());
                                 }
                                 profitData.plusCount(orders.get(i).getOrderProducts().get(j).getCount());
-                                profitData.plusCost(orders.get(i).getOrderProducts().get(j).getCount() * orders.get(i).getOrderProducts().get(j).getCost());
+                                profitData.plusCost(orders.get(i).getOrderProducts().get(j).getOutcomeProduct().getSumCostValue());
                                 profitData.plusSale(orders.get(i).getOrderProducts().get(j).getCount() * orders.get(i).getOrderProducts().get(j).getPrice());
                                 profitData.plusDiscount(orders.get(i).getOrderProducts().get(j).getDiscountAmount());
                                 profitData.plusServiceFee(orders.get(i).getOrderProducts().get(j).getServiceAmount());
@@ -409,7 +409,7 @@ public class ProductProfitPresenterImpl extends BasePresenterImpl<ProductProfitV
                                     profitData.setName(orders.get(i).getOrderProducts().get(j).getProduct().getCategory().getName());
                                 }
                                 profitData.plusCount(orders.get(i).getOrderProducts().get(j).getCount());
-                                profitData.plusCost(orders.get(i).getOrderProducts().get(j).getCount() * orders.get(i).getOrderProducts().get(j).getCost());
+                                profitData.plusCost(orders.get(i).getOrderProducts().get(j).getOutcomeProduct().getSumCostValue());
                                 profitData.plusSale(orders.get(i).getOrderProducts().get(j).getCount() * orders.get(i).getOrderProducts().get(j).getPrice());
                                 profitData.plusDiscount(orders.get(i).getOrderProducts().get(j).getDiscountAmount());
                                 profitData.plusServiceFee(orders.get(i).getOrderProducts().get(j).getServiceAmount());
@@ -429,7 +429,7 @@ public class ProductProfitPresenterImpl extends BasePresenterImpl<ProductProfitV
                                 if (orders.get(i).getOrderProducts().get(j).getProduct().getProductClass() == null) {
                                     ProfitData profitData = profitDatas.get(-1l);
                                     profitData.plusCount(orders.get(i).getOrderProducts().get(j).getCount());
-                                    profitData.plusCost(orders.get(i).getOrderProducts().get(j).getCount() * orders.get(i).getOrderProducts().get(j).getCost());
+                                    profitData.plusCost(orders.get(i).getOrderProducts().get(j).getOutcomeProduct().getSumCostValue());
                                     profitData.plusSale(orders.get(i).getOrderProducts().get(j).getCount() * orders.get(i).getOrderProducts().get(j).getPrice());
                                     profitData.plusDiscount(orders.get(i).getOrderProducts().get(j).getDiscountAmount());
                                     profitData.plusServiceFee(orders.get(i).getOrderProducts().get(j).getServiceAmount());
@@ -442,7 +442,7 @@ public class ProductProfitPresenterImpl extends BasePresenterImpl<ProductProfitV
                                         profitData.setName(orders.get(i).getOrderProducts().get(j).getProduct().getProductClass().getName());
                                     }
                                     profitData.plusCount(orders.get(i).getOrderProducts().get(j).getCount());
-                                    profitData.plusCost(orders.get(i).getOrderProducts().get(j).getCount() * orders.get(i).getOrderProducts().get(j).getCost());
+                                    profitData.plusCost(orders.get(i).getOrderProducts().get(j).getOutcomeProduct().getSumCostValue());
                                     profitData.plusSale(orders.get(i).getOrderProducts().get(j).getCount() * orders.get(i).getOrderProducts().get(j).getPrice());
                                     profitData.plusDiscount(orders.get(i).getOrderProducts().get(j).getDiscountAmount());
                                     profitData.plusServiceFee(orders.get(i).getOrderProducts().get(j).getServiceAmount());
@@ -478,8 +478,8 @@ public class ProductProfitPresenterImpl extends BasePresenterImpl<ProductProfitV
                         ProductLog productLog = new ProductLog();
                         productLog.setName(ReportUtils.getProductName(orders.get(i).getOrderProducts().get(j).getProduct()));
                         productLog.setQty(orders.get(i).getOrderProducts().get(j).getCount());
-                        productLog.setCostEach(orders.get(i).getOrderProducts().get(j).getCost());
-                        productLog.setPriceEach(orders.get(i).getOrderProducts().get(j).getPrice());
+                        productLog.setCostEach(orders.get(i).getOrderProducts().get(j).getOutcomeProduct().getSumCostValue());
+                        productLog.setPriceEach(orders.get(i).getOrderProducts().get(j).getPrice()*orders.get(i).getOrderProducts().get(j).getCount());
                         productLog.setDate(orders.get(i).getCreateAt());
                         productLog.setDiscription(orders.get(i).getOrderProducts().get(j).getDiscription());
                         productLog.setOrderId(orders.get(i).getId());

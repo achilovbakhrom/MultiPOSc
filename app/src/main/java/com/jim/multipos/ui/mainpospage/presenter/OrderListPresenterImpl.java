@@ -12,17 +12,13 @@ import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.ServiceFeeLog;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.Debt;
-import com.jim.multipos.data.db.model.inventory.InventoryState;
-import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
+import com.jim.multipos.data.db.model.intosystem.StockResult;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.OrderChangesLog;
 import com.jim.multipos.data.db.model.order.OrderProduct;
 import com.jim.multipos.data.db.model.order.PayedPartitions;
 import com.jim.multipos.data.db.model.products.Product;
-import com.jim.multipos.data.db.model.products.Vendor;
-import com.jim.multipos.data.db.model.products.VendorProductCon;
 import com.jim.multipos.data.db.model.unit.UnitCategory;
-import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.ui.mainpospage.dialogs.DiscountDialog;
 import com.jim.multipos.ui.mainpospage.dialogs.ServiceFeeDialog;
 import com.jim.multipos.ui.mainpospage.model.DiscountItem;
@@ -32,10 +28,12 @@ import com.jim.multipos.ui.mainpospage.view.OrderListFragment;
 import com.jim.multipos.ui.mainpospage.view.OrderListView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 
 /**
@@ -51,17 +49,13 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
     Customer customer;
     List<PayedPartitions> payedPartitions;
     private Context context;
-    private PreferencesHelper preferencesHelper;
-    HashMap<Long,Double> summaryOrderCount;
     @Inject
-    public OrderListPresenterImpl(OrderListView orderListView, DatabaseManager databaseManager, Context context, PreferencesHelper preferencesHelper) {
+    public OrderListPresenterImpl(OrderListView orderListView, DatabaseManager databaseManager, Context context) {
         super(orderListView);
         this.context = context;
-        this.preferencesHelper = preferencesHelper;
         list = new ArrayList<>();
         order = new Order();
         payedPartitions = new ArrayList<>();
-        summaryOrderCount = new HashMap<>();
         this.databaseManager = databaseManager;
         fromEdit = false;
         fromHold = false;
@@ -131,37 +125,66 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
 
     @Override
     public void onPlusCount(int position) {
+
         OrderProductItem orderProductItem   = (OrderProductItem) list.get(position);
-        orderProductItem.getOrderProduct().setCount(orderProductItem.getOrderProduct().getCount()+1);
-        list.set(position,orderProductItem);
-        updateDetials();
-        view.updateOrderDetials(order,customer,payedPartitions);
-        view.notifyItemChanged(position,list.size(),updateOrderDiscountServiceFee());
-        view.sendToProductInfoProductItem();
+        databaseManager.updateOutcomeRegistredProductCount(orderProductItem.getOutcomeProduct(),orderProductItem.getOutcomeProduct().getSumCountValue()+1)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(stockResult -> {
+                    if(stockResult.getResult()== StockResult.STOCK_OK){
+                        orderProductItem.setOutcomeProduct(stockResult.getOutcomeProduct());
+                        list.set(position,orderProductItem);
+                        updateDetials();
+                        view.updateOrderDetials(order,customer,payedPartitions);
+                        view.notifyItemChanged(position,list.size(),updateOrderDiscountServiceFee());
+                        view.sendToProductInfoProductItem();
+                    }else {
+                        //TODO OUT STOKE
+                    }
+        });
+
+
     }
 
     @Override
     public void onMinusCount(int position) {
         OrderProductItem orderProductItem   = (OrderProductItem) list.get(position);
-        if(orderProductItem.getOrderProduct().getCount()>1){
-            orderProductItem.getOrderProduct().setCount(orderProductItem.getOrderProduct().getCount()-1);
-        }
-        list.set(position,orderProductItem);
-        updateDetials();
-        view.updateOrderDetials(order,customer,payedPartitions);
-        view.notifyItemChanged(position,list.size(),updateOrderDiscountServiceFee());
-        view.sendToProductInfoProductItem();
-
+        if(orderProductItem.getOutcomeProduct().getSumCountValue()<1)
+            return;
+        databaseManager.updateOutcomeRegistredProductCount(orderProductItem.getOutcomeProduct(),orderProductItem.getOutcomeProduct().getSumCountValue()+1)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(stockResult -> {
+                    if(stockResult.getResult()== StockResult.STOCK_OK){
+                        orderProductItem.setOutcomeProduct(stockResult.getOutcomeProduct());
+                        list.set(position,orderProductItem);
+                        updateDetials();
+                        view.updateOrderDetials(order,customer,payedPartitions);
+                        view.notifyItemChanged(position,list.size(),updateOrderDiscountServiceFee());
+                        view.sendToProductInfoProductItem();
+                    }else {
+                        //TODO OUT STOKE
+                    }
+                });
     }
 
     @Override
     public void setCount(int position, double count) {
         OrderProductItem orderProductItem   = (OrderProductItem) list.get(position);
-        orderProductItem.getOrderProduct().setCount(count);
-        list.set(position,orderProductItem);
-        updateDetials();
-        view.updateOrderDetials(order,customer,payedPartitions);
-        view.notifyItemChanged(position,list.size(),updateOrderDiscountServiceFee());
+        databaseManager.updateOutcomeRegistredProductCount(orderProductItem.getOutcomeProduct(),count)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(stockResult -> {
+                    if(stockResult.getResult()== StockResult.STOCK_OK){
+                        orderProductItem.setOutcomeProduct(stockResult.getOutcomeProduct());
+                        list.set(position,orderProductItem);
+                        updateDetials();
+                        view.updateOrderDetials(order,customer,payedPartitions);
+                        view.notifyItemChanged(position,list.size(),updateOrderDiscountServiceFee());
+                    }else {
+                        //TODO OUT STOKE
+                    }
+                });
     }
 
     @Override
@@ -187,39 +210,77 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
             view.openUnitValuePicker(product);
             return;
         }
-        //TODO
         for (int i = 0; i < list.size(); i++) {
             if(list.get(i) instanceof  OrderProductItem){
                 OrderProductItem orderProductItem = (OrderProductItem) list.get(i);
                 if(orderProductItem.getOrderProduct().getProduct().getId().equals(productId)){
-                    if(orderProductItem.getDiscount()==null && orderProductItem.getServiceFee()==null){
-                        orderProductItem.getOrderProduct().setCount(orderProductItem.getOrderProduct().getCount()+1);
-                        list.set(i,orderProductItem);
-                        updateDetials();
-                        view.updateOrderDetials(order,customer,payedPartitions);
-                        view.notifyItemChanged(i,list.size(),updateOrderDiscountServiceFee());
-                        return;
+                    if(orderProductItem.getDiscount()==null && orderProductItem.getServiceFee()==null && !orderProductItem.getOutcomeProduct().getCustomPickSock()){
+                        final int changePos = i;
+                        databaseManager.updateOutcomeRegistredProductCount(orderProductItem.getOutcomeProduct(),orderProductItem.getOutcomeProduct().getSumCountValue()+1)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(stockResult -> {
+                                    if(stockResult.getResult()== StockResult.STOCK_OK){
+                                        orderProductItem.setOutcomeProduct(stockResult.getOutcomeProduct());
+                                        list.set(changePos,orderProductItem);
+                                        updateDetials();
+                                        view.updateOrderDetials(order,customer,payedPartitions);
+                                        view.notifyItemChanged(changePos,list.size(),updateOrderDiscountServiceFee());
+                                        return;
+                                    }else {
+                                        //TODO OUT STOKE
+                                    }
+                                });
                     }
                 }
             }
         }
 
-        OrderProductItem orderProductItem = new OrderProductItem();
-        OrderProduct orderProduct = new OrderProduct();
-        VendorProductCon productCon = databaseManager.getVendorProductConnectionById(product.getId(), product.getVendor().get(0).getId()).blockingSingle();
-        orderProduct.setCost(productCon.getCost());
-        orderProduct.setPrice(product.getPrice());
-        orderProduct.setCount(1);
-        orderProduct.setProduct(product);
-        //TODO LAST CHOISEN VENDOR
-        orderProduct.setVendor(product.getVendor().get(0));
-        orderProductItem.setOrderProduct(orderProduct);
-        int positionToAdd = findPositionToAdd();
-        list.add(positionToAdd,orderProductItem);
-        updateDetials();
-        view.updateOrderDetials(order,customer,payedPartitions);
-        view.notifyItemAdded(positionToAdd,list.size(),updateOrderDiscountServiceFee());
+        databaseManager.getProductWithRuleRegister(productId,1)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(stockResult -> {
+                    if(stockResult.getResult() == StockResult.STOCK_OK){
+                        OrderProductItem orderProductItem = new OrderProductItem();
+                        OrderProduct orderProduct = new OrderProduct();
+                        orderProduct.setPrice(product.getPrice());
+                        orderProduct.setProduct(product);
+                        orderProductItem.setOrderProduct(orderProduct);
+                        orderProductItem.setOutcomeProduct(stockResult.getOutcomeProduct());
+                        int positionToAdd = findPositionToAdd();
+                        list.add(positionToAdd,orderProductItem);
+                        updateDetials();
+                        view.updateOrderDetials(order,customer,payedPartitions);
+                        view.notifyItemAdded(positionToAdd,list.size(),updateOrderDiscountServiceFee());
+                    }else {
+                        //TODO STOCK OUT
+                    }
+                });
 
+    }
+
+    @Override
+    public void addProductWithWeightToList(Product product, double weight) {
+        databaseManager.getProductWithRuleRegister(product.getId(),weight)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(stockResult -> {
+                    if(stockResult.getResult() == StockResult.STOCK_OK){
+                        OrderProductItem orderProductItem = new OrderProductItem();
+                        OrderProduct orderProduct = new OrderProduct();
+                        orderProduct.setPrice(product.getPrice());
+                        orderProduct.setProduct(product);
+                        orderProductItem.setOrderProduct(orderProduct);
+                        orderProductItem.setOutcomeProduct(stockResult.getOutcomeProduct());
+                        int positionToAdd = findPositionToAdd();
+                        list.add(positionToAdd,orderProductItem);
+                        updateDetials();
+                        view.updateOrderDetials(order,customer,payedPartitions);
+                        view.notifyItemAdded(positionToAdd,list.size(),updateOrderDiscountServiceFee());
+                    }else {
+                        //TODO STOCK OUT
+                    }
+                });
     }
 
     @Override
@@ -342,24 +403,10 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
     }
 
     @Override
-    public void changeProductVendor(Vendor vendor, int position) {
-        OrderProductItem orderProductItem   = (OrderProductItem) list.get(position);
-        orderProductItem.getOrderProduct().setVendor(vendor);
-        list.set(position,orderProductItem);
-        updateDetials();
-        view.updateOrderDetials(order,customer,payedPartitions);
-        view.notifyItemChanged(position,list.size(),updateOrderDiscountServiceFee());
-    }
-
-    @Override
     public void changeDiscription(String discription, int position) {
         if(position == -1) return;
         OrderProductItem orderProductItem   = (OrderProductItem) list.get(position);
         orderProductItem.getOrderProduct().setDiscription(discription);
-        list.set(position,orderProductItem);
-//        updateDetials();
-//        view.updateOrderDetials(order,customer,payedPartitions);
-//        view.notifyItemChanged(position,list.size(),updateOrderDiscountServiceFee());
     }
 
     @Override
@@ -427,42 +474,41 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
     }
 
     @Override
-    public void addProductWithWeightToList(Product product, double weight) {
-        OrderProductItem orderProductItem = new OrderProductItem();
-        OrderProduct orderProduct = new OrderProduct();
-        VendorProductCon productCon = databaseManager.getVendorProductConnectionById(product.getId(), product.getVendor().get(0).getId()).blockingSingle();
-        orderProduct.setCost(productCon.getCost());
-        orderProduct.setPrice(product.getPrice());
-        orderProduct.setCount(weight);
-        orderProduct.setProduct(product);
-        //TODO LAST CHOISEN VENDOR
-        orderProduct.setVendor(product.getVendor().get(0));
-        orderProductItem.setOrderProduct(orderProduct);
-        int positionToAdd = findPositionToAdd();
-        list.add(positionToAdd,orderProductItem);
-        updateDetials();
-        view.updateOrderDetials(order,customer,payedPartitions);
-        view.notifyItemAdded(positionToAdd,list.size(),updateOrderDiscountServiceFee());
-    }
-
-    @Override
     public void addProductWithWeightToListEdit(Product product, double weight) {
         OrderProductItem orderProductItem  = (OrderProductItem) list.get(positionOfWeightItem);
-        orderProductItem.getOrderProduct().setCount(weight);
-        list.set(positionOfWeightItem,orderProductItem);
-        updateDetials();
-        view.updateOrderDetials(order,customer,payedPartitions);
-        view.notifyItemChanged(positionOfWeightItem,list.size(),updateOrderDiscountServiceFee());
+        databaseManager.getProductWithRuleRegister(product.getId(),weight)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(stockResult -> {
+                    if(stockResult.getResult() == StockResult.STOCK_OK){
+                        orderProductItem.setOutcomeProduct(stockResult.getOutcomeProduct());
+                        list.set(positionOfWeightItem,orderProductItem);
+                        updateDetials();
+                        view.updateOrderDetials(order,customer,payedPartitions);
+                        view.notifyItemChanged(positionOfWeightItem,list.size(),updateOrderDiscountServiceFee());
+                    }else {
+                        //TODO STOCK OUT
+                    }
+                });
     }
 
     @Override
     public void addProductWithWeightToListEditFromInfo(int currentPosition, double weight) {
         OrderProductItem orderProductItem   = (OrderProductItem) list.get(currentPosition);
-        orderProductItem.getOrderProduct().setCount(weight);
-        list.set(currentPosition,orderProductItem);
-        updateDetials();
-        view.updateOrderDetials(order,customer,payedPartitions);
-        view.notifyItemChanged(currentPosition,list.size(),updateOrderDiscountServiceFee());
+        databaseManager.getProductWithRuleRegister(orderProductItem.getOrderProduct().getId(),weight)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(stockResult -> {
+                    if(stockResult.getResult() == StockResult.STOCK_OK){
+                        orderProductItem.setOutcomeProduct(stockResult.getOutcomeProduct());
+                        list.set(currentPosition,orderProductItem);
+                        updateDetials();
+                        view.updateOrderDetials(order,customer,payedPartitions);
+                        view.notifyItemChanged(currentPosition,list.size(),updateOrderDiscountServiceFee());
+                    }else {
+                        //TODO STOCK OUT
+                    }
+                });
     }
 
     int positionOfWeightItem = -1;
@@ -470,7 +516,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
     public void onCountWeigtClick(int position) {
         positionOfWeightItem = position;
         OrderProductItem orderProductItem   = (OrderProductItem) list.get(position);
-        view.openUnitValuePickerEdit(orderProductItem.getOrderProduct().getProduct(),orderProductItem.getOrderProduct().getCount());
+        view.openUnitValuePickerEdit(orderProductItem.getOrderProduct().getProduct(),orderProductItem.getOutcomeProduct().getSumCountValue());
     }
 
     @Override
@@ -598,17 +644,8 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
 
             if (fromHold) {
                 //RETURN TO STOCK AND DELETE ORDER PRODUCT
-                for (int i = 0; i < order.getOrderProducts().size(); i++) {
-                    WarehouseOperations warehouseOperations = new WarehouseOperations();
-                    warehouseOperations.setValue(order.getOrderProducts().get(i).getCount());
-                    warehouseOperations.setProduct(order.getOrderProducts().get(i).getProduct());
-                    warehouseOperations.setCreateAt(System.currentTimeMillis());
-                    warehouseOperations.setActive(true);
-                    warehouseOperations.setIsNotModified(true);
-                    warehouseOperations.setType(WarehouseOperations.RETURN_HOLDED);
-                    warehouseOperations.setOrderId(order.getId());
-                    warehouseOperations.setVendorId(orderProductItems.get(i).getVendorId());
-                    databaseManager.insertWarehouseOperation(warehouseOperations).blockingGet();
+                for (OrderProduct orderProduct:order.getOrderProducts()) {
+                    databaseManager.cancelOutcomeProductWhenHoldedProductReturn(orderProduct.getOutcomeProduct()).subscribe();
                     databaseManager.deleteOrderProductsOnHold(order.getOrderProducts()).subscribe();
                 }
                 //DELETE PAYED PARTITIONS
@@ -628,18 +665,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
             databaseManager.insertOrder(order).subscribe((order1, throwable) -> {
                 for (int i = 0; i < orderProductItems.size(); i++) {
                     orderProductItems.get(i).setOrderId(order1.getId());
-                    //Warehouse Operation
-                    WarehouseOperations warehouseOperations = new WarehouseOperations();
-                    warehouseOperations.setValue(orderProductItems.get(i).getCount() * -1);
-                    warehouseOperations.setProduct(orderProductItems.get(i).getProduct());
-                    warehouseOperations.setCreateAt(System.currentTimeMillis());
-                    warehouseOperations.setActive(true);
-                    warehouseOperations.setIsNotModified(true);
-                    warehouseOperations.setType(WarehouseOperations.SOLD);
-                    warehouseOperations.setOrderId(order1.getId());
-                    warehouseOperations.setVendorId(orderProductItems.get(i).getVendorId());
-                    databaseManager.insertWarehouseOperation(warehouseOperations).blockingGet();
-                    orderProductItems.get(i).setWarehouseGetId(warehouseOperations.getId());
+                    orderProductItems.set(i,databaseManager.confirmOutcomeProductWhenSold(orderProductItems.get(i).getOutcomeProduct(),orderProductItems.get(i)).blockingGet());
                 }
                 databaseManager.insertOrderProducts(orderProductItems).blockingGet();
 
@@ -681,6 +707,12 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
     private void initNewOrder(){
         fromEdit = false;
         fromHold = false;
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i) instanceof OrderProductItem) {
+                OrderProductItem orderProductItem = (OrderProductItem) list.get(i);
+                databaseManager.cancelOutcomeProductWhenOrderProductCleared(orderProductItem.getOutcomeProduct()).subscribe();
+            }
+        }
         list.clear();
         order = new Order();
         payedPartitions.clear();
@@ -699,8 +731,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
             double totalDiscount = 0;
             double totalServiceFee = 0;
             double totalPayed = 0;
-            if(preferencesHelper.isOutStockShouldCheck())
-                summaryOrderCount = new HashMap<>();
+
             for (int i = 0; i < list.size(); i++) {
                 if (list.get(i) instanceof OrderProductItem) {
                     OrderProductItem orderProductItem = (OrderProductItem) list.get(i);
@@ -721,8 +752,6 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
                         }
                         totalServiceFee += orderProductItem.getServiceFeeAmmount() * orderProductItem.getOrderProduct().getCount();
                     }
-                    if(preferencesHelper.isOutStockShouldCheck())
-                        summaryOrderCount.put(orderProductItem.getOrderProduct().getProductId(),(summaryOrderCount.get(orderProductItem.getOrderProduct().getProductId())==null?0:summaryOrderCount.get(orderProductItem.getOrderProduct().getProductId())) + orderProductItem.getOrderProduct().getCount());
                     list.set(i, orderProductItem);
                 } else if (list.get(i) instanceof DiscountItem) {
                     DiscountItem discountItem = (DiscountItem) list.get(i);
@@ -749,24 +778,6 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
                     for (PayedPartitions payedPartitions : order.getPayedPartitions()) {
                         totalPayed += payedPartitions.getValue();
                     }
-            }
-            if(preferencesHelper.isOutStockShouldCheck())
-            for (int i = 0; i < list.size(); i++) {
-                if (list.get(i) instanceof OrderProductItem) {
-                    OrderProductItem orderProductItem = (OrderProductItem) list.get(i);
-                    List<InventoryState> inventoryStates = databaseManager.getInventoryStatesByProductId(orderProductItem.getOrderProduct().getProduct().getRootId()).blockingFirst();
-                    InventoryState inventoryState = null;
-                    for (int k = 0; k < inventoryStates.size(); k++) {
-                        if(inventoryStates.get(k).getVendor().getId().equals(orderProductItem.getOrderProduct().getVendor().getId())){
-                            inventoryState = inventoryStates.get(k);
-                            break;
-                        }
-                    }
-                    if((inventoryState.getValue() - summaryOrderCount.get(orderProductItem.getOrderProduct().getProductId()))<0){
-                        orderProductItem.setHaveInStock(false);
-                    }else orderProductItem.setHaveInStock(true);
-                    list.set(i, orderProductItem);
-                }
             }
             order.setSubTotalValue(totalSubTotal);
             order.setTotalPayed(totalPayed);
@@ -803,24 +814,6 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         if(payedPartitions.size()!=0) isItEmptyOrder = false;
         return isItEmptyOrder;
     }
-    public void sendEventGoToPrevOrders() {
-        boolean isItEmptyOrder = true;
-        if(list.size()!=0) isItEmptyOrder = false;
-        if(order.getSubTotalValue() != 0) isItEmptyOrder = false;
-        if(discountItem != null) isItEmptyOrder = false;
-        if(serviceFeeItem !=null) isItEmptyOrder = false;
-        if(payedPartitions.size()!=0) isItEmptyOrder = false;
-        //TODO CHECK IS LIST
-
-//        if(isItEmptyOrder){
-//            if(ordersList.size()!=0)
-//            view.goToPrevOrders();
-//        }
-//        else
-            view.fistufulCloseOrder();
-    }
-
-
 
     //edit params
     boolean fromEdit = false;
@@ -970,17 +963,8 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
 
         if(fromHold){
             //RETURN TO STOCK AND DELETE ORDER PRODUCT
-            for (int i = 0; i < order.getOrderProducts().size(); i++) {
-                WarehouseOperations warehouseOperations = new WarehouseOperations();
-                warehouseOperations.setValue(order.getOrderProducts().get(i).getCount());
-                warehouseOperations.setProduct(order.getOrderProducts().get(i).getProduct());
-                warehouseOperations.setCreateAt(System.currentTimeMillis());
-                warehouseOperations.setActive(true);
-                warehouseOperations.setIsNotModified(true);
-                warehouseOperations.setType(WarehouseOperations.RETURN_HOLDED);
-                warehouseOperations.setOrderId(order.getId());
-                warehouseOperations.setVendorId(order.getOrderProducts().get(i).getVendorId());
-                databaseManager.insertWarehouseOperation(warehouseOperations).blockingGet();
+            for (OrderProduct orderProduct:order.getOrderProducts()) {
+                databaseManager.cancelOutcomeProductWhenHoldedProductReturn(orderProduct.getOutcomeProduct()).subscribe();
                 databaseManager.deleteOrderProductsOnHold(order.getOrderProducts()).subscribe();
             }
             //DELETE PAYED PARTITIONS
@@ -1000,17 +984,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
             for (int i = 0; i < orderProductItems.size(); i++) {
                 orderProductItems.get(i).setOrderId(order1.getId());
                 //Warehouse Operation
-                WarehouseOperations warehouseOperations = new WarehouseOperations();
-                warehouseOperations.setValue(orderProductItems.get(i).getCount()*-1);
-                warehouseOperations.setProduct(orderProductItems.get(i).getProduct());
-                warehouseOperations.setCreateAt(System.currentTimeMillis());
-                warehouseOperations.setActive(true);
-                warehouseOperations.setIsNotModified(true);
-                warehouseOperations.setType(WarehouseOperations.SOLD);
-                warehouseOperations.setOrderId(order1.getId());
-                warehouseOperations.setVendorId(orderProductItems.get(i).getVendorId());
-                databaseManager.insertWarehouseOperation(warehouseOperations).blockingGet();
-                orderProductItems.get(i).setWarehouseGetId(warehouseOperations.getId());
+                orderProductItems.set(i,databaseManager.confirmOutcomeProductWhenSold(orderProductItems.get(i).getOutcomeProduct(),orderProductItems.get(i)).blockingGet());
             }
             databaseManager.insertOrderProducts(orderProductItems).blockingGet();
 
@@ -1093,11 +1067,8 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
             if(list.get(i) instanceof  OrderProductItem){
                 OrderProductItem orderProductItem = (OrderProductItem) list.get(i);
                 if(orderProductItem.getOrderProduct().getProduct().getId().equals(product.getId())){
-                    VendorProductCon productCon = databaseManager.getVendorProductConnectionById(newProduct.getId(), newProduct.getVendor().get(0).getId()).blockingSingle();
                     orderProductItem.getOrderProduct().setProduct(newProduct);
                     orderProductItem.getOrderProduct().setPrice(newProduct.getPrice());
-                    orderProductItem.getOrderProduct().setCost(productCon.getCost());
-                    orderProductItem.getOrderProduct().setVendor(newProduct.getVendor().get(0));
                     list.set(i,orderProductItem);
                     updateDetials();
                     view.updateOrderDetials(order,customer,payedPartitions);

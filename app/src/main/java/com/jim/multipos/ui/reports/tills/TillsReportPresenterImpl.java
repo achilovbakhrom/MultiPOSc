@@ -3,10 +3,8 @@ package com.jim.multipos.ui.reports.tills;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.Gravity;
 
 import com.github.mjdev.libaums.fs.UsbFile;
-import com.jim.mpviews.utils.ReportViewConstants;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;

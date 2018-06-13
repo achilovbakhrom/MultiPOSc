@@ -2,17 +2,13 @@ package com.jim.multipos.ui.cash_management;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 
 import com.jim.mpviews.MpToolbar;
-import com.jim.multipos.R;
 import com.jim.multipos.core.DoubleSideActivity;
 import com.jim.multipos.data.DatabaseManager;
-import com.jim.multipos.data.db.model.till.Till;
 import com.jim.multipos.ui.cash_management.view.CashLogFragment;
 import com.jim.multipos.ui.cash_management.view.CashOperationsFragment;
 import com.jim.multipos.ui.cash_management.view.CloseTillDialogFragment;
-import com.jim.multipos.ui.cash_management.view.CloseTillThirdStepFragment;
 
 import javax.inject.Inject;
 

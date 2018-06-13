@@ -130,9 +130,10 @@ public class InventoryFragment extends BaseFragment implements InventoryView {
             }
 
             @Override
-            public void onSetActually(InventoryItem inventoryItem) {
-                presenter.onSetActually(inventoryItem);
+            public void onStockQueueClick(InventoryItem inventoryItem) {
+                presenter.onStockQueueClick(inventoryItem);
             }
+
 
             @Override
             public void onConsigmentIn(InventoryItem inventoryItem) {

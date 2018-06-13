@@ -1,7 +1,6 @@
 package com.jim.multipos.ui.settings.currency;
 
 import android.os.Bundle;
-import android.view.View;
 
 import com.jim.mpviews.MPosSpinner;
 import com.jim.multipos.R;

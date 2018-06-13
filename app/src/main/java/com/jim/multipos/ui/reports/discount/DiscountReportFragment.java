@@ -2,7 +2,6 @@ package com.jim.multipos.ui.reports.discount;
 
 import android.os.Bundle;
 import android.view.Gravity;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.github.angads25.filepicker.model.DialogConfigs;

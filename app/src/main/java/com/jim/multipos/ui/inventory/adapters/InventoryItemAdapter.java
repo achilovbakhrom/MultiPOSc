@@ -60,9 +60,7 @@ public class InventoryItemAdapter  extends RecyclerView.Adapter<InventoryItemAda
 
     private OnItemClickListener onItemClickListener;
 
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener){
-        this.onItemClickListener = onItemClickListener;
-    }
+
 
     @Override
     public InventoryItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -84,7 +82,7 @@ public class InventoryItemAdapter  extends RecyclerView.Adapter<InventoryItemAda
                 holder.tvProductClassName.setText(context.getString(R.string.product_class_colon )+ inventoryItem.getProduct().getProductClass().getName());
             else holder.tvProductClassName.setVisibility(View.GONE);
             StringBuilder vendorsName = new StringBuilder();
-            for (Vendor vendor : items.get(position).getProduct().getVendor()) {
+            for (Vendor vendor : items.get(position).getVendors()) {
                 if (vendorsName.length() == 0)
                     vendorsName = new StringBuilder(vendor.getName());
                 else vendorsName.append(", ").append(vendor.getName());
@@ -101,7 +99,7 @@ public class InventoryItemAdapter  extends RecyclerView.Adapter<InventoryItemAda
             else holder.tvProductClassName.setVisibility(View.GONE);
 
             StringBuilder vendorsName = new StringBuilder();
-            for (Vendor vendor : items.get(position).getProduct().getVendor()) {
+            for (Vendor vendor : items.get(position).getVendors()) {
                 if (vendorsName.length() == 0)
                     vendorsName = new StringBuilder(vendor.getName());
                 else vendorsName.append(", ").append(vendor.getName());
@@ -125,7 +123,7 @@ public class InventoryItemAdapter  extends RecyclerView.Adapter<InventoryItemAda
         void onStockAlertChange(double newAlertCount, InventoryItem inventoryItem);
         void onIncomeProduct(InventoryItem inventoryItem);
         void onWriteOff(InventoryItem inventoryItem);
-        void onSetActually(InventoryItem inventoryItem);
+        void onStockQueueClick(InventoryItem inventoryItem);
         void onConsigmentIn(InventoryItem inventoryItem);
         void onConsigmentOut(InventoryItem inventoryItem);
     }
@@ -156,6 +154,8 @@ public class InventoryItemAdapter  extends RecyclerView.Adapter<InventoryItemAda
         ImageView ivWriteOff;
         @BindView(R.id.llBackground)
         LinearLayout llBackground;
+        @BindView(R.id.ivStockQueue)
+        ImageView ivStockQueue;
         public InventoryItemViewHolder(View itemView) {
             super(itemView);
             ivIncome.setOnClickListener(view1 -> {
@@ -170,7 +170,9 @@ public class InventoryItemAdapter  extends RecyclerView.Adapter<InventoryItemAda
             ivWriteOff.setOnClickListener(view1 -> {
                 callback.onWriteOff(items.get(getAdapterPosition()));
             });
-            
+            ivStockQueue.setOnClickListener(view1 -> {
+                callback.onStockQueueClick(items.get(getAdapterPosition()));
+            });
             etStockAlert.addTextChangedListener(new TextWatcherOnTextChange() {
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {

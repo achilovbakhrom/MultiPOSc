@@ -4,13 +4,10 @@ import android.os.Bundle;
 
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
-import com.jim.multipos.data.db.model.consignment.Consignment;
 import com.jim.multipos.data.db.model.products.Product;
-import com.jim.multipos.data.db.model.products.Vendor;
-import com.jim.multipos.data.db.model.products.VendorProductCon;
 import com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemFragment;
 import com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemView;
-import com.jim.multipos.ui.vendor_item_managment.model.VendorWithDebt;
+import com.jim.multipos.ui.vendor_item_managment.model.VendorManagmentItem;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,7 +34,7 @@ public class VendorItemPresenterImpl extends BasePresenterImpl<VendorItemView> i
 
     int SORTING = 1;
 
-    List<VendorWithDebt> vendorWithDebts;
+    List<VendorManagmentItem> vendorManagmentItems;
     @Inject
     protected VendorItemPresenterImpl(VendorItemView vendorItemView){
         super(vendorItemView);
@@ -46,70 +43,75 @@ public class VendorItemPresenterImpl extends BasePresenterImpl<VendorItemView> i
     @Override
     public void onCreateView(Bundle bundle) {
         super.onCreateView(bundle);
-        databaseManager.getVendorWirhDebt().subscribe((vendorWithDebts, throwable) -> {
-           this.vendorWithDebts = vendorWithDebts;
+        databaseManager.getVendorItemManagmentItem().subscribe((vendorWithDebts, throwable) -> {
+           this.vendorManagmentItems = vendorWithDebts;
            sortList();
            view.initRecyclerView(vendorWithDebts);
         });
     }
 
     @Override
-    public void onIncomeProduct(VendorWithDebt vendorWithDebt) {
+    public void onIncomeProduct(VendorManagmentItem vendorManagmentItem) {
         consignment_type = INCOME_CONSIGNMENT;
-        vendorId = vendorWithDebt.getVendor().getId();
+        vendorId = vendorManagmentItem.getVendor().getId();
         view.sendDataToConsignment(vendorId, consignment_type);
     }
 
     @Override
-    public void onWriteOff(VendorWithDebt vendorWithDebt) {
+    public void onWriteOff(VendorManagmentItem vendorManagmentItem) {
         consignment_type = RETURN_CONSIGNMENT;
-        vendorId = vendorWithDebt.getVendor().getId();
+        vendorId = vendorManagmentItem.getVendor().getId();
         view.sendDataToConsignment(vendorId, consignment_type);
     }
 
     @Override
-    public void onConsigmentStory(VendorWithDebt vendorWithDebt) {
-        vendorId = vendorWithDebt.getVendor().getId();
+    public void onConsigmentStory(VendorManagmentItem vendorManagmentItem) {
+        vendorId = vendorManagmentItem.getVendor().getId();
         view.openVendorConsignmentsStory(vendorId);
     }
 
     @Override
-    public void onPay(VendorWithDebt vendorWithDebt) {
-        view.openPaymentDialog(databaseManager, vendorWithDebt.getVendor());
+    public void onPay(VendorManagmentItem vendorManagmentItem) {
+        view.openPaymentDialog(databaseManager, vendorManagmentItem.getVendor());
     }
 
     @Override
-    public void onPayStory(VendorWithDebt vendorWithDebt,Double totalDebt) {
-        view.openVendorBillingStory(vendorWithDebt.getVendor().getId(),totalDebt);
+    public void onPayStory(VendorManagmentItem vendorManagmentItem, Double totalDebt) {
+        view.openVendorBillingStory(vendorManagmentItem.getVendor().getId(),totalDebt);
     }
 
     @Override
-    public void onMore(VendorWithDebt vendorWithDebt) {
-        vendorId = vendorWithDebt.getVendor().getId();
+    public void onMore(VendorManagmentItem vendorManagmentItem) {
+        vendorId = vendorManagmentItem.getVendor().getId();
         view.openVendorDetails(vendorId);
     }
 
-    List<VendorWithDebt> searchResults;
+    @Override
+    public void onStockQueueForVendor(VendorManagmentItem vendorManagmentItem) {
+        //TODO OPEN STOCK QUEUE FRAGMENT FOR VENDOR
+    }
+
+    List<VendorManagmentItem> searchResults;
 
     @Override
     public void onSearchTyped(String searchText) {
         if(searchText.isEmpty()){
             searchResults = null;
             sortList();
-            view.initDefault(vendorWithDebts);
+            view.initDefault(vendorManagmentItems);
         }else {
             searchResults = new ArrayList<>();
-            for(int i = 0;i<vendorWithDebts.size();i++){
-                if(vendorWithDebts.get(i).getVendor().getName().toUpperCase().contains(searchText.toUpperCase())){
-                    searchResults.add(vendorWithDebts.get(i));
+            for(int i = 0; i< vendorManagmentItems.size(); i++){
+                if(vendorManagmentItems.get(i).getVendor().getName().toUpperCase().contains(searchText.toUpperCase())){
+                    searchResults.add(vendorManagmentItems.get(i));
                     continue;
                 }
-                if(vendorWithDebts.get(i).getVendor().getContactName().toUpperCase().contains(searchText.toUpperCase())){
-                    searchResults.add(vendorWithDebts.get(i));
+                if(vendorManagmentItems.get(i).getVendor().getContactName().toUpperCase().contains(searchText.toUpperCase())){
+                    searchResults.add(vendorManagmentItems.get(i));
                     continue;
                 }
                 StringBuilder builder = new StringBuilder();
-                for (Product product:vendorWithDebts.get(i).getVendor().getProducts()) {
+                for (Product product: vendorManagmentItems.get(i).getProducts()) {
                     builder.append(product.getName());
                     builder.append(",");
                     builder.append(" ");
@@ -119,7 +121,7 @@ public class VendorItemPresenterImpl extends BasePresenterImpl<VendorItemView> i
                     builder.deleteCharAt(builder.length() - 1);
                 }
                 if(builder.toString().toUpperCase().contains(searchText.toUpperCase())){
-                    searchResults.add(vendorWithDebts.get(i));
+                    searchResults.add(vendorManagmentItems.get(i));
                 }
 
             }
@@ -145,8 +147,8 @@ public class VendorItemPresenterImpl extends BasePresenterImpl<VendorItemView> i
 
     @Override
     public void updateData() {
-        databaseManager.getVendorWirhDebt().subscribe((vendorWithDebts, throwable) -> {
-            this.vendorWithDebts = vendorWithDebts;
+        databaseManager.getVendorItemManagmentItem().subscribe((vendorWithDebts, throwable) -> {
+            this.vendorManagmentItems = vendorWithDebts;
             sortList();
             view.initRecyclerView(vendorWithDebts);
         });
@@ -154,11 +156,11 @@ public class VendorItemPresenterImpl extends BasePresenterImpl<VendorItemView> i
 
     private void sortList(){
 
-        List<VendorWithDebt> vendorWithDebtsTemp;
+        List<VendorManagmentItem> vendorWithDebtsTemp;
         if(searchResults !=null){
             vendorWithDebtsTemp = searchResults;
         }else {
-            vendorWithDebtsTemp = vendorWithDebts;
+            vendorWithDebtsTemp = vendorManagmentItems;
         }
 
         switch (searchMode){
@@ -167,8 +169,8 @@ public class VendorItemPresenterImpl extends BasePresenterImpl<VendorItemView> i
                 break;
             case PRODUCTS:
                 Collections.sort(vendorWithDebtsTemp,(vendorWithDebt, t1) -> {
-                    Integer size = vendorWithDebt.getVendor().getProducts().size();
-                    Integer size2 = t1.getVendor().getProducts().size();
+                    Integer size = vendorWithDebt.getProducts().size();
+                    Integer size2 = t1.getProducts().size();
                     return size2.compareTo(size)*SORTING;
                 });
                 break;

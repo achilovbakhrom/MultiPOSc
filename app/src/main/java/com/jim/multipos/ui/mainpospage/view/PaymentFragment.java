@@ -314,7 +314,7 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
     @Override
     public void updateViews(Order order,double totalPayed) {
         double number = order.getForPayAmmount() - totalPayed;
-        if(number<0.001){
+        if(number<0.01){
             number = 0;
         }
         tvBalanceDue.setText(decimalFormat.format(number));

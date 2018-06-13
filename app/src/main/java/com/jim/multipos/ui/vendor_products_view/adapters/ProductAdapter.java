@@ -14,7 +14,6 @@ import com.jim.multipos.R;
 import com.jim.multipos.core.BaseAdapter;
 import com.jim.multipos.core.BaseViewHolder;
 import com.jim.multipos.data.db.model.ProductClass;
-import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.ui.vendor_products_view.model.ProductState;
 
 import java.text.DecimalFormat;
@@ -100,15 +99,15 @@ public class ProductAdapter extends BaseAdapter<ProductState, ProductAdapter.Pro
         }
     }
 
-    public void updateItem(InventoryState item) {
-        for (int i = 0; i < items.size(); i++) {
-            if (items.get(i).getProduct().getName().equals(item.getProduct().getName())) {
-                items.get(i).setValue(item.getValue());
-                notifyItemChanged(i);
-                break;
-            }
-        }
-    }
+//    public void updateItem(InventoryState item) {
+//        for (int i = 0; i < items.size(); i++) {
+//            if (items.get(i).getProduct().getName().equals(item.getProduct().getName())) {
+//                items.get(i).setValue(item.getValue());
+//                notifyItemChanged(i);
+//                break;
+//            }
+//        }
+//    }
 
     public void setData(List<ProductState> stateList){
         items = stateList;

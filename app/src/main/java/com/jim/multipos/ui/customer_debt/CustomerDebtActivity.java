@@ -9,7 +9,6 @@ import com.jim.multipos.core.BaseActivity;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.ui.customer_debt.view.CustomerDebtListFragment;
 import com.jim.multipos.ui.customer_debt.view.CustomerListFragment;
-import com.jim.multipos.utils.TestUtils;
 
 import javax.inject.Inject;
 

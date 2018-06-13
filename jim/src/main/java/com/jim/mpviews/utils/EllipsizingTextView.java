@@ -101,13 +101,10 @@ public class EllipsizingTextView extends android.support.v7.widget.AppCompatText
             int mLINES = LINES.getInt(this);
             return mMaxMode == mLINES ? mMaximum : -1;
         } catch (NoSuchFieldException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (IllegalAccessException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (IllegalArgumentException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return -1;

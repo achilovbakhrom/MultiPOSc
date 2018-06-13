@@ -27,7 +27,7 @@ import butterknife.BindView;
  * Created by developer on 23.10.2017.
  */
 
-public class DiscountAddingFragment  extends BaseFragment implements DiscountAddingView {
+public class DiscountAddingFragment extends BaseFragment implements DiscountAddingView {
     @Inject
     DiscountListAdapter discountListAdapter;
     @Inject
@@ -39,6 +39,7 @@ public class DiscountAddingFragment  extends BaseFragment implements DiscountAdd
     RecyclerView rvDiscounts;
     @BindView(R.id.btnCancel)
     MpButton btnCancel;
+
     @Override
     protected int getLayout() {
         return R.layout.discount_adding_list;
@@ -51,12 +52,12 @@ public class DiscountAddingFragment  extends BaseFragment implements DiscountAdd
         discountListAdapter.setListners(new DiscountListAdapter.OnDiscountCallback() {
             @Override
             public void onAddPressed(double amount, int amountTypeAbbr, String discription, int usedTypeAbbr, boolean active) {
-                presenter.onAddPressed(amount,amountTypeAbbr,discription,usedTypeAbbr,active);
+                presenter.onAddPressed(amount, amountTypeAbbr, discription, usedTypeAbbr, active);
             }
 
             @Override
             public void onSave(double amount, int amountTypeAbbr, String discription, int usedTypeAbbr, boolean active, Discount discount) {
-                presenter.onSave(amount,amountTypeAbbr,discription,usedTypeAbbr,active,discount);
+                presenter.onSave(amount, amountTypeAbbr, discription, usedTypeAbbr, active, discount);
             }
 
             @Override
@@ -95,7 +96,7 @@ public class DiscountAddingFragment  extends BaseFragment implements DiscountAdd
 
     @Override
     public void notifyItemAddRange(int from, int to) {
-        discountListAdapter.notifyItemRangeInserted(from,to);
+        discountListAdapter.notifyItemRangeInserted(from, to);
     }
 
     @Override
@@ -110,7 +111,7 @@ public class DiscountAddingFragment  extends BaseFragment implements DiscountAdd
 
     @Override
     public void notifyItemRemoveRange(int from, int to) {
-        discountListAdapter.notifyItemRangeRemoved(from,to);
+        discountListAdapter.notifyItemRangeRemoved(from, to);
     }
 
     @Override
@@ -136,14 +137,14 @@ public class DiscountAddingFragment  extends BaseFragment implements DiscountAdd
 
     @Override
     public void sendEvent(int event, Discount discount) {
-       rxBus.send(new DiscountEvent(discount, event));
+        rxBus.send(new DiscountEvent(discount, event));
     }
 
     @Override
     public void sendChangeEvent(int event, Discount oldDiscount, Discount newDiscount) {
-       DiscountEvent discountEvent = new DiscountEvent(oldDiscount, event);
-       discountEvent.setNewDiscount(newDiscount);
-       rxBus.send(discountEvent);
+        DiscountEvent discountEvent = new DiscountEvent(oldDiscount, event);
+        discountEvent.setNewDiscount(newDiscount);
+        rxBus.send(discountEvent);
     }
 
 }

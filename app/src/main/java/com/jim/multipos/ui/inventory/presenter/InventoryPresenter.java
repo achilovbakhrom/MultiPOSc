@@ -12,11 +12,10 @@ public interface InventoryPresenter extends Presenter {
     void onStockAlertChange(double newAlertCount, InventoryItem inventoryItem);
     void onIncomeProduct(InventoryItem inventoryItem);
     void onWriteOff(InventoryItem inventoryItem);
-    void onSetActually(InventoryItem inventoryItem);
     void onConsigmentIn(InventoryItem inventoryItem);
     void onConsigmentOut(InventoryItem inventoryItem);
     void onSearchTyped(String searchText);
-
+    void onStockQueueClick(InventoryItem inventoryItem);
     void filterBy(InventoryFragment.SortModes searchMode);
     void filterInvert();
     void setVendorId(Long vendorId);

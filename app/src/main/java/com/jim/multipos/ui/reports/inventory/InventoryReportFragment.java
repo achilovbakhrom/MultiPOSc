@@ -12,7 +12,6 @@ import com.jim.mpviews.utils.ReportViewConstants;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseTableReportFragment;
 import com.jim.multipos.data.DatabaseManager;
-import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.ui.reports.inventory.dialogs.InventoryFilterDialog;
 import com.jim.multipos.ui.reports.inventory.dialogs.TillPickerDialog;
@@ -55,45 +54,46 @@ public class InventoryReportFragment extends BaseTableReportFragment implements 
     }
 
     private void initDefaults() {
-        status = new Object[][][]{{{WarehouseOperations.CANCELED_SOLD, getString(R.string.canceled_order), R.color.colorMainText},
-                {WarehouseOperations.CONSIGNMENT_DELETED, getString(R.string.consignment_canceled), R.color.colorMainText},
-                {WarehouseOperations.INCOME_FROM_VENDOR, getString(R.string.income_from_vendor), R.color.colorMainText},
-                {WarehouseOperations.RETURN_HOLDED, getString(R.string.held_product_return), R.color.colorMainText},
-                {WarehouseOperations.RETURN_SOLD, getString(R.string.return_from_customer), R.color.colorMainText},
-                {WarehouseOperations.RETURN_TO_VENDOR, getString(R.string.return_to_vendor), R.color.colorMainText},
-                {WarehouseOperations.SOLD, getString(R.string.sold), R.color.colorMainText},
-                {WarehouseOperations.VOID_INCOME, getString(R.string.void_income), R.color.colorMainText},
-                {WarehouseOperations.WASTE, getString(R.string.wasted), R.color.colorMainText},}};
-        firstTitles = new String[]{getString(R.string.product), getString(R.string.vendor), getString(R.string.action), getString(R.string.qty), getString(R.string.date), getString(R.string.reason), getString(R.string.order), getString(R.string.consignment)};
-        secondTitles = new String[]{getString(R.string.product), getString(R.string.vendor), getString(R.string.sold), getString(R.string.received_from_vendor), getString(R.string.return_to_vendor), getString(R.string.return_from_customer), getString(R.string.void_income), getString(R.string.wasted)};
-        forthTitles = new String[]{getString(R.string.product), getString(R.string.date), getString(R.string.price), getString(R.string.return_cost), getString(R.string.qty), getString(R.string.payment_type), getString(R.string.description)};
-        ReportView.Builder firstBuilder = new ReportView.Builder()
-                .setContext(getContext())
-                .setTitles(firstTitles)
-                .setDataTypes(firstDataType)
-                .setWeight(firstWeights)
-                .setDefaultSort(4)
-                .setStatusTypes(status)
-                .setOnReportViewResponseListener((objects, row, column) -> presenter.onAction(objects, row, column))
-                .setDataAlignTypes(firstAligns)
-                .build();
-        firstView = new ReportView(firstBuilder);
-        ReportView.Builder secondBuilder = new ReportView.Builder()
-                .setContext(getContext())
-                .setTitles(secondTitles)
-                .setDataTypes(secondDataType)
-                .setWeight(secondWeights)
-                .setDataAlignTypes(secondAligns)
-                .build();
-        secondView = new ReportView(secondBuilder);
-        ReportView.Builder forthBuilder = new ReportView.Builder()
-                .setContext(getContext())
-                .setTitles(forthTitles)
-                .setDataTypes(forthDataType)
-                .setWeight(forthWeights)
-                .setDataAlignTypes(forthAligns)
-                .build();
-        forthView = new ReportView(forthBuilder);
+        //TODO: SIROJ-> CHANGE LOGIC INVENOTRY REPORT CAUSE INVENOTRY MANAGMENT LOGIC CHANGED
+//        status = new Object[][][]{{{WarehouseOperations.CANCELED_SOLD, getString(R.string.canceled_order), R.color.colorMainText},
+//                {WarehouseOperations.CONSIGNMENT_DELETED, getString(R.string.consignment_canceled), R.color.colorMainText},
+//                {WarehouseOperations.INCOME_FROM_VENDOR, getString(R.string.income_from_vendor), R.color.colorMainText},
+//                {WarehouseOperations.RETURN_HOLDED, getString(R.string.held_product_return), R.color.colorMainText},
+//                {WarehouseOperations.RETURN_SOLD, getString(R.string.return_from_customer), R.color.colorMainText},
+//                {WarehouseOperations.RETURN_TO_VENDOR, getString(R.string.return_to_vendor), R.color.colorMainText},
+//                {WarehouseOperations.SOLD, getString(R.string.sold), R.color.colorMainText},
+//                {WarehouseOperations.VOID_INCOME, getString(R.string.void_income), R.color.colorMainText},
+//                {WarehouseOperations.WASTE, getString(R.string.wasted), R.color.colorMainText},}};
+//        firstTitles = new String[]{getString(R.string.product), getString(R.string.vendor), getString(R.string.action), getString(R.string.qty), getString(R.string.date), getString(R.string.reason), getString(R.string.order), getString(R.string.consignment)};
+//        secondTitles = new String[]{getString(R.string.product), getString(R.string.vendor), getString(R.string.sold), getString(R.string.received_from_vendor), getString(R.string.return_to_vendor), getString(R.string.return_from_customer), getString(R.string.void_income), getString(R.string.wasted)};
+//        forthTitles = new String[]{getString(R.string.product), getString(R.string.date), getString(R.string.price), getString(R.string.return_cost), getString(R.string.qty), getString(R.string.payment_type), getString(R.string.description)};
+//        ReportView.Builder firstBuilder = new ReportView.Builder()
+//                .setContext(getContext())
+//                .setTitles(firstTitles)
+//                .setDataTypes(firstDataType)
+//                .setWeight(firstWeights)
+//                .setDefaultSort(4)
+//                .setStatusTypes(status)
+//                .setOnReportViewResponseListener((objects, row, column) -> presenter.onAction(objects, row, column))
+//                .setDataAlignTypes(firstAligns)
+//                .build();
+//        firstView = new ReportView(firstBuilder);
+//        ReportView.Builder secondBuilder = new ReportView.Builder()
+//                .setContext(getContext())
+//                .setTitles(secondTitles)
+//                .setDataTypes(secondDataType)
+//                .setWeight(secondWeights)
+//                .setDataAlignTypes(secondAligns)
+//                .build();
+//        secondView = new ReportView(secondBuilder);
+//        ReportView.Builder forthBuilder = new ReportView.Builder()
+//                .setContext(getContext())
+//                .setTitles(forthTitles)
+//                .setDataTypes(forthDataType)
+//                .setWeight(forthWeights)
+//                .setDataAlignTypes(forthAligns)
+//                .build();
+//        forthView = new ReportView(forthBuilder);
     }
 
     @Override

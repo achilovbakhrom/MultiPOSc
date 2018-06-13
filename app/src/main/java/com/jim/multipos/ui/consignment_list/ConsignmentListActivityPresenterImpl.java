@@ -1,8 +1,6 @@
 package com.jim.multipos.ui.consignment_list;
 
 import com.jim.multipos.core.BasePresenterImpl;
-import com.jim.multipos.ui.consignment.ConsignmentActivityPresenter;
-import com.jim.multipos.ui.consignment.ConsignmentActivityView;
 
 import javax.inject.Inject;
 

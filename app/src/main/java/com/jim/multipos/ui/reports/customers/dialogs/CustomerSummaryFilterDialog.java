@@ -2,7 +2,6 @@ package com.jim.multipos.ui.reports.customers.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.view.Gravity;
 import android.view.View;
@@ -11,7 +10,6 @@ import android.view.WindowManager;
 import android.widget.RadioButton;
 
 import com.jim.mpviews.MpButton;
-import com.jim.mpviews.MpCheckbox;
 import com.jim.multipos.R;
 import com.jim.multipos.utils.CommonUtils;
 

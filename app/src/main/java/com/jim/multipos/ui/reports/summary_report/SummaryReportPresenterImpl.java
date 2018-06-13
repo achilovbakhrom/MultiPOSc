@@ -3,14 +3,12 @@ package com.jim.multipos.ui.reports.summary_report;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Pair;
 
 import com.github.mjdev.libaums.fs.UsbFile;
 import com.jim.multipos.R;
 import com.jim.multipos.config.common.BaseAppModule;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
-import com.jim.multipos.data.db.model.Account;
 import com.jim.multipos.data.db.model.PaymentType;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.order.Order;
@@ -124,7 +122,7 @@ public class SummaryReportPresenterImpl extends BasePresenterImpl<SummaryReportV
     @Override
     public void onSalesSummary() {
         current = 0;
-        //TODO ON SALES SUMMARY OPENED
+        //ON SALES SUMMARY OPENED
         view.activeSalesSummary();
         updateSummaryList();
     }
@@ -133,7 +131,7 @@ public class SummaryReportPresenterImpl extends BasePresenterImpl<SummaryReportV
     public void onPaymentsSummary() {
         isExport = false;
         current = 1;
-        //TODO ON PAYMENTS SUMMARY OPENED
+        //ON PAYMENTS SUMMARY OPENED
         view.activePaymentsSummary();
         updatePaymentsList();
     }

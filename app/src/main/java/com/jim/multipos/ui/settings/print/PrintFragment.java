@@ -17,8 +17,6 @@ import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.prefs.PreferencesHelper;
-import com.jim.multipos.ui.product_last.ProductActivity;
-import com.jim.multipos.ui.product_last.fragment.ProductAddEditFragment;
 import com.jim.multipos.utils.OpenPickPhotoUtils;
 import com.jim.multipos.utils.printer.CheckPrinter;
 import com.tbruyelle.rxpermissions2.RxPermissions;

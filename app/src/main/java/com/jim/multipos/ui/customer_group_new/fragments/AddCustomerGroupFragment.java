@@ -3,7 +3,6 @@ package com.jim.multipos.ui.customer_group_new.fragments;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
-import android.widget.EditText;
 
 import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.mpviews.MpButton;
@@ -13,7 +12,6 @@ import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
 import com.jim.multipos.ui.customer_group_new.CustomerGroupActivity;
-import com.jim.multipos.utils.CommonUtils;
 import com.jim.multipos.utils.UIUtils;
 import com.jim.multipos.utils.WarningDialog;
 import com.jim.multipos.utils.validator.MultipleCallback;

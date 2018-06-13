@@ -5,9 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.jim.multipos.config.scope.PerFragment;
 import com.jim.multipos.ui.customers.adapter.CustomersAdapter;
-import com.jim.multipos.ui.start_configuration.payment_type.PaymentTypeFragment;
-import com.jim.multipos.ui.start_configuration.payment_type.PaymentTypePresenterModule;
-import com.jim.multipos.ui.start_configuration.payment_type.PaymentTypeView;
 
 import dagger.Binds;
 import dagger.Module;

@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.R;
 import com.jim.multipos.core.DoubleSideActivity;
+import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Contact;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.vendor.AddingMode;
@@ -37,6 +38,9 @@ public class VendorAddEditActivity extends DoubleSideActivity implements VendorA
     @Inject
     RxPermissions rxPermissions;
 
+    @Inject
+    DatabaseManager databaseManager;
+
     private boolean isVendorDedtails = false;
 
     public VendorAddEditPresenter getPresenter() {
@@ -50,7 +54,7 @@ public class VendorAddEditActivity extends DoubleSideActivity implements VendorA
     public RxPermissions getRxPermissions() {
         return rxPermissions;
     }
-
+    public DatabaseManager getDatabaseManager(){return databaseManager;}
     @Override
     protected int getToolbarMode() {
         return MpToolbar.DEFAULT_TYPE;

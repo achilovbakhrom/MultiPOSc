@@ -23,8 +23,6 @@ import com.jim.multipos.R;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.utils.ExportUtils;
 import com.jim.multipos.utils.RxBus;
-import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
-import com.jim.multipos.utils.rxevents.main_order_events.ProductEvent;
 
 import java.io.File;
 import java.io.IOException;

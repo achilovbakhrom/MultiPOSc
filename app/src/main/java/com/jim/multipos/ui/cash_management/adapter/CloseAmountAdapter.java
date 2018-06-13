@@ -16,8 +16,6 @@ import com.jim.multipos.utils.NumberTextWatcher;
 import com.jim.multipos.utils.TextWatcherOnTextChange;
 
 import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
 import java.util.List;
 
 import butterknife.BindView;

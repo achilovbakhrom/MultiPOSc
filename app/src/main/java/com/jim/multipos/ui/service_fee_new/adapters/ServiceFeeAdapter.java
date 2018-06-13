@@ -233,7 +233,7 @@ public class ServiceFeeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         public AddServiceFeeViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            //TODO FROM RESURS
+            //FROM RESURS
             spTypeAmount.setArrowTint(R.color.colorDiscount);
             spUsed.setArrowTint(R.color.colorDiscount);
             spTypeAmount.setAdapter(discountAmountType);

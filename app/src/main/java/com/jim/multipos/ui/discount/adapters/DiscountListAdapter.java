@@ -55,11 +55,12 @@ public class DiscountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         discountAmountType = context.getResources().getStringArray(R.array.discount_amount_types);
         addingState = new DiscountApaterDetials();
     }
-    public void setListners(OnDiscountCallback onDiscountCallback){
+
+    public void setListners(OnDiscountCallback onDiscountCallback) {
         this.onDiscountCallback = onDiscountCallback;
     }
 
-    public void setData(List<DiscountApaterDetials> items){
+    public void setData(List<DiscountApaterDetials> items) {
         this.items = items;
         Discount discount = new Discount();
         discount.setActive(true);
@@ -69,13 +70,16 @@ public class DiscountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         discount.setUsedType(Discount.ITEM);
         addingState.setObject(discount);
     }
-    public interface OnDiscountCallback{
-        void onAddPressed(double amount,int amountTypeAbbr, String discription, int usedTypeAbbr, boolean active);
-        void onSave(double amount,int amountTypeAbbr, String discription, int usedTypeAbbr, boolean active, Discount discount);
+
+    public interface OnDiscountCallback {
+        void onAddPressed(double amount, int amountTypeAbbr, String discription, int usedTypeAbbr, boolean active);
+
+        void onSave(double amount, int amountTypeAbbr, String discription, int usedTypeAbbr, boolean active, Discount discount);
+
         void onDelete(Discount discount);
+
         void sortList(DiscountAddingPresenterImpl.DiscountSortTypes discountSortTypes);
     }
-
 
 
     @Override
@@ -84,34 +88,38 @@ public class DiscountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (viewType == ADD_DISCOUNT) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.add_discont_item, parent, false);
             return new AddDiscountViewHolder(view);
-        } else if(viewType == DISCOUNT_ITEM){
+        } else if (viewType == DISCOUNT_ITEM) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.discont_item, parent, false);
             return new ItemDiscountViewHolder(view);
-        }else return null;
+        } else return null;
 
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder1, int position) {
-        if(holder1 instanceof AddDiscountViewHolder){
+        if (holder1 instanceof AddDiscountViewHolder) {
             AddDiscountViewHolder holder = (AddDiscountViewHolder) holder1;
-            if(!addingState.isChanged()){
+            if (!addingState.isChanged()) {
                 holder.etAmmount.setText("");
                 holder.etName.setText("");
                 holder.chbActive.setChecked(true);
                 holder.spTypeAmount.setSelectedPosition(0);
                 holder.spUsed.setSelectedPosition(0);
-            }
-            else {
-                holder.etAmmount.setText((addingState.getChangedObject().getAmount()==0)?"":decimalFormat.format(addingState.getChangedObject().getAmount()));
-                holder.etName.setText((addingState.getChangedObject().getName()==null)?"":addingState.getChangedObject().getName());
+            } else {
+                holder.etAmmount.setText((addingState.getChangedObject().getAmount() == 0) ? "" : decimalFormat.format(addingState.getChangedObject().getAmount()));
+                holder.etName.setText((addingState.getChangedObject().getName() == null) ? "" : addingState.getChangedObject().getName());
                 holder.chbActive.setChecked(addingState.getChangedObject().getActive());
-                int a =0;
-                if(Discount.VALUE == addingState.getChangedObject().getAmountType()){a = 1;}
+                int a = 0;
+                if (Discount.VALUE == addingState.getChangedObject().getAmountType()) {
+                    a = 1;
+                }
                 holder.spTypeAmount.setSelectedPosition(a);
                 a = 0;
-                if(Discount.ORDER == addingState.getChangedObject().getUsedType()){a = 1;}
-                else if(Discount.ALL == (addingState.getChangedObject().getUsedType())) {a=2;}
+                if (Discount.ORDER == addingState.getChangedObject().getUsedType()) {
+                    a = 1;
+                } else if (Discount.ALL == (addingState.getChangedObject().getUsedType())) {
+                    a = 2;
+                }
                 holder.spUsed.setSelectedPosition(a);
             }
 
@@ -120,7 +128,7 @@ public class DiscountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             holder.tvReason.setTypeface(Typeface.create(holder.tvReason.getTypeface(), Typeface.NORMAL));
             holder.tvType.setTypeface(Typeface.create(holder.tvType.getTypeface(), Typeface.NORMAL));
             holder.tvUsed.setTypeface(Typeface.create(holder.tvUsed.getTypeface(), Typeface.NORMAL));
-            switch (currentDiscountSortTypes){
+            switch (currentDiscountSortTypes) {
                 case Active:
                     holder.tvActive.setTypeface(Typeface.create(holder.tvActive.getTypeface(), Typeface.BOLD));
                     break;
@@ -140,13 +148,13 @@ public class DiscountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     break;
             }
 
-        }else if(holder1 instanceof ItemDiscountViewHolder){
+        } else if (holder1 instanceof ItemDiscountViewHolder) {
             ItemDiscountViewHolder holder = (ItemDiscountViewHolder) holder1;
             Discount discount = null;
-            if(items.get(position).isChanged()){
+            if (items.get(position).isChanged()) {
                 discount = items.get(position).getChangedObject();
                 holder.btnSave.enable();
-            }else {
+            } else {
                 discount = items.get(position).getObject();
                 holder.btnSave.disable();
 
@@ -155,28 +163,28 @@ public class DiscountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             holder.etName.setText(discount.getName());
             holder.etAmmount.setText(decimalFormat.format(discount.getAmount()));
             holder.chbActive.setChecked(discount.getActive());
-            if(!discount.getActive()){
+            if (!discount.getActive()) {
                 holder.etName.setAlpha(0.5f);
                 holder.spTypeAmount.setAlpha(0.5f);
                 holder.spUsed.setAlpha(0.5f);
                 holder.etAmmount.setAlpha(0.5f);
-            }else {
+            } else {
                 holder.etName.setAlpha(1);
                 holder.spTypeAmount.setAlpha(1);
                 holder.spUsed.setAlpha(1);
                 holder.etAmmount.setAlpha(1);
             }
-            if(discount.getAmountType() == Discount.PERCENT){
+            if (discount.getAmountType() == Discount.PERCENT) {
                 holder.spTypeAmount.setSelectedPosition(0);
-            }else if(discount.getAmountType() == Discount.VALUE){
+            } else if (discount.getAmountType() == Discount.VALUE) {
                 holder.spTypeAmount.setSelectedPosition(1);
             }
 
-            if(discount.getUsedType()== Discount.ITEM){
+            if (discount.getUsedType() == Discount.ITEM) {
                 holder.spUsed.setSelectedPosition(0);
-            }else if(discount.getUsedType() == Discount.ORDER){
+            } else if (discount.getUsedType() == Discount.ORDER) {
                 holder.spUsed.setSelectedPosition(1);
-            }else if(discount.getUsedType() == Discount.ALL)
+            } else if (discount.getUsedType() == Discount.ALL)
                 holder.spUsed.setSelectedPosition(2);
 
         }
@@ -185,9 +193,9 @@ public class DiscountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemViewType(int position) {
-        if(items.get(position) == null){
+        if (items.get(position) == null) {
             return ADD_DISCOUNT;
-        }else return DISCOUNT_ITEM;
+        } else return DISCOUNT_ITEM;
     }
 
     @Override
@@ -232,37 +240,37 @@ public class DiscountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             spUsed.setAdapter(discountUsedType);
 
             tvActive.setOnClickListener(view -> {
-                if(currentDiscountSortTypes == DiscountAddingPresenterImpl.DiscountSortTypes.Active){
+                if (currentDiscountSortTypes == DiscountAddingPresenterImpl.DiscountSortTypes.Active) {
                     onDiscountCallback.sortList(currentDiscountSortTypes = DiscountAddingPresenterImpl.DiscountSortTypes.Default);
-                }else {
+                } else {
                     onDiscountCallback.sortList(currentDiscountSortTypes = DiscountAddingPresenterImpl.DiscountSortTypes.Active);
                 }
             });
             tvAmount.setOnClickListener(view -> {
-                if(currentDiscountSortTypes == DiscountAddingPresenterImpl.DiscountSortTypes.Ammount){
+                if (currentDiscountSortTypes == DiscountAddingPresenterImpl.DiscountSortTypes.Ammount) {
                     onDiscountCallback.sortList(currentDiscountSortTypes = DiscountAddingPresenterImpl.DiscountSortTypes.Default);
-                }else {
+                } else {
                     onDiscountCallback.sortList(currentDiscountSortTypes = DiscountAddingPresenterImpl.DiscountSortTypes.Ammount);
                 }
             });
             tvReason.setOnClickListener(view -> {
-                if(currentDiscountSortTypes == DiscountAddingPresenterImpl.DiscountSortTypes.Discription){
+                if (currentDiscountSortTypes == DiscountAddingPresenterImpl.DiscountSortTypes.Discription) {
                     onDiscountCallback.sortList(currentDiscountSortTypes = DiscountAddingPresenterImpl.DiscountSortTypes.Default);
-                }else {
+                } else {
                     onDiscountCallback.sortList(currentDiscountSortTypes = DiscountAddingPresenterImpl.DiscountSortTypes.Discription);
                 }
             });
             tvType.setOnClickListener(view -> {
-                if(currentDiscountSortTypes == DiscountAddingPresenterImpl.DiscountSortTypes.Type){
+                if (currentDiscountSortTypes == DiscountAddingPresenterImpl.DiscountSortTypes.Type) {
                     onDiscountCallback.sortList(currentDiscountSortTypes = DiscountAddingPresenterImpl.DiscountSortTypes.Default);
-                }else {
+                } else {
                     onDiscountCallback.sortList(currentDiscountSortTypes = DiscountAddingPresenterImpl.DiscountSortTypes.Type);
                 }
             });
             tvUsed.setOnClickListener(view -> {
-                if(currentDiscountSortTypes == DiscountAddingPresenterImpl.DiscountSortTypes.Used){
+                if (currentDiscountSortTypes == DiscountAddingPresenterImpl.DiscountSortTypes.Used) {
                     onDiscountCallback.sortList(currentDiscountSortTypes = DiscountAddingPresenterImpl.DiscountSortTypes.Default);
-                }else {
+                } else {
                     onDiscountCallback.sortList(currentDiscountSortTypes = DiscountAddingPresenterImpl.DiscountSortTypes.Used);
                 }
             });
@@ -270,8 +278,8 @@ public class DiscountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             spTypeAmount.setItemSelectionListener((view, position) -> {
 
                 addingState.setNewAmmountType(position);
-                if(addingState.getActualyAmmountType() == Discount.PERCENT ){
-                    if(addingState.getActualyAmmount()>100) {
+                if (addingState.getActualyAmmountType() == Discount.PERCENT) {
+                    if (addingState.getActualyAmmount() > 100) {
                         etAmmount.setError(context.getString(R.string.valid_entry_value_100));
                         return;
                     }
@@ -292,46 +300,46 @@ public class DiscountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             etAmmount.addTextChangedListener(new TextWatcherOnTextChange() {
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    if(charSequence.length()!=0)
-                    if(addingState.getActualyAmmountType()==Discount.PERCENT){
-                        double percent = 0;
-                        try{
-                            percent = decimalFormat.parse(etAmmount.getText().toString().replace(',','.')).doubleValue();
-                        }catch (Exception e){
-                            etAmmount.setError(context.getString(R.string.invalid));
-                            return;
+                    if (charSequence.length() != 0)
+                        if (addingState.getActualyAmmountType() == Discount.PERCENT) {
+                            double percent = 0;
+                            try {
+                                percent = decimalFormat.parse(etAmmount.getText().toString().replace(',', '.')).doubleValue();
+                            } catch (Exception e) {
+                                etAmmount.setError(context.getString(R.string.invalid));
+                                return;
+                            }
+                            addingState.setNewAmmount(percent);
+                            if (percent > 100) {
+                                etAmmount.setError(context.getString(R.string.valid_entry_value_100));
+                                return;
+                            }
+                        } else {
+                            double percent = 0;
+                            try {
+                                percent = decimalFormat.parse(etAmmount.getText().toString().replace(',', '.')).doubleValue();
+                            } catch (Exception e) {
+                                etAmmount.setError(context.getString(R.string.invalid));
+                                return;
+                            }
+                            addingState.setNewAmmount(percent);
                         }
-                        addingState.setNewAmmount(percent);
-                        if(percent>100) {
-                            etAmmount.setError(context.getString(R.string.valid_entry_value_100));
-                            return;
-                        }
-                    }else {
-                        double percent = 0;
-                        try{
-                            percent = decimalFormat.parse(etAmmount.getText().toString().replace(',','.')).doubleValue();
-                        }catch (Exception e){
-                            etAmmount.setError(context.getString(R.string.invalid));
-                            return;
-                        }
-                        addingState.setNewAmmount(percent);
-                    }
                 }
             });
 
             btnAdd.setOnClickListener(view -> {
-                if(FormValidator.validate(context,this, new MultipleCallback())){
-                    if(addingState.getActualyAmmountType() == Discount.PERCENT ){
-                        if(addingState.getActualyAmmount()>100) {
+                if (FormValidator.validate(context, this, new MultipleCallback())) {
+                    if (addingState.getActualyAmmountType() == Discount.PERCENT) {
+                        if (addingState.getActualyAmmount() > 100) {
                             etAmmount.setError(context.getString(R.string.valid_entry_value_100));
                             return;
                         }
                     } else etAmmount.setError(null);
-                    if(addingState.getActualDiscription().equals("")){
+                    if (addingState.getActualDiscription().equals("")) {
                         etName.setError(context.getString(R.string.discount_cant_empty));
                         return;
                     }
-                    onDiscountCallback.onAddPressed(addingState.getActualyAmmount(),addingState.getActualyAmmountType(),addingState.getActualDiscription(),addingState.getActualyUsedType(),addingState.getActualyActive());
+                    onDiscountCallback.onAddPressed(addingState.getActualyAmmount(), addingState.getActualyAmmountType(), addingState.getActualDiscription(), addingState.getActualyUsedType(), addingState.getActualyActive());
                     addingState.setChangedObject(null);
                     notifyItemChanged(0);
                     etName.requestFocus();
@@ -365,17 +373,17 @@ public class DiscountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             spUsed.setArrowTint(R.color.colorDiscount);
             spTypeAmount.setAdapter(discountAmountType);
             spUsed.setAdapter(discountUsedType);
-            Log.d("recycc", "ItemServiceFeeViewHolder: "+getAdapterPosition());
+            Log.d("recycc", "ItemServiceFeeViewHolder: " + getAdapterPosition());
             spUsed.setItemSelectionListenerWithPos((view, position2) -> {
-                if(items.get(getAdapterPosition()).setNewUsedType(position2)){
+                if (items.get(getAdapterPosition()).setNewUsedType(position2)) {
 
                     btnSave.enable();
                 }
             });
             spTypeAmount.setItemSelectionListenerWithPos((view, position2) -> {
-                if(items.get(getAdapterPosition()).setNewAmmountType(position2)) {
-                    if(items.get(getAdapterPosition()).getActualyAmmountType() == Discount.VALUE ){
-                        if(items.get(getAdapterPosition()).getActualyAmmount()>100) {
+                if (items.get(getAdapterPosition()).setNewAmmountType(position2)) {
+                    if (items.get(getAdapterPosition()).getActualyAmmountType() == Discount.VALUE) {
+                        if (items.get(getAdapterPosition()).getActualyAmmount() > 100) {
                             etAmmount.setError(context.getString(R.string.valid_entry_value_100));
                             return;
                         }
@@ -384,70 +392,70 @@ public class DiscountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
             });
             chbActive.setCheckedChangeListener(isChecked -> {
-                if(items.get(getAdapterPosition()).setNewActive(isChecked))
-                btnSave.enable();
+                if (items.get(getAdapterPosition()).setNewActive(isChecked))
+                    btnSave.enable();
             });
             etName.addTextChangedListener(new TextWatcherOnTextChange() {
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    if(items.get(getAdapterPosition()).setNewDiscription(etName.getText().toString()))
+                    if (items.get(getAdapterPosition()).setNewDiscription(etName.getText().toString()))
                         btnSave.enable();
                 }
             });
             etAmmount.addTextChangedListener(new TextWatcherOnTextChange() {
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    if(charSequence.length()!=0)
-                    if(items.get(getAdapterPosition()).getActualyAmmountType() == Discount.PERCENT){
-                        double percent = 0;
-                        try{
-                            percent = decimalFormat.parse(etAmmount.getText().toString().replace(',','.')).doubleValue();
-                        }catch (Exception e){
-                            etAmmount.setError(context.getString(R.string.invalid));
-                            return;
+                    if (charSequence.length() != 0)
+                        if (items.get(getAdapterPosition()).getActualyAmmountType() == Discount.PERCENT) {
+                            double percent = 0;
+                            try {
+                                percent = decimalFormat.parse(etAmmount.getText().toString().replace(',', '.')).doubleValue();
+                            } catch (Exception e) {
+                                etAmmount.setError(context.getString(R.string.invalid));
+                                return;
+                            }
+                            if (items.get(getAdapterPosition()).setNewAmmount(percent))
+                                btnSave.enable();
+                            if (percent > 100) {
+                                etAmmount.setError(context.getString(R.string.valid_entry_value_100));
+                                return;
+                            } else etAmmount.setError(null);
+                        } else {
+                            double percent = 0;
+                            try {
+                                percent = decimalFormat.parse(etAmmount.getText().toString().replace(',', '.')).doubleValue();
+                            } catch (Exception e) {
+                                etAmmount.setError(context.getString(R.string.invalid));
+                                return;
+                            }
+                            if (items.get(getAdapterPosition()).setNewAmmount(percent))
+                                btnSave.enable();
+                            etAmmount.setError(null);
                         }
-                        if(items.get(getAdapterPosition()).setNewAmmount(percent))
-                        btnSave.enable();
-                        if(percent>100) {
-                            etAmmount.setError(context.getString(R.string.valid_entry_value_100));
-                            return;
-                        } else etAmmount.setError(null);
-                    }else {
-                        double percent = 0;
-                        try{
-                            percent = decimalFormat.parse(etAmmount.getText().toString().replace(',','.')).doubleValue();
-                        }catch (Exception e){
-                            etAmmount.setError(context.getString(R.string.invalid));
-                            return;
-                        }
-                        if(items.get(getAdapterPosition()).setNewAmmount(percent))
-                        btnSave.enable();
-                        etAmmount.setError(null);
-                    }
                 }
             });
 
             btnSave.setOnClickListener(view -> {
-                if(FormValidator.validate(context,this, new MultipleCallback())){
-                    if(items.get(getAdapterPosition()).getActualyAmmountType()==Discount.PERCENT ){
-                        if(items.get(getAdapterPosition()).getActualyAmmount()>100) {
+                if (FormValidator.validate(context, this, new MultipleCallback())) {
+                    if (items.get(getAdapterPosition()).getActualyAmmountType() == Discount.PERCENT) {
+                        if (items.get(getAdapterPosition()).getActualyAmmount() > 100) {
                             etAmmount.setError(context.getString(R.string.valid_entry_value_100));
                             return;
                         }
                     } else etAmmount.setError(null);
-                    if(items.get(getAdapterPosition()).getActualDiscription().equals("")){
+                    if (items.get(getAdapterPosition()).getActualDiscription().equals("")) {
                         etName.setError(context.getString(R.string.discount_cant_empty));
                         return;
                     }
-                    onDiscountCallback.onSave(items.get(getAdapterPosition()).getActualyAmmount(),items.get(getAdapterPosition()).getActualyAmmountType(),items.get(getAdapterPosition()).getActualDiscription(),items.get(getAdapterPosition()).getActualyUsedType(),items.get(getAdapterPosition()).getActualyActive(),items.get(getAdapterPosition()).getObject());
-                    UIUtils.closeKeyboard(etName,context);
+                    onDiscountCallback.onSave(items.get(getAdapterPosition()).getActualyAmmount(), items.get(getAdapterPosition()).getActualyAmmountType(), items.get(getAdapterPosition()).getActualDiscription(), items.get(getAdapterPosition()).getActualyUsedType(), items.get(getAdapterPosition()).getActualyActive(), items.get(getAdapterPosition()).getObject());
+                    UIUtils.closeKeyboard(etName, context);
                 }
             });
 
             btnDelete.setOnClickListener(view -> {
-                UIUtils.closeKeyboard(etName,context);
+                UIUtils.closeKeyboard(etName, context);
                 Discount discount = items.get(getAdapterPosition()).getObject();
-                if(discount.getActive()){
+                if (discount.getActive()) {
                     WarningDialog warningDialog = new WarningDialog(context);
                     warningDialog.onlyText(true);
                     warningDialog.setWarningMessage(context.getString(R.string.change_to_not_delete_when_not_active));
@@ -457,16 +465,16 @@ public class DiscountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
                 WarningDialog warningDialog = new WarningDialog(context);
                 String type = "";
-                if(discount.getAmountType()==Discount.PERCENT){
+                if (discount.getAmountType() == Discount.PERCENT) {
                     type = "%";
                 }
-                warningDialog.setWarningMessage(context.getString(R.string.do_you_want_delete_item)+discount.getName()+" "+decimalFormat.format(discount.getAmount())+type+" "+"?");
+                warningDialog.setWarningMessage(context.getString(R.string.do_you_want_delete_item) + discount.getName() + " " + decimalFormat.format(discount.getAmount()) + type + " " + "?");
                 warningDialog.setOnNoClickListener(view1 -> {
                     warningDialog.dismiss();
                 });
                 warningDialog.setOnYesClickListener(view1 -> {
                     onDiscountCallback.onDelete(discount);
-                    UIUtils.closeKeyboard(etName,context);
+                    UIUtils.closeKeyboard(etName, context);
                     warningDialog.dismiss();
                 });
                 warningDialog.show();

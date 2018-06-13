@@ -8,7 +8,6 @@ import android.view.View;
 import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.R;
 import com.jim.multipos.core.SimpleActivity;
-import com.jim.multipos.ui.billing_vendor.BillingOperationsActivity;
 import com.jim.multipos.ui.consignment.ConsignmentActivity;
 import com.jim.multipos.ui.consignment_list.view.ConsignmentListFragment;
 import com.jim.multipos.utils.DateIntervalPicker;

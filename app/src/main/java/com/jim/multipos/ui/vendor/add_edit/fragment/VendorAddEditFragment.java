@@ -25,7 +25,6 @@ import com.jim.mpviews.MpEditText;
 import com.jim.mpviews.MpMiniActionButton;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
-import com.jim.multipos.core.ItemRemoveListener;
 import com.jim.multipos.data.db.model.Contact;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.vendor.AddingMode;
@@ -288,7 +287,7 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
                     ((VendorAddEditActivity) getContext()).showCantDeleteActiveItemMessage(() -> {
                     });
                 } else {
-                    presenter.checkVendorInventoryState();
+                    //TODO: SIROJ -> WHEN DELETE ACTIVE VENDOR NOT DELETE IT ACTUALLY, JUST NEXT TIME IN VENDOR PICKERS NOT SHOW VENDOR
                 }
 
                 break;

@@ -182,11 +182,10 @@ public class Order {
         for (int i = 0; i < orderProducts.size(); i++) {
             OrderProductItem orderProductItem = new OrderProductItem();
             OrderProduct orderProduct = new OrderProduct();
-            orderProduct.setCost(orderProducts.get(i).getCost());
             orderProduct.setPrice(orderProducts.get(i).getPrice());
             orderProduct.setCount(orderProducts.get(i).getCount());
             orderProduct.setProduct(orderProducts.get(i).getProduct());
-            orderProduct.setVendor(orderProducts.get(i).getVendor());
+            orderProduct.setOutcomeProduct(orderProducts.get(i).getOutcomeProduct());
             orderProductItem.setOrderProduct(orderProduct);
             if(orderProducts.get(i).getServiceFee()!=null) {
                 orderProductItem.setServiceFee(orderProducts.get(i).getServiceFee());

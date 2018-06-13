@@ -13,7 +13,7 @@ import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.vendor_item_managment.VendorItemsActivity;
 import com.jim.multipos.ui.vendor_item_managment.adapters.VendorItemAdapter;
-import com.jim.multipos.ui.vendor_item_managment.model.VendorWithDebt;
+import com.jim.multipos.ui.vendor_item_managment.model.VendorManagmentItem;
 import com.jim.multipos.ui.vendor_item_managment.presenter.VendorItemPresenter;
 import com.jim.multipos.utils.PaymentToVendorDialog;
 import com.jim.multipos.utils.RxBus;
@@ -83,36 +83,41 @@ public class VendorItemFragment extends BaseFragment implements VendorItemView {
     }
 
     @Override
-    public void initRecyclerView(List<VendorWithDebt> vendorWithDebts) {
-        vendorItemAdapter = new VendorItemAdapter(vendorWithDebts, new VendorItemAdapter.OnVendorAdapterCallback() {
+    public void initRecyclerView(List<VendorManagmentItem> vendorManagmentItems) {
+        vendorItemAdapter = new VendorItemAdapter(vendorManagmentItems, new VendorItemAdapter.OnVendorAdapterCallback() {
             @Override
-            public void onIncomeProduct(VendorWithDebt vendorWithDebt) {
-                presenter.onIncomeProduct(vendorWithDebt);
+            public void onIncomeProduct(VendorManagmentItem vendorManagmentItem) {
+                presenter.onIncomeProduct(vendorManagmentItem);
             }
 
             @Override
-            public void onWriteOff(VendorWithDebt vendorWithDebt) {
-                presenter.onWriteOff(vendorWithDebt);
+            public void onWriteOff(VendorManagmentItem vendorManagmentItem) {
+                presenter.onWriteOff(vendorManagmentItem);
             }
 
             @Override
-            public void onConsigmentStory(VendorWithDebt vendorWithDebt) {
-                presenter.onConsigmentStory(vendorWithDebt);
+            public void onConsigmentStory(VendorManagmentItem vendorManagmentItem) {
+                presenter.onConsigmentStory(vendorManagmentItem);
             }
 
             @Override
-            public void onPay(VendorWithDebt vendorWithDebt) {
-                presenter.onPay(vendorWithDebt);
+            public void onPay(VendorManagmentItem vendorManagmentItem) {
+                presenter.onPay(vendorManagmentItem);
             }
 
             @Override
-            public void onPayStory(VendorWithDebt vendorWithDebt, Double debt) {
-                presenter.onPayStory(vendorWithDebt, debt);
+            public void onPayStory(VendorManagmentItem vendorManagmentItem, Double debt) {
+                presenter.onPayStory(vendorManagmentItem, debt);
             }
 
             @Override
-            public void onMore(VendorWithDebt vendorWithDebt) {
-                presenter.onMore(vendorWithDebt);
+            public void onMore(VendorManagmentItem vendorManagmentItem) {
+                presenter.onMore(vendorManagmentItem);
+            }
+
+            @Override
+            public void onStockQueueForVendor(VendorManagmentItem vendorManagmentItem) {
+                presenter.onStockQueueForVendor(vendorManagmentItem);
             }
         }, getContext(), decimalFormat);
         rvVendorItems.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -210,14 +215,14 @@ public class VendorItemFragment extends BaseFragment implements VendorItemView {
     }
 
     @Override
-    public void initSearchResults(List<VendorWithDebt> vendorWithDebts, String searchText) {
-        vendorItemAdapter.setSearchResult(vendorWithDebts, searchText);
+    public void initSearchResults(List<VendorManagmentItem> vendorManagmentItems, String searchText) {
+        vendorItemAdapter.setSearchResult(vendorManagmentItems, searchText);
         vendorItemAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void initDefault(List<VendorWithDebt> vendorWithDebts) {
-        vendorItemAdapter.setData(vendorWithDebts);
+    public void initDefault(List<VendorManagmentItem> vendorManagmentItems) {
+        vendorItemAdapter.setData(vendorManagmentItems);
         vendorItemAdapter.notifyDataSetChanged();
     }
 

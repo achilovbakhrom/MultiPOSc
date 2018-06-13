@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.jim.multipos.R;
-import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.products.Product;
 
 import java.util.ArrayList;

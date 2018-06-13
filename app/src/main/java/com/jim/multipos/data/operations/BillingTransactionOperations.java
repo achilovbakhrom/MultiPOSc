@@ -1,11 +1,9 @@
 package com.jim.multipos.data.operations;
 
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
-import com.jim.multipos.ui.vendor_item_managment.model.VendorWithDebt;
 
 import java.util.Calendar;
 import java.util.List;
-import java.util.Observable;
 
 import io.reactivex.Single;
 

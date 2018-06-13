@@ -18,8 +18,6 @@ import com.github.mjdev.libaums.fs.UsbFile;
 import com.jim.mpviews.MpEditText;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
-import com.jim.multipos.core.BaseTableReportPresenter;
-import com.jim.multipos.data.db.model.PaymentType;
 import com.jim.multipos.ui.reports.summary_report.adapter.PairAdapter;
 import com.jim.multipos.ui.reports.summary_report.adapter.PairString;
 import com.jim.multipos.ui.reports.summary_report.adapter.TripleAdapter;

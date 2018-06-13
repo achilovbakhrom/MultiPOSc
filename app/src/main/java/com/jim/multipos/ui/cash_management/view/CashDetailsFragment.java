@@ -10,7 +10,6 @@ import com.jim.multipos.data.db.model.till.Till;
 import com.jim.multipos.ui.cash_management.connection.CashManagementConnection;
 import com.jim.multipos.ui.cash_management.presenter.CashDetailsPresenter;
 import com.jim.multipos.utils.RxBus;
-import com.jim.multipos.utils.rxevents.inventory_events.ConsignmentWithVendorEvent;
 import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
 import com.jim.multipos.utils.rxevents.main_order_events.OrderEvent;
 

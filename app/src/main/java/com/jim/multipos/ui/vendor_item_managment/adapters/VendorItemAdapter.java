@@ -18,7 +18,7 @@ import com.jim.multipos.R;
 import com.jim.multipos.core.BaseViewHolder;
 import com.jim.multipos.data.db.model.Contact;
 import com.jim.multipos.data.db.model.products.Product;
-import com.jim.multipos.ui.vendor_item_managment.model.VendorWithDebt;
+import com.jim.multipos.ui.vendor_item_managment.model.VendorManagmentItem;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -37,21 +37,21 @@ public class VendorItemAdapter extends RecyclerView.Adapter<VendorItemAdapter.Ve
     private DecimalFormat decimalFormat;
     boolean searchMode = false;
     private String searchText;
-    List<VendorWithDebt> items;
-    public VendorItemAdapter(List<VendorWithDebt> items, OnVendorAdapterCallback onVendorAdapterCallback, Context context, DecimalFormat decimalFormat) {
+    List<VendorManagmentItem> items;
+    public VendorItemAdapter(List<VendorManagmentItem> items, OnVendorAdapterCallback onVendorAdapterCallback, Context context, DecimalFormat decimalFormat) {
         this.items = items;
         this.onVendorAdapterCallback = onVendorAdapterCallback;
         this.context = context;
         this.decimalFormat = decimalFormat;
     }
 
-    public void setSearchResult(List<VendorWithDebt> searchResult, String searchText) {
+    public void setSearchResult(List<VendorManagmentItem> searchResult, String searchText) {
         this.searchText = searchText;
         searchMode = true;
         items = searchResult;
     }
 
-    public void setData(List<VendorWithDebt> items) {
+    public void setData(List<VendorManagmentItem> items) {
         this.items = items;
         searchMode = false;
     }
@@ -63,17 +63,17 @@ public class VendorItemAdapter extends RecyclerView.Adapter<VendorItemAdapter.Ve
     public void onBindViewHolder(VendorItemViewHolder holder, int position) {
         if (position % 2 == 0) holder.llBackground.setBackgroundColor(Color.parseColor("#f9f9f9"));
         else holder.llBackground.setBackgroundColor(Color.parseColor("#f0f0f0"));
-        VendorWithDebt vendorWithDebt = items.get(position);
+        VendorManagmentItem vendorManagmentItem = items.get(position);
         if (!searchMode) {
-            setUnderlineText(holder.tvVendorName, vendorWithDebt.getVendor().getName());
+            setUnderlineText(holder.tvVendorName, vendorManagmentItem.getVendor().getName());
 
-            holder.tvContactName.setText(context.getString(R.string.contact_name_two_dots) + " " + vendorWithDebt.getVendor().getContactName());
-            if (vendorWithDebt.getVendor().getContacts().size() == 0) {
+            holder.tvContactName.setText(context.getString(R.string.contact_name_two_dots) + " " + vendorManagmentItem.getVendor().getContactName());
+            if (vendorManagmentItem.getVendor().getContacts().size() == 0) {
                 holder.tvTel.setVisibility(View.GONE);
             } else {
                 holder.tvTel.setVisibility(View.VISIBLE);
                 StringBuilder builder = new StringBuilder();
-                for (Contact contact : vendorWithDebt.getVendor().getContacts()) {
+                for (Contact contact : vendorManagmentItem.getVendor().getContacts()) {
                     if (contact.getType() == Contact.E_MAIL) {
                         builder.append(context.getString(R.string.email_two_dots));
                         builder.append(" ");
@@ -92,7 +92,7 @@ public class VendorItemAdapter extends RecyclerView.Adapter<VendorItemAdapter.Ve
 
 
             StringBuilder builder = new StringBuilder();
-            for (Product product : vendorWithDebt.getVendor().getProducts()) {
+            for (Product product : vendorManagmentItem.getProducts()) {
                 if (product.getIsDeleted().equals(false) && product.getIsNotModified().equals(true)) {
                     builder.append(product.getName());
                     builder.append(" | ");
@@ -106,14 +106,14 @@ public class VendorItemAdapter extends RecyclerView.Adapter<VendorItemAdapter.Ve
             holder.tvProductNames.setMaxLines(5);
             holder.tvProductNames.setText(builder.toString());
         } else {
-            colorSubSeqUnderLine(vendorWithDebt.getVendor().getName(), searchText, Color.parseColor("#95ccee"), holder.tvVendorName);
-            colorSubSeq(context.getString(R.string.contact_name_two_dots) + " " + vendorWithDebt.getVendor().getContactName(), searchText, Color.parseColor("#95ccee"), holder.tvContactName);
+            colorSubSeqUnderLine(vendorManagmentItem.getVendor().getName(), searchText, Color.parseColor("#95ccee"), holder.tvVendorName);
+            colorSubSeq(context.getString(R.string.contact_name_two_dots) + " " + vendorManagmentItem.getVendor().getContactName(), searchText, Color.parseColor("#95ccee"), holder.tvContactName);
 
-            if (vendorWithDebt.getVendor().getContacts().size() == 0) {
+            if (vendorManagmentItem.getVendor().getContacts().size() == 0) {
                 holder.tvTel.setVisibility(View.GONE);
             } else {
                 StringBuilder builder = new StringBuilder();
-                for (Contact contact : vendorWithDebt.getVendor().getContacts()) {
+                for (Contact contact : vendorManagmentItem.getVendor().getContacts()) {
                     if (contact.getType() == Contact.E_MAIL) {
                         builder.append(context.getString(R.string.email_two_dots));
                         builder.append(" ");
@@ -132,13 +132,13 @@ public class VendorItemAdapter extends RecyclerView.Adapter<VendorItemAdapter.Ve
             }
 
             boolean haveContains = false;
-            for (Product product : vendorWithDebt.getVendor().getProducts()) {
+            for (Product product : vendorManagmentItem.getProducts()) {
                 haveContains = product.getName().toUpperCase().contains(searchText.toUpperCase());
                 if (haveContains) break;
             }
 
             StringBuilder builder = new StringBuilder();
-            for (Product product : vendorWithDebt.getVendor().getProducts()) {
+            for (Product product : vendorManagmentItem.getProducts()) {
                 if (haveContains && (!product.getName().toUpperCase().contains(searchText.toUpperCase())))
                     continue;
                 if (product.getIsDeleted().equals(false) && product.getIsNotModified().equals(true)) {
@@ -153,13 +153,13 @@ public class VendorItemAdapter extends RecyclerView.Adapter<VendorItemAdapter.Ve
             colorSubSeq(builder.toString(), searchText, Color.parseColor("#95ccee"), holder.tvProductNames);
         }
         int size = 0;
-        for (int i = 0; i < vendorWithDebt.getVendor().getProducts().size(); i++) {
-            Product product = vendorWithDebt.getVendor().getProducts().get(i);
+        for (int i = 0; i < vendorManagmentItem.getProducts().size(); i++) {
+            Product product = vendorManagmentItem.getProducts().get(i);
             if (product.getIsDeleted().equals(false) && product.getIsNotModified().equals(true))
                 size++;
         }
         holder.tvProductCount.setText(context.getString(R.string.product_count_two_dots) + " " + decimalFormat.format(size));
-        holder.tvDebtAmmount.setText(decimalFormat.format(vendorWithDebt.getDebt()));
+        holder.tvDebtAmmount.setText(decimalFormat.format(vendorManagmentItem.getDebt()));
     }
 
     @Override
@@ -174,17 +174,14 @@ public class VendorItemAdapter extends RecyclerView.Adapter<VendorItemAdapter.Ve
     }
 
     public interface OnVendorAdapterCallback {
-        void onIncomeProduct(VendorWithDebt vendorWithDebt);
+        void onIncomeProduct(VendorManagmentItem vendorManagmentItem);
+        void onWriteOff(VendorManagmentItem vendorManagmentItem);
+        void onConsigmentStory(VendorManagmentItem vendorManagmentItem);
+        void onPay(VendorManagmentItem vendorManagmentItem);
+        void onPayStory(VendorManagmentItem vendorManagmentItem, Double totalDebt);
+        void onMore(VendorManagmentItem vendorManagmentItem);
+        void onStockQueueForVendor(VendorManagmentItem vendorManagmentItem);
 
-        void onWriteOff(VendorWithDebt vendorWithDebt);
-
-        void onConsigmentStory(VendorWithDebt vendorWithDebt);
-
-        void onPay(VendorWithDebt vendorWithDebt);
-
-        void onPayStory(VendorWithDebt vendorWithDebt, Double totalDebt);
-
-        void onMore(VendorWithDebt vendorWithDebt);
     }
 
     public class VendorItemViewHolder extends BaseViewHolder {
@@ -213,7 +210,8 @@ public class VendorItemAdapter extends RecyclerView.Adapter<VendorItemAdapter.Ve
         ImageView ivBackReturn;
         @BindView(R.id.ivIncome)
         ImageView ivIncome;
-
+        @BindView(R.id.ivStockQueue)
+        ImageView ivStockQueue;
 
         @BindView(R.id.llBackground)
         LinearLayout llBackground;
@@ -226,6 +224,7 @@ public class VendorItemAdapter extends RecyclerView.Adapter<VendorItemAdapter.Ve
             ivIncome.setOnClickListener(view1 -> onVendorAdapterCallback.onIncomeProduct(items.get(getAdapterPosition())));
             tvMore.setOnClickListener(view1 -> onVendorAdapterCallback.onMore(items.get(getAdapterPosition())));
             ivStoryConsigment.setOnClickListener(view1 -> onVendorAdapterCallback.onConsigmentStory(items.get(getAdapterPosition())));
+            ivStockQueue.setOnClickListener(view1 -> onVendorAdapterCallback.onStockQueueForVendor(items.get(getAdapterPosition())) );
         }
     }
 

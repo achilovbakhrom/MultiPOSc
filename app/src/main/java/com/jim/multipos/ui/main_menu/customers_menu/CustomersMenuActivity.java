@@ -82,7 +82,6 @@ public class CustomersMenuActivity extends BaseActivity implements CustomersMenu
 
     @Override
     public void openActivity(int position) {
-        //TODO add activities for opening
         switch (position) {
             case 0:
                 Intent intent = new Intent(this, CustomersActivity.class);

@@ -2,6 +2,7 @@ package com.jim.multipos.ui.mainpospage.model;
 
 import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
+import com.jim.multipos.data.db.model.inventory.OutcomeProduct;
 import com.jim.multipos.data.db.model.order.OrderProduct;
 
 
@@ -14,7 +15,17 @@ public class OrderProductItem {
     private double discountAmmount;
     private ServiceFee serviceFee;
     private double serviceFeeAmmount;
+    private OutcomeProduct outcomeProduct;
+
     private boolean haveInStock = true;
+
+    public OutcomeProduct getOutcomeProduct() {
+        return outcomeProduct;
+    }
+
+    public void setOutcomeProduct(OutcomeProduct outcomeProduct) {
+        this.outcomeProduct = outcomeProduct;
+    }
 
     public boolean isHaveInStock() {
         return haveInStock;

@@ -5,8 +5,6 @@ import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
-import com.jim.multipos.data.db.model.inventory.InventoryState;
-import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.vendor_products_view.model.ProductState;
@@ -29,7 +27,7 @@ import static com.jim.multipos.data.db.model.inventory.BillingOperations.PAID_TO
 public class VendorProductsViewPresenterImpl extends BasePresenterImpl<VendorProductsView> implements VendorProductsViewPresenter {
     private DatabaseManager databaseManager;
     private long vendorId;
-    private List<InventoryState> inventoryStates;
+//    private List<InventoryState> inventoryStates;
     private List<ProductState> productStateList;
     private Vendor vendor;
     private Double debt;
@@ -39,6 +37,7 @@ public class VendorProductsViewPresenterImpl extends BasePresenterImpl<VendorPro
     @Inject
     public VendorProductsViewPresenterImpl(VendorProductsView vendorProductsView, DatabaseManager databaseManager) {
         super(vendorProductsView);
+        //TODO: SIROCH -> VENDOR DETAIL VIEW REMAKE
         this.databaseManager = databaseManager;
         billingOperations = new ArrayList<>();
         productStateList = new ArrayList<>();
@@ -70,22 +69,23 @@ public class VendorProductsViewPresenterImpl extends BasePresenterImpl<VendorPro
 
     @Override
     public List<Product> getProducts() {
-        return databaseManager.getVendors().blockingSingle().get(0).getProducts();
+//        return databaseManager.getVendors().blockingSingle().get(0).getProducts();
+        return null;
     }
 
     @Override
     public List<ProductState> getProductStates() {
-        inventoryStates = databaseManager.getInventoryStatesByVendorId(vendorId).blockingSingle();
-        productStateList.clear();
-        for (InventoryState inventoryState : inventoryStates) {
-            Product product = databaseManager.getProductByRootId(inventoryState.getProduct().getRootId()).blockingGet();
-            ProductState productState = new ProductState();
-            productState.setProduct(product);
-            productState.setVendor(inventoryState.getVendor());
-            productState.setValue(inventoryState.getValue());
-            productStateList.add(productState);
-        }
-        sortByProductAsc();
+//        inventoryStates = databaseManager.getInventoryStatesByVendorId(vendorId).blockingSingle();
+//        productStateList.clear();
+//        for (InventoryState inventoryState : inventoryStates) {
+//            Product product = databaseManager.getProductByRootId(inventoryState.getProduct().getRootId()).blockingGet();
+//            ProductState productState = new ProductState();
+//            productState.setProduct(product);
+//            productState.setVendor(inventoryState.getVendor());
+//            productState.setValue(inventoryState.getValue());
+//            productStateList.add(productState);
+//        }
+//        sortByProductAsc();
         return productStateList;
     }
 
@@ -156,19 +156,19 @@ public class VendorProductsViewPresenterImpl extends BasePresenterImpl<VendorPro
 
     @Override
     public void insertNewWarehouseOperation(ProductState inventory, double shortage, String reason) {
-        WarehouseOperations warehouseOperations = new WarehouseOperations();
-        warehouseOperations.setProduct(inventory.getProduct());
-        warehouseOperations.setVendor(this.vendor);
-        warehouseOperations.setCreateAt(System.currentTimeMillis());
-        if (shortage > 0)
-            warehouseOperations.setType(WarehouseOperations.VOID_INCOME);
-        else warehouseOperations.setType(WarehouseOperations.WASTE);
-        warehouseOperations.setValue(shortage);
-        warehouseOperations.setDescription(reason);
-        databaseManager.insertWarehouseOperation(warehouseOperations).subscribe((aLong, throwable) -> {
-            updateInventoryItems();
-            view.sendEvent(GlobalEventConstants.UPDATE);
-        });
+//        WarehouseOperations warehouseOperations = new WarehouseOperations();
+//        warehouseOperations.setProduct(inventory.getProduct());
+//        warehouseOperations.setVendor(this.vendor);
+//        warehouseOperations.setCreateAt(System.currentTimeMillis());
+//        if (shortage > 0)
+//            warehouseOperations.setType(WarehouseOperations.VOID_INCOME);
+//        else warehouseOperations.setType(WarehouseOperations.WASTE);
+//        warehouseOperations.setValue(shortage);
+//        warehouseOperations.setDescription(reason);
+//        databaseManager.insertWarehouseOperation(warehouseOperations).subscribe((aLong, throwable) -> {
+//            updateInventoryItems();
+//            view.sendEvent(GlobalEventConstants.UPDATE);
+//        });
     }
 
     @Override
@@ -195,18 +195,18 @@ public class VendorProductsViewPresenterImpl extends BasePresenterImpl<VendorPro
 
     @Override
     public void updateInventoryItems() {
-        inventoryStates = databaseManager.getInventoryStatesByVendorId(vendorId).blockingSingle();
-        productStateList.clear();
-        for (InventoryState inventoryState : inventoryStates) {
-            Product product = databaseManager.getProductByRootId(inventoryState.getProduct().getId()).blockingGet();
-            ProductState productState = new ProductState();
-            productState.setProduct(product);
-            productState.setVendor(inventoryState.getVendor());
-            productState.setValue(inventoryState.getValue());
-            productStateList.add(productState);
-        }
-        sortByProductAsc();
-        view.updateAdapterItems(productStateList);
+//        inventoryStates = databaseManager.getInventoryStatesByVendorId(vendorId).blockingSingle();
+//        productStateList.clear();
+//        for (InventoryState inventoryState : inventoryStates) {
+//            Product product = databaseManager.getProductByRootId(inventoryState.getProduct().getId()).blockingGet();
+//            ProductState productState = new ProductState();
+//            productState.setProduct(product);
+//            productState.setVendor(inventoryState.getVendor());
+//            productState.setValue(inventoryState.getValue());
+//            productStateList.add(productState);
+//        }
+//        sortByProductAsc();
+//        view.updateAdapterItems(productStateList);
     }
 
     @Override

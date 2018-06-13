@@ -28,9 +28,6 @@ import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
 import com.jim.multipos.data.db.model.customer.CustomerPayment;
 import com.jim.multipos.data.db.model.customer.Debt;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
-import com.jim.multipos.data.db.model.inventory.HistoryInventoryState;
-import com.jim.multipos.data.db.model.inventory.InventoryState;
-import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.OrderChangesLog;
 import com.jim.multipos.data.db.model.order.OrderProduct;
@@ -54,7 +51,7 @@ import com.jim.multipos.data.db.model.unit.SubUnitsList;
 import com.jim.multipos.data.db.model.unit.Unit;
 import com.jim.multipos.data.db.model.unit.UnitCategory;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
-import com.jim.multipos.ui.vendor_item_managment.model.VendorWithDebt;
+import com.jim.multipos.ui.vendor_item_managment.model.VendorManagmentItem;
 
 import org.greenrobot.greendao.query.LazyList;
 
@@ -198,12 +195,9 @@ public interface DbHelper {
     Observable<Boolean> insertConsignmentProduct(List<ConsignmentProduct> consignmentProducts);
     Single<Consignment> getConsignmentById(Long consignmentId);
 
-    Single<List<VendorWithDebt>> getVendorWirhDebt();
+    Single<List<VendorManagmentItem>> getVendorItemManagmentItem();
     Single<Double> getVendorDebt(Long vendorId);
 
-    Single<Long> insertWarehouseOperation(WarehouseOperations warehouseOperations);
-    Single<WarehouseOperations> getWarehouseOperationById(Long warehouseId);
-    Single<Long> replaceWarehouseOperation(WarehouseOperations warehouseOperations);
 
     Single<BillingOperations> insertBillingOperation(BillingOperations billingOperations);
     Observable<List<BillingOperations>> getBillingOperations();
@@ -211,18 +205,14 @@ public interface DbHelper {
     Single<BillingOperations> getBillingOperationsById(Long firstPayId);
     Single<List<BillingOperations>> getBillingOperationByRootId(Long rootId);
 
-    Observable<Long> insertInventoryState(InventoryState inventoryState);
-    Observable<List<InventoryState>> getInventoryStates();
-    Observable<List<InventoryState>> getInventoryStatesByProductId(Long productId);
+
     Single<List<BillingOperations>> getBillingOperationInteval(Long vendorId, Calendar fromDate, Calendar toDate);
     Single<List<BillingOperations>> getBillingOperationsByInterval(Calendar fromDate, Calendar toDate);
 
     Observable<Boolean> removeProductFromInventoryState(Long productId);
-    Observable<List<InventoryState>> getInventoryStatesByVendorId(Long vendorId);
     Currency getMainCurrency();
     Single<List<BillingOperations>> getBillingOperationForVendor(Long vendorId);
 
-    Single<Boolean> deleteInventoryState(InventoryState inventoryState);
 
     Single<List<Consignment>> getConsignmentsInInterval(Long vendorId, Calendar fromDate, Calendar toDate);
 
@@ -275,7 +265,6 @@ public interface DbHelper {
     Single<Long> deletePayedPartitions(List<PayedPartitions> payedPartitions);
     Single<List<Order>> getAllTillClosedOrders();
     Single<Product> getProductByRootId(Long rootId);
-    Single<HistoryInventoryState> insertHistoryInventoryState(HistoryInventoryState state);
     Single<Boolean> isProductSkuExists(String sku, Long subcategoryId);
     Single<Boolean> isConsignmentNumberExists(String number);
     Single<Vendor> detachVendor(Vendor vendor);
@@ -293,9 +282,7 @@ public interface DbHelper {
     Single<Order> getLastOrderWithCustomer(Long customerId);
     Single<List<Debt>> getAllCustomerDebtsInInterval(Calendar fromDate, Calendar toDate);
     Single<List<Order>> getOrdersWithCustomerInInterval(Long id, Calendar fromDate, Calendar toDate);
-    Single<List<WarehouseOperations>> getWarehouseOperationsInInterval(Calendar fromDate, Calendar toDate);
     Single<Long> getConsignmentByWarehouseId(Long warehouseId);
-    Single<List<HistoryInventoryState>> getHistoryInventoryStatesByTillId(Long id);
     Single<List<Return>> getReturnList(Calendar fromDate, Calendar toDate);
     Single<List<TillOperation>> getTillOperationsInterval(Calendar fromDate,Calendar toDate);
     PaymentType getCashPaymentType();

@@ -1,8 +1,8 @@
 package com.jim.multipos.ui.main_menu.product_menu.presenters;
 
 import com.jim.multipos.core.BasePresenterImpl;
-import com.jim.multipos.ui.main_menu.product_menu.ProductMenuView;
 import com.jim.multipos.data.db.model.intosystem.TitleDescription;
+import com.jim.multipos.ui.main_menu.product_menu.ProductMenuView;
 
 import java.util.ArrayList;
 

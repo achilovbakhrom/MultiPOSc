@@ -8,7 +8,6 @@ import com.jim.multipos.data.db.model.customer.Debt;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.PayedPartitions;
 import com.jim.multipos.data.db.model.products.Product;
-import com.jim.multipos.data.db.model.products.Vendor;
 
 import java.util.List;
 
@@ -32,7 +31,6 @@ public interface OrderListPresenter extends Presenter {
     void addServiceFeeToProduct(Long productId, ServiceFee serviceFee, boolean isManual);
     void openDiscountDialog();
     void openSeriveFeeDialog();
-    void changeProductVendor(Vendor vendor,int position);
     void changeDiscription(String discription,int position);
     void removeOrderProducts(int removePosition);
     void setDiscountToProduct(Discount discountToProduct,int currentPosition);

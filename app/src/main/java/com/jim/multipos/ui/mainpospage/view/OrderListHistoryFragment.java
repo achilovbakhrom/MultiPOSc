@@ -1,17 +1,13 @@
 package com.jim.multipos.ui.mainpospage.view;
 
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
@@ -26,10 +22,8 @@ import com.jim.multipos.ui.mainpospage.adapter.OrderProductHistoryAdapter;
 import com.jim.multipos.ui.mainpospage.connection.MainPageConnection;
 import com.jim.multipos.ui.mainpospage.dialogs.AccessToCancelDialog;
 import com.jim.multipos.ui.mainpospage.dialogs.AccessToEditDialog;
-import com.jim.multipos.ui.mainpospage.dialogs.AccessWithEditPasswordDialog;
 import com.jim.multipos.ui.mainpospage.dialogs.PaymentDetialDialog;
 import com.jim.multipos.ui.mainpospage.presenter.OrderListHistoryPresenter;
-import com.jim.multipos.utils.printer.CheckPrinter;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -176,8 +170,8 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
             if(order.getLastChangeLog().getChangedCauseType() == OrderChangesLog.EDITED){
                 llEdit.setVisibility(View.INVISIBLE);
                 llEdit.setEnabled(false);
-                ivDeactivateCancel.setImageResource(R.drawable.recive_order);
-                tvCancelOrder.setText(getContext().getString(R.string.restore_order));
+                ivDeactivateCancel.setVisibility(View.GONE);
+                tvCancelOrder.setVisibility(View.GONE);
                 tvOrderCancelLable.setText(getContext().getString(R.string.order_edited_to_num)+String.valueOf(order.getLastChangeLog().getRelationOrder().getId()));
                 tvOrderNumber.setText(getContext().getString(R.string.canceled_order_num) + String.valueOf(order.getId()));
                 rvDeleteCurtain.setVisibility(View.VISIBLE);
@@ -185,8 +179,8 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
             }else {
                 llEdit.setVisibility(View.INVISIBLE);
                 llEdit.setEnabled(false);
-                ivDeactivateCancel.setImageResource(R.drawable.recive_order);
-                tvCancelOrder.setText(getContext().getString(R.string.restore_order));
+                ivDeactivateCancel.setVisibility(View.GONE);
+                tvCancelOrder.setVisibility(View.GONE);
                 tvOrderNumber.setText(getContext().getString(R.string.canceled_order_num) + String.valueOf(order.getId()));
                 tvOrderCancelLable.setText(getContext().getString(R.string.order_canceled));
                 rvDeleteCurtain.setVisibility(View.VISIBLE);
@@ -195,6 +189,8 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
         }else if(order.getStatus() == Order.HOLD_ORDER){
             ivEdit.setImageResource(R.drawable.contunie);
             tvPay.setText(getContext().getString(R.string.order_continue));
+            ivDeactivateCancel.setVisibility(View.VISIBLE);
+            tvCancelOrder.setVisibility(View.VISIBLE);
             tvOrderNumber.setText(getString(R.string.held_order_num) + String.valueOf(order.getId()));
             llEdit.setVisibility(View.VISIBLE);
             llEdit.setEnabled(true);
@@ -207,6 +203,8 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
             tvPay.setText(getContext().getString(R.string.edit));
             llEdit.setVisibility(View.VISIBLE);
             llEdit.setEnabled(true);
+            ivDeactivateCancel.setVisibility(View.VISIBLE);
+            tvCancelOrder.setVisibility(View.VISIBLE);
             ivDeactivateCancel.setImageResource(R.drawable.deactive_order);
             tvCancelOrder.setText(getContext().getString(R.string.cancel_order));
             rvDeleteCurtain.setVisibility(View.GONE);
@@ -274,25 +272,6 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
 
     }
 
-    @Override
-    public void openRestoreAccsessDialog() {
-        if(preferencesHelper.isCancelOrderProtected()) {
-            AccessWithEditPasswordDialog accessWithEditPasswordDialog = new AccessWithEditPasswordDialog(getContext(), new AccessWithEditPasswordDialog.OnAccsessListner() {
-                @Override
-                public void accsessSuccess() {
-                    ((MainPosPageActivity) getActivity()).onRestoreOrder();
-                }
-
-                @Override
-                public void onBruteForce() {
-
-                }
-            }, preferencesHelper);
-            accessWithEditPasswordDialog.show();
-        }else {
-            ((MainPosPageActivity) getActivity()).onRestoreOrder();
-        }
-    }
 
     @Override
     public void setOrderNumberToToolbar(Long orderNumber) {

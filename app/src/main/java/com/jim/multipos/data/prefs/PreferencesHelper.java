@@ -109,6 +109,5 @@ public interface PreferencesHelper {
     void setSerialValue(String serialValue);
     void setRegistrationToken(String token);
     String getRegistrationToken();
-    void setOutStockCheck(boolean outStockCheck);
-    boolean isOutStockShouldCheck();
+
 }

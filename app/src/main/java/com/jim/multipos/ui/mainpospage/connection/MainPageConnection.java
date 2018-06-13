@@ -1,7 +1,6 @@
 package com.jim.multipos.ui.mainpospage.connection;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
@@ -10,13 +9,9 @@ import com.jim.multipos.data.db.model.customer.Debt;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.PayedPartitions;
 import com.jim.multipos.data.db.model.products.Category;
-import com.jim.multipos.data.db.model.products.Product;
-import com.jim.multipos.data.db.model.products.Vendor;
-import com.jim.multipos.ui.mainpospage.data.ProductIdWithCount;
 import com.jim.multipos.ui.mainpospage.model.OrderProductItem;
 import com.jim.multipos.ui.mainpospage.view.OrderListHistoryView;
 import com.jim.multipos.ui.mainpospage.view.OrderListView;
-import com.jim.multipos.ui.mainpospage.view.PaymentFragment;
 import com.jim.multipos.ui.mainpospage.view.PaymentView;
 import com.jim.multipos.ui.mainpospage.view.ProductFolderView;
 import com.jim.multipos.ui.mainpospage.view.ProductInfoView;
@@ -61,11 +56,7 @@ public class MainPageConnection {
 //            orderListView.onEditOrder(reason,order);
 //        }
 //    }
-    public void sendOrderState(List<ProductIdWithCount> list){
-        //folder fragment viewni nullga tekwirib agar null bomasa yuborish kere
-        //TODO kiyin fragment hide voqti obnovit qiliw keremas!!!
-        Log.d("TESTPROCO",list.size()+"");
-    }
+
     public void onNewOrderPaymentFragment(){
         if(paymentView!=null){
             paymentView.onNewOrder();
@@ -161,11 +152,7 @@ public class MainPageConnection {
             orderListView.sendToPaymentFragmentOrderAndPaymentsList();
         }
     }
-    public void changeProductVendor(Vendor vendor){
-        if(orderListView != null){
-            orderListView.changeProductVendor(vendor);
-        }
-    }
+
     public void sendProductItemToProductInfo(OrderProductItem orderProductItem){
         if(productInfoView!=null){
             productInfoView.initProductData(orderProductItem);

@@ -43,9 +43,7 @@ public class AuthFragment extends BaseFragment implements AuthView {
             presenter.checkRegistrationToken(etToken.getText().toString());
             else etToken.setError(getString(R.string.erg_tok_cant_be_emp));
         });
-        flCall.setOnClickListener(view ->{
-            //TODO CALL
-        });
+
     }
 
     @Override

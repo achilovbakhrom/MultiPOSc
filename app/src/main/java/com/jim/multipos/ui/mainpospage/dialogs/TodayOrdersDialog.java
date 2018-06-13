@@ -4,27 +4,19 @@ import android.app.Dialog;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SimpleItemAnimator;
 import android.view.View;
 import android.view.Window;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.jim.mpviews.MpButton;
 import com.jim.multipos.R;
 import com.jim.multipos.data.DatabaseManager;
-import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.data.db.model.order.Order;
-import com.jim.multipos.data.db.model.products.Return;
-import com.jim.multipos.ui.mainpospage.adapter.ReturnsListAdapter;
 import com.jim.multipos.ui.mainpospage.adapter.TodayOrdersAdapter;
 import com.jim.multipos.utils.UIUtils;
 
-import java.text.DecimalFormat;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;

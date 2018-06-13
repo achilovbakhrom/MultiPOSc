@@ -8,7 +8,6 @@ import com.jim.multipos.core.BaseActivityModule;
 import com.jim.multipos.ui.billing_vendor.BillingOperationsActivity;
 import com.jim.multipos.ui.billing_vendor.fragments.BillingOperationFragment;
 import com.jim.multipos.ui.billing_vendor.presenter.BillingOperationFragmentModule;
-import com.jim.multipos.ui.vendor_item_managment.VendorItemsActivity;
 
 import dagger.Binds;
 import dagger.Module;

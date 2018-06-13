@@ -12,11 +12,6 @@ import java.util.List;
  */
 
 public interface ProductInfoPresenter extends Presenter {
-    List<Vendor> getVendors();
-    Vendor getVendor(int position);
-    Vendor getPrevVendor();
-    Vendor getNextVendor();
-    Vendor getRandomVendor();
     Double getProductQuantity();
     int getCurrentProductQuantity();
     int incrementQuantity();

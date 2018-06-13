@@ -6,23 +6,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
 import com.jim.mpviews.MpToolbar;
-import com.jim.multipos.R;
-import com.jim.multipos.core.BaseActivity;
 import com.jim.multipos.core.DoubleSideActivity;
-import com.jim.multipos.core.SimpleActivity;
 import com.jim.multipos.ui.lock_screen.LockScreenActivity;
-import com.jim.multipos.ui.reports.customers.CustomerReportFragment;
-import com.jim.multipos.ui.reports.debts.DebtsReportFragment;
-import com.jim.multipos.ui.reports.discount.DiscountReportFragment;
-import com.jim.multipos.ui.reports.hourly_sales.HourlySalesReportFragment;
-import com.jim.multipos.ui.reports.inventory.InventoryReportFragment;
-import com.jim.multipos.ui.reports.order_history.OrderHistoryFragment;
-import com.jim.multipos.ui.reports.payments.PaymentsReportFragment;
-import com.jim.multipos.ui.reports.product_profit.ProductProfitFragment;
-import com.jim.multipos.ui.reports.service_fee.ServiceFeeReportFragment;
-import com.jim.multipos.ui.reports.summary_report.SummaryReportFragment;
-import com.jim.multipos.ui.reports.tills.TillsReportFragment;
-import com.jim.multipos.ui.reports.vendor.VendorReportFragment;
 import com.jim.multipos.ui.settings.accounts.AccountSettingsFragment;
 import com.jim.multipos.ui.settings.choice_panel.ChoicePanelFragment;
 import com.jim.multipos.ui.settings.common.CommonConfigFragment;
@@ -32,7 +17,6 @@ import com.jim.multipos.ui.settings.pos_details.PosDetailsFragment;
 import com.jim.multipos.ui.settings.print.PrintFragment;
 import com.jim.multipos.ui.settings.security.SecurityFragment;
 import com.jim.multipos.utils.RxBus;
-import com.jim.multipos.utils.UIUtils;
 import com.jim.multipos.utils.rxevents.main_order_events.MainPosActivityRefreshEvent;
 
 import javax.inject.Inject;
@@ -63,7 +47,7 @@ public class SettingsActivity extends DoubleSideActivity implements SettingsView
     public void onPanelClicked(int position) {
         switch (position) {
             case 0:
-                //TODO BASICS
+                //BASICS
                 showCommonConfigFragment();
                 break;
             case 1:
@@ -76,15 +60,12 @@ public class SettingsActivity extends DoubleSideActivity implements SettingsView
                 showAccountFragment();
                 break;
             case 4:
-                //TODO PAYMENTS TYPE
                 showPaymentTypeSettingsFragment();
                 break;
             case 5:
-                //TODO PRINTER
                 showPrintFragment();
                 break;
             case 6:
-                //TODO SECURITY
                 showSecurityFragment();
                 break;
         }

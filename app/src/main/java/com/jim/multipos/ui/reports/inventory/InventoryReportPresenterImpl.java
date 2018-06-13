@@ -8,8 +8,6 @@ import com.github.mjdev.libaums.fs.UsbFile;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
-import com.jim.multipos.data.db.model.inventory.HistoryInventoryState;
-import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Return;
 import com.jim.multipos.data.db.model.products.Vendor;
@@ -90,151 +88,151 @@ public class InventoryReportPresenterImpl extends BasePresenterImpl<InventoryRep
     }
 
     private void initReportTable() {
-        switch (currentPosition) {
-            case 0:
-                List<WarehouseOperations> warehouseOperations = new ArrayList<>();
-                databaseManager.getWarehouseOperationsInInterval(fromDate, toDate).subscribe(warehouseOperations1 -> {
-                    for (WarehouseOperations operations : warehouseOperations1) {
-                        if (filterConfig[0] == 1 && operations.getType() == WarehouseOperations.CANCELED_SOLD) {
-                            warehouseOperations.add(operations);
-                            continue;
-                        }
-                        if (filterConfig[1] == 1 && operations.getType() == WarehouseOperations.CONSIGNMENT_DELETED) {
-                            warehouseOperations.add(operations);
-                            continue;
-                        }
-                        if (filterConfig[2] == 1 && operations.getType() == WarehouseOperations.INCOME_FROM_VENDOR) {
-                            warehouseOperations.add(operations);
-                            continue;
-                        }
-                        if (filterConfig[3] == 1 && operations.getType() == WarehouseOperations.RETURN_HOLDED) {
-                            warehouseOperations.add(operations);
-                            continue;
-                        }
-                        if (filterConfig[4] == 1 && operations.getType() == WarehouseOperations.RETURN_SOLD) {
-                            warehouseOperations.add(operations);
-                            continue;
-                        }
-                        if (filterConfig[5] == 1 && operations.getType() == WarehouseOperations.RETURN_TO_VENDOR) {
-                            warehouseOperations.add(operations);
-                            continue;
-                        }
-                        if (filterConfig[6] == 1 && operations.getType() == WarehouseOperations.SOLD) {
-                            warehouseOperations.add(operations);
-                            continue;
-                        }
-                        if (filterConfig[7] == 1 && operations.getType() == WarehouseOperations.VOID_INCOME) {
-                            warehouseOperations.add(operations);
-                            continue;
-                        }
-                        if (filterConfig[8] == 1 && operations.getType() == WarehouseOperations.WASTE) {
-                            warehouseOperations.add(operations);
-                            continue;
-                        }
-                    }
-                });
-                firstObjects = new Object[warehouseOperations.size()][8];
-                for (int i = 0; i < warehouseOperations.size(); i++) {
-                    WarehouseOperations operations = warehouseOperations.get(i);
-                    firstObjects[i][0] = operations.getProduct().getName();
-                    firstObjects[i][1] = operations.getVendor().getName();
-                    firstObjects[i][2] = operations.getType();
-                    if (operations.getValue() < 0)
-                        firstObjects[i][3] = operations.getValue() * -1;
-                    else
-                        firstObjects[i][3] = operations.getValue();
-                    firstObjects[i][4] = operations.getCreatedDate();
-                    firstObjects[i][5] = operations.getDescription();
-                    if (operations.getOrder() != null)
-                        firstObjects[i][6] = operations.getOrder().getId();
-                    else firstObjects[i][6] = "";
-                    Long id = databaseManager.getConsignmentByWarehouseId(operations.getId()).blockingGet();
-                    if (id == -1L) {
-                        firstObjects[i][7] = "";
-                    } else firstObjects[i][7] = "#" + id;
-                }
-                break;
-            case 1:
-                List<InventorySummary> inventorySummaries = new ArrayList<>();
-                List<Product> productList = databaseManager.getAllProducts().blockingSingle();
-                List<WarehouseOperations> operationsList = databaseManager.getWarehouseOperationsInInterval(fromDate, toDate).blockingGet();
-                for (int i = 0; i < productList.size(); i++) {
-                    Product product = productList.get(i);
-                    for (int j = 0; j < product.getVendor().size(); j++) {
-                        Vendor vendor = product.getVendor().get(j);
-                        double sold = 0;
-                        double receivedFromVendor = 0;
-                        double returnToVendor = 0;
-                        double returnFromCustomer = 0;
-                        double voidIncome = 0;
-                        double wasted = 0;
-                        for (int k = 0; k < operationsList.size(); k++) {
-                            WarehouseOperations operations = operationsList.get(k);
-                            if (product.getRootId().equals(operations.getProduct().getRootId()) && vendor.getId().equals(operations.getVendorId())) {
-                                if (operations.getType() == WarehouseOperations.SOLD)
-                                    sold += operations.getValue();
-                                if (operations.getType() == WarehouseOperations.INCOME_FROM_VENDOR)
-                                    receivedFromVendor += operations.getValue();
-                                if (operations.getType() == WarehouseOperations.RETURN_TO_VENDOR)
-                                    returnToVendor += operations.getValue();
-                                if (operations.getType() == WarehouseOperations.RETURN_SOLD)
-                                    returnFromCustomer += operations.getValue();
-                                if (operations.getType() == WarehouseOperations.VOID_INCOME)
-                                    voidIncome += operations.getValue();
-                                if (operations.getType() == WarehouseOperations.WASTE)
-                                    wasted += operations.getValue();
-                            }
-                        }
-                        InventorySummary inventorySummary = new InventorySummary();
-                        inventorySummary.setProduct(product);
-                        inventorySummary.setVendor(vendor);
-                        inventorySummary.setSold(sold);
-                        inventorySummary.setReceivedFromVendor(receivedFromVendor);
-                        inventorySummary.setRetrunFromCustomer(returnFromCustomer);
-                        inventorySummary.setVoidIncome(voidIncome);
-                        inventorySummary.setRetrunToVendor(returnToVendor);
-                        inventorySummary.setWasted(wasted);
-                        inventorySummaries.add(inventorySummary);
-                    }
-                }
-                secondObjects = new Object[inventorySummaries.size()][8];
-                for (int i = 0; i < inventorySummaries.size(); i++) {
-                    InventorySummary inventorySummary = inventorySummaries.get(i);
-                    String unit = inventorySummary.getProduct().getMainUnit().getAbbr();
-                    secondObjects[i][0] = inventorySummary.getProduct().getName();
-                    secondObjects[i][1] = inventorySummary.getVendor().getName();
-                    if (inventorySummary.getSold() < 0)
-                        secondObjects[i][2] = inventorySummary.getSold() * -1 + " " + unit;
-                    else
-                        secondObjects[i][2] = inventorySummary.getSold() + " " + unit;
-                    secondObjects[i][3] = inventorySummary.getReceivedFromVendor() + " " + unit;
-                    if (inventorySummary.getRetrunToVendor() < 0)
-                        secondObjects[i][4] = inventorySummary.getRetrunToVendor() * -1 + " " + unit;
-                    else
-                        secondObjects[i][4] = inventorySummary.getRetrunToVendor() + " " + unit;
-                    secondObjects[i][5] = inventorySummary.getRetrunFromCustomer() + " " + unit;
-                    secondObjects[i][6] = inventorySummary.getVoidIncome() + " " + unit;
-                    if (inventorySummary.getWasted() < 0)
-                        secondObjects[i][7] = inventorySummary.getWasted() * -1 + " " + unit;
-                    else
-                        secondObjects[i][7] = inventorySummary.getWasted() + " " + unit;
-                }
-                break;
-            case 2:
-                List<Return> returnList = databaseManager.getReturnList(fromDate, toDate).blockingGet();
-                forthObjects = new Object[returnList.size()][7];
-                for (int i = 0; i < returnList.size(); i++) {
-                    Return item = returnList.get(i);
-                    forthObjects[i][0] = item.getProduct().getName();
-                    forthObjects[i][1] = item.getCreateAt();
-                    forthObjects[i][2] = item.getProduct().getPrice();
-                    forthObjects[i][3] = item.getReturnAmount();
-                    forthObjects[i][4] = item.getQuantity();
-                    forthObjects[i][5] = item.getPaymentType().getName();
-                    forthObjects[i][6] = item.getDescription();
-                }
-                break;
-        }
+//        switch (currentPosition) {
+//            case 0:
+//                List<WarehouseOperations> warehouseOperations = new ArrayList<>();
+//                databaseManager.getWarehouseOperationsInInterval(fromDate, toDate).subscribe(warehouseOperations1 -> {
+//                    for (WarehouseOperations operations : warehouseOperations1) {
+//                        if (filterConfig[0] == 1 && operations.getType() == WarehouseOperations.CANCELED_SOLD) {
+//                            warehouseOperations.add(operations);
+//                            continue;
+//                        }
+//                        if (filterConfig[1] == 1 && operations.getType() == WarehouseOperations.CONSIGNMENT_DELETED) {
+//                            warehouseOperations.add(operations);
+//                            continue;
+//                        }
+//                        if (filterConfig[2] == 1 && operations.getType() == WarehouseOperations.INCOME_FROM_VENDOR) {
+//                            warehouseOperations.add(operations);
+//                            continue;
+//                        }
+//                        if (filterConfig[3] == 1 && operations.getType() == WarehouseOperations.RETURN_HOLDED) {
+//                            warehouseOperations.add(operations);
+//                            continue;
+//                        }
+//                        if (filterConfig[4] == 1 && operations.getType() == WarehouseOperations.RETURN_SOLD) {
+//                            warehouseOperations.add(operations);
+//                            continue;
+//                        }
+//                        if (filterConfig[5] == 1 && operations.getType() == WarehouseOperations.RETURN_TO_VENDOR) {
+//                            warehouseOperations.add(operations);
+//                            continue;
+//                        }
+//                        if (filterConfig[6] == 1 && operations.getType() == WarehouseOperations.SOLD) {
+//                            warehouseOperations.add(operations);
+//                            continue;
+//                        }
+//                        if (filterConfig[7] == 1 && operations.getType() == WarehouseOperations.VOID_INCOME) {
+//                            warehouseOperations.add(operations);
+//                            continue;
+//                        }
+//                        if (filterConfig[8] == 1 && operations.getType() == WarehouseOperations.WASTE) {
+//                            warehouseOperations.add(operations);
+//                            continue;
+//                        }
+//                    }
+//                });
+//                firstObjects = new Object[warehouseOperations.size()][8];
+//                for (int i = 0; i < warehouseOperations.size(); i++) {
+//                    WarehouseOperations operations = warehouseOperations.get(i);
+//                    firstObjects[i][0] = operations.getProduct().getName();
+//                    firstObjects[i][1] = operations.getVendor().getName();
+//                    firstObjects[i][2] = operations.getType();
+//                    if (operations.getValue() < 0)
+//                        firstObjects[i][3] = operations.getValue() * -1;
+//                    else
+//                        firstObjects[i][3] = operations.getValue();
+//                    firstObjects[i][4] = operations.getCreatedDate();
+//                    firstObjects[i][5] = operations.getDescription();
+//                    if (operations.getOrder() != null)
+//                        firstObjects[i][6] = operations.getOrder().getId();
+//                    else firstObjects[i][6] = "";
+//                    Long id = databaseManager.getConsignmentByWarehouseId(operations.getId()).blockingGet();
+//                    if (id == -1L) {
+//                        firstObjects[i][7] = "";
+//                    } else firstObjects[i][7] = "#" + id;
+//                }
+//                break;
+//            case 1:
+//                List<InventorySummary> inventorySummaries = new ArrayList<>();
+//                List<Product> productList = databaseManager.getAllProducts().blockingSingle();
+//                List<WarehouseOperations> operationsList = databaseManager.getWarehouseOperationsInInterval(fromDate, toDate).blockingGet();
+//                for (int i = 0; i < productList.size(); i++) {
+//                    Product product = productList.get(i);
+//                    for (int j = 0; j < product.getVendor().size(); j++) {
+//                        Vendor vendor = product.getVendor().get(j);
+//                        double sold = 0;
+//                        double receivedFromVendor = 0;
+//                        double returnToVendor = 0;
+//                        double returnFromCustomer = 0;
+//                        double voidIncome = 0;
+//                        double wasted = 0;
+//                        for (int k = 0; k < operationsList.size(); k++) {
+//                            WarehouseOperations operations = operationsList.get(k);
+//                            if (product.getRootId().equals(operations.getProduct().getRootId()) && vendor.getId().equals(operations.getVendorId())) {
+//                                if (operations.getType() == WarehouseOperations.SOLD)
+//                                    sold += operations.getValue();
+//                                if (operations.getType() == WarehouseOperations.INCOME_FROM_VENDOR)
+//                                    receivedFromVendor += operations.getValue();
+//                                if (operations.getType() == WarehouseOperations.RETURN_TO_VENDOR)
+//                                    returnToVendor += operations.getValue();
+//                                if (operations.getType() == WarehouseOperations.RETURN_SOLD)
+//                                    returnFromCustomer += operations.getValue();
+//                                if (operations.getType() == WarehouseOperations.VOID_INCOME)
+//                                    voidIncome += operations.getValue();
+//                                if (operations.getType() == WarehouseOperations.WASTE)
+//                                    wasted += operations.getValue();
+//                            }
+//                        }
+//                        InventorySummary inventorySummary = new InventorySummary();
+//                        inventorySummary.setProduct(product);
+//                        inventorySummary.setVendor(vendor);
+//                        inventorySummary.setSold(sold);
+//                        inventorySummary.setReceivedFromVendor(receivedFromVendor);
+//                        inventorySummary.setRetrunFromCustomer(returnFromCustomer);
+//                        inventorySummary.setVoidIncome(voidIncome);
+//                        inventorySummary.setRetrunToVendor(returnToVendor);
+//                        inventorySummary.setWasted(wasted);
+//                        inventorySummaries.add(inventorySummary);
+//                    }
+//                }
+//                secondObjects = new Object[inventorySummaries.size()][8];
+//                for (int i = 0; i < inventorySummaries.size(); i++) {
+//                    InventorySummary inventorySummary = inventorySummaries.get(i);
+//                    String unit = inventorySummary.getProduct().getMainUnit().getAbbr();
+//                    secondObjects[i][0] = inventorySummary.getProduct().getName();
+//                    secondObjects[i][1] = inventorySummary.getVendor().getName();
+//                    if (inventorySummary.getSold() < 0)
+//                        secondObjects[i][2] = inventorySummary.getSold() * -1 + " " + unit;
+//                    else
+//                        secondObjects[i][2] = inventorySummary.getSold() + " " + unit;
+//                    secondObjects[i][3] = inventorySummary.getReceivedFromVendor() + " " + unit;
+//                    if (inventorySummary.getRetrunToVendor() < 0)
+//                        secondObjects[i][4] = inventorySummary.getRetrunToVendor() * -1 + " " + unit;
+//                    else
+//                        secondObjects[i][4] = inventorySummary.getRetrunToVendor() + " " + unit;
+//                    secondObjects[i][5] = inventorySummary.getRetrunFromCustomer() + " " + unit;
+//                    secondObjects[i][6] = inventorySummary.getVoidIncome() + " " + unit;
+//                    if (inventorySummary.getWasted() < 0)
+//                        secondObjects[i][7] = inventorySummary.getWasted() * -1 + " " + unit;
+//                    else
+//                        secondObjects[i][7] = inventorySummary.getWasted() + " " + unit;
+//                }
+//                break;
+//            case 2:
+//                List<Return> returnList = databaseManager.getReturnList(fromDate, toDate).blockingGet();
+//                forthObjects = new Object[returnList.size()][7];
+//                for (int i = 0; i < returnList.size(); i++) {
+//                    Return item = returnList.get(i);
+//                    forthObjects[i][0] = item.getProduct().getName();
+//                    forthObjects[i][1] = item.getCreateAt();
+//                    forthObjects[i][2] = item.getProduct().getPrice();
+//                    forthObjects[i][3] = item.getReturnAmount();
+//                    forthObjects[i][4] = item.getQuantity();
+//                    forthObjects[i][5] = item.getPaymentType().getName();
+//                    forthObjects[i][6] = item.getDescription();
+//                }
+//                break;
+//        }
     }
 
     @Override
@@ -321,39 +319,39 @@ public class InventoryReportPresenterImpl extends BasePresenterImpl<InventoryRep
                                 searchRes[i] = 1;
                                 continue;
                             }
-                            String text = "";
-                            int status = (int) firstObjects[i][2];
-                            if (status == WarehouseOperations.CANCELED_SOLD) {
-                                text = context.getString(R.string.canceled_order);
-                            }
-                            if (status == WarehouseOperations.CONSIGNMENT_DELETED) {
-                                text = context.getString(R.string.consignment_canceled);
-                            }
-                            if (status == WarehouseOperations.INCOME_FROM_VENDOR) {
-                                text = context.getString(R.string.income_from_vendor);
-                            }
-                            if (status == WarehouseOperations.RETURN_HOLDED) {
-                                text = context.getString(R.string.held_product_return);
-                            }
-                            if (status == WarehouseOperations.RETURN_SOLD) {
-                                text = context.getString(R.string.return_from_customer);
-                            }
-                            if (status == WarehouseOperations.RETURN_TO_VENDOR) {
-                                text = context.getString(R.string.return_to_vendor);
-                            }
-                            if (status == WarehouseOperations.SOLD) {
-                                text = context.getString(R.string.sold);
-                            }
-                            if (status == WarehouseOperations.VOID_INCOME) {
-                                text = context.getString(R.string.void_income);
-                            }
-                            if (status == WarehouseOperations.WASTE) {
-                                text = context.getString(R.string.wasted);
-                            }
-                            if (text.toUpperCase().contains(searchText.toUpperCase())) {
-                                searchRes[i] = 1;
-                                continue;
-                            }
+//                            String text = "";
+//                            int status = (int) firstObjects[i][2];
+//                            if (status == WarehouseOperations.CANCELED_SOLD) {
+//                                text = context.getString(R.string.canceled_order);
+//                            }
+//                            if (status == WarehouseOperations.CONSIGNMENT_DELETED) {
+//                                text = context.getString(R.string.consignment_canceled);
+//                            }
+//                            if (status == WarehouseOperations.INCOME_FROM_VENDOR) {
+//                                text = context.getString(R.string.income_from_vendor);
+//                            }
+//                            if (status == WarehouseOperations.RETURN_HOLDED) {
+//                                text = context.getString(R.string.held_product_return);
+//                            }
+//                            if (status == WarehouseOperations.RETURN_SOLD) {
+//                                text = context.getString(R.string.return_from_customer);
+//                            }
+//                            if (status == WarehouseOperations.RETURN_TO_VENDOR) {
+//                                text = context.getString(R.string.return_to_vendor);
+//                            }
+//                            if (status == WarehouseOperations.SOLD) {
+//                                text = context.getString(R.string.sold);
+//                            }
+//                            if (status == WarehouseOperations.VOID_INCOME) {
+//                                text = context.getString(R.string.void_income);
+//                            }
+//                            if (status == WarehouseOperations.WASTE) {
+//                                text = context.getString(R.string.wasted);
+//                            }
+//                            if (text.toUpperCase().contains(searchText.toUpperCase())) {
+//                                searchRes[i] = 1;
+//                                continue;
+//                            }
                         }
 
                         int sumSize = 0;
@@ -409,38 +407,38 @@ public class InventoryReportPresenterImpl extends BasePresenterImpl<InventoryRep
                                 continue;
                             }
                             String text = "";
-                            int status = (int) searchResultsTemp[i][2];
-                            if (status == WarehouseOperations.CANCELED_SOLD) {
-                                text = context.getString(R.string.canceled_order);
-                            }
-                            if (status == WarehouseOperations.CONSIGNMENT_DELETED) {
-                                text = context.getString(R.string.consignment_canceled);
-                            }
-                            if (status == WarehouseOperations.INCOME_FROM_VENDOR) {
-                                text = context.getString(R.string.income_from_vendor);
-                            }
-                            if (status == WarehouseOperations.RETURN_HOLDED) {
-                                text = context.getString(R.string.held_product_return);
-                            }
-                            if (status == WarehouseOperations.RETURN_SOLD) {
-                                text = context.getString(R.string.return_from_customer);
-                            }
-                            if (status == WarehouseOperations.RETURN_TO_VENDOR) {
-                                text = context.getString(R.string.return_to_vendor);
-                            }
-                            if (status == WarehouseOperations.SOLD) {
-                                text = context.getString(R.string.sold);
-                            }
-                            if (status == WarehouseOperations.VOID_INCOME) {
-                                text = context.getString(R.string.void_income);
-                            }
-                            if (status == WarehouseOperations.WASTE) {
-                                text = context.getString(R.string.wasted);
-                            }
-                            if (text.toUpperCase().contains(searchText.toUpperCase())) {
-                                searchRes[i] = 1;
-                                continue;
-                            }
+//                            int status = (int) searchResultsTemp[i][2];
+//                            if (status == WarehouseOperations.CANCELED_SOLD) {
+//                                text = context.getString(R.string.canceled_order);
+//                            }
+//                            if (status == WarehouseOperations.CONSIGNMENT_DELETED) {
+//                                text = context.getString(R.string.consignment_canceled);
+//                            }
+//                            if (status == WarehouseOperations.INCOME_FROM_VENDOR) {
+//                                text = context.getString(R.string.income_from_vendor);
+//                            }
+//                            if (status == WarehouseOperations.RETURN_HOLDED) {
+//                                text = context.getString(R.string.held_product_return);
+//                            }
+//                            if (status == WarehouseOperations.RETURN_SOLD) {
+//                                text = context.getString(R.string.return_from_customer);
+//                            }
+//                            if (status == WarehouseOperations.RETURN_TO_VENDOR) {
+//                                text = context.getString(R.string.return_to_vendor);
+//                            }
+//                            if (status == WarehouseOperations.SOLD) {
+//                                text = context.getString(R.string.sold);
+//                            }
+//                            if (status == WarehouseOperations.VOID_INCOME) {
+//                                text = context.getString(R.string.void_income);
+//                            }
+//                            if (status == WarehouseOperations.WASTE) {
+//                                text = context.getString(R.string.wasted);
+//                            }
+//                            if (text.toUpperCase().contains(searchText.toUpperCase())) {
+//                                searchRes[i] = 1;
+//                                continue;
+//                            }
                         }
 
 

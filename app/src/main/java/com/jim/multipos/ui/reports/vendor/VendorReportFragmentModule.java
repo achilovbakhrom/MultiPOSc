@@ -3,9 +3,6 @@ package com.jim.multipos.ui.reports.vendor;
 import android.support.v4.app.Fragment;
 
 import com.jim.multipos.config.scope.PerFragment;
-import com.jim.multipos.ui.reports.tills.TillsReportFragment;
-import com.jim.multipos.ui.reports.tills.TillsReportPresenterModule;
-import com.jim.multipos.ui.reports.tills.TillsReportView;
 
 import dagger.Binds;
 import dagger.Module;

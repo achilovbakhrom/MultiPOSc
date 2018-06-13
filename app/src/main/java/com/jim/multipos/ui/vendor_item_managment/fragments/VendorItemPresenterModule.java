@@ -1,8 +1,6 @@
 package com.jim.multipos.ui.vendor_item_managment.fragments;
 
 import com.jim.multipos.config.scope.PerFragment;
-import com.jim.multipos.ui.inventory.presenter.InventoryPresenter;
-import com.jim.multipos.ui.inventory.presenter.InventoryPresenterImpl;
 import com.jim.multipos.ui.vendor_item_managment.presenter.VendorItemPresenter;
 import com.jim.multipos.ui.vendor_item_managment.presenter.VendorItemPresenterImpl;
 

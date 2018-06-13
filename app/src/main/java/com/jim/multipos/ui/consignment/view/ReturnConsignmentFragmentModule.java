@@ -7,7 +7,6 @@ import com.jim.multipos.config.scope.PerFragment;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.ui.consignment.adapter.IncomeItemsListAdapter;
 import com.jim.multipos.ui.consignment.adapter.VendorItemsListAdapter;
-import com.jim.multipos.ui.consignment.presenter.IncomeConsignmentPresenterModule;
 import com.jim.multipos.ui.consignment.presenter.ReturnConsignmentPresenterModule;
 
 import java.text.DecimalFormat;

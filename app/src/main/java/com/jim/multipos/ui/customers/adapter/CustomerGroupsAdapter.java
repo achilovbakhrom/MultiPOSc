@@ -9,8 +9,6 @@ import android.widget.TextView;
 
 import com.jim.mpviews.MpCheckbox;
 import com.jim.multipos.R;
-import com.jim.multipos.core.BaseAdapter;
-import com.jim.multipos.core.BaseViewHolder;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
 
 import java.util.List;

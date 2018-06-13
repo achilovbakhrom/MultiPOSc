@@ -4,15 +4,12 @@ import android.os.Bundle;
 
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
-import com.jim.multipos.data.db.model.inventory.InventoryState;
-import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.products.VendorProductCon;
 import com.jim.multipos.ui.inventory.fragments.InventoryFragment;
 import com.jim.multipos.ui.inventory.fragments.InventoryView;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
-import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,8 +19,7 @@ import javax.inject.Inject;
 
 import static com.jim.multipos.data.db.model.consignment.Consignment.INCOME_CONSIGNMENT;
 import static com.jim.multipos.data.db.model.consignment.Consignment.RETURN_CONSIGNMENT;
-import static com.jim.multipos.ui.consignment.view.IncomeConsignmentFragment.INVENTORY_STATE_UPDATE;
-import static com.jim.multipos.ui.inventory.fragments.InventoryFragment.SortModes.*;
+import static com.jim.multipos.ui.inventory.fragments.InventoryFragment.SortModes.FILTERED_BY_PRODUCT;
 
 /**
  * Created by developer on 09.11.2017.
@@ -50,7 +46,7 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
     public void onCreateView(Bundle bundle) {
         super.onCreateView(bundle);
 
-        databaseManager.getInventoryItems().subscribe((inventoryItems, throwable) -> {
+        databaseManager.getProductInventoryStatesForNow().subscribe((inventoryItems, throwable) -> {
             this.inventoryItems = inventoryItems;
             sortList();
             view.initRecyclerView(inventoryItems);
@@ -62,9 +58,7 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
         for (int i = 0; i < inventoryItems.size(); i++) {
             if (inventoryItems.get(i).getId() == inventoryItem.getId()) {
                 inventoryItems.get(i).setLowStockAlert(newAlertCount);
-                InventoryItem inventoryItem1 = inventoryItems.get(i);
-                InventoryState inventoryState = new InventoryState(inventoryItem1.getId(),inventoryItem1.getProduct().getRootId(),inventoryItem1.getVendor().getId(),inventoryItem1.getInventory(),inventoryItem1.getLowStockAlert());
-                databaseManager.insertInventoryState(inventoryState).subscribe();
+                databaseManager.setLowStockAlert(inventoryItems.get(i),newAlertCount).subscribe();
                 break;
             }
         }
@@ -73,61 +67,18 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
     @Override
     public void onIncomeProduct(InventoryItem inventoryItem) {
         view.openAddDialog(inventoryItem, (inventoryItem1, vendor, v, etReason, shortage) -> {
-            List<InventoryItem> inventoryItemsTemp;
-            if (searchResults != null) {
-                inventoryItemsTemp = searchResults;
-            } else {
-                inventoryItemsTemp = inventoryItems;
-            }
-            for (int i = 0; i < inventoryItemsTemp.size(); i++) {
-                if (inventoryItemsTemp.get(i).getProduct().getId().equals(inventoryItem1.getProduct().getId())) {
-                    inventoryItemsTemp.get(i).setInventory(v);
-                    break;
-                }
-            }
-            WarehouseOperations warehouseOperations = new WarehouseOperations();
-            warehouseOperations.setProduct(inventoryItem.getProduct());
-            warehouseOperations.setVendor(vendor);
-            warehouseOperations.setDescription(etReason);
-            warehouseOperations.setCreateAt(System.currentTimeMillis());
-            warehouseOperations.setType(WarehouseOperations.VOID_INCOME);
-            warehouseOperations.setValue(shortage);
-            databaseManager.insertWarehouseOperation(warehouseOperations).subscribe(aLong -> view.notifyList());
-            view.sendInventoryStateEvent(GlobalEventConstants.UPDATE);
+            //TODO AFTER CHANGING SURPLUS DIALOG DO LOGIC
         });
     }
 
     @Override
     public void onWriteOff(InventoryItem inventoryItem) {
             view.openWriteOffDialog(inventoryItem, (inventoryItem1, vendor, v, etReason, shortage) -> {
-            List<InventoryItem> inventoryItemsTemp;
-            if (searchResults != null) {
-                inventoryItemsTemp = searchResults;
-            } else {
-                inventoryItemsTemp = inventoryItems;
-            }
-            for (int i = 0; i < inventoryItemsTemp.size(); i++) {
-                if (inventoryItemsTemp.get(i).getProduct().getId().equals(inventoryItem1.getProduct().getId())) {
-                    inventoryItemsTemp.get(i).setInventory(v);
-                    break;
-                }
-            }
-            WarehouseOperations warehouseOperations = new WarehouseOperations();
-            warehouseOperations.setProduct(inventoryItem.getProduct());
-            warehouseOperations.setVendor(vendor);
-            warehouseOperations.setDescription(etReason);
-            warehouseOperations.setCreateAt(System.currentTimeMillis());
-            warehouseOperations.setType(WarehouseOperations.WASTE);
-            warehouseOperations.setValue(shortage * -1);
-            databaseManager.insertWarehouseOperation(warehouseOperations).subscribe(aLong -> view.notifyList());
-            view.sendInventoryStateEvent(GlobalEventConstants.UPDATE);
+                //TODO AFTER CHANGING WRITE OFF DIALOG DO LOGIC
         });
     }
 
-    @Override
-    public void onSetActually(InventoryItem inventoryItem) {
 
-    }
 
     @Override
     public void onConsigmentIn(InventoryItem inventoryItem) {
@@ -139,7 +90,7 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
                 List<Vendor> vendorList = new ArrayList<>();
                 for (VendorProductCon productCon : productConList) {
                     vendorList.add(databaseManager.getVendorById(productCon.getVendorId()).blockingSingle());
-                    view.openChooseVendorDialog(vendorList);
+                    view.   openChooseVendorDialog(vendorList);
                 }
             } else {
                 databaseManager.getVendorById(productConList.get(0).getVendorId()).subscribe(vendor -> this.vendorId = vendor.getId());
@@ -191,7 +142,7 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
                     continue;
                 }
                 StringBuilder vendorsName = new StringBuilder();
-                for (Vendor vendor : inventoryItems.get(i).getProduct().getVendor()) {
+                for (Vendor vendor : inventoryItems.get(i).getVendors()) {
                     if (vendorsName.length() == 0)
                         vendorsName = new StringBuilder(vendor.getName());
                     else vendorsName.append(", ").append(vendor.getName());
@@ -203,6 +154,11 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
             sortList();
             view.initSearchResults(searchResults, searchText);
         }
+    }
+
+    @Override
+    public void onStockQueueClick(InventoryItem inventoryItem) {
+
     }
 
     @Override
@@ -233,7 +189,7 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
 
     @Override
     public void updateData() {
-        databaseManager.getInventoryItems().subscribe((inventoryItems, throwable) -> {
+        databaseManager.getProductInventoryStatesForNow().subscribe((inventoryItems, throwable) -> {
             this.inventoryItems = inventoryItems;
             sortList();
             view.initRecyclerView(inventoryItems);
@@ -256,13 +212,13 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
             case FILTERED_BY_VENDOR:
                 Collections.sort(inventoryItemsTemp, (inventoryItem, t1) -> {
                     StringBuilder vendorsName = new StringBuilder();
-                    for (Vendor vendor : inventoryItem.getProduct().getVendor()) {
+                    for (Vendor vendor : inventoryItem.getVendors()) {
                         if (vendorsName.length() == 0)
                             vendorsName = new StringBuilder(vendor.getName());
                         else vendorsName.append(", ").append(vendor.getName());
                     }
                     StringBuilder vendorsName2 = new StringBuilder();
-                    for (Vendor vendor : t1.getProduct().getVendor()) {
+                    for (Vendor vendor : t1.getVendors()) {
                         if (vendorsName2.length() == 0)
                             vendorsName2 = new StringBuilder(vendor.getName());
                         else vendorsName2.append(", ").append(vendor.getName());

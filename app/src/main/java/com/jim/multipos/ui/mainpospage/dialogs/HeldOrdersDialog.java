@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
 import com.jim.mpviews.MpButton;
 import com.jim.multipos.R;
 import com.jim.multipos.data.DatabaseManager;
-import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.OrderChangesLog;
 import com.jim.multipos.data.prefs.PreferencesHelper;
@@ -103,17 +102,7 @@ public class HeldOrdersDialog extends Dialog {
                         order.setLastChangeLogId(orderChangesLog.getId());
 
                         for (int i = 0; i < order.getOrderProducts().size(); i++) {
-                            WarehouseOperations warehouseOperations = new WarehouseOperations();
-                            warehouseOperations.setValue(order.getOrderProducts().get(i).getCount());
-                            warehouseOperations.setProduct(order.getOrderProducts().get(i).getProduct());
-                            warehouseOperations.setCreateAt(System.currentTimeMillis());
-                            warehouseOperations.setActive(true);
-                            warehouseOperations.setIsNotModified(true);
-                            warehouseOperations.setType(WarehouseOperations.CANCELED_SOLD);
-                            warehouseOperations.setOrderId(order.getId());
-                            warehouseOperations.setVendorId(order.getOrderProducts().get(i).getVendorId());
-                            databaseManager.insertWarehouseOperation(warehouseOperations).blockingGet();
-                            order.getOrderProducts().get(i).setWarehouseReturnId(warehouseOperations.getId());
+                            databaseManager.cancelOutcomeProductWhenHoldedProductReturn(order.getOrderProducts().get(i).getOutcomeProduct()).subscribe();
                         }
 
                         if (order.getDebt() != null) {
@@ -155,6 +144,7 @@ public class HeldOrdersDialog extends Dialog {
                         totalPayedSum += order.getPayedPartitions().get(i).getValue();
                     }
                     order.setTotalPayed(totalPayedSum);
+                    databaseManager.confirmOutcomeProductWhenSold(order);
                     databaseManager.insertOrder(order).blockingGet();
                     orderList.remove(order);
                     adapter.notifyDataSetChanged();

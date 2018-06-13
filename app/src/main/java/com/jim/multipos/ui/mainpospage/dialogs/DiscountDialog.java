@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 
-import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.mpviews.MpButton;
 import com.jim.multipos.R;
 import com.jim.multipos.data.DatabaseManager;
@@ -20,7 +19,6 @@ import com.jim.multipos.ui.mainpospage.adapter.DiscountAdapter;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

@@ -17,8 +17,6 @@ import com.jim.multipos.config.common.BaseAppModule;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Account;
 import com.jim.multipos.data.db.model.PaymentType;
-import com.jim.multipos.data.db.model.customer.CustomerPayment;
-import com.jim.multipos.data.db.model.inventory.BillingOperations;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.PayedPartitions;
 import com.jim.multipos.data.db.model.till.Till;
@@ -27,12 +25,9 @@ import com.jim.multipos.data.db.model.till.TillOperation;
 import com.jim.multipos.utils.UIUtils;
 
 import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

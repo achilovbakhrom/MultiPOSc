@@ -65,7 +65,7 @@ public class SurplusProductDialog extends Dialog {
         tvProductName.setText(inventoryItem.getProduct().getName());
 
         List<String> vendorsName= new ArrayList<>();
-        for (Vendor vendor:inventoryItem.getProduct().getVendor()) {
+        for (Vendor vendor:inventoryItem.getVendors()) {
             vendorsName.add(vendor.getName());
         }
         spVenders.setAdapter(vendorsName);
@@ -125,7 +125,7 @@ public class SurplusProductDialog extends Dialog {
                 } else {
                     Handler handler = new Handler();
                     handler.postDelayed(() -> {
-                        surplus.surplus(inventoryItem, inventoryItem.getProduct().getVendor().get(spVenders.getSelectedPosition()), aDouble, etReason.getText().toString(), v1);
+                        surplus.surplus(inventoryItem, inventoryItem.getVendors().get(spVenders.getSelectedPosition()), aDouble, etReason.getText().toString(), v1);
                         dismiss();
                     },300);
                 }

@@ -1,7 +1,6 @@
 package com.jim.multipos.ui.billing_vendor.presenter;
 
 import com.jim.multipos.core.Presenter;
-import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.billing_vendor.fragments.BillingOperationFragment;
 
 import java.util.Calendar;

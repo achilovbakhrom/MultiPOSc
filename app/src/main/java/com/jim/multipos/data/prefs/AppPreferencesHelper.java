@@ -481,13 +481,5 @@ public class AppPreferencesHelper implements PreferencesHelper {
         return mPrefs.getString(TOKEN_VALUE, "");
     }
 
-    @Override
-    public void setOutStockCheck(boolean outStockCheck) {
-        mPrefs.edit().putBoolean(OUT_STOCK_CHECK,outStockCheck).apply();
-    }
 
-    @Override
-    public boolean isOutStockShouldCheck() {
-        return mPrefs.getBoolean(OUT_STOCK_CHECK,false);
-    }
 }

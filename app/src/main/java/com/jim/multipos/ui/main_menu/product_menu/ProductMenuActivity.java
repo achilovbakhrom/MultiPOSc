@@ -11,7 +11,6 @@ import com.jim.mpviews.MpButton;
 import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseActivity;
-import com.jim.multipos.core.ClickableBaseAdapter;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.intosystem.TitleDescription;
 import com.jim.multipos.ui.discount.DiscountAddingActivity;
@@ -94,7 +93,6 @@ public class ProductMenuActivity extends BaseActivity implements ProductMenuView
 
     @Override
     public void openActivity(int position) {
-        //TODO add activities for opening
         switch (position) {
             case 0:
                 Intent intent = new Intent(this, ProductActivity.class);

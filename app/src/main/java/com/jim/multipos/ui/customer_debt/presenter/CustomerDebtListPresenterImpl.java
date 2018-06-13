@@ -11,7 +11,6 @@ import com.jim.multipos.data.db.model.customer.Debt;
 import com.jim.multipos.ui.customer_debt.view.CustomerDebtListFragment;
 import com.jim.multipos.ui.customer_debt.view.CustomerDebtListView;
 import com.jim.multipos.utils.CommonUtils;
-import com.jim.multipos.utils.UIUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

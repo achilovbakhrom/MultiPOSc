@@ -4,10 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
 import com.jim.multipos.config.scope.PerFragment;
-import com.jim.multipos.ui.customer_debt.adapter.CustomerListAdapter;
 import com.jim.multipos.ui.customer_debt.adapter.DebtListAdapter;
 import com.jim.multipos.ui.customer_debt.presenter.CustomerDebtListPresenterModule;
-import com.jim.multipos.ui.customer_debt.presenter.CustomerListPresenterModule;
 
 import java.text.DecimalFormat;
 

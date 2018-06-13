@@ -9,10 +9,6 @@ import com.jim.multipos.core.BaseActivityModule;
 import com.jim.multipos.ui.discount.DiscountAddingActivity;
 import com.jim.multipos.ui.discount.fragments.DiscountAddingFragment;
 import com.jim.multipos.ui.discount.presenters.DiscountAddingFragmentModule;
-import com.jim.multipos.ui.discount.presenters.DiscountAddingPresenter;
-import com.jim.multipos.ui.product_class_new.ProductsClassActivity;
-import com.jim.multipos.ui.product_class_new.fragments.ProductsClassFragment;
-import com.jim.multipos.ui.product_class_new.presenters.ProductsClassFragmentModule;
 
 import dagger.Binds;
 import dagger.Module;

@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.jim.multipos.R;
 import com.jim.multipos.data.db.model.PaymentType;
-import com.jim.multipos.data.db.model.products.Vendor;
 
 import java.util.List;
 

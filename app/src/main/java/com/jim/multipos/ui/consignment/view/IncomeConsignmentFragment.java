@@ -7,12 +7,8 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -31,7 +27,6 @@ import com.jim.multipos.ui.consignment.presenter.IncomeConsignmentPresenter;
 import com.jim.multipos.utils.BarcodeStack;
 import com.jim.multipos.utils.NumberTextWatcher;
 import com.jim.multipos.utils.RxBus;
-import com.jim.multipos.utils.TextWatcherOnTextChange;
 import com.jim.multipos.utils.WarningDialog;
 import com.jim.multipos.utils.rxevents.inventory_events.BillingOperationEvent;
 import com.jim.multipos.utils.rxevents.inventory_events.ConsignmentWithVendorEvent;
@@ -39,7 +34,6 @@ import com.jim.multipos.utils.rxevents.inventory_events.InventoryStateEvent;
 import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
 
 import java.text.DecimalFormat;
-import java.text.ParseException;
 import java.util.List;
 
 import javax.inject.Inject;

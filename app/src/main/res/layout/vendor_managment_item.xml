@@ -76,7 +76,7 @@
 
         <TextView
             android:id="@+id/tvProductNames"
-            android:layout_width="@dimen/four_hundred_thirty_dp"
+            android:layout_width="@dimen/four_hundred_dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="left"
@@ -165,7 +165,16 @@
                     android:src="@drawable/history_selector"
                     />
 
+                <ImageView
+                    android:id="@+id/ivStockQueue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/thirty_five_dp"
+                    android:layout_gravity="center"
+                    android:adjustViewBounds="true"
+                    android:clickable="true"
 
+                    android:src="@drawable/stock_queue_selector"
+                    />
 
                 <ImageView
                     android:id="@+id/ivBackReturn"

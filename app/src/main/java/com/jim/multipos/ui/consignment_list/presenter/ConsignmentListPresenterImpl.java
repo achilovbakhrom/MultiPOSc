@@ -6,7 +6,6 @@ import com.jim.multipos.data.db.model.consignment.Consignment;
 import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
-import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.ui.consignment_list.view.ConsignmentListFragment;
 import com.jim.multipos.ui.consignment_list.view.ConsignmentListView;
 import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
@@ -131,14 +130,15 @@ public class ConsignmentListPresenterImpl extends BasePresenterImpl<ConsignmentL
         List<ConsignmentProduct> consignmentProductList = consignment.getAllConsignmentProducts();
         for (int i = 0; i < consignmentProductList.size(); i++) {
             consignmentProductList.get(i).setDeleted(true);
-            WarehouseOperations warehouseOperations = consignmentProductList.get(i).getWarehouse();
-            warehouseOperations.setNotModifyted(false);
-            warehouseOperations.setType(WarehouseOperations.CONSIGNMENT_DELETED);
-            databaseManager.insertConsignmentProduct(consignmentProductList.get(i)).subscribe();
-            databaseManager.replaceWarehouseOperation(warehouseOperations).subscribe();
+//            WarehouseOperations warehouseOperations = consignmentProductList.get(i).getWarehouse();
+//            warehouseOperations.setNotModifyted(false);
+//            warehouseOperations.setType(WarehouseOperations.CONSIGNMENT_DELETED);
+//            databaseManager.insertConsignmentProduct(consignmentProductList.get(i)).subscribe();
+//            databaseManager.replaceWarehouseOperation(warehouseOperations).subscribe();
+            //TODO: SIROCH -> CONSIGMENT LOGIC CHANGED
         }
         consignment.setDeleted(true);
-        databaseManager.insertConsignment(consignment, null, null, null).subscribe();
+//        databaseManager.insertConsignment(consignment, null, null, null).subscribe();
         consignmentList.remove(consignment);
         view.notifyList();
         view.sendConsignmentEvent(GlobalEventConstants.UPDATE);

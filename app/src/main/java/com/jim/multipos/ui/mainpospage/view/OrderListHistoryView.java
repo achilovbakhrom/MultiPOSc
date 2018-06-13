@@ -20,7 +20,6 @@ public interface OrderListHistoryView extends BaseView {
     void openPaymentDetailDialog(List<PayedPartitions> payedPartitions, Currency mainCurrency);
     void openEditAccsessDialog();
     void openCancelAccsessDialog();
-    void openRestoreAccsessDialog();
     void setOrderNumberToToolbar(Long orderNumber);
     void onContinuePressed(Order order);
     void reprint(Order order, DatabaseManager databaseManager, PreferencesHelper preferencesHelper);

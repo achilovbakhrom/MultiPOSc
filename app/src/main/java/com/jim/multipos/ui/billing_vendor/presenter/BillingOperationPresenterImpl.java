@@ -9,7 +9,6 @@ import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.billing_vendor.fragments.BillingOperationFragment;
 import com.jim.multipos.ui.billing_vendor.fragments.BillingOperationView;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.GregorianCalendar;

@@ -265,7 +265,7 @@ class Camera2 extends CameraViewImpl {
     boolean setAspectRatio(AspectRatio ratio) {
         if (ratio == null || ratio.equals(mAspectRatio) ||
                 !mPreviewSizes.ratios().contains(ratio)) {
-            // TODO: Better error handling
+
             return false;
         }
         mAspectRatio = ratio;

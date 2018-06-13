@@ -3,12 +3,10 @@ package com.jim.multipos.ui.mainpospage.presenter;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.intosystem.FolderItem;
-import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.operations.CategoryOperations;
 import com.jim.multipos.data.operations.ProductOperations;
-import com.jim.multipos.ui.mainpospage.model.OrderProductItem;
 import com.jim.multipos.ui.mainpospage.view.ProductFolderView;
 
 import java.util.ArrayList;

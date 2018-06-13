@@ -6,9 +6,6 @@ import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.intosystem.NotificationData;
 import com.jim.multipos.ui.mainpospage.view.CustomerNotificationsView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.inject.Inject;
 
 

@@ -4,13 +4,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jim.multipos.R;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.order.PayedPartitions;
-import com.jim.multipos.data.db.model.products.Vendor;
 
 import java.text.DecimalFormat;
 import java.util.List;

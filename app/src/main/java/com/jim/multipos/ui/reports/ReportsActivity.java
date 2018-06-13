@@ -20,7 +20,6 @@ public class ReportsActivity extends ReportSingleActivity implements ReportsActi
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showSummaryReportFragment();
-        //TODO HORIZANTAL FRAGMENTS
         barcodeStack.register(this::onBarcodeScaned);
     }
 

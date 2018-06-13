@@ -2,7 +2,6 @@ package com.jim.multipos.ui.mainpospage.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
@@ -13,22 +12,15 @@ import android.widget.TextView;
 
 import com.jim.mpviews.MPosSpinner;
 import com.jim.mpviews.MpButton;
-import com.jim.mpviews.MpSearchView;
 import com.jim.multipos.R;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.PaymentType;
-import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
-import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Return;
 import com.jim.multipos.data.db.model.till.Till;
 import com.jim.multipos.data.db.model.till.TillOperation;
-import com.jim.multipos.ui.mainpospage.adapter.ProductSearchResultsAdapter;
-import com.jim.multipos.ui.mainpospage.adapter.ReturnsAdapter;
 import com.jim.multipos.ui.mainpospage.adapter.ReturnsListAdapter;
 import com.jim.multipos.utils.RxBus;
-import com.jim.multipos.utils.TextWatcherOnTextChange;
 import com.jim.multipos.utils.UIUtils;
-import com.jim.multipos.utils.WarningDialog;
 import com.jim.multipos.utils.rxevents.inventory_events.InventoryStateEvent;
 import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
 
@@ -105,21 +97,23 @@ public class ReturnsConfirmDialog extends Dialog {
                 for (int i = 0; i < returnsList.size(); i++) {
                     returnsList.get(i).setDescription(etDescription.getText().toString());
                     returnsList.get(i).setPaymentType(paymentTypeList.get(spReturnPaymentType.getSelectedPosition()));
-                    WarehouseOperations operations = new WarehouseOperations();
-                    operations.setType(WarehouseOperations.RETURN_SOLD);
-                    operations.setValue(returnsList.get(i).getQuantity());
-                    operations.setCreateAt(System.currentTimeMillis());
-                    operations.setProduct(returnsList.get(i).getProduct());
-                    operations.setVendor(returnsList.get(i).getVendor());
-                    databaseManager.insertWarehouseOperation(operations).subscribe();
-                    TillOperation tillOperation = new TillOperation();
-                    tillOperation.setAmount(returnsList.get(i).getReturnAmount() * returnsList.get(i).getQuantity());
-                    tillOperation.setType(TillOperation.PAY_OUT);
-                    tillOperation.setPaymentType(paymentTypeList.get(spReturnPaymentType.getSelectedPosition()));
-                    tillOperation.setTill(till);
-                    tillOperation.setCreateAt(System.currentTimeMillis());
-                    tillOperation.setDescription(context.getString(R.string.return_) + " " + context.getString(R.string.product) + " " + context.getString(R.string.operation) + ": " + etDescription.getText().toString());
-                    databaseManager.insertTillOperation(tillOperation).subscribe();
+                    //TODO: SIROCH -> RETURN DIALOG CHANGES AFTER FIFO
+
+//                    WarehouseOperations operations = new WarehouseOperations();
+//                    operations.setType(WarehouseOperations.RETURN_SOLD);
+//                    operations.setValue(returnsList.get(i).getQuantity());
+//                    operations.setCreateAt(System.currentTimeMillis());
+//                    operations.setProduct(returnsList.get(i).getProduct());
+//                    operations.setVendor(returnsList.get(i).getVendor());
+//                    databaseManager.insertWarehouseOperation(operations).subscribe();
+//                    TillOperation tillOperation = new TillOperation();
+//                    tillOperation.setAmount(returnsList.get(i).getReturnAmount() * returnsList.get(i).getQuantity());
+//                    tillOperation.setType(TillOperation.PAY_OUT);
+//                    tillOperation.setPaymentType(paymentTypeList.get(spReturnPaymentType.getSelectedPosition()));
+//                    tillOperation.setTill(till);
+//                    tillOperation.setCreateAt(System.currentTimeMillis());
+//                    tillOperation.setDescription(context.getString(R.string.return_) + " " + context.getString(R.string.product) + " " + context.getString(R.string.operation) + ": " + etDescription.getText().toString());
+//                    databaseManager.insertTillOperation(tillOperation).subscribe();
                 }
                 databaseManager.insertReturns(returnsList).subscribe();
                 rxBus.send(new InventoryStateEvent(GlobalEventConstants.UPDATE));

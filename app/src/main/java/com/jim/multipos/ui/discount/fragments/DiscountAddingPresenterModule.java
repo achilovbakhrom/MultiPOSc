@@ -3,8 +3,6 @@ package com.jim.multipos.ui.discount.fragments;
 import com.jim.multipos.config.scope.PerFragment;
 import com.jim.multipos.ui.discount.presenters.DiscountAddingPresenter;
 import com.jim.multipos.ui.discount.presenters.DiscountAddingPresenterImpl;
-import com.jim.multipos.ui.product_class_new.presenters.ProductsClassPresenter;
-import com.jim.multipos.ui.product_class_new.presenters.ProductsClassPresenterImpl;
 
 import dagger.Binds;
 import dagger.Module;

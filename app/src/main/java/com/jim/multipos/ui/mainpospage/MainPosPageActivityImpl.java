@@ -4,20 +4,13 @@ import android.os.Bundle;
 
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
-import com.jim.multipos.data.db.model.Discount;
-import com.jim.multipos.data.db.model.ServiceFee;
-import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.OrderChangesLog;
 import com.jim.multipos.utils.managers.NotifyManager;
 
-import org.greenrobot.greendao.query.LazyList;
-
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.inject.Named;
-
 
 
 /**
@@ -119,10 +112,9 @@ public class MainPosPageActivityImpl extends BasePresenterImpl<MainPosPageActivi
 
     @Override
     public void onCancelOrder(String reason) {
-        //TODO PRIMOY SHUYOGA KELADI CANCEL
+        //PRIMOY SHUYOGA KELADI CANCEL
         Order order = orderList.get(current);
         order.setStatus(Order.CANCELED_ORDER);
-
         OrderChangesLog orderChangesLog = new OrderChangesLog();
         orderChangesLog.setToStatus(Order.CANCELED_ORDER);
         orderChangesLog.setChangedAt(System.currentTimeMillis());
@@ -134,17 +126,7 @@ public class MainPosPageActivityImpl extends BasePresenterImpl<MainPosPageActivi
 
         for (int i = 0; i < order.getOrderProducts().size(); i++) {
             //Warehouse Operation
-            WarehouseOperations warehouseOperations = new WarehouseOperations();
-            warehouseOperations.setValue(order.getOrderProducts().get(i).getCount());
-            warehouseOperations.setProduct(order.getOrderProducts().get(i).getProduct());
-            warehouseOperations.setCreateAt(System.currentTimeMillis());
-            warehouseOperations.setActive(true);
-            warehouseOperations.setIsNotModified(true);
-            warehouseOperations.setType(WarehouseOperations.CANCELED_SOLD);
-            warehouseOperations.setOrderId(order.getId());
-            warehouseOperations.setVendorId(order.getOrderProducts().get(i).getVendorId());
-            databaseManager.insertWarehouseOperation(warehouseOperations).blockingGet();
-            order.getOrderProducts().get(i).setWarehouseReturnId(warehouseOperations.getId());
+            databaseManager.cancelOutcomeProductWhenOrderProductCanceled(order.getOrderProducts().get(i).getOutcomeProduct()).subscribe();
         }
 
         if(order.getDebt() !=null) {
@@ -158,57 +140,6 @@ public class MainPosPageActivityImpl extends BasePresenterImpl<MainPosPageActivi
 
     }
 
-    @Override
-    public void onRestoreOrder() {
-
-        Order order = orderList.get(current);
-
-
-        OrderChangesLog orderChangesLog = new OrderChangesLog();
-
-
-        List<OrderChangesLog> orderChangesLogs = order.getOrderChangesLogsHistory();
-        for (int i = orderChangesLogs.size()-1; i > 0 ; i--) {
-            if(orderChangesLogs.get(i).getToStatus() == Order.CANCELED_ORDER){
-                if(orderChangesLogs.get(i-1).getToStatus() == Order.HOLD_ORDER ){
-                    order.setStatus(Order.HOLD_ORDER);
-                    orderChangesLog.setToStatus(Order.HOLD_ORDER);
-                }else if(orderChangesLogs.get(i-1).getToStatus() == Order.CLOSED_ORDER){
-                    order.setStatus(Order.CLOSED_ORDER);
-                    orderChangesLog.setToStatus(Order.CLOSED_ORDER);
-                }
-            }
-        }
-
-        orderChangesLog.setChangedAt(System.currentTimeMillis());
-        orderChangesLog.setReason("");
-        orderChangesLog.setChangedCauseType(OrderChangesLog.HAND);
-        orderChangesLog.setOrderId(order.getId());
-        databaseManager.insertOrderChangeLog(orderChangesLog).blockingGet();
-        order.setLastChangeLogId(orderChangesLog.getId());
-        for (int i = 0; i < order.getOrderProducts().size(); i++) {
-            //Warehouse Operation
-            WarehouseOperations warehouseOperations = new WarehouseOperations();
-            warehouseOperations.setValue(order.getOrderProducts().get(i).getCount()*-1);
-            warehouseOperations.setProduct(order.getOrderProducts().get(i).getProduct());
-            warehouseOperations.setCreateAt(System.currentTimeMillis());
-            warehouseOperations.setActive(true);
-            warehouseOperations.setIsNotModified(true);
-            warehouseOperations.setType(WarehouseOperations.SOLD);
-            warehouseOperations.setOrderId(order.getId());
-            warehouseOperations.setVendorId(order.getOrderProducts().get(i).getVendorId());
-            databaseManager.insertWarehouseOperation(warehouseOperations).blockingGet();
-            order.getOrderProducts().get(i).setWarehouseGetId(warehouseOperations.getId());
-        }
-        if(order.getDebt() !=null) {
-            order.getDebt().setIsDeleted(false);
-            databaseManager.addDebt(order.getDebt());
-        }
-        databaseManager.insertOrderProducts(order.getOrderProducts()).blockingGet();
-        databaseManager.insertOrder(order).blockingGet();
-        orderList.set(current,order);
-        view.openOrUpdateOrderHistory(orderList.get(current));
-    }
 
 
     private void updateToLastOrderId(){
@@ -266,18 +197,7 @@ public class MainPosPageActivityImpl extends BasePresenterImpl<MainPosPageActivi
         order.setLastChangeLogId(orderChangesLog.getId());
 
         for (int i = 0; i < order.getOrderProducts().size(); i++) {
-            //Warehouse Operation
-            WarehouseOperations warehouseOperations = new WarehouseOperations();
-            warehouseOperations.setValue(order.getOrderProducts().get(i).getCount());
-            warehouseOperations.setProduct(order.getOrderProducts().get(i).getProduct());
-            warehouseOperations.setCreateAt(System.currentTimeMillis());
-            warehouseOperations.setActive(true);
-            warehouseOperations.setIsNotModified(true);
-            warehouseOperations.setType(WarehouseOperations.CANCELED_SOLD);
-            warehouseOperations.setOrderId(order.getId());
-            warehouseOperations.setVendorId(order.getOrderProducts().get(i).getVendorId());
-            databaseManager.insertWarehouseOperation(warehouseOperations).blockingGet();
-            order.getOrderProducts().get(i).setWarehouseReturnId(warehouseOperations.getId());
+            databaseManager.cancelOutcomeProductWhenOrderProductCanceled(order.getOrderProducts().get(i).getOutcomeProduct()).subscribe();
         }
 
         if(order.getDebt() !=null) {
@@ -378,17 +298,7 @@ public class MainPosPageActivityImpl extends BasePresenterImpl<MainPosPageActivi
 
         for (int i = 0; i < order.getOrderProducts().size(); i++) {
             //Warehouse Operation
-            WarehouseOperations warehouseOperations = new WarehouseOperations();
-            warehouseOperations.setValue(order.getOrderProducts().get(i).getCount());
-            warehouseOperations.setProduct(order.getOrderProducts().get(i).getProduct());
-            warehouseOperations.setCreateAt(System.currentTimeMillis());
-            warehouseOperations.setActive(true);
-            warehouseOperations.setIsNotModified(true);
-            warehouseOperations.setType(WarehouseOperations.CANCELED_SOLD);
-            warehouseOperations.setOrderId(order.getId());
-            warehouseOperations.setVendorId(order.getOrderProducts().get(i).getVendorId());
-            databaseManager.insertWarehouseOperation(warehouseOperations).blockingGet();
-            order.getOrderProducts().get(i).setWarehouseReturnId(warehouseOperations.getId());
+            databaseManager.cancelOutcomeProductWhenOrderProductCanceled(order.getOrderProducts().get(i).getOutcomeProduct()).subscribe();
         }
 
         if(order.getDebt() !=null) {

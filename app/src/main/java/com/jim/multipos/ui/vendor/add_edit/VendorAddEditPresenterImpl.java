@@ -6,10 +6,7 @@ import android.util.Log;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Contact;
-import com.jim.multipos.data.db.model.inventory.InventoryState;
-import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
-import com.jim.multipos.data.db.model.products.VendorProductCon;
 import com.jim.multipos.ui.vendor.AddingMode;
 import com.jim.multipos.utils.UIUtils;
 import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
@@ -256,20 +253,5 @@ public class VendorAddEditPresenterImpl extends BasePresenterImpl<VendorAddEditV
         this.mode = mode;
     }
 
-    @Override
-    public void checkVendorInventoryState() {
-        Vendor vendor = databaseManager.getVendorById(vendorId).blockingSingle();
-        int size = 0;
-        vendor.resetProducts();
-        for (int i = 0; i < vendor.getProducts().size(); i++) {
-            Product product = vendor.getProducts().get(i);
-            if (product.getIsDeleted().equals(false) && product.getIsNotModified().equals(true))
-                size++;
-        }
-        if (size != 0)
-            view.showVendorHasProductsMessage();
-        else
-            view.showDeleteDialog();
-    }
 
 }

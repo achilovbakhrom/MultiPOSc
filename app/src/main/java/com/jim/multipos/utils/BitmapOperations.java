@@ -60,7 +60,7 @@ public class BitmapOperations {
     }
     public static String getPath(Uri uri, Activity activity) {
         if( uri == null ) {
-            // TODO perform some logging or show user feedback
+            //  perform some logging or show user feedback
             return null;
         }
         String[] projection = { MediaStore.Images.Media.DATA };

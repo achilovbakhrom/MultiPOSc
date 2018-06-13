@@ -117,7 +117,6 @@
         <item>Inventory control</item>
         <item>Interactions with vendors</item>
     </string-array>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="auto_apply_configuration">Auto apply configuration</string>
     <string name="matrix_option">Matrix Option</string>
@@ -1171,9 +1170,8 @@
         <item>Date</item>
         <item>Order id</item>
         <item>Q-ty</item>
-        <item>Cost</item>
-        <item>Price</item>
-        <item>Total</item>
+        <item>Sum Cost</item>
+        <item>Sum Price</item>
         <item>Discription</item>
     </string-array>
     <string-array name="payments_report">
@@ -1433,4 +1431,5 @@
     <string name="please_tick_the_box_if_you_would_like_to_highlight_red">Please, tick the box if you would like to highlight red</string>
     <string name="highlight_red_out_off_stock_products_in_order_list">Highlight red out off stock products in order list</string>
     <string name="stock_positions">Stock positions</string>
+    <string name="position">Position</string>
 </resources>

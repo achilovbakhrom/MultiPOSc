@@ -377,7 +377,6 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
     Runnable timerUpdate = new Runnable() {
         @Override
         public void run() {
-            //TODO DO NORMALNIY
             try{
                 Date date = new Date();
                 tvTime.setText(new SimpleDateFormat("HH:mm").format(date));
@@ -483,9 +482,6 @@ public class MainPosPageActivity extends MainPageDoubleSideActivity implements M
         presenter.onCancelOrder(reason);
     }
 
-    public void onRestoreOrder() {
-        presenter.onRestoreOrder();
-    }
 
     public void onContinueOrder(Order order) {
         hideOrderListHistoryFragment();

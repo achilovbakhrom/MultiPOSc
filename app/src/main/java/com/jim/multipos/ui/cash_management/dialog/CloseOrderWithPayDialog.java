@@ -4,14 +4,12 @@ import android.app.Dialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.Window;
 
 import com.jim.mpviews.RecyclerViewWithMaxHeight;
 import com.jim.multipos.R;
 import com.jim.multipos.data.DatabaseManager;
-import com.jim.multipos.data.db.model.PaymentType;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.PayedPartitions;
 import com.jim.multipos.ui.cash_management.adapter.PaymentTypesAdapter;

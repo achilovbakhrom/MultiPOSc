@@ -2,7 +2,6 @@ package com.jim.multipos.ui.cash_management.connection;
 
 import android.content.Context;
 
-import com.jim.multipos.data.db.model.till.Till;
 import com.jim.multipos.data.db.model.till.TillManagementOperation;
 import com.jim.multipos.ui.cash_management.view.CashDetailsView;
 import com.jim.multipos.ui.cash_management.view.CashLogView;

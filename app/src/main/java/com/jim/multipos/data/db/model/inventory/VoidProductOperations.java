@@ -21,9 +21,7 @@ public class VoidProductOperations {
     private Long productId;
     @ToOne(joinProperty = "productId")
     private Product product;
-    private Long warehouseId;
-    @ToOne(joinProperty = "warehouseId")
-    private WarehouseOperations warehouse;
+
     private double count;
     private double beforeCount;
     private Long createAt;
@@ -62,36 +60,6 @@ public class VoidProductOperations {
         }
         myDao.delete(this);
     }
-    /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 33462667)
-    public void setWarehouse(WarehouseOperations warehouse) {
-        synchronized (this) {
-            this.warehouse = warehouse;
-            warehouseId = warehouse == null ? null : warehouse.getId();
-            warehouse__resolvedKey = warehouseId;
-        }
-    }
-    /** To-one relationship, resolved on first access. */
-    @Generated(hash = 1560568949)
-    public WarehouseOperations getWarehouse() {
-        Long __key = this.warehouseId;
-        if (warehouse__resolvedKey == null || !warehouse__resolvedKey.equals(__key)) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            WarehouseOperationsDao targetDao = daoSession
-                    .getWarehouseOperationsDao();
-            WarehouseOperations warehouseNew = targetDao.load(__key);
-            synchronized (this) {
-                warehouse = warehouseNew;
-                warehouse__resolvedKey = __key;
-            }
-        }
-        return warehouse;
-    }
-    @Generated(hash = 1229596798)
-    private transient Long warehouse__resolvedKey;
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 558738496)
     public void setProduct(Product product) {
@@ -152,13 +120,7 @@ public class VoidProductOperations {
     public void setCount(double count) {
         this.count = count;
     }
-    public Long getWarehouseId() {
-        return this.warehouseId;
-    }
-    public void setWarehouseId(Long warehouseId) {
-        this.warehouseId = warehouseId;
-    }
-    public Long getProductId() {
+       public Long getProductId() {
         return this.productId;
     }
     public void setProductId(Long productId) {
@@ -182,12 +144,11 @@ public class VoidProductOperations {
     public void setDiscription(String discription) {
         this.discription = discription;
     }
-    @Generated(hash = 1390682649)
-    public VoidProductOperations(Long id, Long productId, Long warehouseId, double count,
-            double beforeCount, Long createAt, String discription, int type) {
+    @Generated(hash = 294338804)
+    public VoidProductOperations(Long id, Long productId, double count, double beforeCount,
+            Long createAt, String discription, int type) {
         this.id = id;
         this.productId = productId;
-        this.warehouseId = warehouseId;
         this.count = count;
         this.beforeCount = beforeCount;
         this.createAt = createAt;

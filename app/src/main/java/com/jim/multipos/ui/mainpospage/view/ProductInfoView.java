@@ -1,8 +1,6 @@
 package com.jim.multipos.ui.mainpospage.view;
 
 import com.jim.multipos.core.BaseView;
-import com.jim.multipos.data.db.model.order.OrderProduct;
-import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.ui.mainpospage.model.OrderProductItem;
 
 /**

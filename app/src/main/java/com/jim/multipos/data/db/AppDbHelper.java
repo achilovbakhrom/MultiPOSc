@@ -51,12 +51,6 @@ import com.jim.multipos.data.db.model.customer.JoinCustomerGroupsWithCustomers;
 import com.jim.multipos.data.db.model.customer.JoinCustomerGroupsWithCustomersDao;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
 import com.jim.multipos.data.db.model.inventory.BillingOperationsDao;
-import com.jim.multipos.data.db.model.inventory.HistoryInventoryState;
-import com.jim.multipos.data.db.model.inventory.HistoryInventoryStateDao;
-import com.jim.multipos.data.db.model.inventory.InventoryState;
-import com.jim.multipos.data.db.model.inventory.InventoryStateDao;
-import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
-import com.jim.multipos.data.db.model.inventory.WarehouseOperationsDao;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.OrderChangesLog;
 import com.jim.multipos.data.db.model.order.OrderDao;
@@ -86,7 +80,7 @@ import com.jim.multipos.data.db.model.unit.Unit;
 import com.jim.multipos.data.db.model.unit.UnitCategory;
 import com.jim.multipos.data.db.model.unit.UnitDao;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
-import com.jim.multipos.ui.vendor_item_managment.model.VendorWithDebt;
+import com.jim.multipos.ui.vendor_item_managment.model.VendorManagmentItem;
 
 import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.query.LazyList;
@@ -1079,30 +1073,10 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public Single<List<InventoryItem>> getInventoryItems() {
-        return Single.create(e -> {
-
-            String query = "SELECT _id, PRODUCT_ID, SUM(VALUE) AS INVENTORY, LOW_STOCK_ALERT, VENDOR_ID FROM INVENTORYSTATE GROUP BY PRODUCT_ID";
-            Cursor cursor = mDaoSession.getDatabase().rawQuery(query, null);
-            List<InventoryItem> inventoryItems = new ArrayList<>();
-            if (cursor.getCount() > 0) {
-                cursor.moveToFirst();
-
-                while (!cursor.isAfterLast()) {
-                    InventoryItem inventoryItem = new InventoryItem();
-                    inventoryItem.setId(cursor.getLong(cursor.getColumnIndex("_id")));
-                    List<Product> productList = mDaoSession.getProductDao().queryBuilder().where(ProductDao.Properties.RootId.eq(cursor.getLong(cursor.getColumnIndex("PRODUCT_ID")))).build().list();
-                    inventoryItem.setProduct(productList.get(productList.size() - 1));
-                    inventoryItem.setVendor(mDaoSession.getVendorDao().load(cursor.getLong(cursor.getColumnIndex("VENDOR_ID"))));
-                    inventoryItem.setInventory(cursor.getDouble(cursor.getColumnIndex("INVENTORY")));
-                    inventoryItem.setLowStockAlert(cursor.getDouble(cursor.getColumnIndex("LOW_STOCK_ALERT")));
-                    inventoryItems.add(inventoryItem);
-
-                    cursor.moveToNext();
-                }
-            }
-            e.onSuccess(inventoryItems);
-        });
+        //TODO
+        return null;
     }
+
 
     @Override
     public Observable<Long> addProductVendorConn(VendorProductCon vendorProductCon) {
@@ -1227,32 +1201,11 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
-    public Single<List<VendorWithDebt>> getVendorWirhDebt() {
-
-        return Single.create(e -> {
-            List<Vendor> vendors = mDaoSession.getVendorDao().queryBuilder().where(VendorDao.Properties.IsDeleted.eq(false), VendorDao.Properties.IsActive.eq(true)).build().list();
-            List<VendorWithDebt> vendorWithDebts = new ArrayList<>();
-            for (Vendor vendor : vendors) {
-                VendorWithDebt vendorWithDebt = new VendorWithDebt();
-                vendorWithDebt.setVendor(vendor);
-                vendor.resetProducts();
-                String query = "SELECT  SUM(AMOUNT) AS AMOUNT FROM BILLING_OPERATION WHERE IS_NOT_MODIFIED == " + 1 + " AND IS_DELETED == " + 0 + " GROUP BY VENDOR_ID HAVING VENDOR_ID=?";
-                Cursor cursor = mDaoSession.getDatabase().rawQuery(query, new String[]{String.valueOf(vendor.getId())});
-
-                if (cursor.getCount() > 0) {
-                    cursor.moveToFirst();
-                    vendorWithDebt.setDebt(cursor.getDouble(cursor.getColumnIndex("AMOUNT")));
-                } else {
-                    vendorWithDebt.setDebt(0);
-                }
-                vendorWithDebts.add(vendorWithDebt);
-            }
-            for (VendorWithDebt vendorWithDebt : vendorWithDebts) {
-                Collections.sort(vendorWithDebt.getVendor().getProducts(), (product, t1) -> product.getName().compareTo(t1.getName()));
-            }
-            e.onSuccess(vendorWithDebts);
-        });
+    public Single<List<VendorManagmentItem>> getVendorItemManagmentItem() {
+        //TODO
+        return null;
     }
+
 
     @Override
     public Single<Double> getVendorDebt(Long vendorId) {
@@ -1328,21 +1281,7 @@ public class AppDbHelper implements DbHelper {
         });
     }
 
-    @Override
-    public Observable<Long> insertInventoryState(InventoryState inventoryState) {
-        return Observable.fromCallable(() -> mDaoSession.getInventoryStateDao().insertOrReplace(inventoryState));
-    }
 
-    @Override
-    public Observable<List<InventoryState>> getInventoryStates() {
-        return Observable.fromCallable(() -> mDaoSession.getInventoryStateDao().loadAll());
-    }
-
-    @Override
-    public Observable<List<InventoryState>> getInventoryStatesByProductId(Long productId) {
-        return Observable.fromCallable(() -> mDaoSession.queryBuilder(InventoryState.class)
-                .where(InventoryStateDao.Properties.ProductId.eq(productId)).build().list());
-    }
 
     @Override
     public Single<List<BillingOperations>> getBillingOperationInteval(Long vendorId, Calendar fromDate, Calendar toDate) {
@@ -1392,79 +1331,7 @@ public class AppDbHelper implements DbHelper {
         });
     }
 
-    @Override
-    public Single<Long> insertWarehouseOperation(WarehouseOperations warehouseOperations) {
-        return Single.create(e -> {
-            Database database = mDaoSession.getDatabase();
-            database.beginTransaction();
-            try {
-                mDaoSession.getWarehouseOperationsDao().insertOrReplace(warehouseOperations);
 
-                List<InventoryState> inventoryStates = mDaoSession.getInventoryStateDao().queryBuilder()
-                        .where(InventoryStateDao.Properties.ProductId.eq(warehouseOperations.getProduct().getRootId()), InventoryStateDao.Properties.VendorId.eq(warehouseOperations.getVendorId()))
-                        .build().list();
-
-                if (inventoryStates.size() != 1) {
-                    e.onError(new Throwable("Inventory state invalid data (ONE PRODUCT FROM VENDOR IN DATABASE NOT UNIQUE OR NOT HAVE)"));
-                    return;
-                }
-
-                InventoryState inventoryState = inventoryStates.get(0);
-                inventoryState.setValue(inventoryState.getValue() + warehouseOperations.getValue());
-                inventoryState.update();
-
-                database.setTransactionSuccessful();
-                database.endTransaction();
-                e.onSuccess(warehouseOperations.getId());
-            } catch (Exception o) {
-                e.onError(o);
-            }
-        });
-    }
-
-    @Override
-    public Single<WarehouseOperations> getWarehouseOperationById(Long warehouseId) {
-        return Single.create(e -> {
-            try {
-                WarehouseOperations warehouseOperations = mDaoSession.getWarehouseOperationsDao().queryBuilder()
-                        .where(WarehouseOperationsDao.Properties.Id.eq(warehouseId))
-                        .build().list().get(0);
-                e.onSuccess(warehouseOperations);
-            } catch (Exception o) {
-                e.onError(o);
-            }
-        });
-    }
-
-    @Override
-    public Single<Long> replaceWarehouseOperation(WarehouseOperations warehouseOperations) {
-        return Single.create(e -> {
-            Database database = mDaoSession.getDatabase();
-            database.beginTransaction();
-            try {
-                mDaoSession.getWarehouseOperationsDao().insertOrReplace(warehouseOperations);
-
-                List<InventoryState> inventoryStates = mDaoSession.getInventoryStateDao().queryBuilder()
-                        .where(InventoryStateDao.Properties.ProductId.eq(warehouseOperations.getProduct().getRootId()), InventoryStateDao.Properties.VendorId.eq(warehouseOperations.getVendorId()))
-                        .build().list();
-
-                if (inventoryStates.size() != 1) {
-                    e.onError(new Throwable("Inventory state invalid data (ONE PRODUCT FROM VENDOR IN DATABASE NOT UNIQUE OR NOT HAVE)"));
-                    return;
-                }
-
-                InventoryState inventoryState = inventoryStates.get(0);
-                inventoryState.setValue(inventoryState.getValue() + warehouseOperations.getValue() * -1);
-                inventoryState.update();
-
-                database.setTransactionSuccessful();
-                database.endTransaction();
-                e.onSuccess(warehouseOperations.getId());
-            } catch (Exception o) {
-                e.onError(o);
-            }
-        });
-    }
 
     @Override
     public Observable<Product> getProductById(Long productId) {
@@ -1474,17 +1341,13 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Observable<Boolean> removeProductFromInventoryState(Long productId) {
         return Observable.fromCallable(() -> {
-            mDaoSession.queryBuilder(InventoryStateDao.class)
-                    .where(InventoryStateDao.Properties.ProductId.eq(productId))
-                    .buildDelete().executeDeleteWithoutDetachingEntities();
+//            mDaoSession.queryBuilder(InventoryStateDao.class)
+//                    .where(InventoryStateDao.Properties.ProductId.eq(productId))
+//                    .buildDelete().executeDeleteWithoutDetachingEntities();
             return true;
         });
     }
 
-    @Override
-    public Observable<List<InventoryState>> getInventoryStatesByVendorId(Long vendorId) {
-        return Observable.fromCallable(() -> mDaoSession.getInventoryStateDao().queryBuilder().where(InventoryStateDao.Properties.VendorId.eq(vendorId)).build().list());
-    }
 
     @Override
     public Currency getMainCurrency() {
@@ -1514,17 +1377,6 @@ public class AppDbHelper implements DbHelper {
         });
     }
 
-    @Override
-    public Single<Boolean> deleteInventoryState(InventoryState inventoryState) {
-        return Single.create(e -> {
-            mDaoSession
-                    .queryBuilder(InventoryState.class)
-                    .where(InventoryStateDao.Properties.Id.eq(inventoryState.getId()))
-                    .buildDelete()
-                    .executeDeleteWithoutDetachingEntities();
-            e.onSuccess(true);
-        });
-    }
 
     @Override
     public Single<List<Consignment>> getConsignmentsInInterval(Long vendorId, Calendar fromDate, Calendar toDate) {
@@ -2073,13 +1925,7 @@ public class AppDbHelper implements DbHelper {
         });
     }
 
-    @Override
-    public Single<HistoryInventoryState> insertHistoryInventoryState(HistoryInventoryState state) {
-        return Single.create(e -> {
-            mDaoSession.getHistoryInventoryStateDao().insertOrReplace(state);
-            e.onSuccess(state);
-        });
-    }
+
 
 
     @Override
@@ -2224,38 +2070,20 @@ public class AppDbHelper implements DbHelper {
         });
     }
 
-    @Override
-    public Single<List<WarehouseOperations>> getWarehouseOperationsInInterval(Calendar fromDate, Calendar toDate) {
-        return Single.create(e -> {
-            List<WarehouseOperations> warehouseOperations = mDaoSession.getWarehouseOperationsDao().queryBuilder()
-                    .where(WarehouseOperationsDao.Properties.CreateAt.ge(fromDate.getTimeInMillis()),
-                            WarehouseOperationsDao.Properties.CreateAt.le(toDate.getTimeInMillis()))
-                    .build().list();
-            e.onSuccess(warehouseOperations);
-        });
-    }
+
 
     @Override
     public Single<Long> getConsignmentByWarehouseId(Long warehouseId) {
         return Single.create(e -> {
-            List<ConsignmentProduct> consignmentProducts = mDaoSession.getConsignmentProductDao().queryBuilder()
-                    .where(ConsignmentProductDao.Properties.WarehouseId.eq(warehouseId))
-                    .build().list();
-            if (consignmentProducts.size() > 0) {
-                e.onSuccess(consignmentProducts.get(0).getConsignmentId());
-            } else e.onSuccess(-1L);
+////            List<ConsignmentProduct> consignmentProducts = mDaoSession.getConsignmentProductDao().queryBuilder()
+////                    .where(ConsignmentProductDao.Properties.WarehouseId.eq(warehouseId))
+////                    .build().list();
+//            if (consignmentProducts.size() > 0) {
+//                e.onSuccess(consignmentProducts.get(0).getConsignmentId());
+//            } else e.onSuccess(-1L);
         });
     }
 
-    @Override
-    public Single<List<HistoryInventoryState>> getHistoryInventoryStatesByTillId(Long id) {
-        return Single.create(e -> {
-            List<HistoryInventoryState> orderList = mDaoSession.getHistoryInventoryStateDao().queryBuilder()
-                    .where(HistoryInventoryStateDao.Properties.TillId.eq(id))
-                    .build().list();
-            e.onSuccess(orderList);
-        });
-    }
 
     @Override
     public Single<List<Return>> getReturnList(Calendar fromDate, Calendar toDate) {

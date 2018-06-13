@@ -26,13 +26,11 @@ import com.jim.multipos.data.db.model.customer.Debt;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.PayedPartitions;
 import com.jim.multipos.data.db.model.products.Product;
-import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.ui.consignment.adapter.VendorItemsListAdapter;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivity;
 import com.jim.multipos.ui.mainpospage.adapter.OrderProductAdapter;
 import com.jim.multipos.ui.mainpospage.connection.MainPageConnection;
-import com.jim.multipos.ui.mainpospage.data.ProductIdWithCount;
 import com.jim.multipos.ui.mainpospage.dialogs.CustomerDialog;
 import com.jim.multipos.ui.mainpospage.dialogs.DiscountDialog;
 import com.jim.multipos.ui.mainpospage.dialogs.ServiceFeeDialog;
@@ -453,10 +451,6 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
         presenter.setCount(currentPosition,count);
     }
 
-    @Override
-    public void changeProductVendor(Vendor vendor) {
-        presenter.changeProductVendor(vendor,currentPosition);
-    }
 
     @Override
     public void changeDiscription(String discription) {
@@ -792,11 +786,7 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
         warningDialog.show();
     }
 
-    @Override
-    public void sendStateOrder(List<ProductIdWithCount> list) {
-        if(mainPageConnection!=null)
-            mainPageConnection.sendOrderState(list);
-    }
+
 
 
     @Override

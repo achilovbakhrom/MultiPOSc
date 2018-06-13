@@ -1,13 +1,8 @@
 package com.jim.multipos.ui.mainpospage.presenter;
 
-import android.util.Log;
-
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
-import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.Product;
-import com.jim.multipos.data.operations.CategoryOperations;
-import com.jim.multipos.ui.mainpospage.view.ProductSquareView;
 import com.jim.multipos.ui.mainpospage.view.SearchModeView;
 
 import java.util.ArrayList;

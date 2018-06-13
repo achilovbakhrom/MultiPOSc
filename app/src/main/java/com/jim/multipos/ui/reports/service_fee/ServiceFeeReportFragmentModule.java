@@ -3,9 +3,6 @@ package com.jim.multipos.ui.reports.service_fee;
 import android.support.v4.app.Fragment;
 
 import com.jim.multipos.config.scope.PerFragment;
-import com.jim.multipos.ui.reports.discount.DiscountReportFragment;
-import com.jim.multipos.ui.reports.discount.DiscountReportPresenterModule;
-import com.jim.multipos.ui.reports.discount.DiscountReportView;
 
 import dagger.Binds;
 import dagger.Module;

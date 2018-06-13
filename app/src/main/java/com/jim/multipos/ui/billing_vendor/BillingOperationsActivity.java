@@ -2,20 +2,15 @@ package com.jim.multipos.ui.billing_vendor;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 
 import com.jim.mpviews.MpToolbar;
-import com.jim.mpviews.utils.Test;
 import com.jim.multipos.R;
 import com.jim.multipos.core.SimpleActivity;
 import com.jim.multipos.data.DatabaseManager;
-import com.jim.multipos.data.db.model.inventory.BillingOperations;
-import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.billing_vendor.fragments.BillingOperationFragment;
 import com.jim.multipos.ui.consignment.ConsignmentActivity;
 import com.jim.multipos.utils.DateIntervalPicker;
-import com.jim.multipos.utils.TestUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

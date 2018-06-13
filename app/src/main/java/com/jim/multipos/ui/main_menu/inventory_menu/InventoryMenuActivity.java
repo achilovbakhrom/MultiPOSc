@@ -77,7 +77,6 @@ public class InventoryMenuActivity extends BaseActivity implements InventoryMenu
 
     @Override
     public void openActivity(int position) {
-        //TODO add activities for opening
         switch (position) {
             case 0:
                 Intent intent1 = new Intent(this, InventoryActivity.class);

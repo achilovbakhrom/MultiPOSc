@@ -1,30 +1,20 @@
 package com.jim.multipos.ui.settings.common;
 
-import android.content.Intent;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 
 import com.jim.mpviews.MPosSpinner;
 import com.jim.mpviews.MpButton;
-import com.jim.mpviews.MpCheckbox;
 import com.jim.multipos.R;
 import com.jim.multipos.config.common.BaseAppModule;
 import com.jim.multipos.core.BaseFragment;
-import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.prefs.PreferencesHelper;
-import com.jim.multipos.ui.mainpospage.MainPosPageActivity;
 import com.jim.multipos.ui.settings.SettingsActivity;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.managers.LocaleManger;
 import com.jim.multipos.utils.rxevents.main_order_events.MainPosActivityRefreshEvent;
-import com.jim.multipos.utils.rxevents.main_order_events.OrderEvent;
 
 import java.text.DecimalFormat;
-import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -45,10 +35,7 @@ public class CommonConfigFragment extends BaseFragment implements CommonConfigVi
     MpButton btnSave;
     @BindView(R.id.btnRevert)
     MpButton btnRevert;
-    @BindView(R.id.llOutStock)
-    LinearLayout llOutStock;
-    @BindView(R.id.chboutStock)
-    MpCheckbox chboutStock;
+
 
     @Inject
     RxBus rxBus;
@@ -113,9 +100,8 @@ public class CommonConfigFragment extends BaseFragment implements CommonConfigVi
                 LocaleManger.setNewLocale(getContext(), language);
                 presenter.changeDefaultsLanguage();
             }
-            preferencesHelper.setOutStockCheck(chboutStock.isChecked());
 
-            //TODO REFRESH MAIM PAGE
+            //REFRESH MAIM PAGE
             getActivity().finish();
             rxBus.send(new MainPosActivityRefreshEvent());
         });
@@ -138,10 +124,7 @@ public class CommonConfigFragment extends BaseFragment implements CommonConfigVi
         }
         etFirstNominal.setText(decimalFormat.format(preferencesHelper.getFirstOptionalPaymentButton()));
         etSecondNominal.setText(decimalFormat.format(preferencesHelper.getSecondOptionalPaymentButton()));
-        chboutStock.setChecked(preferencesHelper.isOutStockShouldCheck());
-        llOutStock.setOnClickListener(view -> {
-            chboutStock.setChecked(!chboutStock.isChecked());
-        });
+
     }
 
     @Override

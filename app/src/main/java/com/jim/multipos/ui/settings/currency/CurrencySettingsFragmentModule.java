@@ -4,11 +4,7 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 
 import com.jim.multipos.R;
-import com.jim.multipos.config.scope.PerActivity;
 import com.jim.multipos.config.scope.PerFragment;
-import com.jim.multipos.ui.settings.pos_details.PosDetailsFragment;
-import com.jim.multipos.ui.settings.pos_details.PosDetailsPresenterModule;
-import com.jim.multipos.ui.settings.pos_details.PosDetailsView;
 
 import javax.inject.Named;
 

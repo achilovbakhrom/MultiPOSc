@@ -6,24 +6,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jim.multipos.R;
 import com.jim.multipos.config.common.BaseAppModule;
-import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.order.OrderProduct;
 import com.jim.multipos.data.db.model.unit.UnitCategory;
 import com.jim.multipos.ui.mainpospage.model.DiscountItem;
-import com.jim.multipos.ui.mainpospage.model.OrderProductItem;
 import com.jim.multipos.ui.mainpospage.model.ServiceFeeItem;
 
 import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;

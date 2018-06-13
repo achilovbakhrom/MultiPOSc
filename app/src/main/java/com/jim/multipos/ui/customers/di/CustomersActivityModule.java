@@ -11,8 +11,6 @@ import com.jim.multipos.ui.customers.CustomersActivityPresenterImpl;
 import com.jim.multipos.ui.customers.CustomersActivityView;
 import com.jim.multipos.ui.customers.customer.CustomerFragment;
 import com.jim.multipos.ui.customers.customer.CustomerFragmentModule;
-import com.jim.multipos.ui.start_configuration.currency.CurrencyFragment;
-import com.jim.multipos.ui.start_configuration.currency.CurrencyFragmentModule;
 
 import dagger.Binds;
 import dagger.Module;

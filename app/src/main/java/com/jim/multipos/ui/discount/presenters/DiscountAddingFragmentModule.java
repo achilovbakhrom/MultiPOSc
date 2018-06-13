@@ -8,7 +8,6 @@ import com.jim.multipos.ui.discount.adapters.DiscountListAdapter;
 import com.jim.multipos.ui.discount.fragments.DiscountAddingFragment;
 import com.jim.multipos.ui.discount.fragments.DiscountAddingPresenterModule;
 import com.jim.multipos.ui.discount.fragments.DiscountAddingView;
-import com.jim.multipos.ui.product_class_new.fragments.ProductsClassPresenterModule;
 
 import dagger.Binds;
 import dagger.Module;

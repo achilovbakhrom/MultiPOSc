@@ -16,10 +16,11 @@ import com.jim.multipos.data.db.model.consignment.Consignment;
 import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
 import com.jim.multipos.data.db.model.customer.CustomerPayment;
 import com.jim.multipos.data.db.model.customer.Debt;
+import com.jim.multipos.data.db.model.intosystem.ProductWithCount;
+import com.jim.multipos.data.db.model.intosystem.StockQueueItem;
+import com.jim.multipos.data.db.model.intosystem.StockResult;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
-import com.jim.multipos.data.db.model.inventory.HistoryInventoryState;
-import com.jim.multipos.data.db.model.inventory.InventoryState;
-import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
+import com.jim.multipos.data.db.model.inventory.OutcomeProduct;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.OrderChangesLog;
 import com.jim.multipos.data.db.model.order.OrderProduct;
@@ -68,7 +69,7 @@ import com.jim.multipos.data.operations.VendorItemManagmentOperations;
 import com.jim.multipos.data.operations.VendorOperations;
 import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
-import com.jim.multipos.ui.vendor_item_managment.model.VendorWithDebt;
+import com.jim.multipos.ui.vendor_item_managment.model.VendorManagmentItem;
 
 import org.greenrobot.greendao.query.LazyList;
 
@@ -805,12 +806,7 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
 
-    @Override
-    public Single<Consignment> insertConsignment(Consignment consignment, List<BillingOperations> operations, List<ConsignmentProduct> consignmentProductList, List<WarehouseOperations> warehouseOperationsList) {
-        return dbHelper.insertConsignment(consignment)
-                .flatMap(consignment1 -> setBillingOperation(operations, consignment1)
-                        .flatMap(consignment2 -> setConsignmentProductId(consignmentProductList, warehouseOperationsList, consignment2)));
-    }
+
 
     private Single<Consignment> setBillingOperation(List<BillingOperations> billingOperations, Consignment consignment) {
         return Single.create(singleSubscriber -> {
@@ -842,28 +838,7 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
         });
     }
 
-    private Single<Consignment> setConsignmentProductId(List<ConsignmentProduct> consignmentProductList, List<WarehouseOperations> warehouseOperations, Consignment consignment) {
-        return Single.create(singleSubscriber -> {
-            try {
-                if (consignmentProductList != null)
-                    for (int i = 0; i < consignmentProductList.size(); i++) {
-                        consignmentProductList.get(i).setConsignmentId(consignment.getId());
-                        if (warehouseOperations.get(i) != null) {
-                            insertWarehouseOperation(warehouseOperations.get(i)).blockingGet();
-                            consignmentProductList.get(i).setWarehouse(warehouseOperations.get(i));
-                            consignmentProductList.get(i).setWarehouseId(warehouseOperations.get(i).getId());
-                        }
-                        insertConsignmentProduct(consignmentProductList.get(i)).blockingSingle();
-                        VendorProductCon productCon = getVendorProductConnectionById(consignmentProductList.get(i).getProductId(), consignmentProductList.get(i).getConsignment().getVendorId()).blockingSingle();
-                        productCon.setCost(consignmentProductList.get(i).getCostValue());
-                        addVendorProductConnection(productCon).subscribe();
-                    }
-                singleSubscriber.onSuccess(consignment);
-            } catch (Exception o) {
-                singleSubscriber.onError(o);
-            }
-        });
-    }
+
 
     @Override
     public Observable<Long> insertConsignmentProduct(ConsignmentProduct consignment) {
@@ -920,63 +895,7 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
         return dbHelper.getConsignmentProductsInterval(fromDate, toDate);
     }
 
-    @Override
-    public Single<List<InventoryItem>> getInventoryItems() {
-        return dbHelper.getInventoryItems().map(inventoryItems -> {
-            Collections.sort(inventoryItems, (inventoryItem, t1) -> inventoryItem.getProduct().getCreatedDate().compareTo(t1.getProduct().getCreatedDate()));
-            return inventoryItems;
-        });
-    }
 
-    @Override
-    public Single<Long> insertWarehouseOperation(WarehouseOperations warehouseOperations) {
-        return dbHelper.insertWarehouseOperation(warehouseOperations);
-    }
-
-    @Override
-    public Single<WarehouseOperations> getWarehouseOperationById(Long warehouseId) {
-        return dbHelper.getWarehouseOperationById(warehouseId);
-    }
-
-    @Override
-    public Single<Long> replaceWarehouseOperation(WarehouseOperations warehouseOperations) {
-        return dbHelper.replaceWarehouseOperation(warehouseOperations);
-    }
-
-    @Override
-    public Single<HistoryInventoryState> insertHistoryInventoryState(HistoryInventoryState state) {
-        return dbHelper.insertHistoryInventoryState(state);
-    }
-
-    @Override
-    public Single<List<WarehouseOperations>> getWarehouseOperationsInInterval(Calendar fromDate, Calendar toDate) {
-        return dbHelper.getWarehouseOperationsInInterval(fromDate, toDate);
-    }
-
-    @Override
-    public Single<List<HistoryInventoryState>> getHistoryInventoryStatesByTillId(Long id) {
-        return dbHelper.getHistoryInventoryStatesByTillId(id);
-    }
-
-    @Override
-    public Observable<Long> insertInventoryState(InventoryState inventoryState) {
-        return dbHelper.insertInventoryState(inventoryState);
-    }
-
-    @Override
-    public Observable<List<InventoryState>> getInventoryStates() {
-        return dbHelper.getInventoryStates();
-    }
-
-    @Override
-    public Observable<List<InventoryState>> getInventoryStatesByProductId(Long productId) {
-        return dbHelper.getInventoryStatesByProductId(productId);
-    }
-
-    @Override
-    public Observable<List<InventoryState>> getInventoryStatesByVendorId(Long vendorId) {
-        return dbHelper.getInventoryStatesByVendorId(vendorId);
-    }
 
     @Override
     public Observable<Long> addVendorProductConnection(VendorProductCon vendorProductCon) {
@@ -1039,8 +958,8 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
-    public Single<List<VendorWithDebt>> getVendorWirhDebt() {
-        return dbHelper.getVendorWirhDebt();
+    public Single<List<VendorManagmentItem>> getVendorItemManagmentItem() {
+        return dbHelper.getVendorItemManagmentItem();
     }
 
     @Override
@@ -1101,10 +1020,7 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
         return dbHelper.getAllBillingOperationsInInterval(fromDate, toDate);
     }
 
-    @Override
-    public Single<Boolean> deleteInventoryState(InventoryState inventoryState) {
-        return dbHelper.deleteInventoryState(inventoryState);
-    }
+
 
     @Override
     public Single<Order> insertOrder(Order order) {
@@ -1307,5 +1223,130 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     public Single<List<TillOperation>> getTillOperationsInterval(Calendar fromDate, Calendar toDate) {
         return dbHelper.getTillOperationsInterval(fromDate, toDate);
     }
+
+
+    //TODO -->>>
+
+
+    @Override
+    public Single<StockResult> getProductWithRuleRegister(Long productId, double count) {
+        return null;
+    }
+
+    @Override
+    public Single<StockResult> getProductWithCustomQueueRegister(Long productId, double count, Long stockQueueId) {
+        return null;
+    }
+
+    @Override
+    public Single<StockResult> updateOutcomeRegistredProductCount(OutcomeProduct outcomeProduct, double newCount) {
+        return null;
+    }
+
+    @Override
+    public Single<OutcomeProduct> cancelOutcomeProductWhenHoldedProductReturn(OutcomeProduct outcomeProduct) {
+        return null;
+    }
+
+    @Override
+    public Single<OutcomeProduct> cancelOutcomeProductWhenOrderProductCleared(OutcomeProduct outcomeProduct) {
+        return null;
+    }
+
+    @Override
+    public Single<OutcomeProduct> cancelOutcomeProductWhenOrderProductCanceled(OutcomeProduct outcomeProduct) {
+        return null;
+    }
+
+    @Override
+    public Single<List<OutcomeProduct>> confirmOutcomeProducts(List<OutcomeProduct> outcomeProducts) {
+        return null;
+    }
+
+    @Override
+    public Single<OutcomeProduct> confirmOutcomeProduct(OutcomeProduct outcomeProduct) {
+        return null;
+    }
+
+    @Override
+    public Single<OrderProduct> confirmOutcomeProductWhenSold(OutcomeProduct outcomeProduct, OrderProduct orderProduct) {
+        return null;
+    }
+
+    @Override
+    public Single<Order> confirmOutcomeProductWhenSold(Order order) {
+        return null;
+    }
+
+    @Override
+    public Single<Integer> checkProductHaveInStock(Long productId, double count) {
+        return null;
+    }
+
+    @Override
+    public Single<Double> getProductInvenotry(Long productId) {
+        return null;
+    }
+
+    @Override
+    public Single<Double> getProductInvenotryFromVendor(Long productId, Long vendorId) {
+        return null;
+    }
+
+    @Override
+    public Single<Integer> getAllProductsCountVendor(Long vendorId) {
+        return null;
+    }
+
+    @Override
+    public Single<List<StockQueueItem>> getActualStockQueue(Long productId) {
+        return null;
+    }
+
+    @Override
+    public Single<List<StockQueueItem>> getActualStockQueueWithoutMe(OutcomeProduct outcomeProduct) {
+        return null;
+    }
+
+    @Override
+    public Single<List<StockQueueItem>> getActualyStockQueueList(Calendar from, Calendar to) {
+        return null;
+    }
+
+    @Override
+    public Single<List<StockQueueItem>> getActualyStockQueueListForVendorAndProduct(Long vendorId, Long productId) {
+        return null;
+    }
+
+    @Override
+    public Single<List<StockQueueItem>> getActualyStockQueueListForVendor(Long vendorId) {
+        return null;
+    }
+
+    @Override
+    public Single<List<InventoryItem>> getProductInventoryStatesForNow() {
+        return null;
+    }
+
+    @Override
+    public Single<List<InventoryItem>> getProductInventoryStatesForNowForVendor(Vendor vendor) {
+        return null;
+    }
+
+    @Override
+    public Single<InventoryItem> setLowStockAlert(InventoryItem inventoryItem, double newAlertCount) {
+        return null;
+    }
+
+    @Override
+    public Single<List<Product>> getAllProductsEverGotFromVendor(Long vendorId) {
+        return null;
+    }
+
+    @Override
+    public Single<List<ProductWithCount>> getVendorStateInventory(Long vendorId) {
+        return null;
+    }
+    //TODO <<---
 }
 

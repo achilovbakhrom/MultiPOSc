@@ -1,7 +1,6 @@
 package com.jim.multipos.ui.reports.summary_report.adapter;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

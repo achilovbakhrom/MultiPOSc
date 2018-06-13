@@ -16,7 +16,6 @@ import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.Debt;
 import com.jim.multipos.ui.customer_debt.adapter.CustomerDebtsAdapter;
-import com.jim.multipos.ui.customer_debt.adapter.PaymentsListAdapter;
 import com.jim.multipos.utils.UIUtils;
 
 import java.text.DecimalFormat;
@@ -27,14 +26,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.jim.multipos.ui.customer_debt.dialog.CustomerHistoryDialog.CustomerHistorySortingStates.SORTED_BY_DEBT_AMOUNT;
+import static com.jim.multipos.ui.customer_debt.dialog.CustomerHistoryDialog.CustomerHistorySortingStates.SORTED_BY_DEBT_AMOUNT_INVERT;
 import static com.jim.multipos.ui.customer_debt.dialog.CustomerHistoryDialog.CustomerHistorySortingStates.SORTED_BY_ORDER_NUMBER;
 import static com.jim.multipos.ui.customer_debt.dialog.CustomerHistoryDialog.CustomerHistorySortingStates.SORTED_BY_ORDER_NUMBER_INVERT;
 import static com.jim.multipos.ui.customer_debt.dialog.CustomerHistoryDialog.CustomerHistorySortingStates.SORTED_BY_STATUS;
 import static com.jim.multipos.ui.customer_debt.dialog.CustomerHistoryDialog.CustomerHistorySortingStates.SORTED_BY_STATUS_INVERT;
-import static com.jim.multipos.ui.customer_debt.dialog.CustomerHistoryDialog.CustomerHistorySortingStates.SORTED_BY_DEBT_AMOUNT;
-import static com.jim.multipos.ui.customer_debt.dialog.CustomerHistoryDialog.CustomerHistorySortingStates.SORTED_BY_DEBT_AMOUNT_INVERT;
-import static com.jim.multipos.ui.customer_debt.dialog.CustomerHistoryDialog.CustomerHistorySortingStates.SORTED_BY_TAKEN_DATE_TYPE;
 import static com.jim.multipos.ui.customer_debt.dialog.CustomerHistoryDialog.CustomerHistorySortingStates.SORTED_BY_TAKEN_DATE_INVERT;
+import static com.jim.multipos.ui.customer_debt.dialog.CustomerHistoryDialog.CustomerHistorySortingStates.SORTED_BY_TAKEN_DATE_TYPE;
 
 /**
  * Created by developer on 04.12.2017.

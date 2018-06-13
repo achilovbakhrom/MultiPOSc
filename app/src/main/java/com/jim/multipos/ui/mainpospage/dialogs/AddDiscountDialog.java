@@ -2,9 +2,7 @@ package com.jim.multipos.ui.mainpospage.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.support.annotation.NonNull;
-import android.text.InputFilter;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
@@ -15,15 +13,10 @@ import com.jim.mpviews.MpSwitcher;
 import com.jim.multipos.R;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Discount;
-import com.jim.multipos.utils.CommonUtils;
 import com.jim.multipos.utils.TextWatcherOnTextChange;
 import com.jim.multipos.utils.UIUtils;
 
 import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.util.logging.Handler;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

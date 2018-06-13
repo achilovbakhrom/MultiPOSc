@@ -3,7 +3,6 @@ package com.jim.multipos.ui.mainpospage.view;
 import android.support.v4.app.Fragment;
 
 import com.jim.multipos.config.scope.PerFragment;
-import com.jim.multipos.ui.mainpospage.presenter.ProductSquareViewPresenterModule;
 import com.jim.multipos.ui.mainpospage.presenter.SearchModeViewPresenterModule;
 
 import dagger.Binds;

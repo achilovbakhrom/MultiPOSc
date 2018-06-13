@@ -1,7 +1,6 @@
 package com.jim.multipos.data.operations;
 
-import com.jim.multipos.ui.inventory.model.InventoryItem;
-import com.jim.multipos.ui.vendor_item_managment.model.VendorWithDebt;
+import com.jim.multipos.ui.vendor_item_managment.model.VendorManagmentItem;
 
 import java.util.List;
 
@@ -12,6 +11,6 @@ import io.reactivex.Single;
  */
 
 public interface VendorItemManagmentOperations {
-    Single<List<VendorWithDebt>> getVendorWirhDebt();
+    Single<List<VendorManagmentItem>> getVendorItemManagmentItem();
 
 }

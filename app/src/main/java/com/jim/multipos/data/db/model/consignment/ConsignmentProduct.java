@@ -1,17 +1,15 @@
 package com.jim.multipos.data.db.model.consignment;
 
+import com.jim.multipos.data.db.model.DaoSession;
 import com.jim.multipos.data.db.model.intosystem.Editable;
-import com.jim.multipos.data.db.model.inventory.WarehouseOperations;
 import com.jim.multipos.data.db.model.products.Product;
+import com.jim.multipos.data.db.model.products.ProductDao;
 
+import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.ToOne;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.DaoException;
-import com.jim.multipos.data.db.model.DaoSession;
-import com.jim.multipos.data.db.model.products.ProductDao;
-import com.jim.multipos.data.db.model.inventory.WarehouseOperationsDao;
 
 
 /**
@@ -29,9 +27,6 @@ public class ConsignmentProduct implements Editable{
     private Long consignmentId;
     @ToOne(joinProperty = "consignmentId")
     private Consignment consignment;
-    private Long warehouseId;
-    @ToOne(joinProperty = "warehouseId")
-    private WarehouseOperations warehouse;
     private boolean isActive = true;
     private boolean isDeleted = false;
     private boolean isNotModified = true;
@@ -111,8 +106,6 @@ public class ConsignmentProduct implements Editable{
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
-    @Generated(hash = 1229596798)
-    private transient Long warehouse__resolvedKey;
     @Generated(hash = 1986436088)
     private transient Long consignment__resolvedKey;
     public Long getConsignmentId() {
@@ -198,33 +191,7 @@ public class ConsignmentProduct implements Editable{
         this.createdDate = createdDate;
     }
 
-    /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 33462667)
-    public void setWarehouse(WarehouseOperations warehouse) {
-        synchronized (this) {
-            this.warehouse = warehouse;
-            warehouseId = warehouse == null ? null : warehouse.getId();
-            warehouse__resolvedKey = warehouseId;
-        }
-    }
-    /** To-one relationship, resolved on first access. */
-    @Generated(hash = 1560568949)
-    public WarehouseOperations getWarehouse() {
-        Long __key = this.warehouseId;
-        if (warehouse__resolvedKey == null || !warehouse__resolvedKey.equals(__key)) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            WarehouseOperationsDao targetDao = daoSession.getWarehouseOperationsDao();
-            WarehouseOperations warehouseNew = targetDao.load(__key);
-            synchronized (this) {
-                warehouse = warehouseNew;
-                warehouse__resolvedKey = __key;
-            }
-        }
-        return warehouse;
-    }
+
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 929152524)
     public void setConsignment(Consignment consignment) {
@@ -252,12 +219,6 @@ public class ConsignmentProduct implements Editable{
         }
         return consignment;
     }
-    public Long getWarehouseId() {
-        return this.warehouseId;
-    }
-    public void setWarehouseId(Long warehouseId) {
-        this.warehouseId = warehouseId;
-    }
     public void setRootId(long rootId) {
         this.rootId = rootId;
     }
@@ -279,16 +240,15 @@ public class ConsignmentProduct implements Editable{
     public void setIsActive(boolean isActive) {
         this.isActive = isActive;
     }
-    @Generated(hash = 2046852155)
+    @Generated(hash = 36707175)
     public ConsignmentProduct(Long id, Double costValue, Double countValue, Long productId,
-            Long consignmentId, Long warehouseId, boolean isActive, boolean isDeleted,
-            boolean isNotModified, long createdDate, long rootId) {
+            Long consignmentId, boolean isActive, boolean isDeleted, boolean isNotModified,
+            long createdDate, long rootId) {
         this.id = id;
         this.costValue = costValue;
         this.countValue = countValue;
         this.productId = productId;
         this.consignmentId = consignmentId;
-        this.warehouseId = warehouseId;
         this.isActive = isActive;
         this.isDeleted = isDeleted;
         this.isNotModified = isNotModified;

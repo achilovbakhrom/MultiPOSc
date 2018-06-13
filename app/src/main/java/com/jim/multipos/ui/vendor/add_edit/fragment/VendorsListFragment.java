@@ -50,7 +50,7 @@ public class VendorsListFragment extends BaseFragment {
             List<Vendor> items = ((VendorAddEditActivity) getContext()).getPresenter().getVendors();
             if (items == null) items = new ArrayList<>();
             items.add(0, null);
-            VendorsListAdapter adapter = new VendorsListAdapter(items, getContext());
+            VendorsListAdapter adapter = new VendorsListAdapter(items, getContext(),((VendorAddEditActivity)getActivity()).getDatabaseManager());
             ((SimpleItemAnimator) vendors.getItemAnimator()).setSupportsChangeAnimations(false);
             adapter.setOnItemClickListener(new OnItemClickListener<Vendor>() {
                 @Override

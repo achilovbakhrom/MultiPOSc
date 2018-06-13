@@ -16,7 +16,6 @@ import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.ui.mainpospage.adapter.FolderViewAdapter;
 import com.jim.multipos.ui.mainpospage.connection.MainPageConnection;
-import com.jim.multipos.ui.mainpospage.model.OrderProductItem;
 import com.jim.multipos.ui.mainpospage.presenter.ProductFolderViewPresenter;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.RxBusLocal;

@@ -19,8 +19,8 @@ import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.WarningDialog;
 import com.jim.multipos.utils.rxevents.inventory_events.ConsignmentWithVendorEvent;
 import com.jim.multipos.utils.rxevents.inventory_events.InventoryStateEvent;
-import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
 import com.jim.multipos.utils.rxevents.main_order_events.ConsignmentEvent;
+import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
 
 import java.util.ArrayList;
 import java.util.Calendar;

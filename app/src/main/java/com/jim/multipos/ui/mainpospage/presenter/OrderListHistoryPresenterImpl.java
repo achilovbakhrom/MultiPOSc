@@ -46,7 +46,6 @@ public class OrderListHistoryPresenterImpl extends BasePresenterImpl<OrderListHi
             goToEdit = false;
             updateItemDetials();
             view.updateDetials(order);
-            //TODO INIT UI FOR UI
         }
     }
 
@@ -69,7 +68,7 @@ public class OrderListHistoryPresenterImpl extends BasePresenterImpl<OrderListHi
 
     @Override
     public void onBruteForce() {
-        //TODO SOME ACTION WHEN BRUTE FORCE EDIT ORDER
+        //SOME ACTION WHEN BRUTE FORCE EDIT ORDER
     }
 
     @Override
@@ -79,7 +78,7 @@ public class OrderListHistoryPresenterImpl extends BasePresenterImpl<OrderListHi
         else if(order.getStatus() == Order.HOLD_ORDER){
             view.onContinuePressed(order);
         }else {
-            //TODO EDIT REPEATLY
+            //EDIT REPEATLY
             view.openEditAccsessDialog();
         }
     }
@@ -88,58 +87,13 @@ public class OrderListHistoryPresenterImpl extends BasePresenterImpl<OrderListHi
     public void onCancelClicked() {
         if(order.getStatus()!=Order.CANCELED_ORDER)
             view.openCancelAccsessDialog();
-        else {
-            //TODO RESTORE ORDER
-            view.openRestoreAccsessDialog();
-        }
+
     }
 
     @Override
     public void reprintOrder() {
         view.reprint(order,databaseManager,preferencesHelper);
     }
-
-//    @Override
-//    public void onEditComplete(String reason,Long orderId) {
-//        order.setStatus(Order.CANCELED_ORDER);
-//
-//        OrderChangesLog orderChangesLog = new OrderChangesLog();
-//        orderChangesLog.setToStatus(Order.CANCELED_ORDER);
-//        orderChangesLog.setChangedAt(System.currentTimeMillis());
-//        orderChangesLog.setReason(reason);
-//        orderChangesLog.setChangedCauseType(OrderChangesLog.EDITED);
-//        orderChangesLog.setOrderId(order.getId());
-//        orderChangesLog.setRelationshipOrderId(orderId);
-//        databaseManager.insertOrderChangeLog(orderChangesLog).blockingGet();
-//        order.setLastChangeLogId(orderChangesLog.getId());
-//
-//        for (int i = 0; i < order.getOrderProducts().size(); i++) {
-//            //Warehouse Operation
-//            WarehouseOperations warehouseOperations = new WarehouseOperations();
-//            warehouseOperations.setValue(order.getOrderProducts().get(i).getCount());
-//            warehouseOperations.setProduct(order.getOrderProducts().get(i).getProduct());
-//            warehouseOperations.setCreateAt(System.currentTimeMillis());
-//            warehouseOperations.setActive(true);
-//            warehouseOperations.setIsNotModified(true);
-//            warehouseOperations.setType(WarehouseOperations.CANCELED_SOLD);
-//            warehouseOperations.setOrderId(order.getId());
-//            warehouseOperations.setVendorId(order.getOrderProducts().get(i).getVendorId());
-//            databaseManager.insertWarehouseOperation(warehouseOperations).blockingGet();
-//            order.getOrderProducts().get(i).setWarehouseReturnId(warehouseOperations.getId());
-//        }
-//
-//        if(order.getDebt() !=null) {
-//            order.getDebt().setIsDeleted(true);
-//            databaseManager.addDebt(order.getDebt());
-//        }
-//        databaseManager.insertOrderProducts(order.getOrderProducts()).blockingGet();
-//        databaseManager.insertOrder(order).blockingGet();
-//        view.updateDetials(order);
-//        updateItemDetials();
-//    }
-
-
-
 
 
     private void updateItemDetials(){

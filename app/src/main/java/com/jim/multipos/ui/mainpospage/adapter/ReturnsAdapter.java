@@ -15,7 +15,6 @@ import com.jim.multipos.data.db.model.products.Return;
 import com.jim.multipos.utils.TextWatcherOnTextChange;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -53,7 +52,8 @@ public class ReturnsAdapter extends RecyclerView.Adapter<ReturnsAdapter.ProductS
         holder.etReturnPrice.setText(decimalFormat.format(items.get(position).getReturnAmount()));
         holder.etQuantity.setText(decimalFormat.format(items.get(position).getQuantity()));
         holder.tvUnit.setText(items.get(position).getProduct().getMainUnit().getAbbr());
-        holder.spVendors.setText(items.get(position).getProduct().getVendor().get(0).getName());
+        //TODO: SIROCH -> RETURN DIALOG CHANGES AFTER FIFO
+//        holder.spVendors.setText(items.get(position).getProduct().getVendor().get(0).getName());
     }
 
     @Override

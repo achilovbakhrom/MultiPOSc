@@ -2,8 +2,6 @@ package com.jim.multipos.ui.cash_management.presenter;
 
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
-import com.jim.multipos.data.db.model.inventory.HistoryInventoryState;
-import com.jim.multipos.data.db.model.inventory.InventoryState;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.till.Till;
 import com.jim.multipos.data.db.model.till.TillManagementOperation;

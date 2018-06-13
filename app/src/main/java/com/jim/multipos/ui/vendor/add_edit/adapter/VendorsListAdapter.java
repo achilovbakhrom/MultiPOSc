@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import com.jim.mpviews.MpLongItemWithList;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseViewHolder;
-import com.jim.multipos.data.db.model.products.Product;
+import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.products.Vendor;
 
 import java.util.List;
@@ -23,10 +23,12 @@ import butterknife.BindView;
 public class VendorsListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private static final int ADD = 0, ITEM = 1;
     private Context context;
+    private DatabaseManager databaseManager;
     List<Vendor> items;
-    public VendorsListAdapter(List<Vendor> items, Context context) {
+    public VendorsListAdapter(List<Vendor> items, Context context, DatabaseManager databaseManager) {
         this.items = items;
         this.context = context;
+        this.databaseManager = databaseManager;
         selectedPosition = 0;
     }
     public void setItems(List<Vendor> items){
@@ -59,13 +61,8 @@ public class VendorsListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
         if (holder instanceof VendorViewHolder) {
             ((VendorViewHolder) holder).item.setFirstItemText(items.get(position).getName());
-            int size = 0;
-            items.get(position).resetProducts();
-            for (int i = 0; i < items.get(position).getProducts().size(); i++) {
-                Product product = items.get(position).getProducts().get(i);
-                if (product.getIsDeleted().equals(false) && product.getIsNotModified().equals(true))
-                    size++;
-            }
+            int size;
+            size = databaseManager.getAllProductsCountVendor(items.get(position).getId()).blockingGet();
             ((VendorViewHolder) holder).item.setSecondItemText(context.getString(R.string.items_) + size);
             ((VendorViewHolder) holder).item.setThirdItemText(items.get(position).getContactName());
             ((VendorViewHolder) holder).item.setTextSize(12);

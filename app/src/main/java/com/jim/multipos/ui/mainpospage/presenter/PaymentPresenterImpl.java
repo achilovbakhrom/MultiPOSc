@@ -7,7 +7,6 @@ import com.jim.mpviews.model.PaymentTypeWithService;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
-import com.jim.multipos.data.db.model.Account;
 import com.jim.multipos.data.db.model.PaymentType;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.Debt;
@@ -15,6 +14,7 @@ import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.PayedPartitions;
 import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.ui.mainpospage.view.PaymentView;
+import com.jim.multipos.utils.DecimalUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -128,18 +128,18 @@ public class PaymentPresenterImpl extends BasePresenterImpl<PaymentView> impleme
      */
     private void updateChange(){
         if(order==null) return;
-        double change = order.getForPayAmmount() - totalPayed() - lastPaymentAmountState;
+        double change = DecimalUtils.roundDouble(order.getForPayAmmount() - totalPayed() - lastPaymentAmountState);
         change *=-1;
         if(order.getSubTotalValue() == 0){
             isPay = false;
             view.updateCloseText();
             return;
         }
-        if(change<-0.01){
+        if(change<=-0.01){
             //it is not enough money
             isPay = true;
             view.updateBalanceView(change*-1);
-        }else if(change>0.01){
+        }else if(change>=0.01){
             //it is enough money
             isPay = false;
             view.updateChangeView(change);
@@ -227,7 +227,7 @@ public class PaymentPresenterImpl extends BasePresenterImpl<PaymentView> impleme
                 return;
             }
             if(order.getForPayAmmount()==0){
-                //TODO FREE ORDER
+                //FREE ORDER
                 view.updateViews(order,totalPayed());
                 view.updatePaymentList();
                 view.onPayedPartition();
@@ -269,7 +269,7 @@ public class PaymentPresenterImpl extends BasePresenterImpl<PaymentView> impleme
     Debt debt;
     @Override
     public void onDebtSave(Debt debt) {
-        //TODO add Debt To order
+        //add Debt To order
         customer = debt.getCustomer();
         this.debt = debt;
 
@@ -342,7 +342,7 @@ public class PaymentPresenterImpl extends BasePresenterImpl<PaymentView> impleme
 
     @Override
     public void onHoldOrderClicked() {
-        //TODO IF WANT: PUL KIRITGANDA HOLDNI BOSSA KRIITILGAN PULAM MAYMENT BOB KETISHINI HOHLASA LOGIKANI SHU YERGA DOPISAVAT QILISH KERE
+        //IF WANT: PUL KIRITGANDA HOLDNI BOSSA KRIITILGAN PULAM MAYMENT BOB KETISHINI HOHLASA LOGIKANI SHU YERGA DOPISAVAT QILISH KERE
         view.onHoldOrderSendingData(order,payedPartitions,debt);
     }
 

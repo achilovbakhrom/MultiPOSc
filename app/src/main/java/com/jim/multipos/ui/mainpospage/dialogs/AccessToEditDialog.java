@@ -3,16 +3,12 @@ package com.jim.multipos.ui.mainpospage.dialogs;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.view.Window;
 import android.widget.EditText;
 
-import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.mpviews.MpButton;
-import com.jim.mpviews.MpEditText;
 import com.jim.multipos.R;
-import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.utils.SecurityTools;
 import com.jim.multipos.utils.UIUtils;

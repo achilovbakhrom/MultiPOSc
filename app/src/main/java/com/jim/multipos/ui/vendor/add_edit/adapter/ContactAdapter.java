@@ -14,9 +14,7 @@ import com.jim.mpviews.MpMiniActionButton;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseAdapter;
 import com.jim.multipos.core.BaseViewHolder;
-import com.jim.multipos.core.ItemRemoveListener;
 import com.jim.multipos.data.db.model.Contact;
-import com.jim.multipos.utils.CommonUtils;
 import com.jim.multipos.utils.TextWatcherOnTextChange;
 
 import java.util.List;

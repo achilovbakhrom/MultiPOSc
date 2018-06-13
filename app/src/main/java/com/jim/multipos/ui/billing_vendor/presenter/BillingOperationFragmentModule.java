@@ -1,6 +1,5 @@
 package com.jim.multipos.ui.billing_vendor.presenter;
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
@@ -12,7 +11,6 @@ import com.jim.multipos.ui.billing_vendor.fragments.BillingOperationPresenrterMo
 import com.jim.multipos.ui.billing_vendor.fragments.BillingOperationView;
 
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 
 import dagger.Binds;
 import dagger.Module;

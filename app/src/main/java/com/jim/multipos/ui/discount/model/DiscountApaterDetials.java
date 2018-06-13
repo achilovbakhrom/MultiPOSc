@@ -1,7 +1,6 @@
 package com.jim.multipos.ui.discount.model;
 
 import com.jim.multipos.data.db.model.Discount;
-import com.jim.multipos.data.db.model.ProductClass;
 
 /**
  * Created by developer on 26.10.2017.

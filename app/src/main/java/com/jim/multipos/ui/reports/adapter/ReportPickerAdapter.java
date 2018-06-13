@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.jim.multipos.R;
-import com.jim.multipos.ui.mainpospage.adapter.CustomerSearchResultsAdapter;
 
 import java.util.List;
 

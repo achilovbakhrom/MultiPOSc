@@ -556,7 +556,7 @@ public class FloatingSearchView extends FrameLayout {
         mSearchInput.addTextChangedListener(new TextWatcherAdapter() {
 
             public void onTextChanged(final CharSequence s, int start, int before, int count) {
-                //todo investigate why this is called twice when pressing back on the keyboard
+                // investigate why this is called twice when pressing back on the keyboard
 
                 if (mSkipTextChangeEvent || !mIsFocused) {
                     mSkipTextChangeEvent = false;
@@ -834,7 +834,7 @@ public class FloatingSearchView extends FrameLayout {
      * @param sizePx
      */
     private void setSuggestionItemTextSize(int sizePx) {
-        //todo implement dynamic suggestionTextSize setter and expose method
+        // implement dynamic suggestionTextSize setter and expose method
         this.mSuggestionsTextSizePx = sizePx;
     }
 
@@ -1026,7 +1026,7 @@ public class FloatingSearchView extends FrameLayout {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
-                //todo check if this is called twice
+                // check if this is called twice
                 if (mDismissOnOutsideTouch && mIsFocused) {
                     setSearchFocusedInternal(false);
                 }
@@ -1289,7 +1289,7 @@ public class FloatingSearchView extends FrameLayout {
         final float newTranslationY = -mSuggestionListContainer.getHeight() +
                 visibleSuggestionHeight + addedTranslationYForShadowOffsets;
 
-        //todo go over
+        // go over
         final float fullyInvisibleTranslationY = -mSuggestionListContainer.getHeight() + cardRadiusSize;
 
         ViewCompat.animate(mSuggestionListContainer).cancel();
@@ -1329,7 +1329,6 @@ public class FloatingSearchView extends FrameLayout {
     //results is >= max. The max option allows us to avoid doing unnecessary and potentially long calculations.
     private int calculateSuggestionItemsHeight(List<? extends SearchSuggestion> suggestions, int max) {
 
-        //todo
         // 'i < suggestions.size()' in the below 'for' seems unneeded, investigate if there is a use for it.
         int visibleItemsHeight = 0;
         for (int i = 0; i < suggestions.size() && i < mSuggestionsList.getChildCount(); i++) {
@@ -1374,7 +1373,7 @@ public class FloatingSearchView extends FrameLayout {
 
     private void setSearchFocusedInternal(final boolean focused) {
         this.mIsFocused = focused;
-        //TODO
+
         if (focused) {
             mSearchInput.requestFocus();
             moveSuggestListToInitialPos();
@@ -1624,7 +1623,7 @@ public class FloatingSearchView extends FrameLayout {
      */
     public void setOnMenuItemClickListener(OnMenuItemClickListener listener) {
         this.mActionMenuItemListener = listener;
-        //todo reset menu view listener
+        //reset menu view listener
     }
 
     /**
@@ -1785,7 +1784,7 @@ public class FloatingSearchView extends FrameLayout {
                     swapSuggestions(savedState.suggestions, false);
                     mSuggestionSecHeightListener = null;
 
-                    //todo refactor move to a better location
+                    //refactor move to a better location
                     transitionInLeftSection(false);
                 }
             };
@@ -1920,7 +1919,7 @@ public class FloatingSearchView extends FrameLayout {
         super.onDetachedFromWindow();
 
         //remove any ongoing animations to prevent leaks
-        //todo investigate if correct
+        //investigate if correct
         ViewCompat.animate(mSuggestionListContainer).cancel();
     }
 

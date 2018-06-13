@@ -4,7 +4,6 @@ import android.support.v4.app.Fragment;
 
 import com.jim.multipos.config.scope.PerFragment;
 import com.jim.multipos.ui.cash_management.presenter.CashLogPresenterModule;
-import com.jim.multipos.ui.cash_management.presenter.CashOperationsPresenterModule;
 
 import dagger.Binds;
 import dagger.Module;

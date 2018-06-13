@@ -4,6 +4,7 @@ import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
 
 import java.io.Serializable;
+import java.util.List;
 
 
 /**
@@ -12,7 +13,7 @@ import java.io.Serializable;
 public class InventoryItem implements Serializable {
     long id;
     Product product;
-    Vendor vendor;
+    List<Vendor> vendors;
     double inventory;
     double lowStockAlert;
 
@@ -40,12 +41,12 @@ public class InventoryItem implements Serializable {
         this.product = product;
     }
 
-    public Vendor getVendor() {
-        return vendor;
+    public List<Vendor> getVendors() {
+        return vendors;
     }
 
-    public void setVendor(Vendor vendor) {
-        this.vendor = vendor;
+    public void setVendors(List<Vendor> vendor) {
+        this.vendors = vendor;
     }
 
     public void setInventory(double inventory) {

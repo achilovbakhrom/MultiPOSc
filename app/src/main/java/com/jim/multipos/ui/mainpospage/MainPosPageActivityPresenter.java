@@ -24,7 +24,6 @@ public interface MainPosPageActivityPresenter extends Presenter{
     void onEditOrder(String reason);
 
     void onCancelOrder(String reason);
-    void onRestoreOrder();
 
     void holdOrderClosed(Order order);
     void newOrderHolded(Order order);

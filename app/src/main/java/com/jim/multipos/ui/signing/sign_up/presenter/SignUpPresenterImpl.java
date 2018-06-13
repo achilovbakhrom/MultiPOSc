@@ -80,7 +80,7 @@ public class SignUpPresenterImpl extends BasePresenterImpl<SignUpView> implement
             view.setErrorToEmail("Email is not valid...");
             return;
         }
-        //TODO Create and send Registration object by ApiManager
+        // Create and send Registration object by ApiManager
         view.openConfirmationFragment();
     }
 

@@ -170,15 +170,15 @@
                 android:src="@drawable/expense_selector"
                 />
 
-            <!--<ImageView-->
-                <!--android:id="@+id/ivStockQueue"-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="@dimen/thirty_five_dp"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:layout_weight="1"-->
-                <!--android:clickable="true"-->
-                <!--android:src="@drawable/income_selector"-->
-                <!--/>-->
+            <ImageView
+                android:id="@+id/ivStockQueue"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/thirty_five_dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:src="@drawable/stock_queue_selector"
+                />
 
             <ImageView
                 android:id="@+id/ivAddProduct"

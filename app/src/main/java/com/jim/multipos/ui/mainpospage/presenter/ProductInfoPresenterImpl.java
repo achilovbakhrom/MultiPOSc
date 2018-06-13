@@ -40,63 +40,9 @@ public class ProductInfoPresenterImpl extends BasePresenterImpl<ProductInfoView>
 
     @Override
     public void initProduct(Long productId) {
-//        this.product = databaseManager.getProductById(productId).blockingSingle();
-//        databaseManager.getInventoryItems().subscribe((inventoryItems, throwable) -> {
-//            for(InventoryItem inventoryItem: inventoryItems){
-//                if (inventoryItem.getProduct().getId().equals(productId)){
-//                    this.inventoryItem = inventoryItem;
-//                    productQuantity = inventoryItem.getInventory();
-//                }
-//            }
-//        });
-//        view.initProductData(product, productQuantity);
     }
 
-    @Override
-    public List<Vendor> getVendors() {
-        return product.getVendor();
-    }
 
-    @Override
-    public Vendor getVendor(int position) {
-        return product.getVendor().get(position);
-    }
-
-    @Override
-    public Vendor getPrevVendor() {
-        currentVendorPosition--;
-
-        if (currentVendorPosition < 0) {
-            currentVendorPosition = product.getVendor().size() - 1;
-        }
-
-        return product.getVendor().get(currentVendorPosition);
-    }
-
-    @Override
-    public Vendor getNextVendor() {
-        currentVendorPosition++;
-
-        if (currentVendorPosition > product.getVendor().size() - 1) {
-            currentVendorPosition = 0;
-        }
-
-        return product.getVendor().get(currentVendorPosition);
-    }
-
-    @Override
-    public Vendor getRandomVendor() {
-        int temp;
-        Random random = new Random();
-
-        do {
-            temp = random.nextInt(product.getVendor().size());
-        } while (temp == currentVendorPosition);
-
-        currentVendorPosition = temp;
-
-        return product.getVendor().get(currentVendorPosition);
-    }
 
     @Override
     public Double getProductQuantity() {

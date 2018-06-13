@@ -3,13 +3,11 @@ package com.jim.multipos.ui.inventory;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.View;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.core.SimpleActivity;
-import com.jim.multipos.data.db.model.consignment.Consignment;
 import com.jim.multipos.ui.consignment.ConsignmentActivity;
 import com.jim.multipos.ui.inventory.fragments.InventoryFragment;
 import com.jim.multipos.utils.TextWatcherOnTextChange;

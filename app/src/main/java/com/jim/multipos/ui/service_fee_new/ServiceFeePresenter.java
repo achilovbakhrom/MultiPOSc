@@ -3,8 +3,6 @@ package com.jim.multipos.ui.service_fee_new;
 import com.jim.multipos.core.Presenter;
 import com.jim.multipos.data.db.model.ServiceFee;
 
-import java.util.List;
-
 /**
  * Created by Portable-Acer on 28.10.2017.
  */

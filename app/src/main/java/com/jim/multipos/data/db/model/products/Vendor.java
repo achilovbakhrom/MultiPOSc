@@ -35,9 +35,6 @@ public class Vendor implements Editable, Serializable {
     private Long productId;
 
 
-    @ToMany
-    @JoinEntity(entity = VendorProductCon.class, sourceProperty = "vendorId", targetProperty = "productId")
-    private List<Product> products;
 
 
 
@@ -210,32 +207,13 @@ public class Vendor implements Editable, Serializable {
     }
 
     /** Resets a to-many relationship, making the next get call to query for a fresh result. */
-    @Generated(hash = 513498032)
-    public synchronized void resetProducts() {
-        products = null;
-    }
+
 
     /**
      * To-many relationship, resolved on first access (and after reset).
      * Changes to to-many relations are not persisted, make changes to the target entity.
      */
-    @Generated(hash = 878649066)
-    public List<Product> getProducts() {
-        if (products == null) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            ProductDao targetDao = daoSession.getProductDao();
-            List<Product> productsNew = targetDao._queryVendor_Products(id);
-            synchronized (this) {
-                if(products == null) {
-                    products = productsNew;
-                }
-            }
-        }
-        return products;
-    }
+
 
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 1079169342)

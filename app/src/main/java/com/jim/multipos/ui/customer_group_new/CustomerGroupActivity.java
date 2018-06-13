@@ -1,7 +1,6 @@
 package com.jim.multipos.ui.customer_group_new;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.R;

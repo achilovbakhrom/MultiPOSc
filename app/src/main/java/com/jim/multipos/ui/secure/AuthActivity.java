@@ -1,9 +1,7 @@
 package com.jim.multipos.ui.secure;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -12,10 +10,7 @@ import com.jim.multipos.R;
 import com.jim.multipos.core.BaseActivity;
 import com.jim.multipos.data.prefs.PreferencesHelper;
 
-import java.util.EnumSet;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
 
 import javax.inject.Inject;
 

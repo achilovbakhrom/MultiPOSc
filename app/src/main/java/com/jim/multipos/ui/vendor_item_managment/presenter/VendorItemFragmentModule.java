@@ -3,7 +3,6 @@ package com.jim.multipos.ui.vendor_item_managment.presenter;
 import android.support.v4.app.Fragment;
 
 import com.jim.multipos.config.scope.PerFragment;
-import com.jim.multipos.ui.inventory.fragments.InventoryPresenterModule;
 import com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemFragment;
 import com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemPresenterModule;
 import com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemView;

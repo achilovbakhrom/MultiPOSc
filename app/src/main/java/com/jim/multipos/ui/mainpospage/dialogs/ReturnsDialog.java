@@ -120,7 +120,8 @@ public class ReturnsDialog extends Dialog {
             returnProduct.setProduct(product);
             returnProduct.setCreateAt(System.currentTimeMillis());
             returnProduct.setQuantity(1);
-            returnProduct.setVendor(product.getVendor().get(0));
+            //TODO RETURN DIALOG
+//            returnProduct.setVendor(product.getVendor().get(0));
             returnProduct.setReturnAmount(product.getPrice());
             returnsAdapter.addItem(returnProduct);
         });

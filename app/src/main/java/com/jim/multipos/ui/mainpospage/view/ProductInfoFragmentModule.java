@@ -4,7 +4,6 @@ import android.support.v4.app.Fragment;
 
 import com.jim.multipos.config.scope.PerFragment;
 import com.jim.multipos.ui.mainpospage.presenter.ProductInfoPresenterModule;
-import com.jim.multipos.ui.mainpospage.presenter.ProductSquareViewPresenterModule;
 
 import dagger.Binds;
 import dagger.Module;

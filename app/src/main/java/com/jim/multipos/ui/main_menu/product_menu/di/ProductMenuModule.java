@@ -3,11 +3,7 @@ package com.jim.multipos.ui.main_menu.product_menu.di;
 import android.support.v7.app.AppCompatActivity;
 
 import com.jim.multipos.config.scope.PerActivity;
-import com.jim.multipos.config.scope.PerFragment;
 import com.jim.multipos.core.BaseActivityModule;
-import com.jim.multipos.ui.main_menu.inventory_menu.InventoryMenuActivity;
-import com.jim.multipos.ui.main_menu.inventory_menu.presenters.InventoryMenuPresenter;
-import com.jim.multipos.ui.main_menu.inventory_menu.presenters.InventoryMenuPresenterImpl;
 import com.jim.multipos.ui.main_menu.product_menu.ProductMenuActivity;
 import com.jim.multipos.ui.main_menu.product_menu.ProductMenuView;
 import com.jim.multipos.ui.main_menu.product_menu.presenters.ProductMenuPresenter;

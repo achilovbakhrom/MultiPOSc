@@ -2,11 +2,8 @@ package com.jim.multipos.ui.reports.summary_report;
 
 import com.github.mjdev.libaums.fs.UsbFile;
 import com.jim.multipos.core.Presenter;
-import com.jim.multipos.ui.reports.summary_report.adapter.PairString;
-import com.jim.multipos.ui.reports.summary_report.adapter.TripleString;
 
 import java.util.Calendar;
-import java.util.List;
 
 public interface SummaryReportPresenter extends Presenter {
     void onChooseDateInterval(Calendar fromDate, Calendar toDate);
