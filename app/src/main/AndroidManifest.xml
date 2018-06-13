@@ -193,6 +193,7 @@
                 android:resource="@xml/device_filter" />
         </activity>
         <activity android:name=".ui.customers.CustomersActivity" />
+        <activity android:name=".ui.vendors.VendorsActivity" />
 
         <service
             android:name="com.jim.multipos.utils.usb_barcode.USBService"

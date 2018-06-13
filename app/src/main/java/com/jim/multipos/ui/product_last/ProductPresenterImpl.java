@@ -52,7 +52,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     ProductPresenterImpl(ProductView productView, DatabaseManager databaseManager) {
         super(productView);
         this.databaseManager = databaseManager;
-//        inventoryStates = new ArrayList<>();
         productClass = null;
         searchBuilder = new StringBuilder();
         productList = new ArrayList<>();
@@ -99,7 +98,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             result = databaseManager.getActiveCategories().blockingSingle();
         else
             result = databaseManager.getAllCategories().blockingSingle();
-//        Collections.sort(result, (o1, o2) -> o1.getPosition().compareTo(o2.getPosition()));
         Collections.sort(result, (o1, o2) -> -((Boolean) o1.isActive()).compareTo(o2.isActive()));
         result.add(0, null);
         return result;
@@ -466,7 +464,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 subCategories = this.category.getActiveSubCategories();
             }
             if (subCategories != null && !subCategories.isEmpty()) {
-//                Collections.sort(subCategories, (o1, o2) -> o1.getPosition().compareTo(o2.getPosition()));
                 Collections.sort(subCategories, (o1, o2) -> -((Boolean) o1.isActive()).compareTo(o2.isActive()));
             }
             subCategories.add(0, null);
@@ -509,16 +506,11 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
         if (product == null) {
             this.product = null;
             this.productClass = null;
-//            this.inventoryStates.clear();
             mode = CategoryAddEditMode.PRODUCT_ADD_MODE;
             view.unselectProductsList();
             view.openProductAddMode();
         } else {
             this.product = product;
-//            databaseManager.getInventoryStatesByProductId(this.product.getRootId()).subscribe(inventoryStates1 -> {
-//                inventoryStates.clear();
-//                inventoryStates.addAll(inventoryStates1);
-//            });
             view.selectProductListItem(this.product.getId());
             mode = CategoryAddEditMode.PRODUCT_EDIT_MODE;
             List<UnitCategory> unitCategories = databaseManager.getAllUnitCategories().blockingSingle();
@@ -887,7 +879,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             result = category.getActiveSubCategories();
         }
         if (result != null && !result.isEmpty()) {
-//            Collections.sort(result, (o1, o2) -> o1.getPosition().compareTo(o2.getPosition()));
             Collections.sort(result, (o1, o2) -> -((Boolean) o1.isActive()).compareTo(o2.isActive()));
         }
         return result;
@@ -899,57 +890,29 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     @Override
     public void deleteProduct() {
         if (product != null) {
-//            List<InventoryState> inventoryStates = databaseManager.getInventoryStatesByProductId(product.getRootId()).blockingSingle();
-//            double summary = 0;
-//            for (InventoryState inventoryState : inventoryStates) {
-//                summary += inventoryState.getValue();
-//            }
-//            if (product.isActive()) {
-//                view.showCannotDeleteActiveItemDialog();
-//            } else if (summary > 0) {
-//                view.showCannotDeleteItemWithPlusValue(summary);
-//            } else if (summary < 0) {
-//                view.showCannotDeleteItemWithMinusValue(summary);
-//            } else {
-//                view.showDeleteDialog(new UIUtils.AlertListener() {
-//                    @Override
-//                    public void onPositiveButtonClicked() {
-//                        product.setActive(false);
-//                        product.setDeleted(true);
-//                        product.setNotModifyted(false);
-//                        for (int i = 0; i < inventoryStates.size(); i++) {
-//                            databaseManager.deleteInventoryState(inventoryStates.get(i)).subscribe();
-//                        }
-//                        databaseManager.replaceProduct(product).subscribe(aLong -> {
-//                            if (subcategory != null) {
-//                                subcategory.resetProducts();
-//                                view.sendProductEvent(GlobalEventConstants.DELETE, product);
-//                                openSubcategory(subcategory);
-//                                openProduct(null);
-////                                List<Product> list = new ArrayList<>();
-////                                if (ProductPresenterImpl.this.subcategory != null &&
-////                                        !ProductPresenterImpl.this.subcategory.getProducts().isEmpty()) {
-////                                    list.addAll(subcategory.getProducts());
-////                                    Collections.sort(list, (o1, o2) -> o1.getPosition().compareTo(o2.getPosition()));
-////                                    Collections.sort(list, (o1, o2) -> -((Boolean) o1.isActive()).compareTo(o2.isActive()));
-////                                }
-////                                list.add(0, null);
-////                                view.setListToProducts(list);
-////                                mode = CategoryAddEditMode.PRODUCT_ADD_MODE;
-////                                view.openProductAddMode();
-////                                view.unselectProductsList();
-////                                showActivesToggled();
-//                            }
-//                        });
-//                    }
-//
-//                    @Override
-//                    public void onNegativeButtonClicked() {
-//                    }
-//                });
-//            }
+                view.showDeleteDialog(new UIUtils.AlertListener() {
+                    @Override
+                    public void onPositiveButtonClicked() {
+                        product.setActive(false);
+                        product.setDeleted(true);
+                        product.setNotModifyted(false);
+                        databaseManager.replaceProduct(product).subscribe(aLong -> {
+                            if (subcategory != null) {
+                                subcategory.resetProducts();
+                                view.sendProductEvent(GlobalEventConstants.DELETE, product);
+                                openSubcategory(subcategory);
+                                openProduct(null);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onNegativeButtonClicked() {
+
+                    }
+                });
+            }
         }
-    }
 
     /**
      * deleting category
@@ -1016,7 +979,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                                     categories = databaseManager.getAllCategories().blockingSingle();
                                 }
                                 if (categories != null && !categories.isEmpty()) {
-//                                    Collections.sort(categories, (o1, o2) -> o1.getPosition().compareTo(o2.getPosition()));
                                     Collections.sort(categories, (o1, o2) -> -((Boolean) o1.isActive()).compareTo(o2.isActive()));
                                 }
                                 categories.add(0, null);
@@ -1061,11 +1023,9 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
      * @param priceCurrencuyPos - product price currency
      * @param unitCategoryPos   - product main unit
      * @param unitPos           - product unit
-//     * @param vendors           - product vendors
      * @param description       - product description
      * @param resultPrice
      */
-//    List<InventoryState> inventoryStates;
 
     @Override
     public void addProduct(String name, String barcode,
@@ -1483,7 +1443,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             subCategories = this.category.getActiveSubCategories();
         }
         if (subCategories != null && !subCategories.isEmpty()) {
-//            Collections.sort(subCategories, (o1, o2) -> o1.getPosition().compareTo(o2.getPosition()));
             Collections.sort(subCategories, (o1, o2) -> -((Boolean) o1.isActive()).compareTo(o2.isActive()));
         }
         subCategories.add(0, null);

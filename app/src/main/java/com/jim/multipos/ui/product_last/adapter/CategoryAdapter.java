@@ -1,5 +1,7 @@
 package com.jim.multipos.ui.product_last.adapter;
 
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,44 +10,50 @@ import android.widget.ImageView;
 import com.jim.mpviews.MPAddItemView;
 import com.jim.mpviews.MPListItemView;
 import com.jim.multipos.R;
-import com.jim.multipos.core.BaseViewHolder;
-import com.jim.multipos.core.ClickableBaseAdapter;
-import com.jim.multipos.core.MovableBaseAdapter;
 import com.jim.multipos.data.db.model.products.Category;
 
 import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by Achilov Bakhrom on 10/26/17.
  */
 
-public class CategoryAdapter extends ClickableBaseAdapter<Category, BaseViewHolder> {
+public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int ADD = 0, ITEM = 1;
-
+    private int selectedPosition = -1;
     public static final int CATEGORY_MODE = 0, SUBCATEGORY_MODE = 1;
     private int mode;
+    private List<Category> items;
+    private OnItemClickListener listener;
 
-    public CategoryAdapter(List<Category> items, int mode) {
-        super(items);
+    public CategoryAdapter(List<Category> items, int mode, OnItemClickListener onItemClickListener) {
         this.mode = mode;
+        this.items = items;
+        this.listener = onItemClickListener;
     }
 
-    public List<Category> getItems(){
+    public List<Category> getItems() {
         return this.items;
     }
 
-    @Override
-    protected void onItemClicked(BaseViewHolder holder, int position) {
+    public void setItems(List<Category> items) {
+        this.items = items;
+        notifyDataSetChanged();
+    }
+
+    public void removeAllItems() {
+        this.items.clear();
         notifyDataSetChanged();
     }
 
     @Override
-    public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        BaseViewHolder holder = null;
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        RecyclerView.ViewHolder holder = null;
         View view;
         switch (viewType) {
             case ADD:
@@ -64,23 +72,17 @@ public class CategoryAdapter extends ClickableBaseAdapter<Category, BaseViewHold
     }
 
     @Override
-    protected boolean isSinglePositionClickDisabled() {
-        return true;
-    }
-
-    @Override
-    public void onBindViewHolder(BaseViewHolder holder, int position) {
-        super.onBindViewHolder(holder, position);
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ItemViewHolder) {
             ItemViewHolder item = ((ItemViewHolder) holder);
-            item.itemView.setActivate(position == selectedPosition);
-            item.itemView.setText(items.get(position).getName());
-            item.itemView.makeDeleteable(!items.get(position).isActive());
-            item.itemView.setTextSize(12);
-            if (position == selectedPosition){
+            item.mpListItemView.setActivate(position == selectedPosition);
+            item.mpListItemView.setText(items.get(position).getName());
+            item.mpListItemView.makeDeleteable(!items.get(position).isActive());
+            item.mpListItemView.setTextSize(12);
+            if (position == selectedPosition) {
                 item.ivNextItem.setVisibility(View.VISIBLE);
             } else item.ivNextItem.setVisibility(View.INVISIBLE);
-        } else if (holder instanceof AddViewHolder){
+        } else if (holder instanceof AddViewHolder) {
             AddViewHolder item = (AddViewHolder) holder;
             item.itemView.setTextSize(12);
         }
@@ -112,39 +114,38 @@ public class CategoryAdapter extends ClickableBaseAdapter<Category, BaseViewHold
     }
 
     private void sort() {
+        items.remove(0);
         Collections.sort(items, (o1, o2) -> {
             if (o1 != null && o2 != null)
                 return -((Boolean) o1.isActive()).compareTo(o2.isActive());
             return -1;
         });
+        items.add(0, null);
         notifyDataSetChanged();
     }
+
     public void setSelectedPosition(int position) {
         selectedPosition = position;
         notifyDataSetChanged();
     }
 
-    @Override
     public void addItems(List<Category> items) {
-        super.addItems(items);
+        this.items.addAll(items);
         sort();
     }
 
-    @Override
     public void addItem(Category item) {
-        super.addItem(item);
+        this.items.add(item);
         sort();
     }
 
-    @Override
     public void removeItem(int position) {
-        super.removeItem(position);
+        items.remove(position);
         sort();
     }
 
-    @Override
     public void removeItem(Category item) {
-        super.removeItem(item);
+        items.remove(item);
         sort();
     }
 
@@ -153,27 +154,58 @@ public class CategoryAdapter extends ClickableBaseAdapter<Category, BaseViewHold
         return position == 0 ? ADD : ITEM;
     }
 
+    @Override
+    public int getItemCount() {
+        return items.size();
+    }
+
     public void unselect() {
         selectedPosition = -1;
         notifyDataSetChanged();
     }
 
-    class AddViewHolder extends BaseViewHolder {
+    class AddViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.aivAddItem)
         MPAddItemView itemView;
+
         AddViewHolder(View itemView) {
             super(itemView);
+            ButterKnife.bind(this, itemView);
+            this.itemView.setOnClickListener(v -> {
+                if (selectedPosition != getAdapterPosition()) {
+                    int prevPosition = selectedPosition;
+                    selectedPosition = getAdapterPosition();
+                    listener.onItemClick(items.get(getAdapterPosition()), getAdapterPosition());
+                    notifyItemChanged(selectedPosition);
+                    notifyItemChanged(prevPosition);
+                }
+            });
         }
     }
 
-    class ItemViewHolder extends BaseViewHolder {
+    class ItemViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.aivItem)
-        MPListItemView itemView;
+        MPListItemView mpListItemView;
         @BindView(R.id.ivNextItem)
         ImageView ivNextItem;
+
         ItemViewHolder(View itemView) {
             super(itemView);
+            ButterKnife.bind(this, itemView);
+            mpListItemView.setOnClickListener(v -> {
+                if (selectedPosition != getAdapterPosition()) {
+                    int prevPosition = selectedPosition;
+                    selectedPosition = getAdapterPosition();
+                    listener.onItemClick(items.get(getAdapterPosition()), getAdapterPosition());
+                    notifyItemChanged(selectedPosition);
+                    notifyItemChanged(prevPosition);
+                }
+            });
         }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(Category category, int position);
     }
 }

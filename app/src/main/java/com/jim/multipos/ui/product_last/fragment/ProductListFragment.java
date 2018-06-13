@@ -76,32 +76,12 @@ public class ProductListFragment extends BaseFragment {
         firstArrow.setVisibility(View.GONE);
         secordArrow.setVisibility(View.GONE);
 
-        CategoryAdapter categoryAdapter = new CategoryAdapter(categories, CategoryAdapter.CATEGORY_MODE);
-        categoryAdapter.setOnItemClickListener(new ClickableBaseAdapter.OnItemClickListener<Category>() {
-            @Override
-            public void onItemClicked(int position) {
-            }
-
-            @Override
-            public void onItemClicked(Category item) {
-                ((ProductActivity) getContext()).getPresenter().categorySelected(item);
-            }
-        });
+        CategoryAdapter categoryAdapter = new CategoryAdapter(categories, CategoryAdapter.CATEGORY_MODE, (category, position) -> ((ProductActivity) getContext()).getPresenter().categorySelected(category));
         this.categories.setLayoutManager(new LinearLayoutManager(getContext()));
         this.categories.setAdapter(categoryAdapter);
         ((SimpleItemAnimator) this.categories.getItemAnimator()).setSupportsChangeAnimations(false);
 
-        CategoryAdapter subcategoryAdapter = new CategoryAdapter(new ArrayList<>(), CategoryAdapter.SUBCATEGORY_MODE);
-        subcategoryAdapter.setOnItemClickListener(new ClickableBaseAdapter.OnItemClickListener<Category>() {
-            @Override
-            public void onItemClicked(int position) {
-            }
-
-            @Override
-            public void onItemClicked(Category item) {
-                ((ProductActivity) getContext()).getPresenter().subcategorySelected(item);
-            }
-        });
+        CategoryAdapter subcategoryAdapter = new CategoryAdapter(new ArrayList<>(), CategoryAdapter.SUBCATEGORY_MODE, (category, position) -> ((ProductActivity) getContext()).getPresenter().subcategorySelected(category));
         this.subcategories.setLayoutManager(new LinearLayoutManager(getContext()));
         this.subcategories.setAdapter(subcategoryAdapter);
         ((SimpleItemAnimator) this.subcategories.getItemAnimator()).setSupportsChangeAnimations(false);
@@ -162,7 +142,9 @@ public class ProductListFragment extends BaseFragment {
         if (subcategories.getAdapter() != null) {
             ((CategoryAdapter) subcategories.getAdapter()).removeAllItems();
         } else {
-            CategoryAdapter adapter = new CategoryAdapter(new ArrayList<>(), CategoryAdapter.SUBCATEGORY_MODE);
+            CategoryAdapter adapter = new CategoryAdapter(new ArrayList<>(), CategoryAdapter.SUBCATEGORY_MODE, (category, position) -> {
+
+            });
             subcategories.setAdapter(adapter);
         }
     }

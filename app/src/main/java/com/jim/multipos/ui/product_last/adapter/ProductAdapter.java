@@ -36,7 +36,7 @@ public class ProductAdapter extends ClickableBaseAdapter<Product, BaseViewHolder
 
     }
 
-    public List<Product> getItems(){
+    public List<Product> getItems() {
         return this.items;
     }
 
@@ -67,7 +67,7 @@ public class ProductAdapter extends ClickableBaseAdapter<Product, BaseViewHolder
             item.itemView.setText(items.get(position).getName());
             item.itemView.makeDeleteable(!items.get(position).isActive());
             item.itemView.setTextSize(12);
-        } else if (holder instanceof AddViewHolder){
+        } else if (holder instanceof AddViewHolder) {
             AddViewHolder item = (AddViewHolder) holder;
             item.itemView.setTextSize(12);
         }
@@ -104,13 +104,16 @@ public class ProductAdapter extends ClickableBaseAdapter<Product, BaseViewHolder
     }
 
     private void sort() {
+        items.remove(0);
         Collections.sort(items, (o1, o2) -> {
             if (o1 != null && o2 != null)
                 return -((Boolean) o1.isActive()).compareTo(o2.isActive());
             return -1;
         });
+        items.add(0, null);
         notifyDataSetChanged();
     }
+
     public void setSelectedPosition(int position) {
         selectedPosition = position;
         notifyDataSetChanged();
