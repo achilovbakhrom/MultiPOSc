@@ -205,17 +205,18 @@ public class PaymentToVendorDialog extends Dialog {
                 } else billingOperations.setPaymentDate(calendar.getTimeInMillis());
                 billingOperations.setCreateAt(System.currentTimeMillis());
                 billingOperations.setIsActive(true);
-                billingOperations.setIsNotModified(true);
+//                billingOperations.setIsNotModified(true);
                 billingOperations.setVendor(vendor);
                 billingOperations.setDescription(etDisc.getText().toString());
                 billingOperations.setOperationType(BillingOperations.PAID_TO_CONSIGNMENT);
-                if (operations != null) {
-                    if (operations.getRootId() != null)
-                        billingOperations.setRootId(operations.getRootId());
-                    else billingOperations.setRootId(operations.getId());
-                    operations.setNotModifyted(false);
-                    databaseManager.insertBillingOperation(operations).subscribe();
-                }
+//                if (operations != null) {
+//                    if (operations.getRootId() != null)
+//                        billingOperations.setRootId(operations.getRootId());
+//                    else billingOperations.setRootId(operations.getId());
+////                    //TODO EDITABLE TO STATEABLE
+////                    operations.setNotModifyted(false);
+//                    databaseManager.insertBillingOperation(operations).subscribe();
+//                }
                 databaseManager.insertBillingOperation(billingOperations).subscribe();
                 paymentToVendorCallback.onChanged();
                 UIUtils.closeKeyboard(btnWarningYES, context);

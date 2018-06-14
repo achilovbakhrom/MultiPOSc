@@ -2,7 +2,6 @@ package com.jim.multipos.data.db.model.products;
 
 
 import com.jim.multipos.data.db.model.DaoSession;
-import com.jim.multipos.data.db.model.intosystem.Editable;
 
 import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
@@ -14,11 +13,10 @@ import org.greenrobot.greendao.annotation.ToMany;
 import org.greenrobot.greendao.annotation.ToOne;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity(nameInDb = "CATEGORY", active = true)
-public class Category implements Editable, Serializable{
+public class Category implements  Serializable{
     public static final Long WITHOUT_PARENT = -1L;
     @Id(autoincrement = true)
     private Long id;
@@ -26,9 +24,7 @@ public class Category implements Editable, Serializable{
     private String description = "";
     private Boolean isActive = true;
     private Boolean isDeleted = false;
-    private Boolean isNotModified = true;
     private Long createdDate;
-    private Long rootId;
     private Long parentId = WITHOUT_PARENT;
     @ToOne(joinProperty = "parentId")
     private Category parentCategory;
@@ -118,8 +114,7 @@ public class Category implements Editable, Serializable{
                 .where(
                         ProductDao.Properties.CategoryId.eq(id),
                         ProductDao.Properties.IsActive.eq(true),
-                        ProductDao.Properties.IsDeleted.eq(false),
-                        ProductDao.Properties.IsNotModified.eq(true)
+                        ProductDao.Properties.IsDeleted.eq(false)
                 )
                 .build()
                 .list();
@@ -135,8 +130,7 @@ public class Category implements Editable, Serializable{
                 .queryBuilder(Product.class)
                 .where(
                         ProductDao.Properties.CategoryId.eq(id),
-                        ProductDao.Properties.IsDeleted.eq(false),
-                        ProductDao.Properties.IsNotModified.eq(true)
+                        ProductDao.Properties.IsDeleted.eq(false)
                 )
                 .build()
                 .list();
@@ -182,8 +176,7 @@ public class Category implements Editable, Serializable{
                 .queryBuilder(Category.class)
                 .where(CategoryDao.Properties.ParentId.eq(id),
                         CategoryDao.Properties.IsActive.eq(true),
-                        CategoryDao.Properties.IsDeleted.eq(false),
-                        CategoryDao.Properties.IsNotModified.eq(true))
+                        CategoryDao.Properties.IsDeleted.eq(false))
                 .build()
                 .list();
     }
@@ -197,8 +190,7 @@ public class Category implements Editable, Serializable{
         return daoSession
                 .queryBuilder(Category.class)
                 .where(CategoryDao.Properties.ParentId.eq(id),
-                        CategoryDao.Properties.IsDeleted.eq(false),
-                        CategoryDao.Properties.IsNotModified.eq(true))
+                        CategoryDao.Properties.IsDeleted.eq(false))
                 .build()
                 .list();
     }
@@ -237,7 +229,6 @@ public class Category implements Editable, Serializable{
         return this.createdDate;
     }
 
-    @Override
     public void setCreatedDate(long createdDate) {
         this.createdDate = createdDate;
     }
@@ -246,13 +237,6 @@ public class Category implements Editable, Serializable{
         this.createdDate = createdDate;
     }
 
-    public Boolean getIsNotModified() {
-        return this.isNotModified;
-    }
-
-    public void setIsNotModified(Boolean isNotModified) {
-        this.isNotModified = isNotModified;
-    }
 
     public Boolean getIsDeleted() {
         return this.isDeleted;
@@ -294,43 +278,23 @@ public class Category implements Editable, Serializable{
         this.id = id;
     }
 
-    @Override
     public boolean isActive() {
         return this.isActive;
     }
 
-    @Override
     public void setActive(boolean active) {
         this.isActive = active;
     }
 
-    @Override
     public boolean isDeleted() {
         return this.isDeleted;
     }
 
-    @Override
     public void setDeleted(boolean deleted) {
         this.isDeleted = deleted;
     }
 
-    @Override
-    public boolean isNotModifyted() {
-        return this.isNotModified;
-    }
 
-    @Override
-    public void setNotModifyted(boolean notModifyted) {
-        this.isNotModified = notModifyted;
-    }
-
-    public Long getRootId() {
-        return this.rootId;
-    }
-
-    public void setRootId(Long rootId) {
-        this.rootId = rootId;
-    }
 
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 607733206)
@@ -365,17 +329,15 @@ public class Category implements Editable, Serializable{
     public Category() {
     }
 
-    @Generated(hash = 1021623395)
+    @Generated(hash = 958551315)
     public Category(Long id, String name, String description, Boolean isActive, Boolean isDeleted,
-            Boolean isNotModified, Long createdDate, Long rootId, Long parentId) {
+            Long createdDate, Long parentId) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.isActive = isActive;
         this.isDeleted = isDeleted;
-        this.isNotModified = isNotModified;
         this.createdDate = createdDate;
-        this.rootId = rootId;
         this.parentId = parentId;
     }
 

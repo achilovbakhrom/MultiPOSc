@@ -41,7 +41,6 @@ import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.Contact;
 import com.jim.multipos.data.db.model.products.Product;
-import com.jim.multipos.data.db.model.products.VendorProductCon;
 import com.jim.multipos.data.db.model.stock.Stock;
 import com.jim.multipos.data.db.model.till.Till;
 import com.jim.multipos.data.db.model.till.TillManagementOperation;
@@ -180,12 +179,6 @@ public interface DbHelper {
     Observable<Boolean> removeProduct(Product product);
     //Inventory
     Single<List<InventoryItem>> getInventoryItems();
-    Observable<Long> addProductVendorConn(VendorProductCon vendorProductCon);
-    Observable<Boolean> removeVendorProductConnection(VendorProductCon vendorProductCon);
-    Observable<Boolean> removeVendorProductConnectionByVendorId(Long vendorId);
-    Observable<Boolean> removeVendorProductConnectionByProductId(Long productId);
-    Observable<List<VendorProductCon>> getVendorProductConnectionByProductId(Long productId);
-    Observable<VendorProductCon> getVendorProductConnectionById(Long productId, Long vendorId);
 
     Single<Consignment> insertConsignment(Consignment consignment);
     Observable<Long> insertConsignmentProduct(ConsignmentProduct consignmentProduct);
@@ -227,7 +220,6 @@ public interface DbHelper {
 
     Single<Boolean> insertReturns(List<Return> returnsList);
 
-    Single<List<VendorProductCon>> getVendorProductConnectionByVendorId(Long vendorId);
     Single<PaymentType> getDebtPaymentType();
     Single<List<PayedPartitions>> insertPayedPartitions(List<PayedPartitions> payedPartitions);
     Single<List<OrderProduct>> insertOrderProducts(List<OrderProduct> orderProducts);
@@ -264,7 +256,6 @@ public interface DbHelper {
     Single<Long> deleteOrderProductsOnHold(List<OrderProduct> orderProducts);
     Single<Long> deletePayedPartitions(List<PayedPartitions> payedPartitions);
     Single<List<Order>> getAllTillClosedOrders();
-    Single<Product> getProductByRootId(Long rootId);
     Single<Boolean> isProductSkuExists(String sku, Long subcategoryId);
     Single<Boolean> isConsignmentNumberExists(String number);
     Single<Vendor> detachVendor(Vendor vendor);

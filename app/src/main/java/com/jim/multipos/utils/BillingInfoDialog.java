@@ -57,15 +57,17 @@ public class BillingInfoDialog extends Dialog {
         adapter = new BillingInfoAdapter(context, currency);
 
         rvPayments.setAdapter(adapter);
-        if (operations.getRootId() != null) {
-            databaseManager.getBillingOperationByRootId(operations.getRootId()).subscribe((billingOperations1, throwable) -> {
-                billingOperations = billingOperations1;
-                adapter.setData(billingOperations);
-            });
-        } else {
-            billingOperations.add(operations);
-            adapter.setData(billingOperations);
-        }
+        //TODO EDITABLE TO STATEABLE
+
+//        if (operations.getRootId() != null) {
+//            databaseManager.getBillingOperationByRootId(operations.getRootId()).subscribe((billingOperations1, throwable) -> {
+//                billingOperations = billingOperations1;
+//                adapter.setData(billingOperations);
+//            });
+//        } else {
+//            billingOperations.add(operations);
+//            adapter.setData(billingOperations);
+//        }
 
         btnWarningYES.setOnClickListener(view -> {
             dismiss();

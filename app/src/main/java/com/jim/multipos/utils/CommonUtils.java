@@ -10,7 +10,6 @@ import com.jim.multipos.R;
 import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.intosystem.Activatable;
-import com.jim.multipos.data.db.model.intosystem.Editable;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -60,25 +59,6 @@ public class CommonUtils {
     public static int dpToPx(int dp)
     {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
-    }
-    public static <T extends Editable>  List<T> getAllNewVersionPlusId(List<T> entityList, String id){
-        List<T> modifyList = new ArrayList<>();
-//        for (T entity: entityList){
-//            if(entity.isNewVersion()||entity.getId().equals(id)){
-//                modifyList.add(entity);
-//            }
-//        }
-        return modifyList;
-    }
-
-    public static  <T extends Editable>  List<T>  getAllActiveNewVersionPlusId(List<T> entityList, String id){
-        List<T> modifyList = new ArrayList<>();
-//        for (T entity: entityList){
-//            if((entity.isNewVersion()&&entity.isActive())||entity.getId().equals(id)){
-//                modifyList.add(entity);
-//            }
-//        }
-        return modifyList;
     }
 
     public static  <T extends Activatable>  List<T>  getAllActivePlusId(List<T> entityList, String id){

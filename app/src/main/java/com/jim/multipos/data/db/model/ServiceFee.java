@@ -2,22 +2,30 @@ package com.jim.multipos.data.db.model;
 
 
 import android.content.Context;
+import android.support.annotation.Keep;
 
-import com.jim.multipos.data.db.model.intosystem.Editable;
+import com.jim.multipos.data.db.model.history.DiscountHistory;
+import com.jim.multipos.data.db.model.history.ServiceFeeHistory;
 import com.jim.multipos.utils.CommonUtils;
 
 import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.JoinProperty;
+import org.greenrobot.greendao.annotation.ToMany;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import com.jim.multipos.data.db.model.history.ServiceFeeHistoryDao;
 
 
 @Entity(nameInDb = "SERVICE_FEE", active = true)
-public class ServiceFee implements Editable {
+public class ServiceFee  {
 
     public static final int PERCENT = 0;
     public static final int VALUE = 1;
@@ -33,10 +41,55 @@ public class ServiceFee implements Editable {
     private int applyingType;
     private boolean isActive = true;
     private boolean isDeleted = false;
-    private boolean notModifyted = true;
     private boolean isManual = false;
-    private Long rootId;
     private Long createdDate;
+
+    @ToMany(joinProperties = {
+            @JoinProperty(
+                    name = "id", referencedName = "rootId"
+            )
+    })
+    private List<ServiceFeeHistory> serviceFeeHistories;
+
+    @Keep
+    public void keepToHistory(){
+        if(daoSession!=null){
+            ServiceFeeHistory serviceFeeHistory = new ServiceFeeHistory();
+            serviceFeeHistory.setAmount(amount);
+            serviceFeeHistory.setType(type);
+            serviceFeeHistory.setName(name);
+            serviceFeeHistory.setApplyingType(applyingType);
+            serviceFeeHistory.setIsActive(isActive);
+            serviceFeeHistory.setIsDeleted(isDeleted);
+            serviceFeeHistory.setIsManual(isManual);
+            serviceFeeHistory.setCreatedDate(createdDate);
+            serviceFeeHistory.setRootId(id);
+            serviceFeeHistory.setEditedAt(System.currentTimeMillis());
+            daoSession.getServiceFeeHistoryDao().insertOrReplace(serviceFeeHistory);
+        }
+    }
+    @Keep
+    public ServiceFeeHistory getServiceFeeHistoryForDate(Long date){
+        if(daoSession!=null){
+            List<ServiceFeeHistory> serviceFeeHistories = getServiceFeeHistories();
+            Collections.sort(serviceFeeHistories, new Comparator<ServiceFeeHistory>() {
+                @Override
+                public int compare(ServiceFeeHistory serviceFeeHistory, ServiceFeeHistory t1) {
+                    return serviceFeeHistory.getEditedAt().compareTo(t1.getEditedAt());
+                }
+            });
+            for(ServiceFeeHistory serviceFeeHistory:serviceFeeHistories){
+                if(date > serviceFeeHistory.getEditedAt()){
+                    return serviceFeeHistory;
+                }
+            }
+            return null;
+        }else {
+            new Exception("Gettting History for not saved object exeption").printStackTrace();
+            return null;
+        }
+    }
+
     /** Used for active entity operations. */
     @Generated(hash = 1592290701)
     private transient ServiceFeeDao myDao;
@@ -48,10 +101,9 @@ public class ServiceFee implements Editable {
     public ServiceFee() {
     }
 
-    @Generated(hash = 764501024)
+    @Generated(hash = 832403407)
     public ServiceFee(Long id, Double amount, int type, String name, int applyingType,
-            boolean isActive, boolean isDeleted, boolean notModifyted, boolean isManual,
-            Long rootId, Long createdDate) {
+            boolean isActive, boolean isDeleted, boolean isManual, Long createdDate) {
         this.id = id;
         this.amount = amount;
         this.type = type;
@@ -59,9 +111,7 @@ public class ServiceFee implements Editable {
         this.applyingType = applyingType;
         this.isActive = isActive;
         this.isDeleted = isDeleted;
-        this.notModifyted = notModifyted;
         this.isManual = isManual;
-        this.rootId = rootId;
         this.createdDate = createdDate;
     }
 
@@ -101,7 +151,6 @@ public class ServiceFee implements Editable {
         return this.createdDate;
     }
 
-    @Override
     public void setCreatedDate(long createdDate) {
         this.createdDate = createdDate;
     }
@@ -115,45 +164,22 @@ public class ServiceFee implements Editable {
         this.amount = amount;
     }
 
-    @Override
     public boolean isActive() {
         return isActive;
     }
 
-    @Override
     public void setActive(boolean active) {
         this.isActive = active;
     }
 
-    @Override
     public boolean isDeleted() {
         return isDeleted;
     }
 
-    @Override
     public void setDeleted(boolean deleted) {
         this.isDeleted = deleted;
     }
 
-    @Override
-    public boolean isNotModifyted() {
-        return notModifyted;
-    }
-
-    @Override
-    public void setNotModifyted(boolean notModifyted) {
-        this.notModifyted = notModifyted;
-    }
-
-    @Override
-    public Long getRootId() {
-        return rootId;
-    }
-
-    @Override
-    public void setRootId(Long rootId) {
-        this.rootId = rootId;
-    }
 
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
@@ -200,10 +226,6 @@ public class ServiceFee implements Editable {
 
     public void setCreatedDate(Long createdDate) {
         this.createdDate = createdDate;
-    }
-
-    public boolean getNotModifyted() {
-        return this.notModifyted;
     }
 
     public boolean getIsDeleted() {
@@ -262,9 +284,35 @@ public class ServiceFee implements Editable {
         serviceFee.setType(type);
         serviceFee.setApplyingType(applyingType);
         serviceFee.setActive(isActive);
-        serviceFee.setNotModifyted(notModifyted);
-        serviceFee.setRootId(rootId);
         serviceFee.setCreatedDate(createdDate);
         return serviceFee;
+    }
+
+    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    @Generated(hash = 1492452982)
+    public synchronized void resetServiceFeeHistories() {
+        serviceFeeHistories = null;
+    }
+
+    /**
+     * To-many relationship, resolved on first access (and after reset).
+     * Changes to to-many relations are not persisted, make changes to the target entity.
+     */
+    @Generated(hash = 566565551)
+    public List<ServiceFeeHistory> getServiceFeeHistories() {
+        if (serviceFeeHistories == null) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            ServiceFeeHistoryDao targetDao = daoSession.getServiceFeeHistoryDao();
+            List<ServiceFeeHistory> serviceFeeHistoriesNew = targetDao._queryServiceFee_ServiceFeeHistories(id);
+            synchronized (this) {
+                if(serviceFeeHistories == null) {
+                    serviceFeeHistories = serviceFeeHistoriesNew;
+                }
+            }
+        }
+        return serviceFeeHistories;
     }
 }

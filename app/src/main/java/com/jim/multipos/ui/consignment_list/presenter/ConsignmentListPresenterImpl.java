@@ -129,7 +129,9 @@ public class ConsignmentListPresenterImpl extends BasePresenterImpl<ConsignmentL
         }
         List<ConsignmentProduct> consignmentProductList = consignment.getAllConsignmentProducts();
         for (int i = 0; i < consignmentProductList.size(); i++) {
-            consignmentProductList.get(i).setDeleted(true);
+            //TODO EDITABLE TO STATEABLE
+
+//            consignmentProductList.get(i).setDeleted(true);
 //            WarehouseOperations warehouseOperations = consignmentProductList.get(i).getWarehouse();
 //            warehouseOperations.setNotModifyted(false);
 //            warehouseOperations.setType(WarehouseOperations.CONSIGNMENT_DELETED);

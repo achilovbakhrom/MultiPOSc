@@ -1,12 +1,16 @@
 package com.jim.multipos.data.db.model.inventory;
 
+
 import com.jim.multipos.data.db.model.Account;
 import com.jim.multipos.data.db.model.consignment.Consignment;
-import com.jim.multipos.data.db.model.intosystem.Editable;
+import com.jim.multipos.data.db.model.history.BillingOperationsHistory;
 import com.jim.multipos.data.db.model.products.Vendor;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.JoinProperty;
+import org.greenrobot.greendao.annotation.Keep;
+import org.greenrobot.greendao.annotation.ToMany;
 import org.greenrobot.greendao.annotation.ToOne;
 
 import org.greenrobot.greendao.annotation.Generated;
@@ -16,11 +20,16 @@ import com.jim.multipos.data.db.model.AccountDao;
 import com.jim.multipos.data.db.model.products.VendorDao;
 import com.jim.multipos.data.db.model.consignment.ConsignmentDao;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import com.jim.multipos.data.db.model.history.BillingOperationsHistoryDao;
+
 /**
  * Created by developer on 27.11.2017.
  */
 @Entity(nameInDb = "BILLING_OPERATION", active = true)
-public class BillingOperations implements Editable {
+public class BillingOperations  {
 
     public static final int DEBT_CONSIGNMENT = 100;
     public static final int PAID_TO_CONSIGNMENT = 101;
@@ -43,9 +52,57 @@ public class BillingOperations implements Editable {
     private String description = "";
     private boolean isActive = true;
     private boolean isDeleted = false;
-    private boolean isNotModified = true;
-    private Long rootId;
     private long paymentDate;
+
+    @ToMany(joinProperties = {
+            @JoinProperty(
+                    name = "id", referencedName = "rootId"
+            )
+    })
+    private List<BillingOperationsHistory> operationsHistoryList;
+
+
+    @Keep
+    public void keepToHistory(){
+        if(daoSession!=null){
+            BillingOperationsHistory billingOperationsHistory = new BillingOperationsHistory();
+            billingOperationsHistory.setAccountId(accountId);
+            billingOperationsHistory.setVendorId(vendorId);
+            billingOperationsHistory.setConsignmentId(consignmentId);
+            billingOperationsHistory.setAmount(amount);
+            billingOperationsHistory.setCreateAt(createAt);
+            billingOperationsHistory.setOperationType(operationType);
+            billingOperationsHistory.setDescription(description);
+            billingOperationsHistory.setIsActive(isActive);
+            billingOperationsHistory.setIsDeleted(isDeleted);
+            billingOperationsHistory.setPaymentDate(paymentDate);
+            billingOperationsHistory.setRootId(id);
+            billingOperationsHistory.setEditedAt(System.currentTimeMillis());
+            daoSession.getBillingOperationsHistoryDao().insertOrReplace(billingOperationsHistory);
+        }
+    }
+    @Keep
+    public BillingOperationsHistory getBillingOperationHistoryForDate(Long date){
+        if(daoSession!=null){
+            List<BillingOperationsHistory> billingOperationsHistories = getOperationsHistoryList();
+            Collections.sort(billingOperationsHistories, new Comparator<BillingOperationsHistory>() {
+                @Override
+                public int compare(BillingOperationsHistory billingOperationsHistory, BillingOperationsHistory t1) {
+                    return billingOperationsHistory.getEditedAt().compareTo(t1.getEditedAt());
+                }
+            });
+            for(BillingOperationsHistory billingOperationsHistory:billingOperationsHistories){
+                if(date > billingOperationsHistory.getEditedAt()){
+                    return billingOperationsHistory;
+                }
+            }
+            return null;
+        }else {
+            new Exception("Gettting History for not saved object exeption").printStackTrace();
+            return null;
+        }
+    }
+
     @Generated(hash = 1986436088)
     private transient Long consignment__resolvedKey;
     @Generated(hash = 1022035388)
@@ -115,52 +172,26 @@ public class BillingOperations implements Editable {
         this.id = id;
     }
 
-    @Override
     public boolean isActive() {
         return this.isActive;
     }
 
-    @Override
     public void setActive(boolean active) {
         this.isActive = active;
     }
 
-    @Override
     public boolean isDeleted() {
         return this.isDeleted;
     }
 
-    @Override
     public void setDeleted(boolean isDeleted) {
         this.isDeleted = isDeleted;
     }
 
-    @Override
-    public boolean isNotModifyted() {
-        return this.isNotModified;
-    }
-
-    @Override
-    public void setNotModifyted(boolean isNotModified) {
-        this.isNotModified = isNotModified;
-    }
-
-    @Override
-    public Long getRootId() {
-        return this.rootId;
-    }
-
-    @Override
-    public void setRootId(Long rootId) {
-        this.rootId = rootId;
-    }
-
-    @Override
     public Long getCreatedDate() {
         return this.createAt;
     }
 
-    @Override
     public void setCreatedDate(long createdDate) {
         this.createAt = createdDate;
     }
@@ -176,12 +207,6 @@ public class BillingOperations implements Editable {
     }
     public void setIsDeleted(boolean isDeleted) {
         this.isDeleted = isDeleted;
-    }
-    public boolean getIsNotModified() {
-        return this.isNotModified;
-    }
-    public void setIsNotModified(boolean isNotModified) {
-        this.isNotModified = isNotModified;
     }
     public boolean getIsActive() {
         return this.isActive;
@@ -309,10 +334,40 @@ public class BillingOperations implements Editable {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getBillingOperationsDao() : null;
     }
-    @Generated(hash = 1901818654)
+
+    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    @Generated(hash = 1017625180)
+    public synchronized void resetOperationsHistoryList() {
+        operationsHistoryList = null;
+    }
+
+    /**
+     * To-many relationship, resolved on first access (and after reset).
+     * Changes to to-many relations are not persisted, make changes to the target entity.
+     */
+    @Generated(hash = 877471280)
+    public List<BillingOperationsHistory> getOperationsHistoryList() {
+        if (operationsHistoryList == null) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            BillingOperationsHistoryDao targetDao = daoSession.getBillingOperationsHistoryDao();
+            List<BillingOperationsHistory> operationsHistoryListNew = targetDao._queryBillingOperations_OperationsHistoryList(id);
+            synchronized (this) {
+                if(operationsHistoryList == null) {
+                    operationsHistoryList = operationsHistoryListNew;
+                }
+            }
+        }
+        return operationsHistoryList;
+    }
+
+
+    @Generated(hash = 1782284890)
     public BillingOperations(Long id, Long accountId, Long vendorId, Long consignmentId, double amount,
             long createAt, int operationType, String description, boolean isActive, boolean isDeleted,
-            boolean isNotModified, Long rootId, long paymentDate) {
+            long paymentDate) {
         this.id = id;
         this.accountId = accountId;
         this.vendorId = vendorId;
@@ -323,8 +378,6 @@ public class BillingOperations implements Editable {
         this.description = description;
         this.isActive = isActive;
         this.isDeleted = isDeleted;
-        this.isNotModified = isNotModified;
-        this.rootId = rootId;
         this.paymentDate = paymentDate;
     }
 

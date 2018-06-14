@@ -99,14 +99,16 @@ public class ProductInfoPresenterImpl extends BasePresenterImpl<ProductInfoView>
 
     @Override
     public void addDiscount(double amount, String description, int amountType) {
+        //TODO EDITABLE TO STATEABLE
+
         Discount discount = new Discount();
         discount.setAmount(amount);
         discount.setName(description);
         discount.setAmountType(amountType);
         discount.setUsedType(Discount.ITEM);
         discount.setCreatedDate(System.currentTimeMillis());
-        discount.setDeleted(false);
-        discount.setNotModifyted(true);
+        discount.setDelete(false);
+//        discount.setNotModifyted(true);
         databaseManager.insertDiscount(discount).subscribe(discount1 -> {
             DiscountLog discountLog = new DiscountLog();
             discountLog.setChangeDate(System.currentTimeMillis());
@@ -118,6 +120,8 @@ public class ProductInfoPresenterImpl extends BasePresenterImpl<ProductInfoView>
 
     @Override
     public void addServiceFee(double amount, String description, int amountType) {
+        //TODO EDITABLE TO STATEABLE
+
         ServiceFee serviceFee = new ServiceFee();
         serviceFee.setAmount(amount);
         serviceFee.setName(description);
@@ -125,7 +129,7 @@ public class ProductInfoPresenterImpl extends BasePresenterImpl<ProductInfoView>
         serviceFee.setApplyingType(Discount.ITEM);
         serviceFee.setCreatedDate(System.currentTimeMillis());
         serviceFee.setDeleted(false);
-        serviceFee.setNotModifyted(true);
+//        serviceFee.setNotModifyted(true);
 
         databaseManager.getServiceFeeOperations().addServiceFee(serviceFee).subscribe(serviceFee1 -> {
             ServiceFeeLog serviceFeeLog = new ServiceFeeLog();

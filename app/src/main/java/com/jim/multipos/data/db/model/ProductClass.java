@@ -2,25 +2,20 @@ package com.jim.multipos.data.db.model;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.Keep;
 import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.Property;
 import org.greenrobot.greendao.annotation.ToOne;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 
-import com.jim.multipos.data.db.model.intosystem.Editable;
 import com.jim.multipos.data.db.model.intosystem.NameId;
-
-import java.util.UUID;
-
 
 
 /**
  * Created by developer on 29.08.2017.
  */
 @Entity(nameInDb = "PRODUCT_CLASS", active = true)
-public class ProductClass implements NameId,Editable {
+public class ProductClass implements NameId {
     @Id(autoincrement = true)
     private Long id;
     @Property
@@ -30,8 +25,6 @@ public class ProductClass implements NameId,Editable {
     @Property
     private Long parentId;
     private boolean deleted = false;
-    private boolean notModifyted = true;
-    private Long rootId;
     private Long createdDate = System.currentTimeMillis();
     @ToOne(joinProperty = "id")
     @NotNull
@@ -45,16 +38,14 @@ public class ProductClass implements NameId,Editable {
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
 
-    @Generated(hash = 2082892377)
+    @Generated(hash = 727956351)
     public ProductClass(Long id, String name, boolean active, Long parentId, boolean deleted,
-            boolean notModifyted, Long rootId, Long createdDate) {
+            Long createdDate) {
         this.id = id;
         this.name = name;
         this.active = active;
         this.parentId = parentId;
         this.deleted = deleted;
-        this.notModifyted = notModifyted;
-        this.rootId = rootId;
         this.createdDate = createdDate;
     }
 
@@ -62,7 +53,6 @@ public class ProductClass implements NameId,Editable {
     public ProductClass() {
     }
 
-    @Override
     public void setId(Long id) {
         this.id = id;
     }
@@ -77,42 +67,18 @@ public class ProductClass implements NameId,Editable {
         this.active = isActive;
     }
 
-    @Override
     public boolean isDeleted() {
         return deleted;
     }
 
-    @Override
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
     }
 
-    @Override
-    public boolean isNotModifyted() {
-        return notModifyted;
-    }
-
-    @Override
-    public void setNotModifyted(boolean notModifyted) {
-        this.notModifyted = notModifyted;
-    }
-
-    @Override
-    public Long getRootId() {
-        return rootId;
-    }
-
-    @Override
-    public void setRootId(Long rootId) {
-        this.rootId = rootId;
-    }
-
-    @Override
     public Long getCreatedDate() {
         return createdDate;
     }
 
-    @Override
     public void setCreatedDate(long createdDate) {
         this.createdDate = createdDate;
     }
@@ -204,9 +170,6 @@ public class ProductClass implements NameId,Editable {
         this.createdDate = createdDate;
     }
 
-    public boolean getNotModifyted() {
-        return this.notModifyted;
-    }
 
     public boolean getDeleted() {
         return this.deleted;
@@ -235,11 +198,9 @@ public class ProductClass implements NameId,Editable {
         ProductClass productClass = new ProductClass();
         productClass.setId(id);
         productClass.setDeleted(deleted);
-        productClass.setNotModifyted(notModifyted);
         productClass.setCreatedDate(createdDate);
         productClass.setActive(active);
         productClass.setName(name);
-        productClass.setRootId(rootId);
         return productClass;
     }
 }

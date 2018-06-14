@@ -1,7 +1,6 @@
 package com.jim.multipos.data.db.model.consignment;
 
 import com.jim.multipos.data.db.model.DaoSession;
-import com.jim.multipos.data.db.model.intosystem.Editable;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.products.VendorDao;
 
@@ -20,7 +19,7 @@ import java.util.List;
  * Created by Sirojiddin on 09.11.2017.
  */
 @Entity(active = true, nameInDb = "CONSIGNMENT")
-public class Consignment implements Editable {
+public class Consignment  {
 
     public static final int INCOME_CONSIGNMENT = 1000;
     public static final int RETURN_CONSIGNMENT = 1001;
@@ -32,10 +31,8 @@ public class Consignment implements Editable {
     private Double totalAmount;
     private Boolean isActive = true;
     private Boolean isDeleted = false;
-    private Boolean isNotModified = true;
     private Boolean isFromAccount;
     private Long createdDate;
-    private Long rootId;
     private int consignmentType;
     private Long vendorId;
     @ToOne(joinProperty = "vendorId")
@@ -56,20 +53,17 @@ public class Consignment implements Editable {
     @Generated(hash = 1022035388)
     private transient Long vendor__resolvedKey;
 
-    @Generated(hash = 965200699)
+    @Generated(hash = 407427411)
     public Consignment(Long id, String consignmentNumber, String description, Double totalAmount, Boolean isActive,
-            Boolean isDeleted, Boolean isNotModified, Boolean isFromAccount, Long createdDate, Long rootId,
-            int consignmentType, Long vendorId, Long firstPayId) {
+            Boolean isDeleted, Boolean isFromAccount, Long createdDate, int consignmentType, Long vendorId, Long firstPayId) {
         this.id = id;
         this.consignmentNumber = consignmentNumber;
         this.description = description;
         this.totalAmount = totalAmount;
         this.isActive = isActive;
         this.isDeleted = isDeleted;
-        this.isNotModified = isNotModified;
         this.isFromAccount = isFromAccount;
         this.createdDate = createdDate;
-        this.rootId = rootId;
         this.consignmentType = consignmentType;
         this.vendorId = vendorId;
         this.firstPayId = firstPayId;
@@ -79,62 +73,34 @@ public class Consignment implements Editable {
     public Consignment() {
     }
 
-    @Override
     public void setId(Long id) {
         this.id = id;
     }
 
-    @Override
     public boolean isActive() {
         return this.isActive;
     }
 
-    @Override
     public void setActive(boolean active) {
         this.isActive = active;
     }
 
-    @Override
     public boolean isDeleted() {
         return this.isDeleted;
     }
 
-    @Override
     public void setDeleted(boolean deleted) {
         this.isDeleted = deleted;
     }
 
-    @Override
-    public boolean isNotModifyted() {
-        return this.isNotModified;
-    }
-
-    @Override
-    public void setNotModifyted(boolean notModifyted) {
-        this.isNotModified = notModifyted;
-    }
-
-    @Override
-    public Long getRootId() {
-        return this.rootId;
-    }
-
-    @Override
-    public void setRootId(Long rootId) {
-        this.rootId = rootId;
-    }
-
-    @Override
     public Long getCreatedDate() {
         return this.createdDate;
     }
 
-    @Override
     public void setCreatedDate(long createdDate) {
         this.createdDate = createdDate;
     }
 
-    @Override
     public Long getId() {
         return this.id;
     }
@@ -215,8 +181,7 @@ public class Consignment implements Editable {
                 .queryBuilder(ConsignmentProduct.class)
                 .where(
                         ConsignmentProductDao.Properties.ConsignmentId.eq(id),
-                        ConsignmentProductDao.Properties.IsDeleted.eq(false),
-                        ConsignmentProductDao.Properties.IsNotModified.eq(true)
+                        ConsignmentProductDao.Properties.IsDeleted.eq(false)
                 )
                 .build()
                 .list();
@@ -243,13 +208,6 @@ public class Consignment implements Editable {
         this.isFromAccount = isFromAccount;
     }
 
-    public Boolean getIsNotModified() {
-        return this.isNotModified;
-    }
-
-    public void setIsNotModified(Boolean isNotModified) {
-        this.isNotModified = isNotModified;
-    }
 
     public Boolean getIsDeleted() {
         return this.isDeleted;

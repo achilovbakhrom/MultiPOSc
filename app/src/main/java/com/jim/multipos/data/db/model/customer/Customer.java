@@ -11,14 +11,12 @@ import org.greenrobot.greendao.annotation.Keep;
 import org.greenrobot.greendao.annotation.ToMany;
 
 import com.jim.multipos.data.db.model.DaoSession;
-import com.jim.multipos.data.db.model.intosystem.Editable;
 
 import java.util.List;
-import java.util.UUID;
 
 
 @Entity(nameInDb = "CUSTOMER", active = true)
-public class Customer implements Editable {
+public class Customer  {
     @Id(autoincrement = true)
     private Long id;
     private Long clientId;
@@ -30,8 +28,6 @@ public class Customer implements Editable {
     private Long modifiedDate;
     private boolean isActive = true;
     private boolean isDeleted = false;
-    private boolean isNotModifyted = true;
-    private Long rootId;
     @ToMany(joinProperties = {@JoinProperty(name = "id", referencedName = "customerId")})
     private List<Debt> debtList;
 
@@ -47,10 +43,9 @@ public class Customer implements Editable {
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
 
-    @Generated(hash = 1362279701)
+    @Generated(hash = 758908470)
     public Customer(Long id, Long clientId, String name, String phoneNumber, String address,
-            String qrCode, Long createdDate, Long modifiedDate, boolean isActive, boolean isDeleted,
-            boolean isNotModifyted, Long rootId) {
+            String qrCode, Long createdDate, Long modifiedDate, boolean isActive, boolean isDeleted) {
         this.id = id;
         this.clientId = clientId;
         this.name = name;
@@ -61,8 +56,6 @@ public class Customer implements Editable {
         this.modifiedDate = modifiedDate;
         this.isActive = isActive;
         this.isDeleted = isDeleted;
-        this.isNotModifyted = isNotModifyted;
-        this.rootId = rootId;
     }
 
     @Generated(hash = 60841032)
@@ -77,11 +70,9 @@ public class Customer implements Editable {
         customer.setCreatedDate(createdDate);
         customer.setCustomerGroups(customerGroups);
         customer.setDeleted(isDeleted);
-        customer.setIsNotModifyted(isNotModifyted);
         customer.setName(name);
         customer.setPhoneNumber(phoneNumber);
         customer.setQrCode(qrCode);
-        customer.setRootId(rootId);
         customer.setId(id);
         return customer;
     }
@@ -90,47 +81,23 @@ public class Customer implements Editable {
         this.customerGroups = customerGroups;
     }
 
-    @Override
     public boolean isActive() {
         return isActive;
     }
 
-    @Override
     public void setActive(boolean active) {
         isActive = active;
     }
 
-    @Override
     public boolean isDeleted() {
         return isDeleted;
     }
 
-    @Override
     public void setDeleted(boolean deleted) {
         isDeleted = deleted;
     }
 
-    @Override
-    public boolean isNotModifyted() {
-        return isNotModifyted;
-    }
 
-    @Override
-    public void setNotModifyted(boolean notModifyted) {
-        isNotModifyted = notModifyted;
-    }
-
-    @Override
-    public Long getRootId() {
-        return rootId;
-    }
-
-    @Override
-    public void setRootId(Long rootId) {
-        this.rootId = rootId;
-    }
-
-    @Override
     public void setCreatedDate(long createdDate) {
         this.createdDate = createdDate;
     }
@@ -270,13 +237,6 @@ public class Customer implements Editable {
         this.id = id;
     }
 
-    public boolean getIsNotModifyted() {
-        return this.isNotModifyted;
-    }
-
-    public void setIsNotModifyted(boolean isNotModifyted) {
-        this.isNotModifyted = isNotModifyted;
-    }
 
     public boolean getIsDeleted() {
         return this.isDeleted;

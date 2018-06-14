@@ -23,7 +23,6 @@ import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.OrderProduct;
 import com.jim.multipos.data.db.model.products.Product;
-import com.jim.multipos.data.db.model.products.VendorProductCon;
 import com.jim.multipos.data.db.model.unit.UnitCategory;
 import com.jim.multipos.ui.mainpospage.model.DiscountItem;
 import com.jim.multipos.ui.mainpospage.model.OrderProductItem;

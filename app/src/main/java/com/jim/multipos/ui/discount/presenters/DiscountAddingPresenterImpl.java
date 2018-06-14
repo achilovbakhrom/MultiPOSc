@@ -54,6 +54,8 @@ public class DiscountAddingPresenterImpl extends BasePresenterImpl<DiscountAddin
 
     @Override
     public void onAddPressed(double amount, int amountTypeAbbr, String discription, int usedTypeAbbr, boolean active) {
+        //TODO EDITABLE TO STATEABLE
+
         Discount discount = new Discount();
         discount.setAmount(amount);
         discount.setAmountType(amountTypeAbbr);
@@ -61,8 +63,8 @@ public class DiscountAddingPresenterImpl extends BasePresenterImpl<DiscountAddin
         discount.setUsedType(usedTypeAbbr);
         discount.setActive(active);
         discount.setCreatedDate(System.currentTimeMillis());
-        discount.setNotModifyted(true);
-        discount.setDeleted(false);
+//        discount.setNotModifyted(true);
+        discount.setDelete(false);
         databaseManager.insertDiscount(discount).subscribe((discount1, throwable) -> {
             DiscountApaterDetials discountApaterDetials = new DiscountApaterDetials();
             discountApaterDetials.setObject(discount);
@@ -79,7 +81,9 @@ public class DiscountAddingPresenterImpl extends BasePresenterImpl<DiscountAddin
 
     @Override
     public void onSave(double amount, int amountTypeAbbr, String discription, int usedTypeAbbr, boolean active, Discount discount) {
-        discount.setNotModifyted(false);
+        //TODO EDITABLE TO STATEABLE
+
+//        discount.setNotModifyted(false);
         databaseManager.insertDiscount(discount).subscribe((discount2, throwable) -> {
             DiscountLog discountLog = new DiscountLog();
             discountLog.setChangeDate(System.currentTimeMillis());
@@ -93,11 +97,11 @@ public class DiscountAddingPresenterImpl extends BasePresenterImpl<DiscountAddin
             discount1.setUsedType(usedTypeAbbr);
             discount1.setActive(active);
             discount1.setCreatedDate(discount.getCreatedDate());
-            discount1.setNotModifyted(true);
-            discount1.setDeleted(false);
-            if (discount.getRootId() != null)
-                discount1.setRootId(discount.getRootId());
-            else discount1.setRootId(discount.getId());
+//            discount1.setNotModifyted(true);
+//            discount1.setDeleted(false);
+//            if (discount.getRootId() != null)
+//                discount1.setRootId(discount.getRootId());
+//            else discount1.setRootId(discount.getId());
             databaseManager.insertDiscount(discount1).subscribe((discount3, throwable1) -> {
                 DiscountLog discountLog1 = new DiscountLog();
                 discountLog1.setChangeDate(System.currentTimeMillis());
@@ -120,7 +124,7 @@ public class DiscountAddingPresenterImpl extends BasePresenterImpl<DiscountAddin
 
     @Override
     public void onDelete(Discount discount) {
-        discount.setDeleted(true);
+        discount.setDelete(true);
         databaseManager.insertDiscount(discount).subscribe((discount1, throwable) -> {
             DiscountLog discountLog1 = new DiscountLog();
             discountLog1.setChangeDate(System.currentTimeMillis());

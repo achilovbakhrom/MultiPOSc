@@ -93,7 +93,7 @@ public class VendorItemAdapter extends RecyclerView.Adapter<VendorItemAdapter.Ve
 
             StringBuilder builder = new StringBuilder();
             for (Product product : vendorManagmentItem.getProducts()) {
-                if (product.getIsDeleted().equals(false) && product.getIsNotModified().equals(true)) {
+                if (product.getIsDeleted().equals(false) ) {
                     builder.append(product.getName());
                     builder.append(" | ");
                 }
@@ -141,7 +141,7 @@ public class VendorItemAdapter extends RecyclerView.Adapter<VendorItemAdapter.Ve
             for (Product product : vendorManagmentItem.getProducts()) {
                 if (haveContains && (!product.getName().toUpperCase().contains(searchText.toUpperCase())))
                     continue;
-                if (product.getIsDeleted().equals(false) && product.getIsNotModified().equals(true)) {
+                if (product.getIsDeleted().equals(false) ) {
                     builder.append(product.getName());
                     builder.append(" | ");
                 }
@@ -155,7 +155,7 @@ public class VendorItemAdapter extends RecyclerView.Adapter<VendorItemAdapter.Ve
         int size = 0;
         for (int i = 0; i < vendorManagmentItem.getProducts().size(); i++) {
             Product product = vendorManagmentItem.getProducts().get(i);
-            if (product.getIsDeleted().equals(false) && product.getIsNotModified().equals(true))
+            if (product.getIsDeleted().equals(false) )
                 size++;
         }
         holder.tvProductCount.setText(context.getString(R.string.product_count_two_dots) + " " + decimalFormat.format(size));

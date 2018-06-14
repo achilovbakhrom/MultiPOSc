@@ -47,11 +47,13 @@ public class ProductsClassPresenterImpl extends BasePresenterImpl<ProductsClassV
 
     @Override
     public void onAddPressed(String name, boolean active) {
+        //TODO EDITABLE TO STATEABLE
+
         ProductClass productClass = new ProductClass();
         productClass.setName(name);
         productClass.setActive(active);
         productClass.setCreatedDate(System.currentTimeMillis());
-        productClass.setNotModifyted(true);
+//        productClass.setNotModifyted(true);
         productClass.setDeleted(false);
         productClass.setParentId(null);
         databaseManager.insertProductClass(productClass).subscribe((aLong, throwable) -> {
@@ -72,11 +74,13 @@ public class ProductsClassPresenterImpl extends BasePresenterImpl<ProductsClassV
 
     @Override
     public void onAddSubPressed(String name, boolean active, ProductClass parent) {
+        //TODO EDITABLE TO STATEABLE
+
         ProductClass productClass = new ProductClass();
         productClass.setName(name);
         productClass.setActive(active);
         productClass.setCreatedDate(System.currentTimeMillis());
-        productClass.setNotModifyted(true);
+//        productClass.setNotModifyted(true);
         productClass.setDeleted(false);
         productClass.setParentId(parent.getId());
         databaseManager.insertProductClass(productClass).subscribe((aLong, throwable) -> {

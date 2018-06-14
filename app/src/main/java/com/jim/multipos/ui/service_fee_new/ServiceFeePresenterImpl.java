@@ -47,6 +47,7 @@ public class ServiceFeePresenterImpl extends BasePresenterImpl<ServiceFeeView> i
 
     @Override
     public void addServiceFee(double amount, int type, String reason, int appType, boolean checked) {
+        //TODO EDITABLE TO STATEABLE
         ServiceFee serviceFee = new ServiceFee();
         serviceFee.setAmount(amount);
         serviceFee.setType(type);
@@ -54,7 +55,7 @@ public class ServiceFeePresenterImpl extends BasePresenterImpl<ServiceFeeView> i
         serviceFee.setApplyingType(appType);
         serviceFee.setIsActive(checked);
         serviceFee.setCreatedDate(System.currentTimeMillis());
-        serviceFee.setNotModifyted(true);
+//        serviceFee.setNotModifyted(true);
         serviceFee.setDeleted(false);
         databaseManager.addServiceFee(serviceFee).subscribe(serviceFee1 -> {
             ServiceFeeAdapterDetails serviceFeeAdapterDetails = new ServiceFeeAdapterDetails();
@@ -72,7 +73,9 @@ public class ServiceFeePresenterImpl extends BasePresenterImpl<ServiceFeeView> i
 
     @Override
     public void onSave(double amount, int type, String description, int appType, boolean active, ServiceFee serviceFee) {
-        serviceFee.setNotModifyted(false);
+        //TODO EDITABLE TO STATEABLE
+
+//        serviceFee.setNotModifyted(false);
         databaseManager.addServiceFee(serviceFee).subscribe(serviceFee1 -> {
             ServiceFeeLog serviceFeeLog = new ServiceFeeLog();
             serviceFeeLog.setChangeDate(System.currentTimeMillis());
@@ -86,11 +89,11 @@ public class ServiceFeePresenterImpl extends BasePresenterImpl<ServiceFeeView> i
             newServiceFee.setApplyingType(appType);
             newServiceFee.setIsActive(active);
             newServiceFee.setCreatedDate(System.currentTimeMillis());
-            newServiceFee.setNotModifyted(true);
-            newServiceFee.setDeleted(false);
-            if (serviceFee.getRootId() != null)
-                newServiceFee.setRootId(serviceFee.getRootId());
-            else newServiceFee.setRootId(serviceFee.getId());
+//            newServiceFee.setNotModifyted(true);
+//            newServiceFee.setDeleted(false);
+//            if (serviceFee.getRootId() != null)
+//                newServiceFee.setRootId(serviceFee.getRootId());
+//            else newServiceFee.setRootId(serviceFee.getId());
             databaseManager.addServiceFee(newServiceFee).subscribe(serviceFee2 -> {
                 for (int i = 1; i < items.size(); i++) {
                     if (items.get(i) != null) {

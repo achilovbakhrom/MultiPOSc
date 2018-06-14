@@ -6,7 +6,6 @@ import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
-import com.jim.multipos.data.db.model.products.VendorProductCon;
 import com.jim.multipos.ui.inventory.fragments.InventoryFragment;
 import com.jim.multipos.ui.inventory.fragments.InventoryView;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
@@ -85,18 +84,8 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
         consignment_type = INCOME_CONSIGNMENT;
         Product product = inventoryItem.getProduct();
         this.productId = product.getId();
-        databaseManager.getVendorProductConnectionByProductId(product.getId()).subscribe(productConList -> {
-            if (productConList.size() > 1) {
-                List<Vendor> vendorList = new ArrayList<>();
-                for (VendorProductCon productCon : productConList) {
-                    vendorList.add(databaseManager.getVendorById(productCon.getVendorId()).blockingSingle());
-                    view.   openChooseVendorDialog(vendorList);
-                }
-            } else {
-                databaseManager.getVendorById(productConList.get(0).getVendorId()).subscribe(vendor -> this.vendorId = vendor.getId());
-                setProductId(this.productId);
-            }
-        });
+        //TODO ON INVOICE PRESSED
+
     }
 
     @Override
@@ -104,18 +93,7 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
         consignment_type = RETURN_CONSIGNMENT;
         Product product = inventoryItem.getProduct();
         this.productId = product.getId();
-        databaseManager.getVendorProductConnectionByProductId(product.getId()).subscribe(productConList -> {
-            if (productConList.size() > 1) {
-                List<Vendor> vendorList = new ArrayList<>();
-                for (VendorProductCon productCon : productConList) {
-                    vendorList.add(databaseManager.getVendorById(productCon.getVendorId()).blockingSingle());
-                    view.openChooseVendorDialog(vendorList);
-                }
-            } else {
-                databaseManager.getVendorById(productConList.get(0).getVendorId()).subscribe(vendor -> this.vendorId = vendor.getId());
-                setProductId(this.productId);
-            }
-        });
+        //TODO ON OUTVOICE PRESSED
     }
 
     List<InventoryItem> searchResults;

@@ -5170,7 +5170,9 @@ public class ExportUtils {
                                     product.setPrice(Double.valueOf(products[i][6]));
                                     product.setActive(true);
                                     product.setIsDeleted(false);
-                                    product.setNotModifyted(true);
+                                    //TODO EDITABLE TO STATEABLE
+
+//                                    product.setNotModifyted(true);
                                     product.setPhotoPath("");
                                     product.setCreatedDate(System.currentTimeMillis());
                                     product.setCategoryId(subcategory.getId());
@@ -5209,7 +5211,9 @@ public class ExportUtils {
                                         product.setPrice(Double.valueOf(products[i][6]));
                                         product.setActive(true);
                                         product.setIsDeleted(false);
-                                        product.setNotModifyted(true);
+                                        //TODO EDITABLE TO STATEABLE
+
+//                                        product.setNotModifyted(true);
                                         product.setCreatedDate(System.currentTimeMillis());
                                         product.setCategoryId(subcategory.getId());
                                         product.setPriceCurrency(databaseManager.getMainCurrency());
@@ -5247,7 +5251,8 @@ public class ExportUtils {
                                         product.setSku(products[i][4]);
                                         product.setActive(true);
                                         product.setIsDeleted(false);
-                                        product.setNotModifyted(true);
+                                        //TODO EDITABLE TO STATEABLE
+//                                        product.setNotModifyted(true);
                                         product.setCreatedDate(System.currentTimeMillis());
                                         product.setCategoryId(subcategory.getId());
                                         product.setPrice(Double.valueOf(products[i][6]));
@@ -5369,7 +5374,8 @@ public class ExportUtils {
                                     product.setPrice(Double.valueOf(products[i][6]));
                                     product.setActive(true);
                                     product.setIsDeleted(false);
-                                    product.setNotModifyted(true);
+                                    //TODO EDITABLE TO STATEABLE
+//                                    product.setNotModifyted(true);
                                     product.setPhotoPath("");
                                     product.setCreatedDate(System.currentTimeMillis());
                                     product.setCategoryId(subcategory.getId());
@@ -5408,7 +5414,9 @@ public class ExportUtils {
                                         product.setPrice(Double.valueOf(products[i][6]));
                                         product.setActive(true);
                                         product.setIsDeleted(false);
-                                        product.setNotModifyted(true);
+                                        //TODO EDITABLE TO STATEABLE
+
+//                                        product.setNotModifyted(true);
                                         product.setCreatedDate(System.currentTimeMillis());
                                         product.setCategoryId(subcategory.getId());
                                         product.setPriceCurrency(databaseManager.getMainCurrency());
@@ -5446,7 +5454,9 @@ public class ExportUtils {
                                         product.setSku(products[i][4]);
                                         product.setActive(true);
                                         product.setIsDeleted(false);
-                                        product.setNotModifyted(true);
+                                        //TODO EDITABLE TO STATEABLE
+
+//                                        product.setNotModifyted(true);
                                         product.setCreatedDate(System.currentTimeMillis());
                                         product.setCategoryId(subcategory.getId());
                                         product.setPrice(Double.valueOf(products[i][6]));

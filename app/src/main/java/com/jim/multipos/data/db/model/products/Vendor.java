@@ -4,22 +4,24 @@ package com.jim.multipos.data.db.model.products;
 import com.jim.multipos.data.db.model.Contact;
 import com.jim.multipos.data.db.model.ContactDao;
 import com.jim.multipos.data.db.model.DaoSession;
-import com.jim.multipos.data.db.model.intosystem.Editable;
+import com.jim.multipos.data.db.model.history.VendorHistory;
 
 import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.JoinEntity;
 import org.greenrobot.greendao.annotation.JoinProperty;
 import org.greenrobot.greendao.annotation.Keep;
 import org.greenrobot.greendao.annotation.ToMany;
 
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import com.jim.multipos.data.db.model.history.VendorHistoryDao;
 
 @Entity(nameInDb = "VENDOR", active = true)
-public class Vendor implements Editable, Serializable {
+public class Vendor implements  Serializable {
     @Id(autoincrement = true)
     private Long id;
     private String name;
@@ -28,14 +30,54 @@ public class Vendor implements Editable, Serializable {
     private String photoPath;
     private Boolean isActive = true;
     private Boolean isDeleted = false;
-    private Boolean isNotModified = true;
     private Long globalId;
-    private Long rootId;
     private Long createdDate;
-    private Long productId;
+    @ToMany(joinProperties = {
+            @JoinProperty(
+                    name = "id", referencedName = "rootId"
+            )
+    })
+    private List<VendorHistory> vendorHistories;
 
 
-
+    @Keep
+    public void keepToHistory(){
+        if(daoSession!=null){
+            VendorHistory vendorHistory = new VendorHistory();
+            vendorHistory.setName(name);
+            vendorHistory.setContactName(contactName);
+            vendorHistory.setAddress(address);
+            vendorHistory.setPhotoPath(photoPath);
+            vendorHistory.setIsActive(isActive);
+            vendorHistory.setIsDeleted(isDeleted);
+            vendorHistory.setGlobalId(globalId);
+            vendorHistory.setCreatedDate(createdDate);
+            vendorHistory.setRootId(id);
+            vendorHistory.setEditedAt(System.currentTimeMillis());
+            daoSession.getVendorHistoryDao().insertOrReplace(vendorHistory);
+        }
+    }
+    @Keep
+    public VendorHistory getVendorHistoryForDate(Long date){
+        if(daoSession!=null){
+            List<VendorHistory> vendorHistories = getVendorHistories();
+            Collections.sort(vendorHistories, new Comparator<VendorHistory>() {
+                @Override
+                public int compare(VendorHistory vendorHistory, VendorHistory t1) {
+                    return vendorHistory.getEditedAt().compareTo(t1.getEditedAt());
+                }
+            });
+            for(VendorHistory vendorHistory:vendorHistories){
+                if(date > vendorHistory.getEditedAt()){
+                    return vendorHistory;
+                }
+            }
+            return null;
+        }else {
+            new Exception("Gettting History for not saved object exeption").printStackTrace();
+            return null;
+        }
+    }
 
 
     @ToMany(joinProperties = {@JoinProperty(name = "id", referencedName = "vendorId")})
@@ -48,9 +90,9 @@ public class Vendor implements Editable, Serializable {
     private transient DaoSession daoSession;
 
 
-    @Generated(hash = 1208099700)
+    @Generated(hash = 591827875)
     public Vendor(Long id, String name, String contactName, String address, String photoPath, Boolean isActive,
-            Boolean isDeleted, Boolean isNotModified, Long globalId, Long rootId, Long createdDate, Long productId) {
+            Boolean isDeleted, Long globalId, Long createdDate) {
         this.id = id;
         this.name = name;
         this.contactName = contactName;
@@ -58,85 +100,50 @@ public class Vendor implements Editable, Serializable {
         this.photoPath = photoPath;
         this.isActive = isActive;
         this.isDeleted = isDeleted;
-        this.isNotModified = isNotModified;
         this.globalId = globalId;
-        this.rootId = rootId;
         this.createdDate = createdDate;
-        this.productId = productId;
     }
-
     @Generated(hash = 530746692)
     public Vendor() {
     }
 
 
-    @Override
     @Keep
     public void setId(Long id) {
         this.id = id;
     }
 
-    @Override
     @Keep
     public boolean isActive() {
         return this.isActive;
     }
 
-    @Override
     @Keep
     public void setActive(boolean active) {
         this.isActive = active;
     }
 
-    @Override
     @Keep
     public Long getId() {
         return id;
     }
 
-    @Override
     @Keep
     public boolean isDeleted() {
         return this.isDeleted;
     }
 
-    @Override
     @Keep
     public void setDeleted(boolean deleted) {
         this.isDeleted = deleted;
     }
 
-    @Override
-    @Keep
-    public boolean isNotModifyted() {
-        return this.isNotModified;
-    }
 
-    @Override
-    @Keep
-    public void setNotModifyted(boolean notModifyted) {
-        this.isNotModified = notModifyted;
-    }
-
-    @Override
-    @Keep
-    public Long getRootId() {
-        return this.rootId;
-    }
-
-    @Override
-    @Keep
-    public void setRootId(Long rootId) {
-        this.rootId = rootId;
-    }
-
-    @Override
     @Keep
     public Long getCreatedDate() {
         return this.createdDate;
     }
 
-    @Override
     @Keep
     public void setCreatedDate(long createdDate) {
         this.createdDate = createdDate;
@@ -222,13 +229,6 @@ public class Vendor implements Editable, Serializable {
         myDao = daoSession != null ? daoSession.getVendorDao() : null;
     }
 
-    public Long getProductId() {
-        return this.productId;
-    }
-
-    public void setProductId(Long productId) {
-        this.productId = productId;
-    }
 
     public void setCreatedDate(Long createdDate) {
         this.createdDate = createdDate;
@@ -242,13 +242,6 @@ public class Vendor implements Editable, Serializable {
         this.globalId = globalId;
     }
 
-    public Boolean getIsNotModified() {
-        return this.isNotModified;
-    }
-
-    public void setIsNotModified(Boolean isNotModified) {
-        this.isNotModified = isNotModified;
-    }
 
     public Boolean getIsDeleted() {
         return this.isDeleted;
@@ -296,6 +289,34 @@ public class Vendor implements Editable, Serializable {
 
     public void setPhotoPath(String photoPath) {
         this.photoPath = photoPath;
+    }
+
+    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    @Generated(hash = 1656033905)
+    public synchronized void resetVendorHistories() {
+        vendorHistories = null;
+    }
+
+    /**
+     * To-many relationship, resolved on first access (and after reset).
+     * Changes to to-many relations are not persisted, make changes to the target entity.
+     */
+    @Generated(hash = 568284908)
+    public List<VendorHistory> getVendorHistories() {
+        if (vendorHistories == null) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            VendorHistoryDao targetDao = daoSession.getVendorHistoryDao();
+            List<VendorHistory> vendorHistoriesNew = targetDao._queryVendor_VendorHistories(id);
+            synchronized (this) {
+                if(vendorHistories == null) {
+                    vendorHistories = vendorHistoriesNew;
+                }
+            }
+        }
+        return vendorHistories;
     }
 
  }

@@ -14,10 +14,12 @@ public class ReportUtils {
         StringBuilder productName = new StringBuilder(product.getName());
         productName.append(" (");
         productName.append(product.getSku());
-        if(!product.getRootId().equals(product.getId())){
-            productName.append(" - ");
-            productName.append(simpleDateFormat.format(product.getCreatedDate()));
-        }
+        //TODO EDITABLE TO STATEABLE
+
+//        if(!product.getRootId().equals(product.getId())){
+//            productName.append(" - ");
+//            productName.append(simpleDateFormat.format(product.getCreatedDate()));
+//        }
         productName.append(")");
         return productName.toString();
     }

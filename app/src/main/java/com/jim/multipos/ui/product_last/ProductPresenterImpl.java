@@ -893,9 +893,11 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 view.showDeleteDialog(new UIUtils.AlertListener() {
                     @Override
                     public void onPositiveButtonClicked() {
+                        //TODO EDITABLE TO STATEABLE
+
                         product.setActive(false);
                         product.setDeleted(true);
-                        product.setNotModifyted(false);
+//                        product.setNotModifyted(false);
                         databaseManager.replaceProduct(product).subscribe(aLong -> {
                             if (subcategory != null) {
                                 subcategory.resetProducts();
@@ -934,7 +936,9 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     view.showDeleteDialog(new UIUtils.AlertListener() {
                         @Override
                         public void onPositiveButtonClicked() {
-                            subcategory.setIsNotModified(false);
+                            //TODO EDITABLE TO STATEABLE
+
+//                            subcategory.setIsNotModified(false);
                             subcategory.setActive(false);
                             subcategory.setDeleted(true);
                             databaseManager.replaceCategory(subcategory).subscribe(isDeleted -> {
@@ -967,7 +971,9 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     view.showDeleteDialog(new UIUtils.AlertListener() {
                         @Override
                         public void onPositiveButtonClicked() {
-                            category.setIsNotModified(false);
+                            //TODO EDITABLE TO STATEABLE
+
+//                            category.setIsNotModified(false);
                             category.setActive(false);
                             category.setDeleted(true);
                             databaseManager.replaceCategory(category).subscribe(isDeleted -> {
@@ -1059,7 +1065,9 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 }
                 product.setDescription(description);
                 databaseManager.addProduct(product).subscribe(aLong -> {
-                    product.setRootId(product.getId());
+                    //TODO EDITABLE TO STATEABLE
+
+//                    product.setRootId(product.getId());
                     databaseManager.replaceProduct(product).blockingSingle();
                     view.addToProductList(product);
                     view.sendProductEvent(GlobalEventConstants.ADD, product);
@@ -1081,9 +1089,11 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                             result.setCategory(subcategory);
                             result.setCreatedDate(System.currentTimeMillis());
                             result.setCategoryId(subcategory.getId());
-                            result.setRootId(ProductPresenterImpl.this.product.getRootId());
+                            //TODO EDITABLE TO STATEABLE
+
+//                            result.setRootId(ProductPresenterImpl.this.product.getRootId());
                             ProductPresenterImpl.this.product.setActive(false);
-                            ProductPresenterImpl.this.product.setNotModifyted(false);
+//                            ProductPresenterImpl.this.product.setNotModifyted(false);
                             List<Currency> tempCurrencies = databaseManager.getAllCurrencies().blockingSingle();
                             if (tempCurrencies.size() > priceCurrencuyPos) {
                                 result.setPriceCurrency(tempCurrencies.get(priceCurrencuyPos));

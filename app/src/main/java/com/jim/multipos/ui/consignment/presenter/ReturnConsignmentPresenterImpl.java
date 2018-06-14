@@ -10,7 +10,6 @@ import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
-import com.jim.multipos.data.db.model.products.VendorProductCon;
 import com.jim.multipos.ui.consignment.model.TempProduct;
 import com.jim.multipos.ui.consignment.view.ReturnConsignmentView;
 
@@ -108,11 +107,6 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
         consignmentProduct.setProduct(product);
         consignmentProduct.setCreatedDate(System.currentTimeMillis());
         consignmentProduct.setProductId(product.getId());
-        VendorProductCon productCon = databaseManager.getVendorProductConnectionById(product.getId(), vendor.getId()).blockingSingle();
-        if (productCon.getCost() != null) {
-            consignmentProduct.setCostValue(productCon.getCost());
-        } else consignmentProduct.setCostValue(null);
-        consignmentProduct.setCountValue(0d);
         consignmentProductList.add(consignmentProduct);
         view.fillReturnList(consignmentProductList, viewType);
         calculateConsignmentSum();
@@ -185,7 +179,6 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
                 operationDebt.setAmount(sum);
                 operationDebt.setCreateAt(System.currentTimeMillis());
                 operationDebt.setVendor(this.vendor);
-                operationDebt.setNotModifyted(true);
                 operationDebt.setDeleted(false);
                 operationDebt.setPaymentDate(System.currentTimeMillis());
                 operationDebt.setOperationType(BillingOperations.RETURN_TO_VENDOR);
@@ -260,10 +253,12 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
         consignmentNew.setTotalAmount(sum);
         consignmentNew.setVendor(this.vendor);
         consignmentNew.setConsignmentType(Consignment.RETURN_CONSIGNMENT);
-        if (this.returnConsignment.getRootId() == null)
-            consignmentNew.setRootId(this.returnConsignment.getId());
-        else consignmentNew.setRootId(this.returnConsignment.getRootId());
-        this.returnConsignment.setIsNotModified(false);
+        //TODO EDITABLE TO STATEABLE
+
+//        if (this.returnConsignment.getRootId() == null)
+//            consignmentNew.setRootId(this.returnConsignment.getId());
+//        else consignmentNew.setRootId(this.returnConsignment.getRootId());
+//        this.returnConsignment.setIsNotModified(false);
         List<BillingOperations> billingOperationsList = new ArrayList<>();
         BillingOperations debtOperation = new BillingOperations();
         debtOperation.setAmount(sum);
@@ -271,11 +266,12 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
         debtOperation.setVendor(this.vendor);
         debtOperation.setPaymentDate(debt.getPaymentDate());
         debtOperation.setOperationType(BillingOperations.RETURN_TO_VENDOR);
-        if (debt.getRootId() != null)
-            debtOperation.setRootId(debt.getRootId());
-        else debtOperation.setRootId(debt.getId());
+        //TODO EDITABLE TO STATEABLE
+
+//        if (debt.getRootId() != null)
+//            debtOperation.setRootId(debt.getRootId());
+//        else debtOperation.setRootId(debt.getId());
         billingOperationsList.add(debtOperation);
-        debt.setNotModifyted(false);
         databaseManager.insertBillingOperation(debt).blockingGet();
 //        if (deletedProductsList.size() != 0) {
 //            for (ConsignmentProduct consignmentProduct : deletedProductsList) {

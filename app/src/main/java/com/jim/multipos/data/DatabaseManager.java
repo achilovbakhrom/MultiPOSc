@@ -32,7 +32,6 @@ import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.CustomerGroup;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.Product;
-import com.jim.multipos.data.db.model.products.VendorProductCon;
 import com.jim.multipos.data.db.model.stock.Stock;
 import com.jim.multipos.data.db.model.till.Till;
 import com.jim.multipos.data.db.model.till.TillManagementOperation;
@@ -639,6 +638,7 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
         return dbHelper.getProductById(productId);
     }
 
+
     @Override
     public Observable<Long> addSubUnitList(SubUnitsList subUnitsList) {
         return dbHelper.insertSubUnits(subUnitsList);
@@ -897,50 +897,14 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
 
 
 
-    @Override
-    public Observable<Long> addVendorProductConnection(VendorProductCon vendorProductCon) {
-        return dbHelper.addProductVendorConn(vendorProductCon);
-    }
 
-    @Override
-    public Observable<Boolean> removeVendorProductConnection(VendorProductCon vendorProductCon) {
-        return null;
-    }
 
-    @Override
-    public Observable<Boolean> removeVendorProductConnectionByVendorId(Long vendorId) {
-        return dbHelper.removeVendorProductConnectionByVendorId(vendorId);
-    }
-
-    @Override
-    public Observable<Boolean> removeVendorProductConnectionByProductId(Long productId) {
-        return dbHelper.removeVendorProductConnectionByProductId(productId);
-    }
-
-    @Override
-    public Observable<List<VendorProductCon>> getVendorProductConnectionByProductId(Long productId) {
-        return dbHelper.getVendorProductConnectionByProductId(productId);
-    }
-
-    @Override
-    public Observable<VendorProductCon> getVendorProductConnectionById(Long productId, Long vendorId) {
-        return dbHelper.getVendorProductConnectionById(productId, vendorId);
-    }
 
     @Override
     public Single<Boolean> insertReturns(List<Return> returnsList) {
         return dbHelper.insertReturns(returnsList);
     }
 
-    @Override
-    public Single<List<VendorProductCon>> getVendorProductConnectionByVendorId(Long vendorId) {
-        return dbHelper.getVendorProductConnectionByVendorId(vendorId);
-    }
-
-    @Override
-    public Single<Product> getProductByRootId(Long rootId) {
-        return dbHelper.getProductByRootId(rootId);
-    }
 
     @Override
     public Single<Boolean> isProductSkuExists(String sku, Long subcategoryId) {

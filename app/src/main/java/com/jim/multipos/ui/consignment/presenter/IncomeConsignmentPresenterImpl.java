@@ -11,7 +11,6 @@ import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
-import com.jim.multipos.data.db.model.products.VendorProductCon;
 import com.jim.multipos.ui.consignment.model.TempProduct;
 import com.jim.multipos.ui.consignment.view.IncomeConsignmentView;
 
@@ -137,10 +136,6 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
         consignmentProduct.setProduct(product);
         consignmentProduct.setCreatedDate(System.currentTimeMillis());
         consignmentProduct.setProductId(product.getId());
-        VendorProductCon productCon = databaseManager.getVendorProductConnectionById(product.getId(), this.vendor.getId()).blockingSingle();
-        if (productCon.getCost() != null) {
-            consignmentProduct.setCostValue(productCon.getCost());
-        } else consignmentProduct.setCostValue(null);
         consignmentProduct.setCountValue(0.0d);
         consignmentProductList.add(consignmentProduct);
         view.fillConsignmentProductList(consignmentProductList, viewType);
@@ -343,10 +338,12 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
         consignmentNew.setIsFromAccount(checked);
         consignmentNew.setVendor(this.vendor);
         consignmentNew.setConsignmentType(Consignment.INCOME_CONSIGNMENT);
-        if (consignment.getRootId() == null)
-            consignmentNew.setRootId(consignment.getId());
-        else consignmentNew.setRootId(consignment.getRootId());
-        consignment.setIsNotModified(false);
+        //TODO EDITABLE TO STATEABLE
+//
+//        if (consignment.getRootId() == null)
+//            consignmentNew.setRootId(consignment.getId());
+//        else consignmentNew.setRootId(consignment.getRootId());
+//        consignment.setIsNotModified(false);
         List<BillingOperations> billingOperationsList = new ArrayList<>();
         boolean firstPayConfirmed = false;
         for (int i = 0; i < billingOperations.size(); i++) {
@@ -357,11 +354,12 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
                 debtOperation.setVendor(this.vendor);
                 debtOperation.setOperationType(BillingOperations.DEBT_CONSIGNMENT);
                 debtOperation.setPaymentDate(billingOperations.get(i).getPaymentDate());
-                if (billingOperations.get(i).getRootId() != null)
-                    debtOperation.setRootId(billingOperations.get(i).getRootId());
-                else debtOperation.setRootId(billingOperations.get(i).getId());
+                //TODO EDITABLE TO STATEABLE
+
+//                if (billingOperations.get(i).getRootId() != null)
+//                    debtOperation.setRootId(billingOperations.get(i).getRootId());
+//                else debtOperation.setRootId(billingOperations.get(i).getId());
                 billingOperationsList.add(debtOperation);
-                billingOperations.get(i).setNotModifyted(false);
                 databaseManager.insertBillingOperation(billingOperations.get(i)).blockingGet();
 
             } else if (this.paidSum != 0) {
@@ -374,11 +372,12 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
                 if (checked) {
                     operationPaid.setAccount(accountList.get(selectedPosition));
                 }
-                if (billingOperations.get(i).getRootId() != null)
-                    operationPaid.setRootId(billingOperations.get(i).getRootId());
-                else operationPaid.setRootId(billingOperations.get(i).getId());
+                //TODO EDITABLE TO STATEABLE
+
+//                if (billingOperations.get(i).getRootId() != null)
+//                    operationPaid.setRootId(billingOperations.get(i).getRootId());
+//                else operationPaid.setRootId(billingOperations.get(i).getId());
                 billingOperationsList.add(operationPaid);
-                billingOperations.get(i).setNotModifyted(false);
                 databaseManager.insertBillingOperation(billingOperations.get(i)).blockingGet();
                 firstPayConfirmed = true;
             }

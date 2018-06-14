@@ -1,7 +1,6 @@
 package com.jim.multipos.data.db.model.consignment;
 
 import com.jim.multipos.data.db.model.DaoSession;
-import com.jim.multipos.data.db.model.intosystem.Editable;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.ProductDao;
 
@@ -16,7 +15,7 @@ import org.greenrobot.greendao.annotation.ToOne;
  * Created by Sirojiddin on 10.11.2017.
  */
 @Entity(nameInDb = "CONSIGNMENT_PRODUCTS", active = true)
-public class ConsignmentProduct implements Editable{
+public class ConsignmentProduct {
     @Id(autoincrement = true)
     private Long id;
     private Double costValue;
@@ -29,9 +28,7 @@ public class ConsignmentProduct implements Editable{
     private Consignment consignment;
     private boolean isActive = true;
     private boolean isDeleted = false;
-    private boolean isNotModified = true;
     private long createdDate;
-    private long rootId;
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
      * Entity must attached to an entity context.
@@ -139,58 +136,6 @@ public class ConsignmentProduct implements Editable{
         this.id = id;
     }
 
-    @Override
-    public boolean isActive() {
-        return this.isActive;
-    }
-
-    @Override
-    public void setActive(boolean active) {
-        this.isActive = active;
-    }
-
-    @Override
-    public boolean isDeleted() {
-        return this.isDeleted;
-    }
-
-    @Override
-    public void setDeleted(boolean isDeleted) {
-        this.isDeleted = isDeleted;
-    }
-
-    @Override
-    public boolean isNotModifyted() {
-        return this.isNotModified;
-    }
-
-    @Override
-    public void setNotModifyted(boolean isNotModified) {
-        this.isNotModified = isNotModified;
-    }
-
-    @Override
-    public Long getRootId() {
-        return this.rootId;
-    }
-
-    @Override
-    public void setRootId(Long rootId) {
-
-        this.rootId = rootId;
-    }
-
-    @Override
-    public Long getCreatedDate() {
-        return this.createdDate;
-    }
-
-    @Override
-    public void setCreatedDate(long createdDate) {
-
-        this.createdDate = createdDate;
-    }
-
 
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 929152524)
@@ -219,15 +164,6 @@ public class ConsignmentProduct implements Editable{
         }
         return consignment;
     }
-    public void setRootId(long rootId) {
-        this.rootId = rootId;
-    }
-    public boolean getIsNotModified() {
-        return this.isNotModified;
-    }
-    public void setIsNotModified(boolean isNotModified) {
-        this.isNotModified = isNotModified;
-    }
     public boolean getIsDeleted() {
         return this.isDeleted;
     }
@@ -240,10 +176,15 @@ public class ConsignmentProduct implements Editable{
     public void setIsActive(boolean isActive) {
         this.isActive = isActive;
     }
-    @Generated(hash = 36707175)
+    public long getCreatedDate() {
+        return this.createdDate;
+    }
+    public void setCreatedDate(long createdDate) {
+        this.createdDate = createdDate;
+    }
+    @Generated(hash = 1663615140)
     public ConsignmentProduct(Long id, Double costValue, Double countValue, Long productId,
-            Long consignmentId, boolean isActive, boolean isDeleted, boolean isNotModified,
-            long createdDate, long rootId) {
+            Long consignmentId, boolean isActive, boolean isDeleted, long createdDate) {
         this.id = id;
         this.costValue = costValue;
         this.countValue = countValue;
@@ -251,9 +192,7 @@ public class ConsignmentProduct implements Editable{
         this.consignmentId = consignmentId;
         this.isActive = isActive;
         this.isDeleted = isDeleted;
-        this.isNotModified = isNotModified;
         this.createdDate = createdDate;
-        this.rootId = rootId;
     }
     @Generated(hash = 724649454)
     public ConsignmentProduct() {
