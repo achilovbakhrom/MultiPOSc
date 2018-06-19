@@ -8,7 +8,6 @@ import com.jim.multipos.data.db.model.ServiceFee;
  */
 public class ServiceFeeEvent {
     private ServiceFee serviceFee;
-    private ServiceFee newServiceFee;
     private int type;
 
     public ServiceFeeEvent(ServiceFee serviceFee, int type) {
@@ -22,14 +21,6 @@ public class ServiceFeeEvent {
 
     public void setServiceFee(ServiceFee serviceFee) {
         this.serviceFee = serviceFee;
-    }
-
-    public ServiceFee getNewServiceFee() {
-        return newServiceFee;
-    }
-
-    public void setNewServiceFee(ServiceFee newServiceFee) {
-        this.newServiceFee = newServiceFee;
     }
 
     public int getType() {

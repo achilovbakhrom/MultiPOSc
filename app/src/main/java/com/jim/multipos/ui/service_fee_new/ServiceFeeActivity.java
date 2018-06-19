@@ -112,9 +112,8 @@ public class ServiceFeeActivity extends BaseActivity implements ServiceFeeView {
     }
 
     @Override
-    public void sendChangeEvent(int event, ServiceFee oldServiceFee, ServiceFee newServiceFee) {
-        ServiceFeeEvent serviceFeeEvent = new ServiceFeeEvent(oldServiceFee, event);
-        serviceFeeEvent.setNewServiceFee(newServiceFee);
+    public void sendChangeEvent(int event, ServiceFee updatedServiceFee) {
+        ServiceFeeEvent serviceFeeEvent = new ServiceFeeEvent(updatedServiceFee, event);
         rxBus.send(serviceFeeEvent);
     }
 

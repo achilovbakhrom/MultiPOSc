@@ -141,9 +141,8 @@ public class DiscountAddingFragment extends BaseFragment implements DiscountAddi
     }
 
     @Override
-    public void sendChangeEvent(int event, Discount oldDiscount, Discount newDiscount) {
-        DiscountEvent discountEvent = new DiscountEvent(oldDiscount, event);
-        discountEvent.setNewDiscount(newDiscount);
+    public void sendChangeEvent(int event, Discount updated) {
+        DiscountEvent discountEvent = new DiscountEvent(updated, event);
         rxBus.send(discountEvent);
     }
 

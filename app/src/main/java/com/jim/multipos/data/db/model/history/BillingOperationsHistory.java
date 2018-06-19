@@ -228,7 +228,7 @@ public class BillingOperationsHistory {
     public void setCreateAt(long createAt) {
         this.createAt = createAt;
     }
-    public double getAmount() {
+    public Double getAmount() {
         return this.amount;
     }
     public void setAmount(double amount) {

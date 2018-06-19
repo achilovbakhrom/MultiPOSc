@@ -17,8 +17,10 @@ import org.greenrobot.greendao.DaoException;
 import com.jim.multipos.data.db.model.DaoSession;
 import com.jim.multipos.data.db.model.order.OrderProductDao;
 import com.jim.multipos.data.db.model.consignment.OutvoiceDao;
+import com.jim.multipos.data.db.model.products.Product;
+import com.jim.multipos.data.db.model.products.ProductDao;
 
-@Entity(active = true, nameInDb = "OUTPRODUCT")
+@Entity(active = true, nameInDb = "OUT_PRODUCT")
 public class OutcomeProduct {
     //OUTCOME_TYPES
     public static final int ORDER_SALES = 1;
@@ -35,9 +37,12 @@ public class OutcomeProduct {
     private Double sumCostValue;
     private Long outcomeDate;
     private boolean closed;
-
     private boolean customPickSock;
     private Long pickedStockQueueId;
+
+    private Long productId;
+    @ToOne(joinProperty = "productId")
+    private Product product;
     @ToOne(joinProperty = "pickedStockQueueId")
     private StockQueue stockQueue;
 
@@ -238,6 +243,35 @@ public class OutcomeProduct {
     @Generated(hash = 1029195753)
     private transient Long stockQueue__resolvedKey;
     /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 558738496)
+    public void setProduct(Product product) {
+        synchronized (this) {
+            this.product = product;
+            productId = product == null ? null : product.getId();
+            product__resolvedKey = productId;
+        }
+    }
+    /** To-one relationship, resolved on first access. */
+    @Generated(hash = 1198864293)
+    public Product getProduct() {
+        Long __key = this.productId;
+        if (product__resolvedKey == null || !product__resolvedKey.equals(__key)) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            ProductDao targetDao = daoSession.getProductDao();
+            Product productNew = targetDao.load(__key);
+            synchronized (this) {
+                product = productNew;
+                product__resolvedKey = __key;
+            }
+        }
+        return product;
+    }
+    @Generated(hash = 587652864)
+    private transient Long product__resolvedKey;
+    /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 1910995361)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
@@ -266,6 +300,12 @@ public class OutcomeProduct {
     }
     public void setOutvoiceId(Long outvoiceId) {
         this.outvoiceId = outvoiceId;
+    }
+    public Long getProductId() {
+        return this.productId;
+    }
+    public void setProductId(Long productId) {
+        this.productId = productId;
     }
     public Long getPickedStockQueueId() {
         return this.pickedStockQueueId;
@@ -315,10 +355,10 @@ public class OutcomeProduct {
     public void setId(Long id) {
         this.id = id;
     }
-    @Generated(hash = 771894196)
+    @Generated(hash = 1410550842)
     public OutcomeProduct(Long id, int outcomeType, Double sumCountValue, Double sumCostValue,
             Long outcomeDate, boolean closed, boolean customPickSock, Long pickedStockQueueId,
-            Long outvoiceId, Long orderProductId, Long wasteId) {
+            Long productId, Long outvoiceId, Long orderProductId, Long wasteId) {
         this.id = id;
         this.outcomeType = outcomeType;
         this.sumCountValue = sumCountValue;
@@ -327,6 +367,7 @@ public class OutcomeProduct {
         this.closed = closed;
         this.customPickSock = customPickSock;
         this.pickedStockQueueId = pickedStockQueueId;
+        this.productId = productId;
         this.outvoiceId = outvoiceId;
         this.orderProductId = orderProductId;
         this.wasteId = wasteId;
@@ -334,5 +375,6 @@ public class OutcomeProduct {
     @Generated(hash = 1888728274)
     public OutcomeProduct() {
     }
+
 
 }

@@ -72,6 +72,7 @@ public class PaymentToVendorDialog extends Dialog {
 
     Calendar calendar;
     private List<Account> accounts;
+    private BillingOperations operations;
     private PaymentToVendorCallback paymentToVendorCallback;
     SimpleDateFormat simpleDateFormat;
 
@@ -84,6 +85,7 @@ public class PaymentToVendorDialog extends Dialog {
     public PaymentToVendorDialog(@NonNull Context context, Vendor vendor, PaymentToVendorCallback paymentToVendorCallback, DatabaseManager databaseManager, BillingOperations operations) {
         super(context);
         this.accounts = databaseManager.getAccounts();
+        this.operations = operations;
         simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
         calendar = Calendar.getInstance();
         this.paymentToVendorCallback = paymentToVendorCallback;
@@ -191,33 +193,24 @@ public class PaymentToVendorDialog extends Dialog {
                 warningDialog.setOnYesClickListener(view1 -> warningDialog.dismiss());
                 warningDialog.show();
             } else {
-                BillingOperations billingOperations = new BillingOperations();
-                billingOperations.setAmount(ammount);
+                if(this.operations !=null){
+                    this.operations.keepToHistory();
+                }else {
+                    this.operations = new BillingOperations();
+
+                }
+                this.operations.setAmount(ammount);
 
                 if (chbFromAccount.isChecked()) {
-                    billingOperations.setAccount(accounts.get(spAccount.getSelectedPosition()));
-                } else billingOperations.setAccount(null);
-                if (operations != null) {
-                    Date date = new Date(operations.getPaymentDate());
-                    if (simpleDateFormat.format(date).equals(etDate.getText().toString())) {
-                        billingOperations.setPaymentDate(operations.getPaymentDate());
-                    } else billingOperations.setPaymentDate(calendar.getTimeInMillis());
-                } else billingOperations.setPaymentDate(calendar.getTimeInMillis());
-                billingOperations.setCreateAt(System.currentTimeMillis());
-                billingOperations.setIsActive(true);
-//                billingOperations.setIsNotModified(true);
-                billingOperations.setVendor(vendor);
-                billingOperations.setDescription(etDisc.getText().toString());
-                billingOperations.setOperationType(BillingOperations.PAID_TO_CONSIGNMENT);
-//                if (operations != null) {
-//                    if (operations.getRootId() != null)
-//                        billingOperations.setRootId(operations.getRootId());
-//                    else billingOperations.setRootId(operations.getId());
-////                    //TODO EDITABLE TO STATEABLE
-////                    operations.setNotModifyted(false);
-//                    databaseManager.insertBillingOperation(operations).subscribe();
-//                }
-                databaseManager.insertBillingOperation(billingOperations).subscribe();
+                    this.operations.setAccount(accounts.get(spAccount.getSelectedPosition()));
+                } else this.operations.setAccount(null);
+                this.operations.setPaymentDate(calendar.getTimeInMillis());
+                this.operations.setCreateAt(System.currentTimeMillis());
+                this.operations.setIsActive(true);
+                this.operations.setVendor(vendor);
+                this.operations.setDescription(etDisc.getText().toString());
+                this.operations.setOperationType(BillingOperations.PAID_TO_CONSIGNMENT);
+                databaseManager.insertBillingOperation(this.operations).subscribe();
                 paymentToVendorCallback.onChanged();
                 UIUtils.closeKeyboard(btnWarningYES, context);
                 dismiss();

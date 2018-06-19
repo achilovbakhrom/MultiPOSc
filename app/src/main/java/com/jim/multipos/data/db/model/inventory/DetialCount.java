@@ -16,7 +16,6 @@ public class DetialCount {
     private Long stockId;
     private double count;
     private double cost;
-    private boolean closed;
     @ToOne(joinProperty = "outcomeProductId")
     OutcomeProduct outcomeProduct;
     @ToOne(joinProperty = "stockId")
@@ -157,21 +156,13 @@ public class DetialCount {
     public void setId(Long id) {
         this.id = id;
     }
-    public boolean getClosed() {
-        return this.closed;
-    }
-    public void setClosed(boolean closed) {
-        this.closed = closed;
-    }
-    @Generated(hash = 1911402859)
-    public DetialCount(Long id, Long outcomeProductId, Long stockId, double count,
-            double cost, boolean closed) {
+    @Generated(hash = 2024604752)
+    public DetialCount(Long id, Long outcomeProductId, Long stockId, double count, double cost) {
         this.id = id;
         this.outcomeProductId = outcomeProductId;
         this.stockId = stockId;
         this.count = count;
         this.cost = cost;
-        this.closed = closed;
     }
     @Generated(hash = 796092273)
     public DetialCount() {

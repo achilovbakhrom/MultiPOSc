@@ -87,8 +87,6 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
 
     @Override
     public void addDiscount(double amount, String description, int amountType) {
-        //TODO EDITABLE TO STATEABLE
-
         Discount discount = new Discount();
         discount.setAmount(amount);
         discount.setName(description);
@@ -96,7 +94,6 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         discount.setUsedType(Discount.ORDER);
         discount.setCreatedDate(System.currentTimeMillis());
         discount.setDelete(false);
-//        discount.setNotModifyted(true);
         databaseManager.insertDiscount(discount).subscribe(discount1 -> {
             DiscountLog discountLog = new DiscountLog();
             discountLog.setChangeDate(System.currentTimeMillis());
@@ -108,8 +105,6 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
 
     @Override
     public void addServiceFee(double amount, String description, int amountType) {
-        //TODO EDITABLE TO STATEABLE
-
         ServiceFee serviceFee = new ServiceFee();
         serviceFee.setAmount(amount);
         serviceFee.setName(description);
@@ -117,7 +112,6 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         serviceFee.setApplyingType(Discount.ORDER);
         serviceFee.setCreatedDate(System.currentTimeMillis());
         serviceFee.setDeleted(false);
-//        serviceFee.setNotModifyted(true);
         databaseManager.getServiceFeeOperations().addServiceFee(serviceFee).subscribe(serviceFee1 -> {
             ServiceFeeLog serviceFeeLog = new ServiceFeeLog();
             serviceFeeLog.setServiceFee(serviceFee1);
@@ -669,9 +663,9 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
             databaseManager.insertOrder(order).subscribe((order1, throwable) -> {
                 for (int i = 0; i < orderProductItems.size(); i++) {
                     orderProductItems.get(i).setOrderId(order1.getId());
-                    orderProductItems.set(i,databaseManager.confirmOutcomeProductWhenSold(orderProductItems.get(i).getOutcomeProduct(),orderProductItems.get(i)).blockingGet());
                 }
                 databaseManager.insertOrderProducts(orderProductItems).blockingGet();
+                orderProductItems = databaseManager.confirmOutcomeProductWhenSold(orderProductItems).blockingGet();
 
                 orderChangesLog.setOrderId(order1.getId());
                 databaseManager.insertOrderChangeLog(orderChangesLog).blockingGet();
@@ -988,9 +982,9 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
             for (int i = 0; i < orderProductItems.size(); i++) {
                 orderProductItems.get(i).setOrderId(order1.getId());
                 //Warehouse Operation
-                orderProductItems.set(i,databaseManager.confirmOutcomeProductWhenSold(orderProductItems.get(i).getOutcomeProduct(),orderProductItems.get(i)).blockingGet());
             }
             databaseManager.insertOrderProducts(orderProductItems).blockingGet();
+            orderProductItems = databaseManager.confirmOutcomeProductWhenSold(orderProductItems).blockingGet();
 
             orderChangesLog.setOrderId(order1.getId());
             databaseManager.insertOrderChangeLog(orderChangesLog).blockingGet();
@@ -1130,12 +1124,12 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
     }
 
     @Override
-    public void eventDiscountUpdate(Discount discount, Discount newDiscount) {
+    public void eventDiscountUpdate(Discount updatedDiscount) {
         for (int i = 0; i < list.size(); i++) {
             if(list.get(i) instanceof  OrderProductItem){
                 OrderProductItem orderProductItem = (OrderProductItem) list.get(i);
-                if(orderProductItem.getDiscount() != null && orderProductItem.getDiscount().getId().equals(discount.getId())){
-                    orderProductItem.setDiscount(newDiscount);
+                if(orderProductItem.getDiscount() != null && orderProductItem.getDiscount().getId().equals(updatedDiscount.getId())){
+                    orderProductItem.setDiscount(updatedDiscount);
                     list.set(i,orderProductItem);
                     updateDetials();
                     view.updateOrderDetials(order,customer,payedPartitions);
@@ -1144,8 +1138,8 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
                 }
             }else if(list.get(i) instanceof DiscountItem){
                 DiscountItem discountItem = (DiscountItem) list.get(i);
-                if(discountItem.getDiscount() != null && discountItem.getDiscount().getId().equals(discount.getId())){
-                    discountItem.setDiscount(newDiscount);
+                if(discountItem.getDiscount() != null && discountItem.getDiscount().getId().equals(updatedDiscount.getId())){
+                    discountItem.setDiscount(updatedDiscount);
                     list.set(i,discountItem);
                     view.disableDiscountButton(discountItem.getDiscount().getName());
                     updateDetials();
@@ -1186,12 +1180,12 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
     }
 
     @Override
-    public void eventServiceFeeUpdate(ServiceFee serviceFee, ServiceFee newServiceFee) {
+    public void eventServiceFeeUpdate(ServiceFee serviceFee) {
         for (int i = 0; i < list.size(); i++) {
             if(list.get(i) instanceof  OrderProductItem){
                 OrderProductItem orderProductItem = (OrderProductItem) list.get(i);
                 if(orderProductItem.getServiceFee() != null && orderProductItem.getServiceFee().getId().equals(serviceFee.getId())){
-                    orderProductItem.setServiceFee(newServiceFee);
+                    orderProductItem.setServiceFee(serviceFee);
                     list.set(i,orderProductItem);
                     updateDetials();
                     view.updateOrderDetials(order,customer,payedPartitions);
@@ -1201,7 +1195,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
             }else if(list.get(i) instanceof ServiceFeeItem){
                 ServiceFeeItem serviceFeeItem = (ServiceFeeItem) list.get(i);
                 if(serviceFeeItem.getServiceFee() != null && serviceFeeItem.getServiceFee().getId().equals(serviceFee.getId())){
-                    serviceFeeItem.setServiceFee(newServiceFee);
+                    serviceFeeItem.setServiceFee(serviceFee);
                     list.set(i,serviceFeeItem);
                     view.disableServiceFeeButton(serviceFeeItem.getServiceFee().getName());
                     updateDetials();

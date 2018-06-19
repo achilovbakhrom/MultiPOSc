@@ -16,14 +16,15 @@ import com.jim.multipos.data.db.model.DaoSession;
 import com.jim.multipos.data.db.model.products.VendorDao;
 import com.jim.multipos.data.db.model.products.ProductDao;
 
-@Entity(active = true, nameInDb = "STOCKQUEUE")
+@Entity(active = true, nameInDb = "STOCK_QUEUE")
 public class StockQueue {
     @Id(autoincrement = true)
     private Long id;
     private double incomeCount;
     private double available;
     private double closed;
-    private String stockId = "";
+    private String stockId;
+    private double cost;
     private long incomeProductDate;
     private long createdProductDate;
     private long expiredProductDate;
@@ -305,25 +306,34 @@ public class StockQueue {
         this.id = id;
     }
 
-    @Generated(hash = 523114700)
-    public StockQueue() {
+    public double getCost() {
+        return this.cost;
     }
 
-    @Generated(hash = 523729954)
+    public void setCost(double cost) {
+        this.cost = cost;
+    }
+
+    @Generated(hash = 1936289076)
     public StockQueue(Long id, double incomeCount, double available, double closed, String stockId,
-            long incomeProductDate, long createdProductDate, long expiredProductDate, Long incomeId,
-            Long vendorId, Long productId) {
+            double cost, long incomeProductDate, long createdProductDate, long expiredProductDate,
+            Long incomeId, Long vendorId, Long productId) {
         this.id = id;
         this.incomeCount = incomeCount;
         this.available = available;
         this.closed = closed;
         this.stockId = stockId;
+        this.cost = cost;
         this.incomeProductDate = incomeProductDate;
         this.createdProductDate = createdProductDate;
         this.expiredProductDate = expiredProductDate;
         this.incomeId = incomeId;
         this.vendorId = vendorId;
         this.productId = productId;
+    }
+
+    @Generated(hash = 523114700)
+    public StockQueue() {
     }
 
 

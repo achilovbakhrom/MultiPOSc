@@ -1,9 +1,6 @@
 package com.jim.multipos.utils;
 
-import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.products.Product;
-import com.jim.multipos.data.db.model.unit.Unit;
-import com.jim.multipos.data.db.model.unit.UnitCategory;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -14,12 +11,6 @@ public class ReportUtils {
         StringBuilder productName = new StringBuilder(product.getName());
         productName.append(" (");
         productName.append(product.getSku());
-        //TODO EDITABLE TO STATEABLE
-
-//        if(!product.getRootId().equals(product.getId())){
-//            productName.append(" - ");
-//            productName.append(simpleDateFormat.format(product.getCreatedDate()));
-//        }
         productName.append(")");
         return productName.toString();
     }

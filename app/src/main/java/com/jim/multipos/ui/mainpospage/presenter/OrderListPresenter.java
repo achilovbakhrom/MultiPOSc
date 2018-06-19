@@ -57,9 +57,9 @@ public interface OrderListPresenter extends Presenter {
     void eventCustomerDelete(Customer customer);
     void eventDebtUpdate(Debt debt,Debt newDebt);
     void eventDebtDelete(Debt debt);
-    void eventDiscountUpdate(Discount discount,Discount newDiscount);
+    void eventDiscountUpdate(Discount discount);
     void eventDiscountDelete(Discount discount);
-    void eventServiceFeeUpdate(ServiceFee serviceFee,ServiceFee newServiceFee);
+    void eventServiceFeeUpdate(ServiceFee serviceFee);
     void eventServiceFeeDelete(ServiceFee serviceFee);
     void eventConsignmentUpdate();
     void printStockCheck();

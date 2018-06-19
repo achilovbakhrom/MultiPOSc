@@ -8,7 +8,6 @@ import com.jim.multipos.data.db.model.Discount;
  */
 public class DiscountEvent {
     private Discount discount;
-    private Discount newDiscount;
     private int type;
 
     public DiscountEvent(Discount discount, int type) {
@@ -24,13 +23,6 @@ public class DiscountEvent {
         this.discount = discount;
     }
 
-    public Discount getNewDiscount() {
-        return newDiscount;
-    }
-
-    public void setNewDiscount(Discount newDiscount) {
-        this.newDiscount = newDiscount;
-    }
 
     public int getType() {
         return type;

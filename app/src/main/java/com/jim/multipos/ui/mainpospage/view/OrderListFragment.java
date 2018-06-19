@@ -215,14 +215,14 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
                        }else if(o instanceof DiscountEvent){
                            DiscountEvent discountEvent = (DiscountEvent) o;
                            if(discountEvent.getType() == GlobalEventConstants.UPDATE){
-                               presenter.eventDiscountUpdate(discountEvent.getDiscount(),discountEvent.getNewDiscount());
+                               presenter.eventDiscountUpdate(discountEvent.getDiscount());
                            }else if(discountEvent.getType() == GlobalEventConstants.DELETE){
                                presenter.eventDiscountDelete(discountEvent.getDiscount());
                            }
                        }else if(o instanceof ServiceFeeEvent){
                            ServiceFeeEvent serviceFeeEvent = (ServiceFeeEvent) o;
                            if(serviceFeeEvent.getType() == GlobalEventConstants.UPDATE){
-                                presenter.eventServiceFeeUpdate(serviceFeeEvent.getServiceFee(),serviceFeeEvent.getNewServiceFee());
+                                presenter.eventServiceFeeUpdate(serviceFeeEvent.getServiceFee());
                            }else if(serviceFeeEvent.getType() == GlobalEventConstants.DELETE){
                                presenter.eventServiceFeeDelete(serviceFeeEvent.getServiceFee());
                            }

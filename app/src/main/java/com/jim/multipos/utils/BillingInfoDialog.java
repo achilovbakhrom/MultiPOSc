@@ -15,6 +15,7 @@ import com.jim.mpviews.RecyclerViewWithMaxHeight;
 import com.jim.multipos.R;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.currency.Currency;
+import com.jim.multipos.data.db.model.history.BillingOperationsHistory;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
 import com.jim.multipos.ui.billing_vendor.adapter.BillingInfoAdapter;
 
@@ -39,7 +40,7 @@ public class BillingInfoDialog extends Dialog {
     @BindView(R.id.rvPayments)
     RecyclerViewWithMaxHeight rvPayments;
     BillingInfoAdapter adapter;
-    List<BillingOperations> billingOperations;
+    List<BillingOperationsHistory> billingOperations;
 
     public interface BillingInfoCallback {
         void onEdit(BillingOperations operations);
@@ -57,17 +58,14 @@ public class BillingInfoDialog extends Dialog {
         adapter = new BillingInfoAdapter(context, currency);
 
         rvPayments.setAdapter(adapter);
-        //TODO EDITABLE TO STATEABLE
-
-//        if (operations.getRootId() != null) {
-//            databaseManager.getBillingOperationByRootId(operations.getRootId()).subscribe((billingOperations1, throwable) -> {
-//                billingOperations = billingOperations1;
-//                adapter.setData(billingOperations);
-//            });
-//        } else {
-//            billingOperations.add(operations);
-//            adapter.setData(billingOperations);
-//        }
+        if (operations.getOperationsHistoryList() != null && operations.getOperationsHistoryList().size() !=0) {
+            billingOperations.add(operations.formatingToHistoryObject());
+            billingOperations = operations.getOperationsHistoryList();
+            adapter.setData(billingOperations);
+        } else {
+            billingOperations.add(operations.formatingToHistoryObject());
+            adapter.setData(billingOperations);
+        }
 
         btnWarningYES.setOnClickListener(view -> {
             dismiss();

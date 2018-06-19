@@ -16,6 +16,7 @@
 package com.jim.multipos.data.db;
 
 import android.database.Cursor;
+import android.util.Pair;
 
 import com.jim.multipos.data.db.model.Account;
 import com.jim.multipos.data.db.model.AccountDao;
@@ -55,6 +56,12 @@ import com.jim.multipos.data.db.model.inventory.BillingOperationsDao;
 import com.jim.multipos.data.db.model.inventory.IncomeProduct;
 import com.jim.multipos.data.db.model.inventory.StockQueue;
 import com.jim.multipos.data.db.model.inventory.StockQueueDao;
+import com.jim.multipos.data.db.model.inventory.DetialCount;
+import com.jim.multipos.data.db.model.inventory.OutcomePerfomance;
+import com.jim.multipos.data.db.model.inventory.OutcomeProduct;
+import com.jim.multipos.data.db.model.inventory.StockCountCost;
+import com.jim.multipos.data.db.model.inventory.StockPerfomance;
+import com.jim.multipos.data.db.model.inventory.StockQueue;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.OrderChangesLog;
 import com.jim.multipos.data.db.model.order.OrderDao;
@@ -91,6 +98,7 @@ import org.greenrobot.greendao.query.QueryBuilder;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -1258,6 +1266,7 @@ public class AppDbHelper implements DbHelper {
     }
 
 
+
     @Override
     public Single<List<BillingOperations>> getBillingOperationInteval(Long vendorId, Calendar fromDate, Calendar toDate) {
         return Single.create(e -> {
@@ -1303,6 +1312,7 @@ public class AppDbHelper implements DbHelper {
             e.onSuccess(billingOperations);
         });
     }
+
 
 
     @Override
@@ -1878,6 +1888,8 @@ public class AppDbHelper implements DbHelper {
     }
 
 
+
+
     @Override
     public Single<Boolean> isProductSkuExists(String sku, Long subcategoryId) {
         return Single.create(e -> {
@@ -2021,6 +2033,7 @@ public class AppDbHelper implements DbHelper {
     }
 
 
+
     @Override
     public Single<Long> getConsignmentByWarehouseId(Long warehouseId) {
         return Single.create(e -> {
@@ -2155,6 +2168,97 @@ public class AppDbHelper implements DbHelper {
     public Single<List<Customer>> getCustomersWithoutSorting() {
         return Single.create(e -> e.onSuccess(mDaoSession.getCustomerDao().loadAll()));
     }
+    //TODO -->
+    @Override
+    public Long insertOutcomeProduct(OutcomeProduct outcomeProduct) {
+        return null;
+    }
+
+    @Override
+    public Single<OutcomeProduct> justRemoveOutcomeProduct(OutcomeProduct outcomeProduct) {
+        return null;
+    }
+
+    @Override
+    public Single<OutcomeProduct> cancelOutcomeProductWithDetails(OutcomeProduct outcomeProduct) {
+        return null;
+    }
+
+    @Override
+    public Single<Double> getCountInventoryProduct(Long productId) {
+        return null;
+    }
+
+    @Override
+    public Single<Double> getCountInventoryProductWithoutMe(Long productId, OutcomeProduct outcomeProduct) {
+        return null;
+    }
+
+    @Override
+    public Single<List<StockQueue>> getAvailableStockQueues(Long productId) {
+        return null;
+    }
+
+    @Override
+    public Single<List<OutcomeProduct>> getNotClosedOutcomeProducts(Long productId) {
+        return null;
+    }
+
+    @Override
+    public Single<List<StockCountCost>> getPositionForMe(OutcomeProduct outcomeProduct) {
+        return Single.create(e -> {
+            ArrayList<StockCountCost> stockCountCosts = new ArrayList<>();
+            String queryForStock = "SELECT ID, AVAILABLE, COST FROM STOCK_QUEUE WHERE PRODUCT_ID = " + outcomeProduct.getProductId() + " AND CLOSED = 0 "+((outcomeProduct.getProduct().getStockKeepType()!=Product.FIFO)?" ORDER BY = " + ((outcomeProduct.getProduct().getStockKeepType() == Product.FEFO)?"EXPIRED_PRODUCT_DATE":"ID")+" "+((outcomeProduct.getProduct().getStockKeepType() == Product.LIFO)?"DESC":"ASC"):"");
+            String queryWaitingOutcomes = "SELECT ID, SUM_COUNT_VALUE, PICKED_STOCK_QUEUE_ID FROM OUT_PRODUCT WHERE PRODUCT_ID = "+outcomeProduct.getProductId()+" AND CLOSED = 0";
+            Cursor cursorForStock = mDaoSession.getDatabase().rawQuery(queryForStock, null);
+            Cursor cursorWaitingOutcomes = mDaoSession.getDatabase().rawQuery(queryWaitingOutcomes, null);
+
+            ArrayList<StockPerfomance> stockPerfomances = new ArrayList<>();
+            if (cursorForStock.getCount() > 0) {
+                cursorForStock.moveToFirst();
+                while (!cursorForStock.isAfterLast()) {
+                    stockPerfomances.add(new StockPerfomance(cursorForStock.getLong(0),cursorForStock.getDouble(1),cursorForStock.getDouble(2)));
+                    cursorForStock.moveToNext();
+                }
+            }else new Exception("In Stock Not Have Queue? Some think is wrong, because when Outcome registered stock queue was!!!").printStackTrace();
+
+            ArrayList<OutcomePerfomance> outcomePerfomances = new ArrayList<>();
+            if(cursorWaitingOutcomes.getCount()>0){
+                cursorWaitingOutcomes.moveToFirst();
+                while (!cursorWaitingOutcomes.isAfterLast()) {
+                    outcomePerfomances.add(new OutcomePerfomance(cursorWaitingOutcomes.getLong(0),cursorWaitingOutcomes.getDouble(1),cursorWaitingOutcomes.getLong(2)));
+                    cursorWaitingOutcomes.moveToNext();
+                }
+            }else new Exception("In Outcome Not Have Queue? Some think is wrong, at least should have one outcome!!!").printStackTrace();
+
+
+            for(int i=0;i<outcomePerfomances.size();i++){
+                double shouldRegister = outcomePerfomances.get(i).getCount();
+                for(int j=0;j<stockPerfomances.size();j++){
+                    if(stockPerfomances.get(j).getAvailable()>0) {
+                        if (outcomePerfomances.get(i).getStockId() == -1 || outcomePerfomances.get(i).getStockId() == stockPerfomances.get(j).getStockId()) {
+                            double available = stockPerfomances.get(j).getAvailable() - shouldRegister;
+                            if (available >= 0) {
+                                stockPerfomances.get(j).setAvailable(available);
+                                if(outcomeProduct.getId()==outcomePerfomances.get(i).getOutcomeId())
+                                    stockCountCosts.add(new StockCountCost(stockPerfomances.get(j).getStockId(),shouldRegister,stockPerfomances.get(j).getCost()));
+                                shouldRegister = 0;
+                            } else {
+                                stockPerfomances.get(j).setAvailable(0);
+                                if(outcomeProduct.getId()==outcomePerfomances.get(i).getOutcomeId())
+                                    stockCountCosts.add(new StockCountCost(stockPerfomances.get(j).getStockId(),stockPerfomances.get(j).getAvailable(),stockPerfomances.get(j).getCost()));
+                                shouldRegister = available * -1;
+                                outcomePerfomances.get(i).setStockId(-1);
+                            }
+                        }
+                        if (shouldRegister == 0) break;
+                    }
+                }
+                if(outcomeProduct.getId()==outcomePerfomances.get(i).getOutcomeId()) break;
+            }
+
+        });
+    }
 
     @Override
     public Single<Invoice> insertInvoice(Invoice invoice) {
@@ -2191,6 +2295,7 @@ public class AppDbHelper implements DbHelper {
                 stockQueue.setIncomeCount(incomeProduct.getCountValue());
                 stockQueue.setAvailable(incomeProduct.getCountValue());
                 stockQueue.setIncomeProduct(incomeProduct);
+                stockQueue.setCost(incomeProduct.getCostValue());
                 mDaoSession.getStockQueueDao().insertOrReplace(stockQueue);
                 incomeProduct.setStockQueue(stockQueue);
                 mDaoSession.getIncomeProductDao().insertOrReplace(incomeProduct);
@@ -2204,6 +2309,23 @@ public class AppDbHelper implements DbHelper {
         return Single.create(e -> e.onSuccess(mDaoSession.getInvoiceDao().queryBuilder().build().list()));
     }
 
+
+
+    @Override
+    public Single<HashMap<Long, List<StockCountCost>>> getPositionsForOrderList(List<OrderProduct> orderProducts) {
+        return null;
+    }
+
+    @Override
+    public Long insertDetailCount(DetialCount detialCount) {
+        return null;
+    }
+
+    @Override
+    public Single<Integer> checkProductHaveInStock(Long productId, double count) {
+        return null;
+    }
+    //TODO <----
     @Override
     public Single<List<Order>> getOrdersInIntervalForReport(Calendar fromDate, Calendar toDate) {
         return Single.create(e -> {

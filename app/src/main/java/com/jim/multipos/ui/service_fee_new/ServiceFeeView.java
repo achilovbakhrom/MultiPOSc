@@ -14,7 +14,7 @@ public interface ServiceFeeView extends BaseView {
     void refreshList(List<ServiceFeeAdapterDetails> detailsList);
     void notifyItemAdd(int position);
     void sendEvent(int type, ServiceFee serviceFee);
-    void sendChangeEvent(int type, ServiceFee oldServiceFee, ServiceFee newServiceFee);
+    void sendChangeEvent(int type, ServiceFee updateServiceFee);
     void notifyItemRemove(int position);
     void refreshList();
     void closeActivity();

@@ -144,7 +144,7 @@ public class HeldOrdersDialog extends Dialog {
                         totalPayedSum += order.getPayedPartitions().get(i).getValue();
                     }
                     order.setTotalPayed(totalPayedSum);
-                    databaseManager.confirmOutcomeProductWhenSold(order);
+                    databaseManager.confirmOutcomeProductWhenSold(order.getOrderProducts());
                     databaseManager.insertOrder(order).blockingGet();
                     orderList.remove(order);
                     adapter.notifyDataSetChanged();

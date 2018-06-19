@@ -47,7 +47,6 @@ public class ServiceFeePresenterImpl extends BasePresenterImpl<ServiceFeeView> i
 
     @Override
     public void addServiceFee(double amount, int type, String reason, int appType, boolean checked) {
-        //TODO EDITABLE TO STATEABLE
         ServiceFee serviceFee = new ServiceFee();
         serviceFee.setAmount(amount);
         serviceFee.setType(type);
@@ -72,11 +71,10 @@ public class ServiceFeePresenterImpl extends BasePresenterImpl<ServiceFeeView> i
 
     @Override
     public void onSave(double amount, int type, String description, int appType, boolean active, ServiceFee serviceFee) {
-        //TODO EDITABLE TO STATEABLE
         ServiceFeeLog serviceFeeLog = new ServiceFeeLog();
         serviceFeeLog.setChangeDate(System.currentTimeMillis());
         serviceFeeLog.setServiceFee(serviceFee);
-        serviceFeeLog.setStatus(ServiceFeeLog.SERVICE_FEE_CANCELED);
+        serviceFeeLog.setStatus(ServiceFeeLog.SERVICE_FEE_UPDATED);
         databaseManager.insertServiceFeeLog(serviceFeeLog).subscribe();
         serviceFee.keepToHistory();
         serviceFee.setAmount(amount);
@@ -84,9 +82,8 @@ public class ServiceFeePresenterImpl extends BasePresenterImpl<ServiceFeeView> i
         serviceFee.setName(description);
         serviceFee.setApplyingType(appType);
         serviceFee.setIsActive(active);
-        serviceFee.setCreatedDate(System.currentTimeMillis());
         serviceFee.setDeleted(false);
-        databaseManager.addServiceFee(serviceFee).subscribe(serviceFee1 -> {
+        databaseManager.addServiceFee(serviceFee).subscribe(serviceFee2 -> {
             for (int i = 1; i < items.size(); i++) {
                 if (items.get(i) != null) {
                     if (items.get(i).getObject().getId().equals(serviceFee.getId())) {
@@ -98,12 +95,7 @@ public class ServiceFeePresenterImpl extends BasePresenterImpl<ServiceFeeView> i
                     }
                 }
             }
-            ServiceFeeLog serviceFeeLog1 = new ServiceFeeLog();
-            serviceFeeLog1.setChangeDate(System.currentTimeMillis());
-            serviceFeeLog1.setServiceFee(serviceFee);
-            serviceFeeLog1.setStatus(ServiceFeeLog.SERVICE_FEE_ADDED);
-            databaseManager.insertServiceFeeLog(serviceFeeLog).subscribe();
-//            view.sendChangeEvent(GlobalEventConstants.UPDATE, serviceFee, newServiceFee);
+            view.sendChangeEvent(GlobalEventConstants.UPDATE, serviceFee);
         });
     }
 

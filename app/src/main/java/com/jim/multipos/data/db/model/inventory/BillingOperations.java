@@ -78,7 +78,7 @@ public class BillingOperations  {
 
     @Generated(hash = 1080405889)
     public BillingOperations(Long id, Long accountId, Long vendorId, Long invoiceId, double amount, long createAt,
-            int operationType, String description, boolean isActive, boolean isDeleted, long paymentDate) {
+                             int operationType, String description, boolean isActive, boolean isDeleted, long paymentDate) {
         this.id = id;
         this.accountId = accountId;
         this.vendorId = vendorId;
@@ -136,6 +136,25 @@ public class BillingOperations  {
             return null;
         }
     }
+    @Keep
+    public BillingOperationsHistory formatingToHistoryObject(){
+        BillingOperationsHistory billingOperationsHistory = new BillingOperationsHistory();
+        billingOperationsHistory.setId(id);
+        billingOperationsHistory.setAccountId(accountId);
+        billingOperationsHistory.setVendorId(vendorId);
+        billingOperationsHistory.setInvoiceId(invoiceId);
+        billingOperationsHistory.setAmount(amount);
+        billingOperationsHistory.setCreateAt(createAt);
+        billingOperationsHistory.setOperationType(operationType);
+        billingOperationsHistory.setDescription(description);
+        billingOperationsHistory.setIsActive(isActive);
+        billingOperationsHistory.setIsDeleted(isDeleted);
+        billingOperationsHistory.setPaymentDate(paymentDate);
+        billingOperationsHistory.setRootId(id);
+        billingOperationsHistory.setEditedAt(createAt);
+        return billingOperationsHistory;
+    }
+
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
      * Entity must attached to an entity context.

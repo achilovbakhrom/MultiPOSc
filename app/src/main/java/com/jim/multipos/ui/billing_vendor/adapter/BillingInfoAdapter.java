@@ -13,6 +13,7 @@ import com.jim.multipos.R;
 import com.jim.multipos.config.common.BaseAppModule;
 import com.jim.multipos.core.BaseViewHolder;
 import com.jim.multipos.data.db.model.currency.Currency;
+import com.jim.multipos.data.db.model.history.BillingOperationsHistory;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
 
 import java.text.DecimalFormat;
@@ -32,10 +33,10 @@ public class BillingInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private Context context;
     private Currency currency;
     private SimpleDateFormat simpleDateFormat;
-    private List<BillingOperations> items;
+    private List<BillingOperationsHistory> items;
     private DecimalFormat decimalFormat;
 
-    public void setData(List<BillingOperations> items) {
+    public void setData(List<BillingOperationsHistory> items) {
         this.items = items;
     }
 

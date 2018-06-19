@@ -29,6 +29,10 @@ import com.jim.multipos.data.db.model.consignment.Invoice;
 import com.jim.multipos.data.db.model.customer.CustomerPayment;
 import com.jim.multipos.data.db.model.customer.Debt;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
+import com.jim.multipos.data.db.model.inventory.DetialCount;
+import com.jim.multipos.data.db.model.inventory.OutcomeProduct;
+import com.jim.multipos.data.db.model.inventory.StockCountCost;
+import com.jim.multipos.data.db.model.inventory.StockQueue;
 import com.jim.multipos.data.db.model.inventory.IncomeProduct;
 import com.jim.multipos.data.db.model.inventory.StockQueue;
 import com.jim.multipos.data.db.model.order.Order;
@@ -58,6 +62,7 @@ import com.jim.multipos.ui.vendor_item_managment.model.VendorManagmentItem;
 import org.greenrobot.greendao.query.LazyList;
 
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -296,4 +301,15 @@ public interface DbHelper {
     Single<Invoice> insertInvoiceWithBillingAndIncomeProduct(Invoice invoice, List<IncomeProduct> incomeProductList, List<StockQueue> stockQueueList, List<BillingOperations> billingOperationsList);
     Single<List<Invoice>> getAllInvoices();
     Single<List<StockQueue>> getStockQueueByVendorId(Long id);
+    Long insertOutcomeProduct(OutcomeProduct outcomeProduct);
+    Single<OutcomeProduct> justRemoveOutcomeProduct(OutcomeProduct outcomeProduct);
+    Single<OutcomeProduct> cancelOutcomeProductWithDetails(OutcomeProduct outcomeProduct);
+    Single<Double> getCountInventoryProduct(Long productId);
+    Single<Double> getCountInventoryProductWithoutMe(Long productId,OutcomeProduct outcomeProduct);
+    Single<List<StockQueue>> getAvailableStockQueues(Long productId);
+    Single<List<OutcomeProduct>> getNotClosedOutcomeProducts(Long productId);
+    Single<List<StockCountCost>> getPositionForMe(OutcomeProduct outcomeProduct);
+    Single<HashMap<Long,List<StockCountCost>>> getPositionsForOrderList(List<OrderProduct> orderProducts);
+    Long insertDetailCount(DetialCount detialCount);
+    Single<Integer> checkProductHaveInStock(Long productId, double count);
 }

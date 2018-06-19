@@ -43,13 +43,10 @@ public interface InventoryOperations {
     Single<OutcomeProduct> cancelOutcomeProductWhenOrderProductCanceled(OutcomeProduct outcomeProduct);
 
 
-    Single<List<OutcomeProduct>> confirmOutcomeProducts(List<OutcomeProduct> outcomeProducts);
-    Single<OutcomeProduct> confirmOutcomeProduct(OutcomeProduct outcomeProduct);
 
     //AFTER CREATING DETIALS STOCK QUEUE SET COUNTS ALSO TO ORDER_PRODUCT AND RETURN IT
-    Single<OrderProduct> confirmOutcomeProductWhenSold(OutcomeProduct outcomeProduct, OrderProduct orderProduct);
-    Single<Order> confirmOutcomeProductWhenSold(Order order);
-
+    Single<OutcomeProduct> confirmOutcomeProductWhenSold(OutcomeProduct outcomeProduct, OrderProduct orderProduct);
+    Single<List<OrderProduct>> confirmOutcomeProductWhenSold(List<OrderProduct> orderProductItems);
     Single<Integer> checkProductHaveInStock(Long productId, double count);
     Single<Double> getProductInvenotry(Long productId);
     Single<Double> getProductInvenotryFromVendor(Long productId,Long vendorId);

@@ -30,6 +30,11 @@ import com.jim.multipos.data.db.model.history.ProductHistoryDao;
  */
 @Entity(nameInDb = "PRODUCT", active = true)
 public class Product  {
+    //STOCK KEEP TYPE
+    public static final int FIFO = 0; //First In First Out
+    public static final int LIFO = 1; //Last In Last Out
+    public static final int FEFO = 2; //First Expired First Out
+
     @Id(autoincrement = true)
     private Long id;
     private String name;
@@ -41,6 +46,7 @@ public class Product  {
     private Boolean isActive = true;
     private Boolean isDeleted = false;
     private Long priceCurrencyId;
+    private int stockKeepType;
     @ToOne(joinProperty = "priceCurrencyId")
     private Currency priceCurrency;
     private Long classId;
@@ -122,11 +128,10 @@ public class Product  {
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
 
-    @Generated(hash = 2064060011)
-    public Product(Long id, String name, Long createdDate, Double price, String barcode,
-            String sku, String photoPath, Boolean isActive, Boolean isDeleted,
-            Long priceCurrencyId, Long classId, Long mainUnitId, String description,
-            Long categoryId) {
+    @Generated(hash = 101822717)
+    public Product(Long id, String name, Long createdDate, Double price, String barcode, String sku,
+            String photoPath, Boolean isActive, Boolean isDeleted, Long priceCurrencyId,
+            int stockKeepType, Long classId, Long mainUnitId, String description, Long categoryId) {
         this.id = id;
         this.name = name;
         this.createdDate = createdDate;
@@ -137,6 +142,7 @@ public class Product  {
         this.isActive = isActive;
         this.isDeleted = isDeleted;
         this.priceCurrencyId = priceCurrencyId;
+        this.stockKeepType = stockKeepType;
         this.classId = classId;
         this.mainUnitId = mainUnitId;
         this.description = description;
@@ -446,6 +452,14 @@ public class Product  {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getStockKeepType() {
+        return stockKeepType;
+    }
+
+    public void setStockKeepType(int stockKeepType) {
+        this.stockKeepType = stockKeepType;
     }
 
     /** Resets a to-many relationship, making the next get call to query for a fresh result. */
