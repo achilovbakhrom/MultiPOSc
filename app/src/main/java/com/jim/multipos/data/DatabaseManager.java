@@ -885,6 +885,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
+    public Single<List<Product>> getVendorProductsByVendorId(Long id) {
+        return dbHelper.getVendorProductsByVendorId(id);
+    }
+
+    @Override
     public Observable<List<Category>> getActiveCategories() {
         return dbHelper.getActiveCategories();
     }
@@ -1406,7 +1411,7 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
         return dbHelper.getAllInvoices();
     }
 
-    public Single<List<StockQueue>> geStockQueuesByVendorId(Long id) {
+    public Single<List<StockQueue>> getStockQueuesByVendorId(Long id) {
         return dbHelper.getStockQueueByVendorId(id);
     }
 

@@ -226,12 +226,7 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
     @Override
     public void loadVendorProducts() {
         List<Product> productList = databaseManager.getAllProducts().blockingSingle();
-        List<Product> vendorProducts = new ArrayList<>();
-        List<StockQueue> stockQueues = databaseManager.geStockQueuesByVendorId(vendor.getId()).blockingGet();
-        for (int i = 0; i < stockQueues.size(); i++) {
-            if (!vendorProducts.contains(stockQueues.get(i).getProduct()))
-                vendorProducts.add(stockQueues.get(i).getProduct());
-        }
+        List<Product> vendorProducts = databaseManager.getVendorProductsByVendorId(vendor.getId()).blockingGet();
         view.fillDialogItems(productList, vendorProducts);
     }
 }

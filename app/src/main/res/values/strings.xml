@@ -1432,4 +1432,5 @@
     <string name="highlight_red_out_off_stock_products_in_order_list">Highlight red out off stock products in order list</string>
     <string name="stock_positions">Stock positions</string>
     <string name="position">Position</string>
+    <string name="invoice">Invoice</string>
 </resources>

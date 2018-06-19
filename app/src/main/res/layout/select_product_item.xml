@@ -6,7 +6,6 @@
     android:orientation="horizontal"
     android:paddingBottom="@dimen/ten_dp"
     android:paddingLeft="@dimen/thirty_dp"
-    android:paddingRight="@dimen/thirty_dp"
     android:paddingTop="@dimen/ten_dp">
 
     <TextView
@@ -14,8 +13,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_weight="1"
-        android:gravity="center"
+        android:layout_weight="1.5"
+        android:gravity="left"
         android:textColor="@color/colorMainText"
         android:textSize="@dimen/sixteen_dp" />
 
@@ -24,7 +23,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_weight="1"
+        android:layout_weight="1.5"
         android:gravity="center"
         android:textColor="@color/colorMainText"
         android:textSize="@dimen/sixteen_dp" />
@@ -34,7 +33,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_weight="1"
+        android:layout_weight="1.5"
         android:gravity="center"
         android:textColor="@color/colorMainText"
         android:textSize="@dimen/sixteen_dp" />
@@ -56,21 +55,10 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-        <com.jim.mpviews.MpMiniActionButton
-            android:id="@+id/btnInfo"
-            android:layout_width="@dimen/fifty_five_dp"
-            android:layout_height="@dimen/thirty_eight_dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginRight="@dimen/ten_dp"
-            android:paddingBottom="@dimen/ten_dp"
-            android:paddingTop="@dimen/ten_dp"
-            android:src="@drawable/ic_question_mark"
-            android:tint="@color/colorTintGrey" />
-
         <com.jim.mpviews.MpButton
             android:id="@+id/btnSelect"
             android:layout_width="@dimen/hundred_dp"
-            android:layout_height="@dimen/thirty_eight_dp"
+            android:layout_height="@dimen/forty_three_dp"
             android:layout_gravity="center"
             android:gravity="center"
             android:text="@string/select"

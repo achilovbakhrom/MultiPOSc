@@ -99,10 +99,6 @@
             
 
             />
-        <activity android:name=".ui.customers_edit_new.CustomersEditActivity"
-            android:configChanges="keyboard|keyboardHidden|navigation"
-            
-            />
         <activity android:name=".ui.consignment.ConsignmentActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
             

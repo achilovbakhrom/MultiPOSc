@@ -304,14 +304,7 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public Observable<Long> insertProduct(Product product) {
-        return Observable.fromCallable(() -> {
-            if (product.getId() == null) {
-                List<Product> products = mDaoSession.getProductDao().queryBuilder()
-                        .where(ProductDao.Properties.IsDeleted.eq(false))
-                        .list();
-            }
-            return mDaoSession.getProductDao().insertOrReplace(product);
-        });
+        return Observable.fromCallable(() -> mDaoSession.getProductDao().insertOrReplace(product));
     }
 
     @Override
@@ -1167,12 +1160,12 @@ public class AppDbHelper implements DbHelper {
             for (Vendor vendor : vendors) {
                 VendorManagmentItem item = new VendorManagmentItem();
                 item.setVendor(vendor);
-                List<StockQueue> stockQueues = mDaoSession.getStockQueueDao().queryBuilder().where(StockQueueDao.Properties.VendorId.eq(vendor.getId())).build().list();
+                String stockQuery = "SELECT * FROM STOCK_QUEUE WHERE VENDOR_ID == " + vendor.getId() + " GROUP BY PRODUCT_ID";
+                Cursor stockCursor = mDaoSession.getDatabase().rawQuery(stockQuery, null);
                 List<Product> products = new ArrayList<>();
-                for (int i = 0; i < stockQueues.size(); i++) {
-                    if (!products.contains(stockQueues.get(i).getProduct())) {
-                        products.add(stockQueues.get(i).getProduct());
-                    }
+                if (stockCursor.getCount() > 0) {
+                    stockCursor.moveToFirst();
+                    products.add(mDaoSession.getProductDao().load(stockCursor.getLong(stockCursor.getColumnIndex("PRODUCT_ID"))));
                 }
                 item.setProducts(products);
                 String query = "SELECT  SUM(AMOUNT) AS AMOUNT FROM BILLING_OPERATION WHERE IS_DELETED == " + 0 + " GROUP BY VENDOR_ID HAVING VENDOR_ID=?";
@@ -1191,7 +1184,7 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public Single<List<StockQueue>> getStockQueueByVendorId(Long id) {
-        return Single.create(e -> mDaoSession.getStockQueueDao().queryBuilder().where(StockQueueDao.Properties.VendorId.eq(id)).build().list());
+        return Single.create(e -> e.onSuccess(mDaoSession.getStockQueueDao().queryBuilder().where(StockQueueDao.Properties.VendorId.eq(id)).build().list()));
     }
 
     @Override
@@ -2325,6 +2318,21 @@ public class AppDbHelper implements DbHelper {
     public Single<Integer> checkProductHaveInStock(Long productId, double count) {
         return null;
     }
+
+    @Override
+    public Single<List<Product>> getVendorProductsByVendorId(Long id) {
+        return Single.create(e -> {
+            String stockQuery = "SELECT * FROM STOCK_QUEUE WHERE VENDOR_ID == " + id + " GROUP BY PRODUCT_ID";
+            Cursor stockCursor = mDaoSession.getDatabase().rawQuery(stockQuery, null);
+            List<Product> products = new ArrayList<>();
+            if (stockCursor.getCount() > 0) {
+                stockCursor.moveToFirst();
+                products.add(mDaoSession.getProductDao().load(stockCursor.getLong(stockCursor.getColumnIndex("PRODUCT_ID"))));
+            }
+            e.onSuccess(products);
+        });
+    }
+
     //TODO <----
     @Override
     public Single<List<Order>> getOrdersInIntervalForReport(Calendar fromDate, Calendar toDate) {

@@ -1,6 +1,7 @@
 package com.jim.multipos.ui.consignment.view;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -10,9 +11,12 @@ import android.support.v7.widget.SimpleItemAnimator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.jim.mpviews.MPosSpinner;
 import com.jim.mpviews.MpCheckbox;
 import com.jim.mpviews.MpEditText;
@@ -88,6 +92,9 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
     TextView tvTotalShouldPayAbbr;
     @BindView(R.id.tvTotalPaidAbbr)
     TextView tvTotalPaidAbbr;
+    @BindView(R.id.ivBarcodeScanner)
+    ImageView ivBarcodeScanner;
+    private ProductsForIncomeDialog dialog;
 
     @Override
     protected int getLayout() {
@@ -142,6 +149,8 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
                 presenter.onBarcodeScanned(barcode);
         });
         etTotalPaid.addTextChangedListener(new NumberTextWatcher(etTotalPaid));
+
+        ivBarcodeScanner.setOnClickListener(v -> initScan());
     }
 
     @OnClick(R.id.btnBack)
@@ -163,9 +172,34 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
 
     @Override
     public void fillDialogItems(List<Product> productList, List<Product> vendorProducts) {
-        ProductsForIncomeDialog dialog = new ProductsForIncomeDialog(getContext(), productList, vendorProducts);
-        dialog.setListener(product -> presenter.setInvoiceItem(product));
+        dialog = new ProductsForIncomeDialog(getContext(), productList, vendorProducts, barcodeStack);
+        dialog.setListener(new ProductsForIncomeDialog.OnSelectClickListener() {
+            @Override
+            public void onSelect(Product product) {
+                presenter.setInvoiceItem(product);
+            }
+
+            @Override
+            public void onBarcodeClick() {
+                initScan();
+            }
+        });
         dialog.show();
+    }
+
+    public void initScan(){
+        IntentIntegrator.forSupportFragment(this).initiateScan();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (intentResult != null) {
+            if (intentResult.getContents() != null) {
+               dialog.setBarcode(intentResult.getContents());
+            }
+        }
     }
 
     @Override

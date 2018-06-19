@@ -10,12 +10,15 @@ import android.support.v7.widget.SimpleItemAnimator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.jim.mpviews.MpSearchView;
 import com.jim.multipos.R;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.ui.consignment.adapter.ProductsForIncomeAdapter;
 import com.jim.multipos.ui.consignment.model.ProductForIncomeItem;
+import com.jim.multipos.utils.BarcodeStack;
 import com.jim.multipos.utils.TextWatcherOnTextChange;
 
 import java.util.ArrayList;
@@ -25,25 +28,62 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.jim.multipos.ui.consignment.dialogs.ProductsForIncomeDialog.ProductSortingStates.SORTED_BY_ARTICLE;
+import static com.jim.multipos.ui.consignment.dialogs.ProductsForIncomeDialog.ProductSortingStates.SORTED_BY_ARTICLE_INVERT;
+import static com.jim.multipos.ui.consignment.dialogs.ProductsForIncomeDialog.ProductSortingStates.SORTED_BY_BARCODE;
+import static com.jim.multipos.ui.consignment.dialogs.ProductsForIncomeDialog.ProductSortingStates.SORTED_BY_BARCODE_INVERT;
+import static com.jim.multipos.ui.consignment.dialogs.ProductsForIncomeDialog.ProductSortingStates.SORTED_BY_NAME;
+import static com.jim.multipos.ui.consignment.dialogs.ProductsForIncomeDialog.ProductSortingStates.SORTED_BY_NAME_INVERT;
+import static com.jim.multipos.ui.consignment.dialogs.ProductsForIncomeDialog.ProductSortingStates.SORTED_BY_TYPE;
+import static com.jim.multipos.ui.consignment.dialogs.ProductsForIncomeDialog.ProductSortingStates.SORTED_BY_TYPE_INVERT;
+
 public class ProductsForIncomeDialog extends Dialog {
 
     @BindView(R.id.rvProductList)
     RecyclerView rvProductList;
     @BindView(R.id.svProductSearch)
     MpSearchView svProductSearch;
+    @BindView(R.id.llProductName)
+    LinearLayout llProductName;
+    @BindView(R.id.llArticle)
+    LinearLayout llArticle;
+    @BindView(R.id.llBarcode)
+    LinearLayout llBarcode;
+    @BindView(R.id.llSupplyStatus)
+    LinearLayout llSupplyStatus;
+    @BindView(R.id.ivArticleSort)
+    ImageView ivArticleSort;
+    @BindView(R.id.ivProductNameSort)
+    ImageView ivProductNameSort;
+    @BindView(R.id.ivBarcodeSort)
+    ImageView ivBarcodeSort;
+    @BindView(R.id.ivSupplySort)
+    ImageView ivSupplySort;
+    private ProductSortingStates filterMode = SORTED_BY_TYPE_INVERT;
+
+    public void setBarcode(String barcode) {
+        svProductSearch.getSearchView().setText(barcode);
+    }
+
+    public enum ProductSortingStates {
+        SORTED_BY_NAME, SORTED_BY_NAME_INVERT, SORTED_BY_ARTICLE, SORTED_BY_ARTICLE_INVERT, SORTED_BY_BARCODE, SORTED_BY_BARCODE_INVERT, SORTED_BY_TYPE, SORTED_BY_TYPE_INVERT
+    }
+
     private Context context;
-
     private OnSelectClickListener listener;
-
     private List<Product> productList;
     private List<Product> vendorProducts;
+    private BarcodeStack barcodeStack;
     private List<ProductForIncomeItem> searchResults;
+    private List<ProductForIncomeItem> items;
+    private ProductsForIncomeAdapter adapter;
 
-    public ProductsForIncomeDialog(@NonNull Context context, List<Product> productList, List<Product> vendorProducts) {
+    public ProductsForIncomeDialog(@NonNull Context context, List<Product> productList, List<Product> vendorProducts, BarcodeStack barcodeStack) {
         super(context);
         this.context = context;
         this.productList = productList;
         this.vendorProducts = vendorProducts;
+        this.barcodeStack = barcodeStack;
     }
 
     public void setListener(OnSelectClickListener listener) {
@@ -58,30 +98,22 @@ public class ProductsForIncomeDialog extends Dialog {
         getWindow().getDecorView().setBackgroundResource(android.R.color.transparent);
         ButterKnife.bind(this, dialogView);
         setContentView(dialogView);
-        ProductsForIncomeAdapter adapter = new ProductsForIncomeAdapter(context);
+        adapter = new ProductsForIncomeAdapter(context);
         rvProductList.setLayoutManager(new LinearLayoutManager(getContext()));
         ((SimpleItemAnimator) rvProductList.getItemAnimator()).setSupportsChangeAnimations(false);
         rvProductList.setAdapter(adapter);
-        List<ProductForIncomeItem> items = new ArrayList<>();
+        items = new ArrayList<>();
         for (int i = 0; i < productList.size(); i++) {
             ProductForIncomeItem item = new ProductForIncomeItem();
             item.setProduct(productList.get(i));
             item.setWasSupplied(vendorProducts.contains(productList.get(i)));
             items.add(item);
         }
-        Collections.sort(items, (o1, o2) -> o1.isWasSupplied().compareTo(o2.isWasSupplied()));
+        sortList();
         adapter.setData(items);
-        adapter.setListener(new ProductsForIncomeAdapter.OnProductIncomeClicked() {
-            @Override
-            public void onInfo(Product product) {
-
-            }
-
-            @Override
-            public void onSelect(Product product) {
-                listener.onSelect(product);
-                dismiss();
-            }
+        adapter.setListener(product -> {
+            listener.onSelect(product);
+            dismiss();
         });
 
         svProductSearch.getSearchView().addTextChangedListener(new TextWatcherOnTextChange() {
@@ -113,13 +145,116 @@ public class ProductsForIncomeDialog extends Dialog {
                 }
             }
         });
+
+        llProductName.setOnClickListener(view -> {
+            deselectAll();
+            if (filterMode != SORTED_BY_NAME) {
+                filterMode = SORTED_BY_NAME;
+                sortList();
+                ivProductNameSort.setVisibility(View.VISIBLE);
+                ivProductNameSort.setImageResource(R.drawable.sorting);
+            } else {
+                filterMode = SORTED_BY_NAME_INVERT;
+                ivProductNameSort.setVisibility(View.VISIBLE);
+                ivProductNameSort.setImageResource(R.drawable.sorting_invert);
+                sortList();
+            }
+        });
+
+        llArticle.setOnClickListener(view -> {
+            deselectAll();
+            if (filterMode != SORTED_BY_ARTICLE) {
+                filterMode = SORTED_BY_ARTICLE;
+                sortList();
+                ivArticleSort.setVisibility(View.VISIBLE);
+                ivArticleSort.setImageResource(R.drawable.sorting);
+            } else {
+                filterMode = SORTED_BY_ARTICLE_INVERT;
+                ivArticleSort.setVisibility(View.VISIBLE);
+                ivArticleSort.setImageResource(R.drawable.sorting_invert);
+                sortList();
+            }
+        });
+
+        llBarcode.setOnClickListener(view -> {
+            deselectAll();
+            if (filterMode != SORTED_BY_BARCODE) {
+                filterMode = SORTED_BY_BARCODE;
+                sortList();
+                ivBarcodeSort.setVisibility(View.VISIBLE);
+                ivBarcodeSort.setImageResource(R.drawable.sorting);
+            } else {
+                filterMode = SORTED_BY_BARCODE_INVERT;
+                ivBarcodeSort.setVisibility(View.VISIBLE);
+                ivBarcodeSort.setImageResource(R.drawable.sorting_invert);
+                sortList();
+            }
+        });
+
+        llSupplyStatus.setOnClickListener(view -> {
+            deselectAll();
+            if (filterMode != SORTED_BY_TYPE) {
+                filterMode = SORTED_BY_TYPE;
+                sortList();
+                ivSupplySort.setVisibility(View.VISIBLE);
+                ivSupplySort.setImageResource(R.drawable.sorting);
+            } else {
+                filterMode = SORTED_BY_TYPE_INVERT;
+                ivSupplySort.setVisibility(View.VISIBLE);
+                ivSupplySort.setImageResource(R.drawable.sorting_invert);
+                sortList();
+            }
+        });
+
+        svProductSearch.getBarcodeView().setOnClickListener(view -> listener.onBarcodeClick());
+        barcodeStack.register(barcode -> svProductSearch.getSearchView().setText(barcode));
+        setOnDismissListener(o -> barcodeStack.unregister());
+    }
+
+    private void deselectAll() {
+        ivSupplySort.setVisibility(View.GONE);
+        ivBarcodeSort.setVisibility(View.GONE);
+        ivArticleSort.setVisibility(View.GONE);
+        ivProductNameSort.setVisibility(View.GONE);
     }
 
     private void sortList() {
-
+        List<ProductForIncomeItem> tempList;
+        if (searchResults != null)
+            tempList = searchResults;
+        else tempList = items;
+        switch (filterMode) {
+            case SORTED_BY_ARTICLE:
+                Collections.sort(tempList, (item, t1) -> item.getProduct().getSku().toUpperCase().compareTo(t1.getProduct().getSku().toUpperCase()));
+                break;
+            case SORTED_BY_BARCODE:
+                Collections.sort(tempList, (item, t1) -> item.getProduct().getBarcode().compareTo(t1.getProduct().getBarcode()));
+                break;
+            case SORTED_BY_NAME:
+                Collections.sort(tempList, (item, t1) -> item.getProduct().getName().toUpperCase().compareTo(t1.getProduct().getName().toUpperCase()));
+                break;
+            case SORTED_BY_TYPE:
+                Collections.sort(tempList, (item, t1) -> item.isWasSupplied().compareTo(t1.isWasSupplied()));
+                break;
+            case SORTED_BY_ARTICLE_INVERT:
+                Collections.sort(tempList, (item, t1) -> item.getProduct().getSku().toUpperCase().compareTo(t1.getProduct().getSku().toUpperCase()) * -1);
+                break;
+            case SORTED_BY_BARCODE_INVERT:
+                Collections.sort(tempList, (item, t1) -> item.getProduct().getBarcode().compareTo(t1.getProduct().getBarcode()) * -1);
+                break;
+            case SORTED_BY_NAME_INVERT:
+                Collections.sort(tempList, (item, t1) -> item.getProduct().getName().toUpperCase().compareTo(t1.getProduct().getName().toUpperCase()) * -1);
+                break;
+            case SORTED_BY_TYPE_INVERT:
+                Collections.sort(tempList, (item, t1) -> item.isWasSupplied().compareTo(t1.isWasSupplied()) * -1);
+                break;
+        }
+        adapter.notifyDataSetChanged();
     }
 
     public interface OnSelectClickListener {
         void onSelect(Product product);
+
+        void onBarcodeClick();
     }
 }

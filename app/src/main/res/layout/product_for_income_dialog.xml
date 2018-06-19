@@ -56,10 +56,8 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:orientation="horizontal"
-                    android:paddingLeft="@dimen/ten_dp"
-                    android:paddingRight="@dimen/ten_dp">
+                    android:layout_weight="1.5"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -84,11 +82,9 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
+                    android:layout_weight="1.5"
                     android:gravity="center"
-                    android:orientation="horizontal"
-                    android:paddingLeft="@dimen/ten_dp"
-                    android:paddingRight="@dimen/ten_dp">
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -110,15 +106,13 @@
 
 
                 <LinearLayout
-                    android:id="@+id/llCustomerAddress"
+                    android:id="@+id/llBarcode"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
+                    android:layout_weight="1.5"
                     android:gravity="center"
-                    android:orientation="horizontal"
-                    android:paddingLeft="@dimen/ten_dp"
-                    android:paddingRight="@dimen/ten_dp">
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -146,9 +140,7 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:orientation="horizontal"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/ten_dp"
-                    android:paddingRight="@dimen/ten_dp">
+                    android:gravity="center">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -180,6 +172,11 @@
 
             </LinearLayout>
 
+            <FrameLayout
+                android:background="@color/colorTintGrey"
+                android:layout_width="match_parent"
+                android:layout_height="1px" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -187,8 +184,7 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rvProductList"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/colorBackground" />
+                    android:layout_height="match_parent"/>
 
 
             </RelativeLayout>

@@ -312,4 +312,5 @@ public interface DbHelper {
     Single<HashMap<Long,List<StockCountCost>>> getPositionsForOrderList(List<OrderProduct> orderProducts);
     Long insertDetailCount(DetialCount detialCount);
     Single<Integer> checkProductHaveInStock(Long productId, double count);
+    Single<List<Product>> getVendorProductsByVendorId(Long id);
 }

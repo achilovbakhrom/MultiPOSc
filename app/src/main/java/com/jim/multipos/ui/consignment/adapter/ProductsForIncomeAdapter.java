@@ -61,7 +61,10 @@ public class ProductsForIncomeAdapter extends RecyclerView.Adapter<ProductsForIn
         if (items.get(position).isWasSupplied()) {
             holder.tvSupplied.setText("YES");
             holder.tvSupplied.setTextColor(ContextCompat.getColor(context, R.color.colorGreen));
-        } else holder.tvSupplied.setText("");
+        } else {
+            holder.tvSupplied.setText("NO");
+            holder.tvSupplied.setTextColor(ContextCompat.getColor(context, R.color.colorRed));
+        }
     }
 
     @Override
@@ -97,8 +100,6 @@ public class ProductsForIncomeAdapter extends RecyclerView.Adapter<ProductsForIn
         TextView tvArticle;
         @BindView(R.id.tvSupplied)
         TextView tvSupplied;
-        @BindView(R.id.btnInfo)
-        MpMiniActionButton btnInfo;
         @BindView(R.id.btnSelect)
         MpButton btnSelect;
         @BindView(R.id.llBackground)
@@ -107,13 +108,11 @@ public class ProductsForIncomeAdapter extends RecyclerView.Adapter<ProductsForIn
         public ProductForIncomeViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            btnInfo.setOnClickListener(v -> listener.onInfo(items.get(getAdapterPosition()).getProduct()));
             btnSelect.setOnClickListener(v -> listener.onSelect(items.get(getAdapterPosition()).getProduct()));
         }
     }
 
     public interface OnProductIncomeClicked {
-        void onInfo(Product product);
         void onSelect(Product product);
     }
 

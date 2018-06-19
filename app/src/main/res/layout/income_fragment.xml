@@ -12,7 +12,7 @@
         android:background="@color/colorWhite"
         android:orientation="horizontal"
         android:paddingLeft="@dimen/thirty_dp"
-        android:paddingRight="@dimen/seventeen_dp">
+        android:paddingRight="@dimen/thirty_dp">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -41,6 +41,7 @@
         </LinearLayout>
 
         <ImageView
+            android:id="@+id/ivBarcodeScanner"
             android:layout_gravity="center"
             android:tint="@color/colorTintGrey"
             android:src="@drawable/barcode"
@@ -159,7 +160,7 @@
                     android:layout_gravity="center"
                     android:layout_marginRight="@dimen/sixteen_dp"
                     android:gravity="right"
-                    android:text="@string/consignment"
+                    android:text="@string/invoice"
                     android:textSize="@dimen/sixteen_dp" />
 
                 <com.jim.mpviews.MpEditText

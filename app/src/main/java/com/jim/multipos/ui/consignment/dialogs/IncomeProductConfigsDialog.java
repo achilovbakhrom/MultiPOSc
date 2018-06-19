@@ -76,7 +76,7 @@ public class IncomeProductConfigsDialog extends Dialog {
             etDateExpired.setText(simpleDateFormat.format(stockQueue.getExpiredProductDate()));
         } else etDateExpired.setText("");
 
-        if (!stockQueue.getStockId().isEmpty())
+        if (stockQueue.getStockId() != null)
             etStockId.setText(stockQueue.getStockId());
 
         etDateCreated.setOnClickListener(v -> {
