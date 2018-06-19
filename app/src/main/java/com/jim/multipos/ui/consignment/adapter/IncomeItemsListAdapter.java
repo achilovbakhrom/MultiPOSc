@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.jim.mpviews.MpEditText;
 import com.jim.mpviews.MpMiniActionButton;
 import com.jim.multipos.R;
-import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
+import com.jim.multipos.data.db.model.inventory.IncomeProduct;
 import com.jim.multipos.utils.TextWatcherOnTextChange;
 
 import java.text.DecimalFormat;
@@ -26,10 +26,9 @@ import butterknife.ButterKnife;
 
 public class IncomeItemsListAdapter extends RecyclerView.Adapter<IncomeItemsListAdapter.IncomeItemViewHolder> {
 
-    private List<ConsignmentProduct> items;
-    private int type;
+    private List<IncomeProduct> items;
     private Context context;
-    private OnConsignmentCallback onConsignmentCallback;
+    private OnInvoiceCallback invoiceCallback;
     private DecimalFormat decimalFormat;
     private String currencyAbbr;
 
@@ -39,9 +38,8 @@ public class IncomeItemsListAdapter extends RecyclerView.Adapter<IncomeItemsList
         this.currencyAbbr = currencyAbbr;
     }
 
-    public void setData(List<ConsignmentProduct> items, int type) {
+    public void setData(List<IncomeProduct> items) {
         this.items = items;
-        this.type = type;
         notifyDataSetChanged();
     }
 
@@ -54,7 +52,7 @@ public class IncomeItemsListAdapter extends RecyclerView.Adapter<IncomeItemsList
     @Override
     public void onBindViewHolder(IncomeItemViewHolder holder, int position) {
         if (position == 0)
-            holder.etProductCount.post(() -> holder.etProductCount.requestFocus());
+            holder.etProductCost.post(() -> holder.etProductCost.requestFocus());
         holder.tvProductName.setText(items.get(position).getProduct().getName());
         holder.tvCurrencyAbbr.setText(currencyAbbr);
         holder.etProductCount.setText(decimalFormat.format(items.get(position).getCountValue()));
@@ -79,25 +77,25 @@ public class IncomeItemsListAdapter extends RecyclerView.Adapter<IncomeItemsList
         if (items.size() > 1) {
             holder.btnDeleteProduct.setEnabled(true);
         }
-        if (type == 1) {
-            if (items.size() > 1) {
-                holder.btnDeleteProduct.setAlpha(1f);
-                holder.btnDeleteProduct.setEnabled(true);
-            } else {
-                holder.btnDeleteProduct.setAlpha(0.5f);
-                holder.btnDeleteProduct.setEnabled(false);
-            }
-        }
+//        if (type == 1) {
+//            if (items.size() > 1) {
+//                holder.btnDeleteProduct.setAlpha(1f);
+//                holder.btnDeleteProduct.setEnabled(true);
+//            } else {
+//                holder.btnDeleteProduct.setAlpha(0.5f);
+//                holder.btnDeleteProduct.setEnabled(false);
+//            }
+//        }
 
     }
 
-    public void setListeners(OnConsignmentCallback listeners) {
-        this.onConsignmentCallback = listeners;
+    public void setListeners(OnInvoiceCallback listeners) {
+        this.invoiceCallback = listeners;
     }
 
-    public interface OnConsignmentCallback {
-        void onDelete(ConsignmentProduct consignmentProduct);
-
+    public interface OnInvoiceCallback {
+        void onDelete(int position);
+        void onSettings(IncomeProduct incomeProduct, int position);
         void onSumChanged();
     }
 
@@ -124,11 +122,15 @@ public class IncomeItemsListAdapter extends RecyclerView.Adapter<IncomeItemsList
         TextView tvProductUnit;
         @BindView(R.id.btnDeleteProduct)
         MpMiniActionButton btnDeleteProduct;
+        @BindView(R.id.btnSettings)
+        MpMiniActionButton btnSettings;
 
         public IncomeItemViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            btnDeleteProduct.setOnClickListener(view -> onConsignmentCallback.onDelete(items.get(getAdapterPosition())));
+            btnDeleteProduct.setOnClickListener(view -> invoiceCallback.onDelete(getAdapterPosition()));
+
+            btnSettings.setOnClickListener(v -> invoiceCallback.onSettings(items.get(getAdapterPosition()), getAdapterPosition()));
 
             etProductCount.addTextChangedListener(new TextWatcherOnTextChange() {
                 @Override
@@ -149,7 +151,7 @@ public class IncomeItemsListAdapter extends RecyclerView.Adapter<IncomeItemsList
                             return;
                         }
                         tvProductSum.setText(decimalFormat.format(cost * count));
-                        onConsignmentCallback.onSumChanged();
+                        invoiceCallback.onSumChanged();
                     } else {
                         tvProductSum.setText(decimalFormat.format(0));
                         items.get(getAdapterPosition()).setCountValue(0d);
@@ -157,6 +159,7 @@ public class IncomeItemsListAdapter extends RecyclerView.Adapter<IncomeItemsList
                     }
                 }
             });
+
             etProductCost.addTextChangedListener(new TextWatcherOnTextChange() {
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -176,7 +179,7 @@ public class IncomeItemsListAdapter extends RecyclerView.Adapter<IncomeItemsList
                             return;
                         }
                         tvProductSum.setText(decimalFormat.format(cost * count));
-                        onConsignmentCallback.onSumChanged();
+                        invoiceCallback.onSumChanged();
                     } else {
                         tvProductSum.setText(decimalFormat.format(0));
                         items.get(getAdapterPosition()).setCostValue(null);

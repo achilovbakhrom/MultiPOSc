@@ -8,6 +8,7 @@ import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.currency.Currency;
+import com.jim.multipos.data.db.model.history.ProductHistory;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.unit.Unit;
@@ -1066,8 +1067,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 product.setDescription(description);
                 databaseManager.addProduct(product).subscribe(aLong -> {
                     //TODO EDITABLE TO STATEABLE
-
-//                    product.setRootId(product.getId());
                     databaseManager.replaceProduct(product).blockingSingle();
                     view.addToProductList(product);
                     view.sendProductEvent(GlobalEventConstants.ADD, product);
@@ -1079,43 +1078,37 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     @Override
                     public void onPositiveButtonClicked() {
                         if (ProductPresenterImpl.this.product != null) {
-                            Product result = new Product();
-                            result.setName(name);
-                            result.setBarcode(barcode.replace(" ", ""));
-                            result.setSku(sku);
-                            result.setPhotoPath(photoPath);
-                            result.setIsActive(isActive);
-                            result.setPrice(resultPrice);
-                            result.setCategory(subcategory);
-                            result.setCreatedDate(System.currentTimeMillis());
-                            result.setCategoryId(subcategory.getId());
                             //TODO EDITABLE TO STATEABLE
-
-//                            result.setRootId(ProductPresenterImpl.this.product.getRootId());
-                            ProductPresenterImpl.this.product.setActive(false);
-//                            ProductPresenterImpl.this.product.setNotModifyted(false);
+                            ProductPresenterImpl.this.product.keepToHistory();
+                            ProductPresenterImpl.this.product.setName(name);
+                            ProductPresenterImpl.this.product.setActive(isActive);
+                            ProductPresenterImpl.this.product.setCategory(subcategory);
+                            ProductPresenterImpl.this.product.setCreatedDate(System.currentTimeMillis());
+                            ProductPresenterImpl.this.product.setBarcode(barcode.replace(" ", ""));
+                            ProductPresenterImpl.this.product.setPrice(resultPrice);
+                            ProductPresenterImpl.this.product.setPhotoPath(photoPath);
+                            ProductPresenterImpl.this.product.setSku(sku);
+                            ProductPresenterImpl.this.product.setDescription(description);
+                            ProductPresenterImpl.this.product.setProductClass(productClass);
                             List<Currency> tempCurrencies = databaseManager.getAllCurrencies().blockingSingle();
                             if (tempCurrencies.size() > priceCurrencuyPos) {
-                                result.setPriceCurrency(tempCurrencies.get(priceCurrencuyPos));
-                                result.setPriceCurrencyId(tempCurrencies.get(priceCurrencuyPos).getId());
+                                ProductPresenterImpl.this.product.setPriceCurrency(tempCurrencies.get(priceCurrencuyPos));
+                                ProductPresenterImpl.this.product.setPriceCurrencyId(tempCurrencies.get(priceCurrencuyPos).getId());
                             }
-                            result.setProductClass(productClass);
                             List<UnitCategory> tempUnitCategories = databaseManager.getAllUnitCategories().blockingSingle();
                             if (tempUnitCategories.size() > unitCategoryPos) {
                                 List<Unit> units = tempUnitCategories.get(unitCategoryPos).getUnits();
                                 if (units.size() > unitPos) {
-                                    result.setMainUnit(units.get(unitPos));
-                                    result.setMainUnitId(units.get(unitPos).getId());
+                                    ProductPresenterImpl.this.product.setMainUnit(units.get(unitPos));
+                                    ProductPresenterImpl.this.product.setMainUnitId(units.get(unitPos).getId());
                                 }
                             }
-                            result.setDescription(description);
-                            databaseManager.replaceProduct(ProductPresenterImpl.this.product).subscribe();
-                            databaseManager.addProduct(result).subscribe(id -> {
-                                view.editProduct(result);
-                                view.sendProductChangeEvent(GlobalEventConstants.UPDATE, ProductPresenterImpl.this.product, result);
+                            databaseManager.replaceProduct(ProductPresenterImpl.this.product).subscribe(aLong -> {
+                                view.editProduct(ProductPresenterImpl.this.product);
+//                                view.sendProductChangeEvent(GlobalEventConstants.UPDATE, ProductPresenterImpl.this.product, result);
                                 openSubcategory(subcategory);
-                                if (result.getIsActive())
-                                    openProduct(result);
+                                if (ProductPresenterImpl.this.product.getIsActive())
+                                    openProduct(ProductPresenterImpl.this.product);
                                 else openProduct(null);
                             });
                         }

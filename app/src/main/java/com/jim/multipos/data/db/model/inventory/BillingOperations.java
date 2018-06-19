@@ -3,6 +3,7 @@ package com.jim.multipos.data.db.model.inventory;
 
 import com.jim.multipos.data.db.model.Account;
 import com.jim.multipos.data.db.model.consignment.Consignment;
+import com.jim.multipos.data.db.model.consignment.Invoice;
 import com.jim.multipos.data.db.model.history.BillingOperationsHistory;
 import com.jim.multipos.data.db.model.products.Vendor;
 
@@ -24,6 +25,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import com.jim.multipos.data.db.model.history.BillingOperationsHistoryDao;
+import com.jim.multipos.data.db.model.consignment.InvoiceDao;
 
 /**
  * Created by developer on 27.11.2017.
@@ -43,9 +45,9 @@ public class BillingOperations  {
     private Long vendorId;
     @ToOne(joinProperty = "vendorId")
     private Vendor vendor;
-    private Long consignmentId;
-    @ToOne(joinProperty = "consignmentId")
-    private Consignment consignment;
+    private Long invoiceId;
+    @ToOne(joinProperty = "invoiceId")
+    private Invoice invoice;
     private double amount;
     private long createAt;
     private int operationType;
@@ -60,6 +62,38 @@ public class BillingOperations  {
             )
     })
     private List<BillingOperationsHistory> operationsHistoryList;
+    @Generated(hash = 694408149)
+    private transient Long invoice__resolvedKey;
+    @Generated(hash = 1022035388)
+    private transient Long vendor__resolvedKey;
+    @Generated(hash = 1501133588)
+    private transient Long account__resolvedKey;
+    /** Used for active entity operations. */
+    @Generated(hash = 862952958)
+    private transient BillingOperationsDao myDao;
+    /** Used to resolve relations */
+    @Generated(hash = 2040040024)
+    private transient DaoSession daoSession;
+
+
+    @Generated(hash = 1080405889)
+    public BillingOperations(Long id, Long accountId, Long vendorId, Long invoiceId, double amount, long createAt,
+            int operationType, String description, boolean isActive, boolean isDeleted, long paymentDate) {
+        this.id = id;
+        this.accountId = accountId;
+        this.vendorId = vendorId;
+        this.invoiceId = invoiceId;
+        this.amount = amount;
+        this.createAt = createAt;
+        this.operationType = operationType;
+        this.description = description;
+        this.isActive = isActive;
+        this.isDeleted = isDeleted;
+        this.paymentDate = paymentDate;
+    }
+    @Generated(hash = 1327934834)
+    public BillingOperations() {
+    }
 
 
     @Keep
@@ -68,7 +102,7 @@ public class BillingOperations  {
             BillingOperationsHistory billingOperationsHistory = new BillingOperationsHistory();
             billingOperationsHistory.setAccountId(accountId);
             billingOperationsHistory.setVendorId(vendorId);
-            billingOperationsHistory.setConsignmentId(consignmentId);
+            billingOperationsHistory.setInvoice(invoice);
             billingOperationsHistory.setAmount(amount);
             billingOperationsHistory.setCreateAt(createAt);
             billingOperationsHistory.setOperationType(operationType);
@@ -101,118 +135,6 @@ public class BillingOperations  {
             new Exception("Gettting History for not saved object exeption").printStackTrace();
             return null;
         }
-    }
-
-    @Generated(hash = 1986436088)
-    private transient Long consignment__resolvedKey;
-    @Generated(hash = 1022035388)
-    private transient Long vendor__resolvedKey;
-    @Generated(hash = 1501133588)
-    private transient Long account__resolvedKey;
-    /** Used for active entity operations. */
-    @Generated(hash = 862952958)
-    private transient BillingOperationsDao myDao;
-    /** Used to resolve relations */
-    @Generated(hash = 2040040024)
-    private transient DaoSession daoSession;
-
-    public Long getPaymentDate() {
-        return paymentDate;
-    }
-
-    public void setPaymentDate(long paymentDate) {
-        this.paymentDate = paymentDate;
-    }
-
-    /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
-     * Entity must attached to an entity context.
-     */
-
-    public String getDescription() {
-        return this.description;
-    }
-    public void setDescription(String description) {
-        this.description = description;
-    }
-    public long getCreateAt() {
-        return this.createAt;
-    }
-    public void setCreateAt(long createAt) {
-        this.createAt = createAt;
-    }
-    public Double getAmount() {
-        return this.amount;
-    }
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
-    public Long getConsignmentId() {
-        return this.consignmentId;
-    }
-    public void setConsignmentId(Long consignmentId) {
-        this.consignmentId = consignmentId;
-    }
-    public Long getVendorId() {
-        return this.vendorId;
-    }
-    public void setVendorId(Long vendorId) {
-        this.vendorId = vendorId;
-    }
-    public Long getAccountId() {
-        return this.accountId;
-    }
-    public void setAccountId(Long accountId) {
-        this.accountId = accountId;
-    }
-    public Long getId() {
-        return this.id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public boolean isActive() {
-        return this.isActive;
-    }
-
-    public void setActive(boolean active) {
-        this.isActive = active;
-    }
-
-    public boolean isDeleted() {
-        return this.isDeleted;
-    }
-
-    public void setDeleted(boolean isDeleted) {
-        this.isDeleted = isDeleted;
-    }
-
-    public Long getCreatedDate() {
-        return this.createAt;
-    }
-
-    public void setCreatedDate(long createdDate) {
-        this.createAt = createdDate;
-    }
-
-    public Integer getOperationType() {
-        return this.operationType;
-    }
-    public void setOperationType(int operationType) {
-        this.operationType = operationType;
-    }
-    public boolean getIsDeleted() {
-        return this.isDeleted;
-    }
-    public void setIsDeleted(boolean isDeleted) {
-        this.isDeleted = isDeleted;
-    }
-    public boolean getIsActive() {
-        return this.isActive;
-    }
-    public void setIsActive(boolean isActive) {
-        this.isActive = isActive;
     }
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
@@ -247,32 +169,58 @@ public class BillingOperations  {
         }
         myDao.delete(this);
     }
-    /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 929152524)
-    public void setConsignment(Consignment consignment) {
-        synchronized (this) {
-            this.consignment = consignment;
-            consignmentId = consignment == null ? null : consignment.getId();
-            consignment__resolvedKey = consignmentId;
-        }
+    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    @Generated(hash = 1017625180)
+    public synchronized void resetOperationsHistoryList() {
+        operationsHistoryList = null;
     }
-    /** To-one relationship, resolved on first access. */
-    @Generated(hash = 330853767)
-    public Consignment getConsignment() {
-        Long __key = this.consignmentId;
-        if (consignment__resolvedKey == null || !consignment__resolvedKey.equals(__key)) {
+    /**
+     * To-many relationship, resolved on first access (and after reset).
+     * Changes to to-many relations are not persisted, make changes to the target entity.
+     */
+    @Generated(hash = 877471280)
+    public List<BillingOperationsHistory> getOperationsHistoryList() {
+        if (operationsHistoryList == null) {
             final DaoSession daoSession = this.daoSession;
             if (daoSession == null) {
                 throw new DaoException("Entity is detached from DAO context");
             }
-            ConsignmentDao targetDao = daoSession.getConsignmentDao();
-            Consignment consignmentNew = targetDao.load(__key);
+            BillingOperationsHistoryDao targetDao = daoSession.getBillingOperationsHistoryDao();
+            List<BillingOperationsHistory> operationsHistoryListNew = targetDao._queryBillingOperations_OperationsHistoryList(id);
             synchronized (this) {
-                consignment = consignmentNew;
-                consignment__resolvedKey = __key;
+                if(operationsHistoryList == null) {
+                    operationsHistoryList = operationsHistoryListNew;
+                }
             }
         }
-        return consignment;
+        return operationsHistoryList;
+    }
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 749725237)
+    public void setInvoice(Invoice invoice) {
+        synchronized (this) {
+            this.invoice = invoice;
+            invoiceId = invoice == null ? null : invoice.getId();
+            invoice__resolvedKey = invoiceId;
+        }
+    }
+    /** To-one relationship, resolved on first access. */
+    @Generated(hash = 710097085)
+    public Invoice getInvoice() {
+        Long __key = this.invoiceId;
+        if (invoice__resolvedKey == null || !invoice__resolvedKey.equals(__key)) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            InvoiceDao targetDao = daoSession.getInvoiceDao();
+            Invoice invoiceNew = targetDao.load(__key);
+            synchronized (this) {
+                invoice = invoiceNew;
+                invoice__resolvedKey = __key;
+            }
+        }
+        return invoice;
     }
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 332557200)
@@ -334,55 +282,74 @@ public class BillingOperations  {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getBillingOperationsDao() : null;
     }
-
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
-    @Generated(hash = 1017625180)
-    public synchronized void resetOperationsHistoryList() {
-        operationsHistoryList = null;
+    public Long getPaymentDate() {
+        return this.paymentDate;
     }
-
-    /**
-     * To-many relationship, resolved on first access (and after reset).
-     * Changes to to-many relations are not persisted, make changes to the target entity.
-     */
-    @Generated(hash = 877471280)
-    public List<BillingOperationsHistory> getOperationsHistoryList() {
-        if (operationsHistoryList == null) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            BillingOperationsHistoryDao targetDao = daoSession.getBillingOperationsHistoryDao();
-            List<BillingOperationsHistory> operationsHistoryListNew = targetDao._queryBillingOperations_OperationsHistoryList(id);
-            synchronized (this) {
-                if(operationsHistoryList == null) {
-                    operationsHistoryList = operationsHistoryListNew;
-                }
-            }
-        }
-        return operationsHistoryList;
-    }
-
-
-    @Generated(hash = 1782284890)
-    public BillingOperations(Long id, Long accountId, Long vendorId, Long consignmentId, double amount,
-            long createAt, int operationType, String description, boolean isActive, boolean isDeleted,
-            long paymentDate) {
-        this.id = id;
-        this.accountId = accountId;
-        this.vendorId = vendorId;
-        this.consignmentId = consignmentId;
-        this.amount = amount;
-        this.createAt = createAt;
-        this.operationType = operationType;
-        this.description = description;
-        this.isActive = isActive;
-        this.isDeleted = isDeleted;
+    public void setPaymentDate(long paymentDate) {
         this.paymentDate = paymentDate;
     }
-
-    @Generated(hash = 1327934834)
-    public BillingOperations() {
+    public boolean getIsDeleted() {
+        return this.isDeleted;
+    }
+    public void setDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+    public boolean getIsActive() {
+        return this.isActive;
+    }
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+    public String getDescription() {
+        return this.description;
+    }
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    public Integer getOperationType() {
+        return this.operationType;
+    }
+    public void setOperationType(int operationType) {
+        this.operationType = operationType;
+    }
+    public Long getCreateAt() {
+        return this.createAt;
+    }
+    public void setCreateAt(long createAt) {
+        this.createAt = createAt;
+    }
+    public Double getAmount() {
+        return this.amount;
+    }
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+    public Long getInvoiceId() {
+        return this.invoiceId;
+    }
+    public void setInvoiceId(Long invoiceId) {
+        this.invoiceId = invoiceId;
+    }
+    public Long getVendorId() {
+        return this.vendorId;
+    }
+    public void setVendorId(Long vendorId) {
+        this.vendorId = vendorId;
+    }
+    public Long getAccountId() {
+        return this.accountId;
+    }
+    public void setAccountId(Long accountId) {
+        this.accountId = accountId;
+    }
+    public Long getId() {
+        return this.id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
 }

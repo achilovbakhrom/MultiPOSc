@@ -65,19 +65,19 @@ public class BillingOperartionsAdapter extends RecyclerView.Adapter<BillingOpera
         if(BillingOperations.DEBT_CONSIGNMENT == billingOperations.getOperationType()){
             holder.ivBillingIcon.setImageResource(R.drawable.imcome_consigment_billing);
             holder.tvType.setText(R.string.consignment_income);
-            if(billingOperations.getConsignment()!=null && !billingOperations.getConsignment().getDescription().isEmpty())
-                holder.tvDiscription.setText(billingOperations.getConsignment().getDescription());
+            if(billingOperations.getInvoice()!=null && !billingOperations.getInvoice().getDescription().isEmpty())
+                holder.tvDiscription.setText(billingOperations.getInvoice().getDescription());
             else  holder.tvDiscription.setText("-");
 
-            holder.tvExtra.setText(billingOperations.getConsignment().getConsignmentNumber());
+            holder.tvExtra.setText(billingOperations.getInvoice().getConsigmentNumber());
         }else if(BillingOperations.RETURN_TO_VENDOR == billingOperations.getOperationType()){
             holder.ivBillingIcon.setImageResource(R.drawable.outcome_consigment_billing);
             holder.tvType.setText(R.string.consigment_return);
-            if(billingOperations.getConsignment()!=null && !billingOperations.getConsignment().getDescription().isEmpty())
-                holder.tvDiscription.setText(billingOperations.getConsignment().getDescription());
+            if(billingOperations.getInvoice()!=null && !billingOperations.getInvoice().getDescription().isEmpty())
+                holder.tvDiscription.setText(billingOperations.getInvoice().getDescription());
             else  holder.tvDiscription.setText("-");
 
-            holder.tvExtra.setText(billingOperations.getConsignment().getConsignmentNumber());
+            holder.tvExtra.setText(billingOperations.getInvoice().getConsigmentNumber());
         }else if(BillingOperations.PAID_TO_CONSIGNMENT == billingOperations.getOperationType()){
             holder.ivBillingIcon.setImageResource(R.drawable.pay_to_vendor_billing);
             holder.tvType.setText(R.string.payment_vendor);

@@ -14,13 +14,16 @@ import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.ServiceFeeLog;
 import com.jim.multipos.data.db.model.consignment.Consignment;
 import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
+import com.jim.multipos.data.db.model.consignment.Invoice;
 import com.jim.multipos.data.db.model.customer.CustomerPayment;
 import com.jim.multipos.data.db.model.customer.Debt;
 import com.jim.multipos.data.db.model.intosystem.ProductWithCount;
 import com.jim.multipos.data.db.model.intosystem.StockQueueItem;
 import com.jim.multipos.data.db.model.intosystem.StockResult;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
+import com.jim.multipos.data.db.model.inventory.IncomeProduct;
 import com.jim.multipos.data.db.model.inventory.OutcomeProduct;
+import com.jim.multipos.data.db.model.inventory.StockQueue;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.OrderChangesLog;
 import com.jim.multipos.data.db.model.order.OrderProduct;
@@ -42,6 +45,7 @@ import com.jim.multipos.data.db.model.unit.Unit;
 import com.jim.multipos.data.db.model.unit.UnitCategory;
 import com.jim.multipos.data.operations.AccountOperations;
 import com.jim.multipos.data.operations.BillingTransactionOperations;
+import com.jim.multipos.data.operations.InvoiceOperations;
 import com.jim.multipos.data.operations.OrderOperations;
 import com.jim.multipos.data.operations.PayedPartitionOperations;
 import com.jim.multipos.data.operations.PaymentOperations;
@@ -79,13 +83,14 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.Single;
+import io.reactivex.SingleSource;
 
 /**
  * Created by Developer on 5/13/17.
  */
 
 public class DatabaseManager implements ContactOperations, CategoryOperations, ProductOperations, AccountOperations, CurrencyOperations, StockOperations, UnitCategoryOperations, UnitOperations, PaymentTypeOperations, ServiceFeeOperations, ProductClassOperations, CustomerOperations, CustomerGroupOperations, SubUnitOperations, JoinCustomerGroupWithCustomerOperations, DiscountOperations,
-        VendorOperations, SearchOperations, ConsignmentOperations, InventoryOperations, VendorItemManagmentOperations, PaymentOperations, BillingTransactionOperations, OrderOperations, PayedPartitionOperations, TillOperations {
+        VendorOperations, SearchOperations, ConsignmentOperations, InventoryOperations, VendorItemManagmentOperations, PaymentOperations, BillingTransactionOperations, OrderOperations, PayedPartitionOperations, TillOperations, InvoiceOperations {
     private Context context;
     private PreferencesHelper preferencesHelper;
     private DbHelper dbHelper;
@@ -805,41 +810,6 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
         return dbHelper.getSearchProducts(searchText, skuMode, barcodeMode, nameMode);
     }
 
-
-
-
-    private Single<Consignment> setBillingOperation(List<BillingOperations> billingOperations, Consignment consignment) {
-        return Single.create(singleSubscriber -> {
-            try {
-                if (billingOperations != null)
-                    for (int i = 0; i < billingOperations.size(); i++) {
-                        if (billingOperations.get(i).getOperationType().equals(BillingOperations.DEBT_CONSIGNMENT)) {
-                            billingOperations.get(i).setConsignment(consignment);
-                            billingOperations.get(i).setConsignmentId(consignment.getId());
-                            insertBillingOperation(billingOperations.get(i)).subscribe();
-                        }
-                        if (billingOperations.get(i).getOperationType().equals(BillingOperations.RETURN_TO_VENDOR)) {
-                            billingOperations.get(i).setConsignment(consignment);
-                            billingOperations.get(i).setConsignmentId(consignment.getId());
-                            insertBillingOperation(billingOperations.get(i)).subscribe();
-                        } else if (billingOperations.get(i).getOperationType().equals(BillingOperations.PAID_TO_CONSIGNMENT)) {
-                            billingOperations.get(i).setConsignment(consignment);
-                            billingOperations.get(i).setConsignmentId(consignment.getId());
-                            insertBillingOperation(billingOperations.get(i)).subscribe(operations -> {
-                                consignment.setFirstPayId(operations.getId());
-                                dbHelper.insertConsignment(consignment).blockingGet();
-                            });
-                        }
-                    }
-                singleSubscriber.onSuccess(consignment);
-            } catch (Exception o) {
-                singleSubscriber.onError(o);
-            }
-        });
-    }
-
-
-
     @Override
     public Observable<Long> insertConsignmentProduct(ConsignmentProduct consignment) {
         return dbHelper.insertConsignmentProduct(consignment);
@@ -896,10 +866,6 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
 
-
-
-
-
     @Override
     public Single<Boolean> insertReturns(List<Return> returnsList) {
         return dbHelper.insertReturns(returnsList);
@@ -949,7 +915,7 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Single<List<BillingOperations>> getBillingOperationByRootId(Long rootId) {
         return dbHelper.getBillingOperationByRootId(rootId).map(billingOperations -> {
-            Collections.sort(billingOperations, (billingOperation, t1) -> t1.getCreatedDate().compareTo(billingOperation.getCreatedDate()));
+            Collections.sort(billingOperations, (billingOperation, t1) -> t1.getCreateAt().compareTo(billingOperation.getCreateAt()));
             return billingOperations;
         });
     }
@@ -983,7 +949,6 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     public Single<List<BillingOperations>> getAllBillingOperationsInInterval(Calendar fromDate, Calendar toDate) {
         return dbHelper.getAllBillingOperationsInInterval(fromDate, toDate);
     }
-
 
 
     @Override
@@ -1310,6 +1275,20 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Single<List<ProductWithCount>> getVendorStateInventory(Long vendorId) {
         return null;
+    }
+
+    @Override
+    public Single<Invoice> insertInvoiceWithBillingAndIncomeProduct(Invoice invoice, List<IncomeProduct> incomeProductList, List<StockQueue> stockQueueList, List<BillingOperations> billingOperationsList) {
+       return dbHelper.insertInvoiceWithBillingAndIncomeProduct(invoice, incomeProductList, stockQueueList, billingOperationsList);
+    }
+
+    @Override
+    public Single<List<Invoice>> getAllInvoices() {
+        return dbHelper.getAllInvoices();
+    }
+
+    public Single<List<StockQueue>> geStockQueuesByVendorId(Long id) {
+        return dbHelper.getStockQueueByVendorId(id);
     }
     //TODO <<---
 }

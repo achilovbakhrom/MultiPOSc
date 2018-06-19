@@ -28,7 +28,7 @@ public class IncomeProduct {
     private Double costValue;
     private Double countValue;
     private long incomeDate;
-    private String description;
+    private String description = "";
     private int incomeType;
 
 

@@ -37,6 +37,7 @@ import com.jim.multipos.data.db.model.consignment.Consignment;
 import com.jim.multipos.data.db.model.consignment.ConsignmentDao;
 import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
 import com.jim.multipos.data.db.model.consignment.ConsignmentProductDao;
+import com.jim.multipos.data.db.model.consignment.Invoice;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.currency.CurrencyDao;
 import com.jim.multipos.data.db.model.customer.Customer;
@@ -51,6 +52,9 @@ import com.jim.multipos.data.db.model.customer.JoinCustomerGroupsWithCustomers;
 import com.jim.multipos.data.db.model.customer.JoinCustomerGroupsWithCustomersDao;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
 import com.jim.multipos.data.db.model.inventory.BillingOperationsDao;
+import com.jim.multipos.data.db.model.inventory.IncomeProduct;
+import com.jim.multipos.data.db.model.inventory.StockQueue;
+import com.jim.multipos.data.db.model.inventory.StockQueueDao;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.OrderChangesLog;
 import com.jim.multipos.data.db.model.order.OrderDao;
@@ -80,7 +84,6 @@ import com.jim.multipos.data.db.model.unit.UnitDao;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
 import com.jim.multipos.ui.vendor_item_managment.model.VendorManagmentItem;
 
-import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.query.LazyList;
 import org.greenrobot.greendao.query.Query;
 import org.greenrobot.greendao.query.QueryBuilder;
@@ -244,13 +247,13 @@ public class AppDbHelper implements DbHelper {
         return Observable.fromCallable(() -> {
             List<Category> subCategories = mDaoSession.getCategoryDao().queryBuilder()
                     .where(CategoryDao.Properties.ParentId.eq(category.getId()), CategoryDao.Properties.IsDeleted.eq(false))
-                    .where( CategoryDao.Properties.IsActive.eq(true))
+                    .where(CategoryDao.Properties.IsActive.eq(true))
                     .build().list();
             int sum = 0;
             for (Category subcategory : subCategories) {
                 sum += mDaoSession.getProductDao().queryBuilder()
                         .where(ProductDao.Properties.CategoryId.eq(subcategory.getId()), ProductDao.Properties.IsDeleted.eq(false))
-                        .where( ProductDao.Properties.IsActive.eq(true))
+                        .where(ProductDao.Properties.IsActive.eq(true))
                         .build().list().size();
             }
             return sum;
@@ -718,8 +721,8 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Observable<Category> getSubCategoryByName(String name, Long id) {
         return Observable.fromCallable(() -> mDaoSession.getCategoryDao().queryBuilder()
-                 .where(CategoryDao.Properties.Name.eq(name), CategoryDao.Properties.IsDeleted.eq(false), CategoryDao.Properties.ParentId.eq(id))
-                 .build().unique());
+                .where(CategoryDao.Properties.Name.eq(name), CategoryDao.Properties.IsDeleted.eq(false), CategoryDao.Properties.ParentId.eq(id))
+                .build().unique());
     }
 
     @Override
@@ -1007,7 +1010,7 @@ public class AppDbHelper implements DbHelper {
                     ProductDao.Properties.Barcode.like("%" + searchText.toUpperCase() + "%"),
                     ProductDao.Properties.Barcode.like("%" + searchText.toUpperCase() + "%"),
                     ProductDao.Properties.Sku.like("%" + searchText.toUpperCase() + "%"),
-                    ProductDao.Properties.Sku.like("%" + searchText.toUpperCase() + "%")).where( ProductDao.Properties.IsDeleted.eq(false));
+                    ProductDao.Properties.Sku.like("%" + searchText.toUpperCase() + "%")).where(ProductDao.Properties.IsDeleted.eq(false));
             List<Product> list = queryBuilderCred.build().list();
             for (int i = list.size() - 1; i >= 0; i--) {
                 if (list.get(i).getIsDeleted()) list.remove(i);
@@ -1071,8 +1074,6 @@ public class AppDbHelper implements DbHelper {
         //TODO
         return null;
     }
-
-
 
 
     @Override
@@ -1152,10 +1153,38 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public Single<List<VendorManagmentItem>> getVendorItemManagmentItem() {
-        //TODO
-        return null;
+        return Single.create(e -> {
+            List<Vendor> vendors = mDaoSession.getVendorDao().queryBuilder().where(VendorDao.Properties.IsDeleted.eq(false), VendorDao.Properties.IsActive.eq(true)).build().list();
+            List<VendorManagmentItem> vendorManagementItems = new ArrayList<>();
+            for (Vendor vendor : vendors) {
+                VendorManagmentItem item = new VendorManagmentItem();
+                item.setVendor(vendor);
+                List<StockQueue> stockQueues = mDaoSession.getStockQueueDao().queryBuilder().where(StockQueueDao.Properties.VendorId.eq(vendor.getId())).build().list();
+                List<Product> products = new ArrayList<>();
+                for (int i = 0; i < stockQueues.size(); i++) {
+                    if (!products.contains(stockQueues.get(i).getProduct())) {
+                        products.add(stockQueues.get(i).getProduct());
+                    }
+                }
+                item.setProducts(products);
+                String query = "SELECT  SUM(AMOUNT) AS AMOUNT FROM BILLING_OPERATION WHERE IS_DELETED == " + 0 + " GROUP BY VENDOR_ID HAVING VENDOR_ID=?";
+                Cursor cursor = mDaoSession.getDatabase().rawQuery(query, new String[]{String.valueOf(vendor.getId())});
+                if (cursor.getCount() > 0) {
+                    cursor.moveToFirst();
+                    item.setDebt(cursor.getDouble(cursor.getColumnIndex("AMOUNT")));
+                } else {
+                    item.setDebt(0);
+                }
+                vendorManagementItems.add(item);
+            }
+            e.onSuccess(vendorManagementItems);
+        });
     }
 
+    @Override
+    public Single<List<StockQueue>> getStockQueueByVendorId(Long id) {
+        return Single.create(e -> mDaoSession.getStockQueueDao().queryBuilder().where(StockQueueDao.Properties.VendorId.eq(id)).build().list());
+    }
 
     @Override
     public Single<Double> getVendorDebt(Long vendorId) {
@@ -1196,12 +1225,13 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Single<BillingOperations> getBillingOperationsByConsignmentId(Long consignmentId) {
         return Single.create(e -> {
-            List<BillingOperations> billingOperations = mDaoSession.queryBuilder(BillingOperations.class)
-                    .where(BillingOperationsDao.Properties.ConsignmentId.eq(consignmentId),
-                            BillingOperationsDao.Properties.IsDeleted.eq(false))
-                    .build()
-                    .list();
-            e.onSuccess(billingOperations.get(0));
+            //TODO
+//            List<BillingOperations> billingOperations = mDaoSession.queryBuilder(BillingOperations.class)
+//                    .where(BillingOperationsDao.Properties.ConsignmentId.eq(consignmentId),
+//                            BillingOperationsDao.Properties.IsDeleted.eq(false))
+//                    .build()
+//                    .list();
+//            e.onSuccess(billingOperations.get(0));
         });
     }
 
@@ -1226,7 +1256,6 @@ public class AppDbHelper implements DbHelper {
             e.onSuccess(billingOperations);
         });
     }
-
 
 
     @Override
@@ -1274,7 +1303,6 @@ public class AppDbHelper implements DbHelper {
             e.onSuccess(billingOperations);
         });
     }
-
 
 
     @Override
@@ -1850,8 +1878,6 @@ public class AppDbHelper implements DbHelper {
     }
 
 
-
-
     @Override
     public Single<Boolean> isProductSkuExists(String sku, Long subcategoryId) {
         return Single.create(e -> {
@@ -1995,7 +2021,6 @@ public class AppDbHelper implements DbHelper {
     }
 
 
-
     @Override
     public Single<Long> getConsignmentByWarehouseId(Long warehouseId) {
         return Single.create(e -> {
@@ -2034,7 +2059,7 @@ public class AppDbHelper implements DbHelper {
     @Override
     public PaymentType getCashPaymentType() {
         List<PaymentType> paymentTypes = mDaoSession.getPaymentTypeDao().queryBuilder().where(PaymentTypeDao.Properties.TypeStaticPaymentType.eq(PaymentType.CASH_PAYMENT_TYPE)).build().list();
-        if(paymentTypes.size() != 1){
+        if (paymentTypes.size() != 1) {
             new Exception("Cash payment type not equals ONE!!! Some Think wrong with").printStackTrace();
         }
         return paymentTypes.get(0);
@@ -2129,6 +2154,54 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Single<List<Customer>> getCustomersWithoutSorting() {
         return Single.create(e -> e.onSuccess(mDaoSession.getCustomerDao().loadAll()));
+    }
+
+    @Override
+    public Single<Invoice> insertInvoice(Invoice invoice) {
+        return Single.create(e -> mDaoSession.getInvoiceDao().insertOrReplace(invoice));
+    }
+
+    @Override
+    public Single<IncomeProduct> insertIncomeProduct(IncomeProduct incomeProduct) {
+        return Single.create(e -> mDaoSession.getIncomeProductDao().insertOrReplace(incomeProduct));
+    }
+
+    @Override
+    public Single<StockQueue> insertStockQueue(StockQueue stockQueue) {
+        return Single.create(e -> mDaoSession.getStockQueueDao().insertOrReplace(stockQueue));
+    }
+
+    @Override
+    public Single<Invoice> insertInvoiceWithBillingAndIncomeProduct(Invoice invoice, List<IncomeProduct> incomeProductList, List<StockQueue> stockQueueList, List<BillingOperations> billingOperationsList) {
+        return Single.create(e -> {
+            mDaoSession.getInvoiceDao().insertOrReplace(invoice);
+            for (int i = 0; i < billingOperationsList.size(); i++) {
+                billingOperationsList.get(i).setInvoiceId(invoice.getId());
+                insertBillingOperation(billingOperationsList.get(i)).subscribe();
+                if (billingOperationsList.get(i).getOperationType() == BillingOperations.PAID_TO_CONSIGNMENT) {
+                    invoice.setFirstPayId(billingOperationsList.get(i).getId());
+                    mDaoSession.getInvoiceDao().insertOrReplace(invoice);
+                }
+            }
+            for (int i = 0; i < incomeProductList.size(); i++) {
+                IncomeProduct incomeProduct = incomeProductList.get(i);
+                StockQueue stockQueue = stockQueueList.get(i);
+                incomeProduct.setInvoiceId(invoice.getId());
+                mDaoSession.getIncomeProductDao().insertOrReplace(incomeProduct);
+                stockQueue.setIncomeCount(incomeProduct.getCountValue());
+                stockQueue.setAvailable(incomeProduct.getCountValue());
+                stockQueue.setIncomeProduct(incomeProduct);
+                mDaoSession.getStockQueueDao().insertOrReplace(stockQueue);
+                incomeProduct.setStockQueue(stockQueue);
+                mDaoSession.getIncomeProductDao().insertOrReplace(incomeProduct);
+            }
+            e.onSuccess(invoice);
+        });
+    }
+
+    @Override
+    public Single<List<Invoice>> getAllInvoices() {
+        return Single.create(e -> e.onSuccess(mDaoSession.getInvoiceDao().queryBuilder().build().list()));
     }
 
     @Override

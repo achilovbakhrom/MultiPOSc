@@ -137,11 +137,11 @@ public class BillingOperationPresenterImpl extends BasePresenterImpl<BillingOper
                 Collections.sort(billingOperations,(billing, t1) -> {
                     String from ="";
                     String to ="";
-                    if(t1.getConsignment()!=null && t1.getConsignment().getConsignmentNumber()!=null){
-                        to = t1.getConsignment().getConsignmentNumber();
+                    if(t1.getInvoice()!=null && t1.getInvoice().getConsigmentNumber()!=null){
+                        to = t1.getInvoice().getConsigmentNumber();
                     }
-                    if(billing.getConsignment()!=null && billing.getConsignment().getConsignmentNumber()!=null){
-                        from = billing.getConsignment().getConsignmentNumber();
+                    if(billing.getInvoice()!=null && billing.getInvoice().getConsigmentNumber()!=null){
+                        from = billing.getInvoice().getConsigmentNumber();
                     }
 
                     return to.compareTo(from)*SORTING;
@@ -159,12 +159,12 @@ public class BillingOperationPresenterImpl extends BasePresenterImpl<BillingOper
                             to = t1.getDescription();
 
                     if(billing.getOperationType() == BillingOperations.DEBT_CONSIGNMENT )
-                        if( billing.getConsignment() !=null &&billing.getConsignment().getDescription()!=null)
-                            from = billing.getConsignment().getDescription();
+                        if( billing.getInvoice() !=null &&billing.getInvoice().getDescription()!=null)
+                            from = billing.getInvoice().getDescription();
 
                     if(t1.getOperationType() == BillingOperations.DEBT_CONSIGNMENT )
-                        if( t1.getConsignment() !=null &&t1.getConsignment().getDescription()!=null)
-                            to = t1.getConsignment().getDescription();
+                        if( t1.getInvoice() !=null &&t1.getInvoice().getDescription()!=null)
+                            to = t1.getInvoice().getDescription();
 
                         return to.compareTo(from)*SORTING;
                 });

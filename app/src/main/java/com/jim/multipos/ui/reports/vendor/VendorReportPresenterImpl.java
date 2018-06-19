@@ -161,8 +161,8 @@ public class VendorReportPresenterImpl extends BasePresenterImpl<VendorReportVie
                     if (operation.getAccount() != null)
                         forthObjects[i][4] = operation.getAccount().getName();
                     else forthObjects[i][4] = "";
-                    if (operation.getConsignment() != null)
-                        forthObjects[i][5] = operation.getConsignment().getId();
+                    if (operation.getInvoice() != null)
+                        forthObjects[i][5] = operation.getInvoice().getId();
                     else forthObjects[i][5] = "";
                     forthObjects[i][6] = operation.getCreateAt();
                     forthObjects[i][7] = operation.getDescription();

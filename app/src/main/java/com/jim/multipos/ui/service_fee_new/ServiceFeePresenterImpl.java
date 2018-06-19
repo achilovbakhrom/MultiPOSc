@@ -55,7 +55,6 @@ public class ServiceFeePresenterImpl extends BasePresenterImpl<ServiceFeeView> i
         serviceFee.setApplyingType(appType);
         serviceFee.setIsActive(checked);
         serviceFee.setCreatedDate(System.currentTimeMillis());
-//        serviceFee.setNotModifyted(true);
         serviceFee.setDeleted(false);
         databaseManager.addServiceFee(serviceFee).subscribe(serviceFee1 -> {
             ServiceFeeAdapterDetails serviceFeeAdapterDetails = new ServiceFeeAdapterDetails();
@@ -74,45 +73,37 @@ public class ServiceFeePresenterImpl extends BasePresenterImpl<ServiceFeeView> i
     @Override
     public void onSave(double amount, int type, String description, int appType, boolean active, ServiceFee serviceFee) {
         //TODO EDITABLE TO STATEABLE
-
-//        serviceFee.setNotModifyted(false);
+        ServiceFeeLog serviceFeeLog = new ServiceFeeLog();
+        serviceFeeLog.setChangeDate(System.currentTimeMillis());
+        serviceFeeLog.setServiceFee(serviceFee);
+        serviceFeeLog.setStatus(ServiceFeeLog.SERVICE_FEE_CANCELED);
+        databaseManager.insertServiceFeeLog(serviceFeeLog).subscribe();
+        serviceFee.keepToHistory();
+        serviceFee.setAmount(amount);
+        serviceFee.setType(type);
+        serviceFee.setName(description);
+        serviceFee.setApplyingType(appType);
+        serviceFee.setIsActive(active);
+        serviceFee.setCreatedDate(System.currentTimeMillis());
+        serviceFee.setDeleted(false);
         databaseManager.addServiceFee(serviceFee).subscribe(serviceFee1 -> {
-            ServiceFeeLog serviceFeeLog = new ServiceFeeLog();
-            serviceFeeLog.setChangeDate(System.currentTimeMillis());
-            serviceFeeLog.setServiceFee(serviceFee1);
-            serviceFeeLog.setStatus(ServiceFeeLog.SERVICE_FEE_CANCELED);
-            databaseManager.insertServiceFeeLog(serviceFeeLog).subscribe();
-            ServiceFee newServiceFee = new ServiceFee();
-            newServiceFee.setAmount(amount);
-            newServiceFee.setType(type);
-            newServiceFee.setName(description);
-            newServiceFee.setApplyingType(appType);
-            newServiceFee.setIsActive(active);
-            newServiceFee.setCreatedDate(System.currentTimeMillis());
-//            newServiceFee.setNotModifyted(true);
-//            newServiceFee.setDeleted(false);
-//            if (serviceFee.getRootId() != null)
-//                newServiceFee.setRootId(serviceFee.getRootId());
-//            else newServiceFee.setRootId(serviceFee.getId());
-            databaseManager.addServiceFee(newServiceFee).subscribe(serviceFee2 -> {
-                for (int i = 1; i < items.size(); i++) {
-                    if (items.get(i) != null) {
-                        if (items.get(i).getObject().getId().equals(serviceFee.getId())) {
-                            ServiceFeeAdapterDetails serviceFeeAdapterDetails = new ServiceFeeAdapterDetails();
-                            serviceFeeAdapterDetails.setObject(newServiceFee);
-                            items.set(i, serviceFeeAdapterDetails);
-                            view.notifyItemChanged(i);
-                            return;
-                        }
+            for (int i = 1; i < items.size(); i++) {
+                if (items.get(i) != null) {
+                    if (items.get(i).getObject().getId().equals(serviceFee.getId())) {
+                        ServiceFeeAdapterDetails serviceFeeAdapterDetails = new ServiceFeeAdapterDetails();
+                        serviceFeeAdapterDetails.setObject(serviceFee);
+                        items.set(i, serviceFeeAdapterDetails);
+                        view.notifyItemChanged(i);
+                        return;
                     }
                 }
-                ServiceFeeLog serviceFeeLog1 = new ServiceFeeLog();
-                serviceFeeLog1.setChangeDate(System.currentTimeMillis());
-                serviceFeeLog1.setServiceFee(serviceFee2);
-                serviceFeeLog1.setStatus(ServiceFeeLog.SERVICE_FEE_ADDED);
-                databaseManager.insertServiceFeeLog(serviceFeeLog).subscribe();
-                view.sendChangeEvent(GlobalEventConstants.UPDATE, serviceFee, newServiceFee);
-            });
+            }
+            ServiceFeeLog serviceFeeLog1 = new ServiceFeeLog();
+            serviceFeeLog1.setChangeDate(System.currentTimeMillis());
+            serviceFeeLog1.setServiceFee(serviceFee);
+            serviceFeeLog1.setStatus(ServiceFeeLog.SERVICE_FEE_ADDED);
+            databaseManager.insertServiceFeeLog(serviceFeeLog).subscribe();
+//            view.sendChangeEvent(GlobalEventConstants.UPDATE, serviceFee, newServiceFee);
         });
     }
 

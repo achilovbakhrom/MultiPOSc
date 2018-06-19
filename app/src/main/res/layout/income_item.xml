@@ -19,7 +19,7 @@
         android:textSize="@dimen/eighteen_dp" />
 
     <LinearLayout
-        android:layout_width="@dimen/three_hundred_dp"
+        android:layout_width="@dimen/two_hundred_fifty_dp"
         android:layout_height="match_parent"
         android:layout_marginRight="@dimen/twenty_dp"
         android:background="@drawable/edit_text_bg"
@@ -63,12 +63,12 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="@dimen/hundred_eighty_dp"
+        android:layout_width="@dimen/two_hundred_dp"
         android:layout_height="match_parent"
         android:layout_marginRight="@dimen/twenty_dp"
         android:background="@drawable/edit_text_bg"
-        android:paddingLeft="@dimen/ten_dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/ten_dp">
 
         <com.jim.mpviews.MpEditText
             android:id="@+id/etProductCount"
@@ -124,9 +124,9 @@
         android:layout_width="@dimen/fifty_five_dp"
         android:layout_height="@dimen/thirty_five_dp"
         android:layout_gravity="center_vertical"
+        android:layout_marginRight="@dimen/ten_dp"
         android:paddingBottom="@dimen/ten_dp"
         android:paddingTop="@dimen/ten_dp"
-        android:layout_marginRight="@dimen/ten_dp"
         android:src="@drawable/ic_cogwheel" />
 
 
@@ -135,6 +135,7 @@
         android:layout_width="@dimen/fifty_five_dp"
         android:layout_height="@dimen/thirty_five_dp"
         android:layout_gravity="center_vertical"
+        android:layout_marginRight="@dimen/thirty_dp"
         android:paddingBottom="@dimen/ten_dp"
         android:paddingTop="@dimen/ten_dp"
         android:src="@drawable/trash_mini" />

@@ -5,6 +5,7 @@ import com.jim.multipos.data.db.model.AccountDao;
 import com.jim.multipos.data.db.model.DaoSession;
 import com.jim.multipos.data.db.model.consignment.Consignment;
 import com.jim.multipos.data.db.model.consignment.ConsignmentDao;
+import com.jim.multipos.data.db.model.consignment.Invoice;
 import com.jim.multipos.data.db.model.inventory.BillingOperationsDao;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.products.VendorDao;
@@ -14,6 +15,7 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.ToOne;
+import com.jim.multipos.data.db.model.consignment.InvoiceDao;
 
 /**
  * Created by developer on 27.11.2017.
@@ -33,9 +35,9 @@ public class BillingOperationsHistory {
     private Long vendorId;
     @ToOne(joinProperty = "vendorId")
     private Vendor vendor;
-    private Long consignmentId;
-    @ToOne(joinProperty = "consignmentId")
-    private Consignment consignment;
+    private Long invoiceId;
+    @ToOne(joinProperty = "invoiceId")
+    private Invoice invoice;
     private double amount;
     private long createAt;
     private int operationType;
@@ -79,35 +81,34 @@ public class BillingOperationsHistory {
         myDao.delete(this);
     }
     /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 929152524)
-    public void setConsignment(Consignment consignment) {
+    @Generated(hash = 749725237)
+    public void setInvoice(Invoice invoice) {
         synchronized (this) {
-            this.consignment = consignment;
-            consignmentId = consignment == null ? null : consignment.getId();
-            consignment__resolvedKey = consignmentId;
+            this.invoice = invoice;
+            invoiceId = invoice == null ? null : invoice.getId();
+            invoice__resolvedKey = invoiceId;
         }
     }
     /** To-one relationship, resolved on first access. */
-    @Generated(hash = 330853767)
-    public Consignment getConsignment() {
-        Long __key = this.consignmentId;
-        if (consignment__resolvedKey == null
-                || !consignment__resolvedKey.equals(__key)) {
+    @Generated(hash = 710097085)
+    public Invoice getInvoice() {
+        Long __key = this.invoiceId;
+        if (invoice__resolvedKey == null || !invoice__resolvedKey.equals(__key)) {
             final DaoSession daoSession = this.daoSession;
             if (daoSession == null) {
                 throw new DaoException("Entity is detached from DAO context");
             }
-            ConsignmentDao targetDao = daoSession.getConsignmentDao();
-            Consignment consignmentNew = targetDao.load(__key);
+            InvoiceDao targetDao = daoSession.getInvoiceDao();
+            Invoice invoiceNew = targetDao.load(__key);
             synchronized (this) {
-                consignment = consignmentNew;
-                consignment__resolvedKey = __key;
+                invoice = invoiceNew;
+                invoice__resolvedKey = __key;
             }
         }
-        return consignment;
+        return invoice;
     }
-    @Generated(hash = 1986436088)
-    private transient Long consignment__resolvedKey;
+    @Generated(hash = 694408149)
+    private transient Long invoice__resolvedKey;
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 332557200)
     public void setVendor(Vendor vendor) {
@@ -233,11 +234,11 @@ public class BillingOperationsHistory {
     public void setAmount(double amount) {
         this.amount = amount;
     }
-    public Long getConsignmentId() {
-        return this.consignmentId;
+    public Long getInvoiceId() {
+        return this.invoiceId;
     }
-    public void setConsignmentId(Long consignmentId) {
-        this.consignmentId = consignmentId;
+    public void setInvoiceId(Long invoiceId) {
+        this.invoiceId = invoiceId;
     }
     public Long getVendorId() {
         return this.vendorId;
@@ -257,15 +258,15 @@ public class BillingOperationsHistory {
     public void setId(Long id) {
         this.id = id;
     }
-    @Generated(hash = 1594055708)
+    @Generated(hash = 507995)
     public BillingOperationsHistory(Long id, Long accountId, Long vendorId,
-            Long consignmentId, double amount, long createAt, int operationType,
+            Long invoiceId, double amount, long createAt, int operationType,
             String description, boolean isActive, boolean isDeleted, Long rootId,
             long paymentDate, long editedAt) {
         this.id = id;
         this.accountId = accountId;
         this.vendorId = vendorId;
-        this.consignmentId = consignmentId;
+        this.invoiceId = invoiceId;
         this.amount = amount;
         this.createAt = createAt;
         this.operationType = operationType;
@@ -279,7 +280,7 @@ public class BillingOperationsHistory {
     @Generated(hash = 987940575)
     public BillingOperationsHistory() {
     }
-   
+
 
 }
 

@@ -14,6 +14,7 @@ import com.jim.mpviews.MpEditText;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
+import com.jim.multipos.data.db.model.inventory.IncomeProduct;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.consignment.adapter.IncomeItemsListAdapter;
@@ -102,18 +103,23 @@ public class ReturnConsignmentFragment extends BaseFragment implements ReturnCon
             dialog.dismiss();
         });
 
-        itemsListAdapter.setListeners(new IncomeItemsListAdapter.OnConsignmentCallback() {
+        itemsListAdapter.setListeners(new IncomeItemsListAdapter.OnInvoiceCallback() {
             @Override
-            public void onDelete(ConsignmentProduct consignmentProduct) {
+            public void onDelete(int position) {
                 WarningDialog warningDialog = new WarningDialog(getContext());
                 warningDialog.setWarningMessage(getContext().getString(R.string.do_you_want_delete));
                 warningDialog.setOnYesClickListener(view1 -> {
-                    presenter.deleteFromList(consignmentProduct);
+//                    presenter.deleteFromList(consignmentProduct);
                     itemsListAdapter.notifyDataSetChanged();
                     warningDialog.dismiss();
                 });
                 warningDialog.setOnNoClickListener(view -> warningDialog.dismiss());
                 warningDialog.show();
+            }
+
+            @Override
+            public void onSettings(IncomeProduct incomeProduct, int position) {
+
             }
 
             @Override
@@ -146,7 +152,7 @@ public class ReturnConsignmentFragment extends BaseFragment implements ReturnCon
 
     @Override
     public void fillReturnList(List<ConsignmentProduct> consignmentProductList, int type) {
-        itemsListAdapter.setData(consignmentProductList, type);
+//        itemsListAdapter.setData(consignmentProductList);
     }
 
     @Override

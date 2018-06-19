@@ -63,6 +63,7 @@
                     android:orientation="horizontal">
 
                     <com.jim.mpviews.MpEditText
+                        android:id="@+id/etStockId"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/forty_dp"
                         android:layout_gravity="center"
@@ -119,12 +120,14 @@
                     android:background="@drawable/edit_text_bg"
                     android:orientation="horizontal">
 
-                    <com.jim.mpviews.MpEditText
+                    <TextView
+                        android:id="@+id/etDateCreatead"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/forty_dp"
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:backgroundTint="@color/colorTransparent"
+                        android:gravity="center_vertical"
                         android:hint="Select date"
                         android:inputType="text"
                         android:paddingLeft="@dimen/ten_dp"
@@ -167,12 +170,14 @@
                     android:background="@drawable/edit_text_bg"
                     android:orientation="horizontal">
 
-                    <com.jim.mpviews.MpEditText
+                    <TextView
+                        android:id="@+id/etDateExpired"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/forty_dp"
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:backgroundTint="@color/colorTransparent"
+                        android:gravity="center_vertical"
                         android:hint="Select date"
                         android:inputType="text"
                         android:paddingLeft="@dimen/ten_dp"
@@ -211,7 +216,7 @@
                     android:textSize="@dimen/sixteen_dp" />
 
                 <EditText
-                    android:id="@+id/etSubCategoryDescription"
+                    android:id="@+id/etDescription"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/hundred_dp"
                     android:layout_weight="1"
@@ -243,6 +248,7 @@
             android:paddingRight="@dimen/thirty_dp">
 
             <com.jim.mpviews.MpButton
+                android:id="@+id/btnBack"
                 android:layout_width="@dimen/hundred_thirty_dp"
                 android:layout_height="@dimen/forty_three_dp"
                 android:layout_marginRight="@dimen/fifteen_dp"
@@ -253,6 +259,7 @@
 
 
             <com.jim.mpviews.MpButton
+                android:id="@+id/btnSave"
                 android:layout_width="@dimen/hundred_thirty_dp"
                 android:layout_height="@dimen/forty_three_dp"
                 android:gravity="center"

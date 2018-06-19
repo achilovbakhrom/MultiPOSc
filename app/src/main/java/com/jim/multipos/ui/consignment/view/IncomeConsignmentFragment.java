@@ -18,11 +18,14 @@ import com.jim.mpviews.MpCheckbox;
 import com.jim.mpviews.MpEditText;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
-import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
+import com.jim.multipos.data.db.model.inventory.IncomeProduct;
+import com.jim.multipos.data.db.model.inventory.StockQueue;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.consignment.adapter.IncomeItemsListAdapter;
 import com.jim.multipos.ui.consignment.adapter.VendorItemsListAdapter;
+import com.jim.multipos.ui.consignment.dialogs.IncomeProductConfigsDialog;
+import com.jim.multipos.ui.consignment.dialogs.ProductsForIncomeDialog;
 import com.jim.multipos.ui.consignment.presenter.IncomeConsignmentPresenter;
 import com.jim.multipos.utils.BarcodeStack;
 import com.jim.multipos.utils.NumberTextWatcher;
@@ -42,7 +45,6 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 
-import static com.jim.multipos.ui.consignment.ConsignmentActivity.CONSIGNMENT_ID;
 import static com.jim.multipos.ui.consignment.ConsignmentActivity.PRODUCT_ID;
 import static com.jim.multipos.ui.consignment.ConsignmentActivity.VENDOR_ID;
 
@@ -56,8 +58,6 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
     IncomeConsignmentPresenter presenter;
     @Inject
     IncomeItemsListAdapter itemsListAdapter;
-    @Inject
-    VendorItemsListAdapter vendorItemsListAdapter;
     @Inject
     DecimalFormat decimalFormat;
     @Inject
@@ -88,10 +88,6 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
     TextView tvTotalShouldPayAbbr;
     @BindView(R.id.tvTotalPaidAbbr)
     TextView tvTotalPaidAbbr;
-    private Dialog dialog;
-    private double sum = 0;
-    public static final String CONSIGNMENT_UPDATE = "CONSIGNMENT_UPDATE";
-    public static final String INVENTORY_STATE_UPDATE = "INVENTORY_STATE_UPDATE";
 
     @Override
     protected int getLayout() {
@@ -104,33 +100,21 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
         if (getArguments() != null) {
             Long productId = (Long) getArguments().get(PRODUCT_ID);
             Long vendorId = (Long) getArguments().get(VENDOR_ID);
-            Long consignmentId = (Long) getArguments().get(CONSIGNMENT_ID);
-            presenter.setData(productId, vendorId, consignmentId);
+            presenter.setData(productId, vendorId);
         }
         rvConsignmentItems.setLayoutManager(new LinearLayoutManager(getContext()));
         rvConsignmentItems.setAdapter(itemsListAdapter);
         ((SimpleItemAnimator) rvConsignmentItems.getItemAnimator()).setSupportsChangeAnimations(false);
         chbFromAccount.setTextSize(16);
-        dialog = new Dialog(getContext());
-        View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.vendor_product_list_dialog, null, false);
-        RecyclerView rvProductList = dialogView.findViewById(R.id.rvProductList);
-        rvProductList.setLayoutManager(new LinearLayoutManager(getContext()));
-        rvProductList.setAdapter(vendorItemsListAdapter);
-        dialog.setContentView(dialogView);
-        dialog.getWindow().getDecorView().setBackgroundResource(android.R.color.transparent);
-        vendorItemsListAdapter.setListener(product -> {
-            presenter.setConsignmentItem(product);
-            dialog.dismiss();
-        });
 
-        itemsListAdapter.setListeners(new IncomeItemsListAdapter.OnConsignmentCallback() {
+        itemsListAdapter.setListeners(new IncomeItemsListAdapter.OnInvoiceCallback() {
             @Override
-            public void onDelete(ConsignmentProduct consignmentProduct) {
+            public void onDelete(int position) {
                 WarningDialog warningDialog = new WarningDialog(getContext());
                 warningDialog.setWarningMessage(getContext().getString(R.string.do_you_want_delete));
                 warningDialog.setOnYesClickListener(view1 -> {
-                    presenter.deleteFromList(consignmentProduct);
-                    itemsListAdapter.notifyDataSetChanged();
+                    presenter.deleteFromList(position);
+                    itemsListAdapter.notifyItemRemoved(position);
                     warningDialog.dismiss();
                 });
                 warningDialog.setOnNoClickListener(view -> warningDialog.dismiss());
@@ -138,8 +122,13 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
             }
 
             @Override
+            public void onSettings(IncomeProduct incomeProduct, int position) {
+                presenter.openSettingsDialogForProduct(incomeProduct, position);
+            }
+
+            @Override
             public void onSumChanged() {
-                presenter.calculateConsignmentSum();
+                presenter.calculateInvoiceSum();
             }
         });
 
@@ -150,7 +139,7 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
         });
         barcodeStack.register(barcode -> {
             if (isAdded() && isVisible())
-                presenter.onBarcodeScaned(barcode);
+                presenter.onBarcodeScanned(barcode);
         });
         etTotalPaid.addTextChangedListener(new NumberTextWatcher(etTotalPaid));
     }
@@ -162,26 +151,21 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
 
     @OnClick(R.id.btnAddProductToConsignment)
     public void onAddProductsToConsignment() {
-        dialog.show();
         presenter.loadVendorProducts();
     }
 
     @OnClick(R.id.btnAddConsignment)
     public void onAddConsignment() {
         if (isValid()) {
-            presenter.saveConsignment(etConsignmentNumber.getText().toString(), etConsignmentDescription.getText().toString(), tvTotalShouldPay.getText().toString(), etTotalPaid.getText().toString(), chbFromAccount.isChecked(), spAccounts.getSelectedPosition());
+            presenter.saveInvoice(etConsignmentNumber.getText().toString(), etConsignmentDescription.getText().toString(), tvTotalShouldPay.getText().toString(), etTotalPaid.getText().toString(), chbFromAccount.isChecked(), spAccounts.getSelectedPosition());
         }
     }
 
     @Override
-    public void fillDialogItems(List<Product> productList) {
-        vendorItemsListAdapter.setData(productList);
-        vendorItemsListAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void fillConsignmentProductList(List<ConsignmentProduct> consignmentProductList, int type) {
-        itemsListAdapter.setData(consignmentProductList, type);
+    public void fillDialogItems(List<Product> productList, List<Product> vendorProducts) {
+        ProductsForIncomeDialog dialog = new ProductsForIncomeDialog(getContext(), productList, vendorProducts);
+        dialog.setListener(product -> presenter.setInvoiceItem(product));
+        dialog.show();
     }
 
     @Override
@@ -196,7 +180,6 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
 
     @Override
     public void setConsignmentSumValue(double sum) {
-        this.sum = sum;
         tvTotalShouldPay.setText(decimalFormat.format(sum));
     }
 
@@ -223,19 +206,6 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
     }
 
     @Override
-    public void openSaveChangesDialog() {
-        WarningDialog warningDialog = new WarningDialog(getContext());
-        warningDialog.setWarningMessage(getString(R.string.do_you_want_to_save_the_change));
-        warningDialog.setDialogTitle(getString(R.string.warning));
-        warningDialog.setOnYesClickListener(view1 -> {
-            presenter.saveChanges();
-            warningDialog.dismiss();
-        });
-        warningDialog.setOnNoClickListener(view -> warningDialog.dismiss());
-        warningDialog.show();
-    }
-
-    @Override
     public void closeFragment(Vendor vendor) {
         rxBus.send(new ConsignmentWithVendorEvent(vendor, GlobalEventConstants.UPDATE));
         rxBus.send(new BillingOperationEvent(GlobalEventConstants.BILLING_IS_DONE));
@@ -244,28 +214,12 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
     }
 
     @Override
-    public void fillConsignmentData(String consignmentNumber, String description, Boolean isFromAccount, double amount) {
-        etConsignmentNumber.setText(consignmentNumber);
-        etConsignmentDescription.setText(description);
-        chbFromAccount.setChecked(isFromAccount);
-        if (isFromAccount) {
-            llAccounts.setVisibility(View.VISIBLE);
-        } else llAccounts.setVisibility(View.GONE);
-        etTotalPaid.setText(decimalFormat.format(amount));
-    }
-
-    @Override
-    public void setAccountSpinnerSelection(int selectedAccount) {
-        spAccounts.setSelectedPosition(selectedAccount);
-    }
-
-    @Override
-    public void setConsignmentNumberError() {
+    public void setInvoiceNumberError() {
         etConsignmentNumber.setError(getString(R.string.consignment_with_such_number_exists));
     }
 
     @Override
-    public void setConsignmentNumber(int number) {
+    public void setInvoiceNumber(int number) {
         etConsignmentNumber.setText(String.valueOf(number));
     }
 
@@ -273,6 +227,18 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
     public void setCurrency(String abbr) {
         tvTotalPaidAbbr.setText(abbr);
         tvTotalShouldPayAbbr.setText(abbr);
+    }
+
+    @Override
+    public void fillInvoiceProductList(List<IncomeProduct> incomeProductList) {
+        itemsListAdapter.setData(incomeProductList);
+    }
+
+    @Override
+    public void openSettingsDialog(IncomeProduct incomeProduct, StockQueue stockQueue, int position) {
+        IncomeProductConfigsDialog dialog = new IncomeProductConfigsDialog(getContext(), stockQueue, incomeProduct);
+        dialog.setListener((incomeProduct1, stockQueue1) -> presenter.setConfigsToProduct(incomeProduct1, stockQueue1, position));
+        dialog.show();
     }
 
     @Override

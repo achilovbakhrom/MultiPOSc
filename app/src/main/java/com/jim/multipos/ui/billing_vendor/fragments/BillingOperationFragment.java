@@ -179,13 +179,13 @@ public class BillingOperationFragment extends BaseFragment implements BillingOpe
         rvBilling.setAdapter(billingOperartionsAdapter);
         billingOperartionsAdapter.setData(transactions, billingOperations -> {
             BillingInfoDialog infoDialog = new BillingInfoDialog(getContext(), billingOperations, databaseManager, (operations) -> {
-                if (operations.getOperationType().equals(DEBT_CONSIGNMENT)) {
-                    ((BillingOperationsActivity) getActivity()).openConsignment(operations.getConsignmentId(), INCOME_CONSIGNMENT);
-                } else if (operations.getOperationType().equals(RETURN_TO_VENDOR)) {
-                    ((BillingOperationsActivity) getActivity()).openConsignment(operations.getConsignmentId(), RETURN_CONSIGNMENT);
-                } else if (operations.getConsignmentId() != null && operations.getOperationType().equals(PAID_TO_CONSIGNMENT)){
-                    ((BillingOperationsActivity) getActivity()).openConsignment(operations.getConsignmentId(), INCOME_CONSIGNMENT);
-                } else {
+//                if (operations.getOperationType().equals(DEBT_CONSIGNMENT)) {
+//                    ((BillingOperationsActivity) getActivity()).openConsignment(operations.getConsignmentId(), INCOME_CONSIGNMENT);
+//                } else if (operations.getOperationType().equals(RETURN_TO_VENDOR)) {
+//                    ((BillingOperationsActivity) getActivity()).openConsignment(operations.getConsignmentId(), RETURN_CONSIGNMENT);
+//                } else if (operations.getConsignmentId() != null && operations.getOperationType().equals(PAID_TO_CONSIGNMENT)){
+//                    ((BillingOperationsActivity) getActivity()).openConsignment(operations.getConsignmentId(), INCOME_CONSIGNMENT);
+//                } else {
                     PaymentToVendorDialog paymentToVendorDialog = new PaymentToVendorDialog(getContext(), operations.getVendor(), new PaymentToVendorDialog.PaymentToVendorCallback() {
                         @Override
                         public void onChanged() {
@@ -198,7 +198,7 @@ public class BillingOperationFragment extends BaseFragment implements BillingOpe
                         }
                     }, databaseManager, operations);
                     paymentToVendorDialog.show();
-                }
+//                }
             });
             infoDialog.show();
         });

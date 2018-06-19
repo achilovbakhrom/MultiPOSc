@@ -23,10 +23,10 @@ public class StockQueue {
     private double incomeCount;
     private double available;
     private double closed;
-    private String stockId;
-    private double incomeProductDate;
-    private double createdProductDate;
-    private double expiredProductDate;
+    private String stockId = "";
+    private long incomeProductDate;
+    private long createdProductDate;
+    private long expiredProductDate;
 
     private Long incomeId;
     @ToOne(joinProperty = "incomeId")
@@ -241,27 +241,27 @@ public class StockQueue {
         this.incomeId = incomeId;
     }
 
-    public double getExpiredProductDate() {
+    public Long getExpiredProductDate() {
         return this.expiredProductDate;
     }
 
-    public void setExpiredProductDate(double expiredProductDate) {
+    public void setExpiredProductDate(long expiredProductDate) {
         this.expiredProductDate = expiredProductDate;
     }
 
-    public double getCreatedProductDate() {
+    public Long getCreatedProductDate() {
         return this.createdProductDate;
     }
 
-    public void setCreatedProductDate(double createdProductDate) {
+    public void setCreatedProductDate(long createdProductDate) {
         this.createdProductDate = createdProductDate;
     }
 
-    public double getIncomeProductDate() {
+    public Long getIncomeProductDate() {
         return this.incomeProductDate;
     }
 
-    public void setIncomeProductDate(double incomeProductDate) {
+    public void setIncomeProductDate(long incomeProductDate) {
         this.incomeProductDate = incomeProductDate;
     }
 
@@ -305,10 +305,14 @@ public class StockQueue {
         this.id = id;
     }
 
-    @Generated(hash = 358749783)
-    public StockQueue(Long id, double incomeCount, double available, double closed,
-            String stockId, double incomeProductDate, double createdProductDate,
-            double expiredProductDate, Long incomeId, Long vendorId, Long productId) {
+    @Generated(hash = 523114700)
+    public StockQueue() {
+    }
+
+    @Generated(hash = 523729954)
+    public StockQueue(Long id, double incomeCount, double available, double closed, String stockId,
+            long incomeProductDate, long createdProductDate, long expiredProductDate, Long incomeId,
+            Long vendorId, Long productId) {
         this.id = id;
         this.incomeCount = incomeCount;
         this.available = available;
@@ -320,10 +324,6 @@ public class StockQueue {
         this.incomeId = incomeId;
         this.vendorId = vendorId;
         this.productId = productId;
-    }
-
-    @Generated(hash = 523114700)
-    public StockQueue() {
     }
 
 

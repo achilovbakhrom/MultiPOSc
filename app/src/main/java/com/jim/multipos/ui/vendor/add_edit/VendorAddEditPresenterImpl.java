@@ -69,6 +69,7 @@ public class VendorAddEditPresenterImpl extends BasePresenterImpl<VendorAddEditV
                 break;
             case EDIT:
                 vendor = databaseManager.getVendorById(vendorId).blockingSingle();
+                vendor.keepToHistory();
                 databaseManager.removeAllContacts(vendor.getId()).blockingSingle();
                 vendor.setName(name);
                 vendor.setContactName(contactName);

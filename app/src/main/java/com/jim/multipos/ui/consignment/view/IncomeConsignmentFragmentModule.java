@@ -35,10 +35,4 @@ public abstract class IncomeConsignmentFragmentModule {
     static IncomeItemsListAdapter provideIncomeItemsListAdapter(AppCompatActivity context, DecimalFormat decimalFormat, DatabaseManager databaseManager){
         return new IncomeItemsListAdapter(context, decimalFormat, databaseManager.getMainCurrency().getAbbr());
     }
-
-    @Provides
-    @PerFragment
-    static VendorItemsListAdapter provideVendorItemsListAdapter(AppCompatActivity context){
-        return new VendorItemsListAdapter(context);
-    }
 }

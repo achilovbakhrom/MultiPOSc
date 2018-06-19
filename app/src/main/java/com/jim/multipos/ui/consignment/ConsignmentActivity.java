@@ -40,14 +40,12 @@ public class ConsignmentActivity extends SimpleActivity implements ConsignmentAc
         if (bundle != null) {
             Long productId = bundle.getLong(PRODUCT_ID);
             Long vendorId = bundle.getLong(VENDOR_ID);
-            Long consignmentId = bundle.getLong(CONSIGNMENT_ID);
             int type = bundle.getInt(CONSIGNMENT_TYPE);
             if (type == Consignment.INCOME_CONSIGNMENT) {
                 IncomeConsignmentFragment fragment = new IncomeConsignmentFragment();
                 Bundle bundle1 = new Bundle();
                 bundle1.putLong(PRODUCT_ID, productId);
                 bundle1.putLong(VENDOR_ID, vendorId);
-                bundle1.putLong(CONSIGNMENT_ID, consignmentId);
                 fragment.setArguments(bundle);
                 addFragment(fragment);
             } else if (type == RETURN_CONSIGNMENT) {
@@ -55,7 +53,6 @@ public class ConsignmentActivity extends SimpleActivity implements ConsignmentAc
                 Bundle bundle1 = new Bundle();
                 bundle1.putLong(PRODUCT_ID, productId);
                 bundle1.putLong(VENDOR_ID, vendorId);
-                bundle1.putLong(CONSIGNMENT_ID, consignmentId);
                 fragment.setArguments(bundle);
                 addFragment(fragment);
             }

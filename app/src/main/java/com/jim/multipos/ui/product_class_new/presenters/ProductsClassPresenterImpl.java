@@ -53,7 +53,6 @@ public class ProductsClassPresenterImpl extends BasePresenterImpl<ProductsClassV
         productClass.setName(name);
         productClass.setActive(active);
         productClass.setCreatedDate(System.currentTimeMillis());
-//        productClass.setNotModifyted(true);
         productClass.setDeleted(false);
         productClass.setParentId(null);
         databaseManager.insertProductClass(productClass).subscribe((aLong, throwable) -> {

@@ -25,9 +25,12 @@ import com.jim.multipos.data.db.model.Account;
 import com.jim.multipos.data.db.model.ServiceFeeLog;
 import com.jim.multipos.data.db.model.consignment.Consignment;
 import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
+import com.jim.multipos.data.db.model.consignment.Invoice;
 import com.jim.multipos.data.db.model.customer.CustomerPayment;
 import com.jim.multipos.data.db.model.customer.Debt;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
+import com.jim.multipos.data.db.model.inventory.IncomeProduct;
+import com.jim.multipos.data.db.model.inventory.StockQueue;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.OrderChangesLog;
 import com.jim.multipos.data.db.model.order.OrderProduct;
@@ -287,4 +290,10 @@ public interface DbHelper {
     Single<List<Discount>> getStaticDiscounts();
     Single<List<Discount>> getDiscountsByType(int discountApplyType);
     Single<List<Customer>> getCustomersWithoutSorting();
+    Single<Invoice> insertInvoice(Invoice invoice);
+    Single<IncomeProduct> insertIncomeProduct(IncomeProduct incomeProduct);
+    Single<StockQueue> insertStockQueue(StockQueue stockQueue);
+    Single<Invoice> insertInvoiceWithBillingAndIncomeProduct(Invoice invoice, List<IncomeProduct> incomeProductList, List<StockQueue> stockQueueList, List<BillingOperations> billingOperationsList);
+    Single<List<Invoice>> getAllInvoices();
+    Single<List<StockQueue>> getStockQueueByVendorId(Long id);
 }

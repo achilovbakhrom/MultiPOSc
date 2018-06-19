@@ -82,43 +82,33 @@ public class DiscountAddingPresenterImpl extends BasePresenterImpl<DiscountAddin
     @Override
     public void onSave(double amount, int amountTypeAbbr, String discription, int usedTypeAbbr, boolean active, Discount discount) {
         //TODO EDITABLE TO STATEABLE
-
-//        discount.setNotModifyted(false);
+        DiscountLog discountLog = new DiscountLog();
+        discountLog.setChangeDate(System.currentTimeMillis());
+        discountLog.setDiscount(discount);
+        discountLog.setStatus(DiscountLog.DISCOUNT_CANCELED);
+        databaseManager.insertDiscountLog(discountLog).subscribe();
+        discount.setAmount(amount);
+        discount.setAmountType(amountTypeAbbr);
+        discount.setName(discription);
+        discount.setUsedType(usedTypeAbbr);
+        discount.setActive(active);
+        discount.setCreatedDate(discount.getCreatedDate());
         databaseManager.insertDiscount(discount).subscribe((discount2, throwable) -> {
-            DiscountLog discountLog = new DiscountLog();
-            discountLog.setChangeDate(System.currentTimeMillis());
-            discountLog.setDiscount(discount);
-            discountLog.setStatus(DiscountLog.DISCOUNT_CANCELED);
-            databaseManager.insertDiscountLog(discountLog).subscribe();
-            Discount discount1 = new Discount();
-            discount1.setAmount(amount);
-            discount1.setAmountType(amountTypeAbbr);
-            discount1.setName(discription);
-            discount1.setUsedType(usedTypeAbbr);
-            discount1.setActive(active);
-            discount1.setCreatedDate(discount.getCreatedDate());
-//            discount1.setNotModifyted(true);
-//            discount1.setDeleted(false);
-//            if (discount.getRootId() != null)
-//                discount1.setRootId(discount.getRootId());
-//            else discount1.setRootId(discount.getId());
-            databaseManager.insertDiscount(discount1).subscribe((discount3, throwable1) -> {
-                DiscountLog discountLog1 = new DiscountLog();
-                discountLog1.setChangeDate(System.currentTimeMillis());
-                discountLog1.setDiscount(discount1);
-                discountLog1.setStatus(DiscountLog.DISCOUNT_ADDED);
-                databaseManager.insertDiscountLog(discountLog1).subscribe();
-                for (int i = 1; i < items.size(); i++) {
-                    if (items.get(i).getObject().getId().equals(discount.getId())) {
-                        DiscountApaterDetials discountApaterDetials = new DiscountApaterDetials();
-                        discountApaterDetials.setObject(discount1);
-                        items.set(i, discountApaterDetials);
-                        view.notifyItemChanged(i);
-                        return;
-                    }
+            DiscountLog discountLog1 = new DiscountLog();
+            discountLog1.setChangeDate(System.currentTimeMillis());
+            discountLog1.setDiscount(discount);
+            discountLog1.setStatus(DiscountLog.DISCOUNT_ADDED);
+            databaseManager.insertDiscountLog(discountLog1).subscribe();
+            for (int i = 1; i < items.size(); i++) {
+                if (items.get(i).getObject().getId().equals(discount.getId())) {
+                    DiscountApaterDetials discountApaterDetials = new DiscountApaterDetials();
+                    discountApaterDetials.setObject(discount);
+                    items.set(i, discountApaterDetials);
+                    view.notifyItemChanged(i);
+                    return;
                 }
-                view.sendChangeEvent(GlobalEventConstants.UPDATE, discount, discount1);
-            });
+            }
+//                view.sendChangeEvent(GlobalEventConstants.UPDATE, discount, discount1);
         });
     }
 
