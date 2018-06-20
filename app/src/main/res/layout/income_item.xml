@@ -11,7 +11,7 @@
         android:id="@+id/tvProductName"
         android:layout_width="@dimen/three_hundred_dp"
         android:layout_height="match_parent"
-        android:layout_marginRight="@dimen/twenty_dp"
+        android:layout_marginRight="@dimen/fifteen_dp"
         android:background="@drawable/edit_text_bg"
         android:gravity="left|center_vertical"
         android:paddingBottom="@dimen/five_dp"
@@ -21,7 +21,7 @@
     <LinearLayout
         android:layout_width="@dimen/two_hundred_fifty_dp"
         android:layout_height="match_parent"
-        android:layout_marginRight="@dimen/twenty_dp"
+        android:layout_marginRight="@dimen/fifteen_dp"
         android:background="@drawable/edit_text_bg"
         android:orientation="horizontal"
         android:paddingLeft="@dimen/ten_dp">
@@ -65,7 +65,7 @@
     <LinearLayout
         android:layout_width="@dimen/two_hundred_dp"
         android:layout_height="match_parent"
-        android:layout_marginRight="@dimen/twenty_dp"
+        android:layout_marginRight="@dimen/fifteen_dp"
         android:background="@drawable/edit_text_bg"
         android:orientation="horizontal"
         android:paddingLeft="@dimen/ten_dp">
@@ -111,11 +111,11 @@
         android:id="@+id/tvProductSum"
         android:layout_width="@dimen/two_hundred_fifty_dp"
         android:layout_height="match_parent"
-        android:layout_marginRight="@dimen/twenty_dp"
+        android:layout_marginRight="@dimen/fifteen_dp"
         android:background="@drawable/edit_text_bg"
         android:gravity="right|center_vertical"
         android:paddingLeft="@dimen/five_dp"
-        android:paddingRight="@dimen/five_dp"
+        android:paddingRight="@dimen/ten_dp"
         android:textColor="@color/colorMainText"
         android:textSize="@dimen/eighteen_dp" />
 

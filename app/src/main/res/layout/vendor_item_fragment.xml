@@ -49,7 +49,7 @@
 
             <LinearLayout
                 android:id="@+id/llProduct"
-                android:layout_width="@dimen/four_hundred_thirty_dp"
+                android:layout_width="@dimen/four_hundred_dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:paddingLeft="@dimen/thirty_dp"

@@ -265,7 +265,7 @@ public interface DbHelper {
     Single<Long> deletePayedPartitions(List<PayedPartitions> payedPartitions);
     Single<List<Order>> getAllTillClosedOrders();
     Single<Boolean> isProductSkuExists(String sku, Long subcategoryId);
-    Single<Boolean> isConsignmentNumberExists(String number);
+    Single<Boolean> isInvoiceNumberExists(String number);
     Single<Vendor> detachVendor(Vendor vendor);
     Single<List<Till>> getAllTills();
     Single<List<TillDetails>> getTillDetailsByTillId(Long tillId);

@@ -200,6 +200,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     listener.onItemClick(items.get(getAdapterPosition()), getAdapterPosition());
                     notifyItemChanged(selectedPosition);
                     notifyItemChanged(prevPosition);
+                } else {
+                    listener.onItemClick(items.get(getAdapterPosition()), getAdapterPosition());
                 }
             });
         }

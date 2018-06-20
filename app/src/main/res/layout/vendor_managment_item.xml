@@ -137,7 +137,8 @@
                 >
                 <ImageView
                     android:id="@+id/ivPayment"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="@dimen/thirty_five_dp"
                     android:layout_gravity="center"
                     android:adjustViewBounds="true"
@@ -156,7 +157,8 @@
                     />
                 <ImageView
                     android:id="@+id/ivStoryConsigment"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="@dimen/thirty_five_dp"
                     android:layout_gravity="center"
                     android:adjustViewBounds="true"
@@ -167,7 +169,8 @@
 
                 <ImageView
                     android:id="@+id/ivStockQueue"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="@dimen/thirty_five_dp"
                     android:layout_gravity="center"
                     android:adjustViewBounds="true"
@@ -179,16 +182,17 @@
                 <ImageView
                     android:id="@+id/ivBackReturn"
                     android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="@dimen/thirty_five_dp"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
                     android:clickable="true"
 
                     android:src="@drawable/expense_selector"
                     />
                 <ImageView
                     android:id="@+id/ivIncome"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="@dimen/thirty_five_dp"
                     android:layout_gravity="center"
                     android:adjustViewBounds="true"

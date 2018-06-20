@@ -39,6 +39,7 @@ import com.jim.multipos.data.db.model.consignment.ConsignmentDao;
 import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
 import com.jim.multipos.data.db.model.consignment.ConsignmentProductDao;
 import com.jim.multipos.data.db.model.consignment.Invoice;
+import com.jim.multipos.data.db.model.consignment.InvoiceDao;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.currency.CurrencyDao;
 import com.jim.multipos.data.db.model.customer.Customer;
@@ -1895,11 +1896,11 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
-    public Single<Boolean> isConsignmentNumberExists(String number) {
+    public Single<Boolean> isInvoiceNumberExists(String number) {
         return Single.create(e -> {
             e.onSuccess(!mDaoSession
-                    .queryBuilder(Consignment.class)
-                    .where(ConsignmentDao.Properties.ConsignmentNumber.eq(number), ConsignmentDao.Properties.IsDeleted.eq(false))
+                    .queryBuilder(Invoice.class)
+                    .where(InvoiceDao.Properties.ConsigmentNumber.eq(number), InvoiceDao.Properties.IsDeleted.eq(false))
                     .list()
                     .isEmpty());
         });

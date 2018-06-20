@@ -104,7 +104,7 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
             for (int i = 0; i < incomeProductList.size(); i++) {
                 if (incomeProductList.get(i).getCountValue() == 0)
                     countPos = i;
-                if (incomeProductList.get(i).getCostValue() == null)
+                if (incomeProductList.get(i).getCostValue() == 0)
                     costPos = i;
             }
 
@@ -113,7 +113,7 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
             } else if (costPos != incomeProductList.size())
                 view.setError(context.getString(R.string.some_costs_are_empty));
             else {
-                if (databaseManager.isConsignmentNumberExists(number).blockingGet()) {
+                if (databaseManager.isInvoiceNumberExists(number).blockingGet()) {
                     view.setInvoiceNumberError();
                     return;
                 }
@@ -194,11 +194,6 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
                 else view.closeFragment(this.vendor);
             }
         }
-    }
-
-    @Override
-    public void saveChanges() {
-
     }
 
     @Override

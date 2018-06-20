@@ -85,7 +85,6 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.Single;
-import io.reactivex.SingleSource;
 
 /**
  * Created by Developer on 5/13/17.
@@ -848,8 +847,8 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
-    public Single<Boolean> isConsignmentNumberExists(String number) {
-        return dbHelper.isConsignmentNumberExists(number);
+    public Single<Boolean> isInvoiceNumberExists(String number) {
+        return dbHelper.isInvoiceNumberExists(number);
     }
 
     @Override

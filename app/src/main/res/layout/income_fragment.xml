@@ -25,9 +25,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginRight="@dimen/five_dp"
                 android:text="@string/received_from"
                 android:textColor="@color/colorBlue"
-                android:layout_marginRight="@dimen/five_dp"
                 android:textSize="@dimen/twenty_dp" />
 
             <TextView
@@ -42,11 +42,11 @@
 
         <ImageView
             android:id="@+id/ivBarcodeScanner"
-            android:layout_gravity="center"
-            android:tint="@color/colorTintGrey"
-            android:src="@drawable/barcode"
             android:layout_width="@dimen/thirty_dp"
-            android:layout_height="@dimen/thirty_dp" />
+            android:layout_height="@dimen/thirty_dp"
+            android:layout_gravity="center"
+            android:src="@drawable/barcode"
+            android:tint="@color/colorTintGrey" />
 
 
     </LinearLayout>
@@ -64,7 +64,7 @@
             android:layout_width="@dimen/three_hundred_dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginRight="@dimen/twenty_dp"
+            android:layout_marginRight="@dimen/fifteen_dp"
             android:gravity="left"
             android:text="@string/product_name_inventory"
             android:textColor="@color/colorWhite"
@@ -74,7 +74,7 @@
             android:layout_width="@dimen/two_hundred_fifty_dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginRight="@dimen/twenty_dp"
+            android:layout_marginRight="@dimen/fifteen_dp"
             android:gravity="left"
             android:text="@string/cost"
             android:textColor="@color/colorWhite"
@@ -94,17 +94,17 @@
             android:layout_width="@dimen/fifty_dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginRight="@dimen/twenty_dp"
+            android:layout_marginRight="@dimen/fifteen_dp"
             android:gravity="left"
             android:text="@string/unit"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/eighteen_dp" />
 
         <TextView
-            android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_weight="1"
             android:gravity="left"
             android:text="@string/total_inventory"
             android:textColor="@color/colorWhite"
@@ -167,9 +167,9 @@
                     android:id="@+id/etConsignmentNumber"
                     android:layout_width="@dimen/hundred_ten_dp"
                     android:layout_height="@dimen/forty_dp"
+                    android:layout_gravity="center"
                     android:hint="@string/number"
                     android:textColorHint="@color/colorTextHint"
-                    android:layout_gravity="center"
                     android:textSize="@dimen/sixteen_dp" />
 
             </LinearLayout>
@@ -238,11 +238,11 @@
                     android:layout_width="@dimen/two_hundred_forty_dp"
                     android:layout_height="@dimen/forty_dp"
                     android:layout_gravity="center"
-                    android:textColor="@color/colorMainText"
                     android:background="@drawable/edit_text_bg"
                     android:gravity="right|center_vertical"
                     android:paddingLeft="@dimen/five_dp"
                     android:paddingRight="@dimen/five_dp"
+                    android:textColor="@color/colorMainText"
                     android:textSize="@dimen/sixteen_dp" />
 
 
@@ -277,9 +277,9 @@
                     android:layout_width="@dimen/two_hundred_forty_dp"
                     android:layout_height="@dimen/forty_dp"
                     android:layout_gravity="center"
-                    android:text="0"
                     android:gravity="right"
                     android:inputType="numberDecimal"
+                    android:text="0"
                     android:textSize="@dimen/sixteen_dp" />
 
                 <TextView

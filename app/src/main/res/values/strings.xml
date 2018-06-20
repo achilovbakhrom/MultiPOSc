@@ -1363,7 +1363,7 @@
     <string name="full_payment_debt">Full payment</string>
     <string name="product_name_inventory">Product name</string>
     <string name="total_inventory">Total</string>
-    <string name="additional_notes_to_consignment">Additional notes to Consignment</string>
+    <string name="additional_notes_to_consignment">Additional notes to Invoice</string>
     <string name="total_payable">Total payable</string>
     <string name="product_refunds_to">Product refunds to</string>
     <string name="replenishment">Replenishment</string>

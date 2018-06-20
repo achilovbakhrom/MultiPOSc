@@ -19,7 +19,6 @@ public interface IncomeConsignmentPresenter extends Presenter {
     void getAccounts();
     void calculateInvoiceSum();
     void checkChanges(String number, String description, String totalPaid, boolean checked, int selectedPosition);
-    void saveChanges();
     void onBarcodeScanned(String barcode);
     void openSettingsDialogForProduct(IncomeProduct incomeProduct, int position);
     void setConfigsToProduct(IncomeProduct incomeProduct, StockQueue stockQueue, int position);

@@ -163,7 +163,7 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
             } else if (costPos != consignmentProductList.size())
                 view.setError(context.getString(R.string.some_costs_are_empty));
             else if (this.returnConsignment == null) {
-                if (databaseManager.isConsignmentNumberExists(number).blockingGet()) {
+                if (databaseManager.isInvoiceNumberExists(number).blockingGet()) {
                     view.setConsignmentNumberError();
                     return;
                 }
@@ -197,7 +197,7 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
                 view.closeFragment(this.vendor);
             } else {
                 if (!this.returnConsignment.getConsignmentNumber().equals(number)) {
-                    if (databaseManager.isConsignmentNumberExists(number).blockingGet()) {
+                    if (databaseManager.isInvoiceNumberExists(number).blockingGet()) {
                         view.setConsignmentNumberError();
                         return;
                     }

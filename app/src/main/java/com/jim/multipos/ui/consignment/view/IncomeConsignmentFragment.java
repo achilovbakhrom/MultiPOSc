@@ -95,6 +95,7 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
     @BindView(R.id.ivBarcodeScanner)
     ImageView ivBarcodeScanner;
     private ProductsForIncomeDialog dialog;
+    private boolean forDialog = false;
 
     @Override
     protected int getLayout() {
@@ -181,13 +182,14 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
 
             @Override
             public void onBarcodeClick() {
+                forDialog = true;
                 initScan();
             }
         });
         dialog.show();
     }
 
-    public void initScan(){
+    public void initScan() {
         IntentIntegrator.forSupportFragment(this).initiateScan();
     }
 
@@ -197,7 +199,10 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
         IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (intentResult != null) {
             if (intentResult.getContents() != null) {
-               dialog.setBarcode(intentResult.getContents());
+                if (forDialog) {
+                    dialog.setBarcode(intentResult.getContents());
+                } else presenter.onBarcodeScanned(intentResult.getContents());
+
             }
         }
     }
