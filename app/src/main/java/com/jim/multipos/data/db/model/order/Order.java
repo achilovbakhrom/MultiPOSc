@@ -174,6 +174,7 @@ public class Order {
         Order order = new Order();
         order.setTips(tips);
         order.setTotalPayed(totalPayed);
+        order.setStatus(status);
         return order;
     }
     public List<Object> getListObject(){
@@ -187,6 +188,7 @@ public class Order {
             orderProduct.setProduct(orderProducts.get(i).getProduct());
             orderProduct.setOutcomeProduct(orderProducts.get(i).getOutcomeProduct());
             orderProductItem.setOrderProduct(orderProduct);
+            orderProductItem.setOutcomeProduct(orderProducts.get(i).getOutcomeProduct());
             if(orderProducts.get(i).getServiceFee()!=null) {
                 orderProductItem.setServiceFee(orderProducts.get(i).getServiceFee());
                 orderProductItem.setServiceFeeAmmount(orderProducts.get(i).getServiceAmount());

@@ -213,14 +213,17 @@
                     android:text="@string/position"
                     android:textColor="@color/colorBlue"
                     android:textSize="@dimen/sixteen_dp" />
-
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/sixty_dp"
+                    android:layout_weight="3"/>
 
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/sixty_five_dp"
                 android:layout_marginLeft="@dimen/thirty_dp"
-                android:layout_marginTop="@dimen/twenty_dp"
+                android:layout_marginTop="@dimen/five_dp"
                 android:layout_marginRight="@dimen/twenty_five_dp"
                 android:gravity="left"
                 android:orientation="horizontal">

@@ -57,15 +57,13 @@ public class CloseTillFirstStepPresenterImpl extends BasePresenterImpl<CloseTill
         databaseManager.insertOrderChangeLog(orderChangesLog).blockingGet();
         order.setLastChangeLogId(orderChangesLog.getId());
 
-        for (int i = 0; i < order.getOrderProducts().size(); i++) {
-           databaseManager.cancelOutcomeProductWhenHoldedProductReturn(order.getOrderProducts().get(i).getOutcomeProduct()).subscribe();
-        }
+        databaseManager.cancelOutcomeProductWhenOrderProductCanceled(order.getOrderProducts()).subscribe();
 
         if (order.getDebt() != null) {
             order.getDebt().setIsDeleted(true);
             databaseManager.addDebt(order.getDebt());
         }
-        databaseManager.insertOrderProducts(order.getOrderProducts()).blockingGet();
+
         databaseManager.insertOrder(order).blockingGet();
         orderList.remove(position);
         view.updateOrderList();

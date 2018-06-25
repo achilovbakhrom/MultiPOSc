@@ -115,13 +115,13 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             OrderProductItem orderProductItem = (OrderProductItem) adapterItem.get(position);
 
             if(orderProductItem.getOrderProduct().getProduct().getMainUnit().getUnitCategory().getUnitType() == UnitCategory.PIECE){
-                holder.tvCountProduct.setText(decimalFormat.format(orderProductItem.getOrderProduct().getCount()));
+                holder.tvCountProduct.setText(decimalFormat.format(orderProductItem.getOutcomeProduct().getSumCountValue()));
                 holder.ivLeftMinus.setVisibility(View.VISIBLE);
                 holder.ivRightPlus.setVisibility(View.VISIBLE);
                 holder.rlUnitQty.setBackground(null);
             }
             else {
-                double count = orderProductItem.getOrderProduct().getCount();
+                double count = orderProductItem.getOutcomeProduct().getSumCountValue();
                 DecimalFormat df = null;
                 df = decimalFormatLocal;
                 holder.tvCountProduct.setText(df.format(count) + " " + orderProductItem.getOrderProduct().getProduct().getMainUnit().getAbbr());
@@ -131,7 +131,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
 
             holder.tvEach.setText(decimalFormat.format(orderProductItem.getOrderProduct().getPrice()));
-            holder.tvSum.setText(decimalFormat.format(orderProductItem.getOrderProduct().getPrice() * orderProductItem.getOrderProduct().getCount()));
+            holder.tvSum.setText(decimalFormat.format(orderProductItem.getOrderProduct().getPrice() * orderProductItem.getOutcomeProduct().getSumCountValue()));
             holder.tvProductName.setText(orderProductItem.getOrderProduct().getProduct().getName());
             if(orderProductItem.isHaveInStock()){
                 holder.tvCountProduct.setTextColor(Color.parseColor("#212121"));
@@ -141,7 +141,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             if(orderProductItem.getDiscount()!=null){
                 holder.tvFirstChangerToEach.setText(decimalFormat.format(orderProductItem.getDiscountAmmount()));
-                holder.tvFirstChangerSum.setText(decimalFormat.format(orderProductItem.getDiscountAmmount()*orderProductItem.getOrderProduct().getCount()));
+                holder.tvFirstChangerSum.setText(decimalFormat.format(orderProductItem.getDiscountAmmount()*orderProductItem.getOutcomeProduct().getSumCountValue()));
                 holder.tvFirstChangerName.setText(orderProductItem.getDiscount().getName()+context.getString(R.string.discount_min));
                 holder.llFirstChanger.setVisibility(View.VISIBLE);
             }else {
@@ -151,7 +151,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             if(orderProductItem.getServiceFee()!=null){
                 holder.tvSecondChangerForEach.setText("+"+decimalFormat.format(orderProductItem.getServiceFeeAmmount()));
-                holder.tvSecondChangerSum.setText("+"+decimalFormat.format(orderProductItem.getServiceFeeAmmount()*orderProductItem.getOrderProduct().getCount()));
+                holder.tvSecondChangerSum.setText("+"+decimalFormat.format(orderProductItem.getServiceFeeAmmount()*orderProductItem.getOutcomeProduct().getSumCountValue()));
                 holder.tvSecondChangerName.setText(orderProductItem.getServiceFee().getName()+context.getString(R.string.service_fee_min));
                 holder.llSecondChanger.setVisibility(View.VISIBLE);
             }else {

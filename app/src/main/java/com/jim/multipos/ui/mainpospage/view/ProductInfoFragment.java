@@ -234,6 +234,7 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
         tvProductName.setText(orderProductItem.getOrderProduct().getProduct().getName());
         hideAlert();
         databaseManager.getProductInvenotry(orderProductItem.getOrderProduct().getProductId()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(count ->{
+            //TODO VOQTINCHALI, ATAK COUNTI HISOBLASHDA ORDERDIGI COUNTLANIYAM HISOBLASH KEREDI
             if(count < 0){
                 showAlert();
             }else hideAlert();

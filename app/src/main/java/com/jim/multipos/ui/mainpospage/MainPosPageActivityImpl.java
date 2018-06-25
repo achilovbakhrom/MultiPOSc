@@ -123,23 +123,16 @@ public class MainPosPageActivityImpl extends BasePresenterImpl<MainPosPageActivi
         orderChangesLog.setOrderId(order.getId());
         databaseManager.insertOrderChangeLog(orderChangesLog).blockingGet();
         order.setLastChangeLogId(orderChangesLog.getId());
-
-        for (int i = 0; i < order.getOrderProducts().size(); i++) {
-            //Warehouse Operation
-            databaseManager.cancelOutcomeProductWhenOrderProductCanceled(order.getOrderProducts().get(i).getOutcomeProduct()).subscribe();
-        }
-
+            //OrderCanceled
+        databaseManager.cancelOutcomeProductWhenOrderProductCanceled(order.getOrderProducts()).subscribe();
         if(order.getDebt() !=null) {
             order.getDebt().setIsDeleted(true);
             databaseManager.addDebt(order.getDebt());
         }
-        databaseManager.insertOrderProducts(order.getOrderProducts()).blockingGet();
         databaseManager.insertOrder(order).blockingGet();
         orderList.set(current,order);
         view.openOrUpdateOrderHistory(orderList.get(current));
-
     }
-
 
 
     private void updateToLastOrderId(){
@@ -184,30 +177,8 @@ public class MainPosPageActivityImpl extends BasePresenterImpl<MainPosPageActivi
     @Override
     public void editedOrderHolded(String reason, Order newHoldOrder) {
         Order order = orderList.get(oldPositionForEdit);
-        order.setStatus(Order.CANCELED_ORDER);
-
-        OrderChangesLog orderChangesLog = new OrderChangesLog();
-        orderChangesLog.setToStatus(Order.CANCELED_ORDER);
-        orderChangesLog.setChangedAt(System.currentTimeMillis());
-        orderChangesLog.setReason(reason);
-        orderChangesLog.setChangedCauseType(OrderChangesLog.EDITED);
-        orderChangesLog.setOrderId(order.getId());
-        orderChangesLog.setRelationshipOrderId(newHoldOrder.getId());
-        databaseManager.insertOrderChangeLog(orderChangesLog).blockingGet();
-        order.setLastChangeLogId(orderChangesLog.getId());
-
-        for (int i = 0; i < order.getOrderProducts().size(); i++) {
-            databaseManager.cancelOutcomeProductWhenOrderProductCanceled(order.getOrderProducts().get(i).getOutcomeProduct()).subscribe();
-        }
-
-        if(order.getDebt() !=null) {
-            order.getDebt().setIsDeleted(true);
-            databaseManager.addDebt(order.getDebt());
-        }
-        databaseManager.insertOrderProducts(order.getOrderProducts()).blockingGet();
-        databaseManager.insertOrder(order).blockingGet();
-
-
+        //TODO CHECK REFRESH OPTIMIZATION
+        order = databaseManager.getOrder(order.getId()).blockingGet();
         orderList.add(newHoldOrder);
         orderList.set(oldPositionForEdit,order);
         view.openOrUpdateOrderHistory(orderList.get(current));
@@ -284,31 +255,6 @@ public class MainPosPageActivityImpl extends BasePresenterImpl<MainPosPageActivi
     public void onEditComplete(String reason,Order newOrder) {
         //old Order
         Order order = orderList.get(oldPositionForEdit);
-        order.setStatus(Order.CANCELED_ORDER);
-
-        OrderChangesLog orderChangesLog = new OrderChangesLog();
-        orderChangesLog.setToStatus(Order.CANCELED_ORDER);
-        orderChangesLog.setChangedAt(System.currentTimeMillis());
-        orderChangesLog.setReason(reason);
-        orderChangesLog.setChangedCauseType(OrderChangesLog.EDITED);
-        orderChangesLog.setOrderId(order.getId());
-        orderChangesLog.setRelationshipOrderId(newOrder.getId());
-        databaseManager.insertOrderChangeLog(orderChangesLog).blockingGet();
-        order.setLastChangeLogId(orderChangesLog.getId());
-
-        for (int i = 0; i < order.getOrderProducts().size(); i++) {
-            //Warehouse Operation
-            databaseManager.cancelOutcomeProductWhenOrderProductCanceled(order.getOrderProducts().get(i).getOutcomeProduct()).subscribe();
-        }
-
-        if(order.getDebt() !=null) {
-            order.getDebt().setIsDeleted(true);
-            databaseManager.addDebt(order.getDebt()).subscribe();
-        }
-        databaseManager.insertOrderProducts(order.getOrderProducts()).blockingGet();
-        databaseManager.insertOrder(order).blockingGet();
-
-
         orderList.add(newOrder);
         orderList.set(oldPositionForEdit,order);
         //CONFIG EDIT QILINGAN YANGI VERSIYADA QOSINMI ILI YANGI ORDER QIVORSINMI?

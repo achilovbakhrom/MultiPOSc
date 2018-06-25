@@ -17,6 +17,7 @@ import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
 import com.jim.multipos.data.db.model.consignment.Invoice;
 import com.jim.multipos.data.db.model.customer.CustomerPayment;
 import com.jim.multipos.data.db.model.customer.Debt;
+import com.jim.multipos.data.db.model.intosystem.OutcomeWithDetials;
 import com.jim.multipos.data.db.model.intosystem.ProductWithCount;
 import com.jim.multipos.data.db.model.intosystem.StockQueueItem;
 import com.jim.multipos.data.db.model.intosystem.StockResult;
@@ -1159,230 +1160,61 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
         return dbHelper.getTillOperationsInterval(fromDate, toDate);
     }
 
-
-    //TODO -->>>
-
-
+    //TODO --->>>
     @Override
-    public Single<StockResult> getProductWithRuleRegister(Long productId, double count) {
-        return Single.create(e -> {
-            dbHelper.getCountInventoryProduct(productId).subscribe(possibleCount ->{
-                if(count>=possibleCount){
-                    OutcomeProduct outcomeProduct = new OutcomeProduct();
-                    outcomeProduct.setClosed(false);
-                    outcomeProduct.setCustomPickSock(false);
-                    outcomeProduct.setOutcomeDate(System.currentTimeMillis());
-                    outcomeProduct.setOutcomeType(OutcomeProduct.TO_HOLD);
-                    outcomeProduct.setSumCountValue(count);
-                    outcomeProduct.setProductId(productId);
-                    dbHelper.insertOutcomeProduct(outcomeProduct);
-                    StockResult stockResult = new StockResult();
-                    stockResult.setResult(StockResult.STOCK_OK);
-                    stockResult.setOutcomeProduct(outcomeProduct);
-                    e.onSuccess(stockResult);
-                }else {
-                    StockResult stockResult = new StockResult();
-                    stockResult.setResult(StockResult.STOCK_OUT);
-                    e.onSuccess(stockResult);
+    public Integer checkProductAvailable(Long productId, double summaryCount,Order ifHaveOldOrder) {
+            double available = dbHelper.getAvailableCount(productId).blockingGet();
+            if(ifHaveOldOrder !=null){
+                for (OrderProduct orderProduct:ifHaveOldOrder.getOrderProducts()) {
+                    if(orderProduct.getProductId() == productId){
+                        available += orderProduct.getCount();
+                    }
                 }
-            });
-
-        });
+            }
+            if(available>=summaryCount){
+                return StockResult.STOCK_OK;
+            }else {
+                return StockResult.STOCK_OUT;
+            }
     }
 
     @Override
-    public Single<StockResult> getProductWithCustomQueueRegister(Long productId, double count, Long stockQueueId) {
-        return Single.create(e -> {
-            dbHelper.getCountInventoryProduct(productId).subscribe(possibleCount ->{
-                if(count>=possibleCount){
-                    OutcomeProduct outcomeProduct = new OutcomeProduct();
-                    outcomeProduct.setClosed(false);
-                    outcomeProduct.setCustomPickSock(true);
-                    outcomeProduct.setPickedStockQueueId(stockQueueId);
-                    outcomeProduct.setOutcomeDate(System.currentTimeMillis());
-                    outcomeProduct.setOutcomeType(OutcomeProduct.TO_HOLD);
-                    outcomeProduct.setSumCountValue(count);
-                    outcomeProduct.setProductId(productId);
-                    dbHelper.insertOutcomeProduct(outcomeProduct);
-                        StockResult stockResult = new StockResult();
-                        stockResult.setResult(StockResult.STOCK_OK);
-                        stockResult.setOutcomeProduct(outcomeProduct);
-                        e.onSuccess(stockResult);
-                }else {
-                    StockResult stockResult = new StockResult();
-                    stockResult.setResult(StockResult.STOCK_OUT);
-                    e.onSuccess(stockResult);
-                }
-            });
-
-        });
+    public List<OutcomeProduct> insertAndFillOutcomeProducts(List<OutcomeWithDetials> outcomeWithDetials) {
+        ArrayList<OutcomeProduct> outcomeProducts = new ArrayList<>();
+        for (OutcomeWithDetials outcomeWithDetialLocal: outcomeWithDetials) {
+            OutcomeProduct localOutcome = dbHelper.insertOutcome(outcomeWithDetialLocal.getOutcomeProduct());
+            for (int i = 0; i < outcomeWithDetialLocal.getDetialCountList().size(); i++) {
+                outcomeWithDetialLocal.getDetialCountList().get(i).setOutcomeProductId(localOutcome.getId());
+            }
+            dbHelper.insetDetialCounts(outcomeWithDetialLocal.getDetialCountList());
+            outcomeProducts.add(localOutcome);
+        }
+        return outcomeProducts;
     }
 
     @Override
-    public Single<StockResult> updateOutcomeRegistredProductCount(OutcomeProduct outcomeProduct, double newCount) {
-        if(outcomeProduct.getId()!=null) new Exception("Some thing wrong, Outcome should before saved to table").printStackTrace();
-        return Single.create(e -> {
-            dbHelper.getCountInventoryProductWithoutMe(outcomeProduct.getProductId(),outcomeProduct).subscribe(possibleCount -> {
-                if(newCount>=possibleCount){
-                    outcomeProduct.setSumCountValue(newCount);
-                    dbHelper.insertOutcomeProduct(outcomeProduct);
-                        StockResult stockResult = new StockResult();
-                        stockResult.setResult(StockResult.STOCK_OK);
-                        stockResult.setOutcomeProduct(outcomeProduct);
-                        e.onSuccess(stockResult);
-                }else {
-                    StockResult stockResult = new StockResult();
-                    stockResult.setResult(StockResult.STOCK_OUT);
-                    e.onSuccess(stockResult);
-                }
-            });
-        });
+    public Single<List<OutcomeWithDetials>> checkPositionAvailablity(List<OutcomeProduct> outcomeProducts) {
+        return dbHelper.checkPositionAvailablity(outcomeProducts);
     }
 
     @Override
-    public Single<OutcomeProduct> cancelOutcomeProductWhenHoldedProductReturn(OutcomeProduct outcomeProduct) {
-        if(outcomeProduct.getId()!=null) new Exception("Some thing wrong, Outcome should before saved to table").printStackTrace();
-        if(outcomeProduct.getClosed()) new Exception("For Cancel Holded Product Outcome Product should be not closed").printStackTrace();
-        return Single.create(e -> {
-            dbHelper.justRemoveOutcomeProduct(outcomeProduct).subscribe(outcomeProduct1 -> {
-               e.onSuccess(outcomeProduct1);
-            });
-        });
+    public Single<List<OutcomeWithDetials>> checkPositionAvailablityWithoutSomeOutcomes(List<OutcomeProduct> outcomeProducts, List<OutcomeProduct> withoutOutcomeProducts) {
+        return dbHelper.checkPositionAvailablityWithoutSomeOutcomes(outcomeProducts,withoutOutcomeProducts);
     }
 
     @Override
-    public Single<OutcomeProduct> cancelOutcomeProductWhenOrderProductCleared(OutcomeProduct outcomeProduct) {
-        if(outcomeProduct.getId()!=null) new Exception("Some thing wrong, Outcome should before saved to database").printStackTrace();
-        if(outcomeProduct.getClosed()) new Exception("For Clear Product Outcome Product should be not closed").printStackTrace();
-        return Single.create(e -> {
-            dbHelper.justRemoveOutcomeProduct(outcomeProduct).subscribe(outcomeProduct1 -> {
-                e.onSuccess(outcomeProduct1);
-            });
-        });
-    }
-
-    @Override
-    public Single<OutcomeProduct> cancelOutcomeProductWhenOrderProductCanceled(OutcomeProduct outcomeProduct) {
-        if(outcomeProduct.getId()!=null) new Exception("Some thing wrong, Outcome should before saved to database").printStackTrace();
-        if(!outcomeProduct.getClosed()) new Exception("For CANCEL Product Outcome Product should be  closed").printStackTrace();
-        return Single.create(e -> {
-            dbHelper.cancelOutcomeProductWithDetails(outcomeProduct).subscribe(outcomeProduct1 -> {
-               e.onSuccess(outcomeProduct);
-            });
-        });
-    }
-
-
-    /***
-     * Firstiful You should write OrderProduct to Database*/
-
-    @Override
-    public Single<OutcomeProduct> confirmOutcomeProductWhenSold(OutcomeProduct outcomeProduct, OrderProduct orderProduct) {
-        if(outcomeProduct.getId()!=null) new Exception("Some thing wrong, Outcome should before saved to database").printStackTrace();
-        if(orderProduct.getId()!=null) new Exception("Some thing wrong, OrderProduct should before saved to database").printStackTrace();
-        return Single.create(e -> {
-           dbHelper.getPositionForMe(outcomeProduct).subscribe(stockAndCounts -> {
-               double sumOfCost = 0;
-               for(StockCountCost stockCountCost : stockAndCounts){
-                   DetialCount detialCount = new DetialCount();
-                   detialCount.setCost(stockCountCost.getCost());
-                   sumOfCost += stockCountCost.getCost();
-                   detialCount.setCount(stockCountCost.getCount());
-                   detialCount.setStockId(stockCountCost.getStockId());
-                   detialCount.setOutcomeProductId(outcomeProduct.getId());
-                   dbHelper.insertDetailCount(detialCount);
-               }
-               outcomeProduct.setSumCostValue(sumOfCost);
-               outcomeProduct.setOutcomeType(OutcomeProduct.ORDER_SALES);
-               outcomeProduct.setOrderProductId(orderProduct.getId());
-               outcomeProduct.setClosed(true);
-               dbHelper.insertOutcomeProduct(outcomeProduct);
-                   e.onSuccess(outcomeProduct);
-           });
-        });
-    }
-
-    @Override
-    public Single<List<OrderProduct>> confirmOutcomeProductWhenSold(List<OrderProduct> orderProductItems) {
-        return Single.create(e -> {
-            dbHelper.getPositionsForOrderList(orderProductItems).subscribe(longListHashMap -> {
-               for (int i = 0; i<orderProductItems.size(); i++){
-                   double sumOfCost = 0;
-                   for(StockCountCost stockCountCost: longListHashMap.get(orderProductItems.get(i).getId())){
-                       DetialCount detialCount = new DetialCount();
-                       detialCount.setCost(stockCountCost.getCost());
-                       sumOfCost += stockCountCost.getCost();
-                       detialCount.setCount(stockCountCost.getCount());
-                       detialCount.setStockId(stockCountCost.getStockId());
-                       detialCount.setOutcomeProductId(orderProductItems.get(i).getOutcomeProductId());
-                       dbHelper.insertDetailCount(detialCount);
-                   }
-                   orderProductItems.get(i).getOutcomeProduct().setSumCostValue(sumOfCost);
-                   orderProductItems.get(i).getOutcomeProduct().setOutcomeType(OutcomeProduct.ORDER_SALES);
-                   orderProductItems.get(i).getOutcomeProduct().setOrderProductId(orderProductItems.get(i).getId());
-                   orderProductItems.get(i).getOutcomeProduct().setClosed(true);
-                   dbHelper.insertOutcomeProduct(orderProductItems.get(i).getOutcomeProduct());
-               }
-               e.onSuccess(orderProductItems);
-            });
-        });
-    }
-
-
-
-    @Override
-    public Single<Integer> checkProductHaveInStock(Long productId, double count) {
-        return dbHelper.checkProductHaveInStock(productId,count);
+    public Single<Integer> cancelOutcomeProductWhenOrderProductCanceled(List<OrderProduct> orderProducts) {
+        return dbHelper.cancelOutcomeProductWhenOrderProductCanceled(orderProducts);
     }
 
     @Override
     public Single<Double> getProductInvenotry(Long productId) {
-        return dbHelper.getCountInventoryProduct(productId);
-    }
-
-    @Override
-    public Single<Double> getProductInvenotryFromVendor(Long productId, Long vendorId) {
-        return null;
-    }
-
-    @Override
-    public Single<Integer> getAllProductsCountVendor(Long vendorId) {
-        return null;
-    }
-
-    @Override
-    public Single<List<StockQueueItem>> getActualStockQueue(Long productId) {
-        return null;
-    }
-
-    @Override
-    public Single<List<StockQueueItem>> getActualStockQueueWithoutMe(OutcomeProduct outcomeProduct) {
-        return null;
-    }
-
-    @Override
-    public Single<List<StockQueueItem>> getActualyStockQueueList(Calendar from, Calendar to) {
-        return null;
-    }
-
-    @Override
-    public Single<List<StockQueueItem>> getActualyStockQueueListForVendorAndProduct(Long vendorId, Long productId) {
-        return null;
-    }
-
-    @Override
-    public Single<List<StockQueueItem>> getActualyStockQueueListForVendor(Long vendorId) {
-        return null;
+        return dbHelper.getAvailableCount(productId);
     }
 
     @Override
     public Single<List<InventoryItem>> getProductInventoryStatesForNow() {
-        return null;
-    }
-
-    @Override
-    public Single<List<InventoryItem>> getProductInventoryStatesForNowForVendor(Vendor vendor) {
-        return null;
+        return dbHelper.getProductInventoryStatesForNow();
     }
 
     @Override
@@ -1390,16 +1222,15 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
         return null;
     }
 
-    @Override
-    public Single<List<Product>> getAllProductsEverGotFromVendor(Long vendorId) {
-        return null;
-    }
 
-    @Override
-    public Single<List<ProductWithCount>> getVendorStateInventory(Long vendorId) {
-        return null;
-    }
-    //TODO <<---
+    //TODO <-----
+
+
+
+
+
+
+
     @Override
     public Single<Invoice> insertInvoiceWithBillingAndIncomeProduct(Invoice invoice, List<IncomeProduct> incomeProductList, List<StockQueue> stockQueueList, List<BillingOperations> billingOperationsList) {
        return dbHelper.insertInvoiceWithBillingAndIncomeProduct(invoice, incomeProductList, stockQueueList, billingOperationsList);

@@ -1,13 +1,16 @@
 package com.jim.multipos.data.operations;
 
+import com.jim.multipos.data.db.model.intosystem.OutcomeWithDetials;
 import com.jim.multipos.data.db.model.intosystem.ProductWithCount;
 import com.jim.multipos.data.db.model.intosystem.StockQueueItem;
 import com.jim.multipos.data.db.model.intosystem.StockResult;
+import com.jim.multipos.data.db.model.inventory.DetialCount;
 import com.jim.multipos.data.db.model.inventory.OutcomeProduct;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.OrderProduct;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
+import com.jim.multipos.data.db.model.stock.Stock;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
 
 import java.util.Calendar;
@@ -33,37 +36,21 @@ public interface InventoryOperations {
 //    Single<List<WarehouseOperations>> getWarehouseOperationsInInterval(Calendar fromDate, Calendar toDate);
 //    Single<List<HistoryInventoryState>> getHistoryInventoryStatesByTillId(Long id);
 
-    Single<StockResult> getProductWithRuleRegister(Long productId, double count);
-    Single<StockResult> getProductWithCustomQueueRegister(Long productId, double count,Long stockQueueId);
+    Integer checkProductAvailable(Long productId, double summaryCount,Order ifHaveOldOrder); //+
+    List<OutcomeProduct> insertAndFillOutcomeProducts(List<OutcomeWithDetials> outcomeWithDetials); //+
 
-    Single<StockResult> updateOutcomeRegistredProductCount(OutcomeProduct outcomeProduct,double newCount);
+    //ORDER EDIT QILINGANI TASDIQLANSA ESKI ORDERNI OUTCOMELARI OTMENA BO'LISHI KERAK
+    Single<Integer> cancelOutcomeProductWhenOrderProductCanceled(List<OrderProduct> orderProducts); //+
 
-    Single<OutcomeProduct> cancelOutcomeProductWhenHoldedProductReturn(OutcomeProduct outcomeProduct);
-    Single<OutcomeProduct> cancelOutcomeProductWhenOrderProductCleared(OutcomeProduct outcomeProduct);
-    Single<OutcomeProduct> cancelOutcomeProductWhenOrderProductCanceled(OutcomeProduct outcomeProduct);
+    Single<List<OutcomeWithDetials>> checkPositionAvailablity(List<OutcomeProduct> outcomeProducts); //+
+    Single<List<OutcomeWithDetials>> checkPositionAvailablityWithoutSomeOutcomes(List<OutcomeProduct> outcomeProducts,List<OutcomeProduct> withoutOutcomeProducts);
 
 
-
-    //AFTER CREATING DETIALS STOCK QUEUE SET COUNTS ALSO TO ORDER_PRODUCT AND RETURN IT
-    Single<OutcomeProduct> confirmOutcomeProductWhenSold(OutcomeProduct outcomeProduct, OrderProduct orderProduct);
-    Single<List<OrderProduct>> confirmOutcomeProductWhenSold(List<OrderProduct> orderProductItems);
-    Single<Integer> checkProductHaveInStock(Long productId, double count);
-    Single<Double> getProductInvenotry(Long productId);
-    Single<Double> getProductInvenotryFromVendor(Long productId,Long vendorId);
-    Single<Integer> getAllProductsCountVendor(Long vendorId);
-
-    Single<List<StockQueueItem>> getActualStockQueue(Long productId);
-    Single<List<StockQueueItem>> getActualStockQueueWithoutMe(OutcomeProduct outcomeProduct);
-    Single<List<StockQueueItem>> getActualyStockQueueList(Calendar from, Calendar to);
-    Single<List<StockQueueItem>> getActualyStockQueueListForVendorAndProduct(Long vendorId,Long productId);
-    Single<List<StockQueueItem>> getActualyStockQueueListForVendor(Long vendorId);
+    //TODO VOQTINCHALI
+    Single<Double> getProductInvenotry(Long productId); //+
 
     Single<List<InventoryItem>> getProductInventoryStatesForNow();
-    Single<List<InventoryItem>> getProductInventoryStatesForNowForVendor(Vendor vendor);
-
     Single<InventoryItem> setLowStockAlert(InventoryItem inventoryItem,double newAlertCount);
 
-    Single<List<Product>> getAllProductsEverGotFromVendor(Long vendorId);
-    Single<List<ProductWithCount>> getVendorStateInventory(Long vendorId);
 
 }

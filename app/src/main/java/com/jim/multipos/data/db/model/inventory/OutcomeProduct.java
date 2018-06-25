@@ -26,7 +26,6 @@ public class OutcomeProduct {
     public static final int ORDER_SALES = 1;
     public static final int OUTVOICE_TO_VENDOR = 2;
     public static final int WASTE = 3;
-    public static final int TO_HOLD = 4;
 
     //PRODUCT
 
@@ -36,10 +35,8 @@ public class OutcomeProduct {
     private Double sumCountValue;
     private Double sumCostValue;
     private Long outcomeDate;
-    private boolean closed;
     private boolean customPickSock;
     private Long pickedStockQueueId;
-
     private Long productId;
     @ToOne(joinProperty = "productId")
     private Product product;
@@ -319,12 +316,6 @@ public class OutcomeProduct {
     public void setCustomPickSock(boolean customPickSock) {
         this.customPickSock = customPickSock;
     }
-    public boolean getClosed() {
-        return this.closed;
-    }
-    public void setClosed(boolean closed) {
-        this.closed = closed;
-    }
     public Long getOutcomeDate() {
         return this.outcomeDate;
     }
@@ -355,16 +346,15 @@ public class OutcomeProduct {
     public void setId(Long id) {
         this.id = id;
     }
-    @Generated(hash = 1410550842)
+    @Generated(hash = 1261403553)
     public OutcomeProduct(Long id, int outcomeType, Double sumCountValue, Double sumCostValue,
-            Long outcomeDate, boolean closed, boolean customPickSock, Long pickedStockQueueId,
-            Long productId, Long outvoiceId, Long orderProductId, Long wasteId) {
+            Long outcomeDate, boolean customPickSock, Long pickedStockQueueId, Long productId,
+            Long outvoiceId, Long orderProductId, Long wasteId) {
         this.id = id;
         this.outcomeType = outcomeType;
         this.sumCountValue = sumCountValue;
         this.sumCostValue = sumCostValue;
         this.outcomeDate = outcomeDate;
-        this.closed = closed;
         this.customPickSock = customPickSock;
         this.pickedStockQueueId = pickedStockQueueId;
         this.productId = productId;
