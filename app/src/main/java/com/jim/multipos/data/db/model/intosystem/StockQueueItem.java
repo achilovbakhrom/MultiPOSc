@@ -8,7 +8,17 @@ import java.util.List;
 public class StockQueueItem {
     StockQueue stockQueue;
     List<DetialCount> detialCounts;
-    double waitingCount;
+
+    public double getAvailable() {
+        return available;
+    }
+
+    public void setAvailable(double available) {
+        this.available = available;
+    }
+
+    double available;
+
     public StockQueue getStockQueue() {
         return stockQueue;
     }
@@ -25,11 +35,4 @@ public class StockQueueItem {
         this.detialCounts = detialCounts;
     }
 
-    public double getWaitingCount() {
-        return waitingCount;
-    }
-
-    public void setWaitingCount(double waitingCount) {
-        this.waitingCount = waitingCount;
-    }
 }

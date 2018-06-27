@@ -890,6 +890,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
+    public Single<Double> getLastCostForProduct(Long productId) {
+        return dbHelper.getLastCostForProduct(productId);
+    }
+
+    @Override
     public Observable<List<Category>> getActiveCategories() {
         return dbHelper.getActiveCategories();
     }
@@ -1222,15 +1227,22 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
         return null;
     }
 
+    @Override
+    public Single<List<StockQueue>> getStockQueuesByProductId(Long id) {
+        return dbHelper.getAvailableStockQueuesByProductId(id);
+    }
 
-    //TODO <-----
+    @Override
+    public Single<Double> getAvailableCountForProduct(Long id) {
+        return dbHelper.getAvailableCountForProduct(id);
+    }
 
+    @Override
+    public Single<List<StockQueueItem>> getStockQueueItemForOutcomeProduct(OutcomeProduct outcomeProduct, List<OutcomeProduct> outcomeProductList, List<OutcomeProduct> exceptionList) {
+        return dbHelper.getStockQueueItemForOutcomeProduct(outcomeProduct, outcomeProductList, exceptionList);
+    }
 
-
-
-
-
-
+    //TODO <<---
     @Override
     public Single<Invoice> insertInvoiceWithBillingAndIncomeProduct(Invoice invoice, List<IncomeProduct> incomeProductList, List<StockQueue> stockQueueList, List<BillingOperations> billingOperationsList) {
        return dbHelper.insertInvoiceWithBillingAndIncomeProduct(invoice, incomeProductList, stockQueueList, billingOperationsList);

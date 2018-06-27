@@ -22,7 +22,7 @@ public class StockQueue {
     private Long id;
     private double incomeCount;
     private double available;
-    private double closed;
+    private boolean closed;
     private String stockId;
     private double cost;
     private long incomeProductDate;
@@ -266,6 +266,14 @@ public class StockQueue {
         this.incomeProductDate = incomeProductDate;
     }
 
+    public double getCost() {
+        return this.cost;
+    }
+
+    public void setCost(double cost) {
+        this.cost = cost;
+    }
+
     public String getStockId() {
         return this.stockId;
     }
@@ -274,11 +282,11 @@ public class StockQueue {
         this.stockId = stockId;
     }
 
-    public double getClosed() {
+    public boolean getClosed() {
         return this.closed;
     }
 
-    public void setClosed(double closed) {
+    public void setClosed(boolean closed) {
         this.closed = closed;
     }
 
@@ -306,18 +314,10 @@ public class StockQueue {
         this.id = id;
     }
 
-    public double getCost() {
-        return this.cost;
-    }
-
-    public void setCost(double cost) {
-        this.cost = cost;
-    }
-
-    @Generated(hash = 1936289076)
-    public StockQueue(Long id, double incomeCount, double available, double closed, String stockId,
-            double cost, long incomeProductDate, long createdProductDate, long expiredProductDate,
-            Long incomeId, Long vendorId, Long productId) {
+    @Generated(hash = 339598944)
+    public StockQueue(Long id, double incomeCount, double available, boolean closed,
+            String stockId, double cost, long incomeProductDate, long createdProductDate,
+            long expiredProductDate, Long incomeId, Long vendorId, Long productId) {
         this.id = id;
         this.incomeCount = incomeCount;
         this.available = available;
@@ -335,6 +335,4 @@ public class StockQueue {
     @Generated(hash = 523114700)
     public StockQueue() {
     }
-
-
 }

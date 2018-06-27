@@ -29,6 +29,7 @@ import com.jim.multipos.data.db.model.consignment.Invoice;
 import com.jim.multipos.data.db.model.customer.CustomerPayment;
 import com.jim.multipos.data.db.model.customer.Debt;
 import com.jim.multipos.data.db.model.intosystem.OutcomeWithDetials;
+import com.jim.multipos.data.db.model.intosystem.StockQueueItem;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
 import com.jim.multipos.data.db.model.inventory.DetialCount;
 import com.jim.multipos.data.db.model.inventory.OutcomeProduct;
@@ -304,10 +305,14 @@ public interface DbHelper {
     Single<List<StockQueue>> getStockQueueByVendorId(Long id);
     Single<Double> getAvailableCount(Long productId);
     Single<List<Product>> getVendorProductsByVendorId(Long id);
+    Single<Double> getLastCostForProduct(Long productId);
+    Single<List<StockQueue>> getAvailableStockQueuesByProductId(Long id);
+    Single<Double> getAvailableCountForProduct(Long id);
     OutcomeProduct insertOutcome(OutcomeProduct outcomeProduct);
     Long insetDetialCounts(List<DetialCount> detialCounts);
     Single<Integer> cancelOutcomeProductWhenOrderProductCanceled(List<OrderProduct> orderProducts);
     Single<List<OutcomeWithDetials>> checkPositionAvailablity(List<OutcomeProduct> outcomeProducts);
     Single<List<OutcomeWithDetials>> checkPositionAvailablityWithoutSomeOutcomes(List<OutcomeProduct> outcomeProducts,List<OutcomeProduct> withoutOutcomeProducts);
     Single<List<InventoryItem>> getProductInventoryStatesForNow();
+    Single<List<StockQueueItem>> getStockQueueItemForOutcomeProduct(OutcomeProduct outcomeProduct, List<OutcomeProduct> outcomeProductList, List<OutcomeProduct> exceptionList);
 }

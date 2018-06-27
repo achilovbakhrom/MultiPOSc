@@ -70,15 +70,23 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
     @Override
     public void setInvoiceItem(Product product) {
         IncomeProduct incomeProduct = new IncomeProduct();
-        incomeProduct.setCostValue(null);
-        incomeProduct.setCountValue(0.0d);
+        incomeProduct.setProduct(product);
+        double lastCost = databaseManager.getLastCostForProduct(product.getId()).blockingGet();
+        incomeProduct.setCostValue(lastCost);
+        if (incomeProductList.size() > 0) {
+            for (int i = 0; i < incomeProductList.size(); i++) {
+                if (incomeProductList.get(i).getProduct().getId().equals(product.getId()))
+                    incomeProduct.setCostValue(incomeProductList.get(i).getCostValue());
+            }
+        }
+        incomeProduct.setCountValue(1.0d);
         incomeProduct.setIncomeDate(System.currentTimeMillis());
         incomeProduct.setIncomeType(IncomeProduct.INVOICE_PRODUCT);
-        incomeProduct.setProduct(product);
         incomeProduct.setVendor(this.vendor);
         incomeProductList.add(incomeProduct);
         StockQueue stockQueue = new StockQueue();
         stockQueue.setProduct(product);
+        stockQueue.setIncomeProductDate(System.currentTimeMillis());
         stockQueue.setVendor(this.vendor);
         stockQueueList.add(stockQueue);
         view.fillInvoiceProductList(incomeProductList);

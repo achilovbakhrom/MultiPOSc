@@ -76,6 +76,9 @@ public class ProductAddEditFragment extends BaseFragment {
     @BindView(R.id.spUnitCategories)
     MPosSpinner unitsCategory;
 
+    @BindView(R.id.spStockKeepingType)
+    MPosSpinner spStockKeepingType;
+
     @BindView(R.id.etProductPrice)
     MpEditText price;
 
@@ -208,6 +211,8 @@ public class ProductAddEditFragment extends BaseFragment {
                 unitPosition = 0;
             }
         });
+
+        spStockKeepingType.setAdapter(new String[]{"FIFO", "LIFO", "FEFO"});
         units.setAdapter(unitList);
         classListAdapter.setData(productClasses);
         classList.setAdapter(classListAdapter);
@@ -304,7 +309,8 @@ public class ProductAddEditFragment extends BaseFragment {
                     unitsCategory.getSelectedPosition(),
                     units.getSelectedPosition(),
                     getContext().getString(R.string.description),
-                    resultPrice
+                    resultPrice,
+                    spStockKeepingType.getSelectedPosition()
             );
     }
 
@@ -342,6 +348,7 @@ public class ProductAddEditFragment extends BaseFragment {
         tvProductClass.setText(getString(R.string.not_classified));
         units.setSelectedPosition(0);
         unitsCategory.setSelectedPosition(0);
+        spStockKeepingType.setSelectedPosition(0);
         isActive.setChecked(true);
         save.setText(R.string.save);
         photoSelected = null;
@@ -366,9 +373,9 @@ public class ProductAddEditFragment extends BaseFragment {
                              int unitPos,
                              String description,
                              String url,
-                             double price) {
+                             double price, int stockKeepType) {
         categoryPos = unitCategoryPos;
-
+        spStockKeepingType.setSelectedPosition(stockKeepType);
         this.name.setText(name);
         this.name.setError(null);
         this.price.setText(formatter.format(price));

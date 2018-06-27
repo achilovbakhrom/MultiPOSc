@@ -62,7 +62,7 @@ public interface ProductView extends BaseView {
                              int unitPos,
                              String description,
                              String url,
-                             double price);
+                             double price, int stockKeepType);
     void initProductForm(String[] unitCategoryList, String[] unitList, List<ProductClass> productClasses, String currencyAbbr);
     void closeKeyboard();
     void setCategoryPath(String name);

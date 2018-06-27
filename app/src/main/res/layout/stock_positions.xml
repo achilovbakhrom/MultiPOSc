@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#00000000"
+    android:paddingTop="@dimen/five_dp"
+    android:paddingBottom="@dimen/five_dp"
     android:gravity="center">
-
 
     <LinearLayout
         android:layout_width="@dimen/thousand_dp"
@@ -39,7 +40,7 @@
                 android:orientation="horizontal">
 
                 <com.jim.mpviews.MpEditText
-                    android:id="@+id/mpSearchEditText"
+                    android:id="@+id/etSearchView"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/forty_dp"
                     android:layout_weight="1"
@@ -176,7 +177,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/forty_dp"
             android:orientation="horizontal"
-            android:paddingLeft="@dimen/thirty_dp">
+            android:paddingLeft="@dimen/thirty_five_dp">
 
             <TextView
                 android:layout_width="0dp"
@@ -184,6 +185,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:text="Prog."
+                android:gravity="center"
                 android:textColor="@color/colorMainText"
                 android:textSize="@dimen/sixteen_dp" />
 
@@ -306,4 +308,4 @@
         </LinearLayout>
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

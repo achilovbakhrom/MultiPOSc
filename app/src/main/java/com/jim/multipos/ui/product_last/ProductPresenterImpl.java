@@ -8,7 +8,6 @@ import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.currency.Currency;
-import com.jim.multipos.data.db.model.history.ProductHistory;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.unit.Unit;
@@ -550,7 +549,8 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     unitPos,
                     product.getDescription(),
                     product.getPhotoPath(),
-                    product.getPrice());
+                    product.getPrice(),
+                    product.getStockKeepType());
         }
     }
 
@@ -1020,8 +1020,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
 
     /**
      * creating or editing product
-     *
-     * @param name              - product name
+     *  @param name             - product name
      * @param barcode           - product barcode
      * @param sku               - product sku
      * @param photoPath         - product photo path
@@ -1031,14 +1030,15 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
      * @param unitCategoryPos   - product main unit
      * @param unitPos           - product unit
      * @param description       - product description
-     * @param resultPrice
+     * @param resultPrice       - product price
+     * @param typePosition      - product stock keeping type
      */
 
     @Override
     public void addProduct(String name, String barcode,
                            String sku, String photoPath, boolean isActive,
                            int costCurrencyPos, int priceCurrencuyPos, int unitCategoryPos,
-                           int unitPos, String description, Double resultPrice) {
+                           int unitPos, String description, Double resultPrice, int typePosition) {
 
         switch (mode) {
             case PRODUCT_ADD_MODE:
@@ -1052,6 +1052,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 product.setCategory(subcategory);
                 product.setCategoryId(subcategory.getId());
                 product.setCreatedDate(System.currentTimeMillis());
+                product.setStockKeepType(typePosition);
                 List<Currency> currencies = databaseManager.getAllCurrencies().blockingSingle();
                 if (currencies != null && !currencies.isEmpty()) {
                     product.setPriceCurrency(currencies.get(priceCurrencuyPos));

@@ -6,6 +6,7 @@ import com.jim.multipos.data.db.model.intosystem.StockQueueItem;
 import com.jim.multipos.data.db.model.intosystem.StockResult;
 import com.jim.multipos.data.db.model.inventory.DetialCount;
 import com.jim.multipos.data.db.model.inventory.OutcomeProduct;
+import com.jim.multipos.data.db.model.inventory.StockQueue;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.OrderProduct;
 import com.jim.multipos.data.db.model.products.Product;
@@ -52,5 +53,8 @@ public interface InventoryOperations {
     Single<List<InventoryItem>> getProductInventoryStatesForNow();
     Single<InventoryItem> setLowStockAlert(InventoryItem inventoryItem,double newAlertCount);
 
+    Single<List<StockQueue>> getStockQueuesByProductId(Long id);
+    Single<Double> getAvailableCountForProduct(Long id);
 
+    Single<List<StockQueueItem>> getStockQueueItemForOutcomeProduct(OutcomeProduct outcomeProduct, List<OutcomeProduct> outcomeProductList, List<OutcomeProduct> exceptionList);
 }

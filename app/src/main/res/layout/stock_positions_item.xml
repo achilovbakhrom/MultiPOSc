@@ -1,23 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llBackground"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/fifty_dp"
+    android:layout_height="wrap_content"
+    android:minHeight="@dimen/fifty_dp"
     android:orientation="horizontal"
     android:paddingLeft="@dimen/ten_dp">
 
     <ImageView
+        android:id="@+id/ivSelected"
         android:layout_width="@dimen/fifteen_dp"
         android:layout_height="@dimen/fifteen_dp"
         android:layout_gravity="center"
         android:src="@drawable/ic_play_button"
-        android:tint="@color/colorBlue" />
+        android:tint="@color/colorBlue"
+        android:visibility="invisible" />
 
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center">
+
+        <FrameLayout
+            android:layout_width="@dimen/fifteen_dp"
+            android:layout_height="@dimen/thirty_five_dp">
+
+            <com.jim.mpviews.StockStatusView
+                android:id="@+id/ssvStockStatus"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="1dp" />
+
+        </FrameLayout>
+    </LinearLayout>
 
     <TextView
+        android:id="@+id/tvInvoiceId"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -28,6 +48,7 @@
         android:textSize="@dimen/sixteen_dp" />
 
     <TextView
+        android:id="@+id/tvDateInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -38,6 +59,7 @@
         android:textSize="@dimen/sixteen_dp" />
 
     <TextView
+        android:id="@+id/tvCost"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -48,6 +70,7 @@
         android:textSize="@dimen/sixteen_dp" />
 
     <TextView
+        android:id="@+id/tvAvailable"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -58,6 +81,7 @@
         android:textSize="@dimen/sixteen_dp" />
 
     <TextView
+        android:id="@+id/tvVendor"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -68,31 +92,22 @@
         android:textSize="@dimen/sixteen_dp" />
 
     <TextView
+        android:id="@+id/tvStockId"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginRight="@dimen/ten_dp"
         android:layout_weight="2"
         android:gravity="center"
         android:text="416874654646"
-        android:layout_marginRight="@dimen/ten_dp"
         android:textColor="@color/colorMainText"
         android:textSize="@dimen/sixteen_dp" />
 
-    <com.jim.mpviews.MpMiniActionButton
-        android:id="@+id/btnAddProductToConsignment"
-        android:layout_width="@dimen/fifty_five_dp"
-        android:layout_height="@dimen/thirty_five_dp"
-        android:layout_gravity="center_vertical"
-        android:layout_marginRight="@dimen/ten_dp"
-        android:paddingBottom="@dimen/ten_dp"
-        android:paddingTop="@dimen/ten_dp"
-        android:tint="@color/colorTintGrey"
-        android:src="@drawable/ic_question_mark" />
-
     <com.jim.mpviews.MpButton
-        android:id="@+id/btnConfirm"
+        android:id="@+id/btnSelect"
+        android:layout_marginRight="@dimen/fifteen_dp"
         android:layout_width="@dimen/hundred_dp"
-        android:layout_height="@dimen/thirty_five_dp"
+        android:layout_height="@dimen/forty_three_dp"
         android:layout_gravity="center"
         android:gravity="center"
         android:text="@string/select"

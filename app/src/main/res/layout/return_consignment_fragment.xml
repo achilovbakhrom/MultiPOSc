@@ -12,7 +12,7 @@
         android:background="@color/colorWhite"
         android:orientation="horizontal"
         android:paddingLeft="@dimen/thirty_dp"
-        android:paddingRight="@dimen/seventeen_dp">
+        android:paddingRight="@dimen/thirty_dp">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -39,6 +39,15 @@
                 android:textSize="@dimen/twenty_dp" />
 
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/ivBarcodeScanner"
+            android:layout_width="@dimen/thirty_dp"
+            android:layout_height="@dimen/thirty_dp"
+            android:layout_gravity="center"
+            android:src="@drawable/barcode"
+            android:tint="@color/colorTintGrey" />
+
 
     </LinearLayout>
 

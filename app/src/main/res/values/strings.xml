@@ -1005,7 +1005,7 @@
     <string name="please_add_product_to_consignment">Please, add product to invoice</string>
     <string name="some_counts_are_empty_or_equals_zero">Some counts are empty or equals 0</string>
     <string name="some_costs_are_empty">Some costs are empty</string>
-    <string name="consignment_with_such_number_exists">Consignment with such number exists</string>
+    <string name="consignment_with_such_number_exists">Invoice with such number exists</string>
     <string name="payment_amount_cant_be_bigr_tn_debt_amount">Payment amount cannot be bigger than debt amount</string>
     <string name="payment_amount_cant_be_equal_zero">Payment amount cannot be equal zero</string>
     <string name="you_cant_pay_in_participle_for_this_debt">You cannot pay in participle for this debt</string>

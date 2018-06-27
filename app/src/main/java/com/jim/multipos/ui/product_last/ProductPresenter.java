@@ -5,7 +5,6 @@ import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.Product;
-import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.product_last.helpers.CategoryAddEditMode;
 
 import java.util.List;
@@ -19,7 +18,7 @@ public interface ProductPresenter extends Presenter {
     void subcategorySelected(Category category);
     void addCategory(String name, String description, boolean isActive);
     void addProduct(String name, String barcode, String sku, String photoPath, boolean isActive, int costCurrencyPos,
-                    int priceCurrencuyPos, int productClassPos, int unitCategoryPos, String description, Double resultPrice);
+                    int priceCurrencuyPos, int productClassPos, int unitCategoryPos, String description, Double resultPrice, int selectedPosition);
     List<Category> getSubcategories(Category category);
     boolean isSubcategoryNameUnique(String categoryName, String subcategoryName);
     boolean isCategoryNameUnique(String categoryName);

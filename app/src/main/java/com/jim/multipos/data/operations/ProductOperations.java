@@ -29,4 +29,5 @@ public interface ProductOperations {
     Single<Boolean> isProductSkuExists(String sku, Long subcategoryId);
     Single<List<Return>> getReturnList(Calendar fromDate, Calendar toDate);
     Single<List<Product>> getVendorProductsByVendorId(Long id);
+    Single<Double> getLastCostForProduct(Long productId);
 }

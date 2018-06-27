@@ -216,6 +216,30 @@
                     android:layout_gravity="center"
                     android:layout_marginRight="@dimen/sixteen_dp"
                     android:gravity="right"
+                    android:text="Stock keeping type"
+                    android:textSize="@dimen/sixteen_dp" />
+
+                <com.jim.mpviews.MPosSpinner
+                    android:id="@+id/spStockKeepingType"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/forty_dp"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="@dimen/hundred_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/sixteen_dp"
+                    android:gravity="right"
                     android:text="@string/price"
                     android:textSize="@dimen/sixteen_dp" />
 
