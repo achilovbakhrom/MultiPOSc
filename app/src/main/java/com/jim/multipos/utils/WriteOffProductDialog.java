@@ -121,11 +121,6 @@ public class WriteOffProductDialog extends Dialog {
                     etShortage.addTextChangedListener(stock_out);
 
                 }
-
-                @Override
-                public void onCountChanged() {
-
-                }
             });
             stockPositionsDialog.show();
         });

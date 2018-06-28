@@ -15,6 +15,7 @@ import com.jim.multipos.data.db.model.ServiceFeeLog;
 import com.jim.multipos.data.db.model.consignment.Consignment;
 import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
 import com.jim.multipos.data.db.model.consignment.Invoice;
+import com.jim.multipos.data.db.model.consignment.Outvoice;
 import com.jim.multipos.data.db.model.customer.CustomerPayment;
 import com.jim.multipos.data.db.model.customer.Debt;
 import com.jim.multipos.data.db.model.intosystem.OutcomeWithDetials;
@@ -1275,6 +1276,16 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Single<List<Invoice>> getAllInvoices() {
         return dbHelper.getAllInvoices();
+    }
+
+    @Override
+    public Single<Outvoice> insertOutvoiceWithBillingAndOutcomeProducts(Outvoice outvoice, List<OutcomeProduct> outcomeProducts, BillingOperations operationDebt) {
+        return dbHelper.insertOutvoiceWithBillingAndOutcomeProducts(outvoice, outcomeProducts, operationDebt);
+    }
+
+    @Override
+    public Single<Boolean> isOutvoiceNumberExists(String number) {
+        return dbHelper.isOutvoiceNumberExists(number);
     }
 
     public Single<List<StockQueue>> getStockQueuesByVendorId(Long id) {

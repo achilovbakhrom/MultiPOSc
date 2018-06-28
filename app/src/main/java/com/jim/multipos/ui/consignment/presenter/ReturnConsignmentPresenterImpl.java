@@ -6,10 +6,8 @@ import com.jim.multipos.R;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.consignment.Outvoice;
-import com.jim.multipos.data.db.model.intosystem.StockQueueItem;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
 import com.jim.multipos.data.db.model.inventory.OutcomeProduct;
-import com.jim.multipos.data.db.model.inventory.StockQueue;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.consignment.view.ReturnConsignmentView;
@@ -31,8 +29,6 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
     private final Context context;
     private double sum = 0;
     private Long productId;
-    private List<StockQueueItem> stockQueueItemList;
-    private OutcomeProduct outcomeProduct;
     private int position;
 
     @Inject
@@ -40,7 +36,6 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
         super(view);
         this.databaseManager = databaseManager;
         this.context = context;
-        stockQueueItemList = new ArrayList<>();
         outcomeProducts = new ArrayList<>();
     }
 
@@ -108,12 +103,16 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
             } else if (costPos != outcomeProducts.size())
                 view.setError(context.getString(R.string.some_costs_are_empty));
             else {
-                if (databaseManager.isInvoiceNumberExists(number).blockingGet()) {
+                if (databaseManager.isOutvoiceNumberExists(number).blockingGet()) {
                     view.setConsignmentNumberError();
                     return;
                 }
                 Outvoice outvoice = new Outvoice();
-                List<BillingOperations> billingOperationsList = new ArrayList<>();
+                outvoice.setConsigmentNumber(number);
+                outvoice.setCreatedDate(System.currentTimeMillis());
+                outvoice.setTotalAmount(sum);
+                outvoice.setVendor(vendor);
+                outvoice.setVendorId(vendor.getId());
                 BillingOperations operationDebt = new BillingOperations();
                 operationDebt.setAmount(sum);
                 operationDebt.setCreateAt(System.currentTimeMillis());
@@ -121,9 +120,7 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
                 operationDebt.setDeleted(false);
                 operationDebt.setPaymentDate(System.currentTimeMillis());
                 operationDebt.setOperationType(BillingOperations.RETURN_TO_VENDOR);
-                billingOperationsList.add(operationDebt);
-
-
+                databaseManager.insertOutvoiceWithBillingAndOutcomeProducts(outvoice, outcomeProducts, operationDebt).subscribe();
                 view.closeFragment(this.vendor);
             }
         }

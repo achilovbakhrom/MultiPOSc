@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.jim.mpviews.MpButton;
@@ -34,7 +35,7 @@ public class StockPositionsDialog extends Dialog {
     private final List<OutcomeProduct> outcomeProductList;
     private final List<OutcomeProduct> exceptionList;
     private final DatabaseManager databaseManager;
-    private List<StockQueueItem> stockQueueItems;
+    private List<StockQueueItem> stockQueueItems, searchResults;
     private ProductStockQueuesAdapter adapter;
     private OnStockPositionsChanged listener;
     private boolean customSelected = false;
@@ -53,6 +54,8 @@ public class StockPositionsDialog extends Dialog {
     MpEditText etProductCount;
     @BindView(R.id.tvProductUnit)
     TextView tvProductUnit;
+    @BindView(R.id.flClearSearch)
+    FrameLayout flClearSearch;
 
     public StockPositionsDialog(Context context, OutcomeProduct outcomeProduct, List<OutcomeProduct> outcomeProductList, List<OutcomeProduct> exceptionList, DatabaseManager databaseManager) {
         super(context);
@@ -80,6 +83,41 @@ public class StockPositionsDialog extends Dialog {
 
         calculateStockPositions();
         etProductCount.setText(decimalFormat.format(outcomeProduct.getSumCountValue()));
+        flClearSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                etSearchView.setText("");
+            }
+        });
+        etSearchView.addTextChangedListener(new TextWatcherOnTextChange() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String searchText = etSearchView.getText().toString();
+                if (searchText.isEmpty()) {
+                    searchResults = null;
+                    adapter.setData(stockQueueItems);
+                } else {
+                    searchResults = new ArrayList<>();
+                    for (int i = 0; i < stockQueueItems.size(); i++) {
+                        if (String.valueOf(stockQueueItems.get(i).getStockQueue().getIncomeProduct().getInvoiceId()).toUpperCase().contains(searchText.toUpperCase())) {
+                            searchResults.add(stockQueueItems.get(i));
+                            continue;
+                        }
+                        if (stockQueueItems.get(i).getStockQueue().getVendor().getName().toUpperCase().contains(searchText.toUpperCase())) {
+                            searchResults.add(stockQueueItems.get(i));
+                            continue;
+                        }
+                        if (stockQueueItems.get(i).getStockQueue().getStockId() != null)
+                            if (stockQueueItems.get(i).getStockQueue().getStockId().toUpperCase().contains(searchText.toUpperCase())) {
+                                searchResults.add(stockQueueItems.get(i));
+                                continue;
+                            }
+                    }
+                    adapter.setSearchResult(searchResults, searchText);
+                }
+            }
+        });
+
         etProductCount.addTextChangedListener(new TextWatcherOnTextChange() {
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
@@ -101,12 +139,10 @@ public class StockPositionsDialog extends Dialog {
                                     etProductCount.setError("Count can/'t be bigger custom picked stock queue products count");
                                 } else {
                                     customSelected = true;
-                                    listener.onCountChanged();
                                     outcomeProduct.setSumCountValue(changedCount);
                                 }
                             } else {
                                 outcomeProduct.setSumCountValue(changedCount);
-                                listener.onCountChanged();
                             }
                         }
                     } catch (Exception e) {
@@ -116,7 +152,6 @@ public class StockPositionsDialog extends Dialog {
                 } else {
                     etProductCount.setError(getContext().getString(R.string.please_enter_product_count));
                     outcomeProduct.setSumCountValue(0.0d);
-                    listener.onCountChanged();
                 }
                 calculateStockPositions();
             }
@@ -177,17 +212,19 @@ public class StockPositionsDialog extends Dialog {
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (singleSelectStockQueue != null && customSelected) {
-                    if (selectedPosition != 0) {
-                        outcomeProduct.setPickedStockQueueId(singleSelectStockQueue.getStockQueue().getId());
-                        outcomeProduct.setStockQueue(singleSelectStockQueue.getStockQueue());
-                        outcomeProduct.setCustomPickSock(true);
-                    } else {
-                        outcomeProduct.setCustomPickSock(false);
+                if (!etProductCount.getText().toString().isEmpty()) {
+                    if (singleSelectStockQueue != null && customSelected) {
+                        if (selectedPosition != 0) {
+                            outcomeProduct.setPickedStockQueueId(singleSelectStockQueue.getStockQueue().getId());
+                            outcomeProduct.setStockQueue(singleSelectStockQueue.getStockQueue());
+                            outcomeProduct.setCustomPickSock(true);
+                        } else {
+                            outcomeProduct.setCustomPickSock(false);
+                        }
                     }
+                    listener.onConfirm(outcomeProduct);
+                    dismiss();
                 }
-                listener.onConfirm(outcomeProduct);
-                dismiss();
             }
         });
     }
@@ -260,7 +297,5 @@ public class StockPositionsDialog extends Dialog {
 
     public interface OnStockPositionsChanged {
         void onConfirm(OutcomeProduct outcomeProduct);
-
-        void onCountChanged();
     }
 }

@@ -4,6 +4,7 @@ package com.jim.multipos.data.db.model.inventory;
 import com.jim.multipos.data.db.model.Account;
 import com.jim.multipos.data.db.model.consignment.Consignment;
 import com.jim.multipos.data.db.model.consignment.Invoice;
+import com.jim.multipos.data.db.model.consignment.Outvoice;
 import com.jim.multipos.data.db.model.history.BillingOperationsHistory;
 import com.jim.multipos.data.db.model.products.Vendor;
 
@@ -26,6 +27,7 @@ import java.util.Comparator;
 import java.util.List;
 import com.jim.multipos.data.db.model.history.BillingOperationsHistoryDao;
 import com.jim.multipos.data.db.model.consignment.InvoiceDao;
+import com.jim.multipos.data.db.model.consignment.OutvoiceDao;
 
 /**
  * Created by developer on 27.11.2017.
@@ -48,6 +50,9 @@ public class BillingOperations  {
     private Long invoiceId;
     @ToOne(joinProperty = "invoiceId")
     private Invoice invoice;
+    private Long outvoiceId;
+    @ToOne(joinProperty = "outvoiceId")
+    private Outvoice outvoice;
     private double amount;
     private long createAt;
     private int operationType;
@@ -74,15 +79,18 @@ public class BillingOperations  {
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
+    @Generated(hash = 1779439357)
+    private transient Long outvoice__resolvedKey;
 
 
-    @Generated(hash = 1080405889)
-    public BillingOperations(Long id, Long accountId, Long vendorId, Long invoiceId, double amount, long createAt,
-                             int operationType, String description, boolean isActive, boolean isDeleted, long paymentDate) {
+    @Generated(hash = 1362167391)
+    public BillingOperations(Long id, Long accountId, Long vendorId, Long invoiceId, Long outvoiceId, double amount, long createAt,
+            int operationType, String description, boolean isActive, boolean isDeleted, long paymentDate) {
         this.id = id;
         this.accountId = accountId;
         this.vendorId = vendorId;
         this.invoiceId = invoiceId;
+        this.outvoiceId = outvoiceId;
         this.amount = amount;
         this.createAt = createAt;
         this.operationType = operationType;
@@ -369,6 +377,39 @@ public class BillingOperations  {
     }
     public void setIsDeleted(boolean isDeleted) {
         this.isDeleted = isDeleted;
+    }
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 736685258)
+    public void setOutvoice(Outvoice outvoice) {
+        synchronized (this) {
+            this.outvoice = outvoice;
+            outvoiceId = outvoice == null ? null : outvoice.getId();
+            outvoice__resolvedKey = outvoiceId;
+        }
+    }
+    /** To-one relationship, resolved on first access. */
+    @Generated(hash = 1409481578)
+    public Outvoice getOutvoice() {
+        Long __key = this.outvoiceId;
+        if (outvoice__resolvedKey == null || !outvoice__resolvedKey.equals(__key)) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            OutvoiceDao targetDao = daoSession.getOutvoiceDao();
+            Outvoice outvoiceNew = targetDao.load(__key);
+            synchronized (this) {
+                outvoice = outvoiceNew;
+                outvoice__resolvedKey = __key;
+            }
+        }
+        return outvoice;
+    }
+    public Long getOutvoiceId() {
+        return this.outvoiceId;
+    }
+    public void setOutvoiceId(Long outvoiceId) {
+        this.outvoiceId = outvoiceId;
     }
 
 }

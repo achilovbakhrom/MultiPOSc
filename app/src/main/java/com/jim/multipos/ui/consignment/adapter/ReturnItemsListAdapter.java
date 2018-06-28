@@ -7,6 +7,7 @@ import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -127,14 +128,14 @@ public class ReturnItemsListAdapter extends RecyclerView.Adapter<ReturnItemsList
         MpMiniActionButton btnDeleteProduct;
         @BindView(R.id.tvStockType)
         TextView tvStockType;
-        @BindView(R.id.ivEditType)
-        ImageView ivEditType;
+        @BindView(R.id.flEditType)
+        FrameLayout flEditType;
 
         public ReturnItemViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
 
-            ivEditType.setOnClickListener(v -> listener.onCustomStock(items.get(getAdapterPosition()), getAdapterPosition()));
+            flEditType.setOnClickListener(v -> listener.onCustomStock(items.get(getAdapterPosition()), getAdapterPosition()));
 
             btnDeleteProduct.setOnClickListener(view -> listener.onDelete(getAdapterPosition()));
 

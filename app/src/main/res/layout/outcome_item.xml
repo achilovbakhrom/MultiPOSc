@@ -149,16 +149,25 @@
             android:layout_marginTop="@dimen/twelve_dp"
             android:background="@color/colorTextHint" />
 
-        <ImageView
-            android:id="@+id/ivEditType"
-            android:layout_width="@dimen/twenty_dp"
-            android:layout_height="@dimen/twenty_dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/ten_dp"
-            android:layout_marginRight="@dimen/ten_dp"
-            android:gravity="left|center_vertical"
-            android:src="@drawable/edit"
-            android:textColor="@color/colorMainText" />
+        <FrameLayout
+            android:id="@+id/flEditType"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/ivEditType"
+                android:layout_width="@dimen/twenty_dp"
+                android:layout_height="@dimen/twenty_dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/ten_dp"
+                android:layout_marginRight="@dimen/ten_dp"
+                android:gravity="left|center_vertical"
+                android:src="@drawable/edit"
+                android:textColor="@color/colorMainText" />
+
+        </FrameLayout>
+
+
     </LinearLayout>
 
     <com.jim.mpviews.MpMiniActionButton

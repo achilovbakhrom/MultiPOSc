@@ -26,6 +26,7 @@ import com.jim.multipos.data.db.model.ServiceFeeLog;
 import com.jim.multipos.data.db.model.consignment.Consignment;
 import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
 import com.jim.multipos.data.db.model.consignment.Invoice;
+import com.jim.multipos.data.db.model.consignment.Outvoice;
 import com.jim.multipos.data.db.model.customer.CustomerPayment;
 import com.jim.multipos.data.db.model.customer.Debt;
 import com.jim.multipos.data.db.model.intosystem.OutcomeWithDetials;
@@ -316,4 +317,6 @@ public interface DbHelper {
     Single<List<InventoryItem>> getProductInventoryStatesForNow();
     Single<List<StockQueueItem>> getStockQueueItemForOutcomeProduct(OutcomeProduct outcomeProduct, List<OutcomeProduct> outcomeProductList, List<OutcomeProduct> exceptionList);
     Single<OutcomeWithDetials> checkPositionAvailablity(OutcomeProduct outcomeProduct);
+    Single<Outvoice> insertOutvoiceWithBillingAndOutcomeProducts(Outvoice outvoice, List<OutcomeProduct> outcomeProducts, BillingOperations operationDebt);
+    Single<Boolean> isOutvoiceNumberExists(String number);
 }

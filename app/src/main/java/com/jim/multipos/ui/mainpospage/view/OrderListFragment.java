@@ -801,11 +801,6 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
             public void onConfirm(OutcomeProduct outcomeProduct) {
                 presenter.updateOutcomeProductFor(currentPosition,outcomeProduct);
             }
-
-            @Override
-            public void onCountChanged() {
-
-            }
         });
         stockPositionsDialog.show();
     }

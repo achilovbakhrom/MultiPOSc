@@ -61,52 +61,75 @@
         android:paddingTop="@dimen/ten_dp">
 
         <TextView
-            android:layout_width="@dimen/three_hundred_dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/fifteen_dp"
+            android:layout_weight="3"
             android:layout_gravity="center"
-            android:layout_marginRight="@dimen/twenty_dp"
             android:gravity="left"
             android:text="@string/product_name"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/eighteen_dp" />
 
         <TextView
-            android:layout_width="@dimen/three_hundred_dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/fifteen_dp"
+            android:layout_weight="2"
             android:layout_gravity="center"
-            android:layout_marginRight="@dimen/twenty_dp"
             android:gravity="left"
             android:text="@string/cost"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/eighteen_dp" />
 
-        <TextView
-            android:layout_width="@dimen/hundred_sixty_dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_marginRight="@dimen/ten_dp"
-            android:gravity="left"
-            android:text="@string/quantity"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/eighteen_dp" />
+            android:layout_weight="1.5">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="left"
+                android:text="@string/quantity"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/eighteen_dp" />
+
+            <TextView
+                android:layout_width="@dimen/fifty_dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/five_dp"
+                android:gravity="left"
+                android:text="@string/unit"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/eighteen_dp" />
+
+
+        </LinearLayout>
 
         <TextView
-            android:layout_width="@dimen/fifty_dp"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
             android:layout_gravity="center"
-            android:layout_marginRight="@dimen/twenty_dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/fifteen_dp"
+            android:layout_weight="2"
             android:gravity="left"
-            android:text="@string/unit"
+            android:text="@string/total_inventory"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/eighteen_dp" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_weight="1"
             android:gravity="left"
-            android:text="@string/total_inventory"
+            android:layout_gravity="center"
+            android:text="Keeping type"
+            android:layout_marginRight="@dimen/fifteen_dp"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/eighteen_dp" />
 
@@ -115,7 +138,7 @@
             android:layout_width="@dimen/fifty_five_dp"
             android:layout_height="@dimen/thirty_five_dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginRight="@dimen/fifteen_dp"
+            android:layout_marginRight="@dimen/thirty_dp"
             android:paddingBottom="@dimen/ten_dp"
             android:paddingTop="@dimen/ten_dp"
             android:src="@drawable/plus" />

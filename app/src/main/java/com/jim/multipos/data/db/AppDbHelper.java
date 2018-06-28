@@ -39,6 +39,8 @@ import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
 import com.jim.multipos.data.db.model.consignment.ConsignmentProductDao;
 import com.jim.multipos.data.db.model.consignment.Invoice;
 import com.jim.multipos.data.db.model.consignment.InvoiceDao;
+import com.jim.multipos.data.db.model.consignment.Outvoice;
+import com.jim.multipos.data.db.model.consignment.OutvoiceDao;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.currency.CurrencyDao;
 import com.jim.multipos.data.db.model.customer.Customer;
@@ -2624,7 +2626,7 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Single<List<StockQueueItem>> getStockQueueItemForOutcomeProduct(OutcomeProduct outcomeProduct, List<OutcomeProduct> outcomeProductList, List<OutcomeProduct> exceptionList) {
         return Single.create(e -> {
-            List<StockQueue> stockQueues = mDaoSession.getStockQueueDao().queryBuilder().where(StockQueueDao.Properties.ProductId.eq(outcomeProduct.getProduct().getId())).build().list();
+            List<StockQueue> stockQueues = mDaoSession.getStockQueueDao().queryBuilder().where(StockQueueDao.Properties.ProductId.eq(outcomeProduct.getProduct().getId()), StockQueueDao.Properties.Closed.eq(false)).build().list();
 
             if(outcomeProduct.getProduct().getStockKeepType()==Product.LIFO) Collections.sort(stockQueues,(stockQueue, t1) -> t1.getStockId().compareTo(stockQueue.getStockId()));
             if(outcomeProduct.getProduct().getStockKeepType()==Product.FEFO) Collections.sort(stockQueues,(stockQueue, t1) -> stockQueue.getExpiredProductDate().compareTo(t1.getExpiredProductDate()));
@@ -2774,6 +2776,94 @@ public class AppDbHelper implements DbHelper {
             }
 
 
+        });
+    }
+
+    @Override
+    public Single<Outvoice> insertOutvoiceWithBillingAndOutcomeProducts(Outvoice outvoice, List<OutcomeProduct> outcomeProducts, BillingOperations operationDebt) {
+        return Single.create(e -> {
+            mDaoSession.getOutvoiceDao().insertOrReplace(outvoice);
+            operationDebt.setOutvoiceId(outvoice.getId());
+            mDaoSession.getBillingOperationsDao().insertOrReplace(operationDebt);
+            for (int i = 0; i < outcomeProducts.size(); i++) {
+                OutcomeProduct outcomeProduct = outcomeProducts.get(i);
+                outcomeProduct.setOutvoiceId(outvoice.getId());
+                mDaoSession.getOutcomeProductDao().insertOrReplace(outcomeProduct);
+            }
+            for (OutcomeProduct outcomeProduct: outcomeProducts) {
+                List<StockQueue> stockQueues = mDaoSession.getStockQueueDao().queryBuilder().where(StockQueueDao.Properties.ProductId.eq(outcomeProduct.getProduct().getId()), StockQueueDao.Properties.Closed.eq(false)).build().list();
+                double count = outcomeProduct.getSumCountValue();
+                if (outcomeProduct.getCustomPickSock()){
+                    for (int j = 0; j < stockQueues.size(); j++) {
+                        if (stockQueues.get(j).getId().equals(outcomeProduct.getStockQueue().getId())) {
+                            stockQueues.get(j).setAvailable(stockQueues.get(j).getAvailable() - count);
+                            if (stockQueues.get(j).getAvailable() == 0.0d) {
+                                stockQueues.get(j).setClosed(true);
+                            }
+                            mDaoSession.getStockQueueDao().insertOrReplace(stockQueues.get(j));
+                            DetialCount detialCount = new DetialCount();
+                            detialCount.setStockId(stockQueues.get(j).getId());
+                            detialCount.setStockQueue(stockQueues.get(j));
+                            detialCount.setOutcomeProduct(outcomeProduct);
+                            detialCount.setOutcomeProductId(outcomeProduct.getId());
+                            detialCount.setCost(outcomeProduct.getSumCostValue());
+                            detialCount.setCount(count);
+                            mDaoSession.getDetialCountDao().insertOrReplace(detialCount);
+                         }
+                    }
+                }
+            }
+            for (OutcomeProduct outcomeProduct: outcomeProducts) {
+                List<StockQueue> stockQueues = mDaoSession.getStockQueueDao().queryBuilder().where(StockQueueDao.Properties.ProductId.eq(outcomeProduct.getProduct().getId()), StockQueueDao.Properties.Closed.eq(false)).build().list();
+                double count = outcomeProduct.getSumCountValue();
+                if(outcomeProduct.getProduct().getStockKeepType()==Product.LIFO)
+                    Collections.sort(stockQueues,(stockQueue, t1) -> t1.getStockId().compareTo(stockQueue.getStockId()));
+                if(outcomeProduct.getProduct().getStockKeepType()==Product.FEFO)
+                    Collections.sort(stockQueues,(stockQueue, t1) -> stockQueue.getExpiredProductDate().compareTo(t1.getExpiredProductDate()));
+                if (!outcomeProduct.getCustomPickSock()){
+                    for (int j = 0; j < stockQueues.size(); j++) {
+                        if (count != 0){
+                            if (count >= stockQueues.get(j).getAvailable()){
+                                count -= stockQueues.get(j).getAvailable();
+                                stockQueues.get(j).setAvailable(0);
+                                stockQueues.get(j).setClosed(true);
+                                DetialCount detialCount = new DetialCount();
+                                detialCount.setStockId(stockQueues.get(j).getId());
+                                detialCount.setStockQueue(stockQueues.get(j));
+                                detialCount.setOutcomeProduct(outcomeProduct);
+                                detialCount.setOutcomeProductId(outcomeProduct.getId());
+                                detialCount.setCost(outcomeProduct.getSumCostValue());
+                                detialCount.setCount(count);
+                                mDaoSession.getDetialCountDao().insertOrReplace(detialCount);
+                            } else {
+                                DetialCount detialCount = new DetialCount();
+                                detialCount.setStockId(stockQueues.get(j).getId());
+                                detialCount.setStockQueue(stockQueues.get(j));
+                                detialCount.setOutcomeProduct(outcomeProduct);
+                                detialCount.setOutcomeProductId(outcomeProduct.getId());
+                                detialCount.setCost(outcomeProduct.getSumCostValue());
+                                detialCount.setCount(count);
+                                mDaoSession.getDetialCountDao().insertOrReplace(detialCount);
+                                stockQueues.get(j).setAvailable(stockQueues.get(j).getAvailable() - count);
+                                count = 0;
+                            }
+                        }
+                        mDaoSession.getStockQueueDao().insertOrReplace(stockQueues.get(j));
+                    }
+                }
+            }
+            e.onSuccess(outvoice);
+        });
+    }
+
+    @Override
+    public Single<Boolean> isOutvoiceNumberExists(String number) {
+        return Single.create(e -> {
+            e.onSuccess(!mDaoSession
+                    .queryBuilder(Outvoice.class)
+                    .where(OutvoiceDao.Properties.ConsigmentNumber.eq(number))
+                    .list()
+                    .isEmpty());
         });
     }
 

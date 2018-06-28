@@ -86,6 +86,13 @@ public class ProductStockQueuesAdapter extends RecyclerView.Adapter<ProductStock
         this.listener = listener;
     }
 
+    public void setSearchResult(List<StockQueueItem> searchResults, String searchText) {
+        this.items = searchResults;
+//        this.searchText = searchText;
+//        searchMode = true;
+        notifyDataSetChanged();
+    }
+
     public interface OnCustomSelectListener{
         void onSelect(StockQueueItem stockQueueItem, int position);
     }

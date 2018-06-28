@@ -178,7 +178,6 @@ public class ReturnConsignmentFragment extends BaseFragment implements ReturnCon
                 if (forDialog) {
                     dialog.setBarcode(intentResult.getContents());
                 } else presenter.onBarcodeScanned(intentResult.getContents());
-
             }
         }
     }
@@ -252,11 +251,6 @@ public class ReturnConsignmentFragment extends BaseFragment implements ReturnCon
             @Override
             public void onConfirm(OutcomeProduct outcomeProduct) {
                 presenter.setOutcomeProduct(outcomeProduct);
-            }
-
-            @Override
-            public void onCountChanged() {
-                updateChangedPosition(position);
             }
         });
         dialog.show();
