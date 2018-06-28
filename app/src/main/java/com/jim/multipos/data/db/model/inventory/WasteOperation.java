@@ -17,8 +17,6 @@ public class WasteOperation {
     private Long wasteDate;
     private Long discription;
 
-    @ToMany(joinProperties = {@JoinProperty(name = "id", referencedName = "wasteId")})
-    private List<OutcomeProduct> outcomeProduct;
 
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
@@ -54,34 +52,6 @@ public class WasteOperation {
             throw new DaoException("Entity is detached from DAO context");
         }
         myDao.delete(this);
-    }
-
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
-    @Generated(hash = 1635309850)
-    public synchronized void resetOutcomeProduct() {
-        outcomeProduct = null;
-    }
-
-    /**
-     * To-many relationship, resolved on first access (and after reset).
-     * Changes to to-many relations are not persisted, make changes to the target entity.
-     */
-    @Generated(hash = 1220878319)
-    public List<OutcomeProduct> getOutcomeProduct() {
-        if (outcomeProduct == null) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            OutcomeProductDao targetDao = daoSession.getOutcomeProductDao();
-            List<OutcomeProduct> outcomeProductNew = targetDao._queryWasteOperation_OutcomeProduct(id);
-            synchronized (this) {
-                if(outcomeProduct == null) {
-                    outcomeProduct = outcomeProductNew;
-                }
-            }
-        }
-        return outcomeProduct;
     }
 
     /** called by internal mechanisms, do not call yourself. */

@@ -18,9 +18,6 @@ public class SurplusOperation {
     private Long surplusDate;
     private Long discription;
 
-    @ToMany(joinProperties = {@JoinProperty(name = "id", referencedName = "surplusId")})
-    private List<IncomeProduct> incomeProduct;
-
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
      * Entity must attached to an entity context.
@@ -55,34 +52,6 @@ public class SurplusOperation {
             throw new DaoException("Entity is detached from DAO context");
         }
         myDao.delete(this);
-    }
-
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
-    @Generated(hash = 614862485)
-    public synchronized void resetIncomeProduct() {
-        incomeProduct = null;
-    }
-
-    /**
-     * To-many relationship, resolved on first access (and after reset).
-     * Changes to to-many relations are not persisted, make changes to the target entity.
-     */
-    @Generated(hash = 625951851)
-    public List<IncomeProduct> getIncomeProduct() {
-        if (incomeProduct == null) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            IncomeProductDao targetDao = daoSession.getIncomeProductDao();
-            List<IncomeProduct> incomeProductNew = targetDao._querySurplusOperation_IncomeProduct(id);
-            synchronized (this) {
-                if(incomeProduct == null) {
-                    incomeProduct = incomeProductNew;
-                }
-            }
-        }
-        return incomeProduct;
     }
 
     /** called by internal mechanisms, do not call yourself. */

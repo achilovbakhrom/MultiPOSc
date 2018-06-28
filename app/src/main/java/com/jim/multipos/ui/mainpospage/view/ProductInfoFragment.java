@@ -16,6 +16,7 @@ import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.unit.UnitCategory;
 import com.jim.multipos.data.prefs.PreferencesHelper;
+import com.jim.multipos.ui.consignment.dialogs.StockPositionsDialog;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivity;
 import com.jim.multipos.ui.mainpospage.connection.MainPageConnection;
 import com.jim.multipos.ui.mainpospage.dialogs.DiscountDialog;
@@ -206,7 +207,7 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
             }
         });
         btnPosition.setOnClickListener(view -> {
-            //PICK POSITION
+            mainPageConnection.onStockPositionClicked();
         });
 
 

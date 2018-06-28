@@ -7,12 +7,18 @@ import android.support.annotation.NonNull;
 import android.text.InputType;
 import android.view.View;
 import android.view.Window;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.jim.mpviews.MPosSpinner;
 import com.jim.multipos.R;
+import com.jim.multipos.data.DatabaseManager;
+import com.jim.multipos.data.db.model.intosystem.OutcomeWithDetials;
+import com.jim.multipos.data.db.model.inventory.DetialCount;
+import com.jim.multipos.data.db.model.inventory.OutcomeProduct;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
+import com.jim.multipos.ui.consignment.dialogs.StockPositionsDialog;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
 
 import java.text.DecimalFormat;
@@ -31,10 +37,13 @@ public class WriteOffProductDialog extends Dialog {
     private Product product;
     private View dialogView;
 
-    @BindView(R.id.tvProductName)
-    TextView tvProductName;
-    @BindView(R.id.spVenders)
-    MPosSpinner spVenders;
+    @BindView(R.id.tvStockType)
+    TextView tvStockType;
+    @BindView(R.id.flPosition)
+    FrameLayout flPosition;
+    @BindView(R.id.tvDialogTitle)
+    TextView tvDialogTitle;
+
     @BindView(R.id.tvStockRecord)
     TextView tvStockRecord;
     @BindView(R.id.etShortage)
@@ -49,26 +58,36 @@ public class WriteOffProductDialog extends Dialog {
     TextView btnCancel;
     @BindView(R.id.btnNext)
     TextView btnNext;
-
+    OutcomeProduct outcomeProduct;
     double aDouble = 0;
     double v1 = 0;
-    public WriteOffProductDialog(@NonNull Context context, WriteOffCallback writeOffCallback, InventoryItem inventoryItem, DecimalFormat decimalFormat){
+    TextWatcherOnTextChange stock_out;
+    public WriteOffProductDialog(@NonNull Context context, WriteOffCallback writeOffCallback, InventoryItem inventoryItem, DecimalFormat decimalFormat,DatabaseManager databaseManager){
         super(context);
         this.writeOffCallback = writeOffCallback;
         this.product = product;
+        outcomeProduct = new OutcomeProduct();
         dialogView = getLayoutInflater().inflate(R.layout.write_off_dialog, null);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         ButterKnife.bind(this, dialogView);
         setContentView(dialogView);
         View v = getWindow().getDecorView();
         v.setBackgroundResource(android.R.color.transparent);
-        tvProductName.setText(inventoryItem.getProduct().getName());
+        tvDialogTitle.setText("Write-off: " + inventoryItem.getProduct().getName());
 
-        List<String> vendorsName= new ArrayList<>();
-        for (Vendor vendor:inventoryItem.getVendors()) {
-            vendorsName.add(vendor.getName());
+        switch (inventoryItem.getProduct().getStockKeepType()) {
+            case Product.FIFO:
+                tvStockType.setText("FIFO");
+                break;
+            case Product.LIFO:
+                tvStockType.setText("LIFO");
+                break;
+            case Product.FEFO:
+                tvStockType.setText("FEFO");
+                break;
         }
-        spVenders.setAdapter(vendorsName);
+        outcomeProduct.setProduct(inventoryItem.getProduct());
+        outcomeProduct.setSumCountValue(1d);
         tvStockRecord.setText(decimalFormat.format(inventoryItem.getInventory()));
         tvActual.setText(decimalFormat.format(inventoryItem.getInventory()));
         tvUnit.setText(inventoryItem.getProduct().getMainUnit().getAbbr());
@@ -76,49 +95,99 @@ public class WriteOffProductDialog extends Dialog {
         etShortage.setInputType(InputType.TYPE_CLASS_NUMBER );
         else etShortage.setInputType(InputType.TYPE_CLASS_NUMBER |
                 InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        flPosition.setOnClickListener(view -> {
+            StockPositionsDialog stockPositionsDialog = new StockPositionsDialog(getContext(),outcomeProduct,new ArrayList<>(),null,databaseManager);
+            stockPositionsDialog.setListener(new StockPositionsDialog.OnStockPositionsChanged() {
+                @Override
+                public void onConfirm(OutcomeProduct outcomeProduct) {
+                    if(outcomeProduct.getCustomPickSock()){
+                        tvStockType.setText("Custom");
+                    }else {
+                        switch (inventoryItem.getProduct().getStockKeepType()) {
+                            case Product.FIFO:
+                                tvStockType.setText("FIFO");
+                                break;
+                            case Product.LIFO:
+                                tvStockType.setText("LIFO");
+                                break;
+                            case Product.FEFO:
+                                tvStockType.setText("FEFO");
+                                break;
+                        }
+                    }
+                    WriteOffProductDialog.this.outcomeProduct = outcomeProduct;
+                    etShortage.removeTextChangedListener(stock_out);
+                    etShortage.setText(decimalFormat.format(outcomeProduct.getSumCountValue()));
+                    etShortage.addTextChangedListener(stock_out);
 
-        etShortage.addTextChangedListener(new TextWatcherOnTextChange() {
+                }
+
+                @Override
+                public void onCountChanged() {
+
+                }
+            });
+            stockPositionsDialog.show();
+        });
+        stock_out = new TextWatcherOnTextChange() {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(!etShortage.getText().toString().isEmpty()){
-                    try {
-                        v1 = Double.parseDouble(etShortage.getText().toString());
-                    }catch (Exception e){
-                        etShortage.setError(context.getString(R.string.invalid));
-                        return;
+                databaseManager.getAvailableCountForProduct(inventoryItem.getProduct().getId()).subscribe(available -> {
+                    if (!etShortage.getText().toString().isEmpty()) {
+                        try {
+                            v1 = decimalFormat.parse(etShortage.getText().toString()).doubleValue();
+                        } catch (Exception e) {
+                            etShortage.setError(context.getString(R.string.invalid));
+                            outcomeProduct.setSumCountValue(-1d);
+                            return;
+                        }
+                    } else {
+                        v1 = 0;
                     }
-                }else {
-                    v1= 0;
-                }
-                etShortage.setError(null);
-                aDouble = inventoryItem.getInventory() - v1;
-                tvActual.setText(decimalFormat.format(aDouble));
+                    outcomeProduct.setCustomPickSock(false);
+                    outcomeProduct.setPickedStockQueueId(0l);
+                    switch (inventoryItem.getProduct().getStockKeepType()) {
+                        case Product.FIFO:
+                            tvStockType.setText("FIFO");
+                            break;
+                        case Product.LIFO:
+                            tvStockType.setText("LIFO");
+                            break;
+                        case Product.FEFO:
+                            tvStockType.setText("FEFO");
+                            break;
+                    }
+                    
+                    if (available < v1) {
+                        etShortage.setError("Stock out");
+                        outcomeProduct.setSumCountValue(-1d);
+                    } else {
+                        outcomeProduct.setSumCountValue(v1);
+                        
+                        etShortage.setError(null);
+                    }
+                    aDouble = inventoryItem.getInventory() - v1;
+                    tvActual.setText(decimalFormat.format(aDouble));
+                });
             }
-        });
+        };
+        etShortage.addTextChangedListener(stock_out);
         btnNext.setOnClickListener(view -> {
-                if(!etShortage.getText().toString().isEmpty()){
-                    try {
-                        v1 = Double.parseDouble(etShortage.getText().toString());
-                    }catch (Exception e){
-                        etShortage.setError(context.getString(R.string.invalid));
-                        return;
-                    }
-                }else {
-                    v1= 0;
-                }
-                if(v1==0 || v1<0){
-                    etShortage.setError(context.getString(R.string.invalid));
+
+                if(outcomeProduct.getSumCountValue()==0 || outcomeProduct.getSumCountValue()<0 || etShortage.getText().toString().isEmpty()){
+                    etShortage.setError("Invalid value");
                     return;
                 }
                 if(etReason.getText().toString().isEmpty()){
                     etReason.setError(context.getString(R.string.please_enter_write_off_reason));
                     return;
                 }
-                aDouble = inventoryItem.getInventory() - v1;
+                outcomeProduct.setOutcomeType(OutcomeProduct.WASTE);
+                outcomeProduct.setDiscription(etReason.getText().toString());
                 UIUtils.closeKeyboard(etShortage,context);
                 Handler handler = new Handler();
                 handler.postDelayed(() -> {
-                    writeOffCallback.writeOff(inventoryItem, inventoryItem.getVendors().get(spVenders.getSelectedPosition()), aDouble, etReason.getText().toString(), v1);
+                    writeOffCallback.writeOff(inventoryItem, outcomeProduct);
                     dismiss();
                 },300);
         });
@@ -127,7 +196,7 @@ public class WriteOffProductDialog extends Dialog {
         });
     }
     public interface WriteOffCallback{
-        void writeOff(InventoryItem inventoryItem,Vendor vendor, double v,String etReason, double shortage);
+        void writeOff(InventoryItem inventoryItem, OutcomeProduct outcomeProduct);
     }
 
 

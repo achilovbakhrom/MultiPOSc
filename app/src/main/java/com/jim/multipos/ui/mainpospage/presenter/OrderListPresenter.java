@@ -5,6 +5,7 @@ import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.Debt;
+import com.jim.multipos.data.db.model.inventory.OutcomeProduct;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.PayedPartitions;
 import com.jim.multipos.data.db.model.products.Product;
@@ -65,4 +66,6 @@ public interface OrderListPresenter extends Presenter {
     void printStockCheck();
     void onBarcodeReaded(String barcode);
     void onCancelClicked();
+    void onStockPositionClicked(int position);
+    void updateOutcomeProductFor(int position, OutcomeProduct outcomeProduct);
 }

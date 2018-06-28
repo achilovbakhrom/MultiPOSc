@@ -114,7 +114,7 @@ public class IncomeProductConfigsDialog extends Dialog {
                 stockQueue.setExpiredProductDate(expired.getTimeInMillis());
             if (!etDescription.getText().toString().isEmpty())
                 incomeProduct.setDescription(etDescription.getText().toString());
-            listener.onSaveClicked(incomeProduct, stockQueue);
+                listener.onSaveClicked(incomeProduct, stockQueue);
             dismiss();
         });
     }

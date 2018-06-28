@@ -6,6 +6,7 @@ import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.Debt;
+import com.jim.multipos.data.db.model.inventory.OutcomeProduct;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.PayedPartitions;
 import com.jim.multipos.data.db.model.products.Product;
@@ -82,4 +83,6 @@ public interface  OrderListView extends BaseView {
     void stockCheckOrder(long tillId, long orderNumber, long now, List<OrderProductItem> orderProducts, Customer customer);
     void choiseOneProduct(List<Product> products);
     void sureCancel();
+    void onStockPositionClicked();
+    void openStockPositionDialog(OutcomeProduct outcomeProduct, List<OutcomeProduct> outcomeProductList, List<OutcomeProduct> exceptionList);
 }

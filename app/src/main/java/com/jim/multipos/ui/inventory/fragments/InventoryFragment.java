@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
+import com.jim.multipos.data.DatabaseManager;
+import com.jim.multipos.data.db.model.inventory.OutcomeProduct;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.inventory.InventoryActivity;
 import com.jim.multipos.ui.inventory.adapters.InventoryItemAdapter;
@@ -96,6 +98,9 @@ public class InventoryFragment extends BaseFragment implements InventoryView {
     RxPermissions rxPermissions;
     @Inject
     RxBus rxBus;
+    @Inject
+    DatabaseManager databaseManager;
+
     InventoryItemAdapter inventoryItemAdapter;
     VendorListAdapter vendorListAdapter;
     private Dialog dialog;
@@ -298,7 +303,7 @@ public class InventoryFragment extends BaseFragment implements InventoryView {
 
     @Override
     public void openWriteOffDialog(InventoryItem inventoryItem, WriteOffProductDialog.WriteOffCallback writeOffCallback) {
-        WriteOffProductDialog writeOffProductDialog = new WriteOffProductDialog(getActivity(), writeOffCallback, inventoryItem, decimalFormat);
+        WriteOffProductDialog writeOffProductDialog = new WriteOffProductDialog(getContext(),writeOffCallback,inventoryItem,decimalFormat,databaseManager);
         writeOffProductDialog.show();
     }
 

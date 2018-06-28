@@ -17,8 +17,6 @@ import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.ui.vendor_products_view.VendorProductsViewActivity;
 import com.jim.multipos.ui.vendor_products_view.adapters.ProductAdapter;
-import com.jim.multipos.ui.vendor_products_view.dialogs.MinusInventoryDialog;
-import com.jim.multipos.ui.vendor_products_view.dialogs.PlusInventoryDialog;
 import com.jim.multipos.ui.vendor_products_view.model.ProductState;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.rxevents.inventory_events.ConsignmentWithVendorEvent;
@@ -154,26 +152,26 @@ public class VendorDetailsList extends BaseFragment implements ProductAdapter.Pr
     public void showMinusDialog(int position) {
         Bundle bundle = new Bundle();
         bundle.putInt(INVENTORY_POSITION, position);
-        MinusInventoryDialog dialog = new MinusInventoryDialog();
-        dialog.setArguments(bundle);
-        dialog.setMinusInventoryDialogListener((inventory, shortage, reason) -> {
-//            ((ProductAdapter) rvProduct.getAdapter()).updateItem(inventory);
-            ((VendorProductsViewActivity) getActivity()).getPresenter().insertNewWarehouseOperation(inventory, shortage, reason);
-        });
-        dialog.show(getActivity().getSupportFragmentManager(), "MinusInventoryDialog");
+//        MinusInventoryDialog dialog = new MinusInventoryDialog();
+//        dialog.setArguments(bundle);
+//        dialog.setMinusInventoryDialogListener((inventory, shortage, reason) -> {
+////            ((ProductAdapter) rvProduct.getAdapter()).updateItem(inventory);
+//            ((VendorProductsViewActivity) getActivity()).getPresenter().insertNewWarehouseOperation(inventory, shortage, reason);
+//        });
+//        dialog.show(getActivity().getSupportFragmentManager(), "MinusInventoryDialog");
     }
 
     @Override
     public void showPlusDialog(int position) {
         Bundle bundle = new Bundle();
         bundle.putInt(INVENTORY_POSITION, position);
-        PlusInventoryDialog dialog = new PlusInventoryDialog();
-        dialog.setArguments(bundle);
-        dialog.setPlusInventoryDialogListener((inventory, shortage, reason) -> {
-//            ((ProductAdapter) rvProduct.getAdapter()).updateItem(inventory);
-            ((VendorProductsViewActivity) getActivity()).getPresenter().insertNewWarehouseOperation(inventory, shortage, reason);
-        });
-        dialog.show(getActivity().getSupportFragmentManager(), "PlusInventoryDialog");
+//        PlusInventoryDialog dialog = new PlusInventoryDialog();
+//        dialog.setArguments(bundle);
+//        dialog.setPlusInventoryDialogListener((inventory, shortage, reason) -> {
+////            ((ProductAdapter) rvProduct.getAdapter()).updateItem(inventory);
+//            ((VendorProductsViewActivity) getActivity()).getPresenter().insertNewWarehouseOperation(inventory, shortage, reason);
+//        });
+//        dialog.show(getActivity().getSupportFragmentManager(), "PlusInventoryDialog");
     }
 
     @Override

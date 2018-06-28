@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:recyclerviewfastscroller="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="#00000000"
     android:gravity="center"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="@dimen/seven_hundred_seventy_five_dp"
-        android:layout_height="@dimen/five_hundred_twenty_dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/rounded_edit_text_bg"
         android:orientation="vertical"
         android:paddingBottom="@dimen/ten_dp">
@@ -46,20 +46,21 @@
                android:layout_marginRight="@dimen/twenty_dp"
                android:layout_weight="1"
                android:gravity="center_vertical|right"
-               android:text="@string/product_name_inventory"
+               android:text="Cost"
                android:textColor="#414141"
                android:textSize="@dimen/eighteen_dp" />
-           <TextView
-               android:id="@+id/tvProductName"
-               android:layout_width="@dimen/five_hundred_dp"
+           <com.jim.mpviews.MpEditText
+               android:id="@+id/etCost"
+               android:layout_width="@dimen/two_hundred_eighty_dp"
                android:layout_height="@dimen/forty_five_dp"
-               android:background="@drawable/edit_text_bg"
                android:text=""
                android:gravity="center_vertical"
                android:textSize="@dimen/eighteen_dp"
+               android:hint="Amount"
                android:textColor="#414141"
                android:paddingLeft="@dimen/eighteen_dp"
                android:paddingRight="@dimen/eighteen_dp"
+               android:inputType="numberSigned"
                />
        </LinearLayout>
         <LinearLayout
@@ -77,12 +78,64 @@
                 android:layout_marginRight="@dimen/twenty_dp"
                 android:textColor="#414141"
                 android:textSize="@dimen/eighteen_dp"
-                android:text="@string/vendor"/>
-            <com.jim.mpviews.MPosSpinner
-                android:id="@+id/spVenders"
-                android:layout_width="@dimen/five_hundred_dp"
+                android:text="Stock Id"/>
+            <LinearLayout
+                android:layout_width="@dimen/two_hundred_eighty_dp"
+                android:layout_height="@dimen/forty_five_dp"
+                android:background="@drawable/edit_text_bg"
+                android:orientation="horizontal">
+
+                <com.jim.mpviews.MpEditText
+                    android:id="@+id/etStockId"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/forty_dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/colorTransparent"
+                    android:hint="@string/barcode"
+                    android:inputType="text"
+                    android:maxLength="50"
+                    android:textSize="@dimen/eighteen_dp"
+
+                    />
+
+                <ImageView
+                    android:id="@+id/ivScanBarcode"
+                    android:layout_width="@dimen/forty_dp"
+                    android:layout_height="@dimen/forty_dp"
+                    android:layout_gravity="center_vertical"
+                    android:paddingRight="@dimen/fifteen_dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/barcode"
+                    android:tint="@color/colorTintGrey" />
+
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/thirty_dp"
+            android:layout_marginRight="@dimen/thirty_dp"
+            android:layout_marginTop="@dimen/ten_dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|right"
+                android:layout_marginRight="@dimen/twenty_dp"
+                android:textColor="#414141"
+                android:textSize="@dimen/eighteen_dp"
+                android:text="Date expired"/>
+            <com.jim.mpviews.MpEditText
+                android:id="@+id/etExpiredDate"
+                android:layout_width="@dimen/two_hundred_eighty_dp"
                 android:layout_height="@dimen/forty_five_dp"
                 android:paddingRight="@dimen/eighteen_dp"
+                android:paddingLeft="@dimen/eighteen_dp"
+                android:hint="Choose date"
+                android:focusableInTouchMode="false"
+                android:textSize="@dimen/eighteen_dp"
 
                 />
         </LinearLayout>
@@ -260,7 +313,7 @@
                 android:layout_width="@dimen/hundred_thirty_dp"
                 android:layout_height="@dimen/forty_three_dp"
                 android:gravity="center"
-                android:text="@string/update"
+                android:text="Confirm"
                 android:textStyle="bold"
                 android:textColor="@color/colorBlue"
                 android:textSize="@dimen/sixteen_dp"

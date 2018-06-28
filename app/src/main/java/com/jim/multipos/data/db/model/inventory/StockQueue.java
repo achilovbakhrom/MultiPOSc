@@ -43,6 +43,134 @@ public class StockQueue {
 
     @ToMany(joinProperties = {@JoinProperty(name = "id", referencedName = "stockId")})
     private List<DetialCount> detialCounts;
+    @Generated(hash = 587652864)
+    private transient Long product__resolvedKey;
+    @Generated(hash = 1022035388)
+    private transient Long vendor__resolvedKey;
+    @Generated(hash = 704898610)
+    private transient Long incomeProduct__resolvedKey;
+    /** Used for active entity operations. */
+    @Generated(hash = 1355301848)
+    private transient StockQueueDao myDao;
+    /** Used to resolve relations */
+    @Generated(hash = 2040040024)
+    private transient DaoSession daoSession;
+
+    @Generated(hash = 339598944)
+    public StockQueue(Long id, double incomeCount, double available, boolean closed,
+            String stockId, double cost, long incomeProductDate, long createdProductDate,
+            long expiredProductDate, Long incomeId, Long vendorId, Long productId) {
+        this.id = id;
+        this.incomeCount = incomeCount;
+        this.available = available;
+        this.closed = closed;
+        this.stockId = stockId;
+        this.cost = cost;
+        this.incomeProductDate = incomeProductDate;
+        this.createdProductDate = createdProductDate;
+        this.expiredProductDate = expiredProductDate;
+        this.incomeId = incomeId;
+        this.vendorId = vendorId;
+        this.productId = productId;
+    }
+
+    @Generated(hash = 523114700)
+    public StockQueue() {
+    }
+
+    public Long getProductId() {
+        return this.productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
+
+    public Long getVendorId() {
+        return this.vendorId;
+    }
+
+    public void setVendorId(Long vendorId) {
+        this.vendorId = vendorId;
+    }
+
+    public Long getIncomeId() {
+        return this.incomeId;
+    }
+
+    public void setIncomeId(Long incomeId) {
+        this.incomeId = incomeId;
+    }
+
+    public Long getExpiredProductDate() {
+        return this.expiredProductDate;
+    }
+
+    public void setExpiredProductDate(long expiredProductDate) {
+        this.expiredProductDate = expiredProductDate;
+    }
+
+    public Long getCreatedProductDate() {
+        return this.createdProductDate;
+    }
+
+    public void setCreatedProductDate(long createdProductDate) {
+        this.createdProductDate = createdProductDate;
+    }
+
+    public Long getIncomeProductDate() {
+        return this.incomeProductDate;
+    }
+
+    public void setIncomeProductDate(long incomeProductDate) {
+        this.incomeProductDate = incomeProductDate;
+    }
+
+    public String getStockId() {
+        return this.stockId;
+    }
+
+    public void setStockId(String stockId) {
+        this.stockId = stockId;
+    }
+
+
+
+    public double getAvailable() {
+        return this.available;
+    }
+
+    public void setAvailable(double available) {
+        this.available = available;
+    }
+
+    public double getIncomeCount() {
+        return this.incomeCount;
+    }
+
+    public void setIncomeCount(double incomeCount) {
+        this.incomeCount = incomeCount;
+    }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public double getCost() {
+        return this.cost;
+    }
+
+    public void setCost(double cost) {
+        this.cost = cost;
+    }
+
+    public void setClosed(boolean closed) {
+        this.closed = closed;
+    }
 
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
@@ -137,9 +265,6 @@ public class StockQueue {
         return product;
     }
 
-    @Generated(hash = 587652864)
-    private transient Long product__resolvedKey;
-
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 332557200)
     public void setVendor(Vendor vendor) {
@@ -168,9 +293,6 @@ public class StockQueue {
         }
         return vendor;
     }
-
-    @Generated(hash = 1022035388)
-    private transient Long vendor__resolvedKey;
 
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 85916759)
@@ -201,9 +323,6 @@ public class StockQueue {
         return incomeProduct;
     }
 
-    @Generated(hash = 704898610)
-    private transient Long incomeProduct__resolvedKey;
-
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 1760029467)
     public void __setDaoSession(DaoSession daoSession) {
@@ -211,128 +330,10 @@ public class StockQueue {
         myDao = daoSession != null ? daoSession.getStockQueueDao() : null;
     }
 
-    /** Used for active entity operations. */
-    @Generated(hash = 1355301848)
-    private transient StockQueueDao myDao;
-    /** Used to resolve relations */
-    @Generated(hash = 2040040024)
-    private transient DaoSession daoSession;
-
-    public Long getProductId() {
-        return this.productId;
-    }
-
-    public void setProductId(Long productId) {
-        this.productId = productId;
-    }
-
-    public Long getVendorId() {
-        return this.vendorId;
-    }
-
-    public void setVendorId(Long vendorId) {
-        this.vendorId = vendorId;
-    }
-
-    public Long getIncomeId() {
-        return this.incomeId;
-    }
-
-    public void setIncomeId(Long incomeId) {
-        this.incomeId = incomeId;
-    }
-
-    public Long getExpiredProductDate() {
-        return this.expiredProductDate;
-    }
-
-    public void setExpiredProductDate(long expiredProductDate) {
-        this.expiredProductDate = expiredProductDate;
-    }
-
-    public Long getCreatedProductDate() {
-        return this.createdProductDate;
-    }
-
-    public void setCreatedProductDate(long createdProductDate) {
-        this.createdProductDate = createdProductDate;
-    }
-
-    public Long getIncomeProductDate() {
-        return this.incomeProductDate;
-    }
-
-    public void setIncomeProductDate(long incomeProductDate) {
-        this.incomeProductDate = incomeProductDate;
-    }
-
-    public double getCost() {
-        return this.cost;
-    }
-
-    public void setCost(double cost) {
-        this.cost = cost;
-    }
-
-    public String getStockId() {
-        return this.stockId;
-    }
-
-    public void setStockId(String stockId) {
-        this.stockId = stockId;
-    }
-
     public boolean getClosed() {
         return this.closed;
     }
 
-    public void setClosed(boolean closed) {
-        this.closed = closed;
-    }
 
-    public double getAvailable() {
-        return this.available;
-    }
 
-    public void setAvailable(double available) {
-        this.available = available;
-    }
-
-    public double getIncomeCount() {
-        return this.incomeCount;
-    }
-
-    public void setIncomeCount(double incomeCount) {
-        this.incomeCount = incomeCount;
-    }
-
-    public Long getId() {
-        return this.id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    @Generated(hash = 339598944)
-    public StockQueue(Long id, double incomeCount, double available, boolean closed,
-            String stockId, double cost, long incomeProductDate, long createdProductDate,
-            long expiredProductDate, Long incomeId, Long vendorId, Long productId) {
-        this.id = id;
-        this.incomeCount = incomeCount;
-        this.available = available;
-        this.closed = closed;
-        this.stockId = stockId;
-        this.cost = cost;
-        this.incomeProductDate = incomeProductDate;
-        this.createdProductDate = createdProductDate;
-        this.expiredProductDate = expiredProductDate;
-        this.incomeId = incomeId;
-        this.vendorId = vendorId;
-        this.productId = productId;
-    }
-
-    @Generated(hash = 523114700)
-    public StockQueue() {
-    }
 }

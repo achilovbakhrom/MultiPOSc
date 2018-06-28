@@ -1198,6 +1198,15 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
+    public OutcomeProduct insertAndFillOutcomeProduct(OutcomeWithDetials outcomeWithDetials) {
+            OutcomeProduct localOutcome = dbHelper.insertOutcome(outcomeWithDetials.getOutcomeProduct());
+            for (int i = 0; i < outcomeWithDetials.getDetialCountList().size(); i++) {
+                outcomeWithDetials.getDetialCountList().get(i).setOutcomeProductId(localOutcome.getId());
+            }
+            dbHelper.insetDetialCounts(outcomeWithDetials.getDetialCountList());
+        return localOutcome;
+    }
+    @Override
     public Single<List<OutcomeWithDetials>> checkPositionAvailablity(List<OutcomeProduct> outcomeProducts) {
         return dbHelper.checkPositionAvailablity(outcomeProducts);
     }
@@ -1205,6 +1214,21 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Single<List<OutcomeWithDetials>> checkPositionAvailablityWithoutSomeOutcomes(List<OutcomeProduct> outcomeProducts, List<OutcomeProduct> withoutOutcomeProducts) {
         return dbHelper.checkPositionAvailablityWithoutSomeOutcomes(outcomeProducts,withoutOutcomeProducts);
+    }
+
+    @Override
+    public Single<OutcomeWithDetials> checkPositionAvailablity(OutcomeProduct outcomeProduct) {
+        return dbHelper.checkPositionAvailablity(outcomeProduct);
+    }
+
+    @Override
+    public Single<IncomeProduct> insertIncomeProduct(IncomeProduct incomeProduct) {
+        return dbHelper.insertIncomeProduct(incomeProduct);
+    }
+
+    @Override
+    public Single<StockQueue> insertStockQueue(StockQueue stockQueue) {
+        return dbHelper.insertStockQueue(stockQueue);
     }
 
     @Override

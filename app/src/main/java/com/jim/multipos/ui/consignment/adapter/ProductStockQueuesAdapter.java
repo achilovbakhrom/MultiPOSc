@@ -45,10 +45,15 @@ public class ProductStockQueuesAdapter extends RecyclerView.Adapter<ProductStock
 
     @Override
     public void onBindViewHolder(@NonNull StockQueueItemViewHolder holder, int position) {
+        if(items.get(position).getStockQueue().getIncomeProduct().getInvoice()!=null)
         holder.tvInvoiceId.setText(String.valueOf(items.get(position).getStockQueue().getIncomeProduct().getInvoiceId()));
+        else holder.tvInvoiceId.setText("");
         holder.tvDateInput.setText(simpleDateFormat.format(items.get(position).getStockQueue().getIncomeProductDate()));
         holder.tvCost.setText(decimalFormat.format(items.get(position).getStockQueue().getCost()));
-        holder.tvVendor.setText(items.get(position).getStockQueue().getVendor().getName());
+        if(items.get(position).getStockQueue().getVendor()!=null)
+            holder.tvVendor.setText(items.get(position).getStockQueue().getVendor().getName());
+        else holder.tvVendor.setText("");
+
         holder.tvStockId.setText(items.get(position).getStockQueue().getStockId());
         holder.ssvStockStatus.setMax(items.get(position).getStockQueue().getIncomeCount());
         holder.ssvStockStatus.setSold(items.get(position).getStockQueue().getIncomeCount() - items.get(position).getAvailable());

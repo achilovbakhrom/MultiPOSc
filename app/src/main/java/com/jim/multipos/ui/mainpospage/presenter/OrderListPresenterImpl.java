@@ -21,6 +21,7 @@ import com.jim.multipos.data.db.model.order.OrderProduct;
 import com.jim.multipos.data.db.model.order.PayedPartitions;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.unit.UnitCategory;
+import com.jim.multipos.ui.consignment.dialogs.StockPositionsDialog;
 import com.jim.multipos.ui.mainpospage.dialogs.DiscountDialog;
 import com.jim.multipos.ui.mainpospage.dialogs.ServiceFeeDialog;
 import com.jim.multipos.ui.mainpospage.model.DiscountItem;
@@ -130,8 +131,9 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
     public void onPlusCount(int position) {
         OrderProductItem orderProductItem   = (OrderProductItem) list.get(position);
         double neededCount = (summaryOrderCount.get(orderProductItem.getOrderProduct().getProductId())==null?0:summaryOrderCount.get(orderProductItem.getOrderProduct().getProductId()))+1;
-
                     if(databaseManager.checkProductAvailable(orderProductItem.getOrderProduct().getProductId(),neededCount,oldOrder) == StockResult.STOCK_OK){
+                        orderProductItem.getOutcomeProduct().setCustomPickSock(false);
+                        orderProductItem.getOutcomeProduct().setPickedStockQueueId(0l);
                         orderProductItem.getOutcomeProduct().setSumCountValue(orderProductItem.getOutcomeProduct().getSumCountValue()+1);
                         list.set(position,orderProductItem);
                         updateDetials();
@@ -147,6 +149,8 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
     public void onMinusCount(int position) {
         OrderProductItem orderProductItem   = (OrderProductItem) list.get(position);
         if(orderProductItem.getOutcomeProduct().getSumCountValue()<1) return;
+        orderProductItem.getOutcomeProduct().setCustomPickSock(false);
+        orderProductItem.getOutcomeProduct().setPickedStockQueueId(0l);
         orderProductItem.getOutcomeProduct().setSumCountValue(orderProductItem.getOutcomeProduct().getSumCountValue()-1);
         list.set(position,orderProductItem);
         updateDetials();
@@ -161,6 +165,8 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         double neededCount = (summaryOrderCount.get(orderProductItem.getOrderProduct().getProductId())==null?0:summaryOrderCount.get(orderProductItem.getOrderProduct().getProductId())) - orderProductItem.getOutcomeProduct().getSumCountValue() + count;
 
         if(databaseManager.checkProductAvailable(orderProductItem.getOrderProduct().getProductId(),neededCount,oldOrder) == StockResult.STOCK_OK){
+            orderProductItem.getOutcomeProduct().setCustomPickSock(false);
+            orderProductItem.getOutcomeProduct().setPickedStockQueueId(0l);
             orderProductItem.getOutcomeProduct().setSumCountValue(count);
             list.set(position,orderProductItem);
             updateDetials();
@@ -201,6 +207,8 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
                     if(orderProductItem.getDiscount()==null && orderProductItem.getServiceFee()==null && !orderProductItem.getOutcomeProduct().getCustomPickSock()){
                         double neededCount = (summaryOrderCount.get(orderProductItem.getOrderProduct().getProductId())==null?0:summaryOrderCount.get(orderProductItem.getOrderProduct().getProductId()))+1;
                         if(databaseManager.checkProductAvailable(orderProductItem.getOrderProduct().getProductId(),neededCount,oldOrder) == StockResult.STOCK_OK){
+                            orderProductItem.getOutcomeProduct().setCustomPickSock(false);
+                            orderProductItem.getOutcomeProduct().setPickedStockQueueId(0l);
                             orderProductItem.getOutcomeProduct().setSumCountValue(orderProductItem.getOutcomeProduct().getSumCountValue()+1);
                                         list.set(i,orderProductItem);
                             updateDetials();
@@ -462,6 +470,8 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         double neededCount = (summaryOrderCount.get(product.getId())==null?0:summaryOrderCount.get(product.getId())) - orderProductItem.getOutcomeProduct().getSumCountValue() + weight;
 
                     if(databaseManager.checkProductAvailable(product.getId(),neededCount,oldOrder) == StockResult.STOCK_OK){
+                        orderProductItem.getOutcomeProduct().setCustomPickSock(false);
+                        orderProductItem.getOutcomeProduct().setPickedStockQueueId(0l);
                         orderProductItem.getOutcomeProduct().setSumCountValue(weight);
                         list.set(positionOfWeightItem,orderProductItem);
                         updateDetials();
@@ -478,6 +488,8 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         double neededCount = (summaryOrderCount.get(orderProductItem.getOrderProduct().getProductId())==null?0:summaryOrderCount.get(summaryOrderCount.get(orderProductItem.getOrderProduct().getProductId()))) - orderProductItem.getOutcomeProduct().getSumCountValue() + weight;
 
                     if(databaseManager.checkProductAvailable(orderProductItem.getOrderProduct().getId(),neededCount,oldOrder) == StockResult.STOCK_OK){
+                        orderProductItem.getOutcomeProduct().setCustomPickSock(false);
+                        orderProductItem.getOutcomeProduct().setPickedStockQueueId(0l);
                         orderProductItem.getOutcomeProduct().setSumCountValue(weight);
                         list.set(currentPosition,orderProductItem);
                         updateDetials();
@@ -1887,6 +1899,51 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
         view.sureCancel();
     }
 
+    @Override
+    public void onStockPositionClicked(int position) {
+        OrderProductItem orderProductItem   = (OrderProductItem) list.get(position);
+
+        List<OutcomeProduct> exceptionOutcomeProducts = null;
+        List<OutcomeProduct> outcomes = new ArrayList<>();
+
+
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i) instanceof OrderProductItem) {
+                OrderProductItem orderProductItemTemp = (OrderProductItem) list.get(i);
+                if(position != i)
+                    outcomes.add(orderProductItemTemp.getOutcomeProduct());
+            }
+        }
+
+
+        if(fromEdit){
+            List<OrderProduct> oldOrderProducts = oldOrder.getOrderProducts();
+            exceptionOutcomeProducts = new ArrayList<>();
+            for (int i = 0; i < oldOrderProducts.size(); i++) {
+                exceptionOutcomeProducts.add(oldOrderProducts.get(i).getOutcomeProduct());
+            }
+
+        }else if(fromHold){
+            List<OrderProduct> oldOrderProducts = order.getOrderProducts();
+            exceptionOutcomeProducts = new ArrayList<>();
+            for (int i = 0; i < oldOrderProducts.size(); i++) {
+                exceptionOutcomeProducts.add(oldOrderProducts.get(i).getOutcomeProduct());
+            }
+        }
+
+        view.openStockPositionDialog(orderProductItem.getOutcomeProduct(),outcomes,exceptionOutcomeProducts);
+    }
+
+    @Override
+    public void updateOutcomeProductFor(int position, OutcomeProduct outcomeProduct) {
+        OrderProductItem orderProductItem   = (OrderProductItem) list.get(position);
+        orderProductItem.setOutcomeProduct(outcomeProduct);
+        list.set(position,orderProductItem);
+        updateDetials();
+        view.updateOrderDetials(order,customer,payedPartitions);
+        view.notifyItemChanged(position,list.size(),updateOrderDiscountServiceFee());
+        view.sendToProductInfoProductItem();
+    }
 
 
     private void cancelOldOrderWhenEditOrderHoldedOrClosed(Order orderLocal,Long newOrderId){

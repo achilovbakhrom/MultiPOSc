@@ -53,7 +53,7 @@
 
             <TextView
                 android:id="@+id/tvProductName"
-                android:layout_width="@dimen/five_hundred_dp"
+                android:layout_width="@dimen/two_hundred_eighty_dp"
                 android:layout_height="@dimen/forty_five_dp"
                 android:background="@drawable/edit_text_bg"
                 android:gravity="center_vertical"
@@ -83,7 +83,7 @@
 
             <TextView
                 android:id="@+id/tvVender"
-                android:layout_width="@dimen/five_hundred_dp"
+                android:layout_width="@dimen/two_hundred_eighty_dp"
                 android:layout_height="@dimen/forty_five_dp"
                 android:background="@drawable/edit_text_bg"
                 android:gravity="center_vertical"

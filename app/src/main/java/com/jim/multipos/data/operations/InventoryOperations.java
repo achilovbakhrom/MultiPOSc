@@ -5,6 +5,7 @@ import com.jim.multipos.data.db.model.intosystem.ProductWithCount;
 import com.jim.multipos.data.db.model.intosystem.StockQueueItem;
 import com.jim.multipos.data.db.model.intosystem.StockResult;
 import com.jim.multipos.data.db.model.inventory.DetialCount;
+import com.jim.multipos.data.db.model.inventory.IncomeProduct;
 import com.jim.multipos.data.db.model.inventory.OutcomeProduct;
 import com.jim.multipos.data.db.model.inventory.StockQueue;
 import com.jim.multipos.data.db.model.order.Order;
@@ -39,14 +40,19 @@ public interface InventoryOperations {
 
     Integer checkProductAvailable(Long productId, double summaryCount,Order ifHaveOldOrder); //+
     List<OutcomeProduct> insertAndFillOutcomeProducts(List<OutcomeWithDetials> outcomeWithDetials); //+
+    OutcomeProduct insertAndFillOutcomeProduct(OutcomeWithDetials outcomeWithDetials); //+
+
 
     //ORDER EDIT QILINGANI TASDIQLANSA ESKI ORDERNI OUTCOMELARI OTMENA BO'LISHI KERAK
     Single<Integer> cancelOutcomeProductWhenOrderProductCanceled(List<OrderProduct> orderProducts); //+
 
     Single<List<OutcomeWithDetials>> checkPositionAvailablity(List<OutcomeProduct> outcomeProducts); //+
-    Single<List<OutcomeWithDetials>> checkPositionAvailablityWithoutSomeOutcomes(List<OutcomeProduct> outcomeProducts,List<OutcomeProduct> withoutOutcomeProducts);
+    Single<List<OutcomeWithDetials>> checkPositionAvailablityWithoutSomeOutcomes(List<OutcomeProduct> outcomeProducts,List<OutcomeProduct> withoutOutcomeProducts); //+
 
+    Single<OutcomeWithDetials> checkPositionAvailablity(OutcomeProduct outcomeProduct);
 
+    Single<IncomeProduct> insertIncomeProduct(IncomeProduct incomeProduct);
+    Single<StockQueue> insertStockQueue(StockQueue stockQueue);
     //TODO VOQTINCHALI
     Single<Double> getProductInvenotry(Long productId); //+
 

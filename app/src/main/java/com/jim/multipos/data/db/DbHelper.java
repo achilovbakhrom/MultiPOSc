@@ -315,4 +315,5 @@ public interface DbHelper {
     Single<List<OutcomeWithDetials>> checkPositionAvailablityWithoutSomeOutcomes(List<OutcomeProduct> outcomeProducts,List<OutcomeProduct> withoutOutcomeProducts);
     Single<List<InventoryItem>> getProductInventoryStatesForNow();
     Single<List<StockQueueItem>> getStockQueueItemForOutcomeProduct(OutcomeProduct outcomeProduct, List<OutcomeProduct> outcomeProductList, List<OutcomeProduct> exceptionList);
+    Single<OutcomeWithDetials> checkPositionAvailablity(OutcomeProduct outcomeProduct);
 }

@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:recyclerviewfastscroller="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="#00000000"
     android:gravity="center"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="@dimen/seven_hundred_seventy_five_dp"
-        android:layout_height="@dimen/five_hundred_twenty_dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/rounded_edit_text_bg"
         android:orientation="vertical"
         android:paddingBottom="@dimen/ten_dp">
@@ -47,13 +47,13 @@
                 android:layout_marginRight="@dimen/twenty_dp"
                 android:layout_weight="1"
                 android:gravity="center_vertical|right"
-                android:text="Product Name"
+                android:text="Type getting in stock"
                 android:textColor="#414141"
                 android:textSize="@dimen/eighteen_dp" />
 
             <TextView
-                android:id="@+id/tvProductName"
-                android:layout_width="@dimen/five_hundred_dp"
+                android:id="@+id/tvStockType"
+                android:layout_width="@dimen/hundred_seventy_dp"
                 android:layout_height="@dimen/forty_five_dp"
                 android:background="@drawable/edit_text_bg"
                 android:gravity="center_vertical"
@@ -62,34 +62,26 @@
                 android:text=""
                 android:textColor="#414141"
                 android:textSize="@dimen/eighteen_dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/thirty_dp"
-            android:layout_marginRight="@dimen/thirty_dp"
-            android:layout_marginTop="@dimen/ten_dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginRight="@dimen/twenty_dp"
-                android:layout_weight="1"
-                android:gravity="center_vertical|right"
-                android:text="@string/vendor"
-                android:textColor="#414141"
-                android:textSize="@dimen/eighteen_dp" />
-
-            <com.jim.mpviews.MPosSpinner
-                android:id="@+id/spVenders"
-                android:layout_width="@dimen/five_hundred_dp"
+            <FrameLayout
+                android:id="@+id/flPosition"
+                android:layout_width="@dimen/ninety_five_dp"
+                android:layout_marginLeft="@dimen/sixteen_dp"
                 android:layout_height="@dimen/forty_five_dp"
-                android:paddingRight="@dimen/eighteen_dp"
-
-                />
+                android:clickable="true"
+                android:background="@drawable/rect_button_selector">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="In Stock"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    android:textSize="@dimen/sixteen_dp"
+                    android:textColor="#419fd9"
+                    />
+            </FrameLayout>
         </LinearLayout>
+
+
 
         <LinearLayout
             android:layout_width="match_parent"

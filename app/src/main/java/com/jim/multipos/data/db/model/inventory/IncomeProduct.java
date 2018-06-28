@@ -42,11 +42,6 @@ public class IncomeProduct {
     @ToOne(joinProperty = "invoiceId")
     private Invoice invoice;
 
-    //IF IT INCOMED FROM SURPLUS
-    @Unique
-    private Long surplusId;
-    @ToOne(joinProperty = "surplusId")
-    private SurplusOperation surplusOperation;
 
     //IF IT INCOMED FROM INVOICE
     private Long productId;
@@ -56,6 +51,100 @@ public class IncomeProduct {
     private Long vendorId;
     @ToOne(joinProperty = "vendorId")
     private Vendor vendor;
+    @Generated(hash = 1022035388)
+    private transient Long vendor__resolvedKey;
+    @Generated(hash = 587652864)
+    private transient Long product__resolvedKey;
+    @Generated(hash = 694408149)
+    private transient Long invoice__resolvedKey;
+    @Generated(hash = 1029195753)
+    private transient Long stockQueue__resolvedKey;
+    /** Used for active entity operations. */
+    @Generated(hash = 1438266101)
+    private transient IncomeProductDao myDao;
+    /** Used to resolve relations */
+    @Generated(hash = 2040040024)
+    private transient DaoSession daoSession;
+
+    @Generated(hash = 1828360486)
+    public IncomeProduct(Long id, Double costValue, Double countValue,
+            long incomeDate, String description, int incomeType, Long stockQueueId,
+            Long invoiceId, Long productId, Long vendorId) {
+        this.id = id;
+        this.costValue = costValue;
+        this.countValue = countValue;
+        this.incomeDate = incomeDate;
+        this.description = description;
+        this.incomeType = incomeType;
+        this.stockQueueId = stockQueueId;
+        this.invoiceId = invoiceId;
+        this.productId = productId;
+        this.vendorId = vendorId;
+    }
+    @Generated(hash = 1411256302)
+    public IncomeProduct() {
+    }
+
+    public Long getVendorId() {
+        return this.vendorId;
+    }
+    public void setVendorId(Long vendorId) {
+        this.vendorId = vendorId;
+    }
+    public Long getProductId() {
+        return this.productId;
+    }
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
+    public Long getInvoiceId() {
+        return this.invoiceId;
+    }
+    public void setInvoiceId(Long invoiceId) {
+        this.invoiceId = invoiceId;
+    }
+    public Long getStockQueueId() {
+        return this.stockQueueId;
+    }
+    public void setStockQueueId(Long stockQueueId) {
+        this.stockQueueId = stockQueueId;
+    }
+    public int getIncomeType() {
+        return this.incomeType;
+    }
+    public void setIncomeType(int incomeType) {
+        this.incomeType = incomeType;
+    }
+    public String getDescription() {
+        return this.description;
+    }
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    public long getIncomeDate() {
+        return this.incomeDate;
+    }
+    public void setIncomeDate(long incomeDate) {
+        this.incomeDate = incomeDate;
+    }
+    public Double getCountValue() {
+        return this.countValue;
+    }
+    public void setCountValue(Double countValue) {
+        this.countValue = countValue;
+    }
+    public Double getCostValue() {
+        return this.costValue;
+    }
+    public void setCostValue(Double costValue) {
+        this.costValue = costValue;
+    }
+    public Long getId() {
+        return this.id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
      * Entity must attached to an entity context.
@@ -116,8 +205,6 @@ public class IncomeProduct {
         }
         return vendor;
     }
-    @Generated(hash = 1022035388)
-    private transient Long vendor__resolvedKey;
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 558738496)
     public void setProduct(Product product) {
@@ -145,38 +232,6 @@ public class IncomeProduct {
         }
         return product;
     }
-    @Generated(hash = 587652864)
-    private transient Long product__resolvedKey;
-    /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 1346756260)
-    public void setSurplusOperation(SurplusOperation surplusOperation) {
-        synchronized (this) {
-            this.surplusOperation = surplusOperation;
-            surplusId = surplusOperation == null ? null : surplusOperation.getId();
-            surplusOperation__resolvedKey = surplusId;
-        }
-    }
-    /** To-one relationship, resolved on first access. */
-    @Generated(hash = 541638173)
-    public SurplusOperation getSurplusOperation() {
-        Long __key = this.surplusId;
-        if (surplusOperation__resolvedKey == null
-                || !surplusOperation__resolvedKey.equals(__key)) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            SurplusOperationDao targetDao = daoSession.getSurplusOperationDao();
-            SurplusOperation surplusOperationNew = targetDao.load(__key);
-            synchronized (this) {
-                surplusOperation = surplusOperationNew;
-                surplusOperation__resolvedKey = __key;
-            }
-        }
-        return surplusOperation;
-    }
-    @Generated(hash = 1049919068)
-    private transient Long surplusOperation__resolvedKey;
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 749725237)
     public void setInvoice(Invoice invoice) {
@@ -204,8 +259,6 @@ public class IncomeProduct {
         }
         return invoice;
     }
-    @Generated(hash = 694408149)
-    private transient Long invoice__resolvedKey;
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 1506102758)
     public void setStockQueue(StockQueue stockQueue) {
@@ -234,104 +287,11 @@ public class IncomeProduct {
         }
         return stockQueue;
     }
-    @Generated(hash = 1029195753)
-    private transient Long stockQueue__resolvedKey;
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 616965070)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getIncomeProductDao() : null;
-    }
-    /** Used for active entity operations. */
-    @Generated(hash = 1438266101)
-    private transient IncomeProductDao myDao;
-    /** Used to resolve relations */
-    @Generated(hash = 2040040024)
-    private transient DaoSession daoSession;
-    public Long getVendorId() {
-        return this.vendorId;
-    }
-    public void setVendorId(Long vendorId) {
-        this.vendorId = vendorId;
-    }
-    public Long getProductId() {
-        return this.productId;
-    }
-    public void setProductId(Long productId) {
-        this.productId = productId;
-    }
-    public Long getSurplusId() {
-        return this.surplusId;
-    }
-    public void setSurplusId(Long surplusId) {
-        this.surplusId = surplusId;
-    }
-    public Long getInvoiceId() {
-        return this.invoiceId;
-    }
-    public void setInvoiceId(Long invoiceId) {
-        this.invoiceId = invoiceId;
-    }
-    public Long getStockQueueId() {
-        return this.stockQueueId;
-    }
-    public void setStockQueueId(Long stockQueueId) {
-        this.stockQueueId = stockQueueId;
-    }
-    public int getIncomeType() {
-        return this.incomeType;
-    }
-    public void setIncomeType(int incomeType) {
-        this.incomeType = incomeType;
-    }
-    public String getDescription() {
-        return this.description;
-    }
-    public void setDescription(String description) {
-        this.description = description;
-    }
-    public long getIncomeDate() {
-        return this.incomeDate;
-    }
-    public void setIncomeDate(long incomeDate) {
-        this.incomeDate = incomeDate;
-    }
-    public Double getCountValue() {
-        return this.countValue;
-    }
-    public void setCountValue(Double countValue) {
-        this.countValue = countValue;
-    }
-    public Double getCostValue() {
-        return this.costValue;
-    }
-    public void setCostValue(Double costValue) {
-        this.costValue = costValue;
-    }
-    public Long getId() {
-        return this.id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
-    @Generated(hash = 506452214)
-    public IncomeProduct(Long id, Double costValue, Double countValue,
-            long incomeDate, String description, int incomeType, Long stockQueueId,
-            Long invoiceId, Long surplusId, Long productId, Long vendorId) {
-        this.id = id;
-        this.costValue = costValue;
-        this.countValue = countValue;
-        this.incomeDate = incomeDate;
-        this.description = description;
-        this.incomeType = incomeType;
-        this.stockQueueId = stockQueueId;
-        this.invoiceId = invoiceId;
-        this.surplusId = surplusId;
-        this.productId = productId;
-        this.vendorId = vendorId;
-    }
-    @Generated(hash = 1411256302)
-    public IncomeProduct() {
     }
 
 

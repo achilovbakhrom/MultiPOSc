@@ -4,11 +4,16 @@ import android.os.Bundle;
 
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
+import com.jim.multipos.data.db.model.inventory.IncomeProduct;
+import com.jim.multipos.data.db.model.inventory.OutcomeProduct;
+import com.jim.multipos.data.db.model.inventory.StockQueue;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.inventory.fragments.InventoryFragment;
 import com.jim.multipos.ui.inventory.fragments.InventoryView;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
+import com.jim.multipos.utils.SurplusProductDialog;
+import com.jim.multipos.utils.WriteOffProductDialog;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -65,16 +70,31 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
 
     @Override
     public void onIncomeProduct(InventoryItem inventoryItem) {
-        view.openAddDialog(inventoryItem, (inventoryItem1, vendor, v, etReason, shortage) -> {
-            //TODO AFTER CHANGING SURPLUS DIALOG DO LOGIC
+        view.openAddDialog(inventoryItem, (inventoryItem1, incomeProduct, stockQueue) -> {
+            databaseManager.insertIncomeProduct(incomeProduct).subscribe(aLong -> {
+                stockQueue.setIncomeId(incomeProduct.getId());
+                databaseManager.insertStockQueue(stockQueue).subscribe();
+                databaseManager.getProductInventoryStatesForNow().subscribe((inventoryItems, throwable) -> {
+                    this.inventoryItems = inventoryItems;
+                    sortList();
+                    view.initRecyclerView(inventoryItems);
+                });
+            });
         });
     }
 
     @Override
     public void onWriteOff(InventoryItem inventoryItem) {
-            view.openWriteOffDialog(inventoryItem, (inventoryItem1, vendor, v, etReason, shortage) -> {
-                //TODO AFTER CHANGING WRITE OFF DIALOG DO LOGIC
-        });
+            view.openWriteOffDialog(inventoryItem, (inventoryItem1, outcomeProduct) -> {
+                databaseManager.checkPositionAvailablity(outcomeProduct).subscribe(outcomeWithDetials -> {
+                   databaseManager.insertAndFillOutcomeProduct(outcomeWithDetials);
+                    databaseManager.getProductInventoryStatesForNow().subscribe((inventoryItems, throwable) -> {
+                        this.inventoryItems = inventoryItems;
+                        sortList();
+                        view.initRecyclerView(inventoryItems);
+                    });
+                });
+            });
     }
 
 

@@ -23,11 +23,13 @@ import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.currency.Currency;
 import com.jim.multipos.data.db.model.customer.Customer;
 import com.jim.multipos.data.db.model.customer.Debt;
+import com.jim.multipos.data.db.model.inventory.OutcomeProduct;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.PayedPartitions;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.ui.consignment.adapter.VendorItemsListAdapter;
+import com.jim.multipos.ui.consignment.dialogs.StockPositionsDialog;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivity;
 import com.jim.multipos.ui.mainpospage.adapter.OrderProductAdapter;
 import com.jim.multipos.ui.mainpospage.connection.MainPageConnection;
@@ -786,7 +788,27 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
         warningDialog.show();
     }
 
+    @Override
+    public void onStockPositionClicked() {
+        presenter.onStockPositionClicked(currentPosition);
+    }
 
+    @Override
+    public void openStockPositionDialog(OutcomeProduct outcomeProduct, List<OutcomeProduct> outcomeProductList, List<OutcomeProduct> exceptionList) {
+        StockPositionsDialog stockPositionsDialog = new StockPositionsDialog(getContext(),outcomeProduct,outcomeProductList,exceptionList,databaseManager);
+        stockPositionsDialog.setListener(new StockPositionsDialog.OnStockPositionsChanged() {
+            @Override
+            public void onConfirm(OutcomeProduct outcomeProduct) {
+                presenter.updateOutcomeProductFor(currentPosition,outcomeProduct);
+            }
+
+            @Override
+            public void onCountChanged() {
+
+            }
+        });
+        stockPositionsDialog.show();
+    }
 
 
     @Override

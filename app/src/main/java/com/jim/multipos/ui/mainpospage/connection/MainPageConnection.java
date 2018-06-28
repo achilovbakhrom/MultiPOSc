@@ -2,6 +2,7 @@ package com.jim.multipos.ui.mainpospage.connection;
 
 import android.content.Context;
 
+import com.itextpdf.text.pdf.PdfICCBased;
 import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.customer.Customer;
@@ -45,7 +46,11 @@ public class MainPageConnection {
         }
     }
 
-
+    public void onStockPositionClicked(){
+        if(orderListView!=null) {
+            orderListView.onStockPositionClicked();
+        }
+    }
     public void sendDataToPaymentFragmentWhenEdit(Order order, List<PayedPartitions> payedPartitions,Debt debt){
         if(paymentView != null){
             paymentView.sendDataToPaymentFragmentWhenEdit(order,payedPartitions,debt);

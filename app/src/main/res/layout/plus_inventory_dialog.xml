@@ -46,18 +46,18 @@
                 android:layout_marginRight="@dimen/twenty_dp"
                 android:layout_weight="1"
                 android:gravity="center_vertical|right"
-                android:text="@string/product_name"
+                android:text="Cost"
                 android:textColor="#414141"
                 android:textSize="@dimen/eighteen_dp" />
 
-            <TextView
-                android:id="@+id/tvProductName"
-                android:layout_width="@dimen/five_hundred_dp"
+            <com.jim.mpviews.MpEditText
+                android:id="@+id/etCost"
+                android:layout_width="@dimen/two_hundred_eighty_dp"
                 android:layout_height="@dimen/forty_five_dp"
-                android:background="@drawable/edit_text_bg"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/eighteen_dp"
                 android:text=""
+                android:hint="Amount"
                 android:textColor="#414141"
                 android:textSize="@dimen/eighteen_dp" />
         </LinearLayout>
@@ -76,16 +76,47 @@
                 android:layout_marginRight="@dimen/twenty_dp"
                 android:layout_weight="1"
                 android:gravity="center_vertical|right"
-                android:text="@string/vendor"
+                android:text="Stock Id"
                 android:textColor="#414141"
                 android:textSize="@dimen/eighteen_dp" />
 
-            <TextView
-                android:id="@+id/tvVender"
-                android:layout_width="@dimen/five_hundred_dp"
+            <com.jim.mpviews.MpEditText
+                android:id="@+id/etStockId"
+                android:layout_width="@dimen/two_hundred_eighty_dp"
                 android:layout_height="@dimen/forty_five_dp"
-                android:background="@drawable/edit_text_bg"
                 android:gravity="center_vertical"
+                android:paddingLeft="@dimen/eighteen_dp"
+                android:hint="Identifier"
+                android:textColor="#414141"
+                android:textSize="@dimen/eighteen_dp"
+                tools:text=""
+
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/thirty_dp"
+            android:layout_marginRight="@dimen/thirty_dp"
+            android:layout_marginTop="@dimen/ten_dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/twenty_dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical|right"
+                android:text="Date expired"
+                android:textColor="#414141"
+                android:textSize="@dimen/eighteen_dp" />
+
+            <com.jim.mpviews.MpEditText
+                android:id="@+id/etExpiredDate"
+                android:layout_width="@dimen/two_hundred_eighty_dp"
+                android:layout_height="@dimen/forty_five_dp"
+                android:gravity="center_vertical"
+                android:hint="Choose date"
                 android:paddingLeft="@dimen/eighteen_dp"
                 android:textColor="#414141"
                 android:textSize="@dimen/eighteen_dp"
@@ -93,7 +124,6 @@
 
                 />
         </LinearLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
