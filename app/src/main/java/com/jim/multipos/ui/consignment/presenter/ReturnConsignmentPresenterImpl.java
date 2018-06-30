@@ -73,7 +73,7 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
         sum = 0;
         for (OutcomeProduct outcomeProduct : outcomeProducts) {
             if (outcomeProduct.getSumCostValue() != null && outcomeProduct.getSumCostValue() != null)
-                sum += outcomeProduct.getSumCostValue() * outcomeProduct.getSumCostValue();
+                sum += outcomeProduct.getSumCostValue() * outcomeProduct.getSumCountValue();
         }
         view.setTotalProductsSum(sum);
     }

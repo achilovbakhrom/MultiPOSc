@@ -28,8 +28,8 @@ public class Vendor implements  Serializable {
     private String contactName;
     private String address;
     private String photoPath;
-    private Boolean isActive = true;
-    private Boolean isDeleted = false;
+    private Boolean active = true;
+    private Boolean deleted = false;
     private Long globalId;
     private Long createdDate;
     @ToMany(joinProperties = {
@@ -48,8 +48,8 @@ public class Vendor implements  Serializable {
             vendorHistory.setContactName(contactName);
             vendorHistory.setAddress(address);
             vendorHistory.setPhotoPath(photoPath);
-            vendorHistory.setIsActive(isActive);
-            vendorHistory.setIsDeleted(isDeleted);
+            vendorHistory.setIsActive(active);
+            vendorHistory.setIsDeleted(deleted);
             vendorHistory.setGlobalId(globalId);
             vendorHistory.setCreatedDate(createdDate);
             vendorHistory.setRootId(id);
@@ -90,16 +90,16 @@ public class Vendor implements  Serializable {
     private transient DaoSession daoSession;
 
 
-    @Generated(hash = 591827875)
-    public Vendor(Long id, String name, String contactName, String address, String photoPath, Boolean isActive,
-            Boolean isDeleted, Long globalId, Long createdDate) {
+    @Generated(hash = 245491538)
+    public Vendor(Long id, String name, String contactName, String address, String photoPath, Boolean active,
+            Boolean deleted, Long globalId, Long createdDate) {
         this.id = id;
         this.name = name;
         this.contactName = contactName;
         this.address = address;
         this.photoPath = photoPath;
-        this.isActive = isActive;
-        this.isDeleted = isDeleted;
+        this.active = active;
+        this.deleted = deleted;
         this.globalId = globalId;
         this.createdDate = createdDate;
     }
@@ -114,28 +114,8 @@ public class Vendor implements  Serializable {
     }
 
     @Keep
-    public boolean isActive() {
-        return this.isActive;
-    }
-
-    @Keep
-    public void setActive(boolean active) {
-        this.isActive = active;
-    }
-
-    @Keep
     public Long getId() {
         return id;
-    }
-
-    @Keep
-    public boolean isDeleted() {
-        return this.isDeleted;
-    }
-
-    @Keep
-    public void setDeleted(boolean deleted) {
-        this.isDeleted = deleted;
     }
 
 
@@ -242,23 +222,6 @@ public class Vendor implements  Serializable {
         this.globalId = globalId;
     }
 
-
-    public Boolean getIsDeleted() {
-        return this.isDeleted;
-    }
-
-    public void setIsDeleted(Boolean isDeleted) {
-        this.isDeleted = isDeleted;
-    }
-
-    public Boolean getIsActive() {
-        return this.isActive;
-    }
-
-    public void setIsActive(Boolean isActive) {
-        this.isActive = isActive;
-    }
-
     public String getAddress() {
         return this.address;
     }
@@ -317,6 +280,18 @@ public class Vendor implements  Serializable {
             }
         }
         return vendorHistories;
+    }
+    public Boolean getDeleted() {
+        return this.deleted;
+    }
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
+    public Boolean getActive() {
+        return this.active;
+    }
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
  }

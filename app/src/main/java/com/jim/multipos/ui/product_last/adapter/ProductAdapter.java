@@ -65,7 +65,7 @@ public class ProductAdapter extends ClickableBaseAdapter<Product, BaseViewHolder
             ItemViewHolder item = ((ItemViewHolder) holder);
             item.itemView.setActivate(position == selectedPosition);
             item.itemView.setText(items.get(position).getName());
-            item.itemView.makeDeleteable(!items.get(position).isActive());
+            item.itemView.makeDeleteable(!items.get(position).getActive());
             item.itemView.setTextSize(12);
         } else if (holder instanceof AddViewHolder) {
             AddViewHolder item = (AddViewHolder) holder;
@@ -107,7 +107,7 @@ public class ProductAdapter extends ClickableBaseAdapter<Product, BaseViewHolder
         items.remove(0);
         Collections.sort(items, (o1, o2) -> {
             if (o1 != null && o2 != null)
-                return -((Boolean) o1.isActive()).compareTo(o2.isActive());
+                return -((Boolean) o1.getActive()).compareTo(o2.getActive());
             return -1;
         });
         items.add(0, null);

@@ -43,8 +43,8 @@ public class Product  {
     private String barcode;
     private String sku;
     private String photoPath = "";
-    private Boolean isActive = true;
-    private Boolean isDeleted = false;
+    private Boolean active = true;
+    private Boolean deleted = false;
     private Long priceCurrencyId;
     private int stockKeepType;
     @ToOne(joinProperty = "priceCurrencyId")
@@ -77,8 +77,8 @@ public class Product  {
             productHistory.setBarcode(barcode);
             productHistory.setSku(sku);
             productHistory.setPhotoPath(photoPath);
-            productHistory.setIsActive(isActive);
-            productHistory.setIsDeleted(isDeleted);
+            productHistory.setIsActive(active);
+            productHistory.setIsDeleted(deleted);
             productHistory.setPriceCurrencyId(priceCurrencyId);
             productHistory.setClassId(classId);
             productHistory.setMainUnitId(mainUnitId);
@@ -128,10 +128,10 @@ public class Product  {
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
 
-    @Generated(hash = 101822717)
+    @Generated(hash = 529347445)
     public Product(Long id, String name, Long createdDate, Double price, String barcode, String sku,
-            String photoPath, Boolean isActive, Boolean isDeleted, Long priceCurrencyId,
-            int stockKeepType, Long classId, Long mainUnitId, String description, Long categoryId) {
+            String photoPath, Boolean active, Boolean deleted, Long priceCurrencyId, int stockKeepType,
+            Long classId, Long mainUnitId, String description, Long categoryId) {
         this.id = id;
         this.name = name;
         this.createdDate = createdDate;
@@ -139,8 +139,8 @@ public class Product  {
         this.barcode = barcode;
         this.sku = sku;
         this.photoPath = photoPath;
-        this.isActive = isActive;
-        this.isDeleted = isDeleted;
+        this.active = active;
+        this.deleted = deleted;
         this.priceCurrencyId = priceCurrencyId;
         this.stockKeepType = stockKeepType;
         this.classId = classId;
@@ -156,26 +156,6 @@ public class Product  {
     @Keep
     public void setId(Long id) {
         this.id = id;
-    }
-
-    @Keep
-    public boolean isActive() {
-        return this.isActive;
-    }
-
-    @Keep
-    public void setActive(boolean active) {
-        this.isActive = active;
-    }
-
-    @Keep
-    public boolean isDeleted() {
-        return this.isDeleted;
-    }
-
-    @Keep
-    public void setDeleted(boolean deleted) {
-        this.isDeleted = deleted;
     }
 
     @Keep
@@ -393,23 +373,6 @@ public class Product  {
         this.priceCurrencyId = priceCurrencyId;
     }
 
-    public Boolean getIsDeleted() {
-        return this.isDeleted;
-    }
-
-    public void setIsDeleted(Boolean isDeleted) {
-        this.isDeleted = isDeleted;
-    }
-
-
-    public Boolean getIsActive() {
-        return this.isActive;
-    }
-
-    public void setIsActive(Boolean isActive) {
-        this.isActive = isActive;
-    }
-
     public String getPhotoPath() {
         return this.photoPath;
     }
@@ -488,5 +451,21 @@ public class Product  {
             }
         }
         return productHistoryList;
+    }
+
+    public Boolean getDeleted() {
+        return this.deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    public Boolean getActive() {
+        return this.active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 }

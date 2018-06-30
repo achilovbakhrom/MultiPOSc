@@ -17,8 +17,7 @@ import java.util.Calendar;
 
 import javax.inject.Inject;
 
-import static com.jim.multipos.ui.consignment.ConsignmentActivity.CONSIGNMENT_ID;
-import static com.jim.multipos.ui.consignment.ConsignmentActivity.CONSIGNMENT_TYPE;
+import static com.jim.multipos.ui.consignment.ConsignmentActivity.INVOICE_TYPE;
 
 /**
  * Created by developer on 29.11.2017.
@@ -116,8 +115,7 @@ public class BillingOperationsActivity extends SimpleActivity {
 
     public void openConsignment(Long consignmentId, int type) {
         Intent intent = new Intent(this, ConsignmentActivity.class);
-        intent.putExtra(CONSIGNMENT_ID, consignmentId);
-        intent.putExtra(CONSIGNMENT_TYPE, type);
+        intent.putExtra(INVOICE_TYPE, type);
         startActivity(intent);
     }
 }

@@ -12,6 +12,8 @@ import com.jim.multipos.ui.consignment.ConsignmentActivity;
 import com.jim.multipos.ui.inventory.fragments.InventoryFragment;
 import com.jim.multipos.utils.TextWatcherOnTextChange;
 
+import static com.jim.multipos.ui.consignment.ConsignmentActivity.OPERATION_TYPE;
+
 /**
  * Created by developer on 09.11.2017.
  */
@@ -19,7 +21,6 @@ import com.jim.multipos.utils.TextWatcherOnTextChange;
 public class InventoryActivity extends SimpleActivity {
     public static final String PRODUCT_ID = "PRODUCT_ID";
     public static final String VENDOR_ID = "VENDOR_ID";
-    public static final String CONSIGNMENT_TYPE = "CONSIGNMENT_TYPE";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,7 +56,7 @@ public class InventoryActivity extends SimpleActivity {
         Intent intent = new Intent(this, ConsignmentActivity.class);
         intent.putExtra(VENDOR_ID, vendorId);
         intent.putExtra(PRODUCT_ID, productId);
-        intent.putExtra(CONSIGNMENT_TYPE, consignment_type);
+        intent.putExtra(OPERATION_TYPE, consignment_type);
         startActivity(intent);
     }
 

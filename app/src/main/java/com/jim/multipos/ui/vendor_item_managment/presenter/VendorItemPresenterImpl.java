@@ -8,6 +8,7 @@ import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemFragment;
 import com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemView;
 import com.jim.multipos.ui.vendor_item_managment.model.VendorManagmentItem;
+import com.jim.multipos.utils.BundleConstants;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,7 +31,6 @@ public class VendorItemPresenterImpl extends BasePresenterImpl<VendorItemView> i
 
     VendorItemFragment.SortModes searchMode = VENDOR;
     private Long vendorId;
-    private int consignment_type = 0;
 
     int SORTING = 1;
 
@@ -52,16 +52,14 @@ public class VendorItemPresenterImpl extends BasePresenterImpl<VendorItemView> i
 
     @Override
     public void onIncomeProduct(VendorManagmentItem vendorManagmentItem) {
-        consignment_type = INCOME_CONSIGNMENT;
         vendorId = vendorManagmentItem.getVendor().getId();
-        view.sendDataToConsignment(vendorId, consignment_type);
+        view.sendDataToConsignment(vendorId, BundleConstants.INVOICE);
     }
 
     @Override
     public void onWriteOff(VendorManagmentItem vendorManagmentItem) {
-        consignment_type = RETURN_CONSIGNMENT;
         vendorId = vendorManagmentItem.getVendor().getId();
-        view.sendDataToConsignment(vendorId, consignment_type);
+        view.sendDataToConsignment(vendorId, BundleConstants.OUTVOICE);
     }
 
     @Override

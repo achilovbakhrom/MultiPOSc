@@ -5169,7 +5169,7 @@ public class ExportUtils {
                                     product.setSku(products[i][4]);
                                     product.setPrice(Double.valueOf(products[i][6]));
                                     product.setActive(true);
-                                    product.setIsDeleted(false);
+                                    product.setDeleted(false);
                                     //TODO EDITABLE TO STATEABLE
 
 //                                    product.setNotModifyted(true);
@@ -5210,7 +5210,7 @@ public class ExportUtils {
                                         product.setPhotoPath("");
                                         product.setPrice(Double.valueOf(products[i][6]));
                                         product.setActive(true);
-                                        product.setIsDeleted(false);
+                                        product.setDeleted(false);
                                         //TODO EDITABLE TO STATEABLE
 
 //                                        product.setNotModifyted(true);
@@ -5250,7 +5250,7 @@ public class ExportUtils {
                                         product.setPhotoPath("");
                                         product.setSku(products[i][4]);
                                         product.setActive(true);
-                                        product.setIsDeleted(false);
+                                        product.setDeleted(false);
                                         //TODO EDITABLE TO STATEABLE
 //                                        product.setNotModifyted(true);
                                         product.setCreatedDate(System.currentTimeMillis());
@@ -5373,7 +5373,7 @@ public class ExportUtils {
                                     product.setSku(products[i][4]);
                                     product.setPrice(Double.valueOf(products[i][6]));
                                     product.setActive(true);
-                                    product.setIsDeleted(false);
+                                    product.setDeleted(false);
                                     //TODO EDITABLE TO STATEABLE
 //                                    product.setNotModifyted(true);
                                     product.setPhotoPath("");
@@ -5413,7 +5413,7 @@ public class ExportUtils {
                                         product.setPhotoPath("");
                                         product.setPrice(Double.valueOf(products[i][6]));
                                         product.setActive(true);
-                                        product.setIsDeleted(false);
+                                        product.setDeleted(false);
                                         //TODO EDITABLE TO STATEABLE
 
 //                                        product.setNotModifyted(true);
@@ -5453,7 +5453,7 @@ public class ExportUtils {
                                         product.setPhotoPath("");
                                         product.setSku(products[i][4]);
                                         product.setActive(true);
-                                        product.setIsDeleted(false);
+                                        product.setDeleted(false);
                                         //TODO EDITABLE TO STATEABLE
 
 //                                        product.setNotModifyted(true);

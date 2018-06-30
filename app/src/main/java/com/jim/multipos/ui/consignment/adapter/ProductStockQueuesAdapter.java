@@ -61,7 +61,7 @@ public class ProductStockQueuesAdapter extends RecyclerView.Adapter<ProductStock
         for (int i = 0; i < items.get(position).getDetialCounts().size(); i++) {
             count += items.get(position).getDetialCounts().get(i).getCount();
         }
-        holder.tvAvailable.setText((items.get(position).getAvailable()) + "/" + items.get(position).getStockQueue().getIncomeCount());
+        holder.tvAvailable.setText((items.get(position).getAvailable() - count) + "/" + items.get(position).getStockQueue().getIncomeCount());
         holder.ssvStockStatus.setCount(count);
         if (count != 0) {
             holder.ivSelected.setVisibility(View.VISIBLE);

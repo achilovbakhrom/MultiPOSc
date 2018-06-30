@@ -319,4 +319,5 @@ public interface DbHelper {
     Single<OutcomeWithDetials> checkPositionAvailablity(OutcomeProduct outcomeProduct);
     Single<Outvoice> insertOutvoiceWithBillingAndOutcomeProducts(Outvoice outvoice, List<OutcomeProduct> outcomeProducts, BillingOperations operationDebt);
     Single<Boolean> isOutvoiceNumberExists(String number);
+    Single<List<Vendor>> getVendorsByProductId(Long productId);
 }

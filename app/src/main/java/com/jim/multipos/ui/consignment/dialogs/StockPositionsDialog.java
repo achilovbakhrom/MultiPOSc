@@ -80,7 +80,9 @@ public class StockPositionsDialog extends Dialog {
         DecimalFormat decimalFormat = BaseAppModule.getFormatterGrouping();
         rvStockQueues.setLayoutManager(new LinearLayoutManager(getContext()));
         rvStockQueues.setAdapter(adapter);
-
+        etProductCount.clearFocus();
+        etSearchView.clearFocus();
+        tvProductUnit.setText(outcomeProduct.getProduct().getMainUnit().getAbbr());
         calculateStockPositions();
         etProductCount.setText(decimalFormat.format(outcomeProduct.getSumCountValue()));
         flClearSearch.setOnClickListener(new View.OnClickListener() {

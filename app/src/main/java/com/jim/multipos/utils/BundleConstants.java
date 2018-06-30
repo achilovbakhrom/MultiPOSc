@@ -5,9 +5,6 @@ package com.jim.multipos.utils;
  */
 
 public class BundleConstants {
-
-    public static final String ORG_NAME = "org_name";
-    public static final String ORG_ADDRESS = "org_address";
-    public static final String ORG_EMAIL = "org_email";
-    public static final String ORG_CODE = "org_code";
+    public static final int INVOICE = 1000;
+    public static final int OUTVOICE = 1001;
 }

@@ -283,7 +283,7 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
 
             case R.id.btnDelete:
                 if (((VendorAddEditActivity) getContext()).getPresenter().getVendor() != null &&
-                        ((VendorAddEditActivity) getContext()).getPresenter().getVendor().isActive()) {
+                        ((VendorAddEditActivity) getContext()).getPresenter().getVendor().getActive()) {
                     ((VendorAddEditActivity) getContext()).showCantDeleteActiveItemMessage(() -> {
                     });
                 } else {
@@ -436,7 +436,7 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
                     contactData.setText("");
                     contactData.setError(null);
                     active.setChecked(true);
-                    active.setChecked(vendor.getIsActive());
+                    active.setChecked(vendor.getActive());
                     delete.setVisibility(View.VISIBLE);
                     save.setText(getContext().getString(R.string.update));
                     if (vendor.getPhotoPath() != null && !vendor.getPhotoPath().equals("")) {

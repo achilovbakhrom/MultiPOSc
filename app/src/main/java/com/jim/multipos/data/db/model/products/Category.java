@@ -22,8 +22,8 @@ public class Category implements  Serializable{
     private Long id;
     private String name;
     private String description = "";
-    private Boolean isActive = true;
-    private Boolean isDeleted = false;
+    private Boolean active = true;
+    private Boolean deleted = false;
     private Long createdDate;
     private Long parentId = WITHOUT_PARENT;
     @ToOne(joinProperty = "parentId")
@@ -113,8 +113,8 @@ public class Category implements  Serializable{
                 .queryBuilder(Product.class)
                 .where(
                         ProductDao.Properties.CategoryId.eq(id),
-                        ProductDao.Properties.IsActive.eq(true),
-                        ProductDao.Properties.IsDeleted.eq(false)
+                        ProductDao.Properties.Active.eq(true),
+                        ProductDao.Properties.Deleted.eq(false)
                 )
                 .build()
                 .list();
@@ -130,7 +130,7 @@ public class Category implements  Serializable{
                 .queryBuilder(Product.class)
                 .where(
                         ProductDao.Properties.CategoryId.eq(id),
-                        ProductDao.Properties.IsDeleted.eq(false)
+                        ProductDao.Properties.Deleted.eq(false)
                 )
                 .build()
                 .list();
@@ -175,8 +175,8 @@ public class Category implements  Serializable{
         return daoSession
                 .queryBuilder(Category.class)
                 .where(CategoryDao.Properties.ParentId.eq(id),
-                        CategoryDao.Properties.IsActive.eq(true),
-                        CategoryDao.Properties.IsDeleted.eq(false))
+                        CategoryDao.Properties.Active.eq(true),
+                        CategoryDao.Properties.Deleted.eq(false))
                 .build()
                 .list();
     }
@@ -190,7 +190,7 @@ public class Category implements  Serializable{
         return daoSession
                 .queryBuilder(Category.class)
                 .where(CategoryDao.Properties.ParentId.eq(id),
-                        CategoryDao.Properties.IsDeleted.eq(false))
+                        CategoryDao.Properties.Deleted.eq(false))
                 .build()
                 .list();
     }
@@ -237,23 +237,6 @@ public class Category implements  Serializable{
         this.createdDate = createdDate;
     }
 
-
-    public Boolean getIsDeleted() {
-        return this.isDeleted;
-    }
-
-    public void setIsDeleted(Boolean isDeleted) {
-        this.isDeleted = isDeleted;
-    }
-
-    public Boolean getIsActive() {
-        return this.isActive;
-    }
-
-    public void setIsActive(Boolean isActive) {
-        this.isActive = isActive;
-    }
-
     public String getDescription() {
         return this.description;
     }
@@ -277,24 +260,6 @@ public class Category implements  Serializable{
     public void setId(Long id) {
         this.id = id;
     }
-
-    public boolean isActive() {
-        return this.isActive;
-    }
-
-    public void setActive(boolean active) {
-        this.isActive = active;
-    }
-
-    public boolean isDeleted() {
-        return this.isDeleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.isDeleted = deleted;
-    }
-
-
 
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 607733206)
@@ -325,18 +290,34 @@ public class Category implements  Serializable{
         return parentCategory;
     }
 
+    public Boolean getDeleted() {
+        return this.deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    public Boolean getActive() {
+        return this.active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
     @Generated(hash = 1150634039)
     public Category() {
     }
 
-    @Generated(hash = 958551315)
-    public Category(Long id, String name, String description, Boolean isActive, Boolean isDeleted,
+    @Generated(hash = 1675323139)
+    public Category(Long id, String name, String description, Boolean active, Boolean deleted,
             Long createdDate, Long parentId) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.isActive = isActive;
-        this.isDeleted = isDeleted;
+        this.active = active;
+        this.deleted = deleted;
         this.createdDate = createdDate;
         this.parentId = parentId;
     }

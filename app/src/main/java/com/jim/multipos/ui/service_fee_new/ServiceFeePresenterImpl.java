@@ -52,7 +52,7 @@ public class ServiceFeePresenterImpl extends BasePresenterImpl<ServiceFeeView> i
         serviceFee.setType(type);
         serviceFee.setName(reason);
         serviceFee.setApplyingType(appType);
-        serviceFee.setIsActive(checked);
+        serviceFee.setActive(checked);
         serviceFee.setCreatedDate(System.currentTimeMillis());
         serviceFee.setDeleted(false);
         databaseManager.addServiceFee(serviceFee).subscribe(serviceFee1 -> {
@@ -81,7 +81,7 @@ public class ServiceFeePresenterImpl extends BasePresenterImpl<ServiceFeeView> i
         serviceFee.setType(type);
         serviceFee.setName(description);
         serviceFee.setApplyingType(appType);
-        serviceFee.setIsActive(active);
+        serviceFee.setActive(active);
         serviceFee.setDeleted(false);
         databaseManager.addServiceFee(serviceFee).subscribe(serviceFee2 -> {
             for (int i = 1; i < items.size(); i++) {
@@ -134,7 +134,7 @@ public class ServiceFeePresenterImpl extends BasePresenterImpl<ServiceFeeView> i
                 Collections.sort(items, (services, t1) -> t1.getObject().getApplyingType().compareTo(services.getObject().getApplyingType()));
                 break;
             case Active:
-                Collections.sort(items, (services, t1) -> t1.getObject().getIsActive().compareTo(services.getObject().getIsActive()));
+                Collections.sort(items, (services, t1) -> t1.getObject().getActive().compareTo(services.getObject().getActive()));
                 break;
             case Description:
                 Collections.sort(items, (services, t1) -> t1.getObject().getName().compareTo(services.getObject().getName()));

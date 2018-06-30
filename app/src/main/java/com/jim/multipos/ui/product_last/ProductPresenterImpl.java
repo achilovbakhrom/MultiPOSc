@@ -98,7 +98,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             result = databaseManager.getActiveCategories().blockingSingle();
         else
             result = databaseManager.getAllCategories().blockingSingle();
-        Collections.sort(result, (o1, o2) -> -((Boolean) o1.isActive()).compareTo(o2.isActive()));
+        Collections.sort(result, (o1, o2) -> -((Boolean) o1.getActive()).compareTo(o2.getActive()));
         result.add(0, null);
         return result;
     }
@@ -224,7 +224,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     openCategory(category);
                 break;
             case CATEGORY_EDIT_MODE:
-                if (!view.getName().equals(this.category.getName()) || !view.getDescription().equals(this.category.getDescription()) || this.category.getIsActive() != view.isActive()) {
+                if (!view.getName().equals(this.category.getName()) || !view.getDescription().equals(this.category.getDescription()) || this.category.getActive() != view.isActive()) {
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
                         public void onPositiveButtonClicked() {
@@ -240,7 +240,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     openCategory(category);
                 break;
             case SUBCATEGORY_EDIT_MODE:
-                if (!view.getName().equals(subcategory.getName()) || !view.getDescription().equals(subcategory.getDescription()) || subcategory.getIsActive() != view.isActive()) {
+                if (!view.getName().equals(subcategory.getName()) || !view.getDescription().equals(subcategory.getDescription()) || subcategory.getActive() != view.isActive()) {
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
                         public void onPositiveButtonClicked() {
@@ -286,7 +286,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 if (!view.getProductName().equals(this.product.getName()) || !view.getBarCode().equals(this.product.getBarcode()) || !view.getSku().equals(this.product.getSku()) ||
                         (unitCategory != null && !unitCategory.getUnits().get(view.getUnitSelectedPos()).getId().equals(this.product.getMainUnitId())) ||
                         !view.getPhotoPath().equals(this.product.getPhotoPath()) || !view.getPrice().equals(this.product.getPrice()) ||
-                        view.getProductIsActive() != this.product.getIsActive()) {
+                        view.getProductIsActive() != this.product.getActive()) {
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
                         public void onPositiveButtonClicked() {
@@ -376,7 +376,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 if (!view.getProductName().equals(this.product.getName()) || !view.getBarCode().equals(this.product.getBarcode()) || !view.getSku().equals(this.product.getSku()) ||
                         (unitCategory != null && !unitCategory.getUnits().get(view.getUnitSelectedPos()).getId().equals(this.product.getMainUnitId())) ||
                         !view.getPhotoPath().equals(this.product.getPhotoPath()) || !view.getPrice().equals(this.product.getPrice()) ||
-                        view.getProductIsActive() != this.product.getIsActive()) {
+                        view.getProductIsActive() != this.product.getActive()) {
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
                         public void onPositiveButtonClicked() {
@@ -409,7 +409,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 }
                 break;
             case SUBCATEGORY_EDIT_MODE:
-                if (!view.getName().equals(subcategory.getName()) || !view.getDescription().equals(subcategory.getDescription()) || subcategory.getIsActive() != view.isActive()) {
+                if (!view.getName().equals(subcategory.getName()) || !view.getDescription().equals(subcategory.getDescription()) || subcategory.getActive() != view.isActive()) {
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
                         public void onPositiveButtonClicked() {
@@ -455,7 +455,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             view.setCategoryPath(this.category.getName());
             view.selectCategory(category.getId());
             mode = CategoryAddEditMode.CATEGORY_EDIT_MODE;
-            view.openEditCategoryMode(category.getName(), category.getDescription(), category.isActive());
+            view.openEditCategoryMode(category.getName(), category.getDescription(), category.getActive());
 
             List<Category> subCategories;
             if (view.isActiveVisible()) {
@@ -464,7 +464,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 subCategories = this.category.getActiveSubCategories();
             }
             if (subCategories != null && !subCategories.isEmpty()) {
-                Collections.sort(subCategories, (o1, o2) -> -((Boolean) o1.isActive()).compareTo(o2.isActive()));
+                Collections.sort(subCategories, (o1, o2) -> -((Boolean) o1.getActive()).compareTo(o2.getActive()));
             }
             subCategories.add(0, null);
             view.unselectSubcategoryList();
@@ -488,7 +488,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             this.subcategory.resetProducts();
             mode = CategoryAddEditMode.SUBCATEGORY_EDIT_MODE;
             if (this.category != null) {
-                view.openEditSubcategoryMode(category.getName(), category.getDescription(), category.isActive(), this.category.getName());
+                view.openEditSubcategoryMode(category.getName(), category.getDescription(), category.getActive(), this.category.getName());
                 view.selectSubcategory(subcategory.getId());
                 List<Product> products;
                 if (view.isActiveVisible()) {
@@ -541,7 +541,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             view.openProductEditMode(product.getName(),
                     product.getBarcode(),
                     product.getSku(),
-                    product.isActive(),
+                    product.getActive(),
                     databaseManager.getMainCurrency().getAbbr(),
                     productClassPos,
                     unitCategoryPos,
@@ -598,7 +598,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     openSubcategory(category);
                 break;
             case CATEGORY_EDIT_MODE:
-                if (!view.getName().equals(this.category.getName()) || !view.getDescription().equals(this.category.getDescription()) || this.category.getIsActive() != view.isActive()) {
+                if (!view.getName().equals(this.category.getName()) || !view.getDescription().equals(this.category.getDescription()) || this.category.getActive() != view.isActive()) {
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
                         public void onPositiveButtonClicked() {
@@ -615,7 +615,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     openSubcategory(category);
                 break;
             case SUBCATEGORY_EDIT_MODE:
-                if (!view.getName().equals(subcategory.getName()) || !view.getDescription().equals(subcategory.getDescription()) || subcategory.getIsActive() != view.isActive()) {
+                if (!view.getName().equals(subcategory.getName()) || !view.getDescription().equals(subcategory.getDescription()) || subcategory.getActive() != view.isActive()) {
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
                         public void onPositiveButtonClicked() {
@@ -659,7 +659,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 if (!view.getProductName().equals(this.product.getName()) || !view.getBarCode().equals(this.product.getBarcode()) || !view.getSku().equals(this.product.getSku()) ||
                         (unitCategory != null && !unitCategory.getUnits().get(view.getUnitSelectedPos()).getId().equals(this.product.getMainUnitId())) ||
                         !view.getPhotoPath().equals(this.product.getPhotoPath()) || !view.getPrice().equals(this.product.getPrice()) ||
-                        view.getProductIsActive() != this.product.getIsActive() ) {
+                        view.getProductIsActive() != this.product.getActive() ) {
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
                         public void onPositiveButtonClicked() {
@@ -737,7 +737,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
         if (mode == CategoryAddEditMode.CATEGORY_ADD_MODE) { // adding category
             result.setName(name);
             result.setDescription(description);
-            result.setIsActive(isActive);
+            result.setActive(isActive);
             databaseManager.addCategory(result).subscribe(id -> {
                 view.addToCategoryList(result);
                 view.sendCategoryEvent(result, GlobalEventConstants.ADD);
@@ -813,7 +813,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
      */
     public List<Product> getProducts() {
         List<Product> result = databaseManager.getAllProducts().blockingSingle();
-        Collections.sort(result, (o1, o2) -> -((Boolean) o1.isActive()).compareTo(o2.isActive()));
+        Collections.sort(result, (o1, o2) -> -((Boolean) o1.getActive()).compareTo(o2.getActive()));
         result.add(0, null);
         return result;
     }
@@ -880,7 +880,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             result = category.getActiveSubCategories();
         }
         if (result != null && !result.isEmpty()) {
-            Collections.sort(result, (o1, o2) -> -((Boolean) o1.isActive()).compareTo(o2.isActive()));
+            Collections.sort(result, (o1, o2) -> -((Boolean) o1.getActive()).compareTo(o2.getActive()));
         }
         return result;
     }
@@ -925,7 +925,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
         switch (mode) {
             case SUBCATEGORY_EDIT_MODE:
                 if (subcategory != null) {
-                    if (subcategory.isActive()) {
+                    if (subcategory.getActive()) {
                         view.showCannotDeleteActiveItemDialog();
                         return;
                     }
@@ -960,7 +960,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 break;
             case CATEGORY_EDIT_MODE:
                 if (category != null) {
-                    if (category.isActive()) {
+                    if (category.getActive()) {
                         view.showCannotDeleteActiveItemDialog();
                         return;
                     }
@@ -986,7 +986,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                                     categories = databaseManager.getAllCategories().blockingSingle();
                                 }
                                 if (categories != null && !categories.isEmpty()) {
-                                    Collections.sort(categories, (o1, o2) -> -((Boolean) o1.isActive()).compareTo(o2.isActive()));
+                                    Collections.sort(categories, (o1, o2) -> -((Boolean) o1.getActive()).compareTo(o2.getActive()));
                                 }
                                 categories.add(0, null);
                                 view.sendCategoryEvent(category, GlobalEventConstants.DELETE);
@@ -1047,7 +1047,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 product.setBarcode(barcode.replace(" ", ""));
                 product.setSku(sku);
                 product.setPhotoPath(photoPath);
-                product.setIsActive(isActive);
+                product.setActive(isActive);
                 product.setPrice(resultPrice);
                 product.setCategory(subcategory);
                 product.setCategoryId(subcategory.getId());
@@ -1108,7 +1108,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                                 view.editProduct(ProductPresenterImpl.this.product);
 //                                view.sendProductChangeEvent(GlobalEventConstants.UPDATE, ProductPresenterImpl.this.product, result);
                                 openSubcategory(subcategory);
-                                if (ProductPresenterImpl.this.product.getIsActive())
+                                if (ProductPresenterImpl.this.product.getActive())
                                     openProduct(ProductPresenterImpl.this.product);
                                 else openProduct(null);
                             });
@@ -1193,12 +1193,12 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 openCategory(category);
                 break;
             case CATEGORY_EDIT_MODE:
-                if (!category.isActive())
+                if (!category.getActive())
                     category = null;
                 openCategory(category);
                 break;
             case SUBCATEGORY_ADD_MODE:
-                if (!category.isActive()) {
+                if (!category.getActive()) {
                     openCategory(null);
                     return;
                 }
@@ -1207,13 +1207,13 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 openSubcategory(tempCategory);
                 break;
             case SUBCATEGORY_EDIT_MODE:
-                if (!category.isActive()) {
+                if (!category.getActive()) {
                     category = null;
                     openCategory(category);
                 } else {
                     Category tempSubcategory = subcategory;
                     openCategory(category);
-                    if (!tempSubcategory.isActive()) {
+                    if (!tempSubcategory.getActive()) {
                         openSubcategory(null);
                         return;
                     }
@@ -1221,13 +1221,13 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 }
                 break;
             case PRODUCT_ADD_MODE:
-                if (!category.isActive()) {
+                if (!category.getActive()) {
                     category = null;
                     openCategory(category);
                 } else {
                     Category tempSubcategory = subcategory;
                     openCategory(category);
-                    if (!tempSubcategory.isActive()) {
+                    if (!tempSubcategory.getActive()) {
                         openSubcategory(null);
                         return;
                     }
@@ -1236,19 +1236,19 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 }
                 break;
             case PRODUCT_EDIT_MODE:
-                if (!category.isActive()) {
+                if (!category.getActive()) {
                     category = null;
                     openCategory(category);
                 } else {
                     Category tempSubcategory = subcategory;
                     Product tempProduct = product;
                     openCategory(category);
-                    if (!tempSubcategory.isActive()) {
+                    if (!tempSubcategory.getActive()) {
                         openSubcategory(null);
                         return;
                     }
                     openSubcategory(tempSubcategory);
-                    if (!tempProduct.isActive()) {
+                    if (!tempProduct.getActive()) {
                         openProduct(null);
                     } else openProduct(tempProduct);
                 }
@@ -1328,7 +1328,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     view.finishActivity();
                 break;
             case CATEGORY_EDIT_MODE:
-                if (!view.getName().equals(this.category.getName()) || !view.getDescription().equals(this.category.getDescription()) || this.category.getIsActive() != view.isActive()) {
+                if (!view.getName().equals(this.category.getName()) || !view.getDescription().equals(this.category.getDescription()) || this.category.getActive() != view.isActive()) {
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
                         public void onPositiveButtonClicked() {
@@ -1344,7 +1344,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     view.finishActivity();
                 break;
             case SUBCATEGORY_EDIT_MODE:
-                if (!view.getName().equals(subcategory.getName()) || !view.getDescription().equals(subcategory.getDescription()) || subcategory.getIsActive() != view.isActive()) {
+                if (!view.getName().equals(subcategory.getName()) || !view.getDescription().equals(subcategory.getDescription()) || subcategory.getActive() != view.isActive()) {
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
                         public void onPositiveButtonClicked() {
@@ -1391,7 +1391,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 if (!view.getProductName().equals(this.product.getName()) || !view.getBarCode().equals(this.product.getBarcode()) || !view.getSku().equals(this.product.getSku()) ||
                         (unitCategory != null && !unitCategory.getUnits().get(view.getUnitSelectedPos()).getId().equals(this.product.getMainUnitId())) ||
                         !view.getPhotoPath().equals(this.product.getPhotoPath()) || !view.getPrice().equals(this.product.getPrice()) ||
-                        view.getProductIsActive() != this.product.getIsActive()) {
+                        view.getProductIsActive() != this.product.getActive()) {
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
                         public void onPositiveButtonClicked() {
@@ -1447,7 +1447,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             subCategories = this.category.getActiveSubCategories();
         }
         if (subCategories != null && !subCategories.isEmpty()) {
-            Collections.sort(subCategories, (o1, o2) -> -((Boolean) o1.isActive()).compareTo(o2.isActive()));
+            Collections.sort(subCategories, (o1, o2) -> -((Boolean) o1.getActive()).compareTo(o2.getActive()));
         }
         subCategories.add(0, null);
         view.setListToSubcategoryList(subCategories);
@@ -1463,7 +1463,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 products = subcategory.getActiveProducts();
             }
             if (products != null && !products.isEmpty()) {
-                Collections.sort(products, (o1, o2) -> -((Boolean) o1.isActive()).compareTo(o2.isActive()));
+                Collections.sort(products, (o1, o2) -> -((Boolean) o1.getActive()).compareTo(o2.getActive()));
             }
             products.add(0, null);
             view.setListToProducts(products);

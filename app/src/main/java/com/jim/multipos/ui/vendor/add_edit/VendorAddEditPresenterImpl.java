@@ -127,7 +127,7 @@ public class VendorAddEditPresenterImpl extends BasePresenterImpl<VendorAddEditV
     @Override
     public List<Vendor> getVendors() {
         List<Vendor> result = databaseManager.getVendors().blockingSingle();
-        Collections.sort(result, (o1, o2) -> o2.getIsActive().compareTo(o1.isActive()));
+        Collections.sort(result, (o1, o2) -> o2.getActive().compareTo(o1.getActive()));
         return result;
     }
 

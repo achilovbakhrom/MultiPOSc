@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.DatabaseManager;
-import com.jim.multipos.data.db.model.inventory.OutcomeProduct;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.inventory.InventoryActivity;
 import com.jim.multipos.ui.inventory.adapters.InventoryItemAdapter;
@@ -314,7 +313,7 @@ public class InventoryFragment extends BaseFragment implements InventoryView {
     }
 
     @Override
-    public void openChooseVendorDialog(List<Vendor> vendorList) {
+    public void openChooseVendorDialog(List<Vendor> vendorList, List<Vendor> vendorsWithProduct) {
         vendorListAdapter.setData(vendorList);
         dialog.show();
     }

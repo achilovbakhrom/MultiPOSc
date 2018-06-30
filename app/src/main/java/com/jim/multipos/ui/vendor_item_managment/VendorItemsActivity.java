@@ -5,21 +5,16 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.core.SimpleActivity;
 import com.jim.multipos.ui.billing_vendor.BillingOperationsActivity;
 import com.jim.multipos.ui.consignment.ConsignmentActivity;
 import com.jim.multipos.ui.consignment_list.ConsignmentListActivity;
-import com.jim.multipos.ui.inventory.InventoryActivity;
-import com.jim.multipos.ui.inventory.fragments.InventoryFragment;
 import com.jim.multipos.ui.vendor_item_managment.fragments.VendorItemFragment;
 import com.jim.multipos.ui.vendor_products_view.VendorProductsViewActivity;
 import com.jim.multipos.utils.TextWatcherOnTextChange;
 
-import static com.jim.multipos.ui.inventory.InventoryActivity.CONSIGNMENT_TYPE;
-import static com.jim.multipos.ui.inventory.InventoryActivity.PRODUCT_ID;
+import static com.jim.multipos.ui.consignment.ConsignmentActivity.OPERATION_TYPE;
 import static com.jim.multipos.ui.inventory.InventoryActivity.VENDOR_ID;
 
 /**
@@ -55,7 +50,7 @@ public class VendorItemsActivity extends SimpleActivity {
     public void sendDataToConsignment(Long vendorId, int consignment_type) {
         Intent intent = new Intent(this, ConsignmentActivity.class);
         intent.putExtra(VENDOR_ID, vendorId);
-        intent.putExtra(CONSIGNMENT_TYPE, consignment_type);
+        intent.putExtra(OPERATION_TYPE, consignment_type);
         startActivity(intent);
     }
 

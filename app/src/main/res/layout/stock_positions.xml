@@ -173,11 +173,16 @@
 
         </LinearLayout>
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/colorTextHint" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/forty_dp"
             android:orientation="horizontal"
-            android:paddingLeft="@dimen/thirty_five_dp">
+            android:paddingLeft="@dimen/twenty_dp">
 
             <TextView
                 android:layout_width="0dp"
@@ -226,6 +231,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="Available"
+                android:paddingLeft="@dimen/five_dp"
                 android:textColor="@color/colorMainText"
                 android:textSize="@dimen/sixteen_dp" />
 
@@ -235,6 +241,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="2"
                 android:gravity="center"
+                android:paddingLeft="@dimen/five_dp"
                 android:text="@string/vendor_name"
                 android:textColor="@color/colorMainText"
                 android:textSize="@dimen/sixteen_dp" />

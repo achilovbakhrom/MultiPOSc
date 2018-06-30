@@ -107,7 +107,7 @@ public class ServiceFeeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             } else {
                 holder.etAmmount.setText((addingState.getChangedObject().getAmount() == 0) ? "" : decimalFormat.format(addingState.getChangedObject().getAmount()));
                 holder.etName.setText((addingState.getChangedObject().getName() == null) ? "" : addingState.getChangedObject().getName());
-                holder.chbActive.setChecked(addingState.getChangedObject().getIsActive());
+                holder.chbActive.setChecked(addingState.getChangedObject().getActive());
                 int a = 0;
                 if (ServiceFee.VALUE == addingState.getChangedObject().getType()) {
                     a = 1;
@@ -161,8 +161,8 @@ public class ServiceFeeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
             holder.etName.setText(serviceFee.getName());
             holder.etAmmount.setText(decimalFormat.format(serviceFee.getAmount()));
-            holder.chbActive.setChecked(serviceFee.getIsActive());
-            if (!serviceFee.getIsActive()) {
+            holder.chbActive.setChecked(serviceFee.getActive());
+            if (!serviceFee.getActive()) {
                 holder.etName.setAlpha(0.5f);
                 holder.spTypeAmount.setAlpha(0.5f);
                 holder.spUsed.setAlpha(0.5f);
@@ -453,7 +453,7 @@ public class ServiceFeeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             btnDelete.setOnClickListener(view -> {
                 UIUtils.closeKeyboard(etName, context);
                 ServiceFee serviceFee = items.get(getAdapterPosition()).getObject();
-                if (serviceFee.getIsActive()) {
+                if (serviceFee.getActive()) {
                     WarningDialog warningDialog = new WarningDialog(context);
                     warningDialog.onlyText(true);
                     warningDialog.setWarningMessage(context.getString(R.string.change_to_not_delete_when_not_active));

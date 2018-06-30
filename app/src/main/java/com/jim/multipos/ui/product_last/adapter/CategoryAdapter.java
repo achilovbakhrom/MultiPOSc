@@ -77,7 +77,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             ItemViewHolder item = ((ItemViewHolder) holder);
             item.mpListItemView.setActivate(position == selectedPosition);
             item.mpListItemView.setText(items.get(position).getName());
-            item.mpListItemView.makeDeleteable(!items.get(position).isActive());
+            item.mpListItemView.makeDeleteable(!items.get(position).getActive());
             item.mpListItemView.setTextSize(12);
             if (position == selectedPosition) {
                 item.ivNextItem.setVisibility(View.VISIBLE);
@@ -117,7 +117,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         items.remove(0);
         Collections.sort(items, (o1, o2) -> {
             if (o1 != null && o2 != null)
-                return -((Boolean) o1.isActive()).compareTo(o2.isActive());
+                return -((Boolean) o1.getActive()).compareTo(o2.getActive());
             return -1;
         });
         items.add(0, null);

@@ -39,8 +39,8 @@ public class ServiceFee  {
     private int type;
     private String name;
     private int applyingType;
-    private boolean isActive = true;
-    private boolean isDeleted = false;
+    private boolean active = true;
+    private boolean deleted = false;
     private boolean isManual = false;
     private Long createdDate;
 
@@ -59,8 +59,8 @@ public class ServiceFee  {
             serviceFeeHistory.setType(type);
             serviceFeeHistory.setName(name);
             serviceFeeHistory.setApplyingType(applyingType);
-            serviceFeeHistory.setIsActive(isActive);
-            serviceFeeHistory.setIsDeleted(isDeleted);
+            serviceFeeHistory.setIsActive(active);
+            serviceFeeHistory.setIsDeleted(deleted);
             serviceFeeHistory.setIsManual(isManual);
             serviceFeeHistory.setCreatedDate(createdDate);
             serviceFeeHistory.setRootId(id);
@@ -101,26 +101,18 @@ public class ServiceFee  {
     public ServiceFee() {
     }
 
-    @Generated(hash = 832403407)
-    public ServiceFee(Long id, Double amount, int type, String name, int applyingType,
-            boolean isActive, boolean isDeleted, boolean isManual, Long createdDate) {
+    @Generated(hash = 1191689642)
+    public ServiceFee(Long id, Double amount, int type, String name, int applyingType, boolean active,
+            boolean deleted, boolean isManual, Long createdDate) {
         this.id = id;
         this.amount = amount;
         this.type = type;
         this.name = name;
         this.applyingType = applyingType;
-        this.isActive = isActive;
-        this.isDeleted = isDeleted;
+        this.active = active;
+        this.deleted = deleted;
         this.isManual = isManual;
         this.createdDate = createdDate;
-    }
-
-    public Boolean getIsActive() {
-        return this.isActive;
-    }
-
-    public void setIsActive(boolean isActive) {
-        this.isActive = isActive;
     }
 
     public String getName() {
@@ -163,23 +155,6 @@ public class ServiceFee  {
     public void setAmount(Double amount) {
         this.amount = amount;
     }
-
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean active) {
-        this.isActive = active;
-    }
-
-    public boolean isDeleted() {
-        return isDeleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.isDeleted = deleted;
-    }
-
 
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
@@ -226,14 +201,6 @@ public class ServiceFee  {
 
     public void setCreatedDate(Long createdDate) {
         this.createdDate = createdDate;
-    }
-
-    public boolean getIsDeleted() {
-        return this.isDeleted;
-    }
-
-    public void setIsDeleted(boolean isDeleted) {
-        this.isDeleted = isDeleted;
     }
 
     public Integer getApplyingType() {
@@ -283,7 +250,7 @@ public class ServiceFee  {
         serviceFee.setName(name);
         serviceFee.setType(type);
         serviceFee.setApplyingType(applyingType);
-        serviceFee.setActive(isActive);
+        serviceFee.setActive(active);
         serviceFee.setCreatedDate(createdDate);
         return serviceFee;
     }
@@ -314,5 +281,20 @@ public class ServiceFee  {
             }
         }
         return serviceFeeHistories;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    public Boolean getDeleted() {
+        return this.deleted;
+    }
+    public Boolean getActive() {
+        return this.active;
     }
 }

@@ -39,7 +39,7 @@ public class ServiceFeeAdapterDetails {
     }
 
     public boolean setNewActive(boolean active) {
-        if (object.getIsActive() != active || changedObject != null) {
+        if (object.getActive() != active || changedObject != null) {
             getChangedObject().setActive(active);
         }
         return changedObject != null;
@@ -62,7 +62,7 @@ public class ServiceFeeAdapterDetails {
     }
 
     public boolean getActualActiveStatus() {
-        return (changedObject != null) ? changedObject.getIsActive() : object.getIsActive();
+        return (changedObject != null) ? changedObject.getActive() : object.getActive();
     }
 
     public void setObject(ServiceFee object) {

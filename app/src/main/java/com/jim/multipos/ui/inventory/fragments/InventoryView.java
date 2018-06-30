@@ -20,7 +20,7 @@ public interface InventoryView extends BaseView {
     void closeKeyboard();
     void openWriteOffDialog(InventoryItem inventoryItem, WriteOffProductDialog.WriteOffCallback writeOffCallback);
     void openAddDialog(InventoryItem inventoryItem, SurplusProductDialog.SurplusCallback surplusCallback);
-    void openChooseVendorDialog(List<Vendor> vendorList);
+    void openChooseVendorDialog(List<Vendor> vendorList, List<Vendor> vendorsWithProduct);
     void sendDataToConsignment(Long productId, Long vendorId, int consignment_type);
     void sendInventoryStateEvent(int event);
 }

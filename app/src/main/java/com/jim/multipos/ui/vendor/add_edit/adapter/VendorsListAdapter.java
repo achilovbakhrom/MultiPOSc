@@ -68,7 +68,7 @@ public class VendorsListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             ((VendorViewHolder) holder).item.setThirdItemText(items.get(position).getContactName());
             ((VendorViewHolder) holder).item.setTextSize(12);
             ((VendorViewHolder) holder).item.setActivate(position == selectedPosition);
-            ((VendorViewHolder) holder).item.makeDeletable(!items.get(position).getIsActive());
+            ((VendorViewHolder) holder).item.makeDeletable(!items.get(position).getActive());
         } else {
             ((AddItemViewHolder) holder).item.setVisibility(View.VISIBLE, View.GONE, View.GONE);
             ((AddItemViewHolder) holder).item.itIsAddButton(true);
