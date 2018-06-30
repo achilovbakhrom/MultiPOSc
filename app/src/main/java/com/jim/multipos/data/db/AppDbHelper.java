@@ -91,6 +91,7 @@ import com.jim.multipos.data.db.model.unit.UnitCategory;
 import com.jim.multipos.data.db.model.unit.UnitDao;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
 import com.jim.multipos.ui.vendor_item_managment.model.VendorManagmentItem;
+import com.jim.multipos.ui.vendor_products_view.model.ProductState;
 
 import org.greenrobot.greendao.query.LazyList;
 import org.greenrobot.greendao.query.Query;
@@ -133,50 +134,7 @@ public class AppDbHelper implements DbHelper {
 
     }
 
-    /*@Override
-    public Observable<Long> insertJoinCustomerGroupWithCustomer(JoinCustomerGroupsWithCustomers joinCustomerGroupWithCustomer) {
-        return Observable.fromCallable(() -> mDaoSession.getJoinCustomerGroupsWithCustomersDao().insertOrReplace(joinCustomerGroupWithCustomer));
-    }
 
-    @Override
-    public Observable<Boolean> insertJoinCustomerGroupWithCustomers(List<JoinCustomerGroupsWithCustomers> joinCustomerGroupsWithCustomers) {
-        return Observable.fromCallable(() -> {
-            mDaoSession.getJoinCustomerGroupsWithCustomersDao().insertOrReplaceInTx(joinCustomerGroupsWithCustomers);
-            return true;
-        });
-    }
-
-    @Override
-    public Observable<Boolean> deleteJoinCustomerGroupWithCustomer(Long customerGroupId, Long customerId) {
-        return Observable.fromCallable(() -> {
-            mDaoSession.getDatabase().execSQL("DELETE FROM JOIN_CUSTOMER_GROUPS_WITH_CUSTOMERS WHERE CUSTOMER_ID=? AND CUSTOMER_GROUP_ID=?", new String[]{String.valueOf(customerId), String.valueOf(customerGroupId)});
-
-            return true;
-        });
-    }
-
-    @Override
-    public Observable<Boolean> deleteJoinCustomerGroupWithCustomer(Long customerId) {
-        return Observable.fromCallable(() -> {
-            mDaoSession.getDatabase().execSQL("DELETE FROM JOIN_CUSTOMER_GROUPS_WITH_CUSTOMERS WHERE CUSTOMER_ID=?", new String[]{String.valueOf(customerId)});
-
-            return true;
-        });
-    }
-
-    @Override
-    public Observable<Boolean> deleteAllJoinCustomerGroupWithCustomer() {
-        return Observable.fromCallable(() -> {
-            mDaoSession.getJoinCustomerGroupsWithCustomersDao().deleteAll();
-
-            return true;
-        });
-    }
-
-    @Override
-    public Observable<List<JoinCustomerGroupsWithCustomers>> getAllJoinCustomerGroupsWithCustomers() {
-        return Observable.fromCallable(() -> mDaoSession.getJoinCustomerGroupsWithCustomersDao().loadAll());
-    }*/
 
     @Override
     public Observable<Long> insertCustomerToCustomerGroup(Long customerId, Long customerGroupId) {
@@ -2052,17 +2010,7 @@ public class AppDbHelper implements DbHelper {
 
 
 
-    @Override
-    public Single<Long> getConsignmentByWarehouseId(Long warehouseId) {
-        return Single.create(e -> {
-////            List<ConsignmentProduct> consignmentProducts = mDaoSession.getConsignmentProductDao().queryBuilder()
-////                    .where(ConsignmentProductDao.Properties.WarehouseId.eq(warehouseId))
-////                    .build().list();
-//            if (consignmentProducts.size() > 0) {
-//                e.onSuccess(consignmentProducts.get(0).getConsignmentId());
-//            } else e.onSuccess(-1L);
-        });
-    }
+
 
 
     @Override
@@ -2436,17 +2384,17 @@ public class AppDbHelper implements DbHelper {
                                 stockPerfomanceWithProduct.setAvailable(available);
                                 DetialCount detialCount = new DetialCount();
                                 detialCount.setStockId(stockPerfomanceWithProduct.getStockId());
-                                detialCount.setCount(outcomeProducts.get(i).getSumCountValue());
+                                detialCount.setCount(accumelate);
                                 detialCount.setCost(stockPerfomanceWithProduct.getCost());
                                 detialCounts.add(detialCount);
                                 accumelate = 0;
                             } else {
-                                stockPerfomanceWithProduct.setAvailable(0);
                                 DetialCount detialCount = new DetialCount();
                                 detialCount.setStockId(stockPerfomanceWithProduct.getStockId());
-                                detialCount.setCount(outcomeProducts.get(i).getSumCountValue());
+                                detialCount.setCount(stockPerfomanceWithProduct.getAvailable());
                                 detialCount.setCost(stockPerfomanceWithProduct.getCost());
                                 detialCounts.add(detialCount);
+                                stockPerfomanceWithProduct.setAvailable(0);
                                 accumelate = available * -1;
                             }
                         }
@@ -2550,17 +2498,17 @@ public class AppDbHelper implements DbHelper {
                                 stockPerfomanceWithProduct.setAvailable(available);
                                 DetialCount detialCount = new DetialCount();
                                 detialCount.setStockId(stockPerfomanceWithProduct.getStockId());
-                                detialCount.setCount(outcomeProducts.get(i).getSumCountValue());
+                                detialCount.setCount(accumelate);
                                 detialCount.setCost(stockPerfomanceWithProduct.getCost());
                                 detialCounts.add(detialCount);
                                 accumelate = 0;
                             } else {
-                                stockPerfomanceWithProduct.setAvailable(0);
                                 DetialCount detialCount = new DetialCount();
                                 detialCount.setStockId(stockPerfomanceWithProduct.getStockId());
-                                detialCount.setCount(outcomeProducts.get(i).getSumCountValue());
+                                detialCount.setCount(stockPerfomanceWithProduct.getAvailable());
                                 detialCount.setCost(stockPerfomanceWithProduct.getCost());
                                 detialCounts.add(detialCount);
+                                stockPerfomanceWithProduct.setAvailable(0);
                                 accumelate = available * -1;
                             }
                         }
@@ -2750,17 +2698,17 @@ public class AppDbHelper implements DbHelper {
                             stockPerfomanceWithProduct.setAvailable(available);
                             DetialCount detialCount = new DetialCount();
                             detialCount.setStockId(stockPerfomanceWithProduct.getStockId());
-                            detialCount.setCount(outcomeProduct.getSumCountValue());
+                            detialCount.setCount(accumelate);
                             detialCount.setCost(stockPerfomanceWithProduct.getCost());
                             detialCounts.add(detialCount);
                             accumelate = 0;
                         } else {
-                            stockPerfomanceWithProduct.setAvailable(0);
                             DetialCount detialCount = new DetialCount();
                             detialCount.setStockId(stockPerfomanceWithProduct.getStockId());
-                            detialCount.setCount(outcomeProduct.getSumCountValue());
+                            detialCount.setCount(stockPerfomanceWithProduct.getAvailable());
                             detialCount.setCost(stockPerfomanceWithProduct.getCost());
                             detialCounts.add(detialCount);
+                            stockPerfomanceWithProduct.setAvailable(0);
                             accumelate = available * -1;
                         }
                     }
@@ -2882,6 +2830,27 @@ public class AppDbHelper implements DbHelper {
             }
             e.onSuccess(vendors);
         });
+    }
+
+    @Override
+    public Single<List<ProductState>> getVendorProductsWithStates(Long vendorId) {
+        return Single.create(e -> {
+            String inventoryQuery = "SELECT PRODUCT_ID, SUM(AVAILABLE) FROM STOCK_QUEUE WHERE VENDOR_ID = "+vendorId +" GROUP BY PRODUCT_ID" ;
+            Cursor cursorStockQueue = mDaoSession.getDatabase().rawQuery(inventoryQuery, null);
+            cursorStockQueue.moveToFirst();
+            List<ProductState> productStates = new ArrayList<>();
+            if (cursorStockQueue.getCount() > 0) {
+                cursorStockQueue.moveToFirst();
+                while (!cursorStockQueue.isAfterLast()) {
+                    ProductState productState = new ProductState();
+                    productState.setProduct(mDaoSession.getProductDao().load(cursorStockQueue.getLong(0)));
+                    productState.setValue(cursorStockQueue.getDouble(1));
+                    productStates.add(productState);
+                    cursorStockQueue.moveToNext();
+                }
+            }
+            e.onSuccess(productStates);
+            });
     }
 
 

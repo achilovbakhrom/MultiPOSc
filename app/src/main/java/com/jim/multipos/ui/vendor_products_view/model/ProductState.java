@@ -9,7 +9,6 @@ import com.jim.multipos.data.db.model.products.Vendor;
  */
 public class ProductState {
     private Product product;
-    private Vendor vendor;
     private Double value;
 
     public Product getProduct() {
@@ -18,14 +17,6 @@ public class ProductState {
 
     public void setProduct(Product product) {
         this.product = product;
-    }
-
-    public Vendor getVendor() {
-        return vendor;
-    }
-
-    public void setVendor(Vendor vendor) {
-        this.vendor = vendor;
     }
 
     public Double getValue() {

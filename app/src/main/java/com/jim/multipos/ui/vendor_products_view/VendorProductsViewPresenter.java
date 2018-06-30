@@ -13,28 +13,5 @@ import java.util.List;
  */
 
 public interface VendorProductsViewPresenter extends Presenter {
-    Vendor getVendor();
-    List<Product> getProducts();
-    void setVendorId(long vendorId);
-    void initVendorDetails();
-    List<ProductState> getProductStates();
-    ProductState getProductState(int position);
-    ProductClass getProductClassById(Long id);
-    void sortByProductAsc();
-    void sortByProductDesc();
-    void sortByInventoryAsc();
-    void sortByInventoryDesc();
-    void sortByUnitAsc();
-    void sortByUnitDesc();
-    void sortByCreatedDate();
-    void openIncomeConsignment();
-    void openReturnConsignment();
-    void openConsignmentList();
-    void openIncomeConsignmentToProduct(ProductState state, int consignmentType);
-    void openVendorEditing();
-    void insertNewWarehouseOperation(ProductState inventory, double shortage, String reason);
-    void openPaymentsList();
-    void openPayDialog();
-    void updateBillings();
-    void updateInventoryItems();
+
 }

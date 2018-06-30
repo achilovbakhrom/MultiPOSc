@@ -14,6 +14,7 @@ import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.data.db.model.stock.Stock;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
+import com.jim.multipos.ui.vendor_products_view.model.ProductState;
 
 import java.util.Calendar;
 import java.util.List;
@@ -42,6 +43,7 @@ public interface InventoryOperations {
     List<OutcomeProduct> insertAndFillOutcomeProducts(List<OutcomeWithDetials> outcomeWithDetials); //+
     OutcomeProduct insertAndFillOutcomeProduct(OutcomeWithDetials outcomeWithDetials); //+
 
+    Single<List<ProductState>> getVendorProductsWithStates(Long vendorId);
 
     //ORDER EDIT QILINGANI TASDIQLANSA ESKI ORDERNI OUTCOMELARI OTMENA BO'LISHI KERAK
     Single<Integer> cancelOutcomeProductWhenOrderProductCanceled(List<OrderProduct> orderProducts); //+

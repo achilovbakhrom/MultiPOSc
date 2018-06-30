@@ -131,18 +131,18 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
     public void onPlusCount(int position) {
         OrderProductItem orderProductItem   = (OrderProductItem) list.get(position);
         double neededCount = (summaryOrderCount.get(orderProductItem.getOrderProduct().getProductId())==null?0:summaryOrderCount.get(orderProductItem.getOrderProduct().getProductId()))+1;
-                    if(databaseManager.checkProductAvailable(orderProductItem.getOrderProduct().getProductId(),neededCount,oldOrder) == StockResult.STOCK_OK){
-                        orderProductItem.getOutcomeProduct().setCustomPickSock(false);
-                        orderProductItem.getOutcomeProduct().setPickedStockQueueId(0l);
-                        orderProductItem.getOutcomeProduct().setSumCountValue(orderProductItem.getOutcomeProduct().getSumCountValue()+1);
-                        list.set(position,orderProductItem);
-                        updateDetials();
-                        view.updateOrderDetials(order,customer,payedPartitions);
-                        view.notifyItemChanged(position,list.size(),updateOrderDiscountServiceFee());
-                        view.sendToProductInfoProductItem();
-                    }else {
-                        //TODO OUT STOKE
-                    }
+        if(databaseManager.checkProductAvailable(orderProductItem.getOrderProduct().getProductId(),neededCount,oldOrder) == StockResult.STOCK_OK){
+            orderProductItem.getOutcomeProduct().setCustomPickSock(false);
+            orderProductItem.getOutcomeProduct().setPickedStockQueueId(0l);
+            orderProductItem.getOutcomeProduct().setSumCountValue(orderProductItem.getOutcomeProduct().getSumCountValue()+1);
+            list.set(position,orderProductItem);
+            updateDetials();
+            view.updateOrderDetials(order,customer,payedPartitions);
+            view.notifyItemChanged(position,list.size(),updateOrderDiscountServiceFee());
+            view.sendToProductInfoProductItem();
+        }else {
+            //TODO OUT STOKE
+        }
     }
 
     @Override

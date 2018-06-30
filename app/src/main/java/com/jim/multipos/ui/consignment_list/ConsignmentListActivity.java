@@ -16,7 +16,6 @@ import com.jim.multipos.utils.TextWatcherOnTextChange;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import static com.jim.multipos.ui.consignment.ConsignmentActivity.INVOICE_TYPE;
 import static com.jim.multipos.ui.consignment.ConsignmentActivity.VENDOR_ID;
 
 /**
@@ -123,8 +122,8 @@ public class ConsignmentListActivity extends SimpleActivity implements Consignme
     }
 
     public void openConsignment(Long consignmentId, Integer consignmentType) {
-        Intent intent = new Intent(this, ConsignmentActivity.class);
-        intent.putExtra(INVOICE_TYPE, consignmentType);
-        startActivity(intent);
+//        Intent intent = new Intent(this, ConsignmentActivity.class);
+//        intent.putExtra(INVOICE_TYPE, consignmentType);
+//        startActivity(intent);
     }
 }

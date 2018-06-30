@@ -77,6 +77,7 @@ import com.jim.multipos.data.operations.VendorOperations;
 import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
 import com.jim.multipos.ui.vendor_item_managment.model.VendorManagmentItem;
+import com.jim.multipos.ui.vendor_products_view.model.ProductState;
 
 import org.greenrobot.greendao.query.LazyList;
 
@@ -858,10 +859,7 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
         return dbHelper.isInvoiceNumberExists(number);
     }
 
-    @Override
-    public Single<Long> getConsignmentByWarehouseId(Long warehouseId) {
-        return dbHelper.getConsignmentByWarehouseId(warehouseId);
-    }
+
 
     @Override
     public Single<List<Consignment>> getConsignmentsInInterval(Calendar fromDate, Calendar toDate) {
@@ -1212,6 +1210,12 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
             dbHelper.insetDetialCounts(outcomeWithDetials.getDetialCountList());
         return localOutcome;
     }
+
+    @Override
+    public Single<List<ProductState>> getVendorProductsWithStates(Long vendorId) {
+        return dbHelper.getVendorProductsWithStates(vendorId);
+    }
+
     @Override
     public Single<List<OutcomeWithDetials>> checkPositionAvailablity(List<OutcomeProduct> outcomeProducts) {
         return dbHelper.checkPositionAvailablity(outcomeProducts);

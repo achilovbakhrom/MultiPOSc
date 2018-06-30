@@ -289,7 +289,13 @@
             android:layout_marginBottom="@dimen/ten_dp"
             android:gravity="right"
             android:orientation="horizontal">
-
+            <com.jim.mpviews.MpButtonWithIcon
+                android:id="@+id/btnPosition"
+                android:layout_width="@dimen/hundred_seventy_dp"
+                android:layout_height="@dimen/sixty_dp"
+                android:layout_marginRight="@dimen/five_dp"
+                app:btn_text="Positions"
+                app:src="@drawable/stock_position" />
             <com.jim.mpviews.MpButtonWithIcon
                 android:id="@+id/btnStory"
                 android:layout_width="@dimen/hundred_seventy_dp"

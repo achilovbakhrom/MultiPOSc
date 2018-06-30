@@ -13,14 +13,5 @@ import java.util.List;
  */
 
 public interface VendorProductsView extends BaseView {
-    void sendDataToConsignment(int consignmentType, long vendorId);
-    void sendDataToConsignmentList(long vendorId);
-    void openIncomeConsignmentToProduct(int incomeConsignment, long vendorId, Long productId);
-    void openVendorEditing(long vendorId);
-    void updateAdapterItems(List<ProductState> inventoryStates);
-    void initVendorDetails(String name, String photoPath, String address, String contactName, List<Contact> contacts, Double debt, double paid, String abbr);
-    void openPaymentsList(long vendorId, Double debt);
-    void openPayDialog(Vendor vendor, DatabaseManager databaseManager);
-    void updateVendorBillings(Double debt, double paid, String abbr);
-    void sendEvent(int event);
+
 }

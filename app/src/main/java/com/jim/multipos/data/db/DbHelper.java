@@ -61,6 +61,7 @@ import com.jim.multipos.data.db.model.unit.Unit;
 import com.jim.multipos.data.db.model.unit.UnitCategory;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
 import com.jim.multipos.ui.vendor_item_managment.model.VendorManagmentItem;
+import com.jim.multipos.ui.vendor_products_view.model.ProductState;
 
 import org.greenrobot.greendao.query.LazyList;
 
@@ -284,7 +285,6 @@ public interface DbHelper {
     Single<Order> getLastOrderWithCustomer(Long customerId);
     Single<List<Debt>> getAllCustomerDebtsInInterval(Calendar fromDate, Calendar toDate);
     Single<List<Order>> getOrdersWithCustomerInInterval(Long id, Calendar fromDate, Calendar toDate);
-    Single<Long> getConsignmentByWarehouseId(Long warehouseId);
     Single<List<Return>> getReturnList(Calendar fromDate, Calendar toDate);
     Single<List<TillOperation>> getTillOperationsInterval(Calendar fromDate,Calendar toDate);
     PaymentType getCashPaymentType();
@@ -320,4 +320,5 @@ public interface DbHelper {
     Single<Outvoice> insertOutvoiceWithBillingAndOutcomeProducts(Outvoice outvoice, List<OutcomeProduct> outcomeProducts, BillingOperations operationDebt);
     Single<Boolean> isOutvoiceNumberExists(String number);
     Single<List<Vendor>> getVendorsByProductId(Long productId);
+    Single<List<ProductState>> getVendorProductsWithStates(Long vendorId);
 }
