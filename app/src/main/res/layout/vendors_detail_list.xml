@@ -11,9 +11,11 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="@dimen/two_hundred_forty_dp"
+            android:layout_width="@dimen/two_hundred_ten_dp"
             android:layout_height="match_parent"
-            android:gravity="center">
+
+            android:layout_marginLeft="@dimen/thirty_dp"
+            >
 
             <TextView
                 android:id="@+id/tvProducts"
@@ -26,13 +28,6 @@
                 android:textColor="@color/colorBlue"
                 android:textSize="@dimen/sixteen_dp" />
 
-            <ImageView
-                android:id="@+id/ivProductSort"
-                android:layout_width="@dimen/twelve_dp"
-                android:layout_height="@dimen/ten_dp"
-                android:layout_marginLeft="@dimen/ten_dp"
-                android:src="@drawable/sorting"
-                android:visibility="invisible" />
         </LinearLayout>
 
         <LinearLayout
@@ -51,13 +46,6 @@
                 android:textColor="@color/colorBlue"
                 android:textSize="@dimen/sixteen_dp" />
 
-            <ImageView
-                android:id="@+id/ivInventorySort"
-                android:layout_width="@dimen/twelve_dp"
-                android:layout_height="@dimen/ten_dp"
-                android:layout_marginLeft="@dimen/ten_dp"
-                android:src="@drawable/sorting"
-                android:visibility="invisible" />
         </LinearLayout>
 
         <LinearLayout
@@ -76,18 +64,13 @@
                 android:textColor="@color/colorBlue"
                 android:textSize="@dimen/sixteen_dp" />
 
-            <ImageView
-                android:id="@+id/ivUnitSort"
-                android:layout_width="@dimen/twelve_dp"
-                android:layout_height="@dimen/ten_dp"
-                android:layout_marginLeft="@dimen/ten_dp"
-                android:src="@drawable/sorting"
-                android:visibility="invisible" />
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="@dimen/hundred_seventy_five_dp"
             android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/ten_dp"
             android:gravity="center">
 
             <TextView

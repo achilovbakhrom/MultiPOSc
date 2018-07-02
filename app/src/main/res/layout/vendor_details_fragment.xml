@@ -50,7 +50,9 @@
                 android:id="@+id/ivPhoto"
                 android:layout_width="@dimen/ninety_dp"
                 android:layout_height="@dimen/ninety_dp"
-                android:layout_marginLeft="@dimen/thirty_dp" />
+                android:layout_marginLeft="@dimen/thirty_dp"
+                android:scaleType="fitStart"
+                android:src="@drawable/ic_company"/>
 
             <ScrollView
                 android:layout_width="match_parent"
@@ -68,6 +70,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:paddingLeft="@dimen/twenty_dp"
+                        android:textStyle="bold|italic"
                         android:textColor="@color/colorMainText"
                         android:textSize="@dimen/sixteen_dp" />
 
@@ -77,9 +80,8 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:paddingLeft="@dimen/twenty_dp"
-                        android:textColor="@color/colorSecondaryText"
-                        android:textSize="@dimen/sixteen_dp"
-                        android:textStyle="italic" />
+                        android:textColor="@color/colorMainText"
+                        android:textSize="@dimen/sixteen_dp"/>
 
 
                     <LinearLayout
@@ -93,15 +95,18 @@
                             android:gravity="center"
                             android:paddingLeft="@dimen/twenty_dp"
                             android:text="@string/phone_"
-                            android:textColor="@color/colorSecondaryText"
+                            android:textColor="@color/colorMainText"
                             android:textSize="@dimen/sixteen_dp"
                             android:textStyle="italic" />
 
-                        <LinearLayout
-                            android:id="@+id/llPhones"
+                        <TextView
+                            android:id="@+id/tvPhoneNumbers"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical" />
+                            android:textSize="@dimen/sixteen_dp"
+                            android:layout_marginLeft="@dimen/ten_dp"
+                            android:textColor="@color/colorMainText"
+                            android:text=""/>
 
                     </LinearLayout>
 
@@ -116,26 +121,31 @@
                             android:gravity="center"
                             android:paddingLeft="@dimen/twenty_dp"
                             android:text="@string/email_"
-                            android:textColor="@color/colorSecondaryText"
+                            android:textColor="@color/colorMainText"
                             android:textSize="@dimen/sixteen_dp"
                             android:textStyle="italic" />
 
-                        <LinearLayout
-                            android:id="@+id/llEmails"
+                        <TextView
+                            android:id="@+id/tvEmails"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical" />
+                            android:textSize="@dimen/sixteen_dp"
+                            android:layout_marginLeft="@dimen/ten_dp"
+                            android:textColor="@color/colorMainText"
+                            android:text=""/>
 
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/tvAddressTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/ten_dp"
                         android:gravity="center"
                         android:paddingLeft="@dimen/twenty_dp"
                         android:text="@string/address_"
-                        android:textColor="@color/colorMainText"
+                        android:textColor="@color/dark_gray"
+                        android:textStyle="italic"
                         android:textSize="@dimen/sixteen_dp" />
 
                     <LinearLayout
@@ -149,18 +159,9 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:paddingLeft="@dimen/twenty_dp"
-                            android:textColor="@color/colorSecondaryText"
-                            android:textSize="@dimen/sixteen_dp"
-                            android:textStyle="italic" />
+                            android:textColor="@color/colorMainText"
+                            android:textSize="@dimen/sixteen_dp"/>
 
-                        <ImageView
-                            android:id="@+id/ivEditVendor"
-                            android:layout_width="@dimen/twenty_five_dp"
-                            android:layout_height="@dimen/twenty_five_dp"
-                            android:layout_gravity="center"
-                            android:layout_marginRight="@dimen/thirty_dp"
-                            android:gravity="center"
-                            android:src="@drawable/edit" />
                     </LinearLayout>
                 </LinearLayout>
             </ScrollView>
@@ -181,7 +182,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/thirty_five_dp"
+                android:layout_marginBottom="@dimen/sixteen_dp"
                 android:layout_marginLeft="@dimen/thirty_dp"
                 android:gravity="center"
                 android:text="@string/state_details"
@@ -215,31 +216,7 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/thirty_dp"
-                android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/thirty_dp"
-                    android:layout_weight="1"
-                    android:text="@string/paid"
-                    android:textColor="@color/colorMainText"
-                    android:textSize="@dimen/sixteen_dp" />
-
-                <TextView
-                    android:id="@+id/tvPaidSum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/thirty_dp"
-                    android:gravity="center"
-                    android:textColor="@color/colorMainText"
-                    android:textSize="@dimen/sixteen_dp" />
-
-            </LinearLayout>
         </LinearLayout>
 
         <FrameLayout

@@ -15,7 +15,7 @@ import butterknife.ButterKnife;
 public abstract class DoubleSideActivity extends BaseActivity{
 
     @BindView(R.id.toolbar)
-    MpToolbar toolbar;
+    protected MpToolbar toolbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

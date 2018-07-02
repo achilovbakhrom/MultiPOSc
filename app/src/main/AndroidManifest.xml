@@ -124,7 +124,7 @@
 
         <activity android:name=".ui.vendor_products_view.VendorProductsViewActivity"
             android:configChanges="keyboard|keyboardHidden|navigation"
-            
+            android:windowSoftInputMode="stateHidden"
             >
 
         </activity>

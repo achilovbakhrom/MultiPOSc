@@ -253,6 +253,8 @@ public class BillingOperationFragment extends BaseFragment implements BillingOpe
         presenter.onCreateView(savedInstanceState);
         mainCurrency = databaseManager.getMainCurrency();
         presenter.findVendor(vendorId);
+
+        totalDebt = databaseManager.getVendorDebt(vendorId).blockingGet();
         llTimeDate.setOnClickListener(view -> {
             deselectAll();
             if (filterMode != TIME) {
@@ -341,7 +343,6 @@ public class BillingOperationFragment extends BaseFragment implements BillingOpe
     public void setVendorId(Long vendorId) {
         this.vendorId = vendorId;
     }
-    public void setTotalDebt(Double totalDebt) {this.totalDebt = totalDebt;}
 
     public void dateIntervalPicked(Calendar fromDate, Calendar toDate) {
         presenter.dateIntervalPicked(fromDate,toDate);

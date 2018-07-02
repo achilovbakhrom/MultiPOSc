@@ -69,7 +69,6 @@ public class VendorItemsActivity extends SimpleActivity {
     public void openVendorBillingStory(Long vendorId, Double totalDebt) {
         Intent intent = new Intent(this, BillingOperationsActivity.class);
         intent.putExtra(BillingOperationsActivity.VENDOR_EXTRA_ID, vendorId);
-        intent.putExtra(BillingOperationsActivity.VENDOR_DEBT, totalDebt);
         startActivity(intent);
     }
 }

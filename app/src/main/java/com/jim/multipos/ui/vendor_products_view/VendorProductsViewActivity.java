@@ -8,6 +8,7 @@ import com.jim.multipos.core.DoubleSideActivity;
 import com.jim.multipos.ui.vendor_products_view.fragments.VendorBelongProductsList;
 import com.jim.multipos.ui.vendor_products_view.fragments.VendorDetailsFragment;
 import com.jim.multipos.utils.RxBus;
+import com.jim.multipos.utils.TextWatcherOnTextChange;
 
 import java.text.DecimalFormat;
 
@@ -35,7 +36,11 @@ public class VendorProductsViewActivity extends DoubleSideActivity implements Ve
 
     @Override
     protected int getToolbarMode() {
-        return MpToolbar.DEFAULT_TYPE;
+        return MpToolbar.WITH_SEARCH_TYPE;
+    }
+
+    public void setToolbarSearchText(String text){
+        toolbar.getSearchEditText().setText(text);
     }
 
     @Override
@@ -50,7 +55,16 @@ public class VendorProductsViewActivity extends DoubleSideActivity implements Ve
             VendorBelongProductsList vendorBelongProductsList = new VendorBelongProductsList();
             vendorBelongProductsList.setArguments(bundle);
             addFragmentToRight(vendorBelongProductsList);
+            toolbar.getSearchEditText().addTextChangedListener(new TextWatcherOnTextChange() {
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    if(vendorBelongProductsList!=null && vendorBelongProductsList.isAdded())
+                        vendorBelongProductsList.searchText(toolbar.getSearchEditText().getText().toString());
+                }
+            });
         }
+
+
 
     }
 

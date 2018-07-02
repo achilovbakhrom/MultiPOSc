@@ -1,6 +1,7 @@
 package com.jim.multipos.ui.vendor_products_view.fragments;
 
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,10 +18,14 @@ import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
+import com.jim.multipos.ui.consignment.ConsignmentActivity;
+import com.jim.multipos.ui.inventory.InventoryActivity;
 import com.jim.multipos.ui.vendor_products_view.VendorProductsViewActivity;
 import com.jim.multipos.ui.vendor_products_view.adapters.ProductAdapter;
 import com.jim.multipos.ui.vendor_products_view.model.ProductState;
 import com.jim.multipos.ui.vendor_products_view.presenter.VendorBelongProductsListPresenter;
+import com.jim.multipos.utils.BarcodeStack;
+import com.jim.multipos.utils.BundleConstants;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.rxevents.inventory_events.ConsignmentWithVendorEvent;
 import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
@@ -33,6 +38,10 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import io.reactivex.disposables.Disposable;
+
+import static com.jim.multipos.ui.consignment.ConsignmentActivity.OPERATION_TYPE;
+import static com.jim.multipos.ui.consignment.ConsignmentActivity.PRODUCT_ID;
+import static com.jim.multipos.ui.consignment.ConsignmentActivity.VENDOR_ID;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -49,15 +58,13 @@ public class VendorBelongProductsList extends BaseFragment implements VendorBelo
     TextView tvInventory;
     @BindView(R.id.tvUnit)
     TextView tvUnit;
-    @BindView(R.id.ivProductSort)
-    ImageView ivProductSort;
-    @BindView(R.id.ivInventorySort)
-    ImageView ivInventorySort;
-    @BindView(R.id.ivUnitSort)
-    ImageView ivUnitSort;
-
+    @Inject
+    BarcodeStack barcodeStack;
     @Inject
     DecimalFormat decimalFormat;
+    @Inject
+    RxBus rxBus;
+    private ArrayList<Disposable> subscriptions;
 
     @Override
     protected int getLayout() {
@@ -67,8 +74,15 @@ public class VendorBelongProductsList extends BaseFragment implements VendorBelo
     @Override
     protected void init(Bundle savedInstanceState) {
         presenter.onCreateView(getArguments());
+        barcodeStack.register(barcode -> {
+            if(isAdded() && isVisible())
+                ((VendorProductsViewActivity)getActivity()).setToolbarSearchText(barcode);
+        });
     }
 
+    public void searchText(String textSearched){
+        presenter.searchText(textSearched);
+    }
 
     @Override
     public void initRecyclerView(List<ProductState> productStates) {
@@ -89,12 +103,55 @@ public class VendorBelongProductsList extends BaseFragment implements VendorBelo
     }
 
     @Override
-    public void openVendorInvoiceWithProduct(Vendor vendor, Product product) {
+    public void updateProductStates(List<ProductState> productStates) {
+        productAdapter.setItems(productStates);
+        productAdapter.notifyDataSetChanged();
+    }
 
+    @Override
+    public void initSearchResults(List<ProductState> productStates, String searchText) {
+        productAdapter.setSearchResult(productStates,searchText);
+        productAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void openVendorInvoiceWithProduct(Vendor vendor, Product product) {
+        Intent intent = new Intent(getActivity(), ConsignmentActivity.class);
+        intent.putExtra(VENDOR_ID, vendor.getId());
+        intent.putExtra(PRODUCT_ID, product.getId());
+        intent.putExtra(OPERATION_TYPE, BundleConstants.INVOICE);
+        startActivity(intent);
     }
 
     @Override
     public void openVendorOutvoiceWithProduct(Vendor vendor, Product product) {
+        Intent intent = new Intent(getActivity(), ConsignmentActivity.class);
+        intent.putExtra(VENDOR_ID, vendor.getId());
+        intent.putExtra(PRODUCT_ID, product.getId());
+        intent.putExtra(OPERATION_TYPE, BundleConstants.OUTVOICE);
+        startActivity(intent);
+    }
 
+    @Override
+    protected void rxConnections() {
+        subscriptions = new ArrayList<>();
+        subscriptions.add(
+                rxBus.toObservable().subscribe(o -> {
+                    if (o instanceof ConsignmentWithVendorEvent) {
+                        ConsignmentWithVendorEvent event = (ConsignmentWithVendorEvent) o;
+                        switch (event.getType()) {
+                            case GlobalEventConstants.UPDATE: {
+                                presenter.updateVendorDetials(event.getVendor());
+                                break;
+                            }
+                        }
+                    }
+                }));
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        RxBus.removeListners(subscriptions);
     }
 }

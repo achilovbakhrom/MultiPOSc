@@ -38,7 +38,6 @@ public class BillingOperationsActivity extends SimpleActivity {
         simpleDateFormat = new SimpleDateFormat("MMM dd, yyyy");
         BillingOperationFragment billingOperationFragment = new BillingOperationFragment();
         billingOperationFragment.setVendorId(getIntent().getExtras().getLong(VENDOR_EXTRA_ID));
-        billingOperationFragment.setTotalDebt(getIntent().getExtras().getDouble(VENDOR_DEBT));
         addFragment(billingOperationFragment);
         Calendar from = (Calendar) Calendar.getInstance().clone();
         Calendar to = (Calendar) Calendar.getInstance().clone();

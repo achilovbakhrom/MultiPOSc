@@ -1165,7 +1165,7 @@ public class AppDbHelper implements DbHelper {
     public Single<Double> getVendorDebt(Long vendorId) {
         return Single.create(e -> {
             double debt = 0;
-            String query = "SELECT  SUM(AMOUNT) AS AMOUNT FROM BILLING_OPERATION WHERE IS_NOT_MODIFIED == " + 1 + " AND IS_DELETED == " + 0 + " GROUP BY VENDOR_ID HAVING VENDOR_ID=?";
+            String query = "SELECT  SUM(AMOUNT) AS AMOUNT FROM BILLING_OPERATION WHERE  IS_DELETED == " + 0 + " GROUP BY VENDOR_ID HAVING VENDOR_ID=?";
             Cursor cursor = mDaoSession.getDatabase().rawQuery(query, new String[]{String.valueOf(vendorId)});
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -2240,14 +2240,14 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Single<List<StockQueue>> getAvailableStockQueuesByProductId(Long id) {
         return Single.create(e -> {
-            e.onSuccess(mDaoSession.getStockQueueDao().queryBuilder().where(StockQueueDao.Properties.ProductId.eq(id), StockQueueDao.Properties.Closed.eq(false)).build().list());
+            e.onSuccess(mDaoSession.getStockQueueDao().queryBuilder().where(StockQueueDao.Properties.ProductId.eq(id), StockQueueDao.Properties.Available.ge(0.0009)).build().list());
         });
     }
 
     @Override
     public Single<Double> getAvailableCountForProduct(Long id) {
         return Single.create(e ->{
-                    String query = "SELECT  SUM(AVAILABLE) AS AMOUNT FROM STOCK_QUEUE WHERE CLOSED == " + 0 + " AND PRODUCT_ID == " + id;
+                    String query = "SELECT  SUM(AVAILABLE) AS AMOUNT FROM STOCK_QUEUE WHERE AVAILABLE > 0.0009 AND PRODUCT_ID == " + id;
                     Cursor cursor = mDaoSession.getDatabase().rawQuery(query, null);
                     double count = 0;
                     if (cursor.getCount() > 0) {
@@ -2263,7 +2263,7 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Single<Double> getAvailableCount(Long productId) {
         return Single.create(e -> {
-            String sumStockAvailableQuery = "SELECT SUM(AVAILABLE) FROM STOCK_QUEUE WHERE PRODUCT_ID = " + productId + " AND CLOSED = 0";
+            String sumStockAvailableQuery = "SELECT SUM(AVAILABLE) FROM STOCK_QUEUE WHERE PRODUCT_ID = " + productId + " AND AVAILABLE > 0.0009";
             Cursor cursorStockAvailable = mDaoSession.getDatabase().rawQuery(sumStockAvailableQuery, null);
             cursorStockAvailable.moveToFirst();
             double summaryAvailable = 0;
@@ -2317,7 +2317,7 @@ public class AppDbHelper implements DbHelper {
     public Single<List<OutcomeWithDetials>> checkPositionAvailablity(List<OutcomeProduct> outcomeProducts) {
         return Single.create(e -> {
             //TODO CAN BE OPTIMIZED
-            String queryForStock = "SELECT _ID, AVAILABLE, COST, PRODUCT_ID, EXPIRED_PRODUCT_DATE  FROM STOCK_QUEUE WHERE CLOSED = 0 AND PRODUCT_ID IN (";
+            String queryForStock = "SELECT _ID, AVAILABLE, COST, PRODUCT_ID, EXPIRED_PRODUCT_DATE  FROM STOCK_QUEUE WHERE AVAILABLE > 0.0009 AND PRODUCT_ID IN (";
             for (int i = 0; i < outcomeProducts.size(); i++) {
                 queryForStock +=  " " + outcomeProducts.get(i).getProductId() ;
                 if(i+1!=outcomeProducts.size())
@@ -2417,7 +2417,7 @@ public class AppDbHelper implements DbHelper {
     public Single<List<OutcomeWithDetials>> checkPositionAvailablityWithoutSomeOutcomes(List<OutcomeProduct> outcomeProducts, List<OutcomeProduct> withoutOutcomeProducts) {
         return Single.create(e -> {
             //TODO CAN BE OPTIMIZED
-            String queryForStock = "SELECT _ID, AVAILABLE, COST, PRODUCT_ID, EXPIRED_PRODUCT_DATE  FROM STOCK_QUEUE WHERE CLOSED = 0 AND PRODUCT_ID IN (";
+            String queryForStock = "SELECT _ID, AVAILABLE, COST, PRODUCT_ID, EXPIRED_PRODUCT_DATE  FROM STOCK_QUEUE WHERE AVAILABLE > 0.0009 AND PRODUCT_ID IN (";
             for (int i = 0; i < outcomeProducts.size(); i++) {
                 queryForStock +=  " " + outcomeProducts.get(i).getProductId() ;
                 if(i+1!=outcomeProducts.size())
@@ -2576,7 +2576,7 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Single<List<StockQueueItem>> getStockQueueItemForOutcomeProduct(OutcomeProduct outcomeProduct, List<OutcomeProduct> outcomeProductList, List<OutcomeProduct> exceptionList) {
         return Single.create(e -> {
-            List<StockQueue> stockQueues = mDaoSession.getStockQueueDao().queryBuilder().where(StockQueueDao.Properties.ProductId.eq(outcomeProduct.getProduct().getId()), StockQueueDao.Properties.Closed.eq(false)).build().list();
+            List<StockQueue> stockQueues = mDaoSession.getStockQueueDao().queryBuilder().where(StockQueueDao.Properties.ProductId.eq(outcomeProduct.getProduct().getId()), StockQueueDao.Properties.Available.ge(0.0009)).build().list();
 
             if(outcomeProduct.getProduct().getStockKeepType()==Product.LIFO) Collections.sort(stockQueues,(stockQueue, t1) -> t1.getStockId().compareTo(stockQueue.getStockId()));
             if(outcomeProduct.getProduct().getStockKeepType()==Product.FEFO) Collections.sort(stockQueues,(stockQueue, t1) -> stockQueue.getExpiredProductDate().compareTo(t1.getExpiredProductDate()));
@@ -2654,7 +2654,7 @@ public class AppDbHelper implements DbHelper {
     public Single<OutcomeWithDetials> checkPositionAvailablity(OutcomeProduct outcomeProduct) {
         return Single.create(e -> {
             //TODO CAN BE OPTIMIZED
-            String queryForStock = "SELECT _ID, AVAILABLE, COST, PRODUCT_ID, EXPIRED_PRODUCT_DATE  FROM STOCK_QUEUE WHERE CLOSED = 0 AND PRODUCT_ID = "+outcomeProduct.getProductId();
+            String queryForStock = "SELECT _ID, AVAILABLE, COST, PRODUCT_ID, EXPIRED_PRODUCT_DATE  FROM STOCK_QUEUE WHERE AVAILABLE > 0.0009 AND PRODUCT_ID = "+outcomeProduct.getProductId();
             Cursor cursorForStock = mDaoSession.getDatabase().rawQuery(queryForStock, null);
 
             List<StockPerfomanceWithProduct> stockPerfomanceWithProducts = new ArrayList<>();
@@ -2741,15 +2741,12 @@ public class AppDbHelper implements DbHelper {
                 mDaoSession.getOutcomeProductDao().insertOrReplace(outcomeProduct);
             }
             for (OutcomeProduct outcomeProduct: outcomeProducts) {
-                List<StockQueue> stockQueues = mDaoSession.getStockQueueDao().queryBuilder().where(StockQueueDao.Properties.ProductId.eq(outcomeProduct.getProduct().getId()), StockQueueDao.Properties.Closed.eq(false)).build().list();
+                List<StockQueue> stockQueues = mDaoSession.getStockQueueDao().queryBuilder().where(StockQueueDao.Properties.ProductId.eq(outcomeProduct.getProduct().getId()), StockQueueDao.Properties.Available.ge(0.0009)).build().list();
                 double count = outcomeProduct.getSumCountValue();
                 if (outcomeProduct.getCustomPickSock()){
                     for (int j = 0; j < stockQueues.size(); j++) {
                         if (stockQueues.get(j).getId().equals(outcomeProduct.getStockQueue().getId())) {
                             stockQueues.get(j).setAvailable(stockQueues.get(j).getAvailable() - count);
-                            if (stockQueues.get(j).getAvailable() == 0.0d) {
-                                stockQueues.get(j).setClosed(true);
-                            }
                             mDaoSession.getStockQueueDao().insertOrReplace(stockQueues.get(j));
                             DetialCount detialCount = new DetialCount();
                             detialCount.setStockId(stockQueues.get(j).getId());
@@ -2764,7 +2761,7 @@ public class AppDbHelper implements DbHelper {
                 }
             }
             for (OutcomeProduct outcomeProduct: outcomeProducts) {
-                List<StockQueue> stockQueues = mDaoSession.getStockQueueDao().queryBuilder().where(StockQueueDao.Properties.ProductId.eq(outcomeProduct.getProduct().getId()), StockQueueDao.Properties.Closed.eq(false)).build().list();
+                List<StockQueue> stockQueues = mDaoSession.getStockQueueDao().queryBuilder().where(StockQueueDao.Properties.ProductId.eq(outcomeProduct.getProduct().getId()), StockQueueDao.Properties.Available.ge(0.0009)).build().list();
                 double count = outcomeProduct.getSumCountValue();
                 if(outcomeProduct.getProduct().getStockKeepType()==Product.LIFO)
                     Collections.sort(stockQueues,(stockQueue, t1) -> t1.getStockId().compareTo(stockQueue.getStockId()));
@@ -2776,7 +2773,6 @@ public class AppDbHelper implements DbHelper {
                             if (count >= stockQueues.get(j).getAvailable()){
                                 count -= stockQueues.get(j).getAvailable();
                                 stockQueues.get(j).setAvailable(0);
-                                stockQueues.get(j).setClosed(true);
                                 DetialCount detialCount = new DetialCount();
                                 detialCount.setStockId(stockQueues.get(j).getId());
                                 detialCount.setStockQueue(stockQueues.get(j));
