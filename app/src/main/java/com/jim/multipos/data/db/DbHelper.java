@@ -59,6 +59,7 @@ import com.jim.multipos.data.db.model.till.TillOperation;
 import com.jim.multipos.data.db.model.unit.SubUnitsList;
 import com.jim.multipos.data.db.model.unit.Unit;
 import com.jim.multipos.data.db.model.unit.UnitCategory;
+import com.jim.multipos.ui.consignment_list.model.InvoiceListItem;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
 import com.jim.multipos.ui.vendor_item_managment.model.VendorManagmentItem;
 import com.jim.multipos.ui.vendor_products_view.model.ProductState;
@@ -321,4 +322,6 @@ public interface DbHelper {
     Single<Boolean> isOutvoiceNumberExists(String number);
     Single<List<Vendor>> getVendorsByProductId(Long productId);
     Single<List<ProductState>> getVendorProductsWithStates(Long vendorId);
+    Single<List<InvoiceListItem>> getInvoiceListItemByVendorId(Long vendorId);
+    Single<List<InvoiceListItem>> getInvoiceListItemsInIntervalByVendor(Long vendorId, Calendar fromDate, Calendar toDate);
 }

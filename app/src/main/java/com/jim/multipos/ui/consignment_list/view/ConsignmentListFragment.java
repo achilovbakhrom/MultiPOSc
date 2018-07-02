@@ -3,20 +3,26 @@ package com.jim.multipos.ui.consignment_list.view;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.jim.mpviews.MpEditText;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
-import com.jim.multipos.data.db.model.consignment.Consignment;
+import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.currency.Currency;
-import com.jim.multipos.ui.consignment_list.ConsignmentListActivity;
 import com.jim.multipos.ui.consignment_list.adapter.ConsignmentListItemAdapter;
+import com.jim.multipos.ui.consignment_list.dialogs.InvoiceDetailsDialog;
+import com.jim.multipos.ui.consignment_list.dialogs.InvoiceListFilterDialog;
+import com.jim.multipos.ui.consignment_list.model.InvoiceListItem;
 import com.jim.multipos.ui.consignment_list.presenter.ConsignmentListPresenter;
+import com.jim.multipos.utils.DateIntervalPicker;
 import com.jim.multipos.utils.RxBus;
-import com.jim.multipos.utils.WarningDialog;
+import com.jim.multipos.utils.TextWatcherOnTextChange;
 import com.jim.multipos.utils.rxevents.inventory_events.ConsignmentWithVendorEvent;
 import com.jim.multipos.utils.rxevents.inventory_events.InventoryStateEvent;
 import com.jim.multipos.utils.rxevents.main_order_events.ConsignmentEvent;
@@ -29,6 +35,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.OnClick;
+import butterknife.OnTextChanged;
 import io.reactivex.disposables.Disposable;
 
 import static com.jim.multipos.ui.consignment.ConsignmentActivity.VENDOR_ID;
@@ -50,6 +58,8 @@ public class ConsignmentListFragment extends BaseFragment implements Consignment
     ConsignmentListPresenter presenter;
     @Inject
     RxBus rxBus;
+    @Inject
+    DatabaseManager databaseManager;
 
     @BindView(R.id.rvConsignmentList)
     RecyclerView rvConsignmentList;
@@ -62,10 +72,19 @@ public class ConsignmentListFragment extends BaseFragment implements Consignment
     LinearLayout llDate;
     @BindView(R.id.llTotalDebt)
     LinearLayout llTotalDebt;
+    @BindView(R.id.llDateInterval)
+    LinearLayout llDateInterval;
+    @BindView(R.id.llFilter)
+    LinearLayout llFilter;
+    @BindView(R.id.flClearSearch)
+    FrameLayout flClearSearch;
 
     @BindView(R.id.tvActions)
     TextView tvActions;
-
+    @BindView(R.id.tvTitle)
+    TextView tvTitle;
+    @BindView(R.id.tvDateInterval)
+    TextView tvDateInterval;
     @BindView(R.id.ivStatusSort)
     ImageView ivStatusSort;
     @BindView(R.id.ivConsignmentSort)
@@ -74,6 +93,10 @@ public class ConsignmentListFragment extends BaseFragment implements Consignment
     ImageView ivDateSort;
     @BindView(R.id.ivDebtSort)
     ImageView ivDebtSort;
+    @BindView(R.id.ivSearchImage)
+    ImageView ivSearchImage;
+    @BindView(R.id.mpSearchEditText)
+    MpEditText mpSearchEditText;
 
     ConsignmentListItemAdapter adapter;
     SortingStates filterMode = SortingStates.FILTERED_BY_DATE;
@@ -110,29 +133,19 @@ public class ConsignmentListFragment extends BaseFragment implements Consignment
         rvConsignmentList.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new ConsignmentListItemAdapter(getContext());
         rvConsignmentList.setAdapter(adapter);
-        adapter.setCallback(new ConsignmentListItemAdapter.OnConsignmentListItemCallback() {
-            @Override
-            public void onItemClick(Consignment consignment) {
-                presenter.setConsignment(consignment);
-            }
-
-            @Override
-            public void onItemDelete(Consignment consignment) {
-                WarningDialog warningDialog = new WarningDialog(getContext());
-                warningDialog.setWarningMessage(getString(R.string.do_you_want_delete));
-                warningDialog.setDialogTitle(getString(R.string.warning));
-                warningDialog.setOnYesClickListener(view1 -> {
-                    presenter.deleteConsignment(consignment);
-                    warningDialog.dismiss();
-                });
-                warningDialog.setOnNoClickListener(view -> warningDialog.dismiss());
-                warningDialog.show();
-            }
-        });
         if (getArguments() != null) {
             Long vendorId = (Long) getArguments().get(VENDOR_ID);
             presenter.initConsignmentListRecyclerViewData(vendorId);
         }
+
+        mpSearchEditText.addTextChangedListener(new TextWatcherOnTextChange() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                presenter.search(mpSearchEditText.getText().toString());
+            }
+        });
+
+        llDateInterval.setOnClickListener(v -> presenter.openDateIntervalPicker());
 
         llStatus.setOnClickListener(view -> {
             deselectAll();
@@ -191,6 +204,17 @@ public class ConsignmentListFragment extends BaseFragment implements Consignment
                 presenter.filterInvert();
             }
         });
+
+        flClearSearch.setOnClickListener(v -> {
+            if(!mpSearchEditText.getText().toString().isEmpty())
+                mpSearchEditText.setText("");
+        });
+
+        adapter.setCallback(item -> {
+            InvoiceDetailsDialog dialog = new InvoiceDetailsDialog(getContext(), databaseManager, item.getInvoice(), item.getOutvoice());
+            dialog.show();
+        });
+
     }
 
     private void deselectAll() {
@@ -201,8 +225,8 @@ public class ConsignmentListFragment extends BaseFragment implements Consignment
     }
 
     @Override
-    public void setConsignmentListRecyclerViewData(List<Consignment> consignmentList, Currency currency) {
-        adapter.setItems(consignmentList, currency);
+    public void seInvoiceListRecyclerViewData(List<InvoiceListItem> invoiceListItems, Currency currency) {
+        adapter.setItems(invoiceListItems, currency);
     }
 
     @Override
@@ -211,13 +235,13 @@ public class ConsignmentListFragment extends BaseFragment implements Consignment
     }
 
     @Override
-    public void initSearchResults(List<Consignment> searchResults, String searchText, Currency currency) {
+    public void initSearchResults(List<InvoiceListItem> searchResults, String searchText, Currency currency) {
         adapter.setSearchResult(searchResults, currency, searchText);
     }
 
     @Override
     public void openConsignment(Long consignmentId, Integer consignmentType) {
-        ((ConsignmentListActivity) getActivity()).openConsignment(consignmentId, consignmentType);
+//        ((ConsignmentListActivity) getActivity()).openConsignment(consignmentId, consignmentType);
     }
 
     @Override
@@ -227,7 +251,7 @@ public class ConsignmentListFragment extends BaseFragment implements Consignment
 
     @Override
     public void dateIntervalPicked(Calendar fromDate, Calendar toDate) {
-        presenter.dateIntervalPicked(fromDate,toDate);
+        presenter.dateIntervalPicked(fromDate, toDate);
     }
 
     @Override
@@ -245,13 +269,47 @@ public class ConsignmentListFragment extends BaseFragment implements Consignment
         rxBus.send(new InventoryStateEvent(event));
     }
 
-    public void setSearchText(String searchText) {
-        presenter.search(searchText);
+    @Override
+    public void openDateIntervalPicker(Calendar fromDate, Calendar toDate) {
+        DateIntervalPicker dateIntervalPicker = new DateIntervalPicker(getContext(), fromDate, toDate, (fromDate1, toDate1) -> {
+            presenter.dateIntervalPicked(fromDate1, toDate1);
+        });
+        dateIntervalPicker.show();
+    }
+
+    @Override
+    public void updateDateIntervalUI(String date) {
+        tvDateInterval.setText(date);
+    }
+
+    @Override
+    public void setVendorName(String name) {
+        tvTitle.setText(name +  "'s purchase and return invoices list");
+    }
+
+    @Override
+    public void openFilterDialog(int[] filterConfig) {
+        InvoiceListFilterDialog dialog = new InvoiceListFilterDialog(getContext(), filterConfig, config -> presenter.onFilterConfigChanged(config));
+        dialog.show();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         RxBus.removeListners(subscriptions);
+    }
+
+    @OnTextChanged(R.id.mpSearchEditText)
+    protected void handleTextChange(Editable editable) {
+        if(editable.toString().isEmpty()){
+            ivSearchImage.setImageResource(R.drawable.search_app);
+        }else {
+            ivSearchImage.setImageResource(R.drawable.cancel_search);
+        }
+    }
+
+    @OnClick(R.id.llFilter)
+    public void onFilterClicked(){
+        presenter.onFilterClicked();
     }
 }

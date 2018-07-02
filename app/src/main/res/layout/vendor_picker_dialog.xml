@@ -147,7 +147,7 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/colorTintGrey" />
+                android:background="@color/colorBackgroundGrey" />
 
             <RelativeLayout
                 android:layout_width="match_parent"

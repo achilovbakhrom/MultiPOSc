@@ -173,7 +173,7 @@
             </LinearLayout>
 
             <FrameLayout
-                android:background="@color/colorTintGrey"
+                android:background="@color/colorBackgroundGrey"
                 android:layout_width="match_parent"
                 android:layout_height="1px" />
 

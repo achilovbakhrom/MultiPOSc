@@ -89,9 +89,11 @@ import com.jim.multipos.data.db.model.unit.SubUnitsList;
 import com.jim.multipos.data.db.model.unit.Unit;
 import com.jim.multipos.data.db.model.unit.UnitCategory;
 import com.jim.multipos.data.db.model.unit.UnitDao;
+import com.jim.multipos.ui.consignment_list.model.InvoiceListItem;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
 import com.jim.multipos.ui.vendor_item_managment.model.VendorManagmentItem;
 import com.jim.multipos.ui.vendor_products_view.model.ProductState;
+import com.jim.multipos.utils.BundleConstants;
 
 import org.greenrobot.greendao.query.LazyList;
 import org.greenrobot.greendao.query.Query;
@@ -2851,6 +2853,72 @@ public class AppDbHelper implements DbHelper {
             }
             e.onSuccess(productStates);
             });
+    }
+
+    @Override
+    public Single<List<InvoiceListItem>> getInvoiceListItemByVendorId(Long vendorId) {
+        return Single.create(e -> {
+            List<Invoice> invoiceList = mDaoSession.getInvoiceDao().queryBuilder().where(InvoiceDao.Properties.VendorId.eq(vendorId)).build().list();
+            List<Outvoice> outvoiceList = mDaoSession.getOutvoiceDao().queryBuilder().where(OutvoiceDao.Properties.VendorId.eq(vendorId)).build().list();
+            List<InvoiceListItem> invoiceListItems = new ArrayList<>();
+            for(Invoice invoice: invoiceList){
+                InvoiceListItem item = new InvoiceListItem();
+                item.setInvoice(invoice);
+                item.setCreatedDate(invoice.getCreatedDate());
+                item.setNumber(invoice.getConsigmentNumber());
+                item.setTotalAmount(invoice.getTotalAmount());
+                item.setType(BundleConstants.INVOICE);
+                invoiceListItems.add(item);
+            }
+            for(Outvoice outvoice: outvoiceList){
+                InvoiceListItem item = new InvoiceListItem();
+                item.setOutvoice(outvoice);
+                item.setCreatedDate(outvoice.getCreatedDate());
+                item.setNumber(outvoice.getConsigmentNumber());
+                item.setTotalAmount(outvoice.getTotalAmount());
+                item.setType(BundleConstants.OUTVOICE);
+                invoiceListItems.add(item);
+            }
+            Collections.sort(invoiceListItems, (o1, o2) -> o1.getCreatedDate().compareTo(o2.getCreatedDate()));
+            e.onSuccess(invoiceListItems);
+        });
+    }
+
+    @Override
+    public Single<List<InvoiceListItem>> getInvoiceListItemsInIntervalByVendor(Long vendorId, Calendar fromDate, Calendar toDate) {
+        return Single.create(e -> {
+            List<Invoice> invoiceList = mDaoSession.getInvoiceDao().queryBuilder()
+                    .where(InvoiceDao.Properties.VendorId.eq(vendorId), InvoiceDao.Properties.CreatedDate.ge(fromDate.getTimeInMillis()),
+                           InvoiceDao.Properties.CreatedDate.le(toDate.getTimeInMillis()))
+                    .build()
+                    .list();
+            List<Outvoice> outvoiceList = mDaoSession.getOutvoiceDao().queryBuilder()
+                    .where(OutvoiceDao.Properties.VendorId.eq(vendorId), OutvoiceDao.Properties.CreatedDate.ge(fromDate.getTimeInMillis()),
+                           OutvoiceDao.Properties.CreatedDate.le(toDate.getTimeInMillis()))
+                    .build()
+                    .list();
+            List<InvoiceListItem> invoiceListItems = new ArrayList<>();
+            for(Invoice invoice: invoiceList){
+                InvoiceListItem item = new InvoiceListItem();
+                item.setInvoice(invoice);
+                item.setCreatedDate(invoice.getCreatedDate());
+                item.setNumber(invoice.getConsigmentNumber());
+                item.setTotalAmount(invoice.getTotalAmount());
+                item.setType(BundleConstants.INVOICE);
+                invoiceListItems.add(item);
+            }
+            for(Outvoice outvoice: outvoiceList){
+                InvoiceListItem item = new InvoiceListItem();
+                item.setOutvoice(outvoice);
+                item.setCreatedDate(outvoice.getCreatedDate());
+                item.setNumber(outvoice.getConsigmentNumber());
+                item.setTotalAmount(outvoice.getTotalAmount());
+                item.setType(BundleConstants.OUTVOICE);
+                invoiceListItems.add(item);
+            }
+            Collections.sort(invoiceListItems, (o1, o2) -> o1.getCreatedDate().compareTo(o2.getCreatedDate()));
+            e.onSuccess(invoiceListItems);
+        });
     }
 
 

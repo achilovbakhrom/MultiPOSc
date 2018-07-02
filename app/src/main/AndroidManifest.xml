@@ -190,6 +190,7 @@
         </activity>
         <activity android:name=".ui.customers.CustomersActivity" />
         <activity android:name=".ui.vendors.VendorsActivity" />
+        <activity android:name=".ui.product_queue_list.ProductQueueListActivity" />
 
         <service
             android:name="com.jim.multipos.utils.usb_barcode.USBService"

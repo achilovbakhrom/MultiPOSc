@@ -5,10 +5,12 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jim.mpviews.MpButton;
@@ -28,6 +30,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.OnTextChanged;
 
 public class StockPositionsDialog extends Dialog {
 
@@ -56,6 +60,8 @@ public class StockPositionsDialog extends Dialog {
     TextView tvProductUnit;
     @BindView(R.id.flClearSearch)
     FrameLayout flClearSearch;
+    @BindView(R.id.ivSearchImage)
+    ImageView ivSearchImage;
 
     public StockPositionsDialog(Context context, OutcomeProduct outcomeProduct, List<OutcomeProduct> outcomeProductList, List<OutcomeProduct> exceptionList, DatabaseManager databaseManager) {
         super(context);
@@ -229,6 +235,15 @@ public class StockPositionsDialog extends Dialog {
                 }
             }
         });
+    }
+
+    @OnTextChanged(R.id.mpSearchEditText)
+    protected void handleTextChange(Editable editable) {
+        if(editable.toString().isEmpty()){
+            ivSearchImage.setImageResource(R.drawable.search_app);
+        }else {
+            ivSearchImage.setImageResource(R.drawable.cancel_search);
+        }
     }
 
     private void calculateStockPositions() {

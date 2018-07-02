@@ -5,15 +5,18 @@ import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.consignment.Consignment;
 import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
 import com.jim.multipos.data.db.model.currency.Currency;
-import com.jim.multipos.data.db.model.inventory.BillingOperations;
+import com.jim.multipos.data.db.model.inventory.IncomeProduct;
+import com.jim.multipos.data.db.model.inventory.OutcomeProduct;
+import com.jim.multipos.ui.consignment_list.model.InvoiceListItem;
 import com.jim.multipos.ui.consignment_list.view.ConsignmentListFragment;
 import com.jim.multipos.ui.consignment_list.view.ConsignmentListView;
-import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
+import com.jim.multipos.utils.BundleConstants;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -27,28 +30,56 @@ import javax.inject.Inject;
 public class ConsignmentListPresenterImpl extends BasePresenterImpl<ConsignmentListView> implements ConsignmentListPresenter {
 
     private DatabaseManager databaseManager;
-    private List<Consignment> consignmentList, searchResults;
+    private List<InvoiceListItem> invoiceListItems, searchResults;
     private int sorting = 1;
     private Currency currency;
     private Long vendorId;
     private ConsignmentListFragment.SortingStates sortType = ConsignmentListFragment.SortingStates.FILTERED_BY_DATE;
     private Calendar fromDate, toDate;
+    private SimpleDateFormat simpleDateFormat;
+    private int[] filterConfig;
 
     @Inject
     protected ConsignmentListPresenterImpl(ConsignmentListView consignmentListView, DatabaseManager databaseManager) {
         super(consignmentListView);
         this.databaseManager = databaseManager;
-        consignmentList = new ArrayList<>();
+        invoiceListItems = new ArrayList<>();
+        filterConfig = new int[]{1, 1};
     }
 
     @Override
     public void initConsignmentListRecyclerViewData(Long vendorId) {
         this.vendorId = vendorId;
+        Date currentDate = new Date();
+        fromDate = new GregorianCalendar();
+        toDate = new GregorianCalendar();
+
+        toDate.setTime(currentDate);
+        toDate.set(Calendar.HOUR_OF_DAY, 23);
+        toDate.set(Calendar.MINUTE, 59);
+        toDate.set(Calendar.SECOND, 59);
+
+        fromDate.add(Calendar.MONTH, -1);
+        fromDate.set(Calendar.HOUR_OF_DAY, 0);
+        fromDate.set(Calendar.MINUTE, 0);
+        fromDate.set(Calendar.SECOND, 0);
+        simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+        view.updateDateIntervalUI(simpleDateFormat.format(fromDate.getTimeInMillis()) + " - " + simpleDateFormat.format(toDate.getTimeInMillis()));
+        view.setVendorName(databaseManager.getVendorById(vendorId).blockingSingle().getName());
         currency = databaseManager.getMainCurrency();
-        databaseManager.getConsignmentsByVendorId(vendorId).subscribe(consignments -> {
-            this.consignmentList = consignments;
+        databaseManager.getInvoiceListItemByVendorId(vendorId).subscribe(invoiceListItems1 -> {
+            for (InvoiceListItem item : invoiceListItems1) {
+                if (filterConfig[0] == 1 && item.getType() == BundleConstants.INVOICE) {
+                    this.invoiceListItems.add(item);
+                    continue;
+                }
+                if (filterConfig[1] == 1 && item.getType() == BundleConstants.OUTVOICE) {
+                    this.invoiceListItems.add(item);
+                }
+            }
             sortList();
-            view.setConsignmentListRecyclerViewData(consignments, currency);
+            view.seInvoiceListRecyclerViewData(invoiceListItems, currency);
         });
     }
 
@@ -72,40 +103,70 @@ public class ConsignmentListPresenterImpl extends BasePresenterImpl<ConsignmentL
         if (searchText.isEmpty()) {
             searchResults = null;
             sortList();
-            view.setConsignmentListRecyclerViewData(consignmentList, currency);
+            view.seInvoiceListRecyclerViewData(invoiceListItems, currency);
         } else {
             searchResults = new ArrayList<>();
             SimpleDateFormat formatter = new SimpleDateFormat("hh:mm MM/dd/yyyy");
-            for (int i = 0; i < consignmentList.size(); i++) {
-                if (consignmentList.get(i).getConsignmentNumber().toUpperCase().contains(searchText.toUpperCase())) {
-                    searchResults.add(consignmentList.get(i));
-                    continue;
-                }
-                Date date = new Date(consignmentList.get(i).getCreatedDate());
-                if (formatter.format(date).toUpperCase().contains(searchText.toUpperCase())) {
-                    searchResults.add(consignmentList.get(i));
-                    continue;
-                }
-                if (consignmentList.get(i).getTotalAmount().toString().toUpperCase().contains(searchText.toUpperCase())) {
-                    searchResults.add(consignmentList.get(i));
-                    continue;
-                }
-                List<ConsignmentProduct> productList = consignmentList.get(i).getConsignmentProducts();
-                for (int j = 0; j < productList.size(); j++) {
-                    if (productList.get(j).getProduct().getSku().toUpperCase().contains(searchText.toUpperCase())) {
-                        searchResults.add(consignmentList.get(i));
-                        break;
+            for (int i = 0; i < invoiceListItems.size(); i++) {
+                if (invoiceListItems.get(i).getInvoice() != null) {
+                    if (invoiceListItems.get(i).getInvoice().getConsigmentNumber().toUpperCase().contains(searchText.toUpperCase())) {
+                        searchResults.add(invoiceListItems.get(i));
+                        continue;
                     }
-                    if (productList.get(j).getProduct().getName().toUpperCase().contains(searchText.toUpperCase())) {
-                        searchResults.add(consignmentList.get(i));
-                        break;
+                    Date date = new Date(invoiceListItems.get(i).getCreatedDate());
+                    if (formatter.format(date).toUpperCase().contains(searchText.toUpperCase())) {
+                        searchResults.add(invoiceListItems.get(i));
+                        continue;
                     }
-                    if (productList.get(j).getCountValue().toString().toUpperCase().contains(searchText.toUpperCase())) {
-                        searchResults.add(consignmentList.get(i));
-                        break;
+                    if (invoiceListItems.get(i).getInvoice().getTotalAmount().toString().toUpperCase().contains(searchText.toUpperCase())) {
+                        searchResults.add(invoiceListItems.get(i));
+                        continue;
+                    }
+                    List<IncomeProduct> productList = invoiceListItems.get(i).getInvoice().getIncomeProducts();
+                    for (int j = 0; j < productList.size(); j++) {
+                        if (productList.get(j).getProduct().getSku().toUpperCase().contains(searchText.toUpperCase())) {
+                            searchResults.add(invoiceListItems.get(i));
+                            break;
+                        }
+                        if (productList.get(j).getProduct().getName().toUpperCase().contains(searchText.toUpperCase())) {
+                            searchResults.add(invoiceListItems.get(i));
+                            break;
+                        }
+                        if (productList.get(j).getCountValue().toString().toUpperCase().contains(searchText.toUpperCase())) {
+                            searchResults.add(invoiceListItems.get(i));
+                            break;
+                        }
+                    }
+                } else {
+                    if (invoiceListItems.get(i).getOutvoice().getConsigmentNumber().toUpperCase().contains(searchText.toUpperCase())) {
+                        searchResults.add(invoiceListItems.get(i));
+                        continue;
+                    }
+                    Date date = new Date(invoiceListItems.get(i).getCreatedDate());
+                    if (formatter.format(date).toUpperCase().contains(searchText.toUpperCase())) {
+                        searchResults.add(invoiceListItems.get(i));
+                        continue;
+                    }
+                    if (invoiceListItems.get(i).getOutvoice().getTotalAmount().toString().toUpperCase().contains(searchText.toUpperCase())) {
+                        searchResults.add(invoiceListItems.get(i));
+                        continue;
+                    }
+                    List<OutcomeProduct> productList = invoiceListItems.get(i).getOutvoice().getOutcomeProducts();
+                    for (int j = 0; j < productList.size(); j++) {
+                        if (productList.get(j).getProduct().getSku().toUpperCase().contains(searchText.toUpperCase())) {
+                            searchResults.add(invoiceListItems.get(i));
+                            break;
+                        }
+                        if (productList.get(j).getProduct().getName().toUpperCase().contains(searchText.toUpperCase())) {
+                            searchResults.add(invoiceListItems.get(i));
+                            break;
+                        }
+                        if (productList.get(j).getSumCountValue().toString().toUpperCase().contains(searchText.toUpperCase())) {
+                            searchResults.add(invoiceListItems.get(i));
+                            break;
+                        }
                     }
                 }
-
             }
             sortList();
             view.initSearchResults(searchResults, searchText, currency);
@@ -118,44 +179,23 @@ public class ConsignmentListPresenterImpl extends BasePresenterImpl<ConsignmentL
     }
 
     @Override
-    public void deleteConsignment(Consignment consignment) {
-        BillingOperations debt = databaseManager.getBillingOperationsByConsignmentId(consignment.getId()).blockingGet();
-        debt.setDeleted(true);
-        databaseManager.insertBillingOperation(debt).subscribe();
-        if (consignment.getFirstPayId() != null) {
-            BillingOperations firstPay = databaseManager.getBillingOperationsById(consignment.getFirstPayId()).blockingGet();
-            firstPay.setDeleted(true);
-            databaseManager.insertBillingOperation(firstPay).subscribe();
-        }
-        List<ConsignmentProduct> consignmentProductList = consignment.getAllConsignmentProducts();
-        for (int i = 0; i < consignmentProductList.size(); i++) {
-            //TODO EDITABLE TO STATEABLE
-
-//            consignmentProductList.get(i).setDeleted(true);
-//            WarehouseOperations warehouseOperations = consignmentProductList.get(i).getWarehouse();
-//            warehouseOperations.setNotModifyted(false);
-//            warehouseOperations.setType(WarehouseOperations.CONSIGNMENT_DELETED);
-//            databaseManager.insertConsignmentProduct(consignmentProductList.get(i)).subscribe();
-//            databaseManager.replaceWarehouseOperation(warehouseOperations).subscribe();
-            //TODO: SIROCH -> CONSIGMENT LOGIC CHANGED
-        }
-        consignment.setDeleted(true);
-//        databaseManager.insertConsignment(consignment, null, null, null).subscribe();
-        consignmentList.remove(consignment);
-        view.notifyList();
-        view.sendConsignmentEvent(GlobalEventConstants.UPDATE);
-        view.sendInventoryStateEvent(GlobalEventConstants.UPDATE);
-    }
-
-    @Override
     public void dateIntervalPicked(Calendar fromDate, Calendar toDate) {
         this.fromDate = fromDate;
         this.toDate = toDate;
-        databaseManager.getConsignmentsInIntervalByVendor(vendorId, fromDate, toDate).subscribe(consignments -> {
-            this.consignmentList.clear();
-            this.consignmentList.addAll(consignments);
+        view.updateDateIntervalUI(simpleDateFormat.format(fromDate.getTimeInMillis()) + " - " + simpleDateFormat.format(toDate.getTimeInMillis()));
+        databaseManager.getInvoiceListItemsInIntervalByVendor(vendorId, fromDate, toDate).subscribe(invoiceListItems1 -> {
+            invoiceListItems.clear();
+            for (InvoiceListItem item : invoiceListItems1) {
+                if (filterConfig[0] == 1 && item.getType() == BundleConstants.INVOICE) {
+                    this.invoiceListItems.add(item);
+                    continue;
+                }
+                if (filterConfig[1] == 1 && item.getType() == BundleConstants.OUTVOICE) {
+                    this.invoiceListItems.add(item);
+                }
+            }
             sortList();
-            view.setConsignmentListRecyclerViewData(consignmentList, currency);
+            view.seInvoiceListRecyclerViewData(invoiceListItems, currency);
         });
     }
 
@@ -165,11 +205,20 @@ public class ConsignmentListPresenterImpl extends BasePresenterImpl<ConsignmentL
         temp.setTimeInMillis(pickedDate.getTimeInMillis());
         this.fromDate = temp;
         this.toDate = null;
-        databaseManager.getConsignmentsInIntervalByVendor(vendorId, pickedDate, temp).subscribe(consignments -> {
-            this.consignmentList.clear();
-            this.consignmentList.addAll(consignments);
+        view.updateDateIntervalUI(simpleDateFormat.format(fromDate.getTimeInMillis()));
+        databaseManager.getInvoiceListItemsInIntervalByVendor(vendorId, fromDate, toDate).subscribe(invoiceListItems1 -> {
+            invoiceListItems.clear();
+            for (InvoiceListItem item : invoiceListItems1) {
+                if (filterConfig[0] == 1 && item.getType() == BundleConstants.INVOICE) {
+                    this.invoiceListItems.add(item);
+                    continue;
+                }
+                if (filterConfig[1] == 1 && item.getType() == BundleConstants.OUTVOICE) {
+                    this.invoiceListItems.add(item);
+                }
+            }
             sortList();
-            view.setConsignmentListRecyclerViewData(consignmentList, currency);
+            view.seInvoiceListRecyclerViewData(invoiceListItems, currency);
         });
 
     }
@@ -178,30 +227,68 @@ public class ConsignmentListPresenterImpl extends BasePresenterImpl<ConsignmentL
     public void clearIntervals() {
         fromDate = null;
         toDate = null;
-        databaseManager.getConsignmentsByVendorId(vendorId).subscribe(consignments -> {
-            this.consignmentList = consignments;
+        databaseManager.getInvoiceListItemByVendorId(vendorId).subscribe(invoiceListItems1 -> {
+            invoiceListItems.clear();
+            for (InvoiceListItem item : invoiceListItems1) {
+                if (filterConfig[0] == 1 && item.getType() == BundleConstants.INVOICE) {
+                    this.invoiceListItems.add(item);
+                    continue;
+                }
+                if (filterConfig[1] == 1 && item.getType() == BundleConstants.OUTVOICE) {
+                    this.invoiceListItems.add(item);
+                }
+            }
             sortList();
-            view.setConsignmentListRecyclerViewData(consignmentList, currency);
+            view.seInvoiceListRecyclerViewData(invoiceListItems, currency);
+        });
+    }
+
+    @Override
+    public void openDateIntervalPicker() {
+        view.openDateIntervalPicker(fromDate, toDate);
+    }
+
+    @Override
+    public void onFilterClicked() {
+        view.openFilterDialog(filterConfig);
+    }
+
+    @Override
+    public void onFilterConfigChanged(int[] config) {
+        filterConfig = config;
+        databaseManager.getInvoiceListItemByVendorId(vendorId).subscribe(invoiceListItems1 -> {
+            invoiceListItems.clear();
+            for (InvoiceListItem item : invoiceListItems1) {
+                if (filterConfig[0] == 1 && item.getType() == BundleConstants.INVOICE) {
+                    this.invoiceListItems.add(item);
+                    continue;
+                }
+                if (filterConfig[1] == 1 && item.getType() == BundleConstants.OUTVOICE) {
+                    this.invoiceListItems.add(item);
+                }
+            }
+            sortList();
+            view.seInvoiceListRecyclerViewData(invoiceListItems, currency);
         });
     }
 
     private void sortList() {
-        List<Consignment> consignmentListTemp;
+        List<InvoiceListItem> invoiceListItemTemp;
         if (searchResults != null)
-            consignmentListTemp = searchResults;
-        else consignmentListTemp = consignmentList;
+            invoiceListItemTemp = searchResults;
+        else invoiceListItemTemp = invoiceListItems;
         switch (sortType) {
             case FILTERED_BY_DATE:
-                Collections.sort(consignmentListTemp, (consignment, t1) -> consignment.getCreatedDate().compareTo(t1.getCreatedDate()) * sorting);
+                Collections.sort(invoiceListItemTemp, (consignment, t1) -> consignment.getCreatedDate().compareTo(t1.getCreatedDate()) * sorting);
                 break;
             case FILTERED_BY_CONSIGNMENT:
-                Collections.sort(consignmentListTemp, (consignment, t1) -> consignment.getConsignmentNumber().compareTo(t1.getConsignmentNumber()) * sorting);
+                Collections.sort(invoiceListItemTemp, (consignment, t1) -> consignment.getNumber().compareTo(t1.getNumber()) * sorting);
                 break;
             case FILTERED_BY_DEBT:
-                Collections.sort(consignmentListTemp, (consignment, t1) -> consignment.getTotalAmount().compareTo(t1.getTotalAmount()) * sorting);
+                Collections.sort(invoiceListItemTemp, (consignment, t1) -> consignment.getTotalAmount().compareTo(t1.getTotalAmount()) * sorting);
                 break;
             case FILTERED_BY_STATUS:
-                Collections.sort(consignmentListTemp, (consignment, t1) -> consignment.getConsignmentType().compareTo(t1.getConsignmentType()) * sorting);
+                Collections.sort(invoiceListItemTemp, (consignment, t1) -> consignment.getType().compareTo(t1.getType()) * sorting);
                 break;
         }
     }

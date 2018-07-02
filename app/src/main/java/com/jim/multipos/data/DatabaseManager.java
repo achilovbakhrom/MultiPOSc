@@ -75,6 +75,7 @@ import com.jim.multipos.data.operations.UnitOperations;
 import com.jim.multipos.data.operations.VendorItemManagmentOperations;
 import com.jim.multipos.data.operations.VendorOperations;
 import com.jim.multipos.data.prefs.PreferencesHelper;
+import com.jim.multipos.ui.consignment_list.model.InvoiceListItem;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
 import com.jim.multipos.ui.vendor_item_managment.model.VendorManagmentItem;
 import com.jim.multipos.ui.vendor_products_view.model.ProductState;
@@ -1295,6 +1296,16 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Single<Boolean> isOutvoiceNumberExists(String number) {
         return dbHelper.isOutvoiceNumberExists(number);
+    }
+
+    @Override
+    public Single<List<InvoiceListItem>> getInvoiceListItemByVendorId(Long vendorId) {
+        return dbHelper.getInvoiceListItemByVendorId(vendorId);
+    }
+
+    @Override
+    public Single<List<InvoiceListItem>> getInvoiceListItemsInIntervalByVendor(Long vendorId, Calendar fromDate, Calendar toDate) {
+        return dbHelper.getInvoiceListItemsInIntervalByVendor(vendorId, fromDate, toDate);
     }
 
     public Single<List<StockQueue>> getStockQueuesByVendorId(Long id) {

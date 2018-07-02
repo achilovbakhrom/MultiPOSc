@@ -23,6 +23,9 @@ import com.jim.multipos.R;
 import com.jim.multipos.data.db.model.consignment.Consignment;
 import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
 import com.jim.multipos.data.db.model.currency.Currency;
+import com.jim.multipos.data.db.model.inventory.IncomeProduct;
+import com.jim.multipos.data.db.model.inventory.OutcomeProduct;
+import com.jim.multipos.ui.consignment_list.model.InvoiceListItem;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -41,7 +44,7 @@ import butterknife.ButterKnife;
 
 public class ConsignmentListItemAdapter extends RecyclerView.Adapter<ConsignmentListItemAdapter.ConsignmentListViewHolder> {
 
-    private List<Consignment> items;
+    private List<InvoiceListItem> items;
     private Currency currency;
     private String searchText;
     private OnConsignmentListItemCallback callback;
@@ -60,7 +63,7 @@ public class ConsignmentListItemAdapter extends RecyclerView.Adapter<Consignment
         decimalFormat.setDecimalFormatSymbols(symbols);
     }
 
-    public void setSearchResult(List<Consignment> searchResults, Currency currency, String searchText) {
+    public void setSearchResult(List<InvoiceListItem> searchResults, Currency currency, String searchText) {
         this.items = searchResults;
         this.currency = currency;
         this.searchText = searchText;
@@ -69,7 +72,7 @@ public class ConsignmentListItemAdapter extends RecyclerView.Adapter<Consignment
     }
 
 
-    public void setItems(List<Consignment> items, Currency currency) {
+    public void setItems(List<InvoiceListItem> items, Currency currency) {
         this.items = items;
         this.currency = currency;
         searchMode = false;
@@ -90,201 +93,371 @@ public class ConsignmentListItemAdapter extends RecyclerView.Adapter<Consignment
     @Override
     public void onBindViewHolder(ConsignmentListViewHolder holder, int position) {
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm dd/MM/yyyy");
-        Consignment consignment = items.get(position);
-        List<ConsignmentProduct> productList = consignment.getAllConsignmentProducts();
-        if (position % 2 == 0)
+        InvoiceListItem invoiceListItem = items.get(position);
+        if (position % 2 == 0) {
             holder.llBackground.setBackgroundColor(Color.parseColor("#f9f9f9"));
-        else holder.llBackground.setBackgroundColor(Color.parseColor("#f0f0f0"));
+        } else holder.llBackground.setBackgroundColor(Color.parseColor("#f0f0f0"));
         holder.ivShowHide.setImageResource(R.drawable.arrow_down);
         holder.ivShowHide.setVisibility(View.GONE);
-        if (consignment.getConsignmentType() == Consignment.INCOME_CONSIGNMENT) {
+        if (invoiceListItem.getInvoice() != null) {
             holder.ivStatus.setImageResource(R.drawable.income_2nd);
-            holder.ivStatus.setImageTintList(ContextCompat.getColorStateList(context, R.color.colorRedLight));
+//            holder.ivStatus.setImageTintList(ContextCompat.getColorStateList(context, R.color.colorRedLight));
             holder.tvDebtAmount.setTextColor(Color.parseColor("#df4f4f"));
-        } else {
-            holder.ivStatus.setImageResource(R.drawable.expense_2nd);
-            holder.ivStatus.setImageTintList(ContextCompat.getColorStateList(context, R.color.colorGreenLight));
-            holder.tvDebtAmount.setTextColor(Color.parseColor("#4fc82b"));
-        }
-        if (!searchMode) {
-            setUnderlineText(holder.tvConsignmentNumber, consignment.getConsignmentNumber());
-            if (consignment.getConsignmentType() == Consignment.INCOME_CONSIGNMENT)
-                holder.tvDebtAmount.setText(decimalFormat.format(-1 * consignment.getTotalAmount()) + " " + this.currency.getAbbr());
-            else
-                holder.tvDebtAmount.setText(decimalFormat.format(consignment.getTotalAmount()) + " " + this.currency.getAbbr());
-            Date date = new Date(consignment.getCreatedDate());
-            holder.tvDate.setText(formatter.format(date));
-            if (productList.size() > 3) {
-                holder.ivShowHide.setVisibility(View.VISIBLE);
-                holder.llConsignmentProducts.setOnClickListener(view -> {
-                    isExpended = !isExpended;
-                    if (isExpended)
-                        holder.ivShowHide.setImageResource(R.drawable.arrow_up);
-                    else holder.ivShowHide.setImageResource(R.drawable.arrow_down);
+            holder.tvDebtAmount.setText(decimalFormat.format(-1 * invoiceListItem.getInvoice().getTotalAmount()) + " " + this.currency.getAbbr());
+            List<IncomeProduct> productList = invoiceListItem.getInvoice().getIncomeProducts();
+            if (!searchMode) {
+                setUnderlineText(holder.tvConsignmentNumber, invoiceListItem.getInvoice().getConsigmentNumber());
+                Date date = new Date(invoiceListItem.getCreatedDate());
+                holder.tvDate.setText(formatter.format(date));
+                if (productList.size() > 3) {
+                    holder.ivShowHide.setVisibility(View.VISIBLE);
+                    holder.llConsignmentProducts.setOnClickListener(view -> {
+                        isExpended = !isExpended;
+                        if (isExpended)
+                            holder.ivShowHide.setImageResource(R.drawable.arrow_up);
+                        else holder.ivShowHide.setImageResource(R.drawable.arrow_down);
 
-                    for (int i = 0; i < holder.llConsignmentProducts.getChildCount(); i++) {
-                        if (i > 0) {
-                            holder.llConsignmentProducts.removeViewAt(i);
-                            i--;
+                        for (int i = 0; i < holder.llConsignmentProducts.getChildCount(); i++) {
+                            if (i > 0) {
+                                holder.llConsignmentProducts.removeViewAt(i);
+                                i--;
+                            }
                         }
-                    }
 
-                    for (int i = 0; i < productList.size(); i++) {
-                        LinearLayout layout = new LinearLayout(context);
-                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                        layoutParams.setMargins(0, 0, 0, 5);
-                        layout.setLayoutParams(layoutParams);
-                        layout.setOrientation(LinearLayout.HORIZONTAL);
-                        if (i > 2 && isExpended)
-                            layout.setVisibility(View.VISIBLE);
-                        else if (i > 2 && !isExpended)
-                            layout.setVisibility(View.GONE);
-                        holder.llConsignmentProducts.addView(layout);
-                        TextView sku = new TextView(context);
-                        LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                        sku.setPadding(40, 0, 0, 0);
-                        sku.setTextColor(context.getColor(R.color.colorSecondaryText));
-                        sku.setTextSize(14);
-                        sku.setTypeface(sku.getTypeface(), Typeface.ITALIC);
-                        sku.setGravity(View.TEXT_ALIGNMENT_CENTER);
-                        sku.setText(productList.get(i).getProduct().getSku() + " : ");
-                        sku.setLayoutParams(textParams);
-                        layout.addView(sku);
-                        TextView name = new TextView(context);
-                        name.setTextColor(context.getColor(R.color.colorSecondaryText));
-                        name.setTextSize(14);
-                        name.setTypeface(sku.getTypeface(), Typeface.ITALIC);
-                        name.setGravity(View.TEXT_ALIGNMENT_CENTER);
-                        name.setText(productList.get(i).getProduct().getName());
-                        name.setLayoutParams(textParams);
-                        layout.addView(name);
-                        ImageView dots = new ImageView(context);
-                        dots.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-                        LinearLayout.LayoutParams ivParams = new LinearLayout.LayoutParams(0, 5);
-                        ivParams.weight = 1f;
-                        ivParams.gravity = Gravity.BOTTOM;
-                        dots.setImageResource(R.drawable.dash);
-                        dots.setLayoutParams(ivParams);
-                        layout.addView(dots);
-                        TextView count = new TextView(context);
-                        count.setTextColor(context.getColor(R.color.colorSecondaryText));
-                        count.setTextSize(14);
-                        count.setTypeface(sku.getTypeface(), Typeface.ITALIC);
-                        count.setGravity(View.TEXT_ALIGNMENT_CENTER);
-                        count.setText(String.valueOf(productList.get(i).getCountValue()));
-                        count.setLayoutParams(textParams);
-                        layout.addView(count);
+                        for (int i = 0; i < productList.size(); i++) {
+                            LinearLayout layout = new LinearLayout(context);
+                            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                            layoutParams.setMargins(0, 0, 0, 5);
+                            layout.setLayoutParams(layoutParams);
+                            layout.setOrientation(LinearLayout.HORIZONTAL);
+                            if (i > 2 && isExpended)
+                                layout.setVisibility(View.VISIBLE);
+                            else if (i > 2 && !isExpended)
+                                layout.setVisibility(View.GONE);
+                            holder.llConsignmentProducts.addView(layout);
+                            TextView sku = new TextView(context);
+                            LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                            sku.setPadding(40, 0, 0, 0);
+                            sku.setTextColor(context.getColor(R.color.colorSecondaryText));
+                            sku.setTextSize(14);
+                            sku.setTypeface(sku.getTypeface(), Typeface.ITALIC);
+                            sku.setGravity(View.TEXT_ALIGNMENT_CENTER);
+                            sku.setText(productList.get(i).getProduct().getSku() + " : ");
+                            sku.setLayoutParams(textParams);
+                            layout.addView(sku);
+                            TextView name = new TextView(context);
+                            name.setTextColor(context.getColor(R.color.colorSecondaryText));
+                            name.setTextSize(14);
+                            name.setTypeface(sku.getTypeface(), Typeface.ITALIC);
+                            name.setGravity(View.TEXT_ALIGNMENT_CENTER);
+                            name.setText(productList.get(i).getProduct().getName());
+                            name.setLayoutParams(textParams);
+                            layout.addView(name);
+                            ImageView dots = new ImageView(context);
+                            dots.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+                            LinearLayout.LayoutParams ivParams = new LinearLayout.LayoutParams(0, 5);
+                            ivParams.weight = 1f;
+                            ivParams.gravity = Gravity.BOTTOM;
+                            dots.setImageResource(R.drawable.dash);
+                            dots.setLayoutParams(ivParams);
+                            layout.addView(dots);
+                            TextView count = new TextView(context);
+                            count.setTextColor(context.getColor(R.color.colorSecondaryText));
+                            count.setTextSize(14);
+                            count.setTypeface(sku.getTypeface(), Typeface.ITALIC);
+                            count.setGravity(View.TEXT_ALIGNMENT_CENTER);
+                            count.setText(String.valueOf(productList.get(i).getCountValue()));
+                            count.setLayoutParams(textParams);
+                            layout.addView(count);
+                        }
+                    });
+                }
+                for (int i = 0; i < holder.llConsignmentProducts.getChildCount(); i++) {
+                    if (i > 0) {
+                        holder.llConsignmentProducts.removeViewAt(i);
+                        i--;
                     }
-                });
-            }
-            for (int i = 0; i < holder.llConsignmentProducts.getChildCount(); i++) {
-                if (i > 0) {
-                    holder.llConsignmentProducts.removeViewAt(i);
-                    i--;
+                }
+                for (int i = 0; i < productList.size(); i++) {
+                    LinearLayout layout = new LinearLayout(context);
+                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    layoutParams.setMargins(0, 0, 0, 5);
+                    layout.setLayoutParams(layoutParams);
+                    layout.setOrientation(LinearLayout.HORIZONTAL);
+                    if (i > 2)
+                        layout.setVisibility(View.GONE);
+                    holder.llConsignmentProducts.addView(layout);
+                    TextView sku = new TextView(context);
+                    LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    sku.setPadding(40, 0, 0, 0);
+                    sku.setTextColor(context.getColor(R.color.colorSecondaryText));
+                    sku.setTextSize(14);
+                    sku.setTypeface(sku.getTypeface(), Typeface.ITALIC);
+                    sku.setGravity(View.TEXT_ALIGNMENT_CENTER);
+                    sku.setText(productList.get(i).getProduct().getSku() + " : ");
+                    sku.setLayoutParams(textParams);
+                    layout.addView(sku);
+                    TextView name = new TextView(context);
+                    name.setTextColor(context.getColor(R.color.colorSecondaryText));
+                    name.setTextSize(14);
+                    name.setTypeface(sku.getTypeface(), Typeface.ITALIC);
+                    name.setGravity(View.TEXT_ALIGNMENT_CENTER);
+                    name.setText(productList.get(i).getProduct().getName());
+                    name.setLayoutParams(textParams);
+                    layout.addView(name);
+                    ImageView dots = new ImageView(context);
+                    dots.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+                    LinearLayout.LayoutParams ivParams = new LinearLayout.LayoutParams(0, 5);
+                    ivParams.weight = 1f;
+                    ivParams.gravity = Gravity.BOTTOM;
+                    dots.setImageResource(R.drawable.dash);
+                    dots.setLayoutParams(ivParams);
+                    layout.addView(dots);
+                    TextView count = new TextView(context);
+                    count.setTextColor(context.getColor(R.color.colorSecondaryText));
+                    count.setTextSize(14);
+                    count.setTypeface(sku.getTypeface(), Typeface.ITALIC);
+                    count.setGravity(View.TEXT_ALIGNMENT_CENTER);
+                    count.setText(String.valueOf(productList.get(i).getCountValue()));
+                    count.setLayoutParams(textParams);
+                    layout.addView(count);
+                }
+            } else {
+                colorSubSeqUnderLine(invoiceListItem.getInvoice().getConsigmentNumber(), searchText, Color.parseColor("#95ccee"), holder.tvConsignmentNumber);
+                colorSubSeq(decimalFormat.format(-1 * invoiceListItem.getInvoice().getTotalAmount()) + " " + this.currency.getAbbr(), searchText, Color.parseColor("#95ccee"), holder.tvDebtAmount);
+                Date date = new Date(invoiceListItem.getCreatedDate());
+                colorSubSeq(formatter.format(date), searchText, Color.parseColor("#95ccee"), holder.tvDate);
+                for (int i = 0; i < holder.llConsignmentProducts.getChildCount(); i++) {
+                    if (i > 0) {
+                        holder.llConsignmentProducts.removeViewAt(i);
+                        i--;
+                    }
+                }
+                for (int i = 0; i < productList.size(); i++) {
+                    LinearLayout layout = new LinearLayout(context);
+                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    layoutParams.setMargins(0, 0, 0, 5);
+                    layout.setLayoutParams(layoutParams);
+                    layout.setOrientation(LinearLayout.HORIZONTAL);
+                    holder.llConsignmentProducts.addView(layout);
+                    TextView sku = new TextView(context);
+                    LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    sku.setPadding(40, 0, 0, 0);
+                    sku.setTextColor(context.getColor(R.color.colorSecondaryText));
+                    sku.setTextSize(14);
+                    sku.setTypeface(sku.getTypeface(), Typeface.ITALIC);
+                    sku.setGravity(View.TEXT_ALIGNMENT_CENTER);
+                    colorSubSeq(productList.get(i).getProduct().getSku() + " : ", searchText, Color.parseColor("#95ccee"), sku);
+                    sku.setLayoutParams(textParams);
+                    layout.addView(sku);
+                    TextView name = new TextView(context);
+                    name.setTextColor(context.getColor(R.color.colorSecondaryText));
+                    name.setTextSize(14);
+                    name.setTypeface(sku.getTypeface(), Typeface.ITALIC);
+                    name.setGravity(View.TEXT_ALIGNMENT_CENTER);
+                    colorSubSeq(productList.get(i).getProduct().getName(), searchText, Color.parseColor("#95ccee"), name);
+                    name.setLayoutParams(textParams);
+                    layout.addView(name);
+                    ImageView dots = new ImageView(context);
+                    dots.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+                    LinearLayout.LayoutParams ivParams = new LinearLayout.LayoutParams(0, 5);
+                    ivParams.weight = 1f;
+                    ivParams.gravity = Gravity.BOTTOM;
+                    dots.setImageResource(R.drawable.dash);
+                    dots.setLayoutParams(ivParams);
+                    layout.addView(dots);
+                    TextView count = new TextView(context);
+                    count.setTextColor(context.getColor(R.color.colorSecondaryText));
+                    count.setTextSize(14);
+                    count.setTypeface(sku.getTypeface(), Typeface.ITALIC);
+                    count.setGravity(View.TEXT_ALIGNMENT_CENTER);
+                    colorSubSeq(String.valueOf(productList.get(i).getCountValue()), searchText, Color.parseColor("#95ccee"), count);
+                    count.setLayoutParams(textParams);
+                    layout.addView(count);
                 }
             }
-            for (int i = 0; i < productList.size(); i++) {
-                LinearLayout layout = new LinearLayout(context);
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                layoutParams.setMargins(0, 0, 0, 5);
-                layout.setLayoutParams(layoutParams);
-                layout.setOrientation(LinearLayout.HORIZONTAL);
-                if (i > 2)
-                    layout.setVisibility(View.GONE);
-                holder.llConsignmentProducts.addView(layout);
-                TextView sku = new TextView(context);
-                LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                sku.setPadding(40, 0, 0, 0);
-                sku.setTextColor(context.getColor(R.color.colorSecondaryText));
-                sku.setTextSize(14);
-                sku.setTypeface(sku.getTypeface(), Typeface.ITALIC);
-                sku.setGravity(View.TEXT_ALIGNMENT_CENTER);
-                sku.setText(productList.get(i).getProduct().getSku() + " : ");
-                sku.setLayoutParams(textParams);
-                layout.addView(sku);
-                TextView name = new TextView(context);
-                name.setTextColor(context.getColor(R.color.colorSecondaryText));
-                name.setTextSize(14);
-                name.setTypeface(sku.getTypeface(), Typeface.ITALIC);
-                name.setGravity(View.TEXT_ALIGNMENT_CENTER);
-                name.setText(productList.get(i).getProduct().getName());
-                name.setLayoutParams(textParams);
-                layout.addView(name);
-                ImageView dots = new ImageView(context);
-                dots.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-                LinearLayout.LayoutParams ivParams = new LinearLayout.LayoutParams(0, 5);
-                ivParams.weight = 1f;
-                ivParams.gravity = Gravity.BOTTOM;
-                dots.setImageResource(R.drawable.dash);
-                dots.setLayoutParams(ivParams);
-                layout.addView(dots);
-                TextView count = new TextView(context);
-                count.setTextColor(context.getColor(R.color.colorSecondaryText));
-                count.setTextSize(14);
-                count.setTypeface(sku.getTypeface(), Typeface.ITALIC);
-                count.setGravity(View.TEXT_ALIGNMENT_CENTER);
-                count.setText(String.valueOf(productList.get(i).getCountValue()));
-                count.setLayoutParams(textParams);
-                layout.addView(count);
-            }
-        } else {
-            colorSubSeqUnderLine(consignment.getConsignmentNumber(), searchText, Color.parseColor("#95ccee"), holder.tvConsignmentNumber);
-            if (consignment.getConsignmentType() == Consignment.INCOME_CONSIGNMENT)
-                colorSubSeq(decimalFormat.format(-1 * consignment.getTotalAmount()) + " " + this.currency.getAbbr(), searchText, Color.parseColor("#95ccee"), holder.tvDebtAmount);
-            else
-                colorSubSeq(decimalFormat.format(consignment.getTotalAmount()) + " " + this.currency.getAbbr(), searchText, Color.parseColor("#95ccee"), holder.tvDebtAmount);
-            Date date = new Date(consignment.getCreatedDate());
-            colorSubSeq(formatter.format(date), searchText, Color.parseColor("#95ccee"), holder.tvDate);
-            for (int i = 0; i < holder.llConsignmentProducts.getChildCount(); i++) {
-                if (i > 0) {
-                    holder.llConsignmentProducts.removeViewAt(i);
-                    i--;
+
+        } else if (invoiceListItem.getOutvoice() != null) {
+            holder.ivStatus.setImageResource(R.drawable.expense_2nd);
+//            holder.ivStatus.setImageTintList(ContextCompat.getColorStateList(context, R.color.colorGreenLight));
+            holder.tvDebtAmount.setTextColor(Color.parseColor("#4fc82b"));
+            holder.tvDebtAmount.setText(decimalFormat.format(invoiceListItem.getOutvoice().getTotalAmount()) + " " + this.currency.getAbbr());
+            List<OutcomeProduct> productList = invoiceListItem.getOutvoice().getOutcomeProducts();
+            if (!searchMode) {
+                setUnderlineText(holder.tvConsignmentNumber, invoiceListItem.getOutvoice().getConsigmentNumber());
+                Date date = new Date(invoiceListItem.getCreatedDate());
+                holder.tvDate.setText(formatter.format(date));
+                if (productList.size() > 3) {
+                    holder.ivShowHide.setVisibility(View.VISIBLE);
+                    holder.llConsignmentProducts.setOnClickListener(view -> {
+                        isExpended = !isExpended;
+                        if (isExpended)
+                            holder.ivShowHide.setImageResource(R.drawable.arrow_up);
+                        else holder.ivShowHide.setImageResource(R.drawable.arrow_down);
+
+                        for (int i = 0; i < holder.llConsignmentProducts.getChildCount(); i++) {
+                            if (i > 0) {
+                                holder.llConsignmentProducts.removeViewAt(i);
+                                i--;
+                            }
+                        }
+
+                        for (int i = 0; i < productList.size(); i++) {
+                            LinearLayout layout = new LinearLayout(context);
+                            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                            layoutParams.setMargins(0, 0, 0, 5);
+                            layout.setLayoutParams(layoutParams);
+                            layout.setOrientation(LinearLayout.HORIZONTAL);
+                            if (i > 2 && isExpended)
+                                layout.setVisibility(View.VISIBLE);
+                            else if (i > 2 && !isExpended)
+                                layout.setVisibility(View.GONE);
+                            holder.llConsignmentProducts.addView(layout);
+                            TextView sku = new TextView(context);
+                            LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                            sku.setPadding(40, 0, 0, 0);
+                            sku.setTextColor(context.getColor(R.color.colorSecondaryText));
+                            sku.setTextSize(14);
+                            sku.setTypeface(sku.getTypeface(), Typeface.ITALIC);
+                            sku.setGravity(View.TEXT_ALIGNMENT_CENTER);
+                            sku.setText(productList.get(i).getProduct().getSku() + " : ");
+                            sku.setLayoutParams(textParams);
+                            layout.addView(sku);
+                            TextView name = new TextView(context);
+                            name.setTextColor(context.getColor(R.color.colorSecondaryText));
+                            name.setTextSize(14);
+                            name.setTypeface(sku.getTypeface(), Typeface.ITALIC);
+                            name.setGravity(View.TEXT_ALIGNMENT_CENTER);
+                            name.setText(productList.get(i).getProduct().getName());
+                            name.setLayoutParams(textParams);
+                            layout.addView(name);
+                            ImageView dots = new ImageView(context);
+                            dots.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+                            LinearLayout.LayoutParams ivParams = new LinearLayout.LayoutParams(0, 5);
+                            ivParams.weight = 1f;
+                            ivParams.gravity = Gravity.BOTTOM;
+                            dots.setImageResource(R.drawable.dash);
+                            dots.setLayoutParams(ivParams);
+                            layout.addView(dots);
+                            TextView count = new TextView(context);
+                            count.setTextColor(context.getColor(R.color.colorSecondaryText));
+                            count.setTextSize(14);
+                            count.setTypeface(sku.getTypeface(), Typeface.ITALIC);
+                            count.setGravity(View.TEXT_ALIGNMENT_CENTER);
+                            count.setText(String.valueOf(productList.get(i).getSumCountValue()));
+                            count.setLayoutParams(textParams);
+                            layout.addView(count);
+                        }
+                    });
                 }
-            }
-            for (int i = 0; i < productList.size(); i++) {
-                LinearLayout layout = new LinearLayout(context);
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                layoutParams.setMargins(0, 0, 0, 5);
-                layout.setLayoutParams(layoutParams);
-                layout.setOrientation(LinearLayout.HORIZONTAL);
-                holder.llConsignmentProducts.addView(layout);
-                TextView sku = new TextView(context);
-                LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                sku.setPadding(40, 0, 0, 0);
-                sku.setTextColor(context.getColor(R.color.colorSecondaryText));
-                sku.setTextSize(14);
-                sku.setTypeface(sku.getTypeface(), Typeface.ITALIC);
-                sku.setGravity(View.TEXT_ALIGNMENT_CENTER);
-                colorSubSeq(productList.get(i).getProduct().getSku() + " : ", searchText, Color.parseColor("#95ccee"), sku);
-                sku.setLayoutParams(textParams);
-                layout.addView(sku);
-                TextView name = new TextView(context);
-                name.setTextColor(context.getColor(R.color.colorSecondaryText));
-                name.setTextSize(14);
-                name.setTypeface(sku.getTypeface(), Typeface.ITALIC);
-                name.setGravity(View.TEXT_ALIGNMENT_CENTER);
-                colorSubSeq(productList.get(i).getProduct().getName(), searchText, Color.parseColor("#95ccee"), name);
-                name.setLayoutParams(textParams);
-                layout.addView(name);
-                ImageView dots = new ImageView(context);
-                dots.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-                LinearLayout.LayoutParams ivParams = new LinearLayout.LayoutParams(0, 5);
-                ivParams.weight = 1f;
-                ivParams.gravity = Gravity.BOTTOM;
-                dots.setImageResource(R.drawable.dash);
-                dots.setLayoutParams(ivParams);
-                layout.addView(dots);
-                TextView count = new TextView(context);
-                count.setTextColor(context.getColor(R.color.colorSecondaryText));
-                count.setTextSize(14);
-                count.setTypeface(sku.getTypeface(), Typeface.ITALIC);
-                count.setGravity(View.TEXT_ALIGNMENT_CENTER);
-                colorSubSeq(String.valueOf(productList.get(i).getCountValue()), searchText, Color.parseColor("#95ccee"), count);
-                count.setLayoutParams(textParams);
-                layout.addView(count);
+                for (int i = 0; i < holder.llConsignmentProducts.getChildCount(); i++) {
+                    if (i > 0) {
+                        holder.llConsignmentProducts.removeViewAt(i);
+                        i--;
+                    }
+                }
+                for (int i = 0; i < productList.size(); i++) {
+                    LinearLayout layout = new LinearLayout(context);
+                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    layoutParams.setMargins(0, 0, 0, 5);
+                    layout.setLayoutParams(layoutParams);
+                    layout.setOrientation(LinearLayout.HORIZONTAL);
+                    if (i > 2)
+                        layout.setVisibility(View.GONE);
+                    holder.llConsignmentProducts.addView(layout);
+                    TextView sku = new TextView(context);
+                    LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    sku.setPadding(40, 0, 0, 0);
+                    sku.setTextColor(context.getColor(R.color.colorSecondaryText));
+                    sku.setTextSize(14);
+                    sku.setTypeface(sku.getTypeface(), Typeface.ITALIC);
+                    sku.setGravity(View.TEXT_ALIGNMENT_CENTER);
+                    sku.setText(productList.get(i).getProduct().getSku() + " : ");
+                    sku.setLayoutParams(textParams);
+                    layout.addView(sku);
+                    TextView name = new TextView(context);
+                    name.setTextColor(context.getColor(R.color.colorSecondaryText));
+                    name.setTextSize(14);
+                    name.setTypeface(sku.getTypeface(), Typeface.ITALIC);
+                    name.setGravity(View.TEXT_ALIGNMENT_CENTER);
+                    name.setText(productList.get(i).getProduct().getName());
+                    name.setLayoutParams(textParams);
+                    layout.addView(name);
+                    ImageView dots = new ImageView(context);
+                    dots.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+                    LinearLayout.LayoutParams ivParams = new LinearLayout.LayoutParams(0, 5);
+                    ivParams.weight = 1f;
+                    ivParams.gravity = Gravity.BOTTOM;
+                    dots.setImageResource(R.drawable.dash);
+                    dots.setLayoutParams(ivParams);
+                    layout.addView(dots);
+                    TextView count = new TextView(context);
+                    count.setTextColor(context.getColor(R.color.colorSecondaryText));
+                    count.setTextSize(14);
+                    count.setTypeface(sku.getTypeface(), Typeface.ITALIC);
+                    count.setGravity(View.TEXT_ALIGNMENT_CENTER);
+                    count.setText(String.valueOf(productList.get(i).getSumCountValue()));
+                    count.setLayoutParams(textParams);
+                    layout.addView(count);
+                }
+            } else {
+                colorSubSeqUnderLine(invoiceListItem.getOutvoice().getConsigmentNumber(), searchText, Color.parseColor("#95ccee"), holder.tvConsignmentNumber);
+                colorSubSeq(decimalFormat.format(invoiceListItem.getOutvoice().getTotalAmount()) + " " + this.currency.getAbbr(), searchText, Color.parseColor("#95ccee"), holder.tvDebtAmount);
+                ;
+                Date date = new Date(invoiceListItem.getCreatedDate());
+                colorSubSeq(formatter.format(date), searchText, Color.parseColor("#95ccee"), holder.tvDate);
+                for (int i = 0; i < holder.llConsignmentProducts.getChildCount(); i++) {
+                    if (i > 0) {
+                        holder.llConsignmentProducts.removeViewAt(i);
+                        i--;
+                    }
+                }
+                for (int i = 0; i < productList.size(); i++) {
+                    LinearLayout layout = new LinearLayout(context);
+                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    layoutParams.setMargins(0, 0, 0, 5);
+                    layout.setLayoutParams(layoutParams);
+                    layout.setOrientation(LinearLayout.HORIZONTAL);
+                    holder.llConsignmentProducts.addView(layout);
+                    TextView sku = new TextView(context);
+                    LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    sku.setPadding(40, 0, 0, 0);
+                    sku.setTextColor(context.getColor(R.color.colorSecondaryText));
+                    sku.setTextSize(14);
+                    sku.setTypeface(sku.getTypeface(), Typeface.ITALIC);
+                    sku.setGravity(View.TEXT_ALIGNMENT_CENTER);
+                    colorSubSeq(productList.get(i).getProduct().getSku() + " : ", searchText, Color.parseColor("#95ccee"), sku);
+                    sku.setLayoutParams(textParams);
+                    layout.addView(sku);
+                    TextView name = new TextView(context);
+                    name.setTextColor(context.getColor(R.color.colorSecondaryText));
+                    name.setTextSize(14);
+                    name.setTypeface(sku.getTypeface(), Typeface.ITALIC);
+                    name.setGravity(View.TEXT_ALIGNMENT_CENTER);
+                    colorSubSeq(productList.get(i).getProduct().getName(), searchText, Color.parseColor("#95ccee"), name);
+                    name.setLayoutParams(textParams);
+                    layout.addView(name);
+                    ImageView dots = new ImageView(context);
+                    dots.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+                    LinearLayout.LayoutParams ivParams = new LinearLayout.LayoutParams(0, 5);
+                    ivParams.weight = 1f;
+                    ivParams.gravity = Gravity.BOTTOM;
+                    dots.setImageResource(R.drawable.dash);
+                    dots.setLayoutParams(ivParams);
+                    layout.addView(dots);
+                    TextView count = new TextView(context);
+                    count.setTextColor(context.getColor(R.color.colorSecondaryText));
+                    count.setTextSize(14);
+                    count.setTypeface(sku.getTypeface(), Typeface.ITALIC);
+                    count.setGravity(View.TEXT_ALIGNMENT_CENTER);
+                    colorSubSeq(String.valueOf(productList.get(i).getSumCountValue()), searchText, Color.parseColor("#95ccee"), count);
+                    count.setLayoutParams(textParams);
+                    layout.addView(count);
+                }
             }
         }
     }
+
 
     @Override
     public int getItemCount() {
@@ -292,9 +465,7 @@ public class ConsignmentListItemAdapter extends RecyclerView.Adapter<Consignment
     }
 
     public interface OnConsignmentListItemCallback {
-        void onItemClick(Consignment consignment);
-
-        void onItemDelete(Consignment consignment);
+        void onInfoClicked(InvoiceListItem item);
     }
 
     private void setUnderlineText(TextView textView, String text) {
@@ -333,10 +504,8 @@ public class ConsignmentListItemAdapter extends RecyclerView.Adapter<Consignment
     public class ConsignmentListViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.llBackground)
         LinearLayout llBackground;
-        @BindView(R.id.ivDeleteConsignment)
-        ImageView ivDeleteConsignment;
-        @BindView(R.id.ivEditConsignment)
-        ImageView ivEditConsignment;
+        @BindView(R.id.llInfo)
+        LinearLayout llInfo;
         @BindView(R.id.llConsignmentProducts)
         LinearLayout llConsignmentProducts;
         @BindView(R.id.llConsignmentNumber)
@@ -351,12 +520,14 @@ public class ConsignmentListItemAdapter extends RecyclerView.Adapter<Consignment
         TextView tvDebtAmount;
         @BindView(R.id.ivShowHide)
         ImageView ivShowHide;
+        @BindView(R.id.ivInfo)
+        ImageView ivInfo;
 
         public ConsignmentListViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            ivEditConsignment.setOnClickListener(view -> callback.onItemClick(items.get(getAdapterPosition())));
-            ivDeleteConsignment.setOnClickListener(view -> callback.onItemDelete(items.get(getAdapterPosition())));
+            llInfo.setOnClickListener(v -> callback.onInfoClicked(items.get(getAdapterPosition())));
+            ivInfo.setOnClickListener(v -> callback.onInfoClicked(items.get(getAdapterPosition())));
         }
     }
 }

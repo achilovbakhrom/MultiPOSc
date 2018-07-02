@@ -17,6 +17,7 @@ import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.inventory.InventoryActivity;
 import com.jim.multipos.ui.inventory.adapters.InventoryItemAdapter;
 import com.jim.multipos.ui.inventory.adapters.VendorListAdapter;
+import com.jim.multipos.ui.inventory.dialogs.VendorPickerDialog;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
 import com.jim.multipos.ui.inventory.presenter.InventoryPresenter;
 import com.jim.multipos.utils.BarcodeStack;
@@ -101,8 +102,6 @@ public class InventoryFragment extends BaseFragment implements InventoryView {
     DatabaseManager databaseManager;
 
     InventoryItemAdapter inventoryItemAdapter;
-    VendorListAdapter vendorListAdapter;
-    private Dialog dialog;
     private ArrayList<Disposable> subscriptions;
 
     @Override
@@ -225,20 +224,6 @@ public class InventoryFragment extends BaseFragment implements InventoryView {
             }
         });
 
-        dialog = new Dialog(getContext());
-        View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.vendor_product_list_dialog, null, false);
-        RecyclerView rvProductList = dialogView.findViewById(R.id.rvProductList);
-        rvProductList.setLayoutManager(new LinearLayoutManager(getContext()));
-        vendorListAdapter = new VendorListAdapter();
-        rvProductList.setAdapter(vendorListAdapter);
-        TextView textView = dialogView.findViewById(R.id.tvDialogTitle);
-        textView.setText(R.string.vendor_list);
-        dialog.setContentView(dialogView);
-        dialog.getWindow().getDecorView().setBackgroundResource(android.R.color.transparent);
-        vendorListAdapter.setListener(vendor -> {
-            presenter.setVendorId(vendor.getId());
-            dialog.dismiss();
-        });
         barcodeStack.register(barcode -> {
             if(isAdded() && isVisible())
                 ((InventoryActivity)getActivity()).setToolbarSearchText(barcode);
@@ -314,8 +299,11 @@ public class InventoryFragment extends BaseFragment implements InventoryView {
 
     @Override
     public void openChooseVendorDialog(List<Vendor> vendorList, List<Vendor> vendorsWithProduct) {
-        vendorListAdapter.setData(vendorList);
+        VendorPickerDialog dialog = new VendorPickerDialog(getContext(), vendorList, vendorsWithProduct);
         dialog.show();
+        dialog.setListener(vendor -> {
+            presenter.setVendorId(vendor.getId());
+        });
     }
 
     @Override

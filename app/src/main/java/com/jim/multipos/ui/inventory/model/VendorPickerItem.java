@@ -14,7 +14,7 @@ public class VendorPickerItem {
         this.vendor = vendor;
     }
 
-    public boolean isWasSupplied() {
+    public Boolean isWasSupplied() {
         return wasSupplied;
     }
 

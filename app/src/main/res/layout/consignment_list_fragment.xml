@@ -33,14 +33,18 @@
 
 
                     <TextView
+                        android:id="@+id/tvTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/five_dp" />
+                        android:layout_marginBottom="@dimen/five_dp"
+                        android:textSize="@dimen/eighteen_dp" />
 
                     <TextView
+                        android:id="@+id/tvDateInterval"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/five_dp" />
+                        android:layout_marginBottom="@dimen/five_dp"
+                        android:textSize="@dimen/sixteen_dp" />
 
                 </LinearLayout>
 
@@ -207,15 +211,15 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="left"
-                android:paddingLeft="@dimen/thirty_dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/thirty_dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="@string/consignment"
+                    android:text="@string/invoice"
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/sixteen_dp" />
 

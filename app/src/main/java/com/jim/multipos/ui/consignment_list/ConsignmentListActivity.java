@@ -37,7 +37,7 @@ public class ConsignmentListActivity extends SimpleActivity implements Consignme
 
     @Override
     protected int getToolbarMode() {
-        return MpToolbar.WITH_SEARCH_CALENDAR_TYPE;
+        return MpToolbar.DEFAULT_TYPE;
     }
 
     @Override
@@ -51,50 +51,44 @@ public class ConsignmentListActivity extends SimpleActivity implements Consignme
             ConsignmentListFragment fragment = new ConsignmentListFragment();
             fragment.setArguments(bundle1);
             addFragment(fragment);
-            simpleDateFormat = new SimpleDateFormat("MMM dd, yyyy");
-            Calendar from = (Calendar) Calendar.getInstance().clone();
-            Calendar to = (Calendar) Calendar.getInstance().clone();
-            from.set(Calendar.MONTH, from.get(Calendar.MONTH) - 1);
-            toolbar.getSearchEditText().addTextChangedListener(new TextWatcherOnTextChange() {
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    fragment.setSearchText(toolbar.getSearchEditText().getText().toString());
-                }
-            });
-
-            toolbar.getBarcodeView().setVisibility(View.GONE);
-
-            toolbar.setDataIntervalPicker(from, to, new MpToolbar.DataIntervalCallbackToToolbar() {
-                @Override
-                public void onDataIntervalPickerPressed() {
-                    DateIntervalPicker dateIntervalPicker = new DateIntervalPicker(ConsignmentListActivity.this, fromDate, toDate, new DateIntervalPicker.CallbackIntervalPicker() {
-                        @Override
-                        public void dateIntervalPicked(Calendar fromDate, Calendar toDate) {
-                            ConsignmentListActivity.this.fromDate = fromDate;
-                            ConsignmentListActivity.this.toDate = toDate;
-                            fromDateCurrent = true;
-                            toDateCurrent = true;
-                            updateCurrentDate();
-                            fragment.dateIntervalPicked(fromDate, toDate);
-                            toolbar.changeToCloseImgIntervalPick();
-                        }
-
-
-                    });
-                    dateIntervalPicker.show();
-                }
-
-                @Override
-                public void clearInterval() {
-                    ConsignmentListActivity.this.fromDate = null;
-                    ConsignmentListActivity.this.toDate = null;
-                    toolbar.setDatePickerIntervalText(getString(R.string.select_date));
-                    fragment.clearInterval();
-                    toolbar.changeToCalendarImgIntervalPick();
-
-                }
-            });
-            toolbar.setDatePickerIntervalText(getString(R.string.select_date));
+//            simpleDateFormat = new SimpleDateFormat("MMM dd, yyyy");
+//            Calendar from = (Calendar) Calendar.getInstance().clone();
+//            Calendar to = (Calendar) Calendar.getInstance().clone();
+//            from.set(Calendar.MONTH, from.get(Calendar.MONTH) - 1);
+//
+//            toolbar.getBarcodeView().setVisibility(View.GONE);
+//
+//            toolbar.setDataIntervalPicker(from, to, new MpToolbar.DataIntervalCallbackToToolbar() {
+//                @Override
+//                public void onDataIntervalPickerPressed() {
+//                    DateIntervalPicker dateIntervalPicker = new DateIntervalPicker(ConsignmentListActivity.this, fromDate, toDate, new DateIntervalPicker.CallbackIntervalPicker() {
+//                        @Override
+//                        public void dateIntervalPicked(Calendar fromDate, Calendar toDate) {
+//                            ConsignmentListActivity.this.fromDate = fromDate;
+//                            ConsignmentListActivity.this.toDate = toDate;
+//                            fromDateCurrent = true;
+//                            toDateCurrent = true;
+//                            updateCurrentDate();
+//                            fragment.dateIntervalPicked(fromDate, toDate);
+//                            toolbar.changeToCloseImgIntervalPick();
+//                        }
+//
+//
+//                    });
+//                    dateIntervalPicker.show();
+//                }
+//
+//                @Override
+//                public void clearInterval() {
+//                    ConsignmentListActivity.this.fromDate = null;
+//                    ConsignmentListActivity.this.toDate = null;
+//                    toolbar.setDatePickerIntervalText(getString(R.string.select_date));
+//                    fragment.clearInterval();
+//                    toolbar.changeToCalendarImgIntervalPick();
+//
+//                }
+//            });
+//            toolbar.setDatePickerIntervalText(getString(R.string.select_date));
         }
 
     }

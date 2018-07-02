@@ -12,6 +12,7 @@ import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.inventory.fragments.InventoryFragment;
 import com.jim.multipos.ui.inventory.fragments.InventoryView;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
+import com.jim.multipos.utils.BundleConstants;
 import com.jim.multipos.utils.SurplusProductDialog;
 import com.jim.multipos.utils.WriteOffProductDialog;
 
@@ -101,23 +102,22 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
 
     @Override
     public void onConsigmentIn(InventoryItem inventoryItem) {
-        consignment_type = INCOME_CONSIGNMENT;
+        consignment_type = BundleConstants.INVOICE;
         Product product = inventoryItem.getProduct();
         this.productId = product.getId();
         List<Vendor> vendorList = databaseManager.getVendors().blockingSingle();
         List<Vendor> vendorsWithProduct = databaseManager.getVendorsByProductId(productId).blockingGet();
         view.openChooseVendorDialog(vendorList, vendorsWithProduct);
-
-        //TODO ON INVOICE PRESSED
-
     }
 
     @Override
     public void onConsigmentOut(InventoryItem inventoryItem) {
-        consignment_type = RETURN_CONSIGNMENT;
+        consignment_type = BundleConstants.OUTVOICE;
         Product product = inventoryItem.getProduct();
         this.productId = product.getId();
-        //TODO ON OUTVOICE PRESSED
+        List<Vendor> vendorList = databaseManager.getVendors().blockingSingle();
+        List<Vendor> vendorsWithProduct = databaseManager.getVendorsByProductId(productId).blockingGet();
+        view.openChooseVendorDialog(vendorList, vendorsWithProduct);
     }
 
     List<InventoryItem> searchResults;

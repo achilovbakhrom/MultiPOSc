@@ -36,6 +36,8 @@ import com.jim.multipos.ui.product_class_new.ProductsClassActivity;
 import com.jim.multipos.ui.product_class_new.di.ProductsClassModule;
 import com.jim.multipos.ui.product_last.ProductActivity;
 import com.jim.multipos.ui.product_last.di.ProductModule;
+import com.jim.multipos.ui.product_queue_list.ProductQueueListActivity;
+import com.jim.multipos.ui.product_queue_list.di.ProductQueueListActivityModule;
 import com.jim.multipos.ui.reports.ReportsActivity;
 import com.jim.multipos.ui.reports.di.ReportsActivityModule;
 import com.jim.multipos.ui.secure.AuthActivity;
@@ -64,7 +66,7 @@ import dagger.android.support.AndroidSupportInjectionModule;
  */
 
 @Module(includes = AndroidSupportInjectionModule.class)
-abstract class  AppModule {
+abstract class AppModule {
     abstract Application application(MultiPosApp app);
 
     @PerActivity
@@ -134,6 +136,7 @@ abstract class  AppModule {
     @PerActivity
     @ContributesAndroidInjector(modules = VendorProductsViewActivityModule.class)
     abstract VendorProductsViewActivity provideVendorProductsViewActivity();
+
     @PerActivity
     @ContributesAndroidInjector(modules = VendorItemMainModule.class)
     abstract VendorItemsActivity provideVendorItemsActivity();
@@ -169,4 +172,8 @@ abstract class  AppModule {
     @PerActivity
     @ContributesAndroidInjector(modules = CustomersActivityModule.class)
     abstract CustomersActivity provideCustomersActivity();
+
+    @PerActivity
+    @ContributesAndroidInjector(modules = ProductQueueListActivityModule.class)
+    abstract ProductQueueListActivity provideProductQueueListActivity();
 }

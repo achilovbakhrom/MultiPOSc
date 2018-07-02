@@ -16,8 +16,10 @@ public interface ConsignmentListPresenter extends Presenter {
     void filterInvert();
     void search(String searchText);
     void setConsignment(Consignment consignment);
-    void deleteConsignment(Consignment consignment);
     void dateIntervalPicked(Calendar fromDate, Calendar toDate);
     void datePicked(Calendar pickedDate);
     void clearIntervals();
+    void openDateIntervalPicker();
+    void onFilterClicked();
+    void onFilterConfigChanged(int[] config);
 }
