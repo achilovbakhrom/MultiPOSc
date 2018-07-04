@@ -2917,5 +2917,44 @@ public class AppDbHelper implements DbHelper {
         });
     }
 
+    @Override
+    public Single<List<StockQueue>> getAllStockQueuesByProductId(Long productId) {
+        return Single.create(e -> {
+            e.onSuccess(mDaoSession.getStockQueueDao().queryBuilder().where(StockQueueDao.Properties.ProductId.eq(productId)).build().list());
+        });
+    }
+
+    @Override
+    public Single<List<StockQueue>> getAllStockQueuesByVendorId(Long vendorId) {
+        return Single.create(e -> {
+            e.onSuccess(mDaoSession.getStockQueueDao().queryBuilder().where(StockQueueDao.Properties.VendorId.eq(vendorId)).build().list());
+        });
+    }
+
+    @Override
+    public Single<List<StockQueue>> getAllStockQueuesByProductIdInInterval(Long productId, Calendar fromDate, Calendar toDate) {
+        return Single.create(e -> {
+            e.onSuccess(mDaoSession.getStockQueueDao().queryBuilder().where(StockQueueDao.Properties.ProductId.eq(productId),
+                    StockQueueDao.Properties.IncomeProductDate.ge(fromDate.getTimeInMillis()),
+                    StockQueueDao.Properties.IncomeProductDate.le(toDate.getTimeInMillis())).build().list());
+        });
+    }
+
+    @Override
+    public Single<List<StockQueue>> getAllStockQueuesByVendorIdInInterval(Long vendorId, Calendar fromDate, Calendar toDate) {
+        return Single.create(e -> {
+            e.onSuccess(mDaoSession.getStockQueueDao().queryBuilder().where(StockQueueDao.Properties.VendorId.eq(vendorId),
+                    StockQueueDao.Properties.IncomeProductDate.ge(fromDate.getTimeInMillis()),
+                    StockQueueDao.Properties.IncomeProductDate.le(toDate.getTimeInMillis())).build().list());
+        });
+    }
+
+    @Override
+    public Single<List<StockQueue>> getExpiredStockQueue() {
+        return Single.create(e -> {
+            e.onSuccess(mDaoSession.getStockQueueDao().queryBuilder().where(StockQueueDao.Properties.ExpiredProductDate.gt(0), StockQueueDao.Properties.Available.ge(0.0009)).build().list());
+        });
+    }
+
 
 }

@@ -227,6 +227,7 @@
                     android:id="@+id/ivConsignmentSort"
                     android:layout_width="@dimen/twelve_dp"
                     android:layout_height="@dimen/ten_dp"
+                    android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/ten_dp"
                     android:src="@drawable/sorting"
                     android:visibility="gone" />

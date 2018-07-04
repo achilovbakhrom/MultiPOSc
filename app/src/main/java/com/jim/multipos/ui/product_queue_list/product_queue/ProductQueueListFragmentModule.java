@@ -12,9 +12,9 @@ public abstract class ProductQueueListFragmentModule {
 
     @Binds
     @PerFragment
-    abstract Fragment proviceFragment(ProductQueueListFragment fragment);
+    abstract Fragment provideFragment(ProductQueueListFragment fragment);
 
     @Binds
     @PerFragment
-    abstract ProductQueueListFragmentView proviceProductQueueListFragmentView(ProductQueueListFragment fragment);
+    abstract ProductQueueListFragmentView provideProductQueueListFragmentView(ProductQueueListFragment fragment);
 }

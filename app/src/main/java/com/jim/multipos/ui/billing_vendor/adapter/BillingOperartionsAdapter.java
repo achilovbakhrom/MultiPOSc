@@ -76,8 +76,7 @@ public class BillingOperartionsAdapter extends RecyclerView.Adapter<BillingOpera
             if(billingOperations.getInvoice()!=null && !billingOperations.getInvoice().getDescription().isEmpty())
                 holder.tvDiscription.setText(billingOperations.getInvoice().getDescription());
             else  holder.tvDiscription.setText("-");
-
-            holder.tvExtra.setText(billingOperations.getInvoice().getConsigmentNumber());
+            holder.tvExtra.setText(billingOperations.getOutvoice().getConsigmentNumber());
         }else if(BillingOperations.PAID_TO_CONSIGNMENT == billingOperations.getOperationType()){
             holder.ivBillingIcon.setImageResource(R.drawable.pay_to_vendor_billing);
             holder.tvType.setText(R.string.payment_vendor);

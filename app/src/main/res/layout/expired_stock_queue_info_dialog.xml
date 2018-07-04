@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00000000"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="@dimen/four_hundred_sixty_dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_edit_text_bg"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/sixty_dp"
+            android:background="@drawable/rounded_blue_bg">
+
+            <TextView
+                android:id="@+id/tvDialogTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:paddingLeft="@dimen/thirty_dp"
+                android:text="Product queue info"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/twenty_dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/twenty_dp"
+            android:paddingBottom="@dimen/ten_dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/thirty_dp"
+                android:paddingRight="@dimen/thirty_dp">
+
+                <TextView
+                    android:layout_width="@dimen/hundred_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/fifteen_dp"
+                    android:gravity="right"
+                    android:text="Stock Id"
+                    android:textSize="@dimen/sixteen_dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edit_text_bg"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/etDateCreatead"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/forty_dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/colorTransparent"
+                        android:gravity="center_vertical"
+                        android:inputType="text"
+                        android:paddingLeft="@dimen/ten_dp"
+                        android:textColorHint="@color/colorTextHint"
+                        android:textSize="@dimen/sixteen_dp" />
+
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/thirty_dp"
+                android:paddingRight="@dimen/thirty_dp">
+
+                <TextView
+                    android:layout_width="@dimen/hundred_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/fifteen_dp"
+                    android:gravity="right"
+                    android:text="Cost"
+                    android:textSize="@dimen/sixteen_dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edit_text_bg"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvCost"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/forty_dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/colorTransparent"
+                        android:gravity="center_vertical"
+                        android:inputType="text"
+                        android:paddingLeft="@dimen/ten_dp"
+                        android:textColorHint="@color/colorTextHint"
+                        android:textSize="@dimen/sixteen_dp" />
+
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/ten_dp"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/thirty_dp"
+                android:paddingRight="@dimen/thirty_dp">
+
+                <TextView
+                    android:layout_width="@dimen/hundred_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/fifteen_dp"
+                    android:gravity="right"
+                    android:text="Date created"
+                    android:textSize="@dimen/sixteen_dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edit_text_bg"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/etDateExpired"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/forty_dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/colorTransparent"
+                        android:gravity="center_vertical"
+                        android:inputType="text"
+                        android:paddingLeft="@dimen/ten_dp"
+                        android:textColorHint="@color/colorTextHint"
+                        android:textSize="@dimen/sixteen_dp" />
+
+
+                    <ImageView
+                        android:layout_width="@dimen/twenty_five_dp"
+                        android:layout_height="@dimen/twenty_five_dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/fifteen_dp"
+                        android:layout_marginRight="@dimen/fifteen_dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/calendar_icon" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/twenty_dp"
+            android:layout_marginTop="@dimen/ten_dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.jim.mpviews.MpButton
+                android:id="@+id/btnOk"
+                android:layout_width="@dimen/hundred_thirty_dp"
+                android:layout_height="@dimen/forty_three_dp"
+                android:layout_marginRight="@dimen/fifteen_dp"
+                android:gravity="center"
+                android:text="@string/ok"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="@dimen/sixteen_dp" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

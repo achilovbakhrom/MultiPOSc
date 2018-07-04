@@ -62,7 +62,12 @@ public interface InventoryOperations {
     Single<InventoryItem> setLowStockAlert(InventoryItem inventoryItem,double newAlertCount);
 
     Single<List<StockQueue>> getStockQueuesByProductId(Long id);
-    Single<Double> getAvailableCountForProduct(Long id);
+    Single<List<StockQueue>> getAllStockQueuesByProductId(Long productId);
 
+    Single<Double> getAvailableCountForProduct(Long id);
     Single<List<StockQueueItem>> getStockQueueItemForOutcomeProduct(OutcomeProduct outcomeProduct, List<OutcomeProduct> outcomeProductList, List<OutcomeProduct> exceptionList);
+    Single<List<StockQueue>> getAllStockQueuesByVendorId(Long vendorId);
+    Single<List<StockQueue>> getAllStockQueuesByProductIdInInterval(Long productId, Calendar fromDate, Calendar toDate);
+    Single<List<StockQueue>> getAllStockQueuesByVendorIdInInterval(Long vendorId, Calendar fromDate, Calendar toDate);
+    Single<List<StockQueue>> getExpiredStockQueue();
 }

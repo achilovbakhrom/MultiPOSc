@@ -14,6 +14,7 @@ import com.jim.multipos.data.db.model.intosystem.TitleDescription;
 import com.jim.multipos.ui.inventory.InventoryActivity;
 import com.jim.multipos.ui.main_menu.MenuListAdapter;
 import com.jim.multipos.ui.main_menu.inventory_menu.presenters.InventoryMenuPresenter;
+import com.jim.multipos.ui.products_expired.ExpiredProductsActivity;
 import com.jim.multipos.ui.vendor_item_managment.VendorItemsActivity;
 import com.jim.multipos.utils.OnItemClickListener;
 
@@ -85,6 +86,10 @@ public class InventoryMenuActivity extends BaseActivity implements InventoryMenu
             case 1:
                 Intent intent2 = new Intent(this, VendorItemsActivity.class);
                 startActivity(intent2);
+                break;
+            case 2:
+                Intent intent = new Intent(this, ExpiredProductsActivity.class);
+                startActivity(intent);
                 break;
         }
     }

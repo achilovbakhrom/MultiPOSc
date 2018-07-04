@@ -160,7 +160,7 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
 
     @Override
     public void onStockQueueClick(InventoryItem inventoryItem) {
-
+        view.openStockQueueForProduct(inventoryItem.getProduct().getId());
     }
 
     @Override

@@ -39,6 +39,35 @@ public class Vendor implements  Serializable {
     })
     private List<VendorHistory> vendorHistories;
 
+    public void setContacts(List<Contact> contacts) {
+        this.contacts = contacts;
+    }
+
+    @ToMany(joinProperties = {@JoinProperty(name = "id", referencedName = "vendorId")})
+    private List<Contact> contacts;
+    /** Used for active entity operations. */
+    @Generated(hash = 957720129)
+    private transient VendorDao myDao;
+    /** Used to resolve relations */
+    @Generated(hash = 2040040024)
+    private transient DaoSession daoSession;
+
+    @Generated(hash = 245491538)
+    public Vendor(Long id, String name, String contactName, String address, String photoPath,
+            Boolean active, Boolean deleted, Long globalId, Long createdDate) {
+        this.id = id;
+        this.name = name;
+        this.contactName = contactName;
+        this.address = address;
+        this.photoPath = photoPath;
+        this.active = active;
+        this.deleted = deleted;
+        this.globalId = globalId;
+        this.createdDate = createdDate;
+    }
+    @Generated(hash = 530746692)
+    public Vendor() {
+    }
 
     @Keep
     public void keepToHistory(){
@@ -78,57 +107,6 @@ public class Vendor implements  Serializable {
             return null;
         }
     }
-
-
-    @ToMany(joinProperties = {@JoinProperty(name = "id", referencedName = "vendorId")})
-    private List<Contact> contacts;
-    /** Used for active entity operations. */
-    @Generated(hash = 957720129)
-    private transient VendorDao myDao;
-    /** Used to resolve relations */
-    @Generated(hash = 2040040024)
-    private transient DaoSession daoSession;
-
-
-    @Generated(hash = 245491538)
-    public Vendor(Long id, String name, String contactName, String address, String photoPath, Boolean active,
-            Boolean deleted, Long globalId, Long createdDate) {
-        this.id = id;
-        this.name = name;
-        this.contactName = contactName;
-        this.address = address;
-        this.photoPath = photoPath;
-        this.active = active;
-        this.deleted = deleted;
-        this.globalId = globalId;
-        this.createdDate = createdDate;
-    }
-    @Generated(hash = 530746692)
-    public Vendor() {
-    }
-
-
-    @Keep
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    @Keep
-    public Long getId() {
-        return id;
-    }
-
-
-    @Keep
-    public Long getCreatedDate() {
-        return this.createdDate;
-    }
-
-    @Keep
-    public void setCreatedDate(long createdDate) {
-        this.createdDate = createdDate;
-    }
-
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
      * Entity must attached to an entity context.
@@ -140,7 +118,6 @@ public class Vendor implements  Serializable {
         }
         myDao.refresh(this);
     }
-
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
      * Entity must attached to an entity context.
@@ -152,7 +129,6 @@ public class Vendor implements  Serializable {
         }
         myDao.update(this);
     }
-
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
      * Entity must attached to an entity context.
@@ -164,13 +140,11 @@ public class Vendor implements  Serializable {
         }
         myDao.delete(this);
     }
-
     /** Resets a to-many relationship, making the next get call to query for a fresh result. */
     @Generated(hash = 1818154294)
     public synchronized void resetContacts() {
         contacts = null;
     }
-
     /**
      * To-many relationship, resolved on first access (and after reset).
      * Changes to to-many relations are not persisted, make changes to the target entity.
@@ -192,74 +166,11 @@ public class Vendor implements  Serializable {
         }
         return contacts;
     }
-
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
-
-
-    /**
-     * To-many relationship, resolved on first access (and after reset).
-     * Changes to to-many relations are not persisted, make changes to the target entity.
-     */
-
-
-    /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 1079169342)
-    public void __setDaoSession(DaoSession daoSession) {
-        this.daoSession = daoSession;
-        myDao = daoSession != null ? daoSession.getVendorDao() : null;
-    }
-
-
-    public void setCreatedDate(Long createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public Long getGlobalId() {
-        return this.globalId;
-    }
-
-    public void setGlobalId(Long globalId) {
-        this.globalId = globalId;
-    }
-
-    public String getAddress() {
-        return this.address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getContactName() {
-        return this.contactName;
-    }
-
-    public void setContactName(String contactName) {
-        this.contactName = contactName;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPhotoPath() {
-        return this.photoPath;
-    }
-
-    public void setPhotoPath(String photoPath) {
-        this.photoPath = photoPath;
-    }
-
     /** Resets a to-many relationship, making the next get call to query for a fresh result. */
     @Generated(hash = 1656033905)
     public synchronized void resetVendorHistories() {
         vendorHistories = null;
     }
-
     /**
      * To-many relationship, resolved on first access (and after reset).
      * Changes to to-many relations are not persisted, make changes to the target entity.
@@ -281,6 +192,24 @@ public class Vendor implements  Serializable {
         }
         return vendorHistories;
     }
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 1079169342)
+    public void __setDaoSession(DaoSession daoSession) {
+        this.daoSession = daoSession;
+        myDao = daoSession != null ? daoSession.getVendorDao() : null;
+    }
+    public Long getCreatedDate() {
+        return this.createdDate;
+    }
+    public void setCreatedDate(Long createdDate) {
+        this.createdDate = createdDate;
+    }
+    public Long getGlobalId() {
+        return this.globalId;
+    }
+    public void setGlobalId(Long globalId) {
+        this.globalId = globalId;
+    }
     public Boolean getDeleted() {
         return this.deleted;
     }
@@ -293,5 +222,36 @@ public class Vendor implements  Serializable {
     public void setActive(Boolean active) {
         this.active = active;
     }
+    public String getPhotoPath() {
+        return this.photoPath;
+    }
+    public void setPhotoPath(String photoPath) {
+        this.photoPath = photoPath;
+    }
+    public String getAddress() {
+        return this.address;
+    }
+    public void setAddress(String address) {
+        this.address = address;
+    }
+    public String getContactName() {
+        return this.contactName;
+    }
+    public void setContactName(String contactName) {
+        this.contactName = contactName;
+    }
+    public String getName() {
+        return this.name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public Long getId() {
+        return this.id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
+
 
  }

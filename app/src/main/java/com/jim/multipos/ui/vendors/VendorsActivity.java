@@ -5,8 +5,10 @@ import android.support.annotation.Nullable;
 
 import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.core.DoubleSideActivity;
+import com.jim.multipos.ui.vendors.vendor_edit.VendorEditFragment;
+import com.jim.multipos.ui.vendors.vendor_list.VendorListFragment;
 
-public class VendorsActivity extends DoubleSideActivity {
+public class VendorsActivity extends DoubleSideActivity implements VendorsActivityView{
 
     @Override
     protected int getToolbarMode() {
@@ -16,6 +18,7 @@ public class VendorsActivity extends DoubleSideActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        addFragmentToLeft(new VendorEditFragment());
+        addFragmentToRight(new VendorListFragment());
     }
 }

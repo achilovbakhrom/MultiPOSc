@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llBackground"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/fifty_dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <FrameLayout
+                android:layout_width="@dimen/fifteen_dp"
+                android:layout_height="@dimen/thirty_five_dp">
+
+                <com.jim.mpviews.StockStatusView
+                    android:id="@+id/ssvStockStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="1dp" />
+
+            </FrameLayout>
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="2px"
+            android:layout_height="match_parent"
+            android:background="#e3e3e3" />
+
+        <TextView
+            android:id="@+id/tvInvoiceId"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/colorMainText"
+            android:textSize="@dimen/sixteen_dp" />
+
+        <FrameLayout
+            android:layout_width="2px"
+            android:layout_height="match_parent"
+            android:background="#e3e3e3" />
+
+        <TextView
+            android:id="@+id/tvVendor"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:paddingRight="@dimen/five_dp"
+            android:textColor="@color/colorMainText"
+            android:textSize="@dimen/sixteen_dp" />
+
+        <FrameLayout
+            android:layout_width="2px"
+            android:layout_height="match_parent"
+            android:background="#e3e3e3" />
+
+        <TextView
+            android:id="@+id/tvDateInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:textColor="@color/colorMainText"
+            android:textSize="@dimen/sixteen_dp" />
+
+        <FrameLayout
+            android:layout_width="2px"
+            android:layout_height="match_parent"
+            android:background="#e3e3e3" />
+
+        <TextView
+            android:id="@+id/tvCost"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/colorMainText"
+            android:textSize="@dimen/sixteen_dp" />
+
+        <FrameLayout
+            android:layout_width="2px"
+            android:layout_height="match_parent"
+            android:background="#e3e3e3" />
+
+        <TextView
+            android:id="@+id/tvAvailable"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingRight="@dimen/five_dp"
+            android:textColor="@color/colorMainText"
+            android:textSize="@dimen/sixteen_dp" />
+
+        <FrameLayout
+            android:layout_width="2px"
+            android:layout_height="match_parent"
+            android:background="#e3e3e3" />
+
+        <TextView
+            android:id="@+id/tvStockId"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:textColor="@color/colorMainText"
+            android:textSize="@dimen/sixteen_dp" />
+
+        <FrameLayout
+            android:layout_width="2px"
+            android:layout_height="match_parent"
+            android:background="#e3e3e3" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingLeft="@dimen/ten_dp"
+            android:paddingRight="@dimen/ten_dp">
+
+            <ImageView
+                android:id="@+id/ivInfo"
+                android:layout_width="@dimen/twenty_five_dp"
+                android:layout_height="@dimen/twenty_five_dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:src="@drawable/info_icon_selector" />
+
+            <ImageView
+                android:id="@+id/ivBackReturn"
+                android:layout_width="@dimen/twenty_five_dp"
+                android:layout_height="@dimen/twenty_five_dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:src="@drawable/expense_selector" />
+
+            <ImageView
+                android:id="@+id/ivWriteOff"
+                android:layout_width="@dimen/twenty_five_dp"
+                android:layout_height="@dimen/twenty_five_dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:src="@drawable/remove_product_selector" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="#e3e3e3" />
+
+</LinearLayout>

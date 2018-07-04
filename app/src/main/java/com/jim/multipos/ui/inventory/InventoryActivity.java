@@ -10,6 +10,7 @@ import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.core.SimpleActivity;
 import com.jim.multipos.ui.consignment.ConsignmentActivity;
 import com.jim.multipos.ui.inventory.fragments.InventoryFragment;
+import com.jim.multipos.ui.product_queue_list.ProductQueueListActivity;
 import com.jim.multipos.utils.TextWatcherOnTextChange;
 
 import static com.jim.multipos.ui.consignment.ConsignmentActivity.OPERATION_TYPE;
@@ -71,5 +72,11 @@ public class InventoryActivity extends SimpleActivity {
                     fragment.searchText(intentResult.getContents());
             }
         }
+    }
+
+    public void openStockQueueForProduct(Long id) {
+        Intent intent = new Intent(this, ProductQueueListActivity.class);
+        intent.putExtra(PRODUCT_ID, id);
+        startActivity(intent);
     }
 }

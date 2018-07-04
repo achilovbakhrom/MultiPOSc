@@ -287,7 +287,7 @@ public class VendorAddEditFragment extends BaseFragment implements ContentChange
                     ((VendorAddEditActivity) getContext()).showCantDeleteActiveItemMessage(() -> {
                     });
                 } else {
-                    //TODO: SIROJ -> WHEN DELETE ACTIVE VENDOR NOT DELETE IT ACTUALLY, JUST NEXT TIME IN VENDOR PICKERS NOT SHOW VENDOR
+                    showDeleteDialog();
                 }
 
                 break;

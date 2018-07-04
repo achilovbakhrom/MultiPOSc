@@ -184,7 +184,6 @@ public class PaymentToVendorDialog extends Dialog {
                 etAmmount.setError(context.getString(R.string.ammount_cant_be_zero));
                 return;
             }
-
             boolean hasOpenTill = databaseManager.hasOpenTill().blockingGet();
             if (!hasOpenTill && chbFromAccount.isChecked()) {
                 WarningDialog warningDialog = new WarningDialog(getContext());
@@ -193,11 +192,16 @@ public class PaymentToVendorDialog extends Dialog {
                 warningDialog.setOnYesClickListener(view1 -> warningDialog.dismiss());
                 warningDialog.show();
             } else {
-                if(this.operations !=null){
+                if (this.operations != null) {
                     this.operations.keepToHistory();
-                }else {
+                    if (this.operations.getInvoice() != null) {
+                        if (ammount > this.operations.getInvoice().getTotalAmount()) {
+                            etAmmount.setError("Amount cant bigger than invoice total amount");
+                            return;
+                        }
+                    }
+                } else {
                     this.operations = new BillingOperations();
-
                 }
                 this.operations.setAmount(ammount);
 

@@ -237,7 +237,7 @@ public class StockPositionsDialog extends Dialog {
         });
     }
 
-    @OnTextChanged(R.id.mpSearchEditText)
+    @OnTextChanged(R.id.etSearchView)
     protected void handleTextChange(Editable editable) {
         if(editable.toString().isEmpty()){
             ivSearchImage.setImageResource(R.drawable.search_app);

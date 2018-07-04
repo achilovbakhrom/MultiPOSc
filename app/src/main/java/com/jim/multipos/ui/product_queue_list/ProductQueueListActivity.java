@@ -1,12 +1,16 @@
 package com.jim.multipos.ui.product_queue_list;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.core.SimpleActivity;
+import com.jim.multipos.ui.consignment.ConsignmentActivity;
 import com.jim.multipos.ui.product_queue_list.product_queue.ProductQueueListFragment;
+import com.jim.multipos.utils.BundleConstants;
 
+import static com.jim.multipos.ui.consignment.ConsignmentActivity.OPERATION_TYPE;
 import static com.jim.multipos.ui.consignment.ConsignmentActivity.PRODUCT_ID;
 import static com.jim.multipos.ui.consignment.ConsignmentActivity.VENDOR_ID;
 
@@ -36,5 +40,13 @@ public class ProductQueueListActivity extends SimpleActivity implements ProductQ
             fragment.setArguments(bundle);
             addFragment(fragment);
         }
+    }
+
+    public void openReturnInvoice(Long productId, Long vendorId) {
+        Intent intent = new Intent(this, ConsignmentActivity.class);
+        intent.putExtra(VENDOR_ID, vendorId);
+        intent.putExtra(PRODUCT_ID, productId);
+        intent.putExtra(OPERATION_TYPE, BundleConstants.OUTVOICE);
+        startActivity(intent);
     }
 }

@@ -142,9 +142,9 @@ public class VendorAddEditPresenterImpl extends BasePresenterImpl<VendorAddEditV
         contact.setType(contactType);
         contact.setName(contactData);
         contacts.add(contact);
-        if (mode == AddingMode.ADD)
-            view.addContactToAddEditView(contact);
-        else view.updateContacts();
+//        if (mode == AddingMode.ADD)
+        view.addContactToAddEditView(contact);
+//        else view.updateContacts();
     }
 
     @Override
@@ -180,8 +180,8 @@ public class VendorAddEditPresenterImpl extends BasePresenterImpl<VendorAddEditV
                         VendorAddEditPresenterImpl.this.vendorId = vendorId;
                         Vendor vendor = databaseManager.getVendorById(vendorId).blockingSingle();
                         if (vendor != null) {
-                            vendor.resetContacts();
-                            contacts = vendor.getContacts();
+                            contacts.clear();
+                            contacts.addAll(vendor.getContacts());
                             view.prepareEditMode(vendor);
                             VendorAddEditPresenterImpl.this.mode = mode;
                         }
@@ -196,8 +196,8 @@ public class VendorAddEditPresenterImpl extends BasePresenterImpl<VendorAddEditV
                 this.vendorId = vendorId;
                 Vendor vendor = databaseManager.getVendorById(vendorId).blockingSingle();
                 if (vendor != null) {
-                    vendor.resetContacts();
-                    contacts = vendor.getContacts();
+                    contacts.clear();
+                    contacts.addAll(vendor.getContacts());;
                     view.prepareEditMode(vendor);
                 }
                 view.changeSelectedPosition();
@@ -246,8 +246,8 @@ public class VendorAddEditPresenterImpl extends BasePresenterImpl<VendorAddEditV
         this.vendorId = vendorId;
         Vendor vendor = databaseManager.getVendorById(vendorId).blockingSingle();
         if (vendor != null) {
-            contacts = vendor.getContacts();
-            vendor.resetContacts();
+            contacts.clear();
+            contacts.addAll(vendor.getContacts());
             view.prepareEditMode(vendor);
         }
         view.changeSelectedPosition();

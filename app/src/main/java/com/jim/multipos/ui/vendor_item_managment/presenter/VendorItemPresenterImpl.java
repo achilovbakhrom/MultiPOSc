@@ -86,7 +86,7 @@ public class VendorItemPresenterImpl extends BasePresenterImpl<VendorItemView> i
 
     @Override
     public void onStockQueueForVendor(VendorManagmentItem vendorManagmentItem) {
-        //TODO OPEN STOCK QUEUE FRAGMENT FOR VENDOR
+        view.openStockQueueForVendor(vendorManagmentItem.getVendor().getId());
     }
 
     List<VendorManagmentItem> searchResults;

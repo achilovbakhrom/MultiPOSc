@@ -15,6 +15,7 @@ import com.jim.mpviews.MpEditText;
 import com.jim.multipos.R;
 import com.jim.multipos.data.db.model.inventory.IncomeProduct;
 import com.jim.multipos.data.db.model.inventory.StockQueue;
+import com.jim.multipos.data.db.model.products.Product;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -90,7 +91,6 @@ public class IncomeProductConfigsDialog extends Dialog {
             datePickerDialog.show();
         });
 
-
         etDateExpired.setOnClickListener(v -> {
             DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), (datePicker, i, i1, i2) -> {
                 expired.set(Calendar.YEAR, i);
@@ -114,8 +114,17 @@ public class IncomeProductConfigsDialog extends Dialog {
                 stockQueue.setExpiredProductDate(expired.getTimeInMillis());
             if (!etDescription.getText().toString().isEmpty())
                 incomeProduct.setDescription(etDescription.getText().toString());
+
+            if (incomeProduct.getProduct().getStockKeepType() == Product.FEFO) {
+                if (!etDateExpired.getText().toString().isEmpty()) {
+                    stockQueue.setExpiredProductDate(expired.getTimeInMillis());
+                    listener.onSaveClicked(incomeProduct, stockQueue);
+                    dismiss();
+                } else etDateExpired.setError("Please, enter expired date");
+            } else {
                 listener.onSaveClicked(incomeProduct, stockQueue);
-            dismiss();
+                dismiss();
+            }
         });
     }
 

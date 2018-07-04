@@ -182,10 +182,12 @@
     <string-array name="inventory_menu_title">
         <item>Склад</item>
         <item>Управление товарами поставщиков</item>
+        <item>Продукты с истекшим сроком</item>
     </string-array>
     <string-array name="inventory_menu_description">
         <item>Складской учёт</item>
         <item>Взаимодействия с поставщиками</item>
+        <item>Продукты с истекшим сроком</item>
     </string-array>
 
     <string-array name="unit_categories">
@@ -910,7 +912,7 @@
     <string name="consigment_income">Входящая накладная</string>
     <string name="info_about_payment">Детали платежа</string>
     <string name="please_enter_write_off_reason">Пожалуйста введите причину списания</string>
-    <string name="cannot_be_empty">Пожалуйста введите причину списания</string>
+    <string name="cannot_be_empty">Это поле не может быть пустым</string>
     <string name="please_enter_replashment_reason">Пожалуста введите причину поступления</string>
     <string name="this_customer_already_has_debt">Этот клиент уже имеет долг:</string>
     <string name="enter_debt_amount">Введите сумму долга</string>

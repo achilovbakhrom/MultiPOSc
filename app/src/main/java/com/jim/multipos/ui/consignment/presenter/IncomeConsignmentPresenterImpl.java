@@ -115,12 +115,19 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
                 if (incomeProductList.get(i).getCostValue() == 0)
                     costPos = i;
             }
+            int expireCount = 0;
+            for (int i = 0; i < stockQueueList.size(); i++) {
+                if (stockQueueList.get(i).getExpiredProductDate() == 0 && incomeProductList.get(i).getProduct().getStockKeepType() == Product.FEFO)
+                    expireCount++;
+            }
 
             if (countPos != incomeProductList.size()) {
                 view.setError(context.getString(R.string.some_counts_are_empty_or_equals_zero));
             } else if (costPos != incomeProductList.size())
                 view.setError(context.getString(R.string.some_costs_are_empty));
-            else {
+            else if (expireCount != 0){
+                view.setError("Product with FEFO type haven't got expire date");
+            } else {
                 if (databaseManager.isInvoiceNumberExists(number).blockingGet()) {
                     view.setInvoiceNumberError();
                     return;

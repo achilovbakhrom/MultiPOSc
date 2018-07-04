@@ -45,12 +45,12 @@ public class ProductStockQueuesAdapter extends RecyclerView.Adapter<ProductStock
 
     @Override
     public void onBindViewHolder(@NonNull StockQueueItemViewHolder holder, int position) {
-        if(items.get(position).getStockQueue().getIncomeProduct().getInvoice()!=null)
-        holder.tvInvoiceId.setText(String.valueOf(items.get(position).getStockQueue().getIncomeProduct().getInvoiceId()));
+        if (items.get(position).getStockQueue().getIncomeProduct().getInvoice() != null)
+            holder.tvInvoiceId.setText(String.valueOf(items.get(position).getStockQueue().getIncomeProduct().getInvoiceId()));
         else holder.tvInvoiceId.setText("");
         holder.tvDateInput.setText(simpleDateFormat.format(items.get(position).getStockQueue().getIncomeProductDate()));
         holder.tvCost.setText(decimalFormat.format(items.get(position).getStockQueue().getCost()));
-        if(items.get(position).getStockQueue().getVendor()!=null)
+        if (items.get(position).getStockQueue().getVendor() != null)
             holder.tvVendor.setText(items.get(position).getStockQueue().getVendor().getName());
         else holder.tvVendor.setText("");
 
@@ -93,7 +93,7 @@ public class ProductStockQueuesAdapter extends RecyclerView.Adapter<ProductStock
         notifyDataSetChanged();
     }
 
-    public interface OnCustomSelectListener{
+    public interface OnCustomSelectListener {
         void onSelect(StockQueueItem stockQueueItem, int position);
     }
 

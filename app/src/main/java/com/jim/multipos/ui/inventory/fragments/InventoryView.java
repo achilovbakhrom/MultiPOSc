@@ -23,4 +23,5 @@ public interface InventoryView extends BaseView {
     void openChooseVendorDialog(List<Vendor> vendorList, List<Vendor> vendorsWithProduct);
     void sendDataToConsignment(Long productId, Long vendorId, int consignment_type);
     void sendInventoryStateEvent(int event);
+    void openStockQueueForProduct(Long id);
 }

@@ -268,6 +268,11 @@ public class VendorItemFragment extends BaseFragment implements VendorItemView {
     }
 
     @Override
+    public void openStockQueueForVendor(Long id) {
+        ((VendorItemsActivity) getActivity()).openProductQueueStory(id);
+    }
+
+    @Override
     public void openVendorBillingStory(Long vendorId, Double totaldebt) {
         ((VendorItemsActivity) getActivity()).openVendorBillingStory(vendorId, totaldebt);
     }

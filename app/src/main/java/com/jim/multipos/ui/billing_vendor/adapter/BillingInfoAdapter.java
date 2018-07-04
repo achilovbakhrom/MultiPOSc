@@ -33,10 +33,10 @@ public class BillingInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private Context context;
     private Currency currency;
     private SimpleDateFormat simpleDateFormat;
-    private List<BillingOperationsHistory> items;
+    private List<Object> items;
     private DecimalFormat decimalFormat;
 
-    public void setData(List<BillingOperationsHistory> items) {
+    public void setData(List<Object> items) {
         this.items = items;
     }
 
@@ -65,76 +65,124 @@ public class BillingInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof BillingInfoViewHolder) {
             BillingInfoViewHolder infoViewHolder = (BillingInfoViewHolder) holder;
-            Date createdDate = new Date(items.get(position).getCreateAt());
-            Date paymentDate = new Date(items.get(position).getPaymentDate());
-            infoViewHolder.tvDate.setText(simpleDateFormat.format(createdDate));
-            infoViewHolder.tvPaymentDate.setText(simpleDateFormat.format(paymentDate));
-            infoViewHolder.tvDescription.setText(items.get(position).getDescription());
-            if (items.get(position).getDescription()!=null && !items.get(position).getDescription().equals(""))
-                infoViewHolder.tvDescription.setText(items.get(position).getDescription());
-            else {
-                infoViewHolder.tvDescription.setText(context.getString(R.string.none));
-            }
-            if (items.get(position).getAccount() != null)
-                infoViewHolder.tvAccount.setText(items.get(position).getAccount().getName());
-            else {
-                infoViewHolder.tvAccount.setText(context.getString(R.string.none));
-            }
-            infoViewHolder.tvAmount.setText(decimalFormat.format(items.get(position).getAmount()) + " " + currency.getAbbr());
-            if (items.size() > 1) {
-                infoViewHolder.llBackground.setVisibility(View.VISIBLE);
-                if (!items.get(position).getAmount().equals(items.get(position + 1).getAmount())) {
+            if (items.get(position) instanceof BillingOperations) {
+                BillingOperations billingOperations = (BillingOperations) items.get(position);
+                Date createdDate = new Date(billingOperations.getCreateAt());
+                Date paymentDate = new Date(billingOperations.getPaymentDate());
+                infoViewHolder.tvDate.setText(simpleDateFormat.format(createdDate));
+                infoViewHolder.tvPaymentDate.setText(simpleDateFormat.format(paymentDate));
+                infoViewHolder.tvDescription.setText(billingOperations.getDescription());
+                if (billingOperations.getDescription() != null && !billingOperations.getDescription().equals(""))
+                    infoViewHolder.tvDescription.setText(billingOperations.getDescription());
+                else {
+                    infoViewHolder.tvDescription.setText(context.getString(R.string.none));
+                }
+                if (billingOperations.getAccount() != null)
+                    infoViewHolder.tvAccount.setText(billingOperations.getAccount().getName());
+                else {
+                    infoViewHolder.tvAccount.setText(context.getString(R.string.none));
+                }
+                infoViewHolder.tvAmount.setText(decimalFormat.format(billingOperations.getAmount()) + " " + currency.getAbbr());
+                if (items.size() > 1) {
+                    BillingOperations nextOperation = (BillingOperations) items.get(position + 1);
+                    infoViewHolder.llBackground.setVisibility(View.VISIBLE);
+                    if (!billingOperations.getAmount().equals(nextOperation.getAmount())) {
 
-                    infoViewHolder.tvAmount.setTextColor(ContextCompat.getColor(context,R.color.colorRed));
-                }
-                if (items.get(position).getAccount() != null) {
-                    if (items.get(position + 1).getAccount() == null) {
-                        infoViewHolder.tvAccount.setTextColor(ContextCompat.getColor(context,R.color.colorRed));
-                    } else if (!items.get(position).getAccount().getId().equals(items.get(position + 1).getAccount().getId())) {
-                        infoViewHolder.tvAccount.setTextColor(ContextCompat.getColor(context,R.color.colorRed));
+                        infoViewHolder.tvAmount.setTextColor(ContextCompat.getColor(context, R.color.colorRed));
                     }
-                } else {
-                    if (items.get(position + 1).getAccount() != null)
-                        infoViewHolder.tvAccount.setTextColor(ContextCompat.getColor(context,R.color.colorRed));
+                    if (billingOperations.getAccount() != null) {
+                        if (nextOperation.getAccount() == null) {
+                            infoViewHolder.tvAccount.setTextColor(ContextCompat.getColor(context, R.color.colorRed));
+                        } else if (!billingOperations.getAccount().getId().equals(nextOperation.getAccount().getId())) {
+                            infoViewHolder.tvAccount.setTextColor(ContextCompat.getColor(context, R.color.colorRed));
+                        }
+                    } else {
+                        if (nextOperation.getAccount() != null)
+                            infoViewHolder.tvAccount.setTextColor(ContextCompat.getColor(context, R.color.colorRed));
+                    }
+                    if (!billingOperations.getDescription().equals(nextOperation.getDescription())) {
+                        infoViewHolder.tvDescription.setTextColor(ContextCompat.getColor(context, R.color.colorRed));
+                    }
                 }
-                if (!items.get(position).getDescription().equals(items.get(position + 1).getDescription())) {
-                    infoViewHolder.tvDescription.setTextColor(ContextCompat.getColor(context,R.color.colorRed));
+            } else if (items.get(position) instanceof BillingOperationsHistory) {
+                BillingOperationsHistory billingOperations = (BillingOperationsHistory) items.get(position);
+
+                Date createdDate = new Date(billingOperations.getCreateAt());
+                Date paymentDate = new Date(billingOperations.getPaymentDate());
+                infoViewHolder.tvDate.setText(simpleDateFormat.format(createdDate));
+                infoViewHolder.tvPaymentDate.setText(simpleDateFormat.format(paymentDate));
+                infoViewHolder.tvDescription.setText(billingOperations.getDescription());
+                if (billingOperations.getDescription() != null && !billingOperations.getDescription().equals(""))
+                    infoViewHolder.tvDescription.setText(billingOperations.getDescription());
+                else {
+                    infoViewHolder.tvDescription.setText(context.getString(R.string.none));
+                }
+                if (billingOperations.getAccount() != null)
+                    infoViewHolder.tvAccount.setText(billingOperations.getAccount().getName());
+                else {
+                    infoViewHolder.tvAccount.setText(context.getString(R.string.none));
+                }
+                infoViewHolder.tvAmount.setText(decimalFormat.format(billingOperations.getAmount()) + " " + currency.getAbbr());
+                if (items.size() > 1) {
+                    BillingOperationsHistory nextOperation = (BillingOperationsHistory) items.get(position + 1);
+                    infoViewHolder.llBackground.setVisibility(View.VISIBLE);
+                    if (!billingOperations.getAmount().equals(nextOperation.getAmount())) {
+
+                        infoViewHolder.tvAmount.setTextColor(ContextCompat.getColor(context, R.color.colorRed));
+                    }
+                    if (billingOperations.getAccount() != null) {
+                        if (nextOperation.getAccount() == null) {
+                            infoViewHolder.tvAccount.setTextColor(ContextCompat.getColor(context, R.color.colorRed));
+                        } else if (!billingOperations.getAccount().getId().equals(nextOperation.getAccount().getId())) {
+                            infoViewHolder.tvAccount.setTextColor(ContextCompat.getColor(context, R.color.colorRed));
+                        }
+                    } else {
+                        if (nextOperation.getAccount() != null)
+                            infoViewHolder.tvAccount.setTextColor(ContextCompat.getColor(context, R.color.colorRed));
+                    }
+                    if (!billingOperations.getDescription().equals(nextOperation.getDescription())) {
+                        infoViewHolder.tvDescription.setTextColor(ContextCompat.getColor(context, R.color.colorRed));
+                    }
                 }
             }
+
         } else if (holder instanceof BillingInfoEditedViewHolder) {
+            BillingOperationsHistory history = (BillingOperationsHistory) items.get(position);
+
             BillingInfoEditedViewHolder infoViewHolder = (BillingInfoEditedViewHolder) holder;
-            Date createdDate = new Date(items.get(position).getCreateAt());
-            Date paymentDate = new Date(items.get(position).getPaymentDate());
+            Date createdDate = new Date(history.getCreateAt());
+            Date paymentDate = new Date(history.getPaymentDate());
             infoViewHolder.tvDate.setText(simpleDateFormat.format(createdDate));
-            if (items.get(position).getDescription()!=null && !items.get(position).getDescription().equals(""))
-                infoViewHolder.tvDescription.setText(items.get(position).getDescription());
+            if (history.getDescription() != null && !history.getDescription().equals(""))
+                infoViewHolder.tvDescription.setText(history.getDescription());
             else {
                 infoViewHolder.tvDescription.setText(context.getString(R.string.none));
             }
             infoViewHolder.tvPaymentDate.setText(simpleDateFormat.format(paymentDate));
-            if (items.get(position).getAccount() != null)
-                infoViewHolder.tvAccount.setText(items.get(position).getAccount().getName());
+            if (history.getAccount() != null)
+                infoViewHolder.tvAccount.setText(history.getAccount().getName());
             else {
                 infoViewHolder.tvAccount.setText(context.getString(R.string.none));
             }
-            infoViewHolder.tvAmount.setText(decimalFormat.format(items.get(position).getAmount()) + " " + currency.getAbbr());
+            infoViewHolder.tvAmount.setText(decimalFormat.format(history.getAmount()) + " " + currency.getAbbr());
             infoViewHolder.tvCount.setText(String.valueOf(position));
             if (position != items.size() - 1) {
-                if (!items.get(position).getAmount().equals(items.get(position + 1).getAmount())) {
-                    infoViewHolder.tvAmount.setTextColor(ContextCompat.getColor(context,R.color.colorRed));
+                BillingOperationsHistory nextHistory = (BillingOperationsHistory) items.get(position + 1);
+                if (!history.getAmount().equals(nextHistory.getAmount())) {
+                    infoViewHolder.tvAmount.setTextColor(ContextCompat.getColor(context, R.color.colorRed));
                 }
-                if (items.get(position).getAccount() != null) {
-                    if (items.get(position + 1).getAccount() == null) {
-                        infoViewHolder.tvAccount.setTextColor(ContextCompat.getColor(context,R.color.colorRed));
-                    } else if (!items.get(position).getAccount().getId().equals(items.get(position + 1).getAccount().getId())) {
-                        infoViewHolder.tvAccount.setTextColor(ContextCompat.getColor(context,R.color.colorRed));
+                if (history.getAccount() != null) {
+                    if (nextHistory.getAccount() == null) {
+                        infoViewHolder.tvAccount.setTextColor(ContextCompat.getColor(context, R.color.colorRed));
+                    } else if (!history.getAccount().getId().equals(nextHistory.getAccount().getId())) {
+                        infoViewHolder.tvAccount.setTextColor(ContextCompat.getColor(context, R.color.colorRed));
                     }
                 } else {
-                    if (items.get(position + 1).getAccount() != null)
-                        infoViewHolder.tvAccount.setTextColor(ContextCompat.getColor(context,R.color.colorRed));
+                    if (nextHistory.getAccount() != null)
+                        infoViewHolder.tvAccount.setTextColor(ContextCompat.getColor(context, R.color.colorRed));
                 }
-                if (!items.get(position).getDescription().equals(items.get(position + 1).getDescription())) {
-                    infoViewHolder.tvDescription.setTextColor(ContextCompat.getColor(context,R.color.colorRed));
+                if (!history.getDescription().equals(nextHistory.getDescription())) {
+                    infoViewHolder.tvDescription.setTextColor(ContextCompat.getColor(context, R.color.colorRed));
                 }
             }
         }

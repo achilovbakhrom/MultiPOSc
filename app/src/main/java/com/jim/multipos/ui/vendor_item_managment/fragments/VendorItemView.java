@@ -22,4 +22,5 @@ public interface VendorItemView extends BaseView {
     void openVendorBillingStory(Long vendorId,Double totalDebt);
     void openVendorConsignmentsStory(Long vendorId);
     void openPaymentDialog(DatabaseManager databaseManager, Vendor vendor);
+    void openStockQueueForVendor(Long id);
 }

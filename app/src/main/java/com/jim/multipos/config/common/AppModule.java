@@ -38,6 +38,8 @@ import com.jim.multipos.ui.product_last.ProductActivity;
 import com.jim.multipos.ui.product_last.di.ProductModule;
 import com.jim.multipos.ui.product_queue_list.ProductQueueListActivity;
 import com.jim.multipos.ui.product_queue_list.di.ProductQueueListActivityModule;
+import com.jim.multipos.ui.products_expired.ExpiredProductsActivity;
+import com.jim.multipos.ui.products_expired.di.ExpiredProductsActivityModule;
 import com.jim.multipos.ui.reports.ReportsActivity;
 import com.jim.multipos.ui.reports.di.ReportsActivityModule;
 import com.jim.multipos.ui.secure.AuthActivity;
@@ -56,6 +58,8 @@ import com.jim.multipos.ui.vendor_item_managment.VendorItemsActivity;
 import com.jim.multipos.ui.vendor_item_managment.di.VendorItemMainModule;
 import com.jim.multipos.ui.vendor_products_view.VendorProductsViewActivity;
 import com.jim.multipos.ui.vendor_products_view.di.VendorProductsViewActivityModule;
+import com.jim.multipos.ui.vendors.VendorsActivity;
+import com.jim.multipos.ui.vendors.di.VendorsActivityModule;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -176,4 +180,12 @@ abstract class AppModule {
     @PerActivity
     @ContributesAndroidInjector(modules = ProductQueueListActivityModule.class)
     abstract ProductQueueListActivity provideProductQueueListActivity();
+
+    @PerActivity
+    @ContributesAndroidInjector(modules = ExpiredProductsActivityModule.class)
+    abstract ExpiredProductsActivity provideExpiredProductsActivity();
+
+    @PerActivity
+    @ContributesAndroidInjector(modules = VendorsActivityModule.class)
+    abstract VendorsActivity provideVendorsActivity();
 }

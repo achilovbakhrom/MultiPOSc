@@ -324,4 +324,9 @@ public interface DbHelper {
     Single<List<ProductState>> getVendorProductsWithStates(Long vendorId);
     Single<List<InvoiceListItem>> getInvoiceListItemByVendorId(Long vendorId);
     Single<List<InvoiceListItem>> getInvoiceListItemsInIntervalByVendor(Long vendorId, Calendar fromDate, Calendar toDate);
+    Single<List<StockQueue>> getAllStockQueuesByProductId(Long productId);
+    Single<List<StockQueue>> getAllStockQueuesByVendorId(Long vendorId);
+    Single<List<StockQueue>> getAllStockQueuesByProductIdInInterval(Long productId, Calendar fromDate, Calendar toDate);
+    Single<List<StockQueue>> getAllStockQueuesByVendorIdInInterval(Long vendorId, Calendar fromDate, Calendar toDate);
+    Single<List<StockQueue>> getExpiredStockQueue();
 }

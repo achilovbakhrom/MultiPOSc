@@ -48,18 +48,14 @@ public class ContactAdapter extends BaseAdapter<Contact, ContactAdapter.ContactV
 
     @Override
     public void onBindViewHolder(ContactViewHolder holder, int position) {
-        holder.contact.setText(items.get(position).getType() == 0 ?context.getString(R.string.phone) : context.getString(R.string.email));
+        holder.contact.setText(items.get(position).getType() == 0 ? context.getString(R.string.phone) : context.getString(R.string.email));
         holder.contactData.setText(items.get(position).getName());
         if (items.get(position).getType() == 0) {
             holder.contactData.setInputType(InputType.TYPE_CLASS_PHONE);
         } else {
             holder.contactData.setInputType(InputType.TYPE_CLASS_TEXT);
         }
-        holder.remove.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onRemove(position, items.get(position));
-            }
-        });
+
 
     }
 
@@ -77,7 +73,6 @@ public class ContactAdapter extends BaseAdapter<Contact, ContactAdapter.ContactV
 
         public ContactViewHolder(View itemView) {
             super(itemView);
-            contactData.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
             contactData.addTextChangedListener(new TextWatcherOnTextChange() {
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -85,9 +80,17 @@ public class ContactAdapter extends BaseAdapter<Contact, ContactAdapter.ContactV
                         if (items.get(getAdapterPosition()).getType() == 1) {
                             if (!Patterns.EMAIL_ADDRESS.matcher(contactData.getText().toString()).matches()) {
                                 contactData.setError(context.getString(R.string.email_adress_is_not_valid));
-                            }
-                        }
+                            } else
+                                items.get(getAdapterPosition()).setName(contactData.getText().toString());
+                        } else
+                            items.get(getAdapterPosition()).setName(contactData.getText().toString());
                     } else contactData.setError(context.getString(R.string.cannot_be_empty));
+                }
+            });
+
+            remove.setOnClickListener(v -> {
+                if (listener != null) {
+                    listener.onRemove(getAdapterPosition(), items.get(getAdapterPosition()));
                 }
             });
         }

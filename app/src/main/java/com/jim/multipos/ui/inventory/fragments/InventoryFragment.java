@@ -316,6 +316,11 @@ public class InventoryFragment extends BaseFragment implements InventoryView {
         rxBus.send(new InventoryStateEvent(event));
     }
 
+    @Override
+    public void openStockQueueForProduct(Long id) {
+        ((InventoryActivity) getActivity()).openStockQueueForProduct(id);
+    }
+
 
     public void searchText(String searchText) {
         presenter.onSearchTyped(searchText);

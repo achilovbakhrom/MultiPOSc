@@ -40,7 +40,7 @@ public class BillingInfoDialog extends Dialog {
     @BindView(R.id.rvPayments)
     RecyclerViewWithMaxHeight rvPayments;
     BillingInfoAdapter adapter;
-    List<BillingOperationsHistory> billingOperations;
+    List<Object> billingOperations;
 
     public interface BillingInfoCallback {
         void onEdit(BillingOperations operations);
@@ -59,11 +59,11 @@ public class BillingInfoDialog extends Dialog {
 
         rvPayments.setAdapter(adapter);
         if (operations.getOperationsHistoryList() != null && operations.getOperationsHistoryList().size() !=0) {
-            billingOperations.add(operations.formatingToHistoryObject());
-            billingOperations = operations.getOperationsHistoryList();
+            billingOperations.add(operations);
+            billingOperations.addAll(operations.getOperationsHistoryList());
             adapter.setData(billingOperations);
         } else {
-            billingOperations.add(operations.formatingToHistoryObject());
+            billingOperations.add(operations);
             adapter.setData(billingOperations);
         }
 
@@ -71,10 +71,18 @@ public class BillingInfoDialog extends Dialog {
             dismiss();
         });
 
+        if (operations.getOperationType() == BillingOperations.PAID_TO_CONSIGNMENT){
+            btnWarningNO.setVisibility(View.VISIBLE);
+        } else {
+            btnWarningNO.setVisibility(View.GONE);
+        }
+
         btnWarningNO.setOnClickListener(view -> {
             billingInfoCallback.onEdit(operations);
             dismiss();
         });
+
+
 
         setContentView(dialogView);
         View v = getWindow().getDecorView();

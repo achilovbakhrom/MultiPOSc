@@ -1268,6 +1268,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
+    public Single<List<StockQueue>> getAllStockQueuesByProductId(Long productId) {
+        return dbHelper.getAllStockQueuesByProductId(productId);
+    }
+
+    @Override
     public Single<Double> getAvailableCountForProduct(Long id) {
         return dbHelper.getAvailableCountForProduct(id);
     }
@@ -1275,6 +1280,26 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Single<List<StockQueueItem>> getStockQueueItemForOutcomeProduct(OutcomeProduct outcomeProduct, List<OutcomeProduct> outcomeProductList, List<OutcomeProduct> exceptionList) {
         return dbHelper.getStockQueueItemForOutcomeProduct(outcomeProduct, outcomeProductList, exceptionList);
+    }
+
+    @Override
+    public Single<List<StockQueue>> getAllStockQueuesByVendorId(Long vendorId) {
+        return dbHelper.getAllStockQueuesByVendorId(vendorId);
+    }
+
+    @Override
+    public Single<List<StockQueue>> getAllStockQueuesByProductIdInInterval(Long productId, Calendar fromDate, Calendar toDate) {
+        return dbHelper.getAllStockQueuesByProductIdInInterval(productId, fromDate, toDate);
+    }
+
+    @Override
+    public Single<List<StockQueue>> getAllStockQueuesByVendorIdInInterval(Long vendorId, Calendar fromDate, Calendar toDate) {
+        return dbHelper.getAllStockQueuesByVendorIdInInterval(vendorId, fromDate, toDate);
+    }
+
+    @Override
+    public Single<List<StockQueue>> getExpiredStockQueue() {
+        return dbHelper.getExpiredStockQueue();
     }
 
     //TODO <<---

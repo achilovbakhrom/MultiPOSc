@@ -15,6 +15,19 @@ public class StockStatusView extends View {
     private double sold = 0;
     private double count = 0;
     private double max;
+    private boolean expired = false;
+    private boolean closeToExpire = false;
+
+    public void setExpired(boolean expired) {
+        this.expired = expired;
+        closeToExpire = !expired;
+    }
+
+    public void setCloseToExpire(boolean closeToExpire) {
+        this.closeToExpire = closeToExpire;
+        expired = !closeToExpire;
+    }
+
     private Paint paint;
 
     public StockStatusView(@NonNull Context context) {
@@ -82,9 +95,19 @@ public class StockStatusView extends View {
                     paint.setColor(ContextCompat.getColor(getContext(), R.color.colorBlue));
                     paint.setStrokeWidth(0);
                     canvas.drawRect(x, y, contentWidth, soldHeight, paint);
-                    paint.setColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
-                    paint.setStrokeWidth(0);
-                    canvas.drawRect(x, soldHeight, contentWidth, contentHeight, paint);
+                    if (expired) {
+                        paint.setColor(ContextCompat.getColor(getContext(), R.color.colorRed));
+                        paint.setStrokeWidth(0);
+                        canvas.drawRect(x, soldHeight, contentWidth, contentHeight, paint);
+                    } else if (closeToExpire) {
+                        paint.setColor(ContextCompat.getColor(getContext(), R.color.colorOrange));
+                        paint.setStrokeWidth(0);
+                        canvas.drawRect(x, soldHeight, contentWidth, contentHeight, paint);
+                    } else {
+                        paint.setColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
+                        paint.setStrokeWidth(0);
+                        canvas.drawRect(x, soldHeight, contentWidth, contentHeight, paint);
+                    }
                 } else {
                     paint.setColor(ContextCompat.getColor(getContext(), R.color.colorBlue));
                     paint.setStrokeWidth(0);
@@ -92,9 +115,19 @@ public class StockStatusView extends View {
                 }
             } else {
                 if (sold != max) {
-                    paint.setColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
-                    paint.setStrokeWidth(0);
-                    canvas.drawRect(x, y, contentWidth, contentHeight, paint);
+                    if (expired) {
+                        paint.setColor(ContextCompat.getColor(getContext(), R.color.colorRed));
+                        paint.setStrokeWidth(0);
+                        canvas.drawRect(x, y, contentWidth, contentHeight, paint);
+                    } else if (closeToExpire) {
+                        paint.setColor(ContextCompat.getColor(getContext(), R.color.colorOrange));
+                        paint.setStrokeWidth(0);
+                        canvas.drawRect(x, y, contentWidth, contentHeight, paint);
+                    } else {
+                        paint.setColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
+                        paint.setStrokeWidth(0);
+                        canvas.drawRect(x, y, contentWidth, contentHeight, paint);
+                    }
                     int soldPercent = (int) (sold * 100 / max);
                     if (soldPercent < 10)
                         soldPercent = 20;
@@ -122,9 +155,19 @@ public class StockStatusView extends View {
                 }
             }
         } else {
-            paint.setColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
-            paint.setStrokeWidth(0);
-            canvas.drawRect(x, y, contentWidth, contentHeight, paint);
+            if (expired) {
+                paint.setColor(ContextCompat.getColor(getContext(), R.color.colorRed));
+                paint.setStrokeWidth(0);
+                canvas.drawRect(x, y, contentWidth, contentHeight, paint);
+            } else if (closeToExpire) {
+                paint.setColor(ContextCompat.getColor(getContext(), R.color.colorOrange));
+                paint.setStrokeWidth(0);
+                canvas.drawRect(x, y, contentWidth, contentHeight, paint);
+            } else {
+                paint.setColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
+                paint.setStrokeWidth(0);
+                canvas.drawRect(x, y, contentWidth, contentHeight, paint);
+            }
             if (count != 0) {
                 int countPercent = (int) (count * 100 / max);
                 if (countPercent < 10)

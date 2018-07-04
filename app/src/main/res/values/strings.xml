@@ -112,10 +112,12 @@
     <string-array name="inventory_menu_title">
         <item>Inventory</item>
         <item>Vendors item management</item>
+        <item>Products with expired date</item>
     </string-array>
     <string-array name="inventory_menu_description">
         <item>Inventory control</item>
         <item>Interactions with vendors</item>
+        <item>Products with expired date</item>
     </string-array>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="auto_apply_configuration">Auto apply configuration</string>
@@ -508,7 +510,7 @@
     <string name="set_quantity">Select q-ty</string>
     <string name="choose_vendor_dialog">Choose vendor</string>
     <string name="choose_for_product">Choose for product</string>
-    <string name="consigment_return">Consignment Return</string>
+    <string name="consigment_return">Return invoice</string>
     <string name="payment_vendor">Payment to Vendor</string>
     <string name="take_money_vendor">Take Debt from Vendor</string>
     <string name="pay">Pay</string>
@@ -516,7 +518,7 @@
     <string name="ammount_cant_be_zero">Amount can\'t be zero</string>
     <string name="overpaid">Overpaid: </string>
     <string name="debt">Debt: </string>
-    <string name="cannot_be_empty">Please enter Write off reason</string>
+    <string name="cannot_be_empty">This field can\'t be empty</string>
     <string name="vendor_details">Vendor details</string>
     <string name="state_details">State details</string>
     <string name="payed_in_this_month">Paid in this month:</string>
@@ -997,7 +999,7 @@
     <string name="payment_type_cant_be_active">This payment type with selected account can\'t be active</string>
     <string name="please_open_till">Please, first open the till</string>
     <string name="not_enough_cash_in_cash_drawer">Not enough cash in cash drawer</string>
-    <string name="consignment_income">Consignment Income</string>
+    <string name="consignment_income">Purchase invoice</string>
     <string name="one_step_of_three_steps_for_closing_till">Step 1 of 3 steps to close the Till</string>
     <string name="two_step_of_three_steps_for_closing_till">Step 2 of 3 steps to close the Till</string>
     <string name="three_step_of_three_steps_for_closing_till">Step 3 of 3 steps to close the Till</string>
