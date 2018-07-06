@@ -1,5 +1,6 @@
 package com.jim.multipos.ui.vendors.di;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 
 import com.jim.multipos.config.scope.PerActivity;
@@ -9,6 +10,7 @@ import com.jim.multipos.ui.vendors.VendorActivityPresenter;
 import com.jim.multipos.ui.vendors.VendorsActivity;
 import com.jim.multipos.ui.vendors.VendorsActivityPresenterImpl;
 import com.jim.multipos.ui.vendors.VendorsActivityView;
+import com.jim.multipos.ui.vendors.connection.VendorConnection;
 import com.jim.multipos.ui.vendors.vendor_edit.VendorEditFragment;
 import com.jim.multipos.ui.vendors.vendor_edit.VendorEditFragmentModule;
 import com.jim.multipos.ui.vendors.vendor_list.VendorListFragment;
@@ -16,6 +18,7 @@ import com.jim.multipos.ui.vendors.vendor_list.VendorListFragmentModule;
 
 import dagger.Binds;
 import dagger.Module;
+import dagger.Provides;
 import dagger.android.ContributesAndroidInjector;
 
 @Module(includes = BaseActivityModule.class)
@@ -40,4 +43,10 @@ public abstract class VendorsActivityModule {
     @PerFragment
     @ContributesAndroidInjector(modules = VendorEditFragmentModule.class)
     abstract VendorEditFragment provideVendorEditFragment();
+
+    @PerActivity
+    @Provides
+    static VendorConnection provideVendorConnection(Context context){
+        return new VendorConnection(context);
+    }
 }

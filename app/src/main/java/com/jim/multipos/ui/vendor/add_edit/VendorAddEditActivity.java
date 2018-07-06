@@ -174,7 +174,7 @@ public class VendorAddEditActivity extends DoubleSideActivity implements VendorA
 
     @Override
     public void sendEvent(int state, Vendor vendor) {
-        rxBus.send(new VendorEvent(vendor, state));
+            rxBus.send(new VendorEvent(vendor, state));
     }
 
     @Override

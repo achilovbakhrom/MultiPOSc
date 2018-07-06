@@ -28,8 +28,7 @@ public class VendorListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private OnVendorSelectedListener listener;
     private int selectedPosition = -1;
 
-    public VendorListAdapter(List<Vendor> items, Context context) {
-        this.items = items;
+    public VendorListAdapter(Context context) {
         this.context = context;
         selectedPosition = 0;
     }
@@ -85,6 +84,12 @@ public class VendorListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         return items.size();
     }
 
+    public void setSelectedPosition(int selectedPosition) {
+        notifyItemChanged(this.selectedPosition);
+        this.selectedPosition = selectedPosition;
+        notifyItemChanged(this.selectedPosition);
+    }
+
     class VendorViewHolder extends BaseViewHolder {
         @BindView(R.id.aivItem)
         MpLongItemWithList item;
@@ -95,8 +100,8 @@ public class VendorListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 if (selectedPosition != getAdapterPosition())
                     if (listener != null) {
                         int temp = selectedPosition;
-                        listener.onSelect(items.get(selectedPosition), selectedPosition);
                         selectedPosition = getAdapterPosition();
+                        listener.onSelect(items.get(getAdapterPosition()), getAdapterPosition(), temp);
                         notifyItemChanged(temp);
                         notifyItemChanged(selectedPosition);
                     }
@@ -115,7 +120,7 @@ public class VendorListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                     if (listener != null) {
                         int temp = selectedPosition;
                         selectedPosition = getAdapterPosition();
-                        listener.onSelect(items.get(selectedPosition), selectedPosition);
+                        listener.onSelect(items.get(getAdapterPosition()), getAdapterPosition(), temp);
                         notifyItemChanged(temp);
                         notifyItemChanged(selectedPosition);
                     }
@@ -123,11 +128,15 @@ public class VendorListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         }
     }
 
+    public int getSelectedPosition(){
+        return selectedPosition;
+    }
+
     public void setListener(OnVendorSelectedListener listener) {
         this.listener = listener;
     }
 
     public interface OnVendorSelectedListener {
-        void onSelect(Vendor vendor, int position);
+        void onSelect(Vendor vendor, int position, int previousPosition);
     }
 }

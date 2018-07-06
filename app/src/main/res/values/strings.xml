@@ -527,7 +527,7 @@
     <string name="warning_till_account">You must create at least one to till account</string>
     <string name="customer_name">Customer name</string>
     <string name="choose_customer">Choose Customer</string>
-    <string name="contact">Contact</string>
+    <string name="contactDetails">Contact</string>
     <string name="new_customer">New Customer</string>
     <string name="add_to_order">Add to Order</string>
     <string name="update_customer">Update data customer</string>
@@ -1062,7 +1062,7 @@
     <string name="opened_time">Opened Time</string>
     <string name="closed_time">Closed Time</string>
     <string name="start_money_variance">Start Money Variance</string>
-    <string name="do_you_really_want_to_delete_contact">Do you really want to delete the contact</string>
+    <string name="do_you_really_want_to_delete_contact">Do you really want to delete the contactDetails</string>
     <string name="email_adress_is_not_valid">Email address is not valid!</string>
     <string name="this_vendor_have_products_connected">This vendor have products connected with him</string>
     <string name="save_to_usb_drive">Save to USB drive</string>
@@ -1406,7 +1406,7 @@
     <string name="discount_amount_customer">Discount amount:</string>
     <string name="initial_registration">Initial registration</string>
     <string name="registration_token">Registration token</string>
-    <string name="registration_token_description">If you know registration token, enter it in the second field and click on conform. If not, please contact Support</string>
+    <string name="registration_token_description">If you know registration token, enter it in the second field and click on conform. If not, please contactDetails Support</string>
     <string name="call">Call</string>
     <string name="products_number_product"> Products</string>
     <string name="enter_service_fee_name_warning">Enter service fee name</string>

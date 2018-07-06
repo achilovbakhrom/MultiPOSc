@@ -22,6 +22,7 @@ import com.jim.multipos.ui.product_class_new.ProductsClassActivity;
 import com.jim.multipos.ui.product_last.ProductActivity;
 import com.jim.multipos.ui.service_fee_new.ServiceFeeActivity;
 import com.jim.multipos.ui.vendor.add_edit.VendorAddEditActivity;
+import com.jim.multipos.ui.vendors.VendorsActivity;
 import com.jim.multipos.utils.OnItemClickListener;
 import com.jim.multipos.utils.RxBus;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -99,7 +100,7 @@ public class ProductMenuActivity extends BaseActivity implements ProductMenuView
                 startActivity(intent);
                 break;
             case 1:
-                Intent intentVendor = new Intent(this, VendorAddEditActivity.class);
+                Intent intentVendor = new Intent(this, VendorsActivity.class);
                 startActivity(intentVendor);
                 break;
             case 2:

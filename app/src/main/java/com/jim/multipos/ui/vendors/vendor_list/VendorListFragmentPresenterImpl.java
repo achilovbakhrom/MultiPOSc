@@ -27,6 +27,15 @@ public class VendorListFragmentPresenterImpl extends BasePresenterImpl<VendorLis
     @Override
     public void onCreateView(Bundle bundle) {
         super.onCreateView(bundle);
+        vendorList = databaseManager.getVendors().blockingSingle();
+        vendorList.add(0, null);
+        view.setVendorsList(vendorList);
+    }
 
+    @Override
+    public void refreshList() {
+        vendorList = databaseManager.getVendors().blockingSingle();
+        vendorList.add(0, null);
+        view.setVendorsList(vendorList);
     }
 }

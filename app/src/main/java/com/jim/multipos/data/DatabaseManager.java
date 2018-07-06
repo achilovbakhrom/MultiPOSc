@@ -766,6 +766,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
+    public Single<List<Contact>> getContactsByVendorId(Long id) {
+        return dbHelper.getContactsByVendorId(id);
+    }
+
+    @Override
     public Observable<Category> getCategoryById(Long id) {
         return dbHelper.getCategoryById(id);
     }

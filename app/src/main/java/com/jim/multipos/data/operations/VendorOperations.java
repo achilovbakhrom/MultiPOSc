@@ -24,4 +24,5 @@ public interface VendorOperations {
     Single<Vendor> detachVendor(Vendor vendor);
     Single<Vendor> getVendorByName(String vendorName);
     Single<List<Vendor>> getVendorsByProductId(Long productId);
+    Single<List<Contact>> getContactsByVendorId(Long id);
 }

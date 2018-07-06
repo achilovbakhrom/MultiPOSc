@@ -329,4 +329,5 @@ public interface DbHelper {
     Single<List<StockQueue>> getAllStockQueuesByProductIdInInterval(Long productId, Calendar fromDate, Calendar toDate);
     Single<List<StockQueue>> getAllStockQueuesByVendorIdInInterval(Long vendorId, Calendar fromDate, Calendar toDate);
     Single<List<StockQueue>> getExpiredStockQueue();
+    Single<List<Contact>> getContactsByVendorId(Long id);
 }

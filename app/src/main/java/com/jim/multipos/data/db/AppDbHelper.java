@@ -2956,5 +2956,12 @@ public class AppDbHelper implements DbHelper {
         });
     }
 
+    @Override
+    public Single<List<Contact>> getContactsByVendorId(Long id) {
+        return Single.create(e -> {
+            e.onSuccess(mDaoSession.getContactDao().queryBuilder().where(ContactDao.Properties.VendorId.eq(id)).build().list());
+        });
+    }
+
 
 }
