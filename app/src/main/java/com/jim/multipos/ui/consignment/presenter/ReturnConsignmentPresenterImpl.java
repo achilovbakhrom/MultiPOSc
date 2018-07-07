@@ -80,9 +80,9 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
 
     @Override
     public void loadVendorProducts() {
-        List<Product> productList = databaseManager.getAllProducts().blockingSingle();
+//        List<Product> productList = databaseManager.getAllProducts().blockingSingle();
         List<Product> vendorProducts = databaseManager.getVendorProductsByVendorId(vendor.getId()).blockingGet();
-        view.fillDialogItems(productList, vendorProducts);
+        view.fillDialogItems(null, vendorProducts);
     }
 
     @Override

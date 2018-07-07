@@ -664,6 +664,7 @@ public class DiscountReportPresenterImpl extends BasePresenterImpl<DiscountRepor
     @Override
     public void onChoisedPanel(int position) {
         this.currentPosition = position;
+        view.clearSearch();
         switch (position) {
             case 0:
                 initReportContent();

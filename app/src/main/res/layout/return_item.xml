@@ -14,7 +14,8 @@
 
         <TextView
             android:id="@+id/tvProductName"
-            android:layout_width="@dimen/two_hundred_dp"
+            android:layout_width="0dp"
+            android:layout_weight="2.5"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:paddingLeft="@dimen/thirty_dp"
@@ -23,7 +24,8 @@
 
         <TextView
             android:id="@+id/tvProductPrice"
-            android:layout_width="@dimen/hundred_thirty_dp"
+            android:layout_width="0dp"
+            android:layout_weight="2"
             android:layout_height="@dimen/forty_dp"
             android:layout_gravity="center"
             android:gravity="center"
@@ -32,7 +34,8 @@
 
         <com.jim.mpviews.MpEditText
             android:id="@+id/etReturnPrice"
-            android:layout_width="@dimen/hundred_thirty_dp"
+            android:layout_width="0dp"
+            android:layout_weight="2"
             android:layout_marginRight="@dimen/ten_dp"
             android:layout_height="@dimen/forty_dp"
             android:layout_gravity="center"
@@ -45,7 +48,8 @@
 
         <com.jim.mpviews.MpEditText
             android:id="@+id/etQuantity"
-            android:layout_width="@dimen/eighty_five_dp"
+            android:layout_width="0dp"
+            android:layout_weight="1.5"
             android:layout_height="@dimen/forty_dp"
             android:layout_gravity="center"
             android:gravity="center"
@@ -57,18 +61,8 @@
 
         <TextView
             android:id="@+id/tvUnit"
-            android:layout_width="@dimen/fifty_dp"
-            android:layout_height="@dimen/forty_dp"
-            android:layout_gravity="center"
-            android:layout_marginRight="@dimen/ten_dp"
-            android:gravity="center"
-            android:textColor="@color/colorMainText"
-            android:textSize="@dimen/sixteen_dp" />
-
-        <TextView
-            android:id="@+id/spVendors"
-            android:layout_width="@dimen/hundred_eighty_dp"
-            android:layout_marginRight="@dimen/ten_dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="@dimen/forty_dp"
             android:layout_gravity="center"
             android:gravity="center"
@@ -76,7 +70,8 @@
             android:textSize="@dimen/sixteen_dp" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:gravity="center">

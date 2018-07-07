@@ -1089,6 +1089,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                             ProductPresenterImpl.this.product.setPrice(resultPrice);
                             ProductPresenterImpl.this.product.setPhotoPath(photoPath);
                             ProductPresenterImpl.this.product.setSku(sku);
+                            ProductPresenterImpl.this.product.setStockKeepType(typePosition);
                             ProductPresenterImpl.this.product.setDescription(description);
                             ProductPresenterImpl.this.product.setProductClass(productClass);
                             List<Currency> tempCurrencies = databaseManager.getAllCurrencies().blockingSingle();
@@ -1107,7 +1108,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                             databaseManager.replaceProduct(ProductPresenterImpl.this.product).subscribe(aLong -> {
                                 view.editProduct(ProductPresenterImpl.this.product);
 //                                view.sendProductChangeEvent(GlobalEventConstants.UPDATE, ProductPresenterImpl.this.product, result);
-                                openSubcategory(subcategory);
+//                                openSubcategory(subcategory);
                                 if (ProductPresenterImpl.this.product.getActive())
                                     openProduct(ProductPresenterImpl.this.product);
                                 else openProduct(null);

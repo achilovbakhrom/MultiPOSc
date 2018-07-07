@@ -47,7 +47,6 @@ public class ReturnsListAdapter extends RecyclerView.Adapter<ReturnsListAdapter.
         holder.tvReturnAmount.setText(decimalFormat.format(items.get(position).getReturnAmount()));
         holder.tvQuantity.setText(decimalFormat.format(items.get(position).getQuantity()));
         holder.tvUnit.setText(items.get(position).getProduct().getMainUnit().getAbbr());
-        holder.tvVendorName.setText(items.get(position).getVendor().getName());
         holder.tvTotalReturn.setText(decimalFormat.format(items.get(position).getReturnAmount() * items.get(position).getQuantity()));
     }
 
@@ -73,8 +72,6 @@ public class ReturnsListAdapter extends RecyclerView.Adapter<ReturnsListAdapter.
         TextView tvQuantity;
         @BindView(R.id.tvUnit)
         TextView tvUnit;
-        @BindView(R.id.tvVendorName)
-        TextView tvVendorName;
         @BindView(R.id.tvTotalReturn)
         TextView tvTotalReturn;
 

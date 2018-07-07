@@ -106,6 +106,10 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
         Product product = inventoryItem.getProduct();
         this.productId = product.getId();
         List<Vendor> vendorList = databaseManager.getVendors().blockingSingle();
+        if (vendorList.size() == 0){
+            view.showVendorListEmptyDialog();
+            return;
+        }
         List<Vendor> vendorsWithProduct = databaseManager.getVendorsByProductId(productId).blockingGet();
         view.openChooseVendorDialog(vendorList, vendorsWithProduct);
     }
@@ -116,6 +120,10 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
         Product product = inventoryItem.getProduct();
         this.productId = product.getId();
         List<Vendor> vendorList = databaseManager.getVendors().blockingSingle();
+        if (vendorList.size() == 0){
+            view.showVendorListEmptyDialog();
+            return;
+        }
         List<Vendor> vendorsWithProduct = databaseManager.getVendorsByProductId(productId).blockingGet();
         view.openChooseVendorDialog(vendorList, vendorsWithProduct);
     }

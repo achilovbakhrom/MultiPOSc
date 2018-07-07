@@ -115,6 +115,7 @@
                     android:textSize="@dimen/sixteen_dp" />
 
                 <LinearLayout
+                    android:id="@+id/llCreatedDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/edit_text_bg"
@@ -165,6 +166,7 @@
                     android:textSize="@dimen/sixteen_dp" />
 
                 <LinearLayout
+                    android:id="@+id/llExpiredDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/edit_text_bg"

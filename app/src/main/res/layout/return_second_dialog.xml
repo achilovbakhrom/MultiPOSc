@@ -45,64 +45,60 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="@dimen/three_hundred_dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_weight="2.5"
                     android:paddingLeft="@dimen/thirty_dp"
                     android:text="@string/returned_item_s"
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/sixteen_dp" />
 
                 <TextView
-                    android:layout_width="@dimen/hundred_eighty_dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_weight="2"
                     android:gravity="center"
                     android:text="@string/price"
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/sixteen_dp" />
 
                 <TextView
-                    android:layout_width="@dimen/hundred_eighty_dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_weight="2"
                     android:gravity="center"
                     android:text="@string/return_"
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/sixteen_dp" />
 
                 <TextView
-                    android:layout_width="@dimen/eighty_five_dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_weight="1.5"
                     android:gravity="center"
                     android:text="@string/qty"
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/sixteen_dp" />
 
                 <TextView
-                    android:layout_width="@dimen/fifty_dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_weight="1"
                     android:gravity="center"
                     android:text="@string/unit"
                     android:textColor="@color/colorMainText"
                     android:textSize="@dimen/sixteen_dp" />
 
                 <TextView
-                    android:layout_width="@dimen/hundred_eighty_dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:gravity="left"
-                    android:paddingLeft="@dimen/ten_dp"
-                    android:text="@string/vendor"
-                    android:textColor="@color/colorMainText"
-                    android:textSize="@dimen/sixteen_dp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_weight="2.5"
                     android:gravity="center"
                     android:text="@string/total"
                     android:textColor="@color/colorMainText"
@@ -228,9 +224,9 @@
                     <com.jim.mpviews.MPosSpinner
                         android:id="@+id/spReturnPaymentType"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="@dimen/forty_dp"
-                        android:layout_marginLeft="@dimen/ten_dp" />
+                        android:layout_marginLeft="@dimen/ten_dp"
+                        android:layout_weight="1" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -249,8 +245,8 @@
                 android:layout_width="@dimen/hundred_thirty_dp"
                 android:layout_height="@dimen/forty_three_dp"
                 android:layout_gravity="center"
-                android:gravity="center"
                 android:layout_marginRight="@dimen/fifteen_dp"
+                android:gravity="center"
                 android:text="@string/back"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="@dimen/sixteen_dp" />

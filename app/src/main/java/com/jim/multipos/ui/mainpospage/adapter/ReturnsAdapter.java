@@ -52,8 +52,6 @@ public class ReturnsAdapter extends RecyclerView.Adapter<ReturnsAdapter.ProductS
         holder.etReturnPrice.setText(decimalFormat.format(items.get(position).getReturnAmount()));
         holder.etQuantity.setText(decimalFormat.format(items.get(position).getQuantity()));
         holder.tvUnit.setText(items.get(position).getProduct().getMainUnit().getAbbr());
-        //TODO: SIROCH -> RETURN DIALOG CHANGES AFTER FIFO
-//        holder.spVendors.setText(items.get(position).getProduct().getVendor().get(0).getName());
     }
 
     @Override
@@ -83,8 +81,6 @@ public class ReturnsAdapter extends RecyclerView.Adapter<ReturnsAdapter.ProductS
         TextView tvProductPrice;
         @BindView(R.id.etReturnPrice)
         MpEditText etReturnPrice;
-        @BindView(R.id.spVendors)
-        TextView spVendors;
         @BindView(R.id.etQuantity)
         MpEditText etQuantity;
         @BindView(R.id.ivRemove)

@@ -690,6 +690,7 @@ public class VendorReportPresenterImpl extends BasePresenterImpl<VendorReportVie
     @Override
     public void onChoisedPanel(int position) {
         this.currentPosition = position;
+        view.clearSearch();
         updateTable();
     }
 

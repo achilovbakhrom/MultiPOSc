@@ -15,4 +15,5 @@ public interface DebtsReportView extends BaseTableReportView {
     void exportExcelToUSB(String filename, UsbFile root, Object[][] objects, int position, String date, String filter, String searchText);
     void exportTableToPdfToUSB(String fileName, UsbFile path, Object[][] objects, int position, String date, String filter, String searchText);
     void onOrderPressed(Order order);
+    void clearSearch();
 }

@@ -19,4 +19,5 @@ public interface ServiceFeeReportView extends BaseTableReportView {
     void onOrderPressed(Order order);
     void onTillNotClosed();
     void onTillPressed(DatabaseManager databaseManager, Till till);
+    void clearSearch();
 }

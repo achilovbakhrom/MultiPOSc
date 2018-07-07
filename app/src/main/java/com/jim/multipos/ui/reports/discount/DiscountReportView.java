@@ -20,4 +20,5 @@ public interface DiscountReportView extends BaseTableReportView {
     void onTillPressed(DatabaseManager databaseManager, Till till);
     void onTillNotClosed();
     void onOrderPressed(Order order);
+    void clearSearch();
 }

@@ -700,6 +700,7 @@ public class InventoryReportPresenterImpl extends BasePresenterImpl<InventoryRep
     @Override
     public void onChoisedPanel(int position) {
         this.currentPosition = position;
+        view.clearSearch();
         updateTable();
     }
 

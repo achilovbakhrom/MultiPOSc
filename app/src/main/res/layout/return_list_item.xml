@@ -12,64 +12,60 @@
 
         <TextView
             android:id="@+id/tvProductName"
-            android:layout_width="@dimen/three_hundred_dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_weight="2.5"
             android:paddingLeft="@dimen/thirty_dp"
             android:textColor="@color/colorMainText"
             android:textSize="@dimen/sixteen_dp" />
 
         <TextView
             android:id="@+id/tvProductPrice"
-            android:layout_width="@dimen/hundred_eighty_dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_weight="2"
             android:gravity="center"
             android:textColor="@color/colorMainText"
             android:textSize="@dimen/sixteen_dp" />
 
         <TextView
             android:id="@+id/tvReturnAmount"
-            android:layout_width="@dimen/hundred_eighty_dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_weight="2"
             android:gravity="center"
             android:textColor="@color/colorMainText"
             android:textSize="@dimen/sixteen_dp" />
 
         <TextView
             android:id="@+id/tvQuantity"
-            android:layout_width="@dimen/eighty_five_dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_weight="1.5"
             android:gravity="center"
             android:textColor="@color/colorMainText"
             android:textSize="@dimen/sixteen_dp" />
 
         <TextView
             android:id="@+id/tvUnit"
-            android:layout_width="@dimen/fifty_dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginRight="@dimen/ten_dp"
-            android:gravity="center"
-            android:textColor="@color/colorMainText"
-            android:textSize="@dimen/sixteen_dp" />
-
-        <TextView
-            android:id="@+id/tvVendorName"
-            android:layout_width="@dimen/hundred_eighty_dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_weight="1"
             android:gravity="center"
             android:textColor="@color/colorMainText"
             android:textSize="@dimen/sixteen_dp" />
 
         <TextView
             android:id="@+id/tvTotalReturn"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_weight="2.5"
             android:gravity="center"
             android:textColor="@color/colorMainText"
             android:textSize="@dimen/sixteen_dp" />

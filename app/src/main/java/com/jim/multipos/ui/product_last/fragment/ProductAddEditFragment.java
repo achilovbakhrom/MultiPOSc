@@ -408,6 +408,7 @@ public class ProductAddEditFragment extends BaseFragment {
             unitPosition = unitPos;
         }
         this.save.setText(getContext().getString(R.string.update));
+        spStockKeepingType.setSelectedPosition(stockKeepType);
     }
 
     public void setUnits(String[] units, int unitPos) {

@@ -75,6 +75,7 @@ public class DiscountReportFragment extends BaseTableReportFragment implements D
                 .setTitles(titles)
                 .setDataTypes(dataType)
                 .setWeight(weights)
+                .setDefaultSort(0)
                 .setDataAlignTypes(aligns)
                 .setStatusTypes(statusTypes)
                 .setOnReportViewResponseListener((objects1, row, column) -> {

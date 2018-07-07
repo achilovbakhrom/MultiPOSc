@@ -321,6 +321,16 @@ public class InventoryFragment extends BaseFragment implements InventoryView {
         ((InventoryActivity) getActivity()).openStockQueueForProduct(id);
     }
 
+    @Override
+    public void showVendorListEmptyDialog() {
+        UIUtils.showAlert(getContext(), getString(R.string.ok), getString(R.string.warning), "There're no vendors. Please, create vendors for creating invoice", new UIUtils.SingleButtonAlertListener() {
+            @Override
+            public void onButtonClicked() {
+
+            }
+        });
+    }
+
 
     public void searchText(String searchText) {
         presenter.onSearchTyped(searchText);

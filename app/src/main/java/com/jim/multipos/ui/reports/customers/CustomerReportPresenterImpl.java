@@ -366,11 +366,11 @@ public class CustomerReportPresenterImpl extends BasePresenterImpl<CustomerRepor
                                 searchRes[i] = 1;
                                 continue;
                             }
-                            if (String.valueOf((int) firstObjects[i][2]).toUpperCase().contains(searchText.toUpperCase())) {
+                            if (String.valueOf((double) firstObjects[i][2]).toUpperCase().contains(searchText.toUpperCase())) {
                                 searchRes[i] = 1;
                                 continue;
                             }
-                            if (String.valueOf((int) firstObjects[i][3]).toUpperCase().contains(searchText.toUpperCase())) {
+                            if (String.valueOf((double) firstObjects[i][3]).toUpperCase().contains(searchText.toUpperCase())) {
                                 searchRes[i] = 1;
                                 continue;
                             }
@@ -419,11 +419,11 @@ public class CustomerReportPresenterImpl extends BasePresenterImpl<CustomerRepor
                                 searchRes[i] = 1;
                                 continue;
                             }
-                            if (String.valueOf((int) searchResultsTemp[i][2]).toUpperCase().contains(searchText.toUpperCase())) {
+                            if (String.valueOf((double) searchResultsTemp[i][2]).toUpperCase().contains(searchText.toUpperCase())) {
                                 searchRes[i] = 1;
                                 continue;
                             }
-                            if (String.valueOf((int) searchResultsTemp[i][3]).toUpperCase().contains(searchText.toUpperCase())) {
+                            if (String.valueOf((double) searchResultsTemp[i][3]).toUpperCase().contains(searchText.toUpperCase())) {
                                 searchRes[i] = 1;
                                 continue;
                             }
@@ -724,6 +724,7 @@ public class CustomerReportPresenterImpl extends BasePresenterImpl<CustomerRepor
     @Override
     public void onChoisedPanel(int position) {
         this.currentPosition = position;
+        view.clearSearch();
         updateTable();
     }
 

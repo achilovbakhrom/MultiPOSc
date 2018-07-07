@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jim.mpviews.MpButton;
@@ -40,6 +41,10 @@ public class IncomeProductConfigsDialog extends Dialog {
     MpButton btnBack;
     @BindView(R.id.btnSave)
     MpButton btnSave;
+    @BindView(R.id.llCreatedDate)
+    LinearLayout llCreatedDate;
+    @BindView(R.id.llExpiredDate)
+    LinearLayout llExpiredDate;
 
     public IncomeProductConfigsDialog(@NonNull Context context, StockQueue stockQueue, IncomeProduct incomeProduct) {
         super(context);
@@ -73,14 +78,14 @@ public class IncomeProductConfigsDialog extends Dialog {
             etDateCreated.setText(simpleDateFormat.format(stockQueue.getCreatedProductDate()));
         } else etDateCreated.setText("");
         if (stockQueue.getExpiredProductDate() != 0) {
-            expired.setTimeInMillis(stockQueue.getCreatedProductDate());
+            expired.setTimeInMillis(stockQueue.getExpiredProductDate());
             etDateExpired.setText(simpleDateFormat.format(stockQueue.getExpiredProductDate()));
         } else etDateExpired.setText("");
 
         if (stockQueue.getStockId() != null)
             etStockId.setText(stockQueue.getStockId());
 
-        etDateCreated.setOnClickListener(v -> {
+        llCreatedDate.setOnClickListener(v -> {
             DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), (datePicker, i, i1, i2) -> {
                 created.set(Calendar.YEAR, i);
                 created.set(Calendar.MONTH, i1);
@@ -91,7 +96,7 @@ public class IncomeProductConfigsDialog extends Dialog {
             datePickerDialog.show();
         });
 
-        etDateExpired.setOnClickListener(v -> {
+        llExpiredDate.setOnClickListener(v -> {
             DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), (datePicker, i, i1, i2) -> {
                 expired.set(Calendar.YEAR, i);
                 expired.set(Calendar.MONTH, i1);

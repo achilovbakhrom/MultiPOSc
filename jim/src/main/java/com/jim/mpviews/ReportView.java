@@ -40,7 +40,7 @@ public class ReportView {
         RecyclerView recyclerView;
         RecyclerViewWithMaxHeight recyclerViewWithMaxHeight;
         int[] alignTypes;
-        int sorting = -1;
+        int sorting = 1;
         int defaultSort = 0;
         int maxHeight = 0;
         ReportViewAdapter adapter;
@@ -82,6 +82,17 @@ public class ReportView {
             this.defaultSort = defaultSort;
             return this;
         }
+        public Builder setDefaultSortAsc(int defaultSort) {
+            this.defaultSort = defaultSort;
+            sorting = 1;
+            return this;
+        }
+
+        public Builder setDefaultSortDesc(int defaultSort) {
+            this.defaultSort = defaultSort;
+            sorting = -1;
+            return this;
+        }
 
         public Builder setViewMaxHeight(int maxHeight) {
             this.maxHeight = maxHeight;
@@ -119,9 +130,8 @@ public class ReportView {
                         col.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
+                                defaultSort = finalCount;
                                 sortObjects(finalCount);
-                                titleView.sorted(sorting, finalCount);
-
                             }
                         });
                         for (int j = 0; j < col.getChildCount(); j++) {
@@ -171,7 +181,7 @@ public class ReportView {
         public Builder init(Object[][] objects) {
             this.objects = objects;
             adapter.setData(objects, weight, dataTypes, alignTypes, statusTypes);
-            sortObjects(defaultSort);
+            defaultSortObjects(defaultSort);
             adapter.notifyDataSetChanged();
             return this;
         }
@@ -179,6 +189,7 @@ public class ReportView {
         public Builder update(Object[][] objects) {
             this.objects = objects;
             adapter.setData(objects, weight, dataTypes, alignTypes, statusTypes);
+            defaultSortObjects(defaultSort);
             return this;
         }
 
@@ -221,6 +232,35 @@ public class ReportView {
                 return 0;
             });
             adapter.notifyDataSetChanged();
+            titleView.sorted(sorting, position);
+        }
+
+        private void defaultSortObjects(final int position) {
+            Arrays.sort(objects, (objects, t1) -> {
+                if (objects[position] instanceof Long && t1[position] instanceof Long) {
+                    Long ob1 = (Long) objects[position];
+                    Long ob2 = (Long) t1[position];
+                    return ob1.compareTo(ob2) * sorting;
+                }
+                if (objects[position] instanceof String && t1[position] instanceof String) {
+                    String ob1 = (String) objects[position];
+                    String ob2 = (String) t1[position];
+                    return ob1.toUpperCase().compareTo(ob2.toUpperCase()) * sorting;
+                }
+                if (objects[position] instanceof Integer && t1[position] instanceof Integer) {
+                    Integer ob1 = (Integer) objects[position];
+                    Integer ob2 = (Integer) t1[position];
+                    return ob1.compareTo(ob2) * sorting;
+                }
+                if (objects[position] instanceof Double && t1[position] instanceof Double) {
+                    Double ob1 = (Double) objects[position];
+                    Double ob2 = (Double) t1[position];
+                    return ob1.compareTo(ob2) * sorting;
+                }
+                return 0;
+            });
+            adapter.notifyDataSetChanged();
+            titleView.sorted(sorting, position);
         }
     }
 

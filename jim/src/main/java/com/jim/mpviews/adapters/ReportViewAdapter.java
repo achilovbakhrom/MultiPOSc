@@ -150,7 +150,7 @@ public class ReportViewAdapter extends RecyclerView.Adapter<ReportViewAdapter.Vi
                                             textView.setText(decimalFormat.format(item));
                                             break;
                                         case ReportViewConstants.QUANTITY:
-                                            textView.setText(String.valueOf(item));
+                                            textView.setText(decimalFormat.format(item));
                                             break;
                                     }
                                 } else if (data[position][count] instanceof Integer) {

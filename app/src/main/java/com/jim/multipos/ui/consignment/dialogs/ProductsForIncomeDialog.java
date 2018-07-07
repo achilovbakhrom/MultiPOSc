@@ -103,11 +103,20 @@ public class ProductsForIncomeDialog extends Dialog {
         ((SimpleItemAnimator) rvProductList.getItemAnimator()).setSupportsChangeAnimations(false);
         rvProductList.setAdapter(adapter);
         items = new ArrayList<>();
-        for (int i = 0; i < productList.size(); i++) {
-            ProductForIncomeItem item = new ProductForIncomeItem();
-            item.setProduct(productList.get(i));
-            item.setWasSupplied(vendorProducts.contains(productList.get(i)));
-            items.add(item);
+        if (productList != null) {
+            for (int i = 0; i < productList.size(); i++) {
+                ProductForIncomeItem item = new ProductForIncomeItem();
+                item.setProduct(productList.get(i));
+                item.setWasSupplied(vendorProducts.contains(productList.get(i)));
+                items.add(item);
+            }
+        } else {
+            for (int i = 0; i < vendorProducts.size(); i++) {
+                ProductForIncomeItem item = new ProductForIncomeItem();
+                item.setProduct(vendorProducts.get(i));
+                item.setWasSupplied(true);
+                items.add(item);
+            }
         }
         sortList();
         adapter.setData(items);

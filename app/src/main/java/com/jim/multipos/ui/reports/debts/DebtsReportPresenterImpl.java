@@ -446,7 +446,7 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
                                 searchRes[i] = 1;
                                 continue;
                             }
-                            if (String.valueOf((int) secondObjects[i][3]).toUpperCase().contains(searchText.toUpperCase())) {
+                            if (String.valueOf((double) secondObjects[i][3]).toUpperCase().contains(searchText.toUpperCase())) {
                                 searchRes[i] = 1;
                                 continue;
                             }
@@ -491,7 +491,7 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
                                 searchRes[i] = 1;
                                 continue;
                             }
-                            if (String.valueOf((int) searchResultsTemp[i][3]).toUpperCase().contains(searchText.toUpperCase())) {
+                            if (String.valueOf((double) searchResultsTemp[i][3]).toUpperCase().contains(searchText.toUpperCase())) {
                                 searchRes[i] = 1;
                                 continue;
                             }
@@ -1194,6 +1194,7 @@ public class DebtsReportPresenterImpl extends BasePresenterImpl<DebtsReportView>
     @Override
     public void onChoisedPanel(int position) {
         this.currentPosition = position;
+        view.clearSearch();
         updateTable();
     }
 

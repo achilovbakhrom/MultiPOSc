@@ -15,6 +15,8 @@ import com.jim.mpviews.MpButton;
 import com.jim.multipos.R;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.PaymentType;
+import com.jim.multipos.data.db.model.inventory.IncomeProduct;
+import com.jim.multipos.data.db.model.inventory.StockQueue;
 import com.jim.multipos.data.db.model.products.Return;
 import com.jim.multipos.data.db.model.till.Till;
 import com.jim.multipos.data.db.model.till.TillOperation;
@@ -71,10 +73,10 @@ public class ReturnsConfirmDialog extends Dialog {
         adapter = new ReturnsListAdapter(decimalFormat, context);
         rvReturnProducts.setAdapter(adapter);
         ((SimpleItemAnimator) rvReturnProducts.getItemAnimator()).setSupportsChangeAnimations(false);
-        adapter.setData(returnsList);
+        adapter.setData(this.returnsList);
         double totalAmount = 0;
-        for (int i = 0; i < returnsList.size(); i++) {
-            totalAmount += returnsList.get(i).getReturnAmount() * returnsList.get(i).getQuantity();
+        for (int i = 0; i < this.returnsList.size(); i++) {
+            totalAmount += this.returnsList.get(i).getReturnAmount() * this.returnsList.get(i).getQuantity();
         }
         tvTotalReturnSum.setText(decimalFormat.format(totalAmount) + " " + databaseManager.getMainCurrency().getAbbr());
         btnBack.setOnClickListener(view -> {
@@ -97,23 +99,31 @@ public class ReturnsConfirmDialog extends Dialog {
                 for (int i = 0; i < returnsList.size(); i++) {
                     returnsList.get(i).setDescription(etDescription.getText().toString());
                     returnsList.get(i).setPaymentType(paymentTypeList.get(spReturnPaymentType.getSelectedPosition()));
-                    //TODO: SIROCH -> RETURN DIALOG CHANGES AFTER FIFO
 
-//                    WarehouseOperations operations = new WarehouseOperations();
-//                    operations.setType(WarehouseOperations.RETURN_SOLD);
-//                    operations.setValue(returnsList.get(i).getQuantity());
-//                    operations.setCreateAt(System.currentTimeMillis());
-//                    operations.setProduct(returnsList.get(i).getProduct());
-//                    operations.setVendor(returnsList.get(i).getVendor());
-//                    databaseManager.insertWarehouseOperation(operations).subscribe();
-//                    TillOperation tillOperation = new TillOperation();
-//                    tillOperation.setAmount(returnsList.get(i).getReturnAmount() * returnsList.get(i).getQuantity());
-//                    tillOperation.setType(TillOperation.PAY_OUT);
-//                    tillOperation.setPaymentType(paymentTypeList.get(spReturnPaymentType.getSelectedPosition()));
-//                    tillOperation.setTill(till);
-//                    tillOperation.setCreateAt(System.currentTimeMillis());
-//                    tillOperation.setDescription(context.getString(R.string.return_) + " " + context.getString(R.string.product) + " " + context.getString(R.string.operation) + ": " + etDescription.getText().toString());
-//                    databaseManager.insertTillOperation(tillOperation).subscribe();
+                    IncomeProduct incomeProduct = new IncomeProduct();
+                    incomeProduct.setProduct(returnsList.get(i).getProduct());
+                    incomeProduct.setIncomeType(IncomeProduct.RETURNED_PRODUCT);
+                    incomeProduct.setDescription(etDescription.getText().toString());
+                    incomeProduct.setIncomeDate(System.currentTimeMillis());
+                    incomeProduct.setCountValue(returnsList.get(i).getQuantity());
+                    incomeProduct.setCostValue(returnsList.get(i).getProduct().getPrice());
+                    databaseManager.insertIncomeProduct(incomeProduct).subscribe(incomeProduct1 -> {
+                        StockQueue stockQueue = new StockQueue();
+                        stockQueue.setAvailable(incomeProduct1.getCountValue());
+                        stockQueue.setIncomeProduct(incomeProduct1);
+                        stockQueue.setIncomeProductDate(System.currentTimeMillis());
+                        stockQueue.setProduct(incomeProduct1.getProduct());
+                        stockQueue.setCost(incomeProduct1.getCostValue());
+                        databaseManager.insertStockQueue(stockQueue).subscribe();
+                    });
+                    TillOperation tillOperation = new TillOperation();
+                    tillOperation.setAmount(returnsList.get(i).getReturnAmount() * returnsList.get(i).getQuantity());
+                    tillOperation.setType(TillOperation.PAY_OUT);
+                    tillOperation.setPaymentType(paymentTypeList.get(spReturnPaymentType.getSelectedPosition()));
+                    tillOperation.setTill(till);
+                    tillOperation.setCreateAt(System.currentTimeMillis());
+                    tillOperation.setDescription(context.getString(R.string.return_) + " " + context.getString(R.string.product) + " " + context.getString(R.string.operation) + ": " + etDescription.getText().toString());
+                    databaseManager.insertTillOperation(tillOperation).subscribe();
                 }
                 databaseManager.insertReturns(returnsList).subscribe();
                 rxBus.send(new InventoryStateEvent(GlobalEventConstants.UPDATE));
