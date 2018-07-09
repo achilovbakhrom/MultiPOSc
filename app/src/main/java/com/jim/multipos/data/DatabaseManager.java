@@ -19,15 +19,12 @@ import com.jim.multipos.data.db.model.consignment.Outvoice;
 import com.jim.multipos.data.db.model.customer.CustomerPayment;
 import com.jim.multipos.data.db.model.customer.Debt;
 import com.jim.multipos.data.db.model.intosystem.OutcomeWithDetials;
-import com.jim.multipos.data.db.model.intosystem.ProductWithCount;
 import com.jim.multipos.data.db.model.intosystem.StockQueueItem;
 import com.jim.multipos.data.db.model.intosystem.StockResult;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
 import com.jim.multipos.data.db.model.inventory.IncomeProduct;
-import com.jim.multipos.data.db.model.inventory.DetialCount;
 import com.jim.multipos.data.db.model.inventory.OutcomeProduct;
 import com.jim.multipos.data.db.model.inventory.StockQueue;
-import com.jim.multipos.data.db.model.inventory.StockCountCost;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.OrderChangesLog;
 import com.jim.multipos.data.db.model.order.OrderProduct;
@@ -77,6 +74,8 @@ import com.jim.multipos.data.operations.VendorOperations;
 import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.ui.consignment_list.model.InvoiceListItem;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
+import com.jim.multipos.ui.reports.stock_operations.model.OperationSummaryItem;
+import com.jim.multipos.ui.reports.stock_state.module.InventoryItemReport;
 import com.jim.multipos.ui.vendor_item_managment.model.VendorManagmentItem;
 import com.jim.multipos.ui.vendor_products_view.model.ProductState;
 
@@ -85,6 +84,8 @@ import org.greenrobot.greendao.query.LazyList;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -1197,6 +1198,12 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     public List<OutcomeProduct> insertAndFillOutcomeProducts(List<OutcomeWithDetials> outcomeWithDetials) {
         ArrayList<OutcomeProduct> outcomeProducts = new ArrayList<>();
         for (OutcomeWithDetials outcomeWithDetialLocal: outcomeWithDetials) {
+            double sumcost = 0;
+            for (int i = 0; i < outcomeWithDetialLocal.getDetialCountList().size(); i++) {
+                sumcost += outcomeWithDetialLocal.getDetialCountList().get(i).getCost();
+            }
+            outcomeWithDetialLocal.getOutcomeProduct().setSumCostValue(sumcost);
+            outcomeWithDetialLocal.getOutcomeProduct().setOutcomeDate(System.currentTimeMillis());
             OutcomeProduct localOutcome = dbHelper.insertOutcome(outcomeWithDetialLocal.getOutcomeProduct());
             for (int i = 0; i < outcomeWithDetialLocal.getDetialCountList().size(); i++) {
                 outcomeWithDetialLocal.getDetialCountList().get(i).setOutcomeProductId(localOutcome.getId());
@@ -1263,6 +1270,16 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
+    public Single<List<InventoryItemReport>> getInventoryWithSummaryCost() {
+        return dbHelper.getInventoryWithSummaryCost();
+    }
+
+    @Override
+    public Single<List<InventoryItemReport>> getInventoryVendorWithSummaryCost() {
+        return dbHelper.getInventoryVendorWithSummaryCost();
+    }
+
+    @Override
     public Single<InventoryItem> setLowStockAlert(InventoryItem inventoryItem, double newAlertCount) {
         return null;
     }
@@ -1305,6 +1322,41 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Single<List<StockQueue>> getExpiredStockQueue() {
         return dbHelper.getExpiredStockQueue();
+    }
+
+    @Override
+    public Single<List<OutcomeProduct>> updateOutcomeProduct(List<OutcomeProduct> outcomeProducts) {
+        return dbHelper.updateOutcomeProduct(outcomeProducts);
+    }
+
+    @Override
+    public Single<List<OperationSummaryItem>> getOperationsSummary(Date fromDate, Date toDate) {
+        return Single.create(e->{
+            List<OperationSummaryItem> operationSummaryItems = new ArrayList<>();
+            dbHelper.getIncomeProductOperationsSummary(fromDate,toDate,operationSummaryItems);
+            dbHelper.getOutcomeProductOperationsSummary(fromDate,toDate,operationSummaryItems);
+            e.onSuccess(operationSummaryItems);
+        });
+    }
+
+    @Override
+    public Single<List<OutcomeProduct>> getOutcomeProductsForPeriod(Calendar fromDate, Calendar toDate) {
+        return dbHelper.getOutcomeProductsForPeriod(fromDate,toDate);
+    }
+
+    @Override
+    public Single<List<IncomeProduct>> getIncomeProductsForPeriod(Calendar fromDate, Calendar toDate) {
+        return dbHelper.getIncomeProductsForPeriod(fromDate,toDate);
+    }
+
+    @Override
+    public Single<List<StockQueue>> getStockQueueForPeriod(Calendar fromDate, Calendar toDate) {
+        return dbHelper.getStockQueueForPeriod(fromDate,toDate);
+    }
+
+    @Override
+    public Single<List<StockQueue>> getStockQueueUsedForPeriod(Calendar fromDate, Calendar toDate) {
+        return dbHelper.getStockQueueUsedForPeriod(fromDate,toDate);
     }
 
     //TODO <<---

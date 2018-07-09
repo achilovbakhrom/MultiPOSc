@@ -1,22 +1,20 @@
 package com.jim.multipos.data.operations;
 
 import com.jim.multipos.data.db.model.intosystem.OutcomeWithDetials;
-import com.jim.multipos.data.db.model.intosystem.ProductWithCount;
 import com.jim.multipos.data.db.model.intosystem.StockQueueItem;
-import com.jim.multipos.data.db.model.intosystem.StockResult;
-import com.jim.multipos.data.db.model.inventory.DetialCount;
 import com.jim.multipos.data.db.model.inventory.IncomeProduct;
 import com.jim.multipos.data.db.model.inventory.OutcomeProduct;
 import com.jim.multipos.data.db.model.inventory.StockQueue;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.OrderProduct;
-import com.jim.multipos.data.db.model.products.Product;
-import com.jim.multipos.data.db.model.products.Vendor;
-import com.jim.multipos.data.db.model.stock.Stock;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
+import com.jim.multipos.ui.reports.stock_operations.model.OperationSummaryItem;
+import com.jim.multipos.ui.reports.stock_state.module.InventoryItemReport;
 import com.jim.multipos.ui.vendor_products_view.model.ProductState;
 
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import io.reactivex.Single;
@@ -59,6 +57,10 @@ public interface InventoryOperations {
     Single<Double> getProductInvenotry(Long productId); //+
 
     Single<List<InventoryItem>> getProductInventoryStatesForNow();
+
+    Single<List<InventoryItemReport>> getInventoryWithSummaryCost();
+    Single<List<InventoryItemReport>> getInventoryVendorWithSummaryCost();
+
     Single<InventoryItem> setLowStockAlert(InventoryItem inventoryItem,double newAlertCount);
 
     Single<List<StockQueue>> getStockQueuesByProductId(Long id);
@@ -70,4 +72,11 @@ public interface InventoryOperations {
     Single<List<StockQueue>> getAllStockQueuesByProductIdInInterval(Long productId, Calendar fromDate, Calendar toDate);
     Single<List<StockQueue>> getAllStockQueuesByVendorIdInInterval(Long vendorId, Calendar fromDate, Calendar toDate);
     Single<List<StockQueue>> getExpiredStockQueue();
+    Single<List<OutcomeProduct>> updateOutcomeProduct(List<OutcomeProduct> outcomeProducts);
+    Single<List<OperationSummaryItem>> getOperationsSummary(Date fromDate, Date toDate);
+    Single<List<OutcomeProduct>> getOutcomeProductsForPeriod(Calendar fromDate,Calendar toDate);
+    Single<List<IncomeProduct>> getIncomeProductsForPeriod(Calendar fromDate, Calendar toDate);
+    Single<List<StockQueue>> getStockQueueForPeriod(Calendar fromDate, Calendar toDate);
+    Single<List<StockQueue>> getStockQueueUsedForPeriod(Calendar fromDate, Calendar toDate);
+
 }

@@ -407,7 +407,8 @@
         <item>Платежи</item>
         <item>Продажи по часам</item>
         <item>Прибыль</item>
-        <item>Склад</item>
+        <item>Cостояния Склада</item>
+        <item>Операции Склада</item>
         <item>Клиенты</item>
         <item>Поставщики</item>
         <item>Долги</item>

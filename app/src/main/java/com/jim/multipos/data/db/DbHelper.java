@@ -34,10 +34,8 @@ import com.jim.multipos.data.db.model.intosystem.StockQueueItem;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
 import com.jim.multipos.data.db.model.inventory.DetialCount;
 import com.jim.multipos.data.db.model.inventory.OutcomeProduct;
-import com.jim.multipos.data.db.model.inventory.StockCountCost;
 import com.jim.multipos.data.db.model.inventory.StockQueue;
 import com.jim.multipos.data.db.model.inventory.IncomeProduct;
-import com.jim.multipos.data.db.model.inventory.StockQueue;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.OrderChangesLog;
 import com.jim.multipos.data.db.model.order.OrderProduct;
@@ -61,12 +59,15 @@ import com.jim.multipos.data.db.model.unit.Unit;
 import com.jim.multipos.data.db.model.unit.UnitCategory;
 import com.jim.multipos.ui.consignment_list.model.InvoiceListItem;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
+import com.jim.multipos.ui.reports.stock_operations.model.OperationSummaryItem;
+import com.jim.multipos.ui.reports.stock_state.module.InventoryItemReport;
 import com.jim.multipos.ui.vendor_item_managment.model.VendorManagmentItem;
 import com.jim.multipos.ui.vendor_products_view.model.ProductState;
 
 import org.greenrobot.greendao.query.LazyList;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -324,10 +325,20 @@ public interface DbHelper {
     Single<List<ProductState>> getVendorProductsWithStates(Long vendorId);
     Single<List<InvoiceListItem>> getInvoiceListItemByVendorId(Long vendorId);
     Single<List<InvoiceListItem>> getInvoiceListItemsInIntervalByVendor(Long vendorId, Calendar fromDate, Calendar toDate);
+    Single<List<InventoryItemReport>> getInventoryWithSummaryCost();
+    Single<List<InventoryItemReport>> getInventoryVendorWithSummaryCost();
+
     Single<List<StockQueue>> getAllStockQueuesByProductId(Long productId);
     Single<List<StockQueue>> getAllStockQueuesByVendorId(Long vendorId);
     Single<List<StockQueue>> getAllStockQueuesByProductIdInInterval(Long productId, Calendar fromDate, Calendar toDate);
     Single<List<StockQueue>> getAllStockQueuesByVendorIdInInterval(Long vendorId, Calendar fromDate, Calendar toDate);
     Single<List<StockQueue>> getExpiredStockQueue();
     Single<List<Contact>> getContactsByVendorId(Long id);
+    List<OperationSummaryItem> getIncomeProductOperationsSummary(Date fromDate, Date toDate,List<OperationSummaryItem> operationSummaryItems);
+    List<OperationSummaryItem> getOutcomeProductOperationsSummary(Date fromDate, Date toDate,List<OperationSummaryItem> operationSummaryItems);
+    Single<List<OutcomeProduct>> getOutcomeProductsForPeriod(Calendar fromDate, Calendar toDate);
+    Single<List<OutcomeProduct>> updateOutcomeProduct(List<OutcomeProduct> outcomeProducts);
+    Single<List<IncomeProduct>> getIncomeProductsForPeriod(Calendar fromDate, Calendar toDate);
+    Single<List<StockQueue>> getStockQueueForPeriod(Calendar fromDate, Calendar toDate);
+    Single<List<StockQueue>> getStockQueueUsedForPeriod(Calendar fromDate, Calendar toDate);
 }

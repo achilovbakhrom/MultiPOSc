@@ -40,11 +40,11 @@ public class DebtsReportFragment extends BaseTableReportFragment implements Debt
     private int forthDataType[] = {ReportViewConstants.ACTION, ReportViewConstants.DATE, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.DATE, ReportViewConstants.AMOUNT, ReportViewConstants.NAME, ReportViewConstants.DATE, ReportViewConstants.AMOUNT};
     private int forthWeights[] = {5, 10, 10, 10, 10, 10, 10, 10, 10};
     private int forthAligns[] = {Gravity.CENTER, Gravity.CENTER, Gravity.RIGHT, Gravity.RIGHT, Gravity.CENTER, Gravity.RIGHT, Gravity.LEFT, Gravity.CENTER, Gravity.RIGHT};
-    private String firstTitles[], secondTitles[], thirdTitles[], forthTitles[], panelNames[], fifthTitles[];
     private int fifthDataTypes[] = {ReportViewConstants.ID, ReportViewConstants.DATE, ReportViewConstants.DATE, ReportViewConstants.DATE, ReportViewConstants.NAME, ReportViewConstants.ACTION, ReportViewConstants.STATUS, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.STATUS, ReportViewConstants.AMOUNT};
     private int fifthWeights[] = {5, 10, 10, 10, 10, 5, 10, 6, 10, 5, 10};
     private int fifthAligns[] = {Gravity.CENTER, Gravity.CENTER, Gravity.CENTER, Gravity.CENTER, Gravity.LEFT, Gravity.CENTER, Gravity.CENTER, Gravity.RIGHT, Gravity.RIGHT, Gravity.CENTER, Gravity.RIGHT};
 
+    private String firstTitles[], secondTitles[], thirdTitles[], forthTitles[], panelNames[], fifthTitles[];
     private Object[][][] statusTypes, secondStatusTypes;
 
     @Override

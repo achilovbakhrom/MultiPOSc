@@ -1122,7 +1122,8 @@
         <item>Payments</item>
         <item>Hourly sales</item>
         <item>Product profit</item>
-        <item>Inventory</item>
+        <item>Stock State</item>
+        <item>Stock Operation</item>
         <item>Customers</item>
         <item>Vendors</item>
         <item>Debts</item>

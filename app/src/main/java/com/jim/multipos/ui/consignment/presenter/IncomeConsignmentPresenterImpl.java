@@ -169,6 +169,7 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
     @Override
     public void deleteFromList(int position) {
         incomeProductList.remove(position);
+        stockQueueList.remove(position);
     }
 
     @Override

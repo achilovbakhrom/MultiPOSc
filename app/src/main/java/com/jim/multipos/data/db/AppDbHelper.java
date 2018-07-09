@@ -59,7 +59,9 @@ import com.jim.multipos.data.db.model.inventory.BillingOperations;
 import com.jim.multipos.data.db.model.inventory.BillingOperationsDao;
 import com.jim.multipos.data.db.model.inventory.DetialCount;
 import com.jim.multipos.data.db.model.inventory.IncomeProduct;
+import com.jim.multipos.data.db.model.inventory.IncomeProductDao;
 import com.jim.multipos.data.db.model.inventory.OutcomeProduct;
+import com.jim.multipos.data.db.model.inventory.OutcomeProductDao;
 import com.jim.multipos.data.db.model.inventory.StockPerfomanceWithProduct;
 import com.jim.multipos.data.db.model.inventory.StockQueue;
 import com.jim.multipos.data.db.model.inventory.StockQueueDao;
@@ -91,6 +93,8 @@ import com.jim.multipos.data.db.model.unit.UnitCategory;
 import com.jim.multipos.data.db.model.unit.UnitDao;
 import com.jim.multipos.ui.consignment_list.model.InvoiceListItem;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
+import com.jim.multipos.ui.reports.stock_operations.model.OperationSummaryItem;
+import com.jim.multipos.ui.reports.stock_state.module.InventoryItemReport;
 import com.jim.multipos.ui.vendor_item_managment.model.VendorManagmentItem;
 import com.jim.multipos.ui.vendor_products_view.model.ProductState;
 import com.jim.multipos.utils.BundleConstants;
@@ -103,6 +107,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -2298,6 +2303,7 @@ public class AppDbHelper implements DbHelper {
     public Single<Integer> cancelOutcomeProductWhenOrderProductCanceled(List<OrderProduct> orderProducts) {
         return Single.create(e -> {
             List<DetialCount> detialCounts = new ArrayList<>();
+
             for (OrderProduct orderProduct:orderProducts){
                 detialCounts.addAll(orderProduct.getOutcomeProduct().getDetialCount());
                 mDaoSession.getOutcomeProductDao().delete(orderProduct.getOutcomeProduct());
@@ -2343,8 +2349,8 @@ public class AppDbHelper implements DbHelper {
             }else new Exception("In Stock Not Have Queue? Some think is wrong, because when Outcome registered stock queue was!!!").printStackTrace();
 
             for(OutcomeProduct outcomeProduct: outcomeProducts){
-                if(outcomeProduct.getProduct().getStockKeepType()==Product.LIFO) Collections.sort(stockPerHashMap.get(outcomeProduct.getId()),comparatorLIFO);
-                if(outcomeProduct.getProduct().getStockKeepType()==Product.FEFO) Collections.sort(stockPerHashMap.get(outcomeProduct.getId()),comparatorFEFO);
+                if(outcomeProduct.getProduct().getStockKeepType()==Product.LIFO) Collections.sort(stockPerHashMap.get(outcomeProduct.getProductId()),comparatorLIFO);
+                if(outcomeProduct.getProduct().getStockKeepType()==Product.FEFO) Collections.sort(stockPerHashMap.get(outcomeProduct.getProductId()),comparatorFEFO);
             }
 
             List<OutcomeWithDetials> outcomeWithDetials = new ArrayList<>();
@@ -2953,6 +2959,178 @@ public class AppDbHelper implements DbHelper {
     public Single<List<StockQueue>> getExpiredStockQueue() {
         return Single.create(e -> {
             e.onSuccess(mDaoSession.getStockQueueDao().queryBuilder().where(StockQueueDao.Properties.ExpiredProductDate.gt(0), StockQueueDao.Properties.Available.ge(0.0009)).build().list());
+        });
+    }
+
+    @Override
+    public List<OperationSummaryItem> getIncomeProductOperationsSummary(Date fromDate, Date toDate,List<OperationSummaryItem> operationSummaryItems) {
+        String summary = "SELECT  PRODUCT_ID, INCOME_TYPE, SUM(COUNT_VALUE) FROM INCOMEPRODUCT WHERE INCOME_DATE BETWEEN " + fromDate.getTime() + " AND " + toDate.getTime()+ " GROUP BY INCOME_TYPE, PRODUCT_ID";
+        Cursor cursorSummary = mDaoSession.getDatabase().rawQuery(summary, null);
+        cursorSummary.moveToFirst();
+        if (cursorSummary.getCount() > 0) {
+            cursorSummary.moveToFirst();
+            mark: while (!cursorSummary.isAfterLast()) {
+                for (OperationSummaryItem operationSummaryItem:operationSummaryItems) {
+                    if(operationSummaryItem.getProduct().getId() == cursorSummary.getLong(0)){
+                        if(cursorSummary.getLong(1) == IncomeProduct.INVOICE_PRODUCT){
+                            operationSummaryItem.setReciveFromVendor(cursorSummary.getDouble(2));
+                        }else if(cursorSummary.getLong(1) == IncomeProduct.RETURNED_PRODUCT){
+                            operationSummaryItem.setReturnFromCustomer(cursorSummary.getDouble(2));
+                        }else {
+                            operationSummaryItem.setSurplus(cursorSummary.getDouble(2));
+                        }
+                        cursorSummary.moveToNext();
+                        continue mark;
+                    }
+                }
+                OperationSummaryItem operationSummaryItem = new OperationSummaryItem();
+                operationSummaryItem.setProduct(mDaoSession.getProductDao().load(cursorSummary.getLong(0)));
+                if(cursorSummary.getLong(1) == IncomeProduct.INVOICE_PRODUCT){
+                    operationSummaryItem.setReciveFromVendor(cursorSummary.getDouble(2));
+                }else if(cursorSummary.getLong(1) == IncomeProduct.RETURNED_PRODUCT){
+                    operationSummaryItem.setReturnFromCustomer(cursorSummary.getDouble(2));
+                }else {
+                    operationSummaryItem.setSurplus(cursorSummary.getDouble(2));
+                }
+                operationSummaryItems.add(operationSummaryItem);
+                cursorSummary.moveToNext();
+            }
+        }
+        return operationSummaryItems;
+    }
+
+    @Override
+    public List<OperationSummaryItem> getOutcomeProductOperationsSummary(Date fromDate, Date toDate, List<OperationSummaryItem> operationSummaryItems) {
+        String summary = "SELECT  PRODUCT_ID, OUTCOME_TYPE, SUM(SUM_COUNT_VALUE) FROM OUT_PRODUCT WHERE  OUTCOME_DATE BETWEEN " + fromDate.getTime() + " AND " + toDate.getTime()+ " GROUP BY OUTCOME_TYPE, PRODUCT_ID";
+        Cursor cursorSummary = mDaoSession.getDatabase().rawQuery(summary, null);
+        cursorSummary.moveToFirst();
+        if (cursorSummary.getCount() > 0) {
+            cursorSummary.moveToFirst();
+            mark: while (!cursorSummary.isAfterLast()) {
+                for (OperationSummaryItem operationSummaryItem:operationSummaryItems) {
+                    if(operationSummaryItem.getProduct().getId() == cursorSummary.getLong(0)){
+                        if(cursorSummary.getLong(1) == OutcomeProduct.ORDER_SALES){
+                            operationSummaryItem.setSales(cursorSummary.getDouble(2));
+                        }else if(cursorSummary.getLong(1) == OutcomeProduct.OUTVOICE_TO_VENDOR){
+                            operationSummaryItem.setReturnToVendor(cursorSummary.getDouble(2));
+                        }else {
+                            operationSummaryItem.setWaste(cursorSummary.getDouble(2));
+                        }
+                        cursorSummary.moveToNext();
+                        continue mark;
+                    }
+                }
+                OperationSummaryItem operationSummaryItem = new OperationSummaryItem();
+                operationSummaryItem.setProduct(mDaoSession.getProductDao().load(cursorSummary.getLong(0)));
+                if(cursorSummary.getLong(1) == OutcomeProduct.ORDER_SALES){
+                    operationSummaryItem.setSales(cursorSummary.getDouble(2));
+                }else if(cursorSummary.getLong(1) == OutcomeProduct.OUTVOICE_TO_VENDOR){
+                    operationSummaryItem.setReturnToVendor(cursorSummary.getDouble(2));
+                }else {
+                    operationSummaryItem.setWaste(cursorSummary.getDouble(2));
+                }
+                operationSummaryItems.add(operationSummaryItem);
+                cursorSummary.moveToNext();
+            }
+        }
+        return operationSummaryItems;
+    }
+
+    @Override
+    public Single<List<OutcomeProduct>> getOutcomeProductsForPeriod(Calendar fromDate, Calendar toDate) {
+        return Single.create(e->{
+            e.onSuccess(mDaoSession.getOutcomeProductDao().queryBuilder().where(OutcomeProductDao.Properties.OutcomeDate.ge(fromDate.getTimeInMillis()),
+                    OutcomeProductDao.Properties.OutcomeDate.le(toDate.getTimeInMillis())).build().list());
+        });
+    }
+
+    @Override
+    public Single<List<OutcomeProduct>> updateOutcomeProduct(List<OutcomeProduct> outcomeProducts) {
+        return Single.create(e -> {
+            mDaoSession.getOutcomeProductDao().insertOrReplaceInTx(outcomeProducts);
+            e.onSuccess(outcomeProducts);
+        });
+    }
+
+    @Override
+    public Single<List<IncomeProduct>> getIncomeProductsForPeriod(Calendar fromDate, Calendar toDate) {
+        return Single.create(e->{
+            e.onSuccess(mDaoSession.getIncomeProductDao().queryBuilder().where(IncomeProductDao.Properties.IncomeDate.ge(fromDate.getTimeInMillis()),
+                    IncomeProductDao.Properties.IncomeDate.le(toDate.getTimeInMillis())).build().list());
+        });
+    }
+
+    @Override
+    public Single<List<StockQueue>> getStockQueueForPeriod(Calendar fromDate, Calendar toDate) {
+        return Single.create(e -> {
+            e.onSuccess(mDaoSession.getStockQueueDao().queryBuilder().where(StockQueueDao.Properties.IncomeProductDate.ge(fromDate.getTimeInMillis()),
+                    StockQueueDao.Properties.IncomeProductDate.le(toDate.getTimeInMillis())).build().list());
+        });
+    }
+
+    @Override
+    public Single<List<StockQueue>> getStockQueueUsedForPeriod(Calendar fromDate, Calendar toDate) {
+        return Single.create(e -> {
+            e.onSuccess(mDaoSession.getStockQueueDao().queryBuilder().where(StockQueueDao.Properties.IncomeProductDate.ge(fromDate.getTimeInMillis()),
+                    StockQueueDao.Properties.IncomeProductDate.le(toDate.getTimeInMillis()),StockQueueDao.Properties.Available.notEq(StockQueueDao.Properties.IncomeCount)).build().list());
+        });
+    }
+
+    @Override
+    public Single<List<InventoryItemReport>> getInventoryWithSummaryCost() {
+        return Single.create(e -> {
+            List<Product> products = mDaoSession.getProductDao().loadAll();
+            String inventoryQuery = "SELECT PRODUCT_ID, SUM(AVAILABLE), SUM(AVAILABLE*COST) FROM STOCK_QUEUE GROUP BY PRODUCT_ID";
+            Cursor cursorInventory = mDaoSession.getDatabase().rawQuery(inventoryQuery, null);
+            cursorInventory.moveToFirst();
+            List<InventoryItemReport> inventoryItems = new ArrayList<>();
+            if (cursorInventory.getCount() > 0) {
+                cursorInventory.moveToFirst();
+                while (!cursorInventory.isAfterLast()) {
+                    InventoryItemReport inventoryItemReport = new InventoryItemReport();
+                    inventoryItemReport.setProduct(mDaoSession.getProductDao().load(cursorInventory.getLong(0)));
+                    inventoryItemReport.setAvailable(cursorInventory.getDouble(1));
+                    inventoryItemReport.setSumCost(cursorInventory.getDouble(2));
+                    inventoryItems.add(inventoryItemReport);
+                    cursorInventory.moveToNext();
+                }
+            }
+            mark: for (Product product : products) {
+                for (InventoryItemReport inventoryItemReport : inventoryItems) {
+                    if(product.getId() == inventoryItemReport.getProduct().getId())
+                        continue mark;
+                }
+                InventoryItemReport inventoryItemReport = new InventoryItemReport();
+                inventoryItemReport.setProduct(product);
+                inventoryItemReport.setAvailable(0);
+                inventoryItemReport.setSumCost(0);
+                inventoryItems.add(inventoryItemReport);
+            }
+            e.onSuccess(inventoryItems);
+        });
+    }
+
+    @Override
+    public Single<List<InventoryItemReport>> getInventoryVendorWithSummaryCost() {
+        return Single.create(e -> {
+            List<Product> products = mDaoSession.getProductDao().loadAll();
+            String inventoryQuery = "SELECT PRODUCT_ID, VENDOR_ID, SUM(AVAILABLE), SUM(AVAILABLE*COST) FROM STOCK_QUEUE GROUP BY PRODUCT_ID, VENDOR_ID";
+            Cursor cursorInventory = mDaoSession.getDatabase().rawQuery(inventoryQuery, null);
+            cursorInventory.moveToFirst();
+            List<InventoryItemReport> inventoryItems = new ArrayList<>();
+            if (cursorInventory.getCount() > 0) {
+                cursorInventory.moveToFirst();
+                while (!cursorInventory.isAfterLast()) {
+                    InventoryItemReport inventoryItemReport = new InventoryItemReport();
+                    inventoryItemReport.setProduct(mDaoSession.getProductDao().load(cursorInventory.getLong(0)));
+                    inventoryItemReport.setVendor(mDaoSession.getVendorDao().load(cursorInventory.getLong(1)));
+                    inventoryItemReport.setAvailable(cursorInventory.getDouble(2));
+                    inventoryItemReport.setSumCost(cursorInventory.getDouble(3));
+                    inventoryItems.add(inventoryItemReport);
+                    cursorInventory.moveToNext();
+                }
+            }
+            e.onSuccess(inventoryItems);
         });
     }
 

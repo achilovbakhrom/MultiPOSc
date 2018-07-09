@@ -679,7 +679,14 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
                             orderProducts.get(i).setOutcomeProductId(outcomeProducts.get(i).getId());
                         }
 
-                        databaseManager.insertOrderProducts(orderProducts).subscribeOn(Schedulers.io()).subscribe();
+                        databaseManager.insertOrderProducts(orderProducts).subscribeOn(Schedulers.io()).subscribe(orderProducts1 -> {
+
+                            for (int i = 0; i < orderProducts.size(); i++) {
+                                outcomeProducts.get(i).setOrderProductId(orderProducts.get(i).getId());
+                            }
+                            databaseManager.updateOutcomeProduct(outcomeProducts).subscribe();
+
+                        });
 
                         orderChangesLog.setOrderId(order1.getId());
                         databaseManager.insertOrderChangeLog(orderChangesLog).subscribeOn(Schedulers.io()).subscribe();
@@ -833,7 +840,14 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
                             orderProducts.get(i).setOutcomeProductId(outcomeProducts.get(i).getId());
                         }
 
-                        databaseManager.insertOrderProducts(orderProducts).subscribeOn(Schedulers.io()).subscribe();
+                        databaseManager.insertOrderProducts(orderProducts).subscribeOn(Schedulers.io()).subscribe(orderProducts1 -> {
+
+                            for (int i = 0; i < orderProducts.size(); i++) {
+                                outcomeProducts.get(i).setOrderProductId(orderProducts.get(i).getId());
+                            }
+                            databaseManager.updateOutcomeProduct(outcomeProducts).subscribe();
+
+                        });
 
                         orderChangesLog.setOrderId(order1.getId());
                         databaseManager.insertOrderChangeLog(orderChangesLog).subscribeOn(Schedulers.io()).subscribe();
@@ -967,7 +981,14 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
                             orderProducts.get(i).setOutcomeProductId(outcomeProducts.get(i).getId());
                         }
 
-                        databaseManager.insertOrderProducts(orderProducts).subscribeOn(Schedulers.io()).subscribe();
+                        databaseManager.insertOrderProducts(orderProducts).subscribeOn(Schedulers.io()).subscribe(orderProducts1 -> {
+                            for (int i = 0; i < orderProducts.size(); i++) {
+                                outcomeProducts.get(i).setOrderProductId(orderProducts.get(i).getId());
+                            }
+                            databaseManager.updateOutcomeProduct(outcomeProducts).subscribe();
+
+                        });
+
 
                         orderChangesLog.setOrderId(order1.getId());
                         databaseManager.insertOrderChangeLog(orderChangesLog).subscribeOn(Schedulers.io()).subscribe();
@@ -1140,7 +1161,14 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
                             orderProducts.get(i).setOutcomeProductId(outcomeProducts.get(i).getId());
                         }
 
-                        databaseManager.insertOrderProducts(orderProducts).subscribeOn(Schedulers.io()).subscribe();
+                        databaseManager.insertOrderProducts(orderProducts).subscribeOn(Schedulers.io()).subscribe(orderProducts1 -> {
+                            for (int i = 0; i < orderProducts.size(); i++) {
+                                outcomeProducts.get(i).setOrderProductId(orderProducts.get(i).getId());
+                            }
+                            databaseManager.updateOutcomeProduct(outcomeProducts).subscribe();
+                        });
+
+
 
                         orderChangesLog.setOrderId(order1.getId());
                         databaseManager.insertOrderChangeLog(orderChangesLog).subscribeOn(Schedulers.io()).subscribe();
@@ -1292,7 +1320,14 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
                             orderProducts.get(i).setOutcomeProductId(outcomeProducts.get(i).getId());
                         }
 
-                        databaseManager.insertOrderProducts(orderProducts).subscribeOn(Schedulers.io()).subscribe();
+                        databaseManager.insertOrderProducts(orderProducts).subscribeOn(Schedulers.io()).subscribe(orderProducts1 -> {
+                            for (int i = 0; i < orderProducts.size(); i++) {
+                                outcomeProducts.get(i).setOrderProductId(orderProducts.get(i).getId());
+                            }
+                            databaseManager.updateOutcomeProduct(outcomeProducts).subscribe();
+
+                        });
+
 
                         orderChangesLog.setOrderId(order1.getId());
                         databaseManager.insertOrderChangeLog(orderChangesLog).subscribeOn(Schedulers.io()).subscribe();
@@ -1426,7 +1461,14 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
                             orderProducts.get(i).setOutcomeProductId(outcomeProducts.get(i).getId());
                         }
 
-                        databaseManager.insertOrderProducts(orderProducts).subscribeOn(Schedulers.io()).subscribe();
+                        databaseManager.insertOrderProducts(orderProducts).subscribeOn(Schedulers.io()).subscribe(orderProducts1 -> {
+                            for (int i = 0; i < orderProducts.size(); i++) {
+                                outcomeProducts.get(i).setOrderProductId(orderProducts.get(i).getId());
+                            }
+                            databaseManager.updateOutcomeProduct(outcomeProducts).subscribe();
+
+                        });
+
 
                         orderChangesLog.setOrderId(order1.getId());
                         databaseManager.insertOrderChangeLog(orderChangesLog).subscribeOn(Schedulers.io()).subscribe();

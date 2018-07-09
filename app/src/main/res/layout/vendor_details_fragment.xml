@@ -239,7 +239,7 @@
                 android:layout_height="@dimen/sixty_dp"
                 android:layout_marginRight="@dimen/five_dp"
                 app:btn_text="@string/pay"
-                app:src="@drawable/currency" />
+                app:src="@drawable/ic_pay_vendor_stroke" />
 
             <com.jim.mpviews.MpButtonWithIcon
                 android:id="@+id/btnPayments"
@@ -247,7 +247,7 @@
                 android:layout_height="@dimen/sixty_dp"
                 android:layout_marginRight="@dimen/five_dp"
                 app:btn_text="@string/payments"
-                app:src="@drawable/payments" />
+                app:src="@drawable/ic_payments_history_stroke" />
 
             <com.jim.mpviews.MpButtonWithIcon
                 android:id="@+id/btnIncome"
@@ -255,7 +255,7 @@
                 android:layout_height="@dimen/sixty_dp"
                 android:layout_marginRight="@dimen/five_dp"
                 app:btn_text="@string/receive"
-                app:src="@drawable/blu_but_in" />
+                app:src="@drawable/ic_invoice_stroke" />
 
 
         </LinearLayout>
@@ -272,14 +272,14 @@
                 android:layout_height="@dimen/sixty_dp"
                 android:layout_marginRight="@dimen/five_dp"
                 app:btn_text="Positions"
-                app:src="@drawable/stock_position" />
+                app:src="@drawable/ic_stock_queue_stroke" />
             <com.jim.mpviews.MpButtonWithIcon
                 android:id="@+id/btnStory"
                 android:layout_width="@dimen/hundred_seventy_dp"
                 android:layout_height="@dimen/sixty_dp"
                 android:layout_marginRight="@dimen/five_dp"
                 app:btn_text="@string/story"
-                app:src="@drawable/story" />
+                app:src="@drawable/ic_invoice_history_stroke" />
 
             <com.jim.mpviews.MpButtonWithIcon
                 android:id="@+id/btnReturn"
@@ -287,7 +287,7 @@
                 android:layout_height="@dimen/sixty_dp"
                 android:layout_marginRight="@dimen/five_dp"
                 app:btn_text="@string/return_"
-                app:src="@drawable/blu_but_out" />
+                app:src="@drawable/ic_outvoice_stroke" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

@@ -61,8 +61,11 @@ public class ReportsActivity extends ReportSingleActivity implements ReportsActi
     }
 
     @Override
-    public void openInventoryFragmentAction() {
-        showInventoryReportFragment();
+    public void openStockStateFragmentAction() { showStockStateReportFragment(); }
+
+    @Override
+    public void openStockOperationsFragmentAction() {
+        showStockOperationReportFragment();
     }
 
     @Override

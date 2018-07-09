@@ -19,6 +19,8 @@ import com.jim.multipos.ui.reports.order_history.OrderHistoryFragment;
 import com.jim.multipos.ui.reports.payments.PaymentsReportFragment;
 import com.jim.multipos.ui.reports.product_profit.ProductProfitFragment;
 import com.jim.multipos.ui.reports.service_fee.ServiceFeeReportFragment;
+import com.jim.multipos.ui.reports.stock_operations.StockOperationFragment;
+import com.jim.multipos.ui.reports.stock_state.StockStateFragment;
 import com.jim.multipos.ui.reports.summary_report.SummaryReportFragment;
 import com.jim.multipos.ui.reports.tills.TillsReportFragment;
 import com.jim.multipos.ui.reports.vendor.VendorReportFragment;
@@ -40,7 +42,7 @@ public abstract class ReportSingleActivity extends BaseActivity {
     ReportPickerAdapter reportPickerAdapter;
     List<String> reportNames;
     String [] reportsFragmentsTags= {VendorReportFragment.class.getName(), InventoryReportFragment.class.getName(),SummaryReportFragment.class.getName(),TillsReportFragment.class.getName(),OrderHistoryFragment.class.getName(), DiscountReportFragment.class.getName(), ServiceFeeReportFragment.class.getName(), HourlySalesReportFragment.class.getName(),
-     DebtsReportFragment.class.getName(), PaymentsReportFragment.class.getName(),ProductProfitFragment.class.getName(), CustomerReportFragment.class.getName()};
+     DebtsReportFragment.class.getName(), PaymentsReportFragment.class.getName(),ProductProfitFragment.class.getName(), CustomerReportFragment.class.getName(), StockOperationFragment.class.getName(), StockStateFragment.class.getName()};
    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +51,7 @@ public abstract class ReportSingleActivity extends BaseActivity {
         String[] reportNamesString = getResources().getStringArray(R.array.reports_list);
         reportNames =  new ArrayList<>(Arrays.asList(reportNamesString));
 
-        reportPickerAdapter = new ReportPickerAdapter(reportNames, pos -> {
+       reportPickerAdapter = new ReportPickerAdapter(reportNames, pos -> {
             /*
              <item>Summary</item>
              <item>Tills</item>
@@ -57,14 +59,15 @@ public abstract class ReportSingleActivity extends BaseActivity {
              <item>Payments</item>
              <item>Hourly sales</item>
              <item>Product profit</item>
-             <item>Inventory</item>
+             <item>Stock State</item>
+             <item>Stock Operation</item>
              <item>Customers</item>
              <item>Vendors</item>
              <item>Debt</item>
              <item>Discounts</item>
              <item>Service Fee\'s</item>
              */
-            switch (pos){
+           switch (pos){
                 case 0:
                     openSummaryFragmentAction();
                     break;
@@ -84,21 +87,24 @@ public abstract class ReportSingleActivity extends BaseActivity {
                     openProductProfitFragmentAction();
                     break;
                 case 6:
-                    openInventoryFragmentAction();
+                    openStockStateFragmentAction();
                     break;
                 case 7:
-                    openCustomersFragmentAction();
+                    openStockOperationsFragmentAction();
                     break;
                 case 8:
-                    openVendorsFragmentAction();
+                    openCustomersFragmentAction();
                     break;
                 case 9:
-                    openDebtsFragmentAction();
+                    openVendorsFragmentAction();
                     break;
                 case 10:
-                    openDiscountsFragmentAction();
+                    openDebtsFragmentAction();
                     break;
                 case 11:
+                    openDiscountsFragmentAction();
+                    break;
+                case 12:
                     openServiceFeesFragmentAction();
                     break;
             }
@@ -117,7 +123,8 @@ public abstract class ReportSingleActivity extends BaseActivity {
     public abstract void openPaymentsFragmentAction();
     public abstract void openHourlySalesFragmentAction();
     public abstract void openProductProfitFragmentAction();
-    public abstract void openInventoryFragmentAction();
+    public abstract void openStockStateFragmentAction();
+    public abstract void openStockOperationsFragmentAction();
     public abstract void openCustomersFragmentAction();
     public abstract void openVendorsFragmentAction();
     public abstract void openDiscountsFragmentAction();
@@ -232,17 +239,27 @@ public abstract class ReportSingleActivity extends BaseActivity {
         }
     }
 
-    public void showInventoryReportFragment(/*extra*/){
+    public void showStockStateReportFragment(/*extra*/){
         hideAll();
-        InventoryReportFragment inventoryReportFragment = (InventoryReportFragment) getSupportFragmentManager().findFragmentByTag(InventoryReportFragment.class.getName());
-        if ( inventoryReportFragment == null){
-            inventoryReportFragment = new InventoryReportFragment();
-            addFragmentWithTagStatic(R.id.flMain, inventoryReportFragment, InventoryReportFragment.class.getName());
+        StockStateFragment stockStateFragment = (StockStateFragment) getSupportFragmentManager().findFragmentByTag(StockStateFragment.class.getName());
+        if ( stockStateFragment == null){
+            stockStateFragment = new StockStateFragment();
+            addFragmentWithTagStatic(R.id.flMain, stockStateFragment, StockStateFragment.class.getName());
         }else {
-            getSupportFragmentManager().beginTransaction().show(inventoryReportFragment).commit();
+            getSupportFragmentManager().beginTransaction().show(stockStateFragment).commit();
         }
     }
 
+    public void showStockOperationReportFragment(/*extra*/){
+        hideAll();
+        StockOperationFragment stockOperationFragment = (StockOperationFragment) getSupportFragmentManager().findFragmentByTag(StockOperationFragment.class.getName());
+        if ( stockOperationFragment == null){
+            stockOperationFragment = new StockOperationFragment();
+            addFragmentWithTagStatic(R.id.flMain, stockOperationFragment, StockOperationFragment.class.getName());
+        }else {
+            getSupportFragmentManager().beginTransaction().show(stockOperationFragment).commit();
+        }
+    }
     public void showVendorReportFragment(/*extra*/){
         hideAll();
         VendorReportFragment vendorReportFragment = (VendorReportFragment) getSupportFragmentManager().findFragmentByTag(VendorReportFragment.class.getName());
