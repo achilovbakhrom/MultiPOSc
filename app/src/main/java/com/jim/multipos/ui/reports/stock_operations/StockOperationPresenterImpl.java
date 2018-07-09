@@ -211,12 +211,31 @@ public class StockOperationPresenterImpl extends BasePresenterImpl<StockOperatio
     private Object[][] searchResultsTemp;
     @Override
     public void onSearchTyped(String searchText) {
+        this.searchText = searchText;
+        if (searchText.isEmpty()) {
+            switch (currentPosition) {
+                case 0:
+                    view.updateTable(firstObjects, currentPosition);
+                    break;
+                case 1:
+                    view.updateTable(secondObjects, currentPosition);
+                    break;
+                case 2:
+                    view.updateTable(thirdObjects, currentPosition);
+                    break;
+                case 3:
+                    view.updateTable(forthObjects, currentPosition);
+                    break;
+            }
+            prev = -1;
 
+        } else {
+        }
     }
 
     @Override
     public void onClickedDateInterval() {
-
+        view.openDateInterval(fromDate, toDate);
     }
 
     @Override
@@ -239,32 +258,7 @@ public class StockOperationPresenterImpl extends BasePresenterImpl<StockOperatio
         this.currentPosition = postion;
         prev = -1;
         searchResultsTemp = null;
-
-        if (currentPosition == 0) {
-            if (firstObjects == null)
-                initReportTable();
-            view.updateTable(firstObjects, currentPosition);
-        }else if(currentPosition == 1) {
-            if (secondObjects == null) {
-                initReportTable();
-            }
-            view.updateTable(secondObjects, currentPosition);
-        }else if(currentPosition == 2){
-            if (thirdObjects == null) {
-                initReportTable();
-            }
-            view.updateTable(thirdObjects, currentPosition);
-        }else if(currentPosition == 3){
-            if (forthObjects == null) {
-                initReportTable();
-            }
-            view.updateTable(forthObjects, currentPosition);
-        }else if(currentPosition == 4){
-            if (fifthObjects == null) {
-                initReportTable();
-            }
-            view.updateTable(fifthObjects, currentPosition);
-        }
+        updateTable();
     }
 
     @Override
