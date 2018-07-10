@@ -1130,7 +1130,7 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Single<List<VendorManagmentItem>> getVendorItemManagmentItem() {
         return Single.create(e -> {
-            List<Vendor> vendors = mDaoSession.getVendorDao().queryBuilder().where(VendorDao.Properties.Deleted.eq(false), VendorDao.Properties.Active.eq(true)).build().list();
+            List<Vendor> vendors = mDaoSession.getVendorDao().queryBuilder().where(VendorDao.Properties.Deleted.eq(false)).build().list();
             List<VendorManagmentItem> vendorManagementItems = new ArrayList<>();
             for (Vendor vendor : vendors) {
                 VendorManagmentItem item = new VendorManagmentItem();
