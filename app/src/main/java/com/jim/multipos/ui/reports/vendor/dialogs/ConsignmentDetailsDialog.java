@@ -22,7 +22,11 @@ import com.jim.multipos.config.common.BaseAppModule;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.consignment.Consignment;
 import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
+import com.jim.multipos.data.db.model.consignment.Invoice;
+import com.jim.multipos.data.db.model.consignment.Outvoice;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
+import com.jim.multipos.data.db.model.inventory.IncomeProduct;
+import com.jim.multipos.data.db.model.inventory.OutcomeProduct;
 import com.jim.multipos.utils.ExportDialog;
 import com.jim.multipos.utils.ExportToDialog;
 import com.jim.multipos.utils.ExportUtils;
@@ -40,6 +44,8 @@ import static com.jim.multipos.utils.ExportUtils.PDF;
 
 public class ConsignmentDetailsDialog extends Dialog {
 
+    private final Outvoice outvoice;
+    private final Invoice invoice;
     @BindView(R.id.flTable)
     FrameLayout flTable;
     @BindView(R.id.btnClose)
@@ -70,15 +76,15 @@ public class ConsignmentDetailsDialog extends Dialog {
     private int weights[] = {10, 5, 10, 10};
     private int aligns[] = {Gravity.LEFT, Gravity.CENTER, Gravity.RIGHT, Gravity.RIGHT};
     private Context context;
-    private Consignment consignment;
     private Object[][] objects;
     private String date, consignmentId, vendor, type;
     private String[] values, names;
 
-    public ConsignmentDetailsDialog(@NonNull Context context, Consignment consignment, DatabaseManager databaseManager) {
+    public ConsignmentDetailsDialog(@NonNull Context context, Invoice invoice, Outvoice outvoice, DatabaseManager databaseManager) {
         super(context);
+        this.invoice = invoice;
+        this.outvoice = outvoice;
         this.context = context;
-        this.consignment = consignment;
         DecimalFormat decimalFormat = BaseAppModule.getFormatterGrouping();
         View dialogView = getLayoutInflater().inflate(R.layout.consignment_details_dialog, null);
         ButterKnife.bind(this, dialogView);
@@ -88,45 +94,63 @@ public class ConsignmentDetailsDialog extends Dialog {
         v.setBackgroundResource(android.R.color.transparent);
         initData();
         initTable();
-        consignmentId = context.getString(R.string.consignment) + " : " + consignment.getConsignmentNumber();
-        tvConsignmentNumber.setText(consignmentId);
-        values = new String[5];
-        if (consignment.getConsignmentType() == Consignment.INCOME_CONSIGNMENT) {
+        if (invoice != null) {
+            consignmentId = context.getString(R.string.purchase_invoice) + " : " + invoice.getConsigmentNumber();
+            tvConsignmentNumber.setText(consignmentId);
+            values = new String[5];
             tvConsignmentType.setText(context.getString(R.string.type) + " : " + context.getString(R.string.receive));
             type = context.getString(R.string.type) + " : " + context.getString(R.string.receive);
-        } else {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            tvDate.setText(context.getString(R.string.created_date) + " : " + simpleDateFormat.format(invoice.getCreatedDate()));
+            date = context.getString(R.string.created_date) + " : " + simpleDateFormat.format(invoice.getCreatedDate());
+            tvVendor.setText(context.getString(R.string.vendor) + " : " + invoice.getVendor().getName());
+            vendor = context.getString(R.string.vendor) + " : " + invoice.getVendor().getName();
+            tvTotalShouldPay.setText(decimalFormat.format(invoice.getTotalAmount()));
+            values[0] = decimalFormat.format(invoice.getTotalAmount());
+            if (invoice.getFirstPayId() != null) {
+                BillingOperations firstPay = databaseManager.getBillingOperationsById(invoice.getFirstPayId()).blockingGet();
+                tvPaid.setText(decimalFormat.format(firstPay.getAmount()));
+                values[4] = context.getString(R.string.none);
+                if (invoice.getIsFromAccount()) {
+                    values[4] = firstPay.getAccount().getName();
+                    tvPaidAccount.setText(firstPay.getAccount().getName());
+                } else tvPaidAccount.setText(context.getString(R.string.none));
+                tvDebt.setText(decimalFormat.format(invoice.getTotalAmount() - firstPay.getAmount()));
+                values[2] = decimalFormat.format(invoice.getTotalAmount() - firstPay.getAmount());
+                values[1] = decimalFormat.format(firstPay.getAmount());
+            } else {
+                values[4] = context.getString(R.string.none);
+                tvPaid.setText(decimalFormat.format(0));
+                tvDebt.setText(decimalFormat.format(invoice.getTotalAmount()));
+                values[1] = decimalFormat.format(0);
+                values[2] = decimalFormat.format(invoice.getTotalAmount());
+                tvPaidAccount.setText(context.getString(R.string.none));
+            }
+            values[3] = invoice.getDescription();
+            tvDescription.setText(invoice.getDescription());
+
+        } else if (outvoice != null) {
+            consignmentId = context.getString(R.string.return_invoice) + " : " + outvoice.getConsigmentNumber();
+            tvConsignmentNumber.setText(consignmentId);
+            values = new String[5];
             tvConsignmentType.setText(context.getString(R.string.type) + " : " + context.getString(R.string.return_));
             type = context.getString(R.string.type) + " : " + context.getString(R.string.return_);
-        }
-
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        tvDate.setText(context.getString(R.string.created_date) + " : " + simpleDateFormat.format(consignment.getCreatedDate()));
-        date = context.getString(R.string.created_date) + " : " + simpleDateFormat.format(consignment.getCreatedDate());
-        tvVendor.setText(context.getString(R.string.vendor) + " : " + consignment.getVendor().getName());
-        vendor = context.getString(R.string.vendor) + " : " + consignment.getVendor().getName();
-        tvTotalShouldPay.setText(decimalFormat.format(consignment.getTotalAmount()));
-        values[0] = decimalFormat.format(consignment.getTotalAmount());
-        if (consignment.getFirstPayId() != null) {
-            BillingOperations firstPay = databaseManager.getBillingOperationsById(consignment.getFirstPayId()).blockingGet();
-            tvPaid.setText(decimalFormat.format(firstPay.getAmount()));
-            values[4] = context.getString(R.string.none);
-            if (consignment.getIsFromAccount()) {
-                values[4] = firstPay.getAccount().getName();
-                tvPaidAccount.setText(firstPay.getAccount().getName());
-            } else tvPaidAccount.setText(context.getString(R.string.none));
-            tvDebt.setText(decimalFormat.format(consignment.getTotalAmount() - firstPay.getAmount()));
-            values[2] = decimalFormat.format(consignment.getTotalAmount() - firstPay.getAmount());
-            values[1] = decimalFormat.format(firstPay.getAmount());
-        } else {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            tvDate.setText(context.getString(R.string.created_date) + " : " + simpleDateFormat.format(outvoice.getCreatedDate()));
+            date = context.getString(R.string.created_date) + " : " + simpleDateFormat.format(outvoice.getCreatedDate());
+            tvVendor.setText(context.getString(R.string.vendor) + " : " + outvoice.getVendor().getName());
+            vendor = context.getString(R.string.vendor) + " : " + outvoice.getVendor().getName();
+            tvTotalShouldPay.setText(decimalFormat.format(outvoice.getTotalAmount()));
+            values[0] = decimalFormat.format(outvoice.getTotalAmount());
             values[4] = context.getString(R.string.none);
             tvPaid.setText(decimalFormat.format(0));
-            tvDebt.setText(decimalFormat.format(consignment.getTotalAmount()));
+            tvDebt.setText(decimalFormat.format(outvoice.getTotalAmount()));
             values[1] = decimalFormat.format(0);
-            values[2] = decimalFormat.format(consignment.getTotalAmount());
+            values[2] = decimalFormat.format(outvoice.getTotalAmount());
             tvPaidAccount.setText(context.getString(R.string.none));
+            values[3] = outvoice.getDescription();
+            tvDescription.setText(outvoice.getDescription());
         }
-        values[3] = consignment.getDescription();
-        tvDescription.setText(consignment.getDescription());
         names = new String[5];
         names[0] = context.getString(R.string.total_should_pay);
         names[1] = context.getString(R.string.first_pay);
@@ -202,14 +226,26 @@ public class ConsignmentDetailsDialog extends Dialog {
     }
 
     private void initData() {
-        List<ConsignmentProduct> consignmentProducts = consignment.getAllConsignmentProducts();
-        objects = new Object[consignmentProducts.size()][4];
-        for (int i = 0; i < consignmentProducts.size(); i++) {
-            ConsignmentProduct product = consignmentProducts.get(i);
-            objects[i][0] = product.getProduct().getName();
-            objects[i][1] = product.getCountValue() + " " + product.getProduct().getMainUnit().getAbbr();
-            objects[i][2] = product.getCostValue();
-            objects[i][3] = product.getCostValue() * product.getCountValue();
+        if (invoice != null) {
+            List<IncomeProduct> consignmentProducts = invoice.getIncomeProducts();
+            objects = new Object[consignmentProducts.size()][4];
+            for (int i = 0; i < consignmentProducts.size(); i++) {
+                IncomeProduct product = consignmentProducts.get(i);
+                objects[i][0] = product.getProduct().getName();
+                objects[i][1] = product.getCountValue() + " " + product.getProduct().getMainUnit().getAbbr();
+                objects[i][2] = product.getCostValue();
+                objects[i][3] = product.getCostValue() * product.getCountValue();
+            }
+        } else {
+            List<OutcomeProduct> consignmentProducts = outvoice.getOutcomeProducts();
+            objects = new Object[consignmentProducts.size()][4];
+            for (int i = 0; i < consignmentProducts.size(); i++) {
+                OutcomeProduct product = consignmentProducts.get(i);
+                objects[i][0] = product.getProduct().getName();
+                objects[i][1] = product.getSumCountValue() + " " + product.getProduct().getMainUnit().getAbbr();
+                objects[i][2] = product.getSumCostValue();
+                objects[i][3] = product.getSumCostValue() * product.getSumCountValue();
+            }
         }
     }
 

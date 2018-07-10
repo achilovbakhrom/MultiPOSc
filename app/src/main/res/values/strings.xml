@@ -739,11 +739,11 @@
     <string name="print_check">Printer: ON</string>
     <string name="print_check_on_off">Printer: OFF</string>
     <string name="subtotalvalue">VSEGO ITOGO</string>
-    <string name="consignment_report">Consignment report</string>
-    <string name="consignment_products">Consignment products</string>
+    <string name="consignment_report">Invoice report</string>
+    <string name="consignment_products">Invoice products</string>
     <string name="debt_state">Debt state</string>
     <string name="money_transactions">Money transactions</string>
-    <string name="consignment_number">Consignment number</string>
+    <string name="consignment_number">Invoice number</string>
     <string name="total_cost">Total cost</string>
     <string name="extra_info">Extra info</string>
     <string name="each_cost">Each</string>
@@ -1436,4 +1436,13 @@
     <string name="stock_positions">Stock positions</string>
     <string name="position">Position</string>
     <string name="invoice">Invoice</string>
+    <string name="enter_expire_date">Please, enter expired date</string>
+    <string name="select_date_for">Select date</string>
+    <string name="date_created">Date created</string>
+    <string name="date_expired">Date expired</string>
+    <string name="select_product">Select product</string>
+    <string name="previously_supplied">Previously supplied</string>
+    <string name="count_cant_be_bigger_custom_picked_stock_queue">Count can/\'t be bigger available products count</string>
+    <string name="return_invoice">Return invoice</string>
+    <string name="purchase_invoice">Purchase invoice</string>
 </resources>

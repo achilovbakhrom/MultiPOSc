@@ -111,7 +111,7 @@
                     android:layout_gravity="center"
                     android:layout_marginRight="@dimen/fifteen_dp"
                     android:gravity="right"
-                    android:text="Date created"
+                    android:text="@string/date_created"
                     android:textSize="@dimen/sixteen_dp" />
 
                 <LinearLayout
@@ -129,7 +129,7 @@
                         android:layout_weight="1"
                         android:backgroundTint="@color/colorTransparent"
                         android:gravity="center_vertical"
-                        android:hint="Select date"
+                        android:hint="@string/select_date_for"
                         android:inputType="text"
                         android:paddingLeft="@dimen/ten_dp"
                         android:textColorHint="@color/colorTextHint"
@@ -162,7 +162,7 @@
                     android:layout_gravity="center"
                     android:layout_marginRight="@dimen/fifteen_dp"
                     android:gravity="right"
-                    android:text="Date expired"
+                    android:text="@string/date_expired"
                     android:textSize="@dimen/sixteen_dp" />
 
                 <LinearLayout
@@ -180,7 +180,7 @@
                         android:layout_weight="1"
                         android:backgroundTint="@color/colorTransparent"
                         android:gravity="center_vertical"
-                        android:hint="Select date"
+                        android:hint="@string/select_date_for"
                         android:inputType="text"
                         android:paddingLeft="@dimen/ten_dp"
                         android:textColorHint="@color/colorTextHint"

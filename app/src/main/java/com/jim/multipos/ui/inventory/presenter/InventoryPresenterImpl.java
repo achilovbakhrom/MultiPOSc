@@ -119,13 +119,13 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
         consignment_type = BundleConstants.OUTVOICE;
         Product product = inventoryItem.getProduct();
         this.productId = product.getId();
-        List<Vendor> vendorList = databaseManager.getVendors().blockingSingle();
-        if (vendorList.size() == 0){
+//        List<Vendor> vendorList = databaseManager.getVendors().blockingSingle();
+        List<Vendor> vendorsWithProduct = databaseManager.getVendorsByProductId(productId).blockingGet();
+        if (vendorsWithProduct.size() == 0){
             view.showVendorListEmptyDialog();
             return;
         }
-        List<Vendor> vendorsWithProduct = databaseManager.getVendorsByProductId(productId).blockingGet();
-        view.openChooseVendorDialog(vendorList, vendorsWithProduct);
+        view.openChooseVendorDialog(null, vendorsWithProduct);
     }
 
     List<InventoryItem> searchResults;

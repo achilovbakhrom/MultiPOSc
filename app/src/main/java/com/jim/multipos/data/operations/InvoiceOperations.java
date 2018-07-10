@@ -7,6 +7,7 @@ import com.jim.multipos.data.db.model.inventory.IncomeProduct;
 import com.jim.multipos.data.db.model.inventory.OutcomeProduct;
 import com.jim.multipos.data.db.model.inventory.StockQueue;
 import com.jim.multipos.ui.consignment_list.model.InvoiceListItem;
+import com.jim.multipos.ui.reports.vendor.model.InvoiceProduct;
 
 import java.util.Calendar;
 import java.util.List;
@@ -20,4 +21,8 @@ public interface InvoiceOperations {
     Single<Boolean> isOutvoiceNumberExists(String number);
     Single<List<InvoiceListItem>> getInvoiceListItemByVendorId(Long vendorId);
     Single<List<InvoiceListItem>> getInvoiceListItemsInIntervalByVendor(Long vendorId, Calendar fromDate, Calendar toDate);
+    Single<List<InvoiceListItem>> getInvoiceListItemsInInterval(Calendar fromDate, Calendar toDate);
+    Single<List<InvoiceProduct>> getInvoiceProductsInInterval(Calendar fromDate, Calendar toDate);
+    Single<Outvoice> getOutvoiceById(Long id);
+    Single<Invoice> getInvoiceById(Long id);
 }

@@ -140,11 +140,11 @@ public class StockPositionsDialog extends Dialog {
                         }
                         customSelected = false;
                         if (changedCount > availableCount) {
-                            etProductCount.setError("Count can/'t be bigger available products count");
+                            etProductCount.setError(getContext().getString(R.string.count_cant_be_bigger_custom_picked_stock_queue));
                         } else {
                             if (outcomeProduct.getCustomPickSock()) {
                                 if (changedCount > singleSelectStockQueue.getAvailable()) {
-                                    etProductCount.setError("Count can/'t be bigger custom picked stock queue products count");
+                                    etProductCount.setError(getContext().getString(R.string.count_cant_be_bigger_custom_picked_stock_queue));
                                 } else {
                                     customSelected = true;
                                     outcomeProduct.setSumCountValue(changedCount);

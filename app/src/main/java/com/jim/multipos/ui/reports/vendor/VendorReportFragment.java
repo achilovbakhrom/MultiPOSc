@@ -13,9 +13,12 @@ import com.jim.multipos.R;
 import com.jim.multipos.core.BaseTableReportFragment;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.consignment.Consignment;
+import com.jim.multipos.data.db.model.consignment.Invoice;
+import com.jim.multipos.data.db.model.consignment.Outvoice;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
 import com.jim.multipos.ui.reports.vendor.dialogs.BillingsFilterDialog;
 import com.jim.multipos.ui.reports.vendor.dialogs.ConsignmentDetailsDialog;
+import com.jim.multipos.utils.BundleConstants;
 import com.jim.multipos.utils.ExportToDialog;
 import com.jim.multipos.utils.ExportUtils;
 
@@ -57,8 +60,8 @@ public class VendorReportFragment extends BaseTableReportFragment implements Ven
     }
 
     private void initDefaults() {
-        status = new Object[][][]{{{Consignment.INCOME_CONSIGNMENT, getString(R.string.received_vendor), R.color.colorMainText},
-                {Consignment.RETURN_CONSIGNMENT, getString(R.string.returned_vendor), R.color.colorMainText}}};
+        status = new Object[][][]{{{BundleConstants.INVOICE, getString(R.string.received_vendor), R.color.colorMainText},
+                {BundleConstants.OUTVOICE, getString(R.string.returned_vendor), R.color.colorMainText}}};
         billingStatus = new Object[][][]{{{BillingOperations.RETURN_TO_VENDOR, getString(R.string.returned_vendor), R.color.colorMainText},
                 {BillingOperations.PAID_TO_CONSIGNMENT, getContext().getString(R.string.pay), R.color.colorMainText},
                 {BillingOperations.DEBT_CONSIGNMENT, getString(R.string.debt_), R.color.colorMainText}}};
@@ -140,12 +143,6 @@ public class VendorReportFragment extends BaseTableReportFragment implements Ven
                 setTable(forthView.getBuilder().getView());
                 break;
         }
-    }
-
-    @Override
-    public void openConsignmentId(Consignment consignment) {
-        ConsignmentDetailsDialog dialog = new ConsignmentDetailsDialog(getContext(), consignment, databaseManager);
-        dialog.show();
     }
 
     @Override
@@ -295,6 +292,12 @@ public class VendorReportFragment extends BaseTableReportFragment implements Ven
         }
     }
 
+    @Override
+    public void openInvoiceDetailsDialog(Outvoice outvoice, Invoice invoice) {
+        ConsignmentDetailsDialog dialog = new ConsignmentDetailsDialog(getContext(), invoice, outvoice, databaseManager);
+        dialog.show();
+    }
+
 
     private void openFilePickerDialog() {
         DialogProperties properties = new DialogProperties();
@@ -313,7 +316,8 @@ public class VendorReportFragment extends BaseTableReportFragment implements Ven
         });
         dialog.show();
     }
-    public void onBarcodeScaned(String barcode){
+
+    public void onBarcodeScaned(String barcode) {
         presenter.onBarcodeReaded(barcode);
     }
 }

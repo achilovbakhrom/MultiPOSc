@@ -125,7 +125,7 @@ public class IncomeProductConfigsDialog extends Dialog {
                     stockQueue.setExpiredProductDate(expired.getTimeInMillis());
                     listener.onSaveClicked(incomeProduct, stockQueue);
                     dismiss();
-                } else etDateExpired.setError("Please, enter expired date");
+                } else etDateExpired.setError(getContext().getString(R.string.enter_expire_date));
             } else {
                 listener.onSaveClicked(incomeProduct, stockQueue);
                 dismiss();

@@ -95,6 +95,7 @@ import com.jim.multipos.ui.consignment_list.model.InvoiceListItem;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
 import com.jim.multipos.ui.reports.stock_operations.model.OperationSummaryItem;
 import com.jim.multipos.ui.reports.stock_state.module.InventoryItemReport;
+import com.jim.multipos.ui.reports.vendor.model.InvoiceProduct;
 import com.jim.multipos.ui.vendor_item_managment.model.VendorManagmentItem;
 import com.jim.multipos.ui.vendor_products_view.model.ProductState;
 import com.jim.multipos.utils.BundleConstants;
@@ -2190,6 +2191,7 @@ public class AppDbHelper implements DbHelper {
                 IncomeProduct incomeProduct = incomeProductList.get(i);
                 StockQueue stockQueue = stockQueueList.get(i);
                 incomeProduct.setInvoiceId(invoice.getId());
+                incomeProduct.setIncomeDate(System.currentTimeMillis());
                 mDaoSession.getIncomeProductDao().insertOrReplace(incomeProduct);
                 stockQueue.setIncomeCount(incomeProduct.getCountValue());
                 stockQueue.setAvailable(incomeProduct.getCountValue());
@@ -2743,6 +2745,7 @@ public class AppDbHelper implements DbHelper {
             mDaoSession.getBillingOperationsDao().insertOrReplace(operationDebt);
             for (int i = 0; i < outcomeProducts.size(); i++) {
                 OutcomeProduct outcomeProduct = outcomeProducts.get(i);
+                outcomeProduct.setOutcomeDate(System.currentTimeMillis());
                 outcomeProduct.setOutvoiceId(outvoice.getId());
                 mDaoSession.getOutcomeProductDao().insertOrReplace(outcomeProduct);
             }
@@ -3074,6 +3077,96 @@ public class AppDbHelper implements DbHelper {
             e.onSuccess(mDaoSession.getStockQueueDao().queryBuilder().where(StockQueueDao.Properties.IncomeProductDate.ge(fromDate.getTimeInMillis()),
                     StockQueueDao.Properties.IncomeProductDate.le(toDate.getTimeInMillis()),StockQueueDao.Properties.Available.notEq(StockQueueDao.Properties.IncomeCount)).build().list());
         });
+    }
+
+    @Override
+    public Single<List<InvoiceListItem>> getInvoiceListItemsInInterval(Calendar fromDate, Calendar toDate) {
+        return Single.create(e -> {
+            List<Invoice> invoiceList = mDaoSession.getInvoiceDao().queryBuilder()
+                    .where(InvoiceDao.Properties.CreatedDate.ge(fromDate.getTimeInMillis()),
+                            InvoiceDao.Properties.CreatedDate.le(toDate.getTimeInMillis()))
+                    .build()
+                    .list();
+            List<Outvoice> outvoiceList = mDaoSession.getOutvoiceDao().queryBuilder()
+                    .where(OutvoiceDao.Properties.CreatedDate.ge(fromDate.getTimeInMillis()),
+                            OutvoiceDao.Properties.CreatedDate.le(toDate.getTimeInMillis()))
+                    .build()
+                    .list();
+            List<InvoiceListItem> invoiceListItems = new ArrayList<>();
+            for(Invoice invoice: invoiceList){
+                InvoiceListItem item = new InvoiceListItem();
+                item.setInvoice(invoice);
+                item.setCreatedDate(invoice.getCreatedDate());
+                item.setNumber(invoice.getConsigmentNumber());
+                item.setTotalAmount(invoice.getTotalAmount());
+                item.setType(BundleConstants.INVOICE);
+                invoiceListItems.add(item);
+            }
+            for(Outvoice outvoice: outvoiceList){
+                InvoiceListItem item = new InvoiceListItem();
+                item.setOutvoice(outvoice);
+                item.setCreatedDate(outvoice.getCreatedDate());
+                item.setNumber(outvoice.getConsigmentNumber());
+                item.setTotalAmount(outvoice.getTotalAmount());
+                item.setType(BundleConstants.OUTVOICE);
+                invoiceListItems.add(item);
+            }
+            Collections.sort(invoiceListItems, (o1, o2) -> o1.getCreatedDate().compareTo(o2.getCreatedDate()));
+            e.onSuccess(invoiceListItems);
+        });
+    }
+
+    @Override
+    public Single<List<InvoiceProduct>> getInvoiceProductsInInterval(Calendar fromDate, Calendar toDate) {
+        return Single.create(e -> {
+            List<IncomeProduct> incomeProducts = mDaoSession.getIncomeProductDao().queryBuilder()
+                    .where(IncomeProductDao.Properties.InvoiceId.isNotNull(), IncomeProductDao.Properties.IncomeDate.ge(fromDate.getTimeInMillis()),
+                            IncomeProductDao.Properties.IncomeDate.le(toDate.getTimeInMillis()))
+                    .build()
+                    .list();
+            List<OutcomeProduct> outcomeProducts = mDaoSession.getOutcomeProductDao().queryBuilder()
+                    .where(OutcomeProductDao.Properties.OutvoiceId.isNotNull(), OutcomeProductDao.Properties.OutcomeDate.ge(fromDate.getTimeInMillis()),
+                            OutcomeProductDao.Properties.OutcomeDate.le(toDate.getTimeInMillis()))
+                    .build()
+                    .list();
+            List<InvoiceProduct> invoiceProducts = new ArrayList<>();
+            for (IncomeProduct incomeProduct: incomeProducts){
+                InvoiceProduct product = new InvoiceProduct();
+                product.setId(incomeProduct.getInvoiceId());
+                product.setCost(incomeProduct.getCostValue());
+                product.setCountValue(incomeProduct.getCountValue() + " " + incomeProduct.getProduct().getMainUnit().getAbbr());
+                product.setCreatedDate(incomeProduct.getIncomeDate());
+                product.setName(incomeProduct.getProduct().getName());
+                product.setType(BundleConstants.INVOICE);
+                product.setTotal(incomeProduct.getCostValue() * incomeProduct.getCountValue());
+                product.setVendorName(incomeProduct.getVendor().getName());
+                invoiceProducts.add(product);
+            }
+            for (OutcomeProduct outcomeProduct: outcomeProducts){
+                InvoiceProduct product = new InvoiceProduct();
+                product.setId(outcomeProduct.getOutvoiceId());
+                product.setCost(outcomeProduct.getSumCostValue());
+                product.setCountValue(outcomeProduct.getSumCountValue() + " " + outcomeProduct.getProduct().getMainUnit().getAbbr());
+                product.setCreatedDate(outcomeProduct.getOutcomeDate());
+                product.setName(outcomeProduct.getProduct().getName());
+                product.setType(BundleConstants.OUTVOICE);
+                product.setTotal(outcomeProduct.getSumCostValue() * outcomeProduct.getSumCountValue());
+                product.setVendorName(outcomeProduct.getOutvoice().getVendor().getName());
+                invoiceProducts.add(product);
+            }
+            Collections.sort(invoiceProducts, (o1, o2) -> o1.getCreatedDate().compareTo(o2.getCreatedDate()));
+            e.onSuccess(invoiceProducts);
+        });
+    }
+
+    @Override
+    public Single<Outvoice> getOutvoice(Long id) {
+        return Single.create(e -> e.onSuccess(mDaoSession.getOutvoiceDao().load(id)));
+    }
+
+    @Override
+    public Single<Invoice> getInvoiceById(Long id) {
+        return Single.create(e -> {e.onSuccess(mDaoSession.getInvoiceDao().load(id));});
     }
 
     @Override

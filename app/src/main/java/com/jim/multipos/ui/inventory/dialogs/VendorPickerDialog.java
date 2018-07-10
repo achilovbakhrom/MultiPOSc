@@ -78,12 +78,22 @@ public class VendorPickerDialog extends Dialog {
         ButterKnife.bind(this, dialogView);
         setContentView(dialogView);
         items = new ArrayList<>();
-        for (Vendor vendor : vendorList) {
-            VendorPickerItem item = new VendorPickerItem();
-            item.setVendor(vendor);
-            item.setWasSupplied(vendorsWithProduct.contains(vendor));
-            items.add(item);
+        if (vendorList == null) {
+            for (Vendor vendor : vendorsWithProduct) {
+                VendorPickerItem item = new VendorPickerItem();
+                item.setVendor(vendor);
+                item.setWasSupplied(true);
+                items.add(item);
+            }
+        } else {
+            for (Vendor vendor : vendorList) {
+                VendorPickerItem item = new VendorPickerItem();
+                item.setVendor(vendor);
+                item.setWasSupplied(vendorsWithProduct.contains(vendor));
+                items.add(item);
+            }
         }
+
         rvVendorList.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new VendorPickerAdapter(getContext());
         adapter.setData(items);

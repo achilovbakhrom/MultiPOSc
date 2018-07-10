@@ -8,10 +8,14 @@ import com.jim.multipos.R;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.consignment.Consignment;
-import com.jim.multipos.data.db.model.consignment.ConsignmentProduct;
+import com.jim.multipos.data.db.model.consignment.Invoice;
+import com.jim.multipos.data.db.model.consignment.Outvoice;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
+import com.jim.multipos.ui.consignment_list.model.InvoiceListItem;
+import com.jim.multipos.ui.reports.vendor.model.InvoiceProduct;
+import com.jim.multipos.utils.BundleConstants;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -79,31 +83,40 @@ public class VendorReportPresenterImpl extends BasePresenterImpl<VendorReportVie
     private void initReportTable() {
         switch (currentPosition) {
             case 0:
-                List<Consignment> consignments = databaseManager.getConsignmentsInInterval(fromDate, toDate).blockingGet();
-                firstObjects = new Object[consignments.size()][6];
-                for (int i = 0; i < consignments.size(); i++) {
-                    Consignment consignment = consignments.get(i);
-                    firstObjects[i][0] = consignment.getId();
-                    firstObjects[i][1] = consignment.getVendor().getName();
-                    firstObjects[i][2] = consignment.getConsignmentType();
-                    firstObjects[i][3] = consignment.getCreatedDate();
-                    firstObjects[i][4] = consignment.getTotalAmount();
-                    firstObjects[i][5] = consignment.getDescription();
+                List<InvoiceListItem> invoiceListItems = databaseManager.getInvoiceListItemsInInterval(fromDate, toDate).blockingGet();
+                firstObjects = new Object[invoiceListItems.size()][6];
+                for (int i = 0; i < invoiceListItems.size(); i++) {
+                    InvoiceListItem invoiceListItem = invoiceListItems.get(i);
+                    if (invoiceListItem.getInvoice() != null){
+                        firstObjects[i][0] = invoiceListItem.getInvoice().getId();
+                        firstObjects[i][1] = invoiceListItem.getInvoice().getVendor().getName();
+                        firstObjects[i][2] = invoiceListItem.getType();
+                        firstObjects[i][3] = invoiceListItem.getInvoice().getCreatedDate();
+                        firstObjects[i][4] = invoiceListItem.getInvoice().getTotalAmount();
+                        firstObjects[i][5] = invoiceListItem.getInvoice().getDescription();
+                    } else {
+                        firstObjects[i][0] = invoiceListItem.getOutvoice().getId();
+                        firstObjects[i][1] = invoiceListItem.getOutvoice().getVendor().getName();
+                        firstObjects[i][2] = invoiceListItem.getType();
+                        firstObjects[i][3] = invoiceListItem.getOutvoice().getCreatedDate();
+                        firstObjects[i][4] = invoiceListItem.getOutvoice().getTotalAmount();
+                        firstObjects[i][5] = invoiceListItem.getOutvoice().getDescription();
+                    }
                 }
                 break;
             case 1:
-                List<ConsignmentProduct> consignmentProducts = databaseManager.getConsignmentProductsInterval(fromDate, toDate).blockingGet();
-                secondObjects = new Object[consignmentProducts.size()][8];
-                for (int i = 0; i < consignmentProducts.size(); i++) {
-                    ConsignmentProduct product = consignmentProducts.get(i);
-                    secondObjects[i][0] = product.getConsignmentId();
-                    secondObjects[i][1] = product.getProduct().getName();
-                    secondObjects[i][2] = product.getConsignment().getVendor().getName();
+                List<InvoiceProduct> invoiceProducts = databaseManager.getInvoiceProductsInInterval(fromDate, toDate).blockingGet();
+                secondObjects = new Object[invoiceProducts.size()][8];
+                for (int i = 0; i < invoiceProducts.size(); i++) {
+                    InvoiceProduct product = invoiceProducts.get(i);
+                    secondObjects[i][0] = product.getId();
+                    secondObjects[i][1] = product.getName();
+                    secondObjects[i][2] = product.getVendorName();
                     secondObjects[i][3] = product.getCreatedDate();
-                    secondObjects[i][4] = product.getConsignment().getConsignmentType();
-                    secondObjects[i][5] = product.getCountValue() + " " + product.getProduct().getMainUnit().getAbbr();
-                    secondObjects[i][6] = product.getCostValue();
-                    secondObjects[i][7] = product.getCostValue() * product.getCountValue();
+                    secondObjects[i][4] = product.getType();
+                    secondObjects[i][5] = product.getCountValue();
+                    secondObjects[i][6] = product.getCost();
+                    secondObjects[i][7] = product.getTotal();
                 }
                 break;
             case 2:
@@ -251,9 +264,9 @@ public class VendorReportPresenterImpl extends BasePresenterImpl<VendorReportVie
                             }
                             String type = "";
                             int consignmentType = (int) firstObjects[i][2];
-                            if (consignmentType == Consignment.INCOME_CONSIGNMENT) {
+                            if (consignmentType == BundleConstants.INVOICE) {
                                 type = context.getString(R.string.receive);
-                            } else if (consignmentType == Consignment.RETURN_CONSIGNMENT) {
+                            } else if (consignmentType == BundleConstants.OUTVOICE) {
                                 type = context.getString(R.string.return_);
                             }
                             if (type.toUpperCase().contains(searchText.toUpperCase())) {
@@ -704,14 +717,20 @@ public class VendorReportPresenterImpl extends BasePresenterImpl<VendorReportVie
         if (currentPosition == 0) {
             if (objects[row][0] instanceof Long) {
                 Long id = (Long) objects[row][0];
-                Consignment consignment = databaseManager.getConsignmentById(id).blockingGet();
-                view.openConsignmentId(consignment);
+                int type = (int) objects[row][2];
+                if (type == BundleConstants.OUTVOICE){
+                    Outvoice outvoice = databaseManager.getOutvoiceById(id).blockingGet();
+                    view.openInvoiceDetailsDialog(outvoice, null);
+                } else {
+                    Invoice invoice = databaseManager.getInvoiceById(id).blockingGet();
+                    view.openInvoiceDetailsDialog(null, invoice);
+                }
             }
         } else if (currentPosition == 3){
             if (objects[row][5] instanceof Long) {
                 Long id = (Long) objects[row][5];
-                Consignment consignment = databaseManager.getConsignmentById(id).blockingGet();
-                view.openConsignmentId(consignment);
+                Invoice invoice = databaseManager.getInvoiceById(id).blockingGet();
+                view.openInvoiceDetailsDialog(null, invoice);
             }
         }
     }

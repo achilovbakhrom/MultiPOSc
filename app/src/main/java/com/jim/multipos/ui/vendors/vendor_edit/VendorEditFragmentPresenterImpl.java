@@ -85,6 +85,8 @@ public class VendorEditFragmentPresenterImpl extends BasePresenterImpl<VendorEdi
                 }
                 view.sendEvent(GlobalEventConstants.ADD, vendor);
                 view.refreshVendorsList();
+                view.clearViews();
+                this.vendor = null;
             });
 
         } else {

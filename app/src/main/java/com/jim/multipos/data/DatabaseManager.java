@@ -76,6 +76,7 @@ import com.jim.multipos.ui.consignment_list.model.InvoiceListItem;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
 import com.jim.multipos.ui.reports.stock_operations.model.OperationSummaryItem;
 import com.jim.multipos.ui.reports.stock_state.module.InventoryItemReport;
+import com.jim.multipos.ui.reports.vendor.model.InvoiceProduct;
 import com.jim.multipos.ui.vendor_item_managment.model.VendorManagmentItem;
 import com.jim.multipos.ui.vendor_products_view.model.ProductState;
 
@@ -85,7 +86,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -1388,6 +1388,26 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Single<List<InvoiceListItem>> getInvoiceListItemsInIntervalByVendor(Long vendorId, Calendar fromDate, Calendar toDate) {
         return dbHelper.getInvoiceListItemsInIntervalByVendor(vendorId, fromDate, toDate);
+    }
+
+    @Override
+    public Single<List<InvoiceListItem>> getInvoiceListItemsInInterval(Calendar fromDate, Calendar toDate) {
+        return dbHelper.getInvoiceListItemsInInterval(fromDate, toDate);
+    }
+
+    @Override
+    public Single<List<InvoiceProduct>> getInvoiceProductsInInterval(Calendar fromDate, Calendar toDate) {
+        return dbHelper.getInvoiceProductsInInterval(fromDate, toDate);
+    }
+
+    @Override
+    public Single<Outvoice> getOutvoiceById(Long id) {
+        return dbHelper.getOutvoice(id);
+    }
+
+    @Override
+    public Single<Invoice> getInvoiceById(Long id) {
+        return dbHelper.getInvoiceById(id);
     }
 
     public Single<List<StockQueue>> getStockQueuesByVendorId(Long id) {

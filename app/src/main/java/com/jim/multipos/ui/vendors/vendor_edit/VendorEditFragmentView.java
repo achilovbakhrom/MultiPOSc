@@ -15,4 +15,5 @@ public interface VendorEditFragmentView extends BaseView {
     void notifyItemUpdated();
     boolean hasChanges();
     void showCantDeleteWarningDialog();
+    void clearViews();
 }

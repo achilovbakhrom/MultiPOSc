@@ -26,7 +26,7 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/thirty_dp"
-                android:text="Select product"
+                android:text="@string/select_product"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/twenty_dp" />
 
@@ -90,7 +90,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="Article"
+                        android:text="@string/sku"
                         android:textColor="@color/colorBlue"
                         android:textSize="@dimen/sixteen_dp" />
 
@@ -146,7 +146,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="Previously supplied"
+                        android:text="@string/previously_supplied"
                         android:textColor="@color/colorBlue"
                         android:textSize="@dimen/sixteen_dp" />
 

@@ -349,6 +349,25 @@ public class VendorEditFragment extends BaseFragment implements VendorEditFragme
     }
 
     @Override
+    public void clearViews() {
+        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(etVendorName, InputMethodManager.SHOW_IMPLICIT);
+        etVendorName.requestFocus();
+        mode = ADD;
+        etContactData.setText("");
+        spContactType.setSelection(0);
+        btnSave.setText(R.string.save);
+        etVendorName.setText("");
+        etAddress.setText("");
+        etContactName.setText("");
+        chbActive.setChecked(true);
+        photoSelected = null;
+        ivVendorImage.setImageResource(R.drawable.camera);
+        presenter.setContacts(null);
+        btnDelete.setVisibility(View.GONE);
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         connection.setVendorEditFragmentView(null);

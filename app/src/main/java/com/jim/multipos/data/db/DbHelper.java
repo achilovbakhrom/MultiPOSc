@@ -61,6 +61,7 @@ import com.jim.multipos.ui.consignment_list.model.InvoiceListItem;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
 import com.jim.multipos.ui.reports.stock_operations.model.OperationSummaryItem;
 import com.jim.multipos.ui.reports.stock_state.module.InventoryItemReport;
+import com.jim.multipos.ui.reports.vendor.model.InvoiceProduct;
 import com.jim.multipos.ui.vendor_item_managment.model.VendorManagmentItem;
 import com.jim.multipos.ui.vendor_products_view.model.ProductState;
 
@@ -68,7 +69,6 @@ import org.greenrobot.greendao.query.LazyList;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -341,4 +341,8 @@ public interface DbHelper {
     Single<List<IncomeProduct>> getIncomeProductsForPeriod(Calendar fromDate, Calendar toDate);
     Single<List<StockQueue>> getStockQueueForPeriod(Calendar fromDate, Calendar toDate);
     Single<List<StockQueue>> getStockQueueUsedForPeriod(Calendar fromDate, Calendar toDate);
+    Single<List<InvoiceListItem>> getInvoiceListItemsInInterval(Calendar fromDate, Calendar toDate);
+    Single<List<InvoiceProduct>> getInvoiceProductsInInterval(Calendar fromDate, Calendar toDate);
+    Single<Outvoice> getOutvoice(Long id);
+    Single<Invoice> getInvoiceById(Long id);
 }
