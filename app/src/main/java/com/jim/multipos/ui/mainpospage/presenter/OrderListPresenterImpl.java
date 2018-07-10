@@ -141,7 +141,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
             view.notifyItemChanged(position,list.size(),updateOrderDiscountServiceFee());
             view.sendToProductInfoProductItem();
         }else {
-            //TODO OUT STOKE
+            view.stockOut();
         }
     }
 
@@ -173,7 +173,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
             view.updateOrderDetials(order,customer,payedPartitions);
             view.notifyItemChanged(position,list.size(),updateOrderDiscountServiceFee());
         }else {
-            //TODO OUT STOKE
+            view.stockOut();
         }
     }
 
@@ -216,7 +216,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
                             view.notifyItemChanged(i,list.size(),updateOrderDiscountServiceFee());
                             return;
                         }else {
-                            //TODO OUT STOKE
+                            view.stockOut();
                         }
                     }
                 }
@@ -243,7 +243,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
             view.updateOrderDetials(order,customer,payedPartitions);
             view.notifyItemAdded(positionToAdd,list.size(),updateOrderDiscountServiceFee());
         }else {
-            //TODO OUT STOKE
+            view.stockOut();
         }
     }
 
@@ -270,7 +270,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
             view.updateOrderDetials(order,customer,payedPartitions);
             view.notifyItemAdded(positionToAdd,list.size(),updateOrderDiscountServiceFee());
         }else {
-            //TODO STOCK OUT
+            view.stockOut();
         }
 
     }
@@ -478,7 +478,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
                         view.updateOrderDetials(order,customer,payedPartitions);
                         view.notifyItemChanged(positionOfWeightItem,list.size(),updateOrderDiscountServiceFee());
                     }else {
-                        //TODO STOCK OUT
+                        view.stockOut();
                     }
     }
 
@@ -496,7 +496,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
                         view.updateOrderDetials(order,customer,payedPartitions);
                         view.notifyItemChanged(currentPosition,list.size(),updateOrderDiscountServiceFee());
                     }else {
-                        //TODO STOCK OUT
+                        view.stockOut();
                     }
     }
 
@@ -705,7 +705,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
                     });
 
                 }else {
-                    //TODO STOCK OUTED
+                    view.stockOutTillCloseOrder();
                     Log.d("PROBLEM", "stockOutOutComesSize HOLD ORDER -> CLOSE ORDER");
                 }
             });
@@ -865,7 +865,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
                     });
 
                 }else {
-                    //TODO STOCK OUTED
+                    view.stockOutTillCloseOrder();
                     Log.d("PROBLEM", "stockOutOutComesSize HOLD ORDER -> CLOSE ORDER");
                 }
             });
@@ -1006,7 +1006,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
                     });
 
                 }else {
-                    //TODO STOCK OUTED
+                    view.stockOutTillCloseOrder();
                     Log.d("PROBLEM", "stockOutOutComesSize NEW ORDER -> CLOSE ORDER: ");
                 }
             });
@@ -1186,7 +1186,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
                     });
 
                 }else {
-                    //TODO STOCK OUTED
+                    view.stockOutTillCloseOrder();
                     Log.d("PROBLEM", "stockOutOutComesSize HOLD ORDER -> CLOSE ORDER");
                 }
             });
@@ -1345,7 +1345,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
                     });
 
                 }else {
-                    //TODO STOCK OUTED
+                    view.stockOutTillCloseOrder();
                     Log.d("PROBLEM", "stockOutOutComesSize HOLD ORDER -> CLOSE ORDER");
                 }
             });
@@ -1486,7 +1486,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
                     });
 
                 }else {
-                    //TODO STOCK OUTED
+                    view.stockOutTillCloseOrder();
                     Log.d("PROBLEM", "stockOutOutComesSize NEW ORDER -> CLOSE ORDER: ");
                 }
             });

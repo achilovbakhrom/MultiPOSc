@@ -28,6 +28,7 @@ import com.jim.multipos.ui.billing_vendor.BillingOperationsActivity;
 import com.jim.multipos.ui.consignment.ConsignmentActivity;
 import com.jim.multipos.ui.consignment_list.ConsignmentListActivity;
 import com.jim.multipos.ui.inventory.InventoryActivity;
+import com.jim.multipos.ui.product_queue_list.ProductQueueListActivity;
 import com.jim.multipos.ui.vendor.add_edit.fragment.VendorAddEditFragment;
 import com.jim.multipos.ui.vendor_products_view.VendorProductsViewActivity;
 import com.jim.multipos.ui.vendor_products_view.presenter.VendorDetialsPresenter;
@@ -185,7 +186,9 @@ public class VendorDetailsFragment extends BaseFragment implements VendorDetials
             startActivity(intent);
         });
         btnPosition.setOnClickListener(view -> {
-
+            Intent intent = new Intent(getActivity(), ProductQueueListActivity.class);
+            intent.putExtra(InventoryActivity.VENDOR_ID, vendor.getId());
+            startActivity(intent);
         });
         btnStory.setOnClickListener(view -> {
             Intent intent = new Intent(getActivity(), ConsignmentListActivity.class);

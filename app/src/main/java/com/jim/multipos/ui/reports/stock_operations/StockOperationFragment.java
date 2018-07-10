@@ -10,6 +10,8 @@ import com.jim.multipos.core.BaseTableReportFragment;
 import com.jim.multipos.data.db.model.inventory.IncomeProduct;
 import com.jim.multipos.data.db.model.inventory.OutcomeProduct;
 import com.jim.multipos.ui.reports.debts.dialogs.DebtFilterDialog;
+import com.jim.multipos.ui.reports.stock_operations.dialog.IncomeFilterDialog;
+import com.jim.multipos.ui.reports.stock_operations.dialog.OutcomeFilterDialog;
 
 import javax.inject.Inject;
 
@@ -50,19 +52,20 @@ public class StockOperationFragment extends BaseTableReportFragment implements S
         presenter.onCreateView(savedInstanceState);
     }
     void initDefaults(){
+        disableFilter();
 
         secondStatusTypes = new Object[][][]{
                 {
-                        {OutcomeProduct.ORDER_SALES, "ORDER", R.color.colorGreen},
-                        {OutcomeProduct.OUTVOICE_TO_VENDOR,"OUTVOICE",R.color.colorBlue},
-                        {OutcomeProduct.WASTE, "WASTE", R.color.colorRed}
+                        {OutcomeProduct.ORDER_SALES, getString(R.string.order_rep), R.color.colorGreen},
+                        {OutcomeProduct.OUTVOICE_TO_VENDOR,getString(R.string.outvoice_rep),R.color.colorBlue},
+                        {OutcomeProduct.WASTE, getString(R.string.waste_rep), R.color.colorRed}
                 }
         };
         thirdStatusTypes = new Object[][][]{
                 {
-                        {IncomeProduct.INVOICE_PRODUCT, "INVOICE", R.color.colorGreen},
-                        {IncomeProduct.SURPLUS_PRODUCT, "SURPLUS", R.color.colorRed},
-                        {IncomeProduct.RETURNED_PRODUCT, "CUSTOMER RETURN",R.color.colorBlue}
+                        {IncomeProduct.INVOICE_PRODUCT, getString(R.string.invoice_rep), R.color.colorGreen},
+                        {IncomeProduct.SURPLUS_PRODUCT, getString(R.string.surplus_rep), R.color.colorRed},
+                        {IncomeProduct.RETURNED_PRODUCT, getString(R.string.customer_rep),R.color.colorBlue}
                 }
         };
 
@@ -157,28 +160,35 @@ public class StockOperationFragment extends BaseTableReportFragment implements S
     public void updateTable(Object[][] objects, int position) {
         switch (position) {
             case 0:
+                disableFilter();
+                clearSearch();
                 firstView.getBuilder().update(objects);
                 setTable(firstView.getBuilder().getView());
-
                 break;
             case 1:
+                enableFilter();
+                clearSearch();
                 secondView.getBuilder().update(objects);
                 setTable(secondView.getBuilder().getView());
-
                 break;
             case 2:
+                enableFilter();
+                clearSearch();
                 thirdView.getBuilder().update(objects);
                 setTable(thirdView.getBuilder().getView());
                 break;
             case 3:
+                enableFilter();
+                clearSearch();
                 forthView.getBuilder().update(objects);
                 setTable(forthView.getBuilder().getView());
 
                 break;
             case 4:
+                enableFilter();
+                clearSearch();
                 fifthView.getBuilder().update(objects);
                 setTable(fifthView.getBuilder().getView());
-
                 break;
         }
     }
@@ -187,22 +197,27 @@ public class StockOperationFragment extends BaseTableReportFragment implements S
     public void setSearchResults(Object[][] searchResults, String searchText, int position) {
         switch (position) {
             case 0:
+                disableFilter();
                 firstView.getBuilder().searchResults(searchResults, searchText);
                 setTable(firstView.getBuilder().getView());
                 break;
             case 1:
+                enableFilter();
                 secondView.getBuilder().searchResults(searchResults, searchText);
                 setTable(secondView.getBuilder().getView());
                 break;
             case 2:
+                enableFilter();
                 thirdView.getBuilder().searchResults(searchResults, searchText);
                 setTable(thirdView.getBuilder().getView());
                 break;
             case 3:
+                enableFilter();
                 forthView.getBuilder().searchResults(searchResults, searchText);
                 setTable(forthView.getBuilder().getView());
                 break;
             case 4:
+                enableFilter();
                 fifthView.getBuilder().searchResults(searchResults, searchText);
                 setTable(fifthView.getBuilder().getView());
                 break;
@@ -210,12 +225,21 @@ public class StockOperationFragment extends BaseTableReportFragment implements S
     }
 
     @Override
-    public void showFilterDialog(int[] filterConfig) {
-//        DebtFilterDialog dialog = new DebtFilterDialog(getContext(), filterConfig, config -> {
-//            presenter.filterConfigsHaveChanged(config);
-//            clearSearch();
-//        });
-//        dialog.show();
+    public void showFilterDialog(int[] filterConfig,int currentPage) {
+        if(currentPage == 1 || currentPage == 4){
+            OutcomeFilterDialog dialog = new OutcomeFilterDialog(getContext(), filterConfig, config -> {
+                presenter.filterConfigsChanged(config);
+                clearSearch();
+            });
+            dialog.show();
+        }else if (currentPage == 2 || currentPage == 3){
+            IncomeFilterDialog dialog = new IncomeFilterDialog(getContext(),filterConfig,config -> {
+                presenter.filterConfigsChanged(config);
+                clearSearch();
+            });
+            dialog.show();
+        }
+
     }
 
 }

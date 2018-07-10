@@ -85,4 +85,6 @@ public interface  OrderListView extends BaseView {
     void sureCancel();
     void onStockPositionClicked();
     void openStockPositionDialog(OutcomeProduct outcomeProduct, List<OutcomeProduct> outcomeProductList, List<OutcomeProduct> exceptionList);
+    void stockOut();
+    void stockOutTillCloseOrder();
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.jim.multipos.R;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.PaymentType;
@@ -44,7 +45,10 @@ public class StockOperationPresenterImpl extends BasePresenterImpl<StockOperatio
     private Calendar fromDate;
     private Calendar toDate;
     private DecimalFormat decimalFormat;
-    private int[] filterConfig;
+    private int[] secondFilterConfig;
+    private int[] thirdFilterConfig;
+    private int[] forthFilterConfig;
+    private int[] fifthFilterConfig;
     private SimpleDateFormat simpleDateFormat;
     private String searchText = "";
 
@@ -59,6 +63,10 @@ public class StockOperationPresenterImpl extends BasePresenterImpl<StockOperatio
         decimalFormat1.setDecimalFormatSymbols(decimalFormatSymbols);
         decimalFormat = decimalFormat1;
         simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        secondFilterConfig = new int[]{1,1,1};
+        thirdFilterConfig = new int[]{1,1,1};
+        forthFilterConfig = new int[]{1,1,1};
+        fifthFilterConfig = new int[]{1,1,1};
     }
 
     @Override
@@ -101,7 +109,23 @@ public class StockOperationPresenterImpl extends BasePresenterImpl<StockOperatio
                 }
                 break;
             case 1:
-                List<OutcomeProduct> outcomeProducts = databaseManager.getOutcomeProductsForPeriod(fromDate,toDate).blockingGet();
+                List<OutcomeProduct> temp = databaseManager.getOutcomeProductsForPeriod(fromDate,toDate).blockingGet();
+                List<OutcomeProduct> outcomeProducts = new ArrayList<>();
+
+                for (int i = 0; i < temp.size(); i++) {
+                    if(secondFilterConfig[0]==1 && temp.get(i).getOutcomeType() == OutcomeProduct.ORDER_SALES) {
+                        outcomeProducts.add(temp.get(i));
+                        continue;
+                    }
+                    if(secondFilterConfig[1]==1 && temp.get(i).getOutcomeType() == OutcomeProduct.OUTVOICE_TO_VENDOR){
+                        outcomeProducts.add(temp.get(i));
+                        continue;
+                    }
+                    if(secondFilterConfig[2]==1 && temp.get(i).getOutcomeType() == OutcomeProduct.WASTE){
+                        outcomeProducts.add(temp.get(i));
+                        continue;
+                    }
+                }
                 secondObjects = new Object[outcomeProducts.size()][8];
                 for (int i = 0; i < outcomeProducts.size(); i++) {
                     secondObjects[i][0] = ReportUtils.getProductName(outcomeProducts.get(i).getProduct());
@@ -129,7 +153,22 @@ public class StockOperationPresenterImpl extends BasePresenterImpl<StockOperatio
                 }
                 break;
             case 2:
-                List<IncomeProduct> incomeProducts = databaseManager.getIncomeProductsForPeriod(fromDate,toDate).blockingGet();
+                List<IncomeProduct> temp2 = databaseManager.getIncomeProductsForPeriod(fromDate,toDate).blockingGet();
+                List<IncomeProduct> incomeProducts = new ArrayList<>();
+                for (int i = 0; i < temp2.size(); i++) {
+                    if(thirdFilterConfig[0]==1 && temp2.get(i).getIncomeType() == IncomeProduct.INVOICE_PRODUCT) {
+                        incomeProducts.add(temp2.get(i));
+                        continue;
+                    }
+                    if(thirdFilterConfig[1]==1 && temp2.get(i).getIncomeType() == IncomeProduct.SURPLUS_PRODUCT){
+                        incomeProducts.add(temp2.get(i));
+                        continue;
+                    }
+                    if(thirdFilterConfig[2]==1 && temp2.get(i).getIncomeType() == IncomeProduct.RETURNED_PRODUCT){
+                        incomeProducts.add(temp2.get(i));
+                        continue;
+                    }
+                }
                 thirdObjects = new Object[incomeProducts.size()][8];
                 for (int i = 0; i < incomeProducts.size(); i++) {
                     thirdObjects[i][0] = ReportUtils.getProductName(incomeProducts.get(i).getProduct());
@@ -147,7 +186,23 @@ public class StockOperationPresenterImpl extends BasePresenterImpl<StockOperatio
                 }
                 break;
             case 3:
-                List<StockQueue>  stockQueues = databaseManager.getStockQueueForPeriod(fromDate,toDate).blockingGet();
+                List<StockQueue>  temp3 = databaseManager.getStockQueueForPeriod(fromDate,toDate).blockingGet();
+                List<StockQueue>  stockQueues = new ArrayList<>();
+                for (int i = 0; i < temp3.size(); i++) {
+                    if(thirdFilterConfig[0]==1 && temp3.get(i).getIncomeProduct().getIncomeType() == IncomeProduct.INVOICE_PRODUCT) {
+                        stockQueues.add(temp3.get(i));
+                        continue;
+                    }
+                    if(thirdFilterConfig[1]==1 && temp3.get(i).getIncomeProduct().getIncomeType() == IncomeProduct.SURPLUS_PRODUCT){
+                        stockQueues.add(temp3.get(i));
+                        continue;
+                    }
+                    if(thirdFilterConfig[2]==1 && temp3.get(i).getIncomeProduct().getIncomeType() == IncomeProduct.RETURNED_PRODUCT){
+                        stockQueues.add(temp3.get(i));
+                        continue;
+                    }
+                }
+
                 forthObjects = new Object[stockQueues.size()][10];
                 for (int i = 0; i < stockQueues.size(); i++) {
                     forthObjects[i][0] = stockQueues.get(i).getId();
@@ -171,6 +226,15 @@ public class StockOperationPresenterImpl extends BasePresenterImpl<StockOperatio
                 int size = 0;
                 for (int i = 0; i < stockQueuesForDetial.size(); i++) {
                     for (int j = 0; j < stockQueuesForDetial.get(i).getDetialCounts().size(); j++) {
+                        if(fifthFilterConfig[0]==0 && stockQueuesForDetial.get(i).getDetialCounts().get(j).getOutcomeProduct().getOutcomeType()== IncomeProduct.INVOICE_PRODUCT) {
+                            continue;
+                        }
+                        if(thirdFilterConfig[1]==0 && stockQueuesForDetial.get(i).getDetialCounts().get(j).getOutcomeProduct().getOutcomeType() == IncomeProduct.SURPLUS_PRODUCT){
+                            continue;
+                        }
+                        if(thirdFilterConfig[2]==0 && stockQueuesForDetial.get(i).getDetialCounts().get(j).getOutcomeProduct().getOutcomeType() == IncomeProduct.RETURNED_PRODUCT){
+                            continue;
+                        }
                         size++;
                     }
                 }
@@ -178,6 +242,17 @@ public class StockOperationPresenterImpl extends BasePresenterImpl<StockOperatio
                 fifthObjects = new Object[size][8];
                 for (int i = 0; i < stockQueuesForDetial.size(); i++) {
                     for (int j = 0; j < stockQueuesForDetial.get(i).getDetialCounts().size(); j++) {
+
+                        if(fifthFilterConfig[0]==0 && stockQueuesForDetial.get(i).getDetialCounts().get(j).getOutcomeProduct().getOutcomeType()== IncomeProduct.INVOICE_PRODUCT) {
+                            continue;
+                        }
+                        if(thirdFilterConfig[1]==0 && stockQueuesForDetial.get(i).getDetialCounts().get(j).getOutcomeProduct().getOutcomeType() == IncomeProduct.SURPLUS_PRODUCT){
+                            continue;
+                        }
+                        if(thirdFilterConfig[2]==0 && stockQueuesForDetial.get(i).getDetialCounts().get(j).getOutcomeProduct().getOutcomeType() == IncomeProduct.RETURNED_PRODUCT){
+                            continue;
+                        }
+
                         fifthObjects[counter][0] = stockQueuesForDetial.get(i).getId();
                         fifthObjects[counter][1] = ReportUtils.getProductName(stockQueuesForDetial.get(i).getProduct());
                         fifthObjects[counter][2] = stockQueuesForDetial.get(i).getDetialCounts().get(j).getOutcomeProduct().getOutcomeType();
@@ -230,6 +305,649 @@ public class StockOperationPresenterImpl extends BasePresenterImpl<StockOperatio
             prev = -1;
 
         } else {
+            switch (currentPosition){
+                case 0:
+                    if (searchText.length() <= prev || prev == -1) {
+                        int searchRes[] = new int[firstObjects.length];
+                        for (int i = 0; i < firstObjects.length; i++) {
+                            if (((String) firstObjects[i][0]).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if ((decimalFormat.format((double) firstObjects[i][1])).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if ((decimalFormat.format((double) firstObjects[i][2])).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if ((decimalFormat.format((double) firstObjects[i][3])).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if ((decimalFormat.format((double) firstObjects[i][4])).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if ((decimalFormat.format((double) firstObjects[i][5])).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if ((decimalFormat.format((double) firstObjects[i][6])).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if (((String) firstObjects[i][7]).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                        }
+
+                        int sumSize = 0;
+                        for (int i = 0; i < firstObjects.length; i++) {
+                            if (searchRes[i] == 1)
+                                sumSize++;
+                        }
+                        Object[][] objectResults = new Object[sumSize][8];
+
+                        int pt = 0;
+                        for (int i = 0; i < firstObjects.length; i++) {
+                            if (searchRes[i] == 1) {
+                                objectResults[pt] = firstObjects[i];
+                                pt++;
+                            }
+                        }
+                        searchResultsTemp = objectResults.clone();
+                        view.setSearchResults(objectResults, searchText, currentPosition);
+                    } else {
+                        int searchRes[] = new int[searchResultsTemp.length];
+                        for (int i = 0; i < searchResultsTemp.length; i++) {
+                            if (((String) searchResultsTemp[i][0]).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if ((decimalFormat.format((double) searchResultsTemp[i][1])).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if ((decimalFormat.format((double) searchResultsTemp[i][2])).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if ((decimalFormat.format((double) searchResultsTemp[i][3])).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if ((decimalFormat.format((double) searchResultsTemp[i][4])).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if ((decimalFormat.format((double) searchResultsTemp[i][5])).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if ((decimalFormat.format((double) searchResultsTemp[i][6])).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if (((String) searchResultsTemp[i][7]).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                        }
+                        int sumSize = 0;
+                        for (int i = 0; i < searchResultsTemp.length; i++) {
+                            if (searchRes[i] == 1)
+                                sumSize++;
+                        }
+                        Object[][] objectResults = new Object[sumSize][8];
+
+                        int pt = 0;
+                        for (int i = 0; i < searchResultsTemp.length; i++) {
+                            if (searchRes[i] == 1) {
+                                objectResults[pt] = searchResultsTemp[i];
+                                pt++;
+                            }
+                        }
+                        searchResultsTemp = objectResults.clone();
+                        view.setSearchResults(objectResults, searchText, currentPosition);
+                    }
+                    prev = searchText.length();
+                    break;
+                case 1:
+                    if (searchText.length() <= prev || prev == -1) {
+                        int searchRes[] = new int[secondObjects.length];
+                        for (int i = 0; i < secondObjects.length; i++) {
+                            if (((String) secondObjects[i][0]).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            String text = "";
+                            int orderStatus = (int) secondObjects[i][1];
+                            if (orderStatus == OutcomeProduct.ORDER_SALES) {
+                                text = context.getString(R.string.order_rep);
+                            } else if (orderStatus == OutcomeProduct.OUTVOICE_TO_VENDOR) {
+                                text = context.getString(R.string.outvoice_rep);
+                            } else if (orderStatus == OutcomeProduct.WASTE) {
+                                text = context.getString(R.string.waste_rep);
+                            }
+                            if (text.toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if (String.valueOf((long) secondObjects[i][2]).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+
+                            if (((String) secondObjects[i][3]).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if (simpleDateFormat.format(new Date((long) secondObjects[i][4])).contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+
+                            if ((decimalFormat.format((double) secondObjects[i][5])).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if ((decimalFormat.format((double) secondObjects[i][6])).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if (((String) secondObjects[i][7]).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                        }
+
+                        int sumSize = 0;
+                        for (int i = 0; i < secondObjects.length; i++) {
+                            if (searchRes[i] == 1)
+                                sumSize++;
+                        }
+                        Object[][] objectResults = new Object[sumSize][8];
+
+                        int pt = 0;
+                        for (int i = 0; i < secondObjects.length; i++) {
+                            if (searchRes[i] == 1) {
+                                objectResults[pt] = secondObjects[i];
+                                pt++;
+                            }
+                        }
+                        searchResultsTemp = objectResults.clone();
+                        view.setSearchResults(objectResults, searchText, currentPosition);
+                    } else {
+                        int searchRes[] = new int[searchResultsTemp.length];
+                        for (int i = 0; i < searchResultsTemp.length; i++) {
+                            if (((String) searchResultsTemp[i][0]).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            String text = "";
+                            int orderStatus = (int) searchResultsTemp[i][1];
+                            if (orderStatus == OutcomeProduct.ORDER_SALES) {
+                                text = context.getString(R.string.order_rep);
+                            } else if (orderStatus == OutcomeProduct.OUTVOICE_TO_VENDOR) {
+                                text = context.getString(R.string.outvoice_rep);
+                            } else if (orderStatus == OutcomeProduct.WASTE) {
+                                text = context.getString(R.string.waste_rep);
+                            }
+                            if (text.toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if (String.valueOf((long) searchResultsTemp[i][2]).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+
+                            if (((String) searchResultsTemp[i][3]).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if (simpleDateFormat.format(new Date((long) searchResultsTemp[i][4])).contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+
+                            if ((decimalFormat.format((double) searchResultsTemp[i][5])).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if ((decimalFormat.format((double) searchResultsTemp[i][6])).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if (((String) searchResultsTemp[i][7]).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                        }
+                        int sumSize = 0;
+                        for (int i = 0; i < searchResultsTemp.length; i++) {
+                            if (searchRes[i] == 1)
+                                sumSize++;
+                        }
+                        Object[][] objectResults = new Object[sumSize][8];
+
+                        int pt = 0;
+                        for (int i = 0; i < searchResultsTemp.length; i++) {
+                            if (searchRes[i] == 1) {
+                                objectResults[pt] = searchResultsTemp[i];
+                                pt++;
+                            }
+                        }
+                        searchResultsTemp = objectResults.clone();
+                        view.setSearchResults(objectResults, searchText, currentPosition);
+                    }
+                    prev = searchText.length();
+                    break;
+                case 2:
+                    if (searchText.length() <= prev || prev == -1) {
+                        int searchRes[] = new int[thirdObjects.length];
+                        for (int i = 0; i < thirdObjects.length; i++) {
+                            if (((String) thirdObjects[i][0]).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if (((String) thirdObjects[i][1]).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            String text = "";
+                            int orderStatus = (int) thirdObjects[i][2];
+                            if (orderStatus == IncomeProduct.INVOICE_PRODUCT) {
+                                text = context.getString(R.string.invoice_rep);
+                            } else if (orderStatus == IncomeProduct.SURPLUS_PRODUCT) {
+                                text = context.getString(R.string.surplus_rep);
+                            } else if (orderStatus == IncomeProduct.RETURNED_PRODUCT) {
+                                text = context.getString(R.string.customer_rep);
+                            }
+                            if (text.toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if (String.valueOf((long) thirdObjects[i][3]).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if (simpleDateFormat.format(new Date((long) thirdObjects[i][4])).contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if ((decimalFormat.format((double) thirdObjects[i][5])).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if ((decimalFormat.format((double) thirdObjects[i][6])).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if (((String) thirdObjects[i][7]).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+
+                        }
+
+                        int sumSize = 0;
+                        for (int i = 0; i < thirdObjects.length; i++) {
+                            if (searchRes[i] == 1)
+                                sumSize++;
+                        }
+                        Object[][] objectResults = new Object[sumSize][8];
+
+                        int pt = 0;
+                        for (int i = 0; i < thirdObjects.length; i++) {
+                            if (searchRes[i] == 1) {
+                                objectResults[pt] = thirdObjects[i];
+                                pt++;
+                            }
+                        }
+                        searchResultsTemp = objectResults.clone();
+                        view.setSearchResults(objectResults, searchText, currentPosition);
+                    } else {
+                        int searchRes[] = new int[searchResultsTemp.length];
+                        for (int i = 0; i < searchResultsTemp.length; i++) {
+                            if (((String) searchResultsTemp[i][0]).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if (((String) searchResultsTemp[i][1]).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            String text = "";
+                            int orderStatus = (int) searchResultsTemp[i][2];
+                            if (orderStatus == IncomeProduct.INVOICE_PRODUCT) {
+                                text = context.getString(R.string.invoice_rep);
+                            } else if (orderStatus == IncomeProduct.SURPLUS_PRODUCT) {
+                                text = context.getString(R.string.surplus_rep);
+                            } else if (orderStatus == IncomeProduct.RETURNED_PRODUCT) {
+                                text = context.getString(R.string.customer_rep);
+                            }
+                            if (text.toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if (String.valueOf((long) searchResultsTemp[i][3]).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if (simpleDateFormat.format(new Date((long) searchResultsTemp[i][4])).contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if ((decimalFormat.format((double) searchResultsTemp[i][5])).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if ((decimalFormat.format((double) searchResultsTemp[i][6])).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if (((String) searchResultsTemp[i][7]).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                        }
+                        int sumSize = 0;
+                        for (int i = 0; i < searchResultsTemp.length; i++) {
+                            if (searchRes[i] == 1)
+                                sumSize++;
+                        }
+                        Object[][] objectResults = new Object[sumSize][8];
+
+                        int pt = 0;
+                        for (int i = 0; i < searchResultsTemp.length; i++) {
+                            if (searchRes[i] == 1) {
+                                objectResults[pt] = searchResultsTemp[i];
+                                pt++;
+                            }
+                        }
+                        searchResultsTemp = objectResults.clone();
+                        view.setSearchResults(objectResults, searchText, currentPosition);
+                    }
+                    prev = searchText.length();
+                    break;
+                case 3:
+                    if (searchText.length() <= prev || prev == -1) {
+                        int searchRes[] = new int[forthObjects.length];
+                        for (int i = 0; i < forthObjects.length; i++) {
+                            if (String.valueOf((long) forthObjects[i][0]).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if (((String) forthObjects[i][1]).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if (((String) forthObjects[i][2]).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+
+                            String text = "";
+                            int orderStatus = (int) forthObjects[i][3];
+                            if (orderStatus == IncomeProduct.INVOICE_PRODUCT) {
+                                text = context.getString(R.string.invoice_rep);
+                            } else if (orderStatus == IncomeProduct.SURPLUS_PRODUCT) {
+                                text = context.getString(R.string.surplus_rep);
+                            } else if (orderStatus == IncomeProduct.RETURNED_PRODUCT) {
+                                text = context.getString(R.string.customer_rep);
+                            }
+                            if (text.toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if (String.valueOf((long) forthObjects[i][4]).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if (simpleDateFormat.format(new Date((long) forthObjects[i][5])).contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if ((decimalFormat.format((double) forthObjects[i][6])).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if ((decimalFormat.format((double) forthObjects[i][7])).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if ((decimalFormat.format((double) forthObjects[i][8])).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if (((String) forthObjects[i][9]).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+
+                        }
+
+                        int sumSize = 0;
+                        for (int i = 0; i < forthObjects.length; i++) {
+                            if (searchRes[i] == 1)
+                                sumSize++;
+                        }
+                        Object[][] objectResults = new Object[sumSize][10];
+
+                        int pt = 0;
+                        for (int i = 0; i < forthObjects.length; i++) {
+                            if (searchRes[i] == 1) {
+                                objectResults[pt] = forthObjects[i];
+                                pt++;
+                            }
+                        }
+                        searchResultsTemp = objectResults.clone();
+                        view.setSearchResults(objectResults, searchText, currentPosition);
+                    } else {
+                        int searchRes[] = new int[searchResultsTemp.length];
+                        for (int i = 0; i < searchResultsTemp.length; i++) {
+                            if (String.valueOf((long) searchResultsTemp[i][0]).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if (((String) searchResultsTemp[i][1]).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if (((String) searchResultsTemp[i][2]).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+
+                            String text = "";
+                            int orderStatus = (int) searchResultsTemp[i][3];
+                            if (orderStatus == IncomeProduct.INVOICE_PRODUCT) {
+                                text = context.getString(R.string.invoice_rep);
+                            } else if (orderStatus == IncomeProduct.SURPLUS_PRODUCT) {
+                                text = context.getString(R.string.surplus_rep);
+                            } else if (orderStatus == IncomeProduct.RETURNED_PRODUCT) {
+                                text = context.getString(R.string.customer_rep);
+                            }
+                            if (text.toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if (String.valueOf((long) searchResultsTemp[i][4]).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if (simpleDateFormat.format(new Date((long) searchResultsTemp[i][5])).contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if ((decimalFormat.format((double) searchResultsTemp[i][6])).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if ((decimalFormat.format((double) searchResultsTemp[i][7])).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if ((decimalFormat.format((double) searchResultsTemp[i][8])).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if (((String) searchResultsTemp[i][9]).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                        }
+                        int sumSize = 0;
+                        for (int i = 0; i < searchResultsTemp.length; i++) {
+                            if (searchRes[i] == 1)
+                                sumSize++;
+                        }
+                        Object[][] objectResults = new Object[sumSize][10];
+
+                        int pt = 0;
+                        for (int i = 0; i < searchResultsTemp.length; i++) {
+                            if (searchRes[i] == 1) {
+                                objectResults[pt] = searchResultsTemp[i];
+                                pt++;
+                            }
+                        }
+                        searchResultsTemp = objectResults.clone();
+                        view.setSearchResults(objectResults, searchText, currentPosition);
+                    }
+                    prev = searchText.length();
+                    break;
+                case 4:
+                    if (searchText.length() <= prev || prev == -1) {
+                        int searchRes[] = new int[fifthObjects.length];
+                        for (int i = 0; i < fifthObjects.length; i++) {
+                            if (String.valueOf((long) fifthObjects[i][0]).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if (((String) fifthObjects[i][1]).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            String text = "";
+                            int orderStatus = (int) fifthObjects[i][2];
+                            if (orderStatus == IncomeProduct.INVOICE_PRODUCT) {
+                                text = context.getString(R.string.invoice_rep);
+                            } else if (orderStatus == IncomeProduct.SURPLUS_PRODUCT) {
+                                text = context.getString(R.string.surplus_rep);
+                            } else if (orderStatus == IncomeProduct.RETURNED_PRODUCT) {
+                                text = context.getString(R.string.customer_rep);
+                            }
+                            if (text.toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if (String.valueOf((long) fifthObjects[i][3]).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if (simpleDateFormat.format(new Date((long) fifthObjects[i][4])).contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if ((decimalFormat.format((double) fifthObjects[i][5])).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if ((decimalFormat.format((double) fifthObjects[i][6])).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if (((String) fifthObjects[i][7]).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                        }
+
+                        int sumSize = 0;
+                        for (int i = 0; i < fifthObjects.length; i++) {
+                            if (searchRes[i] == 1)
+                                sumSize++;
+                        }
+                        Object[][] objectResults = new Object[sumSize][8];
+
+                        int pt = 0;
+                        for (int i = 0; i < fifthObjects.length; i++) {
+                            if (searchRes[i] == 1) {
+                                objectResults[pt] = fifthObjects[i];
+                                pt++;
+                            }
+                        }
+                        searchResultsTemp = objectResults.clone();
+                        view.setSearchResults(objectResults, searchText, currentPosition);
+                    } else {
+                        int searchRes[] = new int[searchResultsTemp.length];
+                        for (int i = 0; i < searchResultsTemp.length; i++) {
+                            if (String.valueOf((long) searchResultsTemp[i][0]).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if (((String) searchResultsTemp[i][1]).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            String text = "";
+                            int orderStatus = (int) searchResultsTemp[i][2];
+                            if (orderStatus == IncomeProduct.INVOICE_PRODUCT) {
+                                text = context.getString(R.string.invoice_rep);
+                            } else if (orderStatus == IncomeProduct.SURPLUS_PRODUCT) {
+                                text = context.getString(R.string.surplus_rep);
+                            } else if (orderStatus == IncomeProduct.RETURNED_PRODUCT) {
+                                text = context.getString(R.string.customer_rep);
+                            }
+                            if (text.toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if (String.valueOf((long) searchResultsTemp[i][3]).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if (simpleDateFormat.format(new Date((long) searchResultsTemp[i][4])).contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if ((decimalFormat.format((double) searchResultsTemp[i][5])).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if ((decimalFormat.format((double) searchResultsTemp[i][6])).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                            if (((String) searchResultsTemp[i][7]).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchRes[i] = 1;
+                                continue;
+                            }
+                        }
+                        int sumSize = 0;
+                        for (int i = 0; i < searchResultsTemp.length; i++) {
+                            if (searchRes[i] == 1)
+                                sumSize++;
+                        }
+                        Object[][] objectResults = new Object[sumSize][8];
+
+                        int pt = 0;
+                        for (int i = 0; i < searchResultsTemp.length; i++) {
+                            if (searchRes[i] == 1) {
+                                objectResults[pt] = searchResultsTemp[i];
+                                pt++;
+                            }
+                        }
+                        searchResultsTemp = objectResults.clone();
+                        view.setSearchResults(objectResults, searchText, currentPosition);
+                    }
+                    prev = searchText.length();
+                    break;
+            }
         }
     }
 
@@ -250,7 +968,23 @@ public class StockOperationPresenterImpl extends BasePresenterImpl<StockOperatio
 
     @Override
     public void onClickedFilter() {
-
+        switch (currentPosition){
+            case 0:
+                new Exception("Some think Wrong !!! For Operation Summary disable filter!!!").printStackTrace();
+                break;
+            case 1:
+                view.showFilterDialog(secondFilterConfig,currentPosition);
+                break;
+            case 2:
+                view.showFilterDialog(thirdFilterConfig,currentPosition);
+                break;
+            case 3:
+                view.showFilterDialog(forthFilterConfig,currentPosition);
+                break;
+            case 4:
+                view.showFilterDialog(fifthFilterConfig,currentPosition);
+                break;
+        }
     }
 
     @Override
@@ -270,6 +1004,28 @@ public class StockOperationPresenterImpl extends BasePresenterImpl<StockOperatio
     @Override
     public void onAction(Object[][] objects, int row, int column) {
 
+    }
+
+    @Override
+    public void filterConfigsChanged(int[] configs) {
+        switch (currentPosition){
+            case 0:
+                new Exception("Some think Wrong !!! For Operation Summary disable filter!!!").printStackTrace();
+                break;
+            case 1:
+                secondFilterConfig = configs;
+                break;
+            case 2:
+                thirdFilterConfig = configs;
+                break;
+            case 3:
+                forthFilterConfig = configs;
+                break;
+            case 4:
+                fifthFilterConfig = configs;
+                break;
+        }
+        updateTable();
     }
 
     private void updateTable() {

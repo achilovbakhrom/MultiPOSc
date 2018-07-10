@@ -447,26 +447,25 @@ public class StockStatePresenterImpl extends BasePresenterImpl<StockStateView> i
         this.currentPosition = postion;
         prev = -1;
         searchResultsTemp = null;
-
-        if (currentPosition == 0) {
-            if (firstObjects == null)
-                initReportTable();
-            view.updateTable(firstObjects, currentPosition);
-        }else if(currentPosition == 1) {
-            if (secondObjects == null) {
-                initReportTable();
-            }
-            view.updateTable(secondObjects, currentPosition);
-        }else {
-            if (thirdObjects == null) {
-                initReportTable();
-            }
-            view.updateTable(thirdObjects, currentPosition);
-        }
-
+        updateTable();
     }
 
-
+    private void updateTable() {
+        switch (currentPosition) {
+            case 0:
+                initReportTable();
+                view.updateTable(firstObjects, currentPosition);
+                break;
+            case 1:
+                initReportTable();
+                view.updateTable(secondObjects, currentPosition);
+                break;
+            case 2:
+                initReportTable();
+                view.updateTable(thirdObjects, currentPosition);
+                break;
+        }
+    }
     @Override
     public void onTillPickerClicked() {
 

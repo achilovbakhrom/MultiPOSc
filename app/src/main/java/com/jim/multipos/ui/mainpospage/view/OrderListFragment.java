@@ -63,6 +63,7 @@ import butterknife.BindView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 
+
 public class OrderListFragment extends BaseFragment implements OrderListView {
     public static final String NEW_ORDER_ID = "new_order_id";
     @Inject
@@ -803,6 +804,33 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
             }
         });
         stockPositionsDialog.show();
+    }
+
+    @Override
+    public void stockOut() {
+        WarningDialog warningDialog = new WarningDialog(getActivity());
+        warningDialog.onlyText(true);
+        warningDialog.setDialogTitle(getString(R.string.stock_out));
+        warningDialog.setWarningMessage(getString(R.string.product_stock_outed));
+        warningDialog.setOnYesClickListener(view1 -> {
+            warningDialog.dismiss();
+        });
+        warningDialog.setPositiveButtonText(getString(R.string.ok));
+        warningDialog.show();
+    }
+
+    @Override
+    public void stockOutTillCloseOrder() {
+        WarningDialog warningDialog = new WarningDialog(getActivity());
+        warningDialog.setWarningMessage(getString(R.string.this_product_till_close_order_stock_outed));
+        warningDialog.onlyText(true);
+        warningDialog.setDialogTitle(getString(R.string.stock_out));
+        warningDialog.setOnYesClickListener(view1 -> {
+            warningDialog.dismiss();
+
+        });
+        warningDialog.setPositiveButtonText(getString(R.string.ok));
+        warningDialog.show();
     }
 
 
