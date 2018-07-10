@@ -188,10 +188,19 @@
             <meta-data android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
                 android:resource="@xml/device_filter" />
         </activity>
-        <activity android:name=".ui.customers.CustomersActivity" />
-        <activity android:name=".ui.vendors.VendorsActivity" />
-        <activity android:name=".ui.product_queue_list.ProductQueueListActivity" />
-        <activity android:name=".ui.products_expired.ExpiredProductsActivity" />
+        <activity android:name=".ui.customers.CustomersActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".ui.vendors.VendorsActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".ui.product_queue_list.ProductQueueListActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:windowSoftInputMode="stateHidden"
+            />
+        <activity android:name=".ui.products_expired.ExpiredProductsActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:windowSoftInputMode="stateHidden"/>
 
         <service
             android:name="com.jim.multipos.utils.usb_barcode.USBService"
