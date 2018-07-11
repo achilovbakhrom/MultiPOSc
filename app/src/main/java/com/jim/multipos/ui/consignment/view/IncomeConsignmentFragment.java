@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -276,6 +277,12 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
         IncomeProductConfigsDialog dialog = new IncomeProductConfigsDialog(getContext(), stockQueue, incomeProduct);
         dialog.setListener((incomeProduct1, stockQueue1) -> presenter.setConfigsToProduct(incomeProduct1, stockQueue1, position));
         dialog.show();
+    }
+
+    @Override
+    public void closeFragment() {
+        Toast.makeText(getContext(), getString(R.string.vendor_is_not_active), Toast.LENGTH_SHORT).show();
+        getActivity().finish();
     }
 
     @Override

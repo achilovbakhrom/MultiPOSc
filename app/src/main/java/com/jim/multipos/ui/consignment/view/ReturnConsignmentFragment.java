@@ -8,6 +8,7 @@ import android.support.v7.widget.SimpleItemAnimator;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -259,5 +260,11 @@ public class ReturnConsignmentFragment extends BaseFragment implements ReturnCon
     @Override
     public void updateChangedPosition(int position) {
         adapter.notifyItemChanged(position);
+    }
+
+    @Override
+    public void closeFragment() {
+        Toast.makeText(getContext(), getString(R.string.vendor_is_not_active), Toast.LENGTH_SHORT).show();
+        getActivity().finish();
     }
 }

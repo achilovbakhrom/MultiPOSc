@@ -105,7 +105,7 @@ public class InventoryPresenterImpl extends BasePresenterImpl<InventoryView> imp
         consignment_type = BundleConstants.INVOICE;
         Product product = inventoryItem.getProduct();
         this.productId = product.getId();
-        List<Vendor> vendorList = databaseManager.getVendors().blockingSingle();
+        List<Vendor> vendorList = databaseManager.getActiveVendors().blockingGet();
         if (vendorList.size() == 0){
             view.showVendorListEmptyDialog();
             return;

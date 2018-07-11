@@ -2,22 +2,17 @@ package com.jim.multipos.ui.vendor_products_view.fragments;
 
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.jakewharton.rxbinding2.view.RxView;
 import com.jim.mpviews.MpButtonWithIcon;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
@@ -29,33 +24,24 @@ import com.jim.multipos.ui.consignment.ConsignmentActivity;
 import com.jim.multipos.ui.consignment_list.ConsignmentListActivity;
 import com.jim.multipos.ui.inventory.InventoryActivity;
 import com.jim.multipos.ui.product_queue_list.ProductQueueListActivity;
-import com.jim.multipos.ui.vendor.add_edit.fragment.VendorAddEditFragment;
-import com.jim.multipos.ui.vendor_products_view.VendorProductsViewActivity;
 import com.jim.multipos.ui.vendor_products_view.presenter.VendorDetialsPresenter;
 import com.jim.multipos.utils.BundleConstants;
 import com.jim.multipos.utils.GlideApp;
 import com.jim.multipos.utils.PaymentToVendorDialog;
 import com.jim.multipos.utils.RxBus;
-import com.jim.multipos.utils.rxevents.inventory_events.BillingOperationEvent;
 import com.jim.multipos.utils.rxevents.inventory_events.ConsignmentWithVendorEvent;
-import com.jim.multipos.utils.rxevents.inventory_events.InventoryStateEvent;
-import com.jim.multipos.utils.rxevents.inventory_events.VendorEvent;
-import com.jim.multipos.utils.rxevents.main_order_events.ConsignmentEvent;
 import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
 
 import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import dagger.Binds;
 import io.reactivex.disposables.Disposable;
 
 import static com.jim.multipos.ui.consignment.ConsignmentActivity.OPERATION_TYPE;
-import static com.jim.multipos.ui.consignment.ConsignmentActivity.PRODUCT_ID;
 import static com.jim.multipos.ui.consignment.ConsignmentActivity.VENDOR_ID;
 
 /**

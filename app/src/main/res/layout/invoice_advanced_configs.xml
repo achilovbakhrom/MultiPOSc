@@ -130,7 +130,6 @@
                         android:backgroundTint="@color/colorTransparent"
                         android:gravity="center_vertical"
                         android:hint="@string/select_date_for"
-                        android:inputType="text"
                         android:paddingLeft="@dimen/ten_dp"
                         android:textColorHint="@color/colorTextHint"
                         android:textSize="@dimen/sixteen_dp" />
@@ -181,7 +180,6 @@
                         android:backgroundTint="@color/colorTransparent"
                         android:gravity="center_vertical"
                         android:hint="@string/select_date_for"
-                        android:inputType="text"
                         android:paddingLeft="@dimen/ten_dp"
                         android:textColorHint="@color/colorTextHint"
                         android:textSize="@dimen/sixteen_dp" />

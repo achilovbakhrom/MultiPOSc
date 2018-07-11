@@ -490,7 +490,7 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
                                     int unitPos,
                                     String description,
                                     String url,
-                                    double price, int stockKeepType) {
+                                    double price, int stockKeepType, boolean notDeletable) {
         ProductAddEditFragment fragment = getProductAddEditFragment();
         if (fragment != null) {
             fragment.openEditMode(
@@ -506,7 +506,8 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
                     description,
                     url,
                     price,
-                    stockKeepType
+                    stockKeepType,
+                    notDeletable
             );
         }
     }

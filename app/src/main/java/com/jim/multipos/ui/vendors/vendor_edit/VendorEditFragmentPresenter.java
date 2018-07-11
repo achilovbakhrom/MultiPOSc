@@ -10,4 +10,5 @@ public interface VendorEditFragmentPresenter extends Presenter {
     void saveVendor(String name, String address, String contactName, boolean checked, String photoPath);
     void deleteVendor();
     boolean checkChanges(String name, String address, String contactName, boolean checked, String photoPath);
+    void checkDeletable();
 }

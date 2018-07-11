@@ -287,7 +287,7 @@ public class VendorEditFragment extends BaseFragment implements VendorEditFragme
                 photoSelected = null;
                 ivVendorImage.setImageResource(R.drawable.camera);
             }
-            btnDelete.setVisibility(View.VISIBLE);
+            presenter.checkDeletable();
         } else {
             InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(etVendorName, InputMethodManager.SHOW_IMPLICIT);
@@ -365,6 +365,11 @@ public class VendorEditFragment extends BaseFragment implements VendorEditFragme
         ivVendorImage.setImageResource(R.drawable.camera);
         presenter.setContacts(null);
         btnDelete.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void setButtonDeleteVisibility(int visible) {
+        btnDelete.setVisibility(visible);
     }
 
     @Override

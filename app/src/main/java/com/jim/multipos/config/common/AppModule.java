@@ -52,8 +52,6 @@ import com.jim.multipos.ui.signing.SignActivity;
 import com.jim.multipos.ui.signing.di.SignActivityModule;
 import com.jim.multipos.ui.start_configuration.StartConfigurationActivity;
 import com.jim.multipos.ui.start_configuration.di.StartConfigurationActivityModule;
-import com.jim.multipos.ui.vendor.add_edit.VendorAddEditActivity;
-import com.jim.multipos.ui.vendor.add_edit.di.VendorAddEditActivityModule;
 import com.jim.multipos.ui.vendor_item_managment.VendorItemsActivity;
 import com.jim.multipos.ui.vendor_item_managment.di.VendorItemMainModule;
 import com.jim.multipos.ui.vendor_products_view.VendorProductsViewActivity;
@@ -104,10 +102,6 @@ abstract class AppModule {
     @PerActivity
     @ContributesAndroidInjector(modules = LockScreenActivityModule.class)
     abstract LockScreenActivity provideLockScreenActivity();
-
-    @PerActivity
-    @ContributesAndroidInjector(modules = VendorAddEditActivityModule.class)
-    abstract VendorAddEditActivity provideVendorAddEditActivity();
 
     @PerActivity
     @ContributesAndroidInjector(modules = ProductsClassModule.class)

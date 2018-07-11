@@ -42,11 +42,11 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
     @Override
     public void setData(Long productId, Long vendorId) {
         view.setCurrency(databaseManager.getMainCurrency().getAbbr());
+        this.vendor = databaseManager.getVendorById(vendorId).blockingSingle();
         this.productId = productId;
         if (productId != null) {
             setReturnItem(databaseManager.getProductById(productId).blockingSingle());
         }
-        this.vendor = databaseManager.getVendorById(vendorId).blockingSingle();
         view.setVendorName(this.vendor.getName());
         view.setConsignmentNumber(databaseManager.getConsignments().blockingSingle().size() + 1);
     }

@@ -57,6 +57,10 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
         view.setCurrency(databaseManager.getMainCurrency().getAbbr());
         getAccounts();
         this.vendor = databaseManager.getVendorById(vendorId).blockingSingle();
+        if (!vendor.getActive()){
+            view.closeFragment();
+            return;
+        }
         view.setVendorName(this.vendor.getName());
 
         view.setInvoiceNumber(databaseManager.getAllInvoices().blockingGet().size() + 1);

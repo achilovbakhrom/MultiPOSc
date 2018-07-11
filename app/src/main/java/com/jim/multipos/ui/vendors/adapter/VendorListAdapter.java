@@ -59,9 +59,7 @@ public class VendorListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
         if (holder instanceof VendorViewHolder) {
             ((VendorViewHolder) holder).item.setFirstItemText(items.get(position).getName());
-            int size = 0;
-            ((VendorViewHolder) holder).item.setSecondItemText(context.getString(R.string.items_) + size);
-            ((VendorViewHolder) holder).item.setThirdItemText(items.get(position).getContactName());
+            ((VendorViewHolder) holder).item.setSecondItemText(items.get(position).getContactName());
             ((VendorViewHolder) holder).item.setTextSize(12);
             ((VendorViewHolder) holder).item.setActivate(position == selectedPosition);
             ((VendorViewHolder) holder).item.makeDeletable(!items.get(position).getActive());

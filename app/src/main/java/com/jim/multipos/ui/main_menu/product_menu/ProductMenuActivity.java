@@ -21,7 +21,6 @@ import com.jim.multipos.ui.main_menu.product_menu.presenters.ProductMenuPresente
 import com.jim.multipos.ui.product_class_new.ProductsClassActivity;
 import com.jim.multipos.ui.product_last.ProductActivity;
 import com.jim.multipos.ui.service_fee_new.ServiceFeeActivity;
-import com.jim.multipos.ui.vendor.add_edit.VendorAddEditActivity;
 import com.jim.multipos.ui.vendors.VendorsActivity;
 import com.jim.multipos.utils.OnItemClickListener;
 import com.jim.multipos.utils.RxBus;

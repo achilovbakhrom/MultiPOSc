@@ -159,7 +159,9 @@ public class ProductListFragment extends BaseFragment {
 
     public void editProductItem(Product product) {
         if (products.getAdapter() != null) {
-            ((ProductAdapter) products.getAdapter()).editItem(product);
+            if (!isActiveEnabled.isChecked() && !product.getActive()) {
+                ((ProductAdapter) products.getAdapter()).removeItem(product);
+            } else ((ProductAdapter) products.getAdapter()).editItem(product);
         }
     }
 
@@ -341,7 +343,9 @@ public class ProductListFragment extends BaseFragment {
 
     public void addProductToProductsList(Product product) {
         if (products.getAdapter() != null) {
-            ((ProductAdapter) products.getAdapter()).addItem(product);
+            if (!isActiveEnabled.isChecked() && !product.getActive()) {
+                //nothing
+            } else((ProductAdapter) products.getAdapter()).addItem(product);
         }
     }
 

@@ -24,4 +24,5 @@ public interface ReturnConsignmentView extends BaseView {
     void fillReturnList(List<OutcomeProduct> outcomeProduct);
     void openCustomStockPositionsDialog(OutcomeProduct outcomeProduct, List<OutcomeProduct> outcomeProductList, List<OutcomeProduct> exceptionList, int position);
     void updateChangedPosition(int position);
+    void closeFragment();
 }

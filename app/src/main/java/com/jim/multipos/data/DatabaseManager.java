@@ -772,6 +772,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
+    public Single<List<Vendor>> getActiveVendors() {
+        return dbHelper.getActiveVendors();
+    }
+
+    @Override
     public Observable<Category> getCategoryById(Long id) {
         return dbHelper.getCategoryById(id);
     }

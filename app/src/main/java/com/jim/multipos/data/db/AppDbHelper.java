@@ -2825,7 +2825,7 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Single<List<Vendor>> getVendorsByProductId(Long productId) {
         return Single.create(e -> {
-            String stockQuery = "SELECT * FROM STOCK_QUEUE WHERE PRODUCT_ID == " + productId + " GROUP BY VENDOR_ID";
+            String stockQuery = "SELECT * FROM STOCK_QUEUE WHERE PRODUCT_ID == " + productId + " AND VENDOR_ID != 0 GROUP BY VENDOR_ID";
             Cursor stockCursor = mDaoSession.getDatabase().rawQuery(stockQuery, null);
             List<Vendor> vendors = new ArrayList<>();
             if (stockCursor.getCount() > 0) {
@@ -3167,6 +3167,11 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Single<Invoice> getInvoiceById(Long id) {
         return Single.create(e -> {e.onSuccess(mDaoSession.getInvoiceDao().load(id));});
+    }
+
+    @Override
+    public Single<List<Vendor>> getActiveVendors() {
+        return Single.create(e -> e.onSuccess(mDaoSession.getVendorDao().queryBuilder().where(VendorDao.Properties.Active.eq(true), VendorDao.Properties.Deleted.eq(false)).build().list()));
     }
 
     @Override

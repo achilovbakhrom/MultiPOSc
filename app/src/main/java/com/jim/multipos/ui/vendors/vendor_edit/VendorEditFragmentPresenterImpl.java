@@ -1,8 +1,12 @@
 package com.jim.multipos.ui.vendors.vendor_edit;
 
+import android.view.View;
+
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Contact;
+import com.jim.multipos.data.db.model.inventory.BillingOperations;
+import com.jim.multipos.data.db.model.inventory.StockQueue;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.vendors.model.ContactItem;
 import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
@@ -128,6 +132,8 @@ public class VendorEditFragmentPresenterImpl extends BasePresenterImpl<VendorEdi
         databaseManager.addVendor(vendor).subscribe(aLong -> {
             view.refreshVendorsList();
             view.sendEvent(GlobalEventConstants.DELETE, vendor);
+            view.clearViews();
+            this.vendor = null;
         });
     }
 
@@ -137,6 +143,17 @@ public class VendorEditFragmentPresenterImpl extends BasePresenterImpl<VendorEdi
             return !name.equals("") || !address.equals("") || !contactName.equals("") || !checked || !photoPath.equals("") || contactItems.size() > 0;
         } else {
             return !name.equals(vendor.getName()) || !address.equals(vendor.getAddress()) || !contactName.equals(vendor.getContactName()) || checked != vendor.getActive() || !photoPath.equals(vendor.getPhotoPath());
+        }
+    }
+
+    @Override
+    public void checkDeletable() {
+        if (this.vendor != null){
+            List<StockQueue> stockQueues = databaseManager.getStockQueuesByVendorId(this.vendor.getId()).blockingGet();
+            List<BillingOperations> billingOperations = databaseManager.getBillingOperationForVendor(this.vendor.getId()).blockingGet();
+            if (stockQueues.size() > 0 || billingOperations.size() > 0){
+                view.setButtonDeleteVisibility(View.GONE);
+            } else view.setButtonDeleteVisibility(View.VISIBLE);
         }
     }
 }

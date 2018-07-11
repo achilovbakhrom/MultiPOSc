@@ -345,4 +345,5 @@ public interface DbHelper {
     Single<List<InvoiceProduct>> getInvoiceProductsInInterval(Calendar fromDate, Calendar toDate);
     Single<Outvoice> getOutvoice(Long id);
     Single<Invoice> getInvoiceById(Long id);
+    Single<List<Vendor>> getActiveVendors();
 }

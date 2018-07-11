@@ -25,4 +25,5 @@ public interface IncomeConsignmentView extends BaseView {
     void setCurrency(String abbr);
     void fillInvoiceProductList(List<IncomeProduct> incomeProductList);
     void openSettingsDialog(IncomeProduct incomeProduct, StockQueue stockQueue, int position);
+    void closeFragment();
 }

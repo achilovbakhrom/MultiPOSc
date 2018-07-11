@@ -308,7 +308,7 @@ public class ProductAddEditFragment extends BaseFragment {
                     0,
                     unitsCategory.getSelectedPosition(),
                     units.getSelectedPosition(),
-                    getContext().getString(R.string.description),
+                    "",
                     resultPrice,
                     spStockKeepingType.getSelectedPosition()
             );
@@ -373,7 +373,7 @@ public class ProductAddEditFragment extends BaseFragment {
                              int unitPos,
                              String description,
                              String url,
-                             double price, int stockKeepType) {
+                             double price, int stockKeepType, boolean notDeletable) {
         categoryPos = unitCategoryPos;
         spStockKeepingType.setSelectedPosition(stockKeepType);
         this.name.setText(name);
@@ -409,6 +409,9 @@ public class ProductAddEditFragment extends BaseFragment {
         }
         this.save.setText(getContext().getString(R.string.update));
         spStockKeepingType.setSelectedPosition(stockKeepType);
+        if (notDeletable){
+            advance.setVisibility(View.GONE);
+        } else advance.setVisibility(View.VISIBLE);
     }
 
     public void setUnits(String[] units, int unitPos) {

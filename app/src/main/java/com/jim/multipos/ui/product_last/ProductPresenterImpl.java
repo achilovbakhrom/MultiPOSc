@@ -8,6 +8,7 @@ import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.ProductClass;
 import com.jim.multipos.data.db.model.currency.Currency;
+import com.jim.multipos.data.db.model.inventory.StockQueue;
 import com.jim.multipos.data.db.model.products.Category;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.unit.Unit;
@@ -538,6 +539,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 this.productClass = product.getProductClass();
                 productClassPos = product.getProductClass().getName();
             }
+            List<StockQueue> stockQueues = databaseManager.getStockQueuesByProductId(this.product.getId()).blockingGet();
             view.openProductEditMode(product.getName(),
                     product.getBarcode(),
                     product.getSku(),
@@ -550,7 +552,8 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     product.getDescription(),
                     product.getPhotoPath(),
                     product.getPrice(),
-                    product.getStockKeepType());
+                    product.getStockKeepType(),
+                    stockQueues.size() > 0);
         }
     }
 
@@ -659,7 +662,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 if (!view.getProductName().equals(this.product.getName()) || !view.getBarCode().equals(this.product.getBarcode()) || !view.getSku().equals(this.product.getSku()) ||
                         (unitCategory != null && !unitCategory.getUnits().get(view.getUnitSelectedPos()).getId().equals(this.product.getMainUnitId())) ||
                         !view.getPhotoPath().equals(this.product.getPhotoPath()) || !view.getPrice().equals(this.product.getPrice()) ||
-                        view.getProductIsActive() != this.product.getActive() ) {
+                        view.getProductIsActive() != this.product.getActive()) {
                     view.showDiscardChangesDialog(new UIUtils.AlertListener() {
                         @Override
                         public void onPositiveButtonClicked() {
@@ -891,31 +894,31 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     @Override
     public void deleteProduct() {
         if (product != null) {
-                view.showDeleteDialog(new UIUtils.AlertListener() {
-                    @Override
-                    public void onPositiveButtonClicked() {
-                        //TODO EDITABLE TO STATEABLE
+            view.showDeleteDialog(new UIUtils.AlertListener() {
+                @Override
+                public void onPositiveButtonClicked() {
+                    //TODO EDITABLE TO STATEABLE
 
-                        product.setActive(false);
-                        product.setDeleted(true);
+                    product.setActive(false);
+                    product.setDeleted(true);
 //                        product.setNotModifyted(false);
-                        databaseManager.replaceProduct(product).subscribe(aLong -> {
-                            if (subcategory != null) {
-                                subcategory.resetProducts();
-                                view.sendProductEvent(GlobalEventConstants.DELETE, product);
-                                openSubcategory(subcategory);
-                                openProduct(null);
-                            }
-                        });
-                    }
+                    databaseManager.replaceProduct(product).subscribe(aLong -> {
+                        if (subcategory != null) {
+                            subcategory.resetProducts();
+                            view.sendProductEvent(GlobalEventConstants.DELETE, product);
+                            openSubcategory(subcategory);
+                            openProduct(null);
+                        }
+                    });
+                }
 
-                    @Override
-                    public void onNegativeButtonClicked() {
+                @Override
+                public void onNegativeButtonClicked() {
 
-                    }
-                });
-            }
+                }
+            });
         }
+    }
 
     /**
      * deleting category
@@ -1020,7 +1023,8 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
 
     /**
      * creating or editing product
-     *  @param name             - product name
+     *
+     * @param name              - product name
      * @param barcode           - product barcode
      * @param sku               - product sku
      * @param photoPath         - product photo path
@@ -1178,6 +1182,9 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
 
     @Override
     public boolean isProductSkuExists(String sku) {
+        if (sku.isEmpty()){
+            return false;
+        }
         if (mode == CategoryAddEditMode.PRODUCT_EDIT_MODE) {
             if (ProductPresenterImpl.this.product.getSku().equals(sku)) {
                 return false;
