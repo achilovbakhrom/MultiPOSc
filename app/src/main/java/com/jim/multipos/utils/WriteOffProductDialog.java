@@ -182,6 +182,7 @@ public class WriteOffProductDialog extends Dialog {
                 UIUtils.closeKeyboard(etShortage,context);
                 Handler handler = new Handler();
                 handler.postDelayed(() -> {
+                    outcomeProduct.setOutcomeDate(System.currentTimeMillis());
                     writeOffCallback.writeOff(inventoryItem, outcomeProduct);
                     dismiss();
                 },300);

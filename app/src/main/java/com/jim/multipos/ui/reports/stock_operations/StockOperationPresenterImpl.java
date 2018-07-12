@@ -138,6 +138,8 @@ public class StockOperationPresenterImpl extends BasePresenterImpl<StockOperatio
                         secondObjects[i][2] = outcomeProducts.get(i).getOrderProduct().getOrderId();
                     else secondObjects[i][2] = "";
                     String stockKeepingType = "";
+
+                    if(!outcomeProducts.get(i).getCustomPickSock())
                     switch (outcomeProducts.get(i).getProduct().getStockKeepType()) {
                         case Product.LIFO:
                             stockKeepingType = "LIFO";
@@ -149,6 +151,8 @@ public class StockOperationPresenterImpl extends BasePresenterImpl<StockOperatio
                             stockKeepingType = "FIFO";
                             break;
                     }
+                    else
+                        stockKeepingType = "CUSTOM";
                     secondObjects[i][3] = stockKeepingType;
                     secondObjects[i][4] = outcomeProducts.get(i).getOutcomeDate();
                     secondObjects[i][5] = outcomeProducts.get(i).getSumCountValue();
@@ -1009,7 +1013,43 @@ public class StockOperationPresenterImpl extends BasePresenterImpl<StockOperatio
 
     @Override
     public void onAction(Object[][] objects, int row, int column) {
-
+        if(currentPosition == 1){
+            if(column==2){
+                if (!objects[row][column].equals("")) {
+                    long orderId = (long) objects[row][column];
+                    databaseManager.getOrder(orderId).subscribe(order -> {
+                        view.onOrderPressed(order);
+                    });
+                }
+            }
+        }else if(currentPosition == 2){
+            if(column==3){
+                if (!objects[row][column].equals("")) {
+                    long invoiceId = (long) objects[row][column];
+                    databaseManager.getInvoiceById(invoiceId).subscribe(invoice -> {
+                        view.onInvoicePressed(invoice,databaseManager);
+                    });
+                }
+            }
+        }else if(currentPosition == 3){
+            if(column==4){
+                if (!objects[row][column].equals("")) {
+                    long invoiceId = (long) objects[row][column];
+                    databaseManager.getInvoiceById(invoiceId).subscribe(invoice -> {
+                        view.onInvoicePressed(invoice,databaseManager);
+                    });
+                }
+            }
+        }else if(currentPosition == 4){
+            if(column==3){
+                if (!objects[row][column].equals("")) {
+                    long orderId = (long) objects[row][column];
+                    databaseManager.getOrder(orderId).subscribe(order -> {
+                        view.onOrderPressed(order);
+                    });
+                }
+            }
+        }
     }
 
     @Override

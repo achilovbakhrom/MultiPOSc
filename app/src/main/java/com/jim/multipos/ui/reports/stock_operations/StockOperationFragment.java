@@ -11,11 +11,16 @@ import com.jim.mpviews.ReportView;
 import com.jim.mpviews.utils.ReportViewConstants;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseTableReportFragment;
+import com.jim.multipos.data.DatabaseManager;
+import com.jim.multipos.data.db.model.consignment.Invoice;
 import com.jim.multipos.data.db.model.inventory.IncomeProduct;
 import com.jim.multipos.data.db.model.inventory.OutcomeProduct;
+import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.ui.reports.debts.dialogs.DebtFilterDialog;
+import com.jim.multipos.ui.reports.order_history.dialogs.OrderDetialsDialog;
 import com.jim.multipos.ui.reports.stock_operations.dialog.IncomeFilterDialog;
 import com.jim.multipos.ui.reports.stock_operations.dialog.OutcomeFilterDialog;
+import com.jim.multipos.ui.reports.vendor.dialogs.ConsignmentDetailsDialog;
 import com.jim.multipos.utils.ExportToDialog;
 import com.jim.multipos.utils.ExportUtils;
 
@@ -83,17 +88,17 @@ public class StockOperationFragment extends BaseTableReportFragment implements S
 
         forthStatusTypes = new Object[][][]{
                 {
-                        {IncomeProduct.INVOICE_PRODUCT, "INVOICE", R.color.colorGreen},
-                        {IncomeProduct.SURPLUS_PRODUCT, "SURPLUS", R.color.colorRed},
-                        {IncomeProduct.RETURNED_PRODUCT, "CUSTOMER RETURN", R.color.colorBlue}
+                        {IncomeProduct.INVOICE_PRODUCT, getString(R.string.invoice_rep), R.color.colorGreen},
+                        {IncomeProduct.SURPLUS_PRODUCT, getString(R.string.surplus_rep), R.color.colorRed},
+                        {IncomeProduct.RETURNED_PRODUCT, getString(R.string.customer_rep), R.color.colorBlue}
                 }
         };
 
         fifthStatusTypes = new Object[][][]{
                 {
-                        {OutcomeProduct.ORDER_SALES, "ORDER", R.color.colorGreen},
-                        {OutcomeProduct.OUTVOICE_TO_VENDOR, "WASTE", R.color.colorRed},
-                        {OutcomeProduct.WASTE, "OUTVOICE", R.color.colorBlue}
+                        {OutcomeProduct.ORDER_SALES, getString(R.string.order_rep), R.color.colorGreen},
+                        {OutcomeProduct.OUTVOICE_TO_VENDOR, getString(R.string.outvoice_rep), R.color.colorBlue},
+                        {OutcomeProduct.WASTE, getString(R.string.waste_rep), R.color.colorRed}
                 }
         };
 
@@ -279,6 +284,17 @@ public class StockOperationFragment extends BaseTableReportFragment implements S
             }
         });
         exportDialog.show();
+    }
+
+    @Override
+    public void onOrderPressed(Order order) {
+        OrderDetialsDialog orderDetialsDialog = new OrderDetialsDialog(getContext(), order);
+        orderDetialsDialog.show();
+    }
+    @Override
+    public void onInvoicePressed(Invoice invoice,DatabaseManager databaseManager) {
+        ConsignmentDetailsDialog dialog = new ConsignmentDetailsDialog(getContext(), invoice, null, databaseManager);
+        dialog.show();
     }
 
     @Override
