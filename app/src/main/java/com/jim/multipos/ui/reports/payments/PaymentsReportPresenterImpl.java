@@ -311,7 +311,6 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
     }
 
     private void updateObejctsForTable() {
-        //FAKE
         if (currentPosition == 0) {
             HashMap<Long, SummaryPayments> summaryPaymentsHP = new HashMap<>();
             for (int i = 0; i < ordersSummary.size(); i++) {
@@ -654,7 +653,7 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
                         paymentsReport.setOrderId(orders.get(i).getId());
                         paymentsReport.setTillId(orders.get(i).getTillId());
                         paymentsReport.setDate(orders.get(i).getCreateAt() + 1);
-                        paymentsReport.setAmount(orders.get(i).getChange());
+                        paymentsReport.setAmount(orders.get(i).getChange()*-1);
                         paymentsReports.add(paymentsReport);
                     }
                 }
@@ -667,19 +666,21 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
                     paymentsReport.setAccountName(tillOperations.get(i).getPaymentType().getAccount().getName());
                     if (tillOperations.get(i).getType() == TillOperation.PAY_IN) {
                         paymentsReport.setReason(context.getString(R.string.pay_in));
+                        paymentsReport.setAmount(tillOperations.get(i).getAmount());
                         paymentsReport.setFilterId(FILTER_PAY_IN);
                     } else if (tillOperations.get(i).getType() == TillOperation.PAY_OUT) {
                         paymentsReport.setReason(context.getString(R.string.pay_out));
+                        paymentsReport.setAmount(-1*tillOperations.get(i).getAmount());
                         paymentsReport.setFilterId(FILTER_PAY_OUT);
                     } else if (tillOperations.get(i).getType() == TillOperation.BANK_DROP) {
                         paymentsReport.setReason(context.getString(R.string.bank_drop));
                         paymentsReport.setFilterId(FILTER_BANK_DROP);
+                        paymentsReport.setAmount(-1*tillOperations.get(i).getAmount());
                     }
                     paymentsReport.setDescription(tillOperations.get(i).getDescription());
                     paymentsReport.setOrderId(-1); // empty String
                     paymentsReport.setTillId(tillOperations.get(i).getTillId());
                     paymentsReport.setDate(tillOperations.get(i).getCreateAt());
-                    paymentsReport.setAmount(tillOperations.get(i).getAmount());
                     paymentsReports.add(paymentsReport);
                 }
                 databaseManager.getBillingOperationsInInterval(fromDate, toDate).subscribe((billingOperations, throwable2) -> {
@@ -695,7 +696,7 @@ public class PaymentsReportPresenterImpl extends BasePresenterImpl<PaymentsRepor
                         paymentsReport.setOrderId(-1);
                         paymentsReport.setTillId(-1);
                         paymentsReport.setDate(billingOperations.get(i).getCreateAt());
-                        paymentsReport.setAmount(billingOperations.get(i).getAmount());
+                        paymentsReport.setAmount(-1*billingOperations.get(i).getAmount());
                         paymentsReports.add(paymentsReport);
                     }
 

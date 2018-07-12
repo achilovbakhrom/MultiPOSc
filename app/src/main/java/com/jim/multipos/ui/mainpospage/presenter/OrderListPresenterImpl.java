@@ -694,7 +694,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
                         for (int i = 0; i < payedPartitions.size(); i++) {
                             payedPartitions.get(i).setOrderId(order1.getId());
                         }
-                        databaseManager.insertPayedPartitions(payedPartitions).subscribeOn(Schedulers.io()).subscribe();
+                        databaseManager.insertPayedPartitions(payedPartitions).subscribeOn(Schedulers.io()).blockingGet();
 
                         if (debt != null) {
                             debt.setOrderId(order1.getId());
@@ -855,7 +855,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
                         for (int i = 0; i < payedPartitions.size(); i++) {
                             payedPartitions.get(i).setOrderId(order1.getId());
                         }
-                        databaseManager.insertPayedPartitions(payedPartitions).subscribeOn(Schedulers.io()).subscribe();
+                        databaseManager.insertPayedPartitions(payedPartitions).subscribeOn(Schedulers.io()).blockingGet();
 
                         if (debt != null) {
                             debt.setOrderId(order1.getId());
@@ -996,7 +996,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
                         for (int i = 0; i < payedPartitions.size(); i++) {
                             payedPartitions.get(i).setOrderId(order1.getId());
                         }
-                        databaseManager.insertPayedPartitions(payedPartitions).subscribeOn(Schedulers.io()).subscribe();
+                        databaseManager.insertPayedPartitions(payedPartitions).subscribeOn(Schedulers.io()).blockingGet();
 
                         if (debt != null) {
                             debt.setOrderId(order1.getId());
@@ -1176,7 +1176,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
                         for (int i = 0; i < payedPartitions.size(); i++) {
                             payedPartitions.get(i).setOrderId(order1.getId());
                         }
-                        databaseManager.insertPayedPartitions(payedPartitions).subscribeOn(Schedulers.io()).subscribe();
+                        databaseManager.insertPayedPartitions(payedPartitions).subscribeOn(Schedulers.io()).blockingGet();
 
                         if (debt != null) {
                             debt.setOrderId(order1.getId());
@@ -1335,7 +1335,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
                         for (int i = 0; i < payedPartitions.size(); i++) {
                             payedPartitions.get(i).setOrderId(order1.getId());
                         }
-                        databaseManager.insertPayedPartitions(payedPartitions).subscribeOn(Schedulers.io()).subscribe();
+                        databaseManager.insertPayedPartitions(payedPartitions).subscribeOn(Schedulers.io()).blockingGet();
 
                         if (debt != null) {
                             debt.setOrderId(order1.getId());
@@ -1476,7 +1476,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
                         for (int i = 0; i < payedPartitions.size(); i++) {
                             payedPartitions.get(i).setOrderId(order1.getId());
                         }
-                        databaseManager.insertPayedPartitions(payedPartitions).subscribeOn(Schedulers.io()).subscribe();
+                        databaseManager.insertPayedPartitions(payedPartitions).subscribeOn(Schedulers.io()).blockingGet();
 
                         if (debt != null) {
                             debt.setOrderId(order1.getId());
