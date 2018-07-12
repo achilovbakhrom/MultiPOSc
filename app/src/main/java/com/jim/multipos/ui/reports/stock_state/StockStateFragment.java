@@ -3,6 +3,10 @@ package com.jim.multipos.ui.reports.stock_state;
 import android.os.Bundle;
 import android.view.Gravity;
 
+import com.github.angads25.filepicker.model.DialogConfigs;
+import com.github.angads25.filepicker.model.DialogProperties;
+import com.github.angads25.filepicker.view.FilePickerDialog;
+import com.github.mjdev.libaums.fs.UsbFile;
 import com.jim.mpviews.ReportView;
 import com.jim.mpviews.utils.ReportViewConstants;
 import com.jim.multipos.R;
@@ -16,12 +20,17 @@ import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.data.db.model.order.PayedPartitions;
 import com.jim.multipos.ui.reports.customers.model.CustomerGroupOrder;
 import com.jim.multipos.ui.reports.customers.model.CustomerPaymentLog;
+import com.jim.multipos.utils.ExportToDialog;
+import com.jim.multipos.utils.ExportUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import static com.jim.multipos.utils.ExportUtils.EXCEL;
 
 public class StockStateFragment extends BaseTableReportFragment implements StockStateView {
     @Inject
@@ -142,4 +151,122 @@ public class StockStateFragment extends BaseTableReportFragment implements Stock
     public void showSummaryFilterDialog(int filterValue) {
 
     }
+
+    ExportToDialog exportDialog;
+
+    @Override
+    public void openExportDialog(int currentPosition, int type) {
+        exportDialog = new ExportToDialog(getContext(), type, panelNames[currentPosition], new ExportToDialog.OnExportListener() {
+            @Override
+            public void onFilePickerClicked() {
+                openFilePickerDialog();
+            }
+
+            @Override
+            public void onSaveToUSBClicked(String filename, UsbFile root) {
+                if (type == EXCEL)
+                    presenter.exportExcelToUSB(filename, root);
+                else presenter.exportPdfToUSB(filename, root);
+            }
+
+            @Override
+            public void onSaveClicked(String fileName, String path) {
+                if (type == EXCEL)
+                    presenter.exportExcel(fileName, path);
+                else presenter.exportPdf(fileName, path);
+            }
+        });
+        exportDialog.show();
+    }
+
+    @Override
+    public void exportTableToExcel(String fileName, String path, Object[][] objects, int position, String date, String filter, String searchText) {
+        switch (position) {
+            case 0:
+                String description = "";
+                ExportUtils.exportToExcel(getContext(), path, fileName, description, date, filter, searchText, objects, firstTitles, firstWeights, firstDataType, null);
+                break;
+            case 1:
+                String secondDescription = "";
+                ExportUtils.exportToExcel(getContext(), path, fileName, secondDescription, date, filter, searchText, objects, secondTitles, secondWeights, secondDataType, null);
+                break;
+            case 2:
+                String thirdDescription = "";
+                ExportUtils.exportToExcel(getContext(), path, fileName, thirdDescription, date, filter, searchText, objects, thirdTitles, thirdWeights, thirdDataType, null);
+                break;
+        }
+    }
+
+    @Override
+    public void exportTableToExcelUSB(String filename, UsbFile root, Object[][] objects, int position, String date, String filter, String searchText) {
+        switch (position) {
+            case 0:
+                String description = "";
+                ExportUtils.exportToExcelToUSB(getContext(), root, filename, description, date, filter, searchText, objects, firstTitles, firstWeights, firstDataType, null);
+                break;
+            case 1:
+                String secondDescription = "";
+                ExportUtils.exportToExcelToUSB(getContext(), root, filename, secondDescription, date, filter, searchText, objects, secondTitles, secondWeights, secondDataType, null);
+                break;
+            case 2:
+                String thirdDescription = "";
+                ExportUtils.exportToExcelToUSB(getContext(), root, filename, thirdDescription, date, filter, searchText, objects, thirdTitles, thirdWeights, thirdDataType, null);
+                break;
+        }
+    }
+
+    @Override
+    public void exportTableToPdf(String filename, String root, Object[][] objects, int position, String date, String filter, String searchText) {
+        switch (position) {
+            case 0:
+                String description = "";
+                ExportUtils.exportToPdf(getContext(), root, filename, description, date, filter, searchText, objects, firstTitles, firstWeights, firstDataType, null);
+                break;
+            case 1:
+                String secondDescription = "";
+                ExportUtils.exportToPdf(getContext(), root, filename, secondDescription, date, filter, searchText, objects, secondTitles, secondWeights, secondDataType, null);
+                break;
+            case 2:
+                String thirdDescription = "";
+                ExportUtils.exportToPdf(getContext(), root, filename, thirdDescription, date, filter, searchText, objects, thirdTitles, thirdWeights, thirdDataType, null);
+                break;
+        }
+    }
+
+    @Override
+    public void exportTableToPdfUSB(String filename, UsbFile root, Object[][] objects, int currentPosition, String date, String filter, String searchText) {
+        switch (currentPosition) {
+            case 0:
+                String description = "";
+                ExportUtils.exportToPdfToUSB(getContext(), root, filename, description, date, filter, searchText, objects, firstTitles, firstWeights, firstDataType, null);
+                break;
+            case 1:
+                String secondDescription = "";
+                ExportUtils.exportToPdfToUSB(getContext(), root, filename, secondDescription, date, filter, searchText, objects, secondTitles, secondWeights, secondDataType, null);
+                break;
+            case 2:
+                String thirdDescription = "";
+                ExportUtils.exportToPdfToUSB(getContext(), root, filename, thirdDescription, date, filter, searchText, objects, thirdTitles, thirdWeights, thirdDataType, null);
+                break;
+        }
+    }
+
+    private void openFilePickerDialog() {
+        DialogProperties properties = new DialogProperties();
+        properties.selection_mode = DialogConfigs.SINGLE_MODE;
+        properties.selection_type = DialogConfigs.DIR_SELECT;
+        properties.root = new File(DialogConfigs.DEFAULT_DIR);
+        properties.error_dir = new File(DialogConfigs.DEFAULT_DIR);
+        properties.offset = new File(DialogConfigs.DEFAULT_DIR);
+        properties.extensions = null;
+        FilePickerDialog dialog = new FilePickerDialog(getContext(), properties);
+        dialog.setNegativeBtnName(getContext().getString(R.string.cancel));
+        dialog.setPositiveBtnName(getContext().getString(R.string.select));
+        dialog.setTitle(getContext().getString(R.string.select_a_directory));
+        dialog.setDialogSelectionListener(files -> {
+            exportDialog.setPath(files);
+        });
+        dialog.show();
+    }
+
 }

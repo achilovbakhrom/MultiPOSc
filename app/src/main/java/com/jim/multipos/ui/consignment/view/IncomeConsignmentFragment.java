@@ -22,6 +22,7 @@ import com.jim.mpviews.MpEditText;
 import com.jim.mpviews.StockStatusView;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
+import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.inventory.IncomeProduct;
 import com.jim.multipos.data.db.model.inventory.StockQueue;
 import com.jim.multipos.data.db.model.products.Product;
@@ -67,6 +68,8 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
     BarcodeStack barcodeStack;
     @Inject
     RxBus rxBus;
+    @Inject
+    DatabaseManager databaseManager;
     @BindView(R.id.etConsignmentDescription)
     EditText etConsignmentDescription;
     @BindView(R.id.tvVendorName)
@@ -172,7 +175,7 @@ public class IncomeConsignmentFragment extends BaseFragment implements IncomeCon
 
     @Override
     public void fillDialogItems(List<Product> productList, List<Product> vendorProducts) {
-        dialog = new ProductsForIncomeDialog(getContext(), productList, vendorProducts, barcodeStack);
+        dialog = new ProductsForIncomeDialog(getContext(), productList, vendorProducts, barcodeStack, databaseManager);
         dialog.setListener(new ProductsForIncomeDialog.OnSelectClickListener() {
             @Override
             public void onSelect(Product product) {

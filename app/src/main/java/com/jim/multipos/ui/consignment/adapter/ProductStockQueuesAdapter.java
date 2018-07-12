@@ -15,6 +15,7 @@ import com.jim.multipos.R;
 import com.jim.multipos.config.common.BaseAppModule;
 import com.jim.multipos.data.db.model.intosystem.StockQueueItem;
 import com.jim.multipos.data.db.model.inventory.StockQueue;
+import com.jim.multipos.utils.DecimalUtils;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -53,7 +54,8 @@ public class ProductStockQueuesAdapter extends RecyclerView.Adapter<ProductStock
         if (items.get(position).getStockQueue().getVendor() != null)
             holder.tvVendor.setText(items.get(position).getStockQueue().getVendor().getName());
         else holder.tvVendor.setText("");
-
+        if (items.get(position).getStockQueue().getExpiredProductDate() != 0)
+        holder.tvExpireDate.setText(simpleDateFormat.format(items.get(position).getStockQueue().getExpiredProductDate()));
         holder.tvStockId.setText(items.get(position).getStockQueue().getStockId());
         holder.ssvStockStatus.setMax(items.get(position).getStockQueue().getIncomeCount());
         holder.ssvStockStatus.setSold(items.get(position).getStockQueue().getIncomeCount() - items.get(position).getAvailable());
@@ -61,7 +63,7 @@ public class ProductStockQueuesAdapter extends RecyclerView.Adapter<ProductStock
         for (int i = 0; i < items.get(position).getDetialCounts().size(); i++) {
             count += items.get(position).getDetialCounts().get(i).getCount();
         }
-        holder.tvAvailable.setText((items.get(position).getAvailable() - count) + "/" + items.get(position).getStockQueue().getIncomeCount());
+        holder.tvAvailable.setText(decimalFormat.format(DecimalUtils.roundDouble((items.get(position).getAvailable() - count))) + "/" + decimalFormat.format(DecimalUtils.roundDouble(items.get(position).getStockQueue().getIncomeCount())));
         holder.ssvStockStatus.setCount(count);
         if (count != 0) {
             holder.ivSelected.setVisibility(View.VISIBLE);
@@ -117,6 +119,8 @@ public class ProductStockQueuesAdapter extends RecyclerView.Adapter<ProductStock
         TextView tvStockId;
         @BindView(R.id.btnSelect)
         MpButton btnSelect;
+        @BindView(R.id.tvExpireDate)
+        TextView tvExpireDate;
 
         public StockQueueItemViewHolder(View itemView) {
             super(itemView);

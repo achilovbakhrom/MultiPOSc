@@ -12,9 +12,11 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.jim.mpviews.MpSearchView;
 import com.jim.multipos.R;
+import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.ui.consignment.adapter.ProductsForIncomeAdapter;
 import com.jim.multipos.ui.consignment.model.ProductForIncomeItem;
@@ -34,6 +36,8 @@ import static com.jim.multipos.ui.consignment.dialogs.ProductsForIncomeDialog.Pr
 import static com.jim.multipos.ui.consignment.dialogs.ProductsForIncomeDialog.ProductSortingStates.SORTED_BY_BARCODE_INVERT;
 import static com.jim.multipos.ui.consignment.dialogs.ProductsForIncomeDialog.ProductSortingStates.SORTED_BY_NAME;
 import static com.jim.multipos.ui.consignment.dialogs.ProductsForIncomeDialog.ProductSortingStates.SORTED_BY_NAME_INVERT;
+import static com.jim.multipos.ui.consignment.dialogs.ProductsForIncomeDialog.ProductSortingStates.SORTED_BY_PRICE;
+import static com.jim.multipos.ui.consignment.dialogs.ProductsForIncomeDialog.ProductSortingStates.SORTED_BY_PRICE_INVERT;
 import static com.jim.multipos.ui.consignment.dialogs.ProductsForIncomeDialog.ProductSortingStates.SORTED_BY_TYPE;
 import static com.jim.multipos.ui.consignment.dialogs.ProductsForIncomeDialog.ProductSortingStates.SORTED_BY_TYPE_INVERT;
 
@@ -49,6 +53,8 @@ public class ProductsForIncomeDialog extends Dialog {
     LinearLayout llArticle;
     @BindView(R.id.llBarcode)
     LinearLayout llBarcode;
+    @BindView(R.id.llPrice)
+    LinearLayout llPrice;
     @BindView(R.id.llSupplyStatus)
     LinearLayout llSupplyStatus;
     @BindView(R.id.ivArticleSort)
@@ -59,6 +65,10 @@ public class ProductsForIncomeDialog extends Dialog {
     ImageView ivBarcodeSort;
     @BindView(R.id.ivSupplySort)
     ImageView ivSupplySort;
+    @BindView(R.id.ivPriceSort)
+    ImageView ivPriceSort;
+    @BindView(R.id.tvPrice)
+    TextView tvPrice;
     private ProductSortingStates filterMode = SORTED_BY_TYPE_INVERT;
 
     public void setBarcode(String barcode) {
@@ -66,7 +76,8 @@ public class ProductsForIncomeDialog extends Dialog {
     }
 
     public enum ProductSortingStates {
-        SORTED_BY_NAME, SORTED_BY_NAME_INVERT, SORTED_BY_ARTICLE, SORTED_BY_ARTICLE_INVERT, SORTED_BY_BARCODE, SORTED_BY_BARCODE_INVERT, SORTED_BY_TYPE, SORTED_BY_TYPE_INVERT
+        SORTED_BY_NAME, SORTED_BY_NAME_INVERT, SORTED_BY_ARTICLE, SORTED_BY_ARTICLE_INVERT, SORTED_BY_BARCODE, SORTED_BY_BARCODE_INVERT, SORTED_BY_TYPE, SORTED_BY_TYPE_INVERT,
+        SORTED_BY_PRICE, SORTED_BY_PRICE_INVERT
     }
 
     private Context context;
@@ -74,16 +85,18 @@ public class ProductsForIncomeDialog extends Dialog {
     private List<Product> productList;
     private List<Product> vendorProducts;
     private BarcodeStack barcodeStack;
+    private DatabaseManager databaseManager;
     private List<ProductForIncomeItem> searchResults;
     private List<ProductForIncomeItem> items;
     private ProductsForIncomeAdapter adapter;
 
-    public ProductsForIncomeDialog(@NonNull Context context, List<Product> productList, List<Product> vendorProducts, BarcodeStack barcodeStack) {
+    public ProductsForIncomeDialog(@NonNull Context context, List<Product> productList, List<Product> vendorProducts, BarcodeStack barcodeStack, DatabaseManager databaseManager) {
         super(context);
         this.context = context;
         this.productList = productList;
         this.vendorProducts = vendorProducts;
         this.barcodeStack = barcodeStack;
+        this.databaseManager = databaseManager;
     }
 
     public void setListener(OnSelectClickListener listener) {
@@ -98,6 +111,7 @@ public class ProductsForIncomeDialog extends Dialog {
         getWindow().getDecorView().setBackgroundResource(android.R.color.transparent);
         ButterKnife.bind(this, dialogView);
         setContentView(dialogView);
+        tvPrice.setText(context.getString(R.string.price) + " (" + databaseManager.getMainCurrency().getAbbr() + ")");
         adapter = new ProductsForIncomeAdapter(context);
         rvProductList.setLayoutManager(new LinearLayoutManager(getContext()));
         ((SimpleItemAnimator) rvProductList.getItemAnimator()).setSupportsChangeAnimations(false);
@@ -215,6 +229,21 @@ public class ProductsForIncomeDialog extends Dialog {
             }
         });
 
+        llPrice.setOnClickListener(view -> {
+            deselectAll();
+            if (filterMode != SORTED_BY_PRICE) {
+                filterMode = SORTED_BY_PRICE;
+                sortList();
+                ivPriceSort.setVisibility(View.VISIBLE);
+                ivPriceSort.setImageResource(R.drawable.sorting);
+            } else {
+                filterMode = SORTED_BY_PRICE_INVERT;
+                ivPriceSort.setVisibility(View.VISIBLE);
+                ivPriceSort.setImageResource(R.drawable.sorting_invert);
+                sortList();
+            }
+        });
+
         svProductSearch.getBarcodeView().setOnClickListener(view -> listener.onBarcodeClick());
         barcodeStack.register(barcode -> svProductSearch.getSearchView().setText(barcode));
         setOnDismissListener(o -> barcodeStack.unregister());
@@ -225,6 +254,7 @@ public class ProductsForIncomeDialog extends Dialog {
         ivBarcodeSort.setVisibility(View.GONE);
         ivArticleSort.setVisibility(View.GONE);
         ivProductNameSort.setVisibility(View.GONE);
+        ivPriceSort.setVisibility(View.GONE);
     }
 
     private void sortList() {
@@ -256,6 +286,12 @@ public class ProductsForIncomeDialog extends Dialog {
                 break;
             case SORTED_BY_TYPE_INVERT:
                 Collections.sort(tempList, (item, t1) -> item.isWasSupplied().compareTo(t1.isWasSupplied()) * -1);
+                break;
+            case SORTED_BY_PRICE:
+                Collections.sort(tempList, (item, t1) -> item.getProduct().getPrice().compareTo(t1.getProduct().getPrice()));
+                break;
+            case SORTED_BY_PRICE_INVERT:
+                Collections.sort(tempList, (item, t1) -> item.getProduct().getPrice().compareTo(t1.getProduct().getPrice()) * -1);
                 break;
         }
         adapter.notifyDataSetChanged();

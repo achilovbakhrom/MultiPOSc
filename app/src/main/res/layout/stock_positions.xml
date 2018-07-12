@@ -8,7 +8,7 @@
     android:gravity="center">
 
     <LinearLayout
-        android:layout_width="@dimen/thousand_dp"
+        android:layout_width="@dimen/thousand_hundred_seventy_dp"
         android:layout_height="@dimen/six_hundred_sixty_five_dp"
         android:background="@drawable/rounded_edit_text_bg"
         android:orientation="vertical">
@@ -208,7 +208,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_weight="3"
+                android:layout_weight="2"
                 android:gravity="center"
                 android:text="Date input"
                 android:textColor="@color/colorMainText"
@@ -220,7 +220,17 @@
                 android:layout_gravity="center"
                 android:layout_weight="2"
                 android:gravity="center"
-                android:text="Cost (uzs)"
+                android:text="Expire date"
+                android:textColor="@color/colorMainText"
+                android:textSize="@dimen/sixteen_dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1.5"
+                android:gravity="center"
+                android:text="Cost"
                 android:textColor="@color/colorMainText"
                 android:textSize="@dimen/sixteen_dp" />
 

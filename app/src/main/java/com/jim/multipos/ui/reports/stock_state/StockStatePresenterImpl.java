@@ -3,6 +3,8 @@ package com.jim.multipos.ui.reports.stock_state;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.github.mjdev.libaums.fs.UsbFile;
+import com.jim.multipos.R;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.inventory.StockQueue;
@@ -23,6 +25,9 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
+
+import static com.jim.multipos.utils.ExportUtils.EXCEL;
+import static com.jim.multipos.utils.ExportUtils.PDF;
 
 public class StockStatePresenterImpl extends BasePresenterImpl<StockStateView> implements StockStatePresenter {
 
@@ -66,11 +71,11 @@ public class StockStatePresenterImpl extends BasePresenterImpl<StockStateView> i
                 firstObjects = new Object[itemWithSummaryCosts.size()][4];
                 for (int i = 0; i < itemWithSummaryCosts.size(); i++) {
                     InventoryItemReport itemWithSummaryCost = itemWithSummaryCosts.get(i);
-                        firstObjects[i][0] = ReportUtils.getProductName(itemWithSummaryCost.getProduct());
-                        firstObjects[i][1] = itemWithSummaryCost.getAvailable();
-                        firstObjects[i][2] = itemWithSummaryCost.getProduct().getMainUnit().getAbbr();
-                        firstObjects[i][3] = itemWithSummaryCost.getSumCost();
-                    }
+                    firstObjects[i][0] = ReportUtils.getProductName(itemWithSummaryCost.getProduct());
+                    firstObjects[i][1] = itemWithSummaryCost.getAvailable();
+                    firstObjects[i][2] = itemWithSummaryCost.getProduct().getMainUnit().getAbbr();
+                    firstObjects[i][3] = itemWithSummaryCost.getSumCost();
+                }
                 break;
             case 1:
                 List<InventoryItemReport> itemVendorWithSummaryCosts = databaseManager.getInventoryVendorWithSummaryCost().blockingGet();
@@ -78,7 +83,7 @@ public class StockStatePresenterImpl extends BasePresenterImpl<StockStateView> i
                 for (int i = 0; i < itemVendorWithSummaryCosts.size(); i++) {
                     InventoryItemReport itemWithSummaryCost = itemVendorWithSummaryCosts.get(i);
                     secondObjects[i][0] = ReportUtils.getProductName(itemWithSummaryCost.getProduct());
-                    secondObjects[i][1] = (itemWithSummaryCost.getVendor()!=null)?itemWithSummaryCost.getVendor().getName():"";
+                    secondObjects[i][1] = (itemWithSummaryCost.getVendor() != null) ? itemWithSummaryCost.getVendor().getName() : "";
                     secondObjects[i][2] = itemWithSummaryCost.getAvailable();
                     secondObjects[i][3] = itemWithSummaryCost.getProduct().getMainUnit().getAbbr();
                     secondObjects[i][4] = itemWithSummaryCost.getSumCost();
@@ -96,7 +101,7 @@ public class StockStatePresenterImpl extends BasePresenterImpl<StockStateView> i
 
                     String expiredLeft = "";
 
-                    if (stockQueue.getExpiredProductDate()<=Calendar.getInstance().getTimeInMillis()) {
+                    if (stockQueue.getExpiredProductDate() <= Calendar.getInstance().getTimeInMillis()) {
                         expiredLeft = "Expired";
                     } else {
                         int t[] = ReportUtils.getDateDifferenceInDDMMYYYY(Calendar.getInstance().getTime(), new Date(stockQueue.getExpiredProductDate()));
@@ -133,6 +138,7 @@ public class StockStatePresenterImpl extends BasePresenterImpl<StockStateView> i
     public void onChooseDateInterval(Calendar fromDate, Calendar toDate) {
 
     }
+
     private int prev = -1;
     private Object[][] searchResultsTemp;
     private String searchText;
@@ -155,7 +161,7 @@ public class StockStatePresenterImpl extends BasePresenterImpl<StockStateView> i
             prev = -1;
 
         } else {
-            switch (currentPosition){
+            switch (currentPosition) {
                 case 0:
                     if (searchText.length() <= prev || prev == -1) {
                         int searchRes[] = new int[firstObjects.length];
@@ -430,12 +436,12 @@ public class StockStatePresenterImpl extends BasePresenterImpl<StockStateView> i
 
     @Override
     public void onClickedExportExcel() {
-
+        view.openExportDialog(currentPosition, EXCEL);
     }
 
     @Override
     public void onClickedExportPDF() {
-
+        view.openExportDialog(currentPosition, PDF);
     }
 
     @Override
@@ -468,11 +474,114 @@ public class StockStatePresenterImpl extends BasePresenterImpl<StockStateView> i
                 break;
         }
     }
+
     @Override
     public void onTillPickerClicked() {
 
     }
 
 
+    @Override
+    public void exportExcelToUSB(String fileName, UsbFile path) {
+        String date = "";
+        String filter = "";
+        switch (currentPosition) {
+            case 0:
+                if (searchResultsTemp != null) {
+                    view.exportTableToExcelUSB(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToExcelUSB(fileName, path, firstObjects, currentPosition, date, filter, searchText);
+                break;
+            case 1:
+                if (searchResultsTemp != null) {
+                    view.exportTableToExcelUSB(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToExcelUSB(fileName, path, secondObjects, currentPosition, date, filter, searchText);
+                break;
+            case 2:
+                if (searchResultsTemp != null) {
+                    view.exportTableToExcelUSB(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToExcelUSB(fileName, path, thirdObjects, currentPosition, date, filter, searchText);
+                break;
+        }
+    }
 
+    @Override
+    public void exportPdfToUSB(String fileName, UsbFile path) {
+        String date = "";
+        String filter = "";
+        switch (currentPosition) {
+            case 0:
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdfUSB(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdfUSB(fileName, path, firstObjects, currentPosition, date, filter, searchText);
+                break;
+            case 1:
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdfUSB(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdfUSB(fileName, path, secondObjects, currentPosition, date, filter, searchText);
+                break;
+            case 2:
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdfUSB(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdfUSB(fileName, path, thirdObjects, currentPosition, date, filter, searchText);
+                break;
+        }
+    }
+
+    @Override
+    public void exportExcel(String fileName, String path) {
+        String date = "";
+        String filter = "";
+        switch (currentPosition) {
+            case 0:
+                if (searchResultsTemp != null) {
+                    view.exportTableToExcel(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToExcel(fileName, path, firstObjects, currentPosition, date, filter, searchText);
+                break;
+            case 1:
+                if (searchResultsTemp != null) {
+                    view.exportTableToExcel(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToExcel(fileName, path, secondObjects, currentPosition, date, filter, searchText);
+                break;
+            case 2:
+                if (searchResultsTemp != null) {
+                    view.exportTableToExcel(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToExcel(fileName, path, thirdObjects, currentPosition, date, filter, searchText);
+                break;
+        }
+    }
+
+    @Override
+    public void exportPdf(String fileName, String path) {
+        String date = "";
+        String filter = "";
+        switch (currentPosition) {
+            case 0:
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdf(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdf(fileName, path, firstObjects, currentPosition, date, filter, searchText);
+                break;
+            case 1:
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdf(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdf(fileName, path, secondObjects, currentPosition, date, filter, searchText);
+                break;
+            case 2:
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdf(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdf(fileName, path, thirdObjects, currentPosition, date, filter, searchText);
+                break;
+        }
+    }
 }

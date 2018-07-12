@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.github.mjdev.libaums.fs.UsbFile;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
@@ -33,6 +34,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import static com.jim.multipos.utils.ExportUtils.EXCEL;
+import static com.jim.multipos.utils.ExportUtils.PDF;
+
 public class StockOperationPresenterImpl extends BasePresenterImpl<StockOperationView> implements StockOperationPresenter {
     private DatabaseManager databaseManager;
     private Context context;
@@ -53,7 +57,7 @@ public class StockOperationPresenterImpl extends BasePresenterImpl<StockOperatio
     private String searchText = "";
 
     @Inject
-    protected StockOperationPresenterImpl(StockOperationView stockOperationView, DatabaseManager databaseManager, Context context   ) {
+    protected StockOperationPresenterImpl(StockOperationView stockOperationView, DatabaseManager databaseManager, Context context) {
         super(stockOperationView);
         this.databaseManager = databaseManager;
         this.context = context;
@@ -63,10 +67,10 @@ public class StockOperationPresenterImpl extends BasePresenterImpl<StockOperatio
         decimalFormat1.setDecimalFormatSymbols(decimalFormatSymbols);
         decimalFormat = decimalFormat1;
         simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        secondFilterConfig = new int[]{1,1,1};
-        thirdFilterConfig = new int[]{1,1,1};
-        forthFilterConfig = new int[]{1,1,1};
-        fifthFilterConfig = new int[]{1,1,1};
+        secondFilterConfig = new int[]{1, 1, 1};
+        thirdFilterConfig = new int[]{1, 1, 1};
+        forthFilterConfig = new int[]{1, 1, 1};
+        fifthFilterConfig = new int[]{1, 1, 1};
     }
 
     @Override
@@ -95,7 +99,7 @@ public class StockOperationPresenterImpl extends BasePresenterImpl<StockOperatio
     private void initReportTable() {
         switch (currentPosition) {
             case 0:
-                List<OperationSummaryItem> operationSummaryItems = databaseManager.getOperationsSummary(fromDate.getTime(),toDate.getTime()).blockingGet();
+                List<OperationSummaryItem> operationSummaryItems = databaseManager.getOperationsSummary(fromDate.getTime(), toDate.getTime()).blockingGet();
                 firstObjects = new Object[operationSummaryItems.size()][8];
                 for (int i = 0; i < operationSummaryItems.size(); i++) {
                     firstObjects[i][0] = ReportUtils.getProductName(operationSummaryItems.get(i).getProduct());
@@ -109,19 +113,19 @@ public class StockOperationPresenterImpl extends BasePresenterImpl<StockOperatio
                 }
                 break;
             case 1:
-                List<OutcomeProduct> temp = databaseManager.getOutcomeProductsForPeriod(fromDate,toDate).blockingGet();
+                List<OutcomeProduct> temp = databaseManager.getOutcomeProductsForPeriod(fromDate, toDate).blockingGet();
                 List<OutcomeProduct> outcomeProducts = new ArrayList<>();
 
                 for (int i = 0; i < temp.size(); i++) {
-                    if(secondFilterConfig[0]==1 && temp.get(i).getOutcomeType() == OutcomeProduct.ORDER_SALES) {
+                    if (secondFilterConfig[0] == 1 && temp.get(i).getOutcomeType() == OutcomeProduct.ORDER_SALES) {
                         outcomeProducts.add(temp.get(i));
                         continue;
                     }
-                    if(secondFilterConfig[1]==1 && temp.get(i).getOutcomeType() == OutcomeProduct.OUTVOICE_TO_VENDOR){
+                    if (secondFilterConfig[1] == 1 && temp.get(i).getOutcomeType() == OutcomeProduct.OUTVOICE_TO_VENDOR) {
                         outcomeProducts.add(temp.get(i));
                         continue;
                     }
-                    if(secondFilterConfig[2]==1 && temp.get(i).getOutcomeType() == OutcomeProduct.WASTE){
+                    if (secondFilterConfig[2] == 1 && temp.get(i).getOutcomeType() == OutcomeProduct.WASTE) {
                         outcomeProducts.add(temp.get(i));
                         continue;
                     }
@@ -130,11 +134,11 @@ public class StockOperationPresenterImpl extends BasePresenterImpl<StockOperatio
                 for (int i = 0; i < outcomeProducts.size(); i++) {
                     secondObjects[i][0] = ReportUtils.getProductName(outcomeProducts.get(i).getProduct());
                     secondObjects[i][1] = outcomeProducts.get(i).getOutcomeType();
-                    if(outcomeProducts.get(i).getOutcomeType() == OutcomeProduct.ORDER_SALES)
+                    if (outcomeProducts.get(i).getOutcomeType() == OutcomeProduct.ORDER_SALES)
                         secondObjects[i][2] = outcomeProducts.get(i).getOrderProduct().getOrderId();
                     else secondObjects[i][2] = "";
                     String stockKeepingType = "";
-                    switch (outcomeProducts.get(i).getProduct().getStockKeepType()){
+                    switch (outcomeProducts.get(i).getProduct().getStockKeepType()) {
                         case Product.LIFO:
                             stockKeepingType = "LIFO";
                             break;
@@ -143,7 +147,7 @@ public class StockOperationPresenterImpl extends BasePresenterImpl<StockOperatio
                             break;
                         case Product.FIFO:
                             stockKeepingType = "FIFO";
-                             break;
+                            break;
                     }
                     secondObjects[i][3] = stockKeepingType;
                     secondObjects[i][4] = outcomeProducts.get(i).getOutcomeDate();
@@ -153,18 +157,18 @@ public class StockOperationPresenterImpl extends BasePresenterImpl<StockOperatio
                 }
                 break;
             case 2:
-                List<IncomeProduct> temp2 = databaseManager.getIncomeProductsForPeriod(fromDate,toDate).blockingGet();
+                List<IncomeProduct> temp2 = databaseManager.getIncomeProductsForPeriod(fromDate, toDate).blockingGet();
                 List<IncomeProduct> incomeProducts = new ArrayList<>();
                 for (int i = 0; i < temp2.size(); i++) {
-                    if(thirdFilterConfig[0]==1 && temp2.get(i).getIncomeType() == IncomeProduct.INVOICE_PRODUCT) {
+                    if (thirdFilterConfig[0] == 1 && temp2.get(i).getIncomeType() == IncomeProduct.INVOICE_PRODUCT) {
                         incomeProducts.add(temp2.get(i));
                         continue;
                     }
-                    if(thirdFilterConfig[1]==1 && temp2.get(i).getIncomeType() == IncomeProduct.SURPLUS_PRODUCT){
+                    if (thirdFilterConfig[1] == 1 && temp2.get(i).getIncomeType() == IncomeProduct.SURPLUS_PRODUCT) {
                         incomeProducts.add(temp2.get(i));
                         continue;
                     }
-                    if(thirdFilterConfig[2]==1 && temp2.get(i).getIncomeType() == IncomeProduct.RETURNED_PRODUCT){
+                    if (thirdFilterConfig[2] == 1 && temp2.get(i).getIncomeType() == IncomeProduct.RETURNED_PRODUCT) {
                         incomeProducts.add(temp2.get(i));
                         continue;
                     }
@@ -172,32 +176,32 @@ public class StockOperationPresenterImpl extends BasePresenterImpl<StockOperatio
                 thirdObjects = new Object[incomeProducts.size()][8];
                 for (int i = 0; i < incomeProducts.size(); i++) {
                     thirdObjects[i][0] = ReportUtils.getProductName(incomeProducts.get(i).getProduct());
-                    if(incomeProducts.get(i).getVendor()!=null)
+                    if (incomeProducts.get(i).getVendor() != null)
                         thirdObjects[i][1] = incomeProducts.get(i).getVendor().getName();
                     else thirdObjects[i][1] = "";
                     thirdObjects[i][2] = incomeProducts.get(i).getIncomeType();
-                    if(incomeProducts.get(i).getInvoice()!=null)
+                    if (incomeProducts.get(i).getInvoice() != null)
                         thirdObjects[i][3] = incomeProducts.get(i).getInvoice().getId();
                     else thirdObjects[i][3] = "";
                     thirdObjects[i][4] = incomeProducts.get(i).getIncomeDate();
                     thirdObjects[i][5] = incomeProducts.get(i).getCountValue();
-                    thirdObjects[i][6] = incomeProducts.get(i).getCostValue()*incomeProducts.get(i).getCountValue();
+                    thirdObjects[i][6] = incomeProducts.get(i).getCostValue() * incomeProducts.get(i).getCountValue();
                     thirdObjects[i][7] = incomeProducts.get(i).getDescription();
                 }
                 break;
             case 3:
-                List<StockQueue>  temp3 = databaseManager.getStockQueueForPeriod(fromDate,toDate).blockingGet();
-                List<StockQueue>  stockQueues = new ArrayList<>();
+                List<StockQueue> temp3 = databaseManager.getStockQueueForPeriod(fromDate, toDate).blockingGet();
+                List<StockQueue> stockQueues = new ArrayList<>();
                 for (int i = 0; i < temp3.size(); i++) {
-                    if(thirdFilterConfig[0]==1 && temp3.get(i).getIncomeProduct().getIncomeType() == IncomeProduct.INVOICE_PRODUCT) {
+                    if (thirdFilterConfig[0] == 1 && temp3.get(i).getIncomeProduct().getIncomeType() == IncomeProduct.INVOICE_PRODUCT) {
                         stockQueues.add(temp3.get(i));
                         continue;
                     }
-                    if(thirdFilterConfig[1]==1 && temp3.get(i).getIncomeProduct().getIncomeType() == IncomeProduct.SURPLUS_PRODUCT){
+                    if (thirdFilterConfig[1] == 1 && temp3.get(i).getIncomeProduct().getIncomeType() == IncomeProduct.SURPLUS_PRODUCT) {
                         stockQueues.add(temp3.get(i));
                         continue;
                     }
-                    if(thirdFilterConfig[2]==1 && temp3.get(i).getIncomeProduct().getIncomeType() == IncomeProduct.RETURNED_PRODUCT){
+                    if (thirdFilterConfig[2] == 1 && temp3.get(i).getIncomeProduct().getIncomeType() == IncomeProduct.RETURNED_PRODUCT) {
                         stockQueues.add(temp3.get(i));
                         continue;
                     }
@@ -207,11 +211,11 @@ public class StockOperationPresenterImpl extends BasePresenterImpl<StockOperatio
                 for (int i = 0; i < stockQueues.size(); i++) {
                     forthObjects[i][0] = stockQueues.get(i).getId();
                     forthObjects[i][1] = ReportUtils.getProductName(stockQueues.get(i).getProduct());
-                    if(stockQueues.get(i).getVendor()!=null)
+                    if (stockQueues.get(i).getVendor() != null)
                         forthObjects[i][2] = stockQueues.get(i).getVendor().getName();
                     else forthObjects[i][2] = "";
                     forthObjects[i][3] = stockQueues.get(i).getIncomeProduct().getIncomeType();
-                    if(stockQueues.get(i).getIncomeProduct().getIncomeType() == IncomeProduct.INVOICE_PRODUCT)
+                    if (stockQueues.get(i).getIncomeProduct().getIncomeType() == IncomeProduct.INVOICE_PRODUCT)
                         forthObjects[i][4] = stockQueues.get(i).getIncomeProduct().getInvoiceId();
                     else forthObjects[i][4] = "";
                     forthObjects[i][5] = stockQueues.get(i).getIncomeProductDate();
@@ -222,17 +226,17 @@ public class StockOperationPresenterImpl extends BasePresenterImpl<StockOperatio
                 }
                 break;
             case 4:
-                List<StockQueue>  stockQueuesForDetial  = databaseManager.getStockQueueUsedForPeriod(fromDate,toDate).blockingGet();
+                List<StockQueue> stockQueuesForDetial = databaseManager.getStockQueueUsedForPeriod(fromDate, toDate).blockingGet();
                 int size = 0;
                 for (int i = 0; i < stockQueuesForDetial.size(); i++) {
                     for (int j = 0; j < stockQueuesForDetial.get(i).getDetialCounts().size(); j++) {
-                        if(fifthFilterConfig[0]==0 && stockQueuesForDetial.get(i).getDetialCounts().get(j).getOutcomeProduct().getOutcomeType()== IncomeProduct.INVOICE_PRODUCT) {
+                        if (fifthFilterConfig[0] == 0 && stockQueuesForDetial.get(i).getDetialCounts().get(j).getOutcomeProduct().getOutcomeType() == IncomeProduct.INVOICE_PRODUCT) {
                             continue;
                         }
-                        if(thirdFilterConfig[1]==0 && stockQueuesForDetial.get(i).getDetialCounts().get(j).getOutcomeProduct().getOutcomeType() == IncomeProduct.SURPLUS_PRODUCT){
+                        if (thirdFilterConfig[1] == 0 && stockQueuesForDetial.get(i).getDetialCounts().get(j).getOutcomeProduct().getOutcomeType() == IncomeProduct.SURPLUS_PRODUCT) {
                             continue;
                         }
-                        if(thirdFilterConfig[2]==0 && stockQueuesForDetial.get(i).getDetialCounts().get(j).getOutcomeProduct().getOutcomeType() == IncomeProduct.RETURNED_PRODUCT){
+                        if (thirdFilterConfig[2] == 0 && stockQueuesForDetial.get(i).getDetialCounts().get(j).getOutcomeProduct().getOutcomeType() == IncomeProduct.RETURNED_PRODUCT) {
                             continue;
                         }
                         size++;
@@ -243,22 +247,22 @@ public class StockOperationPresenterImpl extends BasePresenterImpl<StockOperatio
                 for (int i = 0; i < stockQueuesForDetial.size(); i++) {
                     for (int j = 0; j < stockQueuesForDetial.get(i).getDetialCounts().size(); j++) {
 
-                        if(fifthFilterConfig[0]==0 && stockQueuesForDetial.get(i).getDetialCounts().get(j).getOutcomeProduct().getOutcomeType()== IncomeProduct.INVOICE_PRODUCT) {
+                        if (fifthFilterConfig[0] == 0 && stockQueuesForDetial.get(i).getDetialCounts().get(j).getOutcomeProduct().getOutcomeType() == IncomeProduct.INVOICE_PRODUCT) {
                             continue;
                         }
-                        if(thirdFilterConfig[1]==0 && stockQueuesForDetial.get(i).getDetialCounts().get(j).getOutcomeProduct().getOutcomeType() == IncomeProduct.SURPLUS_PRODUCT){
+                        if (thirdFilterConfig[1] == 0 && stockQueuesForDetial.get(i).getDetialCounts().get(j).getOutcomeProduct().getOutcomeType() == IncomeProduct.SURPLUS_PRODUCT) {
                             continue;
                         }
-                        if(thirdFilterConfig[2]==0 && stockQueuesForDetial.get(i).getDetialCounts().get(j).getOutcomeProduct().getOutcomeType() == IncomeProduct.RETURNED_PRODUCT){
+                        if (thirdFilterConfig[2] == 0 && stockQueuesForDetial.get(i).getDetialCounts().get(j).getOutcomeProduct().getOutcomeType() == IncomeProduct.RETURNED_PRODUCT) {
                             continue;
                         }
 
                         fifthObjects[counter][0] = stockQueuesForDetial.get(i).getId();
                         fifthObjects[counter][1] = ReportUtils.getProductName(stockQueuesForDetial.get(i).getProduct());
                         fifthObjects[counter][2] = stockQueuesForDetial.get(i).getDetialCounts().get(j).getOutcomeProduct().getOutcomeType();
-                        if(stockQueuesForDetial.get(i).getDetialCounts().get(j).getOutcomeProduct().getOutcomeType() == OutcomeProduct.ORDER_SALES)
-                        fifthObjects[counter][3] = stockQueuesForDetial.get(i).getDetialCounts().get(j).getOutcomeProduct().getOrderProduct().getOrderId();
-                        else  fifthObjects[counter][3] = "";
+                        if (stockQueuesForDetial.get(i).getDetialCounts().get(j).getOutcomeProduct().getOutcomeType() == OutcomeProduct.ORDER_SALES)
+                            fifthObjects[counter][3] = stockQueuesForDetial.get(i).getDetialCounts().get(j).getOutcomeProduct().getOrderProduct().getOrderId();
+                        else fifthObjects[counter][3] = "";
                         fifthObjects[counter][4] = stockQueuesForDetial.get(i).getDetialCounts().get(j).getOutcomeProduct().getOutcomeDate();
                         fifthObjects[counter][5] = stockQueuesForDetial.get(i).getDetialCounts().get(j).getCount();
                         fifthObjects[counter][6] = stockQueuesForDetial.get(i).getDetialCounts().get(j).getCost();
@@ -282,8 +286,10 @@ public class StockOperationPresenterImpl extends BasePresenterImpl<StockOperatio
         view.updateDateIntervalUi(fromDate, toDate);
         updateTable();
     }
+
     private int prev = -1;
     private Object[][] searchResultsTemp;
+
     @Override
     public void onSearchTyped(String searchText) {
         this.searchText = searchText;
@@ -305,7 +311,7 @@ public class StockOperationPresenterImpl extends BasePresenterImpl<StockOperatio
             prev = -1;
 
         } else {
-            switch (currentPosition){
+            switch (currentPosition) {
                 case 0:
                     if (searchText.length() <= prev || prev == -1) {
                         int searchRes[] = new int[firstObjects.length];
@@ -958,31 +964,31 @@ public class StockOperationPresenterImpl extends BasePresenterImpl<StockOperatio
 
     @Override
     public void onClickedExportExcel() {
-
+        view.openExportDialog(currentPosition, EXCEL);
     }
 
     @Override
     public void onClickedExportPDF() {
-
+        view.openExportDialog(currentPosition, PDF);
     }
 
     @Override
     public void onClickedFilter() {
-        switch (currentPosition){
+        switch (currentPosition) {
             case 0:
                 new Exception("Some think Wrong !!! For Operation Summary disable filter!!!").printStackTrace();
                 break;
             case 1:
-                view.showFilterDialog(secondFilterConfig,currentPosition);
+                view.showFilterDialog(secondFilterConfig, currentPosition);
                 break;
             case 2:
-                view.showFilterDialog(thirdFilterConfig,currentPosition);
+                view.showFilterDialog(thirdFilterConfig, currentPosition);
                 break;
             case 3:
-                view.showFilterDialog(forthFilterConfig,currentPosition);
+                view.showFilterDialog(forthFilterConfig, currentPosition);
                 break;
             case 4:
-                view.showFilterDialog(fifthFilterConfig,currentPosition);
+                view.showFilterDialog(fifthFilterConfig, currentPosition);
                 break;
         }
     }
@@ -1008,7 +1014,7 @@ public class StockOperationPresenterImpl extends BasePresenterImpl<StockOperatio
 
     @Override
     public void filterConfigsChanged(int[] configs) {
-        switch (currentPosition){
+        switch (currentPosition) {
             case 0:
                 new Exception("Some think Wrong !!! For Operation Summary disable filter!!!").printStackTrace();
                 break;
@@ -1026,6 +1032,336 @@ public class StockOperationPresenterImpl extends BasePresenterImpl<StockOperatio
                 break;
         }
         updateTable();
+    }
+
+    @Override
+    public void exportPdfToUSB(String fileName, UsbFile root) {
+        String date = simpleDateFormat.format(fromDate.getTime()) + " - " + simpleDateFormat.format(toDate.getTime());
+        String filter = "";
+        switch (currentPosition) {
+            case 0:
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdfUSB(fileName, root, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdfUSB(fileName, root, firstObjects, currentPosition, date, filter, searchText);
+                break;
+            case 1:
+                StringBuilder filters = new StringBuilder();
+                if (secondFilterConfig[0] == 1) {
+                    filters.append(context.getString(R.string.order_rep)).append(" ");
+                }
+                if (secondFilterConfig[1] == 1) {
+                    filters.append(context.getString(R.string.outvoice_rep)).append(" ");
+                }
+                if (secondFilterConfig[2] == 1) {
+                    filters.append(context.getString(R.string.waste_rep)).append(" ");
+                }
+                filter = filters.toString();
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdfUSB(fileName, root, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdfUSB(fileName, root, secondObjects, currentPosition, date, filter, searchText);
+                break;
+            case 2:
+                StringBuilder filters1 = new StringBuilder();
+                if (thirdFilterConfig[0] == 1) {
+                    filters1.append(context.getString(R.string.invoice_rep)).append(" ");
+                }
+                if (thirdFilterConfig[1] == 1) {
+                    filters1.append(context.getString(R.string.surplus_rep)).append(" ");
+                }
+                if (thirdFilterConfig[2] == 1) {
+                    filters1.append(context.getString(R.string.customer_rep)).append(" ");
+                }
+                filter = filters1.toString();
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdfUSB(fileName, root, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdfUSB(fileName, root, thirdObjects, currentPosition, date, filter, searchText);
+                break;
+            case 3:
+                StringBuilder filters2 = new StringBuilder();
+                if (forthFilterConfig[0] == 1) {
+                    filters2.append(context.getString(R.string.invoice_rep)).append(" ");
+                }
+                if (forthFilterConfig[1] == 1) {
+                    filters2.append(context.getString(R.string.surplus_rep)).append(" ");
+                }
+                if (forthFilterConfig[2] == 1) {
+                    filters2.append(context.getString(R.string.customer_rep)).append(" ");
+                }
+                filter = filters2.toString();
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdfUSB(fileName, root, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdfUSB(fileName, root, forthObjects, currentPosition, date, filter, searchText);
+                break;
+            case 4:
+                StringBuilder filters3 = new StringBuilder();
+                if (fifthFilterConfig[0] == 1) {
+                    filters3.append(context.getString(R.string.order_rep)).append(" ");
+                }
+                if (fifthFilterConfig[1] == 1) {
+                    filters3.append(context.getString(R.string.outvoice_rep)).append(" ");
+                }
+                if (fifthFilterConfig[2] == 1) {
+                    filters3.append(context.getString(R.string.waste_rep)).append(" ");
+                }
+                filter = filters3.toString();
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdfUSB(fileName, root, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdfUSB(fileName, root, fifthObjects, currentPosition, date, filter, searchText);
+                break;
+        }
+    }
+
+    @Override
+    public void exportExcelToUSB(String fileName, UsbFile root) {
+        String date = simpleDateFormat.format(fromDate.getTime()) + " - " + simpleDateFormat.format(toDate.getTime());
+        String filter = "";
+        switch (currentPosition) {
+            case 0:
+                if (searchResultsTemp != null) {
+                    view.exportTableToExcelUSB(fileName, root, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToExcelUSB(fileName, root, firstObjects, currentPosition, date, filter, searchText);
+                break;
+            case 1:
+                StringBuilder filters = new StringBuilder();
+                if (secondFilterConfig[0] == 1) {
+                    filters.append(context.getString(R.string.order_rep)).append(" ");
+                }
+                if (secondFilterConfig[1] == 1) {
+                    filters.append(context.getString(R.string.outvoice_rep)).append(" ");
+                }
+                if (secondFilterConfig[2] == 1) {
+                    filters.append(context.getString(R.string.waste_rep)).append(" ");
+                }
+                filter = filters.toString();
+                if (searchResultsTemp != null) {
+                    view.exportTableToExcelUSB(fileName, root, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToExcelUSB(fileName, root, secondObjects, currentPosition, date, filter, searchText);
+                break;
+            case 2:
+                StringBuilder filters1 = new StringBuilder();
+                if (thirdFilterConfig[0] == 1) {
+                    filters1.append(context.getString(R.string.invoice_rep)).append(" ");
+                }
+                if (thirdFilterConfig[1] == 1) {
+                    filters1.append(context.getString(R.string.surplus_rep)).append(" ");
+                }
+                if (thirdFilterConfig[2] == 1) {
+                    filters1.append(context.getString(R.string.customer_rep)).append(" ");
+                }
+                filter = filters1.toString();
+                if (searchResultsTemp != null) {
+                    view.exportTableToExcelUSB(fileName, root, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToExcelUSB(fileName, root, thirdObjects, currentPosition, date, filter, searchText);
+                break;
+            case 3:
+                StringBuilder filters2 = new StringBuilder();
+                if (forthFilterConfig[0] == 1) {
+                    filters2.append(context.getString(R.string.invoice_rep)).append(" ");
+                }
+                if (forthFilterConfig[1] == 1) {
+                    filters2.append(context.getString(R.string.surplus_rep)).append(" ");
+                }
+                if (forthFilterConfig[2] == 1) {
+                    filters2.append(context.getString(R.string.customer_rep)).append(" ");
+                }
+                filter = filters2.toString();
+                if (searchResultsTemp != null) {
+                    view.exportTableToExcelUSB(fileName, root, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToExcelUSB(fileName, root, forthObjects, currentPosition, date, filter, searchText);
+                break;
+            case 4:
+                StringBuilder filters3 = new StringBuilder();
+                if (fifthFilterConfig[0] == 1) {
+                    filters3.append(context.getString(R.string.order_rep)).append(" ");
+                }
+                if (fifthFilterConfig[1] == 1) {
+                    filters3.append(context.getString(R.string.outvoice_rep)).append(" ");
+                }
+                if (fifthFilterConfig[2] == 1) {
+                    filters3.append(context.getString(R.string.waste_rep)).append(" ");
+                }
+                filter = filters3.toString();
+                if (searchResultsTemp != null) {
+                    view.exportTableToExcelUSB(fileName, root, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToExcelUSB(fileName, root, fifthObjects, currentPosition, date, filter, searchText);
+                break;
+
+        }
+    }
+
+    @Override
+    public void exportExcel(String fileName, String path) {
+        String date = simpleDateFormat.format(fromDate.getTime()) + " - " + simpleDateFormat.format(toDate.getTime());
+        String filter = "";
+        switch (currentPosition) {
+            case 0:
+                if (searchResultsTemp != null) {
+                    view.exportTableToExcel(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToExcel(fileName, path, firstObjects, currentPosition, date, filter, searchText);
+                break;
+            case 1:
+                StringBuilder filters = new StringBuilder();
+                if (secondFilterConfig[0] == 1) {
+                    filters.append(context.getString(R.string.order_rep)).append(" ");
+                }
+                if (secondFilterConfig[1] == 1) {
+                    filters.append(context.getString(R.string.outvoice_rep)).append(" ");
+                }
+                if (secondFilterConfig[2] == 1) {
+                    filters.append(context.getString(R.string.waste_rep)).append(" ");
+                }
+                filter = filters.toString();
+                if (searchResultsTemp != null) {
+                    view.exportTableToExcel(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToExcel(fileName, path, secondObjects, currentPosition, date, filter, searchText);
+                break;
+            case 2:
+                StringBuilder filters1 = new StringBuilder();
+                if (thirdFilterConfig[0] == 1) {
+                    filters1.append(context.getString(R.string.invoice_rep)).append(" ");
+                }
+                if (thirdFilterConfig[1] == 1) {
+                    filters1.append(context.getString(R.string.surplus_rep)).append(" ");
+                }
+                if (thirdFilterConfig[2] == 1) {
+                    filters1.append(context.getString(R.string.customer_rep)).append(" ");
+                }
+                filter = filters1.toString();
+                if (searchResultsTemp != null) {
+                    view.exportTableToExcel(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToExcel(fileName, path, thirdObjects, currentPosition, date, filter, searchText);
+                break;
+            case 3:
+                StringBuilder filters2 = new StringBuilder();
+                if (forthFilterConfig[0] == 1) {
+                    filters2.append(context.getString(R.string.invoice_rep)).append(" ");
+                }
+                if (forthFilterConfig[1] == 1) {
+                    filters2.append(context.getString(R.string.surplus_rep)).append(" ");
+                }
+                if (forthFilterConfig[2] == 1) {
+                    filters2.append(context.getString(R.string.customer_rep)).append(" ");
+                }
+                filter = filters2.toString();
+                if (searchResultsTemp != null) {
+                    view.exportTableToExcel(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToExcel(fileName, path, forthObjects, currentPosition, date, filter, searchText);
+                break;
+            case 4:
+                StringBuilder filters3 = new StringBuilder();
+                if (fifthFilterConfig[0] == 1) {
+                    filters3.append(context.getString(R.string.order_rep)).append(" ");
+                }
+                if (fifthFilterConfig[1] == 1) {
+                    filters3.append(context.getString(R.string.outvoice_rep)).append(" ");
+                }
+                if (fifthFilterConfig[2] == 1) {
+                    filters3.append(context.getString(R.string.waste_rep)).append(" ");
+                }
+                filter = filters3.toString();
+                if (searchResultsTemp != null) {
+                    view.exportTableToExcel(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToExcel(fileName, path, fifthObjects, currentPosition, date, filter, searchText);
+                break;
+
+        }
+    }
+
+    @Override
+    public void exportPdf(String fileName, String path) {
+        String date = simpleDateFormat.format(fromDate.getTime()) + " - " + simpleDateFormat.format(toDate.getTime());
+        String filter = "";
+        switch (currentPosition) {
+            case 0:
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdf(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdf(fileName, path, firstObjects, currentPosition, date, filter, searchText);
+                break;
+            case 1:
+                StringBuilder filters = new StringBuilder();
+                if (secondFilterConfig[0] == 1) {
+                    filters.append(context.getString(R.string.order_rep)).append(" ");
+                }
+                if (secondFilterConfig[1] == 1) {
+                    filters.append(context.getString(R.string.outvoice_rep)).append(" ");
+                }
+                if (secondFilterConfig[2] == 1) {
+                    filters.append(context.getString(R.string.waste_rep)).append(" ");
+                }
+                filter = filters.toString();
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdf(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdf(fileName, path, secondObjects, currentPosition, date, filter, searchText);
+                break;
+            case 2:
+                StringBuilder filters1 = new StringBuilder();
+                if (thirdFilterConfig[0] == 1) {
+                    filters1.append(context.getString(R.string.invoice_rep)).append(" ");
+                }
+                if (thirdFilterConfig[1] == 1) {
+                    filters1.append(context.getString(R.string.surplus_rep)).append(" ");
+                }
+                if (thirdFilterConfig[2] == 1) {
+                    filters1.append(context.getString(R.string.customer_rep)).append(" ");
+                }
+                filter = filters1.toString();
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdf(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdf(fileName, path, thirdObjects, currentPosition, date, filter, searchText);
+                break;
+            case 3:
+                StringBuilder filters2 = new StringBuilder();
+                if (forthFilterConfig[0] == 1) {
+                    filters2.append(context.getString(R.string.invoice_rep)).append(" ");
+                }
+                if (forthFilterConfig[1] == 1) {
+                    filters2.append(context.getString(R.string.surplus_rep)).append(" ");
+                }
+                if (forthFilterConfig[2] == 1) {
+                    filters2.append(context.getString(R.string.customer_rep)).append(" ");
+                }
+                filter = filters2.toString();
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdf(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdf(fileName, path, forthObjects, currentPosition, date, filter, searchText);
+                break;
+            case 4:
+                StringBuilder filters3 = new StringBuilder();
+                if (fifthFilterConfig[0] == 1) {
+                    filters3.append(context.getString(R.string.order_rep)).append(" ");
+                }
+                if (fifthFilterConfig[1] == 1) {
+                    filters3.append(context.getString(R.string.outvoice_rep)).append(" ");
+                }
+                if (fifthFilterConfig[2] == 1) {
+                    filters3.append(context.getString(R.string.waste_rep)).append(" ");
+                }
+                filter = filters3.toString();
+                if (searchResultsTemp != null) {
+                    view.exportTableToPdf(fileName, path, searchResultsTemp, currentPosition, date, filter, searchText);
+                } else
+                    view.exportTableToPdf(fileName, path, fifthObjects, currentPosition, date, filter, searchText);
+                break;
+        }
     }
 
     private void updateTable() {

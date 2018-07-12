@@ -129,7 +129,7 @@ public class StockStatusView extends View {
                         canvas.drawRect(x, y, contentWidth, contentHeight, paint);
                     }
                     int soldPercent = (int) (sold * 100 / max);
-                    if (soldPercent < 10)
+                    if (soldPercent <= 10)
                         soldPercent = 20;
                     int soldHeight = contentHeight * soldPercent / 100;
                     paint.setColor(ContextCompat.getColor(getContext(), R.color.colorBlue));
@@ -141,8 +141,6 @@ public class StockStatusView extends View {
                         canvas.drawRect(x, soldHeight, contentWidth, contentHeight, paint);
                     } else {
                         int countPercent = (int) ((count + sold) * 100 / max);
-                        if (countPercent < 10)
-                            countPercent = 20;
                         int countHeight = contentHeight * countPercent / 100;
                         paint.setColor(ContextCompat.getColor(getContext(), R.color.colorGreen));
                         paint.setStrokeWidth(0);
@@ -170,7 +168,7 @@ public class StockStatusView extends View {
             }
             if (count != 0) {
                 int countPercent = (int) (count * 100 / max);
-                if (countPercent < 10)
+                if (countPercent <= 10)
                     countPercent = 20;
                 int countHeight = contentHeight * countPercent / 100;
                 paint.setColor(ContextCompat.getColor(getContext(), R.color.colorGreen));

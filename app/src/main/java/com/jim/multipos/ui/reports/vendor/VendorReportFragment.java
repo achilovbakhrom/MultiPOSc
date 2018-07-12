@@ -62,9 +62,9 @@ public class VendorReportFragment extends BaseTableReportFragment implements Ven
     private void initDefaults() {
         status = new Object[][][]{{{BundleConstants.INVOICE, getString(R.string.received_vendor), R.color.colorMainText},
                 {BundleConstants.OUTVOICE, getString(R.string.returned_vendor), R.color.colorMainText}}};
-        billingStatus = new Object[][][]{{{BillingOperations.RETURN_TO_VENDOR, getString(R.string.returned_vendor), R.color.colorMainText},
-                {BillingOperations.PAID_TO_CONSIGNMENT, getContext().getString(R.string.pay), R.color.colorMainText},
-                {BillingOperations.DEBT_CONSIGNMENT, getString(R.string.debt_), R.color.colorMainText}}};
+        billingStatus = new Object[][][]{{{BillingOperations.RETURN_TO_VENDOR, getString(R.string.returned_vendor), R.color.colorBlue},
+                {BillingOperations.PAID_TO_CONSIGNMENT, getContext().getString(R.string.pay), R.color.colorGreen},
+                {BillingOperations.DEBT_CONSIGNMENT, getString(R.string.debt_), R.color.colorRed}}};
         firstTitles = new String[]{getString(R.string.consignment_number), getString(R.string.vendor), getString(R.string.type), getString(R.string.data_time), getString(R.string.total_cost), getString(R.string.extra_info)};
         secondTitles = new String[]{getString(R.string.consignment_number), getString(R.string.product), getString(R.string.vendor), getString(R.string.data_time), getString(R.string.type), getString(R.string.qty), getString(R.string.each), getString(R.string.debt_total)};
         thirdTitles = new String[]{getString(R.string.vendor_name), getString(R.string.taken_value), getString(R.string.paid_), getString(R.string.difference)};

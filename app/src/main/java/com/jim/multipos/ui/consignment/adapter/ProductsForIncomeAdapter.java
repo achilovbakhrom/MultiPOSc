@@ -17,9 +17,11 @@ import android.widget.TextView;
 import com.jim.mpviews.MpButton;
 import com.jim.mpviews.MpMiniActionButton;
 import com.jim.multipos.R;
+import com.jim.multipos.config.common.BaseAppModule;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.ui.consignment.model.ProductForIncomeItem;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import butterknife.BindView;
@@ -27,6 +29,7 @@ import butterknife.ButterKnife;
 
 public class ProductsForIncomeAdapter extends RecyclerView.Adapter<ProductsForIncomeAdapter.ProductForIncomeViewHolder> {
 
+    private final DecimalFormat decimalFormat;
     private List<ProductForIncomeItem> items;
     private String searchText;
     private boolean searchMode = false;
@@ -35,6 +38,7 @@ public class ProductsForIncomeAdapter extends RecyclerView.Adapter<ProductsForIn
 
     public ProductsForIncomeAdapter(Context context) {
         this.context = context;
+        decimalFormat = BaseAppModule.getFormatterFourGrouping();
     }
 
     @NonNull
@@ -53,16 +57,18 @@ public class ProductsForIncomeAdapter extends RecyclerView.Adapter<ProductsForIn
             holder.tvArticle.setText(items.get(position).getProduct().getSku());
             holder.tvBarcode.setText(items.get(position).getProduct().getBarcode());
             holder.tvProductName.setText(items.get(position).getProduct().getName());
+            holder.tvPrice.setText(decimalFormat.format(items.get(position).getProduct().getPrice()));
         } else {
             colorSubSeq(items.get(position).getProduct().getSku(), searchText, Color.parseColor("#95ccee"), holder.tvArticle);
             colorSubSeq(items.get(position).getProduct().getBarcode(), searchText, Color.parseColor("#95ccee"), holder.tvBarcode);
             colorSubSeq(items.get(position).getProduct().getName(), searchText, Color.parseColor("#95ccee"), holder.tvProductName);
+            colorSubSeq(decimalFormat.format(items.get(position).getProduct().getPrice()), searchText, Color.parseColor("#95ccee"), holder.tvPrice);
         }
         if (items.get(position).isWasSupplied()) {
-            holder.tvSupplied.setText("YES");
+            holder.tvSupplied.setText(context.getString(R.string.yes));
             holder.tvSupplied.setTextColor(ContextCompat.getColor(context, R.color.colorGreen));
         } else {
-            holder.tvSupplied.setText("NO");
+            holder.tvSupplied.setText(context.getString(R.string.no));
             holder.tvSupplied.setTextColor(ContextCompat.getColor(context, R.color.colorRed));
         }
     }
@@ -104,6 +110,8 @@ public class ProductsForIncomeAdapter extends RecyclerView.Adapter<ProductsForIn
         MpButton btnSelect;
         @BindView(R.id.llBackground)
         LinearLayout llBackground;
+        @BindView(R.id.tvPrice)
+        TextView tvPrice;
 
         public ProductForIncomeViewHolder(View itemView) {
             super(itemView);

@@ -151,7 +151,7 @@ public class ReturnConsignmentFragment extends BaseFragment implements ReturnCon
 
     @Override
     public void fillDialogItems(List<Product> productList, List<Product> vendorProducts) {
-        dialog = new ProductsForIncomeDialog(getContext(), productList, vendorProducts, barcodeStack);
+        dialog = new ProductsForIncomeDialog(getContext(), productList, vendorProducts, barcodeStack, databaseManager);
         dialog.setListener(new ProductsForIncomeDialog.OnSelectClickListener() {
             @Override
             public void onSelect(Product product) {

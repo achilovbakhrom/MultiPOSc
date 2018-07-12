@@ -19,6 +19,7 @@ import com.jim.mpviews.StockStatusView;
 import com.jim.multipos.R;
 import com.jim.multipos.config.common.BaseAppModule;
 import com.jim.multipos.data.db.model.inventory.StockQueue;
+import com.jim.multipos.utils.DecimalUtils;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -34,6 +35,7 @@ public class ExpiredProductQueueListAdapter extends RecyclerView.Adapter<Expired
 
     private final SimpleDateFormat simpleDateFormat;
     private List<StockQueue> items;
+    private DecimalFormat decimalFormat;
     private OnStockOperationsListener listener;
     private boolean searchMode = false;
     private String searchText;
@@ -43,6 +45,7 @@ public class ExpiredProductQueueListAdapter extends RecyclerView.Adapter<Expired
         this.context = context;
         items = new ArrayList<>();
         simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        decimalFormat = BaseAppModule.getFormatterGrouping();
     }
 
     public void setItems(List<StockQueue> items) {
@@ -94,7 +97,7 @@ public class ExpiredProductQueueListAdapter extends RecyclerView.Adapter<Expired
             holder.tvExpireDate.setText(simpleDateFormat.format(items.get(position).getExpiredProductDate()));
             holder.ssvStockStatus.setMax(items.get(position).getIncomeCount());
             holder.ssvStockStatus.setSold(items.get(position).getIncomeCount() - items.get(position).getAvailable());
-            holder.tvAvailable.setText(items.get(position).getAvailable() + "/" + items.get(position).getIncomeCount());
+            holder.tvAvailable.setText(decimalFormat.format(DecimalUtils.roundDouble(items.get(position).getAvailable())) + "/" + decimalFormat.format(DecimalUtils.roundDouble(items.get(position).getIncomeCount())));
         } else {
             if (items.get(position).getIncomeProduct().getInvoice() != null)
                 colorSubSeq(String.valueOf(items.get(position).getIncomeProduct().getInvoiceId()), searchText, Color.parseColor("#95ccee"), holder.tvInvoiceId);
