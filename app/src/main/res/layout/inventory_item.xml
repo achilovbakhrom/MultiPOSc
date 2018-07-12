@@ -8,7 +8,7 @@
     <LinearLayout
         android:id="@+id/llBackground"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/hundred_ten_dp"
+        android:layout_height="@dimen/hundred_thirty_dp"
         android:background="#f9f9f9"
         android:orientation="horizontal">
 
@@ -32,7 +32,15 @@
                 android:maxLines="2"
                 android:layout_marginBottom="@dimen/five_dp"
                 android:textSize="@dimen/sixteen_dp"/>
-
+            <TextView
+                android:id="@+id/tvProductPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|left"
+                android:paddingLeft="@dimen/forty_five_dp"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="@dimen/sixteen_dp"
+                android:textStyle="italic"/>
             <TextView
                 android:id="@+id/tvProductSku"
                 android:layout_width="wrap_content"

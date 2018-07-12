@@ -479,7 +479,7 @@ public class ProductProfitPresenterImpl extends BasePresenterImpl<ProductProfitV
                         productLog.setName(ReportUtils.getProductName(orders.get(i).getOrderProducts().get(j).getProduct()));
                         productLog.setQty(orders.get(i).getOrderProducts().get(j).getCount());
                         productLog.setCostEach(orders.get(i).getOrderProducts().get(j).getOutcomeProduct().getSumCostValue());
-                        productLog.setPriceEach(orders.get(i).getOrderProducts().get(j).getPrice()*orders.get(i).getOrderProducts().get(j).getCount());
+                        productLog.setPriceEach(orders.get(i).getOrderProducts().get(j).getPrice());
                         productLog.setDate(orders.get(i).getCreateAt());
                         productLog.setDiscription(orders.get(i).getOrderProducts().get(j).getDiscription());
                         productLog.setOrderId(orders.get(i).getId());

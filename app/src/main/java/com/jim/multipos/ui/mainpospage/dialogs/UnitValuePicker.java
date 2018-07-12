@@ -169,7 +169,7 @@ public class UnitValuePicker extends Dialog {
                         e.printStackTrace();
                     }
                     cost = costTemp;
-                    weight = DecimalUtils.divide(DecimalUtils.multiply(cost , product.getMainUnit().getFactorRoot()),DecimalUtils.multiply(product.getPrice(),units.get(currentUnitPosition).getFactorRoot())) ;
+                    weight = DecimalUtils.roundDouble((cost * product.getMainUnit().getFactorRoot())/(product.getPrice()*units.get(currentUnitPosition).getFactorRoot())) ;
                     etWeight.setText(decimalFormat.format(weight));
                 }
             }
@@ -185,7 +185,7 @@ public class UnitValuePicker extends Dialog {
                         e.printStackTrace();
                     }
                     weight = weightTemp;
-                    cost = DecimalUtils.multiply(DecimalUtils.divide(DecimalUtils.multiply(product.getPrice() , units.get(currentUnitPosition).getFactorRoot()) , product.getMainUnit().getFactorRoot()), weight);
+                    cost = DecimalUtils.roundDouble((product.getPrice()*units.get(currentUnitPosition).getFactorRoot())/product.getMainUnit().getFactorRoot()*weight);
                     etCost.setText(decimalFormat.format(cost));
                 }
             }
@@ -259,10 +259,10 @@ public class UnitValuePicker extends Dialog {
     }
     private void updateAfterChangeUnit(){
         if(isFocusedInWeight){
-            cost = DecimalUtils.multiply(DecimalUtils.divide(DecimalUtils.multiply(product.getPrice(),units.get(currentUnitPosition).getFactorRoot()),product.getMainUnit().getFactorRoot()),weight);
+            cost = DecimalUtils.roundDouble(((product.getPrice()*units.get(currentUnitPosition).getFactorRoot())/product.getMainUnit().getFactorRoot())*weight);
             etCost.setText(decimalFormat.format(cost));
         }else {
-            weight = DecimalUtils.divide(DecimalUtils.multiply(cost , product.getMainUnit().getFactorRoot()) , DecimalUtils.multiply(product.getPrice(),units.get(currentUnitPosition).getFactorRoot()));
+            weight = DecimalUtils.roundDouble((cost * product.getMainUnit().getFactorRoot()) / (product.getPrice()*units.get(currentUnitPosition).getFactorRoot()));
             etWeight.setText(decimalFormat.format(weight));
         }
     }
@@ -408,7 +408,7 @@ public class UnitValuePicker extends Dialog {
         });
         Order order = new Order();
         btnOk.setOnClickListener(view -> {
-            double weight = DecimalUtils.divide(DecimalUtils.multiply(this.weight,units.get(currentUnitPosition).getFactorRoot()), product.getMainUnit().getFactorRoot());
+            double weight = DecimalUtils.roundDouble((this.weight*units.get(currentUnitPosition).getFactorRoot())/ product.getMainUnit().getFactorRoot());
 
             if(weight<0.001){
                 WarningDialog warningDialog2 = new WarningDialog(context);

@@ -40,11 +40,13 @@ public class InventoryItemAdapter  extends RecyclerView.Adapter<InventoryItemAda
     boolean searchMode = false;
     private String searchText;
     DecimalFormat decimalFormat;
+    DecimalFormat priceDecimalFormat;
     List<InventoryItem> items;
     @Inject
     public InventoryItemAdapter(List<InventoryItem> items, OnInvendoryAdapterCallback callback, Context context) {
         this.items = items;
         decimalFormat = BaseAppModule.getFormatterWithoutGroupingFourDecimal();
+        priceDecimalFormat = BaseAppModule.getFormatterGroupingPattern("#,###.00");
         this.callback = callback;
         this.context = context;
     }
@@ -76,10 +78,11 @@ public class InventoryItemAdapter  extends RecyclerView.Adapter<InventoryItemAda
 
         if(!searchMode) {
             setUnderlineText(holder.tvProductName, inventoryItem.getProduct().getName());
-            holder.tvProductSku.setText(context.getString(R.string.sku_)+ inventoryItem.getProduct().getSku());
-            holder.tvProductBarcode.setText(context.getString(R.string.barcode_) + inventoryItem.getProduct().getBarcode());
+            holder.tvProductPrice.setText(context.getString(R.string.price_) + " "+priceDecimalFormat.format(inventoryItem.getProduct().getPrice()));
+            holder.tvProductSku.setText(context.getString(R.string.sku_)+" "+ inventoryItem.getProduct().getSku());
+            holder.tvProductBarcode.setText(context.getString(R.string.barcode_)+" " + inventoryItem.getProduct().getBarcode());
             if (inventoryItem.getProduct().getProductClass() != null)
-                holder.tvProductClassName.setText(context.getString(R.string.product_class_colon )+ inventoryItem.getProduct().getProductClass().getName());
+                holder.tvProductClassName.setText(context.getString(R.string.product_class_colon )+" "+ inventoryItem.getProduct().getProductClass().getName());
             else holder.tvProductClassName.setVisibility(View.GONE);
             StringBuilder vendorsName = new StringBuilder();
             for (Vendor vendor : items.get(position).getVendors()) {
@@ -91,10 +94,11 @@ public class InventoryItemAdapter  extends RecyclerView.Adapter<InventoryItemAda
 
         }else {
             colorSubSeqUnderLine(inventoryItem.getProduct().getName(),searchText,Color.parseColor("#95ccee"),holder.tvProductName);
-            colorSubSeq(context.getString(R.string.sku_) + inventoryItem.getProduct().getSku(),searchText,Color.parseColor("#95ccee"),holder.tvProductSku);
-            colorSubSeq(context.getString(R.string.barcode_) + inventoryItem.getProduct().getBarcode(),searchText,Color.parseColor("#95ccee"),holder.tvProductBarcode);
+            colorSubSeq(context.getString(R.string.price_) + " "+priceDecimalFormat.format(inventoryItem.getProduct().getPrice()),searchText,Color.parseColor("#95ccee"),holder.tvProductPrice);
+            colorSubSeq(context.getString(R.string.sku_)+" " + inventoryItem.getProduct().getSku(),searchText,Color.parseColor("#95ccee"),holder.tvProductSku);
+            colorSubSeq(context.getString(R.string.barcode_)+" " + inventoryItem.getProduct().getBarcode(),searchText,Color.parseColor("#95ccee"),holder.tvProductBarcode);
             if (inventoryItem.getProduct().getProductClass() != null){
-                colorSubSeq(context.getString(R.string.product_class_colon)+ inventoryItem.getProduct().getProductClass().getName(),searchText,Color.parseColor("#95ccee"),holder.tvProductClassName);
+                colorSubSeq(context.getString(R.string.product_class_colon)+" "+ inventoryItem.getProduct().getProductClass().getName(),searchText,Color.parseColor("#95ccee"),holder.tvProductClassName);
             }
             else holder.tvProductClassName.setVisibility(View.GONE);
 
@@ -136,6 +140,8 @@ public class InventoryItemAdapter  extends RecyclerView.Adapter<InventoryItemAda
         TextView tvProductBarcode;
         @BindView(R.id.tvProductClassName)
         TextView tvProductClassName;
+        @BindView(R.id.tvProductPrice)
+        TextView tvProductPrice;
         @BindView(R.id.tvVendorNames)
         TextView tvVendorNames;
         @BindView(R.id.etStockAlert)

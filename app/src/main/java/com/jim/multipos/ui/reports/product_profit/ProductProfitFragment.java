@@ -38,10 +38,10 @@ public class ProductProfitFragment extends BaseTableReportFragment implements Pr
     int profitSumWeights[] = {10, 10, 10, 10, 10, 10, 10, 10};
     int profitSumAligns[] = {Gravity.LEFT, Gravity.RIGHT, Gravity.RIGHT, Gravity.RIGHT, Gravity.RIGHT, Gravity.RIGHT, Gravity.RIGHT, Gravity.RIGHT};
 
-    int profitLogType[] = {ReportViewConstants.NAME, ReportViewConstants.DATE, ReportViewConstants.ACTION, ReportViewConstants.QUANTITY, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT,  ReportViewConstants.NAME};
+    int profitLogType[] = {ReportViewConstants.NAME, ReportViewConstants.DATE, ReportViewConstants.ACTION, ReportViewConstants.QUANTITY, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT,  ReportViewConstants.NAME};
     String profitLogTitles[];
-    int profitLogWeights[] = {10, 10, 6, 10, 10, 10,  10};
-    int profitLogAligns[] = {Gravity.LEFT, Gravity.CENTER, Gravity.RIGHT, Gravity.RIGHT, Gravity.RIGHT, Gravity.RIGHT,  Gravity.LEFT};
+    int profitLogWeights[] = {10, 10, 6, 10, 10, 10, 10,  10};
+    int profitLogAligns[] = {Gravity.LEFT, Gravity.CENTER, Gravity.RIGHT, Gravity.RIGHT, Gravity.RIGHT, Gravity.RIGHT,Gravity.RIGHT,  Gravity.LEFT};
     private String panelNames[];
 
     @Override

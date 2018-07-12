@@ -467,9 +467,9 @@
         <item>Дата</item>
         <item>Чек №</item>
         <item>Кол-во</item>
-        <item>Себестоимость</item>
-        <item>Цена</item>
-        <item>Всего</item>
+        <item>Суммарная Себестоимость</item>
+        <item>Цена за шт</item>
+        <item>Суммарная цена</item>
         <item>Описание</item>
     </string-array>
 

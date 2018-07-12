@@ -95,10 +95,12 @@ public class StockStatePresenterImpl extends BasePresenterImpl<StockStateView> i
                     thirdObjects[i][3] = stockQueue.getExpiredProductDate();
 
                     String expiredLeft = "";
-                    int t[] = ReportUtils.getDateDifferenceInDDMMYYYY(Calendar.getInstance().getTime(), new Date(stockQueue.getExpiredProductDate()));
-                    if (t[0] * t[1] * t[2] < 0 && (t[0] + t[1] + t[2]) != 0) {
+
+                    if (stockQueue.getExpiredProductDate()<=Calendar.getInstance().getTimeInMillis()) {
                         expiredLeft = "Expired";
                     } else {
+                        int t[] = ReportUtils.getDateDifferenceInDDMMYYYY(Calendar.getInstance().getTime(), new Date(stockQueue.getExpiredProductDate()));
+
                         if (t[0] != 0) {
                             expiredLeft = Integer.toString(t[0]) + " " + "год.";
                         }
