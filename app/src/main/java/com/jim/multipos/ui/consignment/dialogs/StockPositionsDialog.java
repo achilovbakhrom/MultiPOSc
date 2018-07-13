@@ -25,6 +25,7 @@ import com.jim.multipos.ui.consignment.adapter.ProductStockQueuesAdapter;
 import com.jim.multipos.utils.TextWatcherOnTextChange;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,6 +98,7 @@ public class StockPositionsDialog extends Dialog {
                 etSearchView.setText("");
             }
         });
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         etSearchView.addTextChangedListener(new TextWatcherOnTextChange() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -107,14 +109,27 @@ public class StockPositionsDialog extends Dialog {
                 } else {
                     searchResults = new ArrayList<>();
                     for (int i = 0; i < stockQueueItems.size(); i++) {
-                        if (String.valueOf(stockQueueItems.get(i).getStockQueue().getIncomeProduct().getInvoiceId()).toUpperCase().contains(searchText.toUpperCase())) {
-                            searchResults.add(stockQueueItems.get(i));
-                            continue;
-                        }
-                        if (stockQueueItems.get(i).getStockQueue().getVendor().getName().toUpperCase().contains(searchText.toUpperCase())) {
-                            searchResults.add(stockQueueItems.get(i));
-                            continue;
-                        }
+
+                        if (stockQueueItems.get(i).getStockQueue().getIncomeProduct().getInvoiceId() != null)
+                            if (String.valueOf(stockQueueItems.get(i).getStockQueue().getIncomeProduct().getInvoiceId()).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchResults.add(stockQueueItems.get(i));
+                                continue;
+                            }
+                        if (stockQueueItems.get(i).getStockQueue().getIncomeProductDate() != 0)
+                            if (simpleDateFormat.format(stockQueueItems.get(i).getStockQueue().getIncomeProductDate()).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchResults.add(stockQueueItems.get(i));
+                                continue;
+                            }
+                        if (stockQueueItems.get(i).getStockQueue().getExpiredProductDate() != 0)
+                            if (simpleDateFormat.format(stockQueueItems.get(i).getStockQueue().getExpiredProductDate()).toUpperCase().contains(searchText.toUpperCase())) {
+                                searchResults.add(stockQueueItems.get(i));
+                                continue;
+                            }
+                        if (stockQueueItems.get(i).getStockQueue().getVendor() != null)
+                            if (stockQueueItems.get(i).getStockQueue().getVendor().getName().toUpperCase().contains(searchText.toUpperCase())) {
+                                searchResults.add(stockQueueItems.get(i));
+                                continue;
+                            }
                         if (stockQueueItems.get(i).getStockQueue().getStockId() != null)
                             if (stockQueueItems.get(i).getStockQueue().getStockId().toUpperCase().contains(searchText.toUpperCase())) {
                                 searchResults.add(stockQueueItems.get(i));
@@ -239,9 +254,9 @@ public class StockPositionsDialog extends Dialog {
 
     @OnTextChanged(R.id.etSearchView)
     protected void handleTextChange(Editable editable) {
-        if(editable.toString().isEmpty()){
+        if (editable.toString().isEmpty()) {
             ivSearchImage.setImageResource(R.drawable.search_app);
-        }else {
+        } else {
             ivSearchImage.setImageResource(R.drawable.cancel_search);
         }
     }

@@ -58,6 +58,7 @@ public class BillingInfoDialog extends Dialog {
         adapter = new BillingInfoAdapter(context, currency);
 
         rvPayments.setAdapter(adapter);
+        operations.resetOperationsHistoryList();
         if (operations.getOperationsHistoryList() != null && operations.getOperationsHistoryList().size() !=0) {
             billingOperations.add(operations);
             billingOperations.addAll(operations.getOperationsHistoryList());

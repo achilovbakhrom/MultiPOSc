@@ -24,7 +24,7 @@ public interface ProductOperations {
     Observable<Integer> getAllProductCount(Category category);
     Observable<Boolean> isProductNameExists(String productName, Long categoryId);
     Observable<Boolean> removeProduct(Product product);
-    Observable<Product> getProductById(Long productId);
+    Single<Product> getProductById(Long productId);
     Single<Boolean> insertReturns(List<Return> returnsList);
     Single<Boolean> isProductSkuExists(String sku, Long subcategoryId);
     Single<List<Return>> getReturnList(Calendar fromDate, Calendar toDate);

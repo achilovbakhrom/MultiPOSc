@@ -8,6 +8,7 @@ import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.consignment.Outvoice;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
 import com.jim.multipos.data.db.model.inventory.OutcomeProduct;
+import com.jim.multipos.data.db.model.inventory.StockQueue;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.consignment.view.ReturnConsignmentView;
@@ -26,6 +27,7 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
     private Vendor vendor;
     private List<OutcomeProduct> outcomeProducts;
     private DatabaseManager databaseManager;
+    private StockQueue stockQueue;
     private final Context context;
     private double sum = 0;
     private Long productId;
@@ -40,15 +42,33 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
     }
 
     @Override
-    public void setData(Long productId, Long vendorId) {
+    public void setData(Long productId, Long vendorId, Long stockQueueId) {
         view.setCurrency(databaseManager.getMainCurrency().getAbbr());
         this.vendor = databaseManager.getVendorById(vendorId).blockingSingle();
         this.productId = productId;
         if (productId != null) {
-            setReturnItem(databaseManager.getProductById(productId).blockingSingle());
+            if (stockQueueId != null) {
+                stockQueue = databaseManager.getStockQueueById(stockQueueId).blockingGet();
+                setCustomReturnPick(databaseManager.getProductById(productId).blockingGet());
+            } else
+                setReturnItem(databaseManager.getProductById(productId).blockingGet());
         }
         view.setVendorName(this.vendor.getName());
         view.setConsignmentNumber(databaseManager.getConsignments().blockingSingle().size() + 1);
+    }
+
+    private void setCustomReturnPick(Product product) {
+        OutcomeProduct outcomeProduct = new OutcomeProduct();
+        outcomeProduct.setOutcomeType(OutcomeProduct.OUTVOICE_TO_VENDOR);
+        outcomeProduct.setProduct(product);
+        outcomeProduct.setSumCostValue(databaseManager.getLastCostForProduct(product.getId()).blockingGet());
+        outcomeProduct.setSumCountValue(stockQueue.getAvailable());
+        outcomeProduct.setCustomPickSock(true);
+        outcomeProduct.setStockQueue(stockQueue);
+        outcomeProduct.setPickedStockQueueId(stockQueue.getId());
+        outcomeProducts.add(outcomeProduct);
+        view.fillReturnList(outcomeProducts);
+        calculateConsignmentSum();
     }
 
     @Override

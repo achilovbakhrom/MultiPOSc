@@ -102,7 +102,7 @@ public interface DbHelper {
     Observable<Boolean> insertProducts(List<Product> products);
     Observable<List<Product>> getAllProducts();
     Single<List<Product>> getAllActiveProducts(Category parent);
-    Observable<Product> getProductById(Long productId);
+    Single<Product> getProductById(Long productId);
     Observable<Long> insertOrReplaceProduct(Product product);
     Observable<Account> insertAccount(Account account);
     Observable<Boolean> insertAccounts(List<Account> accounts);
@@ -346,4 +346,5 @@ public interface DbHelper {
     Single<Outvoice> getOutvoice(Long id);
     Single<Invoice> getInvoiceById(Long id);
     Single<List<Vendor>> getActiveVendors();
+    Single<StockQueue> getStockQueueById(Long stockQueueId);
 }

@@ -131,8 +131,8 @@ public class ExpiredProductsFragment extends BaseFragment implements ExpiredProd
     }
 
     @Override
-    public void openReturnInvoice(Long productId, Long vendorId) {
-        ((ExpiredProductsActivity) getActivity()).openReturnInvoice(productId, vendorId);
+    public void openReturnInvoice(Long productId, Long vendorId, Long stockQueueId) {
+        ((ExpiredProductsActivity) getActivity()).openReturnInvoice(productId, vendorId, stockQueueId);
     }
 
     @Override

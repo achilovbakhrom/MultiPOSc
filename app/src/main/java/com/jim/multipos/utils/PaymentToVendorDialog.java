@@ -134,21 +134,10 @@ public class PaymentToVendorDialog extends Dialog {
             }
         });
         chbFromAccount.setChecked(false);
-        etDate.setText(simpleDateFormat.format(calendar.getTime()));
-        etDate.setOnClickListener(view -> {
-
-            DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), (datePicker, i, i1, i2) -> {
-                calendar.set(Calendar.YEAR, i);
-                calendar.set(Calendar.MONTH, i1);
-                calendar.set(Calendar.DAY_OF_MONTH, i2);
-                etDate.setText(simpleDateFormat.format(calendar.getTime()));
-
-            }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-            datePickerDialog.show();
-        });
         if (operations != null) {
             etAmmount.setText(decimalFormat.format(operations.getAmount()));
             Date date = new Date(operations.getPaymentDate());
+            calendar.setTime(date);
             etDate.setText(simpleDateFormat.format(date));
             etDisc.setText(operations.getDescription());
             if (operations.getAccount() != null) {
@@ -165,6 +154,19 @@ public class PaymentToVendorDialog extends Dialog {
                 }
             }
         }
+        etDate.setText(simpleDateFormat.format(calendar.getTime()));
+        etDate.setOnClickListener(view -> {
+
+            DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), (datePicker, i, i1, i2) -> {
+                calendar.set(Calendar.YEAR, i);
+                calendar.set(Calendar.MONTH, i1);
+                calendar.set(Calendar.DAY_OF_MONTH, i2);
+                etDate.setText(simpleDateFormat.format(calendar.getTime()));
+
+            }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+            datePickerDialog.show();
+        });
+
         etAmmount.addTextChangedListener(new NumberTextWatcher(etAmmount));
 
         btnWarningYES.setOnClickListener(view -> {

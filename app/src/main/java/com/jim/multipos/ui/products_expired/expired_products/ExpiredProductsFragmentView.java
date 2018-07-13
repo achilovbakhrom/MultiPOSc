@@ -13,7 +13,7 @@ public interface ExpiredProductsFragmentView extends BaseView{
     void initSearchResults(List<StockQueue> searchResults, String searchText);
     void openFilterDialog(int[] filterConfig);
     void openWriteOffDialog(InventoryItem inventoryItem, WriteOffProductDialog.WriteOffCallback writeOffCallback);
-    void openReturnInvoice(Long productId, Long vendorId);
+    void openReturnInvoice(Long productId, Long vendorId, Long stockQueueId);
     void openWarningDialog(String text);
 
 }

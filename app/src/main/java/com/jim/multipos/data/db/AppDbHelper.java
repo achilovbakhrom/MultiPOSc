@@ -1289,8 +1289,8 @@ public class AppDbHelper implements DbHelper {
 
 
     @Override
-    public Observable<Product> getProductById(Long productId) {
-        return Observable.fromCallable(() -> mDaoSession.getProductDao().load(productId));
+    public Single<Product> getProductById(Long productId) {
+        return Single.create(e-> e.onSuccess(mDaoSession.getProductDao().load(productId)) );
     }
 
     @Override
@@ -3172,6 +3172,11 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Single<List<Vendor>> getActiveVendors() {
         return Single.create(e -> e.onSuccess(mDaoSession.getVendorDao().queryBuilder().where(VendorDao.Properties.Active.eq(true), VendorDao.Properties.Deleted.eq(false)).build().list()));
+    }
+
+    @Override
+    public Single<StockQueue> getStockQueueById(Long stockQueueId) {
+        return Single.create(e -> e.onSuccess(mDaoSession.getStockQueueDao().load(stockQueueId)));
     }
 
     @Override

@@ -84,10 +84,9 @@ public class BillingInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 }
                 infoViewHolder.tvAmount.setText(decimalFormat.format(billingOperations.getAmount()) + " " + currency.getAbbr());
                 if (items.size() > 1) {
-                    BillingOperations nextOperation = (BillingOperations) items.get(position + 1);
+                    BillingOperationsHistory nextOperation = (BillingOperationsHistory) items.get(position + 1);
                     infoViewHolder.llBackground.setVisibility(View.VISIBLE);
                     if (!billingOperations.getAmount().equals(nextOperation.getAmount())) {
-
                         infoViewHolder.tvAmount.setTextColor(ContextCompat.getColor(context, R.color.colorRed));
                     }
                     if (billingOperations.getAccount() != null) {

@@ -109,6 +109,7 @@ public class ReturnsConfirmDialog extends Dialog {
                     incomeProduct.setCostValue(returnsList.get(i).getProduct().getPrice());
                     databaseManager.insertIncomeProduct(incomeProduct).subscribe(incomeProduct1 -> {
                         StockQueue stockQueue = new StockQueue();
+                        stockQueue.setIncomeCount(incomeProduct1.getCountValue());
                         stockQueue.setAvailable(incomeProduct1.getCountValue());
                         stockQueue.setIncomeProduct(incomeProduct1);
                         stockQueue.setIncomeProductDate(System.currentTimeMillis());

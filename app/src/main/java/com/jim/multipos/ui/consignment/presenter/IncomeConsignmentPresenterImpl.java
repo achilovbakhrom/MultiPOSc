@@ -66,7 +66,7 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
         view.setInvoiceNumber(databaseManager.getAllInvoices().blockingGet().size() + 1);
         if (productId != null) {
             this.productId = productId;
-            this.product = databaseManager.getProductById(productId).blockingSingle();
+            this.product = databaseManager.getProductById(productId).blockingGet();
             setInvoiceItem(product);
         }
     }

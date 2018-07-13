@@ -111,7 +111,7 @@ public class ReturnsDialog extends Dialog {
                             searchResults.add(productList.get(j));
                         }
                     }
-                    searchResultsAdapter.setData(searchResults);
+                    searchResultsAdapter.setSearchResults(searchResults, searchText);
                 }
             }
         });

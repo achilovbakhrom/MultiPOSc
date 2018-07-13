@@ -17,6 +17,7 @@ import com.jim.mpviews.StockStatusView;
 import com.jim.multipos.R;
 import com.jim.multipos.config.common.BaseAppModule;
 import com.jim.multipos.data.db.model.inventory.StockQueue;
+import com.jim.multipos.ui.product_queue_list.product_queue.ProductQueueListFragmentPresenterImpl;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -34,6 +35,7 @@ public class ProductQueueListAdapter extends RecyclerView.Adapter<ProductQueueLi
     private OnStockOperationsListener listener;
     private boolean searchMode = false;
     private String searchText;
+    private int mode;
 
     public ProductQueueListAdapter() {
         items = new ArrayList<>();
@@ -71,9 +73,14 @@ public class ProductQueueListAdapter extends RecyclerView.Adapter<ProductQueueLi
             else holder.tvInvoiceId.setText("");
             holder.tvDateInput.setText(simpleDateFormat.format(items.get(position).getIncomeProductDate()));
             holder.tvCost.setText(decimalFormat.format(items.get(position).getCost()));
-            if (items.get(position).getVendor() != null)
-                holder.tvVendor.setText(items.get(position).getVendor().getName());
-            else holder.tvVendor.setText("");
+            if (mode == ProductQueueListFragmentPresenterImpl.VENDOR) {
+                holder.tvVendor.setText(items.get(position).getProduct().getName());
+            } else {
+                if (items.get(position).getVendor() != null)
+                    holder.tvVendor.setText(items.get(position).getVendor().getName());
+                else holder.tvVendor.setText("");
+            }
+
             if (items.get(position).getStockId() != null)
                 holder.tvStockId.setText(items.get(position).getStockId());
             holder.ssvStockStatus.setMax(items.get(position).getIncomeCount());
@@ -86,9 +93,17 @@ public class ProductQueueListAdapter extends RecyclerView.Adapter<ProductQueueLi
             colorSubSeq(decimalFormat.format(items.get(position).getCost()), searchText, Color.parseColor("#95ccee"), holder.tvCost);
             if (items.get(position).getStockId() != null)
                 colorSubSeq(items.get(position).getStockId(), searchText, Color.parseColor("#95ccee"), holder.tvStockId);
-            if (items.get(position).getVendor() != null)
-                colorSubSeq(items.get(position).getVendor().getName(), searchText, Color.parseColor("#95ccee"), holder.tvVendor);
+            if (mode == ProductQueueListFragmentPresenterImpl.VENDOR) {
+                colorSubSeq(items.get(position).getProduct().getName(), searchText, Color.parseColor("#95ccee"), holder.tvVendor);
+            } else {
+                if (items.get(position).getVendor() != null)
+                    colorSubSeq(items.get(position).getVendor().getName(), searchText, Color.parseColor("#95ccee"), holder.tvVendor);
+                else holder.tvVendor.setText("");
+            }
             colorSubSeq(items.get(position).getAvailable() + "/" + items.get(position).getIncomeCount(), searchText, Color.parseColor("#95ccee"), holder.tvAvailable);
+            holder.ssvStockStatus.setMax(items.get(position).getIncomeCount());
+            holder.ssvStockStatus.setSold(items.get(position).getIncomeCount() - items.get(position).getAvailable());
+            holder.tvAvailable.setText(items.get(position).getAvailable() + "/" + items.get(position).getIncomeCount());
         }
     }
 
@@ -99,6 +114,10 @@ public class ProductQueueListAdapter extends RecyclerView.Adapter<ProductQueueLi
 
     public void setListener(OnStockOperationsListener listener) {
         this.listener = listener;
+    }
+
+    public void setMode(int mode) {
+        this.mode = mode;
     }
 
     class ProductQueueViewHolder extends RecyclerView.ViewHolder {

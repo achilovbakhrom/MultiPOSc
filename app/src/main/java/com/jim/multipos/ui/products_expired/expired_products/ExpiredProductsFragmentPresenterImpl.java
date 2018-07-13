@@ -139,7 +139,7 @@ public class ExpiredProductsFragmentPresenterImpl extends BasePresenterImpl<Expi
     @Override
     public void onOutVoice(StockQueue stockQueue) {
         if (stockQueue.getAvailable() > 0.0009)
-            view.openReturnInvoice(stockQueue.getProductId(), stockQueue.getVendorId());
+            view.openReturnInvoice(stockQueue.getProductId(), stockQueue.getVendorId(), stockQueue.getId());
         else view.openWarningDialog("This queue is not available");
     }
 

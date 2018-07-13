@@ -645,7 +645,7 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
     @Override
-    public Observable<Product> getProductById(Long productId) {
+    public Single<Product> getProductById(Long productId) {
         return dbHelper.getProductById(productId);
     }
 
@@ -1362,6 +1362,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     @Override
     public Single<List<StockQueue>> getStockQueueUsedForPeriod(Calendar fromDate, Calendar toDate) {
         return dbHelper.getStockQueueUsedForPeriod(fromDate,toDate);
+    }
+
+    @Override
+    public Single<StockQueue> getStockQueueById(Long stockQueueId) {
+        return dbHelper.getStockQueueById(stockQueueId);
     }
 
     //TODO <<---

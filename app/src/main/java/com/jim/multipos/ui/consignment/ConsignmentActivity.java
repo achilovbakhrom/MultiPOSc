@@ -22,6 +22,7 @@ public class ConsignmentActivity extends SimpleActivity implements ConsignmentAc
     protected static final int WITH_TOOLBAR = 1;
     public static final String PRODUCT_ID = "PRODUCT_ID";
     public static final String VENDOR_ID = "VENDOR_ID";
+    public static final String STOCK_QUEUE_ID = "STOCK_QUEUE_ID";
     public static final String OPERATION_TYPE = "OPERATION_TYPE";
 
     @Override
@@ -41,6 +42,7 @@ public class ConsignmentActivity extends SimpleActivity implements ConsignmentAc
         if (bundle != null) {
             Long productId = bundle.getLong(PRODUCT_ID);
             Long vendorId = bundle.getLong(VENDOR_ID);
+            Long stockQueueId = bundle.getLong(STOCK_QUEUE_ID);
             int type = bundle.getInt(OPERATION_TYPE);
             if (type == BundleConstants.INVOICE) {
                 IncomeConsignmentFragment fragment = new IncomeConsignmentFragment();
@@ -54,6 +56,7 @@ public class ConsignmentActivity extends SimpleActivity implements ConsignmentAc
                 Bundle bundle1 = new Bundle();
                 bundle1.putLong(PRODUCT_ID, productId);
                 bundle1.putLong(VENDOR_ID, vendorId);
+                bundle1.putLong(STOCK_QUEUE_ID, stockQueueId);
                 fragment.setArguments(bundle);
                 addFragment(fragment);
             }

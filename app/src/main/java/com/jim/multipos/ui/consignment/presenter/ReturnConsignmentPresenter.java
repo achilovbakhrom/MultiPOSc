@@ -1,18 +1,15 @@
 package com.jim.multipos.ui.consignment.presenter;
 
 import com.jim.multipos.core.Presenter;
-import com.jim.multipos.data.db.model.intosystem.StockQueueItem;
 import com.jim.multipos.data.db.model.inventory.OutcomeProduct;
 import com.jim.multipos.data.db.model.products.Product;
-
-import java.util.List;
 
 /**
  * Created by Sirojiddin on 24.11.2017.
  */
 
 public interface ReturnConsignmentPresenter extends Presenter{
-    void setData(Long productId, Long vendorId);
+    void setData(Long productId, Long vendorId, Long stockQueueId);
     void setReturnItem(Product product);
     void deleteFromList(int position);
     void calculateConsignmentSum();

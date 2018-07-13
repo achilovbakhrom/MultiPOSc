@@ -68,7 +68,7 @@ public class ConsignmentListPresenterImpl extends BasePresenterImpl<ConsignmentL
         view.updateDateIntervalUI(simpleDateFormat.format(fromDate.getTimeInMillis()) + " - " + simpleDateFormat.format(toDate.getTimeInMillis()));
         view.setVendorName(databaseManager.getVendorById(vendorId).blockingSingle().getName());
         currency = databaseManager.getMainCurrency();
-        databaseManager.getInvoiceListItemByVendorId(vendorId).subscribe(invoiceListItems1 -> {
+        databaseManager.getInvoiceListItemsInIntervalByVendor(vendorId, fromDate, toDate).subscribe(invoiceListItems1 -> {
             for (InvoiceListItem item : invoiceListItems1) {
                 if (filterConfig[0] == 1 && item.getType() == BundleConstants.INVOICE) {
                     this.invoiceListItems.add(item);
@@ -256,7 +256,7 @@ public class ConsignmentListPresenterImpl extends BasePresenterImpl<ConsignmentL
     @Override
     public void onFilterConfigChanged(int[] config) {
         filterConfig = config;
-        databaseManager.getInvoiceListItemByVendorId(vendorId).subscribe(invoiceListItems1 -> {
+        databaseManager.getInvoiceListItemsInIntervalByVendor(vendorId, fromDate, toDate).subscribe(invoiceListItems1 -> {
             invoiceListItems.clear();
             for (InvoiceListItem item : invoiceListItems1) {
                 if (filterConfig[0] == 1 && item.getType() == BundleConstants.INVOICE) {

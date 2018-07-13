@@ -41,6 +41,7 @@ import butterknife.OnClick;
 import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 
 import static com.jim.multipos.ui.consignment.ConsignmentActivity.PRODUCT_ID;
+import static com.jim.multipos.ui.consignment.ConsignmentActivity.STOCK_QUEUE_ID;
 import static com.jim.multipos.ui.consignment.ConsignmentActivity.VENDOR_ID;
 
 /**
@@ -89,7 +90,8 @@ public class ReturnConsignmentFragment extends BaseFragment implements ReturnCon
         if (getArguments() != null) {
             Long productId = (Long) getArguments().get(PRODUCT_ID);
             Long vendorId = (Long) getArguments().get(VENDOR_ID);
-            presenter.setData(productId, vendorId);
+            Long stockQueueId = (Long) getArguments().get(STOCK_QUEUE_ID);
+            presenter.setData(productId, vendorId, stockQueueId);
         }
         rvReturnProducts.setLayoutManager(new LinearLayoutManager(getContext()));
         rvReturnProducts.setAdapter(adapter);

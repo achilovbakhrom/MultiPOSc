@@ -1,7 +1,11 @@
 package com.jim.multipos.ui.mainpospage.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.BackgroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +29,8 @@ public class ProductSearchResultsAdapter extends RecyclerView.Adapter<ProductSea
     private List<Product> items;
     private onProductSearchResultClickListener listener;
     private Context context;
+    private boolean searchMode = false;
+    private String searchText;
 
     public ProductSearchResultsAdapter(Context context) {
         this.context = context;
@@ -39,9 +45,16 @@ public class ProductSearchResultsAdapter extends RecyclerView.Adapter<ProductSea
 
     @Override
     public void onBindViewHolder(ProductSearchViewHolder holder, int position) {
-        holder.tvProductName.setText(items.get(position).getName());
-        holder.tvProductBarcode.setText(context.getString(R.string.barcode_) + items.get(position).getBarcode());
-        holder.tvProductSKU.setText(context.getString(R.string.sku_) + items.get(position).getSku());
+
+        if (!searchMode) {
+            holder.tvProductName.setText(items.get(position).getName());
+            holder.tvProductBarcode.setText(context.getString(R.string.barcode_) + items.get(position).getBarcode());
+            holder.tvProductSKU.setText(context.getString(R.string.sku_) + items.get(position).getSku());
+        } else {
+            colorSubSeq(items.get(position).getName(), searchText, Color.parseColor("#95ccee"), holder.tvProductName);
+            colorSubSeq(context.getString(R.string.barcode_) + items.get(position).getBarcode(), searchText, Color.parseColor("#95ccee"), holder.tvProductBarcode);
+            colorSubSeq(context.getString(R.string.sku_) + items.get(position).getSku(), searchText, Color.parseColor("#95ccee"), holder.tvProductSKU);
+        }
     }
 
     @Override
@@ -51,6 +64,14 @@ public class ProductSearchResultsAdapter extends RecyclerView.Adapter<ProductSea
 
     public void setData(List<Product> products) {
         this.items = products;
+        searchMode = false;
+        notifyDataSetChanged();
+    }
+
+    public void setSearchResults(List<Product> items, String searchText) {
+        this.items = items;
+        this.searchText = searchText;
+        searchMode = true;
         notifyDataSetChanged();
     }
 
@@ -76,5 +97,18 @@ public class ProductSearchResultsAdapter extends RecyclerView.Adapter<ProductSea
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(view -> listener.onClick(items.get(getAdapterPosition())));
         }
+    }
+
+    public void colorSubSeq(String text, String whichWordColor, int colorCode, TextView textView) {
+        String textUpper = text.toUpperCase();
+        String whichWordColorUpper = whichWordColor.toUpperCase();
+        SpannableString ss = new SpannableString(text);
+        int strar = 0;
+
+        while (textUpper.indexOf(whichWordColorUpper, strar) >= 0 && whichWordColor.length() != 0) {
+            ss.setSpan(new BackgroundColorSpan(colorCode), textUpper.indexOf(whichWordColorUpper, strar), textUpper.indexOf(whichWordColorUpper, strar) + whichWordColorUpper.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            strar = textUpper.indexOf(whichWordColorUpper, strar) + whichWordColorUpper.length();
+        }
+        textView.setText(ss);
     }
 }

@@ -12,6 +12,7 @@ import org.reactivestreams.Subscription;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -20,12 +21,15 @@ import javax.inject.Inject;
 
 public class ProductQueueListFragmentPresenterImpl extends BasePresenterImpl<ProductQueueListFragmentView> implements ProductQueueListFragmentPresenter {
 
+    public static final int VENDOR = 1;
+    public static final int PRODUCT = 0;
     private DatabaseManager databaseManager;
     private List<StockQueue> stockQueueList, searchResults;
     private Calendar fromDate, toDate;
     private SimpleDateFormat simpleDateFormat;
     private Long productId;
     private Long vendorId;
+    private Product product;
     private int[] filterConfig;
 
     @Inject
@@ -54,7 +58,27 @@ public class ProductQueueListFragmentPresenterImpl extends BasePresenterImpl<Pro
         fromDate.set(Calendar.MINUTE, 0);
         fromDate.set(Calendar.SECOND, 0);
         simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        if (productId != null) {
+            product = databaseManager.getProductById(productId).blockingGet();
+        }
         initStockQueueList();
+    }
+
+    private void sortList() {
+        if (product != null) {
+            if (product.getStockKeepType() == Product.LIFO) {
+                if (searchResults == null)
+                    Collections.sort(stockQueueList, (stockQueue, t1) -> t1.getStockId().compareTo(stockQueue.getStockId()));
+                else
+                    Collections.sort(searchResults, (stockQueue, t1) -> t1.getStockId().compareTo(stockQueue.getStockId()));
+            }
+            if (product.getStockKeepType() == Product.FEFO) {
+                if (searchResults == null)
+                    Collections.sort(stockQueueList, (stockQueue, t1) -> stockQueue.getExpiredProductDate().compareTo(t1.getExpiredProductDate()));
+                else
+                    Collections.sort(searchResults, (stockQueue, t1) -> stockQueue.getExpiredProductDate().compareTo(t1.getExpiredProductDate()));
+            }
+        }
     }
 
     private void initStockQueueList() {
@@ -70,9 +94,11 @@ public class ProductQueueListFragmentPresenterImpl extends BasePresenterImpl<Pro
                         this.stockQueueList.add(stockQueue);
                     }
                 }
+                sortList();
                 view.fillRecyclerView(stockQueueList);
             });
-            view.setTitle(databaseManager.getProductById(productId).blockingSingle().getName());
+            view.setMode(PRODUCT);
+            view.setTitle(databaseManager.getProductById(productId).blockingGet().getName());
         } else if (vendorId != null) {
             databaseManager.getAllStockQueuesByVendorIdInInterval(vendorId, fromDate, toDate).subscribe(stockQueues -> {
                 for (StockQueue stockQueue : stockQueues) {
@@ -84,8 +110,10 @@ public class ProductQueueListFragmentPresenterImpl extends BasePresenterImpl<Pro
                         this.stockQueueList.add(stockQueue);
                     }
                 }
+                sortList();
                 view.fillRecyclerView(stockQueueList);
             });
+            view.setMode(VENDOR);
             view.setTitle(databaseManager.getVendorById(vendorId).blockingSingle().getName());
         }
         view.updateDateIntervalUI(simpleDateFormat.format(fromDate.getTimeInMillis()) + " - " + simpleDateFormat.format(toDate.getTimeInMillis()));
@@ -100,9 +128,16 @@ public class ProductQueueListFragmentPresenterImpl extends BasePresenterImpl<Pro
             searchResults = new ArrayList<>();
             SimpleDateFormat formatter = new SimpleDateFormat("hh:mm MM/dd/yyyy");
             for (int i = 0; i < stockQueueList.size(); i++) {
-                if (stockQueueList.get(i).getVendor().getName().toUpperCase().contains(searchText.toUpperCase())) {
-                    searchResults.add(stockQueueList.get(i));
-                    continue;
+                if (vendorId != null) {
+                    if (stockQueueList.get(i).getProduct().getName().toUpperCase().contains(searchText.toUpperCase())) {
+                        searchResults.add(stockQueueList.get(i));
+                        continue;
+                    }
+                } else {
+                    if (stockQueueList.get(i).getVendor().getName().toUpperCase().contains(searchText.toUpperCase())) {
+                        searchResults.add(stockQueueList.get(i));
+                        continue;
+                    }
                 }
                 if (stockQueueList.get(i).getIncomeProduct().getInvoiceId() != null)
                     if (String.valueOf(stockQueueList.get(i).getIncomeProduct().getInvoiceId()).toUpperCase().contains(searchText.toUpperCase())) {
@@ -127,6 +162,7 @@ public class ProductQueueListFragmentPresenterImpl extends BasePresenterImpl<Pro
                     continue;
                 }
             }
+            sortList();
             view.initSearchResults(searchResults, searchText);
         }
     }
@@ -172,7 +208,7 @@ public class ProductQueueListFragmentPresenterImpl extends BasePresenterImpl<Pro
     @Override
     public void onOutVoice(StockQueue stockQueue) {
         if (stockQueue.getAvailable() > 0.0009)
-            view.openReturnInvoice(stockQueue.getProductId(), stockQueue.getVendorId());
+            view.openReturnInvoice(stockQueue.getProductId(), stockQueue.getVendorId(), stockQueue.getId());
         else view.openWarningDialog("This queue is not available");
     }
 }

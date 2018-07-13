@@ -1,7 +1,11 @@
 package com.jim.multipos.ui.consignment.adapter;
 
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.BackgroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +35,8 @@ public class ProductStockQueuesAdapter extends RecyclerView.Adapter<ProductStock
     private SimpleDateFormat simpleDateFormat;
     private DecimalFormat decimalFormat;
     private OnCustomSelectListener listener;
+    private String searchText;
+    private boolean searchMode = false;
 
     public ProductStockQueuesAdapter() {
         decimalFormat = BaseAppModule.getFormatterGrouping();
@@ -46,17 +52,6 @@ public class ProductStockQueuesAdapter extends RecyclerView.Adapter<ProductStock
 
     @Override
     public void onBindViewHolder(@NonNull StockQueueItemViewHolder holder, int position) {
-        if (items.get(position).getStockQueue().getIncomeProduct().getInvoice() != null)
-            holder.tvInvoiceId.setText(String.valueOf(items.get(position).getStockQueue().getIncomeProduct().getInvoiceId()));
-        else holder.tvInvoiceId.setText("");
-        holder.tvDateInput.setText(simpleDateFormat.format(items.get(position).getStockQueue().getIncomeProductDate()));
-        holder.tvCost.setText(decimalFormat.format(items.get(position).getStockQueue().getCost()));
-        if (items.get(position).getStockQueue().getVendor() != null)
-            holder.tvVendor.setText(items.get(position).getStockQueue().getVendor().getName());
-        else holder.tvVendor.setText("");
-        if (items.get(position).getStockQueue().getExpiredProductDate() != 0)
-        holder.tvExpireDate.setText(simpleDateFormat.format(items.get(position).getStockQueue().getExpiredProductDate()));
-        holder.tvStockId.setText(items.get(position).getStockQueue().getStockId());
         holder.ssvStockStatus.setMax(items.get(position).getStockQueue().getIncomeCount());
         holder.ssvStockStatus.setSold(items.get(position).getStockQueue().getIncomeCount() - items.get(position).getAvailable());
         double count = 0;
@@ -68,6 +63,32 @@ public class ProductStockQueuesAdapter extends RecyclerView.Adapter<ProductStock
         if (count != 0) {
             holder.ivSelected.setVisibility(View.VISIBLE);
         } else holder.ivSelected.setVisibility(View.INVISIBLE);
+
+        if (!searchMode) {
+            if (items.get(position).getStockQueue().getIncomeProduct().getInvoice() != null)
+                holder.tvInvoiceId.setText(String.valueOf(items.get(position).getStockQueue().getIncomeProduct().getInvoiceId()));
+            else holder.tvInvoiceId.setText("");
+            holder.tvDateInput.setText(simpleDateFormat.format(items.get(position).getStockQueue().getIncomeProductDate()));
+            holder.tvCost.setText(decimalFormat.format(items.get(position).getStockQueue().getCost()));
+            if (items.get(position).getStockQueue().getVendor() != null)
+                holder.tvVendor.setText(items.get(position).getStockQueue().getVendor().getName());
+            else holder.tvVendor.setText("");
+            if (items.get(position).getStockQueue().getExpiredProductDate() != 0)
+                holder.tvExpireDate.setText(simpleDateFormat.format(items.get(position).getStockQueue().getExpiredProductDate()));
+            if (items.get(position).getStockQueue().getStockId() == null)
+                holder.tvStockId.setText(items.get(position).getStockQueue().getStockId());
+        } else {
+            if (items.get(position).getStockQueue().getIncomeProduct().getInvoice() != null)
+                colorSubSeq(String.valueOf(items.get(position).getStockQueue().getIncomeProduct().getInvoiceId()), searchText, Color.parseColor("#95ccee"), holder.tvInvoiceId);
+            colorSubSeq(simpleDateFormat.format(items.get(position).getStockQueue().getIncomeProductDate()), searchText, Color.parseColor("#95ccee"), holder.tvDateInput);
+            if (items.get(position).getStockQueue().getExpiredProductDate() != 0)
+                colorSubSeq(simpleDateFormat.format(items.get(position).getStockQueue().getExpiredProductDate()), searchText, Color.parseColor("#95ccee"), holder.tvExpireDate);
+            colorSubSeq(decimalFormat.format(items.get(position).getStockQueue().getCost()), searchText, Color.parseColor("#95ccee"), holder.tvCost);
+            if (items.get(position).getStockQueue().getVendor() != null)
+                colorSubSeq(items.get(position).getStockQueue().getVendor().getName(), searchText, Color.parseColor("#95ccee"), holder.tvVendor);
+            if (items.get(position).getStockQueue().getStockId() != null)
+                colorSubSeq(items.get(position).getStockQueue().getStockId(), searchText, Color.parseColor("#95ccee"), holder.tvStockId);
+        }
     }
 
 
@@ -81,6 +102,7 @@ public class ProductStockQueuesAdapter extends RecyclerView.Adapter<ProductStock
 
     public void setData(List<StockQueueItem> items) {
         this.items = items;
+        searchMode = false;
         notifyDataSetChanged();
     }
 
@@ -90,8 +112,8 @@ public class ProductStockQueuesAdapter extends RecyclerView.Adapter<ProductStock
 
     public void setSearchResult(List<StockQueueItem> searchResults, String searchText) {
         this.items = searchResults;
-//        this.searchText = searchText;
-//        searchMode = true;
+        this.searchText = searchText;
+        searchMode = true;
         notifyDataSetChanged();
     }
 
@@ -132,5 +154,18 @@ public class ProductStockQueuesAdapter extends RecyclerView.Adapter<ProductStock
                 }
             });
         }
+    }
+
+    public void colorSubSeq(String text, String whichWordColor, int colorCode, TextView textView) {
+        String textUpper = text.toUpperCase();
+        String whichWordColorUpper = whichWordColor.toUpperCase();
+        SpannableString ss = new SpannableString(text);
+        int strar = 0;
+
+        while (textUpper.indexOf(whichWordColorUpper, strar) >= 0 && whichWordColor.length() != 0) {
+            ss.setSpan(new BackgroundColorSpan(colorCode), textUpper.indexOf(whichWordColorUpper, strar), textUpper.indexOf(whichWordColorUpper, strar) + whichWordColorUpper.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            strar = textUpper.indexOf(whichWordColorUpper, strar) + whichWordColorUpper.length();
+        }
+        textView.setText(ss);
     }
 }

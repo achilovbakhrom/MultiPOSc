@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
-import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -61,7 +60,10 @@ public class ProductQueueListFragment extends BaseFragment implements ProductQue
     FrameLayout flClearSearch;
     @BindView(R.id.rvStockQueuesList)
     RecyclerView rvStockQueuesList;
+    @BindView(R.id.tvName)
+    TextView tvName;
     private ProductQueueListAdapter adapter;
+    private int mode;
 
     @Override
     protected int getLayout() {
@@ -160,8 +162,8 @@ public class ProductQueueListFragment extends BaseFragment implements ProductQue
     }
 
     @Override
-    public void openReturnInvoice(Long productId, Long vendorId) {
-        ((ProductQueueListActivity) getActivity()).openReturnInvoice(productId, vendorId);
+    public void openReturnInvoice(Long productId, Long vendorId, Long id) {
+        ((ProductQueueListActivity) getActivity()).openReturnInvoice(productId, vendorId, id);
     }
 
     @Override
@@ -169,6 +171,17 @@ public class ProductQueueListFragment extends BaseFragment implements ProductQue
         UIUtils.showAlert(getContext(), getString(R.string.ok), getString(R.string.warning), text, () -> {
 
         });
+    }
+
+    @Override
+    public void setMode(int mode) {
+        this.mode = mode;
+        if (mode == ProductQueueListFragmentPresenterImpl.VENDOR){
+            tvName.setText(getString(R.string.product_name));
+        } else {
+            tvName.setText(getString(R.string.vendor_name));
+        }
+        adapter.setMode(mode);
     }
 
     @OnTextChanged(R.id.mpSearchEditText)

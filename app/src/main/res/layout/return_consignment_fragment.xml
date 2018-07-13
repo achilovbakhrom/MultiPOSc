@@ -183,7 +183,7 @@
                     android:layout_gravity="center"
                     android:layout_marginRight="@dimen/sixteen_dp"
                     android:gravity="right"
-                    android:text="@string/credit_note"
+                    android:text="@string/return_invoice"
                     android:textSize="@dimen/sixteen_dp" />
 
                 <com.jim.mpviews.MpEditText

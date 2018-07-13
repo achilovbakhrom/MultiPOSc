@@ -195,7 +195,7 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
 
     @Override
     public void addProductToList(Long productId) {
-        Product product = databaseManager.getProductById(productId).blockingFirst();
+        Product product = databaseManager.getProductById(productId).blockingGet();
         if(product.getMainUnit().getUnitCategory().getUnitType() != UnitCategory.PIECE){
             view.openUnitValuePicker(product);
             return;

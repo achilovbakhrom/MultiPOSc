@@ -78,5 +78,5 @@ public interface InventoryOperations {
     Single<List<IncomeProduct>> getIncomeProductsForPeriod(Calendar fromDate, Calendar toDate);
     Single<List<StockQueue>> getStockQueueForPeriod(Calendar fromDate, Calendar toDate);
     Single<List<StockQueue>> getStockQueueUsedForPeriod(Calendar fromDate, Calendar toDate);
-
+    Single<StockQueue> getStockQueueById(Long stockQueueId);
 }
