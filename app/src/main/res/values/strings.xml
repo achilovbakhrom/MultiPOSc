@@ -1459,4 +1459,5 @@
     <string name="stock_out">Stock out</string>
     <string name="vendor_is_not_active">This vendor is not active</string>
     <string name="price_">Price:</string>
+    <string name="stock_keeping_type">Stock keeping type</string>
 </resources>

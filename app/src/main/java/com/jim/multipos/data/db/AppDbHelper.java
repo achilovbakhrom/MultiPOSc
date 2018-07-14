@@ -2586,7 +2586,7 @@ public class AppDbHelper implements DbHelper {
         return Single.create(e -> {
             List<StockQueue> stockQueues = mDaoSession.getStockQueueDao().queryBuilder().where(StockQueueDao.Properties.ProductId.eq(outcomeProduct.getProduct().getId()), StockQueueDao.Properties.Available.ge(0.0009)).build().list();
 
-            if(outcomeProduct.getProduct().getStockKeepType()==Product.LIFO) Collections.sort(stockQueues,(stockQueue, t1) -> t1.getStockId().compareTo(stockQueue.getStockId()));
+            if(outcomeProduct.getProduct().getStockKeepType()==Product.LIFO) Collections.sort(stockQueues,(stockQueue, t1) -> t1.getId().compareTo(stockQueue.getId()));
             if(outcomeProduct.getProduct().getStockKeepType()==Product.FEFO) Collections.sort(stockQueues,(stockQueue, t1) -> stockQueue.getExpiredProductDate().compareTo(t1.getExpiredProductDate()));
 
             List<StockQueueItem> stockQueueItems = new ArrayList<>();
@@ -2773,7 +2773,7 @@ public class AppDbHelper implements DbHelper {
                 List<StockQueue> stockQueues = mDaoSession.getStockQueueDao().queryBuilder().where(StockQueueDao.Properties.ProductId.eq(outcomeProduct.getProduct().getId()), StockQueueDao.Properties.Available.ge(0.0009)).build().list();
                 double count = outcomeProduct.getSumCountValue();
                 if(outcomeProduct.getProduct().getStockKeepType()==Product.LIFO)
-                    Collections.sort(stockQueues,(stockQueue, t1) -> t1.getStockId().compareTo(stockQueue.getStockId()));
+                    Collections.sort(stockQueues,(stockQueue, t1) -> t1.getId().compareTo(stockQueue.getId()));
                 if(outcomeProduct.getProduct().getStockKeepType()==Product.FEFO)
                     Collections.sort(stockQueues,(stockQueue, t1) -> stockQueue.getExpiredProductDate().compareTo(t1.getExpiredProductDate()));
                 if (!outcomeProduct.getCustomPickSock()){

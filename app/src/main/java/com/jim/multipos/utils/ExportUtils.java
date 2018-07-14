@@ -5094,7 +5094,7 @@ public class ExportUtils {
             POIFSFileSystem myFileSystem = new POIFSFileSystem(myInput);
             HSSFWorkbook myWorkBook = new HSSFWorkbook(myFileSystem);
             HSSFSheet productSheet = myWorkBook.getSheetAt(0);
-            String[][] products = new String[productSheet.getPhysicalNumberOfRows()][8];
+            String[][] products = new String[productSheet.getPhysicalNumberOfRows()][100];
             Iterator rowIter1 = productSheet.rowIterator();
             int row = 0;
             while (rowIter1.hasNext()) {
@@ -5170,13 +5170,21 @@ public class ExportUtils {
                                     product.setPrice(Double.valueOf(products[i][6]));
                                     product.setActive(true);
                                     product.setDeleted(false);
-                                    //TODO EDITABLE TO STATEABLE
-
-//                                    product.setNotModifyted(true);
                                     product.setPhotoPath("");
                                     product.setCreatedDate(System.currentTimeMillis());
                                     product.setCategoryId(subcategory.getId());
                                     product.setPriceCurrency(databaseManager.getMainCurrency());
+                                    switch (products[i][7]) {
+                                        case "FIFO":
+                                            product.setStockKeepType(Product.FIFO);
+                                            break;
+                                        case "LIFO":
+                                            product.setStockKeepType(Product.LIFO);
+                                            break;
+                                        case "FEFO":
+                                            product.setStockKeepType(Product.FEFO);
+                                            break;
+                                    }
                                     List<UnitCategory> tempUnitCategories = databaseManager.getAllUnitCategories().blockingSingle();
                                     int count = 0;
                                     for (UnitCategory unitCategory : tempUnitCategories) {
@@ -5191,6 +5199,8 @@ public class ExportUtils {
                                     if (count == 0) {
                                         unitErrors.add(i);
                                         continue;
+                                    } else {
+                                        databaseManager.addProduct(product).subscribe();
                                     }
                                 } else {
                                     skuErrors.add(i);
@@ -5211,9 +5221,17 @@ public class ExportUtils {
                                         product.setPrice(Double.valueOf(products[i][6]));
                                         product.setActive(true);
                                         product.setDeleted(false);
-                                        //TODO EDITABLE TO STATEABLE
-
-//                                        product.setNotModifyted(true);
+                                        switch (products[i][7]) {
+                                            case "FIFO":
+                                                product.setStockKeepType(Product.FIFO);
+                                                break;
+                                            case "LIFO":
+                                                product.setStockKeepType(Product.LIFO);
+                                                break;
+                                            case "FEFO":
+                                                product.setStockKeepType(Product.FEFO);
+                                                break;
+                                        }
                                         product.setCreatedDate(System.currentTimeMillis());
                                         product.setCategoryId(subcategory.getId());
                                         product.setPriceCurrency(databaseManager.getMainCurrency());
@@ -5231,6 +5249,8 @@ public class ExportUtils {
                                         if (count == 0) {
                                             unitErrors.add(i);
                                             continue;
+                                        } else {
+                                            databaseManager.addProduct(product).subscribe();
                                         }
                                     } else {
                                         skuErrors.add(i);
@@ -5251,8 +5271,17 @@ public class ExportUtils {
                                         product.setSku(products[i][4]);
                                         product.setActive(true);
                                         product.setDeleted(false);
-                                        //TODO EDITABLE TO STATEABLE
-//                                        product.setNotModifyted(true);
+                                        switch (products[i][7]) {
+                                            case "FIFO":
+                                                product.setStockKeepType(Product.FIFO);
+                                                break;
+                                            case "LIFO":
+                                                product.setStockKeepType(Product.LIFO);
+                                                break;
+                                            case "FEFO":
+                                                product.setStockKeepType(Product.FEFO);
+                                                break;
+                                        }
                                         product.setCreatedDate(System.currentTimeMillis());
                                         product.setCategoryId(subcategory.getId());
                                         product.setPrice(Double.valueOf(products[i][6]));
@@ -5271,6 +5300,8 @@ public class ExportUtils {
                                         if (count == 0) {
                                             unitErrors.add(i);
                                             continue;
+                                        } else {
+                                            databaseManager.addProduct(product).subscribe();
                                         }
                                     } else {
                                         skuErrors.add(i);
@@ -5374,8 +5405,17 @@ public class ExportUtils {
                                     product.setPrice(Double.valueOf(products[i][6]));
                                     product.setActive(true);
                                     product.setDeleted(false);
-                                    //TODO EDITABLE TO STATEABLE
-//                                    product.setNotModifyted(true);
+                                    switch (products[i][7]) {
+                                        case "FIFO":
+                                            product.setStockKeepType(Product.FIFO);
+                                            break;
+                                        case "LIFO":
+                                            product.setStockKeepType(Product.LIFO);
+                                            break;
+                                        case "FEFO":
+                                            product.setStockKeepType(Product.FEFO);
+                                            break;
+                                    }
                                     product.setPhotoPath("");
                                     product.setCreatedDate(System.currentTimeMillis());
                                     product.setCategoryId(subcategory.getId());
@@ -5394,6 +5434,8 @@ public class ExportUtils {
                                     if (count == 0) {
                                         unitErrors.add(i);
                                         continue;
+                                    } else {
+                                        databaseManager.addProduct(product).subscribe();
                                     }
                                 } else {
                                     skuErrors.add(i);
@@ -5414,9 +5456,17 @@ public class ExportUtils {
                                         product.setPrice(Double.valueOf(products[i][6]));
                                         product.setActive(true);
                                         product.setDeleted(false);
-                                        //TODO EDITABLE TO STATEABLE
-
-//                                        product.setNotModifyted(true);
+                                        switch (products[i][7]) {
+                                            case "FIFO":
+                                                product.setStockKeepType(Product.FIFO);
+                                                break;
+                                            case "LIFO":
+                                                product.setStockKeepType(Product.LIFO);
+                                                break;
+                                            case "FEFO":
+                                                product.setStockKeepType(Product.FEFO);
+                                                break;
+                                        }
                                         product.setCreatedDate(System.currentTimeMillis());
                                         product.setCategoryId(subcategory.getId());
                                         product.setPriceCurrency(databaseManager.getMainCurrency());
@@ -5434,6 +5484,8 @@ public class ExportUtils {
                                         if (count == 0) {
                                             unitErrors.add(i);
                                             continue;
+                                        } else {
+                                            databaseManager.addProduct(product).subscribe();
                                         }
                                     } else {
                                         skuErrors.add(i);
@@ -5454,9 +5506,17 @@ public class ExportUtils {
                                         product.setSku(products[i][4]);
                                         product.setActive(true);
                                         product.setDeleted(false);
-                                        //TODO EDITABLE TO STATEABLE
-
-//                                        product.setNotModifyted(true);
+                                        switch (products[i][7]) {
+                                            case "FIFO":
+                                                product.setStockKeepType(Product.FIFO);
+                                                break;
+                                            case "LIFO":
+                                                product.setStockKeepType(Product.LIFO);
+                                                break;
+                                            case "FEFO":
+                                                product.setStockKeepType(Product.FEFO);
+                                                break;
+                                        }
                                         product.setCreatedDate(System.currentTimeMillis());
                                         product.setCategoryId(subcategory.getId());
                                         product.setPrice(Double.valueOf(products[i][6]));
@@ -5475,6 +5535,8 @@ public class ExportUtils {
                                         if (count == 0) {
                                             unitErrors.add(i);
                                             continue;
+                                        } else {
+                                            databaseManager.addProduct(product).subscribe();
                                         }
                                     } else {
                                         skuErrors.add(i);
@@ -5536,8 +5598,8 @@ public class ExportUtils {
         cellStyle1.setAlignment(HSSFCellStyle.ALIGN_CENTER);
         cellStyle1.setDataFormat(format.getFormat("@"));
         Sheet sheet1 = workbook1.createSheet(context.getString(R.string.products));
-        String[] labels = new String[]{context.getString(R.string.category), context.getString(R.string.subcategory), context.getString(R.string.product_name), context.getString(R.string.barcode), context.getString(R.string.sku), context.getString(R.string.unit), context.getString(R.string.price)};
-        String[] products = new String[]{"Food", "Vegatables", "Tomato", "1465442213", "tomato", "kg", "256.99"};
+        String[] labels = new String[]{context.getString(R.string.category), context.getString(R.string.subcategory), context.getString(R.string.product_name), context.getString(R.string.barcode), context.getString(R.string.sku), context.getString(R.string.unit), context.getString(R.string.price), context.getString(R.string.stock_keeping_type)};
+        String[] products = new String[]{"Food", "Vegatables", "Tomato", "1465442213", "tomato", "kg", "256.99", "FIFO"};
         for (int i = 0; i < products.length; i++) {
             sheet1.setDefaultColumnStyle(i, cellStyle1);
         }
@@ -5632,8 +5694,8 @@ public class ExportUtils {
         cellStyle1.setAlignment(HSSFCellStyle.ALIGN_CENTER);
         cellStyle1.setDataFormat(format.getFormat("@"));
         Sheet sheet1 = workbook1.createSheet(context.getString(R.string.products));
-        String[] labels = new String[]{context.getString(R.string.category), context.getString(R.string.subcategory), context.getString(R.string.product_name), context.getString(R.string.barcode), context.getString(R.string.sku), context.getString(R.string.unit), context.getString(R.string.price)};
-        String[] products = new String[]{"Food", "Vegatables", "Tomato", "1465442213", "tomato", "kg", "256.99"};
+        String[] labels = new String[]{context.getString(R.string.category), context.getString(R.string.subcategory), context.getString(R.string.product_name), context.getString(R.string.barcode), context.getString(R.string.sku), context.getString(R.string.unit), context.getString(R.string.price), context.getString(R.string.stock_keeping_type)};
+        String[] products = new String[]{"Food", "Vegatables", "Tomato", "1465442213", "tomato", "kg", "256.99", "FIFO"};
         for (int i = 0; i < products.length; i++) {
             sheet1.setDefaultColumnStyle(i, cellStyle1);
         }
@@ -5717,8 +5779,8 @@ public class ExportUtils {
         cellStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
         cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
         cellStyle.setDataFormat(format.getFormat("@"));
-        Sheet sheet = workbook.createSheet(context.getString(R.string.vendors));
-        String[] values = new String[]{context.getString(R.string.category), context.getString(R.string.subcategory), context.getString(R.string.product_name), context.getString(R.string.barcode), context.getString(R.string.sku), context.getString(R.string.unit), context.getString(R.string.price)};
+        Sheet sheet = workbook.createSheet(context.getString(R.string.products));
+        String[] values = new String[]{context.getString(R.string.category), context.getString(R.string.subcategory), context.getString(R.string.product_name), context.getString(R.string.barcode), context.getString(R.string.sku), context.getString(R.string.unit), context.getString(R.string.price), context.getString(R.string.stock_keeping_type)};
         List<Product> productList = databaseManager.getAllProducts().blockingSingle();
         Row row = sheet.createRow(0);
         for (int i = 0; i < values.length; i++) {
@@ -5750,6 +5812,19 @@ public class ExportUtils {
             Cell cell7 = row1.createCell(6);
             cell7.setCellStyle(cellStyle);
             cell7.setCellValue(product.getPrice());
+            Cell cell8 = row1.createCell(7);
+            cell8.setCellStyle(cellStyle);
+            switch (product.getStockKeepType()) {
+                case Product.FIFO:
+                    cell8.setCellValue("FIFO");
+                    break;
+                case Product.LIFO:
+                    cell8.setCellValue("LIFO");
+                    break;
+                case Product.FEFO:
+                    cell8.setCellValue("FEFO");
+                    break;
+            }
         }
         for (int i = 0; i < values.length; i++) {
             sheet.setColumnWidth(i, 10 * 500);
@@ -5796,8 +5871,8 @@ public class ExportUtils {
         cellStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
         cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
         cellStyle.setDataFormat(format.getFormat("@"));
-        Sheet sheet = workbook.createSheet(context.getString(R.string.vendors));
-        String[] values = new String[]{context.getString(R.string.category), context.getString(R.string.subcategory), context.getString(R.string.product_name), context.getString(R.string.barcode), context.getString(R.string.sku), context.getString(R.string.unit), context.getString(R.string.price)};
+        Sheet sheet = workbook.createSheet(context.getString(R.string.products));
+        String[] values = new String[]{context.getString(R.string.category), context.getString(R.string.subcategory), context.getString(R.string.product_name), context.getString(R.string.barcode), context.getString(R.string.sku), context.getString(R.string.unit), context.getString(R.string.price), context.getString(R.string.stock_keeping_type)};
         List<Product> productList = databaseManager.getAllProducts().blockingSingle();
         Row row = sheet.createRow(0);
         for (int i = 0; i < values.length; i++) {
@@ -5829,6 +5904,19 @@ public class ExportUtils {
             Cell cell7 = row1.createCell(6);
             cell7.setCellStyle(cellStyle);
             cell7.setCellValue(product.getPrice());
+            Cell cell8 = row1.createCell(7);
+            cell8.setCellStyle(cellStyle);
+            switch (product.getStockKeepType()) {
+                case Product.FIFO:
+                    cell8.setCellValue("FIFO");
+                    break;
+                case Product.LIFO:
+                    cell8.setCellValue("LIFO");
+                    break;
+                case Product.FEFO:
+                    cell8.setCellValue("FEFO");
+                    break;
+            }
         }
         for (int i = 0; i < values.length; i++) {
             sheet.setColumnWidth(i, 10 * 500);
@@ -5868,9 +5956,9 @@ public class ExportUtils {
             document.add(reportName);
             Paragraph empty = new Paragraph(" ");
             document.add(empty);
-            String[] values = new String[]{context.getString(R.string.category), context.getString(R.string.subcategory), context.getString(R.string.product_name), context.getString(R.string.barcode), context.getString(R.string.sku), context.getString(R.string.vendor), context.getString(R.string.unit), context.getString(R.string.price)};
+            String[] values = new String[]{context.getString(R.string.category), context.getString(R.string.subcategory), context.getString(R.string.product_name), context.getString(R.string.barcode), context.getString(R.string.sku), context.getString(R.string.unit), context.getString(R.string.price), context.getString(R.string.stock_keeping_type)};
             List<Product> productList = databaseManager.getAllProducts().blockingSingle();
-            float[] columnWidths = {10, 10, 10, 10, 10, 10, 10, 10};
+            float[] columnWidths = {10, 10, 10, 10, 10, 10, 10, 10, 10};
             PdfPTable table = new PdfPTable(columnWidths);
             table.setWidthPercentage(100f);
             for (int j = 0; j < productList.size() + 1; j++) {
@@ -5951,6 +6039,26 @@ public class ExportUtils {
                     cell8.setPaddingBottom(8);
                     cell8.setColspan(1);
                     table.addCell(cell8);
+                    PdfPCell cell9 = new PdfPCell();
+                    String type = "";
+                    switch (product.getStockKeepType()) {
+                        case Product.FIFO:
+                            type = "FIFO";
+                            break;
+                        case Product.LIFO:
+                            type = "LIFO";
+                            break;
+                        case Product.FEFO:
+                            type = "FEFO";
+                            break;
+                    }
+                    cell9.setPhrase(new Phrase(type, bf12));
+                    cell9.setPaddingLeft(8);
+                    cell9.setPaddingRight(8);
+                    cell9.setPaddingTop(8);
+                    cell9.setPaddingBottom(8);
+                    cell9.setColspan(1);
+                    table.addCell(cell9);
                 }
             }
             document.add(table);
@@ -5987,9 +6095,9 @@ public class ExportUtils {
             document.add(reportName);
             Paragraph empty = new Paragraph(" ");
             document.add(empty);
-            String[] values = new String[]{context.getString(R.string.category), context.getString(R.string.subcategory), context.getString(R.string.product_name), context.getString(R.string.barcode), context.getString(R.string.sku), context.getString(R.string.vendor), context.getString(R.string.unit), context.getString(R.string.price)};
+            String[] values = new String[]{context.getString(R.string.category), context.getString(R.string.subcategory), context.getString(R.string.product_name), context.getString(R.string.barcode), context.getString(R.string.sku), context.getString(R.string.unit), context.getString(R.string.price), context.getString(R.string.stock_keeping_type)};
             List<Product> productList = databaseManager.getAllProducts().blockingSingle();
-            float[] columnWidths = {10, 10, 10, 10, 10, 10, 10, 10};
+            float[] columnWidths = {10, 10, 10, 10, 10, 10, 10, 10, 10};
             PdfPTable table = new PdfPTable(columnWidths);
             table.setWidthPercentage(100f);
             for (int j = 0; j < productList.size() + 1; j++) {
@@ -6070,6 +6178,26 @@ public class ExportUtils {
                     cell8.setPaddingBottom(8);
                     cell8.setColspan(1);
                     table.addCell(cell8);
+                    PdfPCell cell9 = new PdfPCell();
+                    String type = "";
+                    switch (product.getStockKeepType()) {
+                        case Product.FIFO:
+                            type = "FIFO";
+                            break;
+                        case Product.LIFO:
+                            type = "LIFO";
+                            break;
+                        case Product.FEFO:
+                            type = "FEFO";
+                            break;
+                    }
+                    cell9.setPhrase(new Phrase(type, bf12));
+                    cell9.setPaddingLeft(8);
+                    cell9.setPaddingRight(8);
+                    cell9.setPaddingTop(8);
+                    cell9.setPaddingBottom(8);
+                    cell9.setColspan(1);
+                    table.addCell(cell9);
                 }
             }
             document.add(table);

@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jim.mpviews.MpButton;
@@ -62,7 +63,11 @@ public class ProductStockQueuesAdapter extends RecyclerView.Adapter<ProductStock
         holder.ssvStockStatus.setCount(count);
         if (count != 0) {
             holder.ivSelected.setVisibility(View.VISIBLE);
-        } else holder.ivSelected.setVisibility(View.INVISIBLE);
+            holder.llBackground.setBackgroundColor(Color.parseColor("#e4f5ff"));
+        } else {
+            holder.ivSelected.setVisibility(View.INVISIBLE);
+            holder.llBackground.setBackgroundColor(Color.parseColor("#ffffff"));
+        }
 
         if (!searchMode) {
             if (items.get(position).getStockQueue().getIncomeProduct().getInvoice() != null)
@@ -143,6 +148,8 @@ public class ProductStockQueuesAdapter extends RecyclerView.Adapter<ProductStock
         MpButton btnSelect;
         @BindView(R.id.tvExpireDate)
         TextView tvExpireDate;
+        @BindView(R.id.llBackground)
+        LinearLayout llBackground;
 
         public StockQueueItemViewHolder(View itemView) {
             super(itemView);
