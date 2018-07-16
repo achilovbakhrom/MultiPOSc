@@ -44,6 +44,7 @@ public class CustomerFragment extends BaseFragment implements CustomerFragmentVi
     @BindView(R.id.btnCancel)
     MpButton btnCancel;
     private int scanPosition = -1;
+    private int position = -1;
     private ArrayList<Disposable> subscriptions;
 
     @Override
@@ -62,11 +63,14 @@ public class CustomerFragment extends BaseFragment implements CustomerFragmentVi
         return R.layout.customers_fragment_layout;
     }
 
+
+
     @Override
     protected void init(Bundle savedInstanceState) {
         presenter.initData();
         customersAdapter.setBarcodeStack(barcodeStack);
         customersAdapter.setListener(new CustomersAdapter.OnCustomerCallback() {
+
             @Override
             public void onAddPressed(String id, String name, String phone, String address, String qrCode, List<CustomerGroup> groups) {
                 presenter.onAddPressed(id, name, phone, address, qrCode, groups);
@@ -80,6 +84,11 @@ public class CustomerFragment extends BaseFragment implements CustomerFragmentVi
             @Override
             public void onDelete(Customer customer) {
                 presenter.onDelete(customer);
+            }
+
+            @Override
+            public void onGroupSelected(int position) {
+                CustomerFragment.this.position = position;
             }
 
             @Override
@@ -109,6 +118,10 @@ public class CustomerFragment extends BaseFragment implements CustomerFragmentVi
     public void refreshList(List<CustomerAdapterDetails> items, List<CustomerGroup> groups, long id) {
         customersAdapter.setData(items, groups, id);
         customersAdapter.notifyDataSetChanged();
+        if (position != -1){
+            customersAdapter.openCustomerGroupDialog(position);
+            position = -1;
+        }
     }
 
     @Override

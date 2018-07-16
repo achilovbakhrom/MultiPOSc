@@ -31,31 +31,54 @@
             android:id="@+id/etFullName"
             android:layout_width="@dimen/hundred_ninety_five_dp"
             android:layout_height="@dimen/forty_five_dp"
-            android:inputType="text"
             android:layout_marginRight="@dimen/ten_dp"
             android:hint="@string/enter_full_name"
+            android:inputType="text"
             android:paddingLeft="@dimen/sixteen_dp"
             android:paddingRight="@dimen/ten_dp"
             android:textSize="@dimen/sixteen_dp" />
 
-        <com.jim.mpviews.MpEditText
-            android:id="@+id/etPhone"
+        <LinearLayout
             android:layout_width="@dimen/hundred_seventy_dp"
             android:layout_height="@dimen/forty_five_dp"
             android:layout_marginRight="@dimen/ten_dp"
-            android:hint="@string/enter_phone_number"
-            android:inputType="phone"
-            android:paddingLeft="@dimen/sixteen_dp"
-            android:paddingRight="@dimen/ten_dp"
-            android:textSize="@dimen/sixteen_dp" />
+            android:background="@drawable/edit_text_bg">
+
+            <EditText
+                android:id="@+id/etPhone"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/forty_dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:hint="@string/enter_phone_number"
+                android:inputType="phone"
+                android:maxLength="50"
+                android:maxLines="1"
+                android:paddingLeft="@dimen/ten_dp"
+                android:paddingRight="@dimen/ten_dp"
+                android:textColorHint="@color/colorTextHint"
+                android:textSize="@dimen/sixteen_dp" />
+
+            <ImageView
+                android:id="@+id/ivClear"
+                android:layout_width="@dimen/fifteen_dp"
+                android:layout_height="@dimen/fifteen_dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/five_dp"
+                android:layout_marginRight="@dimen/five_dp"
+                android:src="@drawable/cancel_search"
+                android:visibility="gone" />
+
+        </LinearLayout>
 
         <com.jim.mpviews.MpEditText
             android:id="@+id/etAddress"
             android:layout_width="@dimen/hundred_ninety_dp"
             android:layout_height="@dimen/forty_five_dp"
-            android:inputType="text"
             android:layout_marginRight="@dimen/ten_dp"
             android:hint="@string/enter_address"
+            android:inputType="text"
             android:paddingLeft="@dimen/sixteen_dp"
             android:paddingRight="@dimen/ten_dp"
             android:textSize="@dimen/sixteen_dp" />

@@ -62,6 +62,7 @@ public class CustomerGroupActivity extends DoubleSideActivity implements Custome
             popBackStack();
             ((CustomerGroupsFragment) getFragmentByTag(CUSTOMER_GROUPS_FRAGMENT)).addItem(customerGroup);
         }
+        rxBus.send(new CustomerGroupEvent());
     }
 
     @Override
@@ -72,8 +73,8 @@ public class CustomerGroupActivity extends DoubleSideActivity implements Custome
             popBackStack();
             ((CustomerGroupsFragment) getFragmentByTag(CUSTOMER_GROUPS_FRAGMENT)).removeItem(customerGroup);
         }
-
         ((AddCustomerGroupFragment) getCurrentFragmentLeft()).setDefaultState();
+        rxBus.send(new CustomerGroupEvent());
     }
 
     @Override

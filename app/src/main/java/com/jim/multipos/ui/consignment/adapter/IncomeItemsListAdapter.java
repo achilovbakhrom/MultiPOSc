@@ -12,6 +12,7 @@ import com.jim.mpviews.MpEditText;
 import com.jim.mpviews.MpMiniActionButton;
 import com.jim.multipos.R;
 import com.jim.multipos.data.db.model.inventory.IncomeProduct;
+import com.jim.multipos.utils.NumberTextWatcher;
 import com.jim.multipos.utils.TextWatcherOnTextChange;
 
 import java.text.DecimalFormat;
@@ -119,7 +120,7 @@ public class IncomeItemsListAdapter extends RecyclerView.Adapter<IncomeItemsList
             btnDeleteProduct.setOnClickListener(view -> invoiceCallback.onDelete(getAdapterPosition()));
 
             btnSettings.setOnClickListener(v -> invoiceCallback.onSettings(items.get(getAdapterPosition()), getAdapterPosition()));
-
+            etProductCost.addTextChangedListener(new NumberTextWatcher(etProductCost));
             etProductCount.addTextChangedListener(new TextWatcherOnTextChange() {
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {

@@ -59,6 +59,7 @@ public class SelectCustomerGroupDialog extends Dialog {
 
         btnAdd.setOnClickListener(view -> {
             getContext().startActivity(new Intent(getContext(), CustomerGroupActivity.class));
+            dismiss();
         });
 
         btnOK.setOnClickListener(v -> {

@@ -8,10 +8,12 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
+import android.text.Editable;
 import android.text.InputType;
 import android.util.Patterns;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -30,6 +32,7 @@ import com.jim.multipos.ui.vendors.model.ContactItem;
 import com.jim.multipos.utils.CommonUtils;
 import com.jim.multipos.utils.GlideApp;
 import com.jim.multipos.utils.OpenPickPhotoUtils;
+import com.jim.multipos.utils.PhoneNumberFormatTextWatcher;
 import com.jim.multipos.utils.PhotoPickDialog;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.UIUtils;
@@ -42,6 +45,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.OnTextChanged;
 import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 
 import static android.app.Activity.RESULT_OK;
@@ -62,7 +66,7 @@ public class VendorEditFragment extends BaseFragment implements VendorEditFragme
     @BindView(R.id.spContactType)
     MPosSpinner spContactType;
     @BindView(R.id.etContactData)
-    MpEditText etContactData;
+    EditText etContactData;
     @BindView(R.id.chbActive)
     MpCheckbox chbActive;
     @BindView(R.id.btnCancel)
@@ -77,6 +81,8 @@ public class VendorEditFragment extends BaseFragment implements VendorEditFragme
     RecyclerView rvContacts;
     @BindView(R.id.ivVendorImage)
     ImageView ivVendorImage;
+    @BindView(R.id.ivClear)
+    ImageView ivClear;
     @Inject
     RxPermissions rxPermissions;
     @Inject
@@ -99,14 +105,25 @@ public class VendorEditFragment extends BaseFragment implements VendorEditFragme
         connection.setVendorEditFragmentView(this);
         String contactTypes[] = getContext().getResources().getStringArray(R.array.contact_types);
         spContactType.setAdapter(contactTypes);
+        ivClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!etContactData.getText().toString().isEmpty()){
+                    etContactData.setText("");
+                }
+            }
+        });
+        PhoneNumberFormatTextWatcher phoneNumberFormatTextWatcher = new PhoneNumberFormatTextWatcher(getContext(), etContactData);
         spContactType.setItemSelectionListener((view, position) -> {
             etContactData.setText("");
             if (position == 0) {
                 etContactData.setInputType(InputType.TYPE_CLASS_PHONE);
                 etContactData.setHint(getString(R.string.enter_phone));
+                etContactData.addTextChangedListener(phoneNumberFormatTextWatcher);
             } else {
                 etContactData.setInputType(InputType.TYPE_CLASS_TEXT);
                 etContactData.setHint(getString(R.string.enter_email_address));
+                etContactData.removeTextChangedListener(phoneNumberFormatTextWatcher);
             }
         });
         adapter = new VendorContactsAdapter(getContext());
@@ -257,6 +274,16 @@ public class VendorEditFragment extends BaseFragment implements VendorEditFragme
 
         }
 
+    }
+
+
+    @OnTextChanged(R.id.etContactData)
+    protected void handleTextChange(Editable editable) {
+        if(editable.toString().isEmpty()){
+            ivClear.setVisibility(View.GONE);
+        }else {
+            ivClear.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

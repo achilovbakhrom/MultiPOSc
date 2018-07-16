@@ -1,10 +1,12 @@
 package com.jim.multipos.ui.start_configuration.pos_data;
 
 import android.os.Bundle;
-import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.jim.mpviews.MpButton;
 import com.jim.mpviews.MpEditText;
@@ -13,10 +15,12 @@ import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.utils.CompletionMode;
 import com.jim.multipos.ui.start_configuration.StartConfigurationActivity;
 import com.jim.multipos.ui.start_configuration.connection.StartConfigurationConnection;
+import com.jim.multipos.utils.PhoneNumberFormatTextWatcher;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.OnTextChanged;
 
 public class PosDataFragment extends BaseFragment implements PosDataView {
 
@@ -27,13 +31,15 @@ public class PosDataFragment extends BaseFragment implements PosDataView {
     @BindView(R.id.etPosAlias)
     MpEditText etPosAlias;
     @BindView(R.id.etPosPhone)
-    MpEditText etPosPhone;
+    EditText etPosPhone;
     @BindView(R.id.etPassword)
     MpEditText etPassword;
     @BindView(R.id.etConfirmPassword)
     MpEditText etConfirmPassword;
     @BindView(R.id.btnNext)
     MpButton btnNext;
+    @BindView(R.id.ivClear)
+    ImageView ivClear;
     @Inject
     PosDataPresenter presenter;
     @Inject
@@ -49,7 +55,15 @@ public class PosDataFragment extends BaseFragment implements PosDataView {
     @Override
     protected void init(Bundle savedInstanceState) {
         connection.setPosDataView(this);
-        etPosPhone.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
+        ivClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!etPosPhone.getText().toString().isEmpty()){
+                    etPosPhone.setText("");
+                }
+            }
+        });
+        etPosPhone.addTextChangedListener(new PhoneNumberFormatTextWatcher(getContext(), etPosPhone));
         etPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
         etConfirmPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
         etPassword.addTextChangedListener(new TextWatcher() {
@@ -163,5 +177,14 @@ public class PosDataFragment extends BaseFragment implements PosDataView {
     public void onDestroy() {
         super.onDestroy();
         connection.setPosDataView(null);
+    }
+
+    @OnTextChanged(R.id.etPosPhone)
+    protected void handleTextChange(Editable editable) {
+        if(editable.toString().isEmpty()){
+            ivClear.setVisibility(View.GONE);
+        }else {
+            ivClear.setVisibility(View.VISIBLE);
+        }
     }
 }

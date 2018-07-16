@@ -4,9 +4,11 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,6 +22,7 @@ import com.jim.multipos.ui.customers.customer.CustomerFragmentPresenterImpl;
 import com.jim.multipos.ui.customers.dialog.SelectCustomerGroupDialog;
 import com.jim.multipos.ui.customers.model.CustomerAdapterDetails;
 import com.jim.multipos.utils.BarcodeStack;
+import com.jim.multipos.utils.PhoneNumberFormatTextWatcher;
 import com.jim.multipos.utils.TextWatcherOnTextChange;
 import com.jim.multipos.utils.UIUtils;
 import com.jim.multipos.utils.WarningDialog;
@@ -30,6 +33,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnTextChanged;
 import eu.inmite.android.lib.validations.form.FormValidator;
 import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 
@@ -194,6 +198,24 @@ public class CustomersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         notifyItemChanged(scanPosition);
     }
 
+    public void openCustomerGroupDialog(int position) {
+        if (position == 0){
+            SelectCustomerGroupDialog dialog = new SelectCustomerGroupDialog(context, customerGroups, addItem.getActualCustomerGroup());
+            dialog.setListener(groups -> {
+                addItem.setNewGroup(groups);
+                notifyItemChanged(position);
+            });
+            dialog.show();
+        } else {
+            SelectCustomerGroupDialog dialog = new SelectCustomerGroupDialog(context, customerGroups, items.get(position).getActualCustomerGroup());
+            dialog.setListener(groups -> {
+                items.get(position).setNewGroup(groups);
+                notifyItemChanged(position);
+            });
+            dialog.show();
+        }
+    }
+
     public class AddCustomerViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.tvClientId)
@@ -213,7 +235,7 @@ public class CustomersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         MpEditText etFullName;
         @NotEmpty(messageId = R.string.enter_phone)
         @BindView(R.id.etPhone)
-        MpEditText etPhone;
+        EditText etPhone;
         @NotEmpty(messageId = R.string.enter_address)
         @BindView(R.id.etAddress)
         MpEditText etAddress;
@@ -225,6 +247,8 @@ public class CustomersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         TextView tvCustomerGroup;
         @BindView(R.id.btnAdd)
         MpActionButton btnAdd;
+        @BindView(R.id.ivClear)
+        ImageView ivClear;
 
         public AddCustomerViewHolder(View itemView) {
             super(itemView);
@@ -277,6 +301,15 @@ public class CustomersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     addItem.setNewQRCode(etQrCode.getText().toString());
                 }
             });
+            ivClear.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!etPhone.getText().toString().isEmpty()) {
+                        etPhone.setText("");
+                    }
+                }
+            });
+            etPhone.addTextChangedListener(new PhoneNumberFormatTextWatcher(context, etPhone));
             etPhone.addTextChangedListener(new TextWatcherOnTextChange() {
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -293,6 +326,7 @@ public class CustomersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             ivQrCode.setOnClickListener(v -> listener.scanBarcode());
 
             tvCustomerGroup.setOnClickListener(view -> {
+                listener.onGroupSelected(getAdapterPosition());
                 SelectCustomerGroupDialog dialog = new SelectCustomerGroupDialog(context, customerGroups, addItem.getActualCustomerGroup());
                 dialog.setListener(groups -> {
                     addItem.setNewGroup(groups);
@@ -310,6 +344,15 @@ public class CustomersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 }
             });
         }
+
+        @OnTextChanged(R.id.etPhone)
+        protected void handleTextChange(Editable editable) {
+            if (editable.toString().isEmpty()) {
+                ivClear.setVisibility(View.GONE);
+            } else {
+                ivClear.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     public class CustomerItemViewHolder extends RecyclerView.ViewHolder {
@@ -321,7 +364,7 @@ public class CustomersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         MpEditText etFullName;
         @NotEmpty(messageId = R.string.enter_phone)
         @BindView(R.id.etPhone)
-        MpEditText etPhone;
+        EditText etPhone;
         @NotEmpty(messageId = R.string.enter_address)
         @BindView(R.id.etAddress)
         MpEditText etAddress;
@@ -335,6 +378,8 @@ public class CustomersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         MpMiniActionButton btnSave;
         @BindView(R.id.btnRemove)
         MpMiniActionButton btnRemove;
+        @BindView(R.id.ivClear)
+        ImageView ivClear;
 
         public CustomerItemViewHolder(View itemView) {
             super(itemView);
@@ -355,6 +400,15 @@ public class CustomersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         btnSave.enable();
                 }
             });
+            ivClear.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!etPhone.getText().toString().isEmpty()) {
+                        etPhone.setText("");
+                    }
+                }
+            });
+            etPhone.addTextChangedListener(new PhoneNumberFormatTextWatcher(context, etPhone));
             etPhone.addTextChangedListener(new TextWatcherOnTextChange() {
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -376,6 +430,7 @@ public class CustomersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             });
 
             tvCustomerGroup.setOnClickListener(view -> {
+                listener.onGroupSelected(getAdapterPosition());
                 SelectCustomerGroupDialog dialog = new SelectCustomerGroupDialog(context, customerGroups, items.get(getAdapterPosition()).getActualCustomerGroup());
                 dialog.setListener(groups -> {
                     items.get(getAdapterPosition()).setNewGroup(groups);
@@ -408,6 +463,15 @@ public class CustomersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 warningDialog.show();
             });
         }
+
+        @OnTextChanged(R.id.etPhone)
+        protected void handleTextChange(Editable editable) {
+            if (editable.toString().isEmpty()) {
+                ivClear.setVisibility(View.GONE);
+            } else {
+                ivClear.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     public interface OnCustomerCallback {
@@ -416,6 +480,8 @@ public class CustomersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         void onSave(String name, String phone, String address, String qrCode, List<CustomerGroup> groups, Customer customer);
 
         void onDelete(Customer customer);
+
+        void onGroupSelected(int position);
 
         void sortList(CustomerFragmentPresenterImpl.CustomerSortTypes customerSortTypes);
 

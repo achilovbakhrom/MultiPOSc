@@ -3,11 +3,14 @@ package com.jim.multipos.ui.vendors.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.InputType;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jim.mpviews.MpEditText;
@@ -15,12 +18,14 @@ import com.jim.mpviews.MpMiniActionButton;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseViewHolder;
 import com.jim.multipos.ui.vendors.model.ContactItem;
+import com.jim.multipos.utils.PhoneNumberFormatTextWatcher;
 import com.jim.multipos.utils.TextWatcherOnTextChange;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnTextChanged;
 
 /**
  * Created by bakhrom on 10/22/17.
@@ -79,12 +84,23 @@ public class VendorContactsAdapter extends RecyclerView.Adapter<VendorContactsAd
         @BindView(R.id.tvContacts)
         TextView contact;
         @BindView(R.id.tvContactsValue)
-        MpEditText contactData;
+        EditText contactData;
         @BindView(R.id.ivRemoveContact)
         MpMiniActionButton remove;
+        @BindView(R.id.ivClear)
+        ImageView ivClear;
 
         public ContactViewHolder(View itemView) {
             super(itemView);
+            ivClear.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!contactData.getText().toString().isEmpty()) {
+                        contactData.setText("");
+                    }
+                }
+            });
+            contactData.addTextChangedListener(new PhoneNumberFormatTextWatcher(context, contactData));
             contactData.addTextChangedListener(new TextWatcherOnTextChange() {
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -106,7 +122,17 @@ public class VendorContactsAdapter extends RecyclerView.Adapter<VendorContactsAd
                 }
             });
         }
+
+        @OnTextChanged(R.id.tvContactsValue)
+        protected void handleTextChange(Editable editable) {
+            if(editable.toString().isEmpty()){
+                ivClear.setVisibility(View.GONE);
+            }else {
+                ivClear.setVisibility(View.VISIBLE);
+            }
+        }
     }
+
 
     public interface OnContactClickListener {
         void onRemove(int position, ContactItem contact);

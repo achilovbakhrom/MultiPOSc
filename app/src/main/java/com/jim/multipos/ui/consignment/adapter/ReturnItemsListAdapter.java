@@ -18,6 +18,7 @@ import com.jim.multipos.config.common.BaseAppModule;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.inventory.OutcomeProduct;
 import com.jim.multipos.data.db.model.products.Product;
+import com.jim.multipos.utils.NumberTextWatcher;
 import com.jim.multipos.utils.TextWatcherOnTextChange;
 
 import java.text.DecimalFormat;
@@ -138,7 +139,7 @@ public class ReturnItemsListAdapter extends RecyclerView.Adapter<ReturnItemsList
             flEditType.setOnClickListener(v -> listener.onCustomStock(items.get(getAdapterPosition()), getAdapterPosition()));
 
             btnDeleteProduct.setOnClickListener(view -> listener.onDelete(getAdapterPosition()));
-
+            etProductCost.addTextChangedListener(new NumberTextWatcher(etProductCost));
             etProductCount.addTextChangedListener(new TextWatcherOnTextChange() {
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {

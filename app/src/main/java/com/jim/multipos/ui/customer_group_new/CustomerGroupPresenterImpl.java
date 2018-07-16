@@ -71,12 +71,10 @@ public class CustomerGroupPresenterImpl extends BasePresenterImpl<CustomerGroupV
         customerGroup.setName(name);
         customerGroup.setIsActive(isActive);
         customerGroup.setCreatedDate(System.currentTimeMillis());
-
         databaseManager.getCustomerGroupOperations().addCustomerGroup(customerGroup).subscribe(aLong -> {
             for (Customer c : addCustomers) {
                 databaseManager.getJoinCustomerGroupWithCustomerOperations().addCustomerToCustomerGroup(customerGroup.getId(), c.getId()).blockingSingle();
             }
-
             addCustomers.clear();
             view.addItem(customerGroup);
         });
@@ -90,6 +88,7 @@ public class CustomerGroupPresenterImpl extends BasePresenterImpl<CustomerGroupV
             databaseManager.getCustomerGroupOperations().removeCustomerGroup(customerGroup).subscribe(aBoolean -> {
                 view.removeItem(customerGroup);
             });
+            currentCustomerGroup = null;
         }
     }
 

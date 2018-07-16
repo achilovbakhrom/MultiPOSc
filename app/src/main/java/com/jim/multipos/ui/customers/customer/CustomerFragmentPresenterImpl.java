@@ -29,7 +29,7 @@ public class CustomerFragmentPresenterImpl extends BasePresenterImpl<CustomerFra
 
     @Override
     public void initData() {
-
+        items.clear();
         databaseManager.getCustomers().subscribe(customers -> {
             items.add(null);
             for (int i = 0; i < customers.size(); i++) {

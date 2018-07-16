@@ -15,12 +15,17 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+        resConfigs 'en', 'ru'
     }
 
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    repositories {
+        maven { url "https://dl.bintray.com/terrakok/terramaven" }
     }
 
 }
@@ -87,4 +92,5 @@ dependencies {
     implementation 'com.itextpdf:itextg:5.5.10'
     implementation 'com.github.angads25:filepicker:1.1.1'
     implementation 'com.github.mjdev:libaums:0.5.5'
+    implementation 'com.terrakok.phonematter:phonematter:1.0@aar'
 }
