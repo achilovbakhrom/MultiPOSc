@@ -14,6 +14,7 @@ import java.util.List;
 public interface ProductFolderViewPresenter extends Presenter {
     void setFolderItemsRecyclerView();
     void selectedItem(FolderItem item, int position);
+    void selectedInfo(FolderItem item, int position);
     void returnBack(int mode);
     void updateProducts();
     void updateTitles();

@@ -287,7 +287,7 @@ public class InventoryFragment extends BaseFragment implements InventoryView {
 
     @Override
     public void openWriteOffDialog(InventoryItem inventoryItem, WriteOffProductDialog.WriteOffCallback writeOffCallback) {
-        WriteOffProductDialog writeOffProductDialog = new WriteOffProductDialog(getContext(),writeOffCallback,inventoryItem,decimalFormat,databaseManager);
+        WriteOffProductDialog writeOffProductDialog = new WriteOffProductDialog(getContext(),writeOffCallback,inventoryItem,decimalFormat,databaseManager,null);
         writeOffProductDialog.show();
     }
 

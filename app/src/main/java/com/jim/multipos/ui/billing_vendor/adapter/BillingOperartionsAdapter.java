@@ -63,7 +63,7 @@ public class BillingOperartionsAdapter extends RecyclerView.Adapter<BillingOpera
         else holder.llBackground.setBackgroundColor(Color.parseColor("#f0f0f0"));
         BillingOperations billingOperations = items.get(position);
         if(BillingOperations.DEBT_CONSIGNMENT == billingOperations.getOperationType()){
-            holder.ivBillingIcon.setImageResource(R.drawable.imcome_consigment_billing);
+            holder.ivBillingIcon.setImageResource(R.drawable.ic_invoice_payment);
             holder.tvType.setText(R.string.consignment_income);
             if(billingOperations.getInvoice()!=null && !billingOperations.getInvoice().getDescription().isEmpty())
                 holder.tvDiscription.setText(billingOperations.getInvoice().getDescription());
@@ -71,14 +71,14 @@ public class BillingOperartionsAdapter extends RecyclerView.Adapter<BillingOpera
 
             holder.tvExtra.setText(billingOperations.getInvoice().getConsigmentNumber());
         }else if(BillingOperations.RETURN_TO_VENDOR == billingOperations.getOperationType()){
-            holder.ivBillingIcon.setImageResource(R.drawable.outcome_consigment_billing);
+            holder.ivBillingIcon.setImageResource(R.drawable.ic_outvoice_payment);
             holder.tvType.setText(R.string.consigment_return);
             if(billingOperations.getInvoice()!=null && !billingOperations.getInvoice().getDescription().isEmpty())
                 holder.tvDiscription.setText(billingOperations.getInvoice().getDescription());
             else  holder.tvDiscription.setText("-");
             holder.tvExtra.setText(billingOperations.getOutvoice().getConsigmentNumber());
         }else if(BillingOperations.PAID_TO_CONSIGNMENT == billingOperations.getOperationType()){
-            holder.ivBillingIcon.setImageResource(R.drawable.pay_to_vendor_billing);
+            holder.ivBillingIcon.setImageResource(R.drawable.ic_payment_vendor);
             holder.tvType.setText(R.string.payment_vendor);
             holder.tvExtra.setText("-");
             if(billingOperations.getDescription()!=null && !billingOperations.getDescription().isEmpty())

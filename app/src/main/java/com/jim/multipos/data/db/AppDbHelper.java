@@ -2451,8 +2451,8 @@ public class AppDbHelper implements DbHelper {
             }else new Exception("In Stock Not Have Queue? Something went wrong, because when Outcome registered stock queue was!!!").printStackTrace();
 
             for(OutcomeProduct outcomeProduct: outcomeProducts){
-                if(outcomeProduct.getProduct().getStockKeepType()==Product.LIFO) Collections.sort(stockPerHashMap.get(outcomeProduct.getId()),comparatorLIFO);
-                if(outcomeProduct.getProduct().getStockKeepType()==Product.FEFO) Collections.sort(stockPerHashMap.get(outcomeProduct.getId()),comparatorFEFO);
+                if(outcomeProduct.getProduct().getStockKeepType()==Product.LIFO) Collections.sort(stockPerHashMap.get(outcomeProduct.getProductId()),comparatorLIFO);
+                if(outcomeProduct.getProduct().getStockKeepType()==Product.FEFO) Collections.sort(stockPerHashMap.get(outcomeProduct.getProductId()),comparatorFEFO);
             }
 
 
@@ -2675,6 +2675,9 @@ public class AppDbHelper implements DbHelper {
                     cursorForStock.moveToNext();
                 }
             }else new Exception("In Stock Not Have Queue? Some think is wrong, because when Outcome registered stock queue was!!!").printStackTrace();
+
+            if(outcomeProduct.getProduct().getStockKeepType()==Product.LIFO) Collections.sort(stockPerfomanceWithProducts,comparatorLIFO);
+            if(outcomeProduct.getProduct().getStockKeepType()==Product.FEFO) Collections.sort(stockPerfomanceWithProducts,comparatorFEFO);
 
 
            OutcomeWithDetials outcomeWithDetials = new OutcomeWithDetials(outcomeProduct,null);

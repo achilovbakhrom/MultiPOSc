@@ -440,7 +440,7 @@ public class StockOperationPresenterImpl extends BasePresenterImpl<StockOperatio
                             } else if (orderStatus == OutcomeProduct.OUTVOICE_TO_VENDOR) {
                                 text = context.getString(R.string.outvoice_rep);
                             } else if (orderStatus == OutcomeProduct.WASTE) {
-                                text = context.getString(R.string.waste_rep);
+                                    text = context.getString(R.string.waste_rep);
                             }
                             if (text.toUpperCase().contains(searchText.toUpperCase())) {
                                 searchRes[i] = 1;

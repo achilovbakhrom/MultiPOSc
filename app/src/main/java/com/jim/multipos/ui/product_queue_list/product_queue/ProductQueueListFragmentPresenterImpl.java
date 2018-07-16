@@ -202,7 +202,7 @@ public class ProductQueueListFragmentPresenterImpl extends BasePresenterImpl<Pro
                 databaseManager.insertAndFillOutcomeProduct(outcomeWithDetials);
                 initStockQueueList();
             });
-        });
+        },stockQueue);
     }
 
     @Override

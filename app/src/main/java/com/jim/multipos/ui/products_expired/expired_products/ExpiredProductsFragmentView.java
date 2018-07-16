@@ -12,8 +12,8 @@ public interface ExpiredProductsFragmentView extends BaseView{
     void setExpiredProducts(List<StockQueue> stockQueueList);
     void initSearchResults(List<StockQueue> searchResults, String searchText);
     void openFilterDialog(int[] filterConfig);
-    void openWriteOffDialog(InventoryItem inventoryItem, WriteOffProductDialog.WriteOffCallback writeOffCallback);
     void openReturnInvoice(Long productId, Long vendorId, Long stockQueueId);
+    void openWriteOffDialog(InventoryItem inventoryItem, WriteOffProductDialog.WriteOffCallback writeOffCallback,StockQueue stockQueue);
     void openWarningDialog(String text);
 
 }

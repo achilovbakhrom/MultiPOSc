@@ -150,17 +150,15 @@ public class FolderViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             super(itemView);
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(v -> listener.onItemClick(items.get(getAdapterPosition()), getAdapterPosition()));
-            llInfo.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                }
+            llInfo.setOnClickListener(v -> {
+                listener.onInfoClicked(items.get(getAdapterPosition()),getAdapterPosition());
             });
         }
     }
 
     public interface OnFolderItemClickListener {
         void onItemClick(FolderItem folderItem, int position);
+        void onInfoClicked(FolderItem folderItem, int position);
     }
 
 

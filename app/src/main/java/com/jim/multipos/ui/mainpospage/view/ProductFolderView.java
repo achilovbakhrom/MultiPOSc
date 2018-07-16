@@ -17,4 +17,5 @@ public interface ProductFolderView extends BaseView {
     void refreshProductList(List<FolderItem> folderItems, int mode);
     void setSelectedProduct(Product product);
     void sendCategoryEvent(Category category, String key);
+    void showAvailableDialog(Product product, double available);
 }

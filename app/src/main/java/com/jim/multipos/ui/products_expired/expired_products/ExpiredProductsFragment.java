@@ -125,8 +125,8 @@ public class ExpiredProductsFragment extends BaseFragment implements ExpiredProd
     }
 
     @Override
-    public void openWriteOffDialog(InventoryItem inventoryItem, WriteOffProductDialog.WriteOffCallback writeOffCallback) {
-        WriteOffProductDialog writeOffProductDialog = new WriteOffProductDialog(getContext(), writeOffCallback, inventoryItem, decimalFormat, databaseManager);
+    public void openWriteOffDialog(InventoryItem inventoryItem, WriteOffProductDialog.WriteOffCallback writeOffCallback,StockQueue stockQueue) {
+        WriteOffProductDialog writeOffProductDialog = new WriteOffProductDialog(getContext(), writeOffCallback, inventoryItem, decimalFormat, databaseManager,stockQueue);
         writeOffProductDialog.show();
     }
 

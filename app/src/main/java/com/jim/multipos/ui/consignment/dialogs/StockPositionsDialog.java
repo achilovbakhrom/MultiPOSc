@@ -266,7 +266,7 @@ public class StockPositionsDialog extends Dialog {
         for (int i = 0; i < stockQueueItems.size(); i++) {
             StockQueueItem stockQueueItem = stockQueueItems.get(i);
             if (outcomeProduct.getCustomPickSock()) {
-                if (stockQueueItem.getStockQueue().getId().equals(outcomeProduct.getStockQueue().getId())) {
+                if (stockQueueItem.getStockQueue().getId().equals(outcomeProduct.getPickedStockQueueId())) {
                     List<DetialCount> detialCounts = new ArrayList<>();
                     DetialCount detialCount = new DetialCount();
                     detialCount.setCost(stockQueueItem.getStockQueue().getCost());

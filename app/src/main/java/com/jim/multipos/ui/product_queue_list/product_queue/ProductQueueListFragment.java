@@ -155,11 +155,13 @@ public class ProductQueueListFragment extends BaseFragment implements ProductQue
         dialog.show();
     }
 
+
     @Override
-    public void openWriteOffDialog(InventoryItem inventoryItem, WriteOffProductDialog.WriteOffCallback writeOffCallback) {
-        WriteOffProductDialog writeOffProductDialog = new WriteOffProductDialog(getContext(), writeOffCallback, inventoryItem, decimalFormat, databaseManager);
+    public void openWriteOffDialog(InventoryItem inventoryItem, WriteOffProductDialog.WriteOffCallback writeOffCallback,StockQueue stockQueue) {
+        WriteOffProductDialog writeOffProductDialog = new WriteOffProductDialog(getContext(), writeOffCallback, inventoryItem, decimalFormat, databaseManager,stockQueue);
         writeOffProductDialog.show();
     }
+
 
     @Override
     public void openReturnInvoice(Long productId, Long vendorId, Long id) {

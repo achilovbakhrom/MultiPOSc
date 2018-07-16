@@ -133,8 +133,8 @@ public class UnitValuePicker extends Dialog {
         etWeight.setOnFocusChangeListener((view, hasFocus) -> {
             if (hasFocus) {
                 isFocusedInWeight = true;
-                etWeight.setText(decimalFormatWithoutProbel.format(weight));
-                etCost.setText(decimalFormat.format(cost));
+                etWeight.setText(decimalFormatWithoutProbel.format(DecimalUtils.roundDouble(weight)));
+                etCost.setText(decimalFormat.format(DecimalUtils.roundDouble(cost)));
                 etWeight.selectAll();
                 llWeight.setBackgroundResource(R.drawable.rectangle_solid_blue_rounded);
                 llCost.setBackgroundResource(R.drawable.rectangle_solid_white_rounded);
@@ -143,8 +143,8 @@ public class UnitValuePicker extends Dialog {
         etCost.setOnFocusChangeListener((view, hasFocus) -> {
             if (hasFocus) {
                 isFocusedInWeight = false;
-                etCost.setText(decimalFormatWithoutProbel.format(cost));
-                etWeight.setText(decimalFormat.format(weight));
+                etCost.setText(decimalFormatWithoutProbel.format(DecimalUtils.roundDouble(cost)));
+                etWeight.setText(decimalFormat.format(DecimalUtils.roundDouble(weight)));
                 etCost.selectAll();
                 llCost.setBackgroundResource(R.drawable.rectangle_solid_blue_rounded);
                 llWeight.setBackgroundResource(R.drawable.rectangle_solid_white_rounded);
@@ -197,7 +197,7 @@ public class UnitValuePicker extends Dialog {
         etAbr.setText(product.getMainUnit().getAbbr());
 
         tvZeroUnitPrice.setText(context.getString(R.string.price_1)+product.getMainUnit().getAbbr());
-        tvPriceProduct.setText(decimalFormat.format(product.getPrice()));
+        tvPriceProduct.setText(decimalFormat.format(DecimalUtils.roundDouble(product.getPrice())));
         initSubUnits();
         updateActiveUnit();
         initButtons();

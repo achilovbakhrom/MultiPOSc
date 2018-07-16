@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jim.multipos.R;
+import com.jim.multipos.config.common.BaseAppModule;
 import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.db.model.intosystem.FolderItem;
 import com.jim.multipos.data.db.model.products.Category;
@@ -19,11 +20,13 @@ import com.jim.multipos.ui.mainpospage.connection.MainPageConnection;
 import com.jim.multipos.ui.mainpospage.presenter.ProductFolderViewPresenter;
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.RxBusLocal;
+import com.jim.multipos.utils.WarningDialog;
 import com.jim.multipos.utils.rxevents.inventory_events.InventoryStateEvent;
 import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
 import com.jim.multipos.utils.rxevents.main_order_events.ProductEvent;
 import com.jim.multipos.utils.rxevents.product_events.CategoryEvent;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,7 +64,7 @@ public class ProductFolderViewFragment extends BaseFragment implements ProductFo
     private static final int PRODUCT = 2;
     private FolderViewAdapter adapter;
     private ArrayList<Disposable> subscriptions;
-
+    DecimalFormat decimalFormat;
     @Override
     protected int getLayout() {
         return R.layout.product_folder_list;
@@ -113,6 +116,7 @@ public class ProductFolderViewFragment extends BaseFragment implements ProductFo
     @Override
     protected void init(Bundle savedInstanceState) {
         mainPageConnection.setProductFolderView(this);
+        decimalFormat = BaseAppModule.getFormatterWithoutGroupingTwoDecimal();
         ((SimpleItemAnimator) rvFolderItems.getItemAnimator()).setSupportsChangeAnimations(false);
         presenter.setFolderItemsRecyclerView();
         if (mode == PRODUCT) {
@@ -145,7 +149,17 @@ public class ProductFolderViewFragment extends BaseFragment implements ProductFo
         rvFolderItems.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new FolderViewAdapter(folderItems, mode, getContext());
         rvFolderItems.setAdapter(adapter);
-        adapter.setListener((folderItem, position) -> presenter.selectedItem(folderItem, position));
+        adapter.setListener(new FolderViewAdapter.OnFolderItemClickListener() {
+            @Override
+            public void onItemClick(FolderItem folderItem, int position) {
+                presenter.selectedItem(folderItem,position);
+            }
+
+            @Override
+            public void onInfoClicked(FolderItem folderItem, int position) {
+                presenter.selectedInfo(folderItem, position);
+            }
+        });
     }
 
     @Override
@@ -170,6 +184,20 @@ public class ProductFolderViewFragment extends BaseFragment implements ProductFo
     @Override
     public void sendCategoryEvent(Category category, String key) {
         mainPageConnection.sendSelectedCategory(category, key);
+    }
+
+    @Override
+    public void showAvailableDialog(Product product, double available) {
+        WarningDialog warningDialog = new WarningDialog(getActivity());
+        warningDialog.setWarningMessage(getString(R.string.in_stock_ava)+"        "+decimalFormat.format(available) + " " + product.getMainUnit().getAbbr());
+        warningDialog.onlyText(true);
+        warningDialog.setDialogTitle(product.getName());
+        warningDialog.setOnYesClickListener(view1 -> {
+            warningDialog.dismiss();
+
+        });
+        warningDialog.setPositiveButtonText(getString(R.string.ok));
+        warningDialog.show();
     }
 
     public void onShow() {

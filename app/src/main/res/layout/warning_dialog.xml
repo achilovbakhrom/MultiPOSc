@@ -25,7 +25,8 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:paddingLeft="@dimen/thirty_dp"
-                android:text="@string/warning"
+                android:text= "@string/warning"
+                android:layout_marginRight="@dimen/seventy_dp"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/twenty_dp"
                 android:textStyle="bold" />

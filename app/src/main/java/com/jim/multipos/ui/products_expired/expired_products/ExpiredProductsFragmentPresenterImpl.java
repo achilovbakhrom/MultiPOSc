@@ -133,7 +133,7 @@ public class ExpiredProductsFragmentPresenterImpl extends BasePresenterImpl<Expi
                     view.setExpiredProducts(stockQueueList);
                 });
             });
-        });
+        },stockQueue);
     }
 
     @Override

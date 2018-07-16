@@ -15,8 +15,8 @@ public interface ProductQueueListFragmentView extends BaseView {
     void openDateIntervalPicker(Calendar fromDate, Calendar toDate);
     void initSearchResults(List<StockQueue> searchResults, String searchText);
     void openFilterDialog(int[] filterConfig);
-    void openWriteOffDialog(InventoryItem inventoryItem, WriteOffProductDialog.WriteOffCallback writeOffCallback);
     void openReturnInvoice(Long productId, Long vendorId, Long id);
+    void openWriteOffDialog(InventoryItem inventoryItem, WriteOffProductDialog.WriteOffCallback writeOffCallback,StockQueue stockQueue);
     void openWarningDialog(String text);
     void setMode(int i);
 }

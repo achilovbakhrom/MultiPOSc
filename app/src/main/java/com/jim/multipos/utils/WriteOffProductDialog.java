@@ -16,6 +16,7 @@ import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.intosystem.OutcomeWithDetials;
 import com.jim.multipos.data.db.model.inventory.DetialCount;
 import com.jim.multipos.data.db.model.inventory.OutcomeProduct;
+import com.jim.multipos.data.db.model.inventory.StockQueue;
 import com.jim.multipos.data.db.model.products.Product;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.consignment.dialogs.StockPositionsDialog;
@@ -62,11 +63,19 @@ public class WriteOffProductDialog extends Dialog {
     double aDouble = 0;
     double v1 = 0;
     TextWatcherOnTextChange stock_out;
-    public WriteOffProductDialog(@NonNull Context context, WriteOffCallback writeOffCallback, InventoryItem inventoryItem, DecimalFormat decimalFormat,DatabaseManager databaseManager){
+    public WriteOffProductDialog(@NonNull Context context, WriteOffCallback writeOffCallback, InventoryItem inventoryItem, DecimalFormat decimalFormat, DatabaseManager databaseManager, StockQueue stockQueue){
         super(context);
         this.writeOffCallback = writeOffCallback;
         this.product = product;
         outcomeProduct = new OutcomeProduct();
+        if(stockQueue!=null){
+            outcomeProduct.setCustomPickSock(true);
+            outcomeProduct.setPickedStockQueueId(stockQueue.getId());
+            outcomeProduct.setSumCountValue(stockQueue.getAvailable());
+        }else {
+            outcomeProduct.setCustomPickSock(false);
+            outcomeProduct.setSumCountValue(0d);
+        }
         dialogView = getLayoutInflater().inflate(R.layout.write_off_dialog, null);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         ButterKnife.bind(this, dialogView);
@@ -74,7 +83,7 @@ public class WriteOffProductDialog extends Dialog {
         View v = getWindow().getDecorView();
         v.setBackgroundResource(android.R.color.transparent);
         tvDialogTitle.setText("Write-off: " + inventoryItem.getProduct().getName());
-
+        if(!outcomeProduct.getCustomPickSock())
         switch (inventoryItem.getProduct().getStockKeepType()) {
             case Product.FIFO:
                 tvStockType.setText("FIFO");
@@ -85,11 +94,12 @@ public class WriteOffProductDialog extends Dialog {
             case Product.FEFO:
                 tvStockType.setText("FEFO");
                 break;
-        }
+        }else tvStockType.setText("CUSTOM");
+
         outcomeProduct.setProduct(inventoryItem.getProduct());
-        outcomeProduct.setSumCountValue(1d);
+
         tvStockRecord.setText(decimalFormat.format(inventoryItem.getInventory()));
-        tvActual.setText(decimalFormat.format(inventoryItem.getInventory()));
+
         tvUnit.setText(inventoryItem.getProduct().getMainUnit().getAbbr());
         if(inventoryItem.getProduct().getMainUnit().getAbbr().equals("pcs"))
         etShortage.setInputType(InputType.TYPE_CLASS_NUMBER );
@@ -166,7 +176,14 @@ public class WriteOffProductDialog extends Dialog {
                 });
             }
         };
+
+        etShortage.setText(decimalFormat.format(outcomeProduct.getSumCountValue()));
+        tvActual.setText(decimalFormat.format(inventoryItem.getInventory() - outcomeProduct.getSumCountValue()));
+
+
         etShortage.addTextChangedListener(stock_out);
+
+
         btnNext.setOnClickListener(view -> {
 
                 if(outcomeProduct.getSumCountValue()==0 || outcomeProduct.getSumCountValue()<0 || etShortage.getText().toString().isEmpty()){
