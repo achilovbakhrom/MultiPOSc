@@ -79,6 +79,10 @@ public class CustomersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         addItem.setObject(customer);
     }
 
+    public Customer getAddItem(){
+        return addItem.getChangedObject();
+    }
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

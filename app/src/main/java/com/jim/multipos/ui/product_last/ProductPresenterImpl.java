@@ -449,7 +449,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             view.clearSubcategoryList();
             view.setCategoryPath(null);
             view.openAddCategoryMode();
-            view.unselectCategoryList();
+//            view.unselectCategoryList();
         } else {
             this.category = category;
             this.category.resetSubCategories();
@@ -482,7 +482,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             mode = CategoryAddEditMode.SUBCATEGORY_ADD_MODE;
             view.openAddSubcategoryMode(this.category.getName());
             view.clearProductList();
-            view.unselectSubcategoryList();
+//            view.unselectSubcategoryList();
         } else {
             view.setSubcategoryPath(category.getName());
             this.subcategory = category;

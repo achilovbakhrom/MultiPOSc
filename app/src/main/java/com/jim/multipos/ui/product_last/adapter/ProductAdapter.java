@@ -70,6 +70,7 @@ public class ProductAdapter extends ClickableBaseAdapter<Product, BaseViewHolder
         } else if (holder instanceof AddViewHolder) {
             AddViewHolder item = (AddViewHolder) holder;
             item.itemView.setTextSize(12);
+            item.itemView.setActivate(position == selectedPosition);
         }
     }
 
@@ -156,7 +157,7 @@ public class ProductAdapter extends ClickableBaseAdapter<Product, BaseViewHolder
     class AddViewHolder extends BaseViewHolder {
 
         @BindView(R.id.aivAddItem)
-        MPAddItemView itemView;
+        MPListItemView itemView;
 
         AddViewHolder(View itemView) {
             super(itemView);

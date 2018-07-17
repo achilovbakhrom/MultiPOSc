@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.jim.mpviews.MPAddItemView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.jim.mpviews.MPListItemView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/aivAddItem"
     android:layout_width="@dimen/hundred_dp"
     android:layout_height="@dimen/hundred_dp"
     android:layout_margin="@dimen/two_dp"
-    app:add_item_active="true"
-    app:add_item_text="@string/add_category" />
+    app:list_item_active="true"
+    app:list_item_text="@string/add_category" />

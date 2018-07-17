@@ -25,7 +25,7 @@ import butterknife.ButterKnife;
 public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int ADD = 0, ITEM = 1;
-    private int selectedPosition = -1;
+    private int selectedPosition = 0;
     public static final int CATEGORY_MODE = 0, SUBCATEGORY_MODE = 1;
     private int mode;
     private List<Category> items;
@@ -85,6 +85,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         } else if (holder instanceof AddViewHolder) {
             AddViewHolder item = (AddViewHolder) holder;
             item.itemView.setTextSize(12);
+            item.itemView.setActivate(position == selectedPosition);
         }
     }
 
@@ -167,7 +168,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     class AddViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.aivAddItem)
-        MPAddItemView itemView;
+        MPListItemView itemView;
 
         AddViewHolder(View itemView) {
             super(itemView);

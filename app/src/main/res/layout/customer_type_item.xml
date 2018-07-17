@@ -223,7 +223,7 @@
             android:layout_height="@dimen/forty_dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/ten_dp"
-            android:text="@string/plus_add"
+            android:text="@string/save"
             android:textColor="#23d730"
             android:textSize="@dimen/sixteen_dp" />
     </LinearLayout>

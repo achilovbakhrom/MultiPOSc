@@ -135,10 +135,14 @@ public class CustomerFragmentPresenterImpl extends BasePresenterImpl<CustomerFra
     }
 
     @Override
-    public void onCloseAction() {
+    public void onCloseAction(Customer addItem) {
         boolean canBeClosed = true;
         for (int i = 1; i < items.size(); i++) {
             if (items.get(i).isChanged())
+                canBeClosed = false;
+        }
+        if (addItem != null){
+            if (!addItem.getName().equals("") || !addItem.getPhoneNumber().equals("") || !addItem.getQrCode().equals("") || !addItem.getAddress().equals(""))
                 canBeClosed = false;
         }
         if (canBeClosed) {

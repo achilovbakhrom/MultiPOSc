@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface CustomerFragmentPresenter extends Presenter {
     void initData();
-    void onCloseAction();
+    void onCloseAction(Customer addItem);
     void onAddPressed(String id, String name, String phone, String address, String qrCode, List<CustomerGroup> groups);
     void onSave(String name, String phone, String address, String qrCode, List<CustomerGroup> groups, Customer customer);
     void onDelete(Customer customer);

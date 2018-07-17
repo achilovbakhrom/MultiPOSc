@@ -111,7 +111,7 @@ public class CustomerFragment extends BaseFragment implements CustomerFragmentVi
         rvCustomers.setLayoutManager(new LinearLayoutManager(getContext()));
         rvCustomers.setAdapter(customersAdapter);
         ((SimpleItemAnimator) rvCustomers.getItemAnimator()).setSupportsChangeAnimations(false);
-        btnCancel.setOnClickListener(view -> presenter.onCloseAction());
+        btnCancel.setOnClickListener(view -> presenter.onCloseAction(customersAdapter.getAddItem()));
     }
 
     @Override
