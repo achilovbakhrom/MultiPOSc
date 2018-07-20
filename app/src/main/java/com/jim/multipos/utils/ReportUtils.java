@@ -9,14 +9,16 @@ import java.util.Date;
 
 public class ReportUtils {
     public static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-    public static String getProductName(Product product){
+
+    public static String getProductName(Product product) {
         StringBuilder productName = new StringBuilder(product.getName());
         productName.append(" (");
         productName.append(product.getSku());
         productName.append(")");
         return productName.toString();
     }
-    public static String getQty(double amount, Product product, DecimalFormat decimalFormat){
+
+    public static String getQty(double amount, Product product, DecimalFormat decimalFormat) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(decimalFormat.format(amount));
         stringBuilder.append(" ");

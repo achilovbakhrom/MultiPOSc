@@ -8,11 +8,15 @@ import com.jim.multipos.data.db.model.order.Order;
  */
 
 public interface OrderListHistoryPresenter extends Presenter {
-     void refreshData(Order order);
-     void onClickPaymentDetials();
+    void refreshData(Order order);
 
-     void onBruteForce();
-     void onEditClicked();
-     void onCancelClicked();
-     void reprintOrder();
+    void onClickPaymentDetials();
+
+    void onBruteForce();
+
+    void onEditClicked();
+
+    void onCancelClicked();
+
+    void reprintOrder();
 }

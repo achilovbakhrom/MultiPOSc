@@ -8,7 +8,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -140,13 +139,14 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
     @BindView(R.id.tvTips)
     TextView tvTips;
     private OrderProductItem orderProductItem;
-    private int currentPosition  = -1;
+    private int currentPosition = -1;
     public static final String PRODUCT_ADD_TO_ORDER = "addorderproduct";
     private CustomerDialog customerDialog;
     private boolean fromAddCustomer = false;
     private Dialog dialog;
     @Inject
     VendorItemsListAdapter vendorItemsListAdapter;
+
     @Override
     protected int getLayout() {
         return R.layout.fragment_order_list;
@@ -177,10 +177,10 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
             presenter.printStockCheck();
         });
         llPay.setOnClickListener(view -> {
-            if(isPaymentOpen){
+            if (isPaymentOpen) {
                 ((MainPosPageActivity) getActivity()).hidePaymentFragment();
                 isPaymentOpen = false;
-            }else {
+            } else {
                 ((MainPosPageActivity) getActivity()).showPaymentFragment();
                 isPaymentOpen = true;
             }
@@ -195,70 +195,70 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
         presenter.onCreateView(getArguments());
         subscriptions.add(
                 rxBus.toObservable().observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
-                       if(o instanceof ProductEvent){
-                           ProductEvent productEvent = (ProductEvent) o;
-                           if(productEvent.getType() == GlobalEventConstants.UPDATE){
-                                presenter.eventProductUpdate(productEvent.getProduct(),productEvent.getNewProduct());
-                           }else if(productEvent.getType() == GlobalEventConstants.DELETE){
-                               presenter.eventProductDelete(productEvent.getProduct());
-                           }
-                       }else if(o instanceof CustomerEvent){
-                           CustomerEvent customerEvent = (CustomerEvent) o;
-                            if(customerEvent.getType() == GlobalEventConstants.UPDATE){
-                                presenter.eventCustomerUpdate(customerEvent.getCustomer());
-                            }else if(customerEvent.getType() == GlobalEventConstants.DELETE){
-                                presenter.eventCustomerDelete(customerEvent.getCustomer());
-                            }
-                       }else if(o instanceof DebtEvent){
-                           DebtEvent debtEvent = (DebtEvent) o;
-                           if(debtEvent.getType() == GlobalEventConstants.UPDATE){
-                               presenter.eventDebtUpdate(debtEvent.getDebt(),debtEvent.getNewDebt());
-                           }else if(debtEvent.getType() == GlobalEventConstants.DELETE){
-                               presenter.eventDebtDelete(debtEvent.getDebt());
-                           }
-                       }else if(o instanceof DiscountEvent){
-                           DiscountEvent discountEvent = (DiscountEvent) o;
-                           if(discountEvent.getType() == GlobalEventConstants.UPDATE){
-                               presenter.eventDiscountUpdate(discountEvent.getDiscount());
-                           }else if(discountEvent.getType() == GlobalEventConstants.DELETE){
-                               presenter.eventDiscountDelete(discountEvent.getDiscount());
-                           }
-                       }else if(o instanceof ServiceFeeEvent){
-                           ServiceFeeEvent serviceFeeEvent = (ServiceFeeEvent) o;
-                           if(serviceFeeEvent.getType() == GlobalEventConstants.UPDATE){
-                                presenter.eventServiceFeeUpdate(serviceFeeEvent.getServiceFee());
-                           }else if(serviceFeeEvent.getType() == GlobalEventConstants.DELETE){
-                               presenter.eventServiceFeeDelete(serviceFeeEvent.getServiceFee());
-                           }
-                       }else if(o instanceof InventoryStateEvent){
-                           InventoryStateEvent event = (InventoryStateEvent) o;
-                           if(event.getType() == GlobalEventConstants.UPDATE){
-                               presenter.eventConsignmentUpdate();
-                           }
-                       }
+                    if (o instanceof ProductEvent) {
+                        ProductEvent productEvent = (ProductEvent) o;
+                        if (productEvent.getType() == GlobalEventConstants.UPDATE) {
+                            presenter.eventProductUpdate(productEvent.getProduct(), productEvent.getNewProduct());
+                        } else if (productEvent.getType() == GlobalEventConstants.DELETE) {
+                            presenter.eventProductDelete(productEvent.getProduct());
+                        }
+                    } else if (o instanceof CustomerEvent) {
+                        CustomerEvent customerEvent = (CustomerEvent) o;
+                        if (customerEvent.getType() == GlobalEventConstants.UPDATE) {
+                            presenter.eventCustomerUpdate(customerEvent.getCustomer());
+                        } else if (customerEvent.getType() == GlobalEventConstants.DELETE) {
+                            presenter.eventCustomerDelete(customerEvent.getCustomer());
+                        }
+                    } else if (o instanceof DebtEvent) {
+                        DebtEvent debtEvent = (DebtEvent) o;
+                        if (debtEvent.getType() == GlobalEventConstants.UPDATE) {
+                            presenter.eventDebtUpdate(debtEvent.getDebt(), debtEvent.getNewDebt());
+                        } else if (debtEvent.getType() == GlobalEventConstants.DELETE) {
+                            presenter.eventDebtDelete(debtEvent.getDebt());
+                        }
+                    } else if (o instanceof DiscountEvent) {
+                        DiscountEvent discountEvent = (DiscountEvent) o;
+                        if (discountEvent.getType() == GlobalEventConstants.UPDATE) {
+                            presenter.eventDiscountUpdate(discountEvent.getDiscount());
+                        } else if (discountEvent.getType() == GlobalEventConstants.DELETE) {
+                            presenter.eventDiscountDelete(discountEvent.getDiscount());
+                        }
+                    } else if (o instanceof ServiceFeeEvent) {
+                        ServiceFeeEvent serviceFeeEvent = (ServiceFeeEvent) o;
+                        if (serviceFeeEvent.getType() == GlobalEventConstants.UPDATE) {
+                            presenter.eventServiceFeeUpdate(serviceFeeEvent.getServiceFee());
+                        } else if (serviceFeeEvent.getType() == GlobalEventConstants.DELETE) {
+                            presenter.eventServiceFeeDelete(serviceFeeEvent.getServiceFee());
+                        }
+                    } else if (o instanceof InventoryStateEvent) {
+                        InventoryStateEvent event = (InventoryStateEvent) o;
+                        if (event.getType() == GlobalEventConstants.UPDATE) {
+                            presenter.eventConsignmentUpdate();
+                        }
+                    }
 
                 })
         );
 
         barcodeStack.register(barcode -> {
-            if(isAdded() && isVisible())
-            presenter.onBarcodeReaded(barcode);
+            if (isAdded() && isVisible())
+                presenter.onBarcodeReaded(barcode);
         });
     }
 
     @Override
-    public void isPaymentOpen(){
+    public void isPaymentOpen() {
         isPaymentOpen = true;
     }
 
     @Override
-    public void isPaymentClose(){
+    public void isPaymentClose() {
         isPaymentOpen = false;
     }
 
     @Override
     public void onCloseOrder(Order order, List<PayedPartitions> payedPartitions, Debt debt) {
-        presenter.onCloseOrder(order,payedPartitions,debt);
+        presenter.onCloseOrder(order, payedPartitions, debt);
     }
 
     @Override
@@ -268,6 +268,7 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
 
 
     LinearLayoutManagerWithSmoothScroller linearLayoutManager;
+
     @Override
     public void initOrderList(List<Object> objectList) {
         linearLayoutManager = new LinearLayoutManagerWithSmoothScroller(getContext());
@@ -314,14 +315,14 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
     }
 
     @Override
-    public void notifyItemAdded(int adapterPosition, int listSize,int[] extraPositionsForUpdate) {
+    public void notifyItemAdded(int adapterPosition, int listSize, int[] extraPositionsForUpdate) {
         orderProductAdapter.notifyItemInserted(adapterPosition);
-        scrollToPosition(listSize-1);
+        scrollToPosition(listSize - 1);
 
-        if(extraPositionsForUpdate[0]!=-1 && adapterPosition != extraPositionsForUpdate[0]) {
+        if (extraPositionsForUpdate[0] != -1 && adapterPosition != extraPositionsForUpdate[0]) {
             orderProductAdapter.notifyItemChanged(extraPositionsForUpdate[0]);
         }
-        if(extraPositionsForUpdate[1]!=-1&& adapterPosition != extraPositionsForUpdate[1]) {
+        if (extraPositionsForUpdate[1] != -1 && adapterPosition != extraPositionsForUpdate[1]) {
             orderProductAdapter.notifyItemChanged(extraPositionsForUpdate[1]);
         }
         presenter.sendToPaymentFragmentOrderAndPaymentsList();
@@ -332,10 +333,10 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
         orderProductAdapter.notifyItemRemoved(adapterPosition);
         scrollToPosition(adapterPosition);
 
-        if(extraPositionsForUpdate[0]!=-1 ) {
+        if (extraPositionsForUpdate[0] != -1) {
             orderProductAdapter.notifyItemChanged(extraPositionsForUpdate[0]);
         }
-        if(extraPositionsForUpdate[1]!=-1) {
+        if (extraPositionsForUpdate[1] != -1) {
             orderProductAdapter.notifyItemChanged(extraPositionsForUpdate[1]);
         }
         presenter.sendToPaymentFragmentOrderAndPaymentsList();
@@ -343,35 +344,37 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
 
 
     @Override
-    public void notifyItemChanged(int adapterPosition, int listSize,int[] extraPositionsForUpdate) {
+    public void notifyItemChanged(int adapterPosition, int listSize, int[] extraPositionsForUpdate) {
         orderProductAdapter.notifyItemChanged(adapterPosition);
         scrollToPosition(adapterPosition);
 
-        if(extraPositionsForUpdate[0]!=-1 && adapterPosition != extraPositionsForUpdate[0]) {
+        if (extraPositionsForUpdate[0] != -1 && adapterPosition != extraPositionsForUpdate[0]) {
             orderProductAdapter.notifyItemChanged(extraPositionsForUpdate[0]);
         }
-        if(extraPositionsForUpdate[1]!=-1&& adapterPosition != extraPositionsForUpdate[1]) {
+        if (extraPositionsForUpdate[1] != -1 && adapterPosition != extraPositionsForUpdate[1]) {
             orderProductAdapter.notifyItemChanged(extraPositionsForUpdate[1]);
         }
         presenter.sendToPaymentFragmentOrderAndPaymentsList();
 
     }
-    public void hideInfoProduct(){
+
+    public void hideInfoProduct() {
         currentPosition = -1;
     }
-    public void hidePaymentFragment(){
+
+    public void hidePaymentFragment() {
         isPaymentOpen = false;
     }
+
     boolean isPaymentOpen = false;
 
     @Override
-    public void openProductInfoFragment(OrderProductItem orderProductItem,int position) {
+    public void openProductInfoFragment(OrderProductItem orderProductItem, int position) {
         this.orderProductItem = orderProductItem;
-        if(currentPosition == position) {
+        if (currentPosition == position) {
             currentPosition = -1;
             ((MainPosPageActivity) getActivity()).hideProductInfoFragment();
-        }
-        else {
+        } else {
             currentPosition = position;
             ((MainPosPageActivity) getActivity()).showProductInfoFragment();
         }
@@ -379,8 +382,8 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
 
     @Override
     public void sendToProductInfoProductItem() {
-        if(orderProductItem!=null)
-        mainPageConnection.sendProductItemToProductInfo(orderProductItem);
+        if (orderProductItem != null)
+            mainPageConnection.sendProductItemToProductInfo(orderProductItem);
     }
 
     @Override
@@ -403,25 +406,24 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
 
     @Override
     public void addDiscountToProduct(Long productId, Discount discount, boolean isManual) {
-        presenter.addDiscountToProduct(productId,discount,isManual);
+        presenter.addDiscountToProduct(productId, discount, isManual);
     }
 
     @Override
     public void addServiceFeeToProduct(Long productId, ServiceFee serviceFee, boolean isManual) {
-        presenter.addServiceFeeToProduct(productId,serviceFee,isManual);
+        presenter.addServiceFeeToProduct(productId, serviceFee, isManual);
     }
-
 
 
     @Override
     public void openDiscountDialog(DiscountDialog.CallbackDiscountDialog callbackDiscountDialog, double orginalAmount) {
-        DiscountDialog discountDialog = new DiscountDialog(getContext(), databaseManager,callbackDiscountDialog,orginalAmount,Discount.ORDER, decimalFormat,preferencesHelper);
+        DiscountDialog discountDialog = new DiscountDialog(getContext(), databaseManager, callbackDiscountDialog, orginalAmount, Discount.ORDER, decimalFormat, preferencesHelper);
         discountDialog.show();
     }
 
     @Override
     public void openSericeFeeDialog(ServiceFeeDialog.CallbackServiceFeeDialog callbackServiceFeeDialog, double orginalAmount) {
-        ServiceFeeDialog serviceFeeDialog = new ServiceFeeDialog(getContext(),databaseManager,callbackServiceFeeDialog,orginalAmount,ServiceFee.ORDER, decimalFormat,preferencesHelper);
+        ServiceFeeDialog serviceFeeDialog = new ServiceFeeDialog(getContext(), databaseManager, callbackServiceFeeDialog, orginalAmount, ServiceFee.ORDER, decimalFormat, preferencesHelper);
         serviceFeeDialog.show();
     }
 
@@ -452,13 +454,13 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
 
     @Override
     public void setCount(double count) {
-        presenter.setCount(currentPosition,count);
+        presenter.setCount(currentPosition, count);
     }
 
 
     @Override
     public void changeDiscription(String discription) {
-        presenter.changeDiscription(discription,currentPosition);
+        presenter.changeDiscription(discription, currentPosition);
     }
 
     @Override
@@ -468,12 +470,12 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
 
     @Override
     public void setDiscountToProduct(Discount discountToProduct) {
-        presenter.setDiscountToProduct(discountToProduct,currentPosition);
+        presenter.setDiscountToProduct(discountToProduct, currentPosition);
     }
 
     @Override
     public void setServiceFeeProduct(ServiceFee serviceFeeProduct) {
-        presenter.setServiceFeeProduct(serviceFeeProduct,currentPosition);
+        presenter.setServiceFeeProduct(serviceFeeProduct, currentPosition);
     }
 
     @Override
@@ -483,13 +485,13 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
 
     @Override
     public void openCustomerDialog() {
-        customerDialog = new CustomerDialog(getContext(), databaseManager, notifyManager,mainPageConnection,barcodeStack);
+        customerDialog = new CustomerDialog(getContext(), databaseManager, notifyManager, mainPageConnection, barcodeStack);
         customerDialog.show();
         customerDialog.setListener(this::initScan);
     }
 
     @Override
-    public void initScan(){
+    public void initScan() {
         IntentIntegrator.forSupportFragment(this).initiateScan();
     }
 
@@ -524,22 +526,22 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
     @Override
     public void openUnitValuePicker(Product product) {
         UnitValuePicker unitValuePicker = new UnitValuePicker(getContext(), product, weight -> {
-            presenter.addProductWithWeightToList(product,weight);
-        },0);
+            presenter.addProductWithWeightToList(product, weight);
+        }, 0);
         unitValuePicker.show();
     }
 
     @Override
     public void openUnitValuePickerEdit(Product product, double weightOld) {
         UnitValuePicker unitValuePicker = new UnitValuePicker(getContext(), product, weight -> {
-            presenter.addProductWithWeightToListEdit(product,weight);
-        },weightOld);
+            presenter.addProductWithWeightToListEdit(product, weight);
+        }, weightOld);
         unitValuePicker.show();
     }
 
     @Override
     public void addProductWithWeightToListEdit(double weight) {
-        presenter.addProductWithWeightToListEditFromInfo(currentPosition,weight);
+        presenter.addProductWithWeightToListEditFromInfo(currentPosition, weight);
 
     }
 
@@ -550,61 +552,59 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
 
     @Override
     public void sendDataToPaymentFragment(Order order, List<PayedPartitions> payedPartitions) {
-        mainPageConnection.sendDataToPaymentFragment(order,payedPartitions);
+        mainPageConnection.sendDataToPaymentFragment(order, payedPartitions);
     }
 
     @Override
     public void sendDataToPaymentFragmentWhenEdit(Order order, List<PayedPartitions> payedPartitions, Debt debt) {
-        mainPageConnection.sendDataToPaymentFragmentWhenEdit(order,payedPartitions,debt);
+        mainPageConnection.sendDataToPaymentFragmentWhenEdit(order, payedPartitions, debt);
     }
 
 
     @Override
-    public void updateOrderDetials(Order order,Customer customer,List<PayedPartitions> payedPartitions) {
-        tvSubTotal.setText(decimalFormat.format(order.getSubTotalValue())+" "+currency.getAbbr());
+    public void updateOrderDetials(Order order, Customer customer, List<PayedPartitions> payedPartitions) {
+        tvSubTotal.setText(decimalFormat.format(order.getSubTotalValue()) + " " + currency.getAbbr());
 
-        if(order.getDiscountTotalValue()!=0) {
+        if (order.getDiscountTotalValue() != 0) {
             tvDiscountAmount.setText(decimalFormat.format(order.getDiscountTotalValue()) + " " + currency.getAbbr());
             llDiscountGroup.setVisibility(View.VISIBLE);
-        }
-        else llDiscountGroup.setVisibility(View.GONE);
+        } else llDiscountGroup.setVisibility(View.GONE);
 
-        if(order.getServiceTotalValue()!=0){
-            tvServiceAmount.setText(((order.getServiceTotalValue()!=0)?"+":"")+decimalFormat.format(order.getServiceTotalValue())+" "+currency.getAbbr());
+        if (order.getServiceTotalValue() != 0) {
+            tvServiceAmount.setText(((order.getServiceTotalValue() != 0) ? "+" : "") + decimalFormat.format(order.getServiceTotalValue()) + " " + currency.getAbbr());
             llServiceFeeGroup.setVisibility(View.VISIBLE);
-        }else llServiceFeeGroup.setVisibility(View.GONE);
+        } else llServiceFeeGroup.setVisibility(View.GONE);
 
 
-
-        tvTotal.setText(decimalFormat.format(order.getSubTotalValue()+order.getDiscountTotalValue()+order.getServiceTotalValue())+" "+currency.getAbbr());
+        tvTotal.setText(decimalFormat.format(order.getSubTotalValue() + order.getDiscountTotalValue() + order.getServiceTotalValue()) + " " + currency.getAbbr());
         double totalPayed = 0;
-        for (PayedPartitions payedPartitions1:payedPartitions) {
+        for (PayedPartitions payedPartitions1 : payedPartitions) {
             totalPayed += payedPartitions1.getValue();
         }
-        tvPayed.setText(decimalFormat.format(totalPayed)+" " + currency.getAbbr());
+        tvPayed.setText(decimalFormat.format(totalPayed) + " " + currency.getAbbr());
         double number = order.getForPayAmmount() - totalPayed;
-        if(number<0) {
+        if (number < 0) {
             tvBalanceDueLabel.setText(getContext().getString(R.string.change_));
-            tvBalanceDue.setText(decimalFormat.format(number*-1)+" "+currency.getAbbr());
+            tvBalanceDue.setText(decimalFormat.format(number * -1) + " " + currency.getAbbr());
             tvBalanceDue.setTextColor(Color.parseColor("#4ac21b"));
-        }else {
+        } else {
             tvBalanceDueLabel.setText(getContext().getString(R.string.balance_due_));
             tvBalanceDue.setText(decimalFormat.format(number) + " " + currency.getAbbr());
             tvBalanceDue.setTextColor(Color.parseColor("#ff5e52"));
 
         }
 
-        if(order.getTips()>0){
+        if (order.getTips() > 0) {
             llTipsGroup.setVisibility(View.VISIBLE);
             tvTips.setText(decimalFormat.format(order.getTips()) + " " + currency.getAbbr());
-        }else {
+        } else {
             llTipsGroup.setVisibility(View.GONE);
         }
 
-        if(customer !=null){
+        if (customer != null) {
             tvCustomerName.setText(customer.getName());
             lbChooseCustomer.setImage(R.drawable.cancel_customer);
-        }else {
+        } else {
             tvCustomerName.setText(getContext().getString(R.string.select_customer));
             lbChooseCustomer.setImage(R.drawable.add_customer);
 
@@ -627,8 +627,9 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
         barcodeStack.unregister();
         super.onDetach();
     }
+
     @Override
-    public void visibleBackButton(){
+    public void visibleBackButton() {
         tvPay.setText(getContext().getString(R.string.back));
         tvPay.setTextColor(Color.parseColor("#88898c"));
         ivPay.setImageResource(R.drawable.ic_back_left_arrow);
@@ -641,11 +642,12 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
     }
 
     @Override
-    public void visiblePayButton(){
+    public void visiblePayButton() {
         tvPay.setText(getContext().getString(R.string.pay));
         tvPay.setTextColor(Color.parseColor("#419fd9"));
         ivPay.setImageResource(R.drawable.ic_dollar_symbol);
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -656,15 +658,14 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
         super.onBarcodeScan(barcode);
     }
 
-    public void historyOpened(){
+    public void historyOpened() {
 
     }
 
     @Override
     public void setOrderNumberToToolbar(Long orderNumber) {
-        ((MainPosPageActivity)getActivity()).updateIndicator(orderNumber);
+        ((MainPosPageActivity) getActivity()).updateIndicator(orderNumber);
     }
-
 
 
     @Override
@@ -692,26 +693,26 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
     }
 
     @Override
-    public void onEditOrder(String reason, Order order,Long newOrderId) {
-        presenter.onEditOrder(reason,order,newOrderId);
+    public void onEditOrder(String reason, Order order, Long newOrderId) {
+        presenter.onEditOrder(reason, order, newOrderId);
     }
 
 
     @Override
     public void onHoldOrderSendingData(Order order, List<PayedPartitions> payedPartitions, Debt debt) {
-        presenter.onHoldOrderSendingData(order,payedPartitions,debt);
+        presenter.onHoldOrderSendingData(order, payedPartitions, debt);
     }
 
     @Override
     public void orderAdded(Order order) {
-        checkOrder(order,databaseManager,preferencesHelper);
+        checkOrder(order, databaseManager, preferencesHelper);
         ((MainPosPageActivity) getActivity()).orderAdded(order);
     }
 
 
     @Override
     public void holdOrderClosed(Order order) {
-        checkOrder(order,databaseManager,preferencesHelper);
+        checkOrder(order, databaseManager, preferencesHelper);
         ((MainPosPageActivity) getActivity()).holdOrderClosed(order);
     }
 
@@ -727,12 +728,13 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
 
     @Override
     public void editedOrderHolded(String reason, Order order) {
-        ((MainPosPageActivity) getActivity()).editedOrderHolded(reason,order);
+        ((MainPosPageActivity) getActivity()).editedOrderHolded(reason, order);
     }
 
     @Override
     public void openWarningDialog(String text) {
-        UIUtils.showAlert(getContext(), getContext().getString(R.string.ok), getContext().getString(R.string.warning), text, () -> {});
+        UIUtils.showAlert(getContext(), getContext().getString(R.string.ok), getContext().getString(R.string.warning), text, () -> {
+        });
     }
 
     @Override
@@ -743,12 +745,12 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
 
     @Override
     public void checkOrder(Order order, DatabaseManager databaseManager, PreferencesHelper preferencesHelper) {
-        ((MainPosPageActivity)getActivity()).checkOrder(order,databaseManager,preferencesHelper);
+        ((MainPosPageActivity) getActivity()).checkOrder(order, databaseManager, preferencesHelper);
     }
 
     @Override
     public void stockCheckOrder(long tillId, long orderNumber, long now, List<OrderProductItem> orderProducts, Customer customer) {
-        ((MainPosPageActivity)getActivity()).stockCheckOrder(tillId,orderNumber,now,orderProducts,customer,databaseManager,preferencesHelper);
+        ((MainPosPageActivity) getActivity()).stockCheckOrder(tillId, orderNumber, now, orderProducts, customer, databaseManager, preferencesHelper);
     }
 
     @Override
@@ -797,11 +799,11 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
 
     @Override
     public void openStockPositionDialog(OutcomeProduct outcomeProduct, List<OutcomeProduct> outcomeProductList, List<OutcomeProduct> exceptionList) {
-        StockPositionsDialog stockPositionsDialog = new StockPositionsDialog(getContext(),outcomeProduct,outcomeProductList,exceptionList,databaseManager);
+        StockPositionsDialog stockPositionsDialog = new StockPositionsDialog(getContext(), outcomeProduct, outcomeProductList, exceptionList, databaseManager);
         stockPositionsDialog.setListener(new StockPositionsDialog.OnStockPositionsChanged() {
             @Override
             public void onConfirm(OutcomeProduct outcomeProduct) {
-                presenter.updateOutcomeProductFor(currentPosition,outcomeProduct);
+                presenter.updateOutcomeProductFor(currentPosition, outcomeProduct);
             }
         });
         stockPositionsDialog.show();
@@ -836,15 +838,16 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
 
 
     @Override
-    public void onEditComplete(String reason,Order order) {
-        checkOrder(order,databaseManager,preferencesHelper);
-        ((MainPosPageActivity) getActivity()).onEditComplete(reason,order);
+    public void onEditComplete(String reason, Order order) {
+        checkOrder(order, databaseManager, preferencesHelper);
+        ((MainPosPageActivity) getActivity()).onEditComplete(reason, order);
     }
 
-    public void initNewOrderWithNumber(Long orderId){
+    public void initNewOrderWithNumber(Long orderId) {
         presenter.initNewOrderWithId(orderId);
     }
-    public void onHoldOrderCountined(Order order){
+
+    public void onHoldOrderCountined(Order order) {
         presenter.onHoldOrderCountined(order);
     }
 }

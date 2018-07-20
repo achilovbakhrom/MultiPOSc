@@ -28,7 +28,7 @@ import eu.inmite.android.lib.validations.form.FormValidator;
  * Created by DEV on 27.07.2017.
  */
 
-public abstract class BaseFragment extends Fragment implements HasSupportFragmentInjector{
+public abstract class BaseFragment extends Fragment implements HasSupportFragmentInjector {
 
     @Inject
     DispatchingAndroidInjector<Fragment> childFragmentInjector;
@@ -51,6 +51,7 @@ public abstract class BaseFragment extends Fragment implements HasSupportFragmen
     protected boolean isAndroidInjectionEnabled() {
         return true;
     }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -60,9 +61,14 @@ public abstract class BaseFragment extends Fragment implements HasSupportFragmen
         init(savedInstanceState);
         return view;
     }
+
     protected abstract int getLayout();
+
     protected abstract void init(Bundle savedInstanceState);
-    protected void rxConnections(){}
+
+    protected void rxConnections() {
+    }
+
     @Override
     public void onAttach(Context context) {
         if (isAndroidInjectionEnabled()) {
@@ -79,8 +85,8 @@ public abstract class BaseFragment extends Fragment implements HasSupportFragmen
     }
 
     @SuppressWarnings("unchecked")
-    public  <T> T getComponent(Class<T> componentType){
-        return componentType.cast(((HasComponent<T>)getActivity()).getComponent());
+    public <T> T getComponent(Class<T> componentType) {
+        return componentType.cast(((HasComponent<T>) getActivity()).getComponent());
     }
 
     @Override
@@ -102,11 +108,12 @@ public abstract class BaseFragment extends Fragment implements HasSupportFragmen
 
         FormValidator.stopLiveValidation(this);
     }
+
     public boolean isValid() {
         return FormValidator.validate(this, new MultipleCallback());
     }
 
-    public void onBarcodeScan(String barcode){
+    public void onBarcodeScan(String barcode) {
 
     }
 }

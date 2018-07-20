@@ -15,11 +15,14 @@ public interface UnitOperations {
     Observable<Long> addUnit(Unit unit);
 
     Observable<Boolean> addUnits(List<Unit> units);
+
     Observable<List<Unit>> getUnits(Long rootId, String name);
+
     Observable<List<Unit>> getAllStaticUnits();
 
     Observable<Boolean> removeAllUnits();
 
     Observable<Boolean> removeUnit(Unit unit);
+
     Observable<Unit> updateUnit(Unit unit);
 }

@@ -8,7 +8,7 @@ import java.util.List;
  * Created by Sirojiddin on 16.10.2017.
  */
 
-public abstract class MovableBaseAdapter<T, E extends BaseViewHolder> extends ClickableBaseAdapter<T, E> implements ItemMoveListener{
+public abstract class MovableBaseAdapter<T, E extends BaseViewHolder> extends ClickableBaseAdapter<T, E> implements ItemMoveListener {
 
     private ItemMoveListener moveListener;
 
@@ -28,7 +28,7 @@ public abstract class MovableBaseAdapter<T, E extends BaseViewHolder> extends Cl
             }
         }
         notifyItemMoved(fromPosition, toPosition);
-        if (moveListener != null){
+        if (moveListener != null) {
             moveListener.onItemMove(fromPosition, toPosition);
         }
     }

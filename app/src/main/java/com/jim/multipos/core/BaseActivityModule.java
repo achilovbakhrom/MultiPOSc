@@ -1,7 +1,6 @@
 package com.jim.multipos.core;
 
 
-
 import android.content.Context;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -44,7 +43,7 @@ public abstract class BaseActivityModule {
 
     @Provides
     @PerActivity
-    static public RxPermissions provideRxPermissions(AppCompatActivity activity){
+    static public RxPermissions provideRxPermissions(AppCompatActivity activity) {
         return new RxPermissions(activity);
     }
 }

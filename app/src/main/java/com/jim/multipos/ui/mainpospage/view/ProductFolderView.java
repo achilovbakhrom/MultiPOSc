@@ -13,9 +13,14 @@ import java.util.List;
 
 public interface ProductFolderView extends BaseView {
     void setBackItemVisibility(boolean state);
+
     void setFolderItemRecyclerView(List<FolderItem> folderItems);
+
     void refreshProductList(List<FolderItem> folderItems, int mode);
+
     void setSelectedProduct(Product product);
+
     void sendCategoryEvent(Category category, String key);
+
     void showAvailableDialog(Product product, double available);
 }

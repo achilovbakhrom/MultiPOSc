@@ -4,12 +4,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 
-import com.jim.mpviews.MpEditText;
 import com.jim.multipos.config.common.BaseAppModule;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
 import java.text.ParseException;
 
 /**

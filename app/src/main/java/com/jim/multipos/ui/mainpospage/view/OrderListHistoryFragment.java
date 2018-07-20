@@ -24,6 +24,7 @@ import com.jim.multipos.ui.mainpospage.dialogs.AccessToCancelDialog;
 import com.jim.multipos.ui.mainpospage.dialogs.AccessToEditDialog;
 import com.jim.multipos.ui.mainpospage.dialogs.PaymentDetialDialog;
 import com.jim.multipos.ui.mainpospage.presenter.OrderListHistoryPresenter;
+import com.jim.multipos.utils.WarningDialog;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -37,7 +38,7 @@ import butterknife.BindView;
  * Created by developer on 02.02.2018.
  */
 
-public class OrderListHistoryFragment extends BaseFragment implements OrderListHistoryView{
+public class OrderListHistoryFragment extends BaseFragment implements OrderListHistoryView {
 
     @Inject
     OrderListHistoryPresenter presenter;
@@ -100,6 +101,7 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
     DecimalFormat decimalFormat;
     SimpleDateFormat sdfDate;
     SimpleDateFormat sdfTime;
+
     @Override
     protected int getLayout() {
         return R.layout.fragment_order_list_history;
@@ -121,14 +123,14 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
         });
 
         llCancelOrder.setOnClickListener(view -> {
-           presenter.onCancelClicked();
+            presenter.onCancelClicked();
         });
         llPrintCheck.setOnClickListener(view -> {
             presenter.reprintOrder();
         });
     }
 
-    public void refreshData(Order order){
+    public void refreshData(Order order) {
         presenter.refreshData(order);
     }
 
@@ -144,8 +146,8 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
     public void updateDetials(Order order) {
         tvSubTotal.setText(decimalFormat.format(order.getSubTotalValue()));
         tvDiscountAmount.setText(decimalFormat.format(order.getDiscountTotalValue()));
-        if(order.getServiceTotalValue()!=0)
-            tvServiceAmount.setText("+"+decimalFormat.format(order.getServiceTotalValue()));
+        if (order.getServiceTotalValue() != 0)
+            tvServiceAmount.setText("+" + decimalFormat.format(order.getServiceTotalValue()));
         else
             tvServiceAmount.setText("0");
 
@@ -160,23 +162,22 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
         tvDebtAmmount.setText(decimalFormat.format(order.getToDebtValue()));
         tvTotalPayed.setText(decimalFormat.format(order.getTotalPayed()));
         tvChange.setText(decimalFormat.format(order.getChange()));
-        if(order.getCustomer() != null) {
+        if (order.getCustomer() != null) {
             tvCustomerName.setVisibility(View.VISIBLE);
-            tvCustomerName.setText(getContext().getString(R.string.customer_) + order.getCustomer().getName());
-        }
-        else tvCustomerName.setVisibility(View.GONE);
-        tvOrderNumber.setText(getContext().getString(R.string.order_num)+String.valueOf(order.getId()));
-        if(order.getStatus()==Order.CANCELED_ORDER ){
-            if(order.getLastChangeLog().getChangedCauseType() == OrderChangesLog.EDITED){
+            tvCustomerName.setText(getContext().getString(R.string.customer_) + " " + order.getCustomer().getName());
+        } else tvCustomerName.setVisibility(View.GONE);
+        tvOrderNumber.setText(getContext().getString(R.string.order_num) + String.valueOf(order.getId()));
+        if (order.getStatus() == Order.CANCELED_ORDER) {
+            if (order.getLastChangeLog().getChangedCauseType() == OrderChangesLog.EDITED) {
                 llEdit.setVisibility(View.INVISIBLE);
                 llEdit.setEnabled(false);
                 ivDeactivateCancel.setVisibility(View.GONE);
                 tvCancelOrder.setVisibility(View.GONE);
-                tvOrderCancelLable.setText(getContext().getString(R.string.order_edited_to_num)+String.valueOf(order.getLastChangeLog().getRelationOrder().getId()));
+                tvOrderCancelLable.setText(getContext().getString(R.string.order_edited_to_num) + String.valueOf(order.getLastChangeLog().getRelationOrder().getId()));
                 tvOrderNumber.setText(getContext().getString(R.string.canceled_order_num) + String.valueOf(order.getId()));
                 rvDeleteCurtain.setVisibility(View.VISIBLE);
                 tvCauseDelete.setText(getContext().getString(R.string.cause_) + order.getLastChangeLog().getReason());
-            }else {
+            } else {
                 llEdit.setVisibility(View.INVISIBLE);
                 llEdit.setEnabled(false);
                 ivDeactivateCancel.setVisibility(View.GONE);
@@ -186,7 +187,7 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
                 rvDeleteCurtain.setVisibility(View.VISIBLE);
                 tvCauseDelete.setText(getContext().getString(R.string.cause_) + order.getLastChangeLog().getReason());
             }
-        }else if(order.getStatus() == Order.HOLD_ORDER){
+        } else if (order.getStatus() == Order.HOLD_ORDER) {
             ivEdit.setImageResource(R.drawable.contunie);
             tvPay.setText(getContext().getString(R.string.order_continue));
             ivDeactivateCancel.setVisibility(View.VISIBLE);
@@ -197,8 +198,7 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
             ivDeactivateCancel.setImageResource(R.drawable.deactive_order);
             tvCancelOrder.setText(getContext().getString(R.string.cancel_order));
             rvDeleteCurtain.setVisibility(View.GONE);
-        }
-        else {
+        } else {
             ivEdit.setImageResource(R.drawable.edit);
             tvPay.setText(getContext().getString(R.string.edit));
             llEdit.setVisibility(View.VISIBLE);
@@ -213,7 +213,7 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
 
     @Override
     public void initOrderListRecycler(List<Object> objectList) {
-        orderProductHistoryAdapter = new OrderProductHistoryAdapter(objectList,getActivity());
+        orderProductHistoryAdapter = new OrderProductHistoryAdapter(objectList, getActivity());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         rvOrderProducts.setLayoutManager(linearLayoutManager);
         rvOrderProducts.setAdapter(orderProductHistoryAdapter);
@@ -226,48 +226,73 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
 
     @Override
     public void openPaymentDetailDialog(List<PayedPartitions> payedPartitions, Currency mainCurrency) {
-        PaymentDetialDialog paymentDetialDialog = new PaymentDetialDialog(getContext(),payedPartitions,decimalFormat,mainCurrency);
+        PaymentDetialDialog paymentDetialDialog = new PaymentDetialDialog(getContext(), payedPartitions, decimalFormat, mainCurrency);
         paymentDetialDialog.show();
     }
 
 
     @Override
     public void openEditAccsessDialog() {
-        if(preferencesHelper.isEditOrderProtected()){
+        if (preferencesHelper.isEditOrderProtected()) {
             AccessToEditDialog accessToEditDialog = new AccessToEditDialog(getContext(), new AccessToEditDialog.OnAccsessListner() {
                 @Override
                 public void accsessSuccess(String reason) {
-                    ((MainPosPageActivity)getActivity()).onEditOrder(reason);
+                    ((MainPosPageActivity) getActivity()).onEditOrder(reason);
                 }
 
                 @Override
                 public void onBruteForce() {
                     presenter.onBruteForce();
                 }
-            },preferencesHelper);
+            }, preferencesHelper);
             accessToEditDialog.show();
-        }else {
-            ((MainPosPageActivity)getActivity()).onEditOrder(getString(R.string.without_reason));
+        } else {
+            WarningDialog warningDialog = new WarningDialog(getActivity());
+            warningDialog.setWarningMessage(getString(R.string.do_u_want_edit_order));
+            warningDialog.setOnYesClickListener(view1 -> {
+                warningDialog.dismiss();
+                ((MainPosPageActivity) getActivity()).onEditOrder(getString(R.string.without_reason));
+            });
+            warningDialog.setOnNoClickListener(view1 -> {
+                warningDialog.dismiss();
+            });
+            warningDialog.setPositiveButtonText(getString(R.string.yes));
+            warningDialog.setNegativeButtonText(getString(R.string.cancel));
+            warningDialog.show();
+
+
         }
 
     }
 
     @Override
     public void openCancelAccsessDialog() {
-        if(preferencesHelper.isCancelOrderProtected()){
+        if (preferencesHelper.isCancelOrderProtected()) {
             AccessToCancelDialog accessToCancelDialog = new AccessToCancelDialog(getContext(), new AccessToCancelDialog.OnAccsessListner() {
                 @Override
                 public void accsessSuccess(String reason) {
-                    ((MainPosPageActivity)getActivity()).onCancelOrder(reason);
+                    ((MainPosPageActivity) getActivity()).onCancelOrder(reason);
                 }
+
                 @Override
                 public void onBruteForce() {
                     presenter.onBruteForce();
                 }
-            },preferencesHelper);
+            }, preferencesHelper);
             accessToCancelDialog.show();
-        }else {
-            ((MainPosPageActivity)getActivity()).onCancelOrder(getString(R.string.without_reason));
+        } else {
+            WarningDialog warningDialog = new WarningDialog(getActivity());
+            warningDialog.setWarningMessage(getString(R.string.do_u_want_cancel_order));
+            warningDialog.setOnYesClickListener(view1 -> {
+                warningDialog.dismiss();
+                ((MainPosPageActivity) getActivity()).onCancelOrder(getString(R.string.without_reason));
+            });
+            warningDialog.setOnNoClickListener(view1 -> {
+                warningDialog.dismiss();
+            });
+            warningDialog.setPositiveButtonText(getString(R.string.yes));
+            warningDialog.setNegativeButtonText(getString(R.string.cancel));
+            warningDialog.show();
         }
 
     }
@@ -285,7 +310,7 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
 
     @Override
     public void reprint(Order order, DatabaseManager databaseManager, PreferencesHelper preferencesHelper) {
-        ((MainPosPageActivity)getActivity()).reprintOrder(order,databaseManager,preferencesHelper);
+        ((MainPosPageActivity) getActivity()).reprintOrder(order, databaseManager, preferencesHelper);
     }
 
 }

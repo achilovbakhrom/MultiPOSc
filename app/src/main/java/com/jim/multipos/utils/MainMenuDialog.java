@@ -2,33 +2,17 @@ package com.jim.multipos.utils;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.view.GestureDetector;
 import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.jim.mpviews.MpButton;
-import com.jim.mpviews.RecyclerViewWithMaxHeight;
 import com.jim.multipos.R;
 import com.jim.multipos.data.DatabaseManager;
-import com.jim.multipos.data.db.model.currency.Currency;
-import com.jim.multipos.data.db.model.inventory.BillingOperations;
-import com.jim.multipos.ui.billing_vendor.adapter.BillingInfoAdapter;
-import com.jim.multipos.ui.cash_management.CashManagementActivity;
-import com.jim.multipos.ui.mainpospage.dialogs.ReturnsDialog;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -102,10 +86,15 @@ public class MainMenuDialog extends Dialog {
 
     public interface onMenuItemClickListener {
         void onCashManagement();
+
         void onTurnOnBarcodeScanner();
+
         void onTurnOffBarcodeScanner();
+
         void onReturn();
+
         void onSettings();
+
         void onLogOut();
     }
 

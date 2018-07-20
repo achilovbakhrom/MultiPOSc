@@ -4,13 +4,11 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 
-import com.jim.mpviews.MpEditText;
 import com.jim.multipos.config.common.BaseAppModule;
 import com.jim.multipos.ui.mainpospage.presenter.PaymentPresenter;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
 import java.text.ParseException;
 
 /**
@@ -26,7 +24,7 @@ public class NumberTextWatcherPaymentFragment implements TextWatcher {
     private EditText editText;
     private PaymentPresenter presenter;
 
-    public NumberTextWatcherPaymentFragment(EditText et,PaymentPresenter presenter) {
+    public NumberTextWatcherPaymentFragment(EditText et, PaymentPresenter presenter) {
         this.presenter = presenter;
         df = BaseAppModule.getFormatter();
         df.setDecimalSeparatorAlwaysShown(true);
@@ -84,7 +82,7 @@ public class NumberTextWatcherPaymentFragment implements TextWatcher {
         int cp = editText.getSelectionStart();
         if (n.doubleValue() == 0 && v.isEmpty()) {
             editText.setText("");
-        }else if (hasFractionalPart) {
+        } else if (hasFractionalPart) {
             StringBuilder trailingZeros = new StringBuilder();
             while (trailingZeroCount-- > 0)
                 trailingZeros.append('0');

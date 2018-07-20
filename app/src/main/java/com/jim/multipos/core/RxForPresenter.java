@@ -1,7 +1,5 @@
 package com.jim.multipos.core;
 
-import android.util.Log;
-
 import com.jim.multipos.utils.RxBus;
 import com.jim.multipos.utils.RxBusLocal;
 import com.jim.multipos.utils.rxevents.Unsibscribe;
@@ -20,7 +18,9 @@ public abstract class RxForPresenter {
     String activityName;
 
     public abstract void setRxListners();
-    public abstract void initConnectors(RxBus rxBus,RxBusLocal rxBusLocal);
+
+    public abstract void initConnectors(RxBus rxBus, RxBusLocal rxBusLocal);
+
     public void initUnsubscribers(RxBus rxBus, String activityName, ArrayList<Disposable> subscriptions) {
         this.rxBus = rxBus;
         this.activityName = activityName;

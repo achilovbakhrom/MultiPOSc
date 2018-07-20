@@ -16,13 +16,22 @@ import io.reactivex.Single;
 
 public interface InvoiceOperations {
     Single<Invoice> insertInvoiceWithBillingAndIncomeProduct(Invoice invoice, List<IncomeProduct> incomeProductList, List<StockQueue> stockQueueList, List<BillingOperations> billingOperationsList);
+
     Single<List<Invoice>> getAllInvoices();
+
     Single<Outvoice> insertOutvoiceWithBillingAndOutcomeProducts(Outvoice outvoice, List<OutcomeProduct> outcomeProducts, BillingOperations operationDebt);
+
     Single<Boolean> isOutvoiceNumberExists(String number);
+
     Single<List<InvoiceListItem>> getInvoiceListItemByVendorId(Long vendorId);
+
     Single<List<InvoiceListItem>> getInvoiceListItemsInIntervalByVendor(Long vendorId, Calendar fromDate, Calendar toDate);
+
     Single<List<InvoiceListItem>> getInvoiceListItemsInInterval(Calendar fromDate, Calendar toDate);
+
     Single<List<InvoiceProduct>> getInvoiceProductsInInterval(Calendar fromDate, Calendar toDate);
+
     Single<Outvoice> getOutvoiceById(Long id);
+
     Single<Invoice> getInvoiceById(Long id);
 }

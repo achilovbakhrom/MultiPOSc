@@ -13,11 +13,18 @@ import io.reactivex.Single;
 
 public interface AccountOperations {
     Observable<Account> addAccount(Account account);
+
     Observable<Boolean> addAccounts(List<Account> accounts);
+
     Observable<List<Account>> getAllAccounts();
+
     Observable<Boolean> removeAccount(Account account);
+
     Observable<Boolean> removeAllAccounts();
+
     Observable<Boolean> isAccountNameExists(String name);
+
     List<Account> getAccounts();
+
     Single<Account> getSystemAccount();
 }

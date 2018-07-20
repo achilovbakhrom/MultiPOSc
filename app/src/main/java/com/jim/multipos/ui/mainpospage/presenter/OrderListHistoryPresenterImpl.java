@@ -11,8 +11,6 @@ import com.jim.multipos.ui.mainpospage.model.DiscountItem;
 import com.jim.multipos.ui.mainpospage.model.ServiceFeeItem;
 import com.jim.multipos.ui.mainpospage.view.OrderListHistoryView;
 
-import org.greenrobot.greendao.query.LazyList;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +39,7 @@ public class OrderListHistoryPresenterImpl extends BasePresenterImpl<OrderListHi
         super.onCreateView(bundle);
         list = new ArrayList<>();
         view.initOrderListRecycler(list);
-        if(bundle!=null){
+        if (bundle != null) {
             order = databaseManager.getOrder(bundle.getLong(MainPosPageActivity.INIT_ORDER)).blockingGet();
             goToEdit = false;
             updateItemDetials();
@@ -61,8 +59,9 @@ public class OrderListHistoryPresenterImpl extends BasePresenterImpl<OrderListHi
 
     @Override
     public void onClickPaymentDetials() {
-        view.openPaymentDetailDialog(order.getPayedPartitions(),databaseManager.getMainCurrency());
+        view.openPaymentDetailDialog(order.getPayedPartitions(), databaseManager.getMainCurrency());
     }
+
     boolean goToEdit = false;
 
 
@@ -73,11 +72,11 @@ public class OrderListHistoryPresenterImpl extends BasePresenterImpl<OrderListHi
 
     @Override
     public void onEditClicked() {
-        if(order.getStatus() == Order.CLOSED_ORDER)
+        if (order.getStatus() == Order.CLOSED_ORDER)
             view.openEditAccsessDialog();
-        else if(order.getStatus() == Order.HOLD_ORDER){
+        else if (order.getStatus() == Order.HOLD_ORDER) {
             view.onContinuePressed(order);
-        }else {
+        } else {
             //EDIT REPEATLY
             view.openEditAccsessDialog();
         }
@@ -85,27 +84,27 @@ public class OrderListHistoryPresenterImpl extends BasePresenterImpl<OrderListHi
 
     @Override
     public void onCancelClicked() {
-        if(order.getStatus()!=Order.CANCELED_ORDER)
+        if (order.getStatus() != Order.CANCELED_ORDER)
             view.openCancelAccsessDialog();
 
     }
 
     @Override
     public void reprintOrder() {
-        view.reprint(order,databaseManager,preferencesHelper);
+        view.reprint(order, databaseManager, preferencesHelper);
     }
 
 
-    private void updateItemDetials(){
+    private void updateItemDetials() {
         list.clear();
         list.addAll(order.getOrderProducts());
-        if(order.getDiscount() != null){
+        if (order.getDiscount() != null) {
             DiscountItem discountItem = new DiscountItem();
             discountItem.setDiscount(order.getDiscount());
             discountItem.setAmmount(order.getDiscountAmount());
             list.add(discountItem);
         }
-        if(order.getServiceFee() != null){
+        if (order.getServiceFee() != null) {
             ServiceFeeItem serviceFeeItem = new ServiceFeeItem();
             serviceFeeItem.setServiceFee(order.getServiceFee());
             serviceFeeItem.setAmmount(order.getServiceAmount());

@@ -29,7 +29,8 @@ public class RxBusLocal {
 
         return bus.hasObservers();
     }
-    public static void removeListners(List<Disposable> disposables){
+
+    public static void removeListners(List<Disposable> disposables) {
         if (disposables != null && !disposables.isEmpty())
             for (Disposable disposable : disposables)
                 disposable.dispose();

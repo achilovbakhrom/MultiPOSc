@@ -14,18 +14,32 @@ import java.util.List;
 
 public interface PaymentPresenter extends Presenter {
     void onDebtBorrowClicked();
+
     void changePayment(int positionPayment);
+
     void removePayedPart(int removedPayedPart);
+
     void incomeNewData(Order order, List<PayedPartitions> payedPartitions);
+
     void typedPayment(double paymentTyped);
+
     void pressFirstOptional();
+
     void pressSecondOptional();
+
     void pressAllAmount();
+
     void payButtonPressed();
+
     void setCustomer(Customer customer);
+
     void onDebtSave(Debt debt);
+
     void onClickedTips();
+
     void onNewOrder();
-    void sendDataToPaymentFragmentWhenEdit(Order order, List<PayedPartitions> payedPartitions,Debt debt);
+
+    void sendDataToPaymentFragmentWhenEdit(Order order, List<PayedPartitions> payedPartitions, Debt debt);
+
     void onHoldOrderClicked();
 }

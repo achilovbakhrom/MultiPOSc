@@ -30,7 +30,7 @@ import butterknife.BindView;
  * Created by developer on 02.11.2017.
  */
 
-public class SearchModeFragment  extends BaseFragment implements SearchModeView {
+public class SearchModeFragment extends BaseFragment implements SearchModeView {
 
     @BindView(R.id.tvSearchSkuMode)
     TextView tvSearchSkuMode;
@@ -69,12 +69,12 @@ public class SearchModeFragment  extends BaseFragment implements SearchModeView 
         mpKeyBoard.setOnTextTyped(new MpKeyBoard.OnTextTyped() {
             @Override
             public void onSymbolPressed(String s) {
-                tvSearchTextPlace.getText().insert(tvSearchTextPlace.getSelectionStart(),s);
+                tvSearchTextPlace.getText().insert(tvSearchTextPlace.getSelectionStart(), s);
             }
 
             @Override
             public void onOkPressed() {
-               presenter.onOkPressed();
+                presenter.onOkPressed();
             }
 
             @Override
@@ -82,10 +82,10 @@ public class SearchModeFragment  extends BaseFragment implements SearchModeView 
                 StringBuilder builder = new StringBuilder();
                 builder.append(tvSearchTextPlace.getText().toString());
                 int selectionStart = tvSearchTextPlace.getSelectionStart();
-                if(selectionStart==0) return;
-                builder.deleteCharAt(selectionStart -1);
+                if (selectionStart == 0) return;
+                builder.deleteCharAt(selectionStart - 1);
                 tvSearchTextPlace.setText(builder.toString());
-                tvSearchTextPlace.setSelection(selectionStart-1);
+                tvSearchTextPlace.setSelection(selectionStart - 1);
             }
 
             @Override
@@ -98,7 +98,7 @@ public class SearchModeFragment  extends BaseFragment implements SearchModeView 
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String s = tvSearchTextPlace.getText().toString();
                 presenter.onSearchTextChange(s);
-                if(s.isEmpty()) ivClear.setColorFilter(null);
+                if (s.isEmpty()) ivClear.setColorFilter(null);
                 else ivClear.setColorFilter(Color.parseColor("#41a0da"));
             }
         });
@@ -107,11 +107,11 @@ public class SearchModeFragment  extends BaseFragment implements SearchModeView 
         });
         tvSearchTextPlace.setText("");
         tvSearchBarcodeMode.setOnClickListener(view -> {
-            if(barcodeMode) {
+            if (barcodeMode) {
                 barcodeMode = false;
                 presenter.setBarcodeSearchMode(barcodeMode);
                 tvSearchBarcodeMode.setTextColor(Color.parseColor("#cdcdcd"));
-            }else {
+            } else {
                 barcodeMode = true;
                 presenter.setBarcodeSearchMode(barcodeMode);
                 tvSearchBarcodeMode.setTextColor(Color.parseColor("#419fd9"));
@@ -122,17 +122,17 @@ public class SearchModeFragment  extends BaseFragment implements SearchModeView 
         searchResultsAdapter = new SearchResultsAdapter(getContext(), productList, position -> {
             mainPageConnection.addProductToOrder(productList.get(position).getId());
         });
-        rvSearchResults.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false));
+        rvSearchResults.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         rvSearchResults.setAdapter(searchResultsAdapter);
         tvSearchTextPlace.setRawInputType(InputType.TYPE_CLASS_TEXT);
         tvSearchTextPlace.setTextIsSelectable(true);
         tvSearchTextPlace.requestFocus();
         tvSearchNameMode.setOnClickListener(view -> {
-            if(nameMode) {
+            if (nameMode) {
                 nameMode = false;
                 presenter.setNameSearchMode(nameMode);
                 tvSearchNameMode.setTextColor(Color.parseColor("#cdcdcd"));
-            }else {
+            } else {
                 nameMode = true;
                 presenter.setNameSearchMode(nameMode);
                 tvSearchNameMode.setTextColor(Color.parseColor("#419fd9"));
@@ -140,12 +140,12 @@ public class SearchModeFragment  extends BaseFragment implements SearchModeView 
             }
         });
         tvSearchSkuMode.setOnClickListener(view -> {
-            if(skuMode) {
+            if (skuMode) {
                 skuMode = false;
                 presenter.setSkuSearchMode(skuMode);
                 tvSearchSkuMode.setTextColor(Color.parseColor("#cdcdcd"));
 
-            }else {
+            } else {
                 skuMode = true;
                 presenter.setSkuSearchMode(skuMode);
                 tvSearchSkuMode.setTextColor(Color.parseColor("#419fd9"));
@@ -160,9 +160,9 @@ public class SearchModeFragment  extends BaseFragment implements SearchModeView 
     }
 
     @Override
-    public void setResultsList(List<Product> resultsList,String searchText) {
-        tvSearchResultsCount.setText(getContext().getString(R.string.search_results)+" - "+resultsList.size());
-        searchResultsAdapter.setItems(resultsList,searchText);
+    public void setResultsList(List<Product> resultsList, String searchText) {
+        tvSearchResultsCount.setText(getContext().getString(R.string.search_results) + " - " + resultsList.size());
+        searchResultsAdapter.setItems(resultsList, searchText);
         productList = resultsList;
         searchResultsAdapter.notifyDataSetChanged();
 
@@ -170,8 +170,8 @@ public class SearchModeFragment  extends BaseFragment implements SearchModeView 
 
     @Override
     public void addProductToOrderInCloseSelf() {
-        if(productList != null && productList.size()>0 && productList.get(0)!= null && productList.get(0).getId() !=null)
+        if (productList != null && productList.size() > 0 && productList.get(0) != null && productList.get(0).getId() != null)
             mainPageConnection.addProductToOrder(productList.get(0).getId());
-        ((MainPosPageActivity)getActivity()).hideSearFragmentWithDisableSearchButton();
+        ((MainPosPageActivity) getActivity()).hideSearFragmentWithDisableSearchButton();
     }
 }

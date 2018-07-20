@@ -16,31 +16,57 @@ import java.util.List;
  */
 
 public interface PaymentView extends BaseView {
-    void openAddDebtDialog(DatabaseManager databaseManager, Order order, Customer customer,double toPay);
+    void openAddDebtDialog(DatabaseManager databaseManager, Order order, Customer customer, double toPay);
+
     void initPaymentTypes(List<PaymentTypeWithService> paymentTypeWithServices);
+
     void updatePaymentList(List<PayedPartitions> payedPartitions);
+
     void updatePaymentList();
-    void updateViews(Order order,double payedValue);
-    void getDataFromListOrder(Order order,List<PayedPartitions> payedPartitions);
+
+    void updateViews(Order order, double payedValue);
+
+    void getDataFromListOrder(Order order, List<PayedPartitions> payedPartitions);
+
     void updateChangeView(double change);
+
     void updateBalanceView(double change);
+
     void updatePaymentText(double payment);
+
     void updateBalanceZeroText();
+
     void updateCloseText();
+
     void closeSelf();
+
     void onPayedPartition();
+
     void setCustomer(Customer customer);
+
     void closeOrder(Order order, List<PayedPartitions> payedPartitions, Debt debt);
+
     void updateCustomer(Customer customer);
+
     void showDebtDialog();
+
     void hideDebtDialog();
-    void openTipsDialog(TipsDialog.OnClickListener listener,double change);
+
+    void openTipsDialog(TipsDialog.OnClickListener listener, double change);
+
     void enableTipsButton();
+
     void disableTipsButton();
+
     void updateOrderListDetialsPanel();
+
     void onNewOrder();
-    void sendDataToPaymentFragmentWhenEdit(Order order, List<PayedPartitions> payedPartitions,Debt debt);
+
+    void sendDataToPaymentFragmentWhenEdit(Order order, List<PayedPartitions> payedPartitions, Debt debt);
+
     void onHoldOrderClicked();
-    void onHoldOrderSendingData(Order order, List<PayedPartitions> payedPartitions,Debt debt);
+
+    void onHoldOrderSendingData(Order order, List<PayedPartitions> payedPartitions, Debt debt);
+
     void openWarningDialog(String text);
 }

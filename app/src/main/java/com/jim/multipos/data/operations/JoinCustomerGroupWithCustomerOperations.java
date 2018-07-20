@@ -8,6 +8,8 @@ import io.reactivex.Observable;
 
 public interface JoinCustomerGroupWithCustomerOperations {
     Observable<Long> addCustomerToCustomerGroup(Long customerGroupId, Long customerId);
+
     Observable<Boolean> removeCustomerFromCustomerGroup(Long customerGroupId, Long customerId);
+
     Observable<Boolean> removeJoinCustomerGroupWithCustomer(Long customerId);
 }

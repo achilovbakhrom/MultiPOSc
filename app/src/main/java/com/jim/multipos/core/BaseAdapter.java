@@ -1,7 +1,6 @@
 package com.jim.multipos.core;
 
 import android.support.v7.widget.RecyclerView;
-import android.view.ViewGroup;
 
 import java.util.List;
 
@@ -18,21 +17,21 @@ public abstract class BaseAdapter<T, E extends BaseViewHolder> extends RecyclerV
         this.items = items;
     }
 
-    public T getItem(int position){
+    public T getItem(int position) {
         return items.get(position);
     }
 
-    public void addItem(T item){
+    public void addItem(T item) {
         items.add(item);
         notifyDataSetChanged();
     }
 
-    public void addItems(List<T> items){
+    public void addItems(List<T> items) {
         this.items.addAll(items);
         notifyDataSetChanged();
     }
 
-    public void removeItem(int position){
+    public void removeItem(int position) {
         items.remove(position);
         notifyDataSetChanged();
     }

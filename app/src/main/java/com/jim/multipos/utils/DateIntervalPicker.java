@@ -57,9 +57,9 @@ public class DateIntervalPicker extends Dialog {
     @BindView(R.id.tvCurrentIntervalTo)
     TextView tvCurrentIntervalTo;
 
-    boolean fromDateCurrent  = false, toDateCurrent = false;
+    boolean fromDateCurrent = false, toDateCurrent = false;
     Calendar fromDate;
-    Calendar toDate ;
+    Calendar toDate;
 
     Calendar fromTime;
     Calendar toTime;
@@ -67,12 +67,13 @@ public class DateIntervalPicker extends Dialog {
     int clicked = 0;
     Date currentDate;
     private CallbackIntervalPicker callbackIntervalPicker;
-    SimpleDateFormat  timeSimple = new SimpleDateFormat("HH:mm");
+    SimpleDateFormat timeSimple = new SimpleDateFormat("HH:mm");
 
-    public interface CallbackIntervalPicker{
-        void dateIntervalPicked(Calendar fromDate,Calendar toDate);
+    public interface CallbackIntervalPicker {
+        void dateIntervalPicked(Calendar fromDate, Calendar toDate);
     }
-    public DateIntervalPicker(@NonNull Context context,Calendar fromDateInstance,Calendar toDateInstance,CallbackIntervalPicker callbackIntervalPicker) {
+
+    public DateIntervalPicker(@NonNull Context context, Calendar fromDateInstance, Calendar toDateInstance, CallbackIntervalPicker callbackIntervalPicker) {
         super(context);
         this.callbackIntervalPicker = callbackIntervalPicker;
         simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -81,7 +82,7 @@ public class DateIntervalPicker extends Dialog {
         ButterKnife.bind(this, dialogView);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         currentDate = new Date();
-        fromDate =  new GregorianCalendar();
+        fromDate = new GregorianCalendar();
         toDate = new GregorianCalendar();
 
         fromTime = new GregorianCalendar();
@@ -91,11 +92,11 @@ public class DateIntervalPicker extends Dialog {
         fromTime.set(Calendar.MINUTE, 0);
         fromTime.set(Calendar.SECOND, 0);
 
-        toTime.set(Calendar.HOUR_OF_DAY,23);
-        toTime.set(Calendar.MINUTE,59);
-        toTime.set(Calendar.SECOND,59);
+        toTime.set(Calendar.HOUR_OF_DAY, 23);
+        toTime.set(Calendar.MINUTE, 59);
+        toTime.set(Calendar.SECOND, 59);
 
-        if(fromDateInstance == null && toDateInstance == null){
+        if (fromDateInstance == null && toDateInstance == null) {
 
 
             toDate.setTime(currentDate);
@@ -105,7 +106,7 @@ public class DateIntervalPicker extends Dialog {
             fromDateCurrent = true;
             toDateCurrent = false;
 
-        }else if(fromDateInstance != null && toDateInstance == null){
+        } else if (fromDateInstance != null && toDateInstance == null) {
             fromDate.setTimeInMillis(fromDateInstance.getTimeInMillis());
             toDate.setTimeInMillis(fromDateInstance.getTimeInMillis());
 
@@ -114,7 +115,7 @@ public class DateIntervalPicker extends Dialog {
             updateCalendars();
             fromDateCurrent = true;
             toDateCurrent = false;
-        }else {
+        } else {
             fromDate.setTimeInMillis(fromDateInstance.getTimeInMillis());
             toDate.setTimeInMillis(toDateInstance.getTimeInMillis());
 
@@ -128,58 +129,58 @@ public class DateIntervalPicker extends Dialog {
         }
         updateCurrentDate();
 
-        tvFromTime.setOnClickListener((view)->{
+        tvFromTime.setOnClickListener((view) -> {
             SimpleTimePickerDialog simpleTimePickerDialog = new SimpleTimePickerDialog(getContext(), fromTime.get(Calendar.HOUR_OF_DAY), fromTime.get(Calendar.MINUTE), new SimpleTimePickerDialog.SimpleDatePickerListner() {
                 @Override
                 public void onOk(int hour, int minut) {
-                    fromTime.set(Calendar.HOUR_OF_DAY,hour);
-                    fromTime.set(Calendar.MINUTE,minut);
-                    setUnderlineText(tvFromTime,timeSimple.format(fromTime.getTime()));
-                    setUnderlineText(tvToTime,timeSimple.format(toTime.getTime()));
+                    fromTime.set(Calendar.HOUR_OF_DAY, hour);
+                    fromTime.set(Calendar.MINUTE, minut);
+                    setUnderlineText(tvFromTime, timeSimple.format(fromTime.getTime()));
+                    setUnderlineText(tvToTime, timeSimple.format(toTime.getTime()));
                 }
             });
             simpleTimePickerDialog.show();
 
         });
-        tvToTime.setOnClickListener((view)->{
+        tvToTime.setOnClickListener((view) -> {
             SimpleTimePickerDialog simpleTimePickerDialog = new SimpleTimePickerDialog(getContext(), toTime.get(Calendar.HOUR_OF_DAY), toTime.get(Calendar.MINUTE), new SimpleTimePickerDialog.SimpleDatePickerListner() {
                 @Override
                 public void onOk(int hour, int minut) {
-                    toTime.set(Calendar.HOUR_OF_DAY,hour);
-                    toTime.set(Calendar.MINUTE,minut);
-                    setUnderlineText(tvFromTime,timeSimple.format(fromTime.getTime()));
-                    setUnderlineText(tvToTime,timeSimple.format(toTime.getTime()));
+                    toTime.set(Calendar.HOUR_OF_DAY, hour);
+                    toTime.set(Calendar.MINUTE, minut);
+                    setUnderlineText(tvFromTime, timeSimple.format(fromTime.getTime()));
+                    setUnderlineText(tvToTime, timeSimple.format(toTime.getTime()));
                 }
             });
             simpleTimePickerDialog.show();
 
         });
         dialogView.findViewById(R.id.btnWarningYES).setOnClickListener(view -> {
-            if(clicked >0){
-                if(callbackIntervalPicker !=null){
+            if (clicked > 0) {
+                if (callbackIntervalPicker != null) {
                     toDate = (Calendar) fromDate.clone();
 
-                    fromDate.set(Calendar.HOUR_OF_DAY,fromTime.get(Calendar.HOUR_OF_DAY));
-                    fromDate.set(Calendar.MINUTE,fromTime.get(Calendar.MINUTE));
+                    fromDate.set(Calendar.HOUR_OF_DAY, fromTime.get(Calendar.HOUR_OF_DAY));
+                    fromDate.set(Calendar.MINUTE, fromTime.get(Calendar.MINUTE));
 
-                    toDate.set(Calendar.HOUR_OF_DAY,toTime.get(Calendar.HOUR_OF_DAY));
-                    toDate.set(Calendar.MINUTE,toTime.get(Calendar.MINUTE));
-                    if(fromDate.getTimeInMillis()>toDate.getTimeInMillis())
-                        callbackIntervalPicker.dateIntervalPicked(toDate,fromDate);
-                    else callbackIntervalPicker.dateIntervalPicked(fromDate,toDate);
+                    toDate.set(Calendar.HOUR_OF_DAY, toTime.get(Calendar.HOUR_OF_DAY));
+                    toDate.set(Calendar.MINUTE, toTime.get(Calendar.MINUTE));
+                    if (fromDate.getTimeInMillis() > toDate.getTimeInMillis())
+                        callbackIntervalPicker.dateIntervalPicked(toDate, fromDate);
+                    else callbackIntervalPicker.dateIntervalPicked(fromDate, toDate);
 
 
                 }
-            }else if(clicked == 0){
-                if(callbackIntervalPicker!=null){
-                    fromDate.set(Calendar.HOUR_OF_DAY,fromTime.get(Calendar.HOUR_OF_DAY));
-                    fromDate.set(Calendar.MINUTE,fromTime.get(Calendar.MINUTE));
+            } else if (clicked == 0) {
+                if (callbackIntervalPicker != null) {
+                    fromDate.set(Calendar.HOUR_OF_DAY, fromTime.get(Calendar.HOUR_OF_DAY));
+                    fromDate.set(Calendar.MINUTE, fromTime.get(Calendar.MINUTE));
 
-                    toDate.set(Calendar.HOUR_OF_DAY,toTime.get(Calendar.HOUR_OF_DAY));
-                    toDate.set(Calendar.MINUTE,toTime.get(Calendar.MINUTE));
-                    if(fromDate.getTimeInMillis()>toDate.getTimeInMillis())
-                        callbackIntervalPicker.dateIntervalPicked(toDate,fromDate);
-                    else callbackIntervalPicker.dateIntervalPicked(fromDate,toDate);
+                    toDate.set(Calendar.HOUR_OF_DAY, toTime.get(Calendar.HOUR_OF_DAY));
+                    toDate.set(Calendar.MINUTE, toTime.get(Calendar.MINUTE));
+                    if (fromDate.getTimeInMillis() > toDate.getTimeInMillis())
+                        callbackIntervalPicker.dateIntervalPicked(toDate, fromDate);
+                    else callbackIntervalPicker.dateIntervalPicked(fromDate, toDate);
                 }
             }
             dismiss();
@@ -191,39 +192,38 @@ public class DateIntervalPicker extends Dialog {
             long currentIndecator = year * 365 + month * 30 + day;
 
             long indecatorFrom = fromDate.get(Calendar.YEAR) * 365 + fromDate.get(Calendar.MONTH) * 30 + fromDate.get(Calendar.DAY_OF_MONTH);
-            if(clicked == 0){
+            if (clicked == 0) {
                 clicked++;
-                fromDate.set(Calendar.YEAR,year);
-                fromDate.set(Calendar.MONTH,month);
-                fromDate.set(Calendar.DAY_OF_MONTH,day);
-                calLeft.setTo(-1,-1,-1);
-                calRight.setTo(-1,-1,-1);
-                calLeft.setFrom(fromDate.get(Calendar.DAY_OF_MONTH),fromDate.get(Calendar.MONTH),fromDate.get(Calendar.YEAR));
-                calRight.setFrom(fromDate.get(Calendar.DAY_OF_MONTH),fromDate.get(Calendar.MONTH),fromDate.get(Calendar.YEAR));
+                fromDate.set(Calendar.YEAR, year);
+                fromDate.set(Calendar.MONTH, month);
+                fromDate.set(Calendar.DAY_OF_MONTH, day);
+                calLeft.setTo(-1, -1, -1);
+                calRight.setTo(-1, -1, -1);
+                calLeft.setFrom(fromDate.get(Calendar.DAY_OF_MONTH), fromDate.get(Calendar.MONTH), fromDate.get(Calendar.YEAR));
+                calRight.setFrom(fromDate.get(Calendar.DAY_OF_MONTH), fromDate.get(Calendar.MONTH), fromDate.get(Calendar.YEAR));
                 calLeft.update();
                 calRight.update();
                 fromDateCurrent = true;
                 toDateCurrent = false;
                 updateCurrentDate();
-            }else{
+            } else {
                 clicked = 0;
-                if(currentIndecator>indecatorFrom){
-                    toDate.set(Calendar.YEAR,year);
-                    toDate.set(Calendar.MONTH,month);
-                    toDate.set(Calendar.DAY_OF_MONTH,day);
+                if (currentIndecator > indecatorFrom) {
+                    toDate.set(Calendar.YEAR, year);
+                    toDate.set(Calendar.MONTH, month);
+                    toDate.set(Calendar.DAY_OF_MONTH, day);
+                } else {
+                    toDate.set(Calendar.YEAR, fromDate.get(Calendar.YEAR));
+                    toDate.set(Calendar.MONTH, fromDate.get(Calendar.MONTH));
+                    toDate.set(Calendar.DAY_OF_MONTH, fromDate.get(Calendar.DAY_OF_MONTH));
+                    fromDate.set(Calendar.YEAR, year);
+                    fromDate.set(Calendar.MONTH, month);
+                    fromDate.set(Calendar.DAY_OF_MONTH, day);
                 }
-                else {
-                    toDate.set(Calendar.YEAR,fromDate.get(Calendar.YEAR));
-                    toDate.set(Calendar.MONTH,fromDate.get(Calendar.MONTH));
-                    toDate.set(Calendar.DAY_OF_MONTH,fromDate.get(Calendar.DAY_OF_MONTH));
-                    fromDate.set(Calendar.YEAR,year);
-                    fromDate.set(Calendar.MONTH,month);
-                    fromDate.set(Calendar.DAY_OF_MONTH,day);
-                }
-                calLeft.setTo(toDate.get(Calendar.DAY_OF_MONTH),toDate.get(Calendar.MONTH),toDate.get(Calendar.YEAR));
-                calRight.setTo(toDate.get(Calendar.DAY_OF_MONTH),toDate.get(Calendar.MONTH),toDate.get(Calendar.YEAR));
-                calLeft.setFrom(fromDate.get(Calendar.DAY_OF_MONTH),fromDate.get(Calendar.MONTH),fromDate.get(Calendar.YEAR));
-                calRight.setFrom(fromDate.get(Calendar.DAY_OF_MONTH),fromDate.get(Calendar.MONTH),fromDate.get(Calendar.YEAR));
+                calLeft.setTo(toDate.get(Calendar.DAY_OF_MONTH), toDate.get(Calendar.MONTH), toDate.get(Calendar.YEAR));
+                calRight.setTo(toDate.get(Calendar.DAY_OF_MONTH), toDate.get(Calendar.MONTH), toDate.get(Calendar.YEAR));
+                calLeft.setFrom(fromDate.get(Calendar.DAY_OF_MONTH), fromDate.get(Calendar.MONTH), fromDate.get(Calendar.YEAR));
+                calRight.setFrom(fromDate.get(Calendar.DAY_OF_MONTH), fromDate.get(Calendar.MONTH), fromDate.get(Calendar.YEAR));
                 calRight.update();
                 calLeft.update();
                 fromDateCurrent = true;
@@ -234,39 +234,38 @@ public class DateIntervalPicker extends Dialog {
         calLeft.initCallback((day, month, year) -> {
             long currentIndecator = year * 365 + month * 30 + day;
             long indecatorFrom = fromDate.get(Calendar.YEAR) * 365 + fromDate.get(Calendar.MONTH) * 30 + fromDate.get(Calendar.DAY_OF_MONTH);
-            if(clicked == 0){
+            if (clicked == 0) {
                 clicked++;
-                fromDate.set(Calendar.YEAR,year);
-                fromDate.set(Calendar.MONTH,month);
-                fromDate.set(Calendar.DAY_OF_MONTH,day);
-                calLeft.setTo(-1,-1,-1);
-                calRight.setTo(-1,-1,-1);
-                calLeft.setFrom(fromDate.get(Calendar.DAY_OF_MONTH),fromDate.get(Calendar.MONTH),fromDate.get(Calendar.YEAR));
-                calRight.setFrom(fromDate.get(Calendar.DAY_OF_MONTH),fromDate.get(Calendar.MONTH),fromDate.get(Calendar.YEAR));
+                fromDate.set(Calendar.YEAR, year);
+                fromDate.set(Calendar.MONTH, month);
+                fromDate.set(Calendar.DAY_OF_MONTH, day);
+                calLeft.setTo(-1, -1, -1);
+                calRight.setTo(-1, -1, -1);
+                calLeft.setFrom(fromDate.get(Calendar.DAY_OF_MONTH), fromDate.get(Calendar.MONTH), fromDate.get(Calendar.YEAR));
+                calRight.setFrom(fromDate.get(Calendar.DAY_OF_MONTH), fromDate.get(Calendar.MONTH), fromDate.get(Calendar.YEAR));
                 calLeft.update();
                 calRight.update();
                 fromDateCurrent = true;
                 toDateCurrent = false;
                 updateCurrentDate();
-            }else{
+            } else {
                 clicked = 0;
-                if(currentIndecator>indecatorFrom){
-                    toDate.set(Calendar.YEAR,year);
-                    toDate.set(Calendar.MONTH,month);
-                    toDate.set(Calendar.DAY_OF_MONTH,day);
+                if (currentIndecator > indecatorFrom) {
+                    toDate.set(Calendar.YEAR, year);
+                    toDate.set(Calendar.MONTH, month);
+                    toDate.set(Calendar.DAY_OF_MONTH, day);
+                } else {
+                    toDate.set(Calendar.YEAR, fromDate.get(Calendar.YEAR));
+                    toDate.set(Calendar.MONTH, fromDate.get(Calendar.MONTH));
+                    toDate.set(Calendar.DAY_OF_MONTH, fromDate.get(Calendar.DAY_OF_MONTH));
+                    fromDate.set(Calendar.YEAR, year);
+                    fromDate.set(Calendar.MONTH, month);
+                    fromDate.set(Calendar.DAY_OF_MONTH, day);
                 }
-                else {
-                    toDate.set(Calendar.YEAR,fromDate.get(Calendar.YEAR));
-                    toDate.set(Calendar.MONTH,fromDate.get(Calendar.MONTH));
-                    toDate.set(Calendar.DAY_OF_MONTH,fromDate.get(Calendar.DAY_OF_MONTH));
-                    fromDate.set(Calendar.YEAR,year);
-                    fromDate.set(Calendar.MONTH,month);
-                    fromDate.set(Calendar.DAY_OF_MONTH,day);
-                }
-                calLeft.setTo(toDate.get(Calendar.DAY_OF_MONTH),toDate.get(Calendar.MONTH),toDate.get(Calendar.YEAR));
-                calRight.setTo(toDate.get(Calendar.DAY_OF_MONTH),toDate.get(Calendar.MONTH),toDate.get(Calendar.YEAR));
-                calLeft.setFrom(fromDate.get(Calendar.DAY_OF_MONTH),fromDate.get(Calendar.MONTH),fromDate.get(Calendar.YEAR));
-                calRight.setFrom(fromDate.get(Calendar.DAY_OF_MONTH),fromDate.get(Calendar.MONTH),fromDate.get(Calendar.YEAR));
+                calLeft.setTo(toDate.get(Calendar.DAY_OF_MONTH), toDate.get(Calendar.MONTH), toDate.get(Calendar.YEAR));
+                calRight.setTo(toDate.get(Calendar.DAY_OF_MONTH), toDate.get(Calendar.MONTH), toDate.get(Calendar.YEAR));
+                calLeft.setFrom(fromDate.get(Calendar.DAY_OF_MONTH), fromDate.get(Calendar.MONTH), fromDate.get(Calendar.YEAR));
+                calRight.setFrom(fromDate.get(Calendar.DAY_OF_MONTH), fromDate.get(Calendar.MONTH), fromDate.get(Calendar.YEAR));
                 calRight.update();
                 calLeft.update();
                 fromDateCurrent = true;
@@ -287,8 +286,8 @@ public class DateIntervalPicker extends Dialog {
         btnYesterday.setOnClickListener(view -> {
             toDate.setTime(currentDate);
             fromDate.setTime(currentDate);
-            toDate.add(Calendar.DAY_OF_MONTH,-1);
-            fromDate.add(Calendar.DAY_OF_MONTH,-1);
+            toDate.add(Calendar.DAY_OF_MONTH, -1);
+            fromDate.add(Calendar.DAY_OF_MONTH, -1);
             timeInit();
             setDatas();
             updateCalendars();
@@ -299,7 +298,7 @@ public class DateIntervalPicker extends Dialog {
         btnLastWeek.setOnClickListener(view -> {
             toDate.setTime(currentDate);
             fromDate.setTime(currentDate);
-            fromDate.set(Calendar.DAY_OF_WEEK,Calendar.MONDAY);
+            fromDate.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
             timeInit();
             setDatas();
             updateCalendars();
@@ -310,7 +309,7 @@ public class DateIntervalPicker extends Dialog {
         btnLastMonth.setOnClickListener(view -> {
             toDate.setTime(currentDate);
             fromDate.setTime(currentDate);
-            fromDate.add(Calendar.DAY_OF_MONTH,-30);
+            fromDate.add(Calendar.DAY_OF_MONTH, -30);
             timeInit();
             setDatas();
             updateCalendars();
@@ -321,7 +320,7 @@ public class DateIntervalPicker extends Dialog {
         btnThisMonth.setOnClickListener(view -> {
             toDate.setTime(currentDate);
             fromDate.setTime(currentDate);
-            fromDate.set(Calendar.DAY_OF_MONTH,1);
+            fromDate.set(Calendar.DAY_OF_MONTH, 1);
             timeInit();
             setDatas();
             updateCalendars();
@@ -332,7 +331,7 @@ public class DateIntervalPicker extends Dialog {
         btnLastYear.setOnClickListener(view -> {
             toDate.setTime(currentDate);
             fromDate.setTime(currentDate);
-            fromDate.set(Calendar.DAY_OF_YEAR,1);
+            fromDate.set(Calendar.DAY_OF_YEAR, 1);
             timeInit();
             setDatas();
             updateCalendars();
@@ -346,63 +345,68 @@ public class DateIntervalPicker extends Dialog {
         v.setBackgroundResource(android.R.color.transparent);
 
     }
-    private void setDatas(){
-        calLeft.setFrom(fromDate.get(Calendar.DAY_OF_MONTH),fromDate.get(Calendar.MONTH),fromDate.get(Calendar.YEAR));
-        calLeft.setTo(toDate.get(Calendar.DAY_OF_MONTH),toDate.get(Calendar.MONTH),toDate.get(Calendar.YEAR));
-        calRight.setFrom(fromDate.get(Calendar.DAY_OF_MONTH),fromDate.get(Calendar.MONTH),fromDate.get(Calendar.YEAR));
-        calRight.setTo(toDate.get(Calendar.DAY_OF_MONTH),toDate.get(Calendar.MONTH),toDate.get(Calendar.YEAR));
+
+    private void setDatas() {
+        calLeft.setFrom(fromDate.get(Calendar.DAY_OF_MONTH), fromDate.get(Calendar.MONTH), fromDate.get(Calendar.YEAR));
+        calLeft.setTo(toDate.get(Calendar.DAY_OF_MONTH), toDate.get(Calendar.MONTH), toDate.get(Calendar.YEAR));
+        calRight.setFrom(fromDate.get(Calendar.DAY_OF_MONTH), fromDate.get(Calendar.MONTH), fromDate.get(Calendar.YEAR));
+        calRight.setTo(toDate.get(Calendar.DAY_OF_MONTH), toDate.get(Calendar.MONTH), toDate.get(Calendar.YEAR));
 
     }
-    private void updateCalendars(){
+
+    private void updateCalendars() {
         calLeft.viewPosition(false);
         calRight.viewPosition(true);
     }
-    private void updateCurrentDate(){
+
+    private void updateCurrentDate() {
         String date = "";
-        if(fromDateCurrent && !toDateCurrent){
+        if (fromDateCurrent && !toDateCurrent) {
             String format = simpleDateFormat.format(fromDate.getTime());
-            date =  format.substring(0, 1).toUpperCase() + format.substring(1);
+            date = format.substring(0, 1).toUpperCase() + format.substring(1);
             tvCurrentIntervalTo.setText(date);
             tvCurrentIntervalFrom.setText(date);
-            setUnderlineText(tvFromTime,timeSimple.format(fromTime.getTime()));
-            setUnderlineText(tvToTime,timeSimple.format(toTime.getTime()));
-        }else if(fromDateCurrent && toDateCurrent){
+            setUnderlineText(tvFromTime, timeSimple.format(fromTime.getTime()));
+            setUnderlineText(tvToTime, timeSimple.format(toTime.getTime()));
+        } else if (fromDateCurrent && toDateCurrent) {
             long indecatorTo = toDate.get(Calendar.YEAR) * 365 + toDate.get(Calendar.MONTH) * 30 + toDate.get(Calendar.DAY_OF_MONTH);
             long indecatorFrom = fromDate.get(Calendar.YEAR) * 365 + fromDate.get(Calendar.MONTH) * 30 + fromDate.get(Calendar.DAY_OF_MONTH);
-            if(indecatorTo == indecatorFrom){
+            if (indecatorTo == indecatorFrom) {
                 String format = simpleDateFormat.format(fromDate.getTime());
-                date =  format.substring(0, 1).toUpperCase() + format.substring(1);
+                date = format.substring(0, 1).toUpperCase() + format.substring(1);
                 tvCurrentIntervalTo.setText(date);
                 tvCurrentIntervalFrom.setText(date);
-                setUnderlineText(tvFromTime,timeSimple.format(fromTime.getTime()));
-                setUnderlineText(tvToTime,timeSimple.format(toTime.getTime()));
+                setUnderlineText(tvFromTime, timeSimple.format(fromTime.getTime()));
+                setUnderlineText(tvToTime, timeSimple.format(toTime.getTime()));
 
-            }else {
+            } else {
 
                 String format = simpleDateFormat.format(fromDate.getTime());
                 String format1 = simpleDateFormat.format(toDate.getTime());
 
-                tvCurrentIntervalTo.setText(format1 );
+                tvCurrentIntervalTo.setText(format1);
                 tvCurrentIntervalFrom.setText(format);
-                setUnderlineText(tvFromTime,timeSimple.format(fromTime.getTime()));
-                setUnderlineText(tvToTime,timeSimple.format(toTime.getTime()));
+                setUnderlineText(tvFromTime, timeSimple.format(fromTime.getTime()));
+                setUnderlineText(tvToTime, timeSimple.format(toTime.getTime()));
             }
 
         }
 
     }
-    public void setUnderlineText(TextView textView, String text){
+
+    public void setUnderlineText(TextView textView, String text) {
         SpannableString content = new SpannableString(text);
         content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
         textView.setText(content);
     }
-    public void timeInit(){
+
+    public void timeInit() {
         fromTime.set(Calendar.HOUR_OF_DAY, 0);
         fromTime.set(Calendar.MINUTE, 0);
         fromTime.set(Calendar.SECOND, 0);
 
-        toTime.set(Calendar.HOUR_OF_DAY,23);
-        toTime.set(Calendar.MINUTE,59);
-        toTime.set(Calendar.SECOND,59);
+        toTime.set(Calendar.HOUR_OF_DAY, 23);
+        toTime.set(Calendar.MINUTE, 59);
+        toTime.set(Calendar.SECOND, 59);
     }
 }

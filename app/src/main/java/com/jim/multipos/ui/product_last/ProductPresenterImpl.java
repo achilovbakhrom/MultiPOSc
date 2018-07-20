@@ -902,7 +902,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
 
                     product.setActive(false);
                     product.setDeleted(true);
-//                        product.setNotModifyted(false);
                     databaseManager.replaceProduct(product).subscribe(aLong -> {
                         if (subcategory != null) {
                             subcategory.resetProducts();

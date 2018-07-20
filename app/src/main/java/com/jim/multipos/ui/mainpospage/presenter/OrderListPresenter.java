@@ -18,54 +18,102 @@ import java.util.List;
 
 public interface OrderListPresenter extends Presenter {
     List<Discount> getDiscounts();
+
     List<ServiceFee> getServiceFees();
+
     void addDiscount(double amount, String description, int amountType);
+
     void addServiceFee(double amount, String description, int amountType);
+
     void onPlusCount(int position);
+
     void onMinusCount(int position);
-    void setCount(int position,double count);
+
+    void setCount(int position, double count);
+
     void onOrderProductClick(int position);
+
     void onOrderDiscountClick();
+
     void onOrderServiceFeeClick();
+
     void addProductToList(Long productId);
+
     void addDiscountToProduct(Long productId, Discount discount, boolean isManual);
+
     void addServiceFeeToProduct(Long productId, ServiceFee serviceFee, boolean isManual);
+
     void openDiscountDialog();
+
     void openSeriveFeeDialog();
-    void changeDiscription(String discription,int position);
+
+    void changeDiscription(String discription, int position);
+
     void removeOrderProducts(int removePosition);
-    void setDiscountToProduct(Discount discountToProduct,int currentPosition);
-    void setServiceFeeProduct(ServiceFee serviceFeeProduct,int currentPosition);
+
+    void setDiscountToProduct(Discount discountToProduct, int currentPosition);
+
+    void setServiceFeeProduct(ServiceFee serviceFeeProduct, int currentPosition);
+
     void changeCustomer(Customer customer);
+
     void onClickChooseCustomerButton();
-    void addProductWithWeightToList(Product product,double weight);
-    void addProductWithWeightToListEdit(Product product,double weight);
-    void addProductWithWeightToListEditFromInfo(int currentPosition,double weight);
+
+    void addProductWithWeightToList(Product product, double weight);
+
+    void addProductWithWeightToListEdit(Product product, double weight);
+
+    void addProductWithWeightToListEditFromInfo(int currentPosition, double weight);
+
     void onCountWeigtClick(int position);
+
     void sendToPaymentFragmentOrderAndPaymentsList();
+
     void onPayedPartition();
+
     void cleanOrder();
+
     void onCloseOrder(Order order, List<PayedPartitions> payedPartitions, Debt debt);
+
     void updateCustomer(Customer customer);
-    void onEditOrder(String reason,Order order,Long newOrderId);
-    void onHoldOrderSendingData(Order order, List<PayedPartitions> payedPartitions,Debt debt);
+
+    void onEditOrder(String reason, Order order, Long newOrderId);
+
+    void onHoldOrderSendingData(Order order, List<PayedPartitions> payedPartitions, Debt debt);
+
     void initNewOrderWithId(Long orderId);
+
     void onHoldOrderCountined(Order order);
 
-    void eventProductUpdate(Product product,Product newProduct);
+    void eventProductUpdate(Product product, Product newProduct);
+
     void eventProductDelete(Product product);
+
     void eventCustomerUpdate(Customer customer);
+
     void eventCustomerDelete(Customer customer);
-    void eventDebtUpdate(Debt debt,Debt newDebt);
+
+    void eventDebtUpdate(Debt debt, Debt newDebt);
+
     void eventDebtDelete(Debt debt);
+
     void eventDiscountUpdate(Discount discount);
+
     void eventDiscountDelete(Discount discount);
+
     void eventServiceFeeUpdate(ServiceFee serviceFee);
+
     void eventServiceFeeDelete(ServiceFee serviceFee);
+
     void eventConsignmentUpdate();
+
     void printStockCheck();
+
     void onBarcodeReaded(String barcode);
+
     void onCancelClicked();
+
     void onStockPositionClicked(int position);
+
     void updateOutcomeProductFor(int position, OutcomeProduct outcomeProduct);
 }

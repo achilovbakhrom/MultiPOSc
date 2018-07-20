@@ -13,14 +13,24 @@ import io.reactivex.Single;
 
 public interface PaymentTypeOperations {
     Observable<Long> addPaymentType(PaymentType paymentType);
+
     Observable<Boolean> addPaymentTypes(List<PaymentType> paymentTypes);
+
     Observable<Boolean> removePaymentType(PaymentType paymentType);
+
     Observable<Boolean> removeAllPaymentTypes();
+
     Observable<List<PaymentType>> getAllPaymentTypes();
-    Observable <Boolean> isPaymentTypeNameExists(String name);
+
+    Observable<Boolean> isPaymentTypeNameExists(String name);
+
     List<PaymentType> getPaymentTypes();
+
     Single<PaymentType> getDebtPaymentType();
+
     PaymentType getCashPaymentType();
+
     PaymentType getPaymentTypeById(long id);
+
     Single<PaymentType> getSystemPaymentType();
 }

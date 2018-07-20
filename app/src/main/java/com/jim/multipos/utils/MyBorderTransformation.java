@@ -27,7 +27,7 @@ public class MyBorderTransformation extends BitmapTransformation {
         if (bmp.getWidth() != radius || bmp.getHeight() != radius) {
             float smallest = Math.min(bmp.getWidth(), bmp.getHeight());
             float factor = smallest / radius;
-            sbmp = Bitmap.createScaledBitmap(bmp, (int)(bmp.getWidth() / factor), (int)(bmp.getHeight() / factor), false);
+            sbmp = Bitmap.createScaledBitmap(bmp, (int) (bmp.getWidth() / factor), (int) (bmp.getHeight() / factor), false);
         } else {
             sbmp = bmp;
         }
@@ -45,7 +45,7 @@ public class MyBorderTransformation extends BitmapTransformation {
         paint.setAntiAlias(true);
         canvas.drawARGB(0, 0, 0, 0);
         paint.setColor(color);
-        canvas.drawRoundRect(rectF,10,10,paint);
+        canvas.drawRoundRect(rectF, 10, 10, paint);
 
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap(sbmp, rect, rect, paint);
@@ -55,7 +55,7 @@ public class MyBorderTransformation extends BitmapTransformation {
         paint1.setStyle(Paint.Style.STROKE);
         paint1.setColor(Color.parseColor("#ebebeb"));
         paint1.setStrokeWidth(1f);
-        canvas.drawRoundRect(rectF,10,10,paint1);
+        canvas.drawRoundRect(rectF, 10, 10, paint1);
 
         return output;
 

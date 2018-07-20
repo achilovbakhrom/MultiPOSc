@@ -15,14 +15,15 @@ import javax.inject.Inject;
  */
 
 public class SearchModePresenterImpl extends BasePresenterImpl<SearchModeView> implements SearchModePresenter {
-    StringBuilder searchBuilder ;
+    StringBuilder searchBuilder;
     boolean skuMode = true;
     boolean nameMode = true;
     boolean barcodeMode = true;
     List<Product> productList;
-    String searchText ="";
+    String searchText = "";
     @Inject
     DatabaseManager databaseManager;
+
     @Inject
     protected SearchModePresenterImpl(SearchModeView searchModeView) {
         super(searchModeView);
@@ -55,24 +56,24 @@ public class SearchModePresenterImpl extends BasePresenterImpl<SearchModeView> i
     @Override
     public void onSearchTextChange(String s) {
         searchText = s;
-       if(s.length() == 1){
-        databaseManager.getSearchProducts(s,skuMode,barcodeMode,nameMode).subscribe((products, throwable) -> {
-            productList = products;
-            view.setResultsList(productList,s);
-        });
-       }else if(s.length()>0) {
+        if (s.length() == 1) {
+            databaseManager.getSearchProducts(s, skuMode, barcodeMode, nameMode).subscribe((products, throwable) -> {
+                productList = products;
+                view.setResultsList(productList, s);
+            });
+        } else if (s.length() > 0) {
             List<Product> productsTemp = new ArrayList<>();
-            for (Product product:productList){
-                if(barcodeMode && product.getBarcode().toUpperCase().contains(s.toUpperCase())){
+            for (Product product : productList) {
+                if (barcodeMode && product.getBarcode().toUpperCase().contains(s.toUpperCase())) {
                     productsTemp.add(product);
-                }else if(nameMode && product.getName().toUpperCase().contains(s.toUpperCase())){
+                } else if (nameMode && product.getName().toUpperCase().contains(s.toUpperCase())) {
                     productsTemp.add(product);
-                }else if(skuMode && product.getSku().toUpperCase().contains(s.toUpperCase())){
+                } else if (skuMode && product.getSku().toUpperCase().contains(s.toUpperCase())) {
                     productsTemp.add(product);
                 }
             }
-           view.setResultsList(productsTemp,s);
-       }
+            view.setResultsList(productsTemp, s);
+        }
     }
 
 
@@ -81,24 +82,24 @@ public class SearchModePresenterImpl extends BasePresenterImpl<SearchModeView> i
         view.addProductToOrderInCloseSelf();
     }
 
-    private void onModeChange(){
-        if(searchText.length()>0)
-        databaseManager.getSearchProducts(searchText.substring(0,1),skuMode,barcodeMode,nameMode).subscribe((products, throwable) -> {
-           productList =products;
-            List<Product> productsTemp = new ArrayList<>();
+    private void onModeChange() {
+        if (searchText.length() > 0)
+            databaseManager.getSearchProducts(searchText.substring(0, 1), skuMode, barcodeMode, nameMode).subscribe((products, throwable) -> {
+                productList = products;
+                List<Product> productsTemp = new ArrayList<>();
 
-            for (Product product:productList){
-                if(barcodeMode && product.getBarcode().toUpperCase().contains(searchText.toUpperCase())){
-                    productsTemp.add(product);
-                }else if(nameMode && product.getName().toUpperCase().contains(searchText.toUpperCase())){
-                    productsTemp.add(product);
-                }else if(skuMode && product.getSku().toUpperCase().contains(searchText.toUpperCase())){
-                    productsTemp.add(product);
+                for (Product product : productList) {
+                    if (barcodeMode && product.getBarcode().toUpperCase().contains(searchText.toUpperCase())) {
+                        productsTemp.add(product);
+                    } else if (nameMode && product.getName().toUpperCase().contains(searchText.toUpperCase())) {
+                        productsTemp.add(product);
+                    } else if (skuMode && product.getSku().toUpperCase().contains(searchText.toUpperCase())) {
+                        productsTemp.add(product);
+                    }
                 }
-            }
-            view.setResultsList(productsTemp,searchText);
+                view.setResultsList(productsTemp, searchText);
 
-        });
+            });
     }
 
 }

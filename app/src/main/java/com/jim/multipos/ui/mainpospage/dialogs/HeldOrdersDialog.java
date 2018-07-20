@@ -101,12 +101,12 @@ public class HeldOrdersDialog extends Dialog {
                         databaseManager.insertOrderChangeLog(orderChangesLog).blockingGet();
                         order.setLastChangeLogId(orderChangesLog.getId());
 
-                        databaseManager.cancelOutcomeProductWhenOrderProductCanceled(order.getOrderProducts()).subscribe();
+                        databaseManager.cancelOutcomeProductWhenOrderProductCanceled(order.getOrderProducts()).blockingGet();
 
 
                         if (order.getDebt() != null) {
                             order.getDebt().setIsDeleted(true);
-                            databaseManager.addDebt(order.getDebt());
+                            databaseManager.addDebt(order.getDebt()).blockingGet();
                         }
                         databaseManager.insertOrder(order).blockingGet();
                         orderList.remove(order);

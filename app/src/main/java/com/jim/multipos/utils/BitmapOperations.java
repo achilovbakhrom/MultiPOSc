@@ -18,7 +18,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -34,38 +33,40 @@ public class BitmapOperations {
         String file_path = Environment.getExternalStorageDirectory().getAbsolutePath() +
                 "/Homila/cache";
         File dir = new File(file_path);
-        if(!dir.exists())
+        if (!dir.exists())
             dir.mkdirs();
         File file = new File(dir, name + ".jpg");
         FileOutputStream fOut = new FileOutputStream(file);
-        bmp.compress(Bitmap.CompressFormat.JPEG,  85, fOut);
+        bmp.compress(Bitmap.CompressFormat.JPEG, 85, fOut);
         fOut.flush();
         fOut.close();
     }
 
-    public static Bitmap decodeFile(File f){
+    public static Bitmap decodeFile(File f) {
         try {
             BitmapFactory.Options o = new BitmapFactory.Options();
             o.inJustDecodeBounds = true;
-            BitmapFactory.decodeStream(new FileInputStream(f),null,o);
-            final int REQUIRED_SIZE=10;
-            int scale=1;
-            while(o.outWidth/scale/2>=REQUIRED_SIZE && o.outHeight/scale/2>=REQUIRED_SIZE)
-                scale*=2;
+            BitmapFactory.decodeStream(new FileInputStream(f), null, o);
+            final int REQUIRED_SIZE = 10;
+            int scale = 1;
+            while (o.outWidth / scale / 2 >= REQUIRED_SIZE && o.outHeight / scale / 2 >= REQUIRED_SIZE)
+                scale *= 2;
             BitmapFactory.Options o2 = new BitmapFactory.Options();
-            o2.inSampleSize=scale;
+            o2.inSampleSize = scale;
             return BitmapFactory.decodeStream(new FileInputStream(f), null, o2);
-        } catch (FileNotFoundException e) {}
+        } catch (FileNotFoundException e) {
+        }
         return null;
     }
+
     public static String getPath(Uri uri, Activity activity) {
-        if( uri == null ) {
+        if (uri == null) {
             //  perform some logging or show user feedback
             return null;
         }
-        String[] projection = { MediaStore.Images.Media.DATA };
+        String[] projection = {MediaStore.Images.Media.DATA};
         Cursor cursor = activity.managedQuery(uri, projection, null, null, null);
-        if( cursor != null ){
+        if (cursor != null) {
             int column_index = cursor
                     .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
@@ -87,10 +88,11 @@ public class BitmapOperations {
         float imgRatio = actualWidth / actualHeight;
         float maxRatio = maxWidth / maxHeight;
         if (actualHeight > maxHeight || actualWidth > maxWidth) {
-            if (imgRatio < maxRatio) {               imgRatio = maxHeight / actualHeight;
+            if (imgRatio < maxRatio) {
+                imgRatio = maxHeight / actualHeight;
                 actualWidth = (int) (imgRatio * actualWidth);
-                actualHeight = (int) maxHeight;             }
-            else if (imgRatio > maxRatio) {
+                actualHeight = (int) maxHeight;
+            } else if (imgRatio > maxRatio) {
                 imgRatio = maxWidth / actualWidth;
                 actualHeight = (int) (imgRatio * actualHeight);
                 actualWidth = (int) maxWidth;
@@ -159,9 +161,10 @@ public class BitmapOperations {
         final int width = options.outWidth;
         int inSampleSize = 1;
         if (height > reqHeight || width > reqWidth) {
-            final int heightRatio = Math.round((float) height/ (float) reqHeight);
+            final int heightRatio = Math.round((float) height / (float) reqHeight);
             final int widthRatio = Math.round((float) width / (float) reqWidth);
-            inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;      }
+            inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
+        }
         final float totalPixels = width * height;
         final float totalReqPixelsCap = reqWidth * reqHeight * 2;
         while (totalPixels / (inSampleSize * inSampleSize) > totalReqPixelsCap) {
@@ -169,6 +172,7 @@ public class BitmapOperations {
         }
         return inSampleSize;
     }
+
     private static Bitmap addWhiteBorder(Bitmap bmp, int borderSize) {
         Bitmap bmpWithBorder = Bitmap.createBitmap(bmp.getWidth() + borderSize * 2, bmp.getHeight() + borderSize * 2, bmp.getConfig());
         Canvas canvas = new Canvas(bmpWithBorder);
@@ -191,7 +195,7 @@ public class BitmapOperations {
         paint.setAntiAlias(true);
         canvas.drawARGB(0, 0, 0, 0);
         paint.setColor(color);
-        canvas.drawRoundRect(rectF,20,20,paint);
+        canvas.drawRoundRect(rectF, 20, 20, paint);
 
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap(bitmap, rect, rect, paint);

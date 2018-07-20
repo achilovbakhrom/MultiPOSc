@@ -5,5 +5,5 @@ package com.jim.multipos.utils;
  */
 
 public class DbUtils {
-    
+
 }

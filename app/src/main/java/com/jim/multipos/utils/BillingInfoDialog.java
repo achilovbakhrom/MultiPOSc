@@ -4,24 +4,18 @@ import android.app.Dialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.Window;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.jim.mpviews.MpButton;
 import com.jim.mpviews.RecyclerViewWithMaxHeight;
 import com.jim.multipos.R;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.currency.Currency;
-import com.jim.multipos.data.db.model.history.BillingOperationsHistory;
 import com.jim.multipos.data.db.model.inventory.BillingOperations;
 import com.jim.multipos.ui.billing_vendor.adapter.BillingInfoAdapter;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -59,7 +53,7 @@ public class BillingInfoDialog extends Dialog {
 
         rvPayments.setAdapter(adapter);
         operations.resetOperationsHistoryList();
-        if (operations.getOperationsHistoryList() != null && operations.getOperationsHistoryList().size() !=0) {
+        if (operations.getOperationsHistoryList() != null && operations.getOperationsHistoryList().size() != 0) {
             billingOperations.add(operations);
             billingOperations.addAll(operations.getOperationsHistoryList());
             adapter.setData(billingOperations);
@@ -72,7 +66,7 @@ public class BillingInfoDialog extends Dialog {
             dismiss();
         });
 
-        if (operations.getOperationType() == BillingOperations.PAID_TO_CONSIGNMENT){
+        if (operations.getOperationType() == BillingOperations.PAID_TO_CONSIGNMENT) {
             btnWarningNO.setVisibility(View.VISIBLE);
         } else {
             btnWarningNO.setVisibility(View.GONE);
@@ -82,7 +76,6 @@ public class BillingInfoDialog extends Dialog {
             billingInfoCallback.onEdit(operations);
             dismiss();
         });
-
 
 
         setContentView(dialogView);

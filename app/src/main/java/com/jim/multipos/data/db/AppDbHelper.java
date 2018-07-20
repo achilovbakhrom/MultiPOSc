@@ -1045,11 +1045,7 @@ public class AppDbHelper implements DbHelper {
 
     }
 
-    @Override
-    public Single<List<InventoryItem>> getInventoryItems() {
-        //TODO
-        return null;
-    }
+
 
 
     @Override
@@ -1203,18 +1199,7 @@ public class AppDbHelper implements DbHelper {
                 .list());
     }
 
-    @Override
-    public Single<BillingOperations> getBillingOperationsByConsignmentId(Long consignmentId) {
-        return Single.create(e -> {
-            //TODO
-//            List<BillingOperations> billingOperations = mDaoSession.queryBuilder(BillingOperations.class)
-//                    .where(BillingOperationsDao.Properties.ConsignmentId.eq(consignmentId),
-//                            BillingOperationsDao.Properties.IsDeleted.eq(false))
-//                    .build()
-//                    .list();
-//            e.onSuccess(billingOperations.get(0));
-        });
-    }
+
 
     @Override
     public Single<BillingOperations> getBillingOperationsById(Long firstPayId) {
@@ -1843,12 +1828,17 @@ public class AppDbHelper implements DbHelper {
                     detialCounts.addAll(orderProduct.getOutcomeProduct().getDetialCount());
                     mDaoSession.getOutcomeProductDao().delete(orderProduct.getOutcomeProduct());
                 }
+            mDaoSession.getOrderProductDao().detachAll();
             for(DetialCount detialCount: detialCounts) {
                 detialCount.getStockQueue().setAvailable(detialCount.getStockQueue().getAvailable() + detialCount.getCount());
                 mDaoSession.getStockQueueDao().insertOrReplace(detialCount.getStockQueue());
+                mDaoSession.getDetialCountDao().delete(detialCount);
             }
-            mDaoSession.getDetialCountDao().deleteInTx(detialCounts);
-            mDaoSession.getOrderProductDao().deleteInTx(orderProducts);
+            mDaoSession.getStockQueueDao().detachAll();
+            for (OrderProduct orderProduct:orderProducts) {
+                    mDaoSession.getOrderProductDao().delete(orderProduct);
+            }
+            mDaoSession.getOrderProductDao().detachAll();
             e.onSuccess(1l);
         });
     }
@@ -1856,7 +1846,9 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Single<Long> deletePayedPartitions(List<PayedPartitions> payedPartitions) {
         return Single.create(e -> {
-            mDaoSession.getPayedPartitionsDao().deleteInTx(payedPartitions);
+            for (PayedPartitions payedPartitions1 : payedPartitions) {
+                mDaoSession.getPayedPartitionsDao().delete(payedPartitions1);
+            }
             e.onSuccess(1l);
         });
     }
@@ -2212,7 +2204,6 @@ public class AppDbHelper implements DbHelper {
 
 
 
-    //TODO <----
 
     @Override
     public Single<List<Product>> getVendorProductsByVendorId(Long id) {
@@ -2305,18 +2296,19 @@ public class AppDbHelper implements DbHelper {
     public Single<Integer> cancelOutcomeProductWhenOrderProductCanceled(List<OrderProduct> orderProducts) {
         return Single.create(e -> {
             List<DetialCount> detialCounts = new ArrayList<>();
-
             for (OrderProduct orderProduct:orderProducts){
                 detialCounts.addAll(orderProduct.getOutcomeProduct().getDetialCount());
                 mDaoSession.getOutcomeProductDao().delete(orderProduct.getOutcomeProduct());
                 orderProduct.setOutcomeProductId(null);
                 mDaoSession.getOrderProductDao().insertOrReplace(orderProduct);
             }
+            mDaoSession.getOrderProductDao().detachAll();
             for(DetialCount detialCount: detialCounts) {
                 detialCount.getStockQueue().setAvailable(detialCount.getStockQueue().getAvailable() + detialCount.getCount());
                 mDaoSession.getStockQueueDao().insertOrReplace(detialCount.getStockQueue());
+                mDaoSession.getDetialCountDao().delete(detialCount);
             }
-            mDaoSession.getDetialCountDao().deleteInTx(detialCounts);
+            mDaoSession.getStockQueueDao().detachAll();
             e.onSuccess(1);
         });
     }
@@ -2425,7 +2417,8 @@ public class AppDbHelper implements DbHelper {
     public Single<List<OutcomeWithDetials>> checkPositionAvailablityWithoutSomeOutcomes(List<OutcomeProduct> outcomeProducts, List<OutcomeProduct> withoutOutcomeProducts) {
         return Single.create(e -> {
             //TODO CAN BE OPTIMIZED
-            String queryForStock = "SELECT _ID, AVAILABLE, COST, PRODUCT_ID, EXPIRED_PRODUCT_DATE  FROM STOCK_QUEUE WHERE AVAILABLE > 0.0009 AND PRODUCT_ID IN (";
+//            String queryForStock = "SELECT _ID, AVAILABLE, COST, PRODUCT_ID, EXPIRED_PRODUCT_DATE  FROM STOCK_QUEUE WHERE AVAILABLE > 0.0009 AND PRODUCT_ID IN (";
+            String queryForStock = "SELECT _ID, AVAILABLE, COST, PRODUCT_ID, EXPIRED_PRODUCT_DATE  FROM STOCK_QUEUE WHERE PRODUCT_ID IN (";
             for (int i = 0; i < outcomeProducts.size(); i++) {
                 queryForStock +=  " " + outcomeProducts.get(i).getProductId() ;
                 if(i+1!=outcomeProducts.size())
@@ -2584,7 +2577,8 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Single<List<StockQueueItem>> getStockQueueItemForOutcomeProduct(OutcomeProduct outcomeProduct, List<OutcomeProduct> outcomeProductList, List<OutcomeProduct> exceptionList) {
         return Single.create(e -> {
-            List<StockQueue> stockQueues = mDaoSession.getStockQueueDao().queryBuilder().where(StockQueueDao.Properties.ProductId.eq(outcomeProduct.getProduct().getId()), StockQueueDao.Properties.Available.ge(0.0009)).build().list();
+            List<StockQueue> stockQueues = mDaoSession.getStockQueueDao().queryBuilder().where(StockQueueDao.Properties.ProductId.eq(outcomeProduct.getProduct().getId())).build().list();
+//            List<StockQueue> stockQueues = mDaoSession.getStockQueueDao().queryBuilder().where(StockQueueDao.Properties.ProductId.eq(outcomeProduct.getProduct().getId()), StockQueueDao.Properties.Available.ge(0.0009)).build().list();
 
             if(outcomeProduct.getProduct().getStockKeepType()==Product.LIFO) Collections.sort(stockQueues,(stockQueue, t1) -> t1.getId().compareTo(stockQueue.getId()));
             if(outcomeProduct.getProduct().getStockKeepType()==Product.FEFO) Collections.sort(stockQueues,(stockQueue, t1) -> stockQueue.getExpiredProductDate().compareTo(t1.getExpiredProductDate()));

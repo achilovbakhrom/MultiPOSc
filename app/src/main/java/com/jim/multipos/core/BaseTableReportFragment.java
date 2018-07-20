@@ -24,7 +24,6 @@ import butterknife.OnTextChanged;
 public abstract class BaseTableReportFragment extends BaseFragment {
 
 
-
     @BindView(R.id.tvDateInterval)
     TextView tvDateInterval;
     @BindView(R.id.llDateInterval)
@@ -61,7 +60,7 @@ public abstract class BaseTableReportFragment extends BaseFragment {
     @BindView(R.id.pbLoading)
     ProgressBar pbLoading;
 
-    int panelCount=0;
+    int panelCount = 0;
     private BaseTableReportPresenter baseTableReportPresenter;
     private SimpleDateFormat simpleDateFormat;
 
@@ -79,66 +78,86 @@ public abstract class BaseTableReportFragment extends BaseFragment {
 
 
     }
-    public void setTable(FrameLayout frameLayout){
+
+    public void setTable(FrameLayout frameLayout) {
         flTable.removeAllViews();
         flTable.addView(frameLayout);
         pbLoading.setVisibility(View.GONE);
     }
-    public ProgressBar getPbLoading(){return pbLoading;}
-    public void disableSearch(){
+
+    public ProgressBar getPbLoading() {
+        return pbLoading;
+    }
+
+    public void disableSearch() {
         llSearch.setVisibility(View.GONE);
     }
-    public void enableSearch(){
+
+    public void enableSearch() {
         llSearch.setVisibility(View.VISIBLE);
     }
-    public void disableFilter(){
+
+    public void disableFilter() {
         llFilter.setVisibility(View.GONE);
     }
-    public void enableFilter(){
+
+    public void enableFilter() {
         llFilter.setVisibility(View.VISIBLE);
     }
-    public void enableTillChooseBtn(){llChooseTill.setVisibility(View.VISIBLE);}
-    public void disableTillChooseBtn(){llChooseTill.setVisibility(View.GONE);}
-    public void disableDateIntervalPicker(){
+
+    public void enableTillChooseBtn() {
+        llChooseTill.setVisibility(View.VISIBLE);
+    }
+
+    public void disableTillChooseBtn() {
+        llChooseTill.setVisibility(View.GONE);
+    }
+
+    public void disableDateIntervalPicker() {
         llDateInterval.setVisibility(View.GONE);
         tvDateInterval.setVisibility(View.INVISIBLE);
     }
-    public void disableExport(){
+
+    public void disableExport() {
         llExpert.setVisibility(View.GONE);
     }
-    public void enableDateIntervalPicker(){
+
+    public void enableDateIntervalPicker() {
         llDateInterval.setVisibility(View.VISIBLE);
         tvDateInterval.setVisibility(View.VISIBLE);
     }
 
-    public void updateDateIntervalUi(Calendar fromDate,Calendar toDate){
+    public void updateDateIntervalUi(Calendar fromDate, Calendar toDate) {
         tvDateInterval.setText(simpleDateFormat.format(fromDate.getTime()) + " - " + simpleDateFormat.format(toDate.getTime()));
     }
-    public void openDateInterval(Calendar fromDate,Calendar toDate){
+
+    public void openDateInterval(Calendar fromDate, Calendar toDate) {
         DateIntervalPicker dateIntervalPicker = new DateIntervalPicker(getContext(), fromDate, toDate, (fromDate1, toDate1) -> {
             pbLoading.setVisibility(View.VISIBLE);
             pbLoading.postDelayed(() -> baseTableReportPresenter.onChooseDateInterval(fromDate1, toDate1), 50);
         });
         dateIntervalPicker.show();
     }
-    public void setSingleTitle(String titleReport){
+
+    public void setSingleTitle(String titleReport) {
         llChoiserPanel.setVisibility(View.GONE);
         tvTitleReport.setVisibility(View.VISIBLE);
         tvTitleReport.setText(titleReport);
         panelCount = 1;
     }
-    public void setChoiserPanel(String[] titles){
+
+    public void setChoiserPanel(String[] titles) {
 
         tvTitleReport.setVisibility(View.GONE);
         llChoiserPanel.setVisibility(View.VISIBLE);
         panelCount = titles.length;
-        if(panelCount>5) {
+        if (panelCount > 5) {
             new Exception("Panel title can maximum 5, for all questions ISLOMOV SARDOR").printStackTrace();
         }
-        if(panelCount == 1){
+        if (panelCount == 1) {
 
             setSingleTitle(titles[0]);
-        }else if(panelCount == 2){
+        } else if (panelCount == 2) {
             tvFirtPanel.setVisibility(View.VISIBLE);
             tvSecondPanel.setVisibility(View.GONE);
             tvThirdPanel.setVisibility(View.GONE);
@@ -151,24 +170,24 @@ public abstract class BaseTableReportFragment extends BaseFragment {
             tvFirtPanel.setBackgroundResource(R.drawable.left_switch_title_pressed);
             tvFirtPanel.setTextColor(Color.parseColor("#2e91cc"));
 
-            tvFirtPanel.setOnClickListener((view)->{
+            tvFirtPanel.setOnClickListener((view) -> {
                 disableAllPanelButtons();
                 pbLoading.setVisibility(View.VISIBLE);
-                pbLoading.postDelayed(()-> baseTableReportPresenter.onChoisedPanel(0),50);
+                pbLoading.postDelayed(() -> baseTableReportPresenter.onChoisedPanel(0), 50);
 
                 tvFirtPanel.setBackgroundResource(R.drawable.left_switch_title_pressed);
                 tvFirtPanel.setTextColor(Color.parseColor("#2e91cc"));
             });
-            tvFivePanel.setOnClickListener((view)->{
+            tvFivePanel.setOnClickListener((view) -> {
                 disableAllPanelButtons();
                 pbLoading.setVisibility(View.VISIBLE);
 
-                pbLoading.postDelayed(()-> baseTableReportPresenter.onChoisedPanel(1),50);
+                pbLoading.postDelayed(() -> baseTableReportPresenter.onChoisedPanel(1), 50);
 
                 tvFivePanel.setBackgroundResource(R.drawable.right_switch_title_pressed);
                 tvFivePanel.setTextColor(Color.parseColor("#2e91cc"));
             });
-        }else if(panelCount == 3){
+        } else if (panelCount == 3) {
             tvFirtPanel.setVisibility(View.VISIBLE);
             tvSecondPanel.setVisibility(View.VISIBLE);
             tvThirdPanel.setVisibility(View.GONE);
@@ -184,14 +203,14 @@ public abstract class BaseTableReportFragment extends BaseFragment {
             tvFirtPanel.setOnClickListener((view -> {
                 disableAllPanelButtons();
                 pbLoading.setVisibility(View.VISIBLE);
-                pbLoading.postDelayed(()-> baseTableReportPresenter.onChoisedPanel(0),50);
+                pbLoading.postDelayed(() -> baseTableReportPresenter.onChoisedPanel(0), 50);
                 tvFirtPanel.setBackgroundResource(R.drawable.left_switch_title_pressed);
                 tvFirtPanel.setTextColor(Color.parseColor("#2e91cc"));
             }));
             tvSecondPanel.setOnClickListener((view -> {
                 disableAllPanelButtons();
                 pbLoading.setVisibility(View.VISIBLE);
-                pbLoading.postDelayed(()-> baseTableReportPresenter.onChoisedPanel(1),50);
+                pbLoading.postDelayed(() -> baseTableReportPresenter.onChoisedPanel(1), 50);
                 tvSecondPanel.setBackgroundResource(R.drawable.center_switch_title_pressed);
                 tvSecondPanel.setTextColor(Color.parseColor("#2e91cc"));
             }));
@@ -199,12 +218,12 @@ public abstract class BaseTableReportFragment extends BaseFragment {
                 disableAllPanelButtons();
                 pbLoading.setVisibility(View.VISIBLE);
 
-                pbLoading.postDelayed(()-> baseTableReportPresenter.onChoisedPanel(2),50);
+                pbLoading.postDelayed(() -> baseTableReportPresenter.onChoisedPanel(2), 50);
 
                 tvFivePanel.setBackgroundResource(R.drawable.right_switch_title_pressed);
                 tvFivePanel.setTextColor(Color.parseColor("#2e91cc"));
             }));
-        }else if(panelCount == 4){
+        } else if (panelCount == 4) {
             tvFirtPanel.setVisibility(View.VISIBLE);
             tvSecondPanel.setVisibility(View.VISIBLE);
             tvThirdPanel.setVisibility(View.VISIBLE);
@@ -223,7 +242,7 @@ public abstract class BaseTableReportFragment extends BaseFragment {
 
                 pbLoading.setVisibility(View.VISIBLE);
 
-                pbLoading.postDelayed(()-> baseTableReportPresenter.onChoisedPanel(0),50);
+                pbLoading.postDelayed(() -> baseTableReportPresenter.onChoisedPanel(0), 50);
 
                 tvFirtPanel.setBackgroundResource(R.drawable.left_switch_title_pressed);
                 tvFirtPanel.setTextColor(Color.parseColor("#2e91cc"));
@@ -231,7 +250,7 @@ public abstract class BaseTableReportFragment extends BaseFragment {
             tvSecondPanel.setOnClickListener((view -> {
                 pbLoading.setVisibility(View.VISIBLE);
                 disableAllPanelButtons();
-                pbLoading.postDelayed(()-> baseTableReportPresenter.onChoisedPanel(1),50);
+                pbLoading.postDelayed(() -> baseTableReportPresenter.onChoisedPanel(1), 50);
 
                 tvSecondPanel.setBackgroundResource(R.drawable.center_switch_title_pressed);
                 tvSecondPanel.setTextColor(Color.parseColor("#2e91cc"));
@@ -239,7 +258,7 @@ public abstract class BaseTableReportFragment extends BaseFragment {
             tvThirdPanel.setOnClickListener((view -> {
                 pbLoading.setVisibility(View.VISIBLE);
                 disableAllPanelButtons();
-                pbLoading.postDelayed(()-> baseTableReportPresenter.onChoisedPanel(2),50);
+                pbLoading.postDelayed(() -> baseTableReportPresenter.onChoisedPanel(2), 50);
 
                 tvThirdPanel.setBackgroundResource(R.drawable.center_switch_title_pressed);
                 tvThirdPanel.setTextColor(Color.parseColor("#2e91cc"));
@@ -247,12 +266,12 @@ public abstract class BaseTableReportFragment extends BaseFragment {
             tvFivePanel.setOnClickListener((view -> {
                 pbLoading.setVisibility(View.VISIBLE);
                 disableAllPanelButtons();
-                pbLoading.postDelayed(()-> baseTableReportPresenter.onChoisedPanel(3),50);
+                pbLoading.postDelayed(() -> baseTableReportPresenter.onChoisedPanel(3), 50);
 
                 tvFivePanel.setBackgroundResource(R.drawable.right_switch_title_pressed);
                 tvFivePanel.setTextColor(Color.parseColor("#2e91cc"));
             }));
-        }else if(panelCount == 5){
+        } else if (panelCount == 5) {
             tvFirtPanel.setVisibility(View.VISIBLE);
             tvSecondPanel.setVisibility(View.VISIBLE);
             tvThirdPanel.setVisibility(View.VISIBLE);
@@ -270,7 +289,7 @@ public abstract class BaseTableReportFragment extends BaseFragment {
             tvFirtPanel.setOnClickListener((view -> {
                 pbLoading.setVisibility(View.VISIBLE);
                 disableAllPanelButtons();
-                pbLoading.postDelayed(()-> baseTableReportPresenter.onChoisedPanel(0),50);
+                pbLoading.postDelayed(() -> baseTableReportPresenter.onChoisedPanel(0), 50);
 
                 tvFirtPanel.setBackgroundResource(R.drawable.left_switch_title_pressed);
                 tvFirtPanel.setTextColor(Color.parseColor("#2e91cc"));
@@ -278,7 +297,7 @@ public abstract class BaseTableReportFragment extends BaseFragment {
             tvSecondPanel.setOnClickListener((view -> {
                 pbLoading.setVisibility(View.VISIBLE);
                 disableAllPanelButtons();
-                pbLoading.postDelayed(()-> baseTableReportPresenter.onChoisedPanel(1),50);
+                pbLoading.postDelayed(() -> baseTableReportPresenter.onChoisedPanel(1), 50);
 
                 tvSecondPanel.setBackgroundResource(R.drawable.center_switch_title_pressed);
                 tvSecondPanel.setTextColor(Color.parseColor("#2e91cc"));
@@ -286,7 +305,7 @@ public abstract class BaseTableReportFragment extends BaseFragment {
             tvThirdPanel.setOnClickListener((view -> {
                 disableAllPanelButtons();
                 pbLoading.setVisibility(View.VISIBLE);
-                pbLoading.postDelayed(()-> baseTableReportPresenter.onChoisedPanel(2),50);
+                pbLoading.postDelayed(() -> baseTableReportPresenter.onChoisedPanel(2), 50);
 
                 tvThirdPanel.setBackgroundResource(R.drawable.center_switch_title_pressed);
                 tvThirdPanel.setTextColor(Color.parseColor("#2e91cc"));
@@ -294,7 +313,7 @@ public abstract class BaseTableReportFragment extends BaseFragment {
             tvFourPanel.setOnClickListener((view -> {
                 disableAllPanelButtons();
                 pbLoading.setVisibility(View.VISIBLE);
-                pbLoading.postDelayed(()-> baseTableReportPresenter.onChoisedPanel(3),50);
+                pbLoading.postDelayed(() -> baseTableReportPresenter.onChoisedPanel(3), 50);
 
                 tvFourPanel.setBackgroundResource(R.drawable.center_switch_title_pressed);
                 tvFourPanel.setTextColor(Color.parseColor("#2e91cc"));
@@ -302,7 +321,7 @@ public abstract class BaseTableReportFragment extends BaseFragment {
             tvFivePanel.setOnClickListener((view -> {
                 disableAllPanelButtons();
                 pbLoading.setVisibility(View.VISIBLE);
-                pbLoading.postDelayed(()-> baseTableReportPresenter.onChoisedPanel(4),50);
+                pbLoading.postDelayed(() -> baseTableReportPresenter.onChoisedPanel(4), 50);
 
                 tvFivePanel.setBackgroundResource(R.drawable.right_switch_title_pressed);
                 tvFivePanel.setTextColor(Color.parseColor("#2e91cc"));
@@ -310,7 +329,8 @@ public abstract class BaseTableReportFragment extends BaseFragment {
         }
 
     }
-    public void disableAllPanelButtons(){
+
+    public void disableAllPanelButtons() {
         tvFirtPanel.setBackgroundResource(R.drawable.left_switch_title);
         tvSecondPanel.setBackgroundResource(R.drawable.center_switch_title);
         tvThirdPanel.setBackgroundResource(R.drawable.center_switch_title);
@@ -322,43 +342,49 @@ public abstract class BaseTableReportFragment extends BaseFragment {
         tvFourPanel.setTextColor(Color.parseColor("#999999"));
         tvFivePanel.setTextColor(Color.parseColor("#999999"));
     }
+
     @OnClick(R.id.llFilter)
-    public void onClickedFilterButton(){
+    public void onClickedFilterButton() {
         Runnable runnable = () -> baseTableReportPresenter.onClickedFilter();
         runnable.run();
     }
+
     @OnClick(R.id.llChooseTill)
-    public void onTillChooseButton(){
+    public void onTillChooseButton() {
         Runnable runnable = () -> baseTableReportPresenter.onTillPickerClicked();
         runnable.run();
     }
+
     @OnTextChanged(R.id.mpSearchEditText)
     protected void handleTextChange(Editable editable) {
-        if(isAllright) {
+        if (isAllright) {
             Runnable runnable = () -> baseTableReportPresenter.onSearchTyped(editable.toString());
             runnable.run();
-        }else isAllright = true;
-        if(editable.toString().isEmpty()){
+        } else isAllright = true;
+        if (editable.toString().isEmpty()) {
             ivSearchImage.setImageResource(R.drawable.search_app);
-        }else {
+        } else {
             ivSearchImage.setImageResource(R.drawable.cancel_search);
         }
     }
+
     @OnClick(R.id.llDateInterval)
-    public void onClickedDateIntervalButton(){
+    public void onClickedDateIntervalButton() {
         llDateInterval.setEnabled(false);
         clearSearch();
         Runnable runnable = () -> baseTableReportPresenter.onClickedDateInterval();
-        llDateInterval.postDelayed(runnable,30);
+        llDateInterval.postDelayed(runnable, 30);
         llDateInterval.setEnabled(true);
     }
+
     @OnClick(R.id.flCleareSearch)
-    public void onCleareSearch(){
-        if(!mpSearchEditText.getText().toString().isEmpty())
+    public void onCleareSearch() {
+        if (!mpSearchEditText.getText().toString().isEmpty())
             mpSearchEditText.setText("");
     }
+
     @OnClick(R.id.llExpert)
-    public void showExportPanel(){
+    public void showExportPanel() {
         ExportDialog exportDialog = new ExportDialog(getContext(), panelCount, new ExportDialog.OnExportItemClick() {
             @Override
             public void onToExcel() {
@@ -372,11 +398,16 @@ public abstract class BaseTableReportFragment extends BaseFragment {
         });
         exportDialog.show();
     }
+
     boolean isAllright = true;
-    public void clearSearch(){
+
+    public void clearSearch() {
         isAllright = false;
         mpSearchEditText.setText("");
-    };
+    }
+
+    ;
+
     public void setTextToSearch(String searchText) {
         mpSearchEditText.setText(searchText);
     }

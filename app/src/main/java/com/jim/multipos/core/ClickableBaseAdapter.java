@@ -18,13 +18,13 @@ public abstract class ClickableBaseAdapter<T, E extends BaseViewHolder> extends 
     @Override
     public void onBindViewHolder(E holder, int position) {
         holder.view.setOnClickListener(view -> {
-            if(selectedPosition!=position || isSinglePositionClickDisabled())
+            if (selectedPosition != position || isSinglePositionClickDisabled())
                 if (onItemClickListener != null) {
                     onItemClickListener.onItemClicked(items.get(position));
                     onItemClickListener.onItemClicked(position);
                     onItemClicked(holder, position);
                     selectedPosition = position;
-            }
+                }
         });
     }
 
@@ -43,6 +43,7 @@ public abstract class ClickableBaseAdapter<T, E extends BaseViewHolder> extends 
 
     public interface OnItemClickListener<T> {
         void onItemClicked(int position);
+
         void onItemClicked(T item);
     }
 

@@ -15,12 +15,20 @@ import java.util.List;
 
 public interface OrderListHistoryView extends BaseView {
     void updateDetials(Order order);
+
     void initOrderListRecycler(List<Object> productList);
+
     void notifyList();
+
     void openPaymentDetailDialog(List<PayedPartitions> payedPartitions, Currency mainCurrency);
+
     void openEditAccsessDialog();
+
     void openCancelAccsessDialog();
+
     void setOrderNumberToToolbar(Long orderNumber);
+
     void onContinuePressed(Order order);
+
     void reprint(Order order, DatabaseManager databaseManager, PreferencesHelper preferencesHelper);
 }

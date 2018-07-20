@@ -37,39 +37,30 @@ public class SecurityTools {
         return "";
     }
 
-    public static String hashPassword(String password)
-    {
+    public static String hashPassword(String password) {
         String sha1 = "";
-        try
-        {
+        try {
             MessageDigest crypt = MessageDigest.getInstance("SHA-1");
             crypt.reset();
             crypt.update(password.getBytes("UTF-8"));
             sha1 = Base64.encodeToString(crypt.digest(), Base64.DEFAULT);
-        }
-        catch(NoSuchAlgorithmException e)
-        {
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        catch(UnsupportedEncodingException e)
-        {
-            e.printStackTrace();
-        }
-        return sha1.replace("\n","");
+        return sha1.replace("\n", "");
     }
 
-    private static String byteToHex(final byte[] hash)
-    {
+    private static String byteToHex(final byte[] hash) {
         Formatter formatter = new Formatter();
-        for (byte b : hash)
-        {
+        for (byte b : hash) {
             formatter.format("%02x", b);
         }
         String result = formatter.toString();
         formatter.close();
         return result;
     }
-
 
 
 }

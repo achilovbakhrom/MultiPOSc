@@ -56,38 +56,39 @@ public class CommonUtils {
         }
     }
 
-    public static int dpToPx(int dp)
-    {
+    public static int dpToPx(int dp) {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 
-    public static  <T extends Activatable>  List<T>  getAllActivePlusId(List<T> entityList, String id){
+    public static <T extends Activatable> List<T> getAllActivePlusId(List<T> entityList, String id) {
         List<T> modifyList = new ArrayList<>();
-        for (T entity: entityList){
-            if(entity.isActive()||entity.getId().equals(id)){
+        for (T entity : entityList) {
+            if (entity.isActive() || entity.getId().equals(id)) {
                 modifyList.add(entity);
             }
         }
         return modifyList;
     }
-    public static  <T extends Activatable>  int  getPositionWithId(List<T> entityList, String id){
+
+    public static <T extends Activatable> int getPositionWithId(List<T> entityList, String id) {
         int postion = 0;
-        for (int i = 0; i<entityList.size(); i++){
-            if(entityList.get(i).getId().equals(id)){
+        for (int i = 0; i < entityList.size(); i++) {
+            if (entityList.get(i).getId().equals(id)) {
                 postion = i;
             }
         }
         return postion;
     }
+
     public static String getRealPathFromURI(Context context, Uri contentUri) {
         Cursor cursor = null;
         try {
-            String[] proj = { MediaStore.Images.Media.DATA };
-            cursor = context.getContentResolver().query(contentUri,  proj, null, null, null);
+            String[] proj = {MediaStore.Images.Media.DATA};
+            cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
             int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
             return cursor.getString(column_index);
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             return contentUri.getPath();
         } finally {
             if (cursor != null) {
@@ -98,7 +99,7 @@ public class CommonUtils {
 
     public static String getPath(Context context, Uri uri) throws URISyntaxException {
         if ("content".equalsIgnoreCase(uri.getScheme())) {
-            String[] projection = { "_data" };
+            String[] projection = {"_data"};
             Cursor cursor = null;
 
             try {
@@ -110,29 +111,29 @@ public class CommonUtils {
             } catch (Exception e) {
                 // Eat it
             }
-        }
-        else if ("file".equalsIgnoreCase(uri.getScheme())) {
+        } else if ("file".equalsIgnoreCase(uri.getScheme())) {
             return uri.getPath();
         }
 
         return null;
     }
 
-    public static String getDiscountTypeName(Context context, int discount_abr){
+    public static String getDiscountTypeName(Context context, int discount_abr) {
         String[] discountUsedTypes = context.getResources().getStringArray(R.array.discount_amount_types);
-        if(discount_abr== Discount.PERCENT){
+        if (discount_abr == Discount.PERCENT) {
             return discountUsedTypes[0];
-        }else if(discount_abr == Discount.VALUE){
+        } else if (discount_abr == Discount.VALUE) {
             return discountUsedTypes[1];
         }
         return "NoN";
     }
-    public static String getServiceTypeName(Context context, int service_abr){
+
+    public static String getServiceTypeName(Context context, int service_abr) {
         String[] serviceUsedTypes = context.getResources().getStringArray(R.array.service_fee_type);
 
-        if(service_abr== ServiceFee.PERCENT){
+        if (service_abr == ServiceFee.PERCENT) {
             return serviceUsedTypes[0];
-        }else if(service_abr == ServiceFee.VALUE){
+        } else if (service_abr == ServiceFee.VALUE) {
             return serviceUsedTypes[1];
         }
         return "NoN";

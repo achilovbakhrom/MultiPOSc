@@ -872,7 +872,6 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     }
 
 
-
     @Override
     public Single<List<Consignment>> getConsignmentsInInterval(Calendar fromDate, Calendar toDate) {
         return dbHelper.getConsignmentsInInterval(fromDate, toDate);
@@ -930,10 +929,6 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
         return dbHelper.getBillingOperations();
     }
 
-    @Override
-    public Single<BillingOperations> getBillingOperationsByConsignmentId(Long consignmentId) {
-        return dbHelper.getBillingOperationsByConsignmentId(consignmentId);
-    }
 
     @Override
     public Single<BillingOperations> getBillingOperationsById(Long firstPayId) {
@@ -1183,26 +1178,26 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
 
     //TODO --->>>
     @Override
-    public Integer checkProductAvailable(Long productId, double summaryCount,Order ifHaveOldOrder) {
-            double available = dbHelper.getAvailableCount(productId).blockingGet();
-            if(ifHaveOldOrder !=null){
-                for (OrderProduct orderProduct:ifHaveOldOrder.getOrderProducts()) {
-                    if(orderProduct.getProductId() == productId){
-                        available += orderProduct.getCount();
-                    }
+    public Integer checkProductAvailable(Long productId, double summaryCount, Order ifHaveOldOrder) {
+        double available = dbHelper.getAvailableCount(productId).blockingGet();
+        if (ifHaveOldOrder != null) {
+            for (OrderProduct orderProduct : ifHaveOldOrder.getOrderProducts()) {
+                if (orderProduct.getProductId() == productId) {
+                    available += orderProduct.getCount();
                 }
             }
-            if(available>=summaryCount){
-                return StockResult.STOCK_OK;
-            }else {
-                return StockResult.STOCK_OUT;
-            }
+        }
+        if (available >= summaryCount) {
+            return StockResult.STOCK_OK;
+        } else {
+            return StockResult.STOCK_OUT;
+        }
     }
 
     @Override
     public List<OutcomeProduct> insertAndFillOutcomeProducts(List<OutcomeWithDetials> outcomeWithDetials) {
         ArrayList<OutcomeProduct> outcomeProducts = new ArrayList<>();
-        for (OutcomeWithDetials outcomeWithDetialLocal: outcomeWithDetials) {
+        for (OutcomeWithDetials outcomeWithDetialLocal : outcomeWithDetials) {
             double sumcost = 0;
             for (int i = 0; i < outcomeWithDetialLocal.getDetialCountList().size(); i++) {
                 sumcost += outcomeWithDetialLocal.getDetialCountList().get(i).getCost();
@@ -1221,11 +1216,11 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
 
     @Override
     public OutcomeProduct insertAndFillOutcomeProduct(OutcomeWithDetials outcomeWithDetials) {
-            OutcomeProduct localOutcome = dbHelper.insertOutcome(outcomeWithDetials.getOutcomeProduct());
-            for (int i = 0; i < outcomeWithDetials.getDetialCountList().size(); i++) {
-                outcomeWithDetials.getDetialCountList().get(i).setOutcomeProductId(localOutcome.getId());
-            }
-            dbHelper.insetDetialCounts(outcomeWithDetials.getDetialCountList());
+        OutcomeProduct localOutcome = dbHelper.insertOutcome(outcomeWithDetials.getOutcomeProduct());
+        for (int i = 0; i < outcomeWithDetials.getDetialCountList().size(); i++) {
+            outcomeWithDetials.getDetialCountList().get(i).setOutcomeProductId(localOutcome.getId());
+        }
+        dbHelper.insetDetialCounts(outcomeWithDetials.getDetialCountList());
         return localOutcome;
     }
 
@@ -1241,7 +1236,7 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
 
     @Override
     public Single<List<OutcomeWithDetials>> checkPositionAvailablityWithoutSomeOutcomes(List<OutcomeProduct> outcomeProducts, List<OutcomeProduct> withoutOutcomeProducts) {
-        return dbHelper.checkPositionAvailablityWithoutSomeOutcomes(outcomeProducts,withoutOutcomeProducts);
+        return dbHelper.checkPositionAvailablityWithoutSomeOutcomes(outcomeProducts, withoutOutcomeProducts);
     }
 
     @Override
@@ -1336,32 +1331,32 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
 
     @Override
     public Single<List<OperationSummaryItem>> getOperationsSummary(Date fromDate, Date toDate) {
-        return Single.create(e->{
+        return Single.create(e -> {
             List<OperationSummaryItem> operationSummaryItems = new ArrayList<>();
-            dbHelper.getIncomeProductOperationsSummary(fromDate,toDate,operationSummaryItems);
-            dbHelper.getOutcomeProductOperationsSummary(fromDate,toDate,operationSummaryItems);
+            dbHelper.getIncomeProductOperationsSummary(fromDate, toDate, operationSummaryItems);
+            dbHelper.getOutcomeProductOperationsSummary(fromDate, toDate, operationSummaryItems);
             e.onSuccess(operationSummaryItems);
         });
     }
 
     @Override
     public Single<List<OutcomeProduct>> getOutcomeProductsForPeriod(Calendar fromDate, Calendar toDate) {
-        return dbHelper.getOutcomeProductsForPeriod(fromDate,toDate);
+        return dbHelper.getOutcomeProductsForPeriod(fromDate, toDate);
     }
 
     @Override
     public Single<List<IncomeProduct>> getIncomeProductsForPeriod(Calendar fromDate, Calendar toDate) {
-        return dbHelper.getIncomeProductsForPeriod(fromDate,toDate);
+        return dbHelper.getIncomeProductsForPeriod(fromDate, toDate);
     }
 
     @Override
     public Single<List<StockQueue>> getStockQueueForPeriod(Calendar fromDate, Calendar toDate) {
-        return dbHelper.getStockQueueForPeriod(fromDate,toDate);
+        return dbHelper.getStockQueueForPeriod(fromDate, toDate);
     }
 
     @Override
     public Single<List<StockQueue>> getStockQueueUsedForPeriod(Calendar fromDate, Calendar toDate) {
-        return dbHelper.getStockQueueUsedForPeriod(fromDate,toDate);
+        return dbHelper.getStockQueueUsedForPeriod(fromDate, toDate);
     }
 
     @Override
@@ -1372,7 +1367,7 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
     //TODO <<---
     @Override
     public Single<Invoice> insertInvoiceWithBillingAndIncomeProduct(Invoice invoice, List<IncomeProduct> incomeProductList, List<StockQueue> stockQueueList, List<BillingOperations> billingOperationsList) {
-       return dbHelper.insertInvoiceWithBillingAndIncomeProduct(invoice, incomeProductList, stockQueueList, billingOperationsList);
+        return dbHelper.insertInvoiceWithBillingAndIncomeProduct(invoice, incomeProductList, stockQueueList, billingOperationsList);
     }
 
     @Override

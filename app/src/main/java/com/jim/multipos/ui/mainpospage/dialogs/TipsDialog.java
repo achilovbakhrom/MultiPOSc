@@ -12,10 +12,12 @@ import com.jim.mpviews.MPosSpinner;
 import com.jim.mpviews.MpButton;
 import com.jim.mpviews.MpEditText;
 import com.jim.multipos.R;
+import com.jim.multipos.config.common.BaseAppModule;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Account;
 import com.jim.multipos.utils.UIUtils;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +41,7 @@ public class TipsDialog extends Dialog {
     MpEditText etTipAmount;
     @BindView(R.id.spTipAccount)
     MPosSpinner spTipAccount;
-
+    DecimalFormat decimalFormat;
     private OnClickListener listener;
     private double change;
     private final DatabaseManager databaseManager;
@@ -49,6 +51,7 @@ public class TipsDialog extends Dialog {
         this.listener = listener;
         this.change = change;
         this.databaseManager = databaseManager;
+        decimalFormat = BaseAppModule.getFormatterGrouping();
     }
     double value = 0;
 
@@ -67,7 +70,7 @@ public class TipsDialog extends Dialog {
             strings.add(account.getName());
         }
         spTipAccount.setAdapter(strings);
-        etTipAmount.setText(Double.toString(change));
+        etTipAmount.setText(decimalFormat.format(change));
         RxView.clicks(btnCancel).subscribe(o -> dismiss());
         RxView.clicks(btnOK).subscribe(o -> {
             if(etTipAmount.getText().toString().isEmpty()){

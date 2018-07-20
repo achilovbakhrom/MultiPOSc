@@ -9,10 +9,13 @@ import java.util.List;
  * Created by Sirojiddin on 20.01.2018.
  */
 
-public interface BarcodeScannerView extends BaseView{
+public interface BarcodeScannerView extends BaseView {
     void sendFoundProductToOrder(Long id);
+
     void openProductActivity();
+
     void openChooseProductDialog(List<Product> productList);
+
     void openAddNewProductNotificationDialog();
 
 }

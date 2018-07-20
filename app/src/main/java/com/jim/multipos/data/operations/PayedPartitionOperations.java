@@ -12,5 +12,6 @@ import io.reactivex.Single;
 
 public interface PayedPartitionOperations {
     Single<List<PayedPartitions>> insertPayedPartitions(List<PayedPartitions> payedPartitions);
+
     Single<Long> deletePayedPartitions(List<PayedPartitions> payedPartitions);
 }

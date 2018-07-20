@@ -14,7 +14,10 @@ import io.reactivex.Observable;
 
 public interface ContactOperations {
     ArrayList<Contact> getContactsOrganization();
+
     Observable<Long> addContact(Contact contact);
-    Observable<Boolean> addContact(List<Contact> contacts );
+
+    Observable<Boolean> addContact(List<Contact> contacts);
+
     Observable<List<Contact>> getAllContacts();
 }

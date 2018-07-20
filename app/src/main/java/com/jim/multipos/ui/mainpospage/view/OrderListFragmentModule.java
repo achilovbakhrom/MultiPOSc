@@ -27,7 +27,7 @@ public abstract class OrderListFragmentModule {
 
     @Provides
     @PerFragment
-    static VendorItemsListAdapter provideVendorItemsListAdapter(AppCompatActivity context){
+    static VendorItemsListAdapter provideVendorItemsListAdapter(AppCompatActivity context) {
         return new VendorItemsListAdapter(context);
     }
 }

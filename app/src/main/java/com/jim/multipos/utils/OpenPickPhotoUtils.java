@@ -10,7 +10,8 @@ import android.support.v4.app.Fragment;
 public class OpenPickPhotoUtils {
     public static final int RESULT_PICK_IMAGE = 555;
     public static final int RESULT_CAPTURE_IMAGE = 777;
-    public static void startPhotoPick(Fragment fragment){
+
+    public static void startPhotoPick(Fragment fragment) {
         Intent intent = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         fragment.startActivityForResult(intent, RESULT_PICK_IMAGE);

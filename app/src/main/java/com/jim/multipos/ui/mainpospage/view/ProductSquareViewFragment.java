@@ -157,7 +157,7 @@ public class ProductSquareViewFragment extends BaseFragment implements ProductSq
             public void onItemClicked(Product item) {
                 new Handler().postDelayed(() -> {
                     mainPageConnection.addProductToOrder(item.getId());
-                },100);
+                }, 100);
             }
         });
         rvProduct.setAdapter(productAdapter);

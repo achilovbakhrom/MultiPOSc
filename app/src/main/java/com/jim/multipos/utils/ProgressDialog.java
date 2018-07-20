@@ -30,16 +30,16 @@ public class ProgressDialog extends Dialog {
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
-    public void setMax(int max){
+    public void setMax(int max) {
         progressBar.setMax(max);
     }
 
-    public void setProgress(int progress){
+    public void setProgress(int progress) {
         progressBar.setProgress(progress);
     }
 
-    public void checkProgress(){
-        if (progressBar.getProgress() == progressBar.getMax()){
+    public void checkProgress() {
+        if (progressBar.getProgress() == progressBar.getMax()) {
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             dismiss();
         }

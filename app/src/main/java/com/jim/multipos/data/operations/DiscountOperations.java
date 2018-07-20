@@ -16,11 +16,18 @@ import io.reactivex.Single;
 
 public interface DiscountOperations {
     Single<List<Discount>> getAllDiscounts();
+
     Single<Discount> insertDiscount(Discount discount);
+
     Observable<List<Discount>> getDiscountsWithAllItemTypes(String[] discountTypes);
+
     Single<List<Discount>> getAllDiscountsWithoutFiltering();
+
     Single<DiscountLog> insertDiscountLog(DiscountLog discountLog);
+
     Single<List<DiscountLog>> getDiscountLogs();
+
     Single<List<Discount>> getStaticDiscounts();
+
     Single<List<Discount>> getDiscountsByType(int discountApplyType);
 }

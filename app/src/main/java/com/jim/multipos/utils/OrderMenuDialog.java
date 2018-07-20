@@ -2,19 +2,14 @@ package com.jim.multipos.utils;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jim.multipos.R;
-
-import org.w3c.dom.Text;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -63,17 +58,19 @@ public class OrderMenuDialog extends Dialog {
             dismiss();
         });
         tvNewOrders.setOnClickListener(view -> {
-           listener.onNewOrderClick();
-           dismiss();
+            listener.onNewOrderClick();
+            dismiss();
         });
         tvClose.setOnClickListener(view -> {
             dismiss();
         });
     }
 
-    public interface onOrderMenuItemClickListener{
+    public interface onOrderMenuItemClickListener {
         void onTodayOrderClick();
+
         void onHeldOrderClick();
+
         void onNewOrderClick();
     }
 }

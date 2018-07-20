@@ -9,8 +9,10 @@ import java.util.List;
  * Created by developer on 02.11.2017.
  */
 
-public interface SearchModeView  extends BaseView{
+public interface SearchModeView extends BaseView {
     void setTextFrame(String textFrame);
-    void setResultsList(List<Product> resultsList,String textSearch);
+
+    void setResultsList(List<Product> resultsList, String textSearch);
+
     void addProductToOrderInCloseSelf();
 }

@@ -3,9 +3,7 @@ package com.jim.multipos.core;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import com.jim.mpviews.MpToolbar;
 import com.jim.multipos.R;
@@ -39,6 +37,7 @@ public abstract class SimpleActivity extends BaseActivity {
     }
 
     protected abstract int getToolbar();
+
     protected abstract int getToolbarMode();
 
 

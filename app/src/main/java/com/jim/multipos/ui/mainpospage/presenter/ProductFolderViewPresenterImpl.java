@@ -109,7 +109,7 @@ public class ProductFolderViewPresenterImpl extends BasePresenterImpl<ProductFol
     @Override
     public void selectedInfo(FolderItem item, int position) {
         double available = databaseManager.getAvailableCountForProduct(item.getProduct().getId()).blockingGet();
-        view.showAvailableDialog(item.getProduct(),available);
+        view.showAvailableDialog(item.getProduct(), available);
     }
 
     @Override

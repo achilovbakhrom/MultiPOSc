@@ -37,8 +37,10 @@ public interface InventoryOperations {
 //    Single<List<WarehouseOperations>> getWarehouseOperationsInInterval(Calendar fromDate, Calendar toDate);
 //    Single<List<HistoryInventoryState>> getHistoryInventoryStatesByTillId(Long id);
 
-    Integer checkProductAvailable(Long productId, double summaryCount,Order ifHaveOldOrder); //+
+    Integer checkProductAvailable(Long productId, double summaryCount, Order ifHaveOldOrder); //+
+
     List<OutcomeProduct> insertAndFillOutcomeProducts(List<OutcomeWithDetials> outcomeWithDetials); //+
+
     OutcomeProduct insertAndFillOutcomeProduct(OutcomeWithDetials outcomeWithDetials); //+
 
     Single<List<ProductState>> getVendorProductsWithStates(Long vendorId);
@@ -47,36 +49,52 @@ public interface InventoryOperations {
     Single<Integer> cancelOutcomeProductWhenOrderProductCanceled(List<OrderProduct> orderProducts); //+
 
     Single<List<OutcomeWithDetials>> checkPositionAvailablity(List<OutcomeProduct> outcomeProducts); //+
-    Single<List<OutcomeWithDetials>> checkPositionAvailablityWithoutSomeOutcomes(List<OutcomeProduct> outcomeProducts,List<OutcomeProduct> withoutOutcomeProducts); //+
+
+    Single<List<OutcomeWithDetials>> checkPositionAvailablityWithoutSomeOutcomes(List<OutcomeProduct> outcomeProducts, List<OutcomeProduct> withoutOutcomeProducts); //+
 
     Single<OutcomeWithDetials> checkPositionAvailablity(OutcomeProduct outcomeProduct);
 
     Single<IncomeProduct> insertIncomeProduct(IncomeProduct incomeProduct);
+
     Single<StockQueue> insertStockQueue(StockQueue stockQueue);
-    //TODO VOQTINCHALI
+
     Single<Double> getProductInvenotry(Long productId); //+
 
     Single<List<InventoryItem>> getProductInventoryStatesForNow();
 
     Single<List<InventoryItemReport>> getInventoryWithSummaryCost();
+
     Single<List<InventoryItemReport>> getInventoryVendorWithSummaryCost();
 
-    Single<InventoryItem> setLowStockAlert(InventoryItem inventoryItem,double newAlertCount);
+    Single<InventoryItem> setLowStockAlert(InventoryItem inventoryItem, double newAlertCount);
 
     Single<List<StockQueue>> getStockQueuesByProductId(Long id);
+
     Single<List<StockQueue>> getAllStockQueuesByProductId(Long productId);
 
     Single<Double> getAvailableCountForProduct(Long id);
+
     Single<List<StockQueueItem>> getStockQueueItemForOutcomeProduct(OutcomeProduct outcomeProduct, List<OutcomeProduct> outcomeProductList, List<OutcomeProduct> exceptionList);
+
     Single<List<StockQueue>> getAllStockQueuesByVendorId(Long vendorId);
+
     Single<List<StockQueue>> getAllStockQueuesByProductIdInInterval(Long productId, Calendar fromDate, Calendar toDate);
+
     Single<List<StockQueue>> getAllStockQueuesByVendorIdInInterval(Long vendorId, Calendar fromDate, Calendar toDate);
+
     Single<List<StockQueue>> getExpiredStockQueue();
+
     Single<List<OutcomeProduct>> updateOutcomeProduct(List<OutcomeProduct> outcomeProducts);
+
     Single<List<OperationSummaryItem>> getOperationsSummary(Date fromDate, Date toDate);
-    Single<List<OutcomeProduct>> getOutcomeProductsForPeriod(Calendar fromDate,Calendar toDate);
+
+    Single<List<OutcomeProduct>> getOutcomeProductsForPeriod(Calendar fromDate, Calendar toDate);
+
     Single<List<IncomeProduct>> getIncomeProductsForPeriod(Calendar fromDate, Calendar toDate);
+
     Single<List<StockQueue>> getStockQueueForPeriod(Calendar fromDate, Calendar toDate);
+
     Single<List<StockQueue>> getStockQueueUsedForPeriod(Calendar fromDate, Calendar toDate);
+
     Single<StockQueue> getStockQueueById(Long stockQueueId);
 }

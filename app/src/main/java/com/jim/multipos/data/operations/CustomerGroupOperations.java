@@ -12,11 +12,18 @@ import io.reactivex.Observable;
 
 public interface CustomerGroupOperations {
     Observable<Long> addCustomerGroup(CustomerGroup customerGroup);
+
     Observable<Boolean> addCustomerGroups(List<CustomerGroup> customerGroups);
+
     Observable<Boolean> removeCustomerGroup(CustomerGroup customerGroup);
+
     Observable<Boolean> removeAllCustomerGroups();
+
     Observable<List<CustomerGroup>> getAllCustomerGroups();
+
     Observable<Boolean> isCustomerGroupExists(String name);
+
     Observable<CustomerGroup> getCustomerGroupByName(String name);
+
     Observable<CustomerGroup> getCustomerGroupById(long id);
 }

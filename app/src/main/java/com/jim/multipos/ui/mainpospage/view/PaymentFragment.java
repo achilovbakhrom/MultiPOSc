@@ -128,8 +128,8 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        if(checkPrinter ==null){
-            checkPrinter = new CheckPrinter(getActivity(),preferencesHelper,databaseManager);
+        if (checkPrinter == null) {
+            checkPrinter = new CheckPrinter(getActivity(), preferencesHelper, databaseManager);
             checkPrinter.connectDevice();
         }
 
@@ -178,11 +178,11 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
             presenter.onDebtBorrowClicked();
         });
 
-        if(preferencesHelper.isPrintCheck()){
+        if (preferencesHelper.isPrintCheck()) {
             ivPrint.setColorFilter(Color.parseColor("#419fd9"));
             tvPrint.setTextColor(Color.parseColor("#419fd9"));
             tvPrint.setText(R.string.print_check_on_off);
-        }else {
+        } else {
             ivPrint.setColorFilter(Color.parseColor("#999999"));
             tvPrint.setTextColor(Color.parseColor("#999999"));
             tvPrint.setText(R.string.print_check);
@@ -190,12 +190,12 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
 
         //print state dialog, automatic print check or not automatic. Custom print
         llPrintCheck.setOnClickListener(view -> {
-            if(preferencesHelper.isPrintCheck()){
+            if (preferencesHelper.isPrintCheck()) {
                 ivPrint.setColorFilter(Color.parseColor("#999999"));
                 tvPrint.setTextColor(Color.parseColor("#999999"));
                 tvPrint.setText(R.string.print_check);
                 preferencesHelper.setPrintCheck(false);
-            }else {
+            } else {
                 ivPrint.setColorFilter(Color.parseColor("#419fd9"));
                 tvPrint.setTextColor(Color.parseColor("#419fd9"));
                 tvPrint.setText(R.string.print_check_on_off);
@@ -204,7 +204,7 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
         });
         //edit text change listner used for parsing value in real time, and sending to presenter
 
-        etPaymentAmount.addTextChangedListener(new NumberTextWatcherPaymentFragment(etPaymentAmount,presenter));
+        etPaymentAmount.addTextChangedListener(new NumberTextWatcherPaymentFragment(etPaymentAmount, presenter));
 
         llTips.setOnClickListener(view -> {
             presenter.onClickedTips();
@@ -218,20 +218,20 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
     }
 
     /**
-     refresh data when fragment after hide show
-     get request for order and payed partition list data to OrderListFragment
-     this function called from activity, management fragments
-     * */
-    public void refreshData(){
+     * refresh data when fragment after hide show
+     * get request for order and payed partition list data to OrderListFragment
+     * this function called from activity, management fragments
+     */
+    public void refreshData() {
         mainPageConnection.setPaymentView(this);
         mainPageConnection.giveToPaymentFragmentOrderAndPaymentsList();
     }
 
     /**
-     show ToDebt dialog, to constructor should give Customer and Order data
-     * */
+     * show ToDebt dialog, to constructor should give Customer and Order data
+     */
     @Override
-    public void openAddDebtDialog(DatabaseManager databaseManager, Order order, Customer customer,double toPay) {
+    public void openAddDebtDialog(DatabaseManager databaseManager, Order order, Customer customer, double toPay) {
         dialog = new AddDebtDialog(getContext(), customer, databaseManager, order, new AddDebtDialog.onDebtSaveClickListener() {
             @Override
             public void onDebtSave(Debt debt) {
@@ -242,20 +242,20 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
             public void onScanBarcode() {
                 initScan();
             }
-        },toPay,decimalFormat);
+        }, toPay, decimalFormat);
         dialog.show();
     }
 
     /**
-     this method for scanning barcode
+     * this method for scanning barcode
      */
-    public void initScan(){
+    public void initScan() {
         IntentIntegrator.forSupportFragment(this).initiateScan();
     }
 
     /**
      * in this method we will take scan result
-    **/
+     **/
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -269,8 +269,8 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
     }
 
     /**
-     init Payment types list to view, and set on item click listener, mpList it is stateable positional list
-     * */
+     * init Payment types list to view, and set on item click listener, mpList it is stateable positional list
+     */
     @Override
     public void initPaymentTypes(List<PaymentTypeWithService> paymentTypeWithServices) {
         mpList.setPayments(paymentTypeWithServices);
@@ -280,11 +280,11 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
     }
 
     /**
-     this method used for init or update payed parts list
-     * */
+     * this method used for init or update payed parts list
+     */
     @Override
     public void updatePaymentList(List<PayedPartitions> payedPartitions) {
-        if(paymentPartsAdapter==null) {
+        if (paymentPartsAdapter == null) {
             //init
             paymentPartsAdapter = new PaymentPartsAdapter(payedPartitions, position -> {
                 //sending remove payment part event to presenter
@@ -293,7 +293,7 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
             rvPaymentsListHistory.setLayoutManager(new LinearLayoutManager(getContext()));
             rvPaymentsListHistory.setAdapter(paymentPartsAdapter);
             ((SimpleItemAnimator) rvPaymentsListHistory.getItemAnimator()).setSupportsChangeAnimations(false);
-        }else {
+        } else {
             //refresh
             updatePaymentList();
         }
@@ -301,20 +301,20 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
     }
 
     /**
-     refresh payed parts list
-     * */
+     * refresh payed parts list
+     */
     @Override
     public void updatePaymentList() {
         paymentPartsAdapter.notifyDataSetChanged();
     }
 
     /**
-     find actually balanceDue, if it is very small value - balance due equals to zero
-     * */
+     * find actually balanceDue, if it is very small value - balance due equals to zero
+     */
     @Override
-    public void updateViews(Order order,double totalPayed) {
+    public void updateViews(Order order, double totalPayed) {
         double number = order.getForPayAmmount() - totalPayed;
-        if(number<0.01){
+        if (number < 0.01) {
             number = 0;
         }
         tvBalanceDue.setText(decimalFormat.format(number));
@@ -322,17 +322,17 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
     }
 
     /**
-     getting new data from OrderList Fragment via MainpageConnector (dagger 2)
-     * */
+     * getting new data from OrderList Fragment via MainpageConnector (dagger 2)
+     */
     @Override
     public void getDataFromListOrder(Order order, List<PayedPartitions> payedPartitions) {
-        presenter.incomeNewData(order,payedPartitions);
+        presenter.incomeNewData(order, payedPartitions);
     }
 
     /**
-     it method will work when payment amount bigger than balance due
-     Update views to it done and show Change amount
-     * */
+     * it method will work when payment amount bigger than balance due
+     * Update views to it done and show Change amount
+     */
     @Override
     public void updateChangeView(double change) {
         tvBalanceOrChange.setText(getContext().getString(R.string.change));
@@ -343,9 +343,9 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
     }
 
     /**
-     it method will work when payment amount smaller than balance due
-     Update views to it payment and show Balance amount
-     * */
+     * it method will work when payment amount smaller than balance due
+     * Update views to it payment and show Balance amount
+     */
     @Override
     public void updateBalanceView(double change) {
         tvBalanceOrChange.setText(getContext().getString(R.string.balance));
@@ -356,9 +356,9 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
     }
 
     /**
-     it method will work when payment amount equals balance due
-     Update views to it done and show Change amount
-      */
+     * it method will work when payment amount equals balance due
+     * Update views to it done and show Change amount
+     */
     @Override
     public void updateBalanceZeroText() {
         tvBalanceOrChange.setText(getContext().getString(R.string.balance));
@@ -369,8 +369,8 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
     }
 
     /**
-     it method will work when payment amount is zero
-     Close payment fragment view
+     * it method will work when payment amount is zero
+     * Close payment fragment view
      */
     @Override
     public void updateCloseText() {
@@ -382,7 +382,7 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
     }
 
     /**
-     Close payment fragment (Self)
+     * Close payment fragment (Self)
      */
     @Override
     public void closeSelf() {
@@ -390,8 +390,8 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
     }
 
     /**
-     clear payment amount when click pay button
-     sending event "OrderPayed" (ever payment operation will send)
+     * clear payment amount when click pay button
+     * sending event "OrderPayed" (ever payment operation will send)
      */
     @Override
     public void onPayedPartition() {
@@ -402,7 +402,7 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
     @Override
     public void closeOrder(Order order, List<PayedPartitions> payedPartitions, Debt debt) {
         closeSelf();
-        mainPageConnection.onCloseOrder(order,payedPartitions,debt);
+        mainPageConnection.onCloseOrder(order, payedPartitions, debt);
 
     }
 
@@ -424,8 +424,8 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
     }
 
     @Override
-    public void openTipsDialog(TipsDialog.OnClickListener listener,double change) {
-        TipsDialog tipsDialog = new TipsDialog(getContext(),listener,change, databaseManager);
+    public void openTipsDialog(TipsDialog.OnClickListener listener, double change) {
+        TipsDialog tipsDialog = new TipsDialog(getContext(), listener, change, databaseManager);
         tipsDialog.show();
     }
 
@@ -453,7 +453,7 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
 
     @Override
     public void sendDataToPaymentFragmentWhenEdit(Order order, List<PayedPartitions> payedPartitions, Debt debt) {
-        presenter.sendDataToPaymentFragmentWhenEdit(order,payedPartitions,debt);
+        presenter.sendDataToPaymentFragmentWhenEdit(order, payedPartitions, debt);
     }
 
     @Override
@@ -463,12 +463,13 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
 
     @Override
     public void onHoldOrderSendingData(Order order, List<PayedPartitions> payedPartitions, Debt debt) {
-        mainPageConnection.onHoldOrderSendingData(order,payedPartitions,debt);
+        mainPageConnection.onHoldOrderSendingData(order, payedPartitions, debt);
     }
 
     @Override
     public void openWarningDialog(String text) {
-        UIUtils.showAlert(getContext(), getContext().getString(R.string.ok), getContext().getString(R.string.warning), text, () -> {});
+        UIUtils.showAlert(getContext(), getContext().getString(R.string.ok), getContext().getString(R.string.warning), text, () -> {
+        });
     }
 
 
@@ -478,15 +479,14 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
     }
 
     /**
-     setting payment to Payment amount text view
-     it used when payment amount set from pragmatically
+     * setting payment to Payment amount text view
+     * it used when payment amount set from pragmatically
      */
     @Override
     public void updatePaymentText(double payment) {
         etPaymentAmount.setText(dfe.format(payment));
         etPaymentAmount.setSelection(etPaymentAmount.getText().length());
     }
-
 
 
     @BindView(R.id.btnDot)
@@ -524,9 +524,9 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
 
 
     /**
-     initialization keypad buttons
+     * initialization keypad buttons
      */
-    private void initButtons(){
+    private void initButtons() {
         //getting optional buttons from Shared Preference
         //It is used for flexible setting optional buttons from settings activity
         btnFirstOptional.setCurrency(databaseManager.getMainCurrency().getAbbr());
@@ -538,13 +538,13 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
         tvPaymentCurrency.setText(databaseManager.getMainCurrency().getAbbr());
         btnFirstOptional.setOnClickListener(view -> {
             //this part of code used for clearing text when some text part selected
-            if(etPaymentAmount.getSelectionStart() != etPaymentAmount.getSelectionEnd()){
+            if (etPaymentAmount.getSelectionStart() != etPaymentAmount.getSelectionEnd()) {
                 etPaymentAmount.getText().clear();
             }
             presenter.pressFirstOptional();
         });
         btnSecondOptional.setOnClickListener(view -> {
-            if(etPaymentAmount.getSelectionStart() != etPaymentAmount.getSelectionEnd()){
+            if (etPaymentAmount.getSelectionStart() != etPaymentAmount.getSelectionEnd()) {
                 etPaymentAmount.getText().clear();
             }
             presenter.pressSecondOptional();
@@ -590,17 +590,17 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
             pressedKey("00");
         });
         btnDot.setOnClickListener(view -> {
-            pressedKey(decimalFormat.getDecimalFormatSymbols().getDecimalSeparator()+"");
+            pressedKey(decimalFormat.getDecimalFormatSymbols().getDecimalSeparator() + "");
         });
 
         btnBackSpace.setOnLongClickListener(view -> {
-                etPaymentAmount.getText().clear();
-                return true;
+            etPaymentAmount.getText().clear();
+            return true;
         });
         btnBackSpace.setOnClickListener(view -> {
-            if(etPaymentAmount.getSelectionStart() != etPaymentAmount.getSelectionEnd()){
+            if (etPaymentAmount.getSelectionStart() != etPaymentAmount.getSelectionEnd()) {
                 etPaymentAmount.getText().clear();
-            }else {
+            } else {
                 etPaymentAmount.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL));
             }
         });
@@ -608,25 +608,25 @@ public class PaymentFragment extends BaseFragment implements PaymentView {
     }
 
     /**
-     checking for not input when comma have one more
+     * checking for not input when comma have one more
      */
-    private void pressedKey(String key){
-        if(key.equals(decimalFormat.getDecimalFormatSymbols().getDecimalSeparator()+"")){
-                if(etPaymentAmount.getText().toString().contains(decimalFormat.getDecimalFormatSymbols().getDecimalSeparator()+""))
-                    return;
+    private void pressedKey(String key) {
+        if (key.equals(decimalFormat.getDecimalFormatSymbols().getDecimalSeparator() + "")) {
+            if (etPaymentAmount.getText().toString().contains(decimalFormat.getDecimalFormatSymbols().getDecimalSeparator() + ""))
+                return;
         }
-        if(etPaymentAmount.getSelectionStart() != etPaymentAmount.getSelectionEnd()){
-                etPaymentAmount.getText().clear();
-            }
-        etPaymentAmount.getText().insert(etPaymentAmount.getSelectionStart(),key);
-        if(key.equals(decimalFormat.getDecimalFormatSymbols().getDecimalSeparator()+"")) {
+        if (etPaymentAmount.getSelectionStart() != etPaymentAmount.getSelectionEnd()) {
+            etPaymentAmount.getText().clear();
+        }
+        etPaymentAmount.getText().insert(etPaymentAmount.getSelectionStart(), key);
+        if (key.equals(decimalFormat.getDecimalFormatSymbols().getDecimalSeparator() + "")) {
             etPaymentAmount.setSelection(etPaymentAmount.getText().length());
         }
 
-        }
+    }
 
     /**
-     de initialization view from mainpageConnection
+     * de initialization view from mainpageConnection
      */
     @Override
     public void onDestroy() {

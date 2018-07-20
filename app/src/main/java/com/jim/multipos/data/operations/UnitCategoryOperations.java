@@ -12,6 +12,8 @@ import io.reactivex.Observable;
 
 public interface UnitCategoryOperations {
     Observable<Long> addUnitCategory(UnitCategory category);
+
     Observable<Boolean> addUnitCategories(List<UnitCategory> categoryList);
+
     Observable<List<UnitCategory>> getAllUnitCategories();
 }

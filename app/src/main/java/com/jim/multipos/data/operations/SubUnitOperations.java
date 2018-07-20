@@ -12,6 +12,8 @@ import io.reactivex.Observable;
 
 public interface SubUnitOperations {
     Observable<Long> addSubUnitList(SubUnitsList subUnitsList);
+
     Observable<List<SubUnitsList>> getSubUnitList();
+
     Observable<Boolean> deleteSubUnitList(SubUnitsList subUnitsList);
- }
+}

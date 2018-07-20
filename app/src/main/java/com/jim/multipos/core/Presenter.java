@@ -8,9 +8,14 @@ import android.os.Bundle;
 
 public interface Presenter {
     void onStart();
+
     void onResume();
+
     void onPause();
+
     void onSaveInstanceState(Bundle bundle);
+
     void onDestroy();
+
     void onCreateView(Bundle bundle);
 }

@@ -1464,4 +1464,6 @@
     <string name="no_vendor_warning_msg">Please, create vendors a before creating invoice</string>
     <string name="customer_code">Customer code</string>
     <string name="opened">Opened</string>
+    <string name="do_u_want_edit_order">Do you want edit order?</string>
+    <string name="do_u_want_cancel_order">Do you want cancel order?</string>
 </resources>

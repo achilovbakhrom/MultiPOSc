@@ -8,12 +8,10 @@ import com.jim.multipos.data.db.model.DiscountLog;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.ServiceFeeLog;
 import com.jim.multipos.data.db.model.products.Product;
-import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
 import com.jim.multipos.ui.mainpospage.view.ProductInfoView;
 
 import java.util.List;
-import java.util.Random;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -41,7 +39,6 @@ public class ProductInfoPresenterImpl extends BasePresenterImpl<ProductInfoView>
     @Override
     public void initProduct(Long productId) {
     }
-
 
 
     @Override

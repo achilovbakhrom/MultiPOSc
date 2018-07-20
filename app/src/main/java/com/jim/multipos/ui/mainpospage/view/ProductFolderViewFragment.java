@@ -65,6 +65,7 @@ public class ProductFolderViewFragment extends BaseFragment implements ProductFo
     private FolderViewAdapter adapter;
     private ArrayList<Disposable> subscriptions;
     DecimalFormat decimalFormat;
+
     @Override
     protected int getLayout() {
         return R.layout.product_folder_list;
@@ -152,7 +153,7 @@ public class ProductFolderViewFragment extends BaseFragment implements ProductFo
         adapter.setListener(new FolderViewAdapter.OnFolderItemClickListener() {
             @Override
             public void onItemClick(FolderItem folderItem, int position) {
-                presenter.selectedItem(folderItem,position);
+                presenter.selectedItem(folderItem, position);
             }
 
             @Override
@@ -189,7 +190,7 @@ public class ProductFolderViewFragment extends BaseFragment implements ProductFo
     @Override
     public void showAvailableDialog(Product product, double available) {
         WarningDialog warningDialog = new WarningDialog(getActivity());
-        warningDialog.setWarningMessage(getString(R.string.in_stock_ava)+"        "+decimalFormat.format(available) + " " + product.getMainUnit().getAbbr());
+        warningDialog.setWarningMessage(getString(R.string.in_stock_ava) + "        " + decimalFormat.format(available) + " " + product.getMainUnit().getAbbr());
         warningDialog.onlyText(true);
         warningDialog.setDialogTitle(product.getName());
         warningDialog.setOnYesClickListener(view1 -> {

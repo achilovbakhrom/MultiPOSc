@@ -13,8 +13,10 @@ import io.reactivex.Single;
 
 public interface PaymentOperations {
     Single<BillingOperations> insertBillingOperation(BillingOperations billingOperations);
+
     Observable<List<BillingOperations>> getBillingOperations();
-    Single<BillingOperations> getBillingOperationsByConsignmentId(Long consignmentId);
+
     Single<BillingOperations> getBillingOperationsById(Long firstPayId);
+
     Single<List<BillingOperations>> getBillingOperationByRootId(Long rootId);
 }

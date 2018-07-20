@@ -17,17 +17,30 @@ import io.reactivex.Single;
 
 public interface ProductOperations {
     Observable<Long> addProduct(Product product);
+
     Observable<Boolean> addProduct(List<Product> productList);
+
     Observable<Long> replaceProduct(Product product);
+
     Observable<List<Product>> getAllProducts();
+
     Single<List<Product>> getAllActiveProducts(Category category);
+
     Observable<Integer> getAllProductCount(Category category);
+
     Observable<Boolean> isProductNameExists(String productName, Long categoryId);
+
     Observable<Boolean> removeProduct(Product product);
+
     Single<Product> getProductById(Long productId);
+
     Single<Boolean> insertReturns(List<Return> returnsList);
+
     Single<Boolean> isProductSkuExists(String sku, Long subcategoryId);
+
     Single<List<Return>> getReturnList(Calendar fromDate, Calendar toDate);
+
     Single<List<Product>> getVendorProductsByVendorId(Long id);
+
     Single<Double> getLastCostForProduct(Long productId);
 }

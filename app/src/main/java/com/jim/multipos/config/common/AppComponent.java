@@ -13,13 +13,15 @@ import dagger.Component;
  * Created by bakhrom on 10/3/17.
  */
 @Singleton
-@Component(modules = {AppModule.class, BaseAppModule.class,ServiceBuilderModule.class})
+@Component(modules = {AppModule.class, BaseAppModule.class, ServiceBuilderModule.class})
 public interface AppComponent {
     @Component.Builder
-    interface Builder  {
+    interface Builder {
         @BindsInstance
         Builder application(Application application);
+
         AppComponent build();
     }
+
     void inject(MultiPosApp app);
 }

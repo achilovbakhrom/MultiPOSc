@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -16,7 +15,6 @@ import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.ServiceFee;
 import com.jim.multipos.data.db.model.unit.UnitCategory;
 import com.jim.multipos.data.prefs.PreferencesHelper;
-import com.jim.multipos.ui.consignment.dialogs.StockPositionsDialog;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivity;
 import com.jim.multipos.ui.mainpospage.connection.MainPageConnection;
 import com.jim.multipos.ui.mainpospage.dialogs.DiscountDialog;
@@ -89,10 +87,12 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
     MainPageConnection mainPageConnection;
     @Inject
     PreferencesHelper preferencesHelper;
+
     @Override
     protected int getLayout() {
         return R.layout.product_info_fragment;
     }
+
     @Override
     protected void init(Bundle savedInstanceState) {
         mainPageConnection.setProductInfoView(this);
@@ -104,7 +104,7 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
         DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
         symbols.setGroupingSeparator(' ');
         formatter.setDecimalFormatSymbols(symbols);
-        decimalFormatLocal =  formatter;
+        decimalFormatLocal = formatter;
 
 
         DecimalFormat formatter2;
@@ -114,8 +114,7 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
         DecimalFormatSymbols symbols2 = formatter2.getDecimalFormatSymbols();
         symbols2.setGroupingSeparator(' ');
         formatter2.setDecimalFormatSymbols(symbols2);
-        decimalFormat =  formatter2;
-
+        decimalFormat = formatter2;
 
 
         ivMinus.setOnClickListener(view -> {
@@ -125,17 +124,17 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
             mainPageConnection.plusProductCount();
         });
         btnSetQuantity.setOnClickListener(view -> {
-            if(orderProductItem.getOrderProduct().getProduct().getMainUnit().getUnitCategory().getUnitType() == UnitCategory.PIECE) {
+            if (orderProductItem.getOrderProduct().getProduct().getMainUnit().getUnitCategory().getUnitType() == UnitCategory.PIECE) {
                 SetQuantityDialog dialog = new SetQuantityDialog(getContext(), value -> {
                     mainPageConnection.setCount(value);
                     mainPageConnection.giveToProductInfoFragmentProductItem();
                 });
                 dialog.show();
-            }else {
+            } else {
                 UnitValuePicker unitValuePicker = new UnitValuePicker(getContext(), orderProductItem.getOrderProduct().getProduct(), weight -> {
                     mainPageConnection.addProductWithWeightToListEdit(weight);
                     mainPageConnection.giveToProductInfoFragmentProductItem();
-                },orderProductItem.getOutcomeProduct().getSumCountValue());
+                }, orderProductItem.getOutcomeProduct().getSumCountValue());
                 unitValuePicker.show();
             }
 
@@ -147,7 +146,7 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
             warningDialog.setOnYesClickListener(view1 -> {
                 warningDialog.dismiss();
                 mainPageConnection.removeOrderProducts();
-                ((MainPosPageActivity)getActivity()).hideProductInfoFragment();
+                ((MainPosPageActivity) getActivity()).hideProductInfoFragment();
             });
             warningDialog.setOnNoClickListener(view1 -> {
                 warningDialog.dismiss();
@@ -158,13 +157,13 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
 
         });
         btnClose.setOnClickListener(view -> {
-            ((MainPosPageActivity)getActivity()).hideProductInfoFragment();
+            ((MainPosPageActivity) getActivity()).hideProductInfoFragment();
         });
         btnServiceFee.setOnClickListener(view -> {
-            if(orderProductItem.getServiceFee() !=null){
+            if (orderProductItem.getServiceFee() != null) {
                 mainPageConnection.setServiceFeeProduct(null);
                 mainPageConnection.giveToProductInfoFragmentProductItem();
-            }else {
+            } else {
                 ServiceFeeDialog.CallbackServiceFeeDialog callbackServiceFeeDialog = new ServiceFeeDialog.CallbackServiceFeeDialog() {
                     @Override
                     public void choiseStaticServiceFee(ServiceFee serviceFee) {
@@ -178,15 +177,15 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
                         mainPageConnection.giveToProductInfoFragmentProductItem();
                     }
                 };
-                ServiceFeeDialog serviceFeeDialog = new ServiceFeeDialog(getContext(),databaseManager,callbackServiceFeeDialog,orderProductItem.getOrderProduct().getPrice(),ServiceFee.ITEM, decimalFormat,preferencesHelper);
+                ServiceFeeDialog serviceFeeDialog = new ServiceFeeDialog(getContext(), databaseManager, callbackServiceFeeDialog, orderProductItem.getOrderProduct().getPrice(), ServiceFee.ITEM, decimalFormat, preferencesHelper);
                 serviceFeeDialog.show();
             }
         });
         btnDiscountItem.setOnClickListener(view -> {
-            if(orderProductItem.getDiscount()!=null){
+            if (orderProductItem.getDiscount() != null) {
                 mainPageConnection.setDiscountToProduct(null);
                 mainPageConnection.giveToProductInfoFragmentProductItem();
-            }else {
+            } else {
                 DiscountDialog.CallbackDiscountDialog callbackDiscountDialog = new DiscountDialog.CallbackDiscountDialog() {
                     @Override
                     public void choiseStaticDiscount(Discount discount) {
@@ -202,7 +201,7 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
 
                     }
                 };
-                DiscountDialog discountDialog = new DiscountDialog(getContext(), databaseManager, callbackDiscountDialog, orderProductItem.getOrderProduct().getPrice(), Discount.ITEM, decimalFormat,preferencesHelper);
+                DiscountDialog discountDialog = new DiscountDialog(getContext(), databaseManager, callbackDiscountDialog, orderProductItem.getOrderProduct().getPrice(), Discount.ITEM, decimalFormat, preferencesHelper);
                 discountDialog.show();
             }
         });
@@ -211,17 +210,18 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
         });
 
 
-
     }
 
-    public void refreshData(){
+    public void refreshData() {
         mainPageConnection.setProductInfoView(this);
         mainPageConnection.giveToProductInfoFragmentProductItem();
     }
+
     OrderProductItem orderProductItem;
+
     @Override
     public void initProductData(OrderProductItem orderProductItem) {
-       this.orderProductItem = orderProductItem;
+        this.orderProductItem = orderProductItem;
 
         GlideApp.with(this)
                 .load(orderProductItem.getOrderProduct().getProduct().getPhotoPath())
@@ -234,33 +234,32 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
 
         tvProductName.setText(orderProductItem.getOrderProduct().getProduct().getName());
         hideAlert();
-        databaseManager.getProductInvenotry(orderProductItem.getOrderProduct().getProductId()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(count ->{
+        databaseManager.getProductInvenotry(orderProductItem.getOrderProduct().getProductId()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(count -> {
             //TODO VOQTINCHALI, ATAK COUNTI HISOBLASHDA ORDERDIGI COUNTLANIYAM HISOBLASH KEREDI
-            if(count < 0){
+            if (count < 0) {
                 showAlert();
-            }else hideAlert();
+            } else hideAlert();
             tvQuantity.setText(decimalFormat.format(count) + " " + orderProductItem.getOrderProduct().getProduct().getMainUnit().getAbbr());
         });
 
-        if(orderProductItem.getOrderProduct().getProduct().getMainUnit().getUnitCategory().getUnitType() == UnitCategory.PIECE){
+        if (orderProductItem.getOrderProduct().getProduct().getMainUnit().getUnitCategory().getUnitType() == UnitCategory.PIECE) {
             tvOrderQuantity.setText(decimalFormat.format(orderProductItem.getOutcomeProduct().getSumCountValue()));
             tvOrderQuantity.setBackground(null);
             tvUnitName.setText(getResources().getString(R.string.quantity));
             btnSetQuantity.setText(getResources().getString(R.string.set_quantity));
             ivMinus.setVisibility(View.VISIBLE);
             ivPlus.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
 
             double count = orderProductItem.getOutcomeProduct().getSumCountValue();
 
             DecimalFormat df = null;
-            if(count<0.001){
+            if (count < 0.001) {
                 df = decimalFormatLocal;
-            }else df = decimalFormat;
+            } else df = decimalFormat;
 
             tvOrderQuantity.setText(df.format(count) + " " + orderProductItem.getOrderProduct().getProduct().getMainUnit().getAbbr());
-            btnSetQuantity.setText(getResources().getString(R.string.set)+orderProductItem.getOrderProduct().getProduct().getMainUnit().getUnitCategory().getName());
+            btnSetQuantity.setText(getResources().getString(R.string.set) + orderProductItem.getOrderProduct().getProduct().getMainUnit().getUnitCategory().getName());
             tvOrderQuantity.setBackgroundResource(R.drawable.order_list_weight_product_item_deactive);
             tvUnitName.setText(orderProductItem.getOrderProduct().getProduct().getMainUnit().getUnitCategory().getName());
             ivMinus.setVisibility(View.GONE);
@@ -275,14 +274,14 @@ public class ProductInfoFragment extends BaseFragment implements ProductInfoView
                 mainPageConnection.changeDiscription(etSpecialRequest.getText().toString());
             }
         });
-        if(orderProductItem.getDiscount() == null){
+        if (orderProductItem.getDiscount() == null) {
             btnDiscountItem.setText(getResources().getString(R.string.discount));
-        }else {
+        } else {
             btnDiscountItem.setText(getResources().getString(R.string.remove_discount));
         }
-        if(orderProductItem.getServiceFee() == null){
+        if (orderProductItem.getServiceFee() == null) {
             btnServiceFee.setText(getResources().getString(R.string.service_fee));
-        }else {
+        } else {
             btnServiceFee.setText(getResources().getString(R.string.remove_service_fee));
         }
 

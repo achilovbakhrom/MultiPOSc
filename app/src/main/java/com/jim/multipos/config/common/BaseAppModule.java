@@ -1,28 +1,21 @@
 package com.jim.multipos.config.common;
 
 import android.app.Application;
-import android.content.Context;
 
 import com.jim.multipos.MultiPosApp;
+import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.AppDbHelper;
 import com.jim.multipos.data.db.DbHelper;
 import com.jim.multipos.data.db.DbOpenHelper;
 import com.jim.multipos.data.prefs.AppPreferencesHelper;
 import com.jim.multipos.data.prefs.PreferencesHelper;
-import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.utils.AppConstants;
 import com.jim.multipos.utils.BarcodeStack;
 import com.jim.multipos.utils.RxBus;
-import com.jim.multipos.utils.managers.NotifyManager;
-import com.tbruyelle.rxpermissions2.RxPermissions;
-
-import org.greenrobot.greendao.database.Database;
-
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
-import java.util.Locale;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -86,7 +79,7 @@ public abstract class BaseAppModule {
     @Provides
     @Singleton
     @Named(value = "without_grouping_four_decimal")
-    public static DecimalFormat getFormatterWithoutGroupingFourDecimal(){
+    public static DecimalFormat getFormatterWithoutGroupingFourDecimal() {
         DecimalFormat decimalFormat1 = new DecimalFormat("0.####");
         DecimalFormatSymbols decimalFormatSymbols = decimalFormat1.getDecimalFormatSymbols();
         decimalFormatSymbols.setDecimalSeparator('.');
@@ -97,7 +90,7 @@ public abstract class BaseAppModule {
     @Provides
     @Singleton
     @Named(value = "without_grouping_two_decimal")
-    public static DecimalFormat getFormatterWithoutGroupingTwoDecimal(){
+    public static DecimalFormat getFormatterWithoutGroupingTwoDecimal() {
         DecimalFormat decimalFormat1 = new DecimalFormat("0.##");
         DecimalFormatSymbols decimalFormatSymbols = decimalFormat1.getDecimalFormatSymbols();
         decimalFormatSymbols.setDecimalSeparator('.');
@@ -108,7 +101,7 @@ public abstract class BaseAppModule {
     @Provides
     @Singleton
     @Named(value = "without_grouping_two_decimal_zero")
-    public static DecimalFormat getFormatterWithoutGroupingTwoDecimalWithZeroDecimal(){
+    public static DecimalFormat getFormatterWithoutGroupingTwoDecimalWithZeroDecimal() {
         DecimalFormat decimalFormat1 = new DecimalFormat("#.00");
         DecimalFormatSymbols decimalFormatSymbols = decimalFormat1.getDecimalFormatSymbols();
         decimalFormatSymbols.setDecimalSeparator('.');
@@ -121,7 +114,7 @@ public abstract class BaseAppModule {
     @Provides
     @Singleton
     @Named(value = "grouping_two_decimal")
-    public static DecimalFormat getFormatterGrouping(){
+    public static DecimalFormat getFormatterGrouping() {
         DecimalFormat decimalFormat1 = new DecimalFormat("#,###.##");
         DecimalFormatSymbols decimalFormatSymbols = decimalFormat1.getDecimalFormatSymbols();
         decimalFormatSymbols.setDecimalSeparator('.');
@@ -134,7 +127,7 @@ public abstract class BaseAppModule {
     @Provides
     @Singleton
     @Named(value = "grouping_four_decimal")
-    public static DecimalFormat getFormatterFourGrouping(){
+    public static DecimalFormat getFormatterFourGrouping() {
         DecimalFormat decimalFormat1 = new DecimalFormat("#,###.####");
         DecimalFormatSymbols decimalFormatSymbols = decimalFormat1.getDecimalFormatSymbols();
         decimalFormatSymbols.setDecimalSeparator('.');
@@ -146,14 +139,14 @@ public abstract class BaseAppModule {
 
     @Provides
     @Singleton
-    public static BarcodeStack getBarcodeStack(RxBus rxBus){
+    public static BarcodeStack getBarcodeStack(RxBus rxBus) {
         return new BarcodeStack(rxBus);
     }
 
     @Provides
     @Singleton
     @Named(value = "grouping_two_decimal_with_out_decimal_part")
-    public static DecimalFormat getFormatterGroupingWithoutDecimalPart(){
+    public static DecimalFormat getFormatterGroupingWithoutDecimalPart() {
         DecimalFormat decimalFormat1 = new DecimalFormat("#,###");
         DecimalFormatSymbols decimalFormatSymbols = decimalFormat1.getDecimalFormatSymbols();
         decimalFormatSymbols.setDecimalSeparator('.');
@@ -163,7 +156,7 @@ public abstract class BaseAppModule {
         return decimalFormat1;
     }
 
-    public static DecimalFormat getFormatterGroupingPattern(String pattern){
+    public static DecimalFormat getFormatterGroupingPattern(String pattern) {
         DecimalFormat decimalFormat1 = new DecimalFormat(pattern);
         DecimalFormatSymbols decimalFormatSymbols = decimalFormat1.getDecimalFormatSymbols();
         decimalFormatSymbols.setDecimalSeparator('.');
@@ -173,7 +166,7 @@ public abstract class BaseAppModule {
         return decimalFormat1;
     }
 
-    public static DecimalFormat getFormatterWithoutGroupingPattern(String pattern){
+    public static DecimalFormat getFormatterWithoutGroupingPattern(String pattern) {
         DecimalFormat decimalFormat1 = new DecimalFormat(pattern);
         DecimalFormatSymbols decimalFormatSymbols = decimalFormat1.getDecimalFormatSymbols();
         decimalFormatSymbols.setDecimalSeparator('.');

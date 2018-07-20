@@ -5,39 +5,32 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.HandlerThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.KeyboardShortcutGroup;
-import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.widget.FrameLayout;
-import com.google.android.cameraview.*;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.google.android.cameraview.CameraView;
 import com.jim.multipos.R;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.List;
 
 /**
  * Created by developer on 14.09.2017.
  */
 
-public class    PhotoPickDialog extends Dialog  {
+public class PhotoPickDialog extends Dialog {
     private View dialogView;
     private ImageView ivContentPhoto;
     private FrameLayout flCamera;
@@ -56,11 +49,15 @@ public class    PhotoPickDialog extends Dialog  {
     private Context context;
     private OnButtonsClickListner onButtonsClickListner;
     private CameraView cameraView;
-    public interface OnButtonsClickListner{
+
+    public interface OnButtonsClickListner {
         public void onCameraShot(Uri uri);
+
         public void onGallery();
+
         public void onRemove();
     }
+
     public PhotoPickDialog(@NonNull Context context, OnButtonsClickListner onButtonsClickListner) {
         super(context);
         this.context = context;
@@ -95,18 +92,18 @@ public class    PhotoPickDialog extends Dialog  {
         flCancel.setVisibility(View.VISIBLE);
 
         flCancel.setOnClickListener(view -> {
-            if(withContentOpened){
+            if (withContentOpened) {
                 openExist = true;
                 ivContentPhoto.setVisibility(View.VISIBLE);
                 flRemove.setVisibility(View.VISIBLE);
                 flCancel.setVisibility(View.GONE);
                 flGallery.setVisibility(View.VISIBLE);
                 cameraView.setVisibility(View.GONE);
-            }else dismiss();
+            } else dismiss();
 
         });
         flCamera.setOnClickListener(view -> {
-            if(openExist){
+            if (openExist) {
                 openExist = false;
                 ivContentPhoto.setVisibility(View.GONE);
                 flRemove.setVisibility(View.GONE);
@@ -114,8 +111,7 @@ public class    PhotoPickDialog extends Dialog  {
                 flCancel.setVisibility(View.VISIBLE);
                 cameraView.setVisibility(View.VISIBLE);
                 tvCamera.setText(R.string.shot);
-            }
-            else {
+            } else {
                 cameraView.takePicture();
 
             }
@@ -141,11 +137,14 @@ public class    PhotoPickDialog extends Dialog  {
         super.onAttachedToWindow();
         cameraView.start();
     }
+
     boolean openExist = false;
+
     public PhotoPickDialog(@NonNull Context context, int themeResId) {
         super(context, themeResId);
     }
-    public void  showDialog(Uri uri){
+
+    public void showDialog(Uri uri) {
         openExist = true;
         ivContentPhoto.setVisibility(View.VISIBLE);
         flRemove.setVisibility(View.VISIBLE);
@@ -157,7 +156,8 @@ public class    PhotoPickDialog extends Dialog  {
 
         show();
     }
-    public void  showDialog(){
+
+    public void showDialog() {
         openExist = false;
         ivContentPhoto.setVisibility(View.GONE);
         flRemove.setVisibility(View.GONE);
@@ -169,11 +169,14 @@ public class    PhotoPickDialog extends Dialog  {
 
         show();
     }
+
     boolean withContentOpened = false;
+
     protected PhotoPickDialog(@NonNull Context context, boolean cancelable, @Nullable OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
     }
-    public static float convertDpToPixel(float dp){
+
+    public static float convertDpToPixel(float dp) {
         DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
         float px = dp * (metrics.densityDpi / 160f);
         return Math.round(px);
@@ -197,10 +200,10 @@ public class    PhotoPickDialog extends Dialog  {
             Log.d("cameratest", "onPictureTaken " + data.length);
             File file = new File(getAlbumStorageDir("multipos").getAbsolutePath());
             OutputStream os = null;
-            if(!file.exists()){
+            if (!file.exists()) {
                 file.mkdirs();
             }
-            File file1 = new File(file.getAbsolutePath()+File.separator +String.valueOf(System.currentTimeMillis())+".jpg");
+            File file1 = new File(file.getAbsolutePath() + File.separator + String.valueOf(System.currentTimeMillis()) + ".jpg");
 
             Log.d("cameratest", file.getAbsolutePath());
             try {
@@ -223,10 +226,10 @@ public class    PhotoPickDialog extends Dialog  {
             }
 
 
-
         }
 
     };
+
     public File getAlbumStorageDir(String albumName) {
         // Get the directory for the user's public pictures directory.
         File file = new File(Environment.getExternalStoragePublicDirectory(

@@ -1,8 +1,6 @@
 package com.jim.multipos.utils;
 
 
-import com.jim.multipos.utils.rxevents.Unsibscribe;
-
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -30,9 +28,10 @@ public class RxBus {
     public boolean hasObservers() {
         return bus.hasObservers();
     }
-    public static void removeListners(List<Disposable> disposables){
-                if (disposables != null && !disposables.isEmpty())
-                    for (Disposable disposable : disposables)
-                        disposable.dispose();
+
+    public static void removeListners(List<Disposable> disposables) {
+        if (disposables != null && !disposables.isEmpty())
+            for (Disposable disposable : disposables)
+                disposable.dispose();
     }
 }

@@ -15,15 +15,23 @@ import io.reactivex.Single;
  */
 
 public interface ConsignmentOperations {
-//    Single<Consignment> insertConsignment(Consignment consignment, List<BillingOperations> operations, List<ConsignmentProduct> consignmentProductList, List<WarehouseOperations> warehouseOperationsList);
     Observable<Long> insertConsignmentProduct(ConsignmentProduct consignment);
+
     Observable<List<Consignment>> getConsignments();
+
     Single<List<Consignment>> getConsignmentsByVendorId(Long vendorId);
+
     Observable<Boolean> insertConsignmentProducts(List<ConsignmentProduct> consignmentProducts);
+
     Single<List<ConsignmentProduct>> getConsignmentProductsByConsignmentId(Long consignmentId);
+
     Single<Consignment> getConsignmentById(Long consignmentId);
+
     Single<List<Consignment>> getConsignmentsInIntervalByVendor(Long vendorId, Calendar fromDate, Calendar toDate);
+
     Single<Boolean> isInvoiceNumberExists(String number);
+
     Single<List<Consignment>> getConsignmentsInInterval(Calendar fromDate, Calendar toDate);
+
     Single<List<ConsignmentProduct>> getConsignmentProductsInterval(Calendar fromDate, Calendar toDate);
 }

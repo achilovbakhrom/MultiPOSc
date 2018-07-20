@@ -11,6 +11,6 @@ import io.reactivex.Single;
  */
 
 public interface SearchOperations {
-    Single<List<Product>> getSearchProducts(String searchText, boolean skuMode, boolean barcodeMode,boolean nameMode);
+    Single<List<Product>> getSearchProducts(String searchText, boolean skuMode, boolean barcodeMode, boolean nameMode);
 
 }

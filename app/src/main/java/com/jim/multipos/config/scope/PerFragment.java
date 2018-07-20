@@ -24,7 +24,7 @@ import javax.inject.Scope;
 /**
  * A custom scoping annotation that specifies that the lifespan of OnItemClickListener dependency be the same as that
  * of OnItemClickListener Fragment.
- *
+ * <p>
  * This is used to annotate dependencies that behave like OnItemClickListener singleton within the lifespan of OnItemClickListener
  * Fragment and child Fragments instead of the entire Application or Activity.
  */

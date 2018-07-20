@@ -14,6 +14,8 @@ import io.reactivex.Single;
 
 public interface ProductClassOperations {
     Single<List<ProductClass>> getAllProductClass();
+
     Single<Long> insertProductClass(ProductClass productClass);
+
     Observable<ProductClass> getProductClass(Long id);
 }

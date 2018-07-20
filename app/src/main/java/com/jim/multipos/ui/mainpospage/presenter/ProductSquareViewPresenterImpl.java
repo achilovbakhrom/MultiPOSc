@@ -113,7 +113,7 @@ public class ProductSquareViewPresenterImpl extends BasePresenterImpl<ProductSqu
             subcategoryList.addAll(subCategories);
             view.refreshSubCategories(subcategoryList);
         });
-            view.setSelectedSubCategory(preferencesHelper.getLastPositionSubCategory(String.valueOf(parentCategory.getId())));
+        view.setSelectedSubCategory(preferencesHelper.getLastPositionSubCategory(String.valueOf(parentCategory.getId())));
         if (!subcategoryList.isEmpty()) {
             view.sendEvent(subcategoryList.get(preferencesHelper.getLastPositionSubCategory(String.valueOf(parentCategory.getId()))), SUBCATEGORY_TITLE);
             setSelectedSubCategory(preferencesHelper.getLastPositionSubCategory(String.valueOf(parentCategory.getId())));

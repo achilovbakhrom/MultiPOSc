@@ -16,18 +16,16 @@ import com.jim.multipos.utils.managers.LocaleManger;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-
 import dagger.android.AndroidInjection;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
-
 import dagger.android.support.HasSupportFragmentInjector;
 
 /**
  * Created by user on 26.07.17.
  */
 
-public abstract class BaseActivity extends AppCompatActivity implements HasSupportFragmentInjector{
+public abstract class BaseActivity extends AppCompatActivity implements HasSupportFragmentInjector {
 
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentInjector;
@@ -55,14 +53,14 @@ public abstract class BaseActivity extends AppCompatActivity implements HasSuppo
     }
 
     protected final void addFragment(@IdRes int containerViewId, Fragment fragment) {
-        if(fragment.isAdded()) return;
+        if (fragment.isAdded()) return;
         activityFragmentManager.beginTransaction()
                 .add(containerViewId, fragment)
                 .commit();
     }
 
     protected final void addFragmentWithBackStack(@IdRes int containerViewId, Fragment fragment) {
-        if(fragment.isAdded()) return;
+        if (fragment.isAdded()) return;
         activityFragmentManager.beginTransaction()
                 .add(containerViewId, fragment)
                 .addToBackStack(null)
@@ -70,7 +68,7 @@ public abstract class BaseActivity extends AppCompatActivity implements HasSuppo
     }
 
     protected final void replaceFragment(@IdRes int containerViewId, Fragment fragment) {
-        if(fragment.isAdded()) return;
+        if (fragment.isAdded()) return;
         activityFragmentManager.beginTransaction()
                 .replace(containerViewId, fragment)
                 .commit();
@@ -94,22 +92,24 @@ public abstract class BaseActivity extends AppCompatActivity implements HasSuppo
                 .commit();
     }
 
-    protected final void  addFragmentWithTagStatic(@IdRes int containerViewId, Fragment fragment, String tag) {
+    protected final void addFragmentWithTagStatic(@IdRes int containerViewId, Fragment fragment, String tag) {
         if (fragment.isAdded()) return;
 
         activityFragmentManager.beginTransaction()
                 .add(containerViewId, fragment, tag)
                 .commit();
     }
+
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return fragmentInjector;
     }
 
-    public void onBarcodeScan(String barcode){}
+    public void onBarcodeScan(String barcode) {
+    }
 
-    public final Fragment getCurrentFragment(){
-        return  activityFragmentManager.findFragmentById(R.id.flMain);
+    public final Fragment getCurrentFragment() {
+        return activityFragmentManager.findFragmentById(R.id.flMain);
 
     }
 }
