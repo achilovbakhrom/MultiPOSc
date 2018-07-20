@@ -811,7 +811,7 @@ public class OrderListFragment extends BaseFragment implements OrderListView {
     public void stockOut() {
         WarningDialog warningDialog = new WarningDialog(getActivity());
         warningDialog.onlyText(true);
-        warningDialog.setDialogTitle(getString(R.string.stock_out));
+        warningDialog.setDialogTitle(getString(R.string.warning));
         warningDialog.setWarningMessage(getString(R.string.product_stock_outed));
         warningDialog.setOnYesClickListener(view1 -> {
             warningDialog.dismiss();

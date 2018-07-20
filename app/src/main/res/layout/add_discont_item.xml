@@ -132,7 +132,7 @@
             android:layout_height="@dimen/forty_dp"
             android:layout_gravity="center_vertical"
             android:textColor="#23d730"
-            android:text="@string/plus_add"
+            android:text="@string/save"
             android:textSize="@dimen/sixteen_dp" />
     </LinearLayout>
 

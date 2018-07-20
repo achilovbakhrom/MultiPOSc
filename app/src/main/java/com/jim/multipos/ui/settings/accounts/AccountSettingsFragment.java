@@ -13,6 +13,7 @@ import com.jim.multipos.core.BaseFragment;
 import com.jim.multipos.data.db.model.Account;
 import com.jim.multipos.ui.settings.SettingsActivity;
 import com.jim.multipos.ui.settings.accounts.adapter.AccountsSettingsAdapter;
+import com.jim.multipos.ui.settings.accounts.model.AccountItem;
 import com.jim.multipos.ui.settings.connection.SettingsConnection;
 
 import java.util.List;
@@ -58,7 +59,7 @@ public class AccountSettingsFragment extends BaseFragment implements AccountSett
     }
 
     @Override
-    public void setAccounts(List<Account> accountList) {
+    public void setAccounts(List<AccountItem> accountList) {
         adapter = new AccountsSettingsAdapter(getContext(), accountList, (account, position) -> {
             presenter.saveChanges(account, position);
             ((SettingsActivity) getContext()).setChanged(true);

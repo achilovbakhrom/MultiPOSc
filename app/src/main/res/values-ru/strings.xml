@@ -1102,4 +1102,9 @@
     <string name="unit_format_error">Ед. измеренеия не верна:</string>
     <string name="please_tick_the_box_if_you_would_like_to_highlight_red">Пожалуйста, поставьте галочку если хотите выделить красным </string>
     <string name="highlight_red_out_off_stock_products_in_order_list">Выделить красным отсутсвующие товары на складе в заказе</string>
+    <string name="product_stock_outed">Недостаточно товара на складе</string>
+    <string name="no_vendor_warning_msg">Пожалуйста, создайте поставщика прежде чем создовать накладную</string>
+    <string name="customer_code">Код клиента</string>
+    <string name="opened">Открыт</string>
+    <string name="select_date_for">Выбрать дату</string>
 </resources>

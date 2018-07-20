@@ -29,7 +29,7 @@ public class HourlySalesReportFragment extends BaseTableReportFragment implement
     private String titles[];
     private int dataType[] = {
             ReportViewConstants.NAME, ReportViewConstants.QUANTITY, ReportViewConstants.QUANTITY, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.NAME};
-    private int weights[] = {1, 2, 2, 2, 2, 1};
+    private int weights[] = {2, 2, 2, 2, 2, 1};
     private int aligns[] = {Gravity.CENTER, Gravity.CENTER, Gravity.CENTER, Gravity.RIGHT, Gravity.RIGHT, Gravity.CENTER};
 
     @Override

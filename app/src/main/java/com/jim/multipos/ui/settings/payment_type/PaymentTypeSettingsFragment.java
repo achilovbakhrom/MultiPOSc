@@ -16,6 +16,7 @@ import com.jim.multipos.data.db.model.PaymentType;
 import com.jim.multipos.ui.settings.SettingsActivity;
 import com.jim.multipos.ui.settings.connection.SettingsConnection;
 import com.jim.multipos.ui.settings.payment_type.adapter.PaymentTypeSettingsAdapter;
+import com.jim.multipos.ui.settings.payment_type.model.PaymentTypeItem;
 
 import java.util.List;
 
@@ -68,7 +69,7 @@ public class PaymentTypeSettingsFragment extends BaseFragment implements Payment
     }
 
     @Override
-    public void setPaymentTypes(List<PaymentType> paymentTypes, List<Account> accountList) {
+    public void setPaymentTypes(List<PaymentTypeItem> paymentTypes, List<Account> accountList) {
         adapter = new PaymentTypeSettingsAdapter(getContext(), paymentTypes, (paymentType, position) -> {
             presenter.savePaymentType(paymentType);
             ((SettingsActivity) getContext()).setChanged(true);

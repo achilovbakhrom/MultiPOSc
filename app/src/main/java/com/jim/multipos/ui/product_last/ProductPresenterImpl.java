@@ -20,6 +20,7 @@ import com.jim.multipos.utils.rxevents.main_order_events.GlobalEventConstants;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
@@ -508,7 +509,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             this.product = null;
             this.productClass = null;
             mode = CategoryAddEditMode.PRODUCT_ADD_MODE;
-            view.unselectProductsList();
+//            view.unselectProductsList();
             view.openProductAddMode();
         } else {
             this.product = product;
@@ -1182,7 +1183,15 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
 
     @Override
     public boolean isProductSkuExists(String sku) {
-        if (sku.isEmpty()){
+        if (sku.isEmpty()) {
+            int count = 1;
+            String newSku;
+            newSku = String.format(Locale.getDefault(), "%06d", count);
+            while (databaseManager.isProductSkuExists(newSku, subcategory.getId()).blockingGet()) {
+                count++;
+                newSku = String.format(Locale.getDefault(), "%06d", count);
+            }
+            view.setSku(newSku);
             return false;
         }
         if (mode == CategoryAddEditMode.PRODUCT_EDIT_MODE) {

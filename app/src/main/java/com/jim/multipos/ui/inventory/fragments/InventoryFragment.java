@@ -323,11 +323,8 @@ public class InventoryFragment extends BaseFragment implements InventoryView {
 
     @Override
     public void showVendorListEmptyDialog() {
-        UIUtils.showAlert(getContext(), getString(R.string.ok), getString(R.string.warning), "There're no vendors. Please, create vendors for creating invoice", new UIUtils.SingleButtonAlertListener() {
-            @Override
-            public void onButtonClicked() {
+        UIUtils.showAlert(getContext(), getString(R.string.ok), getString(R.string.warning), getString(R.string.no_vendor_warning_msg), () -> {
 
-            }
         });
     }
 

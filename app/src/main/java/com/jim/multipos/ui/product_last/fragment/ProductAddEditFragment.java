@@ -482,4 +482,8 @@ public class ProductAddEditFragment extends BaseFragment {
     public void setBarcode(String barcode) {
         this.barcode.setText(barcode);
     }
+
+    public void setSku(String newSku) {
+        sku.setText(newSku);
+    }
 }

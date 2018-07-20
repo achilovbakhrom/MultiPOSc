@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -90,14 +91,13 @@ public class StockPositionsDialog extends Dialog {
         etProductCount.clearFocus();
         etSearchView.clearFocus();
         tvProductUnit.setText(outcomeProduct.getProduct().getMainUnit().getAbbr());
+        if (outcomeProduct.getProduct().getMainUnit().getAbbr().equals("pcs"))
+            etProductCount.setInputType(InputType.TYPE_CLASS_NUMBER);
+        else etProductCount.setInputType(InputType.TYPE_CLASS_NUMBER |
+                InputType.TYPE_NUMBER_FLAG_DECIMAL);
         calculateStockPositions();
         etProductCount.setText(decimalFormat.format(outcomeProduct.getSumCountValue()));
-        flClearSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                etSearchView.setText("");
-            }
-        });
+        flClearSearch.setOnClickListener(v -> etSearchView.setText(""));
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         etSearchView.addTextChangedListener(new TextWatcherOnTextChange() {
             @Override

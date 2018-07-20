@@ -76,7 +76,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginRight="@dimen/twenty_five_dp"
             android:textColor="#23d730"
-            android:text="@string/add_plus"
+            android:text="@string/save"
             android:textSize="@dimen/sixteen_dp" />
     </LinearLayout>
     <View

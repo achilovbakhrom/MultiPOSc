@@ -96,4 +96,5 @@ public interface ProductView extends BaseView {
     void sendProductEvent(int type, Product product);
     void setResultsList(List<Product> productList, String s);
     void addProductToOrderInCloseSelf();
+    void setSku(String newSku);
 }

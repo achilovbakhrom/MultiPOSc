@@ -12,6 +12,7 @@ import com.jim.mpviews.MpEditText;
 import com.jim.mpviews.MpMiniActionButton;
 import com.jim.multipos.R;
 import com.jim.multipos.data.db.model.Account;
+import com.jim.multipos.ui.settings.accounts.model.AccountItem;
 import com.jim.multipos.utils.TextWatcherOnTextChange;
 
 import java.util.List;
@@ -22,10 +23,10 @@ import butterknife.ButterKnife;
 public class AccountsSettingsAdapter extends RecyclerView.Adapter<AccountsSettingsAdapter.SystemAccountViewHolder> {
 
     private final Context context;
-    private final List<Account> accountList;
+    private final List<AccountItem> accountList;
     private OnSaveClicked callback;
 
-    public AccountsSettingsAdapter(Context context, List<Account> accountList, OnSaveClicked callback) {
+    public AccountsSettingsAdapter(Context context, List<AccountItem> accountList, OnSaveClicked callback) {
         this.context = context;
         this.accountList = accountList;
         this.callback = callback;
@@ -39,7 +40,7 @@ public class AccountsSettingsAdapter extends RecyclerView.Adapter<AccountsSettin
 
     @Override
     public void onBindViewHolder(SystemAccountViewHolder holder, int position) {
-        if (accountList.get(position).getStaticAccountType() == Account.CASH_ACCOUNT) {
+        if (accountList.get(position).getAccount().getStaticAccountType() == Account.CASH_ACCOUNT) {
             holder.etAccountName.setEnabled(false);
             holder.chbActive.setEnabled(false);
             holder.ivSave.setEnabled(false);
@@ -47,7 +48,7 @@ public class AccountsSettingsAdapter extends RecyclerView.Adapter<AccountsSettin
             holder.chbActive.setCheckboxColor(R.color.colorGreyDark);
         }
         holder.etAccountName.setText(accountList.get(position).getName());
-        holder.chbActive.setChecked(accountList.get(position).getIsActive());
+        holder.chbActive.setChecked(accountList.get(position).isActive());
     }
 
     @Override
@@ -67,7 +68,7 @@ public class AccountsSettingsAdapter extends RecyclerView.Adapter<AccountsSettin
         public SystemAccountViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            chbActive.setCheckedChangeListener(isChecked -> accountList.get(getAdapterPosition()).setIsActive(isChecked));
+            chbActive.setCheckedChangeListener(isChecked -> accountList.get(getAdapterPosition()).setActive(isChecked));
             etAccountName.addTextChangedListener(new TextWatcherOnTextChange() {
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -87,6 +88,6 @@ public class AccountsSettingsAdapter extends RecyclerView.Adapter<AccountsSettin
     }
 
     public interface OnSaveClicked {
-        void onSave(Account account, int position);
+        void onSave(AccountItem account, int position);
     }
 }

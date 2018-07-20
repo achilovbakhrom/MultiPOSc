@@ -165,7 +165,7 @@
                     android:layout_gravity="center"
                     android:layout_marginRight="@dimen/fifteen_dp"
                     android:gravity="right"
-                    android:text="@string/barcode"
+                    android:text="@string/customer_code"
                     android:textSize="@dimen/sixteen_dp" />
 
                 <LinearLayout
@@ -181,7 +181,7 @@
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:backgroundTint="@color/colorTransparent"
-                        android:hint="@string/barcode"
+                        android:hint="@string/customer_code"
                         android:inputType="text"
                         android:textSize="@dimen/sixteen_dp" />
 

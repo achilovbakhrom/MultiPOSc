@@ -37,7 +37,7 @@
             android:layout_marginRight="@dimen/eighteen_dp"
             app:chb_type="2"
             app:checked="true"
-            app:text="Open" />
+            app:text="@string/opened" />
 
         <com.jim.mpviews.MpCheckbox
             android:id="@+id/chbHeldOrders"
@@ -48,7 +48,7 @@
             android:layout_marginRight="@dimen/eighteen_dp"
             app:chb_type="2"
             app:checked="true"
-            app:text="Closed" />
+            app:text="@string/closed" />
 
     </LinearLayout>
 

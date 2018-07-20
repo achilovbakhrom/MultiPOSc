@@ -15,6 +15,7 @@ import com.jim.mpviews.MpMiniActionButton;
 import com.jim.multipos.R;
 import com.jim.multipos.data.db.model.Account;
 import com.jim.multipos.data.db.model.PaymentType;
+import com.jim.multipos.ui.settings.payment_type.model.PaymentTypeItem;
 import com.jim.multipos.utils.TextWatcherOnTextChange;
 
 import java.util.List;
@@ -25,11 +26,11 @@ import butterknife.ButterKnife;
 public class PaymentTypeSettingsAdapter extends RecyclerView.Adapter<PaymentTypeSettingsAdapter.SystemPaymentTypeViewHolder> {
 
     private final Context context;
-    private final List<PaymentType> items;
+    private final List<PaymentTypeItem> items;
     private OnSaveClicked callback;
     private List<Account> accountList;
 
-    public PaymentTypeSettingsAdapter(Context context, List<PaymentType> items, OnSaveClicked callback, List<Account> accountList) {
+    public PaymentTypeSettingsAdapter(Context context, List<PaymentTypeItem> items, OnSaveClicked callback, List<Account> accountList) {
         this.context = context;
         this.items = items;
         this.callback = callback;
@@ -53,7 +54,7 @@ public class PaymentTypeSettingsAdapter extends RecyclerView.Adapter<PaymentType
             if (accountList.get(i).getId().equals(items.get(position).getAccount().getId()))
                 holder.spAccount.setSelection(i);
         }
-        if (items.get(position).getTypeStaticPaymentType() == PaymentType.CASH_PAYMENT_TYPE) {
+        if (items.get(position).getPaymentType().getTypeStaticPaymentType() == PaymentType.CASH_PAYMENT_TYPE) {
             holder.etPaymentTypeName.setEnabled(false);
             holder.chbActive.setEnabled(false);
             holder.ivSave.setEnabled(false);
@@ -62,7 +63,7 @@ public class PaymentTypeSettingsAdapter extends RecyclerView.Adapter<PaymentType
             holder.chbActive.setCheckboxColor(R.color.colorGreyDark);
         }
         holder.etPaymentTypeName.setText(items.get(position).getName());
-        holder.chbActive.setChecked(items.get(position).getIsActive());
+        holder.chbActive.setChecked(items.get(position).isActive());
     }
 
     @Override
@@ -84,7 +85,7 @@ public class PaymentTypeSettingsAdapter extends RecyclerView.Adapter<PaymentType
         public SystemPaymentTypeViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            chbActive.setCheckedChangeListener(isChecked -> items.get(getAdapterPosition()).setIsActive(isChecked));
+            chbActive.setCheckedChangeListener(isChecked -> items.get(getAdapterPosition()).setActive(isChecked));
             etPaymentTypeName.addTextChangedListener(new TextWatcherOnTextChange() {
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -96,7 +97,7 @@ public class PaymentTypeSettingsAdapter extends RecyclerView.Adapter<PaymentType
                 }
             });
             ivSave.setOnClickListener(view -> {
-                if (!items.get(getAdapterPosition()).getAccount().getIsActive() && items.get(getAdapterPosition()).getIsActive()) {
+                if (!items.get(getAdapterPosition()).getAccount().getIsActive() && items.get(getAdapterPosition()).isActive()) {
                     Toast.makeText(context, context.getString(R.string.payment_type_cant_be_active), Toast.LENGTH_SHORT).show();
                     chbActive.setChecked(false);
                 } else callback.onSave(items.get(getAdapterPosition()), getAdapterPosition());
@@ -106,6 +107,6 @@ public class PaymentTypeSettingsAdapter extends RecyclerView.Adapter<PaymentType
     }
 
     public interface OnSaveClicked {
-        void onSave(PaymentType paymentType, int position);
+        void onSave(PaymentTypeItem paymentType, int position);
     }
 }

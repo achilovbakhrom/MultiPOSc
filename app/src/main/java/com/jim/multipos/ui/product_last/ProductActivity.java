@@ -290,6 +290,14 @@ public class ProductActivity extends DoubleSideActivity implements ProductView {
     }
 
     @Override
+    public void setSku(String newSku) {
+        ProductAddEditFragment fragment = getProductAddEditFragment();
+        if (fragment != null) {
+            fragment.setSku(newSku);
+        }
+    }
+
+    @Override
     public void selectSubcategoryListItem(Long id) {
         ProductListFragment fragment = (ProductListFragment) getSupportFragmentManager().findFragmentByTag(ProductListFragment.class.getName());
         if (fragment != null) {

@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/twelve_dp"
             android:layout_marginLeft="@dimen/ten_dp"
-            android:text="@string/barcode"
+            android:text="@string/customer_code"
             android:textColor="#419fd9"
             android:textSize="@dimen/sixteen_dp" />
 
@@ -188,7 +188,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:hint="@string/barcode"
+                android:hint="@string/customer_code"
                 android:background="@color/colorWhite"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/sixteen_dp" />

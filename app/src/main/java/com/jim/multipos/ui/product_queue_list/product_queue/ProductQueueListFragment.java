@@ -118,7 +118,7 @@ public class ProductQueueListFragment extends BaseFragment implements ProductQue
 
     @Override
     public void setTitle(String name) {
-        tvTitle.setText(name);
+        tvTitle.setText("Stock positions for: " + name);
     }
 
     @Override
@@ -146,12 +146,7 @@ public class ProductQueueListFragment extends BaseFragment implements ProductQue
 
     @Override
     public void openFilterDialog(int[] filterConfig) {
-        ProductQueueFilterDialog dialog = new ProductQueueFilterDialog(getContext(), filterConfig, new ProductQueueFilterDialog.ProductQueueFilterListener() {
-            @Override
-            public void onApply(int[] config) {
-                presenter.onFilterApplied(config);
-            }
-        });
+        ProductQueueFilterDialog dialog = new ProductQueueFilterDialog(getContext(), filterConfig, config -> presenter.onFilterApplied(config));
         dialog.show();
     }
 

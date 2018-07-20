@@ -933,7 +933,7 @@
     <string name="summary_">Summary:</string>
     <string name="to_pay_">To Pay:</string>
     <string name="new_order">New Order</string>
-    <string name="retained_orders">Retained Orders</string>
+    <string name="retained_orders">Held Orders</string>
     <string name="today_s_orders">Today\'s Orders</string>
     <string name="access_for_edit">Access for edit</string>
     <string name="enter_edit_password">Enter edit password</string>
@@ -974,7 +974,7 @@
     <string name="log_out">Log out</string>
     <string name="some_details">Some details</string>
     <string name="opt_in_wozard">Opt-in Wizard</string>
-    <string name="necessary_data_for_the_system">Necessary data for the system</string>
+    <string name="necessary_data_for_the_system">Information required for the system</string>
     <string name="total_for_till_">Total for Till:</string>
     <string name="total_closed_amount_">Total due amount:</string>
     <string name="to_next_amount">To next amount</string>
@@ -1039,7 +1039,7 @@
     <string name="found_products">Found products</string>
     <string name="notification">Notification</string>
     <string name="there_is_no_product_with_such_barcode">There is no product with such barcode. Do you want add it?</string>
-    <string name="are_you_sure_cancel_order">Are you sure cancel order?</string>
+    <string name="are_you_sure_cancel_order">Order will be canceled. Are you sure?</string>
     <string name="customer_">Customer: </string>
     <string name="restore_order">Restore order</string>
     <string name="order_edited_to_num">Order Changed to #</string>
@@ -1442,7 +1442,7 @@
     <string name="date_created">Date created</string>
     <string name="date_expired">Date expired</string>
     <string name="select_product">Select product</string>
-    <string name="previously_supplied">Previously supplied</string>
+    <string name="previously_supplied">Previous cooperation</string>
     <string name="count_cant_be_bigger_custom_picked_stock_queue">Count can/\'t be bigger available products count</string>
     <string name="return_invoice">Return invoice</string>
     <string name="purchase_invoice">Purchase invoice</string>
@@ -1453,12 +1453,15 @@
     <string name="surplus_rep">SURPLUS</string>
     <string name="customer_rep">CUSTOMER RETURN</string>
     <string name="order_sales">Order Sales</string>
-    <string name="outvoice_to_vendor">Outvoice to vendor</string>
-    <string name="product_stock_outed">This product stock outed</string>
+    <string name="outvoice_to_vendor">Return invoice to vendor</string>
+    <string name="product_stock_outed">Not enough product in stock</string>
     <string name="this_product_till_close_order_stock_outed">Till complete this order some products stock outed</string>
     <string name="stock_out">Stock out</string>
     <string name="vendor_is_not_active">This vendor is not active</string>
     <string name="price_">Price:</string>
     <string name="stock_keeping_type">Stock keeping type</string>
     <string name="in_stock_ava">In Stock Available:</string>
+    <string name="no_vendor_warning_msg">Please, create vendors a before creating invoice</string>
+    <string name="customer_code">Customer code</string>
+    <string name="opened">Opened</string>
 </resources>

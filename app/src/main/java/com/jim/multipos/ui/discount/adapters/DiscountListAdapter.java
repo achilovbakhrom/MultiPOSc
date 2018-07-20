@@ -19,6 +19,7 @@ import com.jim.multipos.config.common.BaseAppModule;
 import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.ui.discount.model.DiscountApaterDetials;
 import com.jim.multipos.ui.discount.presenters.DiscountAddingPresenterImpl;
+import com.jim.multipos.utils.NumberTextWatcher;
 import com.jim.multipos.utils.TextWatcherOnTextChange;
 import com.jim.multipos.utils.UIUtils;
 import com.jim.multipos.utils.WarningDialog;
@@ -238,7 +239,7 @@ public class DiscountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             spUsed.setArrowTint(R.color.colorDiscount);
             spTypeAmount.setAdapter(discountAmountType);
             spUsed.setAdapter(discountUsedType);
-
+            etAmmount.addTextChangedListener(new NumberTextWatcher(etAmmount));
             tvActive.setOnClickListener(view -> {
                 if (currentDiscountSortTypes == DiscountAddingPresenterImpl.DiscountSortTypes.Active) {
                     onDiscountCallback.sortList(currentDiscountSortTypes = DiscountAddingPresenterImpl.DiscountSortTypes.Default);
@@ -380,6 +381,7 @@ public class DiscountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     btnSave.enable();
                 }
             });
+            etAmmount.addTextChangedListener(new NumberTextWatcher(etAmmount));
             spTypeAmount.setItemSelectionListenerWithPos((view, position2) -> {
                 if (items.get(getAdapterPosition()).setNewAmmountType(position2)) {
                     if (items.get(getAdapterPosition()).getActualyAmmountType() == Discount.VALUE) {
