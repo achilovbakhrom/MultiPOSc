@@ -55,16 +55,16 @@ public class StockStateFragment extends BaseTableReportFragment implements Stock
         init(presenter);
         disableDateIntervalPicker();
         disableFilter();
-        panelNames = new String[]{"Inventory", "Vendor Inventory", "Expired Products"};
+        panelNames = new String[]{getString(R.string.invenotry), getString(R.string.vendor_inventory), getString(R.string.expired_products)};
         setChoiserPanel(panelNames);
         initDefaults();
         presenter.onCreateView(savedInstanceState);
     }
 
     private void initDefaults() {
-        firstTitles = new String[]{"Product","Available","Unit","Summary Cost (uzs)"};
-        secondTitles = new String[]{"Product", "Vendor","Available","Unit","Summary Cost (uzs)"};
-        thirdTitles = new String[]{"Product", "Created Date","Income Date","Expired Date","Left Date","Count", "Unit"};
+        firstTitles = new String[]{getString(R.string.product),getString(R.string.available),getString(R.string.unit),getString(R.string.summary_cost)};
+        secondTitles = new String[]{getString(R.string.product), getString(R.string.vendor),getString(R.string.available),getString(R.string.unit),getString(R.string.summary_cost)};
+        thirdTitles = new String[]{getString(R.string.product), getString(R.string.created_date_),getString(R.string.income_date),getString(R.string.expired_date),getString(R.string.left_date),getString(R.string.count), getString(R.string.unit)};
 
         firstBuilder = new ReportView.Builder()
                 .setContext(getContext())

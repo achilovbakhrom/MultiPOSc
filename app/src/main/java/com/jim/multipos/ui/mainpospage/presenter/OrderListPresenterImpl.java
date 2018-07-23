@@ -817,7 +817,6 @@ public class OrderListPresenterImpl extends BasePresenterImpl<OrderListView> imp
                         databaseManager.deleteDebt(order.getDebt()).subscribe();
                     }
 
-                    order.setLastChangeLogId(orderChangesLog.getId());
 
                     if (debt != null) {
                         databaseManager.addDebt(debt).blockingGet();

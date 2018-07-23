@@ -62,7 +62,7 @@ public class StockOperationFragment extends BaseTableReportFragment implements S
     @Override
     protected void init(Bundle savedInstanceState) {
         init(presenter);
-        panelNames = new String[]{"Operation Summary", "Outcome logs", "Income logs", "Stock positions", "Outcome details"};
+        panelNames = new String[]{getString(R.string.operation_summary), getString(R.string.outcome_logs), getString(R.string.income_logs), getString(R.string.stock_positions), getString(R.string.outcome_details)};
         setChoiserPanel(panelNames);
         initDefaults();
         presenter.onCreateView(savedInstanceState);
@@ -102,11 +102,11 @@ public class StockOperationFragment extends BaseTableReportFragment implements S
                 }
         };
 
-        firstTitles = new String[]{"Product", "Sales", "Recieve from Vendor", "Return to Vendor", "Return from customer", "Surplus", "Waste", "Unit"};
-        secondTitles = new String[]{"Product", "Outcome For", "Order Id", "Getting type", "Outcome date", "Sum count", "Sum cost", "Reason"};
-        thirdTitles = new String[]{"Product", "Vendor", "Income type", "Invoice id", "Income Date", "Count", "Sum cost", "Reason"};
-        forthTitles = new String[]{"Stock Position id", "Product", "Vendor", "Income type", "Invoice Id", "Income Date", "Income Cost", "Income Count", "Available", "Stock Keeping id"};
-        fifthTitles = new String[]{"Stock Position id", "Product", "Outcome for", "Order Id", "Date", "Count", "Cost", "Stocking keeping type"};
+        firstTitles = new String[]{getString(R.string.product), getString(R.string.sales), getString(R.string.recive_from_vendor), getString(R.string.return_to_vendor_), getString(R.string.return_from_customer_), getString(R.string.surplus_), getString(R.string.waste_), getString(R.string.unit)};
+        secondTitles = new String[]{getString(R.string.product), getString(R.string.outcome_for), getString(R.string.order_id), getString(R.string.getting_type), getString(R.string.outcome_date), getString(R.string.sum_count), getString(R.string.sum_costs), getString(R.string.reason)};
+        thirdTitles = new String[]{getString(R.string.product), getString(R.string.vendor), getString(R.string.income_type), getString(R.string.invoice_id), getString(R.string.income_date), getString(R.string.count),  getString(R.string.sum_costs), getString(R.string.reason)};
+        forthTitles = new String[]{getString(R.string.stock_position_id), getString(R.string.product), getString(R.string.vendor), getString(R.string.income_type), getString(R.string.invoice_id), getString(R.string.income_date), getString(R.string.income_cost), getString(R.string.income_count), getString(R.string.available), getString(R.string.stock_position_id)};
+        fifthTitles = new String[]{getString(R.string.stock_position_id), getString(R.string.product), getString(R.string.outcome_for), getString(R.string.order_id), getString(R.string.date), getString(R.string.count), getString(R.string.cost), getString(R.string.stock_keeping_type)};
 
 
         ReportView.Builder firstBuilder = new ReportView.Builder()

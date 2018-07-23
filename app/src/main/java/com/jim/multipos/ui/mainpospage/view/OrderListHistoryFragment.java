@@ -271,7 +271,7 @@ public class OrderListHistoryFragment extends BaseFragment implements OrderListH
             AccessToCancelDialog accessToCancelDialog = new AccessToCancelDialog(getContext(), new AccessToCancelDialog.OnAccsessListner() {
                 @Override
                 public void accsessSuccess(String reason) {
-                    ((MainPosPageActivity) getActivity()).onCancelOrder(reason);
+                    ((MainPosPageActivity) getActivity()).onCancelOrder(reason); //TODO !!!!!!!!!!
                 }
 
                 @Override

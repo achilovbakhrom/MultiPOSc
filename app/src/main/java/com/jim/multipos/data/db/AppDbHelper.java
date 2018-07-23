@@ -1822,23 +1822,17 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Single<Long> deleteOrderProductsOnHold(List<OrderProduct> orderProducts) {
         return Single.create(e -> {
-            //TODO IT CAN BE OPTIMIZED IF YOU WANT IT
-            List<DetialCount> detialCounts = new ArrayList<>();
-                for (OrderProduct orderProduct:orderProducts){
-                    detialCounts.addAll(orderProduct.getOutcomeProduct().getDetialCount());
-                    mDaoSession.getOutcomeProductDao().delete(orderProduct.getOutcomeProduct());
-                }
-            mDaoSession.getOrderProductDao().detachAll();
-            for(DetialCount detialCount: detialCounts) {
-                detialCount.getStockQueue().setAvailable(detialCount.getStockQueue().getAvailable() + detialCount.getCount());
-                mDaoSession.getStockQueueDao().insertOrReplace(detialCount.getStockQueue());
-                mDaoSession.getDetialCountDao().delete(detialCount);
-            }
+             for (OrderProduct orderProduct:orderProducts){
+                 for(DetialCount detialCount: orderProduct.getOutcomeProduct().getDetialCount()) {
+                     detialCount.getStockQueue().setAvailable(detialCount.getStockQueue().getAvailable() + detialCount.getCount());
+                     mDaoSession.getStockQueueDao().insertOrReplace(detialCount.getStockQueue());
+                     mDaoSession.getDetialCountDao().delete(detialCount);
+                 }
+                 mDaoSession.getOutcomeProductDao().delete(orderProduct.getOutcomeProduct());
+                 mDaoSession.getOrderProductDao().delete(orderProduct);
+                 mDaoSession.getOrderProductDao().detach(orderProduct);
+             }
             mDaoSession.getStockQueueDao().detachAll();
-            for (OrderProduct orderProduct:orderProducts) {
-                    mDaoSession.getOrderProductDao().delete(orderProduct);
-            }
-            mDaoSession.getOrderProductDao().detachAll();
             e.onSuccess(1l);
         });
     }
@@ -2295,18 +2289,18 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Single<Integer> cancelOutcomeProductWhenOrderProductCanceled(List<OrderProduct> orderProducts) {
         return Single.create(e -> {
-            List<DetialCount> detialCounts = new ArrayList<>();
             for (OrderProduct orderProduct:orderProducts){
-                detialCounts.addAll(orderProduct.getOutcomeProduct().getDetialCount());
+                for(DetialCount detialCount: orderProduct.getOutcomeProduct().getDetialCount()) {
+                    detialCount.getStockQueue().setAvailable(detialCount.getStockQueue().getAvailable() + detialCount.getCount());
+                    mDaoSession.getStockQueueDao().insertOrReplace(detialCount.getStockQueue());
+                    mDaoSession.getDetialCountDao().delete(detialCount);
+                }
+                orderProduct.getOutcomeProduct().resetDetialCount();
                 mDaoSession.getOutcomeProductDao().delete(orderProduct.getOutcomeProduct());
                 orderProduct.setOutcomeProductId(null);
+                orderProduct.setOutcomeProduct(null);
                 mDaoSession.getOrderProductDao().insertOrReplace(orderProduct);
-            }
-            mDaoSession.getOrderProductDao().detachAll();
-            for(DetialCount detialCount: detialCounts) {
-                detialCount.getStockQueue().setAvailable(detialCount.getStockQueue().getAvailable() + detialCount.getCount());
-                mDaoSession.getStockQueueDao().insertOrReplace(detialCount.getStockQueue());
-                mDaoSession.getDetialCountDao().delete(detialCount);
+                mDaoSession.getOrderProductDao().detach(orderProduct);
             }
             mDaoSession.getStockQueueDao().detachAll();
             e.onSuccess(1);
@@ -3071,7 +3065,7 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Single<List<StockQueue>> getStockQueueUsedForPeriod(Calendar fromDate, Calendar toDate) {
         return Single.create(e -> {
-            e.onSuccess(mDaoSession.getStockQueueDao().queryBuilder().where(StockQueueDao.Properties.IncomeProductDate.ge(fromDate.getTimeInMillis()),
+                e.onSuccess(mDaoSession.getStockQueueDao().queryBuilder().where(StockQueueDao.Properties.IncomeProductDate.ge(fromDate.getTimeInMillis()),
                     StockQueueDao.Properties.IncomeProductDate.le(toDate.getTimeInMillis()),StockQueueDao.Properties.Available.notEq(StockQueueDao.Properties.IncomeCount)).build().list());
         });
     }
