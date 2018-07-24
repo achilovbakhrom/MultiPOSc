@@ -263,20 +263,6 @@ public class StockOperationPresenterImpl extends BasePresenterImpl<StockOperatio
 
                         fifthObjects[counter][0] = stockQueuesForDetial.get(i).getId();
                         fifthObjects[counter][1] = ReportUtils.getProductName(stockQueuesForDetial.get(i).getProduct());
-                        //TODO OUTCOME NOT HAVE BUT DETIALS HAVE
-                        /**java.lang.NullPointerException: Attempt to invoke virtual method 'int com.jim.multipos.data.db.model.inventory.OutcomeProduct.getOutcomeType()' on a null object reference
-                         at com.jim.multipos.ui.reports.stock_operations.StockOperationPresenterImpl.initReportTable(StockOperationPresenterImpl.java:266)
-                         at com.jim.multipos.ui.reports.stock_operations.StockOperationPresenterImpl.updateTable(StockOperationPresenterImpl.java:1426)
-                         at com.jim.multipos.ui.reports.stock_operations.StockOperationPresenterImpl.onChoisedPanel(StockOperationPresenterImpl.java:1005)
-                         at com.jim.multipos.core.BaseTableReportFragment.lambda$null$28$BaseTableReportFragment(BaseTableReportFragment.java:305)
-                         at com.jim.multipos.core.BaseTableReportFragment$$Lambda$19.run(Unknown Source)
-                         at android.os.Handler.handleCallback(Handler.java:761)
-                         at android.os.Handler.dispatchMessage(Handler.java:98)
-                         at android.os.Looper.loop(Looper.java:156)
-                         at android.app.ActivityThread.main(ActivityThread.java:6623)
-                         at java.lang.reflect.Method.invoke(Native Method)
-                         at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:942)
-                         at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:832)*/
                         fifthObjects[counter][2] = stockQueuesForDetial.get(i).getDetialCounts().get(j).getOutcomeProduct().getOutcomeType();
                         if (stockQueuesForDetial.get(i).getDetialCounts().get(j).getOutcomeProduct().getOutcomeType() == OutcomeProduct.ORDER_SALES)
                             fifthObjects[counter][3] = stockQueuesForDetial.get(i).getDetialCounts().get(j).getOutcomeProduct().getOrderProduct().getOrderId();

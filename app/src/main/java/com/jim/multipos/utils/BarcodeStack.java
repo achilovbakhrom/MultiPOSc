@@ -1,12 +1,16 @@
 package com.jim.multipos.utils;
 
-import android.util.Log;
-
 import com.jim.multipos.utils.usb_barcode.BarcodeReadEvent;
 
 import java.util.Stack;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
+
+/** Created by developer
+ *  ------------------
+ *  This class responsible for work Barcode scanner Input sending to Fragments which inject it
+ *  It works as Stack, Last listener will gets BarcodeReadEvent
+ * */
 
 public class BarcodeStack {
 
@@ -19,12 +23,10 @@ public class BarcodeStack {
         init();
     }
 
+
     public void init() {
         rxBus.toObservable().observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
             if (o instanceof BarcodeReadEvent) {
-                Log.wtf(TAG, "USBService onUSBDataReceive rxBus listner is EMPTY?: " + stackListners.size());
-                Log.wtf(TAG, "USBService onUSBDataReceive rxBus: " + ((BarcodeReadEvent) o).getBarcode());
-
                 if (!stackListners.empty()) {
                     stackListners.lastElement().barcodeScaned(((BarcodeReadEvent) o).getBarcode());
                 }

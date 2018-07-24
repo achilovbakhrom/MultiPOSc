@@ -22,9 +22,17 @@ import java.util.List;
 
 /**
  * Created by developer on 27.12.2017.
+ * --------------
+ * This class is connector for some fragments which located in main page
+ * Оf course we could do it through a rxBus or EventBus, but the code would be terribly incomprehensible
+ * This method work perfectly for this case
+ * All fragments Inject this class and sends their views
+ * For review you just travel in code with hot keys "ctrl+alt+b"
+ * --------------
  */
 
 public class MainPageConnection {
+
     private OrderListView orderListView;
     private ProductInfoView productInfoView;
     private ProductPickerView productPickerView;
@@ -32,6 +40,7 @@ public class MainPageConnection {
     private OrderListHistoryView orderListHistoryView;
     private ProductFolderView productFolderView;
     private Context context;
+
     public MainPageConnection(Context context){
         this.context = context;
     }
@@ -56,11 +65,7 @@ public class MainPageConnection {
             paymentView.sendDataToPaymentFragmentWhenEdit(order,payedPartitions,debt);
         }
     }
-//    public void openEditFragment(String reason, Order order){
-//        if(orderListView!=null){
-//            orderListView.onEditOrder(reason,order);
-//        }
-//    }
+
 
     public void onNewOrderPaymentFragment(){
         if(paymentView!=null){

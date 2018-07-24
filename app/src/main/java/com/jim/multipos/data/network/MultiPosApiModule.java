@@ -1,7 +1,5 @@
 package com.jim.multipos.data.network;
 
-import android.app.Application;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -11,12 +9,12 @@ import com.jim.multipos.data.network.oauth2.TokenAuthenticator;
 import com.jim.multipos.data.network.oauth2.TokenInterceptor;
 import com.jim.multipos.data.prefs.PreferencesHelper;
 
-import java.security.KeyStore;
 import java.util.concurrent.TimeUnit;
+
 import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
-import dagger.android.ContributesAndroidInjector;
 import okhttp3.Dispatcher;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;

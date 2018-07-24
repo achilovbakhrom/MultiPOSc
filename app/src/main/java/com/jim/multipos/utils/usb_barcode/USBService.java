@@ -32,6 +32,11 @@ import dagger.android.AndroidInjection;
 import static com.jim.multipos.utils.usb_barcode.UsbEventReceiverActivity.CUSTOM_ACTION_USB_DEVICE_ATTACHED;
 
 
+/** Created by developer
+ *  ------------------
+ *  This is main Barcode reader class
+ *  In this class firstly create connection with USB device after start listening
+ */
 public class USBService extends Service {
 
     @Inject
@@ -76,25 +81,12 @@ public class USBService extends Service {
             String action = intent.getAction();
             device = (UsbDevice) intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
 
-//            if (Consts.ACTION_USB_PERMISSION.equals(action)) {
-//                Log.wtf(TAG, "USBService onReceive: "+"ACTION_USB_PERMISSION");
-//                if(deviceChecker(device))
-//                    setDevice(intent);
-//            }
-
             if(CUSTOM_ACTION_USB_DEVICE_ATTACHED.equals(action)){
                 if(mUsbManager.hasPermission(device))
                     rxBus.send(new UsbConnectedWithPermissionEvent());
                 if(deviceChecker(device))
                     setDevice(device);
             }
-
-//            //BARCODE INSERTED
-//            if (UsbManager.ACTION_USB_DEVICE_ATTACHED.equals(action)) {
-//                if(deviceChecker(device))
-//                    setDevice(device);
-//                rxBus.send(new DeviceAttachEvent(device.getProductName()==null?"":device.getProductName()));
-//            }
 
             //BARCODE DISCONNECT
             if (UsbManager.ACTION_USB_DEVICE_DETACHED.equals(action)) {
@@ -207,7 +199,7 @@ public class USBService extends Service {
     public static String fromKeyCode(byte modifier, byte code){
         switch (code){
             case 0x04:
-                return (modifier==2||modifier==32)?"A":"OnItemClickListener";
+                return (modifier==2||modifier==32)?"A":"a";
             case 0x05:
                 return (modifier==2||modifier==32)?"B":"b";
             case 0x06:
@@ -313,6 +305,12 @@ public class USBService extends Service {
 
         }
     }
+
+    /**
+     * Method for checking usb device from white list
+     * @param usbDevice usb device which should check
+     * @return is supported barcode scanner device
+     */
     private boolean deviceChecker(UsbDevice usbDevice){
         if(usbDevice==null && usbDevice.getProductName()==null) return false;
         String[] productNames = getResources().getStringArray(R.array.barcode_device_names);

@@ -2985,6 +2985,8 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Single<List<StockQueue>> getStockQueueForPeriod(Calendar fromDate, Calendar toDate) {
         return Single.create(e -> {
+            mDaoSession.getDetialCountDao().detachAll();
+            mDaoSession.getStockQueueDao().detachAll();
             e.onSuccess(mDaoSession.getStockQueueDao().queryBuilder().where(StockQueueDao.Properties.IncomeProductDate.ge(fromDate.getTimeInMillis()),
                     StockQueueDao.Properties.IncomeProductDate.le(toDate.getTimeInMillis())).build().list());
         });
@@ -2993,6 +2995,8 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Single<List<StockQueue>> getStockQueueUsedForPeriod(Calendar fromDate, Calendar toDate) {
         return Single.create(e -> {
+            mDaoSession.getDetialCountDao().detachAll();
+            mDaoSession.getStockQueueDao().detachAll();
             e.onSuccess(mDaoSession.getStockQueueDao().queryBuilder().where(StockQueueDao.Properties.IncomeProductDate.ge(fromDate.getTimeInMillis()),
                     StockQueueDao.Properties.IncomeProductDate.le(toDate.getTimeInMillis()), StockQueueDao.Properties.Available.notEq(StockQueueDao.Properties.IncomeCount)).build().list());
         });
