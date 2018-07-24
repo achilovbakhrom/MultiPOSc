@@ -1176,7 +1176,6 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
         return dbHelper.getTillOperationsInterval(fromDate, toDate);
     }
 
-    //TODO --->>>
     @Override
     public Integer checkProductAvailable(Long productId, double summaryCount, Order ifHaveOldOrder) {
         double available = dbHelper.getAvailableCount(productId).blockingGet();
@@ -1364,7 +1363,6 @@ public class DatabaseManager implements ContactOperations, CategoryOperations, P
         return dbHelper.getStockQueueById(stockQueueId);
     }
 
-    //TODO <<---
     @Override
     public Single<Invoice> insertInvoiceWithBillingAndIncomeProduct(Invoice invoice, List<IncomeProduct> incomeProductList, List<StockQueue> stockQueueList, List<BillingOperations> billingOperationsList) {
         return dbHelper.insertInvoiceWithBillingAndIncomeProduct(invoice, incomeProductList, stockQueueList, billingOperationsList);
