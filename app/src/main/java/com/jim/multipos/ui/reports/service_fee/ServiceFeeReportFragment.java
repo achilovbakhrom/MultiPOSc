@@ -33,6 +33,8 @@ public class ServiceFeeReportFragment extends BaseTableReportFragment implements
 
     @Inject
     ServiceFeeReportPresenter presenter;
+    @Inject
+    DatabaseManager databaseManager;
     private ReportView.Builder itemBuilder, orderBuilder, logBuilder;
     private ReportView itemReportView, orderReportView, logReportView;
     private String[] panelNames;
@@ -270,7 +272,7 @@ public class ServiceFeeReportFragment extends BaseTableReportFragment implements
 
     @Override
     public void onOrderPressed(Order order) {
-        OrderDetialsDialog orderDetialsDialog = new OrderDetialsDialog(getContext(), order);
+        OrderDetialsDialog orderDetialsDialog = new OrderDetialsDialog(getContext(), order, databaseManager);
         orderDetialsDialog.show();
     }
 

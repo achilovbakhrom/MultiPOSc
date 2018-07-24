@@ -115,11 +115,16 @@ public class TillDetailsDialog extends Dialog {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         name = context.getString(R.string.details_of_till) + till.getId();
         tvTillId.setText(name);
-        if (till.getOpenDate() != null)
+        String openDate = "", closeDate = "";
+        if (till.getOpenDate() != null) {
             tvFromDate.setText(simpleDateFormat.format(new Date(till.getOpenDate())));
-        if (till.getCloseDate() != null)
+            openDate = simpleDateFormat.format(new Date(till.getOpenDate()));
+        }
+        if (till.getCloseDate() != null) {
+            closeDate = simpleDateFormat.format(new Date(till.getCloseDate()));
             tvToDate.setText(simpleDateFormat.format(new Date(till.getCloseDate())));
-        date = simpleDateFormat.format(new Date(till.getOpenDate())) + " - " + simpleDateFormat.format(new Date(till.getCloseDate()));
+        }
+        date = openDate + " - " + closeDate;
         createAccountPanel();
 
         for (int i = 0; i < llAccountContainer.getChildCount(); i++) {

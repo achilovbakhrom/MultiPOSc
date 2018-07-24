@@ -54,21 +54,19 @@ public class CloseTillFirstStepPresenterImpl extends BasePresenterImpl<CloseTill
         orderChangesLog.setReason(reason);
         orderChangesLog.setChangedCauseType(OrderChangesLog.HAND_AT_CLOSE_TILL);
         orderChangesLog.setOrderId(order.getId());
-        databaseManager.insertOrderChangeLog(orderChangesLog).blockingGet();
-        order.setLastChangeLogId(orderChangesLog.getId());
-
-        databaseManager.cancelOutcomeProductWhenOrderProductCanceled(order.getOrderProducts()).blockingGet();
-
+        databaseManager.insertOrderChangeLog(orderChangesLog).subscribe(aLong -> order.setLastChangeLogId(orderChangesLog.getId()));
+        databaseManager.cancelOutcomeProductWhenOrderProductCanceled(order.getOrderProducts()).subscribe();
         if (order.getDebt() != null) {
             order.getDebt().setIsDeleted(true);
             databaseManager.addDebt(order.getDebt());
         }
+        databaseManager.insertOrder(order).subscribe(order1 -> {
+            orderList.remove(position);
+            view.updateOrderList();
+            view.sendEvent(GlobalEventConstants.CANCEL, order);
+            view.sendInventoryStateChangeEvent(GlobalEventConstants.UPDATE);
+        });
 
-        databaseManager.insertOrder(order).blockingGet();
-        orderList.remove(position);
-        view.updateOrderList();
-        view.sendEvent(GlobalEventConstants.CANCEL, order);
-        view.sendInventoryStateChangeEvent(GlobalEventConstants.UPDATE);
     }
 
     @Override
@@ -81,17 +79,17 @@ public class CloseTillFirstStepPresenterImpl extends BasePresenterImpl<CloseTill
         orderChangesLog.setReason("");
         orderChangesLog.setChangedCauseType(OrderChangesLog.PAYED);
         orderChangesLog.setOrderId(order.getId());
-        databaseManager.insertOrderChangeLog(orderChangesLog).blockingGet();
-        order.setLastChangeLogId(orderChangesLog.getId());
+        databaseManager.insertOrderChangeLog(orderChangesLog).subscribe(aLong -> order.setLastChangeLogId(orderChangesLog.getId()));
         double totalPayedSum = 0;
         order.resetPayedPartitions();
         for (int i = 0; i < order.getPayedPartitions().size(); i++) {
             totalPayedSum += order.getPayedPartitions().get(i).getValue();
         }
         order.setTotalPayed(totalPayedSum);
-        databaseManager.insertOrder(order).blockingGet();
-        orderList.remove(position);
-        view.updateOrderList();
-        view.sendEvent(GlobalEventConstants.CLOSE, order);
+        databaseManager.insertOrder(order).subscribe(order1 -> {
+            orderList.remove(position);
+            view.updateOrderList();
+            view.sendEvent(GlobalEventConstants.CLOSE, order);
+        });
     }
 }

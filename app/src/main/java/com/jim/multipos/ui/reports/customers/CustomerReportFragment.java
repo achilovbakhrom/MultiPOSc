@@ -11,6 +11,7 @@ import com.jim.mpviews.ReportView;
 import com.jim.mpviews.utils.ReportViewConstants;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseTableReportFragment;
+import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.ui.reports.customers.dialogs.CustomerPaymentFilterDialog;
 import com.jim.multipos.ui.reports.customers.dialogs.CustomerSummaryFilterDialog;
@@ -31,6 +32,8 @@ public class CustomerReportFragment extends BaseTableReportFragment implements C
     CustomerReportPresenter presenter;
     @Inject
     RxBus rxBus;
+    @Inject
+    DatabaseManager databaseManager;
     private ReportView.Builder firstBuilder, secondBuilder, thirdBuilder;
     private ReportView firstView, secondView, thirdView;
     private int firstDataType[] = {ReportViewConstants.ID, ReportViewConstants.NAME, ReportViewConstants.QUANTITY, ReportViewConstants.QUANTITY, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT};
@@ -263,7 +266,7 @@ public class CustomerReportFragment extends BaseTableReportFragment implements C
 
     @Override
     public void onOrderPressed(Order order) {
-        OrderDetialsDialog orderDetialsDialog = new OrderDetialsDialog(getContext(), order);
+        OrderDetialsDialog orderDetialsDialog = new OrderDetialsDialog(getContext(), order, databaseManager);
         orderDetialsDialog.show();
     }
 

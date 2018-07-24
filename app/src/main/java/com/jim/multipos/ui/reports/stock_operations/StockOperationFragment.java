@@ -33,7 +33,8 @@ import static com.jim.multipos.utils.ExportUtils.EXCEL;
 public class StockOperationFragment extends BaseTableReportFragment implements StockOperationView {
     @Inject
     StockOperationPresenter presenter;
-
+    @Inject
+    DatabaseManager databaseManager;
     private ReportView firstView, secondView, thirdView, forthView, fifthView;
     private int firstDataType[] = {ReportViewConstants.NAME, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.NAME};
     private int firstWeights[] = {15, 10, 10, 10, 10, 10, 10, 10, 7};
@@ -288,7 +289,7 @@ public class StockOperationFragment extends BaseTableReportFragment implements S
 
     @Override
     public void onOrderPressed(Order order) {
-        OrderDetialsDialog orderDetialsDialog = new OrderDetialsDialog(getContext(), order);
+        OrderDetialsDialog orderDetialsDialog = new OrderDetialsDialog(getContext(), order, databaseManager);
         orderDetialsDialog.show();
     }
     @Override

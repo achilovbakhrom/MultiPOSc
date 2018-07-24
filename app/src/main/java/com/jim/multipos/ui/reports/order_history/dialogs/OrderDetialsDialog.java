@@ -21,6 +21,7 @@ import com.jim.mpviews.utils.ReportViewConstants;
 import com.jim.mpviews.utils.Utils;
 import com.jim.multipos.R;
 import com.jim.multipos.config.common.BaseAppModule;
+import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.Account;
 import com.jim.multipos.data.db.model.Discount;
 import com.jim.multipos.data.db.model.order.Order;
@@ -101,23 +102,25 @@ public class OrderDetialsDialog extends Dialog {
     /**
      * Lifecycle Table Config
      */
-    private int lifecycleDataType[] = {ReportViewConstants.DATE, ReportViewConstants.STATUS, ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.ID};
+    private int lifecycleDataType[] = {ReportViewConstants.DATE, ReportViewConstants.STATUS, ReportViewConstants.NAME, ReportViewConstants.NAME, ReportViewConstants.ACTION};
     private String lifecycleTitles[];
     private Object[][][] lifecycleStatusTypes;
     private int lifecycleWeights[] = {10, 10, 10, 10, 10};
     private int lifecycleAligns[] = {Gravity.LEFT, Gravity.CENTER, Gravity.CENTER, Gravity.LEFT, Gravity.CENTER};
     private Context context;
     private Order order;
+    private DatabaseManager databaseManager;
     private Object[][] details, payments, lifecycle;
     private String[] orderDetails, paymentDetails;
     private double[] orderValues, paymentValues;
     private String date, orderId, customer = "";
     private DecimalFormat decimalFormat;
 
-    public OrderDetialsDialog(@NonNull Context context, Order order) {
+    public OrderDetialsDialog(@NonNull Context context, Order order, DatabaseManager databaseManager) {
         super(context);
         this.context = context;
         this.order = order;
+        this.databaseManager = databaseManager;
         decimalFormat = BaseAppModule.getFormatterGroupingPattern("#,###.##");
 
         View dialogView = getLayoutInflater().inflate(R.layout.order_details_dialog, null);
@@ -406,9 +409,6 @@ public class OrderDetialsDialog extends Dialog {
                 .setDataAlignTypes(paymentsAligns)
                 .setDefaultSort(0)
                 .setViewMaxHeight(250)
-                .setOnReportViewResponseListener((relivantObjects, row, column) -> {
-                    //TODO OPEN DEBT ID
-                })
                 .build();
         payments = objects;
         ReportView reportView = new ReportView(builder);
@@ -483,7 +483,13 @@ public class OrderDetialsDialog extends Dialog {
                 .setStatusTypes(lifecycleStatusTypes)
                 .setViewMaxHeight(250)
                 .setOnReportViewResponseListener((relivantObjects, row, column) -> {
-                    //TODO OPEN RELATION ORDER DIALOG
+                     if (relivantObjects[row][4] instanceof Long){
+                        Long id = (Long) relivantObjects[row][4];
+                        Order relavantOrder = databaseManager.getOrder(id).blockingGet();
+                        OrderDetialsDialog dialog = new OrderDetialsDialog(context, relavantOrder, databaseManager);
+                        dialog.show();
+                        dismiss();
+                     }
                 })
                 .build();
         lifecycle = objects;

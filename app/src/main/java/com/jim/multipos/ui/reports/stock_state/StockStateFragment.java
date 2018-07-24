@@ -86,8 +86,8 @@ public class StockStateFragment extends BaseTableReportFragment implements Stock
                 .setContext(getContext())
                 .setTitles(thirdTitles)
                 .setDataTypes(thirdDataType)
-                .setDefaultSort(3) // EXPIRED DATE
-                //TODO default sort by ASC DESC ->
+//                .setDefaultSort(3)
+                .setDefaultSortAsc(3) // EXPIRED DATE
                 .setWeight(thirdWeights)
                 .setDataAlignTypes(thirdAligns)
                 .build();

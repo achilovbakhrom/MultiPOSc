@@ -13,7 +13,6 @@ import com.jim.multipos.ui.reports.customers.CustomerReportFragment;
 import com.jim.multipos.ui.reports.debts.DebtsReportFragment;
 import com.jim.multipos.ui.reports.discount.DiscountReportFragment;
 import com.jim.multipos.ui.reports.hourly_sales.HourlySalesReportFragment;
-import com.jim.multipos.ui.reports.inventory.InventoryReportFragment;
 import com.jim.multipos.ui.reports.order_history.OrderHistoryFragment;
 import com.jim.multipos.ui.reports.payments.PaymentsReportFragment;
 import com.jim.multipos.ui.reports.product_profit.ProductProfitFragment;
@@ -40,7 +39,7 @@ public abstract class ReportSingleActivity extends BaseActivity {
     RecyclerView tvReportsPicker;
     ReportPickerAdapter reportPickerAdapter;
     List<String> reportNames;
-    String[] reportsFragmentsTags = {VendorReportFragment.class.getName(), InventoryReportFragment.class.getName(), SummaryReportFragment.class.getName(), TillsReportFragment.class.getName(), OrderHistoryFragment.class.getName(), DiscountReportFragment.class.getName(), ServiceFeeReportFragment.class.getName(), HourlySalesReportFragment.class.getName(),
+    String[] reportsFragmentsTags = {VendorReportFragment.class.getName(), SummaryReportFragment.class.getName(), TillsReportFragment.class.getName(), OrderHistoryFragment.class.getName(), DiscountReportFragment.class.getName(), ServiceFeeReportFragment.class.getName(), HourlySalesReportFragment.class.getName(),
             DebtsReportFragment.class.getName(), PaymentsReportFragment.class.getName(), ProductProfitFragment.class.getName(), CustomerReportFragment.class.getName(), StockOperationFragment.class.getName(), StockStateFragment.class.getName()};
 
     @Override
@@ -291,8 +290,6 @@ public abstract class ReportSingleActivity extends BaseActivity {
         if (fragment != null) {
             if (fragment instanceof CustomerReportFragment && fragment.isVisible() && fragment.isAdded()) {
                 ((CustomerReportFragment) fragment).onBarcodeScaned(barcode);
-            } else if (fragment instanceof InventoryReportFragment && fragment.isVisible() && fragment.isAdded()) {
-                ((InventoryReportFragment) fragment).onBarcodeScaned(barcode);
             } else if (fragment instanceof ProductProfitFragment && fragment.isVisible() && fragment.isAdded()) {
                 ((ProductProfitFragment) fragment).onBarcodeScaned(barcode);
             } else if (fragment instanceof VendorReportFragment && fragment.isVisible() && fragment.isAdded()) {

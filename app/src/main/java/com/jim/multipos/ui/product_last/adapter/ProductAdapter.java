@@ -32,8 +32,6 @@ public class ProductAdapter extends ClickableBaseAdapter<Product, BaseViewHolder
     @Override
     protected void onItemClicked(BaseViewHolder holder, int position) {
         notifyDataSetChanged();
-        //TODO while nothing
-
     }
 
     public List<Product> getItems() {

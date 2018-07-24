@@ -11,6 +11,7 @@ import com.jim.mpviews.ReportView;
 import com.jim.mpviews.utils.ReportViewConstants;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseTableReportFragment;
+import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.ui.reports.debts.dialogs.DebtFilterDialog;
 import com.jim.multipos.ui.reports.order_history.dialogs.OrderDetialsDialog;
@@ -27,6 +28,8 @@ public class DebtsReportFragment extends BaseTableReportFragment implements Debt
 
     @Inject
     DebtsReportPresenter presenter;
+    @Inject
+    DatabaseManager databaseManager;
     private ReportView firstView, secondView, thirdView, forthView, fifthView;
     private int firstDataType[] = {ReportViewConstants.NAME, ReportViewConstants.AMOUNT, ReportViewConstants.AMOUNT, ReportViewConstants.DATE, ReportViewConstants.NAME};
     private int firstWeights[] = {1, 1, 1, 1, 1};
@@ -327,7 +330,7 @@ public class DebtsReportFragment extends BaseTableReportFragment implements Debt
 
     @Override
     public void onOrderPressed(Order order) {
-        OrderDetialsDialog orderDetialsDialog = new OrderDetialsDialog(getContext(), order);
+        OrderDetialsDialog orderDetialsDialog = new OrderDetialsDialog(getContext(), order, databaseManager);
         orderDetialsDialog.show();
     }
 

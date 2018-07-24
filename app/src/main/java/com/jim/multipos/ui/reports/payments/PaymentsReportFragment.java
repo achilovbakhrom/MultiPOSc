@@ -32,6 +32,8 @@ import static com.jim.multipos.utils.ExportUtils.EXCEL;
 public class PaymentsReportFragment extends BaseTableReportFragment implements PaymentsReportView {
     @Inject
     PaymentsReportPresenter presenter;
+    @Inject
+    DatabaseManager databaseManager;
     private FrameLayout fl;
 
     private ReportView.Builder summaryBuilder, detailsBuilder;
@@ -151,7 +153,7 @@ public class PaymentsReportFragment extends BaseTableReportFragment implements P
 
     @Override
     public void onOrderPressed(Order order) {
-        OrderDetialsDialog orderDetialsDialog = new OrderDetialsDialog(getContext(), order);
+        OrderDetialsDialog orderDetialsDialog = new OrderDetialsDialog(getContext(), order, databaseManager);
         orderDetialsDialog.show();
     }
 

@@ -2,6 +2,7 @@ package com.jim.multipos.ui.reports.order_history;
 
 import android.os.Bundle;
 import android.view.Gravity;
+import android.widget.Toast;
 
 import com.github.angads25.filepicker.model.DialogConfigs;
 import com.github.angads25.filepicker.model.DialogProperties;
@@ -11,9 +12,12 @@ import com.jim.mpviews.ReportView;
 import com.jim.mpviews.utils.ReportViewConstants;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseTableReportFragment;
+import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.order.Order;
+import com.jim.multipos.data.db.model.till.Till;
 import com.jim.multipos.ui.reports.order_history.dialogs.OrderDetialsDialog;
 import com.jim.multipos.ui.reports.order_history.dialogs.OrderHistoryFilterDialog;
+import com.jim.multipos.ui.reports.tills.dialog.TillDetailsDialog;
 import com.jim.multipos.utils.ExportToDialog;
 import com.jim.multipos.utils.ExportUtils;
 
@@ -26,8 +30,8 @@ import static com.jim.multipos.utils.ExportUtils.EXCEL;
 public class OrderHistoryFragment extends BaseTableReportFragment implements OrderHistoryView {
     @Inject
     OrderHistoryPresenter presenter;
-
-
+    @Inject
+    DatabaseManager databaseManager;
     int dataType[] = {ReportViewConstants.ID, ReportViewConstants.ACTION, ReportViewConstants.DATE, ReportViewConstants.NAME, ReportViewConstants.STATUS, ReportViewConstants.NAME, ReportViewConstants.AMOUNT,ReportViewConstants.AMOUNT,ReportViewConstants.ACTION};
     String titles[], description;
     int weights[] = {9, 7, 12, 12, 9, 12, 12,12,10};
@@ -89,7 +93,7 @@ public class OrderHistoryFragment extends BaseTableReportFragment implements Ord
 
     @Override
     public void openOrderDetialsDialog(Order order) {
-        OrderDetialsDialog orderDetialsDialog = new OrderDetialsDialog(getContext(),order);
+        OrderDetialsDialog orderDetialsDialog = new OrderDetialsDialog(getContext(),order, databaseManager);
         orderDetialsDialog.show();
     }
 
@@ -157,6 +161,17 @@ public class OrderHistoryFragment extends BaseTableReportFragment implements Ord
     public void exportTableToPdfToUSB(String fileName, UsbFile path, Object[][] objects, String date, String filter, String searchText) {
         ExportUtils.exportToPdfToUSB(getContext(), path, fileName, description, date, filter, searchText, objects, titles, weights, dataType, null);
 
+    }
+
+    @Override
+    public void openTillDetailsDialog(Till till) {
+        TillDetailsDialog dialog = new TillDetailsDialog(getContext(), databaseManager, till);
+        dialog.show();
+    }
+
+    @Override
+    public void onTillNotClosed() {
+        Toast.makeText(getActivity(), R.string.till_not_closed, Toast.LENGTH_SHORT).show();
     }
 
     private void initDefaults(){

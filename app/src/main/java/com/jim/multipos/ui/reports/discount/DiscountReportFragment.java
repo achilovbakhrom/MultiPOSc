@@ -33,6 +33,8 @@ public class DiscountReportFragment extends BaseTableReportFragment implements D
 
     @Inject
     DiscountReportPresenter presenter;
+    @Inject
+    DatabaseManager databaseManager;
     private ReportView.Builder itemDiscountBuilder, orderDiscountBuilder, discountLogBuilder;
     private ReportView itemDiscountReportView, orderDiscountReportView, discountLogReportView;
     private String[] panelNames;
@@ -141,7 +143,7 @@ public class DiscountReportFragment extends BaseTableReportFragment implements D
 
     @Override
     public void onOrderPressed(Order order) {
-        OrderDetialsDialog orderDetialsDialog = new OrderDetialsDialog(getContext(), order);
+        OrderDetialsDialog orderDetialsDialog = new OrderDetialsDialog(getContext(), order, databaseManager);
         orderDetialsDialog.show();
     }
 

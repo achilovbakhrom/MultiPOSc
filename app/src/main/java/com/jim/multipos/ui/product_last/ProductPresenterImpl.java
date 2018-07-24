@@ -898,8 +898,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             view.showDeleteDialog(new UIUtils.AlertListener() {
                 @Override
                 public void onPositiveButtonClicked() {
-                    //TODO EDITABLE TO STATEABLE
-
                     product.setActive(false);
                     product.setDeleted(true);
                     databaseManager.replaceProduct(product).subscribe(aLong -> {
@@ -940,9 +938,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     view.showDeleteDialog(new UIUtils.AlertListener() {
                         @Override
                         public void onPositiveButtonClicked() {
-                            //TODO EDITABLE TO STATEABLE
-
-//                            subcategory.setIsNotModified(false);
                             subcategory.setActive(false);
                             subcategory.setDeleted(true);
                             databaseManager.replaceCategory(subcategory).subscribe(isDeleted -> {
@@ -975,9 +970,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     view.showDeleteDialog(new UIUtils.AlertListener() {
                         @Override
                         public void onPositiveButtonClicked() {
-                            //TODO EDITABLE TO STATEABLE
-
-//                            category.setIsNotModified(false);
                             category.setActive(false);
                             category.setDeleted(true);
                             databaseManager.replaceCategory(category).subscribe(isDeleted -> {
@@ -1071,8 +1063,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 }
                 product.setDescription(description);
                 databaseManager.addProduct(product).subscribe(aLong -> {
-                    //TODO EDITABLE TO STATEABLE
-                    databaseManager.replaceProduct(product).blockingSingle();
                     view.addToProductList(product);
                     view.sendProductEvent(GlobalEventConstants.ADD, product);
                     openProduct(null);
@@ -1083,7 +1073,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     @Override
                     public void onPositiveButtonClicked() {
                         if (ProductPresenterImpl.this.product != null) {
-                            //TODO EDITABLE TO STATEABLE
                             ProductPresenterImpl.this.product.keepToHistory();
                             ProductPresenterImpl.this.product.setName(name);
                             ProductPresenterImpl.this.product.setActive(isActive);
@@ -1128,9 +1117,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 });
                 break;
         }
-
-        //TODO fill product class
-
     }
 
     @Override

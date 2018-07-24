@@ -13,6 +13,7 @@ import com.jim.mpviews.ReportView;
 import com.jim.mpviews.utils.ReportViewConstants;
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseTableReportFragment;
+import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.order.Order;
 import com.jim.multipos.ui.reports.order_history.dialogs.OrderDetialsDialog;
 import com.jim.multipos.ui.reports.product_profit.dialog.ProductProfitFilterDialog;
@@ -28,6 +29,8 @@ import static com.jim.multipos.utils.ExportUtils.EXCEL;
 public class ProductProfitFragment extends BaseTableReportFragment implements ProductProfitView {
     @Inject
     ProductProfitPresenter presenter;
+    @Inject
+    DatabaseManager databaseManager;
     private FrameLayout fl;
 
     private ReportView.Builder profitSummaryBuilder, profitLogBuilder;
@@ -248,7 +251,7 @@ public class ProductProfitFragment extends BaseTableReportFragment implements Pr
 
     @Override
     public void onOrderPressed(Order order) {
-        OrderDetialsDialog orderDetialsDialog = new OrderDetialsDialog(getContext(), order);
+        OrderDetialsDialog orderDetialsDialog = new OrderDetialsDialog(getContext(), order, databaseManager);
         orderDetialsDialog.show();
     }
 

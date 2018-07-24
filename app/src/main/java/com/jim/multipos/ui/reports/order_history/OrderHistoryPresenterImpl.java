@@ -11,6 +11,7 @@ import com.jim.multipos.R;
 import com.jim.multipos.core.BasePresenterImpl;
 import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.order.Order;
+import com.jim.multipos.data.db.model.till.Till;
 import com.jim.multipos.data.prefs.PreferencesHelper;
 
 import java.text.DecimalFormat;
@@ -276,7 +277,11 @@ public class OrderHistoryPresenterImpl extends BasePresenterImpl<OrderHistoryVie
     public void onActionClicked(Object[][] objects, int row, int column) {
         if(column==1){
             long tillId = (long) objects[row][1];
-            //TODO OPEN TILL DIALOG
+            Till till = databaseManager.getTillById(tillId).blockingGet();
+            if (till.getStatus() == Till.CLOSED)
+                view.openTillDetailsDialog(till);
+            else view.onTillNotClosed();
+
 
         }else if(column == 8){
             long orderId = (long) objects[row][0];
