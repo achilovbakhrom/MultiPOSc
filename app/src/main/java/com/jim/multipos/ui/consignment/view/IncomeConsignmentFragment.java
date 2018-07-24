@@ -54,6 +54,7 @@ import static com.jim.multipos.ui.consignment.ConsignmentActivity.VENDOR_ID;
 
 /**
  * Created by Sirojiddin on 09.11.2017.
+ * This is fragment for creating purchase invoice
  */
 
 public class IncomeConsignmentFragment extends BaseFragment implements IncomeConsignmentView {

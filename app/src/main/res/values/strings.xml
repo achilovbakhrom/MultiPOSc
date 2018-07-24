@@ -1494,4 +1494,5 @@
     <string name="stock_position_id">Stock Position id</string>
     <string name="income_cost">Income Cost</string>
     <string name="income_count">Income Count</string>
+    <string name="no_vendor_error_msg">No vendor has delivered this product</string>
 </resources>

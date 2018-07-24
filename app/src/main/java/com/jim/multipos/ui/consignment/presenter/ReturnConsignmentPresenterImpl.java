@@ -41,6 +41,14 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
         outcomeProducts = new ArrayList<>();
     }
 
+    /**
+     * Initialization of vendor and product data
+     * @param productId - for what product user creates return invoice
+     * @param vendorId - for which vendor user returns products
+     * @param stockQueueId - custom picked stock queue id
+     * User can create return invoice only for active vendors
+     * Generating unique return invoice number
+     */
     @Override
     public void setData(Long productId, Long vendorId, Long stockQueueId) {
         view.setCurrency(databaseManager.getMainCurrency().getAbbr());
@@ -54,9 +62,16 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
                 setReturnItem(databaseManager.getProductById(productId).blockingGet());
         }
         view.setVendorName(this.vendor.getName());
-        view.setConsignmentNumber(databaseManager.getConsignments().blockingSingle().size() + 1);
+        int count = 1;
+        while (databaseManager.isOutvoiceNumberExists(String.valueOf(count)).blockingGet()) {
+            count++;
+        }
+        view.setConsignmentNumber(count);
     }
-
+    /**
+     * Adding custom picked product to return invoice
+     * @param product - return invoice product
+     */
     private void setCustomReturnPick(Product product) {
         OutcomeProduct outcomeProduct = new OutcomeProduct();
         outcomeProduct.setOutcomeType(OutcomeProduct.OUTVOICE_TO_VENDOR);
@@ -70,7 +85,10 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
         view.fillReturnList(outcomeProducts);
         calculateConsignmentSum();
     }
-
+    /**
+     * Adding product to return invoice
+     * @param product - return invoice product
+     */
     @Override
     public void setReturnItem(Product product) {
         OutcomeProduct outcomeProduct = new OutcomeProduct();
@@ -82,12 +100,17 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
         view.fillReturnList(outcomeProducts);
         calculateConsignmentSum();
     }
-
+    /**
+     * Deleting product from invoice
+     * @param position - product position
+     */
     @Override
     public void deleteFromList(int position) {
         outcomeProducts.remove(position);
     }
-
+    /**
+     * Calculating total sum of invoice
+     */
     @Override
     public void calculateConsignmentSum() {
         sum = 0;
@@ -98,13 +121,22 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
         view.setTotalProductsSum(sum);
     }
 
+    /**
+     * Loading products for ProductForIncomeDialog
+     * productList - all product in the database
+     * vendorProducts - all product that have ever been supplied by the vendor
+     */
     @Override
     public void loadVendorProducts() {
-//        List<Product> productList = databaseManager.getAllProducts().blockingSingle();
         List<Product> vendorProducts = databaseManager.getVendorProductsByVendorId(vendor.getId()).blockingGet();
         view.fillDialogItems(null, vendorProducts);
     }
 
+    /**
+     * Saving return invoice into database
+     * @param number - return invoice number
+     * @param description - return invoice extra description
+     */
     @Override
     public void saveReturnConsignment(String number, String description) {
         if (outcomeProducts.isEmpty()) {
@@ -145,7 +177,11 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
             }
         }
     }
-
+    /**
+     * Checking if there was some changes
+     * @param number - invoice number
+     * @param des - invoice extra description
+     */
     @Override
     public void checkChanges(String number, String des) {
         if (!des.equals("")) {
@@ -162,7 +198,10 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
             }
         }
     }
-
+    /**
+     * Finding a product by barcode
+     * @param barcode - scanned barcode
+     */
     @Override
     public void onBarcodeScanned(String barcode) {
         List<Product> productList = databaseManager.getAllProducts().blockingSingle();
@@ -173,6 +212,11 @@ public class ReturnConsignmentPresenterImpl extends BasePresenterImpl<ReturnCons
         }
     }
 
+    /**
+     * Init data for stock positions dialog
+     * @param outcomeProduct - for which product creates dialog
+     * @param position - product position in the list
+     */
     @Override
     public void openCustomStockPositionsDialog(OutcomeProduct outcomeProduct, int position) {
         this.position = position;

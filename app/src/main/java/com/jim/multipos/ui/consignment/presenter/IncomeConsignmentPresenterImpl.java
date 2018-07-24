@@ -18,6 +18,7 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -51,7 +52,13 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
         stockQueueList = new ArrayList<>();
     }
 
-
+    /**
+     * Initialization of vendor and product data
+     * @param productId - for what product user creates invoice
+     * @param vendorId - from which vendor user purchases
+     * User can create invoice only for active vendors
+     * Generating unique invoice number
+     */
     @Override
     public void setData(Long productId, Long vendorId) {
         view.setCurrency(databaseManager.getMainCurrency().getAbbr());
@@ -62,8 +69,11 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
             return;
         }
         view.setVendorName(this.vendor.getName());
-
-        view.setInvoiceNumber(databaseManager.getAllInvoices().blockingGet().size() + 1);
+        int count = 1;
+        while (databaseManager.isInvoiceNumberExists(String.valueOf(count)).blockingGet()) {
+            count++;
+        }
+        view.setInvoiceNumber(count);
         if (productId != null) {
             this.productId = productId;
             this.product = databaseManager.getProductById(productId).blockingGet();
@@ -71,6 +81,11 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
         }
     }
 
+    /**
+     * Adding product to invoice
+     * @param product - invoice product
+     * for each product created a special table StockQueue, which is needed to monitor the state of product
+     */
     @Override
     public void setInvoiceItem(Product product) {
         IncomeProduct incomeProduct = new IncomeProduct();
@@ -97,6 +112,16 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
         calculateInvoiceSum();
     }
 
+    /**
+     * Saving invoice into database
+     * @param number - invoice number
+     * @param description - invoice extra description
+     * @param totalAmount - total amount of invoice
+     * @param paidSum - paid sum for this invoice
+     * @param checked - if payment was with account
+     * @param selectedPosition - selected account position in the account list
+     * The total amount of invoice is recorded in the database as a user's debt to the vendor
+     */
     @Override
     public void saveInvoice(String number, String description, String totalAmount, String paidSum, boolean checked, int selectedPosition) {
         double paid = 0;
@@ -170,12 +195,19 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
 
     }
 
+    /**
+     * Deleting product from invoice
+     * @param position - product position
+     */
     @Override
     public void deleteFromList(int position) {
         incomeProductList.remove(position);
         stockQueueList.remove(position);
     }
 
+    /**
+     * Getting accounts from database
+     */
     @Override
     public void getAccounts() {
         this.accountList = databaseManager.getAccounts();
@@ -188,6 +220,9 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
 
     }
 
+    /**
+     * Calculating total sum of invoice
+     */
     @Override
     public void calculateInvoiceSum() {
         sum = 0;
@@ -199,6 +234,13 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
 
     }
 
+    /**
+     * Checking if there was some changes
+     * @param number - invoice number
+     * @param description - invoice extra description
+     * @param checked - if payment was with account
+     * @param selectedPosition - selected account position in the account list
+     */
     @Override
     public void checkChanges(String number, String description, String totalPaid, boolean checked, int selectedPosition) {
         if (!description.equals("") || !totalPaid.equals("0") || !checked || selectedPosition != 0) {
@@ -216,6 +258,10 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
         }
     }
 
+    /**
+     * Finding a product by barcode
+     * @param barcode - scanned barcode
+     */
     @Override
     public void onBarcodeScanned(String barcode) {
         List<Product> productList = databaseManager.getAllProducts().blockingSingle();
@@ -226,18 +272,29 @@ public class IncomeConsignmentPresenterImpl extends BasePresenterImpl<IncomeCons
         }
     }
 
+    /**
+     * Opening extra information dialog for product
+     */
     @Override
     public void openSettingsDialogForProduct(IncomeProduct incomeProduct, int position) {
         StockQueue stockQueue = stockQueueList.get(position);
         view.openSettingsDialog(incomeProduct, stockQueue, position);
     }
 
+    /**
+     * Setting extra information for product like expire date, creation date, stock id and etc
+     */
     @Override
     public void setConfigsToProduct(IncomeProduct incomeProduct, StockQueue stockQueue, int position) {
         incomeProductList.set(position, incomeProduct);
         stockQueueList.set(position, stockQueue);
     }
 
+    /**
+     * Loading products for ProductForIncomeDialog
+     * productList - all product in the database
+     * vendorProducts - all product that have ever been supplied by the vendor
+     */
     @Override
     public void loadVendorProducts() {
         List<Product> productList = databaseManager.getAllProducts().blockingSingle();

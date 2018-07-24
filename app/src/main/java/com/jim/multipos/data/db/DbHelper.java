@@ -323,8 +323,6 @@ public interface DbHelper {
 
     Single<List<BillingOperations>> getBillingOperationsByInterval(Calendar fromDate, Calendar toDate);
 
-    Observable<Boolean> removeProductFromInventoryState(Long productId);
-
     Currency getMainCurrency();
 
     Single<List<BillingOperations>> getBillingOperationForVendor(Long vendorId);

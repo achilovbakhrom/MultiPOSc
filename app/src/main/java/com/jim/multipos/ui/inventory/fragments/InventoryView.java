@@ -25,4 +25,5 @@ public interface InventoryView extends BaseView {
     void sendInventoryStateEvent(int event);
     void openStockQueueForProduct(Long id);
     void showVendorListEmptyDialog();
+    void noVendorsWarning();
 }

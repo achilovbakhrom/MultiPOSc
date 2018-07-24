@@ -132,6 +132,7 @@ public class AppDbHelper implements DbHelper {
     private Comparator<StockPerfomanceWithProduct> comparatorFIFO;
     private Comparator<StockPerfomanceWithProduct> comparatorLIFO;
     private Comparator<StockPerfomanceWithProduct> comparatorFEFO;
+
     @Inject
     public AppDbHelper(DbOpenHelper dbOpenHelper) {
         mDaoSession = new DaoMaster(dbOpenHelper.getWritableDb()).newSession();
@@ -141,7 +142,6 @@ public class AppDbHelper implements DbHelper {
         comparatorFEFO = (stockQueue, t1) -> stockQueue.getExpiredDate().compareTo(t1.getExpiredDate());
 
     }
-
 
 
     @Override
@@ -887,27 +887,18 @@ public class AppDbHelper implements DbHelper {
     public Observable<List<CustomerGroup>> getCustomerGroups(Customer customer) {
         return Observable.fromCallable(() -> {
             String query = "SELECT * FROM CUSTOMER_GROUP JOIN (SELECT * FROM JOIN_CUSTOMER_GROUPS_WITH_CUSTOMERS WHERE CUSTOMER_ID = ?) AS TEMP ON (CUSTOMER_GROUP._ID = TEMP.CUSTOMER_GROUP_ID)";
-
             Cursor cursor = mDaoSession.getDatabase().rawQuery(query, new String[]{String.valueOf(customer.getId())});
-
             List<CustomerGroup> customerGroups = new ArrayList<>();
-
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-
                 while (!cursor.isAfterLast()) {
                     CustomerGroup customerGroup = new CustomerGroup();
                     customerGroup.setId(Long.parseLong(cursor.getString(cursor.getColumnIndex("CUSTOMER_GROUP_ID"))));
                     customerGroup.setName(cursor.getString(cursor.getColumnIndex("NAME")));
-                    //customerGroup.setServiceFeeId(Long.parseLong(cursor.getString(cursor.getColumnIndex("SERVICE_FEE_ID"))));
-                    //customerGroup.setDiscountId(Long.parseLong(cursor.getString(cursor.getColumnIndex("DISCOUNT_ID"))));
-
                     int iActive = cursor.getInt(cursor.getColumnIndex("IS_ACTIVE"));
                     boolean isActive = iActive != 0;
                     customerGroup.setIsActive(isActive);
-
                     customerGroups.add(customerGroup);
-
                     cursor.moveToNext();
                 }
             }
@@ -1018,10 +1009,6 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Observable<Boolean> removeCategory(Category category) {
         return Observable.fromCallable(() -> {
-//            if (category.getParentId().equals(Category.WITHOUT_PARENT)) {
-//
-//            }
-
             mDaoSession.getCategoryDao().delete(category);
             return true;
         });
@@ -1044,8 +1031,6 @@ public class AppDbHelper implements DbHelper {
         });
 
     }
-
-
 
 
     @Override
@@ -1136,9 +1121,9 @@ public class AppDbHelper implements DbHelper {
                 List<Product> products = new ArrayList<>();
                 if (stockCursor.getCount() > 0) {
                     stockCursor.moveToFirst();
-                    while (!stockCursor.isAfterLast()){
-                    products.add(mDaoSession.getProductDao().load(stockCursor.getLong(stockCursor.getColumnIndex("PRODUCT_ID"))));
-                    stockCursor.moveToNext();
+                    while (!stockCursor.isAfterLast()) {
+                        products.add(mDaoSession.getProductDao().load(stockCursor.getLong(stockCursor.getColumnIndex("PRODUCT_ID"))));
+                        stockCursor.moveToNext();
                     }
                 }
                 item.setProducts(products);
@@ -1160,7 +1145,6 @@ public class AppDbHelper implements DbHelper {
     public Single<List<StockQueue>> getStockQueueByVendorId(Long id) {
         return Single.create(e -> e.onSuccess(mDaoSession.getStockQueueDao().queryBuilder().where(StockQueueDao.Properties.VendorId.eq(id)).build().list()));
     }
-
 
 
     @Override
@@ -1200,7 +1184,6 @@ public class AppDbHelper implements DbHelper {
     }
 
 
-
     @Override
     public Single<BillingOperations> getBillingOperationsById(Long firstPayId) {
         return Single.create(e -> {
@@ -1224,20 +1207,9 @@ public class AppDbHelper implements DbHelper {
     }
 
 
-
     @Override
     public Single<List<BillingOperations>> getBillingOperationInteval(Long vendorId, Calendar fromDate, Calendar toDate) {
         return Single.create(e -> {
-//            fromDate.set(Calendar.HOUR_OF_DAY, 0);
-//            fromDate.set(Calendar.MINUTE, 0);
-//            fromDate.set(Calendar.SECOND, 0);
-//            fromDate.set(Calendar.MILLISECOND, 0);
-//
-//            toDate.set(Calendar.HOUR_OF_DAY, 23);
-//            toDate.set(Calendar.MINUTE, 59);
-//            toDate.set(Calendar.SECOND, 59);
-//            toDate.set(Calendar.MILLISECOND, 9999);
-
             List<BillingOperations> billingOperations = mDaoSession.getBillingOperationsDao().queryBuilder()
                     .where(BillingOperationsDao.Properties.PaymentDate.ge(fromDate.getTimeInMillis()),
                             BillingOperationsDao.Properties.PaymentDate.le(toDate.getTimeInMillis()),
@@ -1251,16 +1223,6 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Single<List<BillingOperations>> getBillingOperationsByInterval(Calendar fromDate, Calendar toDate) {
         return Single.create(e -> {
-//            fromDate.set(Calendar.HOUR_OF_DAY, 0);
-//            fromDate.set(Calendar.MINUTE, 0);
-//            fromDate.set(Calendar.SECOND, 0);
-//            fromDate.set(Calendar.MILLISECOND, 0);
-//
-//            toDate.set(Calendar.HOUR_OF_DAY, 23);
-//            toDate.set(Calendar.MINUTE, 59);
-//            toDate.set(Calendar.SECOND, 59);
-//            toDate.set(Calendar.MILLISECOND, 9999);
-
             List<BillingOperations> billingOperations = mDaoSession.getBillingOperationsDao().queryBuilder()
                     .where(BillingOperationsDao.Properties.PaymentDate.ge(fromDate.getTimeInMillis()),
                             BillingOperationsDao.Properties.PaymentDate.le(toDate.getTimeInMillis()),
@@ -1272,37 +1234,16 @@ public class AppDbHelper implements DbHelper {
     }
 
 
-
     @Override
     public Single<Product> getProductById(Long productId) {
-        return Single.create(e-> e.onSuccess(mDaoSession.getProductDao().load(productId)) );
+        return Single.create(e -> e.onSuccess(mDaoSession.getProductDao().load(productId)));
     }
-
-    @Override
-    public Observable<Boolean> removeProductFromInventoryState(Long productId) {
-        return Observable.fromCallable(() -> {
-//            mDaoSession.queryBuilder(InventoryStateDao.class)
-//                    .where(InventoryStateDao.Properties.ProductId.eq(productId))
-//                    .buildDelete().executeDeleteWithoutDetachingEntities();
-            return true;
-        });
-    }
-
 
     @Override
     public Currency getMainCurrency() {
         return mDaoSession.queryBuilder(Currency.class)
                 .where(CurrencyDao.Properties.IsMain.eq(true))
                 .build().unique();
-//        if(currencies.get(0) == null){
-//            Currency currency = new Currency();
-//            currency.setAbbr("uzs");
-//            currency.setIsMain(true);
-//            currency.setActive(true);
-//            currency.setName("Uzb");
-//            return currency;
-//        }
-//            return currencies.get(0);
     }
 
     @Override
@@ -1320,16 +1261,6 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Single<List<Consignment>> getConsignmentsInInterval(Long vendorId, Calendar fromDate, Calendar toDate) {
         return Single.create(e -> {
-//            fromDate.set(Calendar.HOUR_OF_DAY, 0);
-//            fromDate.set(Calendar.MINUTE, 0);
-//            fromDate.set(Calendar.SECOND, 0);
-//            fromDate.set(Calendar.MILLISECOND, 0);
-//
-//            toDate.set(Calendar.HOUR_OF_DAY, 23);
-//            toDate.set(Calendar.MINUTE, 59);
-//            toDate.set(Calendar.SECOND, 59);
-//            toDate.set(Calendar.MILLISECOND, 9999);
-
             List<Consignment> consignments = mDaoSession.getConsignmentDao().queryBuilder()
                     .where(ConsignmentDao.Properties.CreatedDate.ge(fromDate.getTimeInMillis()),
                             ConsignmentDao.Properties.CreatedDate.le(toDate.getTimeInMillis()),
@@ -1420,16 +1351,6 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Single<List<CustomerPayment>> getCustomerPaymentsByInterval(Calendar fromDate, Calendar toDate) {
         return Single.create(e -> {
-//            fromDate.set(Calendar.HOUR_OF_DAY, 0);
-//            fromDate.set(Calendar.MINUTE, 0);
-//            fromDate.set(Calendar.SECOND, 0);
-//            fromDate.set(Calendar.MILLISECOND, 0);
-//
-//            toDate.set(Calendar.HOUR_OF_DAY, 23);
-//            toDate.set(Calendar.MINUTE, 59);
-//            toDate.set(Calendar.SECOND, 59);
-//            toDate.set(Calendar.MILLISECOND, 9999);
-
             List<CustomerPayment> customerPayments = mDaoSession.getCustomerPaymentDao().queryBuilder()
                     .where(CustomerPaymentDao.Properties.PaymentDate.ge(fromDate.getTimeInMillis()),
                             CustomerPaymentDao.Properties.PaymentDate.le(toDate.getTimeInMillis()))
@@ -1822,18 +1743,18 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Single<Long> deleteOrderProductsOnHold(List<OrderProduct> orderProducts) {
         return Single.create(e -> {
-             for (OrderProduct orderProduct:orderProducts){
-                 for(DetialCount detialCount: orderProduct.getOutcomeProduct().getDetialCount()) {
-                     detialCount.getStockQueue().setAvailable(detialCount.getStockQueue().getAvailable() + detialCount.getCount());
-                     mDaoSession.getStockQueueDao().insertOrReplace(detialCount.getStockQueue());
-                     mDaoSession.getDetialCountDao().delete(detialCount);
-                 }
-                 mDaoSession.getOutcomeProductDao().delete(orderProduct.getOutcomeProduct());
-                 mDaoSession.getOrderProductDao().delete(orderProduct);
-                 mDaoSession.getOrderProductDao().detach(orderProduct);
-             }
+            for (OrderProduct orderProduct : orderProducts) {
+                for (DetialCount detialCount : orderProduct.getOutcomeProduct().getDetialCount()) {
+                    detialCount.getStockQueue().setAvailable(detialCount.getStockQueue().getAvailable() + detialCount.getCount());
+                    mDaoSession.getStockQueueDao().insertOrReplace(detialCount.getStockQueue());
+                    mDaoSession.getDetialCountDao().delete(detialCount);
+                }
+                mDaoSession.getOutcomeProductDao().delete(orderProduct.getOutcomeProduct());
+                mDaoSession.getOrderProductDao().delete(orderProduct);
+                mDaoSession.getOrderProductDao().detach(orderProduct);
+            }
             mDaoSession.getStockQueueDao().detachAll();
-            e.onSuccess(1l);
+            e.onSuccess(1L);
         });
     }
 
@@ -1843,7 +1764,7 @@ public class AppDbHelper implements DbHelper {
             for (PayedPartitions payedPartitions1 : payedPartitions) {
                 mDaoSession.getPayedPartitionsDao().delete(payedPartitions1);
             }
-            e.onSuccess(1l);
+            e.onSuccess(1L);
         });
     }
 
@@ -1856,8 +1777,6 @@ public class AppDbHelper implements DbHelper {
                     .build().list());
         });
     }
-
-
 
 
     @Override
@@ -2001,10 +1920,6 @@ public class AppDbHelper implements DbHelper {
             e.onSuccess(orders);
         });
     }
-
-
-
-
 
 
     @Override
@@ -2197,8 +2112,6 @@ public class AppDbHelper implements DbHelper {
     }
 
 
-
-
     @Override
     public Single<List<Product>> getVendorProductsByVendorId(Long id) {
         return Single.create(e -> {
@@ -2207,7 +2120,7 @@ public class AppDbHelper implements DbHelper {
             List<Product> products = new ArrayList<>();
             if (stockCursor.getCount() > 0) {
                 stockCursor.moveToFirst();
-                while (!stockCursor.isAfterLast()){
+                while (!stockCursor.isAfterLast()) {
                     products.add(mDaoSession.getProductDao().load(stockCursor.getLong(stockCursor.getColumnIndex("PRODUCT_ID"))));
                     stockCursor.moveToNext();
                 }
@@ -2215,13 +2128,14 @@ public class AppDbHelper implements DbHelper {
             e.onSuccess(products);
         });
     }
+
     @Override
     public Single<Double> getLastCostForProduct(Long productId) {
         return Single.create(e -> {
             double cost = 0;
             String query = "SELECT * FROM STOCK_QUEUE WHERE PRODUCT_ID == " + productId;
             Cursor cursor = mDaoSession.getDatabase().rawQuery(query, null);
-            if (cursor.getCount() > 0){
+            if (cursor.getCount() > 0) {
                 cursor.moveToLast();
                 cost = cursor.getLong(cursor.getColumnIndex("COST"));
             }
@@ -2238,7 +2152,7 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public Single<Double> getAvailableCountForProduct(Long id) {
-        return Single.create(e ->{
+        return Single.create(e -> {
                     String query = "SELECT  SUM(AVAILABLE) AS AMOUNT FROM STOCK_QUEUE WHERE AVAILABLE > 0.0009 AND PRODUCT_ID == " + id;
                     Cursor cursor = mDaoSession.getDatabase().rawQuery(query, null);
                     double count = 0;
@@ -2279,8 +2193,8 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Long insetDetialCounts(List<DetialCount> detialCounts) {
         mDaoSession.getDetialCountDao().insertInTx(detialCounts);
-        for(DetialCount detialCount:detialCounts){
-            detialCount.getStockQueue().setAvailable(detialCount.getStockQueue().getAvailable()-detialCount.getCount());
+        for (DetialCount detialCount : detialCounts) {
+            detialCount.getStockQueue().setAvailable(detialCount.getStockQueue().getAvailable() - detialCount.getCount());
             mDaoSession.getStockQueueDao().insertOrReplace(detialCount.getStockQueue());
         }
         return 1l;
@@ -2289,8 +2203,8 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Single<Integer> cancelOutcomeProductWhenOrderProductCanceled(List<OrderProduct> orderProducts) {
         return Single.create(e -> {
-            for (OrderProduct orderProduct:orderProducts){
-                for(DetialCount detialCount: orderProduct.getOutcomeProduct().getDetialCount()) {
+            for (OrderProduct orderProduct : orderProducts) {
+                for (DetialCount detialCount : orderProduct.getOutcomeProduct().getDetialCount()) {
                     detialCount.getStockQueue().setAvailable(detialCount.getStockQueue().getAvailable() + detialCount.getCount());
                     mDaoSession.getStockQueueDao().insertOrReplace(detialCount.getStockQueue());
                     mDaoSession.getDetialCountDao().delete(detialCount);
@@ -2313,46 +2227,49 @@ public class AppDbHelper implements DbHelper {
             //TODO CAN BE OPTIMIZED
             String queryForStock = "SELECT _ID, AVAILABLE, COST, PRODUCT_ID, EXPIRED_PRODUCT_DATE  FROM STOCK_QUEUE WHERE AVAILABLE > 0.0009 AND PRODUCT_ID IN (";
             for (int i = 0; i < outcomeProducts.size(); i++) {
-                queryForStock +=  " " + outcomeProducts.get(i).getProductId() ;
-                if(i+1!=outcomeProducts.size())
+                queryForStock += " " + outcomeProducts.get(i).getProductId();
+                if (i + 1 != outcomeProducts.size())
                     queryForStock += ",";
                 else queryForStock += ")";
             }
             Cursor cursorForStock = mDaoSession.getDatabase().rawQuery(queryForStock, null);
 
-            HashMap<Long,List<StockPerfomanceWithProduct>> stockPerHashMap = new HashMap<>();
+            HashMap<Long, List<StockPerfomanceWithProduct>> stockPerHashMap = new HashMap<>();
             if (cursorForStock.getCount() > 0) {
                 cursorForStock.moveToFirst();
                 while (!cursorForStock.isAfterLast()) {
                     StockPerfomanceWithProduct stockPerfomanceWithProduct = new StockPerfomanceWithProduct(cursorForStock.getLong(0), cursorForStock.getDouble(1), cursorForStock.getDouble(2), cursorForStock.getLong(3), cursorForStock.getLong(4));
-                    if(stockPerHashMap.get(stockPerfomanceWithProduct.getProductId())!=null){
+                    if (stockPerHashMap.get(stockPerfomanceWithProduct.getProductId()) != null) {
                         stockPerHashMap.get(stockPerfomanceWithProduct.getProductId()).add(stockPerfomanceWithProduct);
-                    }else{
+                    } else {
                         ArrayList<StockPerfomanceWithProduct> stockPerfomanceWithProducts = new ArrayList<>();
                         stockPerfomanceWithProducts.add(stockPerfomanceWithProduct);
-                        stockPerHashMap.put(stockPerfomanceWithProduct.getProductId(),stockPerfomanceWithProducts);
+                        stockPerHashMap.put(stockPerfomanceWithProduct.getProductId(), stockPerfomanceWithProducts);
                     }
                     cursorForStock.moveToNext();
                 }
-            }else new Exception("In Stock Not Have Queue? Some think is wrong, because when Outcome registered stock queue was!!!").printStackTrace();
+            } else
+                new Exception("In Stock Not Have Queue? Some think is wrong, because when Outcome registered stock queue was!!!").printStackTrace();
 
-            for(OutcomeProduct outcomeProduct: outcomeProducts){
-                if(outcomeProduct.getProduct().getStockKeepType()==Product.LIFO) Collections.sort(stockPerHashMap.get(outcomeProduct.getProductId()),comparatorLIFO);
-                if(outcomeProduct.getProduct().getStockKeepType()==Product.FEFO) Collections.sort(stockPerHashMap.get(outcomeProduct.getProductId()),comparatorFEFO);
+            for (OutcomeProduct outcomeProduct : outcomeProducts) {
+                if (outcomeProduct.getProduct().getStockKeepType() == Product.LIFO)
+                    Collections.sort(stockPerHashMap.get(outcomeProduct.getProductId()), comparatorLIFO);
+                if (outcomeProduct.getProduct().getStockKeepType() == Product.FEFO)
+                    Collections.sort(stockPerHashMap.get(outcomeProduct.getProductId()), comparatorFEFO);
             }
 
             List<OutcomeWithDetials> outcomeWithDetials = new ArrayList<>();
             for (int i = 0; i < outcomeProducts.size(); i++) {
-                outcomeWithDetials.add(new OutcomeWithDetials(outcomeProducts.get(i),null));
+                outcomeWithDetials.add(new OutcomeWithDetials(outcomeProducts.get(i), null));
             }
 
             //CUSTOM PICK
             for (int i = 0; i < outcomeProducts.size(); i++) {
-                if(outcomeProducts.get(i).getCustomPickSock()){
-                    for (StockPerfomanceWithProduct stockPerfomanceWithProduct:stockPerHashMap.get(outcomeProducts.get(i).getProductId())) {
-                        if(stockPerfomanceWithProduct.getStockId()== outcomeProducts.get(i).getPickedStockQueueId()){
-                            if(stockPerfomanceWithProduct.getAvailable()>=outcomeProducts.get(i).getSumCountValue()){
-                                stockPerfomanceWithProduct.setAvailable(stockPerfomanceWithProduct.getAvailable()-outcomeProducts.get(i).getSumCountValue());
+                if (outcomeProducts.get(i).getCustomPickSock()) {
+                    for (StockPerfomanceWithProduct stockPerfomanceWithProduct : stockPerHashMap.get(outcomeProducts.get(i).getProductId())) {
+                        if (stockPerfomanceWithProduct.getStockId() == outcomeProducts.get(i).getPickedStockQueueId()) {
+                            if (stockPerfomanceWithProduct.getAvailable() >= outcomeProducts.get(i).getSumCountValue()) {
+                                stockPerfomanceWithProduct.setAvailable(stockPerfomanceWithProduct.getAvailable() - outcomeProducts.get(i).getSumCountValue());
                                 DetialCount detialCount = new DetialCount();
                                 detialCount.setStockId(stockPerfomanceWithProduct.getStockId());
                                 detialCount.setCount(outcomeProducts.get(i).getSumCountValue());
@@ -2360,7 +2277,7 @@ public class AppDbHelper implements DbHelper {
                                 List<DetialCount> detialCounts = new ArrayList<>();
                                 detialCounts.add(detialCount);
                                 outcomeWithDetials.get(i).setDetialCountList(detialCounts);
-                            }else{
+                            } else {
                                 //STOCK OUT, CUSTOM PICK
                                 e.onSuccess(new ArrayList<>());
                             }
@@ -2370,11 +2287,11 @@ public class AppDbHelper implements DbHelper {
             }
 
             for (int i = 0; i < outcomeProducts.size(); i++) {
-                if(!outcomeProducts.get(i).getCustomPickSock()){
+                if (!outcomeProducts.get(i).getCustomPickSock()) {
                     List<DetialCount> detialCounts = new ArrayList<>();
                     double accumelate = outcomeProducts.get(i).getSumCountValue();
-                    for (StockPerfomanceWithProduct stockPerfomanceWithProduct:stockPerHashMap.get(outcomeProducts.get(i).getProductId())){
-                        if(stockPerfomanceWithProduct.getAvailable()>0.0001){
+                    for (StockPerfomanceWithProduct stockPerfomanceWithProduct : stockPerHashMap.get(outcomeProducts.get(i).getProductId())) {
+                        if (stockPerfomanceWithProduct.getAvailable() > 0.0001) {
                             double available = stockPerfomanceWithProduct.getAvailable() - accumelate;
                             if (available >= 0) {
                                 stockPerfomanceWithProduct.setAvailable(available);
@@ -2394,11 +2311,11 @@ public class AppDbHelper implements DbHelper {
                                 accumelate = available * -1;
                             }
                         }
-                        if(accumelate<0.0001){
+                        if (accumelate < 0.0001) {
                             break;
                         }
                     }
-                    if(accumelate>0.001) e.onSuccess(new ArrayList<>());
+                    if (accumelate > 0.001) e.onSuccess(new ArrayList<>());
 
                     outcomeWithDetials.get(i).setDetialCountList(detialCounts);
                 }
@@ -2414,41 +2331,44 @@ public class AppDbHelper implements DbHelper {
 //            String queryForStock = "SELECT _ID, AVAILABLE, COST, PRODUCT_ID, EXPIRED_PRODUCT_DATE  FROM STOCK_QUEUE WHERE AVAILABLE > 0.0009 AND PRODUCT_ID IN (";
             String queryForStock = "SELECT _ID, AVAILABLE, COST, PRODUCT_ID, EXPIRED_PRODUCT_DATE  FROM STOCK_QUEUE WHERE PRODUCT_ID IN (";
             for (int i = 0; i < outcomeProducts.size(); i++) {
-                queryForStock +=  " " + outcomeProducts.get(i).getProductId() ;
-                if(i+1!=outcomeProducts.size())
+                queryForStock += " " + outcomeProducts.get(i).getProductId();
+                if (i + 1 != outcomeProducts.size())
                     queryForStock += ",";
                 else queryForStock += ")";
             }
             Cursor cursorForStock = mDaoSession.getDatabase().rawQuery(queryForStock, null);
 
-            HashMap<Long,List<StockPerfomanceWithProduct>> stockPerHashMap = new HashMap<>();
+            HashMap<Long, List<StockPerfomanceWithProduct>> stockPerHashMap = new HashMap<>();
             if (cursorForStock.getCount() > 0) {
                 cursorForStock.moveToFirst();
                 while (!cursorForStock.isAfterLast()) {
                     StockPerfomanceWithProduct stockPerfomanceWithProduct = new StockPerfomanceWithProduct(cursorForStock.getLong(0), cursorForStock.getDouble(1), cursorForStock.getDouble(2), cursorForStock.getLong(3), cursorForStock.getLong(4));
-                    if(stockPerHashMap.get(stockPerfomanceWithProduct.getProductId())!=null){
+                    if (stockPerHashMap.get(stockPerfomanceWithProduct.getProductId()) != null) {
                         stockPerHashMap.get(stockPerfomanceWithProduct.getProductId()).add(stockPerfomanceWithProduct);
-                    }else{
+                    } else {
                         ArrayList<StockPerfomanceWithProduct> stockPerfomanceWithProducts = new ArrayList<>();
                         stockPerfomanceWithProducts.add(stockPerfomanceWithProduct);
-                        stockPerHashMap.put(stockPerfomanceWithProduct.getProductId(),stockPerfomanceWithProducts);
+                        stockPerHashMap.put(stockPerfomanceWithProduct.getProductId(), stockPerfomanceWithProducts);
                     }
                     cursorForStock.moveToNext();
                 }
-            }else new Exception("In Stock Not Have Queue? Something went wrong, because when Outcome registered stock queue was!!!").printStackTrace();
+            } else
+                new Exception("In Stock Not Have Queue? Something went wrong, because when Outcome registered stock queue was!!!").printStackTrace();
 
-            for(OutcomeProduct outcomeProduct: outcomeProducts){
-                if(outcomeProduct.getProduct().getStockKeepType()==Product.LIFO) Collections.sort(stockPerHashMap.get(outcomeProduct.getProductId()),comparatorLIFO);
-                if(outcomeProduct.getProduct().getStockKeepType()==Product.FEFO) Collections.sort(stockPerHashMap.get(outcomeProduct.getProductId()),comparatorFEFO);
+            for (OutcomeProduct outcomeProduct : outcomeProducts) {
+                if (outcomeProduct.getProduct().getStockKeepType() == Product.LIFO)
+                    Collections.sort(stockPerHashMap.get(outcomeProduct.getProductId()), comparatorLIFO);
+                if (outcomeProduct.getProduct().getStockKeepType() == Product.FEFO)
+                    Collections.sort(stockPerHashMap.get(outcomeProduct.getProductId()), comparatorFEFO);
             }
 
 
-            for (OutcomeProduct outcomeProduct:withoutOutcomeProducts) {
-                if(stockPerHashMap.get(outcomeProduct.getProductId())!=null){
-                    for (DetialCount detialCount:outcomeProduct.getDetialCount()){
-                        for (StockPerfomanceWithProduct stockPerfomanceWithProduct:stockPerHashMap.get(outcomeProduct.getProductId())) {
-                            if(stockPerfomanceWithProduct.getStockId() == detialCount.getStockId()){
-                                stockPerfomanceWithProduct.setAvailable(stockPerfomanceWithProduct.getAvailable()+detialCount.getCount());
+            for (OutcomeProduct outcomeProduct : withoutOutcomeProducts) {
+                if (stockPerHashMap.get(outcomeProduct.getProductId()) != null) {
+                    for (DetialCount detialCount : outcomeProduct.getDetialCount()) {
+                        for (StockPerfomanceWithProduct stockPerfomanceWithProduct : stockPerHashMap.get(outcomeProduct.getProductId())) {
+                            if (stockPerfomanceWithProduct.getStockId() == detialCount.getStockId()) {
+                                stockPerfomanceWithProduct.setAvailable(stockPerfomanceWithProduct.getAvailable() + detialCount.getCount());
                             }
                         }
                     }
@@ -2458,16 +2378,16 @@ public class AppDbHelper implements DbHelper {
 
             List<OutcomeWithDetials> outcomeWithDetials = new ArrayList<>();
             for (int i = 0; i < outcomeProducts.size(); i++) {
-                outcomeWithDetials.add(new OutcomeWithDetials(outcomeProducts.get(i),null));
+                outcomeWithDetials.add(new OutcomeWithDetials(outcomeProducts.get(i), null));
             }
 
             //CUSTOM PICK
             for (int i = 0; i < outcomeProducts.size(); i++) {
-                if(outcomeProducts.get(i).getCustomPickSock()){
-                    for (StockPerfomanceWithProduct stockPerfomanceWithProduct:stockPerHashMap.get(outcomeProducts.get(i).getProductId())) {
-                        if(stockPerfomanceWithProduct.getStockId()== outcomeProducts.get(i).getPickedStockQueueId()){
-                            if(stockPerfomanceWithProduct.getAvailable()>=outcomeProducts.get(i).getSumCountValue()){
-                                stockPerfomanceWithProduct.setAvailable(stockPerfomanceWithProduct.getAvailable()-outcomeProducts.get(i).getSumCountValue());
+                if (outcomeProducts.get(i).getCustomPickSock()) {
+                    for (StockPerfomanceWithProduct stockPerfomanceWithProduct : stockPerHashMap.get(outcomeProducts.get(i).getProductId())) {
+                        if (stockPerfomanceWithProduct.getStockId() == outcomeProducts.get(i).getPickedStockQueueId()) {
+                            if (stockPerfomanceWithProduct.getAvailable() >= outcomeProducts.get(i).getSumCountValue()) {
+                                stockPerfomanceWithProduct.setAvailable(stockPerfomanceWithProduct.getAvailable() - outcomeProducts.get(i).getSumCountValue());
                                 DetialCount detialCount = new DetialCount();
                                 detialCount.setStockId(stockPerfomanceWithProduct.getStockId());
                                 detialCount.setCount(outcomeProducts.get(i).getSumCountValue());
@@ -2475,7 +2395,7 @@ public class AppDbHelper implements DbHelper {
                                 List<DetialCount> detialCounts = new ArrayList<>();
                                 detialCounts.add(detialCount);
                                 outcomeWithDetials.get(i).setDetialCountList(detialCounts);
-                            }else{
+                            } else {
                                 //STOCK OUT, CUSTOM PICK
                                 e.onSuccess(new ArrayList<>());
                             }
@@ -2485,11 +2405,11 @@ public class AppDbHelper implements DbHelper {
             }
 
             for (int i = 0; i < outcomeProducts.size(); i++) {
-                if(!outcomeProducts.get(i).getCustomPickSock()){
+                if (!outcomeProducts.get(i).getCustomPickSock()) {
                     List<DetialCount> detialCounts = new ArrayList<>();
                     double accumelate = outcomeProducts.get(i).getSumCountValue();
-                    for (StockPerfomanceWithProduct stockPerfomanceWithProduct:stockPerHashMap.get(outcomeProducts.get(i).getProductId())){
-                        if(stockPerfomanceWithProduct.getAvailable()>0.0001){
+                    for (StockPerfomanceWithProduct stockPerfomanceWithProduct : stockPerHashMap.get(outcomeProducts.get(i).getProductId())) {
+                        if (stockPerfomanceWithProduct.getAvailable() > 0.0001) {
                             double available = stockPerfomanceWithProduct.getAvailable() - accumelate;
                             if (available >= 0) {
                                 stockPerfomanceWithProduct.setAvailable(available);
@@ -2509,11 +2429,11 @@ public class AppDbHelper implements DbHelper {
                                 accumelate = available * -1;
                             }
                         }
-                        if(accumelate<0.0001){
+                        if (accumelate < 0.0001) {
                             break;
                         }
                     }
-                    if(accumelate>0.001) e.onSuccess(new ArrayList<>());
+                    if (accumelate > 0.001) e.onSuccess(new ArrayList<>());
 
                     outcomeWithDetials.get(i).setDetialCountList(detialCounts);
                 }
@@ -2540,9 +2460,9 @@ public class AppDbHelper implements DbHelper {
                     String vendorsIdSingleLine = cursorInventory.getString(2);
                     String[] vendorsId;
                     List<Vendor> vendorList = new ArrayList<>();
-                    if(vendorsIdSingleLine != null) {
+                    if (vendorsIdSingleLine != null) {
                         vendorsId = vendorsIdSingleLine.split(",");
-                        for(String strId:vendorsId) {
+                        for (String strId : vendorsId) {
                             vendorList.add(mDaoSession.getVendorDao().load(Long.parseLong(strId)));
                         }
                     }
@@ -2551,9 +2471,10 @@ public class AppDbHelper implements DbHelper {
                     cursorInventory.moveToNext();
                 }
             }
-            mark: for (Product product : products) {
+            mark:
+            for (Product product : products) {
                 for (InventoryItem inventoryItem : inventoryItems) {
-                    if(product.getId() == inventoryItem.getProduct().getId())
+                    if (product.getId() == inventoryItem.getProduct().getId())
                         continue mark;
                 }
                 InventoryItem inventoryItem = new InventoryItem();
@@ -2574,8 +2495,10 @@ public class AppDbHelper implements DbHelper {
             List<StockQueue> stockQueues = mDaoSession.getStockQueueDao().queryBuilder().where(StockQueueDao.Properties.ProductId.eq(outcomeProduct.getProduct().getId())).build().list();
 //            List<StockQueue> stockQueues = mDaoSession.getStockQueueDao().queryBuilder().where(StockQueueDao.Properties.ProductId.eq(outcomeProduct.getProduct().getId()), StockQueueDao.Properties.Available.ge(0.0009)).build().list();
 
-            if(outcomeProduct.getProduct().getStockKeepType()==Product.LIFO) Collections.sort(stockQueues,(stockQueue, t1) -> t1.getId().compareTo(stockQueue.getId()));
-            if(outcomeProduct.getProduct().getStockKeepType()==Product.FEFO) Collections.sort(stockQueues,(stockQueue, t1) -> stockQueue.getExpiredProductDate().compareTo(t1.getExpiredProductDate()));
+            if (outcomeProduct.getProduct().getStockKeepType() == Product.LIFO)
+                Collections.sort(stockQueues, (stockQueue, t1) -> t1.getId().compareTo(stockQueue.getId()));
+            if (outcomeProduct.getProduct().getStockKeepType() == Product.FEFO)
+                Collections.sort(stockQueues, (stockQueue, t1) -> stockQueue.getExpiredProductDate().compareTo(t1.getExpiredProductDate()));
 
             List<StockQueueItem> stockQueueItems = new ArrayList<>();
             for (int i = 0; i < stockQueues.size(); i++) {
@@ -2585,11 +2508,11 @@ public class AppDbHelper implements DbHelper {
                 stockQueueItems.add(stockQueueItem);
             }
 
-            if (exceptionList != null){
+            if (exceptionList != null) {
                 for (int i = 0; i < exceptionList.size(); i++) {
-                    for (DetialCount detialCount: exceptionList.get(i).getDetialCount()){
-                        for (StockQueueItem stockQueueItem: stockQueueItems) {
-                            if(stockQueueItem.getStockQueue().getId().equals(detialCount.getStockId())){
+                    for (DetialCount detialCount : exceptionList.get(i).getDetialCount()) {
+                        for (StockQueueItem stockQueueItem : stockQueueItems) {
+                            if (stockQueueItem.getStockQueue().getId().equals(detialCount.getStockId())) {
                                 stockQueueItem.setAvailable(stockQueueItem.getAvailable() + detialCount.getCount());
                             }
                         }
@@ -2598,7 +2521,7 @@ public class AppDbHelper implements DbHelper {
             }
 
             for (int i = 0; i < outcomeProductList.size(); i++) {
-                if (outcomeProductList.get(i).getCustomPickSock()){
+                if (outcomeProductList.get(i).getCustomPickSock()) {
                     for (int j = 0; j < stockQueueItems.size(); j++) {
                         if (stockQueueItems.get(j).getStockQueue().getId().equals(outcomeProductList.get(i).getStockQueue().getId()))
                             stockQueueItems.get(j).setAvailable(stockQueueItems.get(j).getAvailable() - outcomeProductList.get(i).getSumCountValue());
@@ -2607,16 +2530,16 @@ public class AppDbHelper implements DbHelper {
             }
 
             for (int i = 0; i < outcomeProductList.size(); i++) {
-                if (!outcomeProductList.get(i).getCustomPickSock()){
+                if (!outcomeProductList.get(i).getCustomPickSock()) {
                     double sumCount = outcomeProductList.get(i).getSumCountValue();
                     for (int j = 0; j < stockQueueItems.size(); j++) {
-                        if (outcomeProduct.getCustomPickSock() && stockQueueItems.get(j).getStockQueue().getId().equals(outcomeProduct.getStockQueue().getId())){
-                            if ((stockQueueItems.get(j).getAvailable()) > 0.0001){
-                                if (stockQueueItems.get(j).getAvailable() > outcomeProduct.getSumCountValue()){
-                                    if (sumCount != 0){
-                                        if (sumCount >= stockQueueItems.get(j).getAvailable() - outcomeProduct.getSumCountValue()){
+                        if (outcomeProduct.getCustomPickSock() && stockQueueItems.get(j).getStockQueue().getId().equals(outcomeProduct.getStockQueue().getId())) {
+                            if ((stockQueueItems.get(j).getAvailable()) > 0.0001) {
+                                if (stockQueueItems.get(j).getAvailable() > outcomeProduct.getSumCountValue()) {
+                                    if (sumCount != 0) {
+                                        if (sumCount >= stockQueueItems.get(j).getAvailable() - outcomeProduct.getSumCountValue()) {
                                             sumCount -= stockQueueItems.get(j).getAvailable() - outcomeProduct.getSumCountValue();
-                                            double count =  stockQueueItems.get(j).getAvailable() - outcomeProduct.getSumCountValue();
+                                            double count = stockQueueItems.get(j).getAvailable() - outcomeProduct.getSumCountValue();
                                             stockQueueItems.get(j).setAvailable(stockQueueItems.get(j).getAvailable() - count);
                                         } else {
                                             stockQueueItems.get(j).setAvailable(stockQueueItems.get(j).getAvailable() - sumCount);
@@ -2626,9 +2549,9 @@ public class AppDbHelper implements DbHelper {
                                 }
                             }
                         } else {
-                            if ((stockQueueItems.get(j).getAvailable()) > 0.0001){
-                                if (sumCount != 0){
-                                    if (sumCount >= stockQueueItems.get(j).getAvailable()){
+                            if ((stockQueueItems.get(j).getAvailable()) > 0.0001) {
+                                if (sumCount != 0) {
+                                    if (sumCount >= stockQueueItems.get(j).getAvailable()) {
                                         sumCount -= stockQueueItems.get(j).getAvailable();
                                         stockQueueItems.get(j).setAvailable(0);
                                     } else {
@@ -2650,7 +2573,7 @@ public class AppDbHelper implements DbHelper {
     public Single<OutcomeWithDetials> checkPositionAvailablity(OutcomeProduct outcomeProduct) {
         return Single.create(e -> {
             //TODO CAN BE OPTIMIZED
-            String queryForStock = "SELECT _ID, AVAILABLE, COST, PRODUCT_ID, EXPIRED_PRODUCT_DATE  FROM STOCK_QUEUE WHERE AVAILABLE > 0.0009 AND PRODUCT_ID = "+outcomeProduct.getProductId();
+            String queryForStock = "SELECT _ID, AVAILABLE, COST, PRODUCT_ID, EXPIRED_PRODUCT_DATE  FROM STOCK_QUEUE WHERE AVAILABLE > 0.0009 AND PRODUCT_ID = " + outcomeProduct.getProductId();
             Cursor cursorForStock = mDaoSession.getDatabase().rawQuery(queryForStock, null);
 
             List<StockPerfomanceWithProduct> stockPerfomanceWithProducts = new ArrayList<>();
@@ -2662,13 +2585,16 @@ public class AppDbHelper implements DbHelper {
                     stockPerfomanceWithProducts.add(stockPerfomanceWithProduct);
                     cursorForStock.moveToNext();
                 }
-            }else new Exception("In Stock Not Have Queue? Some think is wrong, because when Outcome registered stock queue was!!!").printStackTrace();
+            } else
+                new Exception("In Stock Not Have Queue? Some think is wrong, because when Outcome registered stock queue was!!!").printStackTrace();
 
-            if(outcomeProduct.getProduct().getStockKeepType()==Product.LIFO) Collections.sort(stockPerfomanceWithProducts,comparatorLIFO);
-            if(outcomeProduct.getProduct().getStockKeepType()==Product.FEFO) Collections.sort(stockPerfomanceWithProducts,comparatorFEFO);
+            if (outcomeProduct.getProduct().getStockKeepType() == Product.LIFO)
+                Collections.sort(stockPerfomanceWithProducts, comparatorLIFO);
+            if (outcomeProduct.getProduct().getStockKeepType() == Product.FEFO)
+                Collections.sort(stockPerfomanceWithProducts, comparatorFEFO);
 
 
-           OutcomeWithDetials outcomeWithDetials = new OutcomeWithDetials(outcomeProduct,null);
+            OutcomeWithDetials outcomeWithDetials = new OutcomeWithDetials(outcomeProduct, null);
             //CUSTOM PICK
             if (outcomeProduct.getCustomPickSock()) {
                 for (StockPerfomanceWithProduct stockPerfomanceWithProduct : stockPerfomanceWithProducts) {
@@ -2689,11 +2615,11 @@ public class AppDbHelper implements DbHelper {
                         }
                     }
                 }
-            }else{
+            } else {
                 List<DetialCount> detialCounts = new ArrayList<>();
                 double accumelate = outcomeProduct.getSumCountValue();
-                for (StockPerfomanceWithProduct stockPerfomanceWithProduct:stockPerfomanceWithProducts){
-                    if(stockPerfomanceWithProduct.getAvailable()>0.0001){
+                for (StockPerfomanceWithProduct stockPerfomanceWithProduct : stockPerfomanceWithProducts) {
+                    if (stockPerfomanceWithProduct.getAvailable() > 0.0001) {
                         double available = stockPerfomanceWithProduct.getAvailable() - accumelate;
                         if (available >= 0) {
                             stockPerfomanceWithProduct.setAvailable(available);
@@ -2713,11 +2639,11 @@ public class AppDbHelper implements DbHelper {
                             accumelate = available * -1;
                         }
                     }
-                    if(accumelate<0.0001){
+                    if (accumelate < 0.0001) {
                         break;
                     }
                 }
-                if(accumelate>0.001) e.onSuccess(new OutcomeWithDetials(null, null));
+                if (accumelate > 0.001) e.onSuccess(new OutcomeWithDetials(null, null));
 
                 outcomeWithDetials.setDetialCountList(detialCounts);
 
@@ -2740,10 +2666,10 @@ public class AppDbHelper implements DbHelper {
                 outcomeProduct.setOutvoiceId(outvoice.getId());
                 mDaoSession.getOutcomeProductDao().insertOrReplace(outcomeProduct);
             }
-            for (OutcomeProduct outcomeProduct: outcomeProducts) {
+            for (OutcomeProduct outcomeProduct : outcomeProducts) {
                 List<StockQueue> stockQueues = mDaoSession.getStockQueueDao().queryBuilder().where(StockQueueDao.Properties.ProductId.eq(outcomeProduct.getProduct().getId()), StockQueueDao.Properties.Available.ge(0.0009)).build().list();
                 double count = outcomeProduct.getSumCountValue();
-                if (outcomeProduct.getCustomPickSock()){
+                if (outcomeProduct.getCustomPickSock()) {
                     for (int j = 0; j < stockQueues.size(); j++) {
                         if (stockQueues.get(j).getId().equals(outcomeProduct.getStockQueue().getId())) {
                             stockQueues.get(j).setAvailable(stockQueues.get(j).getAvailable() - count);
@@ -2756,21 +2682,21 @@ public class AppDbHelper implements DbHelper {
                             detialCount.setCost(outcomeProduct.getSumCostValue());
                             detialCount.setCount(count);
                             mDaoSession.getDetialCountDao().insertOrReplace(detialCount);
-                         }
+                        }
                     }
                 }
             }
-            for (OutcomeProduct outcomeProduct: outcomeProducts) {
+            for (OutcomeProduct outcomeProduct : outcomeProducts) {
                 List<StockQueue> stockQueues = mDaoSession.getStockQueueDao().queryBuilder().where(StockQueueDao.Properties.ProductId.eq(outcomeProduct.getProduct().getId()), StockQueueDao.Properties.Available.ge(0.0009)).build().list();
                 double count = outcomeProduct.getSumCountValue();
-                if(outcomeProduct.getProduct().getStockKeepType()==Product.LIFO)
-                    Collections.sort(stockQueues,(stockQueue, t1) -> t1.getId().compareTo(stockQueue.getId()));
-                if(outcomeProduct.getProduct().getStockKeepType()==Product.FEFO)
-                    Collections.sort(stockQueues,(stockQueue, t1) -> stockQueue.getExpiredProductDate().compareTo(t1.getExpiredProductDate()));
-                if (!outcomeProduct.getCustomPickSock()){
+                if (outcomeProduct.getProduct().getStockKeepType() == Product.LIFO)
+                    Collections.sort(stockQueues, (stockQueue, t1) -> t1.getId().compareTo(stockQueue.getId()));
+                if (outcomeProduct.getProduct().getStockKeepType() == Product.FEFO)
+                    Collections.sort(stockQueues, (stockQueue, t1) -> stockQueue.getExpiredProductDate().compareTo(t1.getExpiredProductDate()));
+                if (!outcomeProduct.getCustomPickSock()) {
                     for (int j = 0; j < stockQueues.size(); j++) {
-                        if (count != 0){
-                            if (count >= stockQueues.get(j).getAvailable()){
+                        if (count != 0) {
+                            if (count >= stockQueues.get(j).getAvailable()) {
                                 count -= stockQueues.get(j).getAvailable();
                                 stockQueues.get(j).setAvailable(0);
                                 DetialCount detialCount = new DetialCount();
@@ -2821,7 +2747,7 @@ public class AppDbHelper implements DbHelper {
             List<Vendor> vendors = new ArrayList<>();
             if (stockCursor.getCount() > 0) {
                 stockCursor.moveToFirst();
-                while (!stockCursor.isAfterLast()){
+                while (!stockCursor.isAfterLast()) {
                     vendors.add(mDaoSession.getVendorDao().load(stockCursor.getLong(stockCursor.getColumnIndex("VENDOR_ID"))));
                     stockCursor.moveToNext();
                 }
@@ -2833,7 +2759,7 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Single<List<ProductState>> getVendorProductsWithStates(Long vendorId) {
         return Single.create(e -> {
-            String inventoryQuery = "SELECT PRODUCT_ID, SUM(AVAILABLE) FROM STOCK_QUEUE WHERE VENDOR_ID = "+vendorId +" GROUP BY PRODUCT_ID" ;
+            String inventoryQuery = "SELECT PRODUCT_ID, SUM(AVAILABLE) FROM STOCK_QUEUE WHERE VENDOR_ID = " + vendorId + " GROUP BY PRODUCT_ID";
             Cursor cursorStockQueue = mDaoSession.getDatabase().rawQuery(inventoryQuery, null);
             cursorStockQueue.moveToFirst();
             List<ProductState> productStates = new ArrayList<>();
@@ -2848,7 +2774,7 @@ public class AppDbHelper implements DbHelper {
                 }
             }
             e.onSuccess(productStates);
-            });
+        });
     }
 
     @Override
@@ -2857,7 +2783,7 @@ public class AppDbHelper implements DbHelper {
             List<Invoice> invoiceList = mDaoSession.getInvoiceDao().queryBuilder().where(InvoiceDao.Properties.VendorId.eq(vendorId)).build().list();
             List<Outvoice> outvoiceList = mDaoSession.getOutvoiceDao().queryBuilder().where(OutvoiceDao.Properties.VendorId.eq(vendorId)).build().list();
             List<InvoiceListItem> invoiceListItems = new ArrayList<>();
-            for(Invoice invoice: invoiceList){
+            for (Invoice invoice : invoiceList) {
                 InvoiceListItem item = new InvoiceListItem();
                 item.setInvoice(invoice);
                 item.setCreatedDate(invoice.getCreatedDate());
@@ -2866,7 +2792,7 @@ public class AppDbHelper implements DbHelper {
                 item.setType(BundleConstants.INVOICE);
                 invoiceListItems.add(item);
             }
-            for(Outvoice outvoice: outvoiceList){
+            for (Outvoice outvoice : outvoiceList) {
                 InvoiceListItem item = new InvoiceListItem();
                 item.setOutvoice(outvoice);
                 item.setCreatedDate(outvoice.getCreatedDate());
@@ -2885,16 +2811,16 @@ public class AppDbHelper implements DbHelper {
         return Single.create(e -> {
             List<Invoice> invoiceList = mDaoSession.getInvoiceDao().queryBuilder()
                     .where(InvoiceDao.Properties.VendorId.eq(vendorId), InvoiceDao.Properties.CreatedDate.ge(fromDate.getTimeInMillis()),
-                           InvoiceDao.Properties.CreatedDate.le(toDate.getTimeInMillis()))
+                            InvoiceDao.Properties.CreatedDate.le(toDate.getTimeInMillis()))
                     .build()
                     .list();
             List<Outvoice> outvoiceList = mDaoSession.getOutvoiceDao().queryBuilder()
                     .where(OutvoiceDao.Properties.VendorId.eq(vendorId), OutvoiceDao.Properties.CreatedDate.ge(fromDate.getTimeInMillis()),
-                           OutvoiceDao.Properties.CreatedDate.le(toDate.getTimeInMillis()))
+                            OutvoiceDao.Properties.CreatedDate.le(toDate.getTimeInMillis()))
                     .build()
                     .list();
             List<InvoiceListItem> invoiceListItems = new ArrayList<>();
-            for(Invoice invoice: invoiceList){
+            for (Invoice invoice : invoiceList) {
                 InvoiceListItem item = new InvoiceListItem();
                 item.setInvoice(invoice);
                 item.setCreatedDate(invoice.getCreatedDate());
@@ -2903,7 +2829,7 @@ public class AppDbHelper implements DbHelper {
                 item.setType(BundleConstants.INVOICE);
                 invoiceListItems.add(item);
             }
-            for(Outvoice outvoice: outvoiceList){
+            for (Outvoice outvoice : outvoiceList) {
                 InvoiceListItem item = new InvoiceListItem();
                 item.setOutvoice(outvoice);
                 item.setCreatedDate(outvoice.getCreatedDate());
@@ -2957,20 +2883,21 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
-    public List<OperationSummaryItem> getIncomeProductOperationsSummary(Date fromDate, Date toDate,List<OperationSummaryItem> operationSummaryItems) {
-        String summary = "SELECT  PRODUCT_ID, INCOME_TYPE, SUM(COUNT_VALUE) FROM INCOMEPRODUCT WHERE INCOME_DATE BETWEEN " + fromDate.getTime() + " AND " + toDate.getTime()+ " GROUP BY INCOME_TYPE, PRODUCT_ID";
+    public List<OperationSummaryItem> getIncomeProductOperationsSummary(Date fromDate, Date toDate, List<OperationSummaryItem> operationSummaryItems) {
+        String summary = "SELECT  PRODUCT_ID, INCOME_TYPE, SUM(COUNT_VALUE) FROM INCOMEPRODUCT WHERE INCOME_DATE BETWEEN " + fromDate.getTime() + " AND " + toDate.getTime() + " GROUP BY INCOME_TYPE, PRODUCT_ID";
         Cursor cursorSummary = mDaoSession.getDatabase().rawQuery(summary, null);
         cursorSummary.moveToFirst();
         if (cursorSummary.getCount() > 0) {
             cursorSummary.moveToFirst();
-            mark: while (!cursorSummary.isAfterLast()) {
-                for (OperationSummaryItem operationSummaryItem:operationSummaryItems) {
-                    if(operationSummaryItem.getProduct().getId() == cursorSummary.getLong(0)){
-                        if(cursorSummary.getLong(1) == IncomeProduct.INVOICE_PRODUCT){
+            mark:
+            while (!cursorSummary.isAfterLast()) {
+                for (OperationSummaryItem operationSummaryItem : operationSummaryItems) {
+                    if (operationSummaryItem.getProduct().getId() == cursorSummary.getLong(0)) {
+                        if (cursorSummary.getLong(1) == IncomeProduct.INVOICE_PRODUCT) {
                             operationSummaryItem.setReciveFromVendor(cursorSummary.getDouble(2));
-                        }else if(cursorSummary.getLong(1) == IncomeProduct.RETURNED_PRODUCT){
+                        } else if (cursorSummary.getLong(1) == IncomeProduct.RETURNED_PRODUCT) {
                             operationSummaryItem.setReturnFromCustomer(cursorSummary.getDouble(2));
-                        }else {
+                        } else {
                             operationSummaryItem.setSurplus(cursorSummary.getDouble(2));
                         }
                         cursorSummary.moveToNext();
@@ -2979,11 +2906,11 @@ public class AppDbHelper implements DbHelper {
                 }
                 OperationSummaryItem operationSummaryItem = new OperationSummaryItem();
                 operationSummaryItem.setProduct(mDaoSession.getProductDao().load(cursorSummary.getLong(0)));
-                if(cursorSummary.getLong(1) == IncomeProduct.INVOICE_PRODUCT){
+                if (cursorSummary.getLong(1) == IncomeProduct.INVOICE_PRODUCT) {
                     operationSummaryItem.setReciveFromVendor(cursorSummary.getDouble(2));
-                }else if(cursorSummary.getLong(1) == IncomeProduct.RETURNED_PRODUCT){
+                } else if (cursorSummary.getLong(1) == IncomeProduct.RETURNED_PRODUCT) {
                     operationSummaryItem.setReturnFromCustomer(cursorSummary.getDouble(2));
-                }else {
+                } else {
                     operationSummaryItem.setSurplus(cursorSummary.getDouble(2));
                 }
                 operationSummaryItems.add(operationSummaryItem);
@@ -2995,19 +2922,20 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public List<OperationSummaryItem> getOutcomeProductOperationsSummary(Date fromDate, Date toDate, List<OperationSummaryItem> operationSummaryItems) {
-        String summary = "SELECT  PRODUCT_ID, OUTCOME_TYPE, SUM(SUM_COUNT_VALUE) FROM OUT_PRODUCT WHERE  OUTCOME_DATE BETWEEN " + fromDate.getTime() + " AND " + toDate.getTime()+ " GROUP BY OUTCOME_TYPE, PRODUCT_ID";
+        String summary = "SELECT  PRODUCT_ID, OUTCOME_TYPE, SUM(SUM_COUNT_VALUE) FROM OUT_PRODUCT WHERE  OUTCOME_DATE BETWEEN " + fromDate.getTime() + " AND " + toDate.getTime() + " GROUP BY OUTCOME_TYPE, PRODUCT_ID";
         Cursor cursorSummary = mDaoSession.getDatabase().rawQuery(summary, null);
         cursorSummary.moveToFirst();
         if (cursorSummary.getCount() > 0) {
             cursorSummary.moveToFirst();
-            mark: while (!cursorSummary.isAfterLast()) {
-                for (OperationSummaryItem operationSummaryItem:operationSummaryItems) {
-                    if(operationSummaryItem.getProduct().getId() == cursorSummary.getLong(0)){
-                        if(cursorSummary.getLong(1) == OutcomeProduct.ORDER_SALES){
+            mark:
+            while (!cursorSummary.isAfterLast()) {
+                for (OperationSummaryItem operationSummaryItem : operationSummaryItems) {
+                    if (operationSummaryItem.getProduct().getId() == cursorSummary.getLong(0)) {
+                        if (cursorSummary.getLong(1) == OutcomeProduct.ORDER_SALES) {
                             operationSummaryItem.setSales(cursorSummary.getDouble(2));
-                        }else if(cursorSummary.getLong(1) == OutcomeProduct.OUTVOICE_TO_VENDOR){
+                        } else if (cursorSummary.getLong(1) == OutcomeProduct.OUTVOICE_TO_VENDOR) {
                             operationSummaryItem.setReturnToVendor(cursorSummary.getDouble(2));
-                        }else {
+                        } else {
                             operationSummaryItem.setWaste(cursorSummary.getDouble(2));
                         }
                         cursorSummary.moveToNext();
@@ -3016,11 +2944,11 @@ public class AppDbHelper implements DbHelper {
                 }
                 OperationSummaryItem operationSummaryItem = new OperationSummaryItem();
                 operationSummaryItem.setProduct(mDaoSession.getProductDao().load(cursorSummary.getLong(0)));
-                if(cursorSummary.getLong(1) == OutcomeProduct.ORDER_SALES){
+                if (cursorSummary.getLong(1) == OutcomeProduct.ORDER_SALES) {
                     operationSummaryItem.setSales(cursorSummary.getDouble(2));
-                }else if(cursorSummary.getLong(1) == OutcomeProduct.OUTVOICE_TO_VENDOR){
+                } else if (cursorSummary.getLong(1) == OutcomeProduct.OUTVOICE_TO_VENDOR) {
                     operationSummaryItem.setReturnToVendor(cursorSummary.getDouble(2));
-                }else {
+                } else {
                     operationSummaryItem.setWaste(cursorSummary.getDouble(2));
                 }
                 operationSummaryItems.add(operationSummaryItem);
@@ -3032,7 +2960,7 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public Single<List<OutcomeProduct>> getOutcomeProductsForPeriod(Calendar fromDate, Calendar toDate) {
-        return Single.create(e->{
+        return Single.create(e -> {
             e.onSuccess(mDaoSession.getOutcomeProductDao().queryBuilder().where(OutcomeProductDao.Properties.OutcomeDate.ge(fromDate.getTimeInMillis()),
                     OutcomeProductDao.Properties.OutcomeDate.le(toDate.getTimeInMillis())).build().list());
         });
@@ -3048,7 +2976,7 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public Single<List<IncomeProduct>> getIncomeProductsForPeriod(Calendar fromDate, Calendar toDate) {
-        return Single.create(e->{
+        return Single.create(e -> {
             e.onSuccess(mDaoSession.getIncomeProductDao().queryBuilder().where(IncomeProductDao.Properties.IncomeDate.ge(fromDate.getTimeInMillis()),
                     IncomeProductDao.Properties.IncomeDate.le(toDate.getTimeInMillis())).build().list());
         });
@@ -3065,8 +2993,8 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Single<List<StockQueue>> getStockQueueUsedForPeriod(Calendar fromDate, Calendar toDate) {
         return Single.create(e -> {
-                e.onSuccess(mDaoSession.getStockQueueDao().queryBuilder().where(StockQueueDao.Properties.IncomeProductDate.ge(fromDate.getTimeInMillis()),
-                    StockQueueDao.Properties.IncomeProductDate.le(toDate.getTimeInMillis()),StockQueueDao.Properties.Available.notEq(StockQueueDao.Properties.IncomeCount)).build().list());
+            e.onSuccess(mDaoSession.getStockQueueDao().queryBuilder().where(StockQueueDao.Properties.IncomeProductDate.ge(fromDate.getTimeInMillis()),
+                    StockQueueDao.Properties.IncomeProductDate.le(toDate.getTimeInMillis()), StockQueueDao.Properties.Available.notEq(StockQueueDao.Properties.IncomeCount)).build().list());
         });
     }
 
@@ -3084,7 +3012,7 @@ public class AppDbHelper implements DbHelper {
                     .build()
                     .list();
             List<InvoiceListItem> invoiceListItems = new ArrayList<>();
-            for(Invoice invoice: invoiceList){
+            for (Invoice invoice : invoiceList) {
                 InvoiceListItem item = new InvoiceListItem();
                 item.setInvoice(invoice);
                 item.setCreatedDate(invoice.getCreatedDate());
@@ -3093,7 +3021,7 @@ public class AppDbHelper implements DbHelper {
                 item.setType(BundleConstants.INVOICE);
                 invoiceListItems.add(item);
             }
-            for(Outvoice outvoice: outvoiceList){
+            for (Outvoice outvoice : outvoiceList) {
                 InvoiceListItem item = new InvoiceListItem();
                 item.setOutvoice(outvoice);
                 item.setCreatedDate(outvoice.getCreatedDate());
@@ -3121,7 +3049,7 @@ public class AppDbHelper implements DbHelper {
                     .build()
                     .list();
             List<InvoiceProduct> invoiceProducts = new ArrayList<>();
-            for (IncomeProduct incomeProduct: incomeProducts){
+            for (IncomeProduct incomeProduct : incomeProducts) {
                 InvoiceProduct product = new InvoiceProduct();
                 product.setId(incomeProduct.getInvoiceId());
                 product.setCost(incomeProduct.getCostValue());
@@ -3133,7 +3061,7 @@ public class AppDbHelper implements DbHelper {
                 product.setVendorName(incomeProduct.getVendor().getName());
                 invoiceProducts.add(product);
             }
-            for (OutcomeProduct outcomeProduct: outcomeProducts){
+            for (OutcomeProduct outcomeProduct : outcomeProducts) {
                 InvoiceProduct product = new InvoiceProduct();
                 product.setId(outcomeProduct.getOutvoiceId());
                 product.setCost(outcomeProduct.getSumCostValue());
@@ -3157,7 +3085,9 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public Single<Invoice> getInvoiceById(Long id) {
-        return Single.create(e -> {e.onSuccess(mDaoSession.getInvoiceDao().load(id));});
+        return Single.create(e -> {
+            e.onSuccess(mDaoSession.getInvoiceDao().load(id));
+        });
     }
 
     @Override
@@ -3189,9 +3119,10 @@ public class AppDbHelper implements DbHelper {
                     cursorInventory.moveToNext();
                 }
             }
-            mark: for (Product product : products) {
+            mark:
+            for (Product product : products) {
                 for (InventoryItemReport inventoryItemReport : inventoryItems) {
-                    if(product.getId() == inventoryItemReport.getProduct().getId())
+                    if (product.getId() == inventoryItemReport.getProduct().getId())
                         continue mark;
                 }
                 InventoryItemReport inventoryItemReport = new InventoryItemReport();

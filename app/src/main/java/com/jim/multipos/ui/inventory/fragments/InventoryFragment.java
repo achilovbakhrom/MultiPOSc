@@ -1,14 +1,11 @@
 package com.jim.multipos.ui.inventory.fragments;
 
-import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.jim.multipos.R;
 import com.jim.multipos.core.BaseFragment;
@@ -16,7 +13,6 @@ import com.jim.multipos.data.DatabaseManager;
 import com.jim.multipos.data.db.model.products.Vendor;
 import com.jim.multipos.ui.inventory.InventoryActivity;
 import com.jim.multipos.ui.inventory.adapters.InventoryItemAdapter;
-import com.jim.multipos.ui.inventory.adapters.VendorListAdapter;
 import com.jim.multipos.ui.inventory.dialogs.VendorPickerDialog;
 import com.jim.multipos.ui.inventory.model.InventoryItem;
 import com.jim.multipos.ui.inventory.presenter.InventoryPresenter;
@@ -324,6 +320,13 @@ public class InventoryFragment extends BaseFragment implements InventoryView {
     @Override
     public void showVendorListEmptyDialog() {
         UIUtils.showAlert(getContext(), getString(R.string.ok), getString(R.string.warning), getString(R.string.no_vendor_warning_msg), () -> {
+
+        });
+    }
+
+    @Override
+    public void noVendorsWarning() {
+        UIUtils.showAlert(getContext(), getString(R.string.ok), getString(R.string.warning), getString(R.string.no_vendor_error_msg), () -> {
 
         });
     }
