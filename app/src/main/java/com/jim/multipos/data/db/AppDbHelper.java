@@ -2492,14 +2492,15 @@ public class AppDbHelper implements DbHelper {
     @Override
     public Single<List<StockQueueItem>> getStockQueueItemForOutcomeProduct(OutcomeProduct outcomeProduct, List<OutcomeProduct> outcomeProductList, List<OutcomeProduct> exceptionList) {
         return Single.create(e -> {
+            //Get all stock queue by product id
             List<StockQueue> stockQueues = mDaoSession.getStockQueueDao().queryBuilder().where(StockQueueDao.Properties.ProductId.eq(outcomeProduct.getProduct().getId())).build().list();
 //            List<StockQueue> stockQueues = mDaoSession.getStockQueueDao().queryBuilder().where(StockQueueDao.Properties.ProductId.eq(outcomeProduct.getProduct().getId()), StockQueueDao.Properties.Available.ge(0.0009)).build().list();
-
+            //Sorting list by product stock keeping type
             if (outcomeProduct.getProduct().getStockKeepType() == Product.LIFO)
                 Collections.sort(stockQueues, (stockQueue, t1) -> t1.getId().compareTo(stockQueue.getId()));
             if (outcomeProduct.getProduct().getStockKeepType() == Product.FEFO)
                 Collections.sort(stockQueues, (stockQueue, t1) -> stockQueue.getExpiredProductDate().compareTo(t1.getExpiredProductDate()));
-
+            //Creating temp list
             List<StockQueueItem> stockQueueItems = new ArrayList<>();
             for (int i = 0; i < stockQueues.size(); i++) {
                 StockQueueItem stockQueueItem = new StockQueueItem();
@@ -2507,7 +2508,7 @@ public class AppDbHelper implements DbHelper {
                 stockQueueItem.setAvailable(stockQueues.get(i).getAvailable());
                 stockQueueItems.add(stockQueueItem);
             }
-
+            //Exception list is need at operations with already sold products
             if (exceptionList != null) {
                 for (int i = 0; i < exceptionList.size(); i++) {
                     for (DetialCount detialCount : exceptionList.get(i).getDetialCount()) {
@@ -2519,7 +2520,8 @@ public class AppDbHelper implements DbHelper {
                     }
                 }
             }
-
+            //OutcomeProductList - list of other outcomeProduct with such product at return invoice list
+            //Counting available for custom picked stock queue
             for (int i = 0; i < outcomeProductList.size(); i++) {
                 if (outcomeProductList.get(i).getCustomPickSock()) {
                     for (int j = 0; j < stockQueueItems.size(); j++) {
@@ -2528,7 +2530,7 @@ public class AppDbHelper implements DbHelper {
                     }
                 }
             }
-
+            //Counting available for not custom picked stock queue
             for (int i = 0; i < outcomeProductList.size(); i++) {
                 if (!outcomeProductList.get(i).getCustomPickSock()) {
                     double sumCount = outcomeProductList.get(i).getSumCountValue();
