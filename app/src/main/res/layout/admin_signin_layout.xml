@@ -35,7 +35,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/data_encryption"
-                android:drawableStart="@drawable/reg_not_completed_circle"/>
+                android:drawableStart="@drawable/customer_report"
+                android:drawablePadding="@dimen/twenty_dp"/>
 
         </LinearLayout>
 
