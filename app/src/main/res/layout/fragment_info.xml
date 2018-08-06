@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/infoSection"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/fifteen_dp"
+    tools:context=".ui.admin_auth_signup.fragments.InfoFragment">
+
+
+    <com.jim.mpviews.MpEditText
+        android:id="@+id/etFirstName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/ten_dp"
+        android:hint="@string/first_name" />
+
+    <com.jim.mpviews.MpEditText
+        android:id="@+id/etLastName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/ten_dp"
+        android:hint="@string/last_name" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/ten_dp"
+        android:layout_marginTop="@dimen/ten_dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/twelve_dp"
+            android:text="@string/sex" />
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true">
+
+            <com.jim.mpviews.MpCheckbox
+                android:id="@+id/maleCheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/hundred_dp"
+                app:checked="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/five_dp"
+                android:text="@string/male" />
+
+            <com.jim.mpviews.MpCheckbox
+                android:id="@+id/femaleCheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/thirty_dp"
+                app:checked="false" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/five_dp"
+                android:text="@string/female" />
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/five_dp"
+                android:layout_marginStart="@dimen/twelve_dp"
+                android:text="@string/date_of_birth" />
+
+            <com.jim.mpviews.MpEditText
+                android:id="@+id/etDatePicker"
+                android:layout_width="164dp"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:hint="MM DD YYYY" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/five_dp"
+                android:layout_marginStart="@dimen/twelve_dp"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:text="@string/country" />
+
+            <com.jim.mpviews.MPosSpinner
+                android:id="@+id/countryPicker"
+                android:layout_width="164dp"
+                android:layout_height="@dimen/thirty_seven_dp" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/logoSection"
+                android:layout_width="@dimen/sixty_dp"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true">
+
+                <com.jim.mpviews.MpRoundedImageView
+                    android:id="@+id/ivAvatar"
+                    android:layout_width="@dimen/seventy_dp"
+                    android:layout_height="@dimen/seventy_dp"
+                    android:layout_marginBottom="@dimen/ten_dp"
+                    android:src="@drawable/add_admin_photo" />
+
+                <ImageView
+                    android:layout_width="@dimen/fifteen_dp"
+                    android:layout_height="@dimen/fifteen_dp"
+                    android:layout_alignBottom="@+id/ivAvatar"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="@dimen/six_dp"
+                    android:src="@drawable/add_admin_photo_plus" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/logoSection"
+                android:gravity="center_horizontal"
+                android:text="@string/add_photo" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <com.jim.mpviews.MpEditText
+        android:id="@+id/etPrimary_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/fifteen_dp"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress" />
+
+    <com.jim.mpviews.MpEditText
+        android:id="@+id/etPrimary_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/fifteen_dp"
+        android:hint="@string/phone"
+        android:inputType="phone" />
+</LinearLayout>

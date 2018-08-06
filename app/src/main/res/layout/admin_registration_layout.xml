@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:background="@color/colorBlueSecond">
+    android:background="@color/colorBlueSecond"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -13,34 +13,35 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/twenty_dp"
             android:layout_marginBottom="@dimen/twenty_dp"
-            android:layout_marginStart="@dimen/thirty_dp">
+            android:layout_marginStart="@dimen/thirty_dp"
+            android:layout_marginTop="@dimen/twenty_dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Multi"
-                android:textSize="25sp"
                 android:textColor="@color/colorWhite"
-                android:textStyle="bold|italic"/>
+                android:textSize="25sp"
+                android:textStyle="bold|italic" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="25sp"
+                android:text="pos"
                 android:textColor="@color/colorWhite"
-                android:textStyle=""
-                android:text="pos" />
+                android:textSize="25sp"
+                android:textStyle="" />
         </LinearLayout>
 
         <android.support.v7.widget.CardView
             android:id="@+id/dataCard"
             android:layout_width="369dp"
             android:layout_height="match_parent"
-            app:cardCornerRadius="18dp"
-            android:layout_marginStart="@dimen/twenty_dp"
             android:layout_marginBottom="@dimen/twenty_dp"
-            android:layout_marginTop="@dimen/eighty_five_dp">
+            android:layout_marginStart="@dimen/twenty_dp"
+            android:layout_marginTop="@dimen/eighty_five_dp"
+            app:cardCornerRadius="18dp">
 
 
             <LinearLayout
@@ -51,9 +52,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/fifteen_dp"
                     android:text="@string/sign_up"
-                    android:textSize="18sp"
-                    android:layout_margin="@dimen/fifteen_dp"/>
+                    android:textSize="18sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -64,8 +65,8 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/thirty_dp"
-                        android:layout_marginBottom="@dimen/ten_dp">
+                        android:layout_marginBottom="@dimen/ten_dp"
+                        android:layout_marginStart="@dimen/thirty_dp">
 
                         <View
                             android:id="@+id/generalCircle"
@@ -77,323 +78,98 @@
                             android:id="@+id/gen2infoLine"
                             android:layout_width="125dp"
                             android:layout_height="2dp"
-                            android:background="@color/colorGreySecondaryDark"
+                            android:layout_centerVertical="true"
                             android:layout_toEndOf="@+id/generalCircle"
-                            android:layout_centerVertical="true"/>
+                            android:background="@color/colorGreySecondaryDark" />
 
                         <View
                             android:id="@+id/infoCircle"
                             android:layout_width="@dimen/twenty_dp"
                             android:layout_height="@dimen/twenty_dp"
-                            android:background="@drawable/reg_not_completed_circle"
-                            android:layout_toEndOf="@+id/gen2infoLine"/>
+                            android:layout_toEndOf="@+id/gen2infoLine"
+                            android:background="@drawable/reg_not_completed_circle" />
 
                         <View
                             android:id="@+id/info2completeLine"
                             android:layout_width="125dp"
                             android:layout_height="2dp"
-                            android:background="@color/colorGreySecondaryDark"
+                            android:layout_centerVertical="true"
                             android:layout_toEndOf="@+id/infoCircle"
-                            android:layout_centerVertical="true"/>
+                            android:background="@color/colorGreySecondaryDark" />
 
                         <View
                             android:id="@+id/completeCircle"
                             android:layout_width="@dimen/twenty_dp"
                             android:layout_height="@dimen/twenty_dp"
-                            android:background="@drawable/reg_not_completed_circle"
-                            android:layout_toEndOf="@+id/info2completeLine"/>
+                            android:layout_toEndOf="@+id/info2completeLine"
+                            android:background="@drawable/reg_not_completed_circle" />
                     </RelativeLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginStart="@dimen/twelve_dp">
+                        android:layout_marginStart="@dimen/twelve_dp"
+                        android:orientation="horizontal">
 
                         <TextView
                             android:id="@+id/tvGeneral"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/general"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
 
                         <TextView
                             android:id="@+id/tvInfo"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/ninety_five_dp"
                             android:text="@string/information"
                             android:textColor="@color/colorGreySecondaryDark"
-                            android:layout_marginStart="@dimen/ninety_five_dp"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
 
                         <TextView
                             android:id="@+id/tvConfirm"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/ninety_dp"
                             android:text="@string/confirm"
                             android:textColor="@color/colorGreySecondaryDark"
-                            android:textSize="14sp"
-                            android:layout_marginStart="@dimen/ninety_dp"/>
+                            android:textSize="14sp" />
 
                     </LinearLayout>
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/generalSection"
+
+                <FrameLayout
+                    android:id="@+id/fragment_container"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:orientation="vertical"
-                    android:layout_weight="1"
-                    android:padding="@dimen/fifteen_dp">
+                    android:layout_height="wrap_content" />
 
-                    <com.jim.mpviews.MpEditText
-                        android:id="@+id/etLogin"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textEmailAddress"
-                        android:hint="@string/login"
-                        android:layout_marginBottom="@dimen/ten_dp"/>
-
-                    <com.jim.mpviews.MpEditText
-                        android:id="@+id/etPassword"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textPassword"
-                        android:hint="@string/password"
-                        android:layout_marginBottom="@dimen/ten_dp"/>
-
-                    <com.jim.mpviews.MpEditText
-                        android:id="@+id/etConfirmPassword"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textPassword"
-                        android:hint="@string/confirm_password"
-                        android:layout_marginBottom="@dimen/fifteen_dp"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/ten_dp"
-                        android:textColor="@color/colorTextHint"
-                        android:textSize="17sp"
-                        android:text="@string/some_text"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/infoSection"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:orientation="vertical"
-                    android:layout_weight="1"
-                    android:visibility="gone"
-                    android:padding="@dimen/fifteen_dp">
-
-                    <com.jim.mpviews.MpEditText
-                        android:id="@+id/etFirstName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/first_name"
-                        android:layout_marginBottom="@dimen/ten_dp"/>
-
-                    <com.jim.mpviews.MpEditText
-                        android:id="@+id/etLastName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/last_name"
-                        android:layout_marginBottom="@dimen/ten_dp"/>
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/ten_dp"
-                        android:layout_marginBottom="@dimen/ten_dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="@dimen/twelve_dp"
-                            android:text="@string/sex"/>
-
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true">
-
-                            <com.jim.mpviews.MpCheckbox
-                                android:id="@+id/maleCheckBox"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/hundred_dp"
-                                app:checked="true"/>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginStart="@dimen/five_dp"
-                                android:text="@string/male"/>
-
-                            <com.jim.mpviews.MpCheckbox
-                                android:id="@+id/femaleCheckBox"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/thirty_dp"
-                                app:checked="false"/>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginStart="@dimen/five_dp"
-                                android:text="@string/female"/>
-                        </LinearLayout>
-
-
-                    </RelativeLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/date_of_birth"
-                                android:layout_marginStart="@dimen/twelve_dp"
-                                android:layout_marginBottom="@dimen/five_dp"/>
-
-                            <com.jim.mpviews.MpEditText
-                                android:id="@+id/etDatePicker"
-                                android:layout_width="164dp"
-                                android:layout_height="wrap_content"
-                                android:hint="MM DD YYYY"
-                                android:clickable="true"
-                                android:focusable="true" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/country"
-                                android:layout_marginStart="@dimen/twelve_dp"
-                                android:layout_marginTop="@dimen/ten_dp"
-                                android:layout_marginBottom="@dimen/five_dp"/>
-
-                            <com.jim.mpviews.MPosSpinner
-                                android:id="@+id/countryPicker"
-                                android:layout_width="164dp"
-                                android:layout_height="@dimen/thirty_seven_dp"/>
-                        </LinearLayout>
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
-
-                            <RelativeLayout
-                                android:id="@+id/logoSection"
-                                android:layout_width="@dimen/sixty_dp"
-                                android:layout_height="wrap_content"
-                                android:layout_centerInParent="true">
-
-                                <com.jim.mpviews.MpRoundedImageView
-                                    android:id="@+id/ivAvatar"
-                                    android:layout_width="@dimen/seventy_dp"
-                                    android:layout_height="@dimen/seventy_dp"
-                                    android:layout_marginBottom="@dimen/ten_dp"
-                                    android:src="@drawable/add_admin_photo"/>
-
-                                <ImageView
-                                    android:layout_width="@dimen/fifteen_dp"
-                                    android:layout_height="@dimen/fifteen_dp"
-                                    android:layout_alignParentEnd="true"
-                                    android:src="@drawable/add_admin_photo_plus"
-                                    android:layout_alignBottom="@+id/ivAvatar"
-                                    android:layout_marginEnd="@dimen/six_dp"/>
-
-                            </RelativeLayout>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="@string/add_photo"
-                                android:layout_below="@+id/logoSection"
-                                android:gravity="center_horizontal"/>
-                        </RelativeLayout>
-                    </LinearLayout>
-
-                    <com.jim.mpviews.MpEditText
-                        android:id="@+id/etPrimary_email"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textEmailAddress"
-                        android:hint="@string/email"
-                        android:layout_marginTop="@dimen/fifteen_dp"/>
-
-                    <com.jim.mpviews.MpEditText
-                        android:id="@+id/etPrimary_phone"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="phone"
-                        android:hint="@string/phone"
-                        android:layout_marginTop="@dimen/fifteen_dp"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/confirmationSection"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:visibility="gone"
-                    android:padding="@dimen/fifteen_dp">
-
-                    <com.jim.mpviews.MpEditText
-                        android:id="@+id/confirmation"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/confirmation"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/some_text"
-                        android:textSize="17sp"
-                        android:textColor="@color/colorTextHint"
-                        android:layout_margin="@dimen/ten_dp"/>
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:orientation="horizontal"
                     android:layout_margin="@dimen/ten_dp"
-                    android:layout_weight=".1">
+                    android:layout_weight=".1"
+                    android:orientation="horizontal">
 
                     <Button
                         android:id="@+id/backBtn"
                         android:layout_width="153dp"
                         android:layout_height="35dp"
                         android:layout_marginStart="@dimen/eighteen_dp"
+                        android:background="@drawable/admin_reg_button_back"
                         android:text="@string/back"
-                        android:textColor="@color/colorWhite"
-                        android:background="@drawable/admin_reg_button_back" />
+                        android:textColor="@color/colorWhite" />
 
                     <Button
                         android:id="@+id/nextBtn"
                         android:layout_width="153dp"
                         android:layout_height="35dp"
-                        android:text="@string/next"
                         android:layout_marginStart="@dimen/ten_dp"
-                        android:textColor="@color/colorWhite"
-                        android:background="@drawable/admin_reg_next_button"/>
+                        android:background="@drawable/admin_reg_next_button"
+                        android:text="@string/next"
+                        android:textColor="@color/colorWhite" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -404,8 +180,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="@dimen/thirty_dp"
-            android:orientation="vertical"
-            android:layout_toEndOf="@+id/dataCard">
+            android:layout_toEndOf="@+id/dataCard"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -416,29 +192,30 @@
                     android:layout_width="240dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/forty_dp"
-                    android:src="@drawable/admin_signup_background1"/>
+                    android:src="@drawable/admin_signup_background1" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/forty_dp"
-                    android:layout_marginEnd="@dimen/sixty_dp"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="@dimen/sixty_dp"
+                    android:layout_marginStart="@dimen/forty_dp"
                     android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@"
                         android:text="@string/secure_data_exchange"
                         android:textColor="@color/colorWhite"
-                        android:fontFamily="@"
-                        android:textSize="28sp"/>
+                        android:textSize="28sp" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/uncompromising"
                         android:textColor="@color/colorWhite"
-                        android:textSize="20sp"/>
+                        android:textSize="20sp" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -451,8 +228,8 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/forty_dp"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/forty_dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -460,20 +237,21 @@
                         android:layout_height="wrap_content"
                         android:text="@string/data_encryption"
                         android:textColor="@color/colorWhite"
-                        android:textSize="28sp"/>
+                        android:textSize="28sp" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/tough_and_secure"
                         android:textColor="@color/colorWhite"
-                        android:textSize="20sp"/>
+                        android:textSize="20sp" />
                 </LinearLayout>
 
                 <ImageView
                     android:layout_width="240dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/forty_dp"
-                    android:src="@drawable/admin_signup_background2"/>
+                    android:src="@drawable/admin_signup_background2" />
 
             </LinearLayout>
 
@@ -486,13 +264,13 @@
                     android:layout_width="240dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/forty_dp"
-                    android:src="@drawable/admin_signup_background3"/>
+                    android:src="@drawable/admin_signup_background3" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/forty_dp"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/forty_dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -500,21 +278,20 @@
                         android:layout_height="wrap_content"
                         android:text="@string/user_authorisation"
                         android:textColor="@color/colorWhite"
-                        android:textSize="28sp"/>
+                        android:textSize="28sp" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/login_to_access_data"
                         android:textColor="@color/colorWhite"
-                        android:textSize="20sp"/>
+                        android:textSize="20sp" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 
 
     </RelativeLayout>
-
-
 
 
 </LinearLayout>

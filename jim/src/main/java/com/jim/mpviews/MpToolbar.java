@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * Created by DEV on 30.06.2017.
@@ -104,7 +105,7 @@ public class MpToolbar extends RelativeLayout {
         rlBackgroun = findViewById(R.id.rlBackgroun);
         mode = array.getInt(R.styleable.MpToolbar_view_mode, DEFAULT_MODE);
         setMode(mode);
-        simpleDateFormat = new SimpleDateFormat(" MMM dd, yyyy");
+        simpleDateFormat = new SimpleDateFormat(" MMM dd, yyyy", Locale.getDefault());
         mpSettings.setOnTouchListener((view, motionEvent) -> {
             switch (motionEvent.getAction()) {
                 case MotionEvent.ACTION_DOWN:

@@ -28,11 +28,10 @@ import dagger.android.support.HasSupportFragmentInjector;
 public abstract class BaseActivity extends AppCompatActivity implements HasSupportFragmentInjector {
 
     @Inject
-    DispatchingAndroidInjector<Fragment> fragmentInjector;
-
-    @Inject
     @Named(BaseActivityModule.ACTIVITY_FRAGMENT_MANAGER)
     protected FragmentManager activityFragmentManager;
+    @Inject
+    DispatchingAndroidInjector<Fragment> fragmentInjector;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

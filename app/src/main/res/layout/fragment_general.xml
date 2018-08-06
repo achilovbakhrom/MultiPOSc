@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/generalSection"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:orientation="vertical"
+    android:padding="@dimen/fifteen_dp"
+    tools:context=".ui.admin_auth_signup.fragments.GeneralFragment">
+
+
+    <com.jim.mpviews.MpEditText
+        android:id="@+id/etLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/ten_dp"
+        android:hint="@string/login"
+        android:inputType="textEmailAddress" />
+
+    <com.jim.mpviews.MpEditText
+        android:id="@+id/etPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/ten_dp"
+        android:hint="@string/password"
+        android:inputType="textPassword" />
+
+    <com.jim.mpviews.MpEditText
+        android:id="@+id/etConfirmPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/fifteen_dp"
+        android:hint="@string/confirm_password"
+        android:inputType="textPassword" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/ten_dp"
+        android:text="@string/some_text"
+        android:textColor="@color/colorTextHint"
+        android:textSize="17sp" />
+</LinearLayout>

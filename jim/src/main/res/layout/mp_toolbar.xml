@@ -14,33 +14,34 @@
             android:id="@+id/btnBack"
             android:layout_width="@dimen/seventy_dp"
             android:layout_height="@dimen/seventy_dp"
-            android:layout_marginStart="@dimen/ten_dp"
             android:layout_gravity="center_vertical"
-            android:visibility="gone"
-            android:src="@drawable/back_array_button" />
+            android:layout_marginStart="@dimen/ten_dp"
+            android:src="@drawable/back_array_button"
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/tvMPCenter"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"
             android:layout_marginEnd="@dimen/seventy_dp"
-            android:gravity="center">
+            android:gravity="center"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Multi"
-                android:textSize="25sp"
                 android:textColor="@color/colorWhite"
-                android:textStyle="bold|italic"/>
+                android:textSize="25sp"
+                android:textStyle="bold|italic" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="25sp"
+                android:text="pos"
                 android:textColor="@color/colorWhite"
-                android:textStyle=""
-                android:text="pos" />
+                android:textSize="25sp"
+                android:textStyle="" />
         </LinearLayout>
 
         <RelativeLayout
@@ -93,8 +94,7 @@
                 android:id="@+id/mpRightSide"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/toolbar_right_side"
-                >
+                android:background="@drawable/toolbar_right_side">
 
                 <LinearLayout
                     android:id="@+id/mpMainMenu"
@@ -176,8 +176,7 @@
                                 android:layout_height="@dimen/twenty_five_dp"
                                 android:layout_gravity="center"
                                 android:layout_marginBottom="@dimen/two_dp"
-                                android:src="@drawable/ic_market"
-                                />
+                                android:src="@drawable/ic_market" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -229,8 +228,7 @@
                                 android:layout_height="@dimen/twenty_five_dp"
                                 android:layout_gravity="center"
                                 android:layout_marginBottom="@dimen/two_dp"
-                                android:src="@drawable/ic_reports"
-                                />
+                                android:src="@drawable/ic_reports" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -282,8 +280,7 @@
                                 android:layout_height="@dimen/twenty_five_dp"
                                 android:layout_gravity="center"
                                 android:layout_marginBottom="@dimen/two_dp"
-                                android:src="@drawable/ic_customer_group"
-                                />
+                                android:src="@drawable/ic_customer_group" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -335,8 +332,7 @@
                                 android:layout_height="@dimen/twenty_five_dp"
                                 android:layout_gravity="center"
                                 android:layout_marginBottom="@dimen/two_dp"
-                                android:src="@drawable/ic_inventory"
-                                />
+                                android:src="@drawable/ic_inventory" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -502,13 +498,13 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.33"
-            android:visibility="gone"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="@dimen/hundred_dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/settings_blue"/>
+                android:src="@drawable/settings_blue" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -521,7 +517,7 @@
 
                 <com.jim.mpviews.MPosSpinner
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent" />
             </LinearLayout>
 
 
@@ -532,8 +528,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.66"
-            android:visibility="gone"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
         </LinearLayout>
 
