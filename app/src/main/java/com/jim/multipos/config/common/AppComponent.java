@@ -17,6 +17,8 @@ import dagger.Component;
 @Singleton
 @Component(modules = {AppModule.class, BaseAppModule.class, ServiceBuilderModule.class, MultiPosApiModule.class})
 public interface AppComponent {
+    void inject(MultiPosApp app);
+
     @Component.Builder
     interface Builder {
         @BindsInstance
@@ -24,6 +26,4 @@ public interface AppComponent {
 
         AppComponent build();
     }
-
-    void inject(MultiPosApp app);
 }

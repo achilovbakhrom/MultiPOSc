@@ -37,11 +37,10 @@ public class MpToolbar extends RelativeLayout {
     public static final int PAYMENT_MODE = 14;
     public static final int BALANCE_MODE = 15;
     public static final int BACK_ARROW_WITH_ICON = 16;
-
-
+    boolean pressed = false;
+    boolean isSearchFragmentOpened = false;
     private SimpleDateFormat simpleDateFormat;
     private int mode;
-    boolean pressed = false;
     private LinearLayout mpMainMenu, llEmployer, llDateIntervalPicker, mpProfile;
     private RelativeLayout mpSearch, mpProducts, mpCustomers, mpReports, mpInventory;
     private RelativeLayout mpLeftSide, mpRightSide, rlBackgroun;
@@ -252,12 +251,7 @@ public class MpToolbar extends RelativeLayout {
             }
         });
 
-        findViewById(R.id.btnBack).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackArrowClick.onClick();
-            }
-        });
+        findViewById(R.id.btnBack).setOnClickListener(v -> onBackArrowClick.onClick());
 
         array.recycle();
     }
@@ -266,9 +260,7 @@ public class MpToolbar extends RelativeLayout {
         this.onBackArrowClick = onBackArrowClick;
     }
 
-    boolean isSearchFragmentOpened = false;
-
-    public void setSearchClosedMode(){
+    public void setSearchClosedMode() {
         if (pressed) {
             pressed = false;
         }
@@ -279,16 +271,18 @@ public class MpToolbar extends RelativeLayout {
         }
     }
 
-    public void enableSearchButton(){
+    public void enableSearchButton() {
         isSearchFragmentOpened = true;
         findViewById(R.id.searchLine).setVisibility(GONE);
         findViewById(R.id.searchPressed).setVisibility(VISIBLE);
     }
-    public void disableSearchButton(){
+
+    public void disableSearchButton() {
         isSearchFragmentOpened = false;
         findViewById(R.id.searchLine).setVisibility(VISIBLE);
         findViewById(R.id.searchPressed).setVisibility(GONE);
     }
+
     public void setOnProductClickListener(OnClickListener productClickListener) {
         findViewById(R.id.mpProducts).setOnClickListener(productClickListener);
     }
@@ -316,12 +310,6 @@ public class MpToolbar extends RelativeLayout {
 
     public void setOnRightOrderClickListner(OnClickListener onRightOrderClickListner) {
         mpHorizontalScroller.setOnRightArrowClickListner(onRightOrderClickListner);
-    }
-
-    public interface CallbackSearchFragmentClick {
-        void onOpen();
-
-        void onClose();
     }
 
     public void setOnSearchClickListener(CallbackSearchFragmentClick onSearchClickListener) {
@@ -446,7 +434,7 @@ public class MpToolbar extends RelativeLayout {
                 break;
             }
 
-            case BACK_ARROW_MODE:{
+            case BACK_ARROW_MODE: {
                 mpLeftSide.setVisibility(GONE);
                 rlBackgroun.setVisibility(GONE);
                 findViewById(R.id.btnBack).setVisibility(VISIBLE);
@@ -463,13 +451,7 @@ public class MpToolbar extends RelativeLayout {
         }
     }
 
-    public interface OnBackArrowClick{
-        void onClick();
-    }
-
-
-
-    private void setFramesVisibility(int state){
+    private void setFramesVisibility(int state) {
         findViewById(R.id.frame1).setVisibility(state);
         findViewById(R.id.frame2).setVisibility(state);
         findViewById(R.id.frame3).setVisibility(state);
@@ -478,11 +460,6 @@ public class MpToolbar extends RelativeLayout {
 
     public void setDatePickerIntervalText(String intervalText) {
         tvPeriod.setText(intervalText);
-    }
-
-    public interface DataIntervalCallbackToToolbar {
-        void onDataIntervalPickerPressed();
-        void clearInterval();
     }
 
     public void setDataIntervalPicker(Calendar from, Calendar to, DataIntervalCallbackToToolbar dataIntervalPicker) {
@@ -519,9 +496,6 @@ public class MpToolbar extends RelativeLayout {
         mpHorizontalScroller.setOrderNumber(orderNumber);
     }
 
-
-
-
     public void changeToCloseImgIntervalPick() {
         ((ImageView) findViewById(R.id.ivClearInterval)).setImageResource(R.drawable.interval_close);
         findViewById(R.id.ivClearInterval).setEnabled(true);
@@ -536,5 +510,22 @@ public class MpToolbar extends RelativeLayout {
         findViewById(R.id.ivClearInterval).setOnClickListener(view -> {
             dataIntervalPicker.onDataIntervalPickerPressed();
         });
+    }
+
+    public interface CallbackSearchFragmentClick {
+        void onOpen();
+
+        void onClose();
+    }
+
+
+    public interface OnBackArrowClick {
+        void onClick();
+    }
+
+    public interface DataIntervalCallbackToToolbar {
+        void onDataIntervalPickerPressed();
+
+        void clearInterval();
     }
 }

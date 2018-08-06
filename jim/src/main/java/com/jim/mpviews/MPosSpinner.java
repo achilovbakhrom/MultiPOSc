@@ -7,22 +7,18 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatSpinner;
 import android.util.AttributeSet;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.jim.mpviews.adapters.ListSpinnerAdapter;
 import com.jim.mpviews.adapters.SpinnerAdapter;
 import com.jim.mpviews.utils.Utils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -127,11 +123,11 @@ public class MPosSpinner extends FrameLayout {
         setAdapter(items);
     }
 
-    public void disableSpinner(){
+    public void disableSpinner() {
         ((AppCompatSpinner) findViewById(R.id.spinner)).setEnabled(false);
     }
 
-    public Integer getCount(){
+    public Integer getCount() {
         return ((AppCompatSpinner) findViewById(R.id.spinner)).getAdapter().getCount();
     }
 
@@ -144,7 +140,7 @@ public class MPosSpinner extends FrameLayout {
         ((AppCompatSpinner) findViewById(R.id.spinner)).setAdapter(adapter);
     }
 
-    public void setSpinnerBackground(int res){
+    public void setSpinnerBackground(int res) {
         setBackgroundResource(res);
     }
 
@@ -157,23 +153,23 @@ public class MPosSpinner extends FrameLayout {
         ((AppCompatSpinner) findViewById(R.id.spinner)).setAdapter(adapter);
     }
 
-    public interface ItemSelectionListener {
-        void onItemSelected(View view, int position);
-    }
-
     public int getSelectedPosition() {
         return ((AppCompatSpinner) findViewById(R.id.spinner)).getSelectedItemPosition();
-    }
-
-    public void setSelection(int position) {
-        ((AppCompatSpinner) findViewById(R.id.spinner)).setSelection(position);
     }
 
     public void setSelectedPosition(int position) {
         ((AppCompatSpinner) findViewById(R.id.spinner)).setSelection(position);
     }
 
+    public void setSelection(int position) {
+        ((AppCompatSpinner) findViewById(R.id.spinner)).setSelection(position);
+    }
+
     public void setSelectedPosition(int position, boolean b) {
         ((AppCompatSpinner) findViewById(R.id.spinner)).setSelection(position, b);
+    }
+
+    public interface ItemSelectionListener {
+        void onItemSelected(View view, int position);
     }
 }

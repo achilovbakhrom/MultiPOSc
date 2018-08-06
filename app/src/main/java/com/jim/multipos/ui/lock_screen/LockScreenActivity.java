@@ -29,7 +29,6 @@ import com.jim.multipos.R;
 import com.jim.multipos.core.BaseActivity;
 import com.jim.multipos.data.prefs.PreferencesHelper;
 import com.jim.multipos.ui.admin_auth_signin.AdminAuthSigninActivity;
-import com.jim.multipos.ui.admin_auth_signup.AdminAuthSignupActivity;
 import com.jim.multipos.ui.lock_screen.dialog.PlugRefreshDialog;
 import com.jim.multipos.ui.mainpospage.MainPosPageActivity;
 import com.jim.multipos.ui.start_configuration.StartConfigurationActivity;
@@ -62,7 +61,9 @@ import static android.app.admin.DevicePolicyManager.PERMISSION_POLICY_AUTO_GRANT
  * Created by DEV on 04.08.2017.
  */
 
-    public class LockScreenActivity extends BaseActivity implements LockScreenView {
+public class LockScreenActivity extends BaseActivity implements LockScreenView {
+    private final static int EMPTY = 0;
+    private final static int WRONG_PASS = 1;
     @Inject
     LockScreenPresenter presenter;
     @BindView(R.id.btnClear)
@@ -79,35 +80,61 @@ import static android.app.admin.DevicePolicyManager.PERMISSION_POLICY_AUTO_GRANT
     TextView tvUnpin;
     @Inject
     RxBus rxBus;
+    @Inject
+    PreferencesHelper preferencesHelper;
+    PlugRefreshDialog plugRefreshDialog;
+    int clickedcount = 0;
     private ArrayList<Disposable> subscriptions;
-
     private HashMap<String, String> hashesWithSerial = (HashMap<String, String>) BuildConfig.LOCAL_SERIAL_HASH;
-
     private char values[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
     private Timer timer;
     private String star = "*";
     private String password = "";
-    private final static int EMPTY = 0;
-    private final static int WRONG_PASS = 1;
     private WarningDialog dialog;
-    @Inject
-    PreferencesHelper preferencesHelper;
-
-    PlugRefreshDialog plugRefreshDialog;
-
     //FOR SECURE
     private PackageManager mPackageManager;
     private DevicePolicyManager mDevicePolicyManager;
     private ComponentName mAdminComponentName;
-    int clickedcount = 0;
+
+    private static List<String> getRuntimePermissions(PackageManager packageManager, String packageName) {
+        List<String> permissions = new ArrayList<>();
+        PackageInfo packageInfo;
+        try {
+            packageInfo = packageManager.getPackageInfo(packageName, PackageManager.GET_PERMISSIONS); //get the list of all requested permissions
+        } catch (PackageManager.NameNotFoundException e) {
+            return permissions;
+        }
+
+        if (packageInfo != null && packageInfo.requestedPermissions != null) {
+            for (String requestedPerm : packageInfo.requestedPermissions) {
+                if (isRuntimePermission(packageManager, requestedPerm)) { //keep only runtime permissions
+                    permissions.add(requestedPerm);
+                }
+            }
+        }
+        return permissions;
+    }
+
+    private static boolean isRuntimePermission(PackageManager packageManager, String permission) {
+        try {
+            PermissionInfo pInfo = packageManager.getPermissionInfo(permission, 0);
+            if (pInfo != null) {
+                if ((pInfo.protectionLevel & PermissionInfo.PROTECTION_MASK_BASE) == PermissionInfo.PROTECTION_DANGEROUS) {
+                    return true;
+                }
+            }
+        } catch (PackageManager.NameNotFoundException ignore) {
+
+        }
+        return false;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lock_screen_page);
         ButterKnife.bind(this);
-
-        if(!isMyServiceRunning(USBService.class)) {
+        if (!isMyServiceRunning(USBService.class)) {
             startService(new Intent(this, USBService.class));
         }
 
@@ -119,7 +146,7 @@ import static android.app.admin.DevicePolicyManager.PERMISSION_POLICY_AUTO_GRANT
         mAdminComponentName = DeviceAdminReceiver.getComponentName(this);
         mPackageManager = this.getPackageManager();
 
-        if ( mDevicePolicyManager.isDeviceOwnerApp(
+        if (mDevicePolicyManager.isDeviceOwnerApp(
                 getApplicationContext().getPackageName())) {
 
             mPackageManager.setComponentEnabledSetting(
@@ -129,22 +156,18 @@ import static android.app.admin.DevicePolicyManager.PERMISSION_POLICY_AUTO_GRANT
                     PackageManager.DONT_KILL_APP);
         } else {
             Toast.makeText(getApplicationContext(),
-                    "Please connect our company support, some think is wrong",Toast.LENGTH_SHORT)
+                    "Please connect our company support, somethink is wrong", Toast.LENGTH_SHORT)
                     .show();
         }
 
 
-
-        if(mDevicePolicyManager.isDeviceOwnerApp(getPackageName())){
+        if (mDevicePolicyManager.isDeviceOwnerApp(getPackageName())) {
             setDefaultCosuPolicies(true);
-        }
-        else {
+        } else {
             Toast.makeText(getApplicationContext(),
-                    "Please connect our company support, some think is wrong",Toast.LENGTH_SHORT)
+                    "Please connect our company support, some think is wrong", Toast.LENGTH_SHORT)
                     .show();
         }
-
-
 
 
         final long DELAY = 150;
@@ -176,19 +199,19 @@ import static android.app.admin.DevicePolicyManager.PERMISSION_POLICY_AUTO_GRANT
         subscriptions = new ArrayList<>();
         subscriptions.add(
                 rxBus.toObservable().subscribe(o -> {
-                    if(o instanceof NotPermissionUsbEvent){
-                        if(plugRefreshDialog==null) {
+                    if (o instanceof NotPermissionUsbEvent) {
+                        if (plugRefreshDialog == null) {
                             plugRefreshDialog = new PlugRefreshDialog(LockScreenActivity.this);
                             plugRefreshDialog.setOnDismissListener(dialogInterface -> {
                                 plugRefreshDialog = null;
                             });
                             plugRefreshDialog.show();
                         }
-                    }else if(o instanceof UsbConnectedWithPermissionEvent){
-                        if(plugRefreshDialog !=null)
+                    } else if (o instanceof UsbConnectedWithPermissionEvent) {
+                        if (plugRefreshDialog != null)
                             plugRefreshDialog.dismiss();
                         plugRefreshDialog = null;
-                    }else if(o instanceof RebootedEvent){
+                    } else if (o instanceof RebootedEvent) {
 
                     }
                 })
@@ -214,11 +237,9 @@ import static android.app.admin.DevicePolicyManager.PERMISSION_POLICY_AUTO_GRANT
 //                        .show();
 //            }
 //        });
-        tvUnpin.setOnClickListener(view -> {
-            clickedcount++;
-        });
+        tvUnpin.setOnClickListener(view -> clickedcount++);
         tvUnpin.setOnLongClickListener(view -> {
-            if(clickedcount!=10) return true;
+            if (clickedcount != 10) return true;
 //            mDevicePolicyManager.clearPackagePersistentPreferredActivities(
 //                    mAdminComponentName,getPackageName());
 //            mPackageManager.setComponentEnabledSetting(
@@ -243,9 +264,9 @@ import static android.app.admin.DevicePolicyManager.PERMISSION_POLICY_AUTO_GRANT
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        for (Disposable disposable:subscriptions) {
+        for (Disposable disposable : subscriptions) {
             disposable.dispose();
-         }
+        }
     }
 
     @OnClick(R.id.btnClear)
@@ -262,9 +283,9 @@ import static android.app.admin.DevicePolicyManager.PERMISSION_POLICY_AUTO_GRANT
     @Override
     protected void onStart() {
         super.onStart();
-        clickedcount= 0;
+        clickedcount = 0;
 //        if(!preferencesHelper.getSerialValue().equals("") &&  !preferencesHelper.getRegistrationToken().equals("") &&  hashesWithSerial.get(preferencesHelper.getSerialValue()).equals(SecurityTools.hashPassword(preferencesHelper.getSerialValue()+preferencesHelper.getRegistrationToken())))
-        if (preferencesHelper.isAppRunFirstTime()){
+        if (preferencesHelper.isAppRunFirstTime()) {
             try {
                 Intent intro = new Intent(this, StartConfigurationActivity.class);
                 startActivity(intro);
@@ -273,7 +294,7 @@ import static android.app.admin.DevicePolicyManager.PERMISSION_POLICY_AUTO_GRANT
             finish();
         }
 
-        if ( mDevicePolicyManager.isDeviceOwnerApp(
+        if (mDevicePolicyManager.isDeviceOwnerApp(
                 getApplicationContext().getPackageName())) {
             setDefaultCosuPolicies(true);
             mPackageManager.setComponentEnabledSetting(
@@ -289,14 +310,14 @@ import static android.app.admin.DevicePolicyManager.PERMISSION_POLICY_AUTO_GRANT
             }
         } else {
             Toast.makeText(getApplicationContext(),
-                    R.string.not_lock_whitelisted,Toast.LENGTH_SHORT)
+                    R.string.not_lock_whitelisted, Toast.LENGTH_SHORT)
                     .show();
         }
 
     }
 
-    public void openFirstConfigure(){
-        if (preferencesHelper.isAppRunFirstTime()){
+    public void openFirstConfigure() {
+        if (preferencesHelper.isAppRunFirstTime()) {
             try {
                 Intent intro = new Intent(this, StartConfigurationActivity.class);
                 startActivity(intro);
@@ -305,6 +326,7 @@ import static android.app.admin.DevicePolicyManager.PERMISSION_POLICY_AUTO_GRANT
             finish();
         }
     }
+
     @OnClick(R.id.btnLogin)
     public void onLogin() {
         presenter.checkPassword(password);
@@ -349,8 +371,7 @@ import static android.app.admin.DevicePolicyManager.PERMISSION_POLICY_AUTO_GRANT
         }
     }
 
-
-    private void setDefaultCosuPolicies(boolean active){
+    private void setDefaultCosuPolicies(boolean active) {
         // set user restrictions
         setUserRestriction(UserManager.DISALLOW_SAFE_BOOT, active);
         setUserRestriction(UserManager.DISALLOW_FACTORY_RESET, active);
@@ -367,7 +388,7 @@ import static android.app.admin.DevicePolicyManager.PERMISSION_POLICY_AUTO_GRANT
         enableStayOnWhilePluggedIn(active);
 
         // set system update policy
-        if (active){
+        if (active) {
             mDevicePolicyManager.setSystemUpdatePolicy(mAdminComponentName,
                     SystemUpdatePolicy.createWindowedInstallPolicy(60, 120));
         } else {
@@ -376,7 +397,7 @@ import static android.app.admin.DevicePolicyManager.PERMISSION_POLICY_AUTO_GRANT
         }
 
 
-        mDevicePolicyManager.setPermissionPolicy(mAdminComponentName,PERMISSION_POLICY_AUTO_GRANT);
+        mDevicePolicyManager.setPermissionPolicy(mAdminComponentName, PERMISSION_POLICY_AUTO_GRANT);
 
         // set this ActivityContex as OnItemClickListener lock task package
 
@@ -403,7 +424,7 @@ import static android.app.admin.DevicePolicyManager.PERMISSION_POLICY_AUTO_GRANT
         }
     }
 
-    private void setUserRestriction(String restriction, boolean disallow){
+    private void setUserRestriction(String restriction, boolean disallow) {
         if (disallow) {
             mDevicePolicyManager.addUserRestriction(mAdminComponentName,
                     restriction);
@@ -413,7 +434,7 @@ import static android.app.admin.DevicePolicyManager.PERMISSION_POLICY_AUTO_GRANT
         }
     }
 
-    private void enableStayOnWhilePluggedIn(boolean enabled){
+    private void enableStayOnWhilePluggedIn(boolean enabled) {
         if (enabled) {
             mDevicePolicyManager.setGlobalSetting(
                     mAdminComponentName,
@@ -434,45 +455,15 @@ import static android.app.admin.DevicePolicyManager.PERMISSION_POLICY_AUTO_GRANT
     }
 
     @TargetApi(Build.VERSION_CODES.M)
-    public void autoGrantRequestedPermissionsToSelf(Context context)  {
+    public void autoGrantRequestedPermissionsToSelf(Context context) {
         String packageName = context.getPackageName();
         List<String> permissions = getRuntimePermissions(context.getPackageManager(), packageName); //retrieve OnItemClickListener list of requested runtime permissions
         for (String permission : permissions) {
-            boolean success =   mDevicePolicyManager.setPermissionGrantState(mAdminComponentName, packageName, permission, PERMISSION_GRANT_STATE_GRANTED);
+            boolean success = mDevicePolicyManager.setPermissionGrantState(mAdminComponentName, packageName, permission, PERMISSION_GRANT_STATE_GRANTED);
 
         }
     }
-    private static List<String> getRuntimePermissions(PackageManager packageManager, String packageName) {
-        List<String> permissions = new ArrayList<>();
-        PackageInfo packageInfo;
-        try {
-            packageInfo = packageManager.getPackageInfo(packageName, PackageManager.GET_PERMISSIONS); //get the list of all requested permissions
-        } catch (PackageManager.NameNotFoundException e) {
-            return permissions;
-        }
 
-        if (packageInfo != null && packageInfo.requestedPermissions != null) {
-            for (String requestedPerm : packageInfo.requestedPermissions) {
-                if (isRuntimePermission(packageManager, requestedPerm)) { //keep only runtime permissions
-                    permissions.add(requestedPerm);
-                }
-            }
-        }
-        return permissions;
-    }
-    private static boolean isRuntimePermission(PackageManager packageManager, String permission) {
-        try {
-            PermissionInfo pInfo = packageManager.getPermissionInfo(permission, 0);
-            if (pInfo != null) {
-                if ((pInfo.protectionLevel & PermissionInfo.PROTECTION_MASK_BASE) == PermissionInfo.PROTECTION_DANGEROUS) {
-                    return true;
-                }
-            }
-        } catch (PackageManager.NameNotFoundException ignore) {
-
-        }
-        return false;
-    }
     @Override
     public void onBackPressed() {
 //        super.onBackPressed();
@@ -495,7 +486,6 @@ import static android.app.admin.DevicePolicyManager.PERMISSION_POLICY_AUTO_GRANT
     }
 
     public void enterAsAdmin(View view) {
-        Intent intent = new Intent(LockScreenActivity.this, AdminAuthSigninActivity.class);
-        startActivity(intent);
+        startActivity(new Intent(this, AdminAuthSigninActivity.class));
     }
 }
