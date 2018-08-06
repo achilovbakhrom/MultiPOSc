@@ -19,6 +19,7 @@ public class AdminAuthSigninActivity extends BaseActivity implements AdminAuthSi
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_signin_layout);
+
         ButterKnife.bind(this);
     }
 }
