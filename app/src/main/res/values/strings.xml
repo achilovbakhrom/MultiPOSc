@@ -1531,4 +1531,5 @@
     <string name="password_dont_match">Passwords do not match</string>
     <string name="incorrect_email">Incorrect email</string>
     <string name="confirmation_error">Confirmation cannot be empty</string>
+    <string name="admin_login">Admin Login</string>
 </resources>

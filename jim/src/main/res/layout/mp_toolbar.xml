@@ -16,14 +16,14 @@
             android:layout_height="@dimen/seventy_dp"
             android:layout_marginStart="@dimen/ten_dp"
             android:layout_gravity="center_vertical"
-            android:visibility="visible"
+            android:visibility="gone"
             android:src="@drawable/back_array_button" />
 
         <LinearLayout
             android:id="@+id/tvMPCenter"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="visible"
+            android:visibility="gone"
             android:layout_marginEnd="@dimen/seventy_dp"
             android:gravity="center">
 
